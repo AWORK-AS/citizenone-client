@@ -19,55 +19,16 @@
                             {{ $t('superadmin.orders.header') }}
                         </h1>
                         <p class="text-sm text-[#5C6478] mt-0.5">
-                            {{ state.orders?.total ?? 0 }} {{ $t('superadmin.orders.totalOrders') }}
+                            {{ state.orders?.meta?.total ?? state.orders?.total ?? 0 }} {{
+                                $t('superadmin.orders.totalOrders') }}
                         </p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <button v-if="state.completedCount > 0"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-green-50 text-green-700 border border-green-200"
-                            @click="setTab('completed')">
-                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                            {{ state.completedCount }} {{ $t('superadmin.orders.completed') }}
-                        </button>
-                        <button v-if="state.pendingCount > 0"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-orange-50 text-orange-600 border border-orange-200"
-                            @click="setTab('pending')">
-                            <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-                            {{ state.pendingCount }} {{ $t('superadmin.orders.pending') }}
-                        </button>
-                        <button @click="openWizard"
-                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm"
-                            style="background:#205E77">
-                            <Icon name="ph:plus" class="w-4 h-4" />
-                            {{ $t('superadmin.orders.newOrder') }}
-                        </button>
                     </div>
                 </div>
 
-                <!-- Search + tabs + sort -->
-                <div class="flex flex-wrap items-center gap-3 mb-4">
+                <!-- Search -->
+                <div class="mb-4">
                     <SuperadminTableSearch v-model="searchQuery"
                         :placeholder="$t('superadmin.orders.searchPlaceholder')" @input="debouncedSearch" />
-                    <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
-                        <button v-for="tab in tabs" :key="tab.key"
-                            class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
-                            :style="state.activeTab === tab.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
-                            @click="setTab(tab.key)">
-                            {{ tab.label }}
-                            <span v-if="tab.count > 0" class="text-[10px] px-1.5 py-0.5 rounded-full font-bold"
-                                :style="state.activeTab === tab.key ? 'background:rgba(255,255,255,0.2)' : 'background:#F5F6F8'">
-                                {{ tab.count }}
-                            </span>
-                        </button>
-                    </div>
-                    <select v-model="sortLabel"
-                        class="ml-auto text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none cursor-pointer"
-                        @change="handleSortChange">
-                        <option value="id_desc">{{ $t('superadmin.orders.sortNewest') }}</option>
-                        <option value="id_asc">{{ $t('superadmin.orders.sortOldest') }}</option>
-                        <option value="total_desc">{{ $t('superadmin.orders.sortHighestAmount') }}</option>
-                        <option value="status_asc">{{ $t('superadmin.orders.sortStatus') }}</option>
-                    </select>
                 </div>
 
                 <Alert type="danger" :text="state?.error?.message"
@@ -79,70 +40,30 @@
                     emptyIcon="ph:receipt" rowKey="uuid" @sort="handleSort">
                     <template #body>
                         <tr v-for="order in state.orders?.data" :key="order.uuid ?? order.id"
-                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                            <td class="co-td text-[12px] text-[#8891A4] font-mono">
-                                #{{ order.id ?? order.uuid?.slice(-6) }}
+                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
+                            <td class="co-td text-[13px] text-[#5C6478]">
+                                {{ formatDateToReadable(order.created_at) }}
                             </td>
                             <td class="co-td">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
-                                        :style="`background:${avatarColor(order.company?.name ?? order.company_name)}`">
-                                        {{ (order.company?.name ?? order.company_name ?? '?').charAt(0).toUpperCase() }}
-                                    </div>
-                                    <span class="text-[13px] font-medium text-[#1F2533]">
-                                        {{ order.company?.name ?? order.company_name ?? '—' }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="co-td">
-                                <div class="flex flex-wrap gap-1">
-                                    <span v-if="order.plan" class="co-badge co-badge-navy text-[10px]">
-                                        {{ planLabel(order.plan) }}
-                                    </span>
-                                    <span v-for="app in (order.apps ?? [])" :key="app"
-                                        class="co-badge co-badge-gray text-[10px]">
-                                        {{ app }}
-                                    </span>
-                                    <span v-if="order.extra_users > 0" class="co-badge co-badge-gray text-[10px]">
-                                        +{{ order.extra_users }} {{ $t('superadmin.orders.extraUsers') }}
-                                    </span>
-                                    <span v-if="order.extra_departments > 0" class="co-badge co-badge-gray text-[10px]">
-                                        +{{ order.extra_departments }} {{ $t('superadmin.orders.extraDepartments') }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="co-td">
-                                <p class="text-[14px] font-bold text-[#1F2533]">kr. {{ order.total ?? 0 }}</p>
-                                <p class="text-[11px] text-[#8891A4]">
-                                    {{
-                                        order.billing_period === 'yearly' ?
-                                            $t('superadmin.orders.perYear') :
-                                            $t('superadmin.orders.perMonth')
-                                    }}
-                                </p>
-                            </td>
-                            <td class="co-td">
-                                <span class="co-badge text-[11px]"
-                                    :style="`background:${statusMap[order.status]?.bg};color:${statusMap[order.status]?.color}`">
-                                    <Icon :name="statusMap[order.status]?.icon ?? 'ph:clock'" class="w-3 h-3" />
-                                    {{ statusMap[order.status]?.label ?? order.status }}
+                                <span v-if="order.status === 'recurring'" class="co-badge co-badge-navy">
+                                    {{ $t('superadmin.orders.statusRecurring') }}
+                                </span>
+                                <span v-else class="co-badge co-badge-green">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                    {{ $t('superadmin.orders.statusNew') }}
                                 </span>
                             </td>
-                            <td class="co-td text-[12px] text-[#5C6478]">
-                                {{ formatDate(order.created_at) }}
+                            <td class="co-td text-[13px] text-[#5C6478] font-mono">
+                                {{ parseData(order.data)['payment']?.orderDetails?.reference ?? '—' }}
                             </td>
-                            <td class="co-td" @click.stop>
-                                <div
-                                    class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <SuperadminTableButton v-if="order.status === 'pending'" buttonStyle="success"
-                                        @click="completeOrder(order)">
-                                        <Icon name="ph:check" class="w-3.5 h-3.5" />
-                                        {{ $t('superadmin.orders.approve') }}
-                                    </SuperadminTableButton>
-                                    <SuperadminTableButton buttonStyle="danger" @click="confirmCancel(order)">
-                                        <Icon name="ph:x" class="w-3.5 h-3.5" />
-                                        {{ $t('superadmin.orders.cancel') }}
-                                    </SuperadminTableButton>
+                            <td class="co-td capitalize text-[13px] text-[#1F2533]">
+                                {{ order.external_data_type ?? '—' }}
+                            </td>
+                            <td class="co-td">
+                                <div class="text-[13px] text-[#5C6478] space-y-0.5">
+                                    <div v-for="({ label, value }) in formatOrderData(order.data)" :key="label">
+                                        <span class="text-[#1F2533] font-medium">{{ label }}:</span> {{ value }}
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -153,840 +74,94 @@
                 </div>
             </div>
 
-            <!-- ═══════════════════════════════════════════════
-                NEW ORDER WIZARD — 3-STEP MODAL
-            ═══════════════════════════════════════════════ -->
-            <Teleport to="body">
-                <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
-                    enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200"
-                    leave-from-class="opacity-100" leave-to-class="opacity-0">
-                    <div v-if="wizard.open" class="fixed inset-0 bg-black/40 z-40 flex items-center justify-center p-4"
-                        @click.self="closeWizard">
-
-                        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-[620px] max-h-[90vh] flex flex-col">
-
-                            <!-- Wizard header + steps -->
-                            <div class="px-6 pt-5 pb-4 border-b border-[#EAECF0]">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h2 class="text-[17px] font-bold text-[#1F2533]">
-                                        {{ $t('superadmin.orders.wizardTitle') }}
-                                    </h2>
-                                    <button @click="closeWizard"
-                                        class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
-                                        <Icon name="ph:x" class="w-4 h-4" />
-                                    </button>
-                                </div>
-                                <!-- Step indicators -->
-                                <div class="flex items-center">
-                                    <div v-for="(step, i) in steps" :key="i" class="flex items-center">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-colors"
-                                                :style="wizard.step > i + 1 ? 'background:#2E9E33;color:white' :
-                                                    wizard.step === i + 1 ? 'background:#205E77;color:white' :
-                                                        'background:#EAECF0;color:#8891A4'">
-                                                <Icon v-if="wizard.step > i + 1" name="ph:check-bold" class="w-3 h-3" />
-                                                <span v-else>{{ i + 1 }}</span>
-                                            </div>
-                                            <span class="text-[12px] font-medium"
-                                                :class="wizard.step === i + 1 ? 'text-[#1F2533]' : 'text-[#8891A4]'">
-                                                {{ step }}
-                                            </span>
-                                        </div>
-                                        <div v-if="i < steps.length - 1" class="w-8 h-px mx-2"
-                                            style="background:#EAECF0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Wizard body -->
-                            <div class="flex-1 overflow-y-auto px-6 py-5">
-
-                                <!-- ── STEP 1: COMPANY ── -->
-                                <div v-if="wizard.step === 1">
-                                    <h3 class="text-[15px] font-semibold text-[#1F2533] mb-4">
-                                        {{ $t('superadmin.orders.step1Title') }}
-                                    </h3>
-
-                                    <!-- Mode cards -->
-                                    <div class="grid grid-cols-2 gap-3 mb-5">
-                                        <button class="p-4 rounded-xl border-2 text-left transition-colors"
-                                            :style="wizard.companyMode === 'existing' ? 'border-color:#42AED9;background:#F0FAFD' : 'border-color:#EAECF0;background:white'"
-                                            @click="wizard.companyMode = 'existing'">
-                                            <Icon name="ph:buildings" class="w-5 h-5 mb-2"
-                                                :style="wizard.companyMode === 'existing' ? 'color:#205E77' : 'color:#8891A4'" />
-                                            <p class="text-[13px] font-semibold text-[#1F2533]">
-                                                {{ $t('superadmin.orders.existingCompany') }}
-                                            </p>
-                                            <p class="text-[11px] text-[#8891A4]">
-                                                {{ $t('superadmin.orders.existingCompanyDesc') }}
-                                            </p>
-                                        </button>
-                                        <button class="p-4 rounded-xl border-2 text-left transition-colors"
-                                            :style="wizard.companyMode === 'new' ? 'border-color:#42AED9;background:#F0FAFD' : 'border-color:#EAECF0;background:white'"
-                                            @click="wizard.companyMode = 'new'">
-                                            <Icon name="ph:plus-circle" class="w-5 h-5 mb-2"
-                                                :style="wizard.companyMode === 'new' ? 'color:#205E77' : 'color:#8891A4'" />
-                                            <p class="text-[13px] font-semibold text-[#1F2533]">
-                                                {{ $t('superadmin.orders.newCompany') }}
-                                            </p>
-                                            <p class="text-[11px] text-[#8891A4]">
-                                                {{ $t('superadmin.orders.newCompanyDesc') }}
-                                            </p>
-                                        </button>
-                                    </div>
-
-                                    <!-- Existing: search -->
-                                    <div v-if="wizard.companyMode === 'existing'">
-                                        <label class="co-label">
-                                            {{ $t('superadmin.orders.searchCompanyLabel') }}
-                                        </label>
-                                        <div class="relative">
-                                            <Icon name="ph:magnifying-glass"
-                                                class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
-                                            <input v-model="wizard.companySearch" type="text"
-                                                :placeholder="$t('superadmin.orders.searchCompanyPlaceholder')"
-                                                class="co-input !pl-8" @input="searchCompanies" />
-                                        </div>
-                                        <div v-if="wizard.companyResults.length"
-                                            class="mt-1 border border-[#EAECF0] rounded-xl bg-white shadow-lg max-h-48 overflow-y-auto">
-                                            <button v-for="c in wizard.companyResults" :key="c.uuid"
-                                                class="w-full text-left px-3 py-2.5 hover:bg-[#F5F6F8] flex items-center gap-3 transition-colors"
-                                                @click="selectCompany(c)">
-                                                <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0"
-                                                    :style="`background:${avatarColor(c.name)}`">
-                                                    {{ (c.name || '?').charAt(0).toUpperCase() }}
-                                                </div>
-                                                <div>
-                                                    <p class="text-[13px] font-medium text-[#1F2533]">{{ c.name }}</p>
-                                                    <p v-if="c.email" class="text-[11px] text-[#8891A4]">{{ c.email }}
-                                                    </p>
-                                                </div>
-                                            </button>
-                                        </div>
-                                        <div v-if="wizard.selectedCompany"
-                                            class="mt-2 flex items-center gap-3 px-3 py-2.5 bg-[#E4F1F6] rounded-xl border border-[#42AED9]/20">
-                                            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-[12px] font-bold text-white flex-shrink-0"
-                                                :style="`background:${avatarColor(wizard.selectedCompany.name)}`">
-                                                {{ wizard.selectedCompany.name.charAt(0).toUpperCase() }}
-                                            </div>
-                                            <div class="flex-1">
-                                                <p class="text-[13px] font-semibold text-[#205E77]">{{
-                                                    wizard.selectedCompany.name
-                                                }}</p>
-                                                <p v-if="wizard.selectedCompany.email"
-                                                    class="text-[11px] text-[#42AED9]">{{
-                                                        wizard.selectedCompany.email }}</p>
-                                            </div>
-                                            <button @click="wizard.selectedCompany = null; wizard.companySearch = ''"
-                                                class="text-[#205E77]/50 hover:text-[#205E77]">
-                                                <Icon name="ph:x" class="w-4 h-4" />
-                                            </button>
-                                        </div>
-                                        <p v-if="wizard.errors.company" class="co-error mt-2">
-                                            {{ wizard.errors.company }}
-                                        </p>
-                                    </div>
-
-                                    <!-- New company: mini-form -->
-                                    <div v-else class="space-y-3">
-                                        <div>
-                                            <label class="co-label">
-                                                {{ $t('superadmin.orders.companyNameLabel') }} <span
-                                                    class="text-red-500">*</span>
-                                            </label>
-                                            <input v-model="wizard.newCompany.name" type="text"
-                                                :placeholder="$t('superadmin.orders.companyNamePlaceholder')"
-                                                class="co-input"
-                                                :class="wizard.errors.newName ? 'border-red-300' : ''" />
-                                            <p v-if="wizard.errors.newName" class="co-error">
-                                                {{ wizard.errors.newName }}
-                                            </p>
-                                        </div>
-                                        <div class="grid grid-cols-2 gap-3">
-                                            <div>
-                                                <label class="co-label">
-                                                    {{ $t('superadmin.orders.firstNameLabel') }}
-                                                </label>
-                                                <input v-model="wizard.newCompany.firstname" type="text"
-                                                    :placeholder="$t('superadmin.orders.firstNameLabel')"
-                                                    class="co-input" />
-                                            </div>
-                                            <div>
-                                                <label class="co-label">
-                                                    {{ $t('superadmin.orders.lastNameLabel') }}
-                                                </label>
-                                                <input v-model="wizard.newCompany.lastname" type="text"
-                                                    :placeholder="$t('superadmin.orders.lastNameLabel')"
-                                                    class="co-input" />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label class="co-label">
-                                                {{ $t('superadmin.orders.emailLabel') }}
-                                            </label>
-                                            <input v-model="wizard.newCompany.email" type="email"
-                                                placeholder="email@company.com" class="co-input" />
-                                        </div>
-                                        <div>
-                                            <label class="co-label">
-                                                {{ $t('superadmin.orders.phoneLabel') }}
-                                            </label>
-                                            <input v-model="wizard.newCompany.phone" type="tel"
-                                                placeholder="+45 12 34 56 78" class="co-input" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- ── STEP 2: PRODUCTS ── -->
-                                <div v-if="wizard.step === 2">
-                                    <h3 class="text-[15px] font-semibold text-[#1F2533] mb-1">
-                                        {{ $t('superadmin.orders.step2Title') }}
-                                    </h3>
-                                    <p class="text-[12px] text-[#8891A4] mb-4">
-                                        {{ $t('superadmin.orders.step2Subtitle') }}
-                                    </p>
-
-                                    <!-- ─ Packages ─ -->
-                                    <div class="mb-5">
-                                        <p
-                                            class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-2">
-                                            {{ $t('superadmin.orders.subscriptionPackage') }}
-                                        </p>
-                                        <div class="space-y-2">
-                                            <button v-for="plan in plans" :key="plan.key"
-                                                class="w-full text-left p-3.5 rounded-xl border-2 transition-colors flex items-center justify-between"
-                                                :style="wizard.form.plan === plan.key
-                                                    ? 'border-color:#42AED9;background:#F0FAFD'
-                                                    : 'border-color:#EAECF0;background:white'"
-                                                @click="wizard.form.plan = wizard.form.plan === plan.key ? '' : plan.key">
-                                                <div class="flex items-center gap-3">
-                                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                                                        :style="`background:${plan.color}20;color:${plan.color}`">
-                                                        <Icon :name="plan.icon" class="w-4 h-4" />
-                                                    </div>
-                                                    <div>
-                                                        <p class="text-[13px] font-semibold text-[#1F2533]">
-                                                            {{ plan.name }}
-                                                        </p>
-                                                        <p class="text-[11px] text-[#5C6478]">
-                                                            {{ plan.description }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="text-right flex-shrink-0 ml-4 flex items-center gap-2">
-                                                    <div>
-                                                        <p class="text-[14px] font-bold text-[#1F2533]">
-                                                            {{ plan.price === 0 ? $t('superadmin.orders.free') : `kr.
-                                                            ${plan.price}`
-                                                            }}
-                                                        </p>
-                                                        <p v-if="plan.price > 0" class="text-[11px] text-[#8891A4]">
-                                                            {{ $t('superadmin.orders.perMonth') }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
-                                                        :style="wizard.form.plan === plan.key ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2'">
-                                                        <div v-if="wizard.form.plan === plan.key"
-                                                            class="w-1.5 h-1.5 rounded-full bg-white"></div>
-                                                    </div>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <!-- ─ Billing period ─ -->
-                                    <div class="mb-5">
-                                        <p
-                                            class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-2">
-                                            {{ $t('superadmin.orders.billingPeriod') }}
-                                        </p>
-                                        <div class="flex gap-2">
-                                            <button
-                                                class="flex-1 py-2.5 rounded-xl text-[13px] font-medium border-2 transition-colors"
-                                                :style="wizard.form.billing_period === 'monthly' ? 'border-color:#42AED9;background:#F0FAFD;color:#205E77' : 'border-color:#EAECF0;background:white;color:#5C6478'"
-                                                @click="wizard.form.billing_period = 'monthly'">
-                                                {{ $t('superadmin.orders.monthly') }}
-                                            </button>
-                                            <button
-                                                class="flex-1 py-2.5 rounded-xl text-[13px] font-medium border-2 transition-colors flex items-center justify-center gap-1.5"
-                                                :style="wizard.form.billing_period === 'yearly' ? 'border-color:#42AED9;background:#F0FAFD;color:#205E77' : 'border-color:#EAECF0;background:white;color:#5C6478'"
-                                                @click="wizard.form.billing_period = 'yearly'">
-                                                {{ $t('superadmin.orders.yearly') }}
-                                                <span
-                                                    class="text-[10px] font-bold text-green-600 bg-green-100 px-1.5 py-0.5 rounded-full">-15%</span>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <!-- ─ Extra users + departments ─ -->
-                                    <div class="mb-5">
-                                        <p
-                                            class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-2">
-                                            {{ $t('superadmin.orders.addOns') }}
-                                        </p>
-                                        <div class="grid grid-cols-2 gap-3">
-                                            <div>
-                                                <label class="co-label">
-                                                    {{ $t('superadmin.orders.extraUsersLabel') }}
-                                                </label>
-                                                <input v-model.number="wizard.form.extra_users" type="number" min="0"
-                                                    placeholder="0" class="co-input" />
-                                                <p class="text-[11px] text-[#8891A4] mt-1">
-                                                    {{ $t('superadmin.orders.extraUsersPrice') }}
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <label class="co-label">
-                                                    {{ $t('superadmin.orders.extraDepartmentsLabel') }}
-                                                </label>
-                                                <input v-model.number="wizard.form.extra_departments" type="number"
-                                                    min="0" placeholder="0" class="co-input" />
-                                                <p class="text-[11px] text-[#8891A4] mt-1">
-                                                    {{ $t('superadmin.orders.extraDepartmentsPrice') }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- ─ Apps ─ -->
-                                    <div v-if="availableApps.length" class="mb-5">
-                                        <p
-                                            class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em] mb-2">
-                                            {{ $t('superadmin.orders.appsLabel') }}
-                                        </p>
-                                        <div class="space-y-2">
-                                            <button v-for="app in availableApps" :key="app.uuid ?? app.id"
-                                                class="w-full text-left p-3 rounded-xl border-2 transition-colors flex items-center justify-between"
-                                                :style="isAppSelected(app) ? 'border-color:#42AED9;background:#F0FAFD' : 'border-color:#EAECF0;background:white'"
-                                                @click="toggleApp(app)">
-                                                <div class="flex items-center gap-3">
-                                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                                                        :style="`background:${appColor(app.name)}20;color:${appColor(app.name)}`">
-                                                        <Icon :name="appIcon(app.name)" class="w-3.5 h-3.5" />
-                                                    </div>
-                                                    <div>
-                                                        <p class="text-[13px] font-semibold text-[#1F2533]">{{ app.name
-                                                        }}</p>
-                                                        <p v-if="app.description"
-                                                            class="text-[11px] text-[#5C6478] truncate max-w-[240px]">
-                                                            {{ app.description }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center gap-2 flex-shrink-0 ml-3">
-                                                    <div class="text-right">
-                                                        <p v-if="app.one_time_price > 0"
-                                                            class="text-[13px] font-bold text-[#1F2533]">
-                                                            kr. {{ app.one_time_price }}
-                                                        </p>
-                                                        <p v-else-if="app.monthly_price > 0"
-                                                            class="text-[13px] font-bold text-[#1F2533]">
-                                                            kr. {{ app.monthly_price }}{{
-                                                                $t('superadmin.orders.perMonth') }}
-                                                        </p>
-                                                        <p v-else class="text-[12px] text-[#8891A4]">
-                                                            {{ $t('superadmin.orders.free') }}
-                                                        </p>
-                                                        <span v-if="app.one_time_price > 0"
-                                                            class="text-[10px] text-[#D4900A] font-medium">
-                                                            {{ $t('superadmin.orders.oneTime') }}
-                                                        </span>
-                                                    </div>
-                                                    <div class="w-5 h-5 rounded border-2 flex items-center justify-center transition-colors"
-                                                        :style="isAppSelected(app) ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2;background:white'">
-                                                        <Icon v-if="isAppSelected(app)" name="ph:check-bold"
-                                                            class="w-3 h-3 text-white" />
-                                                    </div>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <!-- ─ Price overview ─ -->
-                                    <div class="bg-[#F5F6F8] rounded-xl p-4 border border-[#EAECF0]">
-                                        <p
-                                            class="text-[11px] font-bold text-[#8891A4] uppercase tracking-[0.06em] mb-3">
-                                            {{ $t('superadmin.orders.orderSummary') }}
-                                        </p>
-
-                                        <div v-if="!wizard.form.plan && !wizard.form.selectedApps?.length && wizard.form.extra_users === 0 && wizard.form.extra_departments === 0"
-                                            class="text-[12px] text-[#8891A4] text-center py-2">
-                                            {{ $t('superadmin.orders.selectAtLeastOne') }}
-                                        </div>
-
-                                        <div v-if="wizard.form.plan && selectedPlan"
-                                            class="flex justify-between text-[13px] mb-1.5">
-                                            <span class="text-[#5C6478]">{{ selectedPlan.name }}</span>
-                                            <span class="font-medium text-[#1F2533]">kr. {{ selectedPlan.price }}{{
-                                                $t('superadmin.orders.perMonth') }}</span>
-                                        </div>
-                                        <div v-if="wizard.form.extra_users > 0"
-                                            class="flex justify-between text-[13px] mb-1.5">
-                                            <span class="text-[#5C6478]">{{ wizard.form.extra_users }} {{
-                                                $t('superadmin.orders.extraUsersRow') }}</span>
-                                            <span class="font-medium text-[#1F2533]">kr. {{ wizard.form.extra_users * 39
-                                            }}{{
-                                                    $t('superadmin.orders.perMonth') }}</span>
-                                        </div>
-                                        <div v-if="wizard.form.extra_departments > 0"
-                                            class="flex justify-between text-[13px] mb-1.5">
-                                            <span class="text-[#5C6478]">{{ wizard.form.extra_departments }} {{
-                                                $t('superadmin.orders.extraDepartmentsRow') }}</span>
-                                            <span class="font-medium text-[#1F2533]">kr. {{
-                                                wizard.form.extra_departments * 79 }}{{
-                                                    $t('superadmin.orders.perMonth') }}</span>
-                                        </div>
-                                        <div v-for="app in selectedApps" :key="app.uuid ?? app.id"
-                                            class="flex justify-between text-[13px] mb-1.5">
-                                            <span class="text-[#5C6478] flex items-center gap-1.5">
-                                                <Icon :name="appIcon(app.name)" class="w-3 h-3" />
-                                                {{ app.name }}
-                                            </span>
-                                            <span class="font-medium text-[#1F2533]">
-                                                <span v-if="app.one_time_price > 0">
-                                                    kr. {{ app.one_time_price }}
-                                                    <span class="text-[10px] text-[#D4900A]">{{
-                                                        $t('superadmin.orders.oneTimeLower')
-                                                    }}</span>
-                                                </span>
-                                                <span v-else-if="app.monthly_price > 0">kr. {{ app.monthly_price }}{{
-                                                    $t('superadmin.orders.perMonth') }}</span>
-                                                <span v-else>{{ $t('superadmin.orders.free') }}</span>
-                                            </span>
-                                        </div>
-                                        <div class="border-t border-[#EAECF0] pt-3 mt-2">
-                                            <div class="flex justify-between">
-                                                <span class="text-[13px] font-bold text-[#1F2533]">
-                                                    {{ $t('superadmin.orders.monthlyTotal') }}
-                                                </span>
-                                                <span class="text-[17px] font-extrabold text-[#205E77]">
-                                                    kr. {{ calculatedRecurring }}
-                                                </span>
-                                            </div>
-                                            <div v-if="calculatedOneTime > 0" class="flex justify-between mt-1">
-                                                <span class="text-[12px] text-[#D4900A] font-medium">
-                                                    {{ $t('superadmin.orders.oneTimeFees') }}
-                                                </span>
-                                                <span class="text-[14px] font-bold text-[#D4900A]">
-                                                    kr. {{ calculatedOneTime }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p v-if="wizard.errors.plan" class="co-error mt-2">
-                                        {{ wizard.errors.plan }}
-                                    </p>
-                                </div>
-
-                                <!-- ── STEP 3: PAYMENT ── -->
-                                <div v-if="wizard.step === 3">
-                                    <h3 class="text-[15px] font-semibold text-[#1F2533] mb-4">
-                                        {{ $t('superadmin.orders.step3Title') }}
-                                    </h3>
-
-                                    <div class="mb-4">
-                                        <label class="co-label">
-                                            {{ $t('superadmin.orders.sellerLabel') }}
-                                        </label>
-                                        <input v-model="wizard.form.seller_name" type="text"
-                                            :placeholder="$t('superadmin.orders.sellerPlaceholder')" class="co-input" />
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="co-label">
-                                            {{ $t('superadmin.orders.startDateLabel') }}
-                                        </label>
-                                        <input v-model="wizard.form.start_date" type="date" class="co-input" />
-                                    </div>
-
-                                    <!-- Payment method -->
-                                    <div class="mb-4">
-                                        <label class="co-label">
-                                            {{ $t('superadmin.orders.paymentMethodLabel') }}
-                                        </label>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <button v-for="pm in paymentMethods" :key="pm.value"
-                                                class="py-2.5 px-3 rounded-xl border-2 text-[12px] font-medium transition-colors flex items-center gap-2"
-                                                :style="wizard.form.payment_method === pm.value ? 'border-color:#42AED9;background:#F0FAFD;color:#205E77' : 'border-color:#EAECF0;background:white;color:#5C6478'"
-                                                @click="wizard.form.payment_method = pm.value">
-                                                <Icon :name="pm.icon" class="w-4 h-4" />
-                                                {{ pm.label }}
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <!-- Order status -->
-                                    <div class="mb-4">
-                                        <label class="co-label">
-                                            {{ $t('superadmin.orders.orderStatusLabel') }}
-                                        </label>
-                                        <div class="flex gap-2">
-                                            <button v-for="s in orderStatuses" :key="s.value"
-                                                class="flex-1 py-2.5 rounded-xl border-2 text-[12px] font-semibold transition-colors flex items-center justify-center gap-1.5"
-                                                :style="wizard.form.status === s.value ? `border-color:${s.color};background:${s.bg};color:${s.color}` : 'border-color:#EAECF0;background:white;color:#5C6478'"
-                                                @click="wizard.form.status = s.value">
-                                                <Icon :name="s.icon" class="w-3.5 h-3.5" />
-                                                {{ s.label }}
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-5">
-                                        <label class="co-label">
-                                            {{ $t('superadmin.orders.notesLabel') }}
-                                        </label>
-                                        <textarea v-model="wizard.form.notes" rows="3"
-                                            :placeholder="$t('superadmin.orders.notesPlaceholder')"
-                                            class="co-input resize-none"></textarea>
-                                    </div>
-
-                                    <!-- Final summary -->
-                                    <div class="bg-[#F5F6F8] rounded-xl p-4 border border-[#EAECF0]">
-                                        <p
-                                            class="text-[11px] font-bold text-[#8891A4] uppercase tracking-[0.06em] mb-3">
-                                            {{ $t('superadmin.orders.orderSummary') }}
-                                        </p>
-                                        <div class="flex justify-between text-[13px] mb-1.5">
-                                            <span class="text-[#5C6478]">
-                                                {{ $t('superadmin.orders.companyLabel') }}
-                                            </span>
-                                            <span class="font-medium text-[#1F2533]">
-                                                {{ wizard.selectedCompany?.name ?? wizard.newCompany.name }}
-                                            </span>
-                                        </div>
-                                        <div v-if="wizard.form.plan && selectedPlan"
-                                            class="flex justify-between text-[13px] mb-1.5">
-                                            <span class="text-[#5C6478]">
-                                                {{ $t('superadmin.orders.planLabel') }}
-                                            </span>
-                                            <span class="font-medium text-[#1F2533]">{{ selectedPlan.name }}</span>
-                                        </div>
-                                        <div v-for="app in selectedApps" :key="app.uuid"
-                                            class="flex justify-between text-[13px] mb-1.5">
-                                            <span class="text-[#5C6478]">{{ app.name }}</span>
-                                            <span class="font-medium text-[#1F2533]">
-                                                <span v-if="app.one_time_price > 0">kr. {{ app.one_time_price }}</span>
-                                                <span v-else-if="app.monthly_price > 0">kr. {{ app.monthly_price }}{{
-                                                    $t('superadmin.orders.perMonth') }}</span>
-                                                <span v-else>{{ $t('superadmin.orders.free') }}</span>
-                                            </span>
-                                        </div>
-                                        <div class="border-t border-[#EAECF0] pt-3 mt-2">
-                                            <div class="flex justify-between">
-                                                <span class="text-[13px] font-bold text-[#1F2533]">
-                                                    {{ $t('superadmin.orders.monthlyTotal') }}
-                                                </span>
-                                                <span class="text-[17px] font-extrabold text-[#205E77]">
-                                                    kr. {{ calculatedRecurring }}
-                                                </span>
-                                            </div>
-                                            <div v-if="calculatedOneTime > 0" class="flex justify-between mt-1">
-                                                <span class="text-[12px] text-[#D4900A] font-medium">
-                                                    {{ $t('superadmin.orders.oneTimeFees') }}
-                                                </span>
-                                                <span class="text-[14px] font-bold text-[#D4900A]">
-                                                    kr. {{ calculatedOneTime }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <!-- Wizard footer -->
-                            <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
-                                <button @click="wizardBack"
-                                    class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
-                                    {{ wizard.step === 1 ? $t('superadmin.orders.cancelAction') :
-                                        $t('superadmin.orders.backAction')
-                                    }}
-                                </button>
-                                <button @click="wizardNext"
-                                    class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm flex items-center justify-center gap-2"
-                                    style="background:#205E77" :disabled="wizard.isSaving">
-                                    <span v-if="wizard.isSaving">
-                                        <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
-                                        {{ $t('superadmin.orders.saving') }}
-                                    </span>
-                                    <span v-else-if="wizard.step < 3">
-                                        {{ $t('superadmin.orders.continueAction') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('superadmin.orders.createOrderAction') }}
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </Transition>
-            </Teleport>
-
-            <DialogConfirmation :isModalOpen="state.modal.isCancelOpen" :message="$t('superadmin.orders.cancelConfirm')"
-                @close="state.modal.isCancelOpen = false" @confirm="cancelOrder" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { orderService } from '@/components/api/superadmin/OrderService'
-import { companyService } from '@/components/api/superadmin/CompanyService'
-import { appService } from '@/components/api/superadmin/AppService'
-import { useAlert } from '@/composables/alert'
+const { formatDateToReadable } = useDatetimeFormatter()
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { successAlert } = useAlert()
 const { t } = useI18n()
 
 let currentPage = 1
 let searchTimeout: any = null
-let companySearchTimeout: any = null
 const searchQuery = ref('')
-const sortLabel = ref('id_desc')
 
-const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
-const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
-const formatDate = (d: string) => d ? new Date(d).toLocaleDateString('da-DK', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'
-const planLabel = (key: string) => plans.value.find(p => p.key === key)?.name ?? key
+const formatKey = (key: string) =>
+    key.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 
-const APP_ICONS: Record<string, string> = {
-    'mail': 'ph:envelope', 'booking': 'ph:calendar', 'kursus': 'ph:graduation-cap',
-    'leads': 'ph:funnel', 'ai': 'ph:robot', 'chat': 'ph:chat',
+const parseData = (data: any): Record<string, any> => {
+    if (!data) return {}
+    if (typeof data === 'object') return data
+    try { return JSON.parse(data) } catch { return {} }
 }
-const appIcon = (name: string) => {
-    const key = (name || '').toLowerCase()
-    const match = Object.keys(APP_ICONS).find(k => key.includes(k))
-    return match ? APP_ICONS[match] : 'ph:squares-four'
+
+const formatOrderData = (data: any): { label: string; value: string }[] => {
+    const d = parseData(data)
+    const payment = d?.payment ?? {}
+    const person = payment?.consumer?.privatePerson ?? {}
+    const orderDetails = payment?.orderDetails ?? {}
+    const paymentDetails = payment?.paymentDetails ?? {}
+    const subscription = payment?.subscription ?? {}
+
+    const rows: { label: string; value: string }[] = []
+
+    const name = [person.firstName, person.lastName].filter(Boolean).join(' ')
+    if (name) rows.push({ label: t('superadmin.orders.dataName'), value: name })
+    if (person.email) rows.push({ label: t('superadmin.orders.dataEmail'), value: person.email })
+    if (orderDetails.amount && orderDetails.currency)
+        rows.push({ label: t('superadmin.orders.dataAmount'), value: `${(orderDetails.amount / 100).toFixed(2)} ${orderDetails.currency}` })
+    if (paymentDetails.paymentMethod)
+        rows.push({ label: t('superadmin.orders.dataPaymentMethod'), value: `${paymentDetails.paymentType ?? ''} — ${paymentDetails.paymentMethod}`.trim().replace(/^—\s*/, '') })
+    if (subscription.myReference)
+        rows.push({ label: t('superadmin.orders.dataSubscription'), value: subscription.myReference })
+
+    return rows.length ? rows : Object.entries(d).map(([k, v]) => ({
+        label: formatKey(k),
+        value: typeof v === 'object' ? JSON.stringify(v) : String(v ?? ''),
+    }))
 }
-const appColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
-
-const steps = computed(() => [
-    t('superadmin.orders.stepCompany'),
-    t('superadmin.orders.stepProducts'),
-    t('superadmin.orders.stepPayment'),
-])
-
-const plans = computed(() => [
-    { key: 'gratis', name: t('superadmin.orders.free'), price: 0, color: '#8891A4', icon: 'ph:gift', description: t('superadmin.orders.planFreeDesc') },
-    { key: 'basis', name: 'Basis', price: 249, color: '#42AED9', icon: 'ph:star', description: t('superadmin.orders.planBasisDesc') },
-    { key: 'pro', name: 'Pro', price: 449, color: '#205E77', icon: 'ph:crown-simple', description: t('superadmin.orders.planProDesc') },
-])
-
-const paymentMethods = computed(() => [
-    { value: 'card', label: t('superadmin.orders.paymentCard'), icon: 'ph:credit-card' },
-    { value: 'invoice', label: t('superadmin.orders.paymentInvoice'), icon: 'ph:file-text' },
-    { value: 'free', label: t('superadmin.orders.paymentFree'), icon: 'ph:gift' },
-    { value: 'other', label: t('superadmin.orders.paymentOther'), icon: 'ph:dots-three' },
-])
-
-const orderStatuses = computed(() => [
-    { value: 'pending', label: t('superadmin.orders.statusPending'), icon: 'ph:clock', color: '#D4900A', bg: '#FFF9EC' },
-    { value: 'completed', label: t('superadmin.orders.statusCompleted'), icon: 'ph:check-circle', color: '#2E9E33', bg: '#EDF7EE' },
-    { value: 'cancelled', label: t('superadmin.orders.statusCancelled'), icon: 'ph:x-circle', color: '#CC3B2D', bg: '#FFF0F0' },
-])
-
-const statusMap = computed<Record<string, any>>(() => ({
-    pending: { label: t('superadmin.orders.statusPending'), icon: 'ph:clock', color: '#D4900A', bg: '#FFF9EC' },
-    completed: { label: t('superadmin.orders.statusCompleted'), icon: 'ph:check-circle', color: '#2E9E33', bg: '#EDF7EE' },
-    cancelled: { label: t('superadmin.orders.statusCancelled'), icon: 'ph:x-circle', color: '#CC3B2D', bg: '#FFF0F0' },
-}))
 
 const state = reactive({
-    activeTab: 'all',
-    availableApps: [] as any[],
-    cancelledCount: 0,
     columnHeaders: computed(() => [
-        { key: 'id', name: t('superadmin.orders.colOrder') },
-        { key: 'company', name: t('superadmin.orders.colCompany') },
-        { key: 'apps', name: t('superadmin.orders.colProducts') },
-        { key: 'total', name: t('superadmin.orders.colTotal'), sorter: true },
-        { key: 'status', name: t('superadmin.orders.colStatus') },
         { key: 'created_at', name: t('superadmin.orders.colDate'), sorter: true },
-        { key: 'actions', name: '' },
+        { key: 'status', name: t('superadmin.orders.colStatus') },
+        { key: 'uuid', name: t('superadmin.orders.colReferenceNumber'), sorter: true },
+        { key: 'type', name: t('superadmin.orders.colType'), sorter: true },
+        { key: 'data', name: t('superadmin.orders.colData') },
     ]),
-    completedCount: 0,
     dataFilter: {
-        search: ''
-    } as any,
+        search: null as any,
+    },
     error: {} as Error,
     isLoading: false,
-    modal: { isCancelOpen: false },
-    orders: [] as any,
-    pendingCount: 0,
-    selectedOrder: {} as any,
-    sortData: { sortField: 'id', sortOrder: 'descend' },
+    orders: {} as any,
+    sortData: { sortField: 'created_at', sortOrder: 'descend' },
 })
-
-const wizard = reactive({
-    open: false,
-    step: 1,
-    isSaving: false,
-    companyMode: 'existing' as 'existing' | 'new',
-    companySearch: '',
-    companyResults: [] as any[],
-    selectedCompany: null as any,
-    newCompany: { name: '', firstname: '', lastname: '', email: '', phone: '' },
-    form: {
-        plan: '' as string,
-        billing_period: 'monthly',
-        extra_users: 0,
-        extra_departments: 0,
-        selectedApps: [] as any[],
-        seller_name: '',
-        notes: '',
-        start_date: new Date().toISOString().split('T')[0],
-        payment_method: 'card',
-        status: 'pending',
-    },
-    errors: { company: '', newName: '', plan: '' },
-})
-
-const tabs = computed(() => [
-    { key: 'all', label: t('superadmin.orders.tabAll'), count: state.orders?.total ?? 0 },
-    { key: 'active', label: t('superadmin.orders.tabActive'), count: state.completedCount },
-    { key: 'pending', label: t('superadmin.orders.tabPending'), count: state.pendingCount },
-    { key: 'cancelled', label: t('superadmin.orders.tabCancelled'), count: state.cancelledCount },
-])
-
-const availableApps = computed(() => state.availableApps.filter((a: any) => a.is_active !== false))
-const selectedApps = computed(() => wizard.form.selectedApps)
-const selectedPlan = computed(() => plans.value.find(p => p.key === wizard.form.plan))
-
-const calculatedRecurring = computed(() => {
-    const base = selectedPlan.value?.price ?? 0
-    const addons = (wizard.form.extra_users || 0) * 39 + (wizard.form.extra_departments || 0) * 79
-    const appMonthly = selectedApps.value.reduce((s: number, a: any) => s + (a.monthly_price ?? 0), 0)
-    return base + addons + appMonthly
-})
-
-const calculatedOneTime = computed(() =>
-    selectedApps.value.reduce((s: number, a: any) => s + (a.one_time_price ?? 0), 0)
-)
-
-function isAppSelected(app: any) {
-    return wizard.form.selectedApps.some((a: any) => (a.uuid ?? a.id) === (app.uuid ?? app.id))
-}
-
-function toggleApp(app: any) {
-    if (isAppSelected(app)) {
-        wizard.form.selectedApps = wizard.form.selectedApps.filter((a: any) => (a.uuid ?? a.id) !== (app.uuid ?? app.id))
-    } else {
-        wizard.form.selectedApps.push(app)
-    }
-}
-
-function openWizard() {
-    wizard.step = 1
-    wizard.companyMode = 'existing'
-    wizard.companySearch = ''
-    wizard.companyResults = []
-    wizard.selectedCompany = null
-    wizard.newCompany = { name: '', firstname: '', lastname: '', email: '', phone: '' }
-    wizard.form = { plan: '', billing_period: 'monthly', extra_users: 0, extra_departments: 0, selectedApps: [], seller_name: '', notes: '', start_date: new Date().toISOString().split('T')[0], payment_method: 'card', status: 'pending' }
-    wizard.errors = { company: '', newName: '', plan: '' }
-    wizard.open = true
-    document.body.style.overflow = 'hidden'
-}
-
-function closeWizard() {
-    wizard.open = false
-    document.body.style.overflow = ''
-}
-
-function wizardBack() {
-    if (wizard.step === 1) closeWizard()
-    else wizard.step--
-}
-
-function wizardNext() {
-    wizard.errors = { company: '', newName: '', plan: '' }
-    if (wizard.step === 1) {
-        if (wizard.companyMode === 'existing' && !wizard.selectedCompany) { wizard.errors.company = t('superadmin.orders.errorSelectCompany'); return }
-        if (wizard.companyMode === 'new' && !wizard.newCompany.name) { wizard.errors.newName = t('superadmin.orders.errorCompanyName'); return }
-        wizard.step = 2
-    } else if (wizard.step === 2) {
-        if (!wizard.form.plan && !wizard.form.selectedApps.length) { wizard.errors.plan = t('superadmin.orders.errorSelectProduct'); return }
-        wizard.step = 3
-    } else {
-        saveOrder()
-    }
-}
-
-async function saveOrder() {
-    wizard.isSaving = true
-    try {
-        const params: any = {
-            plan: wizard.form.plan,
-            billing_period: wizard.form.billing_period,
-            extra_users: wizard.form.extra_users,
-            extra_departments: wizard.form.extra_departments,
-            apps: wizard.form.selectedApps.map((a: any) => a.uuid ?? a.id),
-            total: calculatedRecurring.value,
-            one_time_total: calculatedOneTime.value,
-            seller_name: wizard.form.seller_name,
-            notes: wizard.form.notes,
-            start_date: wizard.form.start_date,
-            payment_method: wizard.form.payment_method,
-            status: wizard.form.status,
-        }
-        if (wizard.companyMode === 'existing') {
-            params.company_uuid = wizard.selectedCompany.uuid
-        } else {
-            params.new_company = wizard.newCompany
-        }
-        await orderService.createOrder(params)
-        const name = wizard.selectedCompany?.name ?? wizard.newCompany.name
-        successAlert(t('superadmin.orders.successOrderCreated'), t('superadmin.orders.successOrderCreatedBody', { name }))
-        closeWizard(); fetchOrders()
-    } catch (error: any) { state.error = error }
-    wizard.isSaving = false
-}
-
-function searchCompanies() {
-    clearTimeout(companySearchTimeout)
-    if (!wizard.companySearch.trim()) { wizard.companyResults = []; return }
-    companySearchTimeout = setTimeout(async () => {
-        try {
-            const r = await companyService.getCompanies({ search: wizard.companySearch, page: 1 })
-            wizard.companyResults = r?.data?.slice(0, 8) ?? []
-        } catch (_) { }
-    }, 300)
-}
-
-function selectCompany(c: any) {
-    wizard.selectedCompany = c
-    wizard.companySearch = c.name
-    wizard.companyResults = []
-}
 
 onMounted(() => {
     fetchOrders()
-    fetchApps()
 })
 
-async function fetchApps() {
-    try {
-        const r = await appService.getApplications()
-        state.availableApps = Array.isArray(r) ? r : (r?.data ?? [])
-    } catch (_) { }
-}
-
 async function fetchOrders() {
-    state.error = {}; state.isLoading = true
+    state.error = {}
+    state.isLoading = true
     try {
-        const params: any = { page: currentPage, sortField: state.sortData.sortField, sortOrder: state.sortData.sortOrder, ...state.dataFilter }
-        if (state.activeTab !== 'all') params.status = state.activeTab === 'active' ? 'completed' : state.activeTab
-        const response = await orderService.getOrders(params)
-        if (response) {
-            state.orders = response
-            const items = response?.data ?? []
-            state.completedCount = items.filter((o: any) => o.status === 'completed').length
-            state.pendingCount = items.filter((o: any) => o.status === 'pending').length
-            state.cancelledCount = items.filter((o: any) => o.status === 'cancelled').length
+        const params: any = {
+            page: currentPage,
+            sortField: state.sortData.sortField,
+            sortOrder: state.sortData.sortOrder,
         }
-    } catch (error: any) { state.error = error }
+        if (state.dataFilter.search) params.search = state.dataFilter.search
+        const response = await orderService.getOrders(params)
+        if (response) state.orders = response
+    } catch (error: any) {
+        state.error = error
+    }
     state.isLoading = false
 }
 
@@ -1000,21 +175,8 @@ function debouncedSearch() {
     }, 350)
 }
 
-function setTab(tab: string) {
-    state.activeTab = tab
-    currentPage = 1
-    fetchOrders()
-}
-
-function handleSortChange() {
-    const parts = sortLabel.value.split('_'); const order = parts.pop()
-    state.sortData.sortField = parts.join('_'); state.sortData.sortOrder = order === 'asc' ? 'ascend' : 'descend'
-    currentPage = 1
-    fetchOrders()
-}
-
 function handleSort({ sort, column }: { sort: string | null; column: string | null }) {
-    state.sortData.sortField = column ?? 'id'
+    state.sortData.sortField = column ?? 'created_at'
     state.sortData.sortOrder = sort ?? 'descend'
     currentPage = 1
     fetchOrders()
@@ -1029,33 +191,4 @@ function next() {
     currentPage++
     fetchOrders()
 }
-
-function confirmCancel(order: any) {
-    state.selectedOrder = order
-    state.modal.isCancelOpen = true
-}
-
-async function cancelOrder() {
-    try { await orderService.updateOrderStatus(state.selectedOrder.uuid ?? state.selectedOrder.id, 'cancelled'); fetchOrders() }
-    catch (error: any) { state.error = error }
-}
-
-async function completeOrder(order: any) {
-    try {
-        await orderService.updateOrderStatus(order.uuid ?? order.id, 'completed')
-        successAlert(t('superadmin.orders.successUpdated'), t('superadmin.orders.successOrderCompleted'))
-        fetchOrders()
-    }
-    catch (error: any) {
-        state.error = error
-    }
-}
-
-onMounted(() => {
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && wizard.open) {
-            closeWizard()
-        }
-    })
-})
 </script>

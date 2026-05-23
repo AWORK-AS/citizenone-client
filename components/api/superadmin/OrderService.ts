@@ -2,7 +2,7 @@ import BaseAPIService from '@/components/api/BaseAPIService'
 
 class OrderService extends BaseAPIService {
     async getOrders(params: object): Promise<any> {
-        return await this.request(`/superadmin/orders`, 'GET', params)
+        return await this.request(`/superadmin/external-data`, 'GET', params)
     }
 
     async getOrder(orderUuid: string): Promise<any> {
