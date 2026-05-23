@@ -30,43 +30,31 @@
                     </button>
                 </div>
 
-                <div class="mt-10 space-y-5">
+                <div class="mt-5 space-y-4">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch @search="handleSearch" />
-                    <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.companyApps"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.companyApps?.data?.length === 0))">
-                                <tr v-for="(companyApp, index) in state.companyApps?.data" :key="index">
-                                    <td width="40%">
-                                        <span>{{ companyApp?.deal?.name }}</span>
-                                    </td>
-                                    <td width="30%">
-                                        <Badge type="primary" class="w-fit" v-if="companyApp?.is_active">
-                                            {{ $t('superadmin.companies.companyApps.table.active') }}
-                                        </Badge>
-                                        <Badge type="inactive" class="w-fit" v-else>
-                                            {{ $t('superadmin.companies.companyApps.table.inactive') }}
-                                        </Badge>
-                                    </td>
-                                    <td width="30%">
-                                        <div class="flex items-end gap-2">
-                                            <FormButton type="button"
-                                                :buttonStyle="companyApp.is_active ? 'warning' : 'success'"
-                                                @click="activateDeactivateCompanyApp(index, companyApp)">
-                                                <Icon name="ph:x" class="size-4" v-if="companyApp.is_active" />
-                                                <Icon name="ph:check" class="size-4" v-else />
-                                                {{ companyApp.is_active ?
-                                                    $t('superadmin.companies.companyApps.table.actions.deactivate') :
-                                                    $t('superadmin.companies.companyApps.table.actions.activate') }}
-                                            </FormButton>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
-                        </Table>
-                    </div>
+                    <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('search')" @input="debouncedSearch" />
+                    <SuperadminTable :columnHeaders="state.columnHeaders" :data="state.companyApps"
+                        :isLoading="state.isTableLoading" :sortData="state.sortData"
+                        :emptyMessage="$t('superadmin.companies.companyApps.noAppsFound')" emptyIcon="ph:squares-four"
+                        rowKey="uuid" @sort="handleSort">
+                        <template #body>
+                            <tr v-for="(companyApp, index) in state.companyApps?.data" :key="index"
+                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
+                                <td class="co-td text-[13px] text-[#1F2533]">{{ companyApp?.deal?.name }}</td>
+                                <td class="co-td">
+                                    <span v-if="companyApp?.is_active" class="co-badge co-badge-green">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                        {{ $t('superadmin.companies.companyApps.table.active') }}
+                                    </span>
+                                    <span v-else class="co-badge co-badge-red">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                        {{ $t('superadmin.companies.companyApps.table.inactive') }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </template>
+                    </SuperadminTable>
                     <Pagination :data="state.companyApps" @previous="previous" @next="next" />
                 </div>
             </div>
@@ -76,17 +64,16 @@
 
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
-import { appService } from '@/components/api/superadmin/AppService'
-import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 let currentTablePage = 1
+let searchTimeout: any = null
+const searchQuery = ref('')
 
 const detailTabs = computed(() => [
     { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },
@@ -97,15 +84,14 @@ const detailTabs = computed(() => [
 ])
 
 const state = reactive({
-    columnHeaders: [
-        { name: 'superadmin.companies.companyApps.table.name', isTranslateName: true, sorter: true, key: 'name' },
-        { name: 'superadmin.companies.companyApps.table.status', isTranslateName: true, },
-        { name: '' },
-    ],
-    companyApps: [] as any,
+    columnHeaders: computed(() => [
+        { key: 'name', name: t('superadmin.companies.companyApps.table.name'), sorter: true },
+        { key: 'status', name: t('superadmin.companies.companyApps.table.status') },
+    ]),
+    companyApps: {} as any,
     dataFilter: {
         search: ''
-    },
+    } as any,
     error: {} as Error,
     isTableLoading: false,
     sortData: {
@@ -148,40 +134,19 @@ function next() {
     fetchCompanyApps()
 }
 
-function sort(sortingData: any) {
+function handleSort({ sort, column }: { sort: string | null; column: string | null }) {
+    state.sortData.sortField = column ?? 'id'
+    state.sortData.sortOrder = sort ?? 'descend'
     currentTablePage = 1
-    state.sortData = {
-        sortField: sortingData.column,
-        sortOrder: sortingData.sort,
-    }
     fetchCompanyApps()
 }
 
-function handleSearch(value: any) {
-    currentTablePage = 1
-    state.dataFilter.search = value?.[0] == '' ? [] : value
-    fetchCompanyApps()
-}
-
-async function activateDeactivateCompanyApp(index: number, companyApp: any) {
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        const params = {
-            is_active: !companyApp.is_active,
-        }
-        const response = await appService.activateDeactiveApp(companyApp.uuid, params)
-        if (response) {
-            state.companyApps.data[index].is_active = response?.data?.is_active
-            if (response?.data?.is_active) {
-                successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.companyApps.alert.appSuccessfullyActivated')}.`)
-            } else {
-                successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.companyApps.alert.appSuccessfullyDeactivated')}.`)
-            }
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
+function debouncedSearch() {
+    clearTimeout(searchTimeout)
+    searchTimeout = setTimeout(() => {
+        state.dataFilter.search = Array(searchQuery.value.trim().split(/\s+/))
+        currentTablePage = 1
+        fetchCompanyApps()
+    }, 350)
 }
 </script>
