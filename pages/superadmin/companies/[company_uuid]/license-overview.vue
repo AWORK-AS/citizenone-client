@@ -29,7 +29,7 @@
                     </button>
                 </div>
 
-                <div class="mt-10 w-full">
+                <div class="w-full">
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
@@ -52,7 +52,7 @@
 
                         <div v-else>
                             <div class="lg:flex gap-8">
-                                <div class="isolate mt-10 w-full max-w-md">
+                                <div class="isolate w-full max-w-md">
                                     <h3 class="py-3 text-sm font-semibold">
                                         {{ $t('subscription.currentSubscription') }}
                                     </h3>
@@ -147,7 +147,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="mt-10 w-full">
+                                <div class="w-full">
                                     <div>
                                         <h3 class="py-3 text-sm font-semibold">
                                             {{ $t('settings.licenseOverview.licenses') }}
