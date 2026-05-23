@@ -47,7 +47,7 @@
                                     <div>
                                         <h2 class="text-[20px] font-bold text-[#1F2533]">{{ state.company?.data?.name ||
                                             '—'
-                                            }}</h2>
+                                        }}</h2>
                                         <div class="flex flex-wrap items-center gap-2 mt-2">
                                             <!-- Active status -->
                                             <span v-if="state.company?.data?.is_active" class="co-badge co-badge-green">
@@ -254,7 +254,9 @@
                                                 style="background:#E4F1F6">
                                                 <Icon name="ph:squares-four" class="w-4 h-4 text-[#205E77]" />
                                             </div>
-                                            <span class="text-[13px] font-medium text-[#1F2533]">{{ app?.name }}</span>
+                                            <span class="text-[13px] font-medium text-[#1F2533]">
+                                                {{ app?.deal?.name }}
+                                            </span>
                                         </div>
                                         <span class="co-badge co-badge-green text-[10px]">
                                             <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
