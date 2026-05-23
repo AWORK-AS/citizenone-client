@@ -8295,6 +8295,7 @@
                 "unusedDepartmentLicense": "Unused department license"
             },
             "newCompany": "New company",
+            "saveCompany": "Save company",
             "subscriptions": {
                 "deal": {
                     "admin": "Admin",

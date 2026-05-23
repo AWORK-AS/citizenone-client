@@ -30,95 +30,79 @@
 
                             <!-- Company name -->
                             <div class="mb-4">
-                                <label class="co-label">
-                                    {{ $t('superadmin.companies.form.companyName') }}
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <input v-model="state.form.name" type="text"
+                                <SuperadminFormLabel :label="$t('superadmin.companies.form.companyName')"
+                                    :required="true" />
+                                <SuperadminFormTextField v-model="state.form.name"
                                     :placeholder="$t('superadmin.companies.form.companyNamePlaceholder')"
-                                    class="co-input"
-                                    :class="v$?.form?.name?.$error ? 'border-red-300 focus:border-red-400' : ''" />
-                                <FormError :error="v$?.form?.name?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.name?.[0]" />
+                                    :hasError="v$?.form?.name?.$error" />
+                                <SuperadminFormError :error="v$?.form?.name?.$errors[0]?.$message.toString()" />
+                                <SuperadminFormError :error="state?.error?.errors?.name?.[0]" />
                             </div>
 
                             <!-- CVR + Phone -->
                             <div class="grid grid-cols-2 gap-3 mb-4">
                                 <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.companies.form.cvr') }}
-                                    </label>
-                                    <input v-model="state.form.cvr" type="text" placeholder="12345678"
-                                        class="co-input" />
-                                    <FormError :error="v$?.form?.cvr?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.cvr?.[0]" />
+                                    <SuperadminFormLabel :label="$t('superadmin.companies.form.cvr')" />
+                                    <SuperadminFormTextField v-model="state.form.cvr" placeholder="12345678" />
+                                    <SuperadminFormError :error="v$?.form?.cvr?.$errors[0]?.$message.toString()" />
+                                    <SuperadminFormError :error="state?.error?.errors?.cvr?.[0]" />
                                 </div>
                                 <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.companies.form.phone') }}
-                                        <span class="text-red-500">*</span>
-                                    </label>
-                                    <input v-model="state.form.phone" type="text" placeholder="+45 12 34 56 78"
-                                        class="co-input" />
-                                    <FormError :error="v$?.form?.phone?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.phone?.[0]" />
+                                    <SuperadminFormLabel :label="$t('superadmin.companies.form.phone')"
+                                        :required="true" />
+                                    <SuperadminFormTextField v-model="state.form.phone" placeholder="+45 12 34 56 78"
+                                        :hasError="v$?.form?.phone?.$error" />
+                                    <SuperadminFormError :error="v$?.form?.phone?.$errors[0]?.$message.toString()" />
+                                    <SuperadminFormError :error="state?.error?.errors?.phone?.[0]" />
                                 </div>
                             </div>
 
                             <!-- Address -->
                             <div class="mb-4">
-                                <label class="co-label">
-                                    {{ $t('superadmin.companies.form.address') }}
-                                </label>
-                                <input v-model="state.form.address" type="text"
-                                    :placeholder="$t('superadmin.companies.form.addressPlaceholder')"
-                                    class="co-input" />
-                                <FormError :error="v$?.form?.address?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.address?.[0]" />
+                                <SuperadminFormLabel :label="$t('superadmin.companies.form.address')" />
+                                <SuperadminFormTextField v-model="state.form.address"
+                                    :placeholder="$t('superadmin.companies.form.addressPlaceholder')" />
+                                <SuperadminFormError :error="v$?.form?.address?.$errors[0]?.$message.toString()" />
+                                <SuperadminFormError :error="state?.error?.errors?.address?.[0]" />
                             </div>
 
                             <!-- Website -->
                             <div class="mb-4">
-                                <label class="co-label">
-                                    {{ $t('superadmin.companies.form.website') }}
-                                </label>
-                                <input v-model="state.form.website" type="url" placeholder="https://virksomhed.dk"
-                                    class="co-input" />
-                                <FormError :error="v$?.form?.website?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.website?.[0]" />
+                                <SuperadminFormLabel :label="$t('superadmin.companies.form.website')" />
+                                <SuperadminFormTextField v-model="state.form.website" type="url"
+                                    placeholder="https://virksomhed.dk" />
+                                <SuperadminFormError :error="v$?.form?.website?.$errors[0]?.$message.toString()" />
+                                <SuperadminFormError :error="state?.error?.errors?.website?.[0]" />
                             </div>
 
                             <!-- Industry -->
                             <div class="mb-4">
-                                <label class="co-label">
-                                    {{ $t('superadmin.companies.form.industry') }}
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <select v-model="state.form.industry_uuid" class="co-input"
-                                    :class="v$?.form?.industry_uuid?.$error ? 'border-red-300' : ''">
+                                <SuperadminFormLabel :label="$t('superadmin.companies.form.industry')"
+                                    :required="true" />
+                                <SuperadminFormSelectField v-model="state.form.industry_uuid"
+                                    :hasError="v$?.form?.industry_uuid?.$error">
                                     <option value="" disabled>{{ $t('superadmin.companies.form.selectIndustry') }}
                                     </option>
                                     <option v-for="opt in state.options.industries" :key="opt.value" :value="opt.value">
                                         {{ opt.label }}
                                     </option>
-                                </select>
-                                <FormError :error="v$?.form?.industry_uuid?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.industry_uuid?.[0]" />
+                                </SuperadminFormSelectField>
+                                <SuperadminFormError
+                                    :error="v$?.form?.industry_uuid?.$errors[0]?.$message.toString()" />
+                                <SuperadminFormError :error="state?.error?.errors?.industry_uuid?.[0]" />
                             </div>
 
                             <!-- Facility type (only if social welfare) -->
                             <div v-if="showFacilityType" class="mb-4">
-                                <label class="co-label">
-                                    {{ $t('superadmin.companies.form.typeOfFacility') }}
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <select v-model="state.form.facility_type_uuid" class="co-input">
+                                <SuperadminFormLabel :label="$t('superadmin.companies.form.typeOfFacility')"
+                                    :required="true" />
+                                <SuperadminFormSelectField v-model="state.form.facility_type_uuid">
                                     <option value="" disabled>{{ $t('superadmin.companies.form.selectType') }}</option>
                                     <option v-for="opt in state.options.typeOfFacilities" :key="opt.value"
                                         :value="opt.value">
                                         {{ opt.label }}
                                     </option>
-                                </select>
+                                </SuperadminFormSelectField>
                             </div>
                         </div>
 
@@ -134,73 +118,55 @@
                             <!-- First name + Last name -->
                             <div class="grid grid-cols-2 gap-3 mb-4">
                                 <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.companies.form.firstname') }}
-                                        <span class="text-red-500">*</span>
-                                    </label>
-                                    <input v-model="state.form.firstname" type="text"
-                                        :placeholder="$t('superadmin.companies.form.firstname')" class="co-input"
-                                        :class="v$?.form?.firstname?.$error ? 'border-red-300' : ''" />
-                                    <FormError :error="v$?.form?.firstname?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.firstname?.[0]" />
+                                    <SuperadminFormLabel :label="$t('superadmin.companies.form.firstname')"
+                                        :required="true" />
+                                    <SuperadminFormTextField v-model="state.form.firstname"
+                                        :placeholder="$t('superadmin.companies.form.firstname')"
+                                        :hasError="v$?.form?.firstname?.$error" />
+                                    <SuperadminFormError
+                                        :error="v$?.form?.firstname?.$errors[0]?.$message.toString()" />
+                                    <SuperadminFormError :error="state?.error?.errors?.firstname?.[0]" />
                                 </div>
                                 <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.companies.form.lastname') }}
-                                        <span class="text-red-500">*</span>
-                                    </label>
-                                    <input v-model="state.form.lastname" type="text"
-                                        :placeholder="$t('superadmin.companies.form.lastname')" class="co-input"
-                                        :class="v$?.form?.lastname?.$error ? 'border-red-300' : ''" />
-                                    <FormError :error="v$?.form?.lastname?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.lastname?.[0]" />
+                                    <SuperadminFormLabel :label="$t('superadmin.companies.form.lastname')"
+                                        :required="true" />
+                                    <SuperadminFormTextField v-model="state.form.lastname"
+                                        :placeholder="$t('superadmin.companies.form.lastname')"
+                                        :hasError="v$?.form?.lastname?.$error" />
+                                    <SuperadminFormError :error="v$?.form?.lastname?.$errors[0]?.$message.toString()" />
+                                    <SuperadminFormError :error="state?.error?.errors?.lastname?.[0]" />
                                 </div>
                             </div>
 
                             <!-- Email -->
                             <div class="mb-4">
-                                <label class="co-label">
-                                    {{ $t('superadmin.companies.form.emailAddress') }}
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <input v-model="state.form.email" type="email" placeholder="admin@virksomhed.dk"
-                                    class="co-input" :class="v$?.form?.email?.$error ? 'border-red-300' : ''" />
-                                <FormError :error="v$?.form?.email?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state?.error?.errors?.email?.[0]" />
+                                <SuperadminFormLabel :label="$t('superadmin.companies.form.emailAddress')"
+                                    :required="true" />
+                                <SuperadminFormTextField v-model="state.form.email" type="email"
+                                    placeholder="admin@virksomhed.dk" :hasError="v$?.form?.email?.$error" />
+                                <SuperadminFormError :error="v$?.form?.email?.$errors[0]?.$message.toString()" />
+                                <SuperadminFormError :error="state?.error?.errors?.email?.[0]" />
                             </div>
 
                             <!-- Password + Confirm -->
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.companies.form.password') }}
-                                        <span class="text-red-500">*</span>
-                                    </label>
-                                    <div class="relative">
-                                        <input v-model="state.form.password" :type="showPassword ? 'text' : 'password'"
-                                            :placeholder="$t('superadmin.companies.form.passwordPlaceholder')"
-                                            class="co-input pr-10"
-                                            :class="v$?.form?.password?.$error ? 'border-red-300' : ''" />
-                                        <button type="button"
-                                            class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] hover:text-[#5C6478]"
-                                            @click="showPassword = !showPassword">
-                                            <Icon :name="showPassword ? 'ph:eye-slash' : 'ph:eye'" class="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                    <FormError :error="v$?.form?.password?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.password?.[0]" />
+                                    <SuperadminFormLabel :label="$t('superadmin.companies.form.password')"
+                                        :required="true" />
+                                    <SuperadminFormPasswordField v-model="state.form.password"
+                                        :placeholder="$t('superadmin.companies.form.passwordPlaceholder')"
+                                        :hasError="v$?.form?.password?.$error" />
+                                    <SuperadminFormError :error="v$?.form?.password?.$errors[0]?.$message.toString()" />
+                                    <SuperadminFormError :error="state?.error?.errors?.password?.[0]" />
                                 </div>
                                 <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.companies.form.confirmPassword') }}
-                                    </label>
-                                    <input v-model="state.form.password_confirmation"
-                                        :type="showPassword ? 'text' : 'password'"
-                                        :placeholder="$t('superadmin.companies.form.repeatPassword')" class="co-input"
-                                        :class="v$?.form?.password_confirmation?.$error ? 'border-red-300' : ''" />
-                                    <FormError
+                                    <SuperadminFormLabel :label="$t('superadmin.companies.form.confirmPassword')" />
+                                    <SuperadminFormTextField v-model="state.form.password_confirmation" type="password"
+                                        :placeholder="$t('superadmin.companies.form.repeatPassword')"
+                                        :hasError="v$?.form?.password_confirmation?.$error" />
+                                    <SuperadminFormError
                                         :error="v$?.form?.password_confirmation?.$errors[0]?.$message.toString()" />
-                                    <FormError :error="state?.error?.errors?.password_confirmation?.[0]" />
+                                    <SuperadminFormError :error="state?.error?.errors?.password_confirmation?.[0]" />
                                 </div>
                             </div>
                         </div>
@@ -265,7 +231,7 @@
                                     {{ $t('superadmin.companies.form.creating') }}
                                 </span>
                                 <span v-else>
-                                    {{ $t('superadmin.companies.newCompany') }}
+                                    {{ $t('superadmin.companies.saveCompany') }}
                                 </span>
                             </button>
                         </div>
@@ -290,8 +256,6 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t, locale } = useI18n()
-
-const showPassword = ref(false)
 
 const state = reactive({
     form: {
@@ -422,40 +386,3 @@ async function saveCompany() {
     }
 }
 </script>
-
-<style scoped>
-.co-label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #1F2533;
-    margin-bottom: 6px;
-}
-
-.co-input {
-    width: 100%;
-    padding: 9px 13px;
-    font-size: 14px;
-    color: #1F2533;
-    background: white;
-    border: 1px solid #D5D9E2;
-    border-radius: 10px;
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
-}
-
-.co-input:focus {
-    border-color: #42AED9;
-    box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12);
-}
-
-.co-input::placeholder {
-    color: #B0B8C4
-}
-
-.co-error {
-    font-size: 11px;
-    color: #CC3B2D;
-    margin-top: 4px;
-}
-</style>

@@ -8286,6 +8286,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens"
             },
             "newCompany": "Ny företag",
+            "saveCompany": "Spara företag",
             "subscriptions": {
                 "deal": {
                     "admin": "Admin",
