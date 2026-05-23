@@ -237,8 +237,8 @@ async function fetchCompanies() {
 function debouncedSearch() {
     clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => {
-        state.dataFilter.search = Array(searchQuery.value.trim().split(/\s+/))
-        // state.dataFilter.search = value?.[0] == '' ? [] : value
+        const trimmed = searchQuery.value.trim()
+        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
         currentTablePage = 1
         fetchCompanies()
     }, 350)

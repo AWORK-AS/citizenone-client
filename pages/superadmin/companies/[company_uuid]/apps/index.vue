@@ -144,7 +144,8 @@ function handleSort({ sort, column }: { sort: string | null; column: string | nu
 function debouncedSearch() {
     clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => {
-        state.dataFilter.search = Array(searchQuery.value.trim().split(/\s+/))
+        const trimmed = searchQuery.value.trim()
+        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
         currentTablePage = 1
         fetchCompanyApps()
     }, 350)

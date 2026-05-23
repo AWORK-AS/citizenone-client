@@ -280,7 +280,8 @@ async function fetchInvoices() {
 function debouncedSearch() {
     clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => {
-        state.dataFilter.search = Array(searchQuery.value.trim().split(/\s+/))
+        const trimmed = searchQuery.value.trim()
+        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
         currentTablePage = 1
         fetchInvoices()
     }, 350)
