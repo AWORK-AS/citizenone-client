@@ -1,7 +1,7 @@
 <template>
     <div>
         <LoadingSpinner :isActive="state.isPageLoading">
-            <ModulesSuperadminCompanyForm :error="state.error"
+            <ModulesSuperadminCompanyForm formType="create" :error="state.error"
                 @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveCompany" />
         </LoadingSpinner>
     </div>
