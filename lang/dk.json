@@ -8613,6 +8613,7 @@
             "colReferenceNumber": "Referencenummer",
             "colType": "Type",
             "colData": "Data",
+            "dataCompany": "Virksomhedsnavn",
             "dataName": "Navn",
             "dataEmail": "E-mail",
             "dataAmount": "Beløb",

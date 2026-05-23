@@ -61,7 +61,7 @@
                             </td>
                             <td class="co-td">
                                 <div class="text-[13px] text-[#5C6478] space-y-0.5">
-                                    <div v-for="({ label, value }) in formatOrderData(order.data)" :key="label">
+                                    <div v-for="({ label, value }) in formatOrderData(order)" :key="label">
                                         <span class="text-[#1F2533] font-medium">{{ label }}:</span> {{ value }}
                                     </div>
                                 </div>
@@ -100,8 +100,8 @@ const parseData = (data: any): Record<string, any> => {
     try { return JSON.parse(data) } catch { return {} }
 }
 
-const formatOrderData = (data: any): { label: string; value: string }[] => {
-    const d = parseData(data)
+const formatOrderData = (order: any): { label: string; value: string }[] => {
+    const d = parseData(order?.data)
     const payment = d?.payment ?? {}
     const person = payment?.consumer?.privatePerson ?? {}
     const orderDetails = payment?.orderDetails ?? {}
@@ -110,6 +110,8 @@ const formatOrderData = (data: any): { label: string; value: string }[] => {
 
     const rows: { label: string; value: string }[] = []
 
+    const companyName = order?.user?.company?.name
+    if (companyName) rows.push({ label: t('superadmin.orders.dataCompany'), value: companyName })
     const name = [person.firstName, person.lastName].filter(Boolean).join(' ')
     if (name) rows.push({ label: t('superadmin.orders.dataName'), value: name })
     if (person.email) rows.push({ label: t('superadmin.orders.dataEmail'), value: person.email })

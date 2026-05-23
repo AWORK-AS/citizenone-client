@@ -8604,6 +8604,7 @@
             "colReferenceNumber": "Referansenummer",
             "colType": "Type",
             "colData": "Data",
+            "dataCompany": "Firmanavn",
             "dataName": "Navn",
             "dataEmail": "E-post",
             "dataAmount": "Beløp",

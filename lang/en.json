@@ -8613,6 +8613,7 @@
             "colReferenceNumber": "Reference number",
             "colType": "Type",
             "colData": "Data",
+            "dataCompany": "Company name",
             "dataName": "Name",
             "dataEmail": "Email",
             "dataAmount": "Amount",
