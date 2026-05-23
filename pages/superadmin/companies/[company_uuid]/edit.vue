@@ -10,11 +10,11 @@
             <div class="p-1 max-w-2xl">
 
                 <!-- Back -->
-                <NuxtLink to="/superadmin/companies"
+                <button @click="router.back()"
                     class="inline-flex items-center gap-1.5 text-sm text-[#5C6478] hover:text-[#1F2533] mb-6 transition-colors">
                     <Icon name="ph:arrow-left" class="w-4 h-4" />
-                    {{ $t('superadmin.companies.companies') }}
-                </NuxtLink>
+                    {{ $t('back') }}
+                </button>
 
                 <ModulesSuperadminCompanyEditCompany />
 
@@ -25,4 +25,5 @@
 
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
 </script>

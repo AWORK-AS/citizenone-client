@@ -50,7 +50,7 @@ async function updateCompany(formData: Record<string, any>) {
         const response = await companyService.updateCompany(companyUuid, formData)
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.form.alert.companySuccessfullyUpdated')}.`)
-            navigateTo('/superadmin/companies')
+            router.back()
         }
     } catch (error: any) {
         state.error = error

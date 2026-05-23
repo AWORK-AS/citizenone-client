@@ -187,7 +187,7 @@
 
         <!-- Action buttons -->
         <div class="flex items-center justify-end gap-3 pb-6">
-            <button type="button" @click="navigateTo('/superadmin/companies')"
+            <button type="button" @click="router.back()"
                 class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
                 {{ $t('cancel') }}
             </button>
@@ -225,7 +225,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['isPageLoading', 'submitForm'])
-
+const router = useRouter()
 const { t, locale } = useI18n()
 
 const state = reactive({
