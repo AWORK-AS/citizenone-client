@@ -22,16 +22,26 @@
                         </h3>
                         <div class="flex items-center gap-2 mt-1 text-xs text-gray-400">
                             <Icon name="ph:user" class="w-3 h-3" />
-                            <span>{{ [props.selectedNews?.user?.firstname,
-                                props.selectedNews?.user?.lastname].filter(Boolean).join(' ') }}</span>
+                            <span>
+                                {{
+                                    [
+                                        props.selectedNews?.user?.firstname,
+                                        props.selectedNews?.user?.lastname
+                                    ].filter(Boolean).join(' ')
+                                }}
+                            </span>
                             <span class="text-gray-300">·</span>
                             <Icon name="ph:calendar" class="w-3 h-3" />
-                            <span>{{ formatDateToReadable(props.selectedNews?.created_at) }}</span>
+                            <span>
+                                {{ formatDateToReadable(props.selectedNews?.created_at) }}
+                            </span>
                         </div>
                         <p class="text-xs text-gray-400 mt-3"
                             v-html="props.selectedNews?.content?.replace(/\n/g, '<br>')" />
                         <div class="mt-4" v-if="props.selectedNews?.attachments?.length > 0">
-                            <p class="text-xs font-semibold text-gray-600 mb-2">{{ $t('bulletBoard.attachments') }}</p>
+                            <p class="text-xs font-semibold text-gray-600 mb-2">
+                                {{ $t('bulletBoard.attachments') }}
+                            </p>
                             <div class="space-y-2">
                                 <a v-for="(attachment, i) in props.selectedNews.attachments" :key="i"
                                     :href="attachment.url" target="_blank"
