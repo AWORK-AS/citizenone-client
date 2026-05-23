@@ -3,10 +3,10 @@
         <NuxtLayout name="superadmin">
 
             <Head>
-                <Title>{{ state.company?.name || $t('superadmin.companies.company') }} - {{
+                <Title>{{ state.company?.data?.name || $t('superadmin.companies.company') }} - {{
                     runtimeConfig?.public?.appName }}</Title>
             </Head>
-            <template #header>{{ state.company?.name || $t('superadmin.companies.company') }}</template>
+            <template #header>{{ state.company?.data?.name || $t('superadmin.companies.company') }}</template>
 
             <div class="p-1">
                 <!-- Back -->
@@ -30,7 +30,8 @@
                 </div>
 
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <Alert type="danger" :text="state?.error?.message" v-if="state.error?.message?.length > 0" />
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error?.message?.length > 0" />
 
                     <div v-if="!state.isPageLoading" class="space-y-5">
 
@@ -40,15 +41,16 @@
                                 <div class="flex items-center gap-4">
                                     <!-- Avatar -->
                                     <div class="w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold text-white flex-shrink-0"
-                                        :style="`background:${avatarColor(state.company?.name)}`">
-                                        {{ initials(state.company?.name) }}
+                                        :style="`background:${avatarColor(state.company?.data?.name)}`">
+                                        {{ initials(state.company?.data?.name) }}
                                     </div>
                                     <div>
-                                        <h2 class="text-[20px] font-bold text-[#1F2533]">{{ state.company?.name || '—'
+                                        <h2 class="text-[20px] font-bold text-[#1F2533]">{{ state.company?.data?.name ||
+                                            '—'
                                             }}</h2>
                                         <div class="flex flex-wrap items-center gap-2 mt-2">
                                             <!-- Active status -->
-                                            <span v-if="state.company?.is_active" class="co-badge co-badge-green">
+                                            <span v-if="state.company?.data?.is_active" class="co-badge co-badge-green">
                                                 <span
                                                     class="w-1.5 h-1.5 rounded-full bg-[#2E9E33] animate-pulse"></span>
                                                 {{ $t('superadmin.companies.table.active') }}
@@ -66,12 +68,13 @@
                                             </span>
 
                                             <!-- Payment method -->
-                                            <span v-if="state.company?.subscription?.payment_method === 'card'"
+                                            <span v-if="state.company?.data?.subscription?.payment_method === 'card'"
                                                 class="co-badge co-badge-blue">
                                                 <Icon name="ph:credit-card" class="w-3 h-3" />
                                                 {{ $t('superadmin.companies.accounts.paymentCard') }}
                                             </span>
-                                            <span v-else-if="state.company?.subscription?.payment_method === 'invoice'"
+                                            <span
+                                                v-else-if="state.company?.data?.subscription?.payment_method === 'invoice'"
                                                 class="co-badge co-badge-gray">
                                                 <Icon name="ph:file-text" class="w-3 h-3" />
                                                 {{ $t('superadmin.companies.accounts.manualInvoice') }}
@@ -88,7 +91,7 @@
                                         <Icon name="ph:user-switch" class="w-4 h-4" />
                                         {{ $t('superadmin.companies.accounts.loginAs') }}
                                     </button> -->
-                                    <button v-if="state.company?.subscription?.payment_method === 'card'"
+                                    <button v-if="state.company?.data?.subscription?.payment_method === 'card'"
                                         @click="sendCardUpdateLink"
                                         class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
                                         <Icon name="ph:envelope" class="w-4 h-4" />
@@ -101,12 +104,12 @@
                                     </button>
                                     <button @click="toggleActive"
                                         class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
-                                        :class="state.company?.is_active
+                                        :class="state.company?.data?.is_active
                                             ? 'bg-red-50 text-[#CC3B2D] border border-red-200 hover:bg-red-100'
                                             : 'bg-green-50 text-[#2E9E33] border border-green-200 hover:bg-green-100'">
-                                        <Icon :name="state.company?.is_active ? 'ph:x-circle' : 'ph:check-circle'"
+                                        <Icon :name="state.company?.data?.is_active ? 'ph:x-circle' : 'ph:check-circle'"
                                             class="w-4 h-4" />
-                                        {{ state.company?.is_active ?
+                                        {{ state.company?.data?.is_active ?
                                             $t('superadmin.companies.table.actions.deactivate') :
                                             $t('superadmin.companies.table.actions.activate') }}
                                     </button>
@@ -117,21 +120,26 @@
                         <!-- Stats row -->
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                                <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">{{
-                                    $t('superadmin.dashboard.users') }}</p>
-                                <p class="text-[26px] font-bold text-[#1F2533]">{{ state.licensesCount?.data?.used ?? 0
-                                    }}</p>
-                                <p class="text-[11px] text-[#8891A4] mt-0.5">{{
-                                    $t('superadmin.companies.accounts.stats.activeLicenses') }}</p>
+                                <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">
+                                    {{ $t('superadmin.dashboard.users') }}
+                                </p>
+                                <p class="text-[26px] font-bold text-[#1F2533]">
+                                    {{ state.licensesCount?.data?.used ?? 0 }}
+                                </p>
+                                <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                    {{ $t('superadmin.companies.accounts.stats.activeLicenses') }}
+                                </p>
                             </div>
                             <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
                                 <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">{{
                                     $t('superadmin.sidebar.licenses') }}</p>
                                 <p class="text-[26px] font-bold text-[#1F2533]">
-                                    {{ state.licensesCount?.data?.used ?? 0 }}<span
-                                        class="text-[16px] font-normal text-[#8891A4]">/{{
-                                            state.licensesCount?.data?.total ?? 0
-                                        }}</span>
+                                    {{ state.licensesCount?.data?.used ?? 0 }}
+                                    <span class="text-[16px] font-normal text-[#8891A4]">/
+                                        {{
+                                            (state.licensesCount?.data?.used + state.licensesCount?.data?.unused) || 0
+                                        }}
+                                    </span>
                                 </p>
                                 <div class="mt-2 h-1.5 bg-[#EAECF0] rounded-full overflow-hidden">
                                     <div class="h-full rounded-full transition-all" style="background:#42AED9"
@@ -141,17 +149,23 @@
                             <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
                                 <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">{{
                                     $t('superadmin.companies.accounts.stats.unused') }}</p>
-                                <p class="text-[26px] font-bold text-[#1F2533]">{{ state.licensesCount?.data?.unused ??
-                                    0 }}</p>
-                                <p class="text-[11px] text-[#8891A4] mt-0.5">{{
-                                    $t('superadmin.companies.accounts.stats.availableLicenses') }}</p>
+                                <p class="text-[26px] font-bold text-[#1F2533]">
+                                    {{ state.licensesCount?.data?.unused ?? 0 }}
+                                </p>
+                                <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                    {{ $t('superadmin.companies.accounts.stats.availableLicenses') }}
+                                </p>
                             </div>
                             <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                                <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">{{
-                                    $t('superadmin.sidebar.apps') }}</p>
-                                <p class="text-[26px] font-bold text-[#1F2533]">{{ state.apps.length }}</p>
-                                <p class="text-[11px] text-[#8891A4] mt-0.5">{{
-                                    $t('superadmin.companies.accounts.stats.activatedModules') }}</p>
+                                <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">
+                                    {{ $t('superadmin.sidebar.apps') }}
+                                </p>
+                                <p class="text-[26px] font-bold text-[#1F2533]">
+                                    {{ state.apps?.data?.length }}
+                                </p>
+                                <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                    {{ $t('superadmin.companies.accounts.stats.activatedModules') }}
+                                </p>
                             </div>
                         </div>
 
@@ -162,35 +176,43 @@
                                 <h3 class="text-[13px] font-semibold text-[#1F2533] mb-4">{{
                                     $t('superadmin.companies.form.companyInformation') }}</h3>
                                 <div class="space-y-3">
-                                    <div v-if="state.company?.email" class="flex items-center gap-3 text-[13px]">
+                                    <div v-if="state.company?.data?.email" class="flex items-center gap-3 text-[13px]">
                                         <div
                                             class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
                                             <Icon name="ph:envelope" class="w-3.5 h-3.5 text-[#8891A4]" />
                                         </div>
-                                        <span class="text-[#5C6478]">{{ state.company.email }}</span>
+                                        <span class="text-[#5C6478]">
+                                            {{ state.company?.data.email }}
+                                        </span>
                                     </div>
-                                    <div v-if="state.company?.phone" class="flex items-center gap-3 text-[13px]">
+                                    <div v-if="state.company?.data?.phone" class="flex items-center gap-3 text-[13px]">
                                         <div
                                             class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
                                             <Icon name="ph:phone" class="w-3.5 h-3.5 text-[#8891A4]" />
                                         </div>
-                                        <span class="text-[#5C6478]">{{ state.company.phone }}</span>
+                                        <span class="text-[#5C6478]">
+                                            {{ state.company?.data.phone }}
+                                        </span>
                                     </div>
-                                    <div v-if="state.company?.cvr" class="flex items-center gap-3 text-[13px]">
+                                    <div v-if="state.company?.data?.cvr" class="flex items-center gap-3 text-[13px]">
                                         <div
                                             class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
                                             <Icon name="ph:identification-card" class="w-3.5 h-3.5 text-[#8891A4]" />
                                         </div>
-                                        <span class="text-[#5C6478]">CVR: {{ state.company.cvr }}</span>
+                                        <span class="text-[#5C6478]">
+                                            CVR: {{ state.company?.data.cvr }}
+                                        </span>
                                     </div>
-                                    <div v-if="state.company?.website" class="flex items-center gap-3 text-[13px]">
+                                    <div v-if="state.company?.data?.website"
+                                        class="flex items-center gap-3 text-[13px]">
                                         <div
                                             class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
                                             <Icon name="ph:globe" class="w-3.5 h-3.5 text-[#8891A4]" />
                                         </div>
-                                        <a :href="state.company.website" target="_blank"
-                                            class="text-[#42AED9] hover:underline truncate">{{ state.company.website
-                                            }}</a>
+                                        <a :href="state.company?.data.website" target="_blank"
+                                            class="text-[#42AED9] hover:underline truncate">
+                                            {{ state.company?.data.website }}
+                                        </a>
                                     </div>
                                     <div v-if="state.subscription?.data?.deal"
                                         class="flex items-center gap-3 text-[13px]">
@@ -219,13 +241,13 @@
                                 <div v-if="state.isAppsLoading" class="flex justify-center py-4">
                                     <Icon name="ph:spinner" class="w-5 h-5 text-[#42AED9] animate-spin" />
                                 </div>
-                                <div v-else-if="!state.apps.length"
+                                <div v-else-if="!state.apps?.data?.length"
                                     class="flex flex-col items-center gap-2 py-4 text-[#8891A4]">
                                     <Icon name="ph:squares-four" class="w-8 h-8 opacity-30" />
                                     <p class="text-[12px]">{{ $t('superadmin.companies.accounts.noAppsActivated') }}</p>
                                 </div>
                                 <div v-else class="space-y-2">
-                                    <div v-for="(app, i) in state.apps" :key="i"
+                                    <div v-for="(app, i) in state.apps?.data" :key="i"
                                         class="flex items-center justify-between py-2.5 px-3 rounded-lg bg-[#F9FAFB] border border-[#EAECF0]">
                                         <div class="flex items-center gap-2.5">
                                             <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -255,26 +277,11 @@
                                     {{ $t('superadmin.companies.accounts.newAccount') }}
                                 </button>
                             </div>
-                            <div v-if="state.isAccountsLoading" class="flex justify-center py-10">
-                                <Icon name="ph:spinner" class="w-6 h-6 text-[#42AED9] animate-spin" />
-                            </div>
-                            <div v-else-if="!state.accounts?.data?.length"
-                                class="flex flex-col items-center gap-2 py-10 text-[#8891A4]">
-                                <Icon name="ph:users" class="w-10 h-10 opacity-30" />
-                                <p class="text-[12px]">{{ $t('superadmin.companies.accounts.noAccounts') }}</p>
-                            </div>
-                            <table v-else class="w-full">
-                                <thead>
-                                    <tr class="bg-[#F9FAFB] border-b border-[#EAECF0]">
-                                        <th class="co-th">{{ $t('superadmin.accounts.table.name') }}</th>
-                                        <th class="co-th">{{ $t('superadmin.accounts.table.email') }}</th>
-                                        <th class="co-th">{{ $t('superadmin.accounts.table.phone') }}</th>
-                                        <th class="co-th">{{ $t('superadmin.accounts.table.role') }}</th>
-                                        <th class="co-th">{{ $t('superadmin.companies.table.status') }}</th>
-                                        <th class="co-th"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <SuperadminTable :columnHeaders="state.accountColumnHeaders" :data="state.accounts"
+                                :isLoading="state.isAccountsLoading"
+                                :emptyMessage="$t('superadmin.companies.accounts.noAccounts')" emptyIcon="ph:users"
+                                rowKey="uuid">
+                                <template #body>
                                     <tr v-for="(account, i) in state.accounts?.data" :key="i"
                                         class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
                                         <td class="co-td">
@@ -299,24 +306,20 @@
                                             <span v-else class="co-badge co-badge-red text-[11px]">{{
                                                 $t('superadmin.companies.table.inactive') }}</span>
                                         </td>
-                                        <td class="co-td">
+                                        <td class="co-td" @click.stop>
                                             <div
                                                 class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button class="co-action-btn"
+                                                <SuperadminTableButton
                                                     @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/${account.uuid}/edit`)">
                                                     <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                                </button>
+                                                </SuperadminTableButton>
                                             </div>
                                         </td>
                                     </tr>
-                                </tbody>
-                            </table>
-                            <div v-if="state.accounts?.data?.length" class="px-5 py-3 border-t border-[#EAECF0]">
-                                <Pagination :data="state.accounts" @previous="prevAccounts" @next="nextAccounts"
-                                    class="!mt-0" />
-                            </div>
+                                </template>
+                            </SuperadminTable>
+                            <Pagination :data="state.accounts" @previous="prevAccounts" @next="nextAccounts" />
                         </div>
-
                     </div>
                 </LoadingSpinner>
             </div>
@@ -341,15 +344,23 @@ const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid as string
 
 const state = reactive({
+    accountColumnHeaders: computed(() => [
+        { key: 'name', name: t('superadmin.accounts.table.name') },
+        { key: 'email', name: t('superadmin.accounts.table.email') },
+        { key: 'phone', name: t('superadmin.accounts.table.phone') },
+        { key: 'role', name: t('superadmin.accounts.table.role') },
+        { key: 'status', name: t('superadmin.companies.table.status') },
+        { key: 'actions', name: '' },
+    ]),
+    accounts: [] as any,
+    apps: [] as any,
     company: null as any,
-    subscription: null as any,
-    licensesCount: null as any,
-    apps: [] as any[],
-    accounts: null as any,
     error: {} as Error,
-    isPageLoading: false,
-    isAppsLoading: false,
     isAccountsLoading: false,
+    isAppsLoading: false,
+    isPageLoading: false,
+    licensesCount: null as any,
+    subscription: null as any,
 })
 
 const detailTabs = computed(() => [
@@ -372,155 +383,147 @@ const initials = (name: string) => (name || '?').split(' ').map((w: string) => w
 
 let accountsPage = 1
 
-onMounted(() => { fetchAll() })
+onMounted(() => {
+    fetchCompany()
+    fetchSubscription()
+    fetchLicensesCount()
+    fetchApps()
+    fetchAccounts()
+})
 
-async function fetchAll() {
+async function fetchCompany() {
+    state.error = {}
     state.isPageLoading = true
-    await Promise.allSettled([fetchCompany(), fetchSubscription(), fetchLicensesCount(), fetchApps(), fetchAccounts()])
+    try {
+        const response = await companyService.getCompany(companyUuid)
+        if (response) {
+            state.company = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
     state.isPageLoading = false
 }
 
-async function fetchCompany() {
-    try {
-        const r = await companyService.getCompany(companyUuid)
-        if (r) state.company = r?.data ?? r
-    } catch (e: any) { state.error = e }
-}
-
 async function fetchSubscription() {
+    state.error = {}
+    state.isPageLoading = true
     try {
-        const r = await licenseService.getSubscription(companyUuid)
-        if (r) state.subscription = r
-    } catch (_) { }
+        const response = await licenseService.getSubscription(companyUuid)
+        if (response) {
+            state.subscription = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function fetchLicensesCount() {
+    state.error = {}
+    state.isPageLoading = true
     try {
-        const r = await licenseService.getLicensesCount(companyUuid)
-        if (r) state.licensesCount = r
-    } catch (_) { }
+        const response = await licenseService.getLicensesCount(companyUuid)
+        if (response) {
+            state.licensesCount = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function fetchApps() {
+    state.error = {}
     state.isAppsLoading = true
     try {
-        const r = await companyService.getCompanyApps(companyUuid, { page: 1 })
-        if (r) state.apps = r?.data ?? []
-    } catch (_) { state.apps = [] }
+        const params = {
+            page: 1,
+        }
+        const response = await companyService.getCompanyApps(companyUuid, params)
+        if (response) {
+            state.apps = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
     state.isAppsLoading = false
 }
 
 async function fetchAccounts() {
+    state.error = {}
     state.isAccountsLoading = true
     try {
-        const r = await accountService.getAccounts({ company_uuid: companyUuid, page: accountsPage, sortField: 'id', sortOrder: 'descend' })
-        if (r) state.accounts = r
-    } catch (_) { }
+        const params = {
+            company_uuid: companyUuid,
+            page: accountsPage,
+            sortField: 'id',
+            sortOrder: 'descend',
+        }
+        const response = await accountService.getAccounts(params)
+        if (response) {
+            state.accounts = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
     state.isAccountsLoading = false
 }
 
-function prevAccounts() { accountsPage--; fetchAccounts() }
-function nextAccounts() { accountsPage++; fetchAccounts() }
+function prevAccounts() {
+    accountsPage--
+    fetchAccounts()
+}
+
+function nextAccounts() {
+    accountsPage++
+    fetchAccounts()
+}
 
 async function toggleActive() {
+    state.error = {}
+    state.isPageLoading = true
     try {
-        const r = await companyService.activateDeactiveCompany(companyUuid, { is_active: !state.company?.is_active })
-        if (r) {
-            state.company.is_active = r?.data?.is_active
-            const key = state.company.is_active
+        const params = {
+            is_active: !state.company?.data?.is_active,
+        }
+        const response = await companyService.activateDeactiveCompany(companyUuid, params)
+        if (response) {
+            state.company.data.is_active = response?.data?.is_active
+            const key = state.company?.data.is_active
                 ? 'superadmin.companies.form.alert.companySuccessfullyActivated'
                 : 'superadmin.companies.form.alert.companySuccessfullyDeactivated'
             successAlert(`${t('alert.success')}!`, `${t(key)}.`)
         }
-    } catch (e: any) { state.error = e }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function impersonateCompany() {
+    state.error = {}
+    state.isPageLoading = true
     try {
-        const r = await companyService.impersonateCompany(companyUuid)
-        if (r?.data?.token) {
-            window.open(`${useRuntimeConfig().public.appUserUrl || '/'}?impersonate_token=${r.data.token}`, '_blank')
+        const response = await companyService.impersonateCompany(companyUuid)
+        if (response?.data?.token) {
+            window.open(`${useRuntimeConfig().public.appUserUrl || '/'}?impersonate_token=${response.data.token}`, '_blank')
         }
-    } catch (_) { }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 
 async function sendCardUpdateLink() {
+    state.error = {}
+    state.isPageLoading = true
     try {
         await companyService.sendCardUpdateLink(companyUuid)
         successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.accounts.cardLinkSent')}.`)
-    } catch (_) { }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>
-
-<style scoped>
-.co-th {
-    text-align: left;
-    padding: 10px 16px;
-    font-size: 11px;
-    font-weight: 600;
-    color: #8891A4;
-    text-transform: uppercase;
-    letter-spacing: 0.06em
-}
-
-.co-td {
-    padding: 12px 16px;
-    vertical-align: middle
-}
-
-.co-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 3px 8px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-    white-space: nowrap
-}
-
-.co-badge-green {
-    background: #EDF7EE;
-    color: #2E9E33
-}
-
-.co-badge-red {
-    background: #FFF0F0;
-    color: #CC3B2D
-}
-
-.co-badge-blue {
-    background: #EEF4FB;
-    color: #1A4D99
-}
-
-.co-badge-navy {
-    background: #E4F1F6;
-    color: #205E77
-}
-
-.co-badge-gray {
-    background: #F5F6F8;
-    color: #5C6478
-}
-
-.co-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    background: #F5F6F8;
-    color: #5C6478;
-    border: 1px solid #EAECF0;
-    transition: all 0.15s;
-    cursor: pointer
-}
-
-.co-action-btn:hover {
-    background: #EEF4FB;
-    color: #205E77
-}
-</style>
