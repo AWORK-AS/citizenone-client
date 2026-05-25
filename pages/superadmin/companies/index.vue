@@ -226,9 +226,9 @@ async function fetchCompanies() {
             state.companies = response
             // Compute tab counts
             const items = response?.data ?? []
-            state.allCount = response?.total ?? items.length
-            state.activeCount = items.filter((c: any) => c.is_active).length
-            state.inactiveCount = items.filter((c: any) => !c.is_active).length
+            state.allCount = (response?.active_count + response?.inactive_count) || 0
+            state.activeCount = response?.active_count || 0
+            state.inactiveCount = response?.inactive_count || 0
         }
     } catch (error: any) { state.error = error }
     state.isTableLoading = false
