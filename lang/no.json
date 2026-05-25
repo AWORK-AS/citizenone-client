@@ -994,6 +994,18 @@
     "chooseFile": "Velg fil",
     "chooseFiles": "Velg fil(er)",
     "citizens": {
+        "developmentGraph": {
+            "title": "Utviklingsdiagram",
+            "presence": "Tilstedeværelse",
+            "absence": "Fravær",
+            "daily": "Daglig",
+            "weekly": "Ukentlig",
+            "monthly": "Månedlig",
+            "startDate": "Startdato",
+            "endDate": "Sluttdato",
+            "noData": "Ingen oppmøtedata tilgjengelig for den valgte perioden",
+            "selectProtocol": "Velg en protokoll"
+        },
         "addictions": "Rusmisbruk",
         "address": "Adresse",
         "alert": {

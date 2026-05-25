@@ -54,7 +54,8 @@ export default defineNuxtConfig({
 
   echarts: {
     renderer: ['canvas'],
-    charts: ['LineChart'],
+    charts: ['LineChart', 'BarChart'],
+
     components: [
       'DatasetComponent',
       'GridComponent',

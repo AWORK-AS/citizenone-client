@@ -994,6 +994,18 @@
     "chooseFile": "Choose file",
     "chooseFiles": "Choose file(s)",
     "citizens": {
+        "developmentGraph": {
+            "title": "Development Graph",
+            "presence": "Presence",
+            "absence": "Absence",
+            "daily": "Daily",
+            "weekly": "Weekly",
+            "monthly": "Monthly",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "noData": "No attendance data available for the selected period",
+            "selectProtocol": "Select a protocol"
+        },
         "addictions": "Substance abuse",
         "address": "Address",
         "alert": {

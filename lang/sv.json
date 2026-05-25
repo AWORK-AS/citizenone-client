@@ -994,6 +994,18 @@
     "chooseFile": "Välj fil",
     "chooseFiles": "Välj fil(är)",
     "citizens": {
+        "developmentGraph": {
+            "title": "Utvecklingsdiagram",
+            "presence": "Närvaro",
+            "absence": "Frånvaro",
+            "daily": "Daglig",
+            "weekly": "Veckovis",
+            "monthly": "Månadsvis",
+            "startDate": "Startdatum",
+            "endDate": "Slutdatum",
+            "noData": "Inga närvarodata tillgängliga för den valda perioden",
+            "selectProtocol": "Välj ett protokoll"
+        },
         "addictions": "Substansmissbruk",
         "address": "Adress",
         "alert": {
