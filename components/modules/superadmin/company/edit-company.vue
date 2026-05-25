@@ -47,7 +47,16 @@ async function updateCompany(formData: Record<string, any>) {
     state.error = {} as Error
     state.isPageLoading = true
     try {
-        const response = await companyService.updateCompany(companyUuid, formData)
+        const params = {
+            cvr: formData.cvr,
+            facility_type_uuid: formData.facility_type_uuid || undefined,
+            industry_uuid: formData.industry_uuid,
+            is_active: formData.is_active,
+            name: formData.name,
+            phone: formData.phone,
+            website: formData.website,
+        } as any
+        const response = await companyService.updateCompany(companyUuid, params)
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.form.alert.companySuccessfullyUpdated')}.`)
             router.back()

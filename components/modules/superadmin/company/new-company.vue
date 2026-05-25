@@ -25,7 +25,23 @@ async function saveCompany(formData: Record<string, any>) {
     state.error = {} as Error
     state.isPageLoading = true
     try {
-        const response = await companyService.saveCompany(formData)
+        const params = {
+            address: formData.address,
+            cvr: formData.cvr,
+            email: formData.email,
+            facility_type_uuid: formData.facility_type_uuid || undefined,
+            firstname: formData.firstname,
+            industry_uuid: formData.industry_uuid,
+            is_active: formData.is_active,
+            lastname: formData.lastname,
+            name: formData.name,
+            password: formData.password,
+            password_confirmation: formData.password_confirmation,
+            phone: formData.phone,
+            send_welcome_email: formData.send_welcome_email,
+            website: formData.website,
+        } as any
+        const response = await companyService.saveCompany(params)
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.form.alert.newCompanySuccessfullySaved')}.`)
             navigateTo('/superadmin/companies')
