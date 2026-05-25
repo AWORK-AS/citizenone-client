@@ -486,9 +486,9 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
-let currentPage = 1
 let searchTimeout: any = null
 let companySearchTimeout: any = null
+let currentTablePage = 1
 const searchQuery = ref('')
 const activeCategory = ref('all')
 const viewMode = ref('grid')
@@ -522,7 +522,10 @@ const avatarColor = (name: string) => APP_COLORS[(name?.charCodeAt(0) ?? 0) % AP
 
 const state = reactive({
     apps: [] as any,
-    allApps: [] as any[],
+    allApps: [] as any,
+    dataFilter: {
+        search: '',
+    } as any,
     error: {} as Error,
     isLoading: false,
     modal: { isDeleteOpen: false },
@@ -547,7 +550,7 @@ const slider = reactive({
 })
 
 const filteredApps = computed(() => {
-    let apps = state.allApps
+    let apps = state.allApps?.data ?? []
     if (searchQuery.value) {
         const q = searchQuery.value.toLowerCase()
         apps = apps.filter((a: any) => (a.name || '').toLowerCase().includes(q) || (a.description || '').toLowerCase().includes(q))
@@ -570,10 +573,15 @@ onMounted(() => {
 async function fetchApps() {
     state.isLoading = true
     try {
-        const response = await appService.getApplications()
-        const apps = Array.isArray(response) ? response : (response?.data ?? [])
-        state.allApps = apps
-        state.apps = response
+        const params: any = {
+            page: currentTablePage,
+        }
+        if (state.dataFilter.search) params.search = state.dataFilter.search
+        const response = await appService.getApplications(params)
+        if (response) {
+            state.allApps = response
+            state.apps = response
+        }
     } catch (error: any) {
         state.error = error
     }
@@ -582,7 +590,12 @@ async function fetchApps() {
 
 function debouncedSearch() {
     clearTimeout(searchTimeout)
-    searchTimeout = setTimeout(() => { /* filtered computed handles it */ }, 300)
+    searchTimeout = setTimeout(() => {
+        const trimmed = searchQuery.value.trim()
+        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
+        currentTablePage = 1
+        fetchApps()
+    }, 350)
 }
 
 function openSlider(app: any) {
@@ -682,12 +695,12 @@ async function deleteApp() {
 }
 
 function previous() {
-    currentPage--
+    currentTablePage--
     fetchApps()
 }
 
 function next() {
-    currentPage++
+    currentTablePage++
     fetchApps()
 }
 
