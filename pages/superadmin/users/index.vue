@@ -110,7 +110,7 @@
                             <td class="co-td" @click.stop>
                                 <div
                                     class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <SuperadminTableButton @click="navigateTo(`/superadmin/users/edit/${user.uuid}`)">
+                                    <SuperadminTableButton @click="openEditSlider(user)">
                                         <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
                                         {{ $t('superadmin.users.table.actions.edit') }}
                                     </SuperadminTableButton>
@@ -125,7 +125,10 @@
                 <Pagination :data="state.users" @previous="previous" @next="next" />
             </div>
 
-            <ModulesSuperadminUserSlideOverNewUser :isOpen="showNewUserSlider" @close="showNewUserSlider = false" @saved="fetchUsers" />
+            <ModulesSuperadminUserSlideOverNewUser :isOpen="showNewUserSlider" @close="showNewUserSlider = false"
+                @saved="fetchUsers" />
+            <ModulesSuperadminUserSlideOverEditUser :isOpen="showEditUserSlider" :userUuid="editUserUuid"
+                @close="showEditUserSlider = false" @saved="fetchUsers" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteUserOpen"
                 :message="`${$t('superadmin.users.confirmation.deleteUserConfirmation')} ${state.selectedUser?.firstname} ${state.selectedUser?.lastname}?`"
                 @close="state.modal.isDeleteUserOpen = false" @confirm="deleteUser" />
@@ -144,6 +147,8 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 
 const showNewUserSlider = ref(false)
+const showEditUserSlider = ref(false)
+const editUserUuid = ref<string | null>(null)
 
 let currentTablePage = 1
 let searchTimeout: any = null
@@ -250,6 +255,11 @@ function previous() {
 function next() {
     currentTablePage++
     fetchUsers()
+}
+
+function openEditSlider(user: any) {
+    editUserUuid.value = user.uuid
+    showEditUserSlider.value = true
 }
 
 function deleteConfirmation(user: any) {
