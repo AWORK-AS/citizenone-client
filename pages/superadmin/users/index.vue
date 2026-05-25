@@ -23,7 +23,7 @@
                             }) }}
                         </p>
                     </div>
-                    <button @click="userSlideOverRef?.open()"
+                    <button @click="showNewUserSlider = true"
                         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors"
                         style="background:#205E77">
                         <Icon name="ph:plus" class="w-4 h-4" />
@@ -125,7 +125,7 @@
                 <Pagination :data="state.users" @previous="previous" @next="next" />
             </div>
 
-            <ModulesSuperadminUserSlideOverNewUser ref="userSlideOverRef" @saved="fetchUsers" />
+            <ModulesSuperadminUserSlideOverNewUser :isOpen="showNewUserSlider" @close="showNewUserSlider = false" @saved="fetchUsers" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteUserOpen"
                 :message="`${$t('superadmin.users.confirmation.deleteUserConfirmation')} ${state.selectedUser?.firstname} ${state.selectedUser?.lastname}?`"
                 @close="state.modal.isDeleteUserOpen = false" @confirm="deleteUser" />
@@ -143,7 +143,7 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
-const userSlideOverRef = ref<any>(null)
+const showNewUserSlider = ref(false)
 
 let currentTablePage = 1
 let searchTimeout: any = null
