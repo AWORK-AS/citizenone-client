@@ -43,8 +43,8 @@
                         <div class="relative">
                             <Icon name="ph:magnifying-glass"
                                 class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
-                            <input v-model="state.companySearch" type="text"
-                                :placeholder="$t('superadmin.users.slider.searchCompany')" class="co-input !pl-8"
+                            <SuperadminFormTextField v-model="state.companySearch"
+                                :placeholder="$t('superadmin.users.slider.searchCompany')" class="!pl-8"
                                 @input="searchCompanies" />
                         </div>
                         <!-- Company dropdown results -->
@@ -89,93 +89,58 @@
                         <!-- First name + Last name -->
                         <div class="grid grid-cols-2 gap-3 mb-3">
                             <div>
-                                <label class="co-label">
-                                    {{ $t('superadmin.users.form.firstname') }}
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <input v-model="state.formUser.firstname" type="text" placeholder="Jesper"
-                                    class="co-input" :class="v$?.formUser?.firstname?.$error ? 'border-red-300' : ''" />
-                                <FormError :error="v$?.formUser?.firstname?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state.error?.errors?.firstname?.[0]" />
+                                <SuperadminFormLabel :label="$t('superadmin.users.form.firstname')" :required="true" />
+                                <SuperadminFormTextField v-model="state.formUser.firstname" placeholder="Jesper"
+                                    :hasError="v$?.formUser?.firstname?.$error" />
+                                <SuperadminFormError
+                                    :error="v$?.formUser?.firstname?.$errors[0]?.$message.toString()" />
+                                <SuperadminFormError :error="state.error?.errors?.firstname?.[0]" />
                             </div>
                             <div>
-                                <label class="co-label">
-                                    {{ $t('superadmin.users.form.lastname') }}
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <input v-model="state.formUser.lastname" type="text" placeholder="Enger"
-                                    class="co-input" :class="v$?.formUser?.lastname?.$error ? 'border-red-300' : ''" />
-                                <FormError :error="v$?.formUser?.lastname?.$errors[0]?.$message.toString()" />
-                                <FormError :error="state.error?.errors?.lastname?.[0]" />
+                                <SuperadminFormLabel :label="$t('superadmin.users.form.lastname')" :required="true" />
+                                <SuperadminFormTextField v-model="state.formUser.lastname" placeholder="Enger"
+                                    :hasError="v$?.formUser?.lastname?.$error" />
+                                <SuperadminFormError :error="v$?.formUser?.lastname?.$errors[0]?.$message.toString()" />
+                                <SuperadminFormError :error="state.error?.errors?.lastname?.[0]" />
                             </div>
                         </div>
 
                         <!-- Email -->
                         <div class="mb-3">
-                            <label class="co-label">
-                                {{ $t('superadmin.users.form.emailAddress') }}
-                                <span class="text-red-500">*</span>
-                            </label>
-                            <input v-model="state.formUser.email" type="email" placeholder="bruger@virksomhed.dk"
-                                class="co-input" :class="v$?.formUser?.email?.$error ? 'border-red-300' : ''" />
-                            <FormError :error="v$?.formUser?.email?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state.error?.errors?.email?.[0]" />
+                            <SuperadminFormLabel :label="$t('superadmin.users.form.emailAddress')" :required="true" />
+                            <SuperadminFormTextField v-model="state.formUser.email" type="email"
+                                placeholder="bruger@virksomhed.dk" :hasError="v$?.formUser?.email?.$error" />
+                            <SuperadminFormError :error="v$?.formUser?.email?.$errors[0]?.$message.toString()" />
+                            <SuperadminFormError :error="state.error?.errors?.email?.[0]" />
                         </div>
 
                         <!-- Phone -->
                         <div class="mb-3">
-                            <label class="co-label">
-                                {{ $t('superadmin.users.form.phone') }}
-                            </label>
-                            <input v-model="state.formUser.phone" type="text" placeholder="+45 12 34 56 78"
-                                class="co-input" />
-                            <FormError :error="v$?.formUser?.phone?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state.error?.errors?.password?.[0]" />
+                            <SuperadminFormLabel :label="$t('superadmin.users.form.phone')" />
+                            <SuperadminFormTextField v-model="state.formUser.phone" placeholder="+45 12 34 56 78" />
+                            <SuperadminFormError :error="v$?.formUser?.phone?.$errors[0]?.$message.toString()" />
+                            <SuperadminFormError :error="state.error?.errors?.phone?.[0]" />
                         </div>
 
                         <!-- Birthday -->
                         <div class="mb-3">
-                            <label class="co-label">
-                                {{ $t('superadmin.users.form.birthday') }}
-                            </label>
-                            <input v-model="state.formUser.birthday" type="date" class="co-input" />
-                            <FormError :error="v$?.formUser?.birthday?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state.error?.errors?.birthday?.[0]" />
+                            <SuperadminFormLabel :label="$t('superadmin.users.form.birthday')" />
+                            <SuperadminFormTextField v-model="state.formUser.birthday" type="date" />
+                            <SuperadminFormError :error="v$?.formUser?.birthday?.$errors[0]?.$message.toString()" />
+                            <SuperadminFormError :error="state.error?.errors?.birthday?.[0]" />
                         </div>
-
-                        <!-- Role -->
-                        <!-- <div class="mb-3">
-                            <label class="co-label">
-                                {{ $t('superadmin.users.table.role') }}
-                            </label>
-                            <select v-model="state.formUser.role" class="co-input">
-                                <option value="user">{{ $t('superadmin.users.slider.roleUser') }}</option>
-                                <option value="superadmin">{{ $t('superadmin.users.slider.roleAdmin') }}</option>
-                            </select>
-                            <FormError :error="v$?.formUser?.role?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state.error?.errors?.role?.[0]" />
-                        </div> -->
 
                         <!-- Password -->
                         <div class="mb-1">
-                            <label class="co-label">
-                                {{ $t('superadmin.users.slider.password') }}
-                            </label>
-                            <div class="relative">
-                                <input v-model="state.formUser.password" :type="showPassword ? 'text' : 'password'"
-                                    :placeholder="$t('superadmin.users.slider.minChars')" class="co-input pr-10"
-                                    :class="v$?.formUser?.password?.$error ? 'border-red-300' : ''" />
-                                <button type="button"
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] hover:text-[#5C6478]"
-                                    @click="showPassword = !showPassword">
-                                    <Icon :name="showPassword ? 'ph:eye-slash' : 'ph:eye'" class="w-4 h-4" />
-                                </button>
-                            </div>
+                            <SuperadminFormLabel :label="$t('superadmin.users.slider.password')" />
+                            <SuperadminFormPasswordField v-model="state.formUser.password"
+                                :placeholder="$t('superadmin.users.slider.minChars')"
+                                :hasError="v$?.formUser?.password?.$error" />
                             <p class="text-[11px] text-[#8891A4] mt-1">
                                 {{ $t('superadmin.users.slider.leaveEmptyForWelcomeEmail') }}
                             </p>
-                            <FormError :error="v$?.formUser?.password?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state.error?.errors?.password?.[0]" />
+                            <SuperadminFormError :error="v$?.formUser?.password?.$errors[0]?.$message.toString()" />
+                            <SuperadminFormError :error="state.error?.errors?.password?.[0]" />
                         </div>
                     </div>
 
@@ -233,7 +198,6 @@ const { t } = useI18n()
 
 const emit = defineEmits<{ saved: [] }>()
 
-const showPassword = ref(false)
 let companySearchTimeout: any = null
 
 const state = reactive({
@@ -294,7 +258,6 @@ function open() {
     state.companySearch = ''
     state.companyResults = []
     state.selectedCompany = null
-    showPassword.value = false
     v$.value.$reset()
     state.open = true
     document.body.style.overflow = 'hidden'
@@ -359,34 +322,3 @@ onMounted(() => {
 
 defineExpose({ open })
 </script>
-
-<style scoped>
-.co-label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #1F2533;
-    margin-bottom: 5px
-}
-
-.co-input {
-    width: 100%;
-    padding: 9px 13px;
-    font-size: 14px;
-    color: #1F2533;
-    background: white;
-    border: 1px solid #D5D9E2;
-    border-radius: 10px;
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s
-}
-
-.co-input:focus {
-    border-color: #42AED9;
-    box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12)
-}
-
-.co-input::placeholder {
-    color: #B0B8C4
-}
-</style>
