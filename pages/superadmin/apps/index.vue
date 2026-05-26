@@ -20,11 +20,23 @@
                     </button>
                 </div>
 
-                <!-- Search -->
+                <!-- Search + view toggle -->
                 <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <SuperadminTableSearch v-model="searchQuery"
-                        :placeholder="$t('superadmin.apps.searchPlaceholder')"
+                    <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('superadmin.apps.searchPlaceholder')"
                         @input="debouncedSearch" />
+
+                    <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5 ml-auto">
+                        <button class="w-8 h-8 rounded-md flex items-center justify-center transition-colors"
+                            :style="viewMode === 'grid' ? 'background:#205E77;color:#fff' : 'color:#8891A4'"
+                            @click="viewMode = 'grid'">
+                            <Icon name="ph:squares-four" class="w-4 h-4" />
+                        </button>
+                        <button class="w-8 h-8 rounded-md flex items-center justify-center transition-colors"
+                            :style="viewMode === 'list' ? 'background:#205E77;color:#fff' : 'color:#8891A4'"
+                            @click="viewMode = 'list'">
+                            <Icon name="ph:list" class="w-4 h-4" />
+                        </button>
+                    </div>
                 </div>
 
                 <Alert type="danger" :text="state.error?.message"
@@ -34,10 +46,100 @@
                     <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
                 </div>
 
-                <!-- List -->
-                <div v-else class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
+                <!-- GRID VIEW -->
+                <div v-else-if="viewMode === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div v-if="!filteredApps.length"
-                        class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
+                        class="col-span-3 flex flex-col items-center gap-3 py-16 text-[#8891A4]">
+                        <Icon name="ph:squares-four" class="w-12 h-12 opacity-30" />
+                        <p class="text-sm">{{ $t('superadmin.apps.noAppsFound') }}</p>
+                    </div>
+                    <div v-for="app in filteredApps" :key="app.uuid ?? app.id"
+                        class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group relative">
+
+                        <!-- Active badge -->
+                        <div class="absolute top-4 right-4">
+                            <span v-if="app.is_active !== false" class="co-badge co-badge-green text-[10px]">
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                {{ $t('superadmin.apps.active') }}
+                            </span>
+                            <span v-else class="co-badge co-badge-gray text-[10px]">
+                                {{ $t('superadmin.apps.inactive') }}
+                            </span>
+                        </div>
+
+                        <!-- App icon -->
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 overflow-hidden"
+                            :style="`background:${appColor(app.name)}20`">
+                            <img v-if="app.image || app.logo" :src="app.image || app.logo"
+                                class="w-10 h-10 object-contain rounded-lg" />
+                            <Icon v-else :name="appIcon(app.name)" class="w-6 h-6"
+                                :style="`color:${appColor(app.name)}`" />
+                        </div>
+
+                        <h3 class="text-[14px] font-semibold text-[#1F2533] pr-16">{{ app.name }}</h3>
+                        <p v-if="app.description" class="text-[12px] text-[#8891A4] mt-1 line-clamp-2">{{
+                            app.description }}</p>
+
+                        <!-- Boolean badges -->
+                        <div v-if="appBadges(app).length" class="flex flex-wrap gap-1 mt-2">
+                            <span v-for="badge in appBadges(app)" :key="badge.key"
+                                class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold"
+                                style="background:#205E77; color:white">
+                                {{ badge.label }}
+                            </span>
+                        </div>
+
+                        <!-- Pricing -->
+                        <div class="mt-3 space-y-1">
+                            <div v-if="app.is_one_time_fee && app.price > 0"
+                                class="flex items-center gap-2 text-[12px]">
+                                <span class="co-badge co-badge-navy text-[10px]">{{ $t('superadmin.apps.oneTime')
+                                    }}</span>
+                                <span class="font-semibold text-[#1F2533]">kr. {{ app.price }}</span>
+                            </div>
+                            <div v-if="!app.is_one_time_fee && app.monthly_price > 0"
+                                class="flex items-center gap-2 text-[12px]">
+                                <span class="text-[#5C6478]">{{ $t('superadmin.apps.monthly') }}</span>
+                                <span class="font-semibold text-[#1F2533]">kr. {{ app.monthly_price }}{{
+                                    $t('superadmin.apps.perMonth') }}</span>
+                            </div>
+                            <div v-if="!app.is_one_time_fee && app.yearly_price > 0"
+                                class="flex items-center gap-2 text-[12px]">
+                                <span class="text-[#5C6478]">{{ $t('superadmin.apps.yearly') }}</span>
+                                <span class="font-semibold text-[#1F2533]">kr. {{ app.yearly_price }}{{
+                                    $t('superadmin.apps.perYear') }}</span>
+                            </div>
+                            <div v-if="!app.monthly_price && !app.yearly_price && !app.price"
+                                class="text-[12px] text-[#8891A4]">
+                                {{ $t('superadmin.apps.free') }}
+                            </div>
+                        </div>
+
+                        <!-- Type badge -->
+                        <div class="mt-3">
+                            <span class="co-badge co-badge-gray text-[10px]">{{ capitalizeType(app.type) }}</span>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex items-center gap-2 mt-4 pt-3 border-t border-[#F5F6F8]">
+                            <button
+                                class="flex-1 py-1.5 rounded-lg text-[12px] font-medium bg-[#F5F6F8] text-[#5C6478] hover:bg-[#EEF4FB] hover:text-[#205E77] transition-colors flex items-center justify-center gap-1"
+                                @click="openEditAppSlider(app)">
+                                <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
+                                {{ $t('superadmin.apps.edit') }}
+                            </button>
+                            <button
+                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#CC3B2D] bg-red-50 hover:bg-red-100 transition-colors"
+                                @click="confirmDelete(app)">
+                                <Icon name="ph:trash" class="w-3.5 h-3.5" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LIST VIEW -->
+                <div v-else class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
+                    <div v-if="!filteredApps.length" class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
                         <Icon name="ph:squares-four" class="w-12 h-12 opacity-30" />
                         <p class="text-sm">{{ $t('superadmin.apps.noAppsFound') }}</p>
                     </div>
@@ -93,8 +195,11 @@
                                 <!-- Price -->
                                 <td class="co-td">
                                     <div class="space-y-0.5 text-[12px] text-[#5C6478]">
-                                        <div>{{ $t('superadmin.apps.labelMonthlyPrice') }}: {{ formatPrice(app.monthly_price) }}</div>
-                                        <div>{{ $t('superadmin.apps.labelYearlyPrice') }}: {{ formatPrice(app.yearly_price) }}</div>
+                                        <div>{{ $t('superadmin.apps.labelMonthlyPrice') }}: {{
+                                            formatPrice(app.monthly_price) }}
+                                        </div>
+                                        <div>{{ $t('superadmin.apps.labelYearlyPrice') }}: {{
+                                            formatPrice(app.yearly_price) }}</div>
                                     </div>
                                 </td>
 
@@ -150,10 +255,11 @@ const { t } = useI18n()
 let currentTablePage = 1
 let searchTimeout: any = null
 const searchQuery = ref('')
+const viewMode = ref<'grid' | 'list'>('list')
 
 const showNewAppSlider = ref(false)
 const showEditAppSlider = ref(false)
-const editAppUuid = ref<string | null>(null)
+const editAppUuid = ref(null) as any
 
 // App icon + colour mapping
 const APP_ICONS: Record<string, string> = {
@@ -326,5 +432,37 @@ function next() {
 .co-action-btn-danger:hover {
     background: #FEF2F2;
     border-color: #CC3B2D
+}
+
+.co-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap
+}
+
+.co-badge-green {
+    background: #EDF7EE;
+    color: #2E9E33
+}
+
+.co-badge-navy {
+    background: #E4F1F6;
+    color: #205E77
+}
+
+.co-badge-gray {
+    background: #F5F6F8;
+    color: #5C6478
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden
 }
 </style>
