@@ -10,7 +10,7 @@
                             enter-from="translate-x-full" enter-to="translate-x-0"
                             leave="transform transition ease-in-out duration-200" leave-from="translate-x-0"
                             leave-to="translate-x-full">
-                            <DialogPanel class="pointer-events-auto w-full max-w-[440px]">
+                            <DialogPanel class="pointer-events-auto w-screen max-w-[540px]">
                                 <div class="flex h-full flex-col bg-white shadow-2xl">
 
                                     <!-- Header -->

@@ -17,10 +17,10 @@
                                     <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
                                         <div>
                                             <DialogTitle class="text-[16px] font-semibold text-[#1F2533]">
-                                                {{ $t('superadmin.users.newUser') }}
+                                                {{ $t('superadmin.apps.sliderNewTitle') }}
                                             </DialogTitle>
                                             <p class="text-[12px] text-[#8891A4] mt-0.5">
-                                                {{ $t('superadmin.users.slider.createAndAttach') }}
+                                                {{ $t('superadmin.apps.sliderNewSubtitle') }}
                                             </p>
                                         </div>
                                         <button @click="emit('close')"
@@ -32,10 +32,9 @@
                                     <!-- Scrollable content -->
                                     <div class="flex-1 overflow-y-auto px-6 py-5">
                                         <LoadingSpinner :isActive="state.isPageLoading">
-                                            <ModulesSuperadminUserForm ref="formRef" formType="create"
-                                                :error="state.error" :showActions="false" :showExtendedFields="true"
-                                                @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                                                @submitForm="saveUser" />
+                                            <ModulesSuperadminAppSlideOverForm ref="formRef" formType="create"
+                                                :error="state.error" :showActions="false" :showCompanyAttach="false"
+                                                @submitForm="saveApp" />
                                         </LoadingSpinner>
                                     </div>
 
@@ -48,7 +47,7 @@
                                         <button @click="formRef?.submit()"
                                             class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
                                             style="background:#205E77" :disabled="state.isPageLoading">
-                                            {{ $t('superadmin.users.createUser') }}
+                                            {{ $t('save') }}
                                         </button>
                                     </div>
 
@@ -64,7 +63,7 @@
 
 <script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { userService } from '@/components/api/superadmin/UserService'
+import { appService } from '@/components/api/superadmin/AppService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -91,28 +90,38 @@ const state = reactive({
 watch(() => props.isOpen, (opened) => {
     if (opened) {
         state.error = {}
+        formRef.value?.reset()
     }
 })
 
-async function saveUser(formData: any) {
+async function saveApp(formData: any) {
     state.error = {} as Error
     state.isPageLoading = true
     try {
-        const params: any = {
-            birthday: formData.birthday || null,
-            email: formData.email,
-            firstname: formData.firstname,
-            is_active: formData.is_active,
-            lastname: formData.lastname,
-            phone: formData.phone || null,
-            role: formData.role,
-        }
-        if (formData.password) params.password = formData.password
-        if (formData.company_uuid) params.company_uuid = formData.company_uuid
-
-        const response = await userService.saveUser(params)
+        const params = new FormData()
+        params.append('description', formData.description ?? '')
+        params.append('is_active', formData.is_active ? '1' : '0')
+        params.append('is_news', formData.is_news ? '1' : '0')
+        params.append('is_one_time_fee', formData.is_one_time_fee ? '1' : '0')
+        params.append('is_popular', formData.is_popular ? '1' : '0')
+        params.append('is_quantifiable', formData.is_quantifiable ? '1' : '0')
+        params.append('is_recommended', formData.is_recommended ? '1' : '0')
+        params.append('is_thirdparty', formData.is_thirdparty ? '1' : '0')
+        params.append('monthly_price', String(formData.monthly_price ?? 0))
+        params.append('name', formData.name)
+        params.append('price', String(formData.price ?? 0))
+        params.append('type', formData.type ?? '')
+        params.append('url_field', formData.url_field ?? '')
+        params.append('yearly_price', String(formData.yearly_price ?? 0))
+        if (formData.background_image) params.append('background_image', formData.background_image)
+        if (formData.image) params.append('image', formData.image)
+        if (formData.logo) params.append('logo', formData.logo)
+        const response = await appService.saveApp(params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.users.form.alert.newUserSuccessfullySaved')}.`)
+            successAlert(
+                t('superadmin.apps.successCreated'),
+                t('superadmin.apps.successCreatedBody', { name: formData.name })
+            )
             emit('close')
             emit('saved')
         }
