@@ -7793,6 +7793,7 @@
             "unusedLicense": "Unused license",
             "usedLicense": "Used license",
             "userLicenses": "User licenses",
+            "caseworkerLicenses": "Caseworker licenses",
             "departmentLicenses": "Department licenses",
             "usedDepartmentLicense": "Used department license",
             "unusedDepartmentLicense": "Unused department license"

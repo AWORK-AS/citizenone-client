@@ -5,6 +5,10 @@ class LicenseService extends BaseAPIService {
         return await this.request(`/user/licenses`, 'GET', params)
     }
 
+    async getCaseworkerLicenses(params: object): Promise<any> {
+        return await this.request(`/user/licenses/all/caseworker`, 'GET', params)
+    }
+
     async getLicensesCount(): Promise<any> {
         return await this.request(`/user/licenses/all/count`, 'GET')
     }

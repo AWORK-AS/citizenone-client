@@ -4,7 +4,7 @@
 
             <Head>
                 <Title>
-                    {{ $t('settings.licenseOverview.licenseOverview') }} - {{ runtimeConfig?.public?.appName }}
+                    {{ $t('settings.licenseOverview.caseworkerLicenses') }} - {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
@@ -12,7 +12,7 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('settings.licenseOverview.licenseOverview') }}</template>
+            <template #header>{{ $t('settings.licenseOverview.caseworkerLicenses') }}</template>
 
             <ModulesUserSettingsTab />
 
@@ -135,7 +135,7 @@
                                 v-if="state.error?.message && state.error.message.length > 0" />
                             <div>
                                 <h3 class="py-3 text-sm font-semibold">
-                                    {{ licenseTypeLabel }}
+                                    {{ $t('settings.licenseOverview.caseworkerLicenses') }}
                                 </h3>
                                 <ModulesUserSettingsLicenseOverviewSubTab />
                                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 mt-4">
@@ -167,14 +167,22 @@
                                             <template #body
                                                 v-if="!(state.isTableLoading || (state.licenses?.data?.length === 0))">
                                                 <tr v-for="(license, index) in state.licenses?.data" :key="index">
-                                                    <td width="50%">
+                                                    <td width="40%">
                                                         <span>{{ license?.license }}</span>
                                                     </td>
-                                                    <td width="50%">
+                                                    <td width="40%">
                                                         <span>
                                                             {{ license?.licensed_user?.firstname }}
                                                             {{ license?.licensed_user?.lastname }}
                                                         </span>
+                                                    </td>
+                                                    <td width="20%">
+                                                        <div class="flex items-center gap-2">
+                                                            <FormButton type="button" buttonStyle="outline" size="sm"
+                                                                @click.prevent="copyShareLink(license)">
+                                                                {{ $t('settings.licenseOverview.copyLink') }}
+                                                            </FormButton>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -196,30 +204,20 @@ import { licenseService } from '@/components/api/user/LicenseService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
-import { useI18n } from "vue-i18n"
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
-const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { successAlert, errorAlert } = useAlert()
 let currentTablePage = 1
-const isEmployeeServicesCompany = computed(() => {
-    return userStore.getUser?.company?.industry?.system_name === 'employee_services'
-        || userStore.getUser?.company?.industry?.en_name === 'Employee Services'
-        || userStore.getUser?.company?.industry?.name === 'Employee Services'
-})
-const licenseTypeLabel = computed(() => {
-    return isEmployeeServicesCompany.value
-    ? t('settings.licenseOverview.caseworkerLicenses')
-    : t('settings.licenseOverview.userLicenses')
-})
 const breadcrumbLinks = [
     {
-        name: 'settings.licenseOverview.licenseOverview',
+        name: 'settings.licenseOverview.caseworkerLicenses',
         translate: true,
-        href: '/settings/license-overview',
+        href: '/settings/license-overview/caseworker',
     },
 ]
 
@@ -227,6 +225,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'settings.licenseOverview.table.license', isTranslateName: true, sorter: true, key: 'license' },
         { name: 'settings.licenseOverview.table.user', isTranslateName: true, },
+        { name: 'settings.licenseOverview.table.shareLink', isTranslateName: true },
     ],
     dataFilter: {
         search: ''
@@ -257,7 +256,7 @@ async function fetchLicenses() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await licenseService.getLicenses(params)
+        const response = await licenseService.getCaseworkerLicenses(params)
         if (response) {
             state.licenses = response
         }
@@ -304,5 +303,21 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchLicenses()
+}
+
+async function copyShareLink(license: any) {
+    try {
+        const uuid = license?.caseworker_license_config?.share_link_uuid
+        if (!uuid) {
+            errorAlert('Fejl', 'Delingslink ikke tilgængeligt')
+            return
+        }
+
+        const url = `${runtimeConfig.public.appBaseURL}/guest/caseworker/${uuid}`
+        await navigator.clipboard.writeText(url)
+        successAlert('Kopieret', 'Delingslink kopieret til udklipsholderen')
+    } catch (e: any) {
+        errorAlert('Fejl', e?.message || 'Kunne ikke kopiere linket')
+    }
 }
 </script>
