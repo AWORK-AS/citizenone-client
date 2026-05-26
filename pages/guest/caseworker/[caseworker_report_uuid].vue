@@ -196,9 +196,7 @@
                                     <div v-for="message in state.messages" :key="message.uuid || message.id"
                                         class="rounded-xl border border-gray-200 p-4">
                                         <div class="flex items-center justify-between gap-3">
-                                            <p class="font-semibold text-gray-900">
-                                                {{ message.sender?.firstname || 'System' }} {{ message.sender?.lastname || '' }}
-                                            </p>
+                                            <p class="font-semibold text-gray-900">{{ senderDisplayName(message) || 'System' }}</p>
                                             <p class="text-xs text-gray-500">{{ formatDateTime(message.created_at) }}</p>
                                         </div>
                                         <p class="mt-2 text-sm text-gray-700 whitespace-pre-line">{{ message.message }}</p>
@@ -339,6 +337,16 @@ async function fetchReports() {
 async function fetchMessages() {
     const response = await caseworkerService.getMessages(sharedCaseworkerUuid)
     state.messages = response?.data ?? response ?? []
+}
+
+function senderDisplayName(message: any) {
+    if (!message) return ''
+    const sender = message.sender || {}
+    const senderType = message.sender_type || ''
+    if (senderType.includes('CaseworkerLicenseConfig') || senderType.toLowerCase().includes('caseworker')) {
+        return sender.name || `${sender.firstname ?? ''} ${sender.lastname ?? ''}`.trim()
+    }
+    return `${sender.firstname ?? ''} ${sender.lastname ?? ''}`.trim() || sender.name || ''
 }
 
 async function openFolder(folder: any) {
