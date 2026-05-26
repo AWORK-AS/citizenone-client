@@ -996,15 +996,24 @@
     "citizens": {
         "developmentGraph": {
             "title": "Development Graph",
-            "presence": "Presence",
             "absence": "Absence",
+            "back": "Back",
+            "custom": "Custom",
             "daily": "Daily",
+            "presence": "Presence",
             "weekly": "Weekly",
             "monthly": "Monthly",
             "startDate": "Start Date",
             "endDate": "End Date",
+            "last3Months": "Last 3 months",
+            "lastMonth": "Last month",
             "noData": "No attendance data available for the selected period",
-            "selectProtocol": "Select a protocol"
+            "protocol": "Protocol",
+            "selectProtocol": "Select a protocol",
+            "selectProtocolHeading": "Select a protocol to view data",
+            "selectProtocolSubtext": "Choose a protocol from the dropdown above to load the development graph.",
+            "thisMonth": "This month",
+            "thisYear": "This year"
         },
         "addictions": "Substance abuse",
         "address": "Address",

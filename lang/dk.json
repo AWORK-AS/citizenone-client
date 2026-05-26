@@ -996,15 +996,24 @@
     "citizens": {
         "developmentGraph": {
             "title": "Udviklingsdiagram",
-            "presence": "Tilstedeværelse",
             "absence": "Fravær",
+            "back": "Tilbage",
+            "custom": "Brugerdefineret",
             "daily": "Daglig",
+            "presence": "Tilstedeværelse",
             "weekly": "Ugentlig",
             "monthly": "Månedlig",
             "startDate": "Startdato",
             "endDate": "Slutdato",
+            "last3Months": "Sidste 3 måneder",
+            "lastMonth": "Sidste måned",
             "noData": "Ingen fremmødedata tilgængelig for den valgte periode",
-            "selectProtocol": "Vælg en protokol"
+            "protocol": "Protokol",
+            "selectProtocol": "Vælg en protokol",
+            "selectProtocolHeading": "Vælg en protokol for at se data",
+            "selectProtocolSubtext": "Vælg en protokol fra rullemenuen ovenfor for at indlæse udviklingsdiagrammet.",
+            "thisMonth": "Denne måned",
+            "thisYear": "Dette år"
         },
         "addictions": "Stofmisbrug",
         "address": "Adresse",
