@@ -34,7 +34,7 @@
                                         <LoadingSpinner :isActive="state.isPageLoading">
                                             <ModulesSuperadminAppSlideOverForm ref="formRef" formType="update"
                                                 :selectedApp="state.app" :error="state.error" :showActions="false"
-                                                :showCompanyAttach="true" @submitForm="updateApp" />
+                                                :showCompanyAttach="false" @submitForm="updateApp" />
                                         </LoadingSpinner>
                                     </div>
 
@@ -132,7 +132,6 @@ async function updateApp(formData: any) {
         params.append('type', formData.type ?? '')
         params.append('url_field', formData.url_field ?? '')
         params.append('yearly_price', String(formData.yearly_price ?? 0))
-        params.append('_method', 'PUT')
         if (formData.background_image) params.append('background_image', formData.background_image)
         if (formData.image) params.append('image', formData.image)
         if (formData.logo) params.append('logo', formData.logo)
