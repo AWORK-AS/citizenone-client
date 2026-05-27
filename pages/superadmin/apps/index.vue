@@ -70,10 +70,8 @@
                         <!-- App icon -->
                         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 overflow-hidden"
                             :style="`background:${appColor(app.name)}20`">
-                            <img v-if="app.image || app.logo" :src="app.image || app.logo"
+                            <img :src="app.image || app.logo || '/img/icons/asset-app.png'"
                                 class="w-10 h-10 object-contain rounded-lg" />
-                            <Icon v-else :name="appIcon(app.name)" class="w-6 h-6"
-                                :style="`color:${appColor(app.name)}`" />
                         </div>
 
                         <h3 class="text-[14px] font-semibold text-[#1F2533] pr-16">{{ app.name }}</h3>
@@ -183,10 +181,8 @@
                                     <div class="flex items-center gap-3">
                                         <div class="w-9 h-9 rounded-full border-2 border-[#42AED9] flex items-center justify-center overflow-hidden flex-shrink-0"
                                             :style="`background:${appColor(app.name)}18`">
-                                            <img v-if="app.image || app.logo" :src="app.image || app.logo"
+                                            <img :src="app.image || app.logo || '/img/icons/asset-app.png'"
                                                 class="w-7 h-7 object-contain rounded-full" />
-                                            <Icon v-else :name="appIcon(app.name)" class="w-4 h-4"
-                                                :style="`color:${appColor(app.name)}`" />
                                         </div>
                                         <span class="text-[13px] font-semibold text-[#1F2533]">{{ app.name }}</span>
                                     </div>

@@ -48,8 +48,8 @@
             <!-- Website -->
             <div class="mb-4">
                 <SuperadminFormLabel :label="$t('superadmin.companies.form.website')" />
-                <SuperadminFormTextField v-model="state.formCompany.website" type="url"
-                    placeholder="https://virksomhed.dk" />
+                <SuperadminFormTextField v-model="state.formCompany.website" type="text"
+                    placeholder="https://virksomhed.dk" @blur="ensureWebsiteScheme" />
                 <SuperadminFormError :error="v$?.formCompany?.website?.$errors[0]?.$message.toString()" />
                 <SuperadminFormError :error="error?.errors?.website?.[0]" />
             </div>
@@ -340,6 +340,13 @@ async function fetchFacilityTypes() {
             }))
         }
     } catch (_) { }
+}
+
+function ensureWebsiteScheme() {
+    const val = state.formCompany.website.trim()
+    if (val && !val.startsWith('http://') && !val.startsWith('https://')) {
+        state.formCompany.website = `https://${val}`
+    }
 }
 
 function submitForm() {

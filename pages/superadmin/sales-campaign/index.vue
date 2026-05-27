@@ -84,7 +84,7 @@
                             <tr v-for="campaign in filteredCampaigns" :key="campaign.uuid ?? campaign.id"
                                 class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
                                 <td class="co-td">
-                                    <img :src="campaign.image" :alt="$t('imageFailedToLoad')"
+                                    <img :src="campaign.image || '/img/icons/asset-app.png'" :alt="$t('imageFailedToLoad')"
                                         class="w-20 h-20 object-cover" />
                                     <p class="text-[13px] font-semibold text-[#1F2533]">
                                         {{ campaign.title }}
@@ -148,6 +148,8 @@
                             </tr>
                         </template>
                     </SuperadminTable>
+
+                    <Pagination :data="state.campaigns" @previous="previous" @next="next" />
                 </div>
 
                 <div v-if="activeTab === 'coupons'">
@@ -763,6 +765,7 @@ const searchQuery = ref('')
 const couponSearch = ref('')
 const campaignFilter = ref('all')
 
+let currentTablePage = 1
 let searchTimeout: any = null
 let couponSearchTimeout: any = null
 let trialSearchTimeout: any = null
@@ -832,7 +835,7 @@ const state = reactive({
         { key: 'status', name: t('superadmin.salesCampaign.colStatus') },
         { key: 'actions', name: '' },
     ]),
-    campaigns: [] as any[],
+    campaigns: {} as any,
     couponColumnHeaders: computed(() => [
         { key: 'code', name: t('superadmin.salesCampaign.colCode') },
         { key: 'discount', name: t('superadmin.salesCampaign.colDiscount') },
@@ -854,11 +857,11 @@ const state = reactive({
 })
 
 const statCards = computed(() => [
-    { label: t('superadmin.salesCampaign.statActiveCampaigns'), value: state.campaigns.filter(c => campaignStatus(c) === 'active').length, sub: t('superadmin.salesCampaign.statRunningNow'), color: '#205E77' },
-    { label: t('superadmin.salesCampaign.statActiveCoupons'), value: state.coupons.filter(c => c.is_active !== false).length, sub: t('superadmin.salesCampaign.statCanRedeem'), color: '#42AED9' },
-    { label: t('superadmin.salesCampaign.statRedemptions'), value: state.coupons.reduce((s, c) => s + (c.redemptions ?? 0), 0), sub: t('superadmin.salesCampaign.statAllTime'), color: '#2E9E33' },
+    { label: t('superadmin.salesCampaign.statActiveCampaigns'), value: (state.campaigns?.data ?? []).filter((c: any) => campaignStatus(c) === 'active').length, sub: t('superadmin.salesCampaign.statRunningNow'), color: '#205E77' },
+    { label: t('superadmin.salesCampaign.statActiveCoupons'), value: state.coupons.filter((c: any) => c.is_active !== false).length, sub: t('superadmin.salesCampaign.statCanRedeem'), color: '#42AED9' },
+    { label: t('superadmin.salesCampaign.statRedemptions'), value: state.coupons.reduce((s: number, c: any) => s + (c.redemptions ?? 0), 0), sub: t('superadmin.salesCampaign.statAllTime'), color: '#2E9E33' },
     {
-        label: t('superadmin.salesCampaign.statExpiringSoon'), value: state.campaigns.filter(c => {
+        label: t('superadmin.salesCampaign.statExpiringSoon'), value: (state.campaigns?.data ?? []).filter((c: any) => {
             if (!c.end_date) return false
             const days = (new Date(c.end_date).getTime() - Date.now()) / 86400000
             return days >= 0 && days <= 7
@@ -867,14 +870,15 @@ const statCards = computed(() => [
 ])
 
 const mainTabs = computed(() => [
-    { key: 'campaigns', label: t('superadmin.salesCampaign.tabCampaigns'), count: state.campaigns.length },
+    { key: 'campaigns', label: t('superadmin.salesCampaign.tabCampaigns'), count: state.campaigns?.meta?.total ?? 0 },
     { key: 'coupons', label: t('superadmin.salesCampaign.tabCoupons'), count: state.coupons.length },
     { key: 'tools', label: t('superadmin.salesCampaign.tabTools'), count: 4 },
 ])
 
 const filteredCampaigns = computed(() => {
-    if (campaignFilter.value === 'all') return state.campaigns
-    return state.campaigns.filter(c => {
+    const campaigns = state.campaigns?.data ?? []
+    if (campaignFilter.value === 'all') return campaigns
+    return campaigns.filter((c: any) => {
         const s = campaignStatus(c)
         if (campaignFilter.value === 'active') return s === 'active'
         if (campaignFilter.value === 'draft') return s === 'draft'
@@ -928,12 +932,11 @@ async function fetchCampaigns() {
     state.isLoading = true
     try {
         const params: any = {
+            page: currentTablePage,
             ...state.dataFilter,
         }
         const response = await campaignService.getCampaigns(params)
-        if (response) {
-            state.campaigns = Array.isArray(response) ? response : (response?.data ?? [])
-        }
+        if (response) state.campaigns = response
     } catch (error: any) { state.error = error }
     state.isLoading = false
 }
@@ -1099,8 +1102,19 @@ function debouncedSearch() {
     searchTimeout = setTimeout(() => {
         const trimmed = searchQuery.value.trim()
         state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
+        currentTablePage = 1
         fetchCampaigns()
     }, 350)
+}
+
+function previous() {
+    currentTablePage--
+    fetchCampaigns()
+}
+
+function next() {
+    currentTablePage++
+    fetchCampaigns()
 }
 
 function debouncedCouponSearch() {
