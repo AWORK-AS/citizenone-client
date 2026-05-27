@@ -143,21 +143,21 @@
                                             <Tooltip :text="employee?.has_secure_mail_access ?
                                                 $t('employees.table.actions.removeSecureMailAccess') :
                                                 $t('employees.table.actions.giveSecureMail')"
-                                                v-if="(isAtLeast('Admin') || userStore.getUser?.is_secure_mail_active) && !employee?.has_secure_mail_access">
+                                                v-if="userStore.getUser?.is_secure_mail_active && !employee?.has_secure_mail_access">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="giveRemoveSecureMailAccess(employee)">
                                                     <Icon name="ph:envelope-open" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.giveAIAccess')"
-                                                v-if="(isAtLeast('Admin') || userStore.getUser?.has_ai_access) && !employee?.has_ai_access">
+                                                v-if="userStore.getUser?.has_ai_access && !employee?.has_ai_access">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="giveAIAccessConfirmation(employee)">
                                                     <Icon name="ic:round-accessibility" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.giveBookingAccess')"
-                                                v-if="(isAtLeast('Admin') || userStore.getUser?.has_booking_app_access) && !employee?.has_booking_app_access">
+                                                v-if="userStore.getUser?.has_booking_app_access && !employee?.has_booking_app_access">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="giveBookingAccessConfirmation(employee)">
                                                     <Icon name="ph:calendar-check" class="size-4" />
@@ -199,7 +199,6 @@ import { useEmployeeStore } from '@/store/employee'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
-import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -207,7 +206,6 @@ const runtimeConfig = useRuntimeConfig()
 const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
-const { isAtLeast } = usePermissions()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const breadcrumbLinks = [
