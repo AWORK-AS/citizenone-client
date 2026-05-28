@@ -241,7 +241,7 @@ const hasActiveFilters = computed(() =>
 )
 
 const tabs = computed(() => [
-    { key: 'all', label: t('superadmin.invoices.tabs.all'), count: state.invoices?.total ?? 0 },
+    { key: 'all', label: t('superadmin.invoices.tabs.all'), count: (state.paidCount + state.pendingCount + state.failedCount) },
     { key: 'paid', label: t('superadmin.invoices.tabs.paid'), count: state.paidCount },
     { key: 'pending', label: t('superadmin.invoices.tabs.pending'), count: state.pendingCount },
     { key: 'failed', label: t('superadmin.invoices.tabs.failed'), count: state.failedCount },
@@ -268,10 +268,9 @@ async function fetchInvoices() {
         const response = await invoiceService.getInvoices(params)
         if (response) {
             state.invoices = response
-            const items = response?.data ?? []
-            state.paidCount = items.filter((i: any) => i.is_paid === true).length
-            state.pendingCount = items.filter((i: any) => [false, null].includes(i.is_paid)).length
-            state.failedCount = items.filter((i: any) => i.status === 'failed' || i.status === 'overdue').length
+            state.paidCount = response?.paid_invoices_count
+            state.pendingCount = response?.pending_invoices_count
+            state.failedCount = response?.failed_invoices_count
         }
     } catch (error: any) { state.error = error }
     state.isTableLoading = false
