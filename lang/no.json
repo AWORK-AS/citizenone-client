@@ -7858,7 +7858,10 @@
             "ipRestrictions": "IP-begrænsninger",
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sykeplejejournalskabeloner",
-            "treatmentTemplates": "Behandlingsskabeloner"
+            "treatmentTemplates": "Behandlingsskabeloner",
+            "employmentStatusTypes": "Statustyper",
+            "employmentCaseTypes": "Sakstyper",
+            "employmentBillingRules": "Faktureringsregler"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",
@@ -9672,5 +9675,112 @@
         "selectCitizen": "Select citizen",
         "citizenRequired": "Please select a citizen",
         "assessment": "Assessment"
+    },
+    "employment": {
+        "statusTypes": {
+            "statusTypes": "Statustyper",
+            "newStatusType": "Ny statustype",
+            "editStatusType": "Rediger statustype",
+            "addNewStatusType": "Legg til ny statustype",
+            "form": {
+                "name": "Navn",
+                "color": "Farge",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsrekkefølge",
+                "alert": {
+                    "newStatusTypeSuccessfullySaved": "Statustype lagret",
+                    "statusTypeSuccessfullyUpdated": "Statustype oppdatert"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "color": "Farge",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsrekkefølge",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slett"
+                },
+                "confirmation": {
+                    "deleteStatusTypeConfirmation": "Er du sikker på at du vil slette denne statustypen?"
+                },
+                "alert": {
+                    "statusTypeSuccessfullyDeleted": "Statustype slettet"
+                }
+            }
+        },
+        "caseTypes": {
+            "caseTypes": "Sakstyper",
+            "newCaseType": "Ny sakstype",
+            "editCaseType": "Rediger sakstype",
+            "addNewCaseType": "Legg til ny sakstype",
+            "form": {
+                "name": "Navn",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsrekkefølge",
+                "alert": {
+                    "newCaseTypeSuccessfullySaved": "Sakstype lagret",
+                    "caseTypeSuccessfullyUpdated": "Sakstype oppdatert"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "description": "Beskrivelse",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsrekkefølge",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slett"
+                },
+                "confirmation": {
+                    "deleteCaseTypeConfirmation": "Er du sikker på at du vil slette denne sakstypen?"
+                },
+                "alert": {
+                    "caseTypeSuccessfullyDeleted": "Sakstype slettet"
+                }
+            }
+        },
+        "billingRules": {
+            "billingRules": "Faktureringsregler",
+            "newBillingRule": "Ny faktureringsregel",
+            "editBillingRule": "Rediger faktureringsregel",
+            "addNewBillingRule": "Legg til ny faktureringsregel",
+            "form": {
+                "name": "Navn",
+                "rate": "Sats",
+                "frequency": "Frekvens",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "frequencyOptions": {
+                    "hourly": "Per time",
+                    "daily": "Per dag",
+                    "weekly": "Per uke",
+                    "monthly": "Per måned",
+                    "fixed": "Fast"
+                },
+                "alert": {
+                    "newBillingRuleSuccessfullySaved": "Faktureringsregel lagret",
+                    "billingRuleSuccessfullyUpdated": "Faktureringsregel oppdatert"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "rate": "Sats",
+                "frequency": "Frekvens",
+                "description": "Beskrivelse",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slett"
+                },
+                "confirmation": {
+                    "deleteBillingRuleConfirmation": "Er du sikker på at du vil slette denne faktureringsregelen?"
+                },
+                "alert": {
+                    "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
+                }
+            }
+        }
     }
 }
