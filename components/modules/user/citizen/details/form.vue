@@ -772,6 +772,128 @@
                 </div>
             </div>
         </div>
+        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
+            v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services' && isFieldVisible('employment_data')">
+            <div>
+                <h2 class="text-base font-semibold leading-7 text-gray-900">
+                    {{ $t('citizens.sections.employmentProgram') }}
+                </h2>
+            </div>
+            <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                <div class="space-y-1">
+                    <FormLabel for="employment_case_type_uuid" :label="$t('citizens.form.employmentProgram.caseType')" />
+                    <FormSelect id="employment_case_type_uuid" :options="state.options.employmentCaseTypes"
+                        v-model="state.formCitizen.employmentData.employment_case_type_uuid" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="employment_status_type_uuid" :label="$t('citizens.form.employmentProgram.status')" />
+                    <FormSelect id="employment_status_type_uuid" :options="state.options.employmentStatusTypes"
+                        v-model="state.formCitizen.employmentData.employment_status_type_uuid" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="financial_support_basis" :label="$t('citizens.form.employmentProgram.financialSupportBasis')" />
+                    <FormTextField id="financial_support_basis" name="financial_support_basis"
+                        :placeholder="$t('citizens.form.employmentProgram.financialSupportBasis')"
+                        v-model="state.formCitizen.employmentData.financial_support_basis" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="language" :label="$t('citizens.form.employmentProgram.language')" />
+                    <FormSelect id="language" :options="[{value:'dk',label:'Dansk'},{value:'en',label:'English'},{value:'no',label:'Norsk'},{value:'sv',label:'Svenska'}]"
+                        v-model="state.formCitizen.employmentData.language" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="primary_consultant_uuid" :label="$t('citizens.form.employmentProgram.primaryConsultant')" />
+                    <FormSelect id="primary_consultant_uuid" :options="state.options.consultants"
+                        v-model="state.formCitizen.employmentData.primary_consultant_uuid" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="secondary_consultant_uuid" :label="$t('citizens.form.employmentProgram.secondaryConsultant')" />
+                    <FormSelect id="secondary_consultant_uuid" :options="state.options.consultants"
+                        v-model="state.formCitizen.employmentData.secondary_consultant_uuid" />
+                </div>
+                <div class="space-y-2">
+                    <p class="text-sm font-medium text-gray-700">{{ $t('citizens.form.employmentProgram.referrerInfo') }}</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel for="referrer_name" :label="$t('citizens.form.employmentProgram.referrerName')" />
+                            <FormTextField id="referrer_name" name="referrer_name"
+                                :placeholder="$t('citizens.form.employmentProgram.referrerName')"
+                                v-model="state.formCitizen.employmentData.referrer_name" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="referrer_organization" :label="$t('citizens.form.employmentProgram.referrerOrganization')" />
+                            <FormTextField id="referrer_organization" name="referrer_organization"
+                                :placeholder="$t('citizens.form.employmentProgram.referrerOrganization')"
+                                v-model="state.formCitizen.employmentData.referrer_organization" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="referrer_phone" :label="$t('citizens.form.employmentProgram.referrerPhone')" />
+                            <FormTextField id="referrer_phone" name="referrer_phone"
+                                :placeholder="$t('citizens.form.employmentProgram.referrerPhone')"
+                                v-model="state.formCitizen.employmentData.referrer_phone" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="referrer_email" :label="$t('citizens.form.employmentProgram.referrerEmail')" />
+                            <FormTextField id="referrer_email" name="referrer_email"
+                                :placeholder="$t('citizens.form.employmentProgram.referrerEmail')"
+                                v-model="state.formCitizen.employmentData.referrer_email" />
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="referral_date" :label="$t('citizens.form.employmentProgram.referralDate')" />
+                    <FormDateField id="referral_date" name="referral_date"
+                        :placeholder="$t('citizens.form.employmentProgram.referralDate')"
+                        v-model="state.formCitizen.employmentData.referral_date" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="case_start_date" :label="$t('citizens.form.employmentProgram.caseStartDate')" />
+                        <FormDateField id="case_start_date" name="case_start_date"
+                            :placeholder="$t('citizens.form.employmentProgram.caseStartDate')"
+                            v-model="state.formCitizen.employmentData.case_start_date" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="case_end_date" :label="$t('citizens.form.employmentProgram.caseEndDate')" />
+                        <FormDateField id="case_end_date" name="case_end_date"
+                            :placeholder="$t('citizens.form.employmentProgram.caseEndDate')"
+                            v-model="state.formCitizen.employmentData.case_end_date" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="total_weeks" :label="$t('citizens.form.employmentProgram.totalWeeks')" />
+                        <FormTextField id="total_weeks" name="total_weeks"
+                            :placeholder="$t('citizens.form.employmentProgram.totalWeeks')"
+                            v-model="state.formCitizen.employmentData.total_weeks" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="weeks_used" :label="$t('citizens.form.employmentProgram.weeksUsed')" />
+                        <FormTextField id="weeks_used" name="weeks_used"
+                            :placeholder="$t('citizens.form.employmentProgram.weeksUsed')"
+                            v-model="state.formCitizen.employmentData.weeks_used" />
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="reporting_requirements" :label="$t('citizens.form.employmentProgram.reportingRequirements')" />
+                    <FormTextArea id="reporting_requirements" name="reporting_requirements"
+                        :placeholder="$t('citizens.form.employmentProgram.reportingRequirements')"
+                        v-model="state.formCitizen.employmentData.reporting_requirements" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="activation_deadline" :label="$t('citizens.form.employmentProgram.activationDeadline')" />
+                    <FormDateField id="activation_deadline" name="activation_deadline"
+                        :placeholder="$t('citizens.form.employmentProgram.activationDeadline')"
+                        v-model="state.formCitizen.employmentData.activation_deadline" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="referral_reason" :label="$t('citizens.form.employmentProgram.referralReason')" />
+                    <FormTextArea id="referral_reason" name="referral_reason"
+                        :placeholder="$t('citizens.form.employmentProgram.referralReason')"
+                        v-model="state.formCitizen.employmentData.referral_reason" />
+                </div>
+            </div>
+        </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/citizens')">
@@ -835,6 +957,8 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
+import { employmentService } from '@/components/api/user/EmploymentService'
+import { employeeService } from '@/components/api/user/EmployeeService'
 
 const userStore = useUserStore() as any
 const { t } = useI18n()
@@ -948,6 +1072,26 @@ const state = reactive({
             personal_guardianship: false,
             financial_guardianship: false,
         } as any,
+        employmentData: {
+            employment_case_type_uuid: '',
+            employment_status_type_uuid: '',
+            financial_support_basis: '',
+            language: '',
+            primary_consultant_uuid: '',
+            secondary_consultant_uuid: '',
+            referrer_name: '',
+            referrer_phone: '',
+            referrer_email: '',
+            referrer_organization: '',
+            referral_date: '',
+            case_start_date: '',
+            case_end_date: '',
+            total_weeks: '',
+            weeks_used: '',
+            reporting_requirements: '',
+            activation_deadline: '',
+            referral_reason: '',
+        } as any,
     },
     formattedSocialSecurityNumber: '',
     modal: {
@@ -981,6 +1125,9 @@ const state = reactive({
         regions: [] as any,
         rooms: [] as any,
         sections: [] as any,
+        employmentCaseTypes: [] as any,
+        employmentStatusTypes: [] as any,
+        consultants: [] as any,
     },
     selectedCitizenLocation: null as { lat: number; lng: number } | null,
 })
@@ -1097,7 +1244,27 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 general_consent: selectedCitizen.stayData?.general_consent ?? false,
                 personal_guardianship: selectedCitizen.stayData?.personal_guardianship ?? false,
                 financial_guardianship: selectedCitizen.stayData?.financial_guardianship ?? false,
-            }
+            },
+            employmentData: {
+                employment_case_type_uuid: selectedCitizen.employmentData?.employment_case_type_uuid || '',
+                employment_status_type_uuid: selectedCitizen.employmentData?.employment_status_type_uuid || '',
+                financial_support_basis: selectedCitizen.employmentData?.financial_support_basis || '',
+                language: selectedCitizen.employmentData?.language || '',
+                primary_consultant_uuid: selectedCitizen.employmentData?.primary_consultant_uuid || '',
+                secondary_consultant_uuid: selectedCitizen.employmentData?.secondary_consultant_uuid || '',
+                referrer_name: selectedCitizen.employmentData?.referrer_name || '',
+                referrer_phone: selectedCitizen.employmentData?.referrer_phone || '',
+                referrer_email: selectedCitizen.employmentData?.referrer_email || '',
+                referrer_organization: selectedCitizen.employmentData?.referrer_organization || '',
+                referral_date: selectedCitizen.employmentData?.referral_date || '',
+                case_start_date: selectedCitizen.employmentData?.case_start_date || '',
+                case_end_date: selectedCitizen.employmentData?.case_end_date || '',
+                total_weeks: selectedCitizen.employmentData?.total_weeks || '',
+                weeks_used: selectedCitizen.employmentData?.weeks_used || '',
+                reporting_requirements: selectedCitizen.employmentData?.reporting_requirements || '',
+                activation_deadline: selectedCitizen.employmentData?.activation_deadline || '',
+                referral_reason: selectedCitizen.employmentData?.referral_reason || '',
+            } as any,
         }
     }
 })
@@ -1200,6 +1367,11 @@ onMounted(async () => {
     fetchForeignCities()
     fetchRegions()
     fetchMunicipalities()
+    if (userStore.getUser?.company?.industry?.system_name === 'employment_services') {
+        fetchEmploymentCaseTypes()
+        fetchEmploymentStatusTypes()
+        fetchConsultants()
+    }
 })
 
 const isValidDate = (y: string, m: string, d: string): boolean => {
@@ -1714,5 +1886,47 @@ async function onCitizenLocationSelected(location: { lat: number; lng: number },
     }
 
     await parseAndUpdateAddress(addressData, location)
+}
+
+async function fetchEmploymentCaseTypes() {
+    try {
+        const response = await employmentService.getAllCaseTypes()
+        if (response.data) {
+            state.options.employmentCaseTypes = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: item.name,
+            }))
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function fetchEmploymentStatusTypes() {
+    try {
+        const response = await employmentService.getAllStatusTypes()
+        if (response.data) {
+            state.options.employmentStatusTypes = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: item.name,
+            }))
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function fetchConsultants() {
+    try {
+        const response = await employeeService.getEmployees({})
+        if (response.data) {
+            state.options.consultants = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: `${item.firstname}${item.lastname ? ' ' + item.lastname : ''}`,
+            }))
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 </script>
