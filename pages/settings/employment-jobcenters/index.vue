@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentJobcenterService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -108,7 +108,7 @@ async function fetchJobcenters() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await employmentJobcenterService.getJobcenters({
+        const response = await employmentService.getJobcenters({
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
@@ -145,7 +145,7 @@ async function deleteJobcenter() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await employmentJobcenterService.deleteJobcenter(state.selectedJobcenter.uuid)
+        const response = await employmentService.deleteJobcenter(state.selectedJobcenter.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchJobcenters()
             successAlert(`${t('alert.success')}!`, `${t('employment.jobcenters.table.alert.jobcenterSuccessfullyDeleted')}.`)

@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentBillingRuleService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -74,7 +74,7 @@ async function saveBillingRule(details: any) {
             description: details.description,
             is_active: details.is_active,
         }
-        const response = await employmentBillingRuleService.saveBillingRule(params)
+        const response = await employmentService.saveBillingRule(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employment.billingRules.form.alert.newBillingRuleSuccessfullySaved')}.`)
             navigateTo('/settings/employment-billing-rules')

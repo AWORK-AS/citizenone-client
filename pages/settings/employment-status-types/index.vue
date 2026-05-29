@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentStatusTypeService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -136,7 +136,7 @@ async function fetchStatusTypes() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await employmentStatusTypeService.getStatusTypes(params)
+        const response = await employmentService.getStatusTypes(params)
         if (response) {
             state.statusTypes = response
         }
@@ -180,7 +180,7 @@ async function deleteStatusType() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await employmentStatusTypeService.deleteStatusType(state.selectedStatusType.uuid)
+        const response = await employmentService.deleteStatusType(state.selectedStatusType.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchStatusTypes()
             successAlert(`${t('alert.success')}!`, `${t('employment.statusTypes.table.alert.statusTypeSuccessfullyDeleted')}.`)

@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentBillingRuleService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -138,7 +138,7 @@ async function fetchBillingRules() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await employmentBillingRuleService.getBillingRules(params)
+        const response = await employmentService.getBillingRules(params)
         if (response) {
             state.billingRules = response
         }
@@ -182,7 +182,7 @@ async function deleteBillingRule() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await employmentBillingRuleService.deleteBillingRule(state.selectedBillingRule.uuid)
+        const response = await employmentService.deleteBillingRule(state.selectedBillingRule.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchBillingRules()
             successAlert(`${t('alert.success')}!`, `${t('employment.billingRules.table.alert.billingRuleSuccessfullyDeleted')}.`)

@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentAgreementService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -145,7 +145,7 @@ function onAgreementChange(uuid: string) {
 async function fetchAgreements() {
     emit('isPageLoading', true)
     try {
-        const response = await employmentAgreementService.getAllAgreements()
+        const response = await employmentService.getAllAgreements()
         if (response?.data) {
             state.agreementsRaw = response.data
             state.options.agreements = response.data.map((item: any) => ({

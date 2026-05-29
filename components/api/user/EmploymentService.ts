@@ -1,6 +1,7 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
-class EmploymentStatusTypeService extends BaseAPIService {
+class EmploymentService extends BaseAPIService {
+    // Status Types
     async getStatusTypes(params: object): Promise<any> {
         return await this.request(`/user/employment/status-types`, 'GET', params)
     }
@@ -24,9 +25,8 @@ class EmploymentStatusTypeService extends BaseAPIService {
     async getAllStatusTypes(): Promise<any> {
         return await this.request(`/user/employment/status-types/all/list`, 'GET')
     }
-}
 
-class EmploymentCaseTypeService extends BaseAPIService {
+    // Case Types
     async getCaseTypes(params: object): Promise<any> {
         return await this.request(`/user/employment/case-types`, 'GET', params)
     }
@@ -50,9 +50,8 @@ class EmploymentCaseTypeService extends BaseAPIService {
     async getAllCaseTypes(): Promise<any> {
         return await this.request(`/user/employment/case-types/all/list`, 'GET')
     }
-}
 
-class EmploymentBillingRuleService extends BaseAPIService {
+    // Billing Rules
     async getBillingRules(params: object): Promise<any> {
         return await this.request(`/user/employment/billing-rules`, 'GET', params)
     }
@@ -76,9 +75,8 @@ class EmploymentBillingRuleService extends BaseAPIService {
     async getAllBillingRules(): Promise<any> {
         return await this.request(`/user/employment/billing-rules/all/list`, 'GET')
     }
-}
 
-class EmploymentJobcenterService extends BaseAPIService {
+    // Jobcenters
     async getJobcenters(params: object): Promise<any> {
         return await this.request(`/user/employment/jobcenters`, 'GET', params)
     }
@@ -102,9 +100,8 @@ class EmploymentJobcenterService extends BaseAPIService {
     async getAllJobcenters(): Promise<any> {
         return await this.request(`/user/employment/jobcenters/all/list`, 'GET')
     }
-}
 
-class EmploymentAgreementService extends BaseAPIService {
+    // Agreements
     async getAgreements(params: object): Promise<any> {
         return await this.request(`/user/employment/agreements`, 'GET', params)
     }
@@ -128,9 +125,8 @@ class EmploymentAgreementService extends BaseAPIService {
     async getAllAgreements(): Promise<any> {
         return await this.request(`/user/employment/agreements/all/list`, 'GET')
     }
-}
 
-class EmploymentCaseService extends BaseAPIService {
+    // Cases
     async getCases(params: object): Promise<any> {
         return await this.request(`/user/employment/cases`, 'GET', params)
     }
@@ -156,9 +152,4 @@ class EmploymentCaseService extends BaseAPIService {
     }
 }
 
-export const employmentStatusTypeService = new EmploymentStatusTypeService()
-export const employmentCaseTypeService = new EmploymentCaseTypeService()
-export const employmentBillingRuleService = new EmploymentBillingRuleService()
-export const employmentJobcenterService = new EmploymentJobcenterService()
-export const employmentAgreementService = new EmploymentAgreementService()
-export const employmentCaseService = new EmploymentCaseService()
+export const employmentService = new EmploymentService()

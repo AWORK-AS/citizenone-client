@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentJobcenterService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -105,7 +105,7 @@ watch(() => props.selectedAgreement, (newValue: any) => {
 async function fetchJobcenters() {
     emit('isPageLoading', true)
     try {
-        const response = await employmentJobcenterService.getAllJobcenters()
+        const response = await employmentService.getAllJobcenters()
         if (response?.data) {
             state.options.jobcenters = response.data.map((item: any) => ({
                 value: item.uuid,

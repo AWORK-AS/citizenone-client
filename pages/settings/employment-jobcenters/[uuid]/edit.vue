@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentJobcenterService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -53,7 +53,7 @@ onMounted(() => { fetchJobcenter() })
 async function fetchJobcenter() {
     state.isPageLoading = true
     try {
-        const response = await employmentJobcenterService.getJobcenter(jobcenterUuid)
+        const response = await employmentService.getJobcenter(jobcenterUuid)
         if (response) {
             state.formJobcenter = {
                 name: response?.data?.name ?? '',
@@ -75,7 +75,7 @@ async function updateJobcenter(details: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await employmentJobcenterService.updateJobcenter(jobcenterUuid, details)
+        const response = await employmentService.updateJobcenter(jobcenterUuid, details)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employment.jobcenters.form.alert.jobcenterSuccessfullyUpdated')}.`)
             navigateTo('/settings/employment-jobcenters')

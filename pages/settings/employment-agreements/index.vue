@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentAgreementService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -108,7 +108,7 @@ async function fetchAgreements() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await employmentAgreementService.getAgreements({
+        const response = await employmentService.getAgreements({
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
@@ -145,7 +145,7 @@ async function deleteAgreement() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await employmentAgreementService.deleteAgreement(state.selectedAgreement.uuid)
+        const response = await employmentService.deleteAgreement(state.selectedAgreement.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchAgreements()
             successAlert(`${t('alert.success')}!`, `${t('employment.agreements.table.alert.agreementSuccessfullyDeleted')}.`)

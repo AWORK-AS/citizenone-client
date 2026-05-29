@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentCaseService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -48,7 +48,7 @@ function closeModal() {
 async function fetchCase() {
     state.isPageLoading = true
     try {
-        const response = await employmentCaseService.getCase(props.selectedCaseUuid)
+        const response = await employmentService.getCase(props.selectedCaseUuid)
         if (response?.data) {
             state.formCase = response.data
         }
@@ -62,7 +62,7 @@ async function updateCase(details: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await employmentCaseService.updateCase(props.selectedCaseUuid, details)
+        const response = await employmentService.updateCase(props.selectedCaseUuid, details)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employment.cases.form.alert.caseSuccessfullyUpdated')}.`)
             emit('refreshCases')

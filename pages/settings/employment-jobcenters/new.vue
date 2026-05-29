@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentJobcenterService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -49,7 +49,7 @@ async function saveJobcenter(details: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await employmentJobcenterService.saveJobcenter(details)
+        const response = await employmentService.saveJobcenter(details)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employment.jobcenters.form.alert.newJobcenterSuccessfullySaved')}.`)
             navigateTo('/settings/employment-jobcenters')

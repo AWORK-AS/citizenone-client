@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentCaseService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -43,7 +43,7 @@ async function saveCase(details: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await employmentCaseService.saveCase({
+        const response = await employmentService.saveCase({
             ...details,
             citizen_uuid: props.citizenUuid,
         })

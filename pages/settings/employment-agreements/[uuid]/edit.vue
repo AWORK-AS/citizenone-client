@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentAgreementService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -53,7 +53,7 @@ onMounted(() => { fetchAgreement() })
 async function fetchAgreement() {
     state.isPageLoading = true
     try {
-        const response = await employmentAgreementService.getAgreement(agreementUuid)
+        const response = await employmentService.getAgreement(agreementUuid)
         if (response) state.formAgreement = response.data
     } catch (error: any) {
         state.error = error
@@ -65,7 +65,7 @@ async function updateAgreement(details: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await employmentAgreementService.updateAgreement(agreementUuid, details)
+        const response = await employmentService.updateAgreement(agreementUuid, details)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employment.agreements.form.alert.agreementSuccessfullyUpdated')}.`)
             navigateTo('/settings/employment-agreements')

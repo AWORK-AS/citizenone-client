@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentAgreementService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -49,7 +49,7 @@ async function saveAgreement(details: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await employmentAgreementService.saveAgreement(details)
+        const response = await employmentService.saveAgreement(details)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employment.agreements.form.alert.newAgreementSuccessfullySaved')}.`)
             navigateTo('/settings/employment-agreements')

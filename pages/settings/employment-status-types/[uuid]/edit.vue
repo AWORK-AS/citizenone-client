@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentStatusTypeService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -73,7 +73,7 @@ async function fetchStatusType() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await employmentStatusTypeService.getStatusType(statusTypeUuid)
+        const response = await employmentService.getStatusType(statusTypeUuid)
         if (response) {
             state.formStatusType = {
                 name: response?.data?.name ?? '',
@@ -98,7 +98,7 @@ async function updateStatusType(details: any) {
             is_active: details.is_active,
             sort_order: details.sort_order,
         }
-        const response = await employmentStatusTypeService.updateStatusType(statusTypeUuid, params)
+        const response = await employmentService.updateStatusType(statusTypeUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employment.statusTypes.form.alert.statusTypeSuccessfullyUpdated')}.`)
             navigateTo('/settings/employment-status-types')

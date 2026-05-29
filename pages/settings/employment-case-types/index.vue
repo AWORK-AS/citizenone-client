@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentCaseTypeService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -134,7 +134,7 @@ async function fetchCaseTypes() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await employmentCaseTypeService.getCaseTypes(params)
+        const response = await employmentService.getCaseTypes(params)
         if (response) {
             state.caseTypes = response
         }
@@ -178,7 +178,7 @@ async function deleteCaseType() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await employmentCaseTypeService.deleteCaseType(state.selectedCaseType.uuid)
+        const response = await employmentService.deleteCaseType(state.selectedCaseType.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
             fetchCaseTypes()
             successAlert(`${t('alert.success')}!`, `${t('employment.caseTypes.table.alert.caseTypeSuccessfullyDeleted')}.`)

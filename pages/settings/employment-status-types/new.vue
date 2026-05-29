@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentStatusTypeService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -72,7 +72,7 @@ async function saveStatusType(details: any) {
             is_active: details.is_active,
             sort_order: details.sort_order,
         }
-        const response = await employmentStatusTypeService.saveStatusType(params)
+        const response = await employmentService.saveStatusType(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employment.statusTypes.form.alert.newStatusTypeSuccessfullySaved')}.`)
             navigateTo('/settings/employment-status-types')
