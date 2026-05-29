@@ -78,6 +78,87 @@ class EmploymentBillingRuleService extends BaseAPIService {
     }
 }
 
+class EmploymentJobcenterService extends BaseAPIService {
+    async getJobcenters(params: object): Promise<any> {
+        return await this.request(`/user/employment/jobcenters`, 'GET', params)
+    }
+
+    async getJobcenter(uuid: any): Promise<any> {
+        return await this.request(`/user/employment/jobcenters/${uuid}`, 'GET')
+    }
+
+    async saveJobcenter(params: object): Promise<any> {
+        return await this.request(`/user/employment/jobcenters`, 'POST', params)
+    }
+
+    async updateJobcenter(uuid: any, params: object): Promise<any> {
+        return await this.request(`/user/employment/jobcenters/${uuid}`, 'PUT', params)
+    }
+
+    async deleteJobcenter(uuid: any): Promise<any> {
+        return await this.request(`/user/employment/jobcenters/${uuid}`, 'DELETE')
+    }
+
+    async getAllJobcenters(): Promise<any> {
+        return await this.request(`/user/employment/jobcenters/all/list`, 'GET')
+    }
+}
+
+class EmploymentAgreementService extends BaseAPIService {
+    async getAgreements(params: object): Promise<any> {
+        return await this.request(`/user/employment/agreements`, 'GET', params)
+    }
+
+    async getAgreement(uuid: any): Promise<any> {
+        return await this.request(`/user/employment/agreements/${uuid}`, 'GET')
+    }
+
+    async saveAgreement(params: object): Promise<any> {
+        return await this.request(`/user/employment/agreements`, 'POST', params)
+    }
+
+    async updateAgreement(uuid: any, params: object): Promise<any> {
+        return await this.request(`/user/employment/agreements/${uuid}`, 'PUT', params)
+    }
+
+    async deleteAgreement(uuid: any): Promise<any> {
+        return await this.request(`/user/employment/agreements/${uuid}`, 'DELETE')
+    }
+
+    async getAllAgreements(): Promise<any> {
+        return await this.request(`/user/employment/agreements/all/list`, 'GET')
+    }
+}
+
+class EmploymentCaseService extends BaseAPIService {
+    async getCases(params: object): Promise<any> {
+        return await this.request(`/user/employment/cases`, 'GET', params)
+    }
+
+    async getCasesByCitizen(citizenUuid: any, params: object = {}): Promise<any> {
+        return await this.request(`/user/employment/cases/citizen/${citizenUuid}`, 'GET', params)
+    }
+
+    async getCase(uuid: any): Promise<any> {
+        return await this.request(`/user/employment/cases/${uuid}`, 'GET')
+    }
+
+    async saveCase(params: object): Promise<any> {
+        return await this.request(`/user/employment/cases`, 'POST', params)
+    }
+
+    async updateCase(uuid: any, params: object): Promise<any> {
+        return await this.request(`/user/employment/cases/${uuid}`, 'PUT', params)
+    }
+
+    async deleteCase(uuid: any): Promise<any> {
+        return await this.request(`/user/employment/cases/${uuid}`, 'DELETE')
+    }
+}
+
 export const employmentStatusTypeService = new EmploymentStatusTypeService()
 export const employmentCaseTypeService = new EmploymentCaseTypeService()
 export const employmentBillingRuleService = new EmploymentBillingRuleService()
+export const employmentJobcenterService = new EmploymentJobcenterService()
+export const employmentAgreementService = new EmploymentAgreementService()
+export const employmentCaseService = new EmploymentCaseService()

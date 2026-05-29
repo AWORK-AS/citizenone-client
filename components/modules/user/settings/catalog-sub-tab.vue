@@ -314,6 +314,18 @@ watch(() => userStore.getUser, (newValue: any) => {
                     href: `/settings/employment-billing-rules`,
                     routeNames: ['settings-employment-billing-rules']
                 },
+                {
+                    name: 'settings.tabs.employmentJobcenters',
+                    isTranslateName: true,
+                    href: `/settings/employment-jobcenters`,
+                    routeNames: ['settings-employment-jobcenters']
+                },
+                {
+                    name: 'settings.tabs.employmentAgreements',
+                    isTranslateName: true,
+                    href: `/settings/employment-agreements`,
+                    routeNames: ['settings-employment-agreements']
+                },
             )
         }
     }
@@ -425,6 +437,12 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/employment-billing-rules') {
         navigateTo(`/settings/employment-billing-rules`)
+    }
+    else if (value === '/settings/employment-jobcenters') {
+        navigateTo(`/settings/employment-jobcenters`)
+    }
+    else if (value === '/settings/employment-agreements') {
+        navigateTo(`/settings/employment-agreements`)
     }
 }
 </script>
