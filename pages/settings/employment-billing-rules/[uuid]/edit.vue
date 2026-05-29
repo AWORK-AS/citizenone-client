@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { employmentBillingRuleService } from '@/components/api/user/EmploymentService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -74,7 +74,7 @@ async function fetchBillingRule() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await employmentBillingRuleService.getBillingRule(billingRuleUuid)
+        const response = await employmentService.getBillingRule(billingRuleUuid)
         if (response) {
             state.formBillingRule = {
                 name: response?.data?.name ?? '',
@@ -101,7 +101,7 @@ async function updateBillingRule(details: any) {
             description: details.description,
             is_active: details.is_active,
         }
-        const response = await employmentBillingRuleService.updateBillingRule(billingRuleUuid, params)
+        const response = await employmentService.updateBillingRule(billingRuleUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employment.billingRules.form.alert.billingRuleSuccessfullyUpdated')}.`)
             navigateTo('/settings/employment-billing-rules')
