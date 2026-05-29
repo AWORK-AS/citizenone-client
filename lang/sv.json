@@ -7858,7 +7858,10 @@
             "ipRestrictions": "IP-begränsningar",
             "approvedDevices": "Godkända enheter",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
-            "treatmentTemplates": "Behandlingsskabeloner"
+            "treatmentTemplates": "Behandlingsskabeloner",
+            "employmentStatusTypes": "Statustyper",
+            "employmentCaseTypes": "Ärendetyper",
+            "employmentBillingRules": "Faktureringsregler"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",
@@ -9672,5 +9675,112 @@
         "selectCitizen": "Select citizen",
         "citizenRequired": "Please select a citizen",
         "assessment": "Assessment"
+    },
+    "employment": {
+        "statusTypes": {
+            "statusTypes": "Statustyper",
+            "newStatusType": "Ny statustyp",
+            "editStatusType": "Redigera statustyp",
+            "addNewStatusType": "Lägg till ny statustyp",
+            "form": {
+                "name": "Namn",
+                "color": "Färg",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsordning",
+                "alert": {
+                    "newStatusTypeSuccessfullySaved": "Statustyp sparad",
+                    "statusTypeSuccessfullyUpdated": "Statustyp uppdaterad"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "color": "Färg",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsordning",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteStatusTypeConfirmation": "Är du säker på att du vill ta bort den här statustypen?"
+                },
+                "alert": {
+                    "statusTypeSuccessfullyDeleted": "Statustyp borttagen"
+                }
+            }
+        },
+        "caseTypes": {
+            "caseTypes": "Ärendetyper",
+            "newCaseType": "Ny ärendetyp",
+            "editCaseType": "Redigera ärendetyp",
+            "addNewCaseType": "Lägg till ny ärendetyp",
+            "form": {
+                "name": "Namn",
+                "description": "Beskrivning",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsordning",
+                "alert": {
+                    "newCaseTypeSuccessfullySaved": "Ärendetyp sparad",
+                    "caseTypeSuccessfullyUpdated": "Ärendetyp uppdaterad"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "description": "Beskrivning",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsordning",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteCaseTypeConfirmation": "Är du säker på att du vill ta bort den här ärendetypen?"
+                },
+                "alert": {
+                    "caseTypeSuccessfullyDeleted": "Ärendetyp borttagen"
+                }
+            }
+        },
+        "billingRules": {
+            "billingRules": "Faktureringsregler",
+            "newBillingRule": "Ny faktureringsregel",
+            "editBillingRule": "Redigera faktureringsregel",
+            "addNewBillingRule": "Lägg till ny faktureringsregel",
+            "form": {
+                "name": "Namn",
+                "rate": "Taxa",
+                "frequency": "Frekvens",
+                "description": "Beskrivning",
+                "isActive": "Aktiv",
+                "frequencyOptions": {
+                    "hourly": "Per timme",
+                    "daily": "Per dag",
+                    "weekly": "Per vecka",
+                    "monthly": "Per månad",
+                    "fixed": "Fast"
+                },
+                "alert": {
+                    "newBillingRuleSuccessfullySaved": "Faktureringsregel sparad",
+                    "billingRuleSuccessfullyUpdated": "Faktureringsregel uppdaterad"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "rate": "Taxa",
+                "frequency": "Frekvens",
+                "description": "Beskrivning",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteBillingRuleConfirmation": "Är du säker på att du vill ta bort den här faktureringsregeln?"
+                },
+                "alert": {
+                    "billingRuleSuccessfullyDeleted": "Faktureringsregel borttagen"
+                }
+            }
+        }
     }
 }
