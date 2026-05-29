@@ -11,7 +11,7 @@ class AppService extends BaseAPIService {
         return await this.request('/superadmin/apps', 'POST', params)
     }
     async updateApp(appUuid: string, params: object): Promise<any> {
-        return await this.request(`/superadmin/apps/${appUuid}`, 'PUT', params)
+        return await this.request(`/superadmin/apps/${appUuid}/update`, 'POST', params)
     }
     async deleteApp(appUuid: string): Promise<any> {
         return await this.request(`/superadmin/apps/${appUuid}`, 'DELETE')
