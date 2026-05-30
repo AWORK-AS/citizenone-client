@@ -182,7 +182,7 @@ const state = reactive({
 })
 
 const tabs = computed(() => [
-    { key: 'all', label: t('superadmin.users.tabs.all'), count: state.allCount },
+    { key: 'all', label: t('superadmin.users.tabs.all'), count: (state.activeCount + state.inactiveCount) || 0 },
     { key: 'active', label: t('superadmin.users.tabs.active'), count: state.activeCount },
     { key: 'inactive', label: t('superadmin.users.tabs.inactive'), count: state.inactiveCount },
     { key: 'admins', label: t('superadmin.users.tabs.admins'), count: state.adminCount },
@@ -211,9 +211,9 @@ async function fetchUsers() {
             state.users = response
             const items = response?.data ?? []
             state.allCount = response?.total ?? items.length
-            state.activeCount = items.filter((u: any) => u.is_active !== false).length
-            state.inactiveCount = items.filter((u: any) => u.is_active === false).length
-            state.adminCount = items.filter((u: any) => u.roles?.some((r: any) => r.name === 'Superadmin')).length
+            state.activeCount = response?.active_count || 0
+            state.inactiveCount = response?.inactive_count || 0
+            state.adminCount = response?.admin_count || 0
         }
     } catch (error: any) { state.error = error }
     state.isTableLoading = false
