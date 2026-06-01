@@ -261,7 +261,7 @@ async function fetchCitizen() {
                     employment_case_type_uuid: response?.data?.employment_profile?.case_type?.uuid || '',
                     employment_status_type_uuid: response?.data?.employment_profile?.status_type?.uuid || '',
                     financial_support_basis: response?.data?.employment_profile?.financial_support_basis || '',
-                    language: response?.data?.employment_profile?.language || '',
+                    language: response?.data?.employment_profile?.language || response?.data?.language?.code || '',
                     primary_consultant_uuid: response?.data?.employment_profile?.primary_consultant?.uuid || '',
                     secondary_consultant_uuid: response?.data?.employment_profile?.secondary_consultant?.uuid || '',
                     referrer_name: response?.data?.employment_profile?.referrer_name || '',

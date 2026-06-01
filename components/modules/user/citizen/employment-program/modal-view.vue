@@ -36,13 +36,13 @@
                             </dd>
                         </div>
                         <!-- Language -->
-                        <div v-if="props?.selectedCitizen?.data?.employment_profile?.language"
+                        <div v-if="props?.selectedCitizen?.data?.language"
                             class="grid grid-cols-5 px-4 py-2.5">
                             <dt class="col-span-2 text-xs text-gray-500 self-center">
                                 {{ $t('citizens.form.employmentProgram.language') }}
                             </dt>
                             <dd class="col-span-3 text-sm text-gray-800 font-medium">
-                                {{ props?.selectedCitizen?.data?.employment_profile?.language }}
+                                {{ props?.selectedCitizen?.data?.language?.name }}
                             </dd>
                         </div>
                         <!-- Primary Consultant -->
