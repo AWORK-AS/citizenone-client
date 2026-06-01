@@ -7888,7 +7888,10 @@
             "ipRestrictions": "IP-begrænsninger",
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
-            "treatmentTemplates": "Behandlingsskabeloner"
+            "treatmentTemplates": "Behandlingsskabeloner",
+            "employmentStatusTypes": "Statustyper",
+            "employmentCaseTypes": "Sagstyper",
+            "employmentBillingRules": "Faktureringsregler"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -9693,5 +9696,112 @@
         "syncReminderTitle": "Synkroniser din AI med virksomhedens AI, inden du chatter.",
         "syncing": "Synkroniserer...",
         "title": "Din ChatGPT Integration"
+    },
+    "employment": {
+        "statusTypes": {
+            "statusTypes": "Statustyper",
+            "newStatusType": "Ny statustype",
+            "editStatusType": "Rediger statustype",
+            "addNewStatusType": "Tilføj ny statustype",
+            "form": {
+                "name": "Navn",
+                "color": "Farve",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "alert": {
+                    "newStatusTypeSuccessfullySaved": "Statustype gemt",
+                    "statusTypeSuccessfullyUpdated": "Statustype opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "color": "Farve",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteStatusTypeConfirmation": "Er du sikker på, at du vil slette denne statustype?"
+                },
+                "alert": {
+                    "statusTypeSuccessfullyDeleted": "Statustype slettet"
+                }
+            }
+        },
+        "caseTypes": {
+            "caseTypes": "Sagstyper",
+            "newCaseType": "Ny sagstype",
+            "editCaseType": "Rediger sagstype",
+            "addNewCaseType": "Tilføj ny sagstype",
+            "form": {
+                "name": "Navn",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "alert": {
+                    "newCaseTypeSuccessfullySaved": "Sagstype gemt",
+                    "caseTypeSuccessfullyUpdated": "Sagstype opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "description": "Beskrivelse",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteCaseTypeConfirmation": "Er du sikker på, at du vil slette denne sagstype?"
+                },
+                "alert": {
+                    "caseTypeSuccessfullyDeleted": "Sagstype slettet"
+                }
+            }
+        },
+        "billingRules": {
+            "billingRules": "Faktureringsregler",
+            "newBillingRule": "Ny faktureringsregel",
+            "editBillingRule": "Rediger faktureringsregel",
+            "addNewBillingRule": "Tilføj ny faktureringsregel",
+            "form": {
+                "name": "Navn",
+                "rate": "Takst",
+                "frequency": "Frekvens",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "frequencyOptions": {
+                    "hourly": "Pr. time",
+                    "daily": "Pr. dag",
+                    "weekly": "Pr. uge",
+                    "monthly": "Pr. måned",
+                    "fixed": "Fast"
+                },
+                "alert": {
+                    "newBillingRuleSuccessfullySaved": "Faktureringsregel gemt",
+                    "billingRuleSuccessfullyUpdated": "Faktureringsregel opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "rate": "Takst",
+                "frequency": "Frekvens",
+                "description": "Beskrivelse",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteBillingRuleConfirmation": "Er du sikker på, at du vil slette denne faktureringsregel?"
+                },
+                "alert": {
+                    "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
+                }
+            }
+        }
     }
 }
