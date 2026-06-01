@@ -114,6 +114,15 @@
                         </p>
                     </div>
                 </div>
+                <div class="md:col-span-8 grid md:grid-cols-1">
+                    <div class="space-y-1 flex items-center gap-x-2">
+                        <FormSwitch :value="state.formProfile.nursing_area_notifications_enabled"
+                            @toggleSwitch="state.formProfile.nursing_area_notifications_enabled = !state.formProfile.nursing_area_notifications_enabled" />
+                        <p>
+                            {{ $t('settings.company.form.enableNursingAreaNotifications') }}
+                        </p>
+                    </div>
+                </div>
                 <div class="md:col-span-8 grid md:grid-cols-1"
                     v-if="state.formProfile.email_notifications_enabled || state.formProfile.system_notifications_enabled">
                     <div class="space-y-1 flex items-center gap-x-2">
@@ -187,6 +196,7 @@ const state = reactive({
         email_notifications_enabled: false,
         shift_based_notifications_enabled: false,
         system_notifications_enabled: false,
+        nursing_area_notifications_enabled: true,
         department_uuid: [],
     } as any,
     isChangePassword: false,
@@ -278,6 +288,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             email_notifications_enabled: newValue?.email_notifications_enabled ?? false,
             shift_based_notifications_enabled: newValue?.shift_based_notifications_enabled ?? false,
             system_notifications_enabled: newValue?.system_notifications_enabled ?? false,
+            nursing_area_notifications_enabled: newValue?.nursing_area_notifications_enabled ?? true,
             department_uuid: [],
         }
         newValue?.pages.forEach((page: any) => {
@@ -307,6 +318,7 @@ function setUser() {
         email_notifications_enabled: user?.email_notifications_enabled ?? false,
         shift_based_notifications_enabled: user?.shift_based_notifications_enabled ?? false,
         system_notifications_enabled: user?.system_notifications_enabled ?? false,
+        nursing_area_notifications_enabled: user?.nursing_area_notifications_enabled ?? true,
     }
     user?.pages.forEach((page: any) => {
         state.formProfile.pages.push(page?.uuid)
@@ -409,6 +421,7 @@ async function submitForm() {
             params.append('email_notifications_enabled', state.formProfile.email_notifications_enabled)
             params.append('shift_based_notifications_enabled', state.formProfile.shift_based_notifications_enabled)
             params.append('system_notifications_enabled', state.formProfile.system_notifications_enabled)
+            params.append('nursing_area_notifications_enabled', state.formProfile.nursing_area_notifications_enabled)
             params.append('department_uuid', JSON.stringify(state.formProfile.department_uuid))
             const response = await userService.updateUser(params)
             if (response.data) {
