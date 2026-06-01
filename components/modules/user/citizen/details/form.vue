@@ -797,11 +797,6 @@
                         v-model="state.formCitizen.employmentData.financial_support_basis" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="language" :label="$t('citizens.form.employmentProgram.language')" />
-                    <FormSelect id="language" :options="[{value:'dk',label:'Dansk'},{value:'en',label:'English'},{value:'no',label:'Norsk'},{value:'sv',label:'Svenska'}]"
-                        v-model="state.formCitizen.employmentData.language" />
-                </div>
-                <div class="space-y-1">
                     <FormLabel for="primary_consultant_uuid" :label="$t('citizens.form.employmentProgram.primaryConsultant')" />
                     <FormSelect id="primary_consultant_uuid" :options="state.options.consultants"
                         v-model="state.formCitizen.employmentData.primary_consultant_uuid" />
@@ -1076,7 +1071,6 @@ const state = reactive({
             employment_case_type_uuid: '',
             employment_status_type_uuid: '',
             financial_support_basis: '',
-            language: '',
             primary_consultant_uuid: '',
             secondary_consultant_uuid: '',
             referrer_name: '',
@@ -1249,7 +1243,6 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 employment_case_type_uuid: selectedCitizen.employmentData?.employment_case_type_uuid || '',
                 employment_status_type_uuid: selectedCitizen.employmentData?.employment_status_type_uuid || '',
                 financial_support_basis: selectedCitizen.employmentData?.financial_support_basis || '',
-                language: selectedCitizen.employmentData?.language || '',
                 primary_consultant_uuid: selectedCitizen.employmentData?.primary_consultant_uuid || '',
                 secondary_consultant_uuid: selectedCitizen.employmentData?.secondary_consultant_uuid || '',
                 referrer_name: selectedCitizen.employmentData?.referrer_name || '',

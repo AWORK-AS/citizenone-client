@@ -139,7 +139,6 @@ const state = reactive({
             employment_case_type_uuid: '',
             employment_status_type_uuid: '',
             financial_support_basis: '',
-            language: '',
             primary_consultant_uuid: '',
             secondary_consultant_uuid: '',
             referrer_name: '',
@@ -254,7 +253,6 @@ async function saveCitizen(citizenDetails: any) {
             params.append('employment_case_type_uuid', citizenDetails.employmentData.employment_case_type_uuid)
             params.append('employment_status_type_uuid', citizenDetails.employmentData.employment_status_type_uuid)
             params.append('financial_support_basis', citizenDetails.employmentData.financial_support_basis)
-            params.append('language', citizenDetails.employmentData.language)
             params.append('primary_consultant_uuid', citizenDetails.employmentData.primary_consultant_uuid)
             params.append('secondary_consultant_uuid', citizenDetails.employmentData.secondary_consultant_uuid)
             params.append('referrer_name', citizenDetails.employmentData.referrer_name)

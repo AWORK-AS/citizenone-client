@@ -149,7 +149,6 @@ const state = reactive({
             employment_case_type_uuid: '',
             employment_status_type_uuid: '',
             financial_support_basis: '',
-            language: '',
             primary_consultant_uuid: '',
             secondary_consultant_uuid: '',
             referrer_name: '',
@@ -261,7 +260,6 @@ async function fetchCitizen() {
                     employment_case_type_uuid: response?.data?.employment_profile?.case_type?.uuid || '',
                     employment_status_type_uuid: response?.data?.employment_profile?.status_type?.uuid || '',
                     financial_support_basis: response?.data?.employment_profile?.financial_support_basis || '',
-                    language: response?.data?.employment_profile?.language || response?.data?.language?.code || '',
                     primary_consultant_uuid: response?.data?.employment_profile?.primary_consultant?.uuid || '',
                     secondary_consultant_uuid: response?.data?.employment_profile?.secondary_consultant?.uuid || '',
                     referrer_name: response?.data?.employment_profile?.referrer_name || '',
@@ -407,7 +405,6 @@ async function updateCitizen(citizenDetails: any) {
             params.append('employment_case_type_uuid', citizenDetails.employmentData.employment_case_type_uuid)
             params.append('employment_status_type_uuid', citizenDetails.employmentData.employment_status_type_uuid)
             params.append('financial_support_basis', citizenDetails.employmentData.financial_support_basis)
-            params.append('language', citizenDetails.employmentData.language)
             params.append('primary_consultant_uuid', citizenDetails.employmentData.primary_consultant_uuid)
             params.append('secondary_consultant_uuid', citizenDetails.employmentData.secondary_consultant_uuid)
             params.append('referrer_name', citizenDetails.employmentData.referrer_name)
