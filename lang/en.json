@@ -130,6 +130,56 @@
             "name": "Name"
         }
     },
+    "employmentCaseTypes": {
+        "editEmploymentCaseType": "Edit case type",
+        "employmentCaseTypes": "Case types",
+        "form": {
+            "alert": {
+                "successfullySaved": "Case type successfully saved",
+                "successfullyUpdated": "Case type successfully updated"
+            },
+            "name": "Name"
+        },
+        "newEmploymentCaseType": "New case type",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "successfullyDeleted": "Case type successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this case type"
+            },
+            "name": "Name"
+        }
+    },
+    "employmentStatusTypes": {
+        "editEmploymentStatusType": "Edit status type",
+        "employmentStatusTypes": "Status types",
+        "form": {
+            "alert": {
+                "successfullySaved": "Status type successfully saved",
+                "successfullyUpdated": "Status type successfully updated"
+            },
+            "name": "Name"
+        },
+        "newEmploymentStatusType": "New status type",
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "alert": {
+                "successfullyDeleted": "Status type successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this status type"
+            },
+            "name": "Name"
+        }
+    },
     "activityLogs": {
         "activityLogs": "Activity logs",
         "logs": {
@@ -1557,6 +1607,27 @@
                 "photo": "Photo",
                 "studentCollaboration": "Student collaboration"
             },
+            "employmentProgram": {
+                "activationDeadline": "Activation deadline",
+                "caseEndDate": "Case end date",
+                "caseStartDate": "Case start date",
+                "caseType": "Case type",
+                "financialSupportBasis": "Financial support basis",
+                "language": "Language",
+                "primaryConsultant": "Primary consultant",
+                "referralDate": "Referral date",
+                "referralReason": "Referral reason",
+                "referrerEmail": "Referrer email",
+                "referrerInfo": "Referrer information",
+                "referrerName": "Referrer name",
+                "referrerOrganization": "Referrer organization",
+                "referrerPhone": "Referrer phone",
+                "reportingRequirements": "Reporting requirements",
+                "secondaryConsultant": "Secondary consultant",
+                "status": "Status",
+                "totalWeeks": "Total weeks",
+                "weeksUsed": "Weeks used"
+            },
             "street": "Street",
             "trafficLights": {
                 "green": "Green",
@@ -2319,6 +2390,7 @@
         "rooms": "Rooms",
         "sections": {
             "citizenDetails": "Citizen details",
+            "employmentProgram": "Employment program",
             "inquiryData": "Inquiry data",
             "stayData": "Stay data"
         },
@@ -5696,6 +5768,7 @@
             "primaryCaseWorker": "Primary Caseworker",
             "responsibleMunicipality": "Responsible Municipality",
             "section": "Section",
+            "employmentData": "Employment program",
             "stayData": "Stay Data",
             "systemAccess": "System Access",
             "trafficLights": "Traffic Lights",

@@ -130,6 +130,56 @@
             "name": "Navn"
         }
     },
+    "employmentCaseTypes": {
+        "editEmploymentCaseType": "Rediger sakstype",
+        "employmentCaseTypes": "Sakstyper",
+        "form": {
+            "alert": {
+                "successfullySaved": "Sakstype lagret",
+                "successfullyUpdated": "Sakstype oppdatert"
+            },
+            "name": "Navn"
+        },
+        "newEmploymentCaseType": "Ny sakstype",
+        "table": {
+            "actions": {
+                "delete": "Slett",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "successfullyDeleted": "Sakstype slettet"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på at du vil slette denne sakstypen"
+            },
+            "name": "Navn"
+        }
+    },
+    "employmentStatusTypes": {
+        "editEmploymentStatusType": "Rediger statustype",
+        "employmentStatusTypes": "Statustyper",
+        "form": {
+            "alert": {
+                "successfullySaved": "Statustype lagret",
+                "successfullyUpdated": "Statustype oppdatert"
+            },
+            "name": "Navn"
+        },
+        "newEmploymentStatusType": "Ny statustype",
+        "table": {
+            "actions": {
+                "delete": "Slett",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "successfullyDeleted": "Statustype slettet"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på at du vil slette denne statustypen"
+            },
+            "name": "Navn"
+        }
+    },
     "activityLogs": {
         "activityLogs": "Aktivitetslogfiler",
         "logs": {
@@ -1557,6 +1607,27 @@
                 "photo": "Foto",
                 "studentCollaboration": "Elevsamarbeide"
             },
+            "employmentProgram": {
+                "activationDeadline": "Aktiveringsfrist",
+                "caseEndDate": "Saksslutt dato",
+                "caseStartDate": "Saksstartdato",
+                "caseType": "Sakstype",
+                "financialSupportBasis": "Forsørgelsesgrunnlag",
+                "language": "Språk",
+                "primaryConsultant": "Primær konsulent",
+                "referralDate": "Henvisningsdato",
+                "referralReason": "Henvisningsårsak",
+                "referrerEmail": "Henvisers e-post",
+                "referrerInfo": "Henviserinformasjon",
+                "referrerName": "Henvisers navn",
+                "referrerOrganization": "Henvisers organisasjon",
+                "referrerPhone": "Henvisers telefon",
+                "reportingRequirements": "Rapporteringskrav",
+                "secondaryConsultant": "Sekundær konsulent",
+                "status": "Status",
+                "totalWeeks": "Totalt antall uker",
+                "weeksUsed": "Brukte uker"
+            },
             "street": "Gade",
             "trafficLights": {
                 "green": "Grøn",
@@ -2320,7 +2391,8 @@
         "sections": {
             "citizenDetails": "Brukeroplysninger",
             "inquiryData": "Henvendelsesdata",
-            "stayData": "Opholdsdata"
+            "stayData": "Opholdsdata",
+            "employmentProgram": "Sysselsettingsforløp"
         },
         "statuses": {
             "alert": {
@@ -5697,6 +5769,7 @@
             "responsibleMunicipality": "Ansvarlig kommune",
             "section": "Paragraf",
             "stayData": "Opholdsdata",
+            "employmentData": "Sysselsettingsforløp",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafiklys",
             "transportation": "Transport"
@@ -7690,6 +7763,7 @@
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
                 "enableEmailNotifications": "Aktiver e-post-varsler",
+                "enableNursingAreaNotifications": "Aktiver pleieområde-varsler",
                 "enableSystemNotifications": "Aktiver systemnotifikationer",
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Sjekk inn/ut for innsats",
