@@ -47,4 +47,5 @@ export interface CitizenForm {
     has_bullet_board_access: boolean,
     inquiryData: any,
     stayData: any,
+    employmentData?: any,
 }

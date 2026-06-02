@@ -130,6 +130,56 @@
             "name": "Navn"
         }
     },
+    "employmentCaseTypes": {
+        "editEmploymentCaseType": "Rediger sagstype",
+        "employmentCaseTypes": "Sagstyper",
+        "form": {
+            "alert": {
+                "successfullySaved": "Sagstype gemt med succes",
+                "successfullyUpdated": "Sagstype opdateret med succes"
+            },
+            "name": "Navn"
+        },
+        "newEmploymentCaseType": "Ny sagstype",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "successfullyDeleted": "Sagstype slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne sagstype"
+            },
+            "name": "Navn"
+        }
+    },
+    "employmentStatusTypes": {
+        "editEmploymentStatusType": "Rediger statustype",
+        "employmentStatusTypes": "Statustyper",
+        "form": {
+            "alert": {
+                "successfullySaved": "Statustype gemt med succes",
+                "successfullyUpdated": "Statustype opdateret med succes"
+            },
+            "name": "Navn"
+        },
+        "newEmploymentStatusType": "Ny statustype",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "successfullyDeleted": "Statustype slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne statustype"
+            },
+            "name": "Navn"
+        }
+    },
     "activityLogs": {
         "activityLogs": "Aktivitetslogfiler",
         "logs": {
@@ -1536,6 +1586,27 @@
                 "photo": "Foto",
                 "studentCollaboration": "Elevsamarbejde"
             },
+            "employmentProgram": {
+                "activationDeadline": "Aktiveringsfrist",
+                "caseEndDate": "Sagsslutt dato",
+                "caseStartDate": "Sagsstart dato",
+                "caseType": "Sagstype",
+                "financialSupportBasis": "Forsørgelsesgrundlag",
+                "language": "Sprog",
+                "primaryConsultant": "Primær konsulent",
+                "referralDate": "Henvisningsdato",
+                "referralReason": "Henvisningsårsag",
+                "referrerEmail": "Henvisers e-mail",
+                "referrerInfo": "Henviseroplysninger",
+                "referrerName": "Henvisers navn",
+                "referrerOrganization": "Henvisers organisation",
+                "referrerPhone": "Henvisers telefon",
+                "reportingRequirements": "Indberetningskrav",
+                "secondaryConsultant": "Sekundær konsulent",
+                "status": "Status",
+                "totalWeeks": "Samlede uger",
+                "weeksUsed": "Brugte uger"
+            },
             "street": "Gade",
             "trafficLights": {
                 "green": "Grøn",
@@ -2298,6 +2369,7 @@
         "rooms": "Værelser",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
+            "employmentProgram": "Beskæftigelsesforløb",
             "inquiryData": "Henvendelsesdata",
             "stayData": "Opholdsdata"
         },
@@ -5675,6 +5747,7 @@
             "primaryCaseWorker": "Primær sagsbehandler",
             "responsibleMunicipality": "Ansvarlig kommune",
             "section": "Paragraf",
+            "employmentData": "Beskæftigelsesforløb",
             "stayData": "Opholdsdata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafiklys",
