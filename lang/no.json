@@ -3328,6 +3328,12 @@
                 "message": "Månedsvisning av kladden er under udvikling. Bruk ugevisningen til at redigere kladdevakter. Du kan se den udgivede månedsoversigt under Vaktplaner → Månedsvisning.",
                 "switchToWeekView": "Bytt til ugevisning →"
             },
+            "deleteAll": {
+                "button": "Slett alle kladder",
+                "title": "Slett alle kladdevakter",
+                "confirmation": "Er du sikker på at du vil slette alle kladdevakter for dette selskapet? Denne handlingen kan ikke angres.",
+                "successAlert": "Alle kladdevakter er slettet."
+            },
             "publish": "Publiser",
             "publishing": "Udgivelse av vaktplaner, lukk eller oppdater ikke siden.",
             "selectDepartment": {

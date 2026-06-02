@@ -3328,6 +3328,12 @@
                 "message": "Month view for the draft is under development. Use the week view to edit draft shifts. You can view the published monthly overview under Schedules → Month View.",
                 "switchToWeekView": "Switch to week view →"
             },
+            "deleteAll": {
+                "button": "Delete all drafts",
+                "title": "Delete all draft schedules",
+                "confirmation": "Are you sure you want to delete all draft schedules for this company? This action cannot be undone.",
+                "successAlert": "All draft schedules have been deleted."
+            },
             "publish": "Publish",
             "publishing": "Publishing schedules, please don't close or refresh the page",
             "selectDepartment": {

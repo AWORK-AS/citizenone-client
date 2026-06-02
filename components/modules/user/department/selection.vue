@@ -14,8 +14,7 @@
                     <MenuButton
                         class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-sm font-semibold text-white shadow-sm"
                         :style="{ backgroundColor: departmentStore.getSelectedDepartmentColor ? departmentStore.getSelectedDepartmentColor : '#205E77' }">
-                        {{ departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name :
-                            departmentStore.getSelectedDepartmentName }}
+                        {{ displayDepartmentName(departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name : departmentStore.getSelectedDepartmentName) }}
                         <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
                     </MenuButton>
                 </div>
@@ -31,7 +30,7 @@
                                 :key="index">
                             <a :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'cursor-pointer block px-4 py-2 text-sm']"
                                 @click="changeDepartment(department?.name)">
-                                {{ department?.name }}
+                                {{ displayDepartmentName(department?.name) }}
                             </a>
                             </MenuItem>
                         </div>
@@ -91,6 +90,11 @@ watch(() => userStore.getUser, (user: any) => {
         departmentStore.setSelectedDepartmentColor(selectedDepartment?.color)
     }
 })
+
+function displayDepartmentName(name: string): string {
+    if (name === 'All departments') return t('department.allDepartment')
+    return name
+}
 
 async function fetchDepartments() {
     state.error = {}
