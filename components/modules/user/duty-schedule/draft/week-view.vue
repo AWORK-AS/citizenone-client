@@ -1,5 +1,5 @@
 <template>
-    <div class="space-y-5">
+    <div class="space-y-5 min-w-0">
         <!-- Teleport datovælger til breadcrumb-rækken -->
         <Teleport to="#schedule-date-picker-target" v-if="teleportReady">
             <div class="flex items-center gap-1.5">
@@ -211,8 +211,9 @@
                         </svg>
                     </button>
                 </div>
-                <div class="isolate flex flex-auto flex-col bg-white">
-                    <div ref="weekHeaderRef" class="overflow-x-hidden flex-none">
+                <div class="isolate flex flex-auto flex-col min-w-0 bg-white rounded-xl ring-1 ring-gray-200 shadow-sm">
+                    <div ref="weekHeaderRef"
+                        class="overflow-x-hidden sticky top-16 z-30 bg-white rounded-t-xl border-b border-gray-100">
                         <div class="min-w-[700px]">
                             <div>
                                 <div class="grid grid-cols-9" id="fixed-header-week-view">
@@ -324,7 +325,6 @@
                     <div ref="weekBodyRef" class="overflow-x-auto" @scroll="syncWeekHeaderScroll">
                         <div class="min-w-[700px]">
                             <div>
-
                                 <div class="relative mt-0.5"
                                     @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
                                     :class="[
@@ -703,27 +703,34 @@
                                                             <div class="absolute -left-3 -top-3 z-10 w-6 h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-sm"
                                                                 v-if="shift?.type?.system_name === 'vacation-leave'">🏖️
                                                             </div>
-                                                            <div class="flex items-center justify-between text-white cursor-pointer px-2.5 pt-2.5 pb-2"
+                                                            <div class="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
                                                                 @click="editSchedule(employee, employeeIndex, weekIndex, shift, shiftIndex)">
-                                                                <div v-if="shift?.is_from_lastweek"
-                                                                    class="bg-white/20 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0">
-                                                                    <Icon name="ph:arrow-left"
-                                                                        class="w-3 h-3 text-white" />
+                                                                <!-- Start time -->
+                                                                <div class="flex items-center gap-0.5">
+                                                                    <div v-if="shift?.is_from_lastweek"
+                                                                        class="bg-white/20 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center flex-shrink-0">
+                                                                        <Icon name="ph:arrow-left"
+                                                                            class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
+                                                                    </div>
+                                                                    <span
+                                                                        class="text-xs lg:text-base font-bold text-white tracking-tight leading-none">{{
+                                                                            moment(shift?.date_time_start).format('HH:mm')
+                                                                        }}</span>
                                                                 </div>
-                                                                <span
-                                                                    class="text-sm font-bold text-white tracking-tight leading-none">{{
-                                                                        moment(shift?.date_time_start).format('HH:mm')
-                                                                    }}</span>
+                                                                <!-- Arrow: web only -->
                                                                 <Icon name="ph:arrow-right"
-                                                                    class="w-3.5 h-3.5 text-white/70 flex-shrink-0 mx-1" />
-                                                                <span
-                                                                    class="text-sm font-bold text-white tracking-tight leading-none">{{
-                                                                        moment(shift?.date_time_end).format('HH:mm')
-                                                                    }}</span>
-                                                                <div v-if="shift?.is_until_nextweek"
-                                                                    class="bg-white/20 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0">
-                                                                    <Icon name="ph:arrow-right"
-                                                                        class="w-3 h-3 text-white" />
+                                                                    class="hidden sm:block w-3.5 h-3.5 text-white/70 flex-shrink-0 mx-1" />
+                                                                <!-- End time -->
+                                                                <div class="flex items-center gap-0.5 mt-0.5 2xl:mt-0">
+                                                                    <span
+                                                                        class="text-xs lg:text-base font-bold text-white/80 sm:text-white tracking-tight leading-none">{{
+                                                                            moment(shift?.date_time_end).format('HH:mm')
+                                                                        }}</span>
+                                                                    <div v-if="shift?.is_until_nextweek"
+                                                                        class="bg-white/20 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center flex-shrink-0">
+                                                                        <Icon name="ph:arrow-right"
+                                                                            class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="mx-2.5 border-t border-white/20 mb-1.5"></div>
@@ -942,16 +949,10 @@ const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
-const weekHeaderRef = ref<HTMLElement | null>(null)
-const weekBodyRef = ref<HTMLElement | null>(null)
-
-function syncWeekHeaderScroll() {
-    if (weekHeaderRef.value && weekBodyRef.value) {
-        weekHeaderRef.value.scrollLeft = weekBodyRef.value.scrollLeft
-    }
-}
 
 const teleportReady = ref(false)
+const weekHeaderRef = ref<HTMLElement | null>(null)
+const weekBodyRef = ref<HTMLElement | null>(null)
 let _dragShift: any = null
 let _dragSourceEmployee: any = null
 let _dragSourceWeekIndex: any = null
@@ -1106,6 +1107,11 @@ function handleKeyDown(event: KeyboardEvent) {
     }
 }
 
+function syncWeekHeaderScroll() {
+    if (weekHeaderRef.value && weekBodyRef.value) {
+        weekHeaderRef.value.scrollLeft = weekBodyRef.value.scrollLeft
+    }
+}
 
 function filterDutyScheduleDate(formDateRange: any) {
     state.shiftDateRange.formDateRange.start_date = formDateRange?.[0]
@@ -1856,35 +1862,6 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
             state.isModalLoading = false
         }, 300)
     }
-}
-
-onMounted(() => {
-    window.addEventListener('scroll', handleScroll)
-})
-
-onBeforeUnmount(() => {
-    window.removeEventListener('scroll', handleScroll)
-})
-
-let lastScrollTop = 0
-const headerHeight = 305  // The height of the header
-
-function handleScroll() {
-    const header = document.getElementById('fixed-header-week-view')
-    if (!header) return
-
-    const currentScroll = window.pageYOffset || document.documentElement.scrollTop
-
-    // If scrolling down and we reach the bottom of the header
-    if (currentScroll > headerHeight) {
-        header.classList.add('fixed-header-week-view-top')
-    } else {
-        // If scrolling up, remove the fixed position
-        header.classList.remove('fixed-header-week-view-top')
-    }
-
-    // Update the last scroll position for the next scroll event
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // Prevent negative scroll
 }
 
 async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
