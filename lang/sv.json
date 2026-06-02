@@ -3256,8 +3256,14 @@
                 "message": "Månedsvisning av kladden är under utveckling. Använd ugevisningen till att redigere kladdevagter. Du kan se den udgivede månedsoversigt under Tjänsteskeman → Månedsvisning.",
                 "switchToWeekView": "Byt till ugevisning →"
             },
+            "deleteAll": {
+                "button": "Radera alla utkast",
+                "title": "Radera alla utkastscheman",
+                "confirmation": "Är du säker på att du vill radera alla utkastscheman för detta företag? Denna åtgärd kan inte ångras.",
+                "successAlert": "Alla utkastscheman har raderats."
+            },
             "publish": "Publicera",
-            "publishing": "Publicering av tjänsteskeman, stäng eller uppdatera inte sedan.",
+            "publishing": "Publicering av tjänstescheman, stäng eller uppdatera inte sedan.",
             "selectDepartment": {
                 "form": {
                     "confirm": "Bekräfta",

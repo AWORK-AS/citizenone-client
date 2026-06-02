@@ -212,8 +212,8 @@
                     </button>
                 </div>
                 <div class="isolate flex flex-auto flex-col bg-white">
-                    <div class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full">
-                        <div>
+                    <div ref="weekHeaderRef" class="overflow-x-hidden flex-none">
+                        <div class="min-w-[700px]">
                             <div>
                                 <div class="grid grid-cols-9" id="fixed-header-week-view">
                                     <div class="col-span-2 border-0.5">
@@ -318,6 +318,12 @@
                                         </span>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ref="weekBodyRef" class="overflow-x-auto" @scroll="syncWeekHeaderScroll">
+                        <div class="min-w-[700px]">
+                            <div>
 
                                 <div class="relative mt-0.5"
                                     @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
@@ -705,13 +711,13 @@
                                                                         class="w-3 h-3 text-white" />
                                                                 </div>
                                                                 <span
-                                                                    class="text-base font-bold text-white tracking-tight leading-none">{{
+                                                                    class="text-sm font-bold text-white tracking-tight leading-none">{{
                                                                         moment(shift?.date_time_start).format('HH:mm')
                                                                     }}</span>
                                                                 <Icon name="ph:arrow-right"
                                                                     class="w-3.5 h-3.5 text-white/70 flex-shrink-0 mx-1" />
                                                                 <span
-                                                                    class="text-base font-bold text-white tracking-tight leading-none">{{
+                                                                    class="text-sm font-bold text-white tracking-tight leading-none">{{
                                                                         moment(shift?.date_time_end).format('HH:mm')
                                                                     }}</span>
                                                                 <div v-if="shift?.is_until_nextweek"
@@ -936,6 +942,14 @@ const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const expandedRecords = reactive([] as boolean[])
+const weekHeaderRef = ref<HTMLElement | null>(null)
+const weekBodyRef = ref<HTMLElement | null>(null)
+
+function syncWeekHeaderScroll() {
+    if (weekHeaderRef.value && weekBodyRef.value) {
+        weekHeaderRef.value.scrollLeft = weekBodyRef.value.scrollLeft
+    }
+}
 
 const teleportReady = ref(false)
 let _dragShift: any = null
