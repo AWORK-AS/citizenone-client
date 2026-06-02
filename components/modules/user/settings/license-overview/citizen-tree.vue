@@ -4,12 +4,13 @@
             <div class="flex items-start gap-3 rounded-lg border border-gray-200 bg-white px-3 py-2">
                 <div class="pt-0.5">
                     <input
-                        v-if="node.type === 'folder'"
-                        type="checkbox"
-                        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-                        :checked="selectedIds.includes(Number(node.id))"
-                        @change="handleToggle(node, $event)"
-                    />
+                            v-if="node.type === 'folder' || node.type === 'file'"
+                            type="checkbox"
+                            class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                            :checked="selectedIds.includes(Number(node.id)) || selectedIds.includes(node.uuid)"
+                            :indeterminate="indeterminateIds.includes(Number(node.id))"
+                            @change="handleToggle(node, $event)"
+                        />
                     <Icon v-else name="ph:file" class="mt-0.5 h-4 w-4 text-gray-400" aria-hidden="true" />
                 </div>
                 <div class="min-w-0 flex-1">
@@ -20,7 +21,7 @@
                         </span>
                     </div>
                     <p class="mt-0.5 text-xs text-gray-500">
-                        {{ node.type }}
+                        {{ $t('caseworkerSharing.' + node.type) }}
                     </p>
                 </div>
             </div>
@@ -29,6 +30,7 @@
                 v-if="node.children?.length"
                 :nodes="node.children"
                 :selectedIds="selectedIds"
+                :indeterminateIds="indeterminateIds"
                 :depth="props.depth + 1"
                 :onToggleFolder="props.onToggleFolder"
             />
@@ -49,8 +51,12 @@ const props = defineProps({
         required: true,
     },
     selectedIds: {
-        type: Array as PropType<number[]>,
+        type: Array as PropType<Array<number | string>>,
         required: true,
+    },
+    indeterminateIds: {
+        type: Array as PropType<number[]>,
+        default: () => [],
     },
     onToggleFolder: {
         type: Function as PropType<(node: any, checked: boolean) => void>,
