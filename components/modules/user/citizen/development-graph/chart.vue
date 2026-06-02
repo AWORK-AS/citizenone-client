@@ -1,71 +1,15 @@
 <template>
     <div class="space-y-4">
-        <!-- Row 1: Protocol + Granularity -->
-        <div class="flex flex-wrap items-end gap-4">
-            <!-- Protocol Selector -->
-            <div class="flex-1 min-w-[200px]">
-                <FormLabel :label="$t('citizens.developmentGraph.protocol')" />
-                <div v-if="state.isLoadingProtocols" class="h-9 w-full animate-pulse rounded-md bg-gray-200" />
-                <FormSelect
-                    v-else
-                    v-model="selectedProtocolModel"
-                    :options="protocolOptions"
-                    :searchable="true"
-                    :canClear="false" />
-            </div>
-
-            <!-- Granularity Toggle -->
-            <div class="flex gap-1 pb-0.5">
-                <FormButton
-                    v-for="option in granularityOptions"
-                    :key="option.value"
-                    type="button"
-                    buttonSize="xs"
-                    :buttonStyle="state.groupBy === option.value ? 'primary' : 'white'"
-                    @click="changeGroupBy(option.value)">
-                    {{ $t(option.label) }}
-                </FormButton>
-            </div>
-        </div>
-
-        <!-- Row 2: Quick Presets OR Custom Date Range -->
-        <div class="flex flex-wrap items-center gap-3">
-            <!-- Presets (hidden when custom active) -->
-            <div v-if="state.activePreset !== 'custom'" class="flex flex-wrap gap-1.5">
-                <FormButton
-                    v-for="preset in datePresets"
-                    :key="preset.key"
-                    type="button"
-                    buttonSize="xs"
-                    :buttonStyle="state.activePreset === preset.key ? 'primary' : 'white'"
-                    @click="applyPreset(preset)">
-                    {{ $t(preset.label) }}
-                </FormButton>
-            </div>
-
-            <!-- Custom Date Range (shown only when custom active) -->
-            <div v-else class="flex items-center gap-2">
-                <FormButton
-                    type="button"
-                    buttonSize="xs"
-                    buttonStyle="white"
-                    @click="exitCustom">
-                    ← {{ $t('citizens.developmentGraph.back') }}
-                </FormButton>
-                <flat-pickr
-                    v-model="state.startDate"
-                    :config="datePickerConfig"
-                    class="block w-36 rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                    :placeholder="$t('citizens.developmentGraph.startDate')"
-                    @on-change="onDateChange" />
-                <span class="text-gray-400">—</span>
-                <flat-pickr
-                    v-model="state.endDate"
-                    :config="datePickerConfig"
-                    class="block w-36 rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-700 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                    :placeholder="$t('citizens.developmentGraph.endDate')"
-                    @on-change="onDateChange" />
-            </div>
+        <!-- Protocol Selector -->
+        <div class="flex-1 min-w-[200px]">
+            <FormLabel :label="$t('citizens.developmentGraph.protocol')" />
+            <div v-if="state.isLoadingProtocols" class="h-9 w-full animate-pulse rounded-md bg-gray-200" />
+            <FormSelect
+                v-else
+                v-model="selectedProtocolModel"
+                :options="protocolOptions"
+                :searchable="true"
+                :canClear="false" />
         </div>
 
         <!-- Chart Area -->
@@ -106,7 +50,6 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import FlatPickr from 'vue-flatpickr-component'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { protocolService } from '@/components/api/user/ProtocolService'
 import { useI18n } from 'vue-i18n'
@@ -121,60 +64,15 @@ const props = defineProps({
 
 const { t } = useI18n()
 
-const granularityOptions = [
-    { value: 'daily', label: 'citizens.developmentGraph.daily' },
-    { value: 'weekly', label: 'citizens.developmentGraph.weekly' },
-    { value: 'monthly', label: 'citizens.developmentGraph.monthly' },
-]
-
-const datePresets = [
-    {
-        key: 'thisMonth',
-        label: 'citizens.developmentGraph.thisMonth',
-        start: () => moment().startOf('month').format('YYYY-MM-DD'),
-        end: () => moment().format('YYYY-MM-DD'),
-    },
-    {
-        key: 'lastMonth',
-        label: 'citizens.developmentGraph.lastMonth',
-        start: () => moment().subtract(1, 'month').startOf('month').format('YYYY-MM-DD'),
-        end: () => moment().subtract(1, 'month').endOf('month').format('YYYY-MM-DD'),
-    },
-    {
-        key: 'last3Months',
-        label: 'citizens.developmentGraph.last3Months',
-        start: () => moment().subtract(3, 'months').startOf('month').format('YYYY-MM-DD'),
-        end: () => moment().format('YYYY-MM-DD'),
-    },
-    {
-        key: 'thisYear',
-        label: 'citizens.developmentGraph.thisYear',
-        start: () => moment().startOf('year').format('YYYY-MM-DD'),
-        end: () => moment().format('YYYY-MM-DD'),
-    },
-    {
-        key: 'custom',
-        label: 'citizens.developmentGraph.custom',
-        start: null,
-        end: null,
-    },
-]
-
-const datePickerConfig = {
-    dateFormat: 'Y-m-d',
-    allowInput: true,
-}
-
 const state = reactive({
     error: {} as Error,
     isLoading: false,
     isLoadingProtocols: false,
     protocols: [] as any[],
-    selectedProtocolUuid: '' as string,  // internal string; bridged to FormSelect via computed
-    groupBy: 'monthly',
-    startDate: moment().startOf('month').format('YYYY-MM-DD'),
-    endDate: moment().format('YYYY-MM-DD'),
-    activePreset: 'thisMonth',
+    selectedProtocolUuid: '' as string,
+    groupBy: 'daily',
+    startDate: '' as string,
+    endDate: '' as string,
     chartOption: {
         dataset: {
             dimensions: ['period', 'attended', 'absent'],
@@ -182,7 +80,7 @@ const state = reactive({
         },
         tooltip: {
             trigger: 'axis',
-            axisPointer: { type: 'shadow' },
+            axisPointer: { type: 'line' },
         },
         legend: {},
         xAxis: {
@@ -192,21 +90,47 @@ const state = reactive({
         yAxis: { minInterval: 1 },
         dataZoom: [
             { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
-            { type: 'slider', xAxisIndex: 0, show: false, start: 0, end: 100, bottom: 5, height: 18 },
+            { type: 'slider', xAxisIndex: 0, show: true, start: 0, end: 100, bottom: 5, height: 18 },
         ] as any[],
         grid: { left: 50, right: 20, top: 40, bottom: 70 },
         series: [
             {
-                type: 'bar',
+                type: 'line',
                 name: t('citizens.developmentGraph.presence'),
-                stack: 'total',
+                smooth: true,
+                symbol: 'none',
+                lineStyle: { width: 2, color: '#22C55E' },
                 itemStyle: { color: '#22C55E' },
+                areaStyle: {
+                    opacity: 0.2,
+                    color: {
+                        type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+                        colorStops: [
+                            { offset: 0, color: 'rgba(34, 197, 94, 0.4)' },
+                            { offset: 1, color: 'rgba(34, 197, 94, 0.05)' },
+                        ],
+                    },
+                },
+                emphasis: { focus: 'series' },
             },
             {
-                type: 'bar',
+                type: 'line',
                 name: t('citizens.developmentGraph.absence'),
-                stack: 'total',
+                smooth: true,
+                symbol: 'none',
+                lineStyle: { width: 2, color: '#EF4444' },
                 itemStyle: { color: '#EF4444' },
+                areaStyle: {
+                    opacity: 0.2,
+                    color: {
+                        type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+                        colorStops: [
+                            { offset: 0, color: 'rgba(239, 68, 68, 0.4)' },
+                            { offset: 1, color: 'rgba(239, 68, 68, 0.05)' },
+                        ],
+                    },
+                },
+                emphasis: { focus: 'series' },
             },
         ],
     },
@@ -216,38 +140,28 @@ const protocolOptions = computed(() =>
     state.protocols.map((p) => ({ value: p.uuid, label: p.name }))
 )
 
-// FormSelect modelValue is inferred as null by TS — bridge via computed to satisfy type
 const selectedProtocolModel = computed({
     get: (): null | undefined => (state.selectedProtocolUuid || null) as null | undefined,
     set: (val: any) => { state.selectedProtocolUuid = val ?? '' },
 })
 
-// Set dataZoom window: show ~N points at once; if data fits, hide slider entirely
-function applyZoomWindow(totalPoints: number) {
-    const visible = state.groupBy === 'daily' ? 15 : 12
-    const fits = totalPoints <= visible
-    const endPct = fits ? 100 : (visible / totalPoints) * 100
-
-    state.chartOption.dataZoom = [
-        { type: 'inside', xAxisIndex: 0, start: 0, end: endPct },
-        { type: 'slider', xAxisIndex: 0, show: !fits, start: 0, end: endPct, bottom: 5, height: 18 },
-    ] as any[]
-}
-
-function getXAxisConfig(groupBy: string) {
-    const daily = groupBy === 'daily'
-    return {
-        type: 'category',
-        axisLabel: {
-            interval: daily ? 0 : 'auto' as any,
-            rotate: daily ? 45 : 0,
-            fontSize: 11,
-        },
-    }
+// Auto-derive granularity from the selected protocol's date span
+function deriveGroupBy(startDate: string, endDate: string): string {
+    const days = moment(endDate).diff(moment(startDate), 'days')
+    if (days <= 92) return 'daily'
+    if (days <= 731) return 'weekly'
+    return 'monthly'
 }
 
 watch(() => state.selectedProtocolUuid, (val) => {
-    if (val) fetchGraphData()
+    if (!val) return
+    const protocol = state.protocols.find((p) => p.uuid === val)
+    if (protocol?.start_date && protocol?.end_date) {
+        state.startDate = protocol.start_date
+        state.endDate = protocol.end_date
+        state.groupBy = deriveGroupBy(protocol.start_date, protocol.end_date)
+    }
+    fetchGraphData()
 })
 
 onMounted(() => {
@@ -270,30 +184,6 @@ async function fetchProtocols() {
     state.isLoadingProtocols = false
 }
 
-function changeGroupBy(value: string) {
-    state.groupBy = value
-    state.chartOption.xAxis = getXAxisConfig(value)
-    fetchGraphData()
-}
-
-function applyPreset(preset: typeof datePresets[0]) {
-    state.activePreset = preset.key
-    if (preset.key === 'custom') return
-    state.startDate = preset.start!()
-    state.endDate = preset.end!()
-    fetchGraphData()
-}
-
-function exitCustom() {
-    const fallback = datePresets.find(p => p.key === 'thisMonth')!
-    applyPreset(fallback)
-}
-
-function onDateChange() {
-    state.activePreset = 'custom'
-    fetchGraphData()
-}
-
 async function fetchGraphData() {
     if (!state.selectedProtocolUuid) return
 
@@ -311,7 +201,6 @@ async function fetchGraphData() {
         if (response) {
             const data = response?.data ?? []
             state.chartOption.dataset.source = data
-            applyZoomWindow(data.length)
         }
     } catch (error: any) {
         state.error = error
