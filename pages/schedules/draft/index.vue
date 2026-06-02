@@ -70,6 +70,12 @@
                         <Icon name="ph:floppy-disk" class="h-3.5 w-3.5" aria-hidden="true" />
                         <span>{{ $t('dutySchedules.draft.preset.saveAsPreset') }}</span>
                     </button>
+                    <div class="w-px h-4 bg-slate-200"></div>
+                    <button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-red-500 hover:bg-white hover:text-red-600 hover:shadow-sm transition-all"
+                        @click="state.modal.isDeleteAllOpen = true">
+                        <Icon name="ph:trash" class="h-3.5 w-3.5" aria-hidden="true" />
+                        <span>{{ $t('dutySchedules.draft.deleteAll.button') }}</span>
+                    </button>
                 </div>
                 <button onclick="document.getElementById('help-guide-modal').style.display='flex'"
                     class="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm flex-shrink-0">
@@ -148,6 +154,7 @@
 
                 <ModulesUserDutyScheduleDraftWeekView
                     v-if="state.calendarView === 'week' && state.hasContext"
+                    :key="state.weekViewKey"
                     @openPresets="state.modal.isPresetsOpen = true"
                     @openSavePreset="state.modal.isSaveAsPresetOpen = true"
                     @openPublish="state.modal.isPublishDraftOpen = true"
@@ -181,6 +188,9 @@
                 @close="state.modal.isSaveAsPresetOpen = false" />
             <ModulesUserDutySchedulePresetsModalTable :isModalOpen="state.modal.isPresetsOpen"
                 @close="state.modal.isPresetsOpen = false" />
+            <ModulesUserDutyScheduleDraftModalDeleteAll :isModalOpen="state.modal.isDeleteAllOpen"
+                @close="state.modal.isDeleteAllOpen = false"
+                @deleted="reloadPage" />
         </NuxtLayout>
     </div>
 </template>
@@ -197,12 +207,14 @@ const state = reactive({
     calendarView: 'week' as 'week' | 'month',
     hasContext: true,
     hideBanner: false,
+    weekViewKey: 0,
     modal: {
         isPublishDraftOpen: false,
         isShowAllShiftTypes: false,
         isSelectDepartmentModalOpen: false,
         isSaveAsPresetOpen: false,
         isPresetsOpen: false,
+        isDeleteAllOpen: false,
     },
 })
 
@@ -216,5 +228,10 @@ onMounted(() => {
 function selectDepartment() {
     state.hasContext = true
     state.modal.isSelectDepartmentModalOpen = false
+}
+
+function reloadPage() {
+    state.modal.isDeleteAllOpen = false
+    state.weekViewKey++
 }
 </script>
