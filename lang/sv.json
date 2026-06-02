@@ -1060,6 +1060,7 @@
             "selectProtocol": "Välj ett protokoll",
             "selectProtocolHeading": "Välj ett protokoll för att visa data",
             "selectProtocolSubtext": "Välj ett protokoll från rullgardinsmenyn ovan för att läsa in utvecklingsdiagrammet.",
+            "sessions": "Sessioner",
             "startDate": "Startdatum",
             "thisMonth": "Denna månad",
             "thisYear": "Detta år",

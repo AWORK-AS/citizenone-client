@@ -1062,6 +1062,7 @@
             "selectProtocol": "Select a protocol",
             "selectProtocolHeading": "Select a protocol to view data",
             "selectProtocolSubtext": "Choose a protocol from the dropdown above to load the development graph.",
+            "sessions": "Sessions",
             "thisMonth": "This month",
             "thisYear": "This year"
         },
@@ -7843,6 +7844,7 @@
                 "companyName": "Company name",
                 "cvr": "CVR",
                 "enableEmailNotifications": "Enable email notifications",
+                "enableNursingAreaNotifications": "Enable nursing area notifications",
                 "enableSystemNotifications": "Enable system notifications",
                 "groupChat": "Group chat",
                 "interventionCheckinOut": "Intervention check in/out",

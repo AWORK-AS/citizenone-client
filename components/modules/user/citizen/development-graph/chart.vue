@@ -43,7 +43,7 @@
             <VChart
                 v-if="state.chartOption.dataset.source.length > 0"
                 :option="state.chartOption"
-                style="height: 420px; width: 100%;" />
+                style="height: 500px; width: 100%;" />
         </LoadingSpinner>
     </div>
 </template>
@@ -78,36 +78,65 @@ const state = reactive({
             dimensions: ['period', 'attended', 'absent'],
             source: [] as any[],
         },
+        title: {
+            text: t('citizens.developmentGraph.title'),
+            left: 'center',
+            top: 10,
+            textStyle: { fontSize: 18, fontWeight: 'bold' },
+        },
         tooltip: {
             trigger: 'axis',
-            axisPointer: { type: 'line' },
+            axisPointer: { type: 'cross', label: { backgroundColor: '#6a7985' } },
+            formatter: (params: any) => {
+                let result = `<div style="font-weight:bold;margin-bottom:8px;">${params[0].name}</div>`
+                params.forEach((p: any, i: number) => {
+                    const val = p.value[i + 1] ?? p.value[1]
+                    result += `<div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0;">
+                        <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${p.color};margin-right:8px;"></span>${p.seriesName}:</span>
+                        <span style="margin-left:16px;font-weight:bold;">${val}</span>
+                    </div>`
+                })
+                return result
+            },
         },
-        legend: {},
+        legend: { bottom: 60, icon: 'roundRect' },
         xAxis: {
             type: 'category',
             axisLabel: { interval: 'auto' as any, rotate: 0, fontSize: 11 },
         },
-        yAxis: { minInterval: 1 },
+        yAxis: {
+            minInterval: 1,
+            name: t('citizens.developmentGraph.sessions'),
+            nameTextStyle: { fontSize: 14, padding: [0, 0, 0, -50] },
+            splitLine: { lineStyle: { type: 'dashed' } },
+        },
         dataZoom: [
             { type: 'inside', xAxisIndex: 0, start: 0, end: 100 },
-            { type: 'slider', xAxisIndex: 0, show: true, start: 0, end: 100, bottom: 5, height: 18 },
+            {
+                type: 'slider', xAxisIndex: 0, show: true, start: 0, end: 100,
+                left: 70, right: 70,
+                bottom: 10, height: 25,
+                handleIcon: 'path://M10.7,11.9H9.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4h1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z',
+                handleSize: '80%', textStyle: { fontSize: 12 },
+            },
         ] as any[],
-        grid: { left: 50, right: 20, top: 40, bottom: 70 },
+        grid: { left: 50, right: 20, top: '15%', bottom: '22%', containLabel: true },
         series: [
             {
                 type: 'line',
                 name: t('citizens.developmentGraph.presence'),
+                encode: { x: 'period', y: 'attended' },
                 smooth: true,
                 symbol: 'none',
-                lineStyle: { width: 2, color: '#22C55E' },
+                lineStyle: { width: 3, color: '#22C55E' },
                 itemStyle: { color: '#22C55E' },
                 areaStyle: {
-                    opacity: 0.2,
+                    opacity: 0.3,
                     color: {
                         type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: 'rgba(34, 197, 94, 0.4)' },
-                            { offset: 1, color: 'rgba(34, 197, 94, 0.05)' },
+                            { offset: 0, color: 'rgba(34, 197, 94, 0.5)' },
+                            { offset: 1, color: 'rgba(34, 197, 94, 0.1)' },
                         ],
                     },
                 },
@@ -116,20 +145,11 @@ const state = reactive({
             {
                 type: 'line',
                 name: t('citizens.developmentGraph.absence'),
+                encode: { x: 'period', y: 'absent' },
                 smooth: true,
                 symbol: 'none',
                 lineStyle: { width: 2, color: '#EF4444' },
                 itemStyle: { color: '#EF4444' },
-                areaStyle: {
-                    opacity: 0.2,
-                    color: {
-                        type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
-                        colorStops: [
-                            { offset: 0, color: 'rgba(239, 68, 68, 0.4)' },
-                            { offset: 1, color: 'rgba(239, 68, 68, 0.05)' },
-                        ],
-                    },
-                },
                 emphasis: { focus: 'series' },
             },
         ],

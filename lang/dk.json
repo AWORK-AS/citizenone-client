@@ -1062,6 +1062,7 @@
             "selectProtocol": "Vælg en protokol",
             "selectProtocolHeading": "Vælg en protokol for at se data",
             "selectProtocolSubtext": "Vælg en protokol fra rullemenuen ovenfor for at indlæse udviklingsdiagrammet.",
+            "sessions": "Sessioner",
             "thisMonth": "Denne måned",
             "thisYear": "Dette år"
         },
@@ -7843,6 +7844,7 @@
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
                 "enableEmailNotifications": "Aktivér e-mail-notifikationer",
+                "enableNursingAreaNotifications": "Aktivér plejeområde-notifikationer",
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Check ind/ud for indsats",
