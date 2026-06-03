@@ -1559,6 +1559,9 @@ async function fetchDutySchedule() {
             state.weeklySchedules = response
             state.employeeHoursStats = {}
             state.employeeHoursStatsLoading = {}
+            response.data?.forEach((employee: any, index: number) => {
+                if (!expandedRecords[index]) fetchEmployeeHoursStats(employee)
+            })
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
