@@ -1556,11 +1556,17 @@ async function fetchDutySchedule() {
         }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
+            const prevExpandedUuids = new Set(
+                (state.weeklySchedules?.data ?? [])
+                    .filter((_: any, i: number) => expandedRecords[i] === false)
+                    .map((emp: any) => emp?.uuid)
+                    .filter(Boolean)
+            )
             state.weeklySchedules = response
             state.employeeHoursStats = {}
             state.employeeHoursStatsLoading = {}
-            response.data?.forEach((employee: any, index: number) => {
-                if (!expandedRecords[index]) fetchEmployeeHoursStats(employee)
+            response.data?.forEach((employee: any) => {
+                if (prevExpandedUuids.has(employee?.uuid)) fetchEmployeeHoursStats(employee)
             })
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
