@@ -130,56 +130,6 @@
             "name": "Namn"
         }
     },
-    "employmentCaseTypes": {
-        "editEmploymentCaseType": "Redigera ärendetyp",
-        "employmentCaseTypes": "Ärendetyper",
-        "form": {
-            "alert": {
-                "successfullySaved": "Ärendetyp sparad",
-                "successfullyUpdated": "Ärendetyp uppdaterad"
-            },
-            "name": "Namn"
-        },
-        "newEmploymentCaseType": "Ny ärendetyp",
-        "table": {
-            "actions": {
-                "delete": "Ta bort",
-                "edit": "Redigera"
-            },
-            "alert": {
-                "successfullyDeleted": "Ärendetyp borttagen"
-            },
-            "confirmation": {
-                "deleteConfirmation": "Är du säker på att du vill ta bort denna ärendetyp"
-            },
-            "name": "Namn"
-        }
-    },
-    "employmentStatusTypes": {
-        "editEmploymentStatusType": "Redigera statustyp",
-        "employmentStatusTypes": "Statustyper",
-        "form": {
-            "alert": {
-                "successfullySaved": "Statustyp sparad",
-                "successfullyUpdated": "Statustyp uppdaterad"
-            },
-            "name": "Namn"
-        },
-        "newEmploymentStatusType": "Ny statustyp",
-        "table": {
-            "actions": {
-                "delete": "Ta bort",
-                "edit": "Redigera"
-            },
-            "alert": {
-                "successfullyDeleted": "Statustyp borttagen"
-            },
-            "confirmation": {
-                "deleteConfirmation": "Är du säker på att du vill ta bort denna statustyp"
-            },
-            "name": "Namn"
-        }
-    },
     "activityLogs": {
         "activityLogs": "Aktivitetsloggar",
         "logs": {
@@ -1586,27 +1536,6 @@
                 "photo": "Foto",
                 "studentCollaboration": "Elevsamarbejde"
             },
-            "employmentProgram": {
-                "activationDeadline": "Aktiveringsfrist",
-                "caseEndDate": "Ärendeslutdatum",
-                "caseStartDate": "Ärendestartdatum",
-                "caseType": "Ärendetyp",
-                "financialSupportBasis": "Försörjningsgrundlag",
-                "language": "Språk",
-                "primaryConsultant": "Primär konsult",
-                "referralDate": "Remitteringsdatum",
-                "referralReason": "Remitteringsorsak",
-                "referrerEmail": "Remittentens e-post",
-                "referrerInfo": "Remitteringsinformation",
-                "referrerName": "Remittentens namn",
-                "referrerOrganization": "Remittentens organisation",
-                "referrerPhone": "Remittentens telefon",
-                "reportingRequirements": "Rapporteringskrav",
-                "secondaryConsultant": "Sekundär konsult",
-                "status": "Status",
-                "totalWeeks": "Totalt antal veckor",
-                "weeksUsed": "Använda veckor"
-            },
             "street": "Gata",
             "trafficLights": {
                 "green": "Grön",
@@ -2370,8 +2299,7 @@
         "sections": {
             "citizenDetails": "Borgeroplysninger",
             "inquiryData": "Henvendelsesdata",
-            "stayData": "Vistelsedata",
-            "employmentProgram": "Sysselsättningsförlopp"
+            "stayData": "Vistelsedata"
         },
         "statuses": {
             "alert": {
@@ -5754,7 +5682,6 @@
             "responsibleMunicipality": "Ansvarig kommun",
             "section": "Paragraf",
             "stayData": "Vistelsedata",
-            "employmentData": "Sysselsättningsförlopp",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafikljus",
             "transportation": "Transport"
@@ -7748,7 +7675,6 @@
                 "companyName": "Företagsnamn",
                 "cvr": "ORGANISATIONSNUMMER",
                 "enableEmailNotifications": "Aktivera e-post-notiser",
-                "enableNursingAreaNotifications": "Aktivera omvårdnadsområde-notiser",
                 "enableSystemNotifications": "Aktivera systemnotifikationer",
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Check in/ut för insats",
@@ -7938,10 +7864,7 @@
             "ipRestrictions": "IP-begränsningar",
             "approvedDevices": "Godkända enheter",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
-            "treatmentTemplates": "Behandlingsskabeloner",
-            "employmentStatusTypes": "Statustyper",
-            "employmentCaseTypes": "Ärendetyper",
-            "employmentBillingRules": "Faktureringsregler"
+            "treatmentTemplates": "Behandlingsskabeloner"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",
@@ -9755,112 +9678,5 @@
         "selectCitizen": "Select citizen",
         "citizenRequired": "Please select a citizen",
         "assessment": "Assessment"
-    },
-    "employment": {
-        "statusTypes": {
-            "statusTypes": "Statustyper",
-            "newStatusType": "Ny statustyp",
-            "editStatusType": "Redigera statustyp",
-            "addNewStatusType": "Lägg till ny statustyp",
-            "form": {
-                "name": "Namn",
-                "color": "Färg",
-                "isActive": "Aktiv",
-                "sortOrder": "Sorteringsordning",
-                "alert": {
-                    "newStatusTypeSuccessfullySaved": "Statustyp sparad",
-                    "statusTypeSuccessfullyUpdated": "Statustyp uppdaterad"
-                }
-            },
-            "table": {
-                "name": "Namn",
-                "color": "Färg",
-                "active": "Aktiv",
-                "sortOrder": "Sorteringsordning",
-                "actions": {
-                    "edit": "Redigera",
-                    "delete": "Ta bort"
-                },
-                "confirmation": {
-                    "deleteStatusTypeConfirmation": "Är du säker på att du vill ta bort den här statustypen?"
-                },
-                "alert": {
-                    "statusTypeSuccessfullyDeleted": "Statustyp borttagen"
-                }
-            }
-        },
-        "caseTypes": {
-            "caseTypes": "Ärendetyper",
-            "newCaseType": "Ny ärendetyp",
-            "editCaseType": "Redigera ärendetyp",
-            "addNewCaseType": "Lägg till ny ärendetyp",
-            "form": {
-                "name": "Namn",
-                "description": "Beskrivning",
-                "isActive": "Aktiv",
-                "sortOrder": "Sorteringsordning",
-                "alert": {
-                    "newCaseTypeSuccessfullySaved": "Ärendetyp sparad",
-                    "caseTypeSuccessfullyUpdated": "Ärendetyp uppdaterad"
-                }
-            },
-            "table": {
-                "name": "Namn",
-                "description": "Beskrivning",
-                "active": "Aktiv",
-                "sortOrder": "Sorteringsordning",
-                "actions": {
-                    "edit": "Redigera",
-                    "delete": "Ta bort"
-                },
-                "confirmation": {
-                    "deleteCaseTypeConfirmation": "Är du säker på att du vill ta bort den här ärendetypen?"
-                },
-                "alert": {
-                    "caseTypeSuccessfullyDeleted": "Ärendetyp borttagen"
-                }
-            }
-        },
-        "billingRules": {
-            "billingRules": "Faktureringsregler",
-            "newBillingRule": "Ny faktureringsregel",
-            "editBillingRule": "Redigera faktureringsregel",
-            "addNewBillingRule": "Lägg till ny faktureringsregel",
-            "form": {
-                "name": "Namn",
-                "rate": "Taxa",
-                "frequency": "Frekvens",
-                "description": "Beskrivning",
-                "isActive": "Aktiv",
-                "frequencyOptions": {
-                    "hourly": "Per timme",
-                    "daily": "Per dag",
-                    "weekly": "Per vecka",
-                    "monthly": "Per månad",
-                    "fixed": "Fast"
-                },
-                "alert": {
-                    "newBillingRuleSuccessfullySaved": "Faktureringsregel sparad",
-                    "billingRuleSuccessfullyUpdated": "Faktureringsregel uppdaterad"
-                }
-            },
-            "table": {
-                "name": "Namn",
-                "rate": "Taxa",
-                "frequency": "Frekvens",
-                "description": "Beskrivning",
-                "active": "Aktiv",
-                "actions": {
-                    "edit": "Redigera",
-                    "delete": "Ta bort"
-                },
-                "confirmation": {
-                    "deleteBillingRuleConfirmation": "Är du säker på att du vill ta bort den här faktureringsregeln?"
-                },
-                "alert": {
-                    "billingRuleSuccessfullyDeleted": "Faktureringsregel borttagen"
-                }
-            }
-        }
     }
 }

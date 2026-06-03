@@ -61,10 +61,6 @@ class DutyScheduleService extends BaseAPIService {
         return await this.request(`/user/duty-schedules/overview/compensatory-vacation-hours`, 'GET', params)
     }
 
-    async getEmployeeHoursStats(employeeUuid: string, params: object): Promise<any> {
-        return await this.request(`/user/duty-schedules/employee/${employeeUuid}/hours-stats`, 'GET', params)
-    }
-
     async getCompensatoryReport(uuid: string, params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/compensatory-time/${uuid}/report`, 'GET', params)
     }

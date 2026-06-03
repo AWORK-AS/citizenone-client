@@ -422,17 +422,11 @@
                                                         </span>
                                                     </div>
 
-                                                    <div v-if="isStatsLoading(employee)" class="space-y-1 py-1">
-                                                        <div class="h-2 bg-gray-200 rounded animate-pulse w-3/4" />
-                                                        <div class="h-2 bg-gray-200 rounded animate-pulse w-1/2" />
-                                                        <div class="h-2 bg-gray-200 rounded animate-pulse w-2/3" />
-                                                    </div>
-                                                    <template v-else>
                                                     <div class="flex items-center gap-1 cursor-pointer"
                                                         @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.annualNormHours') }}:
-                                                            {{ empStats(employee)?.annual_norm_hours ?? 0 }}
+                                                            {{ employee?.annual_norm_hours ?? 0 }}
                                                         </p>
                                                         <Icon name="ph:question" class="h-3.5 w-3.5"
                                                             aria-hidden="true" />
@@ -442,7 +436,7 @@
                                                         @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                         <p class="text-xxs">
                                                             {{ $t('dutySchedules.weeklyNormHours') }}:
-                                                            {{ (Math.round(Number(empStats(employee)?.annual_norm_hours) /
+                                                            {{ (Math.round(Number(employee?.annual_norm_hours) /
                                                                 52)) ?? 0 }}
                                                         </p>
                                                         <Icon name="ph:question" class="h-3.5 w-3.5"
@@ -451,11 +445,11 @@
 
                                                     <p class="text-xxs">
                                                         {{ $t('dutySchedules.totalHours') }}:
-                                                        {{ empStats(employee)?.total_hours ?? 0 }}
+                                                        {{ employee?.total_hours ?? 0 }}
                                                     </p>
                                                     <p :class="[
-                                                        empStats(employee)?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' :
-                                                            empStats(employee)?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' :
+                                                        employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' :
+                                                            employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' :
                                                                 'text-red-700',
                                                         'text-xxs'
                                                     ]">
@@ -463,24 +457,23 @@
                                                             $t('dutySchedules.averageWeeklyHours.averageWeeklyHours')
                                                         }}:
                                                         {{
-                                                            empStats(employee)?.average_weekly_work_time?.average_weekly_hours
+                                                            employee?.average_weekly_work_time?.average_weekly_hours
                                                         }}
                                                     </p>
                                                     <p :class="[
-                                                        parseFloat(empStats(employee)?.log_data?.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                        parseFloat(employee?.log_data.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                         'text-xxs'
                                                     ]">
                                                         {{ $t('dutySchedules.earnedWorkHours') }}:
-                                                        {{ empStats(employee)?.log_data?.total_time_account_earned_hours }}
+                                                        {{ employee?.log_data.total_time_account_earned_hours }}
                                                     </p>
                                                     <p :class="[
-                                                        parseFloat(empStats(employee)?.extra_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                        parseFloat(employee?.extra_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                         'text-xxs'
                                                     ]">
                                                         {{ $t('dutySchedules.extraHours.extraHours') }}:
-                                                        {{ empStats(employee)?.extra_hours }}
+                                                        {{ employee?.extra_hours }}
                                                     </p>
-                                                    </template>
 
                                                     <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
                                                         @click="showShiftTypeDistribution(employee)">
@@ -521,7 +514,7 @@
                                                 </div>
                                                 <div class="text-xs grid grid-cols-7">
                                                     <div class="col-span-3 min-w-0">
-                                                        <div v-for="(time, timeIndex) in empStats(employee)?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
+                                                        <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
                                                             :key="timeIndex" :class="[
                                                                 (timeIndex as number) % 2 ? 'bg-white' : 'bg-gray-100',
                                                                 'py-1'
@@ -553,7 +546,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2">
-                                                        <div v-for="(time, timeIndex) in empStats(employee)?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
+                                                        <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
                                                             :key="timeIndex" :class="[
                                                                 (timeIndex as number) % 2 ? 'bg-white' : 'bg-gray-100',
                                                             ]">
@@ -563,7 +556,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2 border-l-0.5 border-gray-200">
-                                                        <div v-for="(time, timeIndex) in empStats(employee)?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
+                                                        <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
                                                             :key="timeIndex" :class="[
                                                                 (timeIndex as number) % 2 ? 'bg-white' : 'bg-gray-100',
                                                             ]">
@@ -589,7 +582,7 @@
                                                     <div class="col-span-2">
                                                         <div class="text-right py-1 pr-2 text-gray-500">
                                                             {{state.filter.time_from && state.filter.time_to
-                                                                ? empStats(employee)?.hours?.find((t: any) => t?.shift?.system_name
+                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name
                                                                     === 'time-filter')?.weekly_hours ?? '--'
                                                                 : '--'}}
                                                         </div>
@@ -597,7 +590,7 @@
                                                     <div class="col-span-2 border-l-0.5 border-gray-200">
                                                         <div class="text-right py-1 pr-2 text-gray-500">
                                                             {{state.filter.time_from && state.filter.time_to
-                                                                ? empStats(employee)?.hours?.find((t: any) => t?.shift?.system_name
+                                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name
                                                                     === 'time-filter')?.yearly_hours ?? '--'
                                                                 : '--'}}
                                                         </div>
@@ -613,7 +606,7 @@
                                                         <div class="text-right py-1 pr-2 font-bold">
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    (empStats(employee)?.hours ?? []).filter((t: any) => t?.shift?.system_name
+                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name
                                                                         !== 'time-filter')
                                                                         .reduce((sum: number, t: any) => sum +
                                                                             (parseFloat(String(t?.weekly_hours || '0').replace(',',
@@ -625,7 +618,7 @@
                                                         <div class="text-right py-1 pr-2 font-bold">
                                                             {{
                                                                 formatNumber(language.locale.value,
-                                                                    (empStats(employee)?.hours ?? []).filter((t: any) => t?.shift?.system_name
+                                                                    employee?.hours?.filter((t: any) => t?.shift?.system_name
                                                                         !== 'time-filter')
                                                                         .reduce((sum: number, t: any) => sum +
                                                                             (parseFloat(String(t?.yearly_hours || '0').replace(',',
@@ -652,40 +645,40 @@
 
                                                         <!-- Compensatory hours -->
                                                         <div :class="[
-                                                            empStats(employee)?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
+                                                            employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
                                                             'flex items-center gap-2 sm:gap-1 w-fit cursor-pointer'
                                                         ]" @click="viewCompensatoryHours(employee)">
                                                             <div :class="[
-                                                                empStats(employee)?.total_norm_hours?.compensatory_hours > 0 ? 'bg-green-100' : 'bg-red-100',
+                                                                employee?.total_norm_hours?.compensatory_hours > 0 ? 'bg-green-100' : 'bg-red-100',
                                                                 'w-7 h-7 sm:w-auto sm:h-auto rounded-md sm:rounded-none sm:bg-transparent flex items-center justify-center flex-shrink-0'
                                                             ]">
                                                                 <Icon name="ph:clock-countdown" :class="[
-                                                                    empStats(employee)?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-600' : 'text-red-600',
+                                                                    employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-600' : 'text-red-600',
                                                                     'h-4 w-4 sm:h-3 sm:w-3 sm:text-current'
                                                                 ]" aria-hidden="true" />
                                                             </div>
                                                             {{ $t('dutySchedules.normHours.compensatoryHours') }}:
                                                             {{ formatNumber(language.locale.value,
-                                                                empStats(employee)?.total_norm_hours?.compensatory_hours) ?? 0 }}
+                                                                employee?.total_norm_hours?.compensatory_hours) ?? 0 }}
                                                         </div>
 
                                                         <!-- Available vacation hours -->
                                                         <div :class="[
-                                                            empStats(employee)?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-700' : 'text-red-700',
+                                                            employee?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-700' : 'text-red-700',
                                                             'flex items-center gap-2 sm:gap-1 w-fit cursor-pointer'
                                                         ]" @click="viewAvailableVacationHours(employee)">
                                                             <div :class="[
-                                                                empStats(employee)?.total_norm_hours?.available_vacation_days > 0 ? 'bg-green-100' : 'bg-red-100',
+                                                                employee?.total_norm_hours?.available_vacation_days > 0 ? 'bg-green-100' : 'bg-red-100',
                                                                 'w-7 h-7 sm:w-auto sm:h-auto rounded-md sm:rounded-none sm:bg-transparent flex items-center justify-center flex-shrink-0'
                                                             ]">
                                                                 <Icon name="ph:umbrella-simple" :class="[
-                                                                    empStats(employee)?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-600' : 'text-red-600',
+                                                                    employee?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-600' : 'text-red-600',
                                                                     'h-4 w-4 sm:h-3 sm:w-3 sm:text-current'
                                                                 ]" aria-hidden="true" />
                                                             </div>
                                                             {{ $t('dutySchedules.normHours.availableVacationDays') }}:
                                                             {{ formatNumber(language.locale.value,
-                                                                empStats(employee)?.total_norm_hours?.available_vacation_days || 0)
+                                                                employee?.total_norm_hours?.available_vacation_days || 0)
                                                             }}
                                                         </div>
 
@@ -1365,8 +1358,6 @@ const state = reactive({
         selectedEmployeeSchedule: {},
     } as any,
     weeklySchedules: [] as any,
-    employeeHoursStats: {} as Record<string, any>,
-    employeeHoursStatsLoading: {} as Record<string, boolean>,
     shiftWarnings: [] as any,
     showWarningDialog: false,
 })
@@ -1557,8 +1548,6 @@ async function fetchDutySchedule() {
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
             state.weeklySchedules = response
-            state.employeeHoursStats = {}
-            state.employeeHoursStatsLoading = {}
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
@@ -1656,46 +1645,10 @@ function toggleShowHideAllShifts() {
     expandedRecords.forEach((_, index) => {
         expandedRecords[index] = !state.showAllShifts
     })
-    if (state.showAllShifts) {
-        state.weeklySchedules?.data?.forEach((employee: any) => fetchEmployeeHoursStats(employee))
-    }
 }
 
 function toggleExpanded(index: number) {
-    const wasHidden = expandedRecords[index]
     expandedRecords[index] = !expandedRecords[index]
-    if (wasHidden) {
-        fetchEmployeeHoursStats(state.weeklySchedules?.data?.[index])
-    }
-}
-
-async function fetchEmployeeHoursStats(employee: any) {
-    const uuid = employee?.uuid
-    if (!uuid || state.employeeHoursStats[uuid]) return
-    state.employeeHoursStatsLoading[uuid] = true
-    try {
-        const dateMoment = moment(currentDate.value)
-        const response = await dutyScheduleService.getEmployeeHoursStats(uuid, {
-            date_start: dateMoment.clone().startOf('isoWeek').format('YYYY-MM-DD'),
-            date_end: dateMoment.clone().endOf('isoWeek').format('YYYY-MM-DD'),
-            department: departmentStore.getSelectedDepartmentName,
-        })
-        if (response) {
-            state.employeeHoursStats[uuid] = response?.data ?? response
-        }
-    } catch (_) {
-        // stats unavailable
-    } finally {
-        state.employeeHoursStatsLoading[uuid] = false
-    }
-}
-
-function empStats(employee: any) {
-    return state.employeeHoursStats[employee?.uuid]
-}
-
-function isStatsLoading(employee: any) {
-    return !!state.employeeHoursStatsLoading[employee?.uuid]
 }
 
 function previousWeek() {

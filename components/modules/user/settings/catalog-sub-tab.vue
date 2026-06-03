@@ -294,28 +294,6 @@ watch(() => userStore.getUser, (newValue: any) => {
             },
         ];
 
-        if (newValue?.company?.industry?.system_name === 'employment_services') {
-            state.tabs.push(
-                {
-                    name: 'settings.tabs.employmentStatusTypes',
-                    isTranslateName: true,
-                    href: `/settings/employment-status-types`,
-                    routeNames: ['settings-employment-status-types']
-                },
-                {
-                    name: 'settings.tabs.employmentCaseTypes',
-                    isTranslateName: true,
-                    href: `/settings/employment-case-types`,
-                    routeNames: ['settings-employment-case-types']
-                },
-                {
-                    name: 'settings.tabs.employmentBillingRules',
-                    isTranslateName: true,
-                    href: `/settings/employment-billing-rules`,
-                    routeNames: ['settings-employment-billing-rules']
-                },
-            )
-        }
     }
 })
 
@@ -416,15 +394,6 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/units') {
         navigateTo(`/settings/units`)
-    }
-    else if (value === '/settings/employment-status-types') {
-        navigateTo(`/settings/employment-status-types`)
-    }
-    else if (value === '/settings/employment-case-types') {
-        navigateTo(`/settings/employment-case-types`)
-    }
-    else if (value === '/settings/employment-billing-rules') {
-        navigateTo(`/settings/employment-billing-rules`)
     }
 }
 </script>
