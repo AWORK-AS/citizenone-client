@@ -312,6 +312,12 @@
                                             <div
                                                 class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <SuperadminTableButton
+                                                    v-if="!account?.roles?.some((r: any) => r.name === 'Superadmin')"
+                                                    @click="impersonateAccount(account)"
+                                                    title="Impersonate">
+                                                    <Icon name="ph:user-switch" class="w-3.5 h-3.5" />
+                                                </SuperadminTableButton>
+                                                <SuperadminTableButton
                                                     @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/${account.uuid}/edit`)">
                                                     <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
                                                 </SuperadminTableButton>
@@ -496,6 +502,22 @@ async function toggleActive() {
                 ? 'superadmin.companies.form.alert.companySuccessfullyActivated'
                 : 'superadmin.companies.form.alert.companySuccessfullyDeactivated'
             successAlert(`${t('alert.success')}!`, `${t(key)}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function impersonateAccount(account: any) {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await accountService.impersonateAccount(account.uuid)
+        if (response?.impersonation_token) {
+            localStorage.setItem('_original_token', localStorage.getItem('_token') ?? '')
+            localStorage.setItem('_token', response.impersonation_token)
+            navigateTo('/overview')
         }
     } catch (error: any) {
         state.error = error
