@@ -9688,6 +9688,7 @@
             "form": {
                 "name": "Navn",
                 "color": "Farve",
+                "billingRule": "Faktureringsregel",
                 "isActive": "Aktiv",
                 "sortOrder": "Sorteringsrækkefølge",
                 "alert": {
@@ -9854,6 +9855,15 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Aftale slettet"
                 }
+            },
+            "statusTypes": {
+                "title": "Statustyper for denne aftale",
+                "description": "Vælg hvilke statustyper der er tilgængelige for sager under denne aftale.",
+                "noStatusTypesAvailable": "Ingen statustyper konfigureret. Opret statustyper under Indstillinger først.",
+                "saveConfiguration": "Gem konfiguration",
+                "alert": {
+                    "configurationSaved": "Statustypekonfiguration gemt"
+                }
             }
         },
         "cases": {
@@ -9868,6 +9878,7 @@
                 "endDate": "Slutdato",
                 "durationWeeks": "Varighed (uger)",
                 "status": "Status",
+                "statusType": "Statustype",
                 "notes": "Noter",
                 "periodMode": {
                     "byWeeks": "Pr. uger",
@@ -9895,13 +9906,30 @@
                 "responsibleEmployee": "Ansvarlig",
                 "actions": {
                     "edit": "Rediger",
-                    "delete": "Slet"
+                    "delete": "Slet",
+                    "history": "Historik"
                 },
                 "confirmation": {
                     "deleteCaseConfirmation": "Er du sikker på, at du vil slette denne sag?"
                 },
                 "alert": {
                     "caseSuccessfullyDeleted": "Sag slettet"
+                }
+            },
+            "statusHistory": {
+                "title": "Statushistorik",
+                "history": "Historik",
+                "addEntry": "Registrer statusændring",
+                "noHistory": "Ingen statusændringer registreret endnu.",
+                "statusCleared": "Status fjernet",
+                "form": {
+                    "statusType": "Ny status",
+                    "notes": "Noter",
+                    "notesPlaceholder": "Årsag til statusændring (valgfrit)",
+                    "save": "Gem"
+                },
+                "alert": {
+                    "statusUpdated": "Status opdateret"
                 }
             }
         }

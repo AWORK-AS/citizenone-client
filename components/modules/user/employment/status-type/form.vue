@@ -16,6 +16,12 @@
                 <FormError :error="props?.error?.errors?.color?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="billing_rule_uuid" :label="$t('employment.statusTypes.form.billingRule')" />
+                <FormSelect id="billing_rule_uuid" :options="state.options.billingRules"
+                    v-model="state.formStatusType.billing_rule_uuid" />
+                <FormError :error="props?.error?.errors?.billing_rule_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="sort_order" :label="$t('employment.statusTypes.form.sortOrder')" />
                 <FormNumberField id="sort_order" name="sort_order" :min="0"
                     v-model="state.formStatusType.sort_order" />
@@ -43,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -73,8 +80,14 @@ const state = reactive({
         color: '#000000',
         is_active: true,
         sort_order: 0,
+        billing_rule_uuid: null as string | null,
+    },
+    options: {
+        billingRules: [] as any[],
     },
 })
+
+onMounted(() => { fetchBillingRules() })
 
 watch(() => props.selectedStatusType, (newValue: any) => {
     if (newValue != null) {
@@ -83,9 +96,27 @@ watch(() => props.selectedStatusType, (newValue: any) => {
             color: newValue.color ?? '#000000',
             is_active: newValue.is_active ?? true,
             sort_order: newValue.sort_order ?? 0,
+            billing_rule_uuid: newValue.billing_rule?.uuid ?? null,
         }
     }
 })
+
+async function fetchBillingRules() {
+    emit('isPageLoading', true)
+    try {
+        const response = await employmentService.getAllBillingRules()
+        if (response?.data) {
+            state.options.billingRules = [
+                { value: null, label: '—' },
+                ...response.data.map((item: any) => ({
+                    value: item.uuid,
+                    label: item.name,
+                })),
+            ]
+        }
+    } catch { /* ignore */ }
+    emit('isPageLoading', false)
+}
 
 const rules = computed(() => {
     return {
