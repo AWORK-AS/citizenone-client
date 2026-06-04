@@ -54,7 +54,6 @@ function loginViaMicrosoft() {
     params.append('response_mode', 'query')
     params.append('scope', runtimeConfig.public.azureScopes)
     params.append('state', state)
-    params.append('prompt', 'consent')
     const url = `https://login.microsoftonline.com/${runtimeConfig.public.azureTenantId}/oauth2/v2.0/authorize?${params.toString()}`
     navigateToExternalLink(url)
 }
