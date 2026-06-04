@@ -314,12 +314,24 @@
                                                 <SuperadminTableButton
                                                     v-if="!account?.roles?.some((r: any) => r.name === 'Superadmin')"
                                                     @click="impersonateAccount(account)"
-                                                    title="Impersonate">
+                                                    :title="$t('superadmin.accounts.table.actions.impersonate')">
                                                     <Icon name="ph:user-switch" class="w-3.5 h-3.5" />
                                                 </SuperadminTableButton>
                                                 <SuperadminTableButton
-                                                    @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/${account.uuid}/edit`)">
+                                                    @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/${account.uuid}/edit`)"
+                                                    :title="$t('superadmin.accounts.table.actions.edit')">
                                                     <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
+                                                </SuperadminTableButton>
+                                                <SuperadminTableButton
+                                                    @click="activateDeactivateAccount(i, account)"
+                                                    :title="account.is_active ? $t('superadmin.accounts.table.actions.deactivate') : $t('superadmin.accounts.table.actions.activate')">
+                                                    <Icon :name="account.is_active ? 'ph:x' : 'ph:check'" class="w-3.5 h-3.5" />
+                                                </SuperadminTableButton>
+                                                <SuperadminTableButton
+                                                    @click="confirmAccountDeletion(account)"
+                                                    :title="$t('superadmin.accounts.table.actions.delete')"
+                                                    buttonStyle="danger">
+                                                    <Icon name="ph:trash" class="w-3.5 h-3.5" />
                                                 </SuperadminTableButton>
                                             </div>
                                         </td>
@@ -331,6 +343,9 @@
                     </div>
                 </LoadingSpinner>
             </div>
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteAccountOpen"
+                :message="$t('superadmin.accounts.confirmation.deleteConfirmation') + '?'"
+                @close="state.modal.isDeleteAccountOpen = false" @confirm="deleteAccount" />
         </NuxtLayout>
     </div>
 </template>
@@ -368,6 +383,10 @@ const state = reactive({
     isAppsLoading: false,
     isPageLoading: false,
     licensesCount: null as any,
+    modal: {
+        isDeleteAccountOpen: false,
+    },
+    selectedAccount: null as any,
     subscription: null as any,
 })
 
@@ -537,6 +556,45 @@ async function impersonateCompany() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function activateDeactivateAccount(index: number, account: any) {
+    state.error = {}
+    state.isAccountsLoading = true
+    try {
+        const response = await accountService.activateDeactiveAccount(account.uuid, { is_active: !account.is_active })
+        if (response) {
+            state.accounts.data[index].is_active = response?.data?.is_active
+            if (response?.data?.is_active) {
+                successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.accountSuccessfullyActivated')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.form.alert.accountSuccessfullyDeactivated')}.`)
+            }
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isAccountsLoading = false
+}
+
+function confirmAccountDeletion(account: any) {
+    state.selectedAccount = account
+    state.modal.isDeleteAccountOpen = true
+}
+
+async function deleteAccount() {
+    state.error = {}
+    state.isAccountsLoading = true
+    try {
+        const response = await accountService.deleteAccount(state.selectedAccount.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchAccounts()
+            successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.alert.deletedSuccessfully')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isAccountsLoading = false
 }
 
 async function sendCardUpdateLink() {
