@@ -36,6 +36,16 @@ class CompanyService extends BaseAPIService {
     async downloadTemplate(): Promise<any> {
         return await this.request(`/superadmin/imports/download/template`, 'GET')
     }
+
+    // Impersonate: log in as this company's admin account
+    async impersonateCompany(companyUuid: any): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/impersonate`, 'POST')
+    }
+
+    // Send a "update your payment card" email link to the company
+    async sendCardUpdateLink(companyUuid: any): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/send-card-update-link`, 'POST')
+    }
 }
 
 export const companyService = new CompanyService()
