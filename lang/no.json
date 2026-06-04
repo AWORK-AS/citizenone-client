@@ -2447,7 +2447,8 @@
             "health": "Helse",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
-            "plansAndGoals": "Planer og mål"
+            "plansAndGoals": "Planer og mål",
+            "outcomes": "Resultater"
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -2837,6 +2838,43 @@
                 "wallets": "Punge"
             },
             "wallets": "Økonomi"
+        },
+        "outcomes": {
+            "outcomes": "Resultater",
+            "newOutcome": "Nytt resultat",
+            "editOutcome": "Rediger resultat",
+            "type": {
+                "employment": "Ansettelse",
+                "education": "Utdanning",
+                "workPlacement": "Arbeidspraksis"
+            },
+            "form": {
+                "type": "Type",
+                "employerInstitution": "Arbeidsgiver / Institusjon",
+                "startDate": "Startdato",
+                "endDate": "Sluttdato",
+                "notes": "Notater",
+                "billingRule": "Fakturaregel",
+                "noBillingRule": "Ingen"
+            },
+            "table": {
+                "type": "Type",
+                "employerInstitution": "Arbeidsgiver / Institusjon",
+                "startDate": "Startdato",
+                "endDate": "Sluttdato",
+                "consultant": "Konsulent",
+                "billingRule": "Fakturaregel"
+            },
+            "alert": {
+                "savedSuccessfully": "Resultat lagret",
+                "updatedSuccessfully": "Resultat oppdatert",
+                "deletedSuccessfully": "Resultat slettet"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på at du vil slette dette resultatet?"
+            },
+            "edit": "Rediger",
+            "delete": "Slett"
         }
     },
     "client": {

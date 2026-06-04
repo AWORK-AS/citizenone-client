@@ -152,6 +152,15 @@ watch(() => userStore.getUser, (newValue: any) => {
         })
     }
 
+    if (newValue?.company?.industry?.system_name === 'employment_services') {
+        state.tabs.push({
+            name: 'citizens.tabs.outcomes',
+            isTranslateName: true,
+            href: `/citizens/${citizenUuid}/outcomes`,
+            routeNames: ['citizens-uuid-outcomes']
+        })
+    }
+
     // Check if current route is allowed
     const currentRouteName = route.name as string
     const isCurrentRouteAccessible = state.tabs.some((tab: any) =>
@@ -204,6 +213,9 @@ function changeTab(value: any) {
     }
     else if (value === `/citizens/${citizenUuid}/children`) {
         navigateTo(`/citizens/${citizenUuid}/children`)
+    }
+    else if (value === `/citizens/${citizenUuid}/outcomes`) {
+        navigateTo(`/citizens/${citizenUuid}/outcomes`)
     }
 }
 </script>
