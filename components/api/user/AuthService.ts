@@ -4,13 +4,25 @@ class AuthService extends BaseAPIService {
     async login(params: object): Promise<any> {
         return await this.request(`/auth/login`, 'POST', params)
     }
-
+    
+    async microsoftLogin(): Promise<any> {
+        return await this.request(`/auth/ad/login`, 'GET')
+    }
+  
+    async googleLogin(): Promise<any> {
+        return await this.request(`/auth/google/login`, 'GET')
+    }
+  
     async verify2faCode(params: object): Promise<any> {
         return await this.request(`/auth/2fa/verify/code`, 'POST', params)
     }
 
     async register(params: object): Promise<any> {
         return await this.request(`/auth/register`, 'POST', params)
+    }
+
+    async registerInvitation(params: object): Promise<any> {
+        return await this.request(`/auth/register-invitation`, 'POST', params)
     }
 
     async logout(): Promise<any> {
@@ -21,8 +33,8 @@ class AuthService extends BaseAPIService {
         return await this.request(`/auth/forgot-password`, 'POST', params)
     }
 
-    async verifyResetPassword(token: any): Promise<any> {
-        return await this.request(`/auth/verify-token/${token}`, 'POST')
+    async verifyResetPassword(params: object): Promise<any> {
+        return await this.request(`/auth/verify-token`, 'POST', params)
     }
 
     async resetPassword(params: object): Promise<any> {
@@ -36,33 +48,8 @@ class AuthService extends BaseAPIService {
     async verifyEmail(token: any): Promise<any> {
         return await this.request(`/auth/verify-email/${token}`, 'POST')
     }
-
-    async microsoftLogin(): Promise<any> {
-        return null
-        // return await this.request(`/auth/verify-email/${token}`, 'POST')
-    }
-
-    async googleLogin(): Promise<any> {
-        return null
-        // return await this.request(`/auth/verify-email/${token}`, 'POST')
-    }
-
-    async ssoRedirect(email: any): Promise<any> {
-        return null
-        // return await this.request(`/auth/verify-email/${token}`, 'POST')
-    }
-
-    async verifyIpOtp(params: object): Promise<any> {
-        return await this.request(`/auth/verify-ip-otp`, 'POST', params)
-    }
-
-    async verifyDeviceOtp(params: object): Promise<any> {
-        return await this.request(`/auth/verify-device-otp`, 'POST', params)
-    }
-
-    async stopImpersonation(): Promise<any> {
-        return await this.request(`/user/impersonate/stop`, 'POST')
+    async ssoRedirect(email: string): Promise<any> {
+        return await this.request(`/auth/sso/redirect`, 'POST', { email })
     }
 }
-
 export const authService = new AuthService()
