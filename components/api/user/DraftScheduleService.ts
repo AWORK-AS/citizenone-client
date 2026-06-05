@@ -56,6 +56,10 @@ class DraftScheduleService extends BaseAPIService {
     async getCompensatoryVacationHours(params: object): Promise<any> {
         return await this.request(`/user/draft-schedules/overview/compensatory-vacation-hours`, 'GET', params)
     }
+
+    async deleteAllCompanyDraftSchedules(): Promise<any> {
+        return await this.request(`/user/draft-schedules/company/all`, 'DELETE')
+    }
 }
 
 export const draftScheduleService = new DraftScheduleService()

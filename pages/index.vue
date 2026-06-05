@@ -281,6 +281,19 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
 	animateAssets()
+
+	const route = useRoute()
+	const impersonateToken = route.query.impersonate_token as string
+	if (impersonateToken) {
+		const currentToken = localStorage.getItem('_token')
+		if (currentToken) {
+			localStorage.setItem('_original_token', currentToken)
+		}
+		localStorage.setItem('_token', impersonateToken)
+		navigateTo('/overview')
+		return
+	}
+
 	const rememberMe = localStorage.getItem("rememberMe")
 	if (rememberMe) {
 		navigateTo('/overview')

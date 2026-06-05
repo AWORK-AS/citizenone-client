@@ -136,13 +136,13 @@
                 class="sticky top-0 z-[60] bg-amber-500 text-white px-6 py-2.5 flex items-center justify-between gap-x-4">
                 <div class="flex items-center gap-x-2 min-w-0">
                     <Icon name="ph:user-switch" class="h-5 w-5 shrink-0" />
-                    <span class="text-sm font-semibold truncate">Impersonating: {{ userStore.getUser?.firstname }} {{
+                    <span class="text-sm font-semibold truncate">{{ $t('navbar.impersonating') }}: {{ userStore.getUser?.firstname }} {{
                         userStore.getUser?.lastname }}</span>
                 </div>
                 <button @click="stopImpersonation"
                     class="flex items-center gap-x-1.5 text-sm font-semibold bg-amber-600 hover:bg-amber-700 px-3 py-1 rounded-md transition-colors shrink-0">
                     <Icon name="ph:arrow-u-up-left" class="h-4 w-4" />
-                    Stop impersonation
+                    {{ $t('navbar.stopImpersonation') }}
                 </button>
             </div>
             <!-- Navbar -->
@@ -717,9 +717,6 @@ async function logout() {
 
 async function stopImpersonation() {
     state.isPageLoading = true
-    try {
-        await authService.stopImpersonation()
-    } catch (_) { }
     const originalToken = localStorage.getItem('_original_token')
     if (originalToken) {
         localStorage.setItem('_token', originalToken)

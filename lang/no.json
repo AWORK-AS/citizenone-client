@@ -2469,7 +2469,8 @@
             "health": "Helse",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
-            "plansAndGoals": "Planer og mål"
+            "plansAndGoals": "Planer og mål",
+            "employmentCases": "Saker"
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -3350,6 +3351,12 @@
                 "message": "Månedsvisning av kladden er under udvikling. Bruk ugevisningen til at redigere kladdevakter. Du kan se den udgivede månedsoversigt under Vaktplaner → Månedsvisning.",
                 "switchToWeekView": "Bytt til ugevisning →"
             },
+            "deleteAll": {
+                "button": "Slett alle kladder",
+                "title": "Slett alle kladdevakter",
+                "confirmation": "Er du sikker på at du vil slette alle kladdevakter for dette selskapet? Denne handlingen kan ikke angres.",
+                "successAlert": "Alle kladdevakter er slettet."
+            },
             "publish": "Publiser",
             "publishing": "Udgivelse av vaktplaner, lukk eller oppdater ikke siden.",
             "selectDepartment": {
@@ -3923,7 +3930,7 @@
                         "deactivate": "Deaktiver",
                         "delete": "Slett",
                         "edit": "Rediger",
-                        "impersonate": "Impersonér"
+                        "impersonate": "Logg inn som klient"
                     },
                     "email": "E-post",
                     "name": "Navn",
@@ -6628,7 +6635,9 @@
         "reminders": "Påminnelser",
         "settings": "Innstillinger",
         "subscription": "Abonnement",
-        "switchLanguage": "Bytt språk"
+        "switchLanguage": "Bytt språk",
+        "impersonating": "Innlogget som klient",
+        "stopImpersonation": "Logg ut som klient"
     },
     "news": {
         "confirmation": {
@@ -7957,7 +7966,9 @@
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sakstyper",
-            "employmentBillingRules": "Faktureringsregler"
+            "employmentBillingRules": "Faktureringsregler",
+            "employmentJobcenters": "Jobbsentre",
+            "employmentAgreements": "Avtaler"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",
@@ -8222,7 +8233,7 @@
                     "deactivate": "Deaktiver",
                     "delete": "Slett",
                     "edit": "Rediger",
-                    "impersonate": "Impersonér"
+                    "impersonate": "Logg inn som klient"
                 },
                 "email": "E-post",
                 "name": "Navn",
@@ -8231,87 +8242,95 @@
             }
         },
         "apps": {
-            "alert": {
-                "appSuccessfullyDeleted": "App ble slettet"
-            },
-            "apps": "Apper",
-            "categories": {
-                "citizenone": "CitizenOne",
-                "fst": "FindSocialeTilbud.dk",
-                "marketing": "Marketing",
-                "other": "Annet",
-                "visual": "Visuel"
-            },
-            "confirmation": {
-                "deleteAppConfirmation": "Er du sikker på at du vil slette denne app?"
-            },
-            "editApp": "Rediger app",
+            "pageTitle": "Apper",
+            "pageSubtitle": "Administrer alle tilgjengelige apper og moduler",
+            "newApp": "Ny app",
+            "searchPlaceholder": "Søk apper...",
+            "catAll": "Alle",
+            "catModules": "Moduler",
+            "catCourses": "Kurs",
+            "catIntegrations": "Integrasjoner",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "oneTime": "Engangs",
+            "monthly": "Månedlig",
+            "perMonth": "/måned",
+            "yearly": "Årlig",
+            "perYear": "/år",
+            "free": "Gratis",
+            "edit": "Rediger",
+            "noAppsFound": "Ingen apper funnet",
+            "colApp": "App",
+            "colPrice": "Pris",
+            "colType": "Type",
+            "colStatus": "Status",
+            "colCompanies": "Selskaper",
+            "sliderEditTitle": "Rediger app",
+            "sliderNewTitle": "Ny app",
+            "sliderEditSubtitle": "Oppdater appdetaljene nedenfor",
+            "sliderNewSubtitle": "Fyll inn detaljene for å opprette en ny app",
+            "labelName": "Navn",
+            "phAppName": "App-navn",
+            "labelDescription": "Beskrivelse",
+            "phDescription": "Kort beskrivelse av appen...",
+            "labelType": "Type",
+            "typeModule": "Modul",
+            "typeCourse": "Kurs",
+            "typeIntegration": "Integrasjon",
+            "typeOther": "Annet",
+            "labelPrices": "Priser",
+            "labelMonthlyPrice": "Månedlig pris",
+            "labelYearlyPrice": "Årlig pris",
+            "labelOneTimeFee": "Engangsgebyr",
+            "oneTimeFeeHint": "En engangsbetaling som belastes én gang",
+            "labelImageUrl": "Bilde-URL",
+            "optional": "valgfritt",
+            "visibleInAppStore": "Synlig i app-butikken",
+            "visibleInAppStoreHint": "Vis denne appen i markedsplassen",
+            "attachToCompany": "Tilordne til selskap",
+            "attachToCompanyDesc": "Tilordne denne appen direkte til et bestemt selskap",
+            "searchCompany": "Søk selskap...",
+            "assigned": "Tilordnet",
+            "cancel": "Avbryt",
+            "saving": "Lagrer...",
+            "saveChanges": "Lagre endringer",
+            "createApp": "Opprett app",
+            "deleteConfirm": "Er du sikker på at du vil slette {name}?",
+            "successAssigned": "App tilordnet",
+            "successAssignedBody": "{appName} er blitt tilordnet til {companyName}",
+            "errorNameRequired": "Navn er påkrevd",
+            "successSaved": "Lagret",
+            "successUpdatedBody": "{name} er blitt oppdatert",
+            "successCreated": "Opprettet",
+            "successCreatedBody": "{name} er blitt opprettet",
+            "successDeleted": "Slettet",
+            "successDeletedBody": "{name} er blitt slettet",
             "form": {
-                "alert": {
-                    "appSuccessfullyUpdated": "App ble oppdatert",
-                    "newAppSuccessfullySaved": "Ny app ble lagret"
-                },
-                "backgroundImage": "Baggrundsbillede",
-                "description": "Beskrivelse",
-                "image": "Bilde",
-                "isOneTimeFee": "Én gang gebyr",
-                "link": "Link",
                 "logo": "Logo",
-                "monthlyPrice": "Månedlig pris",
+                "image": "Bilde",
+                "backgroundImage": "Bakgrunnsbilde",
                 "name": "Navn",
-                "news": "Nyhet",
-                "popular": "Populær",
+                "description": "Beskrivelse",
+                "isOneTimeFee": "Engangsgebyr",
                 "price": "Pris",
-                "quantifiable": "Kan kvantificeres",
-                "recommended": "Anbefalet",
-                "thirdPartyApp": "Tredjeparts app",
+                "monthlyPrice": "Månedspris",
+                "yearlyPrice": "Årspris",
                 "type": "Type",
+                "link": "Lenke",
+                "quantifiable": "Kvantifiserbar",
+                "thirdPartyApp": "Tredjeparts-app",
+                "popular": "Populær",
+                "recommended": "Anbefalt",
+                "news": "Nyheter",
                 "types": {
                     "citizenone": "CitizenOne",
-                    "fst": "FindSocialeTilbud.dk",
-                    "marketing": "Marketing",
-                    "other": "Annet",
-                    "visual": "Visuel"
-                },
-                "yearlyPrice": "Årlig pris"
+                    "fst": "FST",
+                    "marketing": "Markedsføring",
+                    "visual": "Visuell",
+                    "other": "Annen"
+                }
             },
-            "newApp": "Ny app",
-            "table": {
-                "actions": {
-                    "delete": "Slett",
-                    "edit": "Rediger"
-                },
-                "link": "Link",
-                "logo": "Logo",
-                "monthlyPrice": "Månedlig pris",
-                "name": "Navn",
-                "news": "Nyhet",
-                "oneTimeFee": "Én gang gebyr",
-                "popular": "Populær",
-                "price": "Pris",
-                "recommended": "Anbefalet",
-                "thirdPartyApp": "Tredjeparts app",
-                "type": "Type",
-                "yearlyPrice": "Årlig pris"
-            },
-            "noSubscription": {
-                "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ut til at du ikke har et aktivt abonnement for øyeblikket",
-                "noActiveSubscription": "Ingen aktivt abonnement",
-                "subscribeNow": "Abonner nå",
-                "toEnjoyOurFullRangeOfServicesAndBenefits": "For å nyte vårt fulle utvalg av tjenester og fordeler, vurder å abonnere på en av våre pakker",
-                "upgradeNow": "Oppgrader nå"
-            },
-            "subscribed": {
-                "goHome": "Gå til hjem",
-                "paymentSuccessful": "Betaling vellykket",
-                "subscriptionSuccessful": "Abonnement vellykket",
-                "thankYouForSubscribing": "Takk for ditt abonnement",
-                "yourPaymentHasBeenSuccessfullyProcessed": "Betalingen din er behandlet",
-                "yourSubscriptionIsNowActive": "Abonnementet ditt er nå aktivt"
-            },
-            "subscription": "Abonnement",
-            "updateSubscription": "Oppdater abonnement",
-            "upgrade": "Oppgrader"
+            "colName": "Navn"
         },
         "companies": {
             "companies": "Virksomheter",
@@ -8403,6 +8422,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens"
             },
             "newCompany": "Ny virksomhet",
+            "saveCompany": "Lagre virksomhet",
             "subscriptions": {
                 "deal": {
                     "admin": "Admin",
@@ -8534,6 +8554,8 @@
                 }
             },
             "newCoupon": "Ny kupon",
+            "noCouponsFound": "Ingen kuponger funnet",
+            "searchPlaceholder": "Søk etter kuponger...",
             "table": {
                 "actions": {
                     "delete": "Slett",
@@ -8715,6 +8737,17 @@
             "colTotal": "Total",
             "colStatus": "Status",
             "colDate": "Dato",
+            "colReferenceNumber": "Referansenummer",
+            "colType": "Type",
+            "colData": "Data",
+            "dataCompany": "Firmanavn",
+            "dataName": "Navn",
+            "dataEmail": "E-post",
+            "dataAmount": "Beløp",
+            "dataPaymentMethod": "Betalingsmetode",
+            "dataSubscription": "Abonnement",
+            "statusNew": "Ny",
+            "statusRecurring": "Gjentakende",
             "extraUsers": "brukere",
             "extraDepartments": "avdelinger",
             "perYear": "/år",
@@ -8818,8 +8851,10 @@
             },
             "newPoll": "Ny avstemning",
             "newPollItem": "Nytt avstemningspunkt",
+            "noPollsFound": "Ingen avstemninger funnet",
             "pollItems": "Avstemningspunkter",
             "polls": "Avstemninger",
+            "searchPlaceholder": "Søk etter avstemninger...",
             "table": {
                 "actions": {
                     "delete": "Slett",
@@ -8836,37 +8871,139 @@
             }
         },
         "salesCampaign": {
-            "confirmation": {
-                "deleteConfirmation": "Er du sikker på at du vil slette denne kampanje"
-            },
-            "editCampaign": "Rediger kampanje",
-            "form": {
-                "active": "Aktiv",
-                "alert": {
-                    "campaignSuccessfullyDeleted": "Kampanje ble vellykket slettet",
-                    "campaignSuccessfullyUpdated": "Kampanje oppdatert",
-                    "newCampaignSuccessfullySaved": "Ny kampanje er lagret"
-                },
-                "content": "Innhold",
-                "image": "Bilde",
-                "link": "Link",
-                "title": "Tittel"
-            },
+            "pageTitle": "Salgskampanjer",
+            "pageSubtitle": "Kampanjer, rabattkoder og markedsføringsverktøy",
             "newCampaign": "Ny kampanje",
-            "salesCampaign": "Salgs kampanje",
-            "table": {
-                "actions": {
-                    "delete": "Slett",
-                    "edit": "Rediger"
-                },
-                "active": "Aktiv",
-                "content": "Innhold",
-                "image": "Bilde",
-                "inactive": "Inaktiv",
-                "link": "Link",
-                "status": "Status",
-                "title": "Tittel"
-            }
+            "statActiveCampaigns": "Aktive kampanjer",
+            "statRunningNow": "Kjører nå",
+            "statActiveCoupons": "Aktive kuponger",
+            "statCanRedeem": "Kan løses inn",
+            "statRedemptions": "Innløsninger",
+            "statAllTime": "Alle tider",
+            "statExpiringSoon": "Utløper snart",
+            "statWithin7Days": "Innen 7 dager",
+            "tabCampaigns": "Kampanjer",
+            "tabCoupons": "Kuponger",
+            "tabTools": "Markedsføringsverktøy",
+            "searchCampaigns": "Søk kampanjer...",
+            "filterAll": "Alle",
+            "filterActive": "Aktive",
+            "filterDraft": "Utkast",
+            "filterExpired": "Utløpt",
+            "colCampaign": "Kampanje",
+            "colType": "Type",
+            "colDiscount": "Rabatt",
+            "colTargetPlan": "Målplan",
+            "colPeriod": "Periode",
+            "colStatus": "Status",
+            "allPlans": "Alle planer",
+            "noExpiry": "Ingen utløpsdato",
+            "noCampaigns": "Ingen kampanjer",
+            "createFirstCampaign": "Opprett din første kampanje",
+            "createCampaign": "Opprett kampanje",
+            "typeDiscount": "Rabatt",
+            "typeTrial": "Prøveperiode",
+            "typeBundle": "Pakke",
+            "typeFlash": "Flash",
+            "typeLoyalty": "Lojalitet",
+            "typeWinback": "Win-back",
+            "statusActive": "Aktiv",
+            "statusDraft": "Utkast",
+            "statusExpired": "Utløpt",
+            "statusInactive": "Inaktiv",
+            "edit": "Rediger",
+            "monthsFree": "måneder gratis",
+            "searchCoupons": "Søk kuponger...",
+            "newCoupon": "Ny kupong",
+            "noCoupons": "Ingen kuponger",
+            "colCode": "Kode",
+            "colRedemptions": "Innløsninger",
+            "colMaxUses": "Maks. bruk",
+            "colExpires": "Utløper",
+            "never": "Aldri",
+            "createCoupon": "Opprett kupong",
+            "toolTrialTitle": "Forleng prøveperiode",
+            "toolTrialDesc": "Forleng prøveperioden for et bestemt selskap",
+            "toolMassTitle": "Massekampanje",
+            "toolMassDesc": "Send en kampanje til flere selskaper samtidig",
+            "toolReferralTitle": "Henvisningsprogram",
+            "toolReferralDesc": "Belønn kunder som henviser nye kunder",
+            "toolBannerTitle": "Annonsevisning",
+            "toolBannerDesc": "Vis et reklamebanner til alle klienter",
+            "labelClient": "Klient",
+            "phSearchClient": "Søk klient...",
+            "labelExtraDays": "Ekstra dager",
+            "days": "dager",
+            "btnExtendTrial": "Forleng prøveperiode",
+            "labelTargetGroup": "Målgruppe",
+            "allClients": "Alle klienter",
+            "freePlan": "Gratis plan",
+            "basisPlan": "Basis plan",
+            "proPlan": "Pro plan",
+            "labelDiscountPct": "Rabatt %",
+            "btnSendCampaign": "Send kampanje",
+            "referralActive": "Henvisning aktiv",
+            "labelRewardPerClient": "Belønning per klient",
+            "saveSettings": "Lagre innstillinger",
+            "bannerActive": "Banner aktiv",
+            "labelMessage": "Melding",
+            "phBannerMessage": "Skriv inn bannermelding...",
+            "labelType": "Type",
+            "bannerInfo": "Info",
+            "bannerSuccess": "Suksess",
+            "bannerWarning": "Advarsel",
+            "saveBanner": "Lagre banner",
+            "sliderEditCampaignTitle": "Rediger kampanje",
+            "sliderNewCampaignTitle": "Ny kampanje",
+            "sliderCampaignSubtitle": "Fyll inn kampanjedetaljene",
+            "sliderEditCouponTitle": "Rediger kupong",
+            "sliderNewCouponTitle": "Ny kupong",
+            "sliderCouponSubtitle": "Fyll inn kupongdetaljene",
+            "labelCampaignName": "Kampanjenavn",
+            "phCampaignName": "f.eks. Sommertilbud 2025",
+            "labelDescription": "Beskrivelse",
+            "phDescription": "Valgfri beskrivelse...",
+            "labelCampaignType": "Kampanjetype",
+            "labelDiscountType": "Rabatttype",
+            "discountPercent": "Prosent (%)",
+            "discountFixed": "Fast beløp (kr.)",
+            "discountFreeMonths": "Gratis måneder",
+            "labelDiscountValue": "Verdi",
+            "labelTargetPlan": "Målplan",
+            "planFree": "Gratis",
+            "planBasis": "Basis",
+            "planPro": "Pro",
+            "labelStartDate": "Startdato",
+            "labelEndDate": "Sluttdato",
+            "labelActive": "Aktiv",
+            "activeHint": "Vis denne kampanjen til klienter",
+            "cancel": "Avbryt",
+            "saving": "Lagrer...",
+            "saveChanges": "Lagre endringer",
+            "labelCouponCode": "Kupongkode",
+            "phCouponCode": "f.eks. SOMMER25",
+            "phInternalDesc": "Intern beskrivelse...",
+            "labelMaxUses": "Maks. bruk",
+            "phUnlimited": "Ubegrenset",
+            "maxUsesHint": "La stå tomt for ubegrenset",
+            "labelExpires": "Utløper",
+            "generate": "Generer",
+            "deleteConfirm": "Er du sikker på at du vil slette {name}?",
+            "successSaved": "Lagret",
+            "successUpdatedBody": "{name} er blitt oppdatert",
+            "successCreated": "Opprettet",
+            "successCreatedBody": "{name} er blitt opprettet",
+            "successDeleted": "Slettet",
+            "successDeletedBody": "{name} er blitt slettet",
+            "successExtended": "Prøveperiode forlenget",
+            "successExtendedBody": "Prøveperiode for {name} forlenget med {days} dager",
+            "successSent": "Kampanje sendt",
+            "successMassSent": "Massekampanje sendt",
+            "successReferralSaved": "Henvisningsinnstillinger lagret",
+            "successBannerSaved": "Banner lagret",
+            "successCouponCreated": "Kupong {code} opprettet",
+            "successCouponUpdated": "Kupong oppdatert",
+            "errorCampaignNameRequired": "Kampanjenavn er påkrevd"
         },
         "sidebar": {
             "apps": "Apper",
@@ -9268,6 +9405,117 @@
             "phFeatureN": "f.eks. Funksjon {n}",
             "phAppName": "f.eks. Nettkurs",
             "phAppDescription": "Kort beskrivelse som kundene ser i App Store..."
+        },
+        "clientRoles": {
+            "pageTitle": "Klientroller",
+            "headerTitle": "Roller og rettigheter",
+            "pageSubtitle": "Administrer tilgangstillatelser for ulike brukerroller",
+            "viewAs": "Se som",
+            "saveChanges": "Lagre endringer",
+            "edit": "Rediger",
+            "gdprNoteLabel": "GDPR:",
+            "gdprNoteText": "Tillatelser merket med GDPR kan kun gis av Admin-rollen",
+            "fixed": "Fast",
+            "ofPermissions": "{count} av {total} tillatelser",
+            "roleAdminName": "Administrator",
+            "roleAdminDescription": "Full tilgang til alle funksjoner og innstillinger. Kan administrere brukere, roller, fakturering og alle data.",
+            "roleBusinessName": "Forretningsbruker",
+            "roleBusinessDescription": "Tilgang til de fleste funksjoner uten administratorrettigheter. Passer for ansatte som jobber med data og rapporter.",
+            "roleEndUserName": "Sluttbruker",
+            "roleEndUserDescription": "Begrenset tilgang til egne data. Passer for innbyggere eller eksterne brukere som logger inn for å se egne opplysninger.",
+            "permOverview": "Oversikt",
+            "permUseApps": "Bruk apper",
+            "permAppSettings": "App-innstillinger",
+            "permOwnProfile": "Egen profil",
+            "permUserList": "Brukerliste",
+            "permPersonalData": "Persondata",
+            "permManageUsers": "Administrer brukere",
+            "permInviteUsers": "Inviter brukere",
+            "permOwnData": "Egne data",
+            "permTeamData": "Teamdata",
+            "permAllData": "Alle data",
+            "permExportData": "Eksporter data",
+            "permOwnReports": "Egne rapporter",
+            "permAllReports": "Alle rapporter",
+            "permBilling": "Fakturering",
+            "permManageRoles": "Administrer roller",
+            "permAccessLog": "Tilgangslogg",
+            "groupGeneral": "Generelt",
+            "groupUsers": "Brukere",
+            "groupData": "Data",
+            "groupReports": "Rapporter",
+            "groupAdmin": "Administrasjon",
+            "matrixTitle": "Tillatelsesmatrise",
+            "matrixSubtitle": "Fullstendig oversikt over tillatelser per rolle",
+            "colFunction": "Funksjon",
+            "previewTitle": "Forhåndsvisning: {name} rolle",
+            "previewSubtitle": "Du ser grensesnittet som en {name} bruker",
+            "whatCanDo": "Hva {name} kan",
+            "visibleMenuItems": "Synlige menyelementer",
+            "locked": "Låst",
+            "menuDashboard": "Dashbord",
+            "menuCitizens": "Innbyggere",
+            "menuJournal": "Journal",
+            "menuCalendar": "Kalender",
+            "menuChat": "Chat",
+            "menuReports": "Rapporter",
+            "menuAllReports": "Alle rapporter",
+            "menuUsers": "Brukere",
+            "menuSettings": "Innstillinger",
+            "menuBilling": "Fakturering",
+            "menuApps": "Apper",
+            "menuAccessRoles": "Tilgangsroller",
+            "menuAccessLog": "Tilgangslogg"
+        },
+        "cancellations": {
+            "pageTitle": "Oppsigelser",
+            "pageSubtitle": "Manuell registrering av oppsagte lisenser — brukes til churn-sporing",
+            "registerBtn": "Registrer oppsigelse",
+            "statTotal": "Totale oppsigelser",
+            "statSinceLaunch": "Siden oppstart",
+            "statThisMonth": "Denne måneden",
+            "statNewCancellations": "Nye oppsigelser",
+            "statLostMRR": "Tapt MRR",
+            "statPrimaryReason": "Primær årsak",
+            "statMostCommon": "Hyppigste årsak",
+            "searchPlaceholder": "Søk selskap...",
+            "allReasons": "Alle årsaker",
+            "allPeriods": "Alle perioder",
+            "thisMonth": "Denne måneden",
+            "lastMonth": "Forrige måned",
+            "thisYear": "Dette året",
+            "emptyTitle": "Ingen oppsigelser ennå",
+            "emptyDesc": "Registrer en oppsigelse for å spore churn",
+            "registerFirst": "Registrer første oppsigelse",
+            "colCompany": "Selskap",
+            "colProduct": "Produkt",
+            "colReason": "Årsak",
+            "colMrrLost": "Tapt MRR",
+            "colDate": "Dato",
+            "colNotes": "Notater",
+            "reasonBreakdown": "Årsaksfordeling",
+            "reasonPrice": "For dyrt",
+            "reasonFeatures": "Mangler funksjoner",
+            "reasonCompetitor": "Byttet til konkurrent",
+            "reasonClosed": "Selskap lukket",
+            "reasonTrialEnd": "Prøveperiode utløpt",
+            "reasonOther": "Annet",
+            "modalEditTitle": "Rediger oppsigelse",
+            "modalNewTitle": "Registrer oppsigelse",
+            "modalSubtitle": "Registrer manuelt for korrekt churn-sporing",
+            "labelCompany": "Selskap",
+            "labelProduct": "Produkt / lisens",
+            "phCompany": "Selskapsnavn",
+            "phProduct": "f.eks. Basispakke, Nettkurs-app...",
+            "labelReason": "Årsak",
+            "labelMrrLost": "Tapt MRR (kr.)",
+            "labelDate": "Oppsigelsesdato",
+            "labelNotes": "Notater",
+            "phNotes": "Ytterligere detaljer...",
+            "cancel": "Avbryt",
+            "saving": "Lagrer...",
+            "saveChanges": "Lagre endringer",
+            "register": "Registrer"
         }
     },
     "support": {
@@ -9877,6 +10125,127 @@
                     "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
                 }
             }
+        },
+        "jobcenters": {
+            "jobcenters": "Jobbsentre",
+            "newJobcenter": "Nytt jobbsenter",
+            "editJobcenter": "Rediger jobbsenter",
+            "addNewJobcenter": "Legg til nytt jobbsenter",
+            "form": {
+                "name": "Navn",
+                "municipality": "Kommune",
+                "email": "E-post",
+                "phone": "Telefon",
+                "contactPerson": "Kontaktperson",
+                "sortOrder": "Sorteringsrekkefølge",
+                "isActive": "Aktiv",
+                "alert": {
+                    "newJobcenterSuccessfullySaved": "Jobbsenter lagret",
+                    "jobcenterSuccessfullyUpdated": "Jobbsenter oppdatert"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "municipality": "Kommune",
+                "contactPerson": "Kontaktperson",
+                "sortOrder": "Sorteringsrekkefølge",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slett"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Er du sikker på at du vil slette dette jobbsenteret?"
+                },
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Jobbsenter slettet"
+                }
+            }
+        },
+        "agreements": {
+            "agreements": "Avtaler",
+            "newAgreement": "Ny avtale",
+            "editAgreement": "Rediger avtale",
+            "addNewAgreement": "Legg til ny avtale",
+            "form": {
+                "name": "Navn",
+                "jobcenter": "Jobbsenter",
+                "description": "Beskrivelse",
+                "defaultDurationWeeks": "Standard varighet (uker)",
+                "sortOrder": "Sorteringsrekkefølge",
+                "isActive": "Aktiv",
+                "alert": {
+                    "newAgreementSuccessfullySaved": "Avtale lagret",
+                    "agreementSuccessfullyUpdated": "Avtale oppdatert"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "jobcenter": "Jobbsenter",
+                "defaultDurationWeeks": "Standard uker",
+                "sortOrder": "Sorteringsrekkefølge",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slett"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Er du sikker på at du vil slette denne avtalen?"
+                },
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Avtale slettet"
+                }
+            }
+        },
+        "cases": {
+            "cases": "Saker",
+            "newCase": "Ny sak",
+            "editCase": "Rediger sak",
+            "addNewCase": "Legg til ny sak",
+            "form": {
+                "agreement": "Avtale",
+                "responsibleEmployee": "Ansvarlig ansatt",
+                "startDate": "Startdato",
+                "endDate": "Sluttdato",
+                "durationWeeks": "Varighet (uker)",
+                "status": "Status",
+                "notes": "Notater",
+                "periodMode": {
+                    "byWeeks": "Per uker",
+                    "byDate": "Per datoperiode"
+                },
+                "statusOptions": {
+                    "active": "Aktiv",
+                    "completed": "Fullført",
+                    "on_hold": "På vent",
+                    "paused": "Pauset"
+                },
+                "alert": {
+                    "newCaseSuccessfullySaved": "Sak lagret",
+                    "caseSuccessfullyUpdated": "Sak oppdatert"
+                }
+            },
+            "table": {
+                "agreement": "Avtale",
+                "jobcenter": "Jobbsenter",
+                "startDate": "Startdato",
+                "endDate": "Sluttdato",
+                "durationWeeks": "Uker",
+                "weeksUsed": "Uker brukt",
+                "status": "Status",
+                "responsibleEmployee": "Ansvarlig",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slett"
+                },
+                "confirmation": {
+                    "deleteCaseConfirmation": "Er du sikker på at du vil slette denne saken?"
+                },
+                "alert": {
+                    "caseSuccessfullyDeleted": "Sak slettet"
+                }
+            }
         }
-    }
+    },
+    "delete": "Slett"
 }

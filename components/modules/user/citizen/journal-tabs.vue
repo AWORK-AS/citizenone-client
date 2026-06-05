@@ -152,6 +152,15 @@ watch(() => userStore.getUser, (newValue: any) => {
         })
     }
 
+    if (newValue?.company?.industry?.system_name === 'employment_services') {
+        state.tabs.push({
+            name: 'citizens.tabs.employmentCases',
+            isTranslateName: true,
+            href: `/citizens/${citizenUuid}/employment-cases`,
+            routeNames: ['citizens-uuid-employment-cases']
+        })
+    }
+
     // Check if current route is allowed
     const currentRouteName = route.name as string
     const isCurrentRouteAccessible = state.tabs.some((tab: any) =>
