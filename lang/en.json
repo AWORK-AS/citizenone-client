@@ -3951,7 +3951,7 @@
                         "deactivate": "Deactivate",
                         "delete": "Delete",
                         "edit": "Edit",
-                        "impersonate": "Impersonate"
+                        "impersonate": "Log in as client"
                     },
                     "email": "Email",
                     "name": "Name",
@@ -6548,7 +6548,9 @@
         "reminders": "Reminders",
         "settings": "Settings",
         "subscription": "Subscription",
-        "switchLanguage": "Switch language"
+        "switchLanguage": "Switch language",
+        "impersonating": "Logged in as client",
+        "stopImpersonation": "Log out as client"
     },
     "news": {
         "confirmation": {
@@ -8138,7 +8140,7 @@
                     "deactivate": "Deactivate",
                     "delete": "Delete",
                     "edit": "Edit",
-                    "impersonate": "Impersonate"
+                    "impersonate": "Log in as client"
                 },
                 "email": "Email",
                 "name": "Name",
