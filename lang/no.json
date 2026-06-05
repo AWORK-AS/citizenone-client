@@ -3907,7 +3907,7 @@
                         "deactivate": "Deaktiver",
                         "delete": "Slett",
                         "edit": "Rediger",
-                        "impersonate": "Impersonér"
+                        "impersonate": "Logg inn som klient"
                     },
                     "email": "E-post",
                     "name": "Navn",
@@ -6612,7 +6612,9 @@
         "reminders": "Påminnelser",
         "settings": "Innstillinger",
         "subscription": "Abonnement",
-        "switchLanguage": "Bytt språk"
+        "switchLanguage": "Bytt språk",
+        "impersonating": "Innlogget som klient",
+        "stopImpersonation": "Logg ut som klient"
     },
     "news": {
         "confirmation": {
@@ -8206,7 +8208,7 @@
                     "deactivate": "Deaktiver",
                     "delete": "Slett",
                     "edit": "Rediger",
-                    "impersonate": "Impersonér"
+                    "impersonate": "Logg inn som klient"
                 },
                 "email": "E-post",
                 "name": "Navn",
