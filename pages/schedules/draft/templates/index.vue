@@ -309,7 +309,7 @@ async function fetchDraftTemplates() {
     try {
         const params = {
             page_length: draftTemplateStore.getCurrentPageLength,
-            page_number: draftTemplateStore.getCurrentPageNumber,
+            page: draftTemplateStore.getCurrentPageNumber,
             sort_field: draftTemplateStore.getSortData.sortField,
             sort_order: draftTemplateStore.getSortData.sortOrder,
             department: selectedDepartment,
