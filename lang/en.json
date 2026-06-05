@@ -2447,7 +2447,8 @@
             "health": "Health",
             "journals": "Journals",
             "medicineCard": "Medicine card",
-            "plansAndGoals": "Plans and goals"
+            "plansAndGoals": "Plans and goals",
+            "employmentCases": "Cases"
         },
         "timeLogs": {
             "timeLogs": "Time Logs"
@@ -7951,7 +7952,9 @@
             "treatmentTemplates": "Treatment templates",
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
-            "employmentBillingRules": "Billing Rules"
+            "employmentBillingRules": "Billing Rules",
+            "employmentJobcenters": "Jobcenters",
+            "employmentAgreements": "Agreements"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -10097,6 +10100,126 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Billing rule successfully deleted"
+                }
+            }
+        },
+        "jobcenters": {
+            "jobcenters": "Jobcenters",
+            "newJobcenter": "New Jobcenter",
+            "editJobcenter": "Edit Jobcenter",
+            "addNewJobcenter": "Add new jobcenter",
+            "form": {
+                "name": "Name",
+                "municipality": "Municipality",
+                "email": "Email",
+                "phone": "Phone",
+                "contactPerson": "Contact person",
+                "sortOrder": "Sort order",
+                "isActive": "Active",
+                "alert": {
+                    "newJobcenterSuccessfullySaved": "Jobcenter successfully saved",
+                    "jobcenterSuccessfullyUpdated": "Jobcenter successfully updated"
+                }
+            },
+            "table": {
+                "name": "Name",
+                "municipality": "Municipality",
+                "contactPerson": "Contact person",
+                "sortOrder": "Sort order",
+                "active": "Active",
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Are you sure you want to delete this jobcenter?"
+                },
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Jobcenter successfully deleted"
+                }
+            }
+        },
+        "agreements": {
+            "agreements": "Agreements",
+            "newAgreement": "New Agreement",
+            "editAgreement": "Edit Agreement",
+            "addNewAgreement": "Add new agreement",
+            "form": {
+                "name": "Name",
+                "jobcenter": "Jobcenter",
+                "description": "Description",
+                "defaultDurationWeeks": "Default duration (weeks)",
+                "sortOrder": "Sort order",
+                "isActive": "Active",
+                "alert": {
+                    "newAgreementSuccessfullySaved": "Agreement successfully saved",
+                    "agreementSuccessfullyUpdated": "Agreement successfully updated"
+                }
+            },
+            "table": {
+                "name": "Name",
+                "jobcenter": "Jobcenter",
+                "defaultDurationWeeks": "Default weeks",
+                "sortOrder": "Sort order",
+                "active": "Active",
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Are you sure you want to delete this agreement?"
+                },
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Agreement successfully deleted"
+                }
+            }
+        },
+        "cases": {
+            "cases": "Cases",
+            "newCase": "New Case",
+            "editCase": "Edit Case",
+            "addNewCase": "Add new case",
+            "form": {
+                "agreement": "Agreement",
+                "responsibleEmployee": "Responsible employee",
+                "startDate": "Start date",
+                "endDate": "End date",
+                "durationWeeks": "Duration (weeks)",
+                "status": "Status",
+                "notes": "Notes",
+                "periodMode": {
+                    "byWeeks": "By weeks",
+                    "byDate": "By date range"
+                },
+                "statusOptions": {
+                    "active": "Active",
+                    "completed": "Completed",
+                    "on_hold": "On hold",
+                    "paused": "Paused"
+                },
+                "alert": {
+                    "newCaseSuccessfullySaved": "Case successfully saved",
+                    "caseSuccessfullyUpdated": "Case successfully updated"
+                }
+            },
+            "table": {
+                "agreement": "Agreement",
+                "jobcenter": "Jobcenter",
+                "startDate": "Start date",
+                "endDate": "End date",
+                "durationWeeks": "Weeks",
+                "weeksUsed": "Weeks used",
+                "status": "Status",
+                "responsibleEmployee": "Responsible",
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                },
+                "confirmation": {
+                    "deleteCaseConfirmation": "Are you sure you want to delete this case?"
+                },
+                "alert": {
+                    "caseSuccessfullyDeleted": "Case successfully deleted"
                 }
             }
         }

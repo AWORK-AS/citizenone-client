@@ -2447,7 +2447,8 @@
             "health": "Hälsa",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
-            "plansAndGoals": "Planer och mål"
+            "plansAndGoals": "Planer och mål",
+            "employmentCases": "Ärenden"
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -7943,7 +7944,9 @@
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Ärendetyper",
-            "employmentBillingRules": "Faktureringsregler"
+            "employmentBillingRules": "Faktureringsregler",
+            "employmentJobcenters": "Arbetsförmedlingar",
+            "employmentAgreements": "Avtal"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",
@@ -10098,6 +10101,126 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Faktureringsregel borttagen"
+                }
+            }
+        },
+        "jobcenters": {
+            "jobcenters": "Arbetsförmedlingar",
+            "newJobcenter": "Ny arbetsförmedling",
+            "editJobcenter": "Redigera arbetsförmedling",
+            "addNewJobcenter": "Lägg till ny arbetsförmedling",
+            "form": {
+                "name": "Namn",
+                "municipality": "Kommun",
+                "email": "E-post",
+                "phone": "Telefon",
+                "contactPerson": "Kontaktperson",
+                "sortOrder": "Sorteringsordning",
+                "isActive": "Aktiv",
+                "alert": {
+                    "newJobcenterSuccessfullySaved": "Arbetsförmedling sparad",
+                    "jobcenterSuccessfullyUpdated": "Arbetsförmedling uppdaterad"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "municipality": "Kommun",
+                "contactPerson": "Kontaktperson",
+                "sortOrder": "Sorteringsordning",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Är du säker på att du vill ta bort den här arbetsförmedlingen?"
+                },
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Arbetsförmedling borttagen"
+                }
+            }
+        },
+        "agreements": {
+            "agreements": "Avtal",
+            "newAgreement": "Nytt avtal",
+            "editAgreement": "Redigera avtal",
+            "addNewAgreement": "Lägg till nytt avtal",
+            "form": {
+                "name": "Namn",
+                "jobcenter": "Arbetsförmedling",
+                "description": "Beskrivning",
+                "defaultDurationWeeks": "Standardlängd (veckor)",
+                "sortOrder": "Sorteringsordning",
+                "isActive": "Aktiv",
+                "alert": {
+                    "newAgreementSuccessfullySaved": "Avtal sparat",
+                    "agreementSuccessfullyUpdated": "Avtal uppdaterat"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "jobcenter": "Arbetsförmedling",
+                "defaultDurationWeeks": "Standardveckor",
+                "sortOrder": "Sorteringsordning",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Är du säker på att du vill ta bort det här avtalet?"
+                },
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Avtal borttaget"
+                }
+            }
+        },
+        "cases": {
+            "cases": "Ärenden",
+            "newCase": "Nytt ärende",
+            "editCase": "Redigera ärende",
+            "addNewCase": "Lägg till nytt ärende",
+            "form": {
+                "agreement": "Avtal",
+                "responsibleEmployee": "Ansvarig medarbetare",
+                "startDate": "Startdatum",
+                "endDate": "Slutdatum",
+                "durationWeeks": "Längd (veckor)",
+                "status": "Status",
+                "notes": "Anteckningar",
+                "periodMode": {
+                    "byWeeks": "Per veckor",
+                    "byDate": "Per datumintervall"
+                },
+                "statusOptions": {
+                    "active": "Aktiv",
+                    "completed": "Avslutad",
+                    "on_hold": "Väntar",
+                    "paused": "Pausad"
+                },
+                "alert": {
+                    "newCaseSuccessfullySaved": "Ärende sparat",
+                    "caseSuccessfullyUpdated": "Ärende uppdaterat"
+                }
+            },
+            "table": {
+                "agreement": "Avtal",
+                "jobcenter": "Arbetsförmedling",
+                "startDate": "Startdatum",
+                "endDate": "Slutdatum",
+                "durationWeeks": "Veckor",
+                "weeksUsed": "Veckor använda",
+                "status": "Status",
+                "responsibleEmployee": "Ansvarig",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteCaseConfirmation": "Är du säker på att du vill ta bort det här ärendet?"
+                },
+                "alert": {
+                    "caseSuccessfullyDeleted": "Ärende borttaget"
                 }
             }
         }
