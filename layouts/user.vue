@@ -717,9 +717,6 @@ async function logout() {
 
 async function stopImpersonation() {
     state.isPageLoading = true
-    try {
-        await authService.stopImpersonation()
-    } catch (_) { }
     const originalToken = localStorage.getItem('_original_token')
     if (originalToken) {
         localStorage.setItem('_token', originalToken)
