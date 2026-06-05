@@ -23,7 +23,7 @@
                         </div>
                         <FormButton buttonStyle="action" @click="state.modal.isAddNewExtraHoursOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ isAtLeast('Admin') ?
+                            {{ hasScheduleManageAccess ?
                                 $t('dutySchedules.extraHours.newExtraHours') :
                                 $t('dutySchedules.extraHours.newExtraHoursRequest') }}
                         </FormButton>
@@ -97,29 +97,29 @@
                                             <div class="flex items-end gap-2">
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.edit')"
                                                     @click="editExtraHours(extraHours)"
-                                                    v-if="isAtLeast('Admin') || ['pending'].includes(extraHours?.extra_hours_status)">
+                                                    v-if="hasScheduleManageAccess || ['pending'].includes(extraHours?.extra_hours_status)">
                                                     <FormButton type=" button" buttonStyle="action">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.approve')"
                                                     @click="confirmApproveExtraHoursRequest(extraHours)"
-                                                    v-if="isAtLeast('Admin') && extraHours?.extra_hours_status === 'pending'"">
+                                                    v-if="hasScheduleManageAccess && extraHours?.extra_hours_status === 'pending'"">
                                                     <FormButton type=" button" buttonStyle="success">
                                                     <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.reject')"
                                                     @click="confirmRejectExtraHoursRequest(extraHours)"
-                                                    v-if="isAtLeast('Admin') && extraHours?.extra_hours_status === 'pending'"">
+                                                    v-if="hasScheduleManageAccess && extraHours?.extra_hours_status === 'pending'"">
                                                     <FormButton type=" button" buttonStyle="danger">
                                                     <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.delete')"
                                                     @click="confirmDeleteExtraHours(extraHours)"
-                                                    v-if="isAtLeast('Admin') ||
-                                                        (!isAtLeast('Admin') && ['pending'].includes(extraHours?.extra_hours_status))">
+                                                    v-if="hasScheduleManageAccess ||
+                                                        ['pending'].includes(extraHours?.extra_hours_status)">
                                                     <FormButton type="button" buttonStyle="danger">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
@@ -188,6 +188,7 @@ const { t } = useI18n()
 const language = useI18n()
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || can('update_schedule'))
 let currentTablePage = 1
 
 const state = reactive({

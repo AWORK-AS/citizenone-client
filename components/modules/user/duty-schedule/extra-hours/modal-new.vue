@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="isAtLeast('Admin') ?
+        <Modal size="xs" :title="hasScheduleManageAccess ?
             $t('dutySchedules.extraHours.newExtraHours') :
             $t('dutySchedules.extraHours.newExtraHoursRequest')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
@@ -27,6 +27,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || can('update_schedule'))
 
 const props = defineProps({
     isModalOpen: {
@@ -75,7 +76,7 @@ async function saveScheduleSlot(extraHoursDetails: any) {
         }
         const response = await extraHoursService.saveExtraHour(params)
         if (response) {
-            if (isAtLeast('Admin')) {
+            if (hasScheduleManageAccess.value) {
                 successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.form.alert.extraHoursSuccessfullyAdded')}.`)
             } else {
                 successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.form.alert.extraHoursRequestSuccessfullyAdded')}.`)
