@@ -3835,7 +3835,7 @@
                         "deactivate": "Deaktiver",
                         "delete": "Radera",
                         "edit": "Redigera",
-                        "impersonate": "Impersonér"
+                        "impersonate": "Logga in som klient"
                     },
                     "email": "E-post",
                     "name": "Namn",
@@ -6539,7 +6539,9 @@
         "reminders": "Påminnelser",
         "settings": "Inställningar",
         "subscription": "Prenumeration",
-        "switchLanguage": "Byt språk"
+        "switchLanguage": "Byt språk",
+        "impersonating": "Inloggad som klient",
+        "stopImpersonation": "Logga ut som klient"
     },
     "news": {
         "confirmation": {
@@ -8129,7 +8131,7 @@
                     "deactivate": "Deaktiver",
                     "delete": "Radera",
                     "edit": "Redigera",
-                    "impersonate": "Impersonér"
+                    "impersonate": "Logga in som klient"
                 },
                 "email": "E-post",
                 "name": "Namn",
