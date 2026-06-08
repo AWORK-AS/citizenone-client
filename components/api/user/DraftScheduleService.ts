@@ -41,6 +41,10 @@ class DraftScheduleService extends BaseAPIService {
         return await this.request(`/user/draft-schedules/publish/all`, 'POST', params)
     }
 
+    async getPublishStatus(): Promise<any> {
+        return await this.request(`/user/draft-schedules/publish/status`, 'GET')
+    }
+
     async pinSelfToTopOfSchedule(): Promise<any> {
         return await this.request(`/user/draft-schedules/employee/pin`, 'POST')
     }

@@ -3180,7 +3180,8 @@
         },
         "draft": {
             "alert": {
-                "successfullyPublished": "Vagtplaner offentliggjort med succes"
+                "successfullyPublished": "Vagtplaner offentliggjort med succes",
+                "publishFailed": "Offentliggørelse mislykkedes. Prøv igen."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan for afdelingen",

@@ -174,15 +174,40 @@ async function publishSchedule() {
             date_end: state.formPublish.date_end,
         }
         const response = await draftScheduleService.publishSchedule(params)
-        if (response) {
+        if (response?.queued === false) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.alert.successfullyPublished')}.`)
             navigateTo('/schedules')
+            return
         }
+        await waitForPublish()
     } catch (error: any) {
         state.error = error
-    } finally {
         state.isPublishing = false
     }
+}
+
+function waitForPublish(): Promise<void> {
+    return new Promise((resolve) => {
+        const poll = async () => {
+            try {
+                const s = await draftScheduleService.getPublishStatus()
+                if (s?.status === 'completed') {
+                    successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.alert.successfullyPublished')}.`)
+                    navigateTo('/schedules')
+                    return resolve()
+                }
+                if (s?.status === 'failed') {
+                    state.error = { message: t('dutySchedules.draft.alert.publishFailed') } as any
+                    state.isPublishing = false
+                    return resolve()
+                }
+                setTimeout(poll, 2500)
+            } catch {
+                setTimeout(poll, 2500)
+            }
+        }
+        poll()
+    })
 }
 </script>
 

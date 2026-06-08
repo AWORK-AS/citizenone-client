@@ -3180,7 +3180,8 @@
         },
         "draft": {
             "alert": {
-                "successfullyPublished": "Tjänsteskeman publicerad"
+                "successfullyPublished": "Tjänsteskeman publicerad",
+                "publishFailed": "Publicering misslyckades. Försök igen."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Är du säker på att du vill publicera denna tjänsteschema för avdelningen",
