@@ -127,6 +127,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function closeModal() {
+    if (state.isPublishing) return
     emit('close')
 }
 
