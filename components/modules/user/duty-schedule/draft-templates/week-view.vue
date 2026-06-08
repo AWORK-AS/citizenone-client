@@ -482,6 +482,33 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="flex items-center gap-1 px-2.5 pb-1.5"
+                                                                v-if="shift?.shift_span_position">
+                                                                <div v-if="shift.shift_span_position === 'start'"
+                                                                    class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                    <Icon name="ph:arrow-right"
+                                                                        class="w-3 h-3 text-white flex-shrink-0" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{
+                                                                            $t('dutySchedules.shiftSpan.start') }}</span>
+                                                                </div>
+                                                                <div v-if="shift.shift_span_position === 'middle'"
+                                                                    class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                    <Icon name="ph:arrows-horizontal"
+                                                                        class="w-3 h-3 text-white flex-shrink-0" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{
+                                                                            $t('dutySchedules.shiftSpan.middle') }}</span>
+                                                                </div>
+                                                                <div v-if="shift.shift_span_position === 'end'"
+                                                                    class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                    <Icon name="ph:arrow-left"
+                                                                        class="w-3 h-3 text-white flex-shrink-0" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{
+                                                                            $t('dutySchedules.shiftSpan.end') }}</span>
+                                                                </div>
+                                                            </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
                                                             ]" v-if="shift?.citizen_schedules?.length > 0">
