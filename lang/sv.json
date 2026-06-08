@@ -8524,7 +8524,8 @@
                     "amount": "Belopp",
                     "percentage": "Procentdel",
                     "unit": "Enhet"
-                }
+                },
+                "couponInformation": "Kuponguppgifter"
             },
             "newCoupon": "Ny kupong",
             "noCouponsFound": "Inga kuponger hittades",
