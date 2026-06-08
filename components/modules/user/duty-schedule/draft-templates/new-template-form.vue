@@ -172,6 +172,7 @@ watch(() => state.formTemplate.department_uuid, (uuids: any) => {
     }
 })
 
+
 const rules = computed(() => {
     if (state.formTemplate.recurring.is_recurring) {
         return {
@@ -204,7 +205,11 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formTemplate)
+        const payload = { ...state.formTemplate }
+        if (!payload.recurring.is_recurring) {
+            payload.recurring = { ...payload.recurring, week_rotations: null, recurring_until: null }
+        }
+        emit('submitForm', payload)
     }
 }
 

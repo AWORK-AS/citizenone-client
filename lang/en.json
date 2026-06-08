@@ -3349,7 +3349,8 @@
                 "recurring": "Recurring",
                 "recurringUntil": "Recurring until",
                 "repeat": "Repeat",
-                "weekRotations": "Week rotations"
+                "weekRotations": "Week rotations",
+                "noWeekRotations": "No rotation"
             },
             "viewDraftTemplate": "Schedule Templates"
         },

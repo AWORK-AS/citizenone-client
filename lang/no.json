@@ -3349,7 +3349,8 @@
                 "recurring": "Gjentakende",
                 "recurringUntil": "Gentager inntil",
                 "repeat": "Gjenta",
-                "weekRotations": "Ugerotationer"
+                "weekRotations": "Ugerotationer",
+                "noWeekRotations": "Ingen rotasjon"
             },
             "viewDraftTemplate": "Skabelonvisning"
         },

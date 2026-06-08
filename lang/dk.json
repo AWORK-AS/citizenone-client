@@ -3349,7 +3349,8 @@
                 "recurring": "Gentagende",
                 "recurringUntil": "Gentager indtil",
                 "repeat": "Gentag",
-                "weekRotations": "Ugerotationer"
+                "weekRotations": "Ugerotationer",
+                "noWeekRotations": "Ingen rotation"
             },
             "viewDraftTemplate": "Skabelonvisning"
         },
