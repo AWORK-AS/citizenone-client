@@ -8820,7 +8820,9 @@
                 "name": "Namn",
                 "region": "Region",
                 "sender": "Avsändare",
-                "title": "Titel"
+                "title": "Titel",
+                "pollInformation": "Omröstningsinformation",
+                "pollItemInformation": "Omröstningsobjektinformation"
             },
             "newPoll": "Ny omröstning",
             "newPollItem": "Nytt omröstningspunkt",

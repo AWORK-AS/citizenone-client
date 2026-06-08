@@ -8827,8 +8827,10 @@
                 "description": "Description",
                 "name": "Name",
                 "region": "Region",
-                "sender": "Afsender",
-                "title": "Title"
+                "sender": "Sender",
+                "title": "Title",
+                "pollInformation": "Poll information",
+                "pollItemInformation": "Poll item information"
             },
             "newPoll": "New poll",
             "newPollItem": "New poll item",
