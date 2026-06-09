@@ -3180,7 +3180,8 @@
         },
         "draft": {
             "alert": {
-                "successfullyPublished": "Vaktplaner publisert vellykket"
+                "successfullyPublished": "Vaktplaner publisert vellykket",
+                "publishFailed": "Publisering mislyktes. Vennligst prøv igjen."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Er du sikker på at du vil publisere denne vaktplan for avdelingen",
@@ -3349,7 +3350,8 @@
                 "recurring": "Gjentakende",
                 "recurringUntil": "Gentager inntil",
                 "repeat": "Gjenta",
-                "weekRotations": "Ugerotationer"
+                "weekRotations": "Ugerotationer",
+                "noWeekRotations": "Ingen rotasjon"
             },
             "viewDraftTemplate": "Skabelonvisning"
         },
