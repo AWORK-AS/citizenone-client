@@ -43,8 +43,9 @@
                             tab.routeNames?.includes($route.name)
                                 ? 'border-primary text-primary'
                                 : 'border-transparent text-gray-500 hover:border-secondary-200 hover:text-gray-700',
-                            'px-4 py-4 border-b-2 font-medium text-sm cursor-pointer transition-all duration-200'
+                            'inline-flex items-center gap-x-1.5 px-4 py-4 border-b-2 font-medium text-sm cursor-pointer transition-all duration-200'
                         ]" @click="navigate(tab.href)">
+                            <Icon v-if="tab.icon" :name="tab.icon" class="h-4 w-4 shrink-0" aria-hidden="true" />
                             <span v-if="tab.isTranslateName">
                                 {{ tab.name && $t(tab.name) }}
                             </span>
