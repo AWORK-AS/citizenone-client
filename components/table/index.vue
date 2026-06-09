@@ -50,9 +50,15 @@
                         <div class="skeleton h-4 w-10/12"></div>
                         <div class="skeleton h-4 w-7/12"></div>
                     </div>
+                    <!-- Empty state: custom #empty slot, else a tidy icon + message -->
                     <div v-else>
-                        <span v-if="props.emptyMessage && props.emptyMessage.length > 0">{{ props.emptyMessage }}</span>
-                        <span v-else>{{ $t('theresNoDataAvailableToDisplay') }}.</span>
+                        <slot name="empty">
+                            <div class="flex flex-col items-center justify-center gap-2 py-6 text-slate-400">
+                                <Icon name="ph:tray" class="size-10 text-slate-300" />
+                                <span class="text-sm" v-if="props.emptyMessage && props.emptyMessage.length > 0">{{ props.emptyMessage }}</span>
+                                <span class="text-sm" v-else>{{ $t('theresNoDataAvailableToDisplay') }}.</span>
+                            </div>
+                        </slot>
                     </div>
                 </td>
             </tr>
