@@ -32,6 +32,14 @@
                                     </p>
                                 </Badge>
                             </div>
+                            <div v-if="state.selectedMedicine.is_expired"
+                                :title="$t('citizens.medicineJournals.viewModal.expiredTooltip')">
+                                <span
+                                    class="inline-flex items-center gap-x-1 rounded-full bg-red-100 px-2 py-0.5 text-xxs font-semibold text-red-700">
+                                    <Icon name="ph:warning-circle" class="size-3" />
+                                    {{ $t('citizens.medicineJournals.viewModal.expired') }}
+                                </span>
+                            </div>
                         </div>
                         <div class="flex items-center gap-x-2">
                             <p v-if="language.locale.value === 'en'">
@@ -185,6 +193,25 @@
                                 {{ $t('citizens.medicineJournals.form.whoPrescribed') }}:
                             </span>
                             {{ state.selectedMedicine?.prescribed_by }}
+                        </p>
+                        <p v-if="state.selectedMedicine?.date_opened">
+                            <span class="font-semibold">
+                                {{ $t('citizens.medicineJournals.form.dateOpened') }}:
+                            </span>
+                            {{ formatDateToReadable(state.selectedMedicine?.date_opened) }}
+                        </p>
+                        <p v-if="state.selectedMedicine?.shelf_life_days">
+                            <span class="font-semibold">
+                                {{ $t('citizens.medicineJournals.form.shelfLifeDays') }}:
+                            </span>
+                            {{ state.selectedMedicine?.shelf_life_days }}
+                        </p>
+                        <p v-if="state.selectedMedicine?.expiration_date"
+                            :class="state.selectedMedicine?.is_expired ? 'text-red-700 font-semibold' : ''">
+                            <span class="font-semibold">
+                                {{ $t('citizens.medicineJournals.form.expirationDate') }}:
+                            </span>
+                            {{ formatDateToReadable(state.selectedMedicine?.expiration_date) }}
                         </p>
                         <p class="break-words">
                             <span class="font-semibold">

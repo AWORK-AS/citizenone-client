@@ -1800,6 +1800,11 @@
                     "regularMedicine": "Fast medisin"
                 },
                 "consentToPrescribe": "Borgeren har gitt samtykke til å få foreskrevet denne medisinen",
+                "shelfLife": "Holdbarhet (anbrudd)",
+                "dateOpened": "Anbruddsdato",
+                "shelfLifeDays": "Holdbarhet (dager etter anbrudd)",
+                "shelfLifeDaysPlaceholder": "Antall dager",
+                "expirationDate": "Utløpsdato",
                 "whoPrescribed": "Hvem har foreskrevet det?",
                 "whoPrescribedPlaceholder": "Hvem har foreskrevet det",
                 "medicine": "Medisin",
@@ -2070,7 +2075,9 @@
                 "treatmentPeriods": "Behandlingsperioder",
                 "from": "Fra",
                 "to": "til",
-                "extraIndividualDates": "Ekstra individuelle dager"
+                "extraIndividualDates": "Ekstra individuelle dager",
+                "expired": "Utløpt",
+                "expiredTooltip": "Denne medisinen er utløpt"
             }
         },
         "newCitizen": "Ny bruker",

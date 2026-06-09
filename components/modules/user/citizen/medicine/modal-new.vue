@@ -116,6 +116,8 @@ async function saveMedicine(medicineDetails: any) {
         params.append('medication_storage', medicineDetails.medication_storage)
         params.append('has_consent', medicineDetails.has_consent)
         params.append('prescribed_by', medicineDetails.has_consent ? (medicineDetails.prescribed_by ?? '') : '')
+        params.append('date_opened', medicineDetails.date_opened ?? '')
+        params.append('shelf_life_days', medicineDetails.shelf_life_days ?? '')
         params.append('ingredients', medicineDetails.ingredients)
         params.append('description', medicineDetails.description)
 
