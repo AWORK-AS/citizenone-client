@@ -2,8 +2,6 @@
     <div class="space-y-5">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <Alert type="danger" :text="state?.errorUpdateShift?.message"
-            v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
         <Alert type="danger" :text="state?.copyShiftError?.message"
             v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
@@ -1440,6 +1438,7 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
     } finally {
+        state.editShiftError = errorUpdateShift
         state.errorUpdateShift = errorUpdateShift
         state.isUpdateShift = false
         fetchDraftDutySchedule()
