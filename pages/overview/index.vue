@@ -134,7 +134,7 @@
             </div>
 
             <!-- Main content grid -->
-            <div class="mt-6 space-y-6">
+            <div class="mt-8 space-y-10">
                 <!-- Citizens' events + Latest journal notes row -->
                 <!-- Medication overview and Follow-up reminders row -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6 stagger-children" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
@@ -259,6 +259,10 @@
                         v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
                 </div>
 
+                <!-- Statistics (collapsible; collapsed by default to keep the dashboard calm) -->
+                <CollapsibleSection v-if="showStatisticsSection" :title="$t('overview.statistics')"
+                    :default-open="false">
+                    <div class="space-y-10">
                 <!-- Statistics grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
                     overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
@@ -320,6 +324,8 @@
                         <ModulesUserDailyOverviewUseOfForceStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
                 </div>
+                    </div>
+                </CollapsibleSection>
 
                 <!-- Schedule + Plans -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
@@ -383,6 +389,17 @@ const breadcrumbLinks = [
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const departmentStore = useDepartmentStore()
+
+// True when any statistics widget is enabled — guards the collapsible Statistics
+// section so an empty header never shows.
+const showStatisticsSection = computed(() => {
+    const f = overviewStore.getDailyOverviewFilter
+    return f.showCitizensAdmissionAndDischarged || f.showCitizensOrigin || f.showCitizensAddictions
+        || f.showCitizensDiagnoses || f.showRiskAssessment || f.showGender
+        || f.showStatusesScoreStatistics || f.showGoalsScoreStatistics || f.showIncidentStatistics
+        || f.showMedicineDeviationStatistics || f.showJournalScoreStatistics || f.showSubgoalsScoreStatistics
+        || f.showUseOfForceStatistics
+})
 const userStore = useUserStore() as any
 const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)
