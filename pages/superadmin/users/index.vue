@@ -3,63 +3,134 @@
         <NuxtLayout name="superadmin">
 
             <Head>
-                <Title>{{ $t('superadmin.users.users') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>
+                    {{ $t('superadmin.users.users') }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
+            <template #header>
+                {{ $t('superadmin.users.users') }}
+            </template>
 
-            <template #header>{{ $t('superadmin.users.users') }}</template>
-
-            <div>
-                <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" @click="navigateTo('/superadmin/users/new')">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('superadmin.users.newUser') }}
-                    </FormButton>
-                </div>
-                <div class="space-y-5">
-                    <Alert type="danger" :text="state?.error?.message"
-                        v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch @search="handleSearch" />
-                    <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.users"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.users?.data?.length === 0))">
-                                <tr v-for="(user, index) in state.users?.data" :key="index">
-                                    <td width="30%">
-                                        <div class="flex items-center gap-x-2">
-                                            <img :src="user?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${user?.firstname + ' ' + user?.lastname}`"
-                                                class="rounded-full w-11" />
-                                            <span>{{ user?.firstname }} {{ user?.lastname }}</span>
-                                        </div>
-                                    </td>
-                                    <td width="25%">
-                                        <span>{{ user?.email }}</span>
-                                    </td>
-                                    <td width="25%">
-                                        <span>{{ user?.phone }}</span>
-                                    </td>
-                                    <td width="20%">
-                                        <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action"
-                                                @click="navigateTo(`/superadmin/users/edit/${user.uuid}`)">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('superadmin.users.table.actions.edit') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="danger"
-                                                @click="deleteConfirmation(user)">
-                                                <Icon name="ph:trash" class="size-4" />
-                                                {{ $t('superadmin.users.table.actions.delete') }}
-                                            </FormButton>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
-                        </Table>
+            <div class="p-1">
+                <div class="flex items-center justify-between mb-5">
+                    <div>
+                        <h1 class="text-[22px] font-semibold text-[#1F2533]">
+                            {{ $t('superadmin.users.users') }}
+                        </h1>
+                        <p class="text-sm text-[#5C6478] mt-0.5">
+                            {{ $t('superadmin.users.totalUsers', {
+                                count: state.users?.meta?.total ?? 0
+                            }) }}
+                        </p>
                     </div>
-                    <Pagination :data="state.users" @previous="previous" @next="next" />
+                    <button @click="showNewUserSlider = true"
+                        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm transition-colors"
+                        style="background:#205E77">
+                        <Icon name="ph:plus" class="w-4 h-4" />
+                        {{ $t('superadmin.users.newUser') }}
+                    </button>
                 </div>
+
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                    <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('superadmin.users.searchPlaceholder')"
+                        @input="debouncedSearch" />
+
+                    <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
+                        <button v-for="tab in tabs" :key="tab.key"
+                            class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
+                            :style="state.activeTab === tab.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
+                            @click="setTab(tab.key)">
+                            {{ tab.label }}
+                            <span class="text-[11px] font-normal opacity-70">({{ tab.count }})</span>
+                        </button>
+                    </div>
+
+                    <select v-model="sortLabel"
+                        class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors ml-auto"
+                        @change="handleSortChange">
+                        <option value="firstname_asc">{{ $t('superadmin.users.sort.nameAsc') }}</option>
+                        <option value="firstname_desc">{{ $t('superadmin.users.sort.nameDesc') }}</option>
+                        <option value="id_desc">{{ $t('superadmin.users.sort.newestFirst') }}</option>
+                        <option value="id_asc">{{ $t('superadmin.users.sort.oldestFirst') }}</option>
+                    </select>
+                </div>
+
+                <Alert type="danger" :text="state?.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
+
+                <SuperadminTable :columnHeaders="state.columnHeaders" :data="state.users"
+                    :isLoading="state.isTableLoading" :sortData="state.sortData"
+                    :emptyMessage="$t('superadmin.users.noUsersFound')"
+                    :emptySubMessage="$t('superadmin.users.createFirstUser')" emptyIcon="ph:user" rowKey="uuid"
+                    @sort="handleSort">
+                    <template #body>
+                        <tr v-for="(user, index) in state.users?.data" :key="index"
+                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
+                            <td class="co-td">
+                                <div class="flex items-center gap-3">
+                                    <img :src="user?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${encodeURIComponent((user?.firstname || '?') + '+' + (user?.lastname || ''))}&size=32`"
+                                        class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
+                                    <p class="text-[13px] font-semibold text-[#1F2533]">
+                                        {{ user?.firstname }} {{ user?.lastname }}
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="co-td text-[13px] text-[#5C6478]">
+                                {{ user?.email }}
+                            </td>
+                            <td class="co-td">
+                                <span v-if="user?.company?.name" class="text-[12px] font-medium text-[#1F2533]">
+                                    {{ user.company.name }}
+                                </span>
+                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                            </td>
+                            <td class="co-td text-[13px] text-[#5C6478]">
+                                {{ user?.phone || '—' }}
+                            </td>
+                            <td class="co-td">
+                                <span v-if="user?.is_superadmin" class="co-badge co-badge-navy">
+                                    <Icon name="ph:crown-simple" class="w-3 h-3" />
+                                    {{ $t('superadmin.sidebar.superAdmin') }}
+                                </span>
+                                <span v-else-if="user?.roles?.length" class="co-badge co-badge-gray">
+                                    {{ user.roles[0]?.name }}
+                                </span>
+                                <span v-else class="text-[#8891A4] text-[12px]">—</span>
+                            </td>
+                            <td class="co-td">
+                                <span v-if="user?.is_active !== false" class="co-badge co-badge-green">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                    {{ $t('superadmin.companies.table.active') }}
+                                </span>
+                                <span v-else class="co-badge co-badge-red">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                    {{ $t('superadmin.companies.table.inactive') }}
+                                </span>
+                            </td>
+                            <td class="co-td" @click.stop>
+                                <div
+                                    class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <SuperadminTableButton @click="openEditSlider(user)">
+                                        <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
+                                        {{ $t('superadmin.users.table.actions.edit') }}
+                                    </SuperadminTableButton>
+                                    <SuperadminTableButton buttonStyle="danger" @click="deleteConfirmation(user)">
+                                        <Icon name="ph:trash" class="w-3.5 h-3.5" />
+                                    </SuperadminTableButton>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </SuperadminTable>
+                <Pagination :data="state.users" @previous="previous" @next="next" />
             </div>
+
+            <ModulesSuperadminUserSlideOverNewUser :isOpen="showNewUserSlider" @close="showNewUserSlider = false"
+                @saved="fetchUsers" />
+            <ModulesSuperadminUserSlideOverEditUser :isOpen="showEditUserSlider" :userUuid="editUserUuid"
+                @close="showEditUserSlider = false" @saved="fetchUsers" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteUserOpen"
-                :message="$t('superadmin.users.confirmation.deleteUserConfirmation') + '?'"
+                :message="`${$t('superadmin.users.confirmation.deleteUserConfirmation')} ${state.selectedUser?.firstname} ${state.selectedUser?.lastname}?`"
                 @close="state.modal.isDeleteUserOpen = false" @confirm="deleteUser" />
         </NuxtLayout>
     </div>
@@ -68,36 +139,54 @@
 <script setup lang="ts">
 import { userService } from '@/components/api/superadmin/UserService'
 import { useAlert } from '@/composables/alert'
-import { useI18n } from "vue-i18n"
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+const showNewUserSlider = ref(false)
+const showEditUserSlider = ref(false)
+const editUserUuid = ref<string | null>(null)
+
 let currentTablePage = 1
+let searchTimeout: any = null
+const searchQuery = ref('')
+const sortLabel = ref('id_desc')
 
 const state = reactive({
-    columnHeaders: [
-        { name: 'superadmin.users.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
-        { name: 'superadmin.users.table.email', isTranslateName: true, sorter: true, key: 'email' },
-        { name: 'superadmin.users.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
-        { name: '' },
-    ],
+    activeCount: 0,
+    activeTab: 'all',
+    adminCount: 0,
+    allCount: 0,
+    columnHeaders: computed(() => [
+        { key: 'firstname', name: t('superadmin.users.table.name'), sorter: true },
+        { key: 'email', name: t('superadmin.users.table.email'), sorter: true },
+        { key: 'company', name: t('superadmin.users.table.company') },
+        { key: 'phone', name: t('superadmin.users.table.phone') },
+        { key: 'role', name: t('superadmin.users.table.role') },
+        { key: 'status', name: t('superadmin.users.table.status') },
+        { key: 'actions', name: '' },
+    ]),
     dataFilter: {
         search: ''
-    },
-    users: [] as any,
+    } as any,
     error: {} as Error,
+    inactiveCount: 0,
     isTableLoading: false,
-    modal: {
-        isDeleteUserOpen: false
-    },
-    selectedUser: [] as any,
-    sortData: {
-        sortField: 'id',
-        sortOrder: 'descend',
-    },
+    modal: { isDeleteUserOpen: false },
+    selectedUser: {} as any,
+    sortData: { sortField: 'id', sortOrder: 'descend' },
+    users: [] as any,
 })
+
+const tabs = computed(() => [
+    { key: 'all', label: t('superadmin.users.tabs.all'), count: (state.activeCount + state.inactiveCount) || 0 },
+    { key: 'active', label: t('superadmin.users.tabs.active'), count: state.activeCount },
+    { key: 'inactive', label: t('superadmin.users.tabs.inactive'), count: state.inactiveCount },
+    { key: 'admins', label: t('superadmin.users.tabs.admins'), count: state.adminCount },
+])
 
 onMounted(() => {
     fetchUsers()
@@ -107,20 +196,55 @@ async function fetchUsers() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const params = {
+        const params: any = {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
+            ...state.dataFilter,
         }
+        if (state.activeTab === 'active') params.is_active = true
+        if (state.activeTab === 'inactive') params.is_active = false
+        if (state.activeTab === 'admins') params.is_superadmin = true
+
         const response = await userService.getUsers(params)
         if (response) {
             state.users = response
+            const items = response?.data ?? []
+            state.allCount = response?.total ?? items.length
+            state.activeCount = response?.active_count || 0
+            state.inactiveCount = response?.inactive_count || 0
+            state.adminCount = response?.admin_count || 0
         }
-    } catch (error: any) {
-        state.error = error
-    }
+    } catch (error: any) { state.error = error }
     state.isTableLoading = false
+}
+
+function debouncedSearch() {
+    clearTimeout(searchTimeout)
+    searchTimeout = setTimeout(() => {
+        const trimmed = searchQuery.value.trim()
+        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
+        currentTablePage = 1
+        fetchUsers()
+    }, 350)
+}
+
+function setTab(tab: string) { state.activeTab = tab; currentTablePage = 1; fetchUsers() }
+
+function handleSortChange() {
+    const parts = sortLabel.value.split('_')
+    const order = parts.pop()
+    state.sortData.sortField = parts.join('_')
+    state.sortData.sortOrder = order === 'asc' ? 'ascend' : 'descend'
+    currentTablePage = 1
+    fetchUsers()
+}
+
+function handleSort({ sort, column }: { sort: string | null; column: string | null }) {
+    state.sortData.sortField = column ?? 'id'
+    state.sortData.sortOrder = sort ?? 'descend'
+    currentTablePage = 1
+    fetchUsers()
 }
 
 function previous() {
@@ -133,19 +257,9 @@ function next() {
     fetchUsers()
 }
 
-function sort(sortingData: any) {
-    currentTablePage = 1
-    state.sortData = {
-        sortField: sortingData.column,
-        sortOrder: sortingData.sort,
-    }
-    fetchUsers()
-}
-
-function handleSearch(value: any) {
-    currentTablePage = 1
-    state.dataFilter.search = value?.[0] == '' ? [] : value
-    fetchUsers()
+function openEditSlider(user: any) {
+    editUserUuid.value = user.uuid
+    showEditUserSlider.value = true
 }
 
 function deleteConfirmation(user: any) {
@@ -154,18 +268,14 @@ function deleteConfirmation(user: any) {
 }
 
 async function deleteUser() {
-    state.error = {}
     state.isTableLoading = true
     try {
-        const userUuid = state.selectedUser?.uuid
-        const response = await userService.deleteUser(userUuid)
+        const response = await userService.deleteUser(state.selectedUser?.uuid)
         if (response) {
             fetchUsers()
             successAlert(`${t('alert.success')}!`, `${t('superadmin.users.form.alert.userSuccessfullyDeleted')}.`)
         }
-    } catch (error: any) {
-        state.error = error
-    }
+    } catch (error: any) { state.error = error }
     state.isTableLoading = false
 }
 </script>

@@ -26,6 +26,8 @@ const state = reactive({
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
+        const isEmploymentServices = newValue?.company?.industry?.system_name === 'employment_services'
+
         state.tabs = [
             {
                 name: 'settings.tabs.absences',
@@ -51,6 +53,20 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-address-book'
                 ]
             },
+            // Agreements (A) comes after Address book
+            ...(isEmploymentServices ? [{
+                name: 'settings.tabs.employmentAgreements',
+                isTranslateName: true,
+                href: `/settings/employment-agreements`,
+                routeNames: ['settings-employment-agreements']
+            }] : []),
+            // Billing Rules (Bi) comes before Booking tags (Bo)
+            ...(isEmploymentServices ? [{
+                name: 'settings.tabs.employmentBillingRules',
+                isTranslateName: true,
+                href: `/settings/employment-billing-rules`,
+                routeNames: ['settings-employment-billing-rules']
+            }] : []),
             {
                 name: 'settings.tabs.bookingTags',
                 isTranslateName: true,
@@ -67,6 +83,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-calendar-tags'
                 ]
             },
+            // Case Types (Ca-s) comes after Calendar tags (Ca-l)
+            ...(isEmploymentServices ? [{
+                name: 'settings.tabs.employmentCaseTypes',
+                isTranslateName: true,
+                href: `/settings/employment-case-types`,
+                routeNames: ['settings-employment-case-types']
+            }] : []),
             {
                 name: 'settings.tabs.consentDeclarationTypes',
                 isTranslateName: true,
@@ -100,19 +123,19 @@ watch(() => userStore.getUser, (newValue: any) => {
                 ]
             },
             {
-                name: 'settings.tabs.dutyShiftRules',
-                isTranslateName: true,
-                href: `/settings/duty-shift-rules`,
-                routeNames: [
-                    'settings-duty-shift-rules'
-                ]
-            },
-            {
                 name: 'settings.tabs.dosageForms',
                 isTranslateName: true,
                 href: `/settings/dosage-forms`,
                 routeNames: [
                     'settings-dosage-forms'
+                ]
+            },
+            {
+                name: 'settings.tabs.dutyShiftRules',
+                isTranslateName: true,
+                href: `/settings/duty-shift-rules`,
+                routeNames: [
+                    'settings-duty-shift-rules'
                 ]
             },
             {
@@ -156,6 +179,21 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-job-titles-job_title_uuid'
                 ]
             },
+            // Jobcenters (Job-c) comes after Job titles (Job- )
+            ...(isEmploymentServices ? [{
+                name: 'settings.tabs.employmentJobcenters',
+                isTranslateName: true,
+                href: `/settings/employment-jobcenters`,
+                routeNames: ['settings-employment-jobcenters']
+            }] : []),
+            {
+                name: 'settings.tabs.journalContents',
+                isTranslateName: true,
+                href: `/settings/journal-contents`,
+                routeNames: [
+                    'settings-journal-contents'
+                ]
+            },
             {
                 name: 'settings.tabs.journalNoteTags',
                 isTranslateName: true,
@@ -170,14 +208,6 @@ watch(() => userStore.getUser, (newValue: any) => {
                 href: `/settings/journal-titles`,
                 routeNames: [
                     'settings-journal-titles'
-                ]
-            },
-            {
-                name: 'settings.tabs.journalContents',
-                isTranslateName: true,
-                href: `/settings/journal-contents`,
-                routeNames: [
-                    'settings-journal-contents'
                 ]
             },
             {
@@ -268,6 +298,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-shifts'
                 ]
             },
+            // Status Types (St) comes after Shifts (Sh)
+            ...(isEmploymentServices ? [{
+                name: 'settings.tabs.employmentStatusTypes',
+                isTranslateName: true,
+                href: `/settings/employment-status-types`,
+                routeNames: ['settings-employment-status-types']
+            }] : []),
             {
                 name: 'settings.tabs.timeAccounts',
                 isTranslateName: true,
@@ -292,8 +329,7 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-units'
                 ]
             },
-        ];
-
+        ]
     }
 })
 
@@ -394,6 +430,21 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/units') {
         navigateTo(`/settings/units`)
+    }
+    else if (value === '/settings/employment-status-types') {
+        navigateTo(`/settings/employment-status-types`)
+    }
+    else if (value === '/settings/employment-case-types') {
+        navigateTo(`/settings/employment-case-types`)
+    }
+    else if (value === '/settings/employment-billing-rules') {
+        navigateTo(`/settings/employment-billing-rules`)
+    }
+    else if (value === '/settings/employment-jobcenters') {
+        navigateTo(`/settings/employment-jobcenters`)
+    }
+    else if (value === '/settings/employment-agreements') {
+        navigateTo(`/settings/employment-agreements`)
     }
 }
 </script>
