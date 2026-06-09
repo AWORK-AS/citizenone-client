@@ -81,7 +81,7 @@
                         {{ $t('overview.citizensEvents') }}
                     </div>
                     <div class="mt-2 stat-value text-primary">
-                        {{ state.stats.citizenCalendarEvents?.data?.length ?? 0 }}
+                        <CountUp :value="Number(state.stats.citizenCalendarEvents?.data?.length ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
                         {{ $t('overview.stats.ongoing') }} |
@@ -94,7 +94,7 @@
                         {{ $t('overview.stats.journalEntries') || 'Journal entries' }}
                     </div>
                     <div class="mt-2 stat-value text-accent-green">
-                        {{ state.stats.latestCitizensJournal?.data?.length ?? 0 }}
+                        <CountUp :value="Number(state.stats.latestCitizensJournal?.data?.length ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
                         {{ $t('overview.stats.acrossCitizens') }}
@@ -106,7 +106,7 @@
                         {{ $t('overview.stats.medicationsDue') || 'Medications due' }}
                     </div>
                     <div class="mt-2 stat-value text-accent-orange">
-                        {{ state.stats.medicinesPendingCount }}
+                        <CountUp :value="Number(state.stats.medicinesPendingCount ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
                         {{ state.stats.medicinesGivenCount }}
@@ -124,7 +124,7 @@
                         {{ $t('overview.stats.activeTreatments') }}
                     </div>
                     <div class="mt-2 stat-value text-green-600">
-                        {{ state.stats.activeTreatmentsCount }}
+                        <CountUp :value="Number(state.stats.activeTreatmentsCount ?? 0)" />
                     </div>
                     <div class="stat-sublabel flex items-center gap-1">
                         {{ $t('overview.stats.viewAll') }}
@@ -137,7 +137,7 @@
             <div class="mt-6 space-y-6">
                 <!-- Citizens' events + Latest journal notes row -->
                 <!-- Medication overview and Follow-up reminders row -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6 stagger-children" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
                     overviewStore.getDailyOverviewFilter.showLatestJournal ||
                     overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
                     overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders ||

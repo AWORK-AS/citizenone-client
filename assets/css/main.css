@@ -46,11 +46,11 @@ input:disabled {
 ---------------------------------------------------------------------------------------------------- */
 @layer components {
     .card {
-        @apply bg-white rounded-xl border border-surface-200 shadow-card;
+        @apply bg-white rounded-xl border border-surface-200 shadow-card transition-all duration-200 ease-out hover:shadow-card-hover hover:border-secondary-200;
     }
 
     .card-hover {
-        @apply card transition-all duration-200 hover:shadow-card-hover hover:border-primary-100;
+        @apply card hover:-translate-y-0.5;
     }
 
     .card-header {
@@ -62,7 +62,7 @@ input:disabled {
     }
 
     .stat-card {
-        @apply bg-white rounded-xl border border-surface-200 shadow-stat px-5 py-4;
+        @apply bg-white rounded-xl border border-surface-200 shadow-stat px-5 py-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-card-hover hover:border-secondary-200;
     }
 
     .stat-value {
@@ -495,12 +495,65 @@ table td {
     animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
-.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
-.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
-.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
-.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
-.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(1) { animation-delay: 0.04s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.08s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.12s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.16s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.20s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.24s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.28s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.32s; }
+.stagger-children > *:nth-child(9) { animation-delay: 0.36s; }
+.stagger-children > *:nth-child(10) { animation-delay: 0.40s; }
+.stagger-children > *:nth-child(11) { animation-delay: 0.44s; }
+.stagger-children > *:nth-child(12) { animation-delay: 0.48s; }
+
+/* ----------------------------------------------------------------------------------------------------
+    Skeleton loading shimmer (use while widget data is loading)
+---------------------------------------------------------------------------------------------------- */
+.skeleton {
+    @apply relative overflow-hidden rounded-lg bg-surface-100;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.55) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+    100% { transform: translateX(100%); }
+}
+
+/* ----------------------------------------------------------------------------------------------------
+    Respect users who prefer reduced motion (accessibility)
+---------------------------------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .stagger-children > *,
+    .animate-fade-in {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .skeleton::after {
+        animation: none !important;
+    }
+
+    .card,
+    .card-hover,
+    .stat-card {
+        transition: none !important;
+    }
+}
 
 /* ----------------------------------------------------------------------------------------------------
     Chat
