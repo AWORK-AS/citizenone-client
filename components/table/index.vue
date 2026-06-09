@@ -1,5 +1,5 @@
 <template>
-    <table>
+    <table class="co-table">
         <thead>
             <tr>
                 <th v-if="props.selection" width="50">
@@ -41,10 +41,14 @@
             <slot name="body" :selectedRows="selectedRows" :handleRowSelect="handleRowSelect"></slot>
             <tr v-if="props.isLoading || (props.data.data && props.data.data.length === 0)">
                 <td :colspan="props.selection ? props.columnHeaders.length + 1 : props.columnHeaders.length"
-                    class="text-center h-36">
-                    <div class="flex items-center justify-center flex-col gap-2" v-if="props.isLoading">
-                        <div class="w-16 h-16 border-b-2 border-gray-900 rounded-full animate-spin"></div>
-                        Loading...
+                    :class="props.isLoading ? 'p-4' : 'text-center h-36'">
+                    <!-- Skeleton rows while data loads (replaces the spinner) -->
+                    <div class="w-full space-y-3" v-if="props.isLoading">
+                        <div class="skeleton h-4 w-full"></div>
+                        <div class="skeleton h-4 w-11/12"></div>
+                        <div class="skeleton h-4 w-9/12"></div>
+                        <div class="skeleton h-4 w-10/12"></div>
+                        <div class="skeleton h-4 w-7/12"></div>
                     </div>
                     <div v-else>
                         <span v-if="props.emptyMessage && props.emptyMessage.length > 0">{{ props.emptyMessage }}</span>

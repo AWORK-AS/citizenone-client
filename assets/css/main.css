@@ -509,6 +509,17 @@ table td {
 .stagger-children > *:nth-child(12) { animation-delay: 0.48s; }
 
 /* ----------------------------------------------------------------------------------------------------
+    Table row hover (shared <table class="co-table">) — subtle on-brand row highlight
+---------------------------------------------------------------------------------------------------- */
+.co-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.co-table tbody tr:hover {
+    background-color: theme('colors.primary.25');
+}
+
+/* ----------------------------------------------------------------------------------------------------
     Skeleton loading shimmer (use while widget data is loading)
 ---------------------------------------------------------------------------------------------------- */
 .skeleton {
