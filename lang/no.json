@@ -2375,7 +2375,24 @@
             "health": "Helse",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
-            "plansAndGoals": "Planer og mål"
+            "plansAndGoals": "Planer og mål",
+            "timeline": "Tidslinje"
+        },
+        "timeline": {
+            "newEvent": "Ny hendelse",
+            "addTimelineEvent": "Legg til tidslinjehendelse",
+            "event": "Hendelse",
+            "eventPlaceholder": "Hva skjedde",
+            "date": "Dato",
+            "eventType": "Hendelsestype",
+            "newEventTypePlaceholder": "Ny hendelsestype",
+            "addType": "Legg til type",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Legg til en beskrivelse",
+            "alert": {
+                "successfullyAdded": "Tidslinjehendelse lagt til",
+                "deletedSuccessfully": "Tidslinjehendelse slettet"
+            }
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"

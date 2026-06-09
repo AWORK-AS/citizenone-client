@@ -47,6 +47,13 @@ watch(() => userStore.getUser, (newValue: any) => {
         })
     }
 
+    state.tabs.push({
+        name: 'citizens.tabs.timeline',
+        isTranslateName: true,
+        href: `/citizens/${citizenUuid}/timeline`,
+        routeNames: ['citizens-uuid-timeline']
+    })
+
     if (accessMap.MedicineCard) {
         state.tabs.push({
             name: 'citizens.tabs.medicineCard',
@@ -174,6 +181,9 @@ watch(() => userStore.getUser, (newValue: any) => {
 function changeTab(value: any) {
     if (value === `/citizens/${citizenUuid}/journals`) {
         navigateTo(`/citizens/${citizenUuid}/journals`)
+    }
+    else if (value === `/citizens/${citizenUuid}/timeline`) {
+        navigateTo(`/citizens/${citizenUuid}/timeline`)
     }
     else if (value === `/citizens/${citizenUuid}/medicine-journals`) {
         navigateTo(`/citizens/${citizenUuid}/medicine-journals`)
