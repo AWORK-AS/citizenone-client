@@ -261,7 +261,7 @@
 
                 <!-- Statistics (collapsible; collapsed by default to keep the dashboard calm) -->
                 <CollapsibleSection v-if="showStatisticsSection" :title="$t('overview.statistics')"
-                    :default-open="false">
+                    :default-open="false" storage-key="overview-statistics">
                     <div class="space-y-10">
                 <!-- Statistics grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||

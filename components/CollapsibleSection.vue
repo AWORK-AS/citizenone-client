@@ -1,17 +1,38 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = withDefaults(
   defineProps<{
     /** Section label shown in the header. */
     title: string
-    /** Whether the section starts expanded. */
+    /** Whether the section starts expanded (used when no stored state exists). */
     defaultOpen?: boolean
+    /** When set, the user's open/collapsed choice is remembered under this key. */
+    storageKey?: string
   }>(),
   { defaultOpen: true },
 )
 
-const open = ref(props.defaultOpen)
+const STORAGE_PREFIX = 'co-section:'
+
+function readStored(): boolean | null {
+  if (!props.storageKey || typeof window === 'undefined') return null
+  const stored = window.localStorage.getItem(STORAGE_PREFIX + props.storageKey)
+  return stored === null ? null : stored === '1'
+}
+
+const open = ref(readStored() ?? props.defaultOpen)
+// Lazy mount: the slot is only rendered once the section has been opened at least
+// once, so a collapsed-by-default section never mounts its widgets (or fires their
+// API calls) until the user actually expands it. It stays mounted afterwards.
+const hasOpened = ref(open.value)
+
+watch(open, (value) => {
+  if (value) hasOpened.value = true
+  if (props.storageKey && typeof window !== 'undefined') {
+    window.localStorage.setItem(STORAGE_PREFIX + props.storageKey, value ? '1' : '0')
+  }
+})
 </script>
 
 <template>
@@ -39,7 +60,9 @@ const open = ref(props.defaultOpen)
       :class="open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
     >
       <div class="overflow-hidden">
-        <slot />
+        <template v-if="hasOpened">
+          <slot />
+        </template>
       </div>
     </div>
   </section>
