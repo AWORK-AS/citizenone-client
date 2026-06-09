@@ -545,7 +545,7 @@
                                                             </div>
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                                @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
+                                                                @click="removeShiftConfirmation(shift)"
                                                                 v-if="isAtLeast('Admin')">
                                                                 <Tooltip position="left"
                                                                     :text="$t('dutySchedules.removeSchedule.removeSchedule')">
@@ -632,6 +632,13 @@
                 :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDraftDutySchedule()" />
+            <ModulesUserDutyScheduleModalRemoveShiftConfirmation
+                :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
+                @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
+            <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
+                :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
+                @close="state.modal.isRemoveShiftSpanConfirmationOpen = false"
+                @confirm-single="removeShift" @confirm-entire="removeEntireShiftSpan" />
         </LoadingSpinner>
     </div>
 </template>
@@ -696,7 +703,12 @@ const state = reactive({
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
         isAnnualNormHoursInfoOpen: false,
+        isRemoveShiftConfirmationOpen: false,
+        isRemoveShiftSpanConfirmationOpen: false,
     } as any,
+    removeShift: {
+        selectedShift: {} as any,
+    },
     newShift: {
         selectedDate: '',
         selectedEmployee: {},
@@ -1301,14 +1313,47 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
     }
 }
 
-async function removeShift(week: any, employeeIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
+function removeShiftConfirmation(shift: any) {
+    state.removeShift.selectedShift = shift
+    if (shift.shift_span_position !== 'single') {
+        state.modal.isRemoveShiftSpanConfirmationOpen = true
+        return
+    }
+    state.modal.isRemoveShiftConfirmationOpen = true
+}
+
+async function removeShift() {
     state.isRemoveShift = true
-    const scheduleUuid = shift.schedule_uuid
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
         const response = await draftTemplateScheduleService.deleteDraftDutySchedule(scheduleUuid)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDraftDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    } finally {
+        state.isRemoveShift = false
+    }
+}
+
+async function removeEntireShiftSpan() {
+    state.isRemoveShift = true
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await draftTemplateScheduleService.deleteDraftDutySchedule(scheduleUuid, { delete_entire_shift: true })
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1

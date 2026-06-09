@@ -17,8 +17,8 @@ class DraftTemplateScheduleService extends BaseAPIService {
         return await this.request(`/user/draft-template-schedules/${scheduleUuid}`, 'PUT', params)
     }
 
-    async deleteDraftDutySchedule(scheduleUuid: any): Promise<any> {
-        return await this.request(`/user/draft-template-schedules/${scheduleUuid}`, 'DELETE')
+    async deleteDraftDutySchedule(scheduleUuid: any, params: object = {}): Promise<any> {
+        return await this.request(`/user/draft-template-schedules/${scheduleUuid}`, 'DELETE', params)
     }
 
     async getDraftDutyScheduleAbsencePercentage(params: object): Promise<any> {

@@ -180,6 +180,9 @@ const rules = computed(() => {
                 name: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                department_uuid: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
                 recurring: {
                     week_rotations: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -191,6 +194,9 @@ const rules = computed(() => {
         return {
             formTemplate: {
                 name: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                department_uuid: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 recurring: {},
