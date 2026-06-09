@@ -3253,7 +3253,8 @@
         },
         "draft": {
             "alert": {
-                "successfullyPublished": "Tjänsteskeman publicerad"
+                "successfullyPublished": "Tjänsteskeman publicerad",
+                "publishFailed": "Publicering misslyckades. Försök igen."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Är du säker på att du vill publicera denna tjänsteschema för avdelningen",
@@ -3422,7 +3423,8 @@
                 "recurring": "Gentagende",
                 "recurringUntil": "Gentager tills",
                 "repeat": "Gentag",
-                "weekRotations": "Ugerotationer"
+                "weekRotations": "Ugerotationer",
+                "noWeekRotations": "Ingen rotation"
             },
             "viewDraftTemplate": "Skabelonvisning"
         },

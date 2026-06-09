@@ -189,7 +189,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <span>
-                                            {{ draftTemplate.week_rotations ? draftTemplate.week_rotations : 1 }}
+                                            {{ (draftTemplate.week_rotations && draftTemplate.week_rotations > 0) ? draftTemplate.week_rotations : $t('dutySchedules.draftTemplates.table.noWeekRotations') }}
                                         </span>
                                     </td>
                                     <td width="20%">

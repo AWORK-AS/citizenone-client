@@ -2,7 +2,18 @@
     <div>
         <Modal size="xs" :title="$t('dutySchedules.draft.publish')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
-                <LoadingSpinner :isActive="state.isPageLoading" v-if="!state.isPublishing">
+                <div class="flex flex-col items-center space-y-4 py-6" v-if="state.isPublished">
+                    <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center">
+                        <Icon name="ph:check-bold" class="w-7 h-7 text-green-600" />
+                    </div>
+                    <div class="text-center space-y-1">
+                        <p class="text-base font-semibold text-gray-800">{{ $t('dutySchedules.draft.alert.successfullyPublished') }}</p>
+                    </div>
+                    <FormButton buttonStyle="primary" class="w-full mt-2" @click="navigateTo('/schedules')">
+                        {{ $t('dutySchedules.draft.backToPublished') }}
+                    </FormButton>
+                </div>
+                <LoadingSpinner :isActive="state.isPageLoading" v-else-if="!state.isPublishing">
                     <div class="space-y-3">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
@@ -54,7 +65,7 @@
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                         </path>
                     </svg>
-                    <p class="text-sm text-gray-600">{{ $t('dutySchedules.draft.publishing') }}...</p>
+                    <p class="text-sm text-gray-600">{{ $t('dutySchedules.draft.publishing') }}</p>
                 </div>
                 <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
                     @close="state.modal.isAddDepartmentOpen = false" @refreshDepartments="fetchDepartments" />
@@ -71,7 +82,6 @@ import type { Error } from '@/types'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
-import { useAlert } from '@/composables/alert'
 
 const props = defineProps({
     isModalOpen: {
@@ -81,7 +91,6 @@ const props = defineProps({
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'refreshDutySchedules'])
-const { successAlert } = useAlert()
 const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
@@ -90,6 +99,7 @@ const state = reactive({
         date_range: [] as any,
     },
     isPageLoading: false,
+    isPublished: false,
     isPublishing: false,
     formPublish: {
         departments: [],
@@ -107,6 +117,7 @@ const state = reactive({
 
 watch(() => props.isModalOpen, () => {
     state.error = {}
+    state.isPublished = false
     fetchDepartments()
 })
 
@@ -127,6 +138,8 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function closeModal() {
+    if (state.isPublishing) return
+    state.isPublished = false
     emit('close')
 }
 
@@ -173,15 +186,40 @@ async function publishSchedule() {
             date_end: state.formPublish.date_end,
         }
         const response = await draftScheduleService.publishSchedule(params)
-        if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.alert.successfullyPublished')}.`)
-            navigateTo('/schedules')
+        if (response?.queued === false) {
+            state.isPublishing = false
+            state.isPublished = true
+            return
         }
+        await waitForPublish()
     } catch (error: any) {
         state.error = error
-    } finally {
         state.isPublishing = false
     }
+}
+
+function waitForPublish(): Promise<void> {
+    return new Promise((resolve) => {
+        const poll = async () => {
+            try {
+                const s = await draftScheduleService.getPublishStatus()
+                if (s?.status === 'completed') {
+                    state.isPublishing = false
+                    state.isPublished = true
+                    return resolve()
+                }
+                if (s?.status === 'failed') {
+                    state.error = { message: t('dutySchedules.draft.alert.publishFailed') } as any
+                    state.isPublishing = false
+                    return resolve()
+                }
+                setTimeout(poll, 2500)
+            } catch {
+                setTimeout(poll, 2500)
+            }
+        }
+        poll()
+    })
 }
 </script>
 

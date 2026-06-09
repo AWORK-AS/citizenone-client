@@ -3253,7 +3253,8 @@
         },
         "draft": {
             "alert": {
-                "successfullyPublished": "Schedules successfully published"
+                "successfullyPublished": "Schedules successfully published",
+                "publishFailed": "Publish failed. Please try again."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Are you sure you want to publish this schedule for all departments",
@@ -3422,7 +3423,8 @@
                 "recurring": "Recurring",
                 "recurringUntil": "Recurring until",
                 "repeat": "Repeat",
-                "weekRotations": "Week rotations"
+                "weekRotations": "Week rotations",
+                "noWeekRotations": "No rotation"
             },
             "viewDraftTemplate": "Schedule Templates"
         },
