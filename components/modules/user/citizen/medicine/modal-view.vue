@@ -176,6 +176,18 @@
                         </p>
                         <p class="break-words">
                             <span class="font-semibold">
+                                {{ $t('citizens.medicineJournals.form.consentToPrescribe') }}:
+                            </span>
+                            {{ state.selectedMedicine?.has_consent ? $t('yes') : $t('no') }}
+                        </p>
+                        <p class="break-words" v-if="state.selectedMedicine?.has_consent && state.selectedMedicine?.prescribed_by">
+                            <span class="font-semibold">
+                                {{ $t('citizens.medicineJournals.form.whoPrescribed') }}:
+                            </span>
+                            {{ state.selectedMedicine?.prescribed_by }}
+                        </p>
+                        <p class="break-words">
+                            <span class="font-semibold">
                                 {{ $t('citizens.medicineJournals.form.ingredients') }}:
                             </span>
                             {{ state.selectedMedicine?.ingredients }}

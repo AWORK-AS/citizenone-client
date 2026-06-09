@@ -1799,6 +1799,9 @@
                     "pnMedicine": "PN-medicin",
                     "regularMedicine": "Fast medicin"
                 },
+                "consentToPrescribe": "Borgeren har givet samtykke til at få ordineret denne medicin",
+                "whoPrescribed": "Hvem har ordineret det?",
+                "whoPrescribedPlaceholder": "Hvem har ordineret det",
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",

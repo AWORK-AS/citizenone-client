@@ -1799,6 +1799,9 @@
                     "pnMedicine": "PN medicine",
                     "regularMedicine": "Regular medicine"
                 },
+                "consentToPrescribe": "The citizen has given consent to be prescribed this medication",
+                "whoPrescribed": "Who prescribed it?",
+                "whoPrescribedPlaceholder": "Who prescribed it",
                 "medicine": "Medicine",
                 "medicineStorage": "Medicine storage",
                 "medicineStoragePlaceholder": "Where do you store the medicine",

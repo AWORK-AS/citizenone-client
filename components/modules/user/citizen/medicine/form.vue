@@ -443,6 +443,20 @@
                     <FormError :error="props?.error?.errors?.treatment_reason?.[0]" />
                 </div>
                 <div class="space-y-1">
+                    <div class="w-fit flex cursor-pointer"
+                        @click="state.formMedicine.has_consent = !state.formMedicine.has_consent">
+                        <FormCheckbox :value="state.formMedicine.has_consent" />
+                        <p>{{ $t('citizens.medicineJournals.form.consentToPrescribe') }}</p>
+                    </div>
+                </div>
+                <div class="space-y-1" v-if="state.formMedicine.has_consent">
+                    <FormLabel for="prescribed_by" :label="$t('citizens.medicineJournals.form.whoPrescribed')" />
+                    <FormTextField id="prescribed_by" name="prescribed_by"
+                        :placeholder="`${$t('citizens.medicineJournals.form.whoPrescribedPlaceholder')}?`"
+                        v-model="state.formMedicine.prescribed_by" />
+                    <FormError :error="props?.error?.errors?.prescribed_by?.[0]" />
+                </div>
+                <div class="space-y-1">
                     <FormLabel for="medication_storage" :label="$t('citizens.medicineJournals.form.medicineStorage')" />
                     <FormTextField id="medication_storage" name="medication_storage"
                         :placeholder="`${$t('citizens.medicineJournals.form.medicineStoragePlaceholder')}?`"
@@ -548,6 +562,8 @@ const state = reactive({
         doctor: '',
         treatment_reason: '',
         medication_storage: '',
+        has_consent: false,
+        prescribed_by: '',
         ingredients: '',
         description: '',
         schedule_frequency: {
@@ -699,6 +715,8 @@ onMounted(() => {
         doctor: props.selectedMedicine.doctor?.uuid?.toString(),
         treatment_reason: props.selectedMedicine.treatment_reason,
         medication_storage: props.selectedMedicine.medication_storage,
+        has_consent: props.selectedMedicine?.has_consent ? true : false,
+        prescribed_by: props.selectedMedicine?.prescribed_by ?? '',
         ingredients: props.selectedMedicine.ingredients,
         description: props.selectedMedicine.description,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
