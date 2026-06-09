@@ -8979,7 +8979,8 @@
             "successBannerSaved": "Banner lagret",
             "successCouponCreated": "Kupong {code} opprettet",
             "successCouponUpdated": "Kupong oppdatert",
-            "errorCampaignNameRequired": "Kampanjenavn er påkrevd"
+            "errorCampaignNameRequired": "Kampanjenavn er påkrevd",
+            "labelImage": "Bilde"
         },
         "sidebar": {
             "apps": "Apper",

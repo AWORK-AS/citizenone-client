@@ -8979,7 +8979,8 @@
             "successBannerSaved": "Banderoll sparad",
             "successCouponCreated": "Kupong {code} skapad",
             "successCouponUpdated": "Kupong uppdaterad",
-            "errorCampaignNameRequired": "Kampanjnamn krävs"
+            "errorCampaignNameRequired": "Kampanjnamn krävs",
+            "labelImage": "Bild"
         },
         "sidebar": {
             "apps": "Apps",

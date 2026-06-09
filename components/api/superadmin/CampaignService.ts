@@ -11,8 +11,14 @@ class CampaignService extends BaseAPIService {
     async createCampaign(params: object): Promise<any> {
         return await this.request('/superadmin/sales-campaigns', 'POST', params)
     }
+    async createCampaignFormData(formData: FormData): Promise<any> {
+        return await this.requestFormData('/superadmin/sales-campaigns', formData)
+    }
     async updateCampaign(uuid: string, params: object): Promise<any> {
         return await this.request(`/superadmin/sales-campaigns/${uuid}`, 'PUT', params)
+    }
+    async updateCampaignFormData(uuid: string, formData: FormData): Promise<any> {
+        return await this.requestFormData(`/superadmin/sales-campaigns/${uuid}`, formData)
     }
     async deleteCampaign(uuid: string): Promise<any> {
         return await this.request(`/superadmin/sales-campaigns/${uuid}`, 'DELETE')
