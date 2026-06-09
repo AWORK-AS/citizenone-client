@@ -554,7 +554,7 @@
                             </div>
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="w-full border-collapse" style="min-width: 600px;">
+                            <table class="co-table w-full border-collapse" style="min-width: 600px;">
                                 <thead>
                                     <tr>
                                         <th
