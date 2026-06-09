@@ -20,8 +20,11 @@
 
         <!-- Desktop: scrollable tabs with overflow affordance -->
         <div :class="[
-            props.tabs?.length > 0 &&
-            'bg-white ring-1 ring-gray-200 rounded-md px-5 border-l-4 border-secondary',
+            props.tabs?.length > 0 && (
+                props.variant === 'sub'
+                    ? 'px-1'
+                    : 'bg-white ring-1 ring-gray-200 rounded-md px-5 border-l-4 border-secondary'
+            ),
             'hidden md:block'
         ]">
             <div class="relative">
@@ -94,6 +97,13 @@ const props = defineProps({
         type: Boolean,
         required: false,
         default: false,
+    },
+    // 'primary' = the boxed nav card; 'sub' = a lighter underlined row for
+    // secondary tab bars nested under a primary one.
+    variant: {
+        type: String,
+        required: false,
+        default: 'primary',
     },
     tabs: {
         type: Object,
