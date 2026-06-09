@@ -46,7 +46,7 @@
     </TransitionRoot>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 const props = defineProps({
@@ -68,4 +68,8 @@ const props = defineProps({
         required: false,
     },
 })
+
+defineSlots<{
+    'modal-body'?: () => any
+}>()
 </script>

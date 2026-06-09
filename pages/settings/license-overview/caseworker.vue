@@ -4,7 +4,7 @@
 
             <Head>
                 <Title>
-                    {{ $t('settings.licenseOverview.licenseOverview') }} - {{ runtimeConfig?.public?.appName }}
+                    {{ $t('settings.licenseOverview.caseworkerLicenses') }} - {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
@@ -12,7 +12,7 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('settings.licenseOverview.licenseOverview') }}</template>
+            <template #header>{{ $t('settings.licenseOverview.caseworkerLicenses') }}</template>
 
             <ModulesUserSettingsTab />
 
@@ -135,25 +135,18 @@
                                 v-if="state.error?.message && state.error.message.length > 0" />
                             <div>
                                 <h3 class="py-3 text-sm font-semibold">
-                                    {{ licenseTypeLabel }}
+                                    {{ $t('settings.licenseOverview.caseworkerLicenses') }}
                                 </h3>
                                 <ModulesUserSettingsLicenseOverviewSubTab />
                                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 mt-4">
-                                    <div class="flex justify-between gap-3 mb-5">
-                                        <div class="flex items-center gap-x-5 justify-end">
-                                            <div>
-                                                <span class="text-sm font-semibold">
-                                                    {{ $t('settings.licenseOverview.usedLicense') }}:
-                                                </span>
-                                                {{ state.licensesCount?.data?.used ?? 0 }}
-                                            </div>
-                                            |
-                                            <div>
-                                                <span class="text-sm font-semibold">
-                                                    {{ $t('settings.licenseOverview.unusedLicense') }}:
-                                                </span>
-                                                {{ state.licensesCount?.data?.unused ?? 0 }}
-                                            </div>
+                                    <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-5">
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">
+                                                {{ $t('caseworkerSharing.manageSharing') }}
+                                            </p>
+                                            <p class="text-sm text-gray-500">
+                                                {{ $t('caseworkerSharing.configureSharingSubtitle') }}
+                                            </p>
                                         </div>
                                         <FormButton type="button" buttonStyle="primary"
                                             @click="navigateTo('/settings/subscription')">
@@ -167,14 +160,34 @@
                                             <template #body
                                                 v-if="!(state.isTableLoading || (state.licenses?.data?.length === 0))">
                                                 <tr v-for="(license, index) in state.licenses?.data" :key="index">
-                                                    <td width="50%">
-                                                        <span>{{ license?.license }}</span>
+                                                    <td width="60%">
+                                                        <div class="flex flex-col gap-1">
+                                                            <span class="font-semibold text-gray-900">
+                                                                {{ displayCaseworkerName(license) }}
+                                                            </span>
+                                                            <span class="text-xs text-gray-500">
+                                                                {{ $t('settings.licenseOverview.table.license') }}:
+                                                                {{ license?.license }}
+                                                            </span>
+                                                        </div>
                                                     </td>
-                                                    <td width="50%">
-                                                        <span>
-                                                            {{ license?.licensed_user?.firstname }}
-                                                            {{ license?.licensed_user?.lastname }}
-                                                        </span>
+                                                    <td width="40%">
+                                                        <div class="flex items-center justify-end gap-2">
+                                                            <Tooltip :text="$t('settings.licenseOverview.copyLink')">
+                                                                <button type="button"
+                                                                    class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition hover:border-primary hover:text-primary hover:bg-primary/5"
+                                                                    @click.prevent="copyShareLink(license)">
+                                                                    <Icon name="ph:link-simple-horizontal" class="h-4 w-4" aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                            <Tooltip :text="$t('caseworkerSharing.configureSharingTooltip')">
+                                                                <button type="button"
+                                                                    class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition hover:border-primary hover:text-primary hover:bg-primary/5"
+                                                                    @click.prevent="openConfigureModal(license)">
+                                                                    <Icon name="ph:gear-six" class="h-4 w-4" aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -187,6 +200,15 @@
                     </div>
                 </div>
             </div>
+
+            <ModulesUserSettingsLicenseOverviewModalCaseworkerSharingModal
+                :show="state.modal.isConfigureOpen"
+                :selectedLicense="state.selectedLicense"
+                :folderIds="state.selectedLicense?.caseworker_license_config?.folders || []"
+                :permission="state.selectedLicense?.caseworker_license_config?.permission || 'view'"
+                @close="closeConfigureModal"
+                @save="fetchLicenses"
+            />
         </NuxtLayout>
     </div>
 </template>
@@ -196,37 +218,25 @@ import { licenseService } from '@/components/api/user/LicenseService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
-import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
-const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 let currentTablePage = 1
-const isEmployeeServicesCompany = computed(() => {
-    return userStore.getUser?.company?.industry?.system_name === 'employee_services'
-        || userStore.getUser?.company?.industry?.en_name === 'Employee Services'
-        || userStore.getUser?.company?.industry?.name === 'Employee Services'
-})
-const licenseTypeLabel = computed(() => {
-    return isEmployeeServicesCompany.value
-    ? t('settings.licenseOverview.caseworkerLicenses')
-    : t('settings.licenseOverview.userLicenses')
-})
 const breadcrumbLinks = [
     {
-        name: 'settings.licenseOverview.licenseOverview',
+        name: 'settings.licenseOverview.caseworkerLicenses',
         translate: true,
-        href: '/settings/license-overview',
+        href: '/settings/license-overview/caseworker',
     },
 ]
 
 const state = reactive({
     columnHeaders: [
-        { name: 'settings.licenseOverview.table.license', isTranslateName: true, sorter: true, key: 'license' },
-        { name: 'settings.licenseOverview.table.user', isTranslateName: true, },
+        { name: 'settings.licenseOverview.table.user', isTranslateName: true, sorter: true, key: 'license' },
+        { name: 'actions', isTranslateName: false },
     ],
     dataFilter: {
         search: ''
@@ -235,16 +245,18 @@ const state = reactive({
     isPageLoading: false,
     isTableLoading: false,
     licenses: [] as any,
-    licensesCount: [] as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
     },
+    modal: {
+        isConfigureOpen: false,
+    },
+    selectedLicense: null as any,
 })
 
 onMounted(() => {
     fetchLicenses()
-    fetchLicensesCount()
 })
 
 async function fetchLicenses() {
@@ -257,23 +269,9 @@ async function fetchLicenses() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter
         }
-        const response = await licenseService.getLicenses(params)
+        const response = await licenseService.getCaseworkerLicenses(params)
         if (response) {
             state.licenses = response
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
-}
-
-async function fetchLicensesCount() {
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        const response = await licenseService.getLicensesCount()
-        if (response) {
-            state.licensesCount = response
         }
     } catch (error: any) {
         state.error = error
@@ -304,5 +302,36 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchLicenses()
+}
+
+function displayCaseworkerName(license: any) {
+    if (!license) return 'Caseworker'
+    const user = license.caseworker_license_config
+    const name = `${user?.firstname ?? ''} ${user?.lastname ?? ''}`.trim()
+    return name || license.license || 'Caseworker'
+}
+
+function openConfigureModal(license: any) {
+    state.selectedLicense = license
+    state.modal.isConfigureOpen = true
+}
+
+function closeConfigureModal() {
+    state.modal.isConfigureOpen = false
+    state.selectedLicense = null
+}
+
+async function copyShareLink(license: any) {
+    try {
+        const uuid = license?.caseworker_license_config?.share_link_uuid
+        if (!uuid) {
+            return
+        }
+
+        const url = `${runtimeConfig.public.appBaseURL}/guest/caseworker/${uuid}`
+        await navigator.clipboard.writeText(url)
+    } catch {
+        return
+    }
 }
 </script>

@@ -7877,9 +7877,11 @@
             "unusedLicense": "Unused license",
             "usedLicense": "Used license",
             "userLicenses": "User licenses",
+            "caseworkerLicenses": "Caseworker licenses",
             "departmentLicenses": "Department licenses",
             "usedDepartmentLicense": "Used department license",
-            "unusedDepartmentLicense": "Unused department license"
+            "unusedDepartmentLicense": "Unused department license",
+            "copyLink": "Copy link"
         },
         "profile": {
             "form": {
@@ -9999,232 +10001,70 @@
         "syncing": "Syncing...",
         "title": "Your ChatGPT Integration"
     },
-    "employment": {
-        "statusTypes": {
-            "statusTypes": "Status Types",
-            "newStatusType": "New Status Type",
-            "editStatusType": "Edit Status Type",
-            "addNewStatusType": "Add new status type",
-            "form": {
-                "name": "Name",
-                "color": "Color",
-                "isActive": "Active",
-                "sortOrder": "Sort order",
-                "alert": {
-                    "newStatusTypeSuccessfullySaved": "Status type successfully saved",
-                    "statusTypeSuccessfullyUpdated": "Status type successfully updated"
-                }
-            },
-            "table": {
-                "name": "Name",
-                "color": "Color",
-                "active": "Active",
-                "sortOrder": "Sort order",
-                "actions": {
-                    "edit": "Edit",
-                    "delete": "Delete"
-                },
-                "confirmation": {
-                    "deleteStatusTypeConfirmation": "Are you sure you want to delete this status type?"
-                },
-                "alert": {
-                    "statusTypeSuccessfullyDeleted": "Status type successfully deleted"
-                }
-            }
-        },
-        "caseTypes": {
-            "caseTypes": "Case Types",
-            "newCaseType": "New Case Type",
-            "editCaseType": "Edit Case Type",
-            "addNewCaseType": "Add new case type",
-            "form": {
-                "name": "Name",
-                "description": "Description",
-                "isActive": "Active",
-                "sortOrder": "Sort order",
-                "alert": {
-                    "newCaseTypeSuccessfullySaved": "Case type successfully saved",
-                    "caseTypeSuccessfullyUpdated": "Case type successfully updated"
-                }
-            },
-            "table": {
-                "name": "Name",
-                "description": "Description",
-                "active": "Active",
-                "sortOrder": "Sort order",
-                "actions": {
-                    "edit": "Edit",
-                    "delete": "Delete"
-                },
-                "confirmation": {
-                    "deleteCaseTypeConfirmation": "Are you sure you want to delete this case type?"
-                },
-                "alert": {
-                    "caseTypeSuccessfullyDeleted": "Case type successfully deleted"
-                }
-            }
-        },
-        "billingRules": {
-            "billingRules": "Billing Rules",
-            "newBillingRule": "New Billing Rule",
-            "editBillingRule": "Edit Billing Rule",
-            "addNewBillingRule": "Add new billing rule",
-            "form": {
-                "name": "Name",
-                "rate": "Rate",
-                "frequency": "Frequency",
-                "description": "Description",
-                "isActive": "Active",
-                "frequencyOptions": {
-                    "hourly": "Hourly",
-                    "daily": "Daily",
-                    "weekly": "Weekly",
-                    "monthly": "Monthly",
-                    "fixed": "Fixed"
-                },
-                "alert": {
-                    "newBillingRuleSuccessfullySaved": "Billing rule successfully saved",
-                    "billingRuleSuccessfullyUpdated": "Billing rule successfully updated"
-                }
-            },
-            "table": {
-                "name": "Name",
-                "rate": "Rate",
-                "frequency": "Frequency",
-                "description": "Description",
-                "active": "Active",
-                "actions": {
-                    "edit": "Edit",
-                    "delete": "Delete"
-                },
-                "confirmation": {
-                    "deleteBillingRuleConfirmation": "Are you sure you want to delete this billing rule?"
-                },
-                "alert": {
-                    "billingRuleSuccessfullyDeleted": "Billing rule successfully deleted"
-                }
-            }
-        },
-        "jobcenters": {
-            "jobcenters": "Jobcenters",
-            "newJobcenter": "New Jobcenter",
-            "editJobcenter": "Edit Jobcenter",
-            "addNewJobcenter": "Add new jobcenter",
-            "form": {
-                "name": "Name",
-                "municipality": "Municipality",
-                "email": "Email",
-                "phone": "Phone",
-                "contactPerson": "Contact person",
-                "sortOrder": "Sort order",
-                "isActive": "Active",
-                "alert": {
-                    "newJobcenterSuccessfullySaved": "Jobcenter successfully saved",
-                    "jobcenterSuccessfullyUpdated": "Jobcenter successfully updated"
-                }
-            },
-            "table": {
-                "name": "Name",
-                "municipality": "Municipality",
-                "contactPerson": "Contact person",
-                "sortOrder": "Sort order",
-                "active": "Active",
-                "actions": {
-                    "edit": "Edit",
-                    "delete": "Delete"
-                },
-                "confirmation": {
-                    "deleteJobcenterConfirmation": "Are you sure you want to delete this jobcenter?"
-                },
-                "alert": {
-                    "jobcenterSuccessfullyDeleted": "Jobcenter successfully deleted"
-                }
-            }
-        },
-        "agreements": {
-            "agreements": "Agreements",
-            "newAgreement": "New Agreement",
-            "editAgreement": "Edit Agreement",
-            "addNewAgreement": "Add new agreement",
-            "form": {
-                "name": "Name",
-                "jobcenter": "Jobcenter",
-                "description": "Description",
-                "defaultDurationWeeks": "Default duration (weeks)",
-                "sortOrder": "Sort order",
-                "isActive": "Active",
-                "alert": {
-                    "newAgreementSuccessfullySaved": "Agreement successfully saved",
-                    "agreementSuccessfullyUpdated": "Agreement successfully updated"
-                }
-            },
-            "table": {
-                "name": "Name",
-                "jobcenter": "Jobcenter",
-                "defaultDurationWeeks": "Default weeks",
-                "sortOrder": "Sort order",
-                "active": "Active",
-                "actions": {
-                    "edit": "Edit",
-                    "delete": "Delete"
-                },
-                "confirmation": {
-                    "deleteAgreementConfirmation": "Are you sure you want to delete this agreement?"
-                },
-                "alert": {
-                    "agreementSuccessfullyDeleted": "Agreement successfully deleted"
-                }
-            }
-        },
-        "cases": {
-            "cases": "Cases",
-            "newCase": "New Case",
-            "editCase": "Edit Case",
-            "addNewCase": "Add new case",
-            "form": {
-                "agreement": "Agreement",
-                "responsibleEmployee": "Responsible employee",
-                "startDate": "Start date",
-                "endDate": "End date",
-                "durationWeeks": "Duration (weeks)",
-                "status": "Status",
-                "notes": "Notes",
-                "periodMode": {
-                    "byWeeks": "By weeks",
-                    "byDate": "By date range"
-                },
-                "statusOptions": {
-                    "active": "Active",
-                    "completed": "Completed",
-                    "on_hold": "On hold",
-                    "paused": "Paused"
-                },
-                "alert": {
-                    "newCaseSuccessfullySaved": "Case successfully saved",
-                    "caseSuccessfullyUpdated": "Case successfully updated"
-                }
-            },
-            "table": {
-                "agreement": "Agreement",
-                "jobcenter": "Jobcenter",
-                "startDate": "Start date",
-                "endDate": "End date",
-                "durationWeeks": "Weeks",
-                "weeksUsed": "Weeks used",
-                "status": "Status",
-                "responsibleEmployee": "Responsible",
-                "actions": {
-                    "edit": "Edit",
-                    "delete": "Delete"
-                },
-                "confirmation": {
-                    "deleteCaseConfirmation": "Are you sure you want to delete this case?"
-                },
-                "alert": {
-                    "caseSuccessfullyDeleted": "Case successfully deleted"
-                }
-            }
-        }
+    "guestPortal": {
+        "title": "Caseworker portal",
+        "loginInstruction": "Enter the password from the share link to open the caseworker portal.",
+        "password": "Password",
+        "unlockAccess": "Unlock access",
+        "sharedAccess": "Shared access",
+        "logout": "Logout",
+        "folders": "Folders",
+        "reports": "Reports",
+        "messages": "Messages",
+        "unlockedAlertTitle": "Unlocked",
+        "unlockedAlertBody": "Caseworker portal opened successfully",
+        "errorAlertTitle": "Error",
+        "couldNotUnlockBody": "Could not unlock the portal",
+        "dashboardSubtitle": "View shared folders, reports and messages for this caseworker link.",
+        "sharedFolders": "Shared folders",
+        "selectFolderToViewContents": "Select a folder to view its contents.",
+        "refresh": "Refresh",
+        "files": "files",
+        "contents": "contents",
+        "noFoldersShared": "No folders have been shared for this link.",
+        "download": "Download",
+        "sharedReports": "Shared reports",
+        "filesAvailableThroughLink": "Files available through this share link.",
+        "noReportsShared": "No reports were shared for this link.",
+        "you": "You",
+        "admin": "Admin",
+        "noMessagesYet": "No messages yet. Say hello!",
+        "typeAMessage": "Type a message...",
+        "today": "Today",
+        "yesterday": "Yesterday"
     },
-    "delete": "Delete"
+    "caseworkerSharing": {
+        "configureSharing": "Configure caseworker sharing",
+        "instruction": "Pick a citizen first, then choose which folders should be shared from the hierarchical citizen tree. Child files and folders are shown beneath each folder.",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "changePassword": "Change portal password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "confirmNewPassword": "Confirm new password",
+        "passwordsDoNotMatch": "Passwords do not match",
+        "portalAccess": "Portal access",
+        "citizen": "Citizen",
+        "sharedFoldersTitle": "Shared folders from the citizen tree",
+        "selectFoldersInstruction": "Select the folders that should be shared. Nested items stay visible under the chosen parent.",
+        "refreshTree": "Refresh tree",
+        "noFilesFoldersFound": "No files or folders were found for this citizen.",
+        "selectedFoldersTitle": "Selected folders",
+        "noFoldersSelected": "No folders selected yet.",
+        "chooseCitizenToLoad": "Choose a citizen to load the hierarchical files and folders.",
+        "cancel": "Cancel",
+        "saving": "Saving...",
+        "saveChanges": "Save changes",
+        "view": "View",
+        "download": "Download",
+        "configNotAvailable": "Caseworker configuration is not available",
+        "sharingUpdated": "Caseworker sharing updated",
+        "unableToLoadCitizens": "Unable to load citizens",
+        "unableToLoadFolders": "Unable to load citizen folders",
+        "folder": "Folder",
+        "file": "File",
+        "manageSharing": "Manage caseworker sharing",
+        "configureSharingSubtitle": "Configure which folders and reports are shared for each caseworker.",
+        "configureSharingTooltip": "Configure sharing"
+    }
 }
