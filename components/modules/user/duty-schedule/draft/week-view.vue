@@ -84,11 +84,11 @@
                                 :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                                 position="left">
                                 <button
-                                    class="flex items-center justify-center outline-none rounded-full bg-primary text-white hover:bg-primary-800 p-2 w-9 h-9"
+                                    class="flex items-center justify-center outline-none rounded-md bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 transition-colors h-[38px] w-[38px]"
                                     @click="sortDutySchedule">
-                                    <Icon name="heroicons:arrow-down" class="h-5 w-5" aria-hidden="true"
+                                    <Icon name="ph:sort-ascending" class="h-4 w-4" aria-hidden="true"
                                         v-show="state.sortData?.sortOrder === 'ascend'" />
-                                    <Icon name="heroicons:arrow-up" class="h-5 w-5" aria-hidden="true"
+                                    <Icon name="ph:sort-descending" class="h-4 w-4" aria-hidden="true"
                                         v-show="state.sortData?.sortOrder === 'descend'" />
                                 </button>
                             </Tooltip>
