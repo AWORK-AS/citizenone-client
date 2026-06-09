@@ -22,17 +22,17 @@
         <!-- Name -->
         <div>
             <SuperadminFormLabel :label="$t('superadmin.salesCampaign.labelCampaignName')" :required="true" />
-            <SuperadminFormTextField v-model="state.form.name"
-                :placeholder="$t('superadmin.salesCampaign.phCampaignName')" :hasError="!!state.errors.name" />
-            <SuperadminFormError :error="state.errors.name" />
-            <SuperadminFormError :error="props.error?.errors?.name?.[0]" />
+            <SuperadminFormTextField v-model="state.form.title"
+                :placeholder="$t('superadmin.salesCampaign.phCampaignName')" :hasError="!!state.errors.title" />
+            <SuperadminFormError :error="state.errors.title" />
+            <SuperadminFormError :error="props.error?.errors?.title?.[0]" />
         </div>
 
         <!-- Description -->
         <div>
             <SuperadminFormLabel :label="$t('superadmin.salesCampaign.labelDescription')" />
-            <textarea v-model="state.form.description" rows="2"
-                :placeholder="$t('superadmin.salesCampaign.phDescription')" class="co-textarea resize-none"></textarea>
+            <textarea v-model="state.form.content" rows="2" :placeholder="$t('superadmin.salesCampaign.phDescription')"
+                class="co-textarea resize-none"></textarea>
         </div>
 
         <!-- Campaign type -->
@@ -160,8 +160,8 @@ const { t } = useI18n()
 const imageInputRef = ref<HTMLInputElement | null>(null)
 
 const emptyForm = () => ({
-    name: '',
-    description: '',
+    title: '',
+    content: '',
     type: 'discount',
     discount_type: 'percent',
     discount_value: '0',
@@ -172,7 +172,7 @@ const emptyForm = () => ({
 })
 
 const state = reactive({
-    errors: { name: '' },
+    errors: { title: '' },
     form: emptyForm(),
     imageFile: null as File | null,
     imagePreview: '' as string,
@@ -189,9 +189,9 @@ const campaignTypes = computed(() => [
 
 watch(() => props.selectedCampaign, (c: any) => {
     if (c) {
-        state.form = {
-            name: c.name ?? '',
-            description: c.description ?? '',
+        Object.assign(state.form, {
+            title: c.title ?? '',
+            content: c.content ?? '',
             type: c.type ?? 'discount',
             discount_type: c.discount_type ?? 'percent',
             discount_value: String(c.discount_value ?? 0),
@@ -199,11 +199,11 @@ watch(() => props.selectedCampaign, (c: any) => {
             start_date: c.start_date?.split('T')[0] ?? '',
             end_date: c.end_date?.split('T')[0] ?? '',
             is_active: c.is_active !== false,
-        }
+        })
         state.imagePreview = c.image ?? ''
         state.imageFile = null
     }
-})
+}, { immediate: true })
 
 function onImageChange(event: any) {
     const file = event.target.files[0]
@@ -216,15 +216,15 @@ function onImageChange(event: any) {
 
 function reset() {
     state.form = emptyForm()
-    state.errors = { name: '' }
+    state.errors = { title: '' }
     state.imageFile = null
     state.imagePreview = ''
 }
 
 function submit() {
-    state.errors.name = ''
-    if (!state.form.name) {
-        state.errors.name = t('superadmin.salesCampaign.errorCampaignNameRequired')
+    state.errors.title = ''
+    if (!state.form.title) {
+        state.errors.title = t('superadmin.salesCampaign.errorCampaignNameRequired')
         return
     }
     emit('submitForm', { ...state.form, image: state.imageFile })

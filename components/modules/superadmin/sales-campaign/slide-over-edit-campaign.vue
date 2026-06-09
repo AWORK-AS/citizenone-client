@@ -20,7 +20,7 @@
                                                 {{ $t('superadmin.salesCampaign.sliderEditCampaignTitle') }}
                                             </DialogTitle>
                                             <p class="text-[12px] text-[#8891A4] mt-0.5">
-                                                {{ state.campaign?.name }}
+                                                {{ state.campaign?.title }}
                                             </p>
                                         </div>
                                         <button @click="emit('close')"
@@ -118,9 +118,8 @@ async function updateCampaign(formData: any) {
     state.isPageLoading = true
     try {
         const params = new FormData()
-        params.append('_method', 'PUT')
-        params.append('name', formData.name)
-        params.append('description', formData.description ?? '')
+        params.append('title', formData.title)
+        params.append('content', formData.content ?? '')
         params.append('type', formData.type ?? '')
         params.append('discount_type', formData.discount_type ?? '')
         params.append('discount_value', String(formData.discount_value ?? 0))
@@ -129,11 +128,11 @@ async function updateCampaign(formData: any) {
         params.append('end_date', formData.end_date ?? '')
         params.append('is_active', formData.is_active ? '1' : '0')
         if (formData.image) params.append('image', formData.image)
-        const response = await campaignService.updateCampaignFormData(props.campaignUuid, params)
+        const response = await campaignService.updateCampaign(props.campaignUuid, params)
         if (response) {
             successAlert(
                 t('superadmin.salesCampaign.successSaved'),
-                t('superadmin.salesCampaign.successUpdatedBody', { name: formData.name })
+                t('superadmin.salesCampaign.successUpdatedBody', { name: formData.title })
             )
             emit('close')
             emit('saved')
