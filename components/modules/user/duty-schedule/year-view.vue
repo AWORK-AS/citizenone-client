@@ -163,7 +163,7 @@
                                     <button
                                         class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center"
                                         @click="viewExtraHours(employee)"
-                                        v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
+                                        v-if="hasScheduleManageAccess || userStore.getUser?.uuid === employee?.uuid">
                                         <Icon name="mdi:clock-outline" class="h-3 w-3" />
                                     </button>
                                     <button
@@ -348,7 +348,7 @@
                                 <template v-for="(day, dayIndex) in week.days"
                                     :key="'wh-' + monthMeta.key + '-' + weekIndex + '-' + dayIndex">
                                     <!-- Admin: clickable with tooltip + slot badge -->
-                                    <Tooltip v-if="isAdmin(userStore.getUser?.role)"
+                                    <Tooltip v-if="hasScheduleManageAccess"
                                         :text="day !== null ? $t('dutySchedules.scheduleSlots.scheduleSlots') : ''"
                                         :position="dayIndex === 0 ? 'right' : 'left'" :class="[
                                             isToday(day) && 'bg-primary/10',
@@ -690,6 +690,7 @@ const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const { formatNumber } = useNumberFormatter()
 const { isAtLeast, can } = usePermissions()
+const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || can('update_schedule'))
 
 // Current year as a ref — navigation changes this
 const currentYear = ref(moment().year())

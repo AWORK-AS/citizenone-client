@@ -1044,6 +1044,28 @@
     "chooseFile": "Choose file",
     "chooseFiles": "Choose file(s)",
     "citizens": {
+        "developmentGraph": {
+            "title": "Development Graph",
+            "absence": "Absence",
+            "back": "Back",
+            "custom": "Custom",
+            "daily": "Daily",
+            "presence": "Presence",
+            "weekly": "Weekly",
+            "monthly": "Monthly",
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "last3Months": "Last 3 months",
+            "lastMonth": "Last month",
+            "noData": "No attendance data available for the selected period",
+            "protocol": "Protocol",
+            "selectProtocol": "Select a protocol",
+            "selectProtocolHeading": "Select a protocol to view data",
+            "selectProtocolSubtext": "Choose a protocol from the dropdown above to load the development graph.",
+            "sessions": "Sessions",
+            "thisMonth": "This month",
+            "thisYear": "This year"
+        },
         "addictions": "Substance abuse",
         "address": "Address",
         "alert": {
@@ -2447,7 +2469,8 @@
             "health": "Health",
             "journals": "Journals",
             "medicineCard": "Medicine card",
-            "plansAndGoals": "Plans and goals"
+            "plansAndGoals": "Plans and goals",
+            "employmentCases": "Cases"
         },
         "timeLogs": {
             "timeLogs": "Time Logs"
@@ -3252,7 +3275,8 @@
         },
         "draft": {
             "alert": {
-                "successfullyPublished": "Schedules successfully published"
+                "successfullyPublished": "Schedules successfully published",
+                "publishFailed": "Publish failed. Please try again."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Are you sure you want to publish this schedule for all departments",
@@ -3421,7 +3445,8 @@
                 "recurring": "Recurring",
                 "recurringUntil": "Recurring until",
                 "repeat": "Repeat",
-                "weekRotations": "Week rotations"
+                "weekRotations": "Week rotations",
+                "noWeekRotations": "No rotation"
             },
             "viewDraftTemplate": "Schedule Templates"
         },
@@ -4023,7 +4048,7 @@
                         "deactivate": "Deactivate",
                         "delete": "Delete",
                         "edit": "Edit",
-                        "impersonate": "Impersonate"
+                        "impersonate": "Log in as client"
                     },
                     "email": "Email",
                     "name": "Name",
@@ -6621,7 +6646,9 @@
         "reminders": "Reminders",
         "settings": "Settings",
         "subscription": "Subscription",
-        "switchLanguage": "Switch language"
+        "switchLanguage": "Switch language",
+        "impersonating": "Logged in as client",
+        "stopImpersonation": "Log out as client"
     },
     "news": {
         "confirmation": {
@@ -7828,6 +7855,7 @@
                 "companyName": "Company name",
                 "cvr": "CVR",
                 "enableEmailNotifications": "Enable email notifications",
+                "enableNursingAreaNotifications": "Enable nursing area notifications",
                 "enableSystemNotifications": "Enable system notifications",
                 "groupChat": "Group chat",
                 "interventionCheckinOut": "Intervention check in/out",
@@ -7872,9 +7900,11 @@
             "unusedLicense": "Unused license",
             "usedLicense": "Used license",
             "userLicenses": "User licenses",
+            "caseworkerLicenses": "Caseworker licenses",
             "departmentLicenses": "Department licenses",
             "usedDepartmentLicense": "Used department license",
-            "unusedDepartmentLicense": "Unused department license"
+            "unusedDepartmentLicense": "Unused department license",
+            "copyLink": "Copy link"
         },
         "profile": {
             "form": {
@@ -7949,7 +7979,9 @@
             "treatmentTemplates": "Treatment templates",
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
-            "employmentBillingRules": "Billing Rules"
+            "employmentBillingRules": "Billing Rules",
+            "employmentJobcenters": "Jobcenters",
+            "employmentAgreements": "Agreements"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -8214,7 +8246,7 @@
                     "deactivate": "Deactivate",
                     "delete": "Delete",
                     "edit": "Edit",
-                    "impersonate": "Impersonate"
+                    "impersonate": "Log in as client"
                 },
                 "email": "Email",
                 "name": "Name",

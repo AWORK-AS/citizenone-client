@@ -112,7 +112,6 @@ watch(() => props.selectedRole, (newValue: any) => {
 
 watch(() => state.formRole.level, () => {
     if (isInitializing.value) return
-    state.formRole.permissions = []
     fetchAllPermissions()
 })
 

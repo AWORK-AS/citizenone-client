@@ -129,6 +129,22 @@
                         </div>
                     </div>
                     <div class="mt-10 w-full">
+                        <div v-if="isEmployeeServicesCompany" class="mb-5 bg-white ring-1 ring-gray-200 rounded-md p-6">
+                            <div class="flex items-center justify-between gap-3">
+                                <div>
+                                    <h3 class="text-sm font-semibold text-tertiary">
+                                        {{ $t('settings.licenseOverview.caseworkerLicenses') }}
+                                    </h3>
+                                    <p class="mt-1 text-sm text-gray-600">
+                                        {{ $t('subscription.addOnDeals.purchaseExtraLicenses') }}
+                                    </p>
+                                </div>
+                                <FormButton type="button" buttonStyle="primary"
+                                    @click="navigateTo('/apps?type=other&generic_name=caseworker-access')">
+                                    {{ $t('subscription.addOnDeals.purchaseExtraLicenses') }}
+                                </FormButton>
+                            </div>
+                        </div>
                         <ModulesUserAddOnDeals />
                     </div>
                 </div>
@@ -148,6 +164,10 @@ const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
+const isEmployeeServicesCompany = computed(() => {
+    return userStore.getUser?.company?.industry?.system_name === 'employment_services'
+        || userStore.getUser?.company?.industry?.en_name === 'Employment Services'
+})
 const breadcrumbLinks = [
     {
         name: 'subscription.subscription',

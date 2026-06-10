@@ -189,7 +189,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <span>
-                                            {{ draftTemplate.week_rotations ? draftTemplate.week_rotations : 1 }}
+                                            {{ (draftTemplate.week_rotations && draftTemplate.week_rotations > 0) ? draftTemplate.week_rotations : $t('dutySchedules.draftTemplates.table.noWeekRotations') }}
                                         </span>
                                     </td>
                                     <td width="20%">
@@ -309,7 +309,7 @@ async function fetchDraftTemplates() {
     try {
         const params = {
             page_length: draftTemplateStore.getCurrentPageLength,
-            page_number: draftTemplateStore.getCurrentPageNumber,
+            page: draftTemplateStore.getCurrentPageNumber,
             sort_field: draftTemplateStore.getSortData.sortField,
             sort_order: draftTemplateStore.getSortData.sortOrder,
             department: selectedDepartment,

@@ -1044,6 +1044,28 @@
     "chooseFile": "Vælg fil",
     "chooseFiles": "Vælg fil(er)",
     "citizens": {
+        "developmentGraph": {
+            "title": "Udviklingsdiagram",
+            "absence": "Fravær",
+            "back": "Tilbage",
+            "custom": "Brugerdefineret",
+            "daily": "Daglig",
+            "presence": "Tilstedeværelse",
+            "weekly": "Ugentlig",
+            "monthly": "Månedlig",
+            "startDate": "Startdato",
+            "endDate": "Slutdato",
+            "last3Months": "Sidste 3 måneder",
+            "lastMonth": "Sidste måned",
+            "noData": "Ingen fremmødedata tilgængelig for den valgte periode",
+            "protocol": "Protokol",
+            "selectProtocol": "Vælg en protokol",
+            "selectProtocolHeading": "Vælg en protokol for at se data",
+            "selectProtocolSubtext": "Vælg en protokol fra rullemenuen ovenfor for at indlæse udviklingsdiagrammet.",
+            "sessions": "Sessioner",
+            "thisMonth": "Denne måned",
+            "thisYear": "Dette år"
+        },
         "addictions": "Stofmisbrug",
         "address": "Adresse",
         "alert": {
@@ -2447,7 +2469,8 @@
             "health": "Sundhed",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
-            "plansAndGoals": "Planer og mål"
+            "plansAndGoals": "Planer og mål",
+            "employmentCases": "Sager"
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -3252,7 +3275,8 @@
         },
         "draft": {
             "alert": {
-                "successfullyPublished": "Vagtplaner offentliggjort med succes"
+                "successfullyPublished": "Vagtplaner offentliggjort med succes",
+                "publishFailed": "Offentliggørelse mislykkedes. Prøv igen."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Er du sikker på, at du vil offentliggøre denne vagtplan for afdelingen",
@@ -3421,7 +3445,8 @@
                 "recurring": "Gentagende",
                 "recurringUntil": "Gentager indtil",
                 "repeat": "Gentag",
-                "weekRotations": "Ugerotationer"
+                "weekRotations": "Ugerotationer",
+                "noWeekRotations": "Ingen rotation"
             },
             "viewDraftTemplate": "Skabelonvisning"
         },
@@ -4023,7 +4048,7 @@
                         "deactivate": "Deaktiver",
                         "delete": "Slet",
                         "edit": "Rediger",
-                        "impersonate": "Impersonér"
+                        "impersonate": "Log ind som klient"
                     },
                     "email": "E-mail",
                     "name": "Navn",
@@ -6621,7 +6646,9 @@
         "reminders": "Påmindelser",
         "settings": "Indstillinger",
         "subscription": "Abonnement",
-        "switchLanguage": "Skift sprog"
+        "switchLanguage": "Skift sprog",
+        "impersonating": "Logget ind som klient",
+        "stopImpersonation": "Log ud som klient"
     },
     "news": {
         "confirmation": {
@@ -7828,6 +7855,7 @@
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
                 "enableEmailNotifications": "Aktivér e-mail-notifikationer",
+                "enableNursingAreaNotifications": "Aktivér plejeområde-notifikationer",
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Check ind/ud for indsats",
@@ -7872,9 +7900,11 @@
             "unusedLicense": "Ubrugt licens",
             "usedLicense": "Brugt licens",
             "userLicenses": "Brugerlicenser",
+            "caseworkerLicenses": "Sagsbehandlerlicenser",
             "departmentLicenses": "Afdelingslicenser",
             "usedDepartmentLicense": "Brugt afdelingslicens",
-            "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+            "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+            "copyLink": "Kopier link"
         },
         "profile": {
             "form": {
@@ -7949,7 +7979,9 @@
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sagstyper",
-            "employmentBillingRules": "Faktureringsregler"
+            "employmentBillingRules": "Faktureringsregler",
+            "employmentJobcenters": "Jobcentre",
+            "employmentAgreements": "Aftaler"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -8214,7 +8246,7 @@
                     "deactivate": "Deaktiver",
                     "delete": "Slet",
                     "edit": "Rediger",
-                    "impersonate": "Impersonér"
+                    "impersonate": "Log ind som klient"
                 },
                 "email": "E-mail",
                 "name": "Navn",
