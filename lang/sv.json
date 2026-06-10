@@ -8555,7 +8555,8 @@
                     "amount": "Belopp",
                     "percentage": "Procentdel",
                     "unit": "Enhet"
-                }
+                },
+                "couponInformation": "Kuponguppgifter"
             },
             "newCoupon": "Ny kupong",
             "noCouponsFound": "Inga kuponger hittades",
@@ -8851,7 +8852,9 @@
                 "name": "Namn",
                 "region": "Region",
                 "sender": "Avsändare",
-                "title": "Titel"
+                "title": "Titel",
+                "pollInformation": "Omröstningsinformation",
+                "pollItemInformation": "Omröstningsobjektinformation"
             },
             "newPoll": "Ny omröstning",
             "newPollItem": "Nytt omröstningspunkt",
@@ -9007,7 +9010,8 @@
             "successBannerSaved": "Banderoll sparad",
             "successCouponCreated": "Kupong {code} skapad",
             "successCouponUpdated": "Kupong uppdaterad",
-            "errorCampaignNameRequired": "Kampanjnamn krävs"
+            "errorCampaignNameRequired": "Kampanjnamn krävs",
+            "labelImage": "Bild"
         },
         "sidebar": {
             "apps": "Apps",
@@ -10024,70 +10028,111 @@
         "citizenRequired": "Please select a citizen",
         "assessment": "Assessment"
     },
-    "guestPortal": {
-        "title": "Handläggarportal",
-        "loginInstruction": "Ange lösenordet från delningslänken för att öppna handläggarportalen.",
-        "password": "Lösenord",
-        "unlockAccess": "Lås upp",
-        "sharedAccess": "Delad åtkomst",
-        "logout": "Logga ut",
-        "folders": "Mappar",
-        "reports": "Rapporter",
-        "messages": "Meddelanden",
-        "unlockedAlertTitle": "Upplåst",
-        "unlockedAlertBody": "Handläggarportalen öppnades framgångsrikt",
-        "errorAlertTitle": "Fel",
-        "couldNotUnlockBody": "Kunde inte låsa upp portalen",
-        "dashboardSubtitle": "Visa delade mappar, rapporter och meddelanden för denna handläggarlänk.",
-        "sharedFolders": "Delade mappar",
-        "selectFolderToViewContents": "Välj en mapp för att se dess innehåll.",
-        "refresh": "Uppdatera",
-        "files": "filer",
-        "contents": "innehåll",
-        "noFoldersShared": "Inga mappar har delats för denna länk.",
-        "download": "Ladda ner",
-        "sharedReports": "Delade rapporter",
-        "filesAvailableThroughLink": "Filer tillgängliga via denna delningslänk.",
-        "noReportsShared": "Inga rapporter delades för denna länk.",
-        "you": "Du",
-        "admin": "Admin",
-        "noMessagesYet": "Inga meddelanden än. Säg hej!",
-        "typeAMessage": "Skriv ett meddelande...",
-        "today": "I dag",
-        "yesterday": "I går"
-    },
-    "caseworkerSharing": {
-        "configureSharing": "Konfigurera delning för handläggare",
-        "instruction": "Välj en medborgare först, välj sedan vilka mappar som ska delas från det hierarkiska medborgarträdet. Underfiler och -mappar visas under varje mapp.",
-        "firstName": "Förnamn",
-        "lastName": "Efternavn",
-        "changePassword": "Ändra portalens lösenord",
-        "newPassword": "Nytt lösenord",
-        "confirmPassword": "Bekräfta lösenord",
-        "confirmNewPassword": "Bekräfta nytt lösenord",
-        "passwordsDoNotMatch": "Lösenorden matchar inte",
-        "portalAccess": "Portalåtkomst",
-        "citizen": "Medborgare",
-        "sharedFoldersTitle": "Delade mappar från medborgarträdet",
-        "selectFoldersInstruction": "Välj de mappar som ska delas. Kapslade objekt förblir synliga under den valda överordnade mappen.",
-        "refreshTree": "Uppdatera träd",
-        "noFilesFoldersFound": "Inga filer eller mappar hittades för denna medborgare.",
-        "selectedFoldersTitle": "Valda mappar",
-        "noFoldersSelected": "Inga mappar valda än.",
-        "chooseCitizenToLoad": "Välj en medborgare för att ladda de hierarkiska filerna och mapperna.",
-        "cancel": "Avbryt",
-        "saving": "Sparar...",
-        "saveChanges": "Spara ändringar",
-        "view": "Visa",
-        "download": "Ladda ner",
-        "configNotAvailable": "Handläggarkonfiguration är inte tillgänglig",
-        "sharingUpdated": "Handläggardelning uppdaterad",
-        "unableToLoadCitizens": "Det gick inte att ladda medborgare",
-        "unableToLoadFolders": "Det gick inte att ladda medborgarmappar",
-        "folder": "Mapp",
-        "file": "Fil",
-        "manageSharing": "Hantera handläggardelning",
-        "configureSharingSubtitle": "Konfigurera vilka mappar och rapporter som delas för varje handläggare.",
-        "configureSharingTooltip": "Konfigurera delning"
+    "employment": {
+        "statusTypes": {
+            "statusTypes": "Statustyper",
+            "newStatusType": "Ny statustyp",
+            "editStatusType": "Redigera statustyp",
+            "addNewStatusType": "Lägg till ny statustyp",
+            "form": {
+                "name": "Namn",
+                "color": "Färg",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsordning",
+                "alert": {
+                    "newStatusTypeSuccessfullySaved": "Statustyp sparad",
+                    "statusTypeSuccessfullyUpdated": "Statustyp uppdaterad"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "color": "Färg",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsordning",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteStatusTypeConfirmation": "Är du säker på att du vill ta bort den här statustypen?"
+                },
+                "alert": {
+                    "statusTypeSuccessfullyDeleted": "Statustyp borttagen"
+                }
+            }
+        },
+        "caseTypes": {
+            "caseTypes": "Ärendetyper",
+            "newCaseType": "Ny ärendetyp",
+            "editCaseType": "Redigera ärendetyp",
+            "addNewCaseType": "Lägg till ny ärendetyp",
+            "form": {
+                "name": "Namn",
+                "description": "Beskrivning",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsordning",
+                "alert": {
+                    "newCaseTypeSuccessfullySaved": "Ärendetyp sparad",
+                    "caseTypeSuccessfullyUpdated": "Ärendetyp uppdaterad"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "description": "Beskrivning",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsordning",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteCaseTypeConfirmation": "Är du säker på att du vill ta bort den här ärendetypen?"
+                },
+                "alert": {
+                    "caseTypeSuccessfullyDeleted": "Ärendetyp borttagen"
+                }
+            }
+        },
+        "billingRules": {
+            "billingRules": "Faktureringsregler",
+            "newBillingRule": "Ny faktureringsregel",
+            "editBillingRule": "Redigera faktureringsregel",
+            "addNewBillingRule": "Lägg till ny faktureringsregel",
+            "form": {
+                "name": "Namn",
+                "rate": "Taxa",
+                "frequency": "Frekvens",
+                "description": "Beskrivning",
+                "isActive": "Aktiv",
+                "frequencyOptions": {
+                    "hourly": "Per timme",
+                    "daily": "Per dag",
+                    "weekly": "Per vecka",
+                    "monthly": "Per månad",
+                    "fixed": "Fast"
+                },
+                "alert": {
+                    "newBillingRuleSuccessfullySaved": "Faktureringsregel sparad",
+                    "billingRuleSuccessfullyUpdated": "Faktureringsregel uppdaterad"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "rate": "Taxa",
+                "frequency": "Frekvens",
+                "description": "Beskrivning",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteBillingRuleConfirmation": "Är du säker på att du vill ta bort den här faktureringsregeln?"
+                },
+                "alert": {
+                    "billingRuleSuccessfullyDeleted": "Faktureringsregel borttagen"
+                }
+            }
+        }
     }
 }

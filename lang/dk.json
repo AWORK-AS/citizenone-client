@@ -8564,7 +8564,8 @@
                     "amount": "Beløb",
                     "percentage": "Procentdel",
                     "unit": "Enhed"
-                }
+                },
+                "couponInformation": "Kuponoplysninger"
             },
             "newCoupon": "Ny kupon",
             "noCouponsFound": "Ingen kuponer fundet",
@@ -8860,7 +8861,9 @@
                 "name": "Navn",
                 "region": "Region",
                 "sender": "Afsender",
-                "title": "Titel"
+                "title": "Titel",
+                "pollInformation": "Afstemningsoplysninger",
+                "pollItemInformation": "Afstemningsemne oplysninger"
             },
             "newPoll": "Ny afstemning",
             "newPollItem": "Nyt afstemningspunkt",
@@ -9016,7 +9019,8 @@
             "successBannerSaved": "Banner gemt",
             "successCouponCreated": "Kupon {code} oprettet",
             "successCouponUpdated": "Kupon opdateret",
-            "errorCampaignNameRequired": "Kampagnenavn er påkrævet"
+            "errorCampaignNameRequired": "Kampagnenavn er påkrævet",
+            "labelImage": "Billede"
         },
         "sidebar": {
             "apps": "Apps",
@@ -10024,70 +10028,111 @@
         "syncing": "Synkroniserer...",
         "title": "Din ChatGPT Integration"
     },
-    "guestPortal": {
-        "title": "Sagsbehandlerportal",
-        "loginInstruction": "Indtast adgangskoden fra delingslinket for at åbne sagsbehandlerportalen.",
-        "password": "Adgangskode",
-        "unlockAccess": "Lås op",
-        "sharedAccess": "Delt adgang",
-        "logout": "Log ud",
-        "folders": "Mapper",
-        "reports": "Rapporter",
-        "messages": "Beskeder",
-        "unlockedAlertTitle": "Låst op",
-        "unlockedAlertBody": "Sagsbehandlerportal åbnet med succes",
-        "errorAlertTitle": "Fejl",
-        "couldNotUnlockBody": "Kunne ikke låse portalen op",
-        "dashboardSubtitle": "Se delte mapper, rapporter og beskeder for dette sagsbehandlerlink.",
-        "sharedFolders": "Delte mapper",
-        "selectFolderToViewContents": "Vælg en mappe for at se dens indhold.",
-        "refresh": "Opdater",
-        "files": "filer",
-        "contents": "indhold",
-        "noFoldersShared": "Ingen mapper er blevet delt for dette link.",
-        "download": "Download",
-        "sharedReports": "Delte rapporter",
-        "filesAvailableThroughLink": "Filer tilgængelige via dette delingslink.",
-        "noReportsShared": "Ingen rapporter blev delt for dette link.",
-        "you": "Dig",
-        "admin": "Admin",
-        "noMessagesYet": "Ingen beskeder endnu. Sig hej!",
-        "typeAMessage": "Skriv en besked...",
-        "today": "I dag",
-        "yesterday": "I går"
-    },
-    "caseworkerSharing": {
-        "configureSharing": "Konfigurer deling for sagsbehandler",
-        "instruction": "Vælg en borger først, og vælg derefter hvilke mapper der skal deles fra det hierarkiske borgertræ. Underfiler og -mapper vises under hver mappe.",
-        "firstName": "Fornavn",
-        "lastName": "Efternavn",
-        "changePassword": "Skift adgangskode til portal",
-        "newPassword": "Ny adgangskode",
-        "confirmPassword": "Bekræft adgangskode",
-        "confirmNewPassword": "Bekræft ny adgangskode",
-        "passwordsDoNotMatch": "Adgangskoderne er ikke ens",
-        "portalAccess": "Portaladgang",
-        "citizen": "Borger",
-        "sharedFoldersTitle": "Delte mapper fra borgertræet",
-        "selectFoldersInstruction": "Vælg de mapper, der skal deles. Indlejrede emner forbliver synlige under den valgte overordnede mappe.",
-        "refreshTree": "Opdater træ",
-        "noFilesFoldersFound": "Der blev ikke fundet nogen filer eller mapper for denne borger.",
-        "selectedFoldersTitle": "Valgte mapper",
-        "noFoldersSelected": "Ingen mapper valgt endnu.",
-        "chooseCitizenToLoad": "Vælg en borger for at indlæse de hierarkiske filer og mapper.",
-        "cancel": "Annuller",
-        "saving": "Gemmer...",
-        "saveChanges": "Gem ændringer",
-        "view": "Vis",
-        "download": "Download",
-        "configNotAvailable": "Sagsbehandlerkonfiguration er ikke tilgængelig",
-        "sharingUpdated": "Sagsbehandlerdeling opdateret",
-        "unableToLoadCitizens": "Kunne ikke indlæse borgere",
-        "unableToLoadFolders": "Kunne ikke indlæse borgermapper",
-        "folder": "Mappe",
-        "file": "Fil",
-        "manageSharing": "Administrer sagsbehandlerdeling",
-        "configureSharingSubtitle": "Konfigurer hvilke mapper og rapporter der deles for hver sagsbehandler.",
-        "configureSharingTooltip": "Konfigurer deling"
+    "employment": {
+        "statusTypes": {
+            "statusTypes": "Statustyper",
+            "newStatusType": "Ny statustype",
+            "editStatusType": "Rediger statustype",
+            "addNewStatusType": "Tilføj ny statustype",
+            "form": {
+                "name": "Navn",
+                "color": "Farve",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "alert": {
+                    "newStatusTypeSuccessfullySaved": "Statustype gemt",
+                    "statusTypeSuccessfullyUpdated": "Statustype opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "color": "Farve",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteStatusTypeConfirmation": "Er du sikker på, at du vil slette denne statustype?"
+                },
+                "alert": {
+                    "statusTypeSuccessfullyDeleted": "Statustype slettet"
+                }
+            }
+        },
+        "caseTypes": {
+            "caseTypes": "Sagstyper",
+            "newCaseType": "Ny sagstype",
+            "editCaseType": "Rediger sagstype",
+            "addNewCaseType": "Tilføj ny sagstype",
+            "form": {
+                "name": "Navn",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "alert": {
+                    "newCaseTypeSuccessfullySaved": "Sagstype gemt",
+                    "caseTypeSuccessfullyUpdated": "Sagstype opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "description": "Beskrivelse",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteCaseTypeConfirmation": "Er du sikker på, at du vil slette denne sagstype?"
+                },
+                "alert": {
+                    "caseTypeSuccessfullyDeleted": "Sagstype slettet"
+                }
+            }
+        },
+        "billingRules": {
+            "billingRules": "Faktureringsregler",
+            "newBillingRule": "Ny faktureringsregel",
+            "editBillingRule": "Rediger faktureringsregel",
+            "addNewBillingRule": "Tilføj ny faktureringsregel",
+            "form": {
+                "name": "Navn",
+                "rate": "Takst",
+                "frequency": "Frekvens",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "frequencyOptions": {
+                    "hourly": "Pr. time",
+                    "daily": "Pr. dag",
+                    "weekly": "Pr. uge",
+                    "monthly": "Pr. måned",
+                    "fixed": "Fast"
+                },
+                "alert": {
+                    "newBillingRuleSuccessfullySaved": "Faktureringsregel gemt",
+                    "billingRuleSuccessfullyUpdated": "Faktureringsregel opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "rate": "Takst",
+                "frequency": "Frekvens",
+                "description": "Beskrivelse",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteBillingRuleConfirmation": "Er du sikker på, at du vil slette denne faktureringsregel?"
+                },
+                "alert": {
+                    "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
+                }
+            }
+        }
     }
 }

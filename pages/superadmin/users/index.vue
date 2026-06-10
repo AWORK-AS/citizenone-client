@@ -213,7 +213,7 @@ async function fetchUsers() {
             state.allCount = response?.total ?? items.length
             state.activeCount = response?.active_count || 0
             state.inactiveCount = response?.inactive_count || 0
-            state.adminCount = response?.admin_count || 0
+            state.adminCount = response?.admins_count || 0
         }
     } catch (error: any) { state.error = error }
     state.isTableLoading = false

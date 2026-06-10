@@ -1,19 +1,26 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class CampaignService extends BaseAPIService {
-    // Kampagner
     async getCampaigns(params?: object): Promise<any> {
         return await this.request('/superadmin/sales-campaigns', 'GET', params)
     }
-    async getCampaign(uuid: string): Promise<any> {
-        return await this.request(`/superadmin/sales-campaigns/${uuid}`, 'GET')
+
+    async getCampaign(salesCampaignUuid: any): Promise<any> {
+        return await this.request(`/superadmin/sales-campaigns/${salesCampaignUuid}`, 'GET')
     }
+
     async createCampaign(params: object): Promise<any> {
         return await this.request('/superadmin/sales-campaigns', 'POST', params)
     }
-    async updateCampaign(uuid: string, params: object): Promise<any> {
-        return await this.request(`/superadmin/sales-campaigns/${uuid}`, 'PUT', params)
+
+    async saveCampaign(formData: FormData): Promise<any> {
+        return await this.requestFormData('/superadmin/sales-campaigns', formData)
     }
+
+    async updateCampaign(salesCampaignUuid: any, params: object): Promise<any> {
+        return await this.request(`/superadmin/sales-campaigns/${salesCampaignUuid}/update`, 'POST', params)
+    }
+
     async deleteCampaign(uuid: string): Promise<any> {
         return await this.request(`/superadmin/sales-campaigns/${uuid}`, 'DELETE')
     }
