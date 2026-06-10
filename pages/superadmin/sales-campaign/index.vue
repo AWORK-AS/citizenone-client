@@ -421,7 +421,7 @@ const campaignTypeIcon = (v: string) => campaignTypes.value.find(ct => ct.value 
 const campaignFilters = computed(() => [
     { key: 'all', label: t('superadmin.salesCampaign.filterAll') },
     { key: 'active', label: t('superadmin.salesCampaign.filterActive') },
-    { key: 'draft', label: t('superadmin.salesCampaign.filterDraft') },
+    { key: 'inactive', label: t('superadmin.salesCampaign.statusInactive') },
     { key: 'expired', label: t('superadmin.salesCampaign.filterExpired') },
 ])
 
@@ -431,8 +431,8 @@ const bannerTypes = computed(() => [
     { value: 'warning', label: t('superadmin.salesCampaign.bannerWarning'), color: '#D4900A', bg: '#FFF9EC' },
 ])
 
-const campaignStatus = (c: any): 'active' | 'draft' | 'expired' => {
-    if (!c.is_active) return 'draft'
+const campaignStatus = (c: any): 'active' | 'inactive' | 'expired' => {
+    if (!c.is_active) return 'inactive'
     if (c.end_date && new Date(c.end_date) < new Date()) return 'expired'
     return 'active'
 }
@@ -440,7 +440,7 @@ const campaignStatusLabel = (c: any) => {
     const s = campaignStatus(c)
     if (s === 'active') return t('superadmin.salesCampaign.statusActive')
     if (s === 'expired') return t('superadmin.salesCampaign.statusExpired')
-    return t('superadmin.salesCampaign.statusDraft')
+    return t('superadmin.salesCampaign.statusInactive')
 }
 const campaignStatusStyle = (c: any) => {
     const s = campaignStatus(c)
@@ -498,7 +498,7 @@ const filteredCampaigns = computed(() => {
     return campaigns.filter((c: any) => {
         const s = campaignStatus(c)
         if (campaignFilter.value === 'active') return s === 'active'
-        if (campaignFilter.value === 'draft') return s === 'draft'
+        if (campaignFilter.value === 'inactive') return s === 'inactive'
         if (campaignFilter.value === 'expired') return s === 'expired'
         return true
     })
