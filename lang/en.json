@@ -2066,6 +2066,7 @@
                 "medicineIsOverdue": "Medicine is {time} overdue. Give immediately or register deviation.",
                 "dueInMinutes": "Due in {minutes} minutes. Remember to give on time.",
                 "expired": "Expired",
+                "selfAdministration": "Self-administration",
                 "expiredCheckDate": "Expired — check package date",
                 "lowStock": "Low stock",
                 "lowStockOnly": "Low stock: only {n} remaining",

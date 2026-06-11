@@ -2066,6 +2066,7 @@
                 "medicineIsOverdue": "Medicinen er {time} forsinket. Giv straks eller registrér afvigelse.",
                 "dueInMinutes": "Forfaldner om {minutes} minutter. Husk at give til tiden.",
                 "expired": "Udløbet",
+                "selfAdministration": "Selvadministrerende",
                 "expiredCheckDate": "Udløbet — tjek anbrud dato",
                 "lowStock": "Lavt lager",
                 "lowStockOnly": "Lavt lager: kun {n} tilbage",
