@@ -2509,6 +2509,7 @@
             "documents": "Documents",
             "economy": "Economy",
             "employeeGroups": "Employee groups",
+            "employmentCases": "Employment cases",
             "health": "Health",
             "journals": "Journals",
             "medicineCard": "Medicine card",
@@ -10224,6 +10225,55 @@
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Billing rule successfully deleted"
                 }
+            }
+        },
+        "cases": {
+            "addNewCase": "Add new case",
+            "cases": "Employment cases",
+            "editCase": "Edit case",
+            "newCase": "New case",
+            "form": {
+                "agreement": "Agreement",
+                "alert": {
+                    "caseSuccessfullyUpdated": "Case successfully updated",
+                    "newCaseSuccessfullySaved": "Case successfully saved"
+                },
+                "durationWeeks": "Duration (weeks)",
+                "endDate": "End date",
+                "notes": "Notes",
+                "periodMode": {
+                    "byDate": "By date",
+                    "byWeeks": "By weeks"
+                },
+                "responsibleEmployee": "Responsible employee",
+                "startDate": "Start date",
+                "status": "Status",
+                "statusOptions": {
+                    "active": "Active",
+                    "completed": "Completed",
+                    "on_hold": "On hold",
+                    "paused": "Paused"
+                }
+            },
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "agreement": "Agreement",
+                "alert": {
+                    "caseSuccessfullyDeleted": "Case successfully deleted"
+                },
+                "confirmation": {
+                    "deleteCaseConfirmation": "Are you sure you want to delete this case?"
+                },
+                "durationWeeks": "Duration (weeks)",
+                "endDate": "End date",
+                "jobcenter": "Job center",
+                "responsibleEmployee": "Responsible employee",
+                "startDate": "Start date",
+                "status": "Status",
+                "weeksUsed": "Weeks used"
             }
         }
     }

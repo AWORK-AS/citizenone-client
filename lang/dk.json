@@ -2509,6 +2509,7 @@
             "documents": "Dokumenter",
             "economy": "Økonomi",
             "employeeGroups": "Medarbejdergrupper",
+            "employmentCases": "Beskæftigelsessager",
             "health": "Sundhed",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
@@ -10224,6 +10225,55 @@
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
                 }
+            }
+        },
+        "cases": {
+            "addNewCase": "Tilføj ny sag",
+            "cases": "Beskæftigelsessager",
+            "editCase": "Rediger sag",
+            "newCase": "Ny sag",
+            "form": {
+                "agreement": "Aftale",
+                "alert": {
+                    "caseSuccessfullyUpdated": "Sag opdateret",
+                    "newCaseSuccessfullySaved": "Sag gemt"
+                },
+                "durationWeeks": "Varighed (uger)",
+                "endDate": "Slutdato",
+                "notes": "Noter",
+                "periodMode": {
+                    "byDate": "Efter dato",
+                    "byWeeks": "Efter uger"
+                },
+                "responsibleEmployee": "Ansvarlig medarbejder",
+                "startDate": "Startdato",
+                "status": "Status",
+                "statusOptions": {
+                    "active": "Aktiv",
+                    "completed": "Afsluttet",
+                    "on_hold": "På hold",
+                    "paused": "Sat på pause"
+                }
+            },
+            "table": {
+                "actions": {
+                    "delete": "Slet",
+                    "edit": "Rediger"
+                },
+                "agreement": "Aftale",
+                "alert": {
+                    "caseSuccessfullyDeleted": "Sag slettet"
+                },
+                "confirmation": {
+                    "deleteCaseConfirmation": "Er du sikker på, at du vil slette denne sag?"
+                },
+                "durationWeeks": "Varighed (uger)",
+                "endDate": "Slutdato",
+                "jobcenter": "Jobcenter",
+                "responsibleEmployee": "Ansvarlig medarbejder",
+                "startDate": "Startdato",
+                "status": "Status",
+                "weeksUsed": "Anvendte uger"
             }
         }
     }
