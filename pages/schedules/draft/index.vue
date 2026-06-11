@@ -36,7 +36,7 @@
                         <span class="text-sm font-semibold text-primary">{{ departmentStore.getSelectedDepartmentName }}</span>
                     </div>
                     <NuxtLink to="/schedules"
-                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium text-slate-500 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all">
+                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium text-slate-500 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-all whitespace-nowrap">
                         <Icon name="ph:arrow-left" class="w-3.5 h-3.5" />
                         {{ $t('dutySchedules.draft.backToPublished') }}
                     </NuxtLink>
@@ -48,30 +48,30 @@
                 <div class="flex items-center gap-3">
                 <div class="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-0.5">
                     <NuxtLink to="/schedules/draft/published"
-                        class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:bg-white hover:text-primary hover:shadow-sm transition-all">
+                        class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:bg-white hover:text-primary hover:shadow-sm transition-all whitespace-nowrap">
                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {{ $t('dutySchedules.published.seePrevious') }}
                     </NuxtLink>
                     <div class="w-px h-4 bg-slate-200"></div>
-                    <button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:bg-white hover:text-primary hover:shadow-sm transition-all"
+                    <button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:bg-white hover:text-primary hover:shadow-sm transition-all whitespace-nowrap"
                         @click="navigateTo('/schedules/draft/templates')">
                         <Icon name="ph:note" class="h-3.5 w-3.5" aria-hidden="true" />
                         <span>{{ $t('dutySchedules.draftTemplates.draftTemplates') }}</span>
                     </button>
                     <div class="w-px h-4 bg-slate-200"></div>
-                    <button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:bg-white hover:text-primary hover:shadow-sm transition-all"
+                    <button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:bg-white hover:text-primary hover:shadow-sm transition-all whitespace-nowrap"
                         @click="state.modal.isPresetsOpen = true">
                         <Icon name="ph:list-dashes-bold" class="h-3.5 w-3.5" aria-hidden="true" />
                         <span>{{ $t('dutySchedules.draft.preset.viewPresets') }}</span>
                     </button>
                     <div class="w-px h-4 bg-slate-200"></div>
-                    <button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:bg-white hover:text-primary hover:shadow-sm transition-all"
+                    <button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:bg-white hover:text-primary hover:shadow-sm transition-all whitespace-nowrap"
                         @click="state.modal.isSaveAsPresetOpen = true">
                         <Icon name="ph:floppy-disk" class="h-3.5 w-3.5" aria-hidden="true" />
                         <span>{{ $t('dutySchedules.draft.preset.saveAsPreset') }}</span>
                     </button>
                     <div class="w-px h-4 bg-slate-200"></div>
-                    <button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-red-500 hover:bg-white hover:text-red-600 hover:shadow-sm transition-all"
+                    <button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-red-500 hover:bg-white hover:text-red-600 hover:shadow-sm transition-all whitespace-nowrap"
                         @click="state.modal.isDeleteAllOpen = true">
                         <Icon name="ph:trash" class="h-3.5 w-3.5" aria-hidden="true" />
                         <span>{{ $t('dutySchedules.draft.deleteAll.button') }}</span>
@@ -142,14 +142,13 @@
 
             <div class="space-y-2">
 
-                <div class="flex items-center gap-3 p-3 bg-amber-50 border border-amber-200 rounded-xl">
-                    <div class="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0">
-                        <svg class="w-5 h-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                    </div>
-                    <div>
-                        <p class="text-sm font-semibold text-amber-800">{{ $t('dutySchedules.draft.contextBanner.title') }}</p>
-                        <p class="text-xs text-amber-600 mt-0.5">{{ $t('dutySchedules.draft.contextBanner.selectedDepartment') }} <strong>{{ departmentStore.getSelectedDepartmentName }}</strong> — {{ $t('dutySchedules.draft.contextBanner.description') }}</p>
-                    </div>
+                <!-- Compact single-line draft-context strip (was a tall 2-line box). -->
+                <div class="flex items-center gap-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg text-amber-800">
+                    <Icon name="ph:pencil-simple-line" class="h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
+                    <p class="text-xs leading-snug">
+                        <span class="font-semibold">{{ $t('dutySchedules.draft.contextBanner.title') }}</span>
+                        <span class="text-amber-600"> · {{ $t('dutySchedules.draft.contextBanner.selectedDepartment') }} <strong>{{ departmentStore.getSelectedDepartmentName }}</strong> — {{ $t('dutySchedules.draft.contextBanner.description') }}</span>
+                    </p>
                 </div>
 
                 <ModulesUserDutyScheduleDraftWeekView

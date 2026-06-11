@@ -10,8 +10,8 @@
                 <div class="flex lg:items-center justify-center px-4 pt-16 pb-4 text-center">
                     <TransitionChild as="template" enter="ease-out duration-300"
                         enter-from="opacity-0 translate-y-2 scale-95" enter-to="opacity-100 translate-y-0 scale-100"
-                        leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 scale-100"
-                        leave-to="opacity-0 translate-y-0 scale-95">
+                        leave="ease-in duration-200"
+                        leave-from="opacity-100 translate-y-0 scale-100" leave-to="opacity-0 translate-y-0 scale-95">
                         <DialogPanel
                             class="bg-white relative overflow-clip text-left shadow-2xl ring-1 ring-black/5 transform transition-all px-8 pt-6 pb-0 w-full rounded-2xl"
                             :class="[props.size === 'xs' && 'max-w-lg', props.size === 'sm' && 'max-w-xl', props.size === 'md' && 'max-w-2xl', props.size === 'lg' && 'max-w-3xl', props.size === 'xl' && 'max-w-4xl', props.size === '2xl' && 'max-w-5xl', props.size === '3xl' && 'max-w-6xl', props.size === '4xl' && 'max-w-7xl', props.size === 'full' && 'max-w-full']">
@@ -46,7 +46,7 @@
     </TransitionRoot>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 const props = defineProps({
@@ -68,4 +68,8 @@ const props = defineProps({
         required: false,
     },
 })
+
+defineSlots<{
+    'modal-body'?: () => any
+}>()
 </script>

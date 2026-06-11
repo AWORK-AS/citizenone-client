@@ -47,11 +47,11 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div>
-                        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+                        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 stagger-children">
                             <div v-for="(wallet, index) in state.wallets?.data" :key="index" :data-uuid="wallet.uuid"
                                 @click="Object.keys(state.selectedWallet)?.length === 0 && navigateTo(`/citizens/${citizenUuid}/wallets/${wallet?.uuid}`)">
                                 <div
-                                    class="h-36 bg-white border-l-4 border-primary/70 px-4 py-5 relative overflow-clip ring-1 ring-gray-200 rounded-md cursor-pointer hover:bg-gray-100">
+                                    class="h-36 bg-white border-l-4 border-primary/70 px-4 py-5 relative overflow-clip ring-1 ring-gray-200 rounded-md cursor-pointer hover:bg-gray-100 transition-shadow duration-200 hover:shadow-card-hover">
                                     <img src="/img/icons/asset-02.svg" alt="Image failed to load"
                                         class="z-10 w-24 absolute -bottom-8 -right-8">
                                     <div class="flex items-center gap-x-1 absolute z-30 right-2">
