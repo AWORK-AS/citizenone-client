@@ -130,6 +130,56 @@
             "name": "Navn"
         }
     },
+    "employmentCaseTypes": {
+        "editEmploymentCaseType": "Rediger sagstype",
+        "employmentCaseTypes": "Sagstyper",
+        "form": {
+            "alert": {
+                "successfullySaved": "Sagstype gemt med succes",
+                "successfullyUpdated": "Sagstype opdateret med succes"
+            },
+            "name": "Navn"
+        },
+        "newEmploymentCaseType": "Ny sagstype",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "successfullyDeleted": "Sagstype slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne sagstype"
+            },
+            "name": "Navn"
+        }
+    },
+    "employmentStatusTypes": {
+        "editEmploymentStatusType": "Rediger statustype",
+        "employmentStatusTypes": "Statustyper",
+        "form": {
+            "alert": {
+                "successfullySaved": "Statustype gemt med succes",
+                "successfullyUpdated": "Statustype opdateret med succes"
+            },
+            "name": "Navn"
+        },
+        "newEmploymentStatusType": "Ny statustype",
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "alert": {
+                "successfullyDeleted": "Statustype slettet med succes"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette denne statustype"
+            },
+            "name": "Navn"
+        }
+    },
     "activityLogs": {
         "activityLogs": "Aktivitetslogfiler",
         "logs": {
@@ -994,6 +1044,28 @@
     "chooseFile": "Vælg fil",
     "chooseFiles": "Vælg fil(er)",
     "citizens": {
+        "developmentGraph": {
+            "title": "Udviklingsdiagram",
+            "absence": "Fravær",
+            "back": "Tilbage",
+            "custom": "Brugerdefineret",
+            "daily": "Daglig",
+            "presence": "Tilstedeværelse",
+            "weekly": "Ugentlig",
+            "monthly": "Månedlig",
+            "startDate": "Startdato",
+            "endDate": "Slutdato",
+            "last3Months": "Sidste 3 måneder",
+            "lastMonth": "Sidste måned",
+            "noData": "Ingen fremmødedata tilgængelig for den valgte periode",
+            "protocol": "Protokol",
+            "selectProtocol": "Vælg en protokol",
+            "selectProtocolHeading": "Vælg en protokol for at se data",
+            "selectProtocolSubtext": "Vælg en protokol fra rullemenuen ovenfor for at indlæse udviklingsdiagrammet.",
+            "sessions": "Sessioner",
+            "thisMonth": "Denne måned",
+            "thisYear": "Dette år"
+        },
         "addictions": "Stofmisbrug",
         "address": "Adresse",
         "alert": {
@@ -1536,6 +1608,27 @@
                 "photo": "Foto",
                 "studentCollaboration": "Elevsamarbejde"
             },
+            "employmentProgram": {
+                "activationDeadline": "Aktiveringsfrist",
+                "caseEndDate": "Sagsslutt dato",
+                "caseStartDate": "Sagsstart dato",
+                "caseType": "Sagstype",
+                "financialSupportBasis": "Forsørgelsesgrundlag",
+                "language": "Sprog",
+                "primaryConsultant": "Primær konsulent",
+                "referralDate": "Henvisningsdato",
+                "referralReason": "Henvisningsårsag",
+                "referrerEmail": "Henvisers e-mail",
+                "referrerInfo": "Henviseroplysninger",
+                "referrerName": "Henvisers navn",
+                "referrerOrganization": "Henvisers organisation",
+                "referrerPhone": "Henvisers telefon",
+                "reportingRequirements": "Indberetningskrav",
+                "secondaryConsultant": "Sekundær konsulent",
+                "status": "Status",
+                "totalWeeks": "Samlede uger",
+                "weeksUsed": "Brugte uger"
+            },
             "street": "Gade",
             "trafficLights": {
                 "green": "Grøn",
@@ -1799,6 +1892,14 @@
                     "pnMedicine": "PN-medicin",
                     "regularMedicine": "Fast medicin"
                 },
+                "consentToPrescribe": "Borgeren har givet samtykke til at få ordineret denne medicin",
+                "shelfLife": "Holdbarhed (anbrud)",
+                "dateOpened": "Anbrudsdato",
+                "shelfLifeDays": "Holdbarhed (dage efter anbrud)",
+                "shelfLifeDaysPlaceholder": "Antal dage",
+                "expirationDate": "Udløbsdato",
+                "whoPrescribed": "Hvem har ordineret det?",
+                "whoPrescribedPlaceholder": "Hvem har ordineret det",
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",
@@ -1965,6 +2066,7 @@
                 "medicineIsOverdue": "Medicinen er {time} forsinket. Giv straks eller registrér afvigelse.",
                 "dueInMinutes": "Forfaldner om {minutes} minutter. Husk at give til tiden.",
                 "expired": "Udløbet",
+                "selfAdministration": "Selvadministrerende",
                 "expiredCheckDate": "Udløbet — tjek anbrud dato",
                 "lowStock": "Lavt lager",
                 "lowStockOnly": "Lavt lager: kun {n} tilbage",
@@ -2067,7 +2169,9 @@
                 "treatmentPeriods": "Behandlingsperioder",
                 "from": "Fra",
                 "to": "til",
-                "extraIndividualDates": "Ekstra individuelle dage"
+                "extraIndividualDates": "Ekstra individuelle dage",
+                "expired": "Udløbet",
+                "expiredTooltip": "Denne medicin er udløbet"
             }
         },
         "newCitizen": "Ny borger",
@@ -2298,6 +2402,7 @@
         "rooms": "Værelser",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
+            "employmentProgram": "Beskæftigelsesforløb",
             "inquiryData": "Henvendelsesdata",
             "stayData": "Opholdsdata"
         },
@@ -2782,7 +2887,8 @@
                 "wallets": "Punge"
             },
             "wallets": "Økonomi"
-        }
+        },
+        "noCitizensYet": "Ingen borgere endnu"
     },
     "client": {
         "appointments": "Aftaler",
@@ -5700,6 +5806,7 @@
             "primaryCaseWorker": "Primær sagsbehandler",
             "responsibleMunicipality": "Ansvarlig kommune",
             "section": "Paragraf",
+            "employmentData": "Beskæftigelsesforløb",
             "stayData": "Opholdsdata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafiklys",
@@ -6874,7 +6981,8 @@
             "moderateRisk": "Moderat risiko",
             "useForceStatistics": "Brug af magt statistik"
         },
-        "viewAll": "Se alle"
+        "viewAll": "Se alle",
+        "statistics": "Statistik"
     },
     "pageNotFound": "Side ikke fundet",
     "pagination": {
@@ -7776,6 +7884,7 @@
                 "companyName": "Firmanavn",
                 "cvr": "CVR",
                 "enableEmailNotifications": "Aktivér e-mail-notifikationer",
+                "enableNursingAreaNotifications": "Aktivér plejeområde-notifikationer",
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Check ind/ud for indsats",
@@ -7820,9 +7929,11 @@
             "unusedLicense": "Ubrugt licens",
             "usedLicense": "Brugt licens",
             "userLicenses": "Brugerlicenser",
+            "caseworkerLicenses": "Sagsbehandlerlicenser",
             "departmentLicenses": "Afdelingslicenser",
             "usedDepartmentLicense": "Brugt afdelingslicens",
-            "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+            "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+            "copyLink": "Kopier link"
         },
         "profile": {
             "form": {
@@ -7894,7 +8005,12 @@
             "ipRestrictions": "IP-begrænsninger",
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
-            "treatmentTemplates": "Behandlingsskabeloner"
+            "treatmentTemplates": "Behandlingsskabeloner",
+            "employmentStatusTypes": "Statustyper",
+            "employmentCaseTypes": "Sagstyper",
+            "employmentBillingRules": "Faktureringsregler",
+            "employmentJobcenters": "Jobcentre",
+            "employmentAgreements": "Aftaler"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -8477,7 +8593,8 @@
                     "amount": "Beløb",
                     "percentage": "Procentdel",
                     "unit": "Enhed"
-                }
+                },
+                "couponInformation": "Kuponoplysninger"
             },
             "newCoupon": "Ny kupon",
             "noCouponsFound": "Ingen kuponer fundet",
@@ -8773,7 +8890,9 @@
                 "name": "Navn",
                 "region": "Region",
                 "sender": "Afsender",
-                "title": "Titel"
+                "title": "Titel",
+                "pollInformation": "Afstemningsoplysninger",
+                "pollItemInformation": "Afstemningsemne oplysninger"
             },
             "newPoll": "Ny afstemning",
             "newPollItem": "Nyt afstemningspunkt",
@@ -8929,7 +9048,8 @@
             "successBannerSaved": "Banner gemt",
             "successCouponCreated": "Kupon {code} oprettet",
             "successCouponUpdated": "Kupon opdateret",
-            "errorCampaignNameRequired": "Kampagnenavn er påkrævet"
+            "errorCampaignNameRequired": "Kampagnenavn er påkrævet",
+            "labelImage": "Billede"
         },
         "sidebar": {
             "apps": "Apps",
@@ -9937,5 +10057,111 @@
         "syncing": "Synkroniserer...",
         "title": "Din ChatGPT Integration"
     },
-    "delete": "Slet"
+    "employment": {
+        "statusTypes": {
+            "statusTypes": "Statustyper",
+            "newStatusType": "Ny statustype",
+            "editStatusType": "Rediger statustype",
+            "addNewStatusType": "Tilføj ny statustype",
+            "form": {
+                "name": "Navn",
+                "color": "Farve",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "alert": {
+                    "newStatusTypeSuccessfullySaved": "Statustype gemt",
+                    "statusTypeSuccessfullyUpdated": "Statustype opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "color": "Farve",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteStatusTypeConfirmation": "Er du sikker på, at du vil slette denne statustype?"
+                },
+                "alert": {
+                    "statusTypeSuccessfullyDeleted": "Statustype slettet"
+                }
+            }
+        },
+        "caseTypes": {
+            "caseTypes": "Sagstyper",
+            "newCaseType": "Ny sagstype",
+            "editCaseType": "Rediger sagstype",
+            "addNewCaseType": "Tilføj ny sagstype",
+            "form": {
+                "name": "Navn",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "alert": {
+                    "newCaseTypeSuccessfullySaved": "Sagstype gemt",
+                    "caseTypeSuccessfullyUpdated": "Sagstype opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "description": "Beskrivelse",
+                "active": "Aktiv",
+                "sortOrder": "Sorteringsrækkefølge",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteCaseTypeConfirmation": "Er du sikker på, at du vil slette denne sagstype?"
+                },
+                "alert": {
+                    "caseTypeSuccessfullyDeleted": "Sagstype slettet"
+                }
+            }
+        },
+        "billingRules": {
+            "billingRules": "Faktureringsregler",
+            "newBillingRule": "Ny faktureringsregel",
+            "editBillingRule": "Rediger faktureringsregel",
+            "addNewBillingRule": "Tilføj ny faktureringsregel",
+            "form": {
+                "name": "Navn",
+                "rate": "Takst",
+                "frequency": "Frekvens",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "frequencyOptions": {
+                    "hourly": "Pr. time",
+                    "daily": "Pr. dag",
+                    "weekly": "Pr. uge",
+                    "monthly": "Pr. måned",
+                    "fixed": "Fast"
+                },
+                "alert": {
+                    "newBillingRuleSuccessfullySaved": "Faktureringsregel gemt",
+                    "billingRuleSuccessfullyUpdated": "Faktureringsregel opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "rate": "Takst",
+                "frequency": "Frekvens",
+                "description": "Beskrivelse",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteBillingRuleConfirmation": "Er du sikker på, at du vil slette denne faktureringsregel?"
+                },
+                "alert": {
+                    "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
+                }
+            }
+        }
+    }
 }

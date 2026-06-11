@@ -563,6 +563,7 @@ const defaultFields = () => ({
     system_access: true,
     inquiry_data: true,
     stay_data: true,
+    employment_data: true,
 })
 
 const citizenFormFields = [
@@ -585,6 +586,7 @@ const citizenFormFields = [
     { key: 'system_access', label: 'formFieldConfig.fields.systemAccess' },
     { key: 'inquiry_data', label: 'formFieldConfig.fields.inquiryData' },
     { key: 'stay_data', label: 'formFieldConfig.fields.stayData' },
+    { key: 'employment_data', label: 'formFieldConfig.fields.employmentData' },
 ]
 
 const state = reactive({

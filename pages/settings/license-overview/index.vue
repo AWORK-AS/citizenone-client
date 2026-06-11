@@ -135,7 +135,7 @@
                                 v-if="state.error?.message && state.error.message.length > 0" />
                             <div>
                                 <h3 class="py-3 text-sm font-semibold">
-                                    {{ $t('settings.licenseOverview.licenses') }}
+                                    {{ licenseTypeLabel }}
                                 </h3>
                                 <ModulesUserSettingsLicenseOverviewSubTab />
                                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 mt-4">
@@ -196,13 +196,25 @@ import { licenseService } from '@/components/api/user/LicenseService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 let currentTablePage = 1
+const isEmployeeServicesCompany = computed(() => {
+    return userStore.getUser?.company?.industry?.system_name === 'employee_services'
+        || userStore.getUser?.company?.industry?.en_name === 'Employee Services'
+        || userStore.getUser?.company?.industry?.name === 'Employee Services'
+})
+const licenseTypeLabel = computed(() => {
+    return isEmployeeServicesCompany.value
+    ? t('settings.licenseOverview.caseworkerLicenses')
+    : t('settings.licenseOverview.userLicenses')
+})
 const breadcrumbLinks = [
     {
         name: 'settings.licenseOverview.licenseOverview',

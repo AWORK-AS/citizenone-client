@@ -8,10 +8,11 @@
 
             <template #header>{{ $t('superadmin.polls.newPoll') }}</template>
 
-            <div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/superadmin/polls">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
+            <div class="p-1 max-w-2xl">
+                <NuxtLink to="/superadmin/polls"
+                    class="inline-flex items-center gap-1.5 text-sm text-[#5C6478] hover:text-[#1F2533] mb-6 transition-colors">
+                    <Icon name="ph:arrow-left" class="w-4 h-4" />
+                    {{ $t('superadmin.polls.polls') }}
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesSuperadminPollForm formType="create" :selectedPoll="state.formPoll" :error="state.error"

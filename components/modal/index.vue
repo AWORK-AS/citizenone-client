@@ -8,7 +8,9 @@
 
             <div class="fixed z-10 inset-0 overflow-y-auto">
                 <div class="flex lg:items-center justify-center px-4 pt-16 pb-4 text-center">
-                    <TransitionChild as="template" enter="ease-out duration-300" leave="ease-in duration-200"
+                    <TransitionChild as="template" enter="ease-out duration-300"
+                        enter-from="opacity-0 translate-y-2 scale-95" enter-to="opacity-100 translate-y-0 scale-100"
+                        leave="ease-in duration-200"
                         leave-from="opacity-100 translate-y-0 scale-100" leave-to="opacity-0 translate-y-0 scale-95">
                         <DialogPanel
                             class="bg-white relative overflow-clip text-left shadow-xl transform transition-all px-8 pt-6 pb-0 w-full rounded-md"
@@ -46,7 +48,7 @@
     </TransitionRoot>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 const props = defineProps({
@@ -68,4 +70,8 @@ const props = defineProps({
         required: false,
     },
 })
+
+defineSlots<{
+    'modal-body'?: () => any
+}>()
 </script>

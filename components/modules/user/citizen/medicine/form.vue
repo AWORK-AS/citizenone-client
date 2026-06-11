@@ -443,12 +443,52 @@
                     <FormError :error="props?.error?.errors?.treatment_reason?.[0]" />
                 </div>
                 <div class="space-y-1">
+                    <div class="w-fit flex cursor-pointer"
+                        @click="state.formMedicine.has_consent = !state.formMedicine.has_consent">
+                        <FormCheckbox :value="state.formMedicine.has_consent" />
+                        <p>{{ $t('citizens.medicineJournals.form.consentToPrescribe') }}</p>
+                    </div>
+                </div>
+                <div class="space-y-1" v-if="state.formMedicine.has_consent">
+                    <FormLabel for="prescribed_by" :label="$t('citizens.medicineJournals.form.whoPrescribed')" />
+                    <FormTextField id="prescribed_by" name="prescribed_by"
+                        :placeholder="`${$t('citizens.medicineJournals.form.whoPrescribedPlaceholder')}?`"
+                        v-model="state.formMedicine.prescribed_by" />
+                    <FormError :error="props?.error?.errors?.prescribed_by?.[0]" />
+                </div>
+                <div class="space-y-1">
                     <FormLabel for="medication_storage" :label="$t('citizens.medicineJournals.form.medicineStorage')" />
                     <FormTextField id="medication_storage" name="medication_storage"
                         :placeholder="`${$t('citizens.medicineJournals.form.medicineStoragePlaceholder')}?`"
                         v-model="state.formMedicine.medication_storage" />
                     <FormError :error="v$?.formMedicine?.medication_storage?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medication_storage?.[0]" />
+                </div>
+                <div class="space-y-3 rounded-lg border border-gray-200 p-3">
+                    <p class="text-sm font-semibold text-gray-700">
+                        {{ $t('citizens.medicineJournals.form.shelfLife') }}
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel for="date_opened" :label="$t('citizens.medicineJournals.form.dateOpened')" />
+                            <FormDateField id="date_opened" name="date_opened"
+                                v-model="state.formMedicine.date_opened" />
+                            <FormError :error="props?.error?.errors?.date_opened?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="shelf_life_days"
+                                :label="$t('citizens.medicineJournals.form.shelfLifeDays')" />
+                            <FormTextField id="shelf_life_days" name="shelf_life_days" type="number"
+                                :placeholder="$t('citizens.medicineJournals.form.shelfLifeDaysPlaceholder')"
+                                v-model="state.formMedicine.shelf_life_days" />
+                            <FormError :error="props?.error?.errors?.shelf_life_days?.[0]" />
+                        </div>
+                    </div>
+                    <div class="space-y-1" v-if="computedExpirationDate">
+                        <FormLabel for="expiration_date"
+                            :label="$t('citizens.medicineJournals.form.expirationDate')" />
+                        <p class="text-sm text-gray-800">{{ computedExpirationDate }}</p>
+                    </div>
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="ingredients" :label="$t('citizens.medicineJournals.form.ingredients')" />
@@ -548,6 +588,10 @@ const state = reactive({
         doctor: '',
         treatment_reason: '',
         medication_storage: '',
+        has_consent: false,
+        prescribed_by: '',
+        date_opened: '',
+        shelf_life_days: '',
         ingredients: '',
         description: '',
         schedule_frequency: {
@@ -699,6 +743,10 @@ onMounted(() => {
         doctor: props.selectedMedicine.doctor?.uuid?.toString(),
         treatment_reason: props.selectedMedicine.treatment_reason,
         medication_storage: props.selectedMedicine.medication_storage,
+        has_consent: props.selectedMedicine?.has_consent ? true : false,
+        prescribed_by: props.selectedMedicine?.prescribed_by ?? '',
+        date_opened: props.selectedMedicine?.date_opened ?? '',
+        shelf_life_days: props.selectedMedicine?.shelf_life_days ?? '',
         ingredients: props.selectedMedicine.ingredients,
         description: props.selectedMedicine.description,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
@@ -715,6 +763,16 @@ onMounted(() => {
     if (props?.selectedMedicine?.max_dosage_per_time === null) {
         addMaxDosagePerTime()
     }
+})
+
+// #179: read-only expiration = date opened + shelf life (days).
+const computedExpirationDate = computed(() => {
+    const opened = state.formMedicine.date_opened
+    const days = parseInt(state.formMedicine.shelf_life_days)
+    if (!opened || isNaN(days) || days <= 0) return ''
+    const d = new Date(opened)
+    d.setDate(d.getDate() + days)
+    return d.toISOString().slice(0, 10)
 })
 
 const rules = computed(() => {

@@ -1,55 +1,89 @@
 <template>
-    <form @submit.prevent="submitForm()" class="mt-6 max-w-2xl">
+    <form @submit.prevent="submitForm()" class="space-y-5">
+
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <Alert type="danger" :text="state?.error?.message"
-            v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
-            <div class="space-y-1">
-                <FormLabel for="title" :label="$t('superadmin.polls.form.title')" />
-                <FormTextField id="title" name="title" :placeholder="$t('superadmin.polls.form.title')"
-                    v-model="state.formPoll.title" />
-                <FormError :error="v$?.formPoll?.title?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.title?.[0]" />
+
+        <!-- Poll item information -->
+        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-5">
+                {{ $t('superadmin.polls.form.pollItemInformation') }}
+            </h2>
+
+            <!-- Title -->
+            <div class="mb-4">
+                <SuperadminFormLabel :label="$t('superadmin.polls.form.title')" :required="true" />
+                <SuperadminFormTextField id="title" v-model="state.formPoll.title"
+                    :placeholder="$t('superadmin.polls.form.title')" :hasError="v$?.formPoll?.title?.$error" />
+                <SuperadminFormError :error="v$?.formPoll?.title?.$errors[0]?.$message.toString()" />
+                <SuperadminFormError :error="props?.error?.errors?.title?.[0]" />
             </div>
-            <div class="space-y-1">
-                <FormLabel for="description" :label="$t('superadmin.polls.form.description')" />
-                <FormTextArea id="description" name="description" :placeholder="$t('superadmin.polls.form.description')"
-                    v-model="state.formPoll.description" />
-                <FormError :error="v$?.formPoll?.description?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.description?.[0]" />
+
+            <!-- Description -->
+            <div class="mb-4">
+                <SuperadminFormLabel :label="$t('superadmin.polls.form.description')" :required="true" />
+                <textarea v-model="state.formPoll.description" rows="4"
+                    :placeholder="$t('superadmin.polls.form.description')" class="co-textarea resize-none"
+                    :class="{ 'border-red-400': v$?.formPoll?.description?.$error }"></textarea>
+                <SuperadminFormError :error="v$?.formPoll?.description?.$errors[0]?.$message.toString()" />
+                <SuperadminFormError :error="props?.error?.errors?.description?.[0]" />
             </div>
-            <div class="space-y-1">
-                <FormLabel for="sender" :label="$t('superadmin.polls.form.sender')" />
-                <FormTextField id="sender" name="sender" :placeholder="$t('superadmin.polls.form.sender')"
-                    v-model="state.formPoll.sender" />
-                <FormError :error="v$?.formCitizen?.sender?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.sender?.[0]" />
+
+            <!-- Sender -->
+            <div class="mb-4">
+                <SuperadminFormLabel :label="$t('superadmin.polls.form.sender')" :required="true" />
+                <SuperadminFormTextField id="sender" v-model="state.formPoll.sender"
+                    :placeholder="$t('superadmin.polls.form.sender')" :hasError="v$?.formPoll?.sender?.$error" />
+                <SuperadminFormError :error="v$?.formPoll?.sender?.$errors[0]?.$message.toString()" />
+                <SuperadminFormError :error="props?.error?.errors?.sender?.[0]" />
             </div>
-            <div class="space-y-1">
-                <FormLabel for="region" :label="$t('superadmin.polls.form.region')" />
-                <FormSelect id="region" :options="state.options.regions" v-model="state.formPoll.region" />
-                <FormError :error="v$?.formCitizen?.region?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
+
+            <!-- Region -->
+            <div>
+                <SuperadminFormLabel :label="$t('superadmin.polls.form.region')" :required="true" />
+                <SuperadminFormSelectField v-model="state.formPoll.region" :hasError="v$?.formPoll?.region?.$error">
+                    <option value="" disabled>— {{ $t('superadmin.polls.form.region') }} —</option>
+                    <option v-for="opt in state.options.regions" :key="opt.value" :value="opt.value">
+                        {{ opt.label }}
+                    </option>
+                </SuperadminFormSelectField>
+                <SuperadminFormError :error="v$?.formPoll?.region?.$errors[0]?.$message.toString()" />
+                <SuperadminFormError :error="props?.error?.errors?.region_uuid?.[0]" />
             </div>
-            <div class="space-y-1">
-                <div class="w-fit flex items-center cursor-pointer" @click="changeIsActive">
-                    <FormCheckbox :value="state.formPoll.is_active" />
+        </div>
+
+        <!-- Settings -->
+        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-4">
+                {{ $t('superadmin.companies.form.settings') }}
+            </h2>
+
+            <div class="flex items-center justify-between py-3">
+                <p class="text-[13px] font-medium text-[#1F2533]">
                     {{ $t('superadmin.polls.form.active') }}
-                </div>
+                </p>
+                <button type="button" @click="state.formPoll.is_active = !state.formPoll.is_active"
+                    class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
+                    :style="state.formPoll.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
+                        :class="state.formPoll.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
+                </button>
             </div>
         </div>
-        <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" @click="navigateTo(`/superadmin/polls/${pollUuid}`)">
-                    {{ $t('cancel') }}
-                </FormButton>
-                <FormButton type="submit" buttonStyle="primary">
-                    {{ props.formType === 'create' ? $t('save') :
-                        $t('update') }}
-                </FormButton>
-            </div>
+
+        <!-- Action buttons -->
+        <div class="flex items-center justify-end gap-3 pb-6">
+            <button type="button" @click="navigateTo(`/superadmin/polls/${pollUuid}`)"
+                class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                {{ $t('cancel') }}
+            </button>
+            <button type="submit"
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
+                style="background:#205E77">
+                {{ props.formType === 'create' ? $t('save') : $t('update') }}
+            </button>
         </div>
+
     </form>
 </template>
 
@@ -90,7 +124,7 @@ const state = reactive({
         is_active: true,
     } as PollItemForm,
     options: {
-        regions: []
+        regions: [] as { value: string; label: string }[]
     }
 })
 
@@ -110,41 +144,34 @@ onMounted(() => {
     fetchRegions()
 })
 
-const rules = computed(() => {
-    return {
-        formPoll: {
-            title: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            sender: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            region: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            description: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
+const rules = computed(() => ({
+    formPoll: {
+        title: {
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
         },
-    }
-})
+        description: {
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+        },
+        sender: {
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+        },
+        region: {
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+        },
+    },
+}))
 
 const v$ = useVuelidate(rules, state)
 
 async function fetchRegions() {
-    state.error = {}
     emit('isPageLoading', true)
     try {
         const response = await regionService.getAllRegions()
         if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
-                    value: item.uuid,
-                    label: item.name,
-                })
-            )
-            state.options.regions = options
+            state.options.regions = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: item.name,
+            }))
         }
     } catch (error: any) {
         state.error = error
@@ -158,8 +185,31 @@ function submitForm() {
         emit('submitForm', state.formPoll)
     }
 }
-
-function changeIsActive() {
-    state.formPoll.is_active = !state.formPoll.is_active
-}
 </script>
+
+<style scoped>
+.co-textarea {
+    width: 100%;
+    padding: 9px 13px;
+    font-size: 14px;
+    color: #1F2533;
+    background: white;
+    border: 1px solid #D5D9E2;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.co-textarea:focus {
+    border-color: #42AED9;
+    box-shadow: 0 0 0 3px rgba(66, 174, 217, 0.12);
+}
+
+.co-textarea::placeholder {
+    color: #B0B8C4;
+}
+
+.co-textarea.border-red-400 {
+    border-color: #f87171;
+}
+</style>
