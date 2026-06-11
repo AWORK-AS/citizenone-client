@@ -1,8 +1,18 @@
+import { useI18n } from 'vue-i18n'
+
 export function useAmountFormatter() {
+    const { locale } = useI18n()
+
+    // #153: show EUR in the English version, DKK otherwise. (Currency label only —
+    // amounts are not FX-converted.)
+    function currencyCode() {
+        return locale.value === 'en' ? 'EUR' : 'DKK'
+    }
+
     function formatAmount(amount: any) {
         // Ensure the input is a valid number
         if (isNaN(amount) || amount === null || amount === undefined) {
-            return 'DKK ' + 0
+            return currencyCode() + ' ' + 0
         }
 
         // Convert the number to a string with two decimal places
@@ -17,7 +27,7 @@ export function useAmountFormatter() {
         let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
 
         // Combine the integer part with the decimal part
-        return 'DKK ' + formattedIntegerPart + ',' + decimalPart
+        return currencyCode() + ' ' + formattedIntegerPart + ',' + decimalPart
     }
 
     return { formatAmount }
