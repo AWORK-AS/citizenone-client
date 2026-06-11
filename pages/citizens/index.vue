@@ -61,7 +61,7 @@
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
                         <FormButton buttonStyle="action" @click="navigateTo('/referrals')"
-                            v-if="isAtLeast('Admin') || can('create_referral') || can('edit_referral')">
+                            v-if="can('create_referral') || can('update_referral') || can('delete_referral')">
                             <Icon name="ph:arrows-in" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('referrals.referrals') }}
                         </FormButton>
