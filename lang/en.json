@@ -2481,7 +2481,23 @@
             "journals": "Journals",
             "medicineCard": "Medicine card",
             "plansAndGoals": "Plans and goals",
-            "employmentCases": "Cases"
+            "timeline": "Timeline"
+        },
+        "timeline": {
+            "newEvent": "New event",
+            "addTimelineEvent": "Add timeline event",
+            "event": "Event",
+            "eventPlaceholder": "What happened",
+            "date": "Date",
+            "eventType": "Event type",
+            "newEventTypePlaceholder": "New event type",
+            "addType": "Add type",
+            "description": "Description",
+            "descriptionPlaceholder": "Add a description",
+            "alert": {
+                "successfullyAdded": "Timeline event added",
+                "deletedSuccessfully": "Timeline event deleted"
+            }
         },
         "timeLogs": {
             "timeLogs": "Time Logs"

@@ -2481,7 +2481,23 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer och mål",
-            "employmentCases": "Ärenden"
+            "timeline": "Tidslinje"
+        },
+        "timeline": {
+            "newEvent": "Ny händelse",
+            "addTimelineEvent": "Lägg till tidslinjehändelse",
+            "event": "Händelse",
+            "eventPlaceholder": "Vad hände",
+            "date": "Datum",
+            "eventType": "Händelsetyp",
+            "newEventTypePlaceholder": "Ny händelsetyp",
+            "addType": "Lägg till typ",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Lägg till en beskrivning",
+            "alert": {
+                "successfullyAdded": "Tidslinjehändelse tillagd",
+                "deletedSuccessfully": "Tidslinjehändelse borttagen"
+            }
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
