@@ -7664,6 +7664,56 @@
             "manager": "Manager"
         }
     },
+    "referrals": {
+        "alert": {
+            "referralSuccessfullySaved": "Referral successfully saved",
+            "referralSuccessfullyUpdated": "Referral successfully updated",
+            "referralSuccessfullyDeleted": "Referral successfully deleted"
+        },
+        "referrals": "Referrals",
+        "newReferral": "New referral",
+        "referral": "Referral",
+        "citizen": "Citizen",
+        "department": "Department",
+        "municipality": "Municipality",
+        "caseworkerName": "Caseworker name",
+        "caseworkerEmail": "Caseworker email",
+        "caseworkerPhone": "Caseworker phone",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "weeks": "Weeks",
+        "weeksCalculated": "Calculated end date",
+        "status": "Status",
+        "notes": "Notes",
+        "periodChangeReason": "Reason for period change",
+        "periodLogs": "Period change history",
+        "noPeriodLogs": "No period changes registered",
+        "statusActive": "Active",
+        "statusPending": "Pending",
+        "statusClosed": "Closed",
+        "deleteReferral": "Delete referral",
+        "deleteReferralConfirm": "Are you sure you want to delete this referral?",
+        "table": {
+            "citizen": "Citizen",
+            "municipality": "Municipality",
+            "caseworker": "Caseworker",
+            "startDate": "Start date",
+            "endDate": "End date",
+            "status": "Status",
+            "actions": {
+                "view": "View",
+                "edit": "Edit",
+                "delete": "Delete"
+            }
+        },
+        "periodLog": {
+            "previousPeriod": "Previous period",
+            "newPeriod": "New period",
+            "reason": "Reason",
+            "changedBy": "Changed by",
+            "date": "Date"
+        }
+    },
     "rooms": {
         "addNewRoom": "Add new room",
         "editRoom": "Edit room",

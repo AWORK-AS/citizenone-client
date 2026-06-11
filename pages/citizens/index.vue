@@ -60,6 +60,11 @@
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="navigateTo('/referrals')"
+                            v-if="isAtLeast('Admin') || can('create_referral') || can('edit_referral')">
+                            <Icon name="ph:arrows-in" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('referrals.referrals') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="navigateTo('/rooms')">
                             <Icon name="ph:door" class="h-4 w-4" aria-hidden="true" />
                             {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}

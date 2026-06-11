@@ -7655,6 +7655,56 @@
             "manager": "Manager"
         }
     },
+    "referrals": {
+        "alert": {
+            "referralSuccessfullySaved": "Remiss sparad",
+            "referralSuccessfullyUpdated": "Remiss uppdaterad",
+            "referralSuccessfullyDeleted": "Remiss raderad"
+        },
+        "referrals": "Remisser",
+        "newReferral": "Ny remiss",
+        "referral": "Remiss",
+        "citizen": "Invånare",
+        "department": "Avdelning",
+        "municipality": "Kommun",
+        "caseworkerName": "Handläggarens namn",
+        "caseworkerEmail": "Handläggarens e-post",
+        "caseworkerPhone": "Handläggarens telefon",
+        "startDate": "Startdatum",
+        "endDate": "Slutdatum",
+        "weeks": "Veckor",
+        "weeksCalculated": "Beräknat slutdatum",
+        "status": "Status",
+        "notes": "Anteckningar",
+        "periodChangeReason": "Anledning till periodobyte",
+        "periodLogs": "Periodobyteshistorik",
+        "noPeriodLogs": "Inga periodbytningar registrerade",
+        "statusActive": "Aktiv",
+        "statusPending": "Väntande",
+        "statusClosed": "Stängd",
+        "deleteReferral": "Ta bort remiss",
+        "deleteReferralConfirm": "Är du säker på att du vill ta bort denna remiss?",
+        "table": {
+            "citizen": "Invånare",
+            "municipality": "Kommun",
+            "caseworker": "Handläggare",
+            "startDate": "Startdatum",
+            "endDate": "Slutdatum",
+            "status": "Status",
+            "actions": {
+                "view": "Visa",
+                "edit": "Redigera",
+                "delete": "Ta bort"
+            }
+        },
+        "periodLog": {
+            "previousPeriod": "Tidigare period",
+            "newPeriod": "Ny period",
+            "reason": "Anledning",
+            "changedBy": "Ändrad av",
+            "date": "Datum"
+        }
+    },
     "rooms": {
         "addNewRoom": "Lägg till nytt rum",
         "editRoom": "Redigera rum",
