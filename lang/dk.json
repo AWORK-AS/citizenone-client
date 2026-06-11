@@ -1892,6 +1892,14 @@
                     "pnMedicine": "PN-medicin",
                     "regularMedicine": "Fast medicin"
                 },
+                "consentToPrescribe": "Borgeren har givet samtykke til at få ordineret denne medicin",
+                "shelfLife": "Holdbarhed (anbrud)",
+                "dateOpened": "Anbrudsdato",
+                "shelfLifeDays": "Holdbarhed (dage efter anbrud)",
+                "shelfLifeDaysPlaceholder": "Antal dage",
+                "expirationDate": "Udløbsdato",
+                "whoPrescribed": "Hvem har ordineret det?",
+                "whoPrescribedPlaceholder": "Hvem har ordineret det",
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",
@@ -2160,7 +2168,9 @@
                 "treatmentPeriods": "Behandlingsperioder",
                 "from": "Fra",
                 "to": "til",
-                "extraIndividualDates": "Ekstra individuelle dage"
+                "extraIndividualDates": "Ekstra individuelle dage",
+                "expired": "Udløbet",
+                "expiredTooltip": "Denne medicin er udløbet"
             }
         },
         "newCitizen": "Ny borger",
