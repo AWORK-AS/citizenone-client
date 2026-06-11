@@ -2860,7 +2860,8 @@
                 "wallets": "Wallets"
             },
             "wallets": "Wallets"
-        }
+        },
+        "noCitizensYet": "No citizens yet"
     },
     "client": {
         "appointments": "Appointments",
@@ -6953,7 +6954,8 @@
             "moderateRisk": "Moderate risk",
             "useForceStatistics": "Use of force statistics"
         },
-        "viewAll": "View all"
+        "viewAll": "View all",
+        "statistics": "Statistics"
     },
     "pageNotFound": "Page not found",
     "pagination": {
