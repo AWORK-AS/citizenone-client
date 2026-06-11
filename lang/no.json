@@ -1924,6 +1924,14 @@
                     "pnMedicine": "PN-medisin",
                     "regularMedicine": "Fast medisin"
                 },
+                "consentToPrescribe": "Borgeren har gitt samtykke til å få foreskrevet denne medisinen",
+                "shelfLife": "Holdbarhet (anbrudd)",
+                "dateOpened": "Anbruddsdato",
+                "shelfLifeDays": "Holdbarhet (dager etter anbrudd)",
+                "shelfLifeDaysPlaceholder": "Antall dager",
+                "expirationDate": "Utløpsdato",
+                "whoPrescribed": "Hvem har foreskrevet det?",
+                "whoPrescribedPlaceholder": "Hvem har foreskrevet det",
                 "medicine": "Medisin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medisinen",
@@ -2090,6 +2098,7 @@
                 "medicineIsOverdue": "Medisinen er {time} forsinket. Gi straks eller registrér afvigelse.",
                 "dueInMinutes": "Forfaller om {minutes} minutter. Husk at gi til tiden.",
                 "expired": "Utløpt",
+                "selfAdministration": "Selvadministrerende",
                 "expiredCheckDate": "Utløpt — sjekk åpning dato",
                 "lowStock": "Lavt lager",
                 "lowStockOnly": "Lavt lager: kun {n} tilbake",
@@ -2192,7 +2201,9 @@
                 "treatmentPeriods": "Behandlingsperioder",
                 "from": "Fra",
                 "to": "til",
-                "extraIndividualDates": "Ekstra individuelle dager"
+                "extraIndividualDates": "Ekstra individuelle dager",
+                "expired": "Utløpt",
+                "expiredTooltip": "Denne medisinen er utløpt"
             }
         },
         "newCitizen": "Ny bruker",
@@ -2502,7 +2513,23 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer og mål",
-            "employmentCases": "Saker"
+            "timeline": "Tidslinje"
+        },
+        "timeline": {
+            "newEvent": "Ny hendelse",
+            "addTimelineEvent": "Legg til tidslinjehendelse",
+            "event": "Hendelse",
+            "eventPlaceholder": "Hva skjedde",
+            "date": "Dato",
+            "eventType": "Hendelsestype",
+            "newEventTypePlaceholder": "Ny hendelsestype",
+            "addType": "Legg til type",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Legg til en beskrivelse",
+            "alert": {
+                "successfullyAdded": "Tidslinjehendelse lagt til",
+                "deletedSuccessfully": "Tidslinjehendelse slettet"
+            }
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -2892,7 +2919,8 @@
                 "wallets": "Punge"
             },
             "wallets": "Økonomi"
-        }
+        },
+        "noCitizensYet": "Ingen borgere ennå"
     },
     "client": {
         "appointments": "Avtaler",
@@ -7007,7 +7035,8 @@
             "moderateRisk": "Moderat risiko",
             "useForceStatistics": "Bruk av makt statistikk"
         },
-        "viewAll": "Se alle"
+        "viewAll": "Se alle",
+        "statistics": "Statistikk"
     },
     "pageNotFound": "Side ikke funnet",
     "pagination": {

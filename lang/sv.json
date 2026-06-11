@@ -1924,6 +1924,14 @@
                     "pnMedicine": "PN-medicin",
                     "regularMedicine": "Fast medicin"
                 },
+                "consentToPrescribe": "Medborgaren har gett samtycke till att få denna medicin ordinerad",
+                "shelfLife": "Hållbarhet (efter öppning)",
+                "dateOpened": "Öppningsdatum",
+                "shelfLifeDays": "Hållbarhet (dagar efter öppning)",
+                "shelfLifeDaysPlaceholder": "Antal dagar",
+                "expirationDate": "Utgångsdatum",
+                "whoPrescribed": "Vem ordinerade det?",
+                "whoPrescribedPlaceholder": "Vem ordinerade det",
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Var opbevarer I medicinen",
@@ -2090,6 +2098,7 @@
                 "medicineIsOverdue": "Medicinen är {timme} försenad. Giv straks eller registrér avvikelse.",
                 "dueInMinutes": "Forfaldner om {minutes} minuter. Husk att ge till tiden.",
                 "expired": "Utgången",
+                "selfAdministration": "Självadministrerande",
                 "expiredCheckDate": "Utgången — kontrollera anbrud datum",
                 "lowStock": "Lågt lager",
                 "lowStockOnly": "Lågt lager: endast {n} tillbaka",
@@ -2192,7 +2201,9 @@
                 "treatmentPeriods": "Behandlingsperioder",
                 "from": "Från",
                 "to": "till",
-                "extraIndividualDates": "Extra individuelle dagar"
+                "extraIndividualDates": "Extra individuelle dagar",
+                "expired": "Utgången",
+                "expiredTooltip": "Detta läkemedel har gått ut"
             }
         },
         "newCitizen": "Ny klient",
@@ -2502,7 +2513,23 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer och mål",
-            "employmentCases": "Ärenden"
+            "timeline": "Tidslinje"
+        },
+        "timeline": {
+            "newEvent": "Ny händelse",
+            "addTimelineEvent": "Lägg till tidslinjehändelse",
+            "event": "Händelse",
+            "eventPlaceholder": "Vad hände",
+            "date": "Datum",
+            "eventType": "Händelsetyp",
+            "newEventTypePlaceholder": "Ny händelsetyp",
+            "addType": "Lägg till typ",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Lägg till en beskrivning",
+            "alert": {
+                "successfullyAdded": "Tidslinjehändelse tillagd",
+                "deletedSuccessfully": "Tidslinjehändelse borttagen"
+            }
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -2892,7 +2919,8 @@
                 "wallets": "Punge"
             },
             "wallets": "Ekonomi"
-        }
+        },
+        "noCitizensYet": "Inga medborgare än"
     },
     "client": {
         "appointments": "Möten",
@@ -7007,7 +7035,8 @@
             "moderateRisk": "Måttlig risk",
             "useForceStatistics": "Använd av tvång statistik"
         },
-        "viewAll": "Se alla"
+        "viewAll": "Se alla",
+        "statistics": "Statistik"
     },
     "pageNotFound": "Sida inte hittad",
     "pagination": {

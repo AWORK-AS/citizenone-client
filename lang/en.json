@@ -1924,6 +1924,14 @@
                     "pnMedicine": "PN medicine",
                     "regularMedicine": "Regular medicine"
                 },
+                "consentToPrescribe": "The citizen has given consent to be prescribed this medication",
+                "shelfLife": "Shelf life (after opening)",
+                "dateOpened": "Date opened",
+                "shelfLifeDays": "Shelf life (days after opening)",
+                "shelfLifeDaysPlaceholder": "Number of days",
+                "expirationDate": "Expiration date",
+                "whoPrescribed": "Who prescribed it?",
+                "whoPrescribedPlaceholder": "Who prescribed it",
                 "medicine": "Medicine",
                 "medicineStorage": "Medicine storage",
                 "medicineStoragePlaceholder": "Where do you store the medicine",
@@ -2090,6 +2098,7 @@
                 "medicineIsOverdue": "Medicine is {time} overdue. Give immediately or register deviation.",
                 "dueInMinutes": "Due in {minutes} minutes. Remember to give on time.",
                 "expired": "Expired",
+                "selfAdministration": "Self-administration",
                 "expiredCheckDate": "Expired — check package date",
                 "lowStock": "Low stock",
                 "lowStockOnly": "Low stock: only {n} remaining",
@@ -2192,7 +2201,9 @@
                 "treatmentPeriods": "Treatment periods",
                 "from": "From",
                 "to": "to",
-                "extraIndividualDates": "Extra individual dates"
+                "extraIndividualDates": "Extra individual dates",
+                "expired": "Expired",
+                "expiredTooltip": "This medication has expired"
             }
         },
         "newCitizen": "New citizen",
@@ -2502,7 +2513,23 @@
             "journals": "Journals",
             "medicineCard": "Medicine card",
             "plansAndGoals": "Plans and goals",
-            "employmentCases": "Cases"
+            "timeline": "Timeline"
+        },
+        "timeline": {
+            "newEvent": "New event",
+            "addTimelineEvent": "Add timeline event",
+            "event": "Event",
+            "eventPlaceholder": "What happened",
+            "date": "Date",
+            "eventType": "Event type",
+            "newEventTypePlaceholder": "New event type",
+            "addType": "Add type",
+            "description": "Description",
+            "descriptionPlaceholder": "Add a description",
+            "alert": {
+                "successfullyAdded": "Timeline event added",
+                "deletedSuccessfully": "Timeline event deleted"
+            }
         },
         "timeLogs": {
             "timeLogs": "Time Logs"
@@ -2892,7 +2919,8 @@
                 "wallets": "Wallets"
             },
             "wallets": "Wallets"
-        }
+        },
+        "noCitizensYet": "No citizens yet"
     },
     "client": {
         "appointments": "Appointments",
@@ -7016,7 +7044,8 @@
             "moderateRisk": "Moderate risk",
             "useForceStatistics": "Use of force statistics"
         },
-        "viewAll": "View all"
+        "viewAll": "View all",
+        "statistics": "Statistics"
     },
     "pageNotFound": "Page not found",
     "pagination": {

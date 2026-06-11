@@ -1924,6 +1924,14 @@
                     "pnMedicine": "PN-medicin",
                     "regularMedicine": "Fast medicin"
                 },
+                "consentToPrescribe": "Borgeren har givet samtykke til at få ordineret denne medicin",
+                "shelfLife": "Holdbarhed (anbrud)",
+                "dateOpened": "Anbrudsdato",
+                "shelfLifeDays": "Holdbarhed (dage efter anbrud)",
+                "shelfLifeDaysPlaceholder": "Antal dage",
+                "expirationDate": "Udløbsdato",
+                "whoPrescribed": "Hvem har ordineret det?",
+                "whoPrescribedPlaceholder": "Hvem har ordineret det",
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medicinen",
@@ -2090,6 +2098,7 @@
                 "medicineIsOverdue": "Medicinen er {time} forsinket. Giv straks eller registrér afvigelse.",
                 "dueInMinutes": "Forfaldner om {minutes} minutter. Husk at give til tiden.",
                 "expired": "Udløbet",
+                "selfAdministration": "Selvadministrerende",
                 "expiredCheckDate": "Udløbet — tjek anbrud dato",
                 "lowStock": "Lavt lager",
                 "lowStockOnly": "Lavt lager: kun {n} tilbage",
@@ -2192,7 +2201,9 @@
                 "treatmentPeriods": "Behandlingsperioder",
                 "from": "Fra",
                 "to": "til",
-                "extraIndividualDates": "Ekstra individuelle dage"
+                "extraIndividualDates": "Ekstra individuelle dage",
+                "expired": "Udløbet",
+                "expiredTooltip": "Denne medicin er udløbet"
             }
         },
         "newCitizen": "Ny borger",
@@ -2502,7 +2513,23 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer og mål",
-            "employmentCases": "Sager"
+            "timeline": "Tidslinje"
+        },
+        "timeline": {
+            "newEvent": "Ny hændelse",
+            "addTimelineEvent": "Tilføj tidslinjehændelse",
+            "event": "Hændelse",
+            "eventPlaceholder": "Hvad skete der",
+            "date": "Dato",
+            "eventType": "Hændelsestype",
+            "newEventTypePlaceholder": "Ny hændelsestype",
+            "addType": "Tilføj type",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Tilføj en beskrivelse",
+            "alert": {
+                "successfullyAdded": "Tidslinjehændelse tilføjet",
+                "deletedSuccessfully": "Tidslinjehændelse slettet"
+            }
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -2892,7 +2919,8 @@
                 "wallets": "Punge"
             },
             "wallets": "Økonomi"
-        }
+        },
+        "noCitizensYet": "Ingen borgere endnu"
     },
     "client": {
         "appointments": "Aftaler",
@@ -7016,7 +7044,8 @@
             "moderateRisk": "Moderat risiko",
             "useForceStatistics": "Brug af magt statistik"
         },
-        "viewAll": "Se alle"
+        "viewAll": "Se alle",
+        "statistics": "Statistik"
     },
     "pageNotFound": "Side ikke fundet",
     "pagination": {
