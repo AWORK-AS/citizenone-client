@@ -81,7 +81,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
