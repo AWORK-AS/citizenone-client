@@ -1800,6 +1800,11 @@
                     "regularMedicine": "Regular medicine"
                 },
                 "consentToPrescribe": "The citizen has given consent to be prescribed this medication",
+                "shelfLife": "Shelf life (after opening)",
+                "dateOpened": "Date opened",
+                "shelfLifeDays": "Shelf life (days after opening)",
+                "shelfLifeDaysPlaceholder": "Number of days",
+                "expirationDate": "Expiration date",
                 "whoPrescribed": "Who prescribed it?",
                 "whoPrescribedPlaceholder": "Who prescribed it",
                 "medicine": "Medicine",
@@ -2070,7 +2075,9 @@
                 "treatmentPeriods": "Treatment periods",
                 "from": "From",
                 "to": "to",
-                "extraIndividualDates": "Extra individual dates"
+                "extraIndividualDates": "Extra individual dates",
+                "expired": "Expired",
+                "expiredTooltip": "This medication has expired"
             }
         },
         "newCitizen": "New citizen",
