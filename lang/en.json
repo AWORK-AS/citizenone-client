@@ -7969,6 +7969,7 @@
                 "warning13HourShift": "Warning for shifts exceeding 13 hours",
                 "warning11HourRest": "Warning for rest periods under 11 hours",
                 "warning48HourRule": "Warning for the 48-hour rule",
+                "holidayNonSundayHours": "Enable holiday hours on non-Sunday public holidays",
                 "website": "Website",
                 "ipRestriction": "IP restriction",
                 "enableIpRestriction": "Enable IP restriction",

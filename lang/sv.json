@@ -7889,6 +7889,7 @@
                 "warning13HourShift": "Varning vet pass över 13 timmar",
                 "warning11HourRest": "Varning vet hviletid under 11 timmar",
                 "warning48HourRule": "Varning vet 48-timers reglen",
+                "holidayNonSundayHours": "Aktivera helgdagstimmar på helgdagar som inte är söndagar",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begränsning",
                 "enableIpRestriction": "Aktivera IP-begränsning",
