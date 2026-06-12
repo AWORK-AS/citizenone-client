@@ -3427,6 +3427,7 @@
             "employee": "Employee",
             "employees": "Employees",
             "employmentStatus": "Employment status",
+            "tags": "Tags",
             "filterDate": "Filter date",
             "filterDateAndTime": "Filter date and time",
             "timeFrom": "Time from",

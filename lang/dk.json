@@ -3427,6 +3427,7 @@
             "employee": "Medarbejder",
             "employees": "Medarbejdere",
             "employmentStatus": "Ansættelsesstatus",
+            "tags": "Tags",
             "filterDate": "Filtrer dato",
             "filterDateAndTime": "Filtrer dato og tid",
             "timeFrom": "Tid fra",

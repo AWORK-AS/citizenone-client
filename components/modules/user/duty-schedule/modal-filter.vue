@@ -22,6 +22,11 @@
                                 v-model="state.formFilter.employment_status" />
                         </div>
                         <div class="space-y-1">
+                            <FormLabel for="schedule_tag_uuids" :label="$t('dutySchedules.filter.tags')" />
+                            <FormSelectMultiple id="schedule_tag_uuids" :options="state.options.tags"
+                                v-model="state.formFilter.schedule_tag_uuids" />
+                        </div>
+                        <div class="space-y-1">
                             <div class="flex items-center justify-between">
                                 <FormLabel :label="$t('dutySchedules.timeRange')" />
                                 <button type="button"
@@ -67,6 +72,7 @@
 <script setup lang="ts">
 import { userService } from '@/components/api/user/UserService'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -85,6 +91,7 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        schedule_tag_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -92,6 +99,7 @@ const state = reactive({
     options: {
         departments: [],
         employees: [],
+        tags: [],
         employment_status: [
             { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
             { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
@@ -104,6 +112,7 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
         fetchAllDepartments()
         fetchAllUsers()
+        fetchAllScheduleTags()
     }
 })
 
@@ -148,6 +157,28 @@ async function fetchAllUsers() {
                 })
             )
             state.options.employees = options
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchAllScheduleTags() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const params = {}
+        const response = await scheduleTagService.getAllScheduleTags(params)
+        if (response?.data) {
+            let options: any = []
+            response.data.forEach(
+                (tag: any) => options.push({
+                    value: tag?.uuid,
+                    label: tag?.tag,
+                })
+            )
+            state.options.tags = options
         }
     } catch (error: any) {
         state.error = error
