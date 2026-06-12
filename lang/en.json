@@ -6737,6 +6737,9 @@
         "citizensEvents": "Citizens' events",
         "birthdays": {
             "title": "Birthdays this week",
+            "todayTitle": "Birthdays today",
+            "moreThisWeek": "{count} more this week",
+            "countThisWeek": "{count} birthdays this week",
             "today": "Today",
             "inDays": "In {days} days",
             "turns": "turns {age}",

@@ -135,29 +135,33 @@
                         <Icon name="ph:arrow-right" class="size-3" />
                     </div>
                 </div>
-                <!-- Birthdays this week (hidden when there are none) -->
+                <!-- Birthdays: today's are shown, the rest open in a popup (hidden when none) -->
                 <div class="stat-card" v-if="state.stats.birthdays.length > 0">
                     <div class="stat-label">
                         <Icon name="ph:cake" class="h-4 w-4 text-accent-orange" />
-                        {{ $t('overview.birthdays.title') }}
+                        {{ todaysBirthdays.length > 0 ? $t('overview.birthdays.todayTitle') : $t('overview.birthdays.title') }}
                         <span class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
-                            {{ state.stats.birthdays.length }}
+                            {{ todaysBirthdays.length > 0 ? todaysBirthdays.length : state.stats.birthdays.length }}
                         </span>
                     </div>
-                    <ul class="mt-2 space-y-1.5 max-h-28 overflow-y-auto pr-1">
-                        <li v-for="(birthday, birthdayIndex) in state.stats.birthdays" :key="birthdayIndex"
-                            class="flex items-center justify-between gap-x-2 text-xs"
-                            :class="birthday.days_until === 0 ? 'font-semibold text-primary' : 'text-slate-600'">
-                            <span class="truncate" :title="`${birthday.name} · ${$t('overview.birthdays.turns', { age: birthday.age })}`">
-                                {{ birthday.name }}
-                            </span>
-                            <span class="shrink-0 text-[11px]"
-                                :class="birthday.days_until === 0 ? 'text-primary' : 'text-slate-400'">
-                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today') }}</template>
-                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until }) }}</template>
-                            </span>
+                    <ul v-if="todaysBirthdays.length > 0" class="mt-2 space-y-1.5 max-h-24 overflow-y-auto pr-1">
+                        <li v-for="(birthday, birthdayIndex) in todaysBirthdays" :key="birthdayIndex"
+                            class="flex items-center justify-between gap-x-2 text-xs font-semibold text-primary">
+                            <span class="truncate">{{ birthday.name }}</span>
+                            <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</span>
                         </li>
                     </ul>
+                    <button v-if="laterBirthdaysCount > 0 || todaysBirthdays.length === 0" type="button"
+                        @click="state.modal.isBirthdaysOpen = true"
+                        class="mt-2 inline-flex items-center gap-x-1 text-xs text-primary font-medium hover:text-primary-700 transition-colors">
+                        <template v-if="todaysBirthdays.length > 0">
+                            {{ $t('overview.birthdays.moreThisWeek', { count: laterBirthdaysCount }) }}
+                        </template>
+                        <template v-else>
+                            {{ $t('overview.birthdays.countThisWeek', { count: state.stats.birthdays.length }) }}
+                        </template>
+                        <Icon name="ph:arrow-right" class="size-3" />
+                    </button>
                 </div>
             </div>
 
@@ -386,6 +390,32 @@
                 @close="state.modal.isDateRangeHelperOpen = false" />
             <ModulesUserDailyOverviewQuickRiskAssessmentModalNew :isModalOpen="state.modal.isQuickRiskAssessmentOpen"
                 @close="state.modal.isQuickRiskAssessmentOpen = false" />
+            <Modal size="sm" :title="$t('overview.birthdays.title')" :show="state.modal.isBirthdaysOpen"
+                @close="state.modal.isBirthdaysOpen = false">
+                <template #modal-body>
+                    <ul class="divide-y divide-slate-100 max-h-96 overflow-y-auto">
+                        <li v-for="(birthday, birthdayIndex) in state.stats.birthdays" :key="birthdayIndex"
+                            class="flex items-center justify-between gap-x-3 py-2"
+                            :class="birthday.days_until === 0 ? 'font-semibold text-primary' : 'text-slate-700'">
+                            <div class="flex items-center gap-x-2 min-w-0">
+                                <Icon :name="birthday.days_until === 0 ? 'ph:cake-fill' : 'ph:cake'"
+                                    class="h-4 w-4 shrink-0"
+                                    :class="birthday.days_until === 0 ? 'text-primary' : 'text-slate-400'" />
+                                <span class="truncate">{{ birthday.name }}</span>
+                                <span class="shrink-0 text-xs px-1.5 py-0.5 rounded"
+                                    :class="birthday.type === 'staff' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-50 text-emerald-700'">
+                                    {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') : $t('overview.birthdays.child') }}
+                                </span>
+                            </div>
+                            <span class="shrink-0 text-xs text-right">
+                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today') }}</template>
+                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until }) }}</template>
+                                · {{ $t('overview.birthdays.turns', { age: birthday.age }) }}
+                            </span>
+                        </li>
+                    </ul>
+                </template>
+            </Modal>
             <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDailyOverviewOpen = false" />
@@ -431,6 +461,7 @@ const state = reactive({
         isFilterDailyOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
         isQuickRiskAssessmentOpen: false,
+        isBirthdaysOpen: false,
     },
     stats: {
         citizenCalendarEvents: [],
@@ -443,6 +474,9 @@ const state = reactive({
         birthdays: [],
     } as any,
 })
+
+const todaysBirthdays = computed(() => (state.stats.birthdays ?? []).filter((birthday: any) => birthday.days_until === 0))
+const laterBirthdaysCount = computed(() => (state.stats.birthdays ?? []).length - todaysBirthdays.value.length)
 
 onMounted(() => {
     scrollToNewsIfNeeded()

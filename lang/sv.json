@@ -6723,6 +6723,9 @@
         "citizensEvents": "Klienters händelser",
         "birthdays": {
             "title": "Födelsedagar denna vecka",
+            "todayTitle": "Födelsedagar idag",
+            "moreThisWeek": "{count} fler denna vecka",
+            "countThisWeek": "{count} födelsedagar denna vecka",
             "today": "Idag",
             "inDays": "Om {days} dagar",
             "turns": "fyller {age}",
