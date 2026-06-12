@@ -615,7 +615,7 @@
 
         <!-- Modals -->
         <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
-            @close="state.modal.isFilterDutyScheduleOpen = false" @filter="setFilter" />
+            @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
         <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
             :selectedEmployee="state.normHours.selectedEmployeeSchedule"
             @close="state.modal.isCompensatoryHoursOpen = false" />
