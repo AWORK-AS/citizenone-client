@@ -6684,6 +6684,9 @@
         "citizensEvents": "Borgeres begivenheder",
         "birthdays": {
             "title": "Fødselsdage denne uge",
+            "todayTitle": "Fødselsdage i dag",
+            "moreThisWeek": "{count} flere denne uge",
+            "countThisWeek": "{count} fødselsdage denne uge",
             "today": "I dag",
             "inDays": "Om {days} dage",
             "turns": "fylder {age}",

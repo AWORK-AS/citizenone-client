@@ -6675,6 +6675,9 @@
         "citizensEvents": "Brukeres arrangementer",
         "birthdays": {
             "title": "Bursdager denne uke",
+            "todayTitle": "Bursdager i dag",
+            "moreThisWeek": "{count} flere denne uke",
+            "countThisWeek": "{count} bursdager denne uke",
             "today": "I dag",
             "inDays": "Om {days} dager",
             "turns": "fyller {age}",
