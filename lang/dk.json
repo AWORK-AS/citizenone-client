@@ -6735,6 +6735,14 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Borgeres begivenheder",
+        "birthdays": {
+            "title": "Fødselsdage denne uge",
+            "today": "I dag",
+            "inDays": "Om {days} dage",
+            "turns": "fylder {age}",
+            "staff": "Personale",
+            "child": "Barn"
+        },
         "citizensOrigin": "Borgernes oprindelse",
         "createdBy": "Oprettet af",
         "dailyOverview": "Daglig oversigt",

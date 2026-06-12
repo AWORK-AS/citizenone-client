@@ -6735,6 +6735,14 @@
         },
         "citizensDiagnoses": "Citizens diagnoses",
         "citizensEvents": "Citizens' events",
+        "birthdays": {
+            "title": "Birthdays this week",
+            "today": "Today",
+            "inDays": "In {days} days",
+            "turns": "turns {age}",
+            "staff": "Staff",
+            "child": "Child"
+        },
         "citizensOrigin": "Citizens origin",
         "createdBy": "Created by",
         "dailyOverview": "Daily overview",

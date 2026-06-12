@@ -6721,6 +6721,14 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Klienters händelser",
+        "birthdays": {
+            "title": "Födelsedagar denna vecka",
+            "today": "Idag",
+            "inDays": "Om {days} dagar",
+            "turns": "fyller {age}",
+            "staff": "Personal",
+            "child": "Barn"
+        },
         "citizensOrigin": "Borgernes ursprung",
         "createdBy": "Skapad av",
         "dailyOverview": "Daglig översikt",
