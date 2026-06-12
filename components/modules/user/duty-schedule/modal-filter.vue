@@ -22,7 +22,13 @@
                                 v-model="state.formFilter.employment_status" />
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="schedule_tag_uuids" :label="$t('dutySchedules.filter.tags')" />
+                            <div class="flex justify-between items-center py-0.5">
+                                <FormLabel for="schedule_tag_uuids" :label="$t('dutySchedules.filter.tags')" />
+                                <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                                    @click="state.isAddNewScheduleTagOpen = true">
+                                    {{ $t('scheduleTags.addNewScheduleTag') }}
+                                </span>
+                            </div>
                             <FormSelectMultiple id="schedule_tag_uuids" :options="state.options.tags"
                                 v-model="state.formFilter.schedule_tag_uuids" />
                         </div>
@@ -66,6 +72,8 @@
                 </form>
             </template>
         </Modal>
+        <ModulesUserScheduleTagModalNew :isModalOpen="state.isAddNewScheduleTagOpen"
+            @close="state.isAddNewScheduleTagOpen = false" @refreshScheduleTags="fetchAllScheduleTags" />
     </div>
 </template>
 
@@ -87,6 +95,7 @@ const emit = defineEmits(['close', 'setFilter'])
 
 const state = reactive({
     error: {} as Error,
+    isAddNewScheduleTagOpen: false,
     formFilter: {
         department_uuids: [],
         employment_status: [],
