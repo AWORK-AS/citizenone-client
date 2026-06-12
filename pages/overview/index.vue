@@ -393,24 +393,31 @@
             <Modal size="sm" :title="$t('overview.birthdays.title')" :show="state.modal.isBirthdaysOpen"
                 @close="state.modal.isBirthdaysOpen = false">
                 <template #modal-body>
-                    <ul class="divide-y divide-slate-100 max-h-96 overflow-y-auto">
+                    <ul class="space-y-2 max-h-96 overflow-y-auto pr-1">
                         <li v-for="(birthday, birthdayIndex) in state.stats.birthdays" :key="birthdayIndex"
-                            class="flex items-center justify-between gap-x-3 py-2"
-                            :class="birthday.days_until === 0 ? 'font-semibold text-primary' : 'text-slate-700'">
-                            <div class="flex items-center gap-x-2 min-w-0">
-                                <Icon :name="birthday.days_until === 0 ? 'ph:cake-fill' : 'ph:cake'"
-                                    class="h-4 w-4 shrink-0"
-                                    :class="birthday.days_until === 0 ? 'text-primary' : 'text-slate-400'" />
-                                <span class="truncate">{{ birthday.name }}</span>
-                                <span class="shrink-0 text-xs px-1.5 py-0.5 rounded"
+                            class="flex items-center justify-between gap-x-3 rounded-xl border px-3 py-2.5 transition-colors"
+                            :class="birthday.days_until === 0 ? 'border-primary/30 bg-primary/5' : 'border-slate-100 hover:bg-slate-50'">
+                            <div class="flex items-center gap-x-3 min-w-0">
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold"
                                     :class="birthday.type === 'staff' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-50 text-emerald-700'">
-                                    {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') : $t('overview.birthdays.child') }}
-                                </span>
+                                    {{ getInitials(birthday.name) }}
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-x-2">
+                                        <span class="truncate font-medium text-slate-900">{{ birthday.name }}</span>
+                                        <span class="shrink-0 rounded-full px-2 py-0.5 text-[11px]"
+                                            :class="birthday.type === 'staff' ? 'bg-slate-100 text-slate-500' : 'bg-emerald-50 text-emerald-600'">
+                                            {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') : $t('overview.birthdays.child') }}
+                                        </span>
+                                    </div>
+                                    <div class="text-xs text-slate-400">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</div>
+                                </div>
                             </div>
-                            <span class="shrink-0 text-xs text-right">
+                            <span class="inline-flex shrink-0 items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-medium"
+                                :class="birthday.days_until === 0 ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'">
+                                <Icon v-if="birthday.days_until === 0" name="ph:cake-fill" class="h-3.5 w-3.5" />
                                 <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today') }}</template>
                                 <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until }) }}</template>
-                                · {{ $t('overview.birthdays.turns', { age: birthday.age }) }}
                             </span>
                         </li>
                     </ul>
@@ -474,6 +481,13 @@ const state = reactive({
         birthdays: [],
     } as any,
 })
+
+function getInitials(name: string) {
+    const parts = (name ?? '').trim().split(/\s+/).filter(Boolean)
+    if (parts.length === 0) return '?'
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase()
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase()
+}
 
 const todaysBirthdays = computed(() => (state.stats.birthdays ?? []).filter((birthday: any) => birthday.days_until === 0))
 const laterBirthdaysCount = computed(() => (state.stats.birthdays ?? []).length - todaysBirthdays.value.length)
