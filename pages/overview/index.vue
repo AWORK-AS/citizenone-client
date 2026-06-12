@@ -135,6 +135,39 @@
 
             <!-- Main content grid -->
             <div class="mt-6 space-y-6">
+                <!-- Birthdays this week (hidden when there are none) -->
+                <div class="card" v-if="state.stats.birthdays.length > 0">
+                    <div class="card-header">
+                        <div class="flex items-center gap-x-2">
+                            <Icon name="ph:cake" class="h-5 w-5 text-primary" />
+                            <h3 class="text-sm font-semibold text-slate-900">
+                                {{ $t('overview.birthdays.title') }}
+                            </h3>
+                            <span class="badge badge-blue">{{ state.stats.birthdays.length }}</span>
+                        </div>
+                    </div>
+                    <ul class="divide-y divide-slate-100">
+                        <li v-for="(birthday, birthdayIndex) in state.stats.birthdays" :key="birthdayIndex"
+                            class="flex items-center justify-between py-2"
+                            :class="birthday.days_until === 0 ? 'font-semibold text-primary' : 'text-slate-700'">
+                            <div class="flex items-center gap-x-2">
+                                <Icon :name="birthday.days_until === 0 ? 'ph:cake-fill' : 'ph:cake'"
+                                    class="h-4 w-4"
+                                    :class="birthday.days_until === 0 ? 'text-primary' : 'text-slate-400'" />
+                                <span>{{ birthday.name }}</span>
+                                <span class="text-xs px-1.5 py-0.5 rounded"
+                                    :class="birthday.type === 'staff' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-50 text-emerald-700'">
+                                    {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') : $t('overview.birthdays.child') }}
+                                </span>
+                            </div>
+                            <span class="text-xs">
+                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today') }}</template>
+                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until }) }}</template>
+                                · {{ $t('overview.birthdays.turns', { age: birthday.age }) }}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
                 <!-- Citizens' events + Latest journal notes row -->
                 <!-- Medication overview and Follow-up reminders row -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
@@ -412,11 +445,13 @@ const state = reactive({
         medicinesGivenCount: 0,
         medicinesPendingCount: 0,
         activeTreatmentsCount: 0,
+        birthdays: [],
     } as any,
 })
 
 onMounted(() => {
     scrollToNewsIfNeeded()
+    fetchUpcomingBirthdays()
 })
 
 watch(() => userStore.getUser, (user: any) => {
@@ -534,6 +569,17 @@ async function fetchCitizenCalendarEvents(dateRange: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function fetchUpcomingBirthdays() {
+    try {
+        const response = await dailyOverviewService.getUpcomingBirthdays()
+        if (response) {
+            state.stats.birthdays = response.data ?? []
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function fetchCitizensLatestJournal(dateRange: any) {
