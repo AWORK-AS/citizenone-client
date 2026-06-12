@@ -61,7 +61,7 @@
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
                         <FormButton buttonStyle="action" @click="navigateTo('/referrals')"
-                            v-if="can('create_referral') || can('update_referral') || can('delete_referral')">
+                            v-if="(isAtLeast('Admin') || can('create_referral') || can('update_referral') || can('delete_referral')) && userStore.getUser?.company?.industry?.system_name === 'employment_services'">
                             <Icon name="ph:arrows-in" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('referrals.referrals') }}
                         </FormButton>
