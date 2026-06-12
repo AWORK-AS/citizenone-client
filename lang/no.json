@@ -3495,7 +3495,9 @@
                 "confirmation": {
                     "approveLeaveRequestConfirmation": "Er du sikker på at du vil godkjenne denne ferie?",
                     "deleteLeaveRequestConfirmation": "Er du sikker på at du vil slette denne ferie?",
-                    "rejectLeaveRequestConfirmation": "Er du sikker på at du vil avvise denne ferie?"
+                    "rejectLeaveRequestConfirmation": "Er du sikker på at du vil avvise denne ferie?",
+                    "rejectComment": "Kommentar (valgfri)",
+                    "rejectCommentPlaceholder": "Legg til en begrunnelse den ansatte kan se"
                 },
                 "dateTimeEnd": "Sluttdato og -tid",
                 "dateTimeStart": "Startdato og -tid",

@@ -3495,7 +3495,9 @@
                 "confirmation": {
                     "approveLeaveRequestConfirmation": "Är du säker på att du vill godkänna denna semester?",
                     "deleteLeaveRequestConfirmation": "Är du säker på att du vill radera denna semester?",
-                    "rejectLeaveRequestConfirmation": "Är du säker på att du vill afvise denna semester?"
+                    "rejectLeaveRequestConfirmation": "Är du säker på att du vill afvise denna semester?",
+                    "rejectComment": "Kommentar (valfri)",
+                    "rejectCommentPlaceholder": "Lägg till en motivering som medarbetaren kan se"
                 },
                 "dateTimeEnd": "Slutdatum och -tid",
                 "dateTimeStart": "Startdatum och -tid",
