@@ -258,6 +258,16 @@ watch(() => userStore.getUser, (newValue: any) => {
                     'settings-relationships'
                 ]
             },
+            ...(isEmploymentServices ? [{
+                name: 'settings.tabs.reportTemplates',
+                isTranslateName: true,
+                href: `/settings/report-templates`,
+                routeNames: [
+                    'settings-report-templates',
+                    'settings-report-templates-new',
+                    'settings-report-templates-uuid-edit',
+                ]
+            }] : []),
             {
                 name: 'settings.tabs.roles',
                 isTranslateName: true,
@@ -426,6 +436,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/nursing-professional-record-templates') {
         navigateTo(`/settings/nursing-professional-record-templates`)
+    }
+    else if (value === '/settings/report-templates') {
+        navigateTo(`/settings/report-templates`)
     }
     else if (value === '/settings/treatment-templates') {
         navigateTo(`/settings/treatment-templates`)

@@ -2470,7 +2470,8 @@
             "journals": "Journals",
             "medicineCard": "Medicine card",
             "plansAndGoals": "Plans and goals",
-            "employmentCases": "Cases"
+            "employmentCases": "Cases",
+            "reports": "Reports"
         },
         "timeLogs": {
             "timeLogs": "Time Logs"
@@ -7359,6 +7360,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Edit report template",
+        "newReportTemplate": "New report template",
+        "reportTemplates": "Report templates",
+        "alert": {
+            "templateSuccessfullyDeleted": "Report template successfully deleted",
+            "templateSuccessfullySaved": "Report template successfully saved",
+            "templateSuccessfullyUpdated": "Report template successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this report template"
+        },
+        "form": {
+            "agreementType": "Agreement type",
+            "body": "Body",
+            "isActive": "Is active",
+            "name": "Name"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "agreementType": "Agreement type",
+            "isActive": "Active",
+            "active": "Active",
+            "inactive": "Inactive",
+            "name": "Name"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Copy link",
+        "draft": "Draft",
+        "editReport": "Edit report",
+        "finalize": "Finalize",
+        "finalized": "Finalized",
+        "newReport": "New report",
+        "publicLink": "Public link",
+        "reports": "Reports",
+        "alert": {
+            "cannotEditFinalized": "Finalized reports cannot be edited",
+            "finalizedSuccessfully": "Report successfully finalized",
+            "reportSuccessfullyDeleted": "Report successfully deleted",
+            "reportSuccessfullySaved": "Report successfully saved",
+            "reportSuccessfullyUpdated": "Report successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this report",
+            "finalizeConfirmation": "Are you sure you want to finalize this report? This action cannot be undone"
+        },
+        "form": {
+            "agreementType": "Agreement type",
+            "body": "Body",
+            "bodyTemplateHint": "Leave blank to auto-fill from the selected template",
+            "caseworker": "Caseworker",
+            "citizen": "Citizen",
+            "consultant": "Consultant",
+            "template": "Template",
+            "title": "Title"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "finalize": "Finalize",
+                "view": "View"
+            },
+            "agreementType": "Agreement type",
+            "createdAt": "Created",
+            "status": "Status",
+            "title": "Title"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Add requirement",
+        "editRequirement": "Edit requirement",
+        "noRequirements": "No requirements added yet",
+        "requirements": "Requirements",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Requirement successfully deleted",
+            "requirementSuccessfullySaved": "Requirement successfully saved",
+            "requirementSuccessfullyUpdated": "Requirement successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this requirement"
+        },
+        "form": {
+            "description": "Description",
+            "linkedReport": "Linked report",
+            "title": "Title"
+        }
+    },
     "recurring": {
         "addThisSessions": "Add this session",
         "applyChangesToAllRecurringShifts": "Apply changes to all recurring shifts",
@@ -7976,6 +8069,7 @@
             "ipRestrictions": "IP restrictions",
             "approvedDevices": "Approved devices",
             "nursingProfessionalRecordTemplates": "Nursing record templates",
+            "reportTemplates": "Report templates",
             "treatmentTemplates": "Treatment templates",
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
@@ -8102,6 +8196,8 @@
         "messages": "Messages",
         "overview": "Overview",
         "protocols": "Protocols",
+        "reports": "Reports",
+        "reportTemplates": "Report templates",
         "journalNotes": "Journal notes",
         "pinSidebar": "Pin sidebar",
         "unpinSidebar": "Unpin sidebar"
@@ -10131,6 +10227,126 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Billing rule successfully deleted"
+                }
+            }
+        },
+        "jobcenters": {
+            "jobcenters": "Jobcenters",
+            "newJobcenter": "New Jobcenter",
+            "editJobcenter": "Edit Jobcenter",
+            "addNewJobcenter": "Add new jobcenter",
+            "form": {
+                "name": "Name",
+                "municipality": "Municipality",
+                "email": "Email",
+                "phone": "Phone",
+                "contactPerson": "Contact person",
+                "sortOrder": "Sort order",
+                "isActive": "Active",
+                "alert": {
+                    "newJobcenterSuccessfullySaved": "Jobcenter successfully saved",
+                    "jobcenterSuccessfullyUpdated": "Jobcenter successfully updated"
+                }
+            },
+            "table": {
+                "name": "Name",
+                "municipality": "Municipality",
+                "contactPerson": "Contact person",
+                "sortOrder": "Sort order",
+                "active": "Active",
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Are you sure you want to delete this jobcenter?"
+                },
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Jobcenter successfully deleted"
+                }
+            }
+        },
+        "agreements": {
+            "agreements": "Agreements",
+            "newAgreement": "New Agreement",
+            "editAgreement": "Edit Agreement",
+            "addNewAgreement": "Add new agreement",
+            "form": {
+                "name": "Name",
+                "jobcenter": "Jobcenter",
+                "description": "Description",
+                "defaultDurationWeeks": "Default duration (weeks)",
+                "sortOrder": "Sort order",
+                "isActive": "Active",
+                "alert": {
+                    "newAgreementSuccessfullySaved": "Agreement successfully saved",
+                    "agreementSuccessfullyUpdated": "Agreement successfully updated"
+                }
+            },
+            "table": {
+                "name": "Name",
+                "jobcenter": "Jobcenter",
+                "defaultDurationWeeks": "Default weeks",
+                "sortOrder": "Sort order",
+                "active": "Active",
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Are you sure you want to delete this agreement?"
+                },
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Agreement successfully deleted"
+                }
+            }
+        },
+        "cases": {
+            "cases": "Cases",
+            "newCase": "New Case",
+            "editCase": "Edit Case",
+            "addNewCase": "Add new case",
+            "form": {
+                "agreement": "Agreement",
+                "responsibleEmployee": "Responsible employee",
+                "startDate": "Start date",
+                "endDate": "End date",
+                "durationWeeks": "Duration (weeks)",
+                "status": "Status",
+                "notes": "Notes",
+                "periodMode": {
+                    "byWeeks": "By weeks",
+                    "byDate": "By date range"
+                },
+                "statusOptions": {
+                    "active": "Active",
+                    "completed": "Completed",
+                    "on_hold": "On hold",
+                    "paused": "Paused"
+                },
+                "alert": {
+                    "newCaseSuccessfullySaved": "Case successfully saved",
+                    "caseSuccessfullyUpdated": "Case successfully updated"
+                }
+            },
+            "table": {
+                "agreement": "Agreement",
+                "jobcenter": "Jobcenter",
+                "startDate": "Start date",
+                "endDate": "End date",
+                "durationWeeks": "Duration (weeks)",
+                "weeksUsed": "Weeks used",
+                "status": "Status",
+                "responsibleEmployee": "Responsible employee",
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                },
+                "confirmation": {
+                    "deleteCaseConfirmation": "Are you sure you want to delete this case?"
+                },
+                "alert": {
+                    "caseSuccessfullyDeleted": "Case successfully deleted"
                 }
             }
         }

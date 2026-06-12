@@ -60,6 +60,11 @@
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="navigateTo('/reports')"
+                            v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services'">
+                            <Icon name="ph:file-text" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizenReports.reports') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="navigateTo('/rooms')">
                             <Icon name="ph:door" class="h-4 w-4" aria-hidden="true" />
                             {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}

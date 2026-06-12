@@ -2470,7 +2470,8 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer och mål",
-            "employmentCases": "Ärenden"
+            "employmentCases": "Ärenden",
+            "reports": "Rapporter"
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -7350,6 +7351,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Redigera rapportmall",
+        "newReportTemplate": "Ny rapportmall",
+        "reportTemplates": "Rapportmallar",
+        "alert": {
+            "templateSuccessfullyDeleted": "Rapportmall raderades",
+            "templateSuccessfullySaved": "Rapportmall sparades",
+            "templateSuccessfullyUpdated": "Rapportmall uppdaterades"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Är du säker på att du vill radera denna rapportmall"
+        },
+        "form": {
+            "agreementType": "Avtalstyp",
+            "body": "Innehåll",
+            "isActive": "Aktiv",
+            "name": "Namn"
+        },
+        "table": {
+            "actions": {
+                "delete": "Radera",
+                "edit": "Redigera"
+            },
+            "agreementType": "Avtalstyp",
+            "isActive": "Aktiv",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "name": "Namn"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Kopiera länk",
+        "draft": "Utkast",
+        "editReport": "Redigera rapport",
+        "finalize": "Slutför",
+        "finalized": "Slutförd",
+        "newReport": "Ny rapport",
+        "publicLink": "Offentlig länk",
+        "reports": "Rapporter",
+        "alert": {
+            "cannotEditFinalized": "Slutförda rapporter kan inte redigeras",
+            "finalizedSuccessfully": "Rapport slutfördes",
+            "reportSuccessfullyDeleted": "Rapport raderades",
+            "reportSuccessfullySaved": "Rapport sparades",
+            "reportSuccessfullyUpdated": "Rapport uppdaterades"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Är du säker på att du vill radera denna rapport",
+            "finalizeConfirmation": "Är du säker på att du vill slutföra denna rapport? Åtgärden kan inte ångras"
+        },
+        "form": {
+            "agreementType": "Avtalstyp",
+            "body": "Innehåll",
+            "bodyTemplateHint": "Lämna tomt för att fylla i automatiskt från den valda mallen",
+            "caseworker": "Handläggare",
+            "citizen": "Klient",
+            "consultant": "Konsult",
+            "template": "Mall",
+            "title": "Titel"
+        },
+        "table": {
+            "actions": {
+                "delete": "Radera",
+                "edit": "Redigera",
+                "finalize": "Slutför",
+                "view": "Visa"
+            },
+            "agreementType": "Avtalstyp",
+            "createdAt": "Skapad",
+            "status": "Status",
+            "title": "Titel"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Lägg till krav",
+        "editRequirement": "Redigera krav",
+        "noRequirements": "Inga krav tillagda ännu",
+        "requirements": "Krav",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Krav raderades",
+            "requirementSuccessfullySaved": "Krav sparades",
+            "requirementSuccessfullyUpdated": "Krav uppdaterades"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Är du säker på att du vill radera detta krav"
+        },
+        "form": {
+            "description": "Beskrivning",
+            "linkedReport": "Länkad rapport",
+            "title": "Titel"
+        }
+    },
     "recurring": {
         "addThisSessions": "Lägg till denna session",
         "applyChangesToAllRecurringShifts": "Använd också ändring för fremtidige pass",
@@ -7967,6 +8060,7 @@
             "ipRestrictions": "IP-begränsningar",
             "approvedDevices": "Godkända enheter",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+            "reportTemplates": "Rapportmallar",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Ärendetyper",
@@ -8093,6 +8187,8 @@
         "messages": "Meddelanden",
         "overview": "Översikt",
         "protocols": "Protokoll",
+        "reports": "Rapporter",
+        "reportTemplates": "Rapportmallar",
         "pinSidebar": "Fäst sidebar",
         "unpinSidebar": "Lossa sidebar",
         "journalNotes": "Journal notes"
@@ -10131,6 +10227,126 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Faktureringsregel borttagen"
+                }
+            }
+        },
+        "jobcenters": {
+            "jobcenters": "Jobbcenter",
+            "newJobcenter": "Nytt jobbcenter",
+            "editJobcenter": "Redigera jobbcenter",
+            "addNewJobcenter": "Lägg till nytt jobbcenter",
+            "form": {
+                "name": "Namn",
+                "municipality": "Kommun",
+                "email": "E-post",
+                "phone": "Telefon",
+                "contactPerson": "Kontaktperson",
+                "sortOrder": "Sorteringsordning",
+                "isActive": "Aktiv",
+                "alert": {
+                    "newJobcenterSuccessfullySaved": "Jobbcenter sparat",
+                    "jobcenterSuccessfullyUpdated": "Jobbcenter uppdaterat"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "municipality": "Kommun",
+                "contactPerson": "Kontaktperson",
+                "sortOrder": "Sorteringsordning",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Är du säker på att du vill ta bort detta jobbcenter?"
+                },
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Jobbcenter borttaget"
+                }
+            }
+        },
+        "agreements": {
+            "agreements": "Avtal",
+            "newAgreement": "Nytt avtal",
+            "editAgreement": "Redigera avtal",
+            "addNewAgreement": "Lägg till nytt avtal",
+            "form": {
+                "name": "Namn",
+                "jobcenter": "Jobbcenter",
+                "description": "Beskrivning",
+                "defaultDurationWeeks": "Standardlängd (veckor)",
+                "sortOrder": "Sorteringsordning",
+                "isActive": "Aktiv",
+                "alert": {
+                    "newAgreementSuccessfullySaved": "Avtal sparat",
+                    "agreementSuccessfullyUpdated": "Avtal uppdaterat"
+                }
+            },
+            "table": {
+                "name": "Namn",
+                "jobcenter": "Jobbcenter",
+                "defaultDurationWeeks": "Standardveckor",
+                "sortOrder": "Sorteringsordning",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Är du säker på att du vill ta bort detta avtal?"
+                },
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Avtal borttaget"
+                }
+            }
+        },
+        "cases": {
+            "cases": "Ärenden",
+            "newCase": "Nytt ärende",
+            "editCase": "Redigera ärende",
+            "addNewCase": "Lägg till nytt ärende",
+            "form": {
+                "agreement": "Avtal",
+                "responsibleEmployee": "Ansvarig medarbetare",
+                "startDate": "Startdatum",
+                "endDate": "Slutdatum",
+                "durationWeeks": "Varaktighet (veckor)",
+                "status": "Status",
+                "notes": "Anteckningar",
+                "periodMode": {
+                    "byWeeks": "Antal veckor",
+                    "byDate": "Datumperiod"
+                },
+                "statusOptions": {
+                    "active": "Aktiv",
+                    "completed": "Avslutad",
+                    "on_hold": "Pausad",
+                    "paused": "Uppehåll"
+                },
+                "alert": {
+                    "newCaseSuccessfullySaved": "Ärende sparat",
+                    "caseSuccessfullyUpdated": "Ärende uppdaterat"
+                }
+            },
+            "table": {
+                "agreement": "Avtal",
+                "jobcenter": "Jobbcenter",
+                "startDate": "Startdatum",
+                "endDate": "Slutdatum",
+                "durationWeeks": "Varaktighet (veckor)",
+                "weeksUsed": "Använda veckor",
+                "status": "Status",
+                "responsibleEmployee": "Ansvarig medarbetare",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Ta bort"
+                },
+                "confirmation": {
+                    "deleteCaseConfirmation": "Är du säker på att du vill ta bort detta ärende?"
+                },
+                "alert": {
+                    "caseSuccessfullyDeleted": "Ärende borttaget"
                 }
             }
         }

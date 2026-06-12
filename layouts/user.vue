@@ -530,6 +530,8 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Messages') return t('sidebar.messages')
     if (item.name === 'Procedures') return t('sidebar.procedures') || 'Procedurer'
     if (item.name === 'Protocols') return t('sidebar.protocols')
+    if (item.name === 'Reports') return t('sidebar.reports')
+    if (item.name === 'Report Templates') return t('sidebar.reportTemplates')
     if (item.name === 'Documents') return t('sidebar.documents')
     if (item.name === 'Mail') return t('sidebar.mail')
     if (item.name === 'Leads') return t('sidebar.leads')
@@ -571,6 +573,7 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-wallets',
             'citizens-uuid-wallets-wallet_uuid',
             'citizens-uuid-contacts',
+            'citizens-uuid-reports',
         ]
     })
     navigation.push({
@@ -605,6 +608,20 @@ function generateSidebarLinks(user: any) {
     })
     if (userHasPageAttendanceAccess) {
         navigation.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
+    }
+
+    if (user?.company?.industry?.system_name === 'employment_services') {
+        navigation.push({
+            name: 'Reports',
+            href: '/reports',
+            icon: 'ph:file-text',
+            activeRouteNames: [
+                'reports',
+                'reports-new',
+                'reports-uuid-view-details',
+                'reports-uuid-edit',
+            ]
+        })
     }
 
     navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })

@@ -2470,7 +2470,8 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer og mål",
-            "employmentCases": "Sager"
+            "employmentCases": "Sager",
+            "reports": "Rapporter"
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -7359,6 +7360,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Rediger rapportskabelon",
+        "newReportTemplate": "Ny rapportskabelon",
+        "reportTemplates": "Rapportskabeloner",
+        "alert": {
+            "templateSuccessfullyDeleted": "Rapportskabelon blev slettet",
+            "templateSuccessfullySaved": "Rapportskabelon blev gemt",
+            "templateSuccessfullyUpdated": "Rapportskabelon blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne rapportskabelon"
+        },
+        "form": {
+            "agreementType": "Aftaletype",
+            "body": "Indhold",
+            "isActive": "Aktiv",
+            "name": "Navn"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "agreementType": "Aftaletype",
+            "isActive": "Aktiv",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "name": "Navn"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Kopiér link",
+        "draft": "Kladde",
+        "editReport": "Rediger rapport",
+        "finalize": "Færdiggør",
+        "finalized": "Færdiggjort",
+        "newReport": "Ny rapport",
+        "publicLink": "Offentligt link",
+        "reports": "Rapporter",
+        "alert": {
+            "cannotEditFinalized": "Færdiggjorte rapporter kan ikke redigeres",
+            "finalizedSuccessfully": "Rapport blev færdiggjort",
+            "reportSuccessfullyDeleted": "Rapport blev slettet",
+            "reportSuccessfullySaved": "Rapport blev gemt",
+            "reportSuccessfullyUpdated": "Rapport blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne rapport",
+            "finalizeConfirmation": "Er du sikker på, at du vil færdiggøre denne rapport? Denne handling kan ikke fortrydes"
+        },
+        "form": {
+            "agreementType": "Aftaletype",
+            "body": "Indhold",
+            "bodyTemplateHint": "Lad feltet være tomt for at udfylde automatisk fra den valgte skabelon",
+            "caseworker": "Sagsbehandler",
+            "citizen": "Borger",
+            "consultant": "Konsulent",
+            "template": "Skabelon",
+            "title": "Titel"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "finalize": "Færdiggør",
+                "view": "Se"
+            },
+            "agreementType": "Aftaletype",
+            "createdAt": "Oprettet",
+            "status": "Status",
+            "title": "Titel"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Tilføj krav",
+        "editRequirement": "Rediger krav",
+        "noRequirements": "Ingen krav tilføjet endnu",
+        "requirements": "Krav",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Krav blev slettet",
+            "requirementSuccessfullySaved": "Krav blev gemt",
+            "requirementSuccessfullyUpdated": "Krav blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette dette krav"
+        },
+        "form": {
+            "description": "Beskrivelse",
+            "linkedReport": "Tilknyttet rapport",
+            "title": "Titel"
+        }
+    },
     "recurring": {
         "addThisSessions": "Tilføj denne session",
         "applyChangesToAllRecurringShifts": "Anvend også ændring for fremtidige vagter",
@@ -7976,6 +8069,7 @@
             "ipRestrictions": "IP-begrænsninger",
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+            "reportTemplates": "Rapportskabeloner",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sagstyper",
@@ -8102,6 +8196,8 @@
         "messages": "Beskeder",
         "overview": "Oversigt",
         "protocols": "Protokol",
+        "reports": "Rapporter",
+        "reportTemplates": "Rapportskabeloner",
         "journalNotes": "Journalnotater",
         "pinSidebar": "Fastgør sidebar",
         "unpinSidebar": "Frigør sidebar"
@@ -10131,6 +10227,126 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
+                }
+            }
+        },
+        "jobcenters": {
+            "jobcenters": "Jobcentre",
+            "newJobcenter": "Nyt jobcenter",
+            "editJobcenter": "Rediger jobcenter",
+            "addNewJobcenter": "Tilføj nyt jobcenter",
+            "form": {
+                "name": "Navn",
+                "municipality": "Kommune",
+                "email": "E-mail",
+                "phone": "Telefon",
+                "contactPerson": "Kontaktperson",
+                "sortOrder": "Sorteringsrækkefølge",
+                "isActive": "Aktiv",
+                "alert": {
+                    "newJobcenterSuccessfullySaved": "Jobcenter gemt",
+                    "jobcenterSuccessfullyUpdated": "Jobcenter opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "municipality": "Kommune",
+                "contactPerson": "Kontaktperson",
+                "sortOrder": "Sorteringsrækkefølge",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Er du sikker på, at du vil slette dette jobcenter?"
+                },
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Jobcenter slettet"
+                }
+            }
+        },
+        "agreements": {
+            "agreements": "Aftaler",
+            "newAgreement": "Ny aftale",
+            "editAgreement": "Rediger aftale",
+            "addNewAgreement": "Tilføj ny aftale",
+            "form": {
+                "name": "Navn",
+                "jobcenter": "Jobcenter",
+                "description": "Beskrivelse",
+                "defaultDurationWeeks": "Standardvarighed (uger)",
+                "sortOrder": "Sorteringsrækkefølge",
+                "isActive": "Aktiv",
+                "alert": {
+                    "newAgreementSuccessfullySaved": "Aftale gemt",
+                    "agreementSuccessfullyUpdated": "Aftale opdateret"
+                }
+            },
+            "table": {
+                "name": "Navn",
+                "jobcenter": "Jobcenter",
+                "defaultDurationWeeks": "Standarduger",
+                "sortOrder": "Sorteringsrækkefølge",
+                "active": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Er du sikker på, at du vil slette denne aftale?"
+                },
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Aftale slettet"
+                }
+            }
+        },
+        "cases": {
+            "cases": "Sager",
+            "newCase": "Ny sag",
+            "editCase": "Rediger sag",
+            "addNewCase": "Tilføj ny sag",
+            "form": {
+                "agreement": "Aftale",
+                "responsibleEmployee": "Ansvarlig medarbejder",
+                "startDate": "Startdato",
+                "endDate": "Slutdato",
+                "durationWeeks": "Varighed (uger)",
+                "status": "Status",
+                "notes": "Noter",
+                "periodMode": {
+                    "byWeeks": "Antal uger",
+                    "byDate": "Datointerval"
+                },
+                "statusOptions": {
+                    "active": "Aktiv",
+                    "completed": "Afsluttet",
+                    "on_hold": "På hold",
+                    "paused": "Sat på pause"
+                },
+                "alert": {
+                    "newCaseSuccessfullySaved": "Sag gemt",
+                    "caseSuccessfullyUpdated": "Sag opdateret"
+                }
+            },
+            "table": {
+                "agreement": "Aftale",
+                "jobcenter": "Jobcenter",
+                "startDate": "Startdato",
+                "endDate": "Slutdato",
+                "durationWeeks": "Varighed (uger)",
+                "weeksUsed": "Brugte uger",
+                "status": "Status",
+                "responsibleEmployee": "Ansvarlig medarbejder",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                },
+                "confirmation": {
+                    "deleteCaseConfirmation": "Er du sikker på, at du vil slette denne sag?"
+                },
+                "alert": {
+                    "caseSuccessfullyDeleted": "Sag slettet"
                 }
             }
         }
