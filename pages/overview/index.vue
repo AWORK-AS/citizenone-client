@@ -493,6 +493,10 @@ onMounted(() => {
     fetchUpcomingBirthdays()
 })
 
+watch(() => departmentStore.getSelectedDepartmentName, () => {
+    fetchUpcomingBirthdays()
+})
+
 watch(() => userStore.getUser, (user: any) => {
     if (user) {
         if (user?.daily_overview_date_filter?.filter_type === 'today') {
@@ -612,7 +616,9 @@ async function fetchCitizenCalendarEvents(dateRange: any) {
 
 async function fetchUpcomingBirthdays() {
     try {
-        const response = await dailyOverviewService.getUpcomingBirthdays()
+        const response = await dailyOverviewService.getUpcomingBirthdays({
+            department: departmentStore.getSelectedDepartmentName,
+        })
         if (response) {
             state.stats.birthdays = response.data ?? []
         }
