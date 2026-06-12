@@ -763,6 +763,7 @@
         },
         "newBooking": "New booking",
         "newEvent": "New event",
+        "chooseEventType": "What kind of event?",
         "singleEvent": {
             "createASingleEvent": "Create a single event",
             "createASingleEventLabel": "Create a single or recurring event",

@@ -763,6 +763,7 @@
         },
         "newBooking": "Ny booking",
         "newEvent": "Ny arrangement",
+        "chooseEventType": "Hvilken type arrangement?",
         "singleEvent": {
             "createASingleEvent": "Opprett en enkelt arrangement",
             "createASingleEventLabel": "Opprett en enkelt eller gjentakende arrangement",

@@ -763,6 +763,7 @@
         },
         "newBooking": "Ny booking",
         "newEvent": "Ny begivenhed",
+        "chooseEventType": "Hvilken type begivenhed?",
         "singleEvent": {
             "createASingleEvent": "Opret en enkelt begivenhed",
             "createASingleEventLabel": "Opret en enkelt eller tilbagevendende begivenhed",

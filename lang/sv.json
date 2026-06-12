@@ -763,6 +763,7 @@
         },
         "newBooking": "Ny bokning",
         "newEvent": "Ny händelse",
+        "chooseEventType": "Vilken typ av händelse?",
         "singleEvent": {
             "createASingleEvent": "Skapa en enkelt händelse",
             "createASingleEventLabel": "Skapa en enkelt eller tilbagevendende händelse",
