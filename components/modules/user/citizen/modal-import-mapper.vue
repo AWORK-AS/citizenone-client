@@ -5,11 +5,28 @@
                 <Alert type="danger" :text="state.error" v-if="state.error" />
                 <LoadingSpinner :isActive="state.isLoading">
 
+                    <!-- Step 0: choose what to import -->
+                    <div v-if="state.step === 'type'">
+                        <p class="text-sm text-slate-600">Hvad vil du importere fra dit gamle system?</p>
+                        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button v-for="ent in entityTypes" :key="ent.key" type="button"
+                                @click="selectType(ent.key)"
+                                class="flex items-center gap-x-3 rounded-xl border px-4 py-3 text-left transition-colors"
+                                :class="ent.available ? 'border-slate-200 hover:border-primary hover:bg-primary-25' : 'border-slate-100 opacity-50 cursor-not-allowed'">
+                                <Icon :name="ent.icon" class="h-6 w-6 text-primary shrink-0" />
+                                <div>
+                                    <p class="text-sm font-medium text-slate-800">{{ ent.label }}</p>
+                                    <p class="text-xs text-slate-400">{{ ent.available ? 'CSV' : 'Kommer snart' }}</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Step 1: upload -->
-                    <div v-if="state.step === 'upload'">
+                    <div v-else-if="state.step === 'upload'">
                         <p class="text-sm text-slate-600">
-                            Eksportér borgerne fra dit nuværende system som CSV (fx "Gem som CSV" i Excel) og upload filen.
-                            Vi hjælper dig med at koble kolonnerne til CitizenOne i næste trin.
+                            Eksportér <strong>{{ entity.label.toLowerCase() }}</strong> fra dit nuværende system som CSV
+                            (fx "Gem som CSV" i Excel) og upload filen. Vi kobler kolonnerne til CitizenOne i næste trin.
                         </p>
                         <div class="mt-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-primary transition-colors p-8 text-center cursor-pointer"
                             @click="fileInput?.click()">
@@ -66,12 +83,12 @@
 
                     <!-- Footer -->
                     <div class="mt-6 flex justify-between gap-x-3">
-                        <FormButton buttonStyle="cancel" @click="back">{{ state.step === 'upload' ? $t('cancel') : 'Tilbage' }}</FormButton>
+                        <FormButton buttonStyle="cancel" @click="back">{{ state.step === 'type' ? $t('cancel') : 'Tilbage' }}</FormButton>
                         <FormButton v-if="state.step === 'map'" buttonStyle="primary" :disabled="!requiredMapped" @click="state.step = 'preview'">
                             Forhåndsvis
                         </FormButton>
                         <FormButton v-else-if="state.step === 'preview'" buttonStyle="primary" @click="runImport">
-                            Importér {{ state.rows.length }} borgere
+                            Importér {{ state.rows.length }} {{ entity.label.toLowerCase() }}
                         </FormButton>
                     </div>
                 </LoadingSpinner>
@@ -82,6 +99,7 @@
 
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
+import { userService } from '@/components/api/user/UserService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -94,19 +112,40 @@ const { t } = useI18n()
 
 const fileInput = ref<HTMLInputElement | null>(null)
 
-// CitizenOne import template fields (must match the existing import headings)
-const targetFields = [
-    { key: 'firstname', label: 'Fornavn', required: true },
-    { key: 'lastname', label: 'Efternavn', required: true },
-    { key: 'cpr_number', label: 'CPR-nummer', required: false },
-    { key: 'birthday', label: 'Fødselsdato (ÅÅÅÅ-MM-DD)', required: false },
-    { key: 'gender', label: 'Køn (male/female)', required: false },
-    { key: 'email', label: 'E-mail', required: false },
-    { key: 'phone', label: 'Telefon', required: false },
-    { key: 'date_admitted', label: 'Indskrivningsdato', required: false },
-    { key: 'date_discharged', label: 'Udskrivningsdato', required: false },
-    { key: 'departments', label: 'Afdelinger (adskilt med ;)', required: false },
-] as { key: string; label: string; required: boolean }[]
+// Each entity reuses its existing import endpoint; fields match that import's template headings.
+const entityTypes = [
+    {
+        key: 'citizens', label: 'Børn / borgere', icon: 'ph:users-three', available: true,
+        importFn: (fd: FormData) => citizenService.importCitizens(fd),
+        fields: [
+            { key: 'firstname', label: 'Fornavn', required: true },
+            { key: 'lastname', label: 'Efternavn', required: true },
+            { key: 'cpr_number', label: 'CPR-nummer', required: false },
+            { key: 'birthday', label: 'Fødselsdato (ÅÅÅÅ-MM-DD)', required: false },
+            { key: 'gender', label: 'Køn (male/female)', required: false },
+            { key: 'email', label: 'E-mail', required: false },
+            { key: 'phone', label: 'Telefon', required: false },
+            { key: 'date_admitted', label: 'Indskrivningsdato', required: false },
+            { key: 'date_discharged', label: 'Udskrivningsdato', required: false },
+            { key: 'departments', label: 'Afdelinger (adskilt med ;)', required: false },
+        ],
+    },
+    {
+        key: 'employees', label: 'Ansatte', icon: 'ph:identification-badge', available: true,
+        importFn: (fd: FormData) => userService.importEmployees(fd),
+        fields: [
+            { key: 'firstname', label: 'Fornavn', required: true },
+            { key: 'lastname', label: 'Efternavn', required: true },
+            { key: 'email', label: 'E-mail', required: false },
+            { key: 'phone', label: 'Telefon', required: false },
+            { key: 'birthday', label: 'Fødselsdato (ÅÅÅÅ-MM-DD)', required: false },
+            { key: 'seniority_date', label: 'Anciennitetsdato', required: false },
+            { key: 'departments', label: 'Afdelinger (adskilt med ;)', required: false },
+        ],
+    },
+    { key: 'journals', label: 'Journalnotater', icon: 'ph:note-pencil', available: false, importFn: null, fields: [] },
+    { key: 'schedules', label: 'Vagtplaner', icon: 'ph:calendar-dots', available: false, importFn: null, fields: [] },
+] as any[]
 
 const synonyms: Record<string, string[]> = {
     firstname: ['fornavn', 'firstname', 'first name', 'givenname', 'navn', 'name'],
@@ -119,10 +158,12 @@ const synonyms: Record<string, string[]> = {
     date_admitted: ['indskrivning', 'indskrevet', 'admitted', 'startdato', 'opstart', 'start'],
     date_discharged: ['udskrivning', 'udskrevet', 'discharged', 'slutdato', 'ophør', 'ophor', 'slut'],
     departments: ['afdeling', 'afdelinger', 'department', 'departments', 'team', 'enhed', 'gruppe'],
+    seniority_date: ['anciennitet', 'ancien', 'seniority', 'ansættelsesdato', 'ansaettelsesdato', 'ansat', 'startdato'],
 }
 
 const state = reactive({
-    step: 'upload' as 'upload' | 'map' | 'preview',
+    step: 'type' as 'type' | 'upload' | 'map' | 'preview',
+    entityKey: 'citizens',
     fileName: '',
     headers: [] as string[],
     rows: [] as string[][],
@@ -131,10 +172,19 @@ const state = reactive({
     isLoading: false,
 })
 
+const entity = computed(() => entityTypes.find(e => e.key === state.entityKey) ?? entityTypes[0])
+const targetFields = computed(() => entity.value.fields as { key: string; label: string; required: boolean }[])
 const requiredMapped = computed(() =>
-    targetFields.filter(f => f.required).every(f => (state.mapping[f.key] ?? -1) >= 0))
-const mappedFields = computed(() => targetFields.filter(f => (state.mapping[f.key] ?? -1) >= 0))
+    targetFields.value.filter(f => f.required).every(f => (state.mapping[f.key] ?? -1) >= 0))
+const mappedFields = computed(() => targetFields.value.filter(f => (state.mapping[f.key] ?? -1) >= 0))
 const previewRows = computed(() => state.rows.slice(0, 5))
+
+function selectType(key: string) {
+    const ent = entityTypes.find(e => e.key === key)
+    if (!ent?.available) return
+    state.entityKey = key
+    state.step = 'upload'
+}
 
 function cell(row: string[], key: string) {
     const idx = state.mapping[key] ?? -1
@@ -168,15 +218,15 @@ function autoGuess() {
     state.mapping = {}
     state.headers.forEach((h, i) => {
         const norm = h.toLowerCase().replace(/[\s_\-.]/g, '')
-        for (const field of targetFields) {
+        for (const field of targetFields.value) {
             if ((state.mapping[field.key] ?? -1) >= 0) continue
-            if (synonyms[field.key].some(s => norm.includes(s.replace(/[\s_\-.]/g, '')))) {
+            if ((synonyms[field.key] ?? []).some(s => norm.includes(s.replace(/[\s_\-.]/g, '')))) {
                 state.mapping[field.key] = i
                 break
             }
         }
     })
-    targetFields.forEach(f => { if (state.mapping[f.key] === undefined) state.mapping[f.key] = -1 })
+    targetFields.value.forEach(f => { if (state.mapping[f.key] === undefined) state.mapping[f.key] = -1 })
 }
 
 function handleFile(e: Event) {
@@ -205,9 +255,9 @@ function handleFile(e: Event) {
 
 function buildCsv(): string {
     const esc = (v: string) => /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v
-    const heading = targetFields.map(f => f.key).join(',')
+    const heading = targetFields.value.map(f => f.key).join(',')
     const lines = state.rows.map(row =>
-        targetFields.map(f => {
+        targetFields.value.map(f => {
             const idx = state.mapping[f.key] ?? -1
             return esc(idx < 0 ? '' : (row[idx] ?? '').trim())
         }).join(','))
@@ -222,10 +272,10 @@ async function runImport() {
         const file = new File([csv], 'citizenone-import.csv', { type: 'text/csv' })
         const params = new FormData()
         params.append('file', file)
-        const response = await citizenService.importCitizens(params)
+        const response = await entity.value.importFn(params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, response?.message || 'Borgere importeret.')
-            emit('imported')
+            successAlert(`${t('alert.success')}!`, response?.message || 'Importeret.')
+            emit('imported', state.entityKey)
             closeModal()
         }
     } catch (error: any) {
@@ -236,16 +286,17 @@ async function runImport() {
 
 function back() {
     if (state.step === 'preview') state.step = 'map'
-    else if (state.step === 'map') { reset(); state.step = 'upload' }
+    else if (state.step === 'map') { resetFile(); state.step = 'upload' }
+    else if (state.step === 'upload') { resetFile(); state.step = 'type' }
     else closeModal()
 }
 
-function reset() {
+function resetFile() {
     state.fileName = ''; state.headers = []; state.rows = []; state.mapping = {}; state.error = ''
 }
 
 function closeModal() {
-    reset(); state.step = 'upload'
+    resetFile(); state.step = 'type'; state.entityKey = 'citizens'
     emit('close')
 }
 </script>

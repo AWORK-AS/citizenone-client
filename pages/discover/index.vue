@@ -126,7 +126,7 @@
                 @close="state.modal.appInfo = false" @confirm="state.modal.appInfo = false" />
 
             <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.importMapper"
-                @close="state.modal.importMapper = false" @imported="state.done.citizens = true" />
+                @close="state.modal.importMapper = false" @imported="onImported" />
 
         </NuxtLayout>
     </div>
@@ -162,6 +162,11 @@ const state = reactive({
 
 function runStepAction(action: string) {
     if (action === 'import') state.modal.importMapper = true
+}
+
+function onImported(type: string) {
+    if (type === 'employees') state.done.employees = true
+    else state.done.citizens = true
 }
 
 // --- Step definitions (copy lives in i18n: discover.groups.* / discover.steps.*) ---
