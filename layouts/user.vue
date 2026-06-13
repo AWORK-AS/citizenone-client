@@ -576,16 +576,18 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-contacts',
         ]
     })
-    navigation.push({
-        name: 'Calendar',
-        href: '/calendar',
-        icon: 'ph:calendar-blank',
-        activeRouteNames: [
-            'calendar',
-            'calendar-appointments',
-            'calendar-appointments-settings',
-        ]
-    })
+    if (companyHasModule("Calendar")) {
+        navigation.push({
+            name: 'Calendar',
+            href: '/calendar',
+            icon: 'ph:calendar-blank',
+            activeRouteNames: [
+                'calendar',
+                'calendar-appointments',
+                'calendar-appointments-settings',
+            ]
+        })
+    }
     if (companyHasModule("Duty Schedule") && user.pages?.find((page: any) => page.name === "Duty Schedule")) {
         navigation.push({
             name: 'Duty schedules',
@@ -610,7 +612,9 @@ function generateSidebarLinks(user: any) {
         navigation.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
     }
 
-    navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
+    if (companyHasModule("Documents")) {
+        navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
+    }
 
     if (userHasSecuredMailAccess) {
         navigation.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', activeRouteNames: ['mail'] })

@@ -1,4 +1,17 @@
 {
+    "companyModules": {
+        "Economy": "Economy",
+        "Journals": "Journals",
+        "Medicine card": "Medicine card",
+        "Plans and goals": "Plans and goals",
+        "Health": "Health",
+        "Documents": "Documents",
+        "Attendance": "Attendance",
+        "Calendar": "Calendar",
+        "Contacts": "Contacts",
+        "Duty Schedule": "Duty schedule",
+        "Employee Group": "Employee group"
+    },
     "discover": {
         "welcome": "Welcome, {name}",
         "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",

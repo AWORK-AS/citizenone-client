@@ -328,7 +328,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div v-for="page in moduleState.pages" :key="page.uuid"
                             class="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2.5">
-                            <span class="text-sm text-slate-800">{{ page.name }}</span>
+                            <span class="text-sm text-slate-800">{{ $t(`companyModules.${page.name}`) }}</span>
                             <FormSwitch :value="moduleState.enabled.includes(page.uuid)" @toggleSwitch="toggleModule(page.uuid)" />
                         </div>
                     </div>
@@ -386,6 +386,10 @@ function toggleModule(uuid: string) {
 async function saveModules() {
     try {
         await companyService.updateCompanyModules({ page_uuids: moduleState.enabled })
+        // Update the in-memory user so the sidebar regenerates live (no reload).
+        const enabledNames = moduleState.pages.filter((p: any) => moduleState.enabled.includes(p.uuid)).map((p: any) => p.name)
+        const u: any = userStore.getUser
+        if (u?.company) userStore.setUser({ ...u, company: { ...u.company, module_pages: enabledNames } })
         successAlert(`${t('alert.success')}!`, 'Moduler opdateret.')
     } catch (e) { }
 }

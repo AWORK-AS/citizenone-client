@@ -1,4 +1,17 @@
 {
+    "companyModules": {
+        "Economy": "Økonomi",
+        "Journals": "Journaler",
+        "Medicine card": "Medisinkort",
+        "Plans and goals": "Planer og mål",
+        "Health": "Helse",
+        "Documents": "Dokumenter",
+        "Attendance": "Fremmøte",
+        "Calendar": "Kalender",
+        "Contacts": "Kontakter",
+        "Duty Schedule": "Vaktplan",
+        "Employee Group": "Medarbeidergruppe"
+    },
     "discover": {
         "welcome": "Velkommen, {name}",
         "subtitle": "Her er din raske guide til å få CitizenOne satt opp og i gang for teamet ditt.",
