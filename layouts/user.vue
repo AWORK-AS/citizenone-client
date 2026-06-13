@@ -542,7 +542,10 @@ function generateSidebarLinks(user: any) {
     navigation = []
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
-    const userHasPageAttendanceAccess = user?.pages?.some((page: any) => page.name === "Attendance")
+    // Company-level module enablement: no list (empty) = every module on (default).
+    const companyModulePages = user?.company?.module_pages
+    const companyHasModule = (name: string) => !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(name)
+    const userHasPageAttendanceAccess = companyHasModule("Attendance") && user?.pages?.some((page: any) => page.name === "Attendance")
     navigation.push({
         name: 'Overview',
         href: '/overview',
@@ -583,7 +586,7 @@ function generateSidebarLinks(user: any) {
             'calendar-appointments-settings',
         ]
     })
-    if (user.pages?.find((page: any) => page.name === "Duty Schedule")) {
+    if (companyHasModule("Duty Schedule") && user.pages?.find((page: any) => page.name === "Duty Schedule")) {
         navigation.push({
             name: 'Duty schedules',
             href: '/schedules',
