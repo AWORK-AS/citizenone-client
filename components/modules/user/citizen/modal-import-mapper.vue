@@ -25,15 +25,15 @@
                     <!-- Step 1: upload -->
                     <div v-else-if="state.step === 'upload'">
                         <p class="text-sm text-slate-600">
-                            Eksportér <strong>{{ entity.label.toLowerCase() }}</strong> fra dit nuværende system som CSV
-                            (fx "Gem som CSV" i Excel) og upload filen. Vi kobler kolonnerne til CitizenOne i næste trin.
+                            Eksportér <strong>{{ entity.label.toLowerCase() }}</strong> fra dit nuværende system
+                            (CSV eller Excel) og upload filen. Vi kobler kolonnerne til CitizenOne i næste trin.
                         </p>
                         <div class="mt-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-primary transition-colors p-8 text-center cursor-pointer"
                             @click="fileInput?.click()">
                             <Icon name="ph:file-csv" class="mx-auto h-10 w-10 text-slate-300" />
-                            <p class="mt-2 text-sm text-slate-600">Klik for at vælge en CSV-fil</p>
+                            <p class="mt-2 text-sm text-slate-600">Klik for at vælge en CSV- eller Excel-fil</p>
                             <p v-if="state.fileName" class="mt-2 text-sm font-medium text-primary">{{ state.fileName }}</p>
-                            <input ref="fileInput" type="file" accept=".csv,text/csv" class="hidden" @change="handleFile" />
+                            <input ref="fileInput" type="file" accept=".csv,text/csv,.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hidden" @change="handleFile" />
                         </div>
                     </div>
 
@@ -278,28 +278,36 @@ function autoGuess() {
     targetFields.value.forEach(f => { if (state.mapping[f.key] === undefined) state.mapping[f.key] = -1 })
 }
 
-function handleFile(e: Event) {
+function applyRows(all: string[][]) {
+    if (all.length < 2) { state.error = 'Filen ser tom ud eller har ingen datarækker.'; return }
+    state.headers = all[0].map(h => (h ?? '').toString().trim())
+    state.rows = all.slice(1)
+    autoGuess()
+    state.step = 'map'
+}
+
+async function handleFile(e: Event) {
     const file = (e.target as HTMLInputElement).files?.[0]
     if (!file) return
     state.error = ''
     state.fileName = file.name
-    const reader = new FileReader()
-    reader.onload = () => {
-        try {
-            const text = String(reader.result ?? '')
+    const isExcel = /\.(xlsx|xls)$/i.test(file.name)
+    try {
+        if (isExcel) {
+            const XLSX = await import('xlsx')
+            const buffer = await file.arrayBuffer()
+            const wb = XLSX.read(new Uint8Array(buffer), { type: 'array' })
+            const sheet = wb.Sheets[wb.SheetNames[0]]
+            const all = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false, defval: '' }) as string[][]
+            applyRows(all.filter(r => Array.isArray(r) && r.some(c => (c ?? '').toString().trim() !== '')))
+        } else {
+            const text = await file.text()
             const firstLine = text.split(/\r?\n/)[0] ?? ''
-            const delimiter = detectDelimiter(firstLine)
-            const all = parseCsv(text, delimiter)
-            if (all.length < 2) { state.error = 'Filen ser tom ud eller har ingen datarækker.'; return }
-            state.headers = all[0].map(h => h.trim())
-            state.rows = all.slice(1)
-            autoGuess()
-            state.step = 'map'
-        } catch (err) {
-            state.error = 'Kunne ikke læse filen. Tjek at det er en gyldig CSV.'
+            applyRows(parseCsv(text, detectDelimiter(firstLine)))
         }
+    } catch (err) {
+        state.error = 'Kunne ikke læse filen. Tjek at det er en gyldig CSV- eller Excel-fil.'
     }
-    reader.readAsText(file, 'UTF-8')
 }
 
 function buildCsv(): string {
