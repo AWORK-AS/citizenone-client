@@ -1,0 +1,251 @@
+<template>
+    <div>
+        <Modal size="lg" :title="'Importér fra andet system'" :show="props.isModalOpen" @close="closeModal">
+            <template #modal-body>
+                <Alert type="danger" :text="state.error" v-if="state.error" />
+                <LoadingSpinner :isActive="state.isLoading">
+
+                    <!-- Step 1: upload -->
+                    <div v-if="state.step === 'upload'">
+                        <p class="text-sm text-slate-600">
+                            Eksportér borgerne fra dit nuværende system som CSV (fx "Gem som CSV" i Excel) og upload filen.
+                            Vi hjælper dig med at koble kolonnerne til CitizenOne i næste trin.
+                        </p>
+                        <div class="mt-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-primary transition-colors p-8 text-center cursor-pointer"
+                            @click="fileInput?.click()">
+                            <Icon name="ph:file-csv" class="mx-auto h-10 w-10 text-slate-300" />
+                            <p class="mt-2 text-sm text-slate-600">Klik for at vælge en CSV-fil</p>
+                            <p v-if="state.fileName" class="mt-2 text-sm font-medium text-primary">{{ state.fileName }}</p>
+                            <input ref="fileInput" type="file" accept=".csv,text/csv" class="hidden" @change="handleFile" />
+                        </div>
+                    </div>
+
+                    <!-- Step 2: map columns -->
+                    <div v-else-if="state.step === 'map'">
+                        <p class="text-sm text-slate-600">
+                            Kobl dine kolonner ({{ state.headers.length }} fundet, {{ state.rows.length }} rækker) til CitizenOne-felterne.
+                            Vi har gættet ud fra kolonnenavnene — ret hvor nødvendigt.
+                        </p>
+                        <div class="mt-4 space-y-2 max-h-80 overflow-y-auto pr-1">
+                            <div v-for="field in targetFields" :key="field.key"
+                                class="flex items-center justify-between gap-x-3 rounded-lg border border-slate-100 px-3 py-2">
+                                <span class="text-sm text-slate-800 w-1/2">
+                                    {{ field.label }}
+                                    <span v-if="field.required" class="text-red-500">*</span>
+                                </span>
+                                <select v-model="state.mapping[field.key]"
+                                    class="w-1/2 rounded-md border border-slate-200 px-2 py-1.5 text-sm focus:border-primary focus:ring-primary">
+                                    <option :value="-1">— Ignorér —</option>
+                                    <option v-for="(h, i) in state.headers" :key="i" :value="i">{{ h }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p v-if="!requiredMapped" class="mt-3 text-xs text-amber-600">
+                            Fornavn og efternavn skal kobles for at kunne importere.
+                        </p>
+                    </div>
+
+                    <!-- Step 3: preview -->
+                    <div v-else-if="state.step === 'preview'">
+                        <p class="text-sm text-slate-600">Forhåndsvisning af de første {{ previewRows.length }} af {{ state.rows.length }} rækker. Ser det rigtigt ud?</p>
+                        <div class="mt-3 overflow-x-auto rounded-lg border border-slate-100">
+                            <table class="min-w-full text-xs">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th v-for="field in mappedFields" :key="field.key" class="px-2 py-1.5 text-left font-medium text-slate-500 whitespace-nowrap">{{ field.label }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    <tr v-for="(row, ri) in previewRows" :key="ri">
+                                        <td v-for="field in mappedFields" :key="field.key" class="px-2 py-1.5 text-slate-700 whitespace-nowrap">{{ cell(row, field.key) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="mt-6 flex justify-between gap-x-3">
+                        <FormButton buttonStyle="cancel" @click="back">{{ state.step === 'upload' ? $t('cancel') : 'Tilbage' }}</FormButton>
+                        <FormButton v-if="state.step === 'map'" buttonStyle="primary" :disabled="!requiredMapped" @click="state.step = 'preview'">
+                            Forhåndsvis
+                        </FormButton>
+                        <FormButton v-else-if="state.step === 'preview'" buttonStyle="primary" @click="runImport">
+                            Importér {{ state.rows.length }} borgere
+                        </FormButton>
+                    </div>
+                </LoadingSpinner>
+            </template>
+        </Modal>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { citizenService } from '@/components/api/user/CitizenService'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
+
+const props = defineProps({
+    isModalOpen: { type: Boolean, required: true },
+})
+const emit = defineEmits(['close', 'imported'])
+const { successAlert } = useAlert()
+const { t } = useI18n()
+
+const fileInput = ref<HTMLInputElement | null>(null)
+
+// CitizenOne import template fields (must match the existing import headings)
+const targetFields = [
+    { key: 'firstname', label: 'Fornavn', required: true },
+    { key: 'lastname', label: 'Efternavn', required: true },
+    { key: 'cpr_number', label: 'CPR-nummer', required: false },
+    { key: 'birthday', label: 'Fødselsdato (ÅÅÅÅ-MM-DD)', required: false },
+    { key: 'gender', label: 'Køn (male/female)', required: false },
+    { key: 'email', label: 'E-mail', required: false },
+    { key: 'phone', label: 'Telefon', required: false },
+    { key: 'date_admitted', label: 'Indskrivningsdato', required: false },
+    { key: 'date_discharged', label: 'Udskrivningsdato', required: false },
+    { key: 'departments', label: 'Afdelinger (adskilt med ;)', required: false },
+] as { key: string; label: string; required: boolean }[]
+
+const synonyms: Record<string, string[]> = {
+    firstname: ['fornavn', 'firstname', 'first name', 'givenname', 'navn', 'name'],
+    lastname: ['efternavn', 'lastname', 'last name', 'surname', 'familienavn'],
+    cpr_number: ['cpr', 'cprnr', 'cpr-nr', 'cprnummer', 'personnummer', 'ssn', 'social'],
+    birthday: ['fødselsdato', 'fodselsdato', 'birthday', 'birthdate', 'dob', 'født', 'fodt'],
+    gender: ['køn', 'kon', 'gender', 'sex'],
+    email: ['email', 'e-mail', 'mail'],
+    phone: ['telefon', 'tlf', 'phone', 'mobil', 'mobile'],
+    date_admitted: ['indskrivning', 'indskrevet', 'admitted', 'startdato', 'opstart', 'start'],
+    date_discharged: ['udskrivning', 'udskrevet', 'discharged', 'slutdato', 'ophør', 'ophor', 'slut'],
+    departments: ['afdeling', 'afdelinger', 'department', 'departments', 'team', 'enhed', 'gruppe'],
+}
+
+const state = reactive({
+    step: 'upload' as 'upload' | 'map' | 'preview',
+    fileName: '',
+    headers: [] as string[],
+    rows: [] as string[][],
+    mapping: {} as Record<string, number>,
+    error: '',
+    isLoading: false,
+})
+
+const requiredMapped = computed(() =>
+    targetFields.filter(f => f.required).every(f => (state.mapping[f.key] ?? -1) >= 0))
+const mappedFields = computed(() => targetFields.filter(f => (state.mapping[f.key] ?? -1) >= 0))
+const previewRows = computed(() => state.rows.slice(0, 5))
+
+function cell(row: string[], key: string) {
+    const idx = state.mapping[key] ?? -1
+    return idx < 0 ? '' : (row[idx] ?? '')
+}
+
+function detectDelimiter(line: string) {
+    return (line.split(';').length > line.split(',').length) ? ';' : ','
+}
+
+// Minimal RFC-4180-ish CSV parser (handles quoted fields, embedded delimiters/newlines)
+function parseCsv(text: string, delimiter: string): string[][] {
+    const rows: string[][] = []
+    let field = '', row: string[] = [], inQuotes = false
+    text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+    for (let i = 0; i < text.length; i++) {
+        const c = text[i]
+        if (inQuotes) {
+            if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++ } else inQuotes = false }
+            else field += c
+        } else if (c === '"') inQuotes = true
+        else if (c === delimiter) { row.push(field); field = '' }
+        else if (c === '\n') { row.push(field); rows.push(row); field = ''; row = [] }
+        else field += c
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row) }
+    return rows.filter(r => r.some(c => c.trim() !== ''))
+}
+
+function autoGuess() {
+    state.mapping = {}
+    state.headers.forEach((h, i) => {
+        const norm = h.toLowerCase().replace(/[\s_\-.]/g, '')
+        for (const field of targetFields) {
+            if ((state.mapping[field.key] ?? -1) >= 0) continue
+            if (synonyms[field.key].some(s => norm.includes(s.replace(/[\s_\-.]/g, '')))) {
+                state.mapping[field.key] = i
+                break
+            }
+        }
+    })
+    targetFields.forEach(f => { if (state.mapping[f.key] === undefined) state.mapping[f.key] = -1 })
+}
+
+function handleFile(e: Event) {
+    const file = (e.target as HTMLInputElement).files?.[0]
+    if (!file) return
+    state.error = ''
+    state.fileName = file.name
+    const reader = new FileReader()
+    reader.onload = () => {
+        try {
+            const text = String(reader.result ?? '')
+            const firstLine = text.split(/\r?\n/)[0] ?? ''
+            const delimiter = detectDelimiter(firstLine)
+            const all = parseCsv(text, delimiter)
+            if (all.length < 2) { state.error = 'Filen ser tom ud eller har ingen datarækker.'; return }
+            state.headers = all[0].map(h => h.trim())
+            state.rows = all.slice(1)
+            autoGuess()
+            state.step = 'map'
+        } catch (err) {
+            state.error = 'Kunne ikke læse filen. Tjek at det er en gyldig CSV.'
+        }
+    }
+    reader.readAsText(file, 'UTF-8')
+}
+
+function buildCsv(): string {
+    const esc = (v: string) => /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v
+    const heading = targetFields.map(f => f.key).join(',')
+    const lines = state.rows.map(row =>
+        targetFields.map(f => {
+            const idx = state.mapping[f.key] ?? -1
+            return esc(idx < 0 ? '' : (row[idx] ?? '').trim())
+        }).join(','))
+    return [heading, ...lines].join('\n')
+}
+
+async function runImport() {
+    state.isLoading = true
+    state.error = ''
+    try {
+        const csv = buildCsv()
+        const file = new File([csv], 'citizenone-import.csv', { type: 'text/csv' })
+        const params = new FormData()
+        params.append('file', file)
+        const response = await citizenService.importCitizens(params)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, response?.message || 'Borgere importeret.')
+            emit('imported')
+            closeModal()
+        }
+    } catch (error: any) {
+        state.error = error?.message || 'Importen fejlede. Tjek mapping og datoformater (ÅÅÅÅ-MM-DD).'
+    }
+    state.isLoading = false
+}
+
+function back() {
+    if (state.step === 'preview') state.step = 'map'
+    else if (state.step === 'map') { reset(); state.step = 'upload' }
+    else closeModal()
+}
+
+function reset() {
+    state.fileName = ''; state.headers = []; state.rows = []; state.mapping = {}; state.error = ''
+}
+
+function closeModal() {
+    reset(); state.step = 'upload'
+    emit('close')
+}
+</script>
