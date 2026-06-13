@@ -30,6 +30,7 @@
             "dokumentation": "Dokumentation (planer, status, dokument)"
         },
         "groups": {
+            "migration": "Migrering",
             "komIGang": "Kom igång",
             "born": "Barn",
             "vagtplan": "Schema",
@@ -40,7 +41,7 @@
             "departments": { "title": "Skapa avdelningar", "desc": "Avdelningar strukturerar personal, barn och schema.", "tip": "T.ex. \"Avdelning Nord\" och \"Avdelning Syd\".", "cta": "Gå till Avdelningar" },
             "roles": { "title": "Roller och behörigheter", "desc": "Bestäm vad varje roll får se och göra.", "cta": "Gå till Roller" },
             "employees": { "title": "Bjud in personal", "desc": "Lägg till dina anställda så att de kan logga in.", "cta": "Gå till Personal" },
-            "import": { "title": "Importera från ditt gamla system", "desc": "Migrera klienter från ditt nuvarande system via en CSV-export.", "cta": "Starta import" },
+            "import": { "title": "Importera från ditt gamla system", "desc": "Migrera klienter, personal, journaler och scheman från ditt nuvarande system (CSV eller Excel).", "cta": "Starta import" },
             "children": { "title": "Skapa barn", "desc": "Lägg till barnen ni arbetar med.", "cta": "Gå till Barn" },
             "childData": { "title": "Stamdata och kontaktpersoner", "desc": "Fyll i stamdata, kontaktpersoner och handläggare.", "cta": "Gå till Barn" },
             "shiftTypes": { "title": "Skapa skifttyper och regler", "desc": "Definiera skifttyper och arbetstidsregler.", "cta": "Gå till Skiftregler" },

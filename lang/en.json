@@ -30,6 +30,7 @@
             "dokumentation": "Documentation (plans, status, documents)"
         },
         "groups": {
+            "migration": "Migration",
             "komIGang": "Get started",
             "born": "Children",
             "vagtplan": "Duty schedule",
@@ -40,7 +41,7 @@
             "departments": { "title": "Create departments", "desc": "Departments structure staff, children and the duty schedule.", "tip": "E.g. \"North department\" and \"South department\".", "cta": "Go to Departments" },
             "roles": { "title": "Roles & permissions", "desc": "Decide what each role can see and do.", "cta": "Go to Roles" },
             "employees": { "title": "Invite staff", "desc": "Add your employees so they can log in.", "cta": "Go to Staff" },
-            "import": { "title": "Import from your old system", "desc": "Migrate citizens from your current system via a CSV export.", "cta": "Start import" },
+            "import": { "title": "Import from your old system", "desc": "Migrate citizens, staff, journals and schedules from your current system (CSV or Excel).", "cta": "Start import" },
             "children": { "title": "Create children", "desc": "Add the children you work with.", "cta": "Go to Children" },
             "childData": { "title": "Master data & contacts", "desc": "Fill in master data, contacts and caseworker.", "cta": "Go to Children" },
             "shiftTypes": { "title": "Create shift types & rules", "desc": "Define shift types and working-time rules.", "cta": "Go to Shift rules" },

@@ -155,7 +155,7 @@ const moduleOptions = [
 const modules = reactive<Record<string, boolean>>({ vagtplan: true, medicin: true, dokumentation: true })
 
 const state = reactive({
-    open: { komIGang: true } as Record<string, boolean>,
+    open: { migration: true, komIGang: true } as Record<string, boolean>,
     done: { departments: false, employees: false, citizens: false, shiftTags: false } as Record<string, boolean>,
     modal: { whatDoYouNeed: false, appInfo: false, importMapper: false },
 })
@@ -172,6 +172,12 @@ function onImported(type: string) {
 // --- Step definitions (copy lives in i18n: discover.groups.* / discover.steps.*) ---
 const groups = [
     {
+        key: 'migration', icon: 'ph:download-simple', module: null,
+        steps: [
+            { key: 'import', action: 'import' },
+        ],
+    },
+    {
         key: 'komIGang', icon: 'ph:buildings', module: null,
         steps: [
             { key: 'departments', tip: true, route: '/settings/departments', doneKey: 'departments' },
@@ -182,7 +188,6 @@ const groups = [
     {
         key: 'born', icon: 'ph:users-three', module: null,
         steps: [
-            { key: 'import', action: 'import' },
             { key: 'children', route: '/citizens', doneKey: 'citizens' },
             { key: 'childData', route: '/citizens' },
         ],
