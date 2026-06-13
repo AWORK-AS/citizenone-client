@@ -40,6 +40,13 @@
                             <p v-if="state.fileName" class="mt-2 text-sm font-medium text-primary">{{ state.fileName }}</p>
                             <input ref="fileInput" type="file" accept=".csv,text/csv,.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hidden" @change="handleFile" />
                         </div>
+                        <div class="mt-3 text-center">
+                            <button type="button" @click="downloadTemplate"
+                                class="inline-flex items-center gap-x-1.5 text-sm text-primary font-medium hover:text-primary-700">
+                                <Icon name="ph:download-simple" class="h-4 w-4" />
+                                Download skabelon for {{ entity.label.toLowerCase() }}
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Step 2: map columns -->
@@ -282,6 +289,28 @@ function sampleFor(i: number) {
 function dropOnField(key: string) {
     if (dragIndex.value >= 0) state.mapping[key] = dragIndex.value
     dragIndex.value = -1
+}
+
+// Example values for the downloadable per-entity template.
+const exampleValues: Record<string, string> = {
+    firstname: 'Anna', lastname: 'Hansen', cpr_number: '010190-1234', cpr: '010190-1234',
+    birthday: '1990-01-01', gender: 'female', email: 'anna@eksempel.dk', phone: '12345678',
+    date_admitted: '2026-01-15', date_discharged: '', departments: 'Afdeling Nord',
+    seniority_date: '2020-08-01', shift: 'Dagvagt', date: '2026-05-01',
+    title: 'Uge 18', content: 'Notat-tekst her', start_time: '08:00', end_time: '16:00',
+}
+
+function downloadTemplate() {
+    const esc = (v: string) => /[",\n;]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v
+    const headers = targetFields.value.map(f => esc(f.label))
+    const example = targetFields.value.map(f => esc(exampleValues[f.key] ?? ''))
+    const csv = '﻿' + [headers.join(';'), example.join(';')].join('\n')
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(blob)
+    a.download = `citizenone-skabelon-${state.entityKey}.csv`
+    a.click()
+    URL.revokeObjectURL(a.href)
 }
 
 function detectDelimiter(line: string) {
