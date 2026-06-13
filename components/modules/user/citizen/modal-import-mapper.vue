@@ -117,6 +117,15 @@
                         </p>
                     </div>
 
+                    <!-- Importing (batched) -->
+                    <div v-else-if="state.step === 'importing'" class="py-10 text-center">
+                        <p class="text-sm text-slate-600">Importerer…</p>
+                        <div class="mt-3 mx-auto w-64 h-2 rounded-full bg-slate-100 overflow-hidden">
+                            <div class="h-full bg-primary transition-all duration-300" :style="{ width: progressPct + '%' }" />
+                        </div>
+                        <p class="mt-2 text-xs text-slate-400">{{ state.progress.done }} / {{ state.progress.total }}</p>
+                    </div>
+
                     <!-- Step 4: done / summary -->
                     <div v-else-if="state.step === 'done'" class="text-center py-2">
                         <Icon name="ph:check-circle-fill" class="mx-auto h-12 w-12 text-emerald-500" />
@@ -133,7 +142,7 @@
                     </div>
 
                     <!-- Footer -->
-                    <div class="mt-6 flex justify-between gap-x-3">
+                    <div class="mt-6 flex justify-between gap-x-3" v-if="state.step !== 'importing'">
                         <FormButton buttonStyle="cancel" @click="back">
                             {{ state.step === 'type' ? $t('cancel') : (state.step === 'done' ? 'Luk' : 'Tilbage') }}
                         </FormButton>
@@ -240,8 +249,9 @@ const synonyms: Record<string, string[]> = {
 }
 
 const state = reactive({
-    step: 'type' as 'type' | 'upload' | 'map' | 'preview' | 'done',
+    step: 'type' as 'type' | 'upload' | 'map' | 'preview' | 'importing' | 'done',
     entityKey: 'citizens',
+    progress: { done: 0, total: 0 },
     fileName: '',
     headers: [] as string[],
     rows: [] as string[][],
@@ -254,6 +264,7 @@ const state = reactive({
 
 const summaryUnmatched = computed(() => (state.summary?.unmatched_count ?? 0)
     + (state.summary?.unmatched_employee_count ?? 0) + (state.summary?.unmatched_shift_count ?? 0))
+const progressPct = computed(() => state.progress.total ? Math.round(state.progress.done / state.progress.total * 100) : 0)
 
 const entity = computed(() => entityTypes.find(e => e.key === state.entityKey) ?? entityTypes[0])
 const targetFields = computed(() => entity.value.fields as { key: string; label: string; required: boolean }[])
@@ -411,7 +422,8 @@ async function runImport() {
         if (entity.value.mode === 'json') {
             // Relational entities (journals/schedules) post mapped rows as JSON;
             // the backend matches to citizen/employee and returns a summary.
-            const rows = state.rows.map(row => {
+            // Sent in batches so any file size stays within request limits + shows progress.
+            const allRows = state.rows.map(row => {
                 const obj: Record<string, string> = {}
                 targetFields.value.forEach(f => {
                     const idx = state.mapping[f.key] ?? -1
@@ -419,8 +431,26 @@ async function runImport() {
                 })
                 return obj
             })
-            const response = await entity.value.importFn({ rows })
-            state.summary = response ?? {}
+            const CHUNK = 300
+            const acc: any = { created: 0, unmatched_count: 0, unmatched_employee_count: 0, unmatched_shift_count: 0, unmatched: [], unmatched_employee: [], unmatched_shift: [] }
+            const pushCapped = (arr: string[], add: any) => { if (Array.isArray(add)) for (const v of add) if (arr.length < 100) arr.push(v) }
+
+            state.progress = { done: 0, total: allRows.length }
+            state.step = 'importing'
+
+            for (let i = 0; i < allRows.length; i += CHUNK) {
+                const chunk = allRows.slice(i, i + CHUNK)
+                const res: any = await entity.value.importFn({ rows: chunk })
+                acc.created += res?.created ?? 0
+                acc.unmatched_count += res?.unmatched_count ?? 0
+                acc.unmatched_employee_count += res?.unmatched_employee_count ?? 0
+                acc.unmatched_shift_count += res?.unmatched_shift_count ?? 0
+                pushCapped(acc.unmatched, res?.unmatched)
+                pushCapped(acc.unmatched_employee, res?.unmatched_employee)
+                pushCapped(acc.unmatched_shift, res?.unmatched_shift)
+                state.progress.done = Math.min(i + CHUNK, allRows.length)
+            }
+            state.summary = acc
             emit('imported', state.entityKey)
             state.step = 'done'
         } else {
@@ -454,6 +484,7 @@ function resetFile() {
 
 function closeModal() {
     resetFile(); state.step = 'type'; state.entityKey = 'citizens'; state.summary = null
+    state.progress = { done: 0, total: 0 }
     emit('close')
 }
 </script>
