@@ -40,6 +40,7 @@
             "departments": { "title": "Opret afdelinger", "desc": "Afdelinger strukturerer personale, børn og vagtplan.", "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".", "cta": "Gå til Afdelinger" },
             "roles": { "title": "Roller & rettigheder", "desc": "Bestem hvad de forskellige roller må se og gøre.", "cta": "Gå til Roller" },
             "employees": { "title": "Inviter personale", "desc": "Tilføj jeres medarbejdere, så de kan logge ind.", "cta": "Gå til Personale" },
+            "import": { "title": "Importér fra dit gamle system", "desc": "Migrér borgere fra dit nuværende system via en CSV-eksport.", "cta": "Start import" },
             "children": { "title": "Opret børn", "desc": "Opret de børn I arbejder med.", "cta": "Gå til Børn" },
             "childData": { "title": "Stamdata & kontaktpersoner", "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.", "cta": "Gå til Børn" },
             "shiftTypes": { "title": "Opret vagttyper & regler", "desc": "Definér vagttyper og arbejdstidsregler.", "cta": "Gå til Vagtregler" },

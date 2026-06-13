@@ -70,7 +70,7 @@
                                     <span>{{ $t(`discover.steps.${step.key}.tip`) }}</span>
                                 </div>
                                 <div class="mt-3" v-if="!stepDone(step)">
-                                    <button type="button" v-if="!stepLocked(group, i)" @click="navigateTo(step.route)"
+                                    <button type="button" v-if="!stepLocked(group, i)" @click="step.action ? runStepAction(step.action) : navigateTo(step.route)"
                                         class="inline-flex items-center gap-x-1.5 rounded-lg bg-primary text-white px-3.5 py-2 text-sm font-medium hover:bg-[#0d3f61] transition-colors">
                                         {{ $t(`discover.steps.${step.key}.cta`) }}
                                         <Icon name="ph:arrow-right" class="h-4 w-4" />
@@ -125,6 +125,9 @@
                 :message="$t('discover.appInfoMessage')"
                 @close="state.modal.appInfo = false" @confirm="state.modal.appInfo = false" />
 
+            <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.importMapper"
+                @close="state.modal.importMapper = false" @imported="state.done.citizens = true" />
+
         </NuxtLayout>
     </div>
 </template>
@@ -154,8 +157,12 @@ const modules = reactive<Record<string, boolean>>({ vagtplan: true, medicin: tru
 const state = reactive({
     open: { komIGang: true } as Record<string, boolean>,
     done: { departments: false, employees: false, citizens: false, shiftTags: false } as Record<string, boolean>,
-    modal: { whatDoYouNeed: false, appInfo: false },
+    modal: { whatDoYouNeed: false, appInfo: false, importMapper: false },
 })
+
+function runStepAction(action: string) {
+    if (action === 'import') state.modal.importMapper = true
+}
 
 // --- Step definitions (copy lives in i18n: discover.groups.* / discover.steps.*) ---
 const groups = [
@@ -170,6 +177,7 @@ const groups = [
     {
         key: 'born', icon: 'ph:users-three', module: null,
         steps: [
+            { key: 'import', action: 'import' },
             { key: 'children', route: '/citizens', doneKey: 'citizens' },
             { key: 'childData', route: '/citizens' },
         ],
