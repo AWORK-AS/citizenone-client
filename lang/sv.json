@@ -1,4 +1,41 @@
 {
+    "discover": {
+        "welcome": "Välkommen, {name}",
+        "subtitle": "Här är din snabbguide för att få CitizenOne uppsatt och igång för ditt team.",
+        "whatDoYouNeed": "Vad behöver du?",
+        "stepsProgress": "{done} av {total} steg slutförda",
+        "groupProgress": "{done} av {total} slutförda",
+        "lockedHint": "Slutför steget ovan först",
+        "promoTitle": "Arbeta var som helst, på vilken enhet som helst",
+        "promoDesc": "Ladda ner appen så att du alltid har CitizenOne till hands.",
+        "promoCta": "Hämta appen",
+        "appInfoMessage": "App Store- och Google Play-länkar visas här i den riktiga versionen.",
+        "modalIntro": "Välj de delar ni använder — så visar vi bara relevanta steg.",
+        "modules": {
+            "vagtplan": "Schema",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation (planer, status, dokument)"
+        },
+        "groups": {
+            "komIGang": "Kom igång",
+            "born": "Barn",
+            "vagtplan": "Schema",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation"
+        },
+        "steps": {
+            "departments": { "title": "Skapa avdelningar", "desc": "Avdelningar strukturerar personal, barn och schema.", "tip": "T.ex. \"Avdelning Nord\" och \"Avdelning Syd\".", "cta": "Gå till Avdelningar" },
+            "roles": { "title": "Roller och behörigheter", "desc": "Bestäm vad varje roll får se och göra.", "cta": "Gå till Roller" },
+            "employees": { "title": "Bjud in personal", "desc": "Lägg till dina anställda så att de kan logga in.", "cta": "Gå till Personal" },
+            "children": { "title": "Skapa barn", "desc": "Lägg till barnen ni arbetar med.", "cta": "Gå till Barn" },
+            "childData": { "title": "Stamdata och kontaktpersoner", "desc": "Fyll i stamdata, kontaktpersoner och handläggare.", "cta": "Gå till Barn" },
+            "shiftTypes": { "title": "Skapa skifttyper och regler", "desc": "Definiera skifttyper och arbetstidsregler.", "cta": "Gå till Skiftregler" },
+            "shiftTags": { "title": "Lägg till skift-taggar", "desc": "Taggar gör det enkelt att filtrera skift senare.", "cta": "Gå till Skift-taggar" },
+            "schedule": { "title": "Bygg schemat", "desc": "Planera de första skiften för ditt team.", "cta": "Gå till Schema" },
+            "medicine": { "title": "Ställ in medicin", "desc": "Lägg till medicintyper och doseringsformer.", "cta": "Gå till Medicin" },
+            "templates": { "title": "Statusmallar och planer", "desc": "Ställ in mallar för status, planer och mål.", "cta": "Gå till Inställningar" }
+        }
+    },
     "2fa": {
         "2fa": "Tvåfaktorsautentisering",
         "alert": {

@@ -1,4 +1,41 @@
 {
+    "discover": {
+        "welcome": "Velkommen, {name}",
+        "subtitle": "Her er din hurtige guide til at få CitizenOne sat op og i gang for jeres team.",
+        "whatDoYouNeed": "Hvad skal du bruge?",
+        "stepsProgress": "{done} af {total} trin fuldført",
+        "groupProgress": "{done} af {total} fuldført",
+        "lockedHint": "Færdiggør trinnet ovenfor først",
+        "promoTitle": "Arbejd hvor som helst, på enhver enhed",
+        "promoDesc": "Hent appen, så I altid har CitizenOne ved hånden.",
+        "promoCta": "Hent appen",
+        "appInfoMessage": "App-links til App Store og Google Play kommer her i den rigtige version.",
+        "modalIntro": "Vælg de dele I bruger — så viser vi kun de relevante trin.",
+        "modules": {
+            "vagtplan": "Vagtplan",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation (planer, status, dokumenter)"
+        },
+        "groups": {
+            "komIGang": "Kom i gang",
+            "born": "Børn",
+            "vagtplan": "Vagtplan",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation"
+        },
+        "steps": {
+            "departments": { "title": "Opret afdelinger", "desc": "Afdelinger strukturerer personale, børn og vagtplan.", "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".", "cta": "Gå til Afdelinger" },
+            "roles": { "title": "Roller & rettigheder", "desc": "Bestem hvad de forskellige roller må se og gøre.", "cta": "Gå til Roller" },
+            "employees": { "title": "Inviter personale", "desc": "Tilføj jeres medarbejdere, så de kan logge ind.", "cta": "Gå til Personale" },
+            "children": { "title": "Opret børn", "desc": "Opret de børn I arbejder med.", "cta": "Gå til Børn" },
+            "childData": { "title": "Stamdata & kontaktpersoner", "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.", "cta": "Gå til Børn" },
+            "shiftTypes": { "title": "Opret vagttyper & regler", "desc": "Definér vagttyper og arbejdstidsregler.", "cta": "Gå til Vagtregler" },
+            "shiftTags": { "title": "Tilføj vagt-tags", "desc": "Tags gør det let at filtrere vagter senere.", "cta": "Gå til Vagt-tags" },
+            "schedule": { "title": "Lav vagtplanen", "desc": "Planlæg de første vagter for jeres team.", "cta": "Gå til Vagtplan" },
+            "medicine": { "title": "Opsæt medicin", "desc": "Tilføj medicintyper og doseringsformer.", "cta": "Gå til Medicin" },
+            "templates": { "title": "Statusskabeloner & planer", "desc": "Opsæt skabeloner til status, planer og mål.", "cta": "Gå til Indstillinger" }
+        }
+    },
     "2fa": {
         "2fa": "To-faktor-godkendelse",
         "alert": {

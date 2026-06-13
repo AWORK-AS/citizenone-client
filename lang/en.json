@@ -1,4 +1,41 @@
 {
+    "discover": {
+        "welcome": "Welcome, {name}",
+        "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
+        "whatDoYouNeed": "What do you need?",
+        "stepsProgress": "{done} of {total} steps completed",
+        "groupProgress": "{done} of {total} completed",
+        "lockedHint": "Complete the step above first",
+        "promoTitle": "Work from anywhere, on any device",
+        "promoDesc": "Download the app to always have CitizenOne on hand.",
+        "promoCta": "Get the app",
+        "appInfoMessage": "App Store and Google Play links will appear here in the real version.",
+        "modalIntro": "Pick the parts you use — we'll only show the relevant steps.",
+        "modules": {
+            "vagtplan": "Duty schedule",
+            "medicin": "Medicine",
+            "dokumentation": "Documentation (plans, status, documents)"
+        },
+        "groups": {
+            "komIGang": "Get started",
+            "born": "Children",
+            "vagtplan": "Duty schedule",
+            "medicin": "Medicine",
+            "dokumentation": "Documentation"
+        },
+        "steps": {
+            "departments": { "title": "Create departments", "desc": "Departments structure staff, children and the duty schedule.", "tip": "E.g. \"North department\" and \"South department\".", "cta": "Go to Departments" },
+            "roles": { "title": "Roles & permissions", "desc": "Decide what each role can see and do.", "cta": "Go to Roles" },
+            "employees": { "title": "Invite staff", "desc": "Add your employees so they can log in.", "cta": "Go to Staff" },
+            "children": { "title": "Create children", "desc": "Add the children you work with.", "cta": "Go to Children" },
+            "childData": { "title": "Master data & contacts", "desc": "Fill in master data, contacts and caseworker.", "cta": "Go to Children" },
+            "shiftTypes": { "title": "Create shift types & rules", "desc": "Define shift types and working-time rules.", "cta": "Go to Shift rules" },
+            "shiftTags": { "title": "Add shift tags", "desc": "Tags make it easy to filter shifts later.", "cta": "Go to Shift tags" },
+            "schedule": { "title": "Build the duty schedule", "desc": "Plan the first shifts for your team.", "cta": "Go to Duty schedule" },
+            "medicine": { "title": "Set up medicine", "desc": "Add medicine types and dosage forms.", "cta": "Go to Medicine" },
+            "templates": { "title": "Status templates & plans", "desc": "Set up templates for status, plans and goals.", "cta": "Go to Settings" }
+        }
+    },
     "2fa": {
         "2fa": "Two factor authentication",
         "alert": {
