@@ -133,6 +133,7 @@
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { userService } from '@/components/api/user/UserService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { companyService } from '@/components/api/user/CompanyService'
 import { useUserStore } from '@/store/user'
 
@@ -152,7 +153,7 @@ const modules = reactive<Record<string, boolean>>({ vagtplan: true, medicin: tru
 
 const state = reactive({
     open: { komIGang: true } as Record<string, boolean>,
-    done: { departments: false, employees: false, citizens: false } as Record<string, boolean>,
+    done: { departments: false, employees: false, citizens: false, shiftTags: false } as Record<string, boolean>,
     modal: { whatDoYouNeed: false, appInfo: false },
 })
 
@@ -177,7 +178,7 @@ const groups = [
         key: 'vagtplan', icon: 'ph:calendar-dots', module: 'vagtplan',
         steps: [
             { key: 'shiftTypes', route: '/settings/duty-shift-rules' },
-            { key: 'shiftTags', route: '/settings/schedule-tags' },
+            { key: 'shiftTags', route: '/settings/schedule-tags', doneKey: 'shiftTags' },
             { key: 'schedule', route: '/schedules' },
         ],
     },
@@ -239,14 +240,16 @@ onMounted(async () => {
     }
     // Data-derived completion (a few easy ones)
     try {
-        const [d, u, c] = await Promise.all([
+        const [d, u, c, tags] = await Promise.all([
             departmentService.getAllDepartments({}).catch(() => null),
             userService.getAllUsers({}).catch(() => null),
             citizenService.getAllCitizens({}).catch(() => null),
+            scheduleTagService.getAllScheduleTags({}).catch(() => null),
         ])
         state.done.departments = (d?.data?.length ?? 0) > 0
         state.done.employees = (u?.data?.length ?? 0) > 1
         state.done.citizens = (c?.data?.length ?? 0) > 0
+        state.done.shiftTags = (tags?.data?.length ?? 0) > 0
     } catch (e) { }
 })
 </script>

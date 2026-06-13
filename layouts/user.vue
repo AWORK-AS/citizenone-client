@@ -669,9 +669,22 @@ async function fetchUser() {
             plansGoalsSubgoalsCompletionReminderModalVisibility(response)
             checkInReminderModalVisibility(response)
             guidedUserTourModalVisibility()
-
+            maybeRedirectToDiscover(response?.data)
         }
     } catch (error: any) { state.error = error }
+}
+
+// New companies (admin, no onboarding preferences set yet) land on Discover
+// once per session; once they save "what do you need" they land on the dashboard.
+function maybeRedirectToDiscover(user: any) {
+    if (typeof window === 'undefined') return
+    if (sessionStorage.getItem('discover_landing_done')) return
+    const prefs = user?.company?.onboarding_preferences
+    const isFresh = !prefs || (typeof prefs === 'object' && Object.keys(prefs).length === 0)
+    if (isAtLeast('Admin') && isFresh && routeName === 'overview') {
+        sessionStorage.setItem('discover_landing_done', '1')
+        navigateTo('/discover')
+    }
 }
 
 function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
