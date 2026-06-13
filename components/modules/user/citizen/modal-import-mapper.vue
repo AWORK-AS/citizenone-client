@@ -43,42 +43,66 @@
                             Kobl dine kolonner ({{ state.headers.length }} fundet, {{ state.rows.length }} rækker) til CitizenOne-felterne.
                             Vi har gættet ud fra kolonnenavnene — ret hvor nødvendigt.
                         </p>
-                        <div class="mt-4 space-y-2 max-h-80 overflow-y-auto pr-1">
-                            <div v-for="field in targetFields" :key="field.key"
-                                class="flex items-center justify-between gap-x-3 rounded-lg border border-slate-100 px-3 py-2">
-                                <span class="text-sm text-slate-800 w-1/2">
-                                    {{ field.label }}
-                                    <span v-if="field.required" class="text-red-500">*</span>
-                                </span>
-                                <select v-model="state.mapping[field.key]"
-                                    class="w-1/2 rounded-md border border-slate-200 px-2 py-1.5 text-sm focus:border-primary focus:ring-primary">
-                                    <option :value="-1">— Ignorér —</option>
-                                    <option v-for="(h, i) in state.headers" :key="i" :value="i">{{ h }}</option>
-                                </select>
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Your columns (draggable) -->
+                            <div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Dine kolonner — træk dem over</p>
+                                <div class="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+                                    <div v-for="(h, i) in state.headers" :key="i" draggable="true"
+                                        @dragstart="dragIndex = i" @dragend="dragIndex = -1"
+                                        class="flex items-center gap-x-2 rounded-lg border px-3 py-2 cursor-grab active:cursor-grabbing transition-colors"
+                                        :class="isHeaderUsed(i) ? 'border-emerald-200 bg-emerald-50' : 'border-slate-200 bg-white hover:border-primary'">
+                                        <Icon name="ph:dots-six-vertical" class="h-4 w-4 text-slate-300 shrink-0" />
+                                        <div class="min-w-0">
+                                            <p class="text-sm text-slate-800 truncate">{{ h || '(uden navn)' }}</p>
+                                            <p class="text-[11px] text-slate-400 truncate">{{ sampleFor(i) }}</p>
+                                        </div>
+                                        <Icon v-if="isHeaderUsed(i)" name="ph:check-circle-fill" class="ml-auto h-4 w-4 text-emerald-500 shrink-0" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- CitizenOne fields (drop zones) -->
+                            <div>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">CitizenOne-felter</p>
+                                <div class="space-y-1.5 max-h-64 overflow-y-auto pr-1">
+                                    <div v-for="field in targetFields" :key="field.key"
+                                        @dragover.prevent @drop="dropOnField(field.key)"
+                                        class="rounded-lg border px-3 py-2 transition-colors"
+                                        :class="[(state.mapping[field.key] ?? -1) >= 0 ? 'border-primary/40 bg-primary-25' : 'border-dashed border-slate-300', dragIndex >= 0 ? 'ring-1 ring-primary/30' : '']">
+                                        <div class="flex items-center justify-between gap-x-2">
+                                            <span class="text-sm text-slate-700">{{ field.label }}<span v-if="field.required" class="text-red-500"> *</span></span>
+                                            <span v-if="(state.mapping[field.key] ?? -1) >= 0" class="flex items-center gap-x-1 text-xs text-primary font-medium max-w-[55%] truncate">
+                                                <span class="truncate">{{ state.headers[state.mapping[field.key]] || '(kolonne)' }}</span>
+                                                <button type="button" @click="state.mapping[field.key] = -1" class="hover:text-red-500 shrink-0"><Icon name="ph:x" class="h-3.5 w-3.5" /></button>
+                                            </span>
+                                            <span v-else class="text-xs text-slate-400">Træk en kolonne hertil</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live preview -->
+                        <div v-if="mappedFields.length" class="mt-4">
+                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Forhåndsvisning</p>
+                            <div class="overflow-x-auto rounded-lg border border-slate-100">
+                                <table class="min-w-full text-xs">
+                                    <thead class="bg-slate-50">
+                                        <tr>
+                                            <th v-for="field in mappedFields" :key="field.key" class="px-2 py-1.5 text-left font-medium text-slate-500 whitespace-nowrap">{{ field.label }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100">
+                                        <tr v-for="(row, ri) in previewRows" :key="ri">
+                                            <td v-for="field in mappedFields" :key="field.key" class="px-2 py-1.5 text-slate-700 max-w-[16rem] truncate">{{ cell(row, field.key) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <p v-if="!requiredMapped" class="mt-3 text-xs text-amber-600">
-                            Fornavn og efternavn skal kobles for at kunne importere.
+                            De obligatoriske felter (*) skal kobles for at kunne importere.
                         </p>
-                    </div>
-
-                    <!-- Step 3: preview -->
-                    <div v-else-if="state.step === 'preview'">
-                        <p class="text-sm text-slate-600">Forhåndsvisning af de første {{ previewRows.length }} af {{ state.rows.length }} rækker. Ser det rigtigt ud?</p>
-                        <div class="mt-3 overflow-x-auto rounded-lg border border-slate-100">
-                            <table class="min-w-full text-xs">
-                                <thead class="bg-slate-50">
-                                    <tr>
-                                        <th v-for="field in mappedFields" :key="field.key" class="px-2 py-1.5 text-left font-medium text-slate-500 whitespace-nowrap">{{ field.label }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-100">
-                                    <tr v-for="(row, ri) in previewRows" :key="ri">
-                                        <td v-for="field in mappedFields" :key="field.key" class="px-2 py-1.5 text-slate-700 whitespace-nowrap">{{ cell(row, field.key) }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
 
                     <!-- Step 4: done / summary -->
@@ -101,10 +125,7 @@
                         <FormButton buttonStyle="cancel" @click="back">
                             {{ state.step === 'type' ? $t('cancel') : (state.step === 'done' ? 'Luk' : 'Tilbage') }}
                         </FormButton>
-                        <FormButton v-if="state.step === 'map'" buttonStyle="primary" :disabled="!requiredMapped" @click="state.step = 'preview'">
-                            Forhåndsvis
-                        </FormButton>
-                        <FormButton v-else-if="state.step === 'preview'" buttonStyle="primary" @click="runImport">
+                        <FormButton v-if="state.step === 'map'" buttonStyle="primary" :disabled="!requiredMapped" @click="runImport">
                             Importér {{ state.rows.length }} {{ entity.label.toLowerCase() }}
                         </FormButton>
                     </div>
@@ -238,6 +259,23 @@ function selectType(key: string) {
 function cell(row: string[], key: string) {
     const idx = state.mapping[key] ?? -1
     return idx < 0 ? '' : (row[idx] ?? '')
+}
+
+// --- drag & drop mapping ---
+const dragIndex = ref(-1)
+
+function isHeaderUsed(i: number) {
+    return Object.values(state.mapping).includes(i)
+}
+
+function sampleFor(i: number) {
+    const r = state.rows.find(row => ((row[i] ?? '').toString().trim() !== ''))
+    return r ? (r[i] ?? '').toString().slice(0, 40) : ''
+}
+
+function dropOnField(key: string) {
+    if (dragIndex.value >= 0) state.mapping[key] = dragIndex.value
+    dragIndex.value = -1
 }
 
 function detectDelimiter(line: string) {
