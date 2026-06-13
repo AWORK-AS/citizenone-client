@@ -81,9 +81,26 @@
                         </div>
                     </div>
 
+                    <!-- Step 4: done / summary -->
+                    <div v-else-if="state.step === 'done'" class="text-center py-2">
+                        <Icon name="ph:check-circle-fill" class="mx-auto h-12 w-12 text-emerald-500" />
+                        <p class="mt-2 text-lg font-semibold text-slate-900">{{ state.summary?.created ?? 0 }} importeret</p>
+                        <p v-if="summaryUnmatched > 0" class="mt-1 text-sm text-amber-600">
+                            {{ summaryUnmatched }} række(r) kunne ikke matches og blev sprunget over.
+                        </p>
+                        <p v-else class="mt-1 text-sm text-slate-500">Alle rækker blev importeret.</p>
+                        <div v-if="summaryUnmatched > 0" class="mt-3 text-left text-xs text-slate-500 max-h-40 overflow-y-auto rounded-lg bg-slate-50 p-3">
+                            <p v-if="state.summary?.unmatched?.length"><strong>Ikke-matchede CPR:</strong> {{ state.summary.unmatched.join(', ') }}</p>
+                            <p v-if="state.summary?.unmatched_employee?.length"><strong>Ikke-matchede e-mails:</strong> {{ state.summary.unmatched_employee.join(', ') }}</p>
+                            <p v-if="state.summary?.unmatched_shift?.length"><strong>Ukendte vagttyper:</strong> {{ state.summary.unmatched_shift.join(', ') }}</p>
+                        </div>
+                    </div>
+
                     <!-- Footer -->
                     <div class="mt-6 flex justify-between gap-x-3">
-                        <FormButton buttonStyle="cancel" @click="back">{{ state.step === 'type' ? $t('cancel') : 'Tilbage' }}</FormButton>
+                        <FormButton buttonStyle="cancel" @click="back">
+                            {{ state.step === 'type' ? $t('cancel') : (state.step === 'done' ? 'Luk' : 'Tilbage') }}
+                        </FormButton>
                         <FormButton v-if="state.step === 'map'" buttonStyle="primary" :disabled="!requiredMapped" @click="state.step = 'preview'">
                             Forhåndsvis
                         </FormButton>
@@ -100,6 +117,8 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { userService } from '@/components/api/user/UserService'
+import { journalService } from '@/components/api/user/JournalService'
+import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -115,7 +134,7 @@ const fileInput = ref<HTMLInputElement | null>(null)
 // Each entity reuses its existing import endpoint; fields match that import's template headings.
 const entityTypes = [
     {
-        key: 'citizens', label: 'Børn / borgere', icon: 'ph:users-three', available: true,
+        key: 'citizens', label: 'Børn / borgere', icon: 'ph:users-three', available: true, mode: 'file',
         importFn: (fd: FormData) => citizenService.importCitizens(fd),
         fields: [
             { key: 'firstname', label: 'Fornavn', required: true },
@@ -131,7 +150,7 @@ const entityTypes = [
         ],
     },
     {
-        key: 'employees', label: 'Ansatte', icon: 'ph:identification-badge', available: true,
+        key: 'employees', label: 'Ansatte', icon: 'ph:identification-badge', available: true, mode: 'file',
         importFn: (fd: FormData) => userService.importEmployees(fd),
         fields: [
             { key: 'firstname', label: 'Fornavn', required: true },
@@ -143,8 +162,27 @@ const entityTypes = [
             { key: 'departments', label: 'Afdelinger (adskilt med ;)', required: false },
         ],
     },
-    { key: 'journals', label: 'Journalnotater', icon: 'ph:note-pencil', available: false, importFn: null, fields: [] },
-    { key: 'schedules', label: 'Vagtplaner', icon: 'ph:calendar-dots', available: false, importFn: null, fields: [] },
+    {
+        key: 'journals', label: 'Journalnotater', icon: 'ph:note-pencil', available: true, mode: 'json',
+        importFn: (payload: object) => journalService.importMappedJournals(payload),
+        fields: [
+            { key: 'cpr', label: 'Borgerens CPR-nummer (match)', required: true },
+            { key: 'date', label: 'Dato (ÅÅÅÅ-MM-DD)', required: false },
+            { key: 'title', label: 'Titel', required: false },
+            { key: 'content', label: 'Notat-tekst', required: false },
+        ],
+    },
+    {
+        key: 'schedules', label: 'Vagtplaner', icon: 'ph:calendar-dots', available: true, mode: 'json',
+        importFn: (payload: object) => dutyScheduleService.importMappedSchedules(payload),
+        fields: [
+            { key: 'email', label: 'Medarbejderens e-mail (match)', required: true },
+            { key: 'shift', label: 'Vagttype (navn)', required: true },
+            { key: 'date', label: 'Dato (ÅÅÅÅ-MM-DD)', required: true },
+            { key: 'start_time', label: 'Starttid (TT:MM)', required: false },
+            { key: 'end_time', label: 'Sluttid (TT:MM)', required: false },
+        ],
+    },
 ] as any[]
 
 const synonyms: Record<string, string[]> = {
@@ -159,18 +197,29 @@ const synonyms: Record<string, string[]> = {
     date_discharged: ['udskrivning', 'udskrevet', 'discharged', 'slutdato', 'ophør', 'ophor', 'slut'],
     departments: ['afdeling', 'afdelinger', 'department', 'departments', 'team', 'enhed', 'gruppe'],
     seniority_date: ['anciennitet', 'ancien', 'seniority', 'ansættelsesdato', 'ansaettelsesdato', 'ansat', 'startdato'],
+    cpr: ['cpr', 'cprnr', 'cpr-nr', 'cprnummer', 'personnummer', 'ssn', 'borger'],
+    shift: ['vagt', 'vagttype', 'shift', 'skift', 'vagtnavn', 'type'],
+    date: ['dato', 'date', 'dag', 'journaldato', 'vagtdato'],
+    title: ['titel', 'overskrift', 'title', 'emne', 'header'],
+    content: ['notat', 'tekst', 'indhold', 'content', 'note', 'beskrivelse', 'journal', 'body'],
+    start_time: ['start', 'starttid', 'fra', 'mødetid', 'modetid', 'indtid', 'starttime'],
+    end_time: ['slut', 'sluttid', 'til', 'udtid', 'endtime', 'sluttime'],
 }
 
 const state = reactive({
-    step: 'type' as 'type' | 'upload' | 'map' | 'preview',
+    step: 'type' as 'type' | 'upload' | 'map' | 'preview' | 'done',
     entityKey: 'citizens',
     fileName: '',
     headers: [] as string[],
     rows: [] as string[][],
     mapping: {} as Record<string, number>,
+    summary: null as any,
     error: '',
     isLoading: false,
 })
+
+const summaryUnmatched = computed(() => (state.summary?.unmatched_count ?? 0)
+    + (state.summary?.unmatched_employee_count ?? 0) + (state.summary?.unmatched_shift_count ?? 0))
 
 const entity = computed(() => entityTypes.find(e => e.key === state.entityKey) ?? entityTypes[0])
 const targetFields = computed(() => entity.value.fields as { key: string; label: string; required: boolean }[])
@@ -268,15 +317,32 @@ async function runImport() {
     state.isLoading = true
     state.error = ''
     try {
-        const csv = buildCsv()
-        const file = new File([csv], 'citizenone-import.csv', { type: 'text/csv' })
-        const params = new FormData()
-        params.append('file', file)
-        const response = await entity.value.importFn(params)
-        if (response) {
-            successAlert(`${t('alert.success')}!`, response?.message || 'Importeret.')
+        if (entity.value.mode === 'json') {
+            // Relational entities (journals/schedules) post mapped rows as JSON;
+            // the backend matches to citizen/employee and returns a summary.
+            const rows = state.rows.map(row => {
+                const obj: Record<string, string> = {}
+                targetFields.value.forEach(f => {
+                    const idx = state.mapping[f.key] ?? -1
+                    obj[f.key] = idx < 0 ? '' : (row[idx] ?? '').trim()
+                })
+                return obj
+            })
+            const response = await entity.value.importFn({ rows })
+            state.summary = response ?? {}
             emit('imported', state.entityKey)
-            closeModal()
+            state.step = 'done'
+        } else {
+            const csv = buildCsv()
+            const file = new File([csv], 'citizenone-import.csv', { type: 'text/csv' })
+            const params = new FormData()
+            params.append('file', file)
+            const response = await entity.value.importFn(params)
+            if (response) {
+                successAlert(`${t('alert.success')}!`, response?.message || 'Importeret.')
+                emit('imported', state.entityKey)
+                closeModal()
+            }
         }
     } catch (error: any) {
         state.error = error?.message || 'Importen fejlede. Tjek mapping og datoformater (ÅÅÅÅ-MM-DD).'
@@ -296,7 +362,7 @@ function resetFile() {
 }
 
 function closeModal() {
-    resetFile(); state.step = 'type'; state.entityKey = 'citizens'
+    resetFile(); state.step = 'type'; state.entityKey = 'citizens'; state.summary = null
     emit('close')
 }
 </script>
