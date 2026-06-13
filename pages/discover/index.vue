@@ -133,6 +133,7 @@
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { userService } from '@/components/api/user/UserService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { companyService } from '@/components/api/user/CompanyService'
 import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
@@ -212,13 +213,23 @@ function stepLocked(group: any, index: number) {
 function isOpen(key: string) { return !!state.open[key] }
 function toggle(key: string) { state.open[key] = !state.open[key] }
 
-function saveModules() {
-    if (process.client) localStorage.setItem('co_discover_modules', JSON.stringify(modules))
+async function saveModules() {
     state.modal.whatDoYouNeed = false
+    const preferences = { modules: { ...modules }, hidden: [] as string[] }
+    if (process.client) localStorage.setItem('co_discover_modules', JSON.stringify(modules))
+    try {
+        await companyService.updateOnboardingPreferences({ onboarding_preferences: preferences })
+        // keep the in-memory user/company in sync so a reload reflects the choice
+        if (userStore.getUser?.company) userStore.getUser.company.onboarding_preferences = preferences
+    } catch (e) { /* preferences still cached locally */ }
 }
 
 onMounted(async () => {
-    if (process.client) {
+    // Prefer server-saved preferences (company), then local cache, else ask.
+    const serverModules = userStore.getUser?.company?.onboarding_preferences?.modules
+    if (serverModules) {
+        Object.assign(modules, serverModules)
+    } else if (process.client) {
         const saved = localStorage.getItem('co_discover_modules')
         if (saved) {
             try { Object.assign(modules, JSON.parse(saved)) } catch (e) { }
