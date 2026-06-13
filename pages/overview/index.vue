@@ -12,9 +12,13 @@
 
             <template #header>
                 <div class="flex items-center gap-x-4">
-                    <span>
-                        {{ $t('overview.overview') }}
-                    </span>
+                    <div class="flex items-center gap-x-6">
+                        <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                            @click="navigateTo('/discover')">Discover</span>
+                        <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
+                            {{ $t('overview.overview') }}
+                        </span>
+                    </div>
                     <!-- Date navigator -->
                     <div
                         class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
