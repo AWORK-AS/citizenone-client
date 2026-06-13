@@ -28,10 +28,15 @@
                             Eksportér <strong>{{ entity.label.toLowerCase() }}</strong> fra dit nuværende system
                             (CSV eller Excel) og upload filen. Vi kobler kolonnerne til CitizenOne i næste trin.
                         </p>
-                        <div class="mt-4 rounded-xl border-2 border-dashed border-slate-200 hover:border-primary transition-colors p-8 text-center cursor-pointer"
-                            @click="fileInput?.click()">
+                        <div class="mt-4 rounded-xl border-2 border-dashed transition-colors p-8 text-center cursor-pointer"
+                            :class="state.dragOver ? 'border-primary bg-primary-25' : 'border-slate-200 hover:border-primary'"
+                            @click="fileInput?.click()"
+                            @dragover.prevent="state.dragOver = true"
+                            @dragenter.prevent="state.dragOver = true"
+                            @dragleave.prevent="state.dragOver = false"
+                            @drop.prevent="handleDrop">
                             <Icon name="ph:file-csv" class="mx-auto h-10 w-10 text-slate-300" />
-                            <p class="mt-2 text-sm text-slate-600">Klik for at vælge en CSV- eller Excel-fil</p>
+                            <p class="mt-2 text-sm text-slate-600">Træk en fil hertil, eller klik for at vælge en CSV- eller Excel-fil</p>
                             <p v-if="state.fileName" class="mt-2 text-sm font-medium text-primary">{{ state.fileName }}</p>
                             <input ref="fileInput" type="file" accept=".csv,text/csv,.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hidden" @change="handleFile" />
                         </div>
@@ -235,6 +240,7 @@ const state = reactive({
     rows: [] as string[][],
     mapping: {} as Record<string, number>,
     summary: null as any,
+    dragOver: false,
     error: '',
     isLoading: false,
 })
@@ -324,8 +330,18 @@ function applyRows(all: string[][]) {
     state.step = 'map'
 }
 
-async function handleFile(e: Event) {
+function handleFile(e: Event) {
     const file = (e.target as HTMLInputElement).files?.[0]
+    if (file) processFile(file)
+}
+
+function handleDrop(e: DragEvent) {
+    state.dragOver = false
+    const file = e.dataTransfer?.files?.[0]
+    if (file) processFile(file)
+}
+
+async function processFile(file: File) {
     if (!file) return
     state.error = ''
     state.fileName = file.name
