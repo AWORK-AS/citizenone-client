@@ -32,18 +32,18 @@
         "groups": {
             "migration": "Migrering",
             "komIGang": "Kom i gang",
-            "born": "Barn",
+            "born": "Brukere",
             "vagtplan": "Vaktplan",
             "medicin": "Medisin",
             "dokumentation": "Dokumentasjon"
         },
         "steps": {
-            "departments": { "title": "Opprett avdelinger", "desc": "Avdelinger strukturerer personale, barn og vaktplan.", "tip": "F.eks. \"Avdeling Nord\" og \"Avdeling Sør\".", "cta": "Gå til Avdelinger" },
+            "departments": { "title": "Opprett avdelinger", "desc": "Avdelinger strukturerer personale, brukere og vaktplan.", "tip": "F.eks. \"Avdeling Nord\" og \"Avdeling Sør\".", "cta": "Gå til Avdelinger" },
             "roles": { "title": "Roller og rettigheter", "desc": "Bestem hva de ulike rollene kan se og gjøre.", "cta": "Gå til Roller" },
             "employees": { "title": "Inviter personale", "desc": "Legg til de ansatte så de kan logge inn.", "cta": "Gå til Personale" },
             "import": { "title": "Importer fra ditt gamle system", "desc": "Migrer brukere, ansatte, journaler og vaktplaner fra ditt nåværende system (CSV eller Excel).", "cta": "Start import" },
-            "children": { "title": "Opprett barn", "desc": "Legg til barna dere jobber med.", "cta": "Gå til Barn" },
-            "childData": { "title": "Stamdata og kontaktpersoner", "desc": "Fyll inn stamdata, kontaktpersoner og saksbehandler.", "cta": "Gå til Barn" },
+            "children": { "title": "Opprett brukere", "desc": "Legg til brukerne dere jobber med.", "cta": "Gå til Brukere" },
+            "childData": { "title": "Stamdata og kontaktpersoner", "desc": "Fyll inn stamdata, kontaktpersoner og saksbehandler.", "cta": "Gå til Brukere" },
             "shiftTypes": { "title": "Opprett vakttyper og regler", "desc": "Definer vakttyper og arbeidstidsregler.", "cta": "Gå til Vaktregler" },
             "shiftTags": { "title": "Legg til vakt-tagger", "desc": "Tagger gjør det enkelt å filtrere vakter senere.", "cta": "Gå til Vakt-tagger" },
             "schedule": { "title": "Lag vaktplanen", "desc": "Planlegg de første vaktene for teamet.", "cta": "Gå til Vaktplan" },

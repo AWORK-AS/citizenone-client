@@ -17,6 +17,11 @@
         "subtitle": "Her er din hurtige guide til at få CitizenOne sat op og i gang for jeres team.",
         "whatDoYouNeed": "Hvad skal du bruge?",
         "stepsProgress": "{done} af {total} trin fuldført",
+        "nextStep": "Næste skridt",
+        "ready": {
+            "title": "I er klar til drift!",
+            "desc": "Alle onboarding-trin er fuldført."
+        },
         "groupProgress": "{done} af {total} fuldført",
         "lockedHint": "Færdiggør trinnet ovenfor først",
         "promoTitle": "Arbejd hvor som helst, på enhver enhed",
@@ -32,18 +37,18 @@
         "groups": {
             "migration": "Migrering",
             "komIGang": "Kom i gang",
-            "born": "Børn",
+            "born": "Borgere",
             "vagtplan": "Vagtplan",
             "medicin": "Medicin",
             "dokumentation": "Dokumentation"
         },
         "steps": {
-            "departments": { "title": "Opret afdelinger", "desc": "Afdelinger strukturerer personale, børn og vagtplan.", "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".", "cta": "Gå til Afdelinger" },
+            "departments": { "title": "Opret afdelinger", "desc": "Afdelinger strukturerer personale, borgere og vagtplan.", "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".", "cta": "Gå til Afdelinger" },
             "roles": { "title": "Roller & rettigheder", "desc": "Bestem hvad de forskellige roller må se og gøre.", "cta": "Gå til Roller" },
             "employees": { "title": "Inviter personale", "desc": "Tilføj jeres medarbejdere, så de kan logge ind.", "cta": "Gå til Personale" },
             "import": { "title": "Importér fra dit gamle system", "desc": "Migrér borgere, ansatte, journaler og vagtplaner fra dit nuværende system (CSV eller Excel).", "cta": "Start import" },
-            "children": { "title": "Opret børn", "desc": "Opret de børn I arbejder med.", "cta": "Gå til Børn" },
-            "childData": { "title": "Stamdata & kontaktpersoner", "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.", "cta": "Gå til Børn" },
+            "children": { "title": "Opret borgere", "desc": "Opret de borgere I arbejder med.", "cta": "Gå til Borgere" },
+            "childData": { "title": "Stamdata & kontaktpersoner", "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.", "cta": "Gå til Borgere" },
             "shiftTypes": { "title": "Opret vagttyper & regler", "desc": "Definér vagttyper og arbejdstidsregler.", "cta": "Gå til Vagtregler" },
             "shiftTags": { "title": "Tilføj vagt-tags", "desc": "Tags gør det let at filtrere vagter senere.", "cta": "Gå til Vagt-tags" },
             "schedule": { "title": "Lav vagtplanen", "desc": "Planlæg de første vagter for jeres team.", "cta": "Gå til Vagtplan" },
@@ -8044,6 +8049,7 @@
         "citizens": "Borgere",
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
+        "discover": "Kom godt i gang",
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
@@ -8972,6 +8978,7 @@
             "companies": "Virksomheder",
             "coupons": "Kuponer",
             "dashboard": "Dashboard",
+            "emailTemplates": "E-mailskabeloner",
             "invoices": "Fakturaer",
             "orders": "Ordrer",
             "polls": "Afstemninger",
@@ -8990,6 +8997,21 @@
             "products": "Produkter",
             "clientRoles": "Roller & Rettigheder",
             "cancellations": "Opsigelser"
+        },
+        "emailTemplates": {
+            "title": "E-mailskabeloner",
+            "subtitle": "Redigér de e-mails systemet sender til brugerne.",
+            "subject": "Emne",
+            "body": "Indhold (HTML)",
+            "preview": "Forhåndsvisning",
+            "placeholders": "Tilgængelige felter",
+            "placeholdersHint": "Klik for at kopiere. De erstattes med rigtige værdier når mailen sendes.",
+            "edit": "Redigér",
+            "save": "Gem",
+            "cancel": "Annullér",
+            "saved": "E-mailskabelon gemt",
+            "locale": "Sprog",
+            "noTemplates": "Ingen e-mailskabeloner fundet"
         },
         "users": {
             "confirmation": {

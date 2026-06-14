@@ -65,6 +65,10 @@ class CitizenService extends BaseAPIService {
         return await this.request(`/user/citizens/imports/template`, 'POST', params)
     }
 
+    async importMappedCitizens(params: object): Promise<any> {
+        return await this.request(`/user/citizens/import-mapped`, 'POST', params)
+    }
+
     async exportCitizens(params: object): Promise<any> {
         return await this.request(`/user/citizens/export/download`, 'GET', params)
     }

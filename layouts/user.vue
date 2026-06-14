@@ -438,11 +438,13 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
+const { isAtLeast } = usePermissions()
 const language = useI18n()
 const router = useRouter()
 const route = useRoute()
@@ -524,6 +526,7 @@ watch(() => language.locale.value, (newLanguage: any) => {
 function getNavItemLabel(item: any) {
     const t = language.t
     if (item.name === 'Overview') return t('sidebar.overview')
+    if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
     if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
@@ -554,6 +557,16 @@ function generateSidebarLinks(user: any) {
             'overview',
         ]
     })
+    if (isAtLeast('Admin')) {
+        navigation.push({
+            name: 'Discover',
+            href: '/discover',
+            icon: 'ph:compass',
+            activeRouteNames: [
+                'discover',
+            ]
+        })
+    }
     navigation.push({
         name: 'Citizens',
         href: '/citizens',

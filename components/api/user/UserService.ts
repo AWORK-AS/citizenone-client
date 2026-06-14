@@ -37,6 +37,10 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/employees/imports/template`, 'POST', params)
     }
 
+    async importMappedEmployees(params: object): Promise<any> {
+        return await this.request(`/user/employees/import-mapped`, 'POST', params)
+    }
+
     async getAllUsersWithoutAllUsersOption(): Promise<any> {
         return await this.request(`/user/employees/all/no-all-employees`, 'GET')
     }

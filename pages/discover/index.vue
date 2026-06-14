@@ -19,19 +19,51 @@
 
             <!-- Welcome -->
             <div class="mt-4 rounded-2xl bg-gradient-to-br from-primary to-[#1b6d8a] text-white p-6 md:p-8 relative overflow-hidden">
-                <div class="relative z-10 max-w-2xl">
-                    <h1 class="text-2xl md:text-3xl font-bold">{{ $t('discover.welcome', { name: firstName }) }} 👋</h1>
-                    <p class="mt-2 text-white/80">{{ $t('discover.subtitle') }}</p>
-                    <div class="mt-4 flex items-center gap-x-3">
-                        <button type="button" @click="state.modal.whatDoYouNeed = true"
-                            class="inline-flex items-center gap-x-2 rounded-lg bg-white/15 hover:bg-white/25 px-3.5 py-2 text-sm font-medium transition-colors">
-                            <Icon name="ph:sliders-horizontal" class="h-4 w-4" />
-                            {{ $t('discover.whatDoYouNeed') }}
-                        </button>
-                        <span class="text-sm text-white/70">{{ $t('discover.stepsProgress', { done: totalDone, total: totalSteps }) }}</span>
+                <div class="relative z-10 flex items-center justify-between gap-x-6">
+                    <div class="max-w-2xl">
+                        <h1 class="text-2xl md:text-3xl font-bold">{{ $t('discover.welcome', { name: firstName }) }} 👋</h1>
+                        <p v-if="!allDone" class="mt-2 text-white/80">{{ $t('discover.subtitle') }}</p>
+                        <p v-else class="mt-2 text-white/90 font-medium">🎉 {{ $t('discover.ready.title') }} — {{ $t('discover.ready.desc') }}</p>
+                        <div class="mt-4 flex items-center gap-x-3">
+                            <button type="button" @click="state.modal.whatDoYouNeed = true"
+                                class="inline-flex items-center gap-x-2 rounded-lg bg-white/15 hover:bg-white/25 px-3.5 py-2 text-sm font-medium transition-colors">
+                                <Icon name="ph:sliders-horizontal" class="h-4 w-4" />
+                                {{ $t('discover.whatDoYouNeed') }}
+                            </button>
+                            <span class="text-sm text-white/70">{{ $t('discover.stepsProgress', { done: totalDone, total: totalSteps }) }}</span>
+                        </div>
+                    </div>
+                    <!-- Overall progress ring -->
+                    <div class="hidden md:flex shrink-0 relative h-24 w-24 items-center justify-center">
+                        <svg viewBox="0 0 36 36" class="h-24 w-24 -rotate-90">
+                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" />
+                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"
+                                :stroke-dasharray="`${progressPct} 100`" class="transition-all duration-500" />
+                        </svg>
+                        <span class="absolute text-xl font-bold">{{ progressPct }}%</span>
                     </div>
                 </div>
                 <Icon name="ph:compass" class="absolute -right-6 -bottom-8 h-48 w-48 text-white/10" />
+            </div>
+
+            <!-- Next step -->
+            <div v-if="!allDone && nextStep"
+                class="mt-6 rounded-2xl border-2 border-primary/30 bg-primary/5 p-5 flex items-center justify-between gap-x-4">
+                <div class="flex items-center gap-x-4 min-w-0">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary shrink-0">
+                        <Icon :name="nextStep.group.icon" class="h-6 w-6" />
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-xs font-semibold uppercase tracking-wide text-primary">{{ $t('discover.nextStep') }}</p>
+                        <p class="font-semibold text-slate-900 truncate">{{ $t(`discover.steps.${nextStep.step.key}.title`) }}</p>
+                        <p class="text-sm text-slate-500 truncate">{{ $t(`discover.steps.${nextStep.step.key}.desc`) }}</p>
+                    </div>
+                </div>
+                <button type="button" @click="runStep(nextStep.step)"
+                    class="shrink-0 inline-flex items-center gap-x-1.5 rounded-lg bg-primary text-white px-4 py-2.5 text-sm font-medium hover:bg-[#0d3f61] transition-colors">
+                    {{ $t(`discover.steps.${nextStep.step.key}.cta`) }}
+                    <Icon name="ph:arrow-right" class="h-4 w-4" />
+                </button>
             </div>
 
             <!-- Step groups -->
@@ -139,9 +171,12 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { companyService } from '@/components/api/user/CompanyService'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
+const isAdmin = computed(() => isAtLeast('Admin'))
 
 const firstName = computed(() => userStore.getUser?.firstname ?? '')
 
@@ -172,7 +207,7 @@ function onImported(type: string) {
 // --- Step definitions (copy lives in i18n: discover.groups.* / discover.steps.*) ---
 const groups = [
     {
-        key: 'migration', icon: 'ph:download-simple', module: null,
+        key: 'migration', icon: 'ph:download-simple', module: null, adminOnly: true,
         steps: [
             { key: 'import', action: 'import' },
         ],
@@ -214,9 +249,28 @@ const groups = [
     },
 ] as any[]
 
-const visibleGroups = computed(() => groups.filter(g => g.module === null || modules[g.module]))
+const visibleGroups = computed(() => groups.filter(g =>
+    (g.module === null || modules[g.module]) && (!g.adminOnly || isAdmin.value)
+))
 const totalSteps = computed(() => visibleGroups.value.reduce((n, g) => n + g.steps.length, 0))
 const totalDone = computed(() => visibleGroups.value.reduce((n, g) => n + groupDone(g), 0))
+const progressPct = computed(() => totalSteps.value ? Math.round((totalDone.value / totalSteps.value) * 100) : 0)
+const allDone = computed(() => totalSteps.value > 0 && totalDone.value === totalSteps.value)
+
+// First actionable (not done, not locked) step across the visible groups.
+const nextStep = computed(() => {
+    for (const g of visibleGroups.value) {
+        for (let i = 0; i < g.steps.length; i++) {
+            if (!stepDone(g.steps[i]) && !stepLocked(g, i)) return { group: g, step: g.steps[i], index: i }
+        }
+    }
+    return null
+})
+
+function runStep(step: any) {
+    if (step.action) runStepAction(step.action)
+    else navigateTo(step.route)
+}
 
 function stepDone(step: any) {
     return !!(step.doneKey && state.done[step.doneKey])
@@ -232,6 +286,29 @@ function stepLocked(group: any, index: number) {
 function isOpen(key: string) { return !!state.open[key] }
 function toggle(key: string) { state.open[key] = !state.open[key] }
 
+// "What do you need" maps onto the real company modules (the Page list that
+// /settings/company controls and that gates the sidebar) — one system, not two.
+const CORE_PAGES = ['Economy', 'Health', 'Calendar', 'Contacts', 'Employee Group']
+const MODULE_TO_PAGES: Record<string, string[]> = {
+    vagtplan: ['Duty Schedule', 'Attendance'],
+    medicin: ['Medicine card'],
+    dokumentation: ['Documents', 'Plans and goals', 'Journals'],
+}
+
+async function syncCompanyModules() {
+    try {
+        const res: any = await companyService.getCompanyModules()
+        const pages = res?.pages ?? []
+        const enabled = new Set(CORE_PAGES)
+        Object.keys(MODULE_TO_PAGES).forEach(key => {
+            if (modules[key]) MODULE_TO_PAGES[key].forEach(n => enabled.add(n))
+        })
+        const selected = pages.filter((p: any) => enabled.has(p.name))
+        await companyService.updateCompanyModules({ page_uuids: selected.map((p: any) => p.uuid) })
+        if (userStore.getUser?.company) userStore.getUser.company.module_pages = selected.map((p: any) => p.name)
+    } catch (e) { /* module sync is best-effort */ }
+}
+
 async function saveModules() {
     state.modal.whatDoYouNeed = false
     const preferences = { modules: { ...modules }, hidden: [] as string[] }
@@ -240,20 +317,31 @@ async function saveModules() {
         await companyService.updateOnboardingPreferences({ onboarding_preferences: preferences })
         // keep the in-memory user/company in sync so a reload reflects the choice
         if (userStore.getUser?.company) userStore.getUser.company.onboarding_preferences = preferences
+        // and drive the real company module enablement from the same choice
+        await syncCompanyModules()
     } catch (e) { /* preferences still cached locally */ }
 }
 
 onMounted(async () => {
-    // Prefer server-saved preferences (company), then local cache, else ask.
-    const serverModules = userStore.getUser?.company?.onboarding_preferences?.modules
-    if (serverModules) {
-        Object.assign(modules, serverModules)
-    } else if (process.client) {
-        const saved = localStorage.getItem('co_discover_modules')
-        if (saved) {
-            try { Object.assign(modules, JSON.parse(saved)) } catch (e) { }
-        } else {
-            state.modal.whatDoYouNeed = true
+    // Source of truth = the real company modules (same as /settings/company).
+    // Derive the coarse Discover toggles from the enabled Page list when present.
+    const enabledPages = userStore.getUser?.company?.module_pages
+    if (Array.isArray(enabledPages) && enabledPages.length) {
+        modules.vagtplan = MODULE_TO_PAGES.vagtplan.some(n => enabledPages.includes(n))
+        modules.medicin = MODULE_TO_PAGES.medicin.some(n => enabledPages.includes(n))
+        modules.dokumentation = MODULE_TO_PAGES.dokumentation.some(n => enabledPages.includes(n))
+    } else {
+        // No company_pages rows yet → fall back to saved onboarding prefs / cache, else ask.
+        const serverModules = userStore.getUser?.company?.onboarding_preferences?.modules
+        if (serverModules) {
+            Object.assign(modules, serverModules)
+        } else if (process.client) {
+            const saved = localStorage.getItem('co_discover_modules')
+            if (saved) {
+                try { Object.assign(modules, JSON.parse(saved)) } catch (e) { }
+            } else {
+                state.modal.whatDoYouNeed = true
+            }
         }
     }
     // Data-derived completion (a few easy ones)
