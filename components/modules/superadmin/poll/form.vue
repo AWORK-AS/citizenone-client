@@ -1,35 +1,58 @@
 <template>
-    <form @submit.prevent="submitForm()" class="mt-6 max-w-2xl">
+    <form @submit.prevent="submitForm()" class="space-y-5">
+
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
-        <Alert type="danger" :text="state?.error?.message"
-            v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-y-3">
-            <div class="space-y-1">
-                <FormLabel for="title" :label="$t('superadmin.polls.form.title')" />
-                <FormTextField id="title" name="title" :placeholder="$t('superadmin.polls.form.title')"
-                    v-model="state.formPoll.title" />
-                <FormError :error="v$?.formPoll?.title?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.title?.[0]" />
+
+        <!-- Poll information -->
+        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-5">
+                {{ $t('superadmin.polls.form.pollInformation') }}
+            </h2>
+
+            <div>
+                <SuperadminFormLabel :label="$t('superadmin.polls.form.title')" :required="true" />
+                <SuperadminFormTextField id="title" v-model="state.formPoll.title"
+                    :placeholder="$t('superadmin.polls.form.title')" :hasError="v$?.formPoll?.title?.$error" />
+                <SuperadminFormError :error="v$?.formPoll?.title?.$errors[0]?.$message.toString()" />
+                <SuperadminFormError :error="props?.error?.errors?.title?.[0]" />
             </div>
-            <div class="space-y-1">
-                <div class="w-fit flex items-center cursor-pointer" @click="changeIsActive">
-                    <FormCheckbox :value="state.formPoll.is_active" />
-                    {{ $t('superadmin.polls.form.active') }}
+        </div>
+
+        <!-- Settings -->
+        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm">
+            <h2 class="text-[15px] font-semibold text-[#1F2533] mb-4">
+                {{ $t('superadmin.companies.form.settings') }}
+            </h2>
+
+            <div class="flex items-center justify-between py-3">
+                <div>
+                    <p class="text-[13px] font-medium text-[#1F2533]">
+                        {{ $t('superadmin.polls.form.active') }}
+                    </p>
                 </div>
+                <button type="button" @click="state.formPoll.is_active = !state.formPoll.is_active"
+                    class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
+                    :style="state.formPoll.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
+                        :class="state.formPoll.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
+                </button>
             </div>
         </div>
-        <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/superadmin/polls')">
-                    {{ $t('cancel') }}
-                </FormButton>
-                <FormButton type="submit" buttonStyle="primary">
-                    {{ props.formType === 'create' ? $t('save') :
-                        $t('update') }}
-                </FormButton>
-            </div>
+
+        <!-- Action buttons -->
+        <div class="flex items-center justify-end gap-3 pb-6">
+            <button type="button" @click="navigateTo('/superadmin/polls')"
+                class="px-5 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
+                {{ $t('cancel') }}
+            </button>
+            <button type="submit"
+                class="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors shadow-sm"
+                style="background:#205E77">
+                {{ props.formType === 'create' ? $t('save') : $t('update') }}
+            </button>
         </div>
+
     </form>
 </template>
 
@@ -58,7 +81,6 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 const { t } = useI18n()
 
 const state = reactive({
-    error: {} as Error,
     formPoll: {
         title: '',
         is_active: true,
@@ -74,15 +96,13 @@ watch(() => props.selectedPoll, (newValue: any) => {
     }
 })
 
-const rules = computed(() => {
-    return {
-        formPoll: {
-            title: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
+const rules = computed(() => ({
+    formPoll: {
+        title: {
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
         },
-    }
-})
+    },
+}))
 
 const v$ = useVuelidate(rules, state)
 
@@ -91,9 +111,5 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', state.formPoll)
     }
-}
-
-function changeIsActive() {
-    state.formPoll.is_active = !state.formPoll.is_active
 }
 </script>

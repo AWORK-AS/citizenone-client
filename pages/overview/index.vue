@@ -81,7 +81,7 @@
                         {{ $t('overview.citizensEvents') }}
                     </div>
                     <div class="mt-2 stat-value text-primary">
-                        {{ state.stats.citizenCalendarEvents?.data?.length ?? 0 }}
+                        <CountUp :value="Number(state.stats.citizenCalendarEvents?.data?.length ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
                         {{ $t('overview.stats.ongoing') }} |
@@ -94,7 +94,7 @@
                         {{ $t('overview.stats.journalEntries') || 'Journal entries' }}
                     </div>
                     <div class="mt-2 stat-value text-accent-green">
-                        {{ state.stats.latestCitizensJournal?.data?.length ?? 0 }}
+                        <CountUp :value="Number(state.stats.latestCitizensJournal?.data?.length ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
                         {{ $t('overview.stats.acrossCitizens') }}
@@ -106,7 +106,7 @@
                         {{ $t('overview.stats.medicationsDue') || 'Medications due' }}
                     </div>
                     <div class="mt-2 stat-value text-accent-orange">
-                        {{ state.stats.medicinesPendingCount }}
+                        <CountUp :value="Number(state.stats.medicinesPendingCount ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
                         {{ state.stats.medicinesGivenCount }}
@@ -124,7 +124,7 @@
                         {{ $t('overview.stats.activeTreatments') }}
                     </div>
                     <div class="mt-2 stat-value text-green-600">
-                        {{ state.stats.activeTreatmentsCount }}
+                        <CountUp :value="Number(state.stats.activeTreatmentsCount ?? 0)" />
                     </div>
                     <div class="stat-sublabel flex items-center gap-1">
                         {{ $t('overview.stats.viewAll') }}
@@ -134,10 +134,10 @@
             </div>
 
             <!-- Main content grid -->
-            <div class="mt-6 space-y-6">
+            <div class="mt-8 space-y-10">
                 <!-- Citizens' events + Latest journal notes row -->
                 <!-- Medication overview and Follow-up reminders row -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6 stagger-children" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
                     overviewStore.getDailyOverviewFilter.showLatestJournal ||
                     overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
                     overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders ||
@@ -259,6 +259,10 @@
                         v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
                 </div>
 
+                <!-- Statistics (collapsible; collapsed by default to keep the dashboard calm) -->
+                <CollapsibleSection v-if="showStatisticsSection" :title="$t('overview.statistics')"
+                    :default-open="false" storage-key="overview-statistics">
+                    <div class="space-y-10">
                 <!-- Statistics grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
                     overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
@@ -320,6 +324,8 @@
                         <ModulesUserDailyOverviewUseOfForceStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
                 </div>
+                    </div>
+                </CollapsibleSection>
 
                 <!-- Schedule + Plans -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
@@ -383,6 +389,17 @@ const breadcrumbLinks = [
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const departmentStore = useDepartmentStore()
+
+// True when any statistics widget is enabled — guards the collapsible Statistics
+// section so an empty header never shows.
+const showStatisticsSection = computed(() => {
+    const f = overviewStore.getDailyOverviewFilter
+    return f.showCitizensAdmissionAndDischarged || f.showCitizensOrigin || f.showCitizensAddictions
+        || f.showCitizensDiagnoses || f.showRiskAssessment || f.showGender
+        || f.showStatusesScoreStatistics || f.showGoalsScoreStatistics || f.showIncidentStatistics
+        || f.showMedicineDeviationStatistics || f.showJournalScoreStatistics || f.showSubgoalsScoreStatistics
+        || f.showUseOfForceStatistics
+})
 const userStore = useUserStore() as any
 const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)

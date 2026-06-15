@@ -889,8 +889,8 @@ function openGuidedTour() {
 
 function setDutyScheduleCurrentDate(selectedDate: any) {
     state.selectedDate = selectedDate
-
-    state.dutyScheduleCurrentDate = date
+    // Bug: previously assigned an undefined `date` here, throwing a ReferenceError
+    // on every week navigation (the week-view emits this on each date change).
 }
 
 function setDutyScheduleCurrentFilter(filter: any) {
