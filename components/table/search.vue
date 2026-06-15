@@ -49,4 +49,13 @@ function handleSearch() {
     const searchArray = state.search.trim().split(/\s+/) // Split by whitespace
     emit('search', Array(searchArray))
 }
+
+// Live search: emit while typing (debounced) so results update without
+// clicking the button. Same payload shape, so existing consumers are unaffected.
+let debounceTimer: ReturnType<typeof setTimeout> | null = null
+watch(() => state.search, () => {
+    if (debounceTimer) clearTimeout(debounceTimer)
+    debounceTimer = setTimeout(() => handleSearch(), 350)
+})
+onBeforeUnmount(() => { if (debounceTimer) clearTimeout(debounceTimer) })
 </script>
