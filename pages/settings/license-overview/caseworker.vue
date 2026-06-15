@@ -173,18 +173,23 @@
                                                     </td>
                                                     <td width="40%">
                                                         <div class="flex items-center justify-end gap-2">
-                                                            <Tooltip :text="$t('settings.licenseOverview.copyLink')">
+                                                            <Tooltip :text="$t('settings.licenseOverview.copyLink')"
+                                                                position="left">
                                                                 <button type="button"
                                                                     class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition hover:border-primary hover:text-primary hover:bg-primary/5"
                                                                     @click.prevent="copyShareLink(license)">
-                                                                    <Icon name="ph:link-simple-horizontal" class="h-4 w-4" aria-hidden="true" />
+                                                                    <Icon name="ph:link-simple-horizontal"
+                                                                        class="h-4 w-4" aria-hidden="true" />
                                                                 </button>
                                                             </Tooltip>
-                                                            <Tooltip :text="$t('caseworkerSharing.configureSharingTooltip')">
+                                                            <Tooltip
+                                                                :text="$t('caseworkerSharing.configureSharingTooltip')"
+                                                                position="left">
                                                                 <button type="button"
                                                                     class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition hover:border-primary hover:text-primary hover:bg-primary/5"
                                                                     @click.prevent="openConfigureModal(license)">
-                                                                    <Icon name="ph:gear-six" class="h-4 w-4" aria-hidden="true" />
+                                                                    <Icon name="ph:gear-six" class="h-4 w-4"
+                                                                        aria-hidden="true" />
                                                                 </button>
                                                             </Tooltip>
                                                         </div>
@@ -201,14 +206,11 @@
                 </div>
             </div>
 
-            <ModulesUserSettingsLicenseOverviewModalCaseworkerSharingModal
-                :show="state.modal.isConfigureOpen"
+            <ModulesUserSettingsLicenseOverviewModalCaseworkerSharingModal :show="state.modal.isConfigureOpen"
                 :selectedLicense="state.selectedLicense"
                 :folderIds="state.selectedLicense?.caseworker_license_config?.folders || []"
                 :permission="state.selectedLicense?.caseworker_license_config?.permission || 'view'"
-                @close="closeConfigureModal"
-                @save="fetchLicenses"
-            />
+                @close="closeConfigureModal" @save="fetchLicenses" />
         </NuxtLayout>
     </div>
 </template>

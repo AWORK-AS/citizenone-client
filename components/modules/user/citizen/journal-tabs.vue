@@ -42,15 +42,24 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Journals) {
         state.tabs.push({
             name: 'citizens.tabs.journals',
+            icon: 'ph:notebook',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/journals`,
             routeNames: ['citizens-uuid-journals']
         })
     }
 
+    state.tabs.push({
+        name: 'citizens.tabs.timeline',
+        isTranslateName: true,
+        href: `/citizens/${citizenUuid}/timeline`,
+        routeNames: ['citizens-uuid-timeline']
+    })
+
     if (accessMap.MedicineCard) {
         state.tabs.push({
             name: 'citizens.tabs.medicineCard',
+            icon: 'ph:pill',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/medicine-journals`,
             routeNames: ['citizens-uuid-medicine-journals']
@@ -60,6 +69,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.PlansAndGoals) {
         state.tabs.push({
             name: 'citizens.tabs.plansAndGoals',
+            icon: 'ph:target',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/plans-and-goals/all`,
             routeNames: [
@@ -73,6 +83,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Health) {
         state.tabs.push({
             name: 'citizens.tabs.health',
+            icon: 'ph:heartbeat',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`,
             routeNames: [
@@ -86,6 +97,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Documents) {
         state.tabs.push({
             name: 'citizens.tabs.documents',
+            icon: 'ph:files',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/documents`,
             routeNames: ['citizens-uuid-documents']
@@ -95,6 +107,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Attendance) {
         state.tabs.push({
             name: 'citizens.tabs.attendance',
+            icon: 'ph:clock',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/attendance`,
             routeNames: [
@@ -107,6 +120,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Calendar) {
         state.tabs.push({
             name: 'citizens.tabs.calendar',
+            icon: 'ph:calendar-blank',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/calendar`,
             routeNames: ['citizens-uuid-calendar']
@@ -116,6 +130,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Economy) {
         state.tabs.push({
             name: 'citizens.tabs.economy',
+            icon: 'ph:wallet',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/wallets`,
             routeNames: [
@@ -129,6 +144,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.Contacts) {
         state.tabs.push({
             name: 'citizens.tabs.contacts',
+            icon: 'ph:address-book',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/contacts`,
             routeNames: ['citizens-uuid-contacts']
@@ -138,6 +154,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (accessMap.EmployeeGroups) {
         state.tabs.push({
             name: 'citizens.tabs.employeeGroups',
+            icon: 'ph:users-three',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/employee-groups`,
             routeNames: ['citizens-uuid-employee-groups']
@@ -156,6 +173,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (newValue?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(newValue?.company?.facility_type?.en_name)) {
         state.tabs.push({
             name: 'citizens.tabs.children',
+            icon: 'ph:baby',
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/children`,
             routeNames: ['citizens-uuid-children']
@@ -193,6 +211,9 @@ watch(() => userStore.getUser, (newValue: any) => {
 function changeTab(value: any) {
     if (value === `/citizens/${citizenUuid}/journals`) {
         navigateTo(`/citizens/${citizenUuid}/journals`)
+    }
+    else if (value === `/citizens/${citizenUuid}/timeline`) {
+        navigateTo(`/citizens/${citizenUuid}/timeline`)
     }
     else if (value === `/citizens/${citizenUuid}/medicine-journals`) {
         navigateTo(`/citizens/${citizenUuid}/medicine-journals`)

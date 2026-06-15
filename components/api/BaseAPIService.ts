@@ -38,14 +38,15 @@ class BaseAPIService {
             if (error?.name === 'AbortError') throw error
             switch (error.response?.status) {
                 case 400:
-                    throw new APIError(error.response._data)
                 case 404:
                 case 422:
-                    throw new APIError(error.response._data)
                 case 429:
                     throw new APIError(error.response._data)
                 case 401:
                     this.revokeAccess()
+                    throw new APIError(error.response._data || { message: 'Unauthorized' })
+                case 403:
+                    throw new APIError(error.response._data)
                 case 500:
                     throw new APIError({
                         message: "Server error. Please try again. If the problem persists, contact your system administrator"
@@ -75,14 +76,15 @@ class BaseAPIService {
         } catch (error: any) {
             switch (error.response.status) {
                 case 400:
-                    throw new APIError(error.response._data)
                 case 404:
                 case 422:
-                    throw new APIError(error.response._data)
                 case 429:
                     throw new APIError(error.response._data)
                 case 401:
                     this.revokeAccess()
+                    throw new APIError(error.response._data || { message: 'Unauthorized' })
+                case 403:
+                    throw new APIError(error.response._data)
                 case 500:
                     throw new APIError({
                         message: "Server error. Please try again. If the problem persists, contact your system administrator"
@@ -118,14 +120,15 @@ class BaseAPIService {
         } catch (error: any) {
             switch (error.response.status) {
                 case 400:
-                    throw new APIError(error.response._data)
                 case 404:
                 case 422:
-                    throw new APIError(error.response._data)
                 case 429:
                     throw new APIError(error.response._data)
                 case 401:
                     this.revokeAccess()
+                    throw new APIError(error.response._data || { message: 'Unauthorized' })
+                case 403:
+                    throw new APIError(error.response._data)
                 case 500:
                     throw new APIError({
                         message: "Server error. Please try again. If the problem persists, contact your system administrator"

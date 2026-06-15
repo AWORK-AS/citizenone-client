@@ -99,9 +99,9 @@
                                 </FormButton>
                             </div>
                         </div>
-                        <div class="mt-5 space-y-5">
+                        <div class="mt-5 space-y-5 stagger-children">
                             <div :class="[
-                                'bg-white ring-1 rounded-md p-5 border-l-4',
+                                'bg-white ring-1 rounded-md p-5 border-l-4 transition-shadow duration-200 hover:shadow-card-hover',
                                 journal.is_pinned ? 'ring-primary/40 border-primary' : 'ring-gray-200 border-secondary'
                             ]" v-for="(journal, index) in state.journals?.data" :key="index" :data-uuid="journal.uuid">
                                 <div class="space-y-3">
