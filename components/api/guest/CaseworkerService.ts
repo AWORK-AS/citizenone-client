@@ -44,6 +44,9 @@ class CaseworkerService extends BaseAPIService {
   	async logout(uuid: string): Promise<any> {
     	return await this.request(`/guest/caseworker/${uuid}/logout`, "POST");
   	}
+
+    // Guest portal manages its own auth state — never redirect or touch the main app token
+    revokeAccess() { /* intentionally empty */ }
 }
 
 export const caseworkerService = new CaseworkerService();

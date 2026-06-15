@@ -1,17 +1,18 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="flex flex-col items-center gap-y-1.5">
+        <div class="flex flex-col gap-y-2">
             <button type="button"
-                class="inline-flex items-center gap-x-1.5 rounded-lg bg-red-400 px-3 py-1.5 text-xs font-semibold text-white hover:bg-red-500 transition-colors whitespace-nowrap"
+                class="inline-flex w-full items-center justify-center gap-x-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition-colors hover:border-red-300 hover:bg-red-100 whitespace-nowrap"
                 @click="state.modal.isReportUseOfForceOpen = true">
-                ! {{ $t('citizens.useOfForce.reportUseOfForce') }}
+                <Icon name="ph:warning-circle" class="h-4 w-4" aria-hidden="true" />
+                {{ $t('citizens.useOfForce.reportUseOfForce') }}
             </button>
-            <div class="flex items-center" @click="state.slideOver.isReportUseOfForceOpen = true">
+            <div class="flex items-center justify-center gap-x-1" @click="state.slideOver.isReportUseOfForceOpen = true">
                 <Tooltip :text="$t('citizens.useOfForce.missingAttachmentToOneOrMoreRecord')"
-                    v-if="props.selectedCitizen?.data?.is_missing_form" class="mt-1.5 cursor-pointer">
+                    v-if="props.selectedCitizen?.data?.is_missing_form" class="cursor-pointer">
                     <Icon name="ph:warning" class="h-5 w-5 text-yellow-500" aria-hidden="true" />
                 </Tooltip>
-                <button type="button" class="text-xs font-semibold text-red-600 hover:text-red-700 transition-colors whitespace-nowrap">
+                <button type="button" class="text-xs font-medium text-slate-500 hover:text-red-600 transition-colors whitespace-nowrap">
                     {{ $t('citizens.useOfForce.seePreviousUseOfForce') }}
                 </button>
             </div>

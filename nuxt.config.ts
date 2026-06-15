@@ -6,6 +6,13 @@ import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite'
 export default defineNuxtConfig({
   app: {
     head: {
+      link: [
+        // Crisp SVG favicon (the CitizenOne circle mark); .ico kept as fallback.
+        { rel: 'icon', type: 'image/svg+xml', href: '/icon-citizenone.svg' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'apple-touch-icon', href: '/icon-citizenone.svg' },
+        { rel: 'mask-icon', href: '/icon-citizenone.svg', color: '#00607a' },
+      ],
       script: [
         {
           src: process.env.CHECKOUT_SCRIPT_URL,
