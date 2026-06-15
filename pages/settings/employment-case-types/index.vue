@@ -29,8 +29,7 @@
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.caseTypes"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body
-                                v-if="!(state.isTableLoading || (state.caseTypes?.data?.length === 0))">
+                            <template #body v-if="!(state.isTableLoading || (state.caseTypes?.data?.length === 0))">
                                 <tr v-for="(caseType, index) in state.caseTypes?.data" :key="index">
                                     <td width="30%">
                                         <span>{{ caseType?.name }}</span>
@@ -82,7 +81,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
