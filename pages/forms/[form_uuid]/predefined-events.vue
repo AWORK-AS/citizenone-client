@@ -27,9 +27,26 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/store/user'
+
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const formUuid = router?.currentRoute?.value?.params?.form_uuid as string
+const userStore = useUserStore()
+
+const isEmploymentServices = computed(() =>
+    userStore.getUser?.company?.industry?.system_name === 'employment_services'
+)
+
+onMounted(() => {
+    if (!isEmploymentServices.value) {
+        navigateTo(`/forms/${formUuid}/edit`)
+    }
+})
+
+watch(isEmploymentServices, (value) => {
+    if (!value) navigateTo(`/forms/${formUuid}/edit`)
+})
 
 const breadcrumbLinks = [
     {
