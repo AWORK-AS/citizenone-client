@@ -7885,6 +7885,12 @@
         "subscription": {
             "subscription": "Subscription"
         },
+        "groups": {
+            "company": "Company",
+            "billing": "Billing",
+            "data": "Data",
+            "logs": "Logs"
+        },
         "tabs": {
             "absences": "Absences",
             "activityLogs": "Activity logs",

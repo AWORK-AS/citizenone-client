@@ -7885,6 +7885,12 @@
         "subscription": {
             "subscription": "Abonnement"
         },
+        "groups": {
+            "company": "Virksomhed",
+            "billing": "Fakturering",
+            "data": "Data",
+            "logs": "Logs"
+        },
         "tabs": {
             "absences": "Fravær",
             "activityLogs": "Aktivitetslogfiler",
