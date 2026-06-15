@@ -36,7 +36,15 @@
             </template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <div class="space-y-5">
+                <div class="space-y-5 relative" @dragover.prevent="onDragOver" @dragenter.prevent="onDragOver"
+                    @dragleave.prevent="onDragLeave" @drop.prevent="handleDrop">
+                    <div v-if="isDragging"
+                        class="absolute inset-0 z-40 flex items-center justify-center rounded-xl border-2 border-dashed border-primary bg-primary/5 pointer-events-none">
+                        <div class="flex flex-col items-center gap-2 text-primary">
+                            <Icon name="ph:upload-simple" class="h-10 w-10" aria-hidden="true" />
+                            <span class="text-sm font-medium">{{ $t('drive.uploadFile') }} — slip filer her</span>
+                        </div>
+                    </div>
                     <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
                         <div class="flex items-center justify-end md:justify-start gap-x-3">
                             <FormButton buttonStyle="action" @click="toggleGoogleDriveView">
@@ -1351,6 +1359,19 @@ async function downloadFile(document: any) {
 
 function triggerFileInput() {
     documentFile.value.click()
+}
+
+// Drag-and-drop upload (local CitizenOne Documents only — reuses uploadFile).
+const isDragging = ref(false)
+function onDragOver() {
+    if (state.viewMode === 'local' && !state.isInsideOneDrive) isDragging.value = true
+}
+function onDragLeave() { isDragging.value = false }
+function handleDrop(e: DragEvent) {
+    isDragging.value = false
+    if (!(state.viewMode === 'local' && !state.isInsideOneDrive)) return
+    const files = e.dataTransfer?.files
+    if (files && files.length) uploadFile({ target: { files } })
 }
 
 async function uploadFile(event: any) {
