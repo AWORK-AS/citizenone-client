@@ -10276,6 +10276,77 @@
                 "status": "Status",
                 "weeksUsed": "Använda veckor"
             }
+        },
+        "agreements": {
+            "addNewAgreement": "Lägg till nytt avtal",
+            "agreements": "Avtal",
+            "editAgreement": "Redigera avtal",
+            "newAgreement": "Nytt avtal",
+            "form": {
+                "alert": {
+                    "agreementSuccessfullyUpdated": "Avtal uppdaterat",
+                    "newAgreementSuccessfullySaved": "Avtal sparat"
+                },
+                "defaultDurationWeeks": "Standardvaraktighet (veckor)",
+                "description": "Beskrivning",
+                "isActive": "Aktiv",
+                "jobcenter": "Jobbcenter",
+                "name": "Namn",
+                "sortOrder": "Sorteringsordning"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Ta bort",
+                    "edit": "Redigera"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Avtal borttaget"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Är du säker på att du vill ta bort detta avtal?"
+                },
+                "defaultDurationWeeks": "Standardvaraktighet (veckor)",
+                "jobcenter": "Jobbcenter",
+                "name": "Namn",
+                "sortOrder": "Sorteringsordning"
+            }
+        },
+        "jobcenters": {
+            "addNewJobcenter": "Lägg till nytt jobbcenter",
+            "editJobcenter": "Redigera jobbcenter",
+            "jobcenters": "Jobbcenter",
+            "newJobcenter": "Nytt jobbcenter",
+            "form": {
+                "alert": {
+                    "jobcenterSuccessfullyUpdated": "Jobbcenter uppdaterat",
+                    "newJobcenterSuccessfullySaved": "Jobbcenter sparat"
+                },
+                "contactPerson": "Kontaktperson",
+                "email": "E-post",
+                "isActive": "Aktiv",
+                "municipality": "Kommun",
+                "name": "Namn",
+                "phone": "Telefon",
+                "sortOrder": "Sorteringsordning"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Ta bort",
+                    "edit": "Redigera"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Jobbcenter borttaget"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Är du säker på att du vill ta bort detta jobbcenter?"
+                },
+                "contactPerson": "Kontaktperson",
+                "municipality": "Kommun",
+                "name": "Namn",
+                "sortOrder": "Sorteringsordning"
+            }
         }
     }
 }
