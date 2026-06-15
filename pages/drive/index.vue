@@ -99,7 +99,7 @@
 
                             <!-- Knap til opret ny mappe (Google Drive/OneDrive) fjernet efter ønske -->
 
-                            <FormButton buttonStyle="action"
+                            <FormButton buttonStyle="success"
                                 @click="state.viewMode === 'google-drive' ? uploadToGoogleDrive() : state.isInsideOneDrive ? handleOneDriveUpload() : triggerFileInput()"
                                 v-if="state.viewMode === 'google-drive' || state.isInsideOneDrive || state.viewMode === 'local'">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
@@ -175,7 +175,8 @@
                         <Table v-else :columnHeaders="state.columnHeaders"
                             :data="state.viewMode === 'google-drive' ? state.googleDriveFiles : state.documents"
                             :isLoading="state.isTableLoading" :sortData="state.sortData"
-                            :emptyMessage="state.viewMode === 'google-drive' && !state.googleDriveConnected ? 'You have not activated or linked your Google Drive' : ''"
+                            emptyIcon="ph:folder-notch-open"
+                            :emptyMessage="state.viewMode === 'google-drive' && !state.googleDriveConnected ? 'You have not activated or linked your Google Drive' : 'Ingen filer eller mapper her endnu — upload en fil eller opret en mappe via “Ny”.'"
                             @sort="sort">
                             <template #body
                                 v-if="!(state.isTableLoading || ((state.viewMode === 'google-drive' ? state.googleDriveFiles : state.documents)?.data?.length === 0))">

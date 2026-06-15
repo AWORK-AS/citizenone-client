@@ -37,45 +37,39 @@
             <div>
                 <div
                     class="flex justify-between items-start flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
-                    <div class="flex items-center gap-x-1">
-                        <span>{{ $t('entriesPerPage') }}:</span>
-                        <select class="focus:outline-none bg-transparent" @change="changePageLength"
-                            id="citizensPageLength">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="40">40</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="500">500</option>
-                        </select>
+                    <div class="flex items-center gap-x-3">
+                        <span v-if="departmentStore.getSelectedDepartmentName && departmentStore.getSelectedDepartmentName !== 'All departments'"
+                            class="inline-flex items-center gap-x-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-medium">
+                            <Icon name="ph:buildings" class="h-4 w-4" aria-hidden="true" />
+                            {{ departmentStore.getSelectedDepartmentName }}
+                        </span>
+                        <div class="flex items-center gap-x-1 text-sm text-slate-500">
+                            <span>{{ $t('entriesPerPage') }}:</span>
+                            <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                                id="citizensPageLength">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="500">500</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="flex flex-wrap items-center gap-3">
-                        <FormButton buttonStyle="action" @click="state.modal.isViewLocationsOpen = true">
-                            <Icon name="ph:map-pin" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.viewLocations.viewLocations') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" @click="navigateTo('/inquiries')"
-                            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
-                            <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('inquiries.inquiries') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" @click="navigateTo('/rooms')">
-                            <Icon name="ph:door" class="h-4 w-4" aria-hidden="true" />
-                            {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}
-                        </FormButton>
-                        <Menu
-                            v-if="isAtLeast('Admin') || can('create_citizen')"
-                            as="div" class="relative inline-block text-left z-20">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <!-- Secondary actions grouped into one menu to declutter the toolbar.
+                             All authorization gates (admin / can()) are preserved per item. -->
+                        <Menu as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
                                     <FormButton buttonStyle="action">
-                                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                        {{ $t('citizens.newCitizen') }}
+                                        <Icon name="ph:dots-three-outline" class="h-4 w-4" aria-hidden="true" />
+                                        Handlinger
+                                        <Icon name="ph:caret-down" class="h-3.5 w-3.5" aria-hidden="true" />
                                     </FormButton>
                                 </MenuButton>
                             </div>
-
                             <transition enter-active-class="transition duration-100 ease-out"
                                 enter-from-class="transform scale-95 opacity-0"
                                 enter-to-class="transform scale-100 opacity-100"
@@ -83,24 +77,61 @@
                                 leave-from-class="transform scale-100 opacity-100"
                                 leave-to-class="transform scale-95 opacity-0">
                                 <MenuItems
-                                    class="absolute right-0 bottom-full mb-2 md:bottom-auto md:mb-0 md:top-full md:mt-2 min-w-44 origin-bottom-right md:origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                    class="absolute right-0 mt-2 min-w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none max-h-96 overflow-y-auto z-30">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]" @click="navigateTo('/citizens/new')">
-                                            <Icon name="ph:plus" class="h-4 w-4 mr-2" aria-hidden="true" />
-                                            {{ $t('citizens.newCitizen') }}
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="state.modal.isViewLocationsOpen = true">
+                                            <Icon name="ph:map-pin" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                            {{ $t('citizens.viewLocations.viewLocations') }}
                                         </button>
                                         </MenuItem>
-                                        <MenuItem v-slot="{ active }"
-                                            v-if="isAtLeast('Admin') || can('update_form_field_config')">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]" @click="navigateTo('/citizens/citizen-form')">
-                                            <Icon name="ph:gear" class="h-4 w-4 mr-2" aria-hidden="true" />
+                                        <MenuItem v-slot="{ active }" v-if="isShelterOrCrisisCenter">
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="navigateTo('/inquiries')">
+                                            <Icon name="ph:list-bullets" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                            {{ $t('inquiries.inquiries') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="navigateTo('/rooms')">
+                                            <Icon name="ph:door" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                            {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="state.modal.isSharedJournalsOpen = true">
+                                            <Icon name="ph:share-fat" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                            {{ $t('citizens.citizenJournals.shareJournals.sharedJournals') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }" v-if="isAtLeast('Admin')">
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="state.modal.isImportCitizensOpen = true">
+                                            <Icon name="ph:file-arrow-up" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                            {{ $t('citizens.importCitizens.importCitizens') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }" v-if="isAtLeast('Admin')">
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="state.modal.isImportMapperOpen = true">
+                                            <Icon name="ph:arrows-merge" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                            Importér fra andet system
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }" v-if="isAtLeast('Admin') && !isShelterOrCrisisCenter">
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="exportCitizens({})">
+                                            <Icon name="ph:file-arrow-down" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                            {{ $t('citizens.exportCitizens') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }" v-if="isAtLeast('Admin') || can('update_form_field_config')">
+                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                            @click="navigateTo('/citizens/citizen-form')">
+                                            <Icon name="ph:gear" class="h-4 w-4 text-gray-500" aria-hidden="true" />
                                             {{ $t('citizens.editCitizenForm') }}
                                         </button>
                                         </MenuItem>
@@ -108,25 +139,6 @@
                                 </MenuItems>
                             </transition>
                         </Menu>
-                        <FormButton buttonStyle="action" @click="state.modal.isSharedJournalsOpen = true">
-                            <Icon name="ph:share-fat" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.citizenJournals.shareJournals.sharedJournals') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isImportCitizensOpen = true"
-                            v-if="isAtLeast('Admin')">
-                            <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.importCitizens.importCitizens') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isImportMapperOpen = true"
-                            v-if="isAtLeast('Admin')">
-                            <Icon name="ph:arrows-merge" class="h-4 w-4" aria-hidden="true" />
-                            Importér fra andet system
-                        </FormButton>
-                        <FormButton buttonStyle="action" @click="exportCitizens({})"
-                            v-if="isAtLeast('Admin') && !isShelterOrCrisisCenter">
-                            <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.exportCitizens') }}
-                        </FormButton>
                         <Menu v-if="isAtLeast('Admin') && isShelterOrCrisisCenter" as="div"
                             class="relative inline-block text-left z-20">
                             <div>
@@ -211,6 +223,12 @@
                                 </MenuItems>
                             </transition>
                         </Menu>
+                        <!-- Primary call-to-action -->
+                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen')" buttonStyle="success"
+                            @click="navigateTo('/citizens/new')">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.newCitizen') }}
+                        </FormButton>
                     </div>
                 </div>
                 <div class="space-y-5">
@@ -219,7 +237,9 @@
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.citizens"
-                            :isLoading="state.isTableLoading" :sortData="citizenStore.getSortData" @sort="sort">
+                            :isLoading="state.isTableLoading" :sortData="citizenStore.getSortData" @sort="sort"
+                            emptyIcon="heroicons:user-group"
+                            emptyMessage="Ingen borgere fundet endnu — brug “Ny borger” øverst, eller importér fra et andet system.">
                             <template #body v-if="!(state.isTableLoading || (state.citizens?.data?.length === 0))">
                                 <tr v-for="(citizen, index) in state.citizens?.data" :key="index">
                                     <td width="30%">
@@ -257,20 +277,20 @@
                                         <span>{{ citizen?.phone }}</span>
                                     </td>
                                     <td width="20%">
-                                        <div class="flex items-center justify-end gap-2">
+                                        <div class="flex items-center justify-end gap-1.5">
                                             <Tooltip v-if="isInterventionCheckinEnabled"
                                                 :text="citizen?.is_checked_in ? $t('citizens.table.actions.checkOut') : $t('citizens.table.actions.checkIn')">
                                                 <FormSwitch :value="citizen?.is_checked_in"
                                                     @toggleSwitch="toggleLogin(citizen)" />
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.medicationOverview')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)">
                                                     <Icon name="solar:jar-of-pills-2-linear" class="size-4" />
                                                 </FormButton>
@@ -279,7 +299,7 @@
                                                 citizen?.plans_goals_status === 'expiring' ? $t('citizens.table.actions.plansAndGoals.expiringPlansAndGoals') :
                                                     citizen?.plans_goals_status === 'expired' ? $t('citizens.table.actions.plansAndGoals.expiredPlansAndGoals') :
                                                         $t('citizens.table.actions.plansAndGoals.plansAndGoals')">
-                                                <FormButton type="button" :buttonStyle="citizen?.plans_goals_status === 'none' ? 'plans-none' :
+                                                <FormButton type="button" buttonSize="xs" :buttonStyle="citizen?.plans_goals_status === 'none' ? 'plans-none' :
                                                     citizen?.plans_goals_status === 'expiring' ? 'plans-expiring' :
                                                         citizen?.plans_goals_status === 'expired' ? 'plans-expired' :
                                                             'action'"
@@ -287,31 +307,29 @@
                                                     <Icon name="ph:list-checks" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.table.actions.edit')"
-                                                v-if="isAtLeast('Admin') || can('update_citizen')">
-                                                <FormButton type="button" buttonStyle="action"
-                                                    @click="navigateTo(`/citizens/${citizen.uuid}/edit`)">
-                                                    <Icon name="ph:pencil-simple" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.latestJournalEntry')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
                                                     @click="showCitizenNote(citizen)">
                                                     <Icon name="ph:note" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <FormButton type="button"
-                                                :buttonStyle="citizen.latest_risk_assessment === null && 'action' ||
-                                                    citizen.latest_risk_assessment?.assessment === 'no risk' && 'no-risk' ||
-                                                    citizen.latest_risk_assessment?.assessment === 'increased risk' && 'increased-risk' ||
-                                                    citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'acute-increased-risk' || 'action'"
-                                                @click="navigateTo(`/citizens/${citizen.uuid}/journals`)" :class="[
-                                                    citizen.latest_risk_assessment?.assessment === 'no risk' && 'bg-green-700',
-                                                    citizen.latest_risk_assessment?.assessment === 'increased risk' && 'bg-yellow-500',
-                                                    citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'bg-red-600',
-                                                ]">
-                                                {{ $t('citizens.table.actions.latestRiskAssessment') }}
-                                            </FormButton>
+                                            <Tooltip :text="$t('citizens.table.actions.edit')"
+                                                v-if="isAtLeast('Admin') || can('update_citizen')">
+                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
+                                                    @click="navigateTo(`/citizens/${citizen.uuid}/edit`)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.table.actions.latestRiskAssessment')">
+                                                <FormButton type="button" buttonSize="xs"
+                                                    :buttonStyle="citizen.latest_risk_assessment === null && 'action' ||
+                                                        citizen.latest_risk_assessment?.assessment === 'no risk' && 'no-risk' ||
+                                                        citizen.latest_risk_assessment?.assessment === 'increased risk' && 'increased-risk' ||
+                                                        citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'acute-increased-risk' || 'action'"
+                                                    @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
+                                                    <Icon name="ph:shield-warning" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                         </div>
                                     </td>
                                 </tr>
