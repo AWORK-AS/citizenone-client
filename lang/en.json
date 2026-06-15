@@ -10132,6 +10132,8 @@
                 "name": "Name",
                 "color": "Color",
                 "isActive": "Active",
+                "isBillable": "Billable",
+                "isBillableHint": "Weeks with this status are included in billing extraction",
                 "sortOrder": "Sort order",
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Status type successfully saved",
@@ -10196,8 +10198,26 @@
                 "name": "Name",
                 "rate": "Rate",
                 "frequency": "Frequency",
+                "pricingType": "Pricing type",
+                "weeklyRate": "Weekly rate",
+                "hourlyRate": "Hourly rate",
+                "bonusAmount": "Bonus amount",
+                "bonusConditionMonths": "Trigger condition (months employed)",
+                "bonusConditionMonthsHint": "Bonus is triggered when the citizen has been employed for this many months",
+                "invoiceDataSection": "Invoice data",
+                "customerNumber": "Customer number",
+                "productNumber": "Product number",
                 "description": "Description",
                 "isActive": "Active",
+                "pricingTypeOptions": {
+                    "weekly": "Weekly pricing",
+                    "hourly": "Hourly pricing",
+                    "bonus": "Bonus-based pricing"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 months",
+                    "six": "6 months"
+                },
                 "frequencyOptions": {
                     "hourly": "Hourly",
                     "daily": "Daily",
@@ -10347,6 +10367,54 @@
                 "name": "Name",
                 "sortOrder": "Sort order"
             }
+        },
+        "billing": {
+            "billing": "Billing",
+            "extraction": "Billing extraction",
+            "fromDate": "From date",
+            "toDate": "To date",
+            "generate": "Generate",
+            "markAsInvoiced": "Mark as invoiced",
+            "markSelected": "Mark selected as invoiced",
+            "invoiced": "Invoiced",
+            "notInvoiced": "Not invoiced",
+            "citizen": "Citizen",
+            "cpr": "CPR number",
+            "period": "Billing period",
+            "pricePerWeek": "Price / week",
+            "pricePerHour": "Price / hour",
+            "weeks": "Weeks",
+            "hours": "Hours",
+            "bonus": "Bonus",
+            "total": "Total",
+            "customerNumber": "Customer number",
+            "productNumber": "Product number",
+            "agreement": "Agreement",
+            "consultant": "Consultant",
+            "excludeWeek": "Exclude week",
+            "includeWeek": "Include week",
+            "noData": "No billing data found for the selected period",
+            "selectPeriod": "Select a period to generate billing data",
+            "invoicedOn": "Invoiced on",
+            "alert": {
+                "markedAsInvoiced": "Selected entries marked as invoiced",
+                "weekExcluded": "Week excluded from billing",
+                "weekIncluded": "Week included in billing"
+            }
+        },
+        "revenue": {
+            "revenue": "Revenue",
+            "report": "Revenue report",
+            "consultant": "Consultant",
+            "citizens": "Citizens handled",
+            "weeklyBilling": "Weekly billing",
+            "hourlyBilling": "Hourly billing",
+            "bonuses": "Bonuses",
+            "totalRevenue": "Total revenue",
+            "fromDate": "From date",
+            "toDate": "To date",
+            "generate": "Generate",
+            "noData": "No revenue data found for the selected period"
         }
     }
 }

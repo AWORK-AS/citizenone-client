@@ -10136,7 +10136,9 @@
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Statustype gemt",
                     "statusTypeSuccessfullyUpdated": "Statustype opdateret"
-                }
+                },
+                "isBillable": "Fakturerbar",
+                "isBillableHint": "Uger med denne status medtages i faktureringsudtræk"
             },
             "table": {
                 "name": "Navn",
@@ -10208,6 +10210,24 @@
                 "alert": {
                     "newBillingRuleSuccessfullySaved": "Faktureringsregel gemt",
                     "billingRuleSuccessfullyUpdated": "Faktureringsregel opdateret"
+                },
+                "pricingType": "Prismodel",
+                "weeklyRate": "Ugentlig pris",
+                "hourlyRate": "Timepris",
+                "bonusAmount": "Bonusbeløb",
+                "bonusConditionMonths": "Udløsningsbetingelse (måneders ansættelse)",
+                "bonusConditionMonthsHint": "Bonus udløses, når borgeren har været ansat i dette antal måneder",
+                "invoiceDataSection": "Fakturadata",
+                "customerNumber": "Kundenummer",
+                "productNumber": "Produktnummer",
+                "pricingTypeOptions": {
+                    "weekly": "Ugentlig prissætning",
+                    "hourly": "Timebaseret prissætning",
+                    "bonus": "Bonusbaseret prissætning"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 måneder",
+                    "six": "6 måneder"
                 }
             },
             "table": {
@@ -10347,6 +10367,54 @@
                 "name": "Navn",
                 "sortOrder": "Sorteringsrækkefølge"
             }
+        },
+        "billing": {
+            "billing": "Fakturering",
+            "extraction": "Faktureringsudtræk",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generér",
+            "markAsInvoiced": "Markér som faktureret",
+            "markSelected": "Markér valgte som faktureret",
+            "invoiced": "Faktureret",
+            "notInvoiced": "Ikke faktureret",
+            "citizen": "Borger",
+            "cpr": "CPR-nummer",
+            "period": "Faktureringsperiode",
+            "pricePerWeek": "Pris / uge",
+            "pricePerHour": "Pris / time",
+            "weeks": "Uger",
+            "hours": "Timer",
+            "bonus": "Bonus",
+            "total": "Total",
+            "customerNumber": "Kundenummer",
+            "productNumber": "Produktnummer",
+            "agreement": "Aftale",
+            "consultant": "Konsulent",
+            "excludeWeek": "Ekskludér uge",
+            "includeWeek": "Inkludér uge",
+            "noData": "Ingen faktureringsdata fundet for den valgte periode",
+            "selectPeriod": "Vælg en periode for at generere faktureringsdata",
+            "invoicedOn": "Faktureret den",
+            "alert": {
+                "markedAsInvoiced": "Valgte poster markeret som faktureret",
+                "weekExcluded": "Uge ekskluderet fra fakturering",
+                "weekIncluded": "Uge inkluderet i fakturering"
+            }
+        },
+        "revenue": {
+            "revenue": "Omsætning",
+            "report": "Omsætningsrapport",
+            "consultant": "Konsulent",
+            "citizens": "Håndterede borgere",
+            "weeklyBilling": "Ugentlig fakturering",
+            "hourlyBilling": "Timebaseret fakturering",
+            "bonuses": "Bonusser",
+            "totalRevenue": "Samlet omsætning",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generér",
+            "noData": "Ingen omsætningsdata fundet for den valgte periode"
         }
     }
 }

@@ -10136,7 +10136,9 @@
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Statustype lagret",
                     "statusTypeSuccessfullyUpdated": "Statustype oppdatert"
-                }
+                },
+                "isBillable": "Fakturerbar",
+                "isBillableHint": "Uker med denne statusen inkluderes i faktureringsuttrekk"
             },
             "table": {
                 "name": "Navn",
@@ -10208,6 +10210,24 @@
                 "alert": {
                     "newBillingRuleSuccessfullySaved": "Faktureringsregel lagret",
                     "billingRuleSuccessfullyUpdated": "Faktureringsregel oppdatert"
+                },
+                "pricingType": "Prismodell",
+                "weeklyRate": "Ukentlig pris",
+                "hourlyRate": "Timepris",
+                "bonusAmount": "Bonusbeløp",
+                "bonusConditionMonths": "Utløsingsbetingelse (måneders ansettelse)",
+                "bonusConditionMonthsHint": "Bonus utløses når borgeren har vært ansatt i dette antall måneder",
+                "invoiceDataSection": "Fakturadata",
+                "customerNumber": "Kundenummer",
+                "productNumber": "Produktnummer",
+                "pricingTypeOptions": {
+                    "weekly": "Ukentlig prising",
+                    "hourly": "Timebasert prising",
+                    "bonus": "Bonusbasert prising"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 måneder",
+                    "six": "6 måneder"
                 }
             },
             "table": {
@@ -10347,6 +10367,54 @@
                 "name": "Navn",
                 "sortOrder": "Sorteringsrekkefølge"
             }
+        },
+        "billing": {
+            "billing": "Fakturering",
+            "extraction": "Faktureringsuttrekk",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generer",
+            "markAsInvoiced": "Merk som fakturert",
+            "markSelected": "Merk valgte som fakturert",
+            "invoiced": "Fakturert",
+            "notInvoiced": "Ikke fakturert",
+            "citizen": "Borger",
+            "cpr": "CPR-nummer",
+            "period": "Faktureringsperiode",
+            "pricePerWeek": "Pris / uke",
+            "pricePerHour": "Pris / time",
+            "weeks": "Uker",
+            "hours": "Timer",
+            "bonus": "Bonus",
+            "total": "Total",
+            "customerNumber": "Kundenummer",
+            "productNumber": "Produktnummer",
+            "agreement": "Avtale",
+            "consultant": "Konsulent",
+            "excludeWeek": "Ekskluder uke",
+            "includeWeek": "Inkluder uke",
+            "noData": "Ingen faktureringsdata funnet for valgt periode",
+            "selectPeriod": "Velg en periode for å generere faktureringsdata",
+            "invoicedOn": "Fakturert den",
+            "alert": {
+                "markedAsInvoiced": "Valgte oppføringer merket som fakturert",
+                "weekExcluded": "Uke ekskludert fra fakturering",
+                "weekIncluded": "Uke inkludert i fakturering"
+            }
+        },
+        "revenue": {
+            "revenue": "Inntekt",
+            "report": "Inntektsrapport",
+            "consultant": "Konsulent",
+            "citizens": "Behandlede borgere",
+            "weeklyBilling": "Ukentlig fakturering",
+            "hourlyBilling": "Timebasert fakturering",
+            "bonuses": "Bonuser",
+            "totalRevenue": "Total inntekt",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generer",
+            "noData": "Ingen inntektsdata funnet for valgt periode"
         }
     }
 }

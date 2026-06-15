@@ -18,9 +18,19 @@
             <div class="space-y-1">
                 <FormLabel for="sort_order" :label="$t('employment.statusTypes.form.sortOrder')" />
                 <FormNumberField id="sort_order" name="sort_order" :min="0"
+                    :placeholder="$t('employment.statusTypes.form.sortOrder')"
                     v-model="state.formStatusType.sort_order" />
                 <FormError :error="props?.error?.errors?.sort_order?.[0]" />
             </div>
+            <div class="flex items-center gap-x-3">
+                <FormLabel for="is_billable" :label="$t('employment.statusTypes.form.isBillable')" />
+                <FormSwitch :value="state.formStatusType.is_billable"
+                    @toggleSwitch="state.formStatusType.is_billable = !state.formStatusType.is_billable" />
+                <FormError :error="props?.error?.errors?.is_billable?.[0]" />
+            </div>
+            <p class="text-xs text-[#8891A4] -mt-1">
+                {{ $t('employment.statusTypes.form.isBillableHint') }}
+            </p>
             <div class="flex items-center gap-x-3">
                 <FormLabel for="is_active" :label="$t('employment.statusTypes.form.isActive')" />
                 <FormSwitch :value="state.formStatusType.is_active"
@@ -30,8 +40,7 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel"
-                    @click="navigateTo('/settings/employment-status-types')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/employment-status-types')">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary">
@@ -72,7 +81,8 @@ const state = reactive({
         name: '',
         color: '#000000',
         is_active: true,
-        sort_order: 0,
+        is_billable: true,
+        sort_order: '0' as string,
     },
 })
 
@@ -82,7 +92,8 @@ watch(() => props.selectedStatusType, (newValue: any) => {
             name: newValue.name ?? '',
             color: newValue.color ?? '#000000',
             is_active: newValue.is_active ?? true,
-            sort_order: newValue.sort_order ?? 0,
+            is_billable: newValue.is_billable ?? true,
+            sort_order: newValue.sort_order != null ? String(newValue.sort_order) : '0',
         }
     }
 })
@@ -103,7 +114,10 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formStatusType)
+        emit('submitForm', {
+            ...state.formStatusType,
+            sort_order: Number(state.formStatusType.sort_order),
+        })
     }
 }
 </script>

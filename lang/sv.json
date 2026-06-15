@@ -10136,7 +10136,9 @@
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Statustyp sparad",
                     "statusTypeSuccessfullyUpdated": "Statustyp uppdaterad"
-                }
+                },
+                "isBillable": "Fakturerbar",
+                "isBillableHint": "Veckor med denna status inkluderas i faktureringsuttag"
             },
             "table": {
                 "name": "Namn",
@@ -10208,6 +10210,24 @@
                 "alert": {
                     "newBillingRuleSuccessfullySaved": "Faktureringsregel sparad",
                     "billingRuleSuccessfullyUpdated": "Faktureringsregel uppdaterad"
+                },
+                "pricingType": "Prismodell",
+                "weeklyRate": "Veckopris",
+                "hourlyRate": "Timtaxa",
+                "bonusAmount": "Bonusbelopp",
+                "bonusConditionMonths": "Utlösningsvillkor (månaders anställning)",
+                "bonusConditionMonthsHint": "Bonus utlöses när medborgaren har varit anställd i detta antal månader",
+                "invoiceDataSection": "Fakturadata",
+                "customerNumber": "Kundnummer",
+                "productNumber": "Produktnummer",
+                "pricingTypeOptions": {
+                    "weekly": "Veckobaserad prissättning",
+                    "hourly": "Timbaserad prissättning",
+                    "bonus": "Bonusbaserad prissättning"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 månader",
+                    "six": "6 månader"
                 }
             },
             "table": {
@@ -10347,6 +10367,54 @@
                 "name": "Namn",
                 "sortOrder": "Sorteringsordning"
             }
+        },
+        "billing": {
+            "billing": "Fakturering",
+            "extraction": "Faktureringsuttag",
+            "fromDate": "Från datum",
+            "toDate": "Till datum",
+            "generate": "Generera",
+            "markAsInvoiced": "Markera som fakturerad",
+            "markSelected": "Markera valda som fakturerade",
+            "invoiced": "Fakturerad",
+            "notInvoiced": "Ej fakturerad",
+            "citizen": "Medborgare",
+            "cpr": "CPR-nummer",
+            "period": "Faktureringsperiod",
+            "pricePerWeek": "Pris / vecka",
+            "pricePerHour": "Pris / timme",
+            "weeks": "Veckor",
+            "hours": "Timmar",
+            "bonus": "Bonus",
+            "total": "Totalt",
+            "customerNumber": "Kundnummer",
+            "productNumber": "Produktnummer",
+            "agreement": "Avtal",
+            "consultant": "Konsult",
+            "excludeWeek": "Exkludera vecka",
+            "includeWeek": "Inkludera vecka",
+            "noData": "Ingen faktureringsdata hittades för vald period",
+            "selectPeriod": "Välj en period för att generera faktureringsdata",
+            "invoicedOn": "Fakturerad den",
+            "alert": {
+                "markedAsInvoiced": "Valda poster markerade som fakturerade",
+                "weekExcluded": "Vecka exkluderad från fakturering",
+                "weekIncluded": "Vecka inkluderad i fakturering"
+            }
+        },
+        "revenue": {
+            "revenue": "Intäkt",
+            "report": "Intäktsrapport",
+            "consultant": "Konsult",
+            "citizens": "Hanterade medborgare",
+            "weeklyBilling": "Veckofakturering",
+            "hourlyBilling": "Timfakturering",
+            "bonuses": "Bonusar",
+            "totalRevenue": "Total intäkt",
+            "fromDate": "Från datum",
+            "toDate": "Till datum",
+            "generate": "Generera",
+            "noData": "Ingen intäktsdata hittades för vald period"
         }
     }
 }
