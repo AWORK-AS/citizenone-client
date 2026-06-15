@@ -17,10 +17,14 @@
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
 
-            <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesUserForm formType="update" :selectedForm="state.formForm" :error="state.error"
-                    @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateForm" />
-            </LoadingSpinner>
+            <Tabs :tabs="tabs" />
+
+            <div class="mt-6">
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesUserForm formType="update" :selectedForm="state.formForm" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateForm" />
+                </LoadingSpinner>
+            </div>
         </NuxtLayout>
     </div>
 </template>
@@ -48,6 +52,21 @@ const breadcrumbLinks = [
         href: `/forms/${formUuid}/edit`,
     },
 ]
+
+const tabs = computed(() => [
+    {
+        name: 'forms.tabs.formBuilder',
+        isTranslateName: true,
+        href: `/forms/${formUuid}/edit`,
+        routeNames: ['forms-form_uuid-edit'],
+    },
+    {
+        name: 'forms.tabs.predefinedEvents',
+        isTranslateName: true,
+        href: `/forms/${formUuid}/predefined-events`,
+        routeNames: ['forms-form_uuid-predefined-events'],
+    },
+])
 
 const state = reactive({
     error: {} as Error,
@@ -116,5 +135,5 @@ async function updateForm(formDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
-} 
+}
 </script>
