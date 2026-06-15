@@ -10416,5 +10416,32 @@
             "generate": "Generer",
             "noData": "Ingen inntektsdata funnet for valgt periode"
         }
+    },
+    "attendance": {
+        "absenceReason": "Fraværsgrunn",
+        "absenceReasons": "Fraværsgrunner",
+        "citizen": "Borger",
+        "checkIn": "Innsjekk",
+        "checkInOut": "Innsjekk / Utsjekk",
+        "date": "Dato",
+        "generate": "Generer",
+        "in": "Inn",
+        "monthlyReport": "Månedlig oppmøterapport",
+        "noDataForPeriod": "Ingen oppmøtedata funnet for valgt periode",
+        "noParticipantsToday": "Ingen deltakere påmeldt i dag",
+        "notRegistered": "Ikke registrert",
+        "out": "Ut",
+        "participantList": "Deltagerliste",
+        "pending": "Venter",
+        "period": "Periode",
+        "print": "Skriv ut",
+        "printedOn": "Skrevet ut den",
+        "protocol": "Aktivitet",
+        "selectMonthToGenerate": "Velg en måned og klikk Generer",
+        "selectWeekToGenerate": "Velg en uke og klikk Generer",
+        "signature": "Underskrift",
+        "total": "Total",
+        "week": "Uke",
+        "weeklyReport": "Ukentlig oppmøterapport"
     }
 }

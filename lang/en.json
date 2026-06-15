@@ -97,6 +97,33 @@
             "name": "Name"
         }
     },
+    "attendance": {
+        "absenceReason": "Absence reason",
+        "absenceReasons": "Absence reasons",
+        "citizen": "Citizen",
+        "checkIn": "Check-in",
+        "checkInOut": "Check-in / Check-out",
+        "date": "Date",
+        "generate": "Generate",
+        "in": "In",
+        "monthlyReport": "Monthly attendance report",
+        "noDataForPeriod": "No attendance data found for the selected period",
+        "noParticipantsToday": "No participants enrolled for today",
+        "notRegistered": "Not registered",
+        "out": "Out",
+        "participantList": "Participant list",
+        "pending": "Pending",
+        "period": "Period",
+        "print": "Print",
+        "printedOn": "Printed on",
+        "protocol": "Activity",
+        "selectMonthToGenerate": "Select a month and click Generate",
+        "selectWeekToGenerate": "Select a week and click Generate",
+        "signature": "Signature",
+        "total": "Total",
+        "week": "Week",
+        "weeklyReport": "Weekly attendance report"
+    },
     "caseworkerSharing": {
         "cancel": "Cancel",
         "changePassword": "Change password",
