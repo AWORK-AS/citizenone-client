@@ -149,45 +149,27 @@ async function fetchLanguages() {
 }
 
 async function switchLanguage(selectedLanguage: any) {
-    if (localStorage.getItem('_token') && selectedLanguage.uuid) {
+    const languageCode = selectedLanguage.code
+    const applyLocale = () => {
+        userStore.setLanguage(languageCode)
+        language.locale.value = languageCode
+    }
+
+    const route = useRoute()
+    const isGuestPortal = route.path.startsWith('/guest/caseworker/')
+
+    if (!isGuestPortal && localStorage.getItem('_token') && selectedLanguage.uuid) {
         state.error = {}
         state.isPageLoading = true
         try {
-            const languageUuid = selectedLanguage.uuid
-            const params = {
-                language_uuid: languageUuid,
-            }
-            const response = await userService.updateUserLangugage(params)
-            if (response) {
-                const languageCode = selectedLanguage.code
-                userStore.setLanguage(languageCode)
-                if (languageCode === 'en') {
-                    language.locale.value = 'en'
-                } else if (languageCode === 'dk') {
-                    language.locale.value = 'dk'
-                } else if (languageCode === 'no') {
-                    language.locale.value = 'no'
-                } else if (languageCode === 'sv') {
-                    language.locale.value = 'sv'
-                }
-            }
-        } catch (error: any) {
-            state.error = error
+            await userService.updateUserLangugage({ language_uuid: selectedLanguage.uuid })
+        } catch {
+            // API call may fail in guest contexts — silently ignore and apply locale locally
         }
+        applyLocale()
         state.isPageLoading = false
     } else {
-        // No token, or language has no uuid yet (supplemental locale)
-        const languageCode = selectedLanguage.code
-        userStore.setLanguage(languageCode)
-        if (languageCode === 'en') {
-            language.locale.value = 'en'
-        } else if (languageCode === 'dk') {
-            language.locale.value = 'dk'
-        } else if (languageCode === 'no') {
-            language.locale.value = 'no'
-        } else if (languageCode === 'sv') {
-            language.locale.value = 'sv'
-        }
+        applyLocale()
     }
 }
 </script>
