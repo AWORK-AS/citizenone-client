@@ -10276,6 +10276,77 @@
                 "status": "Status",
                 "weeksUsed": "Weeks used"
             }
+        },
+        "agreements": {
+            "addNewAgreement": "Add new agreement",
+            "agreements": "Agreements",
+            "editAgreement": "Edit agreement",
+            "newAgreement": "New agreement",
+            "form": {
+                "alert": {
+                    "agreementSuccessfullyUpdated": "Agreement successfully updated",
+                    "newAgreementSuccessfullySaved": "Agreement successfully saved"
+                },
+                "defaultDurationWeeks": "Default duration (weeks)",
+                "description": "Description",
+                "isActive": "Active",
+                "jobcenter": "Job center",
+                "name": "Name",
+                "sortOrder": "Sort order"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "active": "Active",
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Agreement successfully deleted"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Are you sure you want to delete this agreement?"
+                },
+                "defaultDurationWeeks": "Default duration (weeks)",
+                "jobcenter": "Job center",
+                "name": "Name",
+                "sortOrder": "Sort order"
+            }
+        },
+        "jobcenters": {
+            "addNewJobcenter": "Add new job center",
+            "editJobcenter": "Edit job center",
+            "jobcenters": "Job centers",
+            "newJobcenter": "New job center",
+            "form": {
+                "alert": {
+                    "jobcenterSuccessfullyUpdated": "Job center successfully updated",
+                    "newJobcenterSuccessfullySaved": "Job center successfully saved"
+                },
+                "contactPerson": "Contact person",
+                "email": "Email",
+                "isActive": "Active",
+                "municipality": "Municipality",
+                "name": "Name",
+                "phone": "Phone",
+                "sortOrder": "Sort order"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Delete",
+                    "edit": "Edit"
+                },
+                "active": "Active",
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Job center successfully deleted"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Are you sure you want to delete this job center?"
+                },
+                "contactPerson": "Contact person",
+                "municipality": "Municipality",
+                "name": "Name",
+                "sortOrder": "Sort order"
+            }
         }
     }
 }

@@ -10276,6 +10276,77 @@
                 "status": "Status",
                 "weeksUsed": "Brukte uker"
             }
+        },
+        "agreements": {
+            "addNewAgreement": "Legg til ny avtale",
+            "agreements": "Avtaler",
+            "editAgreement": "Rediger avtale",
+            "newAgreement": "Ny avtale",
+            "form": {
+                "alert": {
+                    "agreementSuccessfullyUpdated": "Avtale oppdatert",
+                    "newAgreementSuccessfullySaved": "Avtale lagret"
+                },
+                "defaultDurationWeeks": "Standard varighet (uker)",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "jobcenter": "Jobbsenter",
+                "name": "Navn",
+                "sortOrder": "Sorteringsrekkefølge"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Slett",
+                    "edit": "Rediger"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Avtale slettet"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Er du sikker på at du vil slette denne avtalen?"
+                },
+                "defaultDurationWeeks": "Standard varighet (uker)",
+                "jobcenter": "Jobbsenter",
+                "name": "Navn",
+                "sortOrder": "Sorteringsrekkefølge"
+            }
+        },
+        "jobcenters": {
+            "addNewJobcenter": "Legg til nytt jobbsenter",
+            "editJobcenter": "Rediger jobbsenter",
+            "jobcenters": "Jobbsentre",
+            "newJobcenter": "Nytt jobbsenter",
+            "form": {
+                "alert": {
+                    "jobcenterSuccessfullyUpdated": "Jobbsenter oppdatert",
+                    "newJobcenterSuccessfullySaved": "Jobbsenter lagret"
+                },
+                "contactPerson": "Kontaktperson",
+                "email": "E-post",
+                "isActive": "Aktiv",
+                "municipality": "Kommune",
+                "name": "Navn",
+                "phone": "Telefon",
+                "sortOrder": "Sorteringsrekkefølge"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Slett",
+                    "edit": "Rediger"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Jobbsenter slettet"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Er du sikker på at du vil slette dette jobbsenteret?"
+                },
+                "contactPerson": "Kontaktperson",
+                "municipality": "Kommune",
+                "name": "Navn",
+                "sortOrder": "Sorteringsrekkefølge"
+            }
         }
     }
 }
