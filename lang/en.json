@@ -9825,6 +9825,7 @@
     },
     "update": "Update",
     "updates": {
+        "newUpdates": "New updates",
         "newUpdatesFrom": "New updates from",
         "showUpdate": "Show update",
         "updates": "Updates"

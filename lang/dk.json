@@ -9825,6 +9825,7 @@
     },
     "update": "Opdater",
     "updates": {
+        "newUpdates": "Nye opdateringer",
         "newUpdatesFrom": "Nye opdateringer fra",
         "showUpdate": "Vis opdatering",
         "updates": "Opdateringer"
