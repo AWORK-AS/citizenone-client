@@ -6739,6 +6739,15 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Borgeres begivenheder",
+        "briefing": {
+            "morning": "God morgen, {name}",
+            "afternoon": "God eftermiddag, {name}",
+            "evening": "God aften, {name}",
+            "birthdays": "{count} har fødselsdag i dag",
+            "medicine": "{count} kræver medicin-handling",
+            "appointments": "{count} aftaler",
+            "allCalm": "Alt ser roligt ud lige nu"
+        },
         "birthdays": {
             "title": "Fødselsdage denne uge",
             "todayTitle": "Fødselsdage i dag",

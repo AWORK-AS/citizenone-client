@@ -6725,6 +6725,15 @@
         },
         "citizensDiagnoses": "Brukernes diagnoser",
         "citizensEvents": "Brukeres arrangementer",
+        "briefing": {
+            "morning": "God morgen, {name}",
+            "afternoon": "God ettermiddag, {name}",
+            "evening": "God kveld, {name}",
+            "birthdays": "{count} har bursdag i dag",
+            "medicine": "{count} krever medisin-handling",
+            "appointments": "{count} avtaler",
+            "allCalm": "Ser rolig ut akkurat nå"
+        },
         "birthdays": {
             "title": "Bursdager denne uke",
             "todayTitle": "Bursdager i dag",

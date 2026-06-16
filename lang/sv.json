@@ -6725,6 +6725,15 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Klienters händelser",
+        "briefing": {
+            "morning": "God morgon, {name}",
+            "afternoon": "God eftermiddag, {name}",
+            "evening": "God kväll, {name}",
+            "birthdays": "{count} har födelsedag idag",
+            "medicine": "{count} kräver medicin-åtgärd",
+            "appointments": "{count} möten",
+            "allCalm": "Ser lugnt ut just nu"
+        },
         "birthdays": {
             "title": "Födelsedagar denna vecka",
             "todayTitle": "Födelsedagar idag",

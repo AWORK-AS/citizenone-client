@@ -6739,6 +6739,15 @@
         },
         "citizensDiagnoses": "Citizens diagnoses",
         "citizensEvents": "Citizens' events",
+        "briefing": {
+            "morning": "Good morning, {name}",
+            "afternoon": "Good afternoon, {name}",
+            "evening": "Good evening, {name}",
+            "birthdays": "{count} with a birthday today",
+            "medicine": "{count} need medicine action",
+            "appointments": "{count} appointments",
+            "allCalm": "Looks calm right now"
+        },
         "birthdays": {
             "title": "Birthdays this week",
             "todayTitle": "Birthdays today",

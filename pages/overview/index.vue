@@ -51,6 +51,31 @@
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
 
+            <!-- Shift briefing -->
+            <div class="mb-4 rounded-2xl border border-surface-200 bg-gradient-to-br from-primary/[0.06] to-secondary/[0.06] px-5 py-4">
+                <p class="text-lg font-semibold text-slate-900">
+                    {{ $t('overview.briefing.' + greetingPart, { name: firstName }) }} 👋
+                </p>
+                <div class="mt-2 flex flex-wrap items-center gap-2 text-sm">
+                    <span v-if="todaysBirthdays.length > 0"
+                        class="inline-flex items-center gap-x-1 rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-1">
+                        🎂 {{ $t('overview.briefing.birthdays', { count: todaysBirthdays.length }) }}
+                    </span>
+                    <span v-if="medicineActionCitizens.length > 0"
+                        class="inline-flex items-center gap-x-1 rounded-full bg-red-50 text-red-600 px-2.5 py-1">
+                        💊 {{ $t('overview.briefing.medicine', { count: medicineActionCitizens.length }) }}
+                    </span>
+                    <span v-if="todaysEventsCount > 0"
+                        class="inline-flex items-center gap-x-1 rounded-full bg-blue-50 text-blue-700 px-2.5 py-1">
+                        📅 {{ $t('overview.briefing.appointments', { count: todaysEventsCount }) }}
+                    </span>
+                    <span v-if="todaysBirthdays.length === 0 && medicineActionCitizens.length === 0 && todaysEventsCount === 0"
+                        class="text-slate-500">
+                        {{ $t('overview.briefing.allCalm') }} ☀️
+                    </span>
+                </div>
+            </div>
+
             <!-- Action bar -->
             <div class="flex items-center justify-between gap-3 flex-wrap">
                 <div class="flex items-center gap-x-2">
@@ -495,6 +520,14 @@ const medicineActionCitizens = computed(() => {
     // Deviations are more urgent than overdue doses, so surface them first.
     return Array.from(byCitizen.values()).sort((a, b) => (b.deviated - a.deviated) || (b.overdue - a.overdue))
 })
+
+// Warm, time-of-day greeting for the shift briefing.
+const firstName = computed(() => userStore.getUser?.firstname ?? '')
+const greetingPart = computed(() => {
+    const hour = moment().hour()
+    return hour < 12 ? 'morning' : (hour < 18 ? 'afternoon' : 'evening')
+})
+const todaysEventsCount = computed(() => state.stats.citizenCalendarEvents?.data?.length ?? 0)
 
 onMounted(() => {
     scrollToNewsIfNeeded()
