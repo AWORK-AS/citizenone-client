@@ -343,7 +343,7 @@
                             </span>
                         </div>
                         <FormSelect id="unit" :options="state.options.units" v-model="state.formMedicine.unit" />
-                        <FormError :error="v$?.formCitizen?.unit?.$errors[0]?.$message.toString()" />
+                        <FormError :error="v$?.formMedicine?.unit?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.mas_unit_uuid?.[0]" />
                     </div>
                 </div>
@@ -431,7 +431,7 @@
                         </span>
                     </div>
                     <FormSelect id="doctor" :options="state.options.doctors" v-model="state.formMedicine.doctor" />
-                    <FormError :error="v$?.formCitizen?.doctor?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formMedicine?.doctor?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.doctor_uuid?.[0]" />
                 </div>
                 <div class="space-y-1">

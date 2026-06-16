@@ -206,14 +206,14 @@
                 <FormLabel for="citizens_uuid" :label="$t('events.form.citizens')" />
                 <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
                     v-model="state.formSchedule.citizens_uuid" />
-                <FormError :error="v$?.formProtocol?.citizens_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formSchedule?.citizens_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.citizens_uuid?.[0]" />
             </div>
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <FormLabel for="users_uuid" :label="$t('events.form.employees')" />
                 <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
                     v-model="state.formSchedule.users_uuid" />
-                <FormError :error="v$?.formProtocol?.users_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formSchedule?.users_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.users_uuid?.[0]" />
             </div>
             <div class="space-y-1" v-if="props.formType === 'create'">
