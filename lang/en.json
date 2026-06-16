@@ -5819,6 +5819,13 @@
         "willNotDisclose": "Will not disclose"
     },
     "globalSearch": {
+        "actions": {
+            "title": "Quick actions",
+            "newCitizen": "Add citizen",
+            "newEmployee": "Add employee",
+            "journalNotes": "Journal notes",
+            "statistics": "Statistics"
+        },
         "attendance": "Attendance",
         "bookings": "Bookings",
         "calendar": "Calendar",

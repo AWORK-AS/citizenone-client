@@ -5814,6 +5814,13 @@
         "willNotDisclose": "Vill inte oplyse"
     },
     "globalSearch": {
+        "actions": {
+            "title": "Snabbåtgärder",
+            "newCitizen": "Lägg till medborgare",
+            "newEmployee": "Lägg till medarbetare",
+            "journalNotes": "Journalanteckningar",
+            "statistics": "Statistik"
+        },
         "attendance": "Närvaro",
         "bookings": "Bokningar",
         "calendar": "Kalender",

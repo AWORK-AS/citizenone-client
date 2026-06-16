@@ -5819,6 +5819,13 @@
         "willNotDisclose": "Vil ikke oplyse"
     },
     "globalSearch": {
+        "actions": {
+            "title": "Hurtige handlinger",
+            "newCitizen": "Tilføj borger",
+            "newEmployee": "Tilføj medarbejder",
+            "journalNotes": "Journalnotater",
+            "statistics": "Statistik"
+        },
         "attendance": "Fremmøde",
         "bookings": "Bookinger",
         "calendar": "Kalender",

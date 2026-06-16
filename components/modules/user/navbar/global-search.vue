@@ -20,7 +20,20 @@
                         <div class="max-h-[26rem] overflow-y-auto">
                             <!-- Empty state: recent searches -->
                             <div v-if="!state.searchQuery">
-                                <div v-if="state.recentSearches.length > 0" class="px-5 pt-4 pb-2">
+                                <!-- Quick actions -->
+                                <div v-if="visibleActions.length > 0" class="px-5 pt-4 pb-1">
+                                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{
+                                        $t('globalSearch.actions.title') }}</p>
+                                    <button v-for="action in visibleActions" :key="action.uuid"
+                                        class="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-surface-50 hover:text-primary transition-colors text-left"
+                                        @click="runAction(action)">
+                                        <div class="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                            <Icon :name="action.icon" class="h-4 w-4 text-primary" />
+                                        </div>
+                                        {{ $t(action.titleKey) }}
+                                    </button>
+                                </div>
+                                <div v-if="state.recentSearches.length > 0" class="px-5 pt-3 pb-2">
                                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{
                                         $t('globalSearch.recent') }}</p>
                                     <button v-for="term in state.recentSearches" :key="term"
@@ -30,7 +43,8 @@
                                         {{ term }}
                                     </button>
                                 </div>
-                                <div v-else class="px-5 py-6 text-center text-sm text-slate-400">
+                                <div v-if="visibleActions.length === 0 && state.recentSearches.length === 0"
+                                    class="px-5 py-6 text-center text-sm text-slate-400">
                                     {{ $t('globalSearch.hint') }}
                                 </div>
                             </div>
@@ -146,6 +160,39 @@ const staticPageResults = computed(() => {
     })
 })
 
+// Quick actions — the palette can act, not just navigate. Shown on open and
+// filtered as you type.
+interface QuickAction {
+    uuid: string
+    titleKey: string
+    keywords: string[]
+    icon: string
+    href: string
+    adminOnly: boolean
+}
+
+const ACTIONS: QuickAction[] = [
+    { uuid: 'action-new-citizen', titleKey: 'globalSearch.actions.newCitizen', keywords: ['new citizen', 'ny borger', 'tilføj borger', 'add citizen', 'opret borger', 'create citizen'], icon: 'heroicons:user-plus', href: '/citizens/new', adminOnly: false },
+    { uuid: 'action-new-employee', titleKey: 'globalSearch.actions.newEmployee', keywords: ['new employee', 'ny medarbejder', 'tilføj medarbejder', 'add employee', 'opret medarbejder', 'staff'], icon: 'heroicons:user-plus', href: '/employees/new', adminOnly: true },
+    { uuid: 'action-journal-notes', titleKey: 'globalSearch.actions.journalNotes', keywords: ['journal note', 'journalnote', 'ny journalnote', 'notes', 'noter', 'note'], icon: 'heroicons:pencil-square', href: '/journal-notes', adminOnly: false },
+    { uuid: 'action-statistics', titleKey: 'globalSearch.actions.statistics', keywords: ['statistics', 'statistik', 'reports', 'rapporter', 'news', 'nyheder'], icon: 'heroicons:chart-bar', href: '/statistics', adminOnly: false },
+]
+
+const visibleActions = computed(() => ACTIONS.filter(a => !a.adminOnly || isAtLeast('Admin')))
+
+const actionResults = computed(() => {
+    const query = state.searchQuery.trim().toLowerCase()
+    if (!query || query.length < 2) return []
+    return visibleActions.value.filter(a =>
+        a.keywords.some(k => k.toLowerCase().includes(query)) || t(a.titleKey).toLowerCase().includes(query)
+    )
+})
+
+function runAction(action: QuickAction) {
+    close()
+    navigateTo(action.href)
+}
+
 const citizenName = (item: any) => [item.citizen?.firstname, item.citizen?.lastname].filter(Boolean).join(' ')
 
 function getFirstCitizenPage(citizenUuid: string): string {
@@ -165,6 +212,16 @@ function getFirstCitizenPage(citizenUuid: string): string {
 }
 
 const resultGroups = computed(() => [
+    {
+        key: 'actions',
+        labelKey: 'globalSearch.actions.title',
+        icon: 'heroicons:bolt',
+        iconBg: 'bg-primary/10',
+        iconColor: 'text-primary',
+        items: actionResults.value,
+        primaryLabel: (i: any) => t(i.titleKey),
+        secondaryLabel: (_i: any) => '',
+    },
     {
         key: 'citizens',
         labelKey: 'globalSearch.citizens',
@@ -320,7 +377,9 @@ function navigateToResult(group: string, item: any) {
     const term = state.searchQuery.trim()
     close()
     const citizenUuid = item.citizen?.uuid
-    if (group === 'citizens') {
+    if (group === 'actions') {
+        navigateTo(item.href)
+    } else if (group === 'citizens') {
         navigateTo(getFirstCitizenPage(item.uuid))
     } else if (group === 'journals') {
         highlightStore.set(item.uuid, term)
