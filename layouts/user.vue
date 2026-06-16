@@ -790,7 +790,7 @@ function identifyFlag() {
 }
 
 async function navigateToNews() {
-    navigateTo('/overview#news')
+    navigateTo('/statistics#news')
     state.error = {}
     state.isPageLoading = true
     try {

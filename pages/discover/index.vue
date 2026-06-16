@@ -14,6 +14,7 @@
                 <div class="flex items-center gap-x-6">
                     <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">Discover</span>
                     <span class="text-slate-400 hover:text-slate-600 cursor-pointer" @click="navigateTo('/overview')">{{ $t('overview.overview') }}</span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer" @click="navigateTo('/statistics')">{{ $t('overview.statisticsTab') }}</span>
                 </div>
             </template>
 

@@ -18,6 +18,8 @@
                         <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
                             {{ $t('overview.overview') }}
                         </span>
+                        <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                            @click="navigateTo('/statistics')">{{ $t('overview.statisticsTab') }}</span>
                     </div>
                     <!-- Date navigator -->
                     <div
@@ -334,68 +336,6 @@
                         v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
                 </div>
 
-                <!-- Statistics grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
-                    overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
-                    overviewStore.getDailyOverviewFilter.showCitizensAddictions ||
-                    overviewStore.getDailyOverviewFilter.showCitizensDiagnoses ||
-                    overviewStore.getDailyOverviewFilter.showRiskAssessment ||
-                    overviewStore.getDailyOverviewFilter.showGender">
-                    <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
-                        <ModulesUserDailyOverviewCitizensAdmissionDischarged
-                            :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showCitizensOrigin">
-                        <ModulesUserDailyOverviewCitizensOrigin />
-                    </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions">
-                        <ModulesUserDailyOverviewCitizensAddictions :dateRange="state.dateRange.formDateRange" />
-                        <ModulesUserDailyOverviewCitizensAddictionsCount :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
-                        <ModulesUserDailyOverviewCitizensDiagnoses :dateRange="state.dateRange.formDateRange" />
-                        <ModulesUserDailyOverviewCitizensDiagnosesCount :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment">
-                        <ModulesUserDailyOverviewCitizensRiskAssessment :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showGender">
-                        <ModulesUserDailyOverviewCitizensGender />
-                    </div>
-                </div>
-
-                <!-- Score statistics -->
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showIncidentStatistics ||
-                    overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
-                    overviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
-                    <div v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
-                        <ModulesUserDailyOverviewStatusesScoreStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
-                        <ModulesUserDailyOverviewGoalsScoreStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showIncidentStatistics">
-                        <ModulesUserDailyOverviewIncidentReportsStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics">
-                        <ModulesUserDailyOverviewMedicineDeviationStatistics
-                            :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
-                        <ModulesUserDailyOverviewJournalScoreStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
-                        <ModulesUserDailyOverviewSubgoalsScoreStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
-                        <ModulesUserDailyOverviewUseOfForceStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                </div>
-
                 <!-- Schedule + Plans -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
                     v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots || overviewStore.getDailyOverviewFilter.showPlansAndGoals">
@@ -404,21 +344,6 @@
                     </div>
                     <div v-if="overviewStore.getDailyOverviewFilter.showPlansAndGoals">
                         <ModulesUserDailyOverviewPlansAndGoals :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                </div>
-
-                <!-- News section -->
-                <div>
-                    <p class="text-lg font-semibold text-slate-900">
-                        {{ $t('overview.from') }} CitizenOne<sup class="text-xs">&#8482;</sup>
-                    </p>
-                    <div class="mt-3 grid grid-cols-1 md:grid-cols-7 gap-5" ref="newsSection" id="news">
-                        <div class="min-h-44 md:col-span-4">
-                            <ModulesUserDailyOverviewNews />
-                        </div>
-                        <div class="min-h-44 md:col-span-3">
-                            <ModulesUserDailyOverviewPoll />
-                        </div>
                     </div>
                 </div>
             </div>
