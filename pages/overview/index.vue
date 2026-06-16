@@ -135,13 +135,17 @@
                         <Icon name="ph:arrow-right" class="size-3" />
                     </div>
                 </div>
-                <!-- Birthdays: today's are shown, the rest open in a popup (hidden when none) -->
+                <!-- Birthdays: today's are shown, the rest open in a popup; when
+                     none this week, the next birthday in line is shown instead. -->
                 <div class="stat-card" v-if="state.stats.birthdays.length > 0">
                     <div class="stat-label">
                         <Icon name="ph:cake" class="h-4 w-4 text-accent-orange" />
-                        {{ todaysBirthdays.length > 0 ? $t('overview.birthdays.todayTitle') : $t('overview.birthdays.title') }}
-                        <span class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
-                            {{ todaysBirthdays.length > 0 ? todaysBirthdays.length : state.stats.birthdays.length }}
+                        {{ todaysBirthdays.length > 0
+                            ? $t('overview.birthdays.todayTitle')
+                            : (hasThisWeekBirthdays ? $t('overview.birthdays.title') : $t('overview.birthdays.nextTitle')) }}
+                        <span v-if="hasThisWeekBirthdays"
+                            class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
+                            {{ todaysBirthdays.length > 0 ? todaysBirthdays.length : thisWeekBirthdays.length }}
                         </span>
                     </div>
                     <ul v-if="todaysBirthdays.length > 0" class="mt-2 space-y-1.5 max-h-24 overflow-y-auto pr-1">
@@ -151,14 +155,21 @@
                             <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</span>
                         </li>
                     </ul>
-                    <button v-if="laterBirthdaysCount > 0 || todaysBirthdays.length === 0" type="button"
+                    <!-- No birthdays this week: surface the next one in line -->
+                    <div v-else-if="!hasThisWeekBirthdays && nextBirthday" class="mt-2 flex items-center justify-between gap-x-2">
+                        <span class="truncate text-xs font-semibold text-primary">{{ nextBirthday.name }}</span>
+                        <span class="shrink-0 text-[11px] text-slate-500">
+                            {{ $t('overview.birthdays.inDays', { days: nextBirthday.days_until }) }} · {{ $t('overview.birthdays.turns', { age: nextBirthday.age }) }}
+                        </span>
+                    </div>
+                    <button v-if="hasThisWeekBirthdays && (laterBirthdaysCount > 0 || todaysBirthdays.length === 0)" type="button"
                         @click="state.modal.isBirthdaysOpen = true"
                         class="mt-2 inline-flex items-center gap-x-1 text-xs text-primary font-medium hover:text-primary-700 transition-colors">
                         <template v-if="todaysBirthdays.length > 0">
                             {{ $t('overview.birthdays.moreThisWeek', { count: laterBirthdaysCount }) }}
                         </template>
                         <template v-else>
-                            {{ $t('overview.birthdays.countThisWeek', { count: state.stats.birthdays.length }) }}
+                            {{ $t('overview.birthdays.countThisWeek', { count: thisWeekBirthdays.length }) }}
                         </template>
                         <Icon name="ph:arrow-right" class="size-3" />
                     </button>
@@ -490,7 +501,12 @@ function getInitials(name: string) {
 }
 
 const todaysBirthdays = computed(() => (state.stats.birthdays ?? []).filter((birthday: any) => birthday.days_until === 0))
-const laterBirthdaysCount = computed(() => (state.stats.birthdays ?? []).length - todaysBirthdays.value.length)
+const thisWeekBirthdays = computed(() => (state.stats.birthdays ?? []).filter((birthday: any) => birthday.days_until <= 7))
+const hasThisWeekBirthdays = computed(() => thisWeekBirthdays.value.length > 0)
+const laterBirthdaysCount = computed(() => thisWeekBirthdays.value.length - todaysBirthdays.value.length)
+// When nobody has a birthday this week the backend returns just the next one
+// in line, so the card can still show who's up next.
+const nextBirthday = computed(() => (state.stats.birthdays ?? [])[0] ?? null)
 
 onMounted(() => {
     scrollToNewsIfNeeded()

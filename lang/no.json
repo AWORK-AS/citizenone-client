@@ -6724,6 +6724,7 @@
         "birthdays": {
             "title": "Bursdager denne uke",
             "todayTitle": "Bursdager i dag",
+            "nextTitle": "Neste bursdag",
             "moreThisWeek": "{count} flere denne uke",
             "countThisWeek": "{count} bursdager denne uke",
             "today": "I dag",

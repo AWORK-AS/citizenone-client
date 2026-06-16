@@ -6738,6 +6738,7 @@
         "birthdays": {
             "title": "Birthdays this week",
             "todayTitle": "Birthdays today",
+            "nextTitle": "Next birthday",
             "moreThisWeek": "{count} more this week",
             "countThisWeek": "{count} birthdays this week",
             "today": "Today",
