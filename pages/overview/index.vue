@@ -215,7 +215,10 @@
                             @click="citizen.uuid && navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)"
                             class="group flex items-center gap-x-2 rounded-lg px-1.5 py-1.5 cursor-pointer hover:bg-surface-50 transition-colors">
                             <div class="min-w-0 flex-1">
-                                <p class="truncate text-xs font-semibold text-primary group-hover:text-primary-700">{{ citizen.name }}</p>
+                                <CitizenHoverCard :uuid="citizen.uuid" :name="citizen.name"
+                                    class="text-xs font-semibold text-primary group-hover:text-primary-700">
+                                    <span class="truncate">{{ citizen.name }}</span>
+                                </CitizenHoverCard>
                                 <div class="mt-0.5 flex items-center gap-x-1 text-[11px]">
                                     <span v-if="citizen.deviated > 0" class="rounded-full bg-red-50 text-red-600 px-1.5 py-0.5">
                                         {{ $t('overview.medicineAction.deviated', { count: citizen.deviated }) }}

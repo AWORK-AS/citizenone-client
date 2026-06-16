@@ -253,7 +253,9 @@
                                                     'rounded-full w-12 h-12 object-cover border-2'
                                                 ]" />
                                             <div>
-                                                <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
+                                                <CitizenHoverCard :uuid="citizen.uuid" :preset="citizen">
+                                                    <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
+                                                </CitizenHoverCard>
                                                 <div class="text-xxs flex flex-wrap gap-1">
                                                     <span v-for="(department, index) in citizen?.departments" :key=index
                                                         class="bg-primary px-2 py-1 text-white rounded-md">
