@@ -195,8 +195,8 @@
                                     <span v-if="citizen.deviated > 0" class="rounded-full bg-red-50 text-red-600 px-1.5 py-0.5">
                                         {{ $t('overview.medicineAction.deviated', { count: citizen.deviated }) }}
                                     </span>
-                                    <span v-if="citizen.missed > 0" class="rounded-full bg-amber-50 text-amber-600 px-1.5 py-0.5">
-                                        {{ $t('overview.medicineAction.missed', { count: citizen.missed }) }}
+                                    <span v-if="citizen.overdue > 0" class="rounded-full bg-amber-50 text-amber-600 px-1.5 py-0.5">
+                                        {{ $t('overview.medicineAction.overdue', { count: citizen.overdue }) }}
                                     </span>
                                 </div>
                             </div>
@@ -465,31 +465,35 @@ const laterBirthdaysCount = computed(() => thisWeekBirthdays.value.length - toda
 // in line, so the card can still show who's up next.
 const nextBirthday = computed(() => (state.stats.birthdays ?? [])[0] ?? null)
 
-// Citizens with a medicine deviation or a missed/pending dose today, grouped
-// per citizen so the card can show who needs attention now.
+// Citizens needing medicine attention now: a deviation, or an overdue dose
+// (scheduled earlier today and still not given). Doses later today that aren't
+// due yet are excluded — they're not actionable yet.
 const medicineActionCitizens = computed(() => {
-    const today = moment().format('YYYY-MM-DD')
-    const byCitizen = new Map<string, { uuid: string; name: string; deviated: number; missed: number }>()
+    const now = moment()
+    const today = now.format('YYYY-MM-DD')
+    const byCitizen = new Map<string, { uuid: string; name: string; deviated: number; overdue: number }>()
     for (const medicine of (state.stats.medicines?.data ?? [])) {
         const citizen = medicine?.citizen
         if (!citizen) continue
         const todaysDoses = (medicine.due_dates ?? []).filter((due: any) => due.date === today)
         const deviated = todaysDoses.filter((due: any) => due.status === 'deviated').length
-        const missed = todaysDoses.filter((due: any) => due.status === null).length
-        if (deviated === 0 && missed === 0) continue
+        const overdue = todaysDoses.filter((due: any) =>
+            due.status === null && due.time && moment(`${today} ${due.time}`, 'YYYY-MM-DD HH:mm').isBefore(now)
+        ).length
+        if (deviated === 0 && overdue === 0) continue
         const key = citizen.uuid ?? `${citizen.firstname}-${citizen.lastname}`
         const entry = byCitizen.get(key) ?? {
             uuid: citizen.uuid ?? '',
             name: `${citizen.firstname ?? ''} ${citizen.lastname ?? ''}`.trim(),
             deviated: 0,
-            missed: 0,
+            overdue: 0,
         }
         entry.deviated += deviated
-        entry.missed += missed
+        entry.overdue += overdue
         byCitizen.set(key, entry)
     }
-    // Deviations are more urgent than missed doses, so surface them first.
-    return Array.from(byCitizen.values()).sort((a, b) => (b.deviated - a.deviated) || (b.missed - a.missed))
+    // Deviations are more urgent than overdue doses, so surface them first.
+    return Array.from(byCitizen.values()).sort((a, b) => (b.deviated - a.deviated) || (b.overdue - a.overdue))
 })
 
 onMounted(() => {

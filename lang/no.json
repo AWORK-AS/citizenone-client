@@ -6807,7 +6807,7 @@
         "medicineAction": {
             "title": "Krever handling i dag",
             "deviated": "Avvik: {count}",
-            "missed": "Mangler: {count}",
+            "overdue": "Forfalt: {count}",
             "more": "+{count} innbyggere"
         },
         "medicationOverview": {

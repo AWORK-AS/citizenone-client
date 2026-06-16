@@ -6807,7 +6807,7 @@
         "medicineAction": {
             "title": "Kräver åtgärd idag",
             "deviated": "Avvikelser: {count}",
-            "missed": "Saknas: {count}",
+            "overdue": "Försenad: {count}",
             "more": "+{count} medborgare"
         },
         "medicationOverview": {
