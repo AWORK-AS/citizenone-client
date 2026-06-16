@@ -550,8 +550,12 @@
     },
     "back": "Tillbaka",
     "bellNotification": {
+        "birthday": {
+            "title": "Födelsedag idag"
+        },
         "categories": {
             "all": "Alla",
+            "birthday": "Födelsedagar",
             "dutyShift": "Vagtregel",
             "incidents": "Händelser",
             "messages": "Meddelanden",

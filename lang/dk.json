@@ -555,8 +555,12 @@
     },
     "back": "Tilbage",
     "bellNotification": {
+        "birthday": {
+            "title": "Fødselsdag i dag"
+        },
         "categories": {
             "all": "Alle",
+            "birthday": "Fødselsdage",
             "dutyShift": "Vagtregel",
             "incidents": "Hændelser",
             "messages": "Beskeder",

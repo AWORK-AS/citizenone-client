@@ -555,8 +555,12 @@
     },
     "back": "Back",
     "bellNotification": {
+        "birthday": {
+            "title": "Birthday today"
+        },
         "categories": {
             "all": "All",
+            "birthday": "Birthdays",
             "dutyShift": "Duty Shift Rule",
             "incidents": "Incidents",
             "messages": "Messages",

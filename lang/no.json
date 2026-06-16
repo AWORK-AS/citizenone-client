@@ -550,8 +550,12 @@
     },
     "back": "Tilbake",
     "bellNotification": {
+        "birthday": {
+            "title": "Bursdag i dag"
+        },
         "categories": {
             "all": "Alle",
+            "birthday": "Bursdager",
             "dutyShift": "Vaktregel",
             "incidents": "Hændelser",
             "messages": "Meldinger",
