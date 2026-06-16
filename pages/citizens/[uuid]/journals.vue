@@ -74,29 +74,39 @@
                                 <FormDateRangeField id="date_range" name="date_range"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
                                     v-model="state.filter.date_range" class="w-full md:w-96 h-11" />
-                                <FormButton buttonSize="sm" :class="[
-                                    ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                    'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
-                                    <Icon name="mdi:sort-ascending" class="size-4" />
-                                </FormButton>
-                                <FormButton buttonSize="sm" :class="[
-                                    ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                    'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
-                                    <Icon name="mdi:sort-descending" class="size-4" />
-                                </FormButton>
-                                <FormButton buttonSize="sm" :class="[
-                                    citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
-                                    'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
-                                    <Icon name="ph:lock" class="size-4" />
-                                </FormButton>
-                                <FormButton buttonSize="sm" :class="[
-                                    citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
-                                    'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
-                                    <Icon name="ph:star" class="size-4" />
-                                </FormButton>
-                                <FormButton class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
-                                    <Icon name="mdi:refresh" class="size-4" />
-                                </FormButton>
+                                <Tooltip text="Ældste øverst">
+                                    <FormButton buttonSize="sm" :class="[
+                                        ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                        'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
+                                        <Icon name="mdi:sort-ascending" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip text="Nyeste øverst">
+                                    <FormButton buttonSize="sm" :class="[
+                                        ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                        'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
+                                        <Icon name="mdi:sort-descending" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip text="Vis kun låste notater">
+                                    <FormButton buttonSize="sm" :class="[
+                                        citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
+                                        'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
+                                        <Icon name="ph:lock" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip text="Vis kun favoritter">
+                                    <FormButton buttonSize="sm" :class="[
+                                        citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
+                                        'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
+                                        <Icon name="ph:star" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip text="Nulstil filtre">
+                                    <FormButton class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
+                                        <Icon name="mdi:refresh" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
                             </div>
                         </div>
                         <div class="mt-5 space-y-5">
