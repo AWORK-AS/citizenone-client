@@ -181,6 +181,15 @@
                                     </button>
                                     <button
                                         class="flex items-center gap-x-1 text-sm font-medium text-gray-700 outline-none hover:text-primary"
+                                        @click="state.modal.isDevelopmentGraphOpen = true"
+                                        v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services'">
+                                        <div class="flex items-center">
+                                            <Icon name="ph:chart-bar" class="h-4 w-4" aria-hidden="true" />
+                                        </div>
+                                        {{ $t('citizens.developmentGraph.title') }}
+                                    </button>
+                                    <button
+                                        class="flex items-center gap-x-1 text-sm font-medium text-gray-700 outline-none hover:text-primary"
                                         @click="state.modal.isEmploymentProgramOpen = true"
                                         v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services'">
                                         <div class="flex items-center">
@@ -321,16 +330,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-12 lg:col-span-3 flex flex-col justify-center lg:gap-8">
+                <div class="col-span-12 lg:col-span-3">
                     <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
-                    <div class="flex flex-col items-center gap-y-3 md:gap-y-10">
+                    <!-- Reports & alerts panel — contained so it reads as one cohesive widget. -->
+                    <div v-if="$route.name === 'citizens-uuid-journals'"
+                        class="flex h-full flex-col gap-4 rounded-md border-l-4 border-red-300 bg-white p-5 ring-1 ring-gray-200">
                         <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
-                            v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
-                        <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
-                        <p class="w-60 text-center text-xs text-primary hover:text-secondary-700 cursor-pointer"
-                            @click="state.modal.isViewRelevantHelpLinksOpen = true"
-                            v-if="$route.name === 'citizens-uuid-journals'">
+                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
+                        <div class="h-px bg-surface-200"
+                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'"></div>
+                        <ModulesUserCitizenIncidentsHeader />
+                        <p class="mt-auto cursor-pointer pt-1 text-center text-xs text-primary transition-colors hover:text-secondary-700"
+                            @click="state.modal.isViewRelevantHelpLinksOpen = true">
                             {{
                                 $t('citizens.useOfForce.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports')
                             }}
@@ -354,6 +366,9 @@
                 @openInterventionHours="switchToInterventionHours" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
+            <ModulesUserCitizenDevelopmentGraphModalView
+                :isModalOpen="state.modal.isDevelopmentGraphOpen"
+                @close="state.modal.isDevelopmentGraphOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
                 @open-work="workLogin" />
@@ -423,6 +438,7 @@ const state = reactive({
         isTransportLogoutOpen: false,
         isConfirmArrivalOpen: false,
         isConfirmWorkingOpen: false,
+        isDevelopmentGraphOpen: false,
         isEmploymentProgramOpen: false,
     },
     selectedCitizen: {} as any,

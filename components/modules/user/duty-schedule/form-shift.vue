@@ -543,19 +543,27 @@ onMounted(() => {
     fetchAllDepartments()
     fetchAllScheduleTags()
     fetchAllCitizensPerUserDepartment()
-    state.formShift.shift_type = props.selectedShift.shift_type
-    state.formShift.is_sleeping_sick_leave = props.selectedShift.is_sleeping_sick_leave
-    state.formShift.do_not_count_weekends = props.selectedShift.do_not_count_weekends
-    state.formShift.date_time_start = props.selectedShift.date_time_start
-    state.formShift.date_time_end = props.selectedShift.date_time_end
-    state.formShift.citizens = props.selectedShift.citizens
-    state.formShift.schedule_tag_uuid = props.selectedShift.schedule_tag_uuid
-    state.formShift.department_uuid = props.selectedShift.department_uuid
-    state.formShift.note = props.selectedShift.note
-    state.formShift.do_not_count_sick_leave = props.selectedShift.do_not_count_sick_leave
-    state.formShift.use_compensatory_time = props.selectedShift.use_compensatory_time
-    state.formShift.is_override_vacation_hours = props.selectedShift.is_override_vacation_hours ?? false
 })
+
+// Ticket (Langebjerggaard): when editing an existing shift the end time would show
+// the 17:00 default and changing the start would "leave" it there. Cause: the form
+// was populated only once in onMounted, so a selectedShift that arrived after mount
+// left the end at its default. Populate reactively so the real end is always loaded.
+watch(() => props.selectedShift, (selectedShift: any) => {
+    if (!selectedShift) return
+    state.formShift.shift_type = selectedShift.shift_type
+    state.formShift.is_sleeping_sick_leave = selectedShift.is_sleeping_sick_leave
+    state.formShift.do_not_count_weekends = selectedShift.do_not_count_weekends
+    state.formShift.date_time_start = selectedShift.date_time_start
+    state.formShift.date_time_end = selectedShift.date_time_end
+    state.formShift.citizens = selectedShift.citizens
+    state.formShift.schedule_tag_uuid = selectedShift.schedule_tag_uuid
+    state.formShift.department_uuid = selectedShift.department_uuid
+    state.formShift.note = selectedShift.note
+    state.formShift.do_not_count_sick_leave = selectedShift.do_not_count_sick_leave
+    state.formShift.use_compensatory_time = selectedShift.use_compensatory_time
+    state.formShift.is_override_vacation_hours = selectedShift.is_override_vacation_hours ?? false
+}, { immediate: true, deep: true })
 
 async function fetchAllUsersWithoutAllUsersOption() {
     state.error = {}
