@@ -183,19 +183,23 @@
                             {{ medicineActionCitizens.length }}
                         </span>
                     </div>
-                    <ul class="mt-2 space-y-1.5 max-h-24 overflow-y-auto pr-1">
+                    <ul class="mt-2 -mx-1.5 space-y-0.5">
                         <li v-for="citizen in medicineActionCitizens.slice(0, 3)" :key="citizen.uuid || citizen.name"
                             @click="citizen.uuid && navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)"
-                            class="group flex items-center justify-between gap-x-2 text-xs cursor-pointer">
-                            <span class="truncate font-semibold text-primary group-hover:text-primary-700">{{ citizen.name }}</span>
-                            <span class="shrink-0 flex items-center gap-x-1 text-[11px]">
-                                <span v-if="citizen.deviated > 0" class="rounded-full bg-red-50 text-red-600 px-1.5 py-0.5">
-                                    {{ $t('overview.medicineAction.deviated', { count: citizen.deviated }) }}
-                                </span>
-                                <span v-if="citizen.missed > 0" class="rounded-full bg-amber-50 text-amber-600 px-1.5 py-0.5">
-                                    {{ $t('overview.medicineAction.missed', { count: citizen.missed }) }}
-                                </span>
-                            </span>
+                            class="group flex items-center gap-x-2 rounded-lg px-1.5 py-1.5 cursor-pointer hover:bg-surface-50 transition-colors">
+                            <div class="min-w-0 flex-1">
+                                <p class="truncate text-xs font-semibold text-primary group-hover:text-primary-700">{{ citizen.name }}</p>
+                                <div class="mt-0.5 flex items-center gap-x-1 text-[11px]">
+                                    <span v-if="citizen.deviated > 0" class="rounded-full bg-red-50 text-red-600 px-1.5 py-0.5">
+                                        {{ $t('overview.medicineAction.deviated', { count: citizen.deviated }) }}
+                                    </span>
+                                    <span v-if="citizen.missed > 0" class="rounded-full bg-amber-50 text-amber-600 px-1.5 py-0.5">
+                                        {{ $t('overview.medicineAction.missed', { count: citizen.missed }) }}
+                                    </span>
+                                </div>
+                            </div>
+                            <Icon name="ph:caret-right"
+                                class="size-3 shrink-0 text-slate-300 group-hover:text-primary transition-colors" />
                         </li>
                     </ul>
                     <p v-if="medicineActionCitizens.length > 3" class="mt-2 text-xs text-slate-400">
