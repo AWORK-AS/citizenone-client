@@ -174,6 +174,34 @@
                         <Icon name="ph:arrow-right" class="size-3" />
                     </button>
                 </div>
+                <!-- Medicine: citizens with a deviation or missed dose today -->
+                <div class="stat-card" v-if="medicineActionCitizens.length > 0">
+                    <div class="stat-label">
+                        <Icon name="ph:pill" class="h-4 w-4 text-red-500" />
+                        {{ $t('overview.medicineAction.title') }}
+                        <span class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
+                            {{ medicineActionCitizens.length }}
+                        </span>
+                    </div>
+                    <ul class="mt-2 space-y-1.5 max-h-24 overflow-y-auto pr-1">
+                        <li v-for="citizen in medicineActionCitizens.slice(0, 3)" :key="citizen.uuid || citizen.name"
+                            @click="citizen.uuid && navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)"
+                            class="group flex items-center justify-between gap-x-2 text-xs cursor-pointer">
+                            <span class="truncate font-semibold text-primary group-hover:text-primary-700">{{ citizen.name }}</span>
+                            <span class="shrink-0 flex items-center gap-x-1 text-[11px]">
+                                <span v-if="citizen.deviated > 0" class="rounded-full bg-red-50 text-red-600 px-1.5 py-0.5">
+                                    {{ $t('overview.medicineAction.deviated', { count: citizen.deviated }) }}
+                                </span>
+                                <span v-if="citizen.missed > 0" class="rounded-full bg-amber-50 text-amber-600 px-1.5 py-0.5">
+                                    {{ $t('overview.medicineAction.missed', { count: citizen.missed }) }}
+                                </span>
+                            </span>
+                        </li>
+                    </ul>
+                    <p v-if="medicineActionCitizens.length > 3" class="mt-2 text-xs text-slate-400">
+                        {{ $t('overview.medicineAction.more', { count: medicineActionCitizens.length - 3 }) }}
+                    </p>
+                </div>
             </div>
 
             <!-- Main content grid -->
@@ -507,6 +535,33 @@ const laterBirthdaysCount = computed(() => thisWeekBirthdays.value.length - toda
 // When nobody has a birthday this week the backend returns just the next one
 // in line, so the card can still show who's up next.
 const nextBirthday = computed(() => (state.stats.birthdays ?? [])[0] ?? null)
+
+// Citizens with a medicine deviation or a missed/pending dose today, grouped
+// per citizen so the card can show who needs attention now.
+const medicineActionCitizens = computed(() => {
+    const today = moment().format('YYYY-MM-DD')
+    const byCitizen = new Map<string, { uuid: string; name: string; deviated: number; missed: number }>()
+    for (const medicine of (state.stats.medicines?.data ?? [])) {
+        const citizen = medicine?.citizen
+        if (!citizen) continue
+        const todaysDoses = (medicine.due_dates ?? []).filter((due: any) => due.date === today)
+        const deviated = todaysDoses.filter((due: any) => due.status === 'deviated').length
+        const missed = todaysDoses.filter((due: any) => due.status === null).length
+        if (deviated === 0 && missed === 0) continue
+        const key = citizen.uuid ?? `${citizen.firstname}-${citizen.lastname}`
+        const entry = byCitizen.get(key) ?? {
+            uuid: citizen.uuid ?? '',
+            name: `${citizen.firstname ?? ''} ${citizen.lastname ?? ''}`.trim(),
+            deviated: 0,
+            missed: 0,
+        }
+        entry.deviated += deviated
+        entry.missed += missed
+        byCitizen.set(key, entry)
+    }
+    // Deviations are more urgent than missed doses, so surface them first.
+    return Array.from(byCitizen.values()).sort((a, b) => (b.deviated - a.deviated) || (b.missed - a.missed))
+})
 
 onMounted(() => {
     scrollToNewsIfNeeded()

@@ -6804,6 +6804,12 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Kräver åtgärd idag",
+            "deviated": "Avvikelser: {count}",
+            "missed": "Saknas: {count}",
+            "more": "+{count} medborgare"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Avvikelse",

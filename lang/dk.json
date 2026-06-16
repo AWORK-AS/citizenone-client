@@ -6818,6 +6818,12 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Kræver handling i dag",
+            "deviated": "Afvigelser: {count}",
+            "missed": "Mangler: {count}",
+            "more": "+{count} borgere"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Afvigelse",

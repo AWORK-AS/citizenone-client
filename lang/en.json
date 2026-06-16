@@ -6818,6 +6818,12 @@
             "latestJournal": "Latest journal notes",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Needs action today",
+            "deviated": "Deviations: {count}",
+            "missed": "Missed: {count}",
+            "more": "+{count} citizens"
+        },
         "medicationOverview": {
             "delivered": "Delivered",
             "deviated": "Deviated",

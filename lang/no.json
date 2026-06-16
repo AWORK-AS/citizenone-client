@@ -6804,6 +6804,12 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Krever handling i dag",
+            "deviated": "Avvik: {count}",
+            "missed": "Mangler: {count}",
+            "more": "+{count} innbyggere"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Afvigelse",
