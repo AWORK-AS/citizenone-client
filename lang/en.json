@@ -8102,7 +8102,8 @@
             "employmentCaseTypes": "Case Types",
             "employmentBillingRules": "Billing Rules",
             "employmentJobcenters": "Jobcenters",
-            "employmentAgreements": "Agreements"
+            "employmentAgreements": "Agreements",
+            "gdprRetention": "GDPR Retention"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -10442,6 +10443,49 @@
             "toDate": "To date",
             "generate": "Generate",
             "noData": "No revenue data found for the selected period"
+        }
+    },
+    "gdpr": {
+        "retention": {
+            "title": "GDPR Data Retention",
+            "retentionPeriod": "Retention period",
+            "retentionPeriodHint": "Data will be scheduled for deletion after this period following case completion.",
+            "retentionMonths": "Retention period",
+            "months": "{n} months",
+            "monthsShort": "mo.",
+            "autoDelete": "Automatic deletion",
+            "autoDeleteHint": "Automatically schedule citizens for deletion when the retention period expires.",
+            "notifyBeforeDeletion": "Notify before deletion",
+            "notifyBeforeDeletionHint": "Send a notification before a scheduled deletion is executed.",
+            "settingsSaved": "Retention settings saved",
+            "scheduledDeletions": "Scheduled deletions",
+            "viewDeletionLog": "View deletion log",
+            "noScheduledDeletions": "No citizens are currently scheduled for deletion.",
+            "citizen": "Citizen",
+            "caseCompletedOn": "Case completed on",
+            "scheduledFor": "Scheduled for",
+            "daysRemaining": "Days remaining",
+            "days": "days",
+            "cancelDeletion": "Cancel deletion",
+            "cancelDeletionConfirmation": "Are you sure you want to cancel the scheduled deletion for this citizen",
+            "deletionCancelled": "Scheduled deletion cancelled"
+        },
+        "deletionLog": {
+            "title": "Deletion log",
+            "fromDate": "From date",
+            "toDate": "To date",
+            "trigger": "Trigger",
+            "allTriggers": "All triggers",
+            "triggerSystem": "System",
+            "triggerUser": "User",
+            "citizen": "Citizen",
+            "deletedAt": "Deleted at",
+            "retentionMonths": "Retention",
+            "deletedBy": "Deleted by",
+            "noEntries": "No deletion log entries found.",
+            "restore": "Restore",
+            "restoreConfirmation": "Are you sure you want to restore this citizen",
+            "citizenRestored": "Citizen successfully restored"
         }
     }
 }

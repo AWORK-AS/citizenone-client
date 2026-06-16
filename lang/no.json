@@ -8066,7 +8066,8 @@
             "employmentCaseTypes": "Sakstyper",
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Jobbsentre",
-            "employmentAgreements": "Avtaler"
+            "employmentAgreements": "Avtaler",
+            "gdprRetention": "GDPR Oppbevaring"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",
@@ -10443,5 +10444,47 @@
         "total": "Total",
         "week": "Uke",
         "weeklyReport": "Ukentlig oppmøterapport"
+    "gdpr": {
+        "retention": {
+            "title": "GDPR Dataoppbevaring",
+            "retentionPeriod": "Oppbevaringsperiode",
+            "retentionPeriodHint": "Data planlegges for sletting etter denne perioden etter saksavslutning.",
+            "retentionMonths": "Oppbevaringsperiode",
+            "months": "{n} måneder",
+            "monthsShort": "mnd.",
+            "autoDelete": "Automatisk sletting",
+            "autoDeleteHint": "Planlegg automatisk borgere for sletting når oppbevaringsperioden utløper.",
+            "notifyBeforeDeletion": "Varsle før sletting",
+            "notifyBeforeDeletionHint": "Send et varsel før en planlagt sletting utføres.",
+            "settingsSaved": "Oppbevaringsinnstillinger lagret",
+            "scheduledDeletions": "Planlagte slettinger",
+            "viewDeletionLog": "Se slettelogg",
+            "noScheduledDeletions": "Ingen borgere er for øyeblikket planlagt for sletting.",
+            "citizen": "Borger",
+            "caseCompletedOn": "Sak avsluttet den",
+            "scheduledFor": "Planlagt for",
+            "daysRemaining": "Dager gjenstående",
+            "days": "dager",
+            "cancelDeletion": "Avbryt sletting",
+            "cancelDeletionConfirmation": "Er du sikker på at du vil avbryte den planlagte slettingen for denne borgeren",
+            "deletionCancelled": "Planlagt sletting avbrutt"
+        },
+        "deletionLog": {
+            "title": "Slettelogg",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "trigger": "Utløser",
+            "allTriggers": "Alle utløsere",
+            "triggerSystem": "System",
+            "triggerUser": "Bruker",
+            "citizen": "Borger",
+            "deletedAt": "Slettet den",
+            "retentionMonths": "Oppbevaring",
+            "deletedBy": "Slettet av",
+            "noEntries": "Ingen sletteloggoppføringer funnet.",
+            "restore": "Gjenopprett",
+            "restoreConfirmation": "Er du sikker på at du vil gjenopprette denne borgeren",
+            "citizenRestored": "Borger gjenopprettet"
+        }
     }
 }
