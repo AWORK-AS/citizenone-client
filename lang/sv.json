@@ -8066,7 +8066,8 @@
             "employmentCaseTypes": "Ärendetyper",
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Arbetsförmedlingar",
-            "employmentAgreements": "Avtal"
+            "employmentAgreements": "Avtal",
+            "gdprRetention": "GDPR Lagring"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",
@@ -10415,6 +10416,49 @@
             "toDate": "Till datum",
             "generate": "Generera",
             "noData": "Ingen intäktsdata hittades för vald period"
+        }
+    },
+    "gdpr": {
+        "retention": {
+            "title": "GDPR Datalagring",
+            "retentionPeriod": "Lagringsperiod",
+            "retentionPeriodHint": "Data schemaläggs för radering efter denna period efter ärendets avslut.",
+            "retentionMonths": "Lagringsperiod",
+            "months": "{n} månader",
+            "monthsShort": "mån.",
+            "autoDelete": "Automatisk radering",
+            "autoDeleteHint": "Schemalägg automatiskt medborgare för radering när lagringsperioden löper ut.",
+            "notifyBeforeDeletion": "Meddela innan radering",
+            "notifyBeforeDeletionHint": "Skicka ett meddelande innan en schemalagd radering utförs.",
+            "settingsSaved": "Lagringsinställningar sparade",
+            "scheduledDeletions": "Schemalagda raderingar",
+            "viewDeletionLog": "Visa raderingslogg",
+            "noScheduledDeletions": "Inga medborgare är för närvarande schemalagda för radering.",
+            "citizen": "Medborgare",
+            "caseCompletedOn": "Ärende avslutat den",
+            "scheduledFor": "Schemalagd för",
+            "daysRemaining": "Dagar kvar",
+            "days": "dagar",
+            "cancelDeletion": "Avbryt radering",
+            "cancelDeletionConfirmation": "Är du säker på att du vill avbryta den schemalagda raderingen för denna medborgare",
+            "deletionCancelled": "Schemalagd radering avbruten"
+        },
+        "deletionLog": {
+            "title": "Raderingslogg",
+            "fromDate": "Från datum",
+            "toDate": "Till datum",
+            "trigger": "Utlösare",
+            "allTriggers": "Alla utlösare",
+            "triggerSystem": "System",
+            "triggerUser": "Användare",
+            "citizen": "Medborgare",
+            "deletedAt": "Raderad den",
+            "retentionMonths": "Lagring",
+            "deletedBy": "Raderad av",
+            "noEntries": "Inga raderingsloggposter hittades.",
+            "restore": "Återställ",
+            "restoreConfirmation": "Är du säker på att du vill återställa denna medborgare",
+            "citizenRestored": "Medborgare återställd"
         }
     }
 }

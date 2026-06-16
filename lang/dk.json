@@ -8075,7 +8075,8 @@
             "employmentCaseTypes": "Sagstyper",
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Jobcentre",
-            "employmentAgreements": "Aftaler"
+            "employmentAgreements": "Aftaler",
+            "gdprRetention": "GDPR Opbevaring"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -10415,6 +10416,49 @@
             "toDate": "Til dato",
             "generate": "Generér",
             "noData": "Ingen omsætningsdata fundet for den valgte periode"
+        }
+    },
+    "gdpr": {
+        "retention": {
+            "title": "GDPR Dataopbevaring",
+            "retentionPeriod": "Opbevaringsperiode",
+            "retentionPeriodHint": "Data planlægges til sletning efter denne periode efter sagens afslutning.",
+            "retentionMonths": "Opbevaringsperiode",
+            "months": "{n} måneder",
+            "monthsShort": "mdr.",
+            "autoDelete": "Automatisk sletning",
+            "autoDeleteHint": "Planlæg automatisk borgere til sletning, når opbevaringsperioden udløber.",
+            "notifyBeforeDeletion": "Notificer inden sletning",
+            "notifyBeforeDeletionHint": "Send en notifikation, inden en planlagt sletning udføres.",
+            "settingsSaved": "Opbevaringsindstillinger gemt",
+            "scheduledDeletions": "Planlagte sletninger",
+            "viewDeletionLog": "Se sletningslog",
+            "noScheduledDeletions": "Ingen borgere er i øjeblikket planlagt til sletning.",
+            "citizen": "Borger",
+            "caseCompletedOn": "Sag afsluttet den",
+            "scheduledFor": "Planlagt til",
+            "daysRemaining": "Dage tilbage",
+            "days": "dage",
+            "cancelDeletion": "Annuller sletning",
+            "cancelDeletionConfirmation": "Er du sikker på, at du vil annullere den planlagte sletning for denne borger",
+            "deletionCancelled": "Planlagt sletning annulleret"
+        },
+        "deletionLog": {
+            "title": "Sletningslog",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "trigger": "Udløser",
+            "allTriggers": "Alle udløsere",
+            "triggerSystem": "System",
+            "triggerUser": "Bruger",
+            "citizen": "Borger",
+            "deletedAt": "Slettet den",
+            "retentionMonths": "Opbevaring",
+            "deletedBy": "Slettet af",
+            "noEntries": "Ingen sletningslogposter fundet.",
+            "restore": "Gendan",
+            "restoreConfirmation": "Er du sikker på, at du vil gendanne denne borger",
+            "citizenRestored": "Borger gendannet"
         }
     }
 }
