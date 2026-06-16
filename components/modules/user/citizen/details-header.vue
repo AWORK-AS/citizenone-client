@@ -379,6 +379,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useConfetti } from '@/composables/useConfetti'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -435,6 +436,20 @@ const isTransportRegistrationEnabled = computed(() => {
 const isInterventionCheckinEnabled = computed(() => {
     return userStore.getUser?.company?.intervention_checkin_enabled === true
 })
+
+const { celebrate } = useConfetti()
+let birthdayCelebrated = false
+
+// A little 🎂 confetti when you open a citizen on their birthday.
+function celebrateBirthdayIfToday(birthday?: string | null) {
+    if (!birthday || birthdayCelebrated) return
+    const now = new Date()
+    const todayMonthDay = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+    if (String(birthday).slice(5, 10) === todayMonthDay) {
+        birthdayCelebrated = true
+        celebrate()
+    }
+}
 
 onMounted(() => {
     fetchCitizen()
@@ -608,6 +623,7 @@ async function fetchCitizen() {
         if (response) {
             state.selectedCitizen = response
             citizenStore.setSelectedCitizen(response?.data)
+            celebrateBirthdayIfToday(response?.data?.birthday)
         }
     } catch (error: any) {
         state.error = error
