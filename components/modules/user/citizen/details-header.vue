@@ -312,10 +312,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-12 lg:col-span-3 flex flex-col justify-center lg:gap-8">
+                <div class="col-span-12 lg:col-span-3 flex flex-col justify-start gap-6 pt-1">
                     <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
-                    <div class="flex flex-col items-center gap-y-3 md:gap-y-10">
+                    <div class="flex flex-col items-center gap-y-4">
                         <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
                             v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
                         <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
