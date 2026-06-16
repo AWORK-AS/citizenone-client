@@ -11,30 +11,14 @@
             </template>
 
             <template #header>
-                <div class="flex items-center gap-x-4">
-                    <div class="flex items-center gap-x-6">
-                        <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
-                            @click="navigateTo('/discover')">Discover</span>
-                        <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
-                            {{ $t('overview.overview') }}
-                        </span>
-                        <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
-                            @click="navigateTo('/statistics')">{{ $t('overview.statisticsTab') }}</span>
-                    </div>
-                    <!-- Date navigator -->
-                    <div
-                        class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
-                        <button @click="previousDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
-                            <Icon name="heroicons:chevron-left-20-solid" class="h-4 w-4 text-slate-400" />
-                        </button>
-                        <button @click="state.modal.isDailyOverviewDateRangeOpen = true"
-                            class="text-sm font-medium text-slate-700 hover:text-primary transition-colors px-1">
-                            {{ formatDisplayDate() }}
-                        </button>
-                        <button @click="nextDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
-                            <Icon name="heroicons:chevron-right-20-solid" class="h-4 w-4 text-slate-400" />
-                        </button>
-                    </div>
+                <div class="flex items-center gap-x-6">
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                        @click="navigateTo('/discover')">Discover</span>
+                    <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
+                        {{ $t('overview.overview') }}
+                    </span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                        @click="navigateTo('/statistics')">{{ $t('overview.statisticsTab') }}</span>
                 </div>
             </template>
 
@@ -78,13 +62,26 @@
 
             <!-- Action bar -->
             <div class="flex items-center justify-between gap-3 flex-wrap">
-                <div class="flex items-center gap-x-2">
+                <div class="flex items-center gap-x-3">
                     <button
                         class="flex items-center gap-x-1.5 text-sm text-slate-500 hover:text-primary transition-colors rounded-lg px-2.5 py-1.5 hover:bg-primary-25"
                         @click="state.modal.isFilterDailyOverviewOpen = true">
                         <Icon name="ph:sliders-horizontal" class="w-4 h-4" />
                         <span>{{ $t('showHide') }}</span>
                     </button>
+                    <!-- Date navigator -->
+                    <div class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
+                        <button @click="previousDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                            <Icon name="heroicons:chevron-left-20-solid" class="h-4 w-4 text-slate-400" />
+                        </button>
+                        <button @click="state.modal.isDailyOverviewDateRangeOpen = true"
+                            class="text-sm font-medium text-slate-700 hover:text-primary transition-colors px-1">
+                            {{ formatDisplayDate() }}
+                        </button>
+                        <button @click="nextDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                            <Icon name="heroicons:chevron-right-20-solid" class="h-4 w-4 text-slate-400" />
+                        </button>
+                    </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <FormButton buttonStyle="primary" class="w-full md:w-fit shadow-sm"
