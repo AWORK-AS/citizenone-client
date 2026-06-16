@@ -85,6 +85,21 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Footer hint: reinforces the shortcut every time -->
+                        <div
+                            class="flex items-center justify-between border-t border-surface-100 px-4 py-2 text-[11px] text-slate-400">
+                            <span>{{ $t('globalSearch.footerHint') }}</span>
+                            <span class="flex items-center gap-x-2">
+                                <span class="flex items-center gap-x-1">
+                                    <kbd class="rounded border border-slate-200 bg-surface-50 px-1.5 py-0.5 font-medium">{{ shortcutLabel }}</kbd>
+                                    {{ $t('globalSearch.openHint') }}
+                                </span>
+                                <span class="flex items-center gap-x-1">
+                                    <kbd class="rounded border border-slate-200 bg-surface-50 px-1.5 py-0.5 font-medium">esc</kbd>
+                                    {{ $t('globalSearch.closeHint') }}
+                                </span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,6 +131,11 @@ const userStore = useUserStore()
 const highlightStore = useSearchHighlightStore()
 const { t } = useI18n()
 const { isAtLeast } = usePermissions()
+
+const shortcutLabel = computed(() => {
+    const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform)
+    return isMac ? '⌘K' : 'Ctrl K'
+})
 let abortController: AbortController | null = null
 
 interface StaticPage {

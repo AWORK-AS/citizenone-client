@@ -5818,6 +5818,12 @@
         "nonbinary": "Ikke-binær",
         "willNotDisclose": "Vil ikke oplyse"
     },
+    "cmdkTip": {
+        "title": "Hurtig søgning ⚡",
+        "body": "Tryk hvor som helst:",
+        "try": "Prøv nu",
+        "gotIt": "Forstået"
+    },
     "globalSearch": {
         "actions": {
             "title": "Hurtige handlinger",
@@ -5826,6 +5832,9 @@
             "journalNotes": "Journalnotater",
             "statistics": "Statistik"
         },
+        "footerHint": "Søg & handl hurtigt",
+        "openHint": "åbn",
+        "closeHint": "luk",
         "attendance": "Fremmøde",
         "bookings": "Bookinger",
         "calendar": "Kalender",

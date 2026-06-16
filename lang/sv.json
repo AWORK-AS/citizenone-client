@@ -5813,6 +5813,12 @@
         "nonbinary": "Inte-binär",
         "willNotDisclose": "Vill inte oplyse"
     },
+    "cmdkTip": {
+        "title": "Snabbsök ⚡",
+        "body": "Tryck var som helst:",
+        "try": "Prova nu",
+        "gotIt": "Uppfattat"
+    },
     "globalSearch": {
         "actions": {
             "title": "Snabbåtgärder",
@@ -5821,6 +5827,9 @@
             "journalNotes": "Journalanteckningar",
             "statistics": "Statistik"
         },
+        "footerHint": "Sök & agera snabbt",
+        "openHint": "öppna",
+        "closeHint": "stäng",
         "attendance": "Närvaro",
         "bookings": "Bokningar",
         "calendar": "Kalender",

@@ -5818,6 +5818,12 @@
         "nonbinary": "Nonbinary",
         "willNotDisclose": "Will not disclose"
     },
+    "cmdkTip": {
+        "title": "Quick search ⚡",
+        "body": "Press anywhere:",
+        "try": "Try it",
+        "gotIt": "Got it"
+    },
     "globalSearch": {
         "actions": {
             "title": "Quick actions",
@@ -5826,6 +5832,9 @@
             "journalNotes": "Journal notes",
             "statistics": "Statistics"
         },
+        "footerHint": "Search & act fast",
+        "openHint": "open",
+        "closeHint": "close",
         "attendance": "Attendance",
         "bookings": "Bookings",
         "calendar": "Calendar",
