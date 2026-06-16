@@ -806,9 +806,9 @@
                                                     </Tooltip>
                                                     <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
                                                         <button
-                                                            class="bg-gray-200 w-5 h-5 sm:w-6 sm:h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
+                                                            class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-md border border-dashed border-primary/40 bg-primary/5 text-primary hover:bg-primary/15 hover:border-primary transition-colors"
                                                             @click="openAddNewShiftModal(employee, employeeIndex as number, weekIndex as number, week)">
-                                                            +
+                                                            <Icon name="ph:plus" class="h-3.5 w-3.5" aria-hidden="true" />
                                                         </button>
                                                     </Tooltip>
                                                 </div>
