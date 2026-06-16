@@ -23,13 +23,13 @@
                 <FormLabel for="sender" :label="$t('superadmin.polls.form.sender')" />
                 <FormTextField id="sender" name="sender" :placeholder="$t('superadmin.polls.form.sender')"
                     v-model="state.formPoll.sender" />
-                <FormError :error="v$?.formCitizen?.sender?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formPoll?.sender?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.sender?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="region" :label="$t('superadmin.polls.form.region')" />
                 <FormSelect id="region" :options="state.options.regions" v-model="state.formPoll.region" />
-                <FormError :error="v$?.formCitizen?.region?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formPoll?.region?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.region_uuid?.[0]" />
             </div>
             <div class="space-y-1">
