@@ -315,11 +315,11 @@
                 <div class="col-span-12 lg:col-span-3 flex flex-col justify-start gap-6 pt-1">
                     <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
-                    <div class="flex flex-col items-center gap-y-4">
+                    <div class="flex flex-col items-stretch gap-y-4">
                         <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
                             v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
                         <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
-                        <p class="w-60 text-center text-xs text-primary hover:text-secondary-700 cursor-pointer"
+                        <p class="w-full text-center text-xs text-primary hover:text-secondary-700 cursor-pointer"
                             @click="state.modal.isViewRelevantHelpLinksOpen = true"
                             v-if="$route.name === 'citizens-uuid-journals'">
                             {{

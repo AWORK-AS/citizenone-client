@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col items-center gap-y-1.5">
         <button type="button"
-            class="inline-flex items-center gap-x-1.5 rounded-lg bg-red-400 px-3 py-1.5 text-xs font-semibold text-white hover:bg-red-500 transition-colors whitespace-nowrap"
+            class="flex w-full items-center justify-center gap-x-1.5 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100 hover:border-red-300 transition-colors"
             @click="state.modal.isReportIncidentOpen = true">
             ! {{ $t('citizens.incidents.reportIncident') }}
         </button>
