@@ -297,10 +297,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="state.journals?.data?.length === 0">
-                                <p class="text-center py-10">
-                                    {{ $t('theresNoDataAvailableToDisplay') }}.
-                                </p>
+                            <div v-if="state.journals?.data?.length === 0"
+                                class="flex flex-col items-center justify-center py-16 text-center">
+                                <Icon name="ph:note-pencil" class="h-10 w-10 text-slate-300" aria-hidden="true" />
+                                <p class="mt-3 text-slate-500">{{ $t('theresNoDataAvailableToDisplay') }}.</p>
+                                <button type="button" v-if="isAtLeast('Admin') || can('create_citizen_journal')"
+                                    @click="state.modal.isAddJournalOpen = true"
+                                    class="mt-3 inline-flex items-center gap-x-1.5 rounded-lg bg-primary text-white px-3.5 py-2 text-sm font-medium hover:bg-[#0d3f61] transition-colors">
+                                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.newNote') }}
+                                </button>
                             </div>
                             <Pagination :data="state.journals" @previous="previous" @next="next" />
                         </div>
