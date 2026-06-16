@@ -66,14 +66,15 @@
                         </div>
 
                         <div>
-                            <div class="flex flex-wrap justify-end items-end gap-2">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2">
                                 <FormTextField id="filter_journal" name="filter_journal"
                                     :placeholder="$t('citizens.citizenJournals.filter.searchJournal')"
                                     v-model="state.filter.journal" class="flex-1" @blur="filterJournal"
                                     @keyup.enter="filterJournal" />
                                 <FormDateRangeField id="date_range" name="date_range"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
-                                    v-model="state.filter.date_range" class="w-full md:w-96 h-11" />
+                                    v-model="state.filter.date_range" class="w-full md:w-72 h-11" />
+                                <div class="flex items-center gap-1.5 shrink-0">
                                 <Tooltip text="Ældste øverst">
                                     <FormButton buttonSize="sm" :class="[
                                         ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
@@ -107,12 +108,13 @@
                                         <Icon name="mdi:refresh" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
+                                </div>
                             </div>
                         </div>
                         <div class="mt-5 space-y-5">
                             <div :class="[
-                                'bg-white ring-1 rounded-md p-5 border-l-4',
-                                journal.is_pinned ? 'ring-primary/40 border-primary' : 'ring-gray-200 border-secondary'
+                                'bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-gray-100 border-l-4',
+                                journal.is_pinned ? 'border-l-primary' : 'border-l-secondary'
                             ]" v-for="(journal, index) in state.journals?.data" :key="index" :data-uuid="journal.uuid">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
@@ -212,7 +214,7 @@
                                             </div>
                                         </div>
                                         <div class="text-sm text-muted-400"
-                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
+                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView) && journal.note">
                                             <p class="font-semibold">
                                                 {{ customPagesStore.getCustomPagesName?.riskAssessment }}:
                                             </p>
