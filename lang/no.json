@@ -5819,6 +5819,9 @@
         "try": "Prøv nå",
         "gotIt": "Forstått"
     },
+    "undo": {
+        "action": "Angre"
+    },
     "globalSearch": {
         "actions": {
             "title": "Hurtighandlinger",

@@ -465,6 +465,26 @@
                 </div>
             </div>
         </Transition>
+
+        <!-- Global undo snackbar (teleported + high z so it stays above modals) -->
+        <Teleport to="body">
+            <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 translate-y-2"
+                enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-150"
+                leave-from-class="opacity-100" leave-to-class="opacity-0 translate-y-2">
+                <div v-if="undoVisible"
+                    class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[120] flex items-center gap-x-3 rounded-xl bg-slate-900 pl-4 pr-2 py-2.5 text-white shadow-xl">
+                    <span class="text-sm">{{ undoMessage }}</span>
+                    <button type="button" @click="undo"
+                        class="text-sm font-semibold text-secondary hover:text-white transition-colors">
+                        {{ $t('undo.action') }}
+                    </button>
+                    <button type="button" @click="dismissUndo"
+                        class="rounded p-1 text-slate-400 hover:bg-white/10 hover:text-white transition-colors">
+                        <Icon name="heroicons:x-mark" class="h-4 w-4" />
+                    </button>
+                </div>
+            </Transition>
+        </Teleport>
     </LoadingSpinner>
 </template>
 
@@ -496,6 +516,8 @@ const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
 
 // Keyboard hint for the global search button (⌘K on mac, Ctrl K elsewhere)
+const { visible: undoVisible, message: undoMessage, undo, dismiss: dismissUndo } = useUndo()
+
 const showCmdkTip = ref(false)
 const CMDK_TIP_KEY = 'hasSeenCmdkTip'
 

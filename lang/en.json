@@ -5824,6 +5824,9 @@
         "try": "Try it",
         "gotIt": "Got it"
     },
+    "undo": {
+        "action": "Undo"
+    },
     "globalSearch": {
         "actions": {
             "title": "Quick actions",

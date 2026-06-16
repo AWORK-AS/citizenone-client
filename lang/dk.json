@@ -5824,6 +5824,9 @@
         "try": "Prøv nu",
         "gotIt": "Forstået"
     },
+    "undo": {
+        "action": "Fortryd"
+    },
     "globalSearch": {
         "actions": {
             "title": "Hurtige handlinger",

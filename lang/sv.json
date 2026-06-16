@@ -5819,6 +5819,9 @@
         "try": "Prova nu",
         "gotIt": "Uppfattat"
     },
+    "undo": {
+        "action": "Ångra"
+    },
     "globalSearch": {
         "actions": {
             "title": "Snabbåtgärder",
