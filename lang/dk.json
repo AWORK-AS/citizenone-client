@@ -10404,7 +10404,14 @@
                 "markedAsInvoiced": "Valgte poster markeret som faktureret",
                 "weekExcluded": "Uge ekskluderet fra fakturering",
                 "weekIncluded": "Uge inkluderet i fakturering"
-            }
+            },
+            "billingWeeks": "Faktureringsuge",
+            "week": "Uge",
+            "excluded": "Udelukket",
+            "billable": "Fakturerbar",
+            "noBillingWeeks": "Ingen faktureringsuge fundet for dette forløb",
+            "billableWeeks": "fakturerbare uger",
+            "excludedWeeks": "udelukkede uger"
         },
         "revenue": {
             "revenue": "Omsætning",
@@ -10490,5 +10497,6 @@
             "restoreConfirmation": "Er du sikker på, at du vil gendanne denne borger",
             "citizenRestored": "Borger gendannet"
         }
-    }
+    },
+    "selectAll": "Vælg alle"
 }

@@ -79,6 +79,11 @@
                                         <td width="10%">
                                             <div class="flex items-end justify-end gap-2">
                                                 <FormButton type="button" buttonStyle="action"
+                                                    @click="openBillingWeeks(employmentCase)">
+                                                    <Icon name="ph:calendar-check" class="size-4" />
+                                                    {{ $t('employment.billing.billingWeeks') }}
+                                                </FormButton>
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="openEditCase(employmentCase)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('employment.cases.table.actions.edit') }}
@@ -105,6 +110,9 @@
             <ModulesUserEmploymentCaseModalEdit :isModalOpen="state.modal.isEditCaseOpen"
                 :selectedCaseUuid="state.selectedCaseUuid" @close="state.modal.isEditCaseOpen = false"
                 @refreshCases="fetchCases" />
+
+            <ModulesUserEmploymentCaseBillingWeeksSlideOver :isOpen="state.modal.isBillingWeeksOpen"
+                :selectedCase="state.selectedCase" @close="state.modal.isBillingWeeksOpen = false" />
 
             <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
                 :message="$t('employment.cases.table.confirmation.deleteCaseConfirmation')"
@@ -153,6 +161,7 @@ const state = reactive({
         isNewCaseOpen: false,
         isEditCaseOpen: false,
         isDeleteOpen: false,
+        isBillingWeeksOpen: false,
     },
     selectedCaseUuid: '' as string,
     selectedCase: {} as any,
@@ -190,6 +199,11 @@ function sort(sortingData: any) {
     currentTablePage = 1
     state.sortData = { sortField: sortingData.column, sortOrder: sortingData.sort }
     fetchCases()
+}
+
+function openBillingWeeks(employmentCase: any) {
+    state.selectedCase = employmentCase
+    state.modal.isBillingWeeksOpen = true
 }
 
 function openEditCase(employmentCase: any) {

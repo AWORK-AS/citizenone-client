@@ -10404,7 +10404,14 @@
                 "markedAsInvoiced": "Valda poster markerade som fakturerade",
                 "weekExcluded": "Vecka exkluderad från fakturering",
                 "weekIncluded": "Vecka inkluderad i fakturering"
-            }
+            },
+            "billingWeeks": "Faktureringsvecka",
+            "week": "Vecka",
+            "excluded": "Utesluten",
+            "billable": "Fakturerbar",
+            "noBillingWeeks": "Inga faktureringsveckor hittades för detta ärende",
+            "billableWeeks": "faktureringsbara veckor",
+            "excludedWeeks": "uteslutna veckor"
         },
         "revenue": {
             "revenue": "Intäkt",
@@ -10490,5 +10497,6 @@
             "restoreConfirmation": "Är du säker på att du vill återställa denna medborgare",
             "citizenRestored": "Medborgare återställd"
         }
-    }
+    },
+    "selectAll": "Välj alla"
 }

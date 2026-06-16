@@ -10431,7 +10431,14 @@
                 "markedAsInvoiced": "Selected entries marked as invoiced",
                 "weekExcluded": "Week excluded from billing",
                 "weekIncluded": "Week included in billing"
-            }
+            },
+            "billingWeeks": "Billing weeks",
+            "week": "Week",
+            "excluded": "Excluded",
+            "billable": "Billable",
+            "noBillingWeeks": "No billing weeks found for this case",
+            "billableWeeks": "billable weeks",
+            "excludedWeeks": "excluded weeks"
         },
         "revenue": {
             "revenue": "Revenue",
@@ -10490,5 +10497,6 @@
             "restoreConfirmation": "Are you sure you want to restore this citizen",
             "citizenRestored": "Citizen successfully restored"
         }
-    }
+    },
+    "selectAll": "Select all"
 }

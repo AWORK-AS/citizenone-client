@@ -10404,7 +10404,14 @@
                 "markedAsInvoiced": "Valgte oppføringer merket som fakturert",
                 "weekExcluded": "Uke ekskludert fra fakturering",
                 "weekIncluded": "Uke inkludert i fakturering"
-            }
+            },
+            "billingWeeks": "Faktureringsuke",
+            "week": "Uke",
+            "excluded": "Utelukket",
+            "billable": "Fakturerbar",
+            "noBillingWeeks": "Ingen faktureringsuke funnet for dette forløpet",
+            "billableWeeks": "fakturerbare uker",
+            "excludedWeeks": "utelukkede uker"
         },
         "revenue": {
             "revenue": "Inntekt",
@@ -10490,5 +10497,6 @@
             "restoreConfirmation": "Er du sikker på at du vil gjenopprette denne borgeren",
             "citizenRestored": "Borger gjenopprettet"
         }
-    }
+    },
+    "selectAll": "Velg alle"
 }

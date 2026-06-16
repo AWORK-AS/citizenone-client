@@ -106,7 +106,7 @@
                                         {{ row.agreement_name ?? '—' }}
                                     </td>
                                     <td class="co-td text-[13px] text-[#5C6478]">
-                                        {{ row.period_from }} – {{ row.period_to }}
+                                        {{ formatDateToReadable(row.period_from) }} – {{ formatDateToReadable(row.period_to) }}
                                     </td>
                                     <td class="co-td text-[13px] text-[#1F2533]">
                                         {{ formatAmount(row.price_per_week) }}
@@ -148,6 +148,7 @@
 <script setup lang="ts">
 import { employmentService } from '@/components/api/user/EmploymentService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
@@ -155,6 +156,7 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
