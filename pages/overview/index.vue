@@ -12,7 +12,7 @@
 
             <template #header>
                 <div class="flex items-center gap-x-6">
-                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                    <span v-if="!discoverCompleted" class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
                         @click="navigateTo('/discover')">Discover</span>
                     <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
                         {{ $t('overview.overview') }}
@@ -448,6 +448,7 @@ const userStore = useUserStore() as any
 const { celebrate } = useConfetti()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { completed: discoverCompleted } = useDiscoverDone()
 const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)
 

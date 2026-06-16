@@ -12,7 +12,7 @@
 
             <template #header>
                 <div class="flex items-center gap-x-6">
-                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                    <span v-if="!discoverCompleted" class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
                         @click="navigateTo('/discover')">Discover</span>
                     <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
                         @click="navigateTo('/overview')">{{ $t('overview.overview') }}</span>
@@ -156,6 +156,7 @@ const breadcrumbLinks = [
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore() as any
+const { completed: discoverCompleted } = useDiscoverDone()
 
 const state = reactive({
     currentDate: moment(),

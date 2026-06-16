@@ -258,6 +258,10 @@ const totalDone = computed(() => visibleGroups.value.reduce((n, g) => n + groupD
 const progressPct = computed(() => totalSteps.value ? Math.round((totalDone.value / totalSteps.value) * 100) : 0)
 const allDone = computed(() => totalSteps.value > 0 && totalDone.value === totalSteps.value)
 
+// Once the whole journey is done, graduate the Discover tab away.
+const { markCompleted } = useDiscoverDone()
+watch(allDone, (done) => { if (done) markCompleted() }, { immediate: true })
+
 // First actionable (not done, not locked) step across the visible groups.
 const nextStep = computed(() => {
     for (const g of visibleGroups.value) {
