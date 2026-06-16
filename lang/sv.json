@@ -10444,6 +10444,7 @@
         "total": "Totalt",
         "week": "Vecka",
         "weeklyReport": "Veckovis närvararapport"
+    },
     "gdpr": {
         "retention": {
             "title": "GDPR Datalagring",
