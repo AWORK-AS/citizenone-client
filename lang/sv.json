@@ -5830,6 +5830,8 @@
         "footerHint": "Sök & agera snabbt",
         "openHint": "öppna",
         "closeHint": "stäng",
+        "pinned": "Fästa",
+        "recentCitizens": "Senast visade",
         "attendance": "Närvaro",
         "bookings": "Bokningar",
         "calendar": "Kalender",

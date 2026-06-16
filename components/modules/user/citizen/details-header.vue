@@ -380,6 +380,7 @@ import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useConfetti } from '@/composables/useConfetti'
+import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -438,6 +439,7 @@ const isInterventionCheckinEnabled = computed(() => {
 })
 
 const { celebrate } = useConfetti()
+const { recordVisit } = useRecentCitizens()
 let birthdayCelebrated = false
 
 // A little 🎂 confetti when you open a citizen on their birthday.
@@ -623,6 +625,7 @@ async function fetchCitizen() {
         if (response) {
             state.selectedCitizen = response
             citizenStore.setSelectedCitizen(response?.data)
+            recordVisit(response?.data)
             celebrateBirthdayIfToday(response?.data?.birthday)
         }
     } catch (error: any) {

@@ -5835,6 +5835,8 @@
         "footerHint": "Search & act fast",
         "openHint": "open",
         "closeHint": "close",
+        "pinned": "Pinned",
+        "recentCitizens": "Recently viewed",
         "attendance": "Attendance",
         "bookings": "Bookings",
         "calendar": "Calendar",

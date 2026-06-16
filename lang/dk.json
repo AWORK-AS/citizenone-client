@@ -5835,6 +5835,8 @@
         "footerHint": "Søg & handl hurtigt",
         "openHint": "åbn",
         "closeHint": "luk",
+        "pinned": "Fastgjorte",
+        "recentCitizens": "Senest set",
         "attendance": "Fremmøde",
         "bookings": "Bookinger",
         "calendar": "Kalender",

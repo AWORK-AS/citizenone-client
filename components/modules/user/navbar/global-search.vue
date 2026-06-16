@@ -33,6 +33,37 @@
                                         {{ $t(action.titleKey) }}
                                     </button>
                                 </div>
+                                <!-- Pinned citizens -->
+                                <div v-if="pinned.length > 0" class="px-5 pt-3 pb-1">
+                                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{
+                                        $t('globalSearch.pinned') }}</p>
+                                    <div v-for="c in pinned" :key="'pin-' + c.uuid"
+                                        class="group flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-surface-50 cursor-pointer transition-colors"
+                                        @click="openCitizen(c)">
+                                        <img :src="citizenAvatar(c)" class="h-7 w-7 rounded-full object-cover shrink-0" />
+                                        <span class="flex-1 truncate text-sm text-slate-700 group-hover:text-primary">{{ c.name }}</span>
+                                        <button type="button" @click.stop="togglePin(c)"
+                                            class="shrink-0 p-1 rounded text-primary hover:bg-primary/10">
+                                            <Icon name="ph:push-pin-fill" class="h-4 w-4" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Recently viewed citizens -->
+                                <div v-if="recentCitizens.length > 0" class="px-5 pt-3 pb-1">
+                                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{
+                                        $t('globalSearch.recentCitizens') }}</p>
+                                    <div v-for="c in recentCitizens" :key="'recent-' + c.uuid"
+                                        class="group flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-surface-50 cursor-pointer transition-colors"
+                                        @click="openCitizen(c)">
+                                        <img :src="citizenAvatar(c)" class="h-7 w-7 rounded-full object-cover shrink-0" />
+                                        <span class="flex-1 truncate text-sm text-slate-700 group-hover:text-primary">{{ c.name }}</span>
+                                        <button type="button" @click.stop="togglePin(c)"
+                                            class="shrink-0 p-1 rounded text-slate-300 opacity-0 group-hover:opacity-100 hover:text-primary transition"
+                                            :class="{ 'opacity-100 text-primary': isPinned(c.uuid) }">
+                                            <Icon :name="isPinned(c.uuid) ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-4 w-4" />
+                                        </button>
+                                    </div>
+                                </div>
                                 <div v-if="state.recentSearches.length > 0" class="px-5 pt-3 pb-2">
                                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{
                                         $t('globalSearch.recent') }}</p>
@@ -113,6 +144,7 @@ import { useUserStore } from '@/store/user'
 import { useSearchHighlightStore } from '@/store/searchHighlight'
 import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
+import { useRecentCitizens } from '@/composables/useRecentCitizens'
 
 const RECENT_SEARCHES_KEY = 'globalSearch_recent'
 const MAX_RECENT = 5
@@ -136,6 +168,17 @@ const shortcutLabel = computed(() => {
     const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform)
     return isMac ? '⌘K' : 'Ctrl K'
 })
+
+const { recents: recentCitizens, pinned, isPinned, togglePin } = useRecentCitizens()
+
+function citizenAvatar(c: any) {
+    return c.image || `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${encodeURIComponent(c.name || '?')}`
+}
+
+function openCitizen(c: any) {
+    close()
+    navigateTo(getFirstCitizenPage(c.uuid))
+}
 let abortController: AbortController | null = null
 
 interface StaticPage {
