@@ -7411,15 +7411,29 @@
         "editProtocol": "Rediger protokol",
         "form": {
             "alert": {
+                "checkInSuccess": "Tjekket ind",
+                "checkOutSuccess": "Tjekket ud",
                 "newProtocolSuccessfullySaved": "Ny protokol gemt med succes",
                 "protocolSuccessfullyUpdated": "Protokol opdateret med succes"
             },
             "citizens": "Borgere",
             "endDate": "Slutdato",
+            "every": "Hver",
             "excludeWeekends": "Udelad weekender",
+            "frequency": "Frekvens",
+            "isRecurring": "Gentages",
+            "monthlyEach": "På dage",
+            "monthlyOnThe": "Den",
             "protocolName": "Protokolnavn",
-            "startDate": "Startdato"
+            "recurringType": "Gentag",
+            "recurringUntil": "Gentages til",
+            "startDate": "Startdato",
+            "weeklyOn": "På",
+            "yearlyInMonths": "I måneder"
         },
+        "checkIn": "Tjek ind",
+        "checkOut": "Tjek ud",
+        "myProtocols": "Mine protokoller",
         "newProtocol": "Ny protokol",
         "protocols": "Protokol",
         "table": {
@@ -7448,7 +7462,8 @@
             "startDate": "Startdato",
             "status": {
                 "absent": "Fraværende",
-                "attended": "Tilstede"
+                "attended": "Tilstede",
+                "notRecorded": "Ikke registreret"
             }
         }
     },
