@@ -231,9 +231,13 @@
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-slate-200" aria-hidden="true" />
 
                         <!-- Search -->
-                        <button type="button" @click="globalSearch?.open()"
-                            class="w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-surface-100 transition-colors">
+                        <button type="button" @click="globalSearch?.open()" :title="$t('globalSearch.placeholder')"
+                            class="h-9 px-2.5 rounded-full flex items-center gap-x-2 text-slate-400 hover:text-slate-600 hover:bg-surface-100 transition-colors">
                             <Icon name="heroicons:magnifying-glass" class="h-5 w-5" aria-hidden="true" />
+                            <kbd
+                                class="hidden lg:inline-flex items-center rounded border border-slate-200 bg-surface-50 px-1.5 py-0.5 text-[11px] font-medium leading-none text-slate-400">
+                                {{ searchShortcut }}
+                            </kbd>
                         </button>
 
 
@@ -455,6 +459,12 @@ let navigation = [] as any
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
+
+// Keyboard hint for the global search button (⌘K on mac, Ctrl K elsewhere)
+const searchShortcut = computed(() => {
+    const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform)
+    return isMac ? '⌘K' : 'Ctrl K'
+})
 
 const sidebarOpen = ref(false)
 const sidebarPinned = ref(localStorage.getItem('sidebarPinned') !== 'false')
