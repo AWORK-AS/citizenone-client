@@ -30,8 +30,8 @@
                                     ? $t('citizenReports.finalized')
                                     : $t('citizenReports.draft') }}
                             </Badge>
-                            <span v-if="state.report.agreement_type" class="text-sm text-gray-500">
-                                {{ state.report.agreement_type }}
+                            <span v-if="state.report.case_type?.name" class="text-sm text-gray-500">
+                                {{ state.report.case_type.name }}
                             </span>
                         </div>
 

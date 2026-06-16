@@ -15,8 +15,8 @@
                         <h1 class="text-xl font-semibold text-gray-900">{{ state.report.title }}</h1>
                         <div class="flex items-center gap-3 mt-2">
                             <Badge type="active">{{ $t('citizenReports.finalized') }}</Badge>
-                            <span v-if="state.report.agreement_type" class="text-sm text-gray-500">
-                                {{ state.report.agreement_type }}
+                            <span v-if="state.report.case_type?.name" class="text-sm text-gray-500">
+                                {{ state.report.case_type.name }}
                             </span>
                         </div>
                     </div>

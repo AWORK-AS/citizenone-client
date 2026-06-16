@@ -11,11 +11,10 @@
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="agreement_type" :label="$t('reportTemplates.form.agreementType')" />
-                <FormTextField id="agreement_type" name="agreement_type"
-                    :placeholder="$t('reportTemplates.form.agreementType')"
-                    v-model="state.form.agreement_type" />
-                <FormError :error="props?.error?.errors?.agreement_type?.[0]" />
+                <FormLabel for="case_type_uuid" :label="$t('reportTemplates.form.agreementType')" />
+                <FormSelect id="case_type_uuid" name="case_type_uuid" :options="state.options.caseTypes"
+                    v-model="state.form.case_type_uuid" />
+                <FormError :error="props?.error?.errors?.case_type_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="body" :label="$t('reportTemplates.form.body')" />
@@ -46,6 +45,7 @@
 
 <script setup lang="ts">
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from 'vue-i18n'
@@ -72,9 +72,12 @@ const editor = ref(ClassicEditor)
 const editorConfig = ref({ height: 400 })
 
 const state = reactive({
+    options: {
+        caseTypes: [] as any[],
+    },
     form: {
         name: '',
-        agreement_type: '',
+        case_type_uuid: '',
         body: '',
         is_active: true,
     },
@@ -84,7 +87,7 @@ watch(() => props.selectedTemplate, (newValue: any) => {
     if (newValue != null) {
         state.form = {
             name: newValue.name ?? '',
-            agreement_type: newValue.agreement_type ?? '',
+            case_type_uuid: newValue.case_type?.uuid ?? '',
             body: newValue.body ?? '',
             is_active: newValue.is_active ?? true,
         }
@@ -101,10 +104,25 @@ const rules = computed(() => ({
 
 const v$ = useVuelidate(rules, state)
 
+onMounted(() => {
+    fetchCaseTypes()
+})
+
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.form)
+        const payload: any = { ...state.form }
+        if (!payload.case_type_uuid) delete payload.case_type_uuid
+        emit('submitForm', payload)
     }
+}
+
+async function fetchCaseTypes() {
+    try {
+        const response = await employmentService.getAllCaseTypes()
+        if (response?.data) {
+            state.options.caseTypes = response.data.map((c: any) => ({ value: c.uuid, label: c.name }))
+        }
+    } catch {}
 }
 </script>

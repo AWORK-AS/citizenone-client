@@ -55,7 +55,7 @@
                                             <span>{{ report?.title }}</span>
                                         </td>
                                         <td width="20%">
-                                            <span>{{ report?.agreement_type ?? '-' }}</span>
+                                            <span>{{ report?.case_type?.name ?? '-' }}</span>
                                         </td>
                                         <td width="15%">
                                             <Badge :type="report?.status === 'finalized' ? 'active' : 'inactive'" class="w-fit">
@@ -116,8 +116,8 @@
                                     ? $t('citizenReports.finalized')
                                     : $t('citizenReports.draft') }}
                             </Badge>
-                            <span v-if="state.viewReport.agreement_type" class="text-sm text-gray-500">
-                                {{ state.viewReport.agreement_type }}
+                            <span v-if="state.viewReport.case_type?.name" class="text-sm text-gray-500">
+                                {{ state.viewReport.case_type.name }}
                             </span>
                         </div>
 
@@ -220,7 +220,7 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'citizenReports.table.title', isTranslateName: true, sorter: true, key: 'title' },
-        { name: 'citizenReports.table.agreementType', isTranslateName: true, sorter: true, key: 'agreement_type' },
+        { name: 'citizenReports.table.agreementType', isTranslateName: true, sorter: false, key: 'case_type_uuid' },
         { name: 'citizenReports.table.status', isTranslateName: true, sorter: true, key: 'status' },
         { name: '' },
     ],

@@ -49,7 +49,7 @@
                                         <span>{{ template?.name }}</span>
                                     </td>
                                     <td width="30%">
-                                        <span>{{ template?.agreement_type ?? '-' }}</span>
+                                        <span>{{ template?.case_type?.name ?? '-' }}</span>
                                     </td>
                                     <td width="15%">
                                         <Badge :type="template?.is_active ? 'active' : 'inactive'" class="w-fit">
@@ -89,11 +89,11 @@
                     <form @submit.prevent="applyFilter()">
                         <div class="space-y-3">
                             <div class="space-y-1">
-                                <FormLabel for="filter_agreement_type"
+                                <FormLabel for="filter_case_type_uuid"
                                     :label="$t('reportTemplates.form.agreementType')" />
-                                <FormTextField id="filter_agreement_type" name="filter_agreement_type"
-                                    :placeholder="$t('reportTemplates.form.agreementType')"
-                                    v-model="state.filterForm.agreement_type" />
+                                <FormSelect id="filter_case_type_uuid" name="filter_case_type_uuid"
+                                    :options="state.options.caseTypes"
+                                    v-model="state.filterForm.case_type_uuid" />
                             </div>
                             <div class="flex items-center gap-2 cursor-pointer pt-1"
                                 @click="state.filterForm.is_active = !state.filterForm.is_active">
@@ -121,6 +121,7 @@
 
 <script setup lang="ts">
 import { reportTemplateService } from '@/components/api/user/ReportTemplateService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -137,17 +138,20 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'reportTemplates.table.name', isTranslateName: true, sorter: true, key: 'name' },
-        { name: 'reportTemplates.table.agreementType', isTranslateName: true, sorter: true, key: 'agreement_type' },
+        { name: 'reportTemplates.table.agreementType', isTranslateName: true, sorter: false, key: 'case_type_uuid' },
         { name: 'reportTemplates.table.isActive', isTranslateName: true, sorter: false, key: 'is_active' },
         { name: '' },
     ],
+    options: {
+        caseTypes: [] as any[],
+    },
     dataFilter: {
         search: [] as any,
-        agreement_type: '',
+        case_type_uuid: '',
         is_active: false,
     },
     filterForm: {
-        agreement_type: '',
+        case_type_uuid: '',
         is_active: false,
     },
     error: {} as Error,
@@ -166,18 +170,19 @@ const state = reactive({
 
 const activeFilterCount = computed(() => {
     let count = 0
-    if (state.dataFilter.agreement_type) count++
+    if (state.dataFilter.case_type_uuid) count++
     if (state.dataFilter.is_active) count++
     return count
 })
 
 onMounted(() => {
     fetchTemplates()
+    fetchCaseTypes()
 })
 
 watch(() => state.modal.isFilterOpen, (isOpen: boolean) => {
     if (isOpen) {
-        state.filterForm.agreement_type = state.dataFilter.agreement_type
+        state.filterForm.case_type_uuid = state.dataFilter.case_type_uuid
         state.filterForm.is_active = state.dataFilter.is_active
     }
 })
@@ -192,7 +197,7 @@ async function fetchTemplates() {
             sortOrder: state.sortData.sortOrder,
         }
         if (state.dataFilter.search?.length) params.search = state.dataFilter.search
-        if (state.dataFilter.agreement_type) params.agreement_type = state.dataFilter.agreement_type
+        if (state.dataFilter.case_type_uuid) params.case_type_uuid = state.dataFilter.case_type_uuid
         if (state.dataFilter.is_active) params.is_active = state.dataFilter.is_active
         const response = await reportTemplateService.getReportTemplates(params)
         if (response) {
@@ -211,7 +216,7 @@ function handleSearch(value: any) {
 }
 
 function applyFilter() {
-    state.dataFilter.agreement_type = state.filterForm.agreement_type
+    state.dataFilter.case_type_uuid = state.filterForm.case_type_uuid
     state.dataFilter.is_active = state.filterForm.is_active
     state.modal.isFilterOpen = false
     currentTablePage = 1
@@ -251,5 +256,17 @@ async function deleteTemplate() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+async function fetchCaseTypes() {
+    try {
+        const response = await employmentService.getAllCaseTypes()
+        if (response?.data) {
+            state.options.caseTypes = [
+                { value: '', label: t('all') },
+                ...response.data.map((c: any) => ({ value: c.uuid, label: c.name })),
+            ]
+        }
+    } catch {}
 }
 </script>

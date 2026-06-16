@@ -25,11 +25,10 @@
                 <FormError :error="props?.error?.errors?.report_template_uuid?.[0]" />
             </div>
             <div class="space-y-1">
-                <FormLabel for="agreement_type" :label="$t('citizenReports.form.agreementType')" />
-                <FormTextField id="agreement_type" name="agreement_type"
-                    :placeholder="$t('citizenReports.form.agreementType')"
-                    v-model="state.form.agreement_type" />
-                <FormError :error="props?.error?.errors?.agreement_type?.[0]" />
+                <FormLabel for="case_type_uuid" :label="$t('citizenReports.form.agreementType')" />
+                <FormSelect id="case_type_uuid" name="case_type_uuid" :options="state.options.caseTypes"
+                    v-model="state.form.case_type_uuid" />
+                <FormError :error="props?.error?.errors?.case_type_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="caseworker_uuid" :label="$t('citizenReports.form.caseworker')" />
@@ -70,6 +69,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { reportTemplateService } from '@/components/api/user/ReportTemplateService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { employeeService } from '@/components/api/user/EmployeeService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from 'vue-i18n'
@@ -104,13 +104,14 @@ const state = reactive({
         citizens: [] as any[],
         templates: [] as any[],
         users: [] as any[],
+        caseTypes: [] as any[],
     },
     rawTemplates: [] as any[],
     form: {
         citizen_uuid: props.citizenUuid ?? '',
         title: '',
         report_template_uuid: '',
-        agreement_type: '',
+        case_type_uuid: '',
         body: '',
         caseworker_uuid: '',
         consultant_uuid: '',
@@ -123,7 +124,7 @@ watch(() => props.selectedReport, (newValue: any) => {
             citizen_uuid: newValue.citizen?.uuid ?? props.citizenUuid ?? '',
             title: newValue.title ?? '',
             report_template_uuid: newValue.report_template?.uuid ?? '',
-            agreement_type: newValue.agreement_type ?? '',
+            case_type_uuid: newValue.case_type?.uuid ?? '',
             body: newValue.body ?? '',
             caseworker_uuid: newValue.caseworker?.uuid ?? '',
             consultant_uuid: newValue.consultant?.uuid ?? '',
@@ -160,7 +161,7 @@ function submitForm() {
         else delete payload.body
         if (!payload.caseworker_uuid) delete payload.caseworker_uuid
         if (!payload.consultant_uuid) delete payload.consultant_uuid
-        if (!payload.agreement_type) delete payload.agreement_type
+        if (!payload.case_type_uuid) delete payload.case_type_uuid
         if (!payload.body) delete payload.body
         emit('submitForm', payload)
     }
@@ -169,6 +170,7 @@ function submitForm() {
 onMounted(() => {
     fetchTemplates()
     fetchUsers()
+    fetchCaseTypes()
     if (props.formType === 'create' && !props.citizenUuid) {
         fetchCitizens()
     }
@@ -181,7 +183,7 @@ async function fetchTemplates() {
             state.rawTemplates = response.data
             state.options.templates = response.data.map((t: any) => ({
                 value: t.uuid,
-                label: t.name + (t.agreement_type ? ` (${t.agreement_type})` : ''),
+                label: t.name + (t.case_type?.name ? ` (${t.case_type.name})` : ''),
             }))
         }
     } catch {}
@@ -209,6 +211,15 @@ async function fetchCitizens() {
                 value: c.uuid,
                 label: c.firstname + ' ' + (c.lastname ?? ''),
             }))
+        }
+    } catch {}
+}
+
+async function fetchCaseTypes() {
+    try {
+        const response = await employmentService.getAllCaseTypes()
+        if (response?.data) {
+            state.options.caseTypes = response.data.map((c: any) => ({ value: c.uuid, label: c.name }))
         }
     } catch {}
 }

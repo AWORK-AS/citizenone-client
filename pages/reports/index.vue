@@ -55,7 +55,7 @@
                                         </Badge>
                                     </td>
                                     <td width="15%">
-                                        <span>{{ report?.agreement_type ?? '-' }}</span>
+                                        <span>{{ report?.case_type?.name ?? '-' }}</span>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
@@ -101,11 +101,11 @@
                                     v-model="state.filterForm.status" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="filter_agreement_type"
+                                <FormLabel for="filter_case_type_uuid"
                                     :label="$t('citizenReports.form.agreementType')" />
-                                <FormTextField id="filter_agreement_type" name="filter_agreement_type"
-                                    :placeholder="$t('citizenReports.form.agreementType')"
-                                    v-model="state.filterForm.agreement_type" />
+                                <FormSelect id="filter_case_type_uuid" name="filter_case_type_uuid"
+                                    :options="state.options.caseTypes"
+                                    v-model="state.filterForm.case_type_uuid" />
                             </div>
                         </div>
                         <div class="mt-6">
@@ -128,6 +128,7 @@
 
 <script setup lang="ts">
 import { citizenReportService } from '@/components/api/user/CitizenReportService'
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -152,17 +153,20 @@ const state = reactive({
         { name: 'citizenReports.table.title', isTranslateName: true, sorter: true, key: 'title' },
         { name: 'citizens.citizens', isTranslateName: true, sorter: false, key: 'citizen' },
         { name: 'citizenReports.table.status', isTranslateName: true, sorter: true, key: 'status' },
-        { name: 'citizenReports.table.agreementType', isTranslateName: true, sorter: true, key: 'agreement_type' },
+        { name: 'citizenReports.table.agreementType', isTranslateName: true, sorter: false, key: 'case_type_uuid' },
         { name: '' },
     ],
+    options: {
+        caseTypes: [] as any[],
+    },
     dataFilter: {
         search: [] as any,
         status: '',
-        agreement_type: '',
+        case_type_uuid: '',
     },
     filterForm: {
         status: '',
-        agreement_type: '',
+        case_type_uuid: '',
     },
     error: {} as Error,
     isTableLoading: false,
@@ -181,18 +185,19 @@ const state = reactive({
 const activeFilterCount = computed(() => {
     let count = 0
     if (state.dataFilter.status) count++
-    if (state.dataFilter.agreement_type) count++
+    if (state.dataFilter.case_type_uuid) count++
     return count
 })
 
 onMounted(() => {
     fetchReports()
+    fetchCaseTypes()
 })
 
 watch(() => state.modal.isFilterOpen, (isOpen: boolean) => {
     if (isOpen) {
         state.filterForm.status = state.dataFilter.status
-        state.filterForm.agreement_type = state.dataFilter.agreement_type
+        state.filterForm.case_type_uuid = state.dataFilter.case_type_uuid
     }
 })
 
@@ -207,7 +212,7 @@ async function fetchReports() {
         }
         if (state.dataFilter.search?.length) params.search = state.dataFilter.search
         if (state.dataFilter.status) params.status = state.dataFilter.status
-        if (state.dataFilter.agreement_type) params.agreement_type = state.dataFilter.agreement_type
+        if (state.dataFilter.case_type_uuid) params.case_type_uuid = state.dataFilter.case_type_uuid
         const response = await citizenReportService.getReports(params)
         if (response) {
             state.reports = response
@@ -226,7 +231,7 @@ function handleSearch(value: any) {
 
 function applyFilter() {
     state.dataFilter.status = state.filterForm.status
-    state.dataFilter.agreement_type = state.filterForm.agreement_type
+    state.dataFilter.case_type_uuid = state.filterForm.case_type_uuid
     state.modal.isFilterOpen = false
     currentTablePage = 1
     fetchReports()
@@ -265,5 +270,17 @@ async function deleteReport() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+async function fetchCaseTypes() {
+    try {
+        const response = await employmentService.getAllCaseTypes()
+        if (response?.data) {
+            state.options.caseTypes = [
+                { value: '', label: t('all') },
+                ...response.data.map((c: any) => ({ value: c.uuid, label: c.name })),
+            ]
+        }
+    } catch {}
 }
 </script>
