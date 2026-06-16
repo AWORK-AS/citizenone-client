@@ -10310,6 +10310,12 @@
                 "startDate": "Startdato",
                 "status": "Status",
                 "weeksUsed": "Anvendte uger"
+            },
+            "status": {
+                "active": "Aktiv",
+                "completed": "Afsluttet",
+                "on_hold": "På hold",
+                "paused": "Sat på pause"
             }
         },
         "agreements": {

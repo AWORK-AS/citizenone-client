@@ -71,7 +71,9 @@
                                             <span>{{ employmentCase?.weeks_used }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ employmentCase?.status }}</span>
+                                            <Badge :type="statusBadgeType(employmentCase?.status)">
+                                                {{ $t(`employment.cases.status.${employmentCase?.status}`) }}
+                                            </Badge>
                                         </td>
                                         <td width="14%">
                                             <span>{{ employmentCase?.user?.name }}</span>
@@ -190,6 +192,17 @@ async function fetchCases() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+const statusBadgeTypeMap: Record<string, string> = {
+    active: 'active',
+    completed: 'primary',
+    on_hold: 'pending',
+    paused: 'inactive',
+}
+
+function statusBadgeType(status: string): string {
+    return statusBadgeTypeMap[status] ?? 'primary'
 }
 
 function previous() { currentTablePage--; fetchCases() }
