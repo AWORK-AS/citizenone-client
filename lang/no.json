@@ -6837,6 +6837,10 @@
             "overdue": "Forfalt: {count}",
             "more": "+{count} innbyggere"
         },
+        "medsDone": {
+            "title": "Flott! 🎉",
+            "body": "All medisin er gitt i dag"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Afvigelse",

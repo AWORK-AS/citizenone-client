@@ -429,6 +429,9 @@ import { useUserStore } from '@/store/user'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDepartmentStore } from '@/store/department'
+import { useConfetti } from '@/composables/useConfetti'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const breadcrumbLinks = [
@@ -442,6 +445,9 @@ const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
+const { celebrate } = useConfetti()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)
 
@@ -723,11 +729,26 @@ async function fetchCitizensMedicines(dateRange: any) {
             state.stats.medicinesDeviatedCount = todayDueDates.filter(
                 (dueDate: any) => dueDate.status === 'deviated'
             ).length
+
+            maybeCelebrateMedicines()
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+// A small celebration the first time today's medicine is fully done.
+function maybeCelebrateMedicines() {
+    const given = state.stats.medicinesGivenCount
+    const pending = state.stats.medicinesPendingCount
+    const deviated = state.stats.medicinesDeviatedCount
+    if (given <= 0 || pending !== 0 || deviated !== 0) return
+    const key = 'medsCelebrated-' + moment().format('YYYY-MM-DD')
+    if (typeof localStorage === 'undefined' || localStorage.getItem(key)) return
+    localStorage.setItem(key, 'true')
+    celebrate({ emojis: ['🎉', '✨', '🥳', '💊'], count: 24 })
+    successAlert(t('overview.medsDone.title'), t('overview.medsDone.body'))
 }
 
 async function fetchActiveTreatmentsCount() {

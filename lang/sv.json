@@ -6837,6 +6837,10 @@
             "overdue": "Försenad: {count}",
             "more": "+{count} medborgare"
         },
+        "medsDone": {
+            "title": "Bra jobbat! 🎉",
+            "body": "All medicin är given idag"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Avvikelse",

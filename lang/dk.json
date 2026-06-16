@@ -6851,6 +6851,10 @@
             "overdue": "Overskredet: {count}",
             "more": "+{count} borgere"
         },
+        "medsDone": {
+            "title": "Flot! 🎉",
+            "body": "Al medicin er givet i dag"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Afvigelse",

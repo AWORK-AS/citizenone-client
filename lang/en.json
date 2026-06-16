@@ -6851,6 +6851,10 @@
             "overdue": "Overdue: {count}",
             "more": "+{count} citizens"
         },
+        "medsDone": {
+            "title": "Nice! 🎉",
+            "body": "All medicine given today"
+        },
         "medicationOverview": {
             "delivered": "Delivered",
             "deviated": "Deviated",
