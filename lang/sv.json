@@ -10418,6 +10418,32 @@
             "noData": "Ingen intäktsdata hittades för vald period"
         }
     },
+    "attendance": {
+        "absenceReason": "Frånvaroorsak",
+        "absenceReasons": "Frånvarorsaker",
+        "citizen": "Medborgare",
+        "checkIn": "Incheckning",
+        "checkInOut": "Incheckning / Utcheckning",
+        "date": "Datum",
+        "generate": "Generera",
+        "in": "In",
+        "monthlyReport": "Månadsvis närvararapport",
+        "noDataForPeriod": "Ingen närvarodata hittades för vald period",
+        "noParticipantsToday": "Inga deltagare anmälda idag",
+        "notRegistered": "Ej registrerad",
+        "out": "Ut",
+        "participantList": "Deltagarlista",
+        "pending": "Väntar",
+        "period": "Period",
+        "print": "Skriv ut",
+        "printedOn": "Utskriven den",
+        "protocol": "Aktivitet",
+        "selectMonthToGenerate": "Välj en månad och klicka Generera",
+        "selectWeekToGenerate": "Välj en vecka och klicka Generera",
+        "signature": "Underskrift",
+        "total": "Totalt",
+        "week": "Vecka",
+        "weeklyReport": "Veckovis närvararapport"
     "gdpr": {
         "retention": {
             "title": "GDPR Datalagring",
