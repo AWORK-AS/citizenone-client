@@ -10246,7 +10246,10 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
-                }
+                },
+                "pricingType": "Prismodell",
+                "customerNumber": "Kundenr.",
+                "productNumber": "Produktnr."
             }
         },
         "cases": {

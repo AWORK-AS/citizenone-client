@@ -10273,7 +10273,10 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Billing rule successfully deleted"
-                }
+                },
+                "pricingType": "Pricing type",
+                "customerNumber": "Customer no.",
+                "productNumber": "Product no."
             }
         },
         "cases": {
