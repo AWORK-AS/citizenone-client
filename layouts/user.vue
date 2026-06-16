@@ -535,6 +535,8 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
     if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
+    if (item.name === 'Billing') return language.t('employment.billing.billing')
+    if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     return item.name
 }
 
@@ -620,6 +622,11 @@ function generateSidebarLinks(user: any) {
     navigation.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
 
     navigation.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
+
+    if (user?.company?.industry?.system_name === 'employment_services') {
+        navigation.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
+        navigation.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+    }
 
     state.isSidebarLoading = false
 }
