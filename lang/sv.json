@@ -3611,6 +3611,9 @@
             "users": "Användare"
         },
         "holidays": "Helgdagar",
+        "holidayWorked": "Helgdagstimmar (arbetade)",
+        "holidayNonWorked": "Helgdagstimmar (ej arbetade)",
+        "holidayHoursHint": "Helgdag: arbetade timmar ×1,5 (företagets egen faktor). Ej arbetade helgdagar som inte är söndagar ger 7,4 timmar.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",

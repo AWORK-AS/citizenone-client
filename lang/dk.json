@@ -3611,6 +3611,9 @@
             "users": "Brugere"
         },
         "holidays": "Helligdage",
+        "holidayWorked": "Helligdagstimer (arbejdet)",
+        "holidayNonWorked": "Helligdagstimer (ikke-arbejdet)",
+        "holidayHoursHint": "Helligdag: arbejdede timer ×1,5 (virksomhedens egen faktor). Ikke-arbejdede helligdage der ikke er søndage giver 7,4 timer.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",

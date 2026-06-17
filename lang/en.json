@@ -3611,6 +3611,9 @@
             "users": "Users"
         },
         "holidays": "Holidays",
+        "holidayWorked": "Public holiday hours (worked)",
+        "holidayNonWorked": "Public holiday hours (not worked)",
+        "holidayHoursHint": "Public holiday: worked hours ×1.5 (company's own factor). Non-Sunday public holidays not worked count as 7.4 hours.",
         "indicators": {
             "exceedsNorm": "Exceeds norm",
             "negative": "Negative balance",

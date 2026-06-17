@@ -480,6 +480,16 @@
                                                         {{ $t('dutySchedules.extraHours.extraHours') }}:
                                                         {{ empStats(employee)?.extra_hours }}
                                                     </p>
+                                                    <template v-if="empStats(employee)?.holiday_hours?.enabled">
+                                                        <p class="text-xxs text-amber-700" :title="$t('dutySchedules.holidayHoursHint')">
+                                                            🌴 {{ $t('dutySchedules.holidayWorked') }}:
+                                                            {{ empStats(employee)?.holiday_hours?.worked_yearly }}
+                                                        </p>
+                                                        <p class="text-xxs text-amber-700" :title="$t('dutySchedules.holidayHoursHint')">
+                                                            🌴 {{ $t('dutySchedules.holidayNonWorked') }}:
+                                                            {{ empStats(employee)?.holiday_hours?.nonworked_yearly }}
+                                                        </p>
+                                                    </template>
                                                     </template>
 
                                                     <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"
