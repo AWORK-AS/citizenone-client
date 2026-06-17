@@ -14,15 +14,15 @@
                             {{ $t('subscription.addOnDeals.extraDepartment') }}
                         </p>
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                            <p v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
-                                {{ formatAmount(state.addOnDeals.department?.data?.monthly_price) }}
+                            <p v-if="!isYearlySubscription()">
+                                {{ formatAmount(state.addOnDeals.department?.data?.new_monthly_price) }}
                                 <span class="lowercase">
                                     /{{ $t('subscription.deal.month') }}
                                     {{ $t('excludeVat') }}
                                 </span>
                             </p>
-                            <p v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
-                                {{ formatAmount(state.addOnDeals.department?.data?.yearly_price) }}
+                            <p v-if="isYearlySubscription()">
+                                {{ formatAmount(state.addOnDeals.department?.data?.new_yearly_price) }}
                                 <span class="lowercase">
                                     /{{ $t('subscription.deal.year') }}
                                     {{ $t('excludeVat') }}
@@ -36,14 +36,14 @@
                     </div>
                     <div class="flex items-center lg:justify-end">
                         <p class="leading-6 text-gray-900"
-                            v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
-                            {{ formatAmount(state.addOnDeals.department?.data?.monthly_price *
+                            v-if="!isYearlySubscription()">
+                            {{ formatAmount(state.addOnDeals.department?.data?.new_monthly_price *
                                 parseInt(state.formAddOn.department === '' ? '0' :
                                     state.formAddOn.department)) }}
                         </p>
                         <p class="leading-6 text-gray-900"
-                            v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
-                            {{ formatAmount(state.addOnDeals.department?.data?.yearly_price *
+                            v-if="isYearlySubscription()">
+                            {{ formatAmount(state.addOnDeals.department?.data?.new_yearly_price *
                                 parseInt(state.formAddOn.department === '' ? '0' :
                                     state.formAddOn.department)) }}
                         </p>
@@ -55,15 +55,15 @@
                             {{ $t('subscription.addOnDeals.extraUser') }}
                         </p>
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                            <p v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
-                                {{ formatAmount(state.addOnDeals.user?.data?.monthly_price) }}
+                            <p v-if="!isYearlySubscription()">
+                                {{ formatAmount(state.addOnDeals.user?.data?.new_monthly_price) }}
                                 <span class="lowercase">
                                     /{{ $t('subscription.deal.month') }}
                                     {{ $t('excludeVat') }}
                                 </span>
                             </p>
-                            <p v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
-                                {{ formatAmount(state.addOnDeals.user?.data?.yearly_price) }}
+                            <p v-if="isYearlySubscription()">
+                                {{ formatAmount(state.addOnDeals.user?.data?.new_yearly_price) }}
                                 <span class="lowercase">
                                     /{{ $t('subscription.deal.year') }}
                                     {{ $t('excludeVat') }}
@@ -77,14 +77,14 @@
                     </div>
                     <div class="flex items-center lg:justify-end">
                         <p class="leading-6 text-gray-900"
-                            v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
-                            {{ formatAmount(state.addOnDeals.user?.data?.monthly_price *
+                            v-if="!isYearlySubscription()">
+                            {{ formatAmount(state.addOnDeals.user?.data?.new_monthly_price *
                                 parseInt(state.formAddOn.user === '' ? '0' :
                                     state.formAddOn.user)) }}
                         </p>
                         <p class="leading-6 text-gray-900"
-                            v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
-                            {{ formatAmount(state.addOnDeals.user?.data?.yearly_price *
+                            v-if="isYearlySubscription()">
+                            {{ formatAmount(state.addOnDeals.user?.data?.new_yearly_price *
                                 parseInt(state.formAddOn.user === '' ? '0' :
                                     state.formAddOn.user)) }}
                         </p>
@@ -94,11 +94,11 @@
                     <p class="font-semibold">
                         {{ $t('subscription.addOnDeals.total') }}
                     </p>
-                    <p v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
+                    <p v-if="!isYearlySubscription()">
                         <span class="font-semibold">
-                            {{ formatAmount((state.addOnDeals.department?.data?.monthly_price *
+                            {{ formatAmount((state.addOnDeals.department?.data?.new_monthly_price *
                                 parseInt(state.formAddOn.department === '' ? '0' :
-                                    state.formAddOn.department) + (state.addOnDeals.user?.data?.monthly_price *
+                                    state.formAddOn.department) + (state.addOnDeals.user?.data?.new_monthly_price *
                                         parseInt(state.formAddOn.user === '' ? '0' :
                                             state.formAddOn.user)))) }}
                         </span>
@@ -107,11 +107,11 @@
                             {{ $t('excludeVat') }}
                         </span>
                     </p>
-                    <p v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
+                    <p v-if="isYearlySubscription()">
                         <span class="font-semibold">
-                            {{ formatAmount((state.addOnDeals.department?.data?.yearly_price *
+                            {{ formatAmount((state.addOnDeals.department?.data?.new_yearly_price *
                                 parseInt(state.formAddOn.department === '' ? '0' :
-                                    state.formAddOn.department) + (state.addOnDeals.user?.data?.yearly_price *
+                                    state.formAddOn.department) + (state.addOnDeals.user?.data?.new_yearly_price *
                                         parseInt(state.formAddOn.user === '' ? '0' :
                                             state.formAddOn.user)))) }}
                         </span>
@@ -297,11 +297,19 @@ function validateUserQuantity(event: Event) {
     state.formAddOn.user = input.value
 }
 
+function isYearlySubscription() {
+    const type = userStore.getUser?.user_subscription?.type
+    return type === 'yearly' || type === 'custom_yearly'
+}
+
 function hasItemOnCart() {
-    return (state.addOnDeals.department?.data?.monthly_price *
-        parseInt(state.formAddOn.department === '' ? '0' :
-            state.formAddOn.department) + (state.addOnDeals.user?.data?.monthly_price *
-                parseInt(state.formAddOn.user === '' ? '0' :
-                    state.formAddOn.user))) > 0
+    const deptPrice = isYearlySubscription()
+        ? state.addOnDeals.department?.data?.new_yearly_price
+        : state.addOnDeals.department?.data?.new_monthly_price
+    const userPrice = isYearlySubscription()
+        ? state.addOnDeals.user?.data?.new_yearly_price
+        : state.addOnDeals.user?.data?.new_monthly_price
+    return (deptPrice * parseInt(state.formAddOn.department === '' ? '0' : state.formAddOn.department) +
+        userPrice * parseInt(state.formAddOn.user === '' ? '0' : state.formAddOn.user)) > 0
 }
 </script>
