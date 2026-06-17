@@ -10307,7 +10307,18 @@
                     "completed": "Completed",
                     "on_hold": "On hold",
                     "paused": "Paused"
-                }
+                },
+                "reminderEnabled": "Automatic reporting reminders",
+                "reminderEnabledHint": "Automatically create reminders for each reporting date in the case period",
+                "reportingFrequencyWeeks": "Reporting frequency",
+                "reportingFrequencyOptions": {
+                    "every2weeks": "Every 2 weeks",
+                    "every4weeks": "Every 4 weeks",
+                    "every6weeks": "Every 6 weeks",
+                    "every8weeks": "Every 8 weeks"
+                },
+                "reportingReminderTitle": "Reporting reminder",
+                "reportingReminderNote": "Automatic reporting reminder for employment case"
             },
             "table": {
                 "actions": {
@@ -10330,6 +10341,11 @@
                 "status": "Status",
                 "weeksUsed": "Weeks used"
             },
+            "status": {
+                "active": "Active",
+                "completed": "Completed",
+                "on_hold": "On hold",
+                "paused": "Paused"
             "statusHistory": {
                 "title": "Status History",
                 "history": "History",

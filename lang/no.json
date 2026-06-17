@@ -10280,7 +10280,18 @@
                     "completed": "Fullført",
                     "on_hold": "På vent",
                     "paused": "Satt på pause"
-                }
+                },
+                "reminderEnabled": "Automatiske rapporteringspåminnelser",
+                "reminderEnabledHint": "Opprett automatisk påminnelser for hver rapporteringsdato i saksperioden",
+                "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "reportingFrequencyOptions": {
+                    "every2weeks": "Hver 2. uke",
+                    "every4weeks": "Hver 4. uke",
+                    "every6weeks": "Hver 6. uke",
+                    "every8weeks": "Hver 8. uke"
+                },
+                "reportingReminderTitle": "Rapporteringspåminnelse",
+                "reportingReminderNote": "Automatisk rapporteringspåminnelse for sysselsettingssak"
             },
             "table": {
                 "actions": {
@@ -10303,6 +10314,11 @@
                 "status": "Status",
                 "weeksUsed": "Brukte uker"
             },
+            "status": {
+                "active": "Aktiv",
+                "completed": "Fullført",
+                "on_hold": "På vent",
+                "paused": "Satt på pause"
             "statusHistory": {
                 "title": "Statushistorikk",
                 "history": "Historikk",

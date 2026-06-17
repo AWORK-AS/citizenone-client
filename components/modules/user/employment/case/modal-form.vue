@@ -24,7 +24,7 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="start_date" :label="$t('employment.cases.form.startDate')" />
-                    <FormDateField id="start_date" name="start_date" v-model="state.form.start_date" />
+                    <FormDateField id="start_date" name="start_date" :placeholder="$t('employment.cases.form.startDate')" v-model="state.form.start_date" />
                     <FormError :error="v$?.form?.start_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.start_date?.[0]" />
                 </div>
@@ -44,12 +44,12 @@
                     <div v-if="state.periodMode === 'by_weeks'" class="space-y-1">
                         <FormLabel for="duration_weeks" :label="$t('employment.cases.form.durationWeeks')" />
                         <FormNumberField id="duration_weeks" name="duration_weeks" :min="1"
-                            v-model="state.form.duration_weeks" />
+                            :placeholder="$t('employment.cases.form.durationWeeks')" v-model="state.form.duration_weeks" />
                         <FormError :error="props?.error?.errors?.duration_weeks?.[0]" />
                     </div>
                     <div v-else class="space-y-1">
                         <FormLabel for="end_date" :label="$t('employment.cases.form.endDate')" />
-                        <FormDateField id="end_date" name="end_date" v-model="state.form.end_date" />
+                        <FormDateField id="end_date" name="end_date" :placeholder="$t('employment.cases.form.endDate')" v-model="state.form.end_date" />
                         <FormError :error="props?.error?.errors?.end_date?.[0]" />
                     </div>
                 </div>
@@ -72,6 +72,34 @@
                         v-model="state.form.notes" />
                     <FormError :error="props?.error?.errors?.notes?.[0]" />
                 </div>
+
+                <template v-if="isEmploymentServices">
+                    <div class="pt-2 border-t border-[#EAECF0]">
+                        <label class="flex items-center justify-between cursor-pointer">
+                            <span class="text-sm font-medium text-[#1F2533]">
+                                {{ $t('employment.cases.form.reminderEnabled') }}
+                            </span>
+                            <button type="button"
+                                class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none"
+                                :class="state.form.reminder_enabled ? 'bg-[#205E77]' : 'bg-[#D1D5DB]'"
+                                @click="state.form.reminder_enabled = !state.form.reminder_enabled">
+                                <span
+                                    class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform"
+                                    :class="state.form.reminder_enabled ? 'translate-x-4' : 'translate-x-1'" />
+                            </button>
+                        </label>
+                        <p class="text-[11px] text-[#8891A4] mt-1">
+                            {{ $t('employment.cases.form.reminderEnabledHint') }}
+                        </p>
+                    </div>
+
+                    <div v-if="state.form.reminder_enabled" class="space-y-1">
+                        <FormLabel for="reporting_frequency_weeks"
+                            :label="$t('employment.cases.form.reportingFrequencyWeeks')" />
+                        <FormSelect id="reporting_frequency_weeks" :options="reportingFrequencyOptions"
+                            v-model="state.form.reporting_frequency_weeks" />
+                    </div>
+                </template>
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -96,6 +124,7 @@ import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -106,6 +135,25 @@ const props = defineProps({
 const emit = defineEmits(['submitForm', 'closeModal', 'isPageLoading'])
 
 const { t } = useI18n()
+const userStore = useUserStore()
+
+const isEmploymentServices = computed(
+    () => userStore.getUser?.company?.industry?.system_name === 'employment_services'
+)
+
+const statusOptions = computed(() => [
+    { value: 'active', label: t('employment.cases.form.statusOptions.active') },
+    { value: 'completed', label: t('employment.cases.form.statusOptions.completed') },
+    { value: 'on_hold', label: t('employment.cases.form.statusOptions.on_hold') },
+    { value: 'paused', label: t('employment.cases.form.statusOptions.paused') },
+])
+
+const reportingFrequencyOptions = computed(() => [
+    { value: 2, label: t('employment.cases.form.reportingFrequencyOptions.every2weeks') },
+    { value: 4, label: t('employment.cases.form.reportingFrequencyOptions.every4weeks') },
+    { value: 6, label: t('employment.cases.form.reportingFrequencyOptions.every6weeks') },
+    { value: 8, label: t('employment.cases.form.reportingFrequencyOptions.every8weeks') },
+])
 
 const state = reactive({
     error: {} as Error,
@@ -121,6 +169,8 @@ const state = reactive({
         duration_weeks: null as number | null,
         employment_status_type_uuid: null as string | null,
         notes: '',
+        reminder_enabled: false,
+        reporting_frequency_weeks: null as number | null,
     },
     options: {
         agreements: [] as any[],
@@ -150,9 +200,11 @@ watch(() => props.selectedCase, (newValue: any) => {
             user_uuid: newValue.user?.uuid ?? null,
             start_date: newValue.start_date ?? '',
             end_date: newValue.end_date ?? '',
-            duration_weeks: newValue.duration_weeks ?? null,
-            employment_status_type_uuid: newValue.status_type?.uuid ?? null,
+            duration_weeks: newValue.duration_weeks != null ? String(newValue.duration_weeks) : null,
+            status: newValue.status ?? null,
             notes: newValue.notes ?? '',
+            reminder_enabled: newValue.reminder_enabled ?? false,
+            reporting_frequency_weeks: newValue.reporting_frequency_weeks ?? null,
         }
         if (newValue.agreement?.uuid) {
             fetchAgreementStatusTypes(newValue.agreement.uuid)
@@ -166,14 +218,14 @@ function onAgreementCreated(newAgreement: any) {
     state.options.agreements.push(option)
     state.form.agreement_uuid = newAgreement.uuid
     if (newAgreement.default_duration_weeks && state.periodMode === 'by_weeks') {
-        state.form.duration_weeks = newAgreement.default_duration_weeks
+        state.form.duration_weeks = String(newAgreement.default_duration_weeks)
     }
 }
 
 function onAgreementChange(uuid: string) {
     const agreement = state.agreementsRaw.find((a: any) => a.uuid === uuid)
     if (agreement?.default_duration_weeks && state.periodMode === 'by_weeks') {
-        state.form.duration_weeks = agreement.default_duration_weeks
+        state.form.duration_weeks = String(agreement.default_duration_weeks)
     }
     state.form.employment_status_type_uuid = null
     state.options.statusTypes = []
@@ -247,6 +299,8 @@ function submitForm() {
             start_date: state.form.start_date,
             employment_status_type_uuid: state.form.employment_status_type_uuid,
             notes: state.form.notes,
+            reminder_enabled: state.form.reminder_enabled,
+            reporting_frequency_weeks: state.form.reminder_enabled ? state.form.reporting_frequency_weeks : null,
         }
         if (state.periodMode === 'by_weeks') {
             payload.duration_weeks = state.form.duration_weeks

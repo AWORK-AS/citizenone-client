@@ -10280,7 +10280,18 @@
                     "completed": "Avslutad",
                     "on_hold": "Pausad",
                     "paused": "Satt på paus"
-                }
+                },
+                "reminderEnabled": "Automatiska rapporteringspåminnelser",
+                "reminderEnabledHint": "Skapa automatiskt påminnelser för varje rapporteringsdatum under ärendeperioden",
+                "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "reportingFrequencyOptions": {
+                    "every2weeks": "Var 2:a vecka",
+                    "every4weeks": "Var 4:e vecka",
+                    "every6weeks": "Var 6:e vecka",
+                    "every8weeks": "Var 8:e vecka"
+                },
+                "reportingReminderTitle": "Rapporteringspåminnelse",
+                "reportingReminderNote": "Automatisk rapporteringspåminnelse för sysselsättningsärende"
             },
             "table": {
                 "actions": {
@@ -10303,6 +10314,11 @@
                 "status": "Status",
                 "weeksUsed": "Använda veckor"
             },
+            "status": {
+                "active": "Aktiv",
+                "completed": "Avslutad",
+                "on_hold": "Pausad",
+                "paused": "Pausad"
             "statusHistory": {
                 "title": "Statushistorik",
                 "history": "Historik",

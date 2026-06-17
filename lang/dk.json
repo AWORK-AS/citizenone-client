@@ -10280,7 +10280,18 @@
                     "completed": "Afsluttet",
                     "on_hold": "På hold",
                     "paused": "Sat på pause"
-                }
+                },
+                "reminderEnabled": "Automatiske rapporteringspåmindelser",
+                "reminderEnabledHint": "Opret automatisk påmindelser for hver rapporteringsdato i sagsperioden",
+                "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "reportingFrequencyOptions": {
+                    "every2weeks": "Hver 2. uge",
+                    "every4weeks": "Hver 4. uge",
+                    "every6weeks": "Hver 6. uge",
+                    "every8weeks": "Hver 8. uge"
+                },
+                "reportingReminderTitle": "Rapporteringspåmindelse",
+                "reportingReminderNote": "Automatisk rapporteringspåmindelse for beskæftigelsessag"
             },
             "table": {
                 "actions": {
@@ -10301,6 +10312,13 @@
                 "responsibleEmployee": "Ansvarlig medarbejder",
                 "startDate": "Startdato",
                 "status": "Status",
+                "weeksUsed": "Anvendte uger"
+            },
+            "status": {
+                "active": "Aktiv",
+                "completed": "Afsluttet",
+                "on_hold": "På hold",
+                "paused": "Sat på pause"
                 "weeksUsed": "Brugte uger"
             },
             "statusHistory": {
