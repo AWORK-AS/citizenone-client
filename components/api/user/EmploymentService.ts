@@ -151,6 +151,24 @@ class EmploymentService extends BaseAPIService {
         return await this.request(`/user/employment/cases/${uuid}`, 'DELETE')
     }
 
+    // Agreement Status Types
+    async getAgreementStatusTypes(agreementUuid: any): Promise<any> {
+        return await this.request(`/user/employment/agreements/${agreementUuid}/status-types`, 'GET')
+    }
+
+    async updateAgreementStatusTypes(agreementUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/employment/agreements/${agreementUuid}/status-types`, 'PUT', params)
+    }
+
+    // Case Status History
+    async getCaseStatusHistory(caseUuid: any, params: object = {}): Promise<any> {
+        return await this.request(`/user/employment/cases/${caseUuid}/status-history`, 'GET', params)
+    }
+
+    async saveCaseStatusHistory(caseUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/employment/cases/${caseUuid}/status-history`, 'POST', params)
+    }
+
     // Billing — Week-level tracking
     async getCaseBillingWeeks(caseUuid: string, params: object = {}): Promise<any> {
         return await this.request(`/user/employment/cases/${caseUuid}/billing-weeks`, 'GET', params)

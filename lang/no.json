@@ -10132,6 +10132,7 @@
             "form": {
                 "name": "Navn",
                 "color": "Farge",
+                "billingRule": "Faktureringsregel",
                 "isActive": "Aktiv",
                 "sortOrder": "Sorteringsrekkefølge",
                 "alert": {
@@ -10265,6 +10266,7 @@
                 },
                 "durationWeeks": "Varighet (uker)",
                 "endDate": "Sluttdato",
+                "statusType": "Statustype",
                 "notes": "Notater",
                 "periodMode": {
                     "byDate": "Etter dato",
@@ -10283,7 +10285,8 @@
             "table": {
                 "actions": {
                     "delete": "Slett",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "history": "Historikk"
                 },
                 "agreement": "Avtale",
                 "alert": {
@@ -10299,6 +10302,22 @@
                 "startDate": "Startdato",
                 "status": "Status",
                 "weeksUsed": "Brukte uker"
+            },
+            "statusHistory": {
+                "title": "Statushistorikk",
+                "history": "Historikk",
+                "addEntry": "Registrer statusendring",
+                "noHistory": "Ingen statusendringer registrert ennå.",
+                "statusCleared": "Status fjernet",
+                "form": {
+                    "statusType": "Ny status",
+                    "notes": "Notater",
+                    "notesPlaceholder": "Årsak til statusendring (valgfritt)",
+                    "save": "Lagre"
+                },
+                "alert": {
+                    "statusUpdated": "Status oppdatert"
+                }
             }
         },
         "agreements": {
@@ -10311,6 +10330,7 @@
                     "agreementSuccessfullyUpdated": "Avtale oppdatert",
                     "newAgreementSuccessfullySaved": "Avtale lagret"
                 },
+                "caseType": "Sakskategori",
                 "defaultDurationWeeks": "Standard varighet (uker)",
                 "description": "Beskrivelse",
                 "isActive": "Aktiv",
@@ -10327,6 +10347,7 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Avtale slettet"
                 },
+                "caseType": "Sakskategori",
                 "confirmation": {
                     "deleteAgreementConfirmation": "Er du sikker på at du vil slette denne avtalen?"
                 },
@@ -10334,6 +10355,15 @@
                 "jobcenter": "Jobbsenter",
                 "name": "Navn",
                 "sortOrder": "Sorteringsrekkefølge"
+            },
+            "statusTypes": {
+                "title": "Statustyper for denne avtalen",
+                "description": "Velg hvilke statustyper som er tilgjengelige for saker under denne avtalen.",
+                "noStatusTypesAvailable": "Ingen statustyper konfigurert. Opprett statustyper under Innstillinger først.",
+                "saveConfiguration": "Lagre konfigurasjon",
+                "alert": {
+                    "configurationSaved": "Statustypekonfigurasjon lagret"
+                }
             }
         },
         "jobcenters": {

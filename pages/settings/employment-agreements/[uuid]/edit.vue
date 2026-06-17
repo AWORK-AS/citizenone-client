@@ -20,6 +20,8 @@
                         @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="updateAgreement" />
                 </LoadingSpinner>
+                <hr class="mt-8 border-gray-200" />
+                <ModulesUserEmploymentAgreementStatusTypesConfig :agreementUuid="agreementUuid" />
             </div>
         </NuxtLayout>
     </div>

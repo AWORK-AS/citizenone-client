@@ -35,8 +35,7 @@
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
 
-                <LoadingSpinner :isActive="state.isTableLoading">
-                    <div class="mt-8 space-y-3">
+                <div class="mt-8 space-y-3">
                         <div class="flex justify-end items-center">
                             <FormButton buttonStyle="action" @click="state.modal.isNewCaseOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -70,14 +69,24 @@
                                         <td width="8%">
                                             <span>{{ employmentCase?.weeks_used }}</span>
                                         </td>
-                                        <td width="10%">
-                                            <span>{{ employmentCase?.status }}</span>
+                                        <td width="12%">
+                                            <span v-if="employmentCase?.status_type"
+                                                class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium text-white"
+                                                :style="{ backgroundColor: employmentCase.status_type.color || '#6b7280' }">
+                                                {{ employmentCase.status_type.name }}
+                                            </span>
+                                            <span v-else class="text-gray-400 text-sm">—</span>
                                         </td>
-                                        <td width="14%">
+                                        <td width="12%">
                                             <span>{{ employmentCase?.user?.name }}</span>
                                         </td>
                                         <td width="10%">
                                             <div class="flex items-end justify-end gap-2">
+                                                <FormButton type="button" buttonStyle="secondary"
+                                                    @click="openStatusHistory(employmentCase)">
+                                                    <Icon name="ph:clock-countdown" class="size-4" />
+                                                    {{ $t('employment.cases.table.actions.history') }}
+                                                </FormButton>
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="openBillingWeeks(employmentCase)">
                                                     <Icon name="ph:calendar-check" class="size-4" />
@@ -101,7 +110,6 @@
                         </div>
                         <Pagination :data="state.cases" @previous="previous" @next="next" />
                     </div>
-                </LoadingSpinner>
             </div>
 
             <ModulesUserEmploymentCaseModalNew :isModalOpen="state.modal.isNewCaseOpen" :citizenUuid="citizenUuid"
@@ -113,6 +121,12 @@
 
             <ModulesUserEmploymentCaseBillingWeeksSlideOver :isOpen="state.modal.isBillingWeeksOpen"
                 :selectedCase="state.selectedCase" @close="state.modal.isBillingWeeksOpen = false" />
+
+            <ModulesUserEmploymentCaseStatusHistoryModal
+                :isModalOpen="state.modal.isHistoryOpen"
+                :selectedCase="state.selectedCase"
+                @close="closeHistoryModal"
+                @statusUpdated="fetchCases" />
 
             <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
                 :message="$t('employment.cases.table.confirmation.deleteCaseConfirmation')"
@@ -161,6 +175,7 @@ const state = reactive({
         isNewCaseOpen: false,
         isEditCaseOpen: false,
         isDeleteOpen: false,
+        isHistoryOpen: false,
         isBillingWeeksOpen: false,
     },
     selectedCaseUuid: '' as string,
@@ -209,6 +224,16 @@ function openBillingWeeks(employmentCase: any) {
 function openEditCase(employmentCase: any) {
     state.selectedCaseUuid = employmentCase.uuid
     state.modal.isEditCaseOpen = true
+}
+
+function openStatusHistory(employmentCase: any) {
+    state.selectedCase = employmentCase
+    state.modal.isHistoryOpen = true
+}
+
+function closeHistoryModal() {
+    state.modal.isHistoryOpen = false
+    state.selectedCase = {}
 }
 
 function deleteCaseConfirmation(employmentCase: any) {
