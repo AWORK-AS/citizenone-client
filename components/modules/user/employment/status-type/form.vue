@@ -117,13 +117,10 @@ async function fetchBillingRules() {
     try {
         const response = await employmentService.getAllBillingRules()
         if (response?.data) {
-            state.options.billingRules = [
-                { value: null, label: '—' },
-                ...response.data.map((item: any) => ({
-                    value: item.uuid,
-                    label: item.name,
-                })),
-            ]
+            state.options.billingRules = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: item.name,
+            }))
         }
     } catch { /* ignore */ }
     emit('isPageLoading', false)

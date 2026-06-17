@@ -10357,6 +10357,7 @@
                     "agreementSuccessfullyUpdated": "Agreement successfully updated",
                     "newAgreementSuccessfullySaved": "Agreement successfully saved"
                 },
+                "caseType": "Case type",
                 "defaultDurationWeeks": "Default duration (weeks)",
                 "description": "Description",
                 "isActive": "Active",
@@ -10373,6 +10374,7 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Agreement successfully deleted"
                 },
+                "caseType": "Case type",
                 "confirmation": {
                     "deleteAgreementConfirmation": "Are you sure you want to delete this agreement?"
                 },

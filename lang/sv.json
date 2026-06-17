@@ -10330,6 +10330,7 @@
                     "agreementSuccessfullyUpdated": "Avtal uppdaterat",
                     "newAgreementSuccessfullySaved": "Avtal sparat"
                 },
+                "caseType": "Ärendekategori",
                 "defaultDurationWeeks": "Standardvaraktighet (veckor)",
                 "description": "Beskrivning",
                 "isActive": "Aktiv",
@@ -10346,6 +10347,7 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Avtal borttaget"
                 },
+                "caseType": "Ärendekategori",
                 "confirmation": {
                     "deleteAgreementConfirmation": "Är du säker på att du vill ta bort detta avtal?"
                 },

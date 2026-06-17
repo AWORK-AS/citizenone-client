@@ -10330,6 +10330,7 @@
                     "agreementSuccessfullyUpdated": "Aftale opdateret",
                     "newAgreementSuccessfullySaved": "Aftale gemt"
                 },
+                "caseType": "Sagskategori",
                 "defaultDurationWeeks": "Standardvarighed (uger)",
                 "description": "Beskrivelse",
                 "isActive": "Aktiv",
@@ -10346,6 +10347,7 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Aftale slettet"
                 },
+                "caseType": "Sagskategori",
                 "confirmation": {
                     "deleteAgreementConfirmation": "Er du sikker på, at du vil slette denne aftale?"
                 },
