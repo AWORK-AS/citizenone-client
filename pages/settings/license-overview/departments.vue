@@ -139,20 +139,26 @@
                                 </h3>
                                 <ModulesUserSettingsLicenseOverviewSubTab />
                                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 mt-4">
-                                    <div class="flex items-center gap-x-5 mb-5">
-                                        <div>
-                                            <span class="text-sm font-semibold">
-                                                {{ $t('settings.licenseOverview.usedDepartmentLicense') }}:
-                                            </span>
-                                            {{ state.departments?.used ?? 0 }}
+                                    <div class="flex justify-between gap-3 mb-5">
+                                        <div class="flex items-center gap-x-5 justify-end">
+                                            <div>
+                                                <span class="text-sm font-semibold">
+                                                    {{ $t('settings.licenseOverview.usedDepartmentLicense') }}:
+                                                </span>
+                                                {{ state.departments?.used ?? 0 }}
+                                            </div>
+                                            |
+                                            <div>
+                                                <span class="text-sm font-semibold">
+                                                    {{ $t('settings.licenseOverview.unusedDepartmentLicense') }}:
+                                                </span>
+                                                {{ state.departments?.unused ?? 0 }}
+                                            </div>
                                         </div>
-                                        |
-                                        <div>
-                                            <span class="text-sm font-semibold">
-                                                {{ $t('settings.licenseOverview.unusedDepartmentLicense') }}:
-                                            </span>
-                                            {{ state.departments?.unused ?? 0 }}
-                                        </div>
+                                        <FormButton type="button" buttonStyle="primary"
+                                            @click="navigateTo('/settings/subscription')">
+                                            {{ $t('subscription.addOnDeals.purchaseExtraLicenses') }}
+                                        </FormButton>
                                     </div>
                                     <div class="mt-5 table-responsive">
                                         <Table :columnHeaders="state.columnHeaders" :data="state.departments"
