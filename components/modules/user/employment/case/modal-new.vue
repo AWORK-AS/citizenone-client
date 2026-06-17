@@ -4,8 +4,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserEmploymentCaseModalForm formType="create" :selectedCase="state.formCase"
-                        :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveCase" />
                 </LoadingSpinner>
             </template>
@@ -15,13 +14,17 @@
 
 <script setup lang="ts">
 import { employmentService } from '@/components/api/user/EmploymentService'
-import { reminderService } from '@/components/api/user/ReminderService'
+import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
+import { useUserStore } from '@/store/user'
+import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
+const departmentStore = useDepartmentStore() as any
 
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
@@ -40,7 +43,7 @@ function closeModal() {
     emit('close')
 }
 
-function buildReminderDates(startDate: string, endDate: string, frequencyWeeks: number): string[] {
+function buildReportingDates(startDate: string, endDate: string, frequencyWeeks: number): string[] {
     const dates: string[] = []
     const start = new Date(startDate)
     const end = new Date(endDate)
@@ -53,22 +56,38 @@ function buildReminderDates(startDate: string, endDate: string, frequencyWeeks: 
     return dates
 }
 
-async function createRemindersForCase(caseData: any, frequencyWeeks: number) {
+async function createReportingEvents(caseData: any, frequencyWeeks: number) {
     const startDate = caseData.start_date
     const endDate = caseData.calculated_end_date ?? caseData.end_date
     if (!startDate || !endDate || !frequencyWeeks) return
-    const dates = buildReminderDates(startDate, endDate, frequencyWeeks)
+    const dates = buildReportingDates(startDate, endDate, frequencyWeeks)
     const agreementName = caseData.agreement?.name ?? ''
+    const caseUuid = caseData.uuid
+    const employeeUuid = caseData.user?.uuid ?? userStore.getUser?.uuid
+    const departmentUuid = departmentStore.getSelectedDepartment?.uuid
+
     for (const date of dates) {
         try {
-            await reminderService.saveReminder({
-                title: `${t('employment.cases.form.reportingReminderTitle')}: ${agreementName}`,
-                date_time: `${date} 09:00:00`,
-                employee_uuid: caseData.user?.uuid ?? null,
-                repeat: 'none',
-                notes: `${t('employment.cases.form.reportingReminderNote')} (${startDate} – ${endDate})`,
+            await myCalendarService.saveSchedule({
+                calendar_type: 'my_self',
+                employee_uuid: [employeeUuid],
+                employee_group_uuid: [],
+                title: `${t('employment.cases.form.reportingReminderTitle')}: ${agreementName} [case:${caseUuid}]`,
+                description: `${t('employment.cases.form.reportingReminderNote')} (${startDate} – ${endDate})`,
+                date_time_start: `${date} 09:00`,
+                date_time_end: `${date} 10:00`,
+                is_private: false,
+                is_recurring: false,
+                recurring: '',
+                recurring_until: '',
+                citizens_uuid: [],
+                users_uuid: [],
+                user_group_uuid: [],
+                calendar_tag_uuid: [],
+                send_invitation: false,
+                department_uuid: departmentUuid ? [departmentUuid] : [],
             })
-        } catch { /* ignore individual reminder failures */ }
+        } catch { /* ignore individual event failures */ }
     }
 }
 
@@ -83,7 +102,7 @@ async function saveCase(details: any) {
         })
         if (response.data) {
             if (reminder_enabled && reporting_frequency_weeks) {
-                await createRemindersForCase(response.data, reporting_frequency_weeks)
+                await createReportingEvents(response.data, reporting_frequency_weeks)
             }
             successAlert(`${t('alert.success')}!`, `${t('employment.cases.form.alert.newCaseSuccessfullySaved')}.`)
             emit('refreshCases')

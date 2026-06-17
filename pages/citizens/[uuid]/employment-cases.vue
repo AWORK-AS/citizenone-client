@@ -37,7 +37,11 @@
 
                 <LoadingSpinner :isActive="state.isTableLoading">
                     <div class="mt-8 space-y-3">
-                        <div class="flex justify-end items-center">
+                        <div class="flex justify-end items-center gap-2">
+                            <FormButton buttonStyle="action" @click="state.modal.isSubscribeOpen = true">
+                                <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('events.subscribe.label') }}
+                            </FormButton>
                             <FormButton buttonStyle="action" @click="state.modal.isNewCaseOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('employment.cases.addNewCase') }}
@@ -116,6 +120,9 @@
             <ModulesUserEmploymentCaseBillingWeeksSlideOver :isOpen="state.modal.isBillingWeeksOpen"
                 :selectedCase="state.selectedCase" @close="state.modal.isBillingWeeksOpen = false" />
 
+            <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen"
+                @close="state.modal.isSubscribeOpen = false" />
+
             <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
                 :message="$t('employment.cases.table.confirmation.deleteCaseConfirmation')"
                 @close="state.modal.isDeleteOpen = false" @confirm="deleteCase" />
@@ -164,6 +171,7 @@ const state = reactive({
         isEditCaseOpen: false,
         isDeleteOpen: false,
         isBillingWeeksOpen: false,
+        isSubscribeOpen: false,
     },
     selectedCaseUuid: '' as string,
     selectedCase: {} as any,
