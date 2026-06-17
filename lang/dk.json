@@ -10132,6 +10132,7 @@
             "form": {
                 "name": "Navn",
                 "color": "Farve",
+                "billingRule": "Faktureringsregel",
                 "isActive": "Aktiv",
                 "sortOrder": "Sorteringsrækkefølge",
                 "alert": {
@@ -10265,6 +10266,7 @@
                 },
                 "durationWeeks": "Varighed (uger)",
                 "endDate": "Slutdato",
+                "statusType": "Statustype",
                 "notes": "Noter",
                 "periodMode": {
                     "byDate": "Efter dato",
@@ -10294,7 +10296,8 @@
             "table": {
                 "actions": {
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "history": "Historik"
                 },
                 "agreement": "Aftale",
                 "alert": {
@@ -10316,6 +10319,23 @@
                 "completed": "Afsluttet",
                 "on_hold": "På hold",
                 "paused": "Sat på pause"
+                "weeksUsed": "Brugte uger"
+            },
+            "statusHistory": {
+                "title": "Statushistorik",
+                "history": "Historik",
+                "addEntry": "Registrer statusændring",
+                "noHistory": "Ingen statusændringer registreret endnu.",
+                "statusCleared": "Status fjernet",
+                "form": {
+                    "statusType": "Ny status",
+                    "notes": "Noter",
+                    "notesPlaceholder": "Årsag til statusændring (valgfrit)",
+                    "save": "Gem"
+                },
+                "alert": {
+                    "statusUpdated": "Status opdateret"
+                }
             }
         },
         "agreements": {
@@ -10328,6 +10348,7 @@
                     "agreementSuccessfullyUpdated": "Aftale opdateret",
                     "newAgreementSuccessfullySaved": "Aftale gemt"
                 },
+                "caseType": "Sagskategori",
                 "defaultDurationWeeks": "Standardvarighed (uger)",
                 "description": "Beskrivelse",
                 "isActive": "Aktiv",
@@ -10344,6 +10365,7 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Aftale slettet"
                 },
+                "caseType": "Sagskategori",
                 "confirmation": {
                     "deleteAgreementConfirmation": "Er du sikker på, at du vil slette denne aftale?"
                 },
@@ -10351,6 +10373,15 @@
                 "jobcenter": "Jobcenter",
                 "name": "Navn",
                 "sortOrder": "Sorteringsrækkefølge"
+            },
+            "statusTypes": {
+                "title": "Statustyper for denne aftale",
+                "description": "Vælg hvilke statustyper der er tilgængelige for sager under denne aftale.",
+                "noStatusTypesAvailable": "Ingen statustyper konfigureret. Opret statustyper under Indstillinger først.",
+                "saveConfiguration": "Gem konfiguration",
+                "alert": {
+                    "configurationSaved": "Statustypekonfiguration gemt"
+                }
             }
         },
         "jobcenters": {

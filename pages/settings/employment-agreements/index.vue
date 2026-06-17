@@ -29,8 +29,9 @@
                             <template #body
                                 v-if="!(state.isTableLoading || (state.agreements?.data?.length === 0))">
                                 <tr v-for="(agreement, index) in state.agreements?.data" :key="index">
-                                    <td width="25%"><span>{{ agreement?.name }}</span></td>
-                                    <td width="25%"><span>{{ agreement?.jobcenter?.name }}</span></td>
+                                    <td width="20%"><span>{{ agreement?.name }}</span></td>
+                                    <td width="15%"><span>{{ agreement?.case_type?.name }}</span></td>
+                                    <td width="20%"><span>{{ agreement?.jobcenter?.name }}</span></td>
                                     <td width="15%"><span>{{ agreement?.default_duration_weeks }}</span></td>
                                     <td width="10%"><span>{{ agreement?.sort_order }}</span></td>
                                     <td width="10%"><span>{{ agreement?.is_active ? $t('yes') : $t('no') }}</span></td>
@@ -82,6 +83,7 @@ const state = reactive({
     agreements: [] as any,
     columnHeaders: [
         { name: 'employment.agreements.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'employment.agreements.table.caseType', isTranslateName: true, sorter: false, key: 'case_type' },
         { name: 'employment.agreements.table.jobcenter', isTranslateName: true, sorter: false, key: 'jobcenter' },
         { name: 'employment.agreements.table.defaultDurationWeeks', isTranslateName: true, sorter: false, key: 'default_duration_weeks' },
         { name: 'employment.agreements.table.sortOrder', isTranslateName: true, sorter: true, key: 'sort_order' },

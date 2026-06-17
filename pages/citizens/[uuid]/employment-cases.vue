@@ -79,11 +79,16 @@
                                                 {{ $t(`employment.cases.status.${employmentCase?.status}`) }}
                                             </Badge>
                                         </td>
-                                        <td width="14%">
+                                        <td width="12%">
                                             <span>{{ employmentCase?.user?.name }}</span>
                                         </td>
                                         <td width="10%">
                                             <div class="flex items-end justify-end gap-2">
+                                                <FormButton type="button" buttonStyle="secondary"
+                                                    @click="openStatusHistory(employmentCase)">
+                                                    <Icon name="ph:clock-countdown" class="size-4" />
+                                                    {{ $t('employment.cases.table.actions.history') }}
+                                                </FormButton>
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="openBillingWeeks(employmentCase)">
                                                     <Icon name="ph:calendar-check" class="size-4" />
@@ -107,7 +112,6 @@
                         </div>
                         <Pagination :data="state.cases" @previous="previous" @next="next" />
                     </div>
-                </LoadingSpinner>
             </div>
 
             <ModulesUserEmploymentCaseModalNew :isModalOpen="state.modal.isNewCaseOpen" :citizenUuid="citizenUuid"
@@ -170,6 +174,7 @@ const state = reactive({
         isNewCaseOpen: false,
         isEditCaseOpen: false,
         isDeleteOpen: false,
+        isHistoryOpen: false,
         isBillingWeeksOpen: false,
         isSubscribeOpen: false,
     },
@@ -230,6 +235,16 @@ function openBillingWeeks(employmentCase: any) {
 function openEditCase(employmentCase: any) {
     state.selectedCaseUuid = employmentCase.uuid
     state.modal.isEditCaseOpen = true
+}
+
+function openStatusHistory(employmentCase: any) {
+    state.selectedCase = employmentCase
+    state.modal.isHistoryOpen = true
+}
+
+function closeHistoryModal() {
+    state.modal.isHistoryOpen = false
+    state.selectedCase = {}
 }
 
 function deleteCaseConfirmation(employmentCase: any) {

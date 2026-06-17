@@ -12,6 +12,12 @@
                     <FormError :error="props?.error?.errors?.name?.[0]" />
                 </div>
                 <div class="space-y-1">
+                    <FormLabel for="case_type_uuid" :label="$t('employment.agreements.form.caseType')" />
+                    <FormSelect id="case_type_uuid" :options="state.options.caseTypes"
+                        v-model="state.formAgreement.case_type_uuid" />
+                    <FormError :error="props?.error?.errors?.case_type_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="jobcenter_uuid" :label="$t('employment.agreements.form.jobcenter')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -84,6 +90,7 @@ const { t } = useI18n()
 const state = reactive({
     formAgreement: {
         name: '',
+        case_type_uuid: null as string | null,
         jobcenter_uuid: null as string | null,
         description: '',
         default_duration_weeks: null as number | null,
@@ -94,15 +101,31 @@ const state = reactive({
         isAddJobcenterOpen: false,
     },
     options: {
+        caseTypes: [] as any[],
         jobcenters: [] as any[],
     },
 })
 
-onMounted(() => { fetchJobcenters() })
+onMounted(() => {
+    fetchCaseTypes()
+    fetchJobcenters()
+})
 
 function onJobcenterCreated(newJobcenter: any) {
     state.options.jobcenters.push({ value: newJobcenter.uuid, label: newJobcenter.name })
     state.formAgreement.jobcenter_uuid = newJobcenter.uuid
+}
+
+async function fetchCaseTypes() {
+    try {
+        const response = await employmentService.getAllCaseTypes()
+        if (response?.data) {
+            state.options.caseTypes = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: item.name,
+            }))
+        }
+    } catch { /* silently fail — case types are optional */ }
 }
 
 async function fetchJobcenters() {

@@ -55,10 +55,17 @@
                 </div>
 
                 <div class="space-y-1">
-                    <FormLabel for="status" :label="$t('employment.cases.form.status')" />
-                    <FormSelect id="status" :options="statusOptions" v-model="state.form.status" />
-                    <FormError :error="props?.error?.errors?.status?.[0]" />
+                    <FormLabel for="employment_status_type_uuid" :label="$t('employment.cases.form.statusType')" />
+                    <div class="flex items-center gap-2">
+                        <FormSelect id="employment_status_type_uuid" :options="state.options.statusTypes"
+                            v-model="state.form.employment_status_type_uuid" class="flex-1" />
+                        <span v-if="selectedStatusTypeColor"
+                            :style="{ backgroundColor: selectedStatusTypeColor }"
+                            class="inline-block w-6 h-6 rounded shrink-0" />
+                    </div>
+                    <FormError :error="props?.error?.errors?.employment_status_type_uuid?.[0]" />
                 </div>
+
                 <div class="space-y-1">
                     <FormLabel for="notes" :label="$t('employment.cases.form.notes')" />
                     <FormTextArea id="notes" name="notes" :placeholder="$t('employment.cases.form.notes')"
@@ -160,7 +167,7 @@ const state = reactive({
         start_date: '',
         end_date: '',
         duration_weeks: null as number | null,
-        status: null as string | null,
+        employment_status_type_uuid: null as string | null,
         notes: '',
         reminder_enabled: false,
         reporting_frequency_weeks: null as number | null,
@@ -168,8 +175,16 @@ const state = reactive({
     options: {
         agreements: [] as any[],
         users: [] as any[],
+        statusTypes: [] as any[],
     },
     agreementsRaw: [] as any[],
+    statusTypesRaw: [] as any[],
+})
+
+const selectedStatusTypeColor = computed(() => {
+    if (!state.form.employment_status_type_uuid) return null
+    const st = state.statusTypesRaw.find((s: any) => s.uuid === state.form.employment_status_type_uuid)
+    return st?.color ?? null
 })
 
 onMounted(() => {
@@ -191,6 +206,9 @@ watch(() => props.selectedCase, (newValue: any) => {
             reminder_enabled: newValue.reminder_enabled ?? false,
             reporting_frequency_weeks: newValue.reporting_frequency_weeks ?? null,
         }
+        if (newValue.agreement?.uuid) {
+            fetchAgreementStatusTypes(newValue.agreement.uuid)
+        }
     }
 })
 
@@ -209,6 +227,10 @@ function onAgreementChange(uuid: string) {
     if (agreement?.default_duration_weeks && state.periodMode === 'by_weeks') {
         state.form.duration_weeks = String(agreement.default_duration_weeks)
     }
+    state.form.employment_status_type_uuid = null
+    state.options.statusTypes = []
+    state.statusTypesRaw = []
+    if (uuid) fetchAgreementStatusTypes(uuid)
 }
 
 async function fetchAgreements() {
@@ -238,6 +260,22 @@ async function fetchUsers() {
     } catch { /* ignore */ }
 }
 
+async function fetchAgreementStatusTypes(agreementUuid: string) {
+    try {
+        const response = await employmentService.getAgreementStatusTypes(agreementUuid)
+        if (response?.data) {
+            state.statusTypesRaw = response.data
+            state.options.statusTypes = [
+                { value: null, label: '—' },
+                ...response.data.map((st: any) => ({
+                    value: st.uuid,
+                    label: st.name,
+                })),
+            ]
+        }
+    } catch { /* ignore */ }
+}
+
 const rules = computed(() => ({
     form: {
         agreement_uuid: {
@@ -259,7 +297,7 @@ function submitForm() {
             agreement_uuid: state.form.agreement_uuid,
             user_uuid: state.form.user_uuid,
             start_date: state.form.start_date,
-            status: state.form.status,
+            employment_status_type_uuid: state.form.employment_status_type_uuid,
             notes: state.form.notes,
             reminder_enabled: state.form.reminder_enabled,
             reporting_frequency_weeks: state.form.reminder_enabled ? state.form.reporting_frequency_weeks : null,

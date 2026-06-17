@@ -10132,6 +10132,7 @@
             "form": {
                 "name": "Namn",
                 "color": "Färg",
+                "billingRule": "Faktureringsregel",
                 "isActive": "Aktiv",
                 "sortOrder": "Sorteringsordning",
                 "alert": {
@@ -10265,6 +10266,7 @@
                 },
                 "durationWeeks": "Varaktighet (veckor)",
                 "endDate": "Slutdatum",
+                "statusType": "Statustyp",
                 "notes": "Anteckningar",
                 "periodMode": {
                     "byDate": "Efter datum",
@@ -10294,7 +10296,8 @@
             "table": {
                 "actions": {
                     "delete": "Ta bort",
-                    "edit": "Redigera"
+                    "edit": "Redigera",
+                    "history": "Historik"
                 },
                 "agreement": "Avtal",
                 "alert": {
@@ -10316,6 +10319,21 @@
                 "completed": "Avslutad",
                 "on_hold": "Pausad",
                 "paused": "Pausad"
+            "statusHistory": {
+                "title": "Statushistorik",
+                "history": "Historik",
+                "addEntry": "Registrera statusändring",
+                "noHistory": "Inga statusändringar registrerade ännu.",
+                "statusCleared": "Status borttagen",
+                "form": {
+                    "statusType": "Ny status",
+                    "notes": "Anteckningar",
+                    "notesPlaceholder": "Anledning till statusändring (valfritt)",
+                    "save": "Spara"
+                },
+                "alert": {
+                    "statusUpdated": "Status uppdaterad"
+                }
             }
         },
         "agreements": {
@@ -10328,6 +10346,7 @@
                     "agreementSuccessfullyUpdated": "Avtal uppdaterat",
                     "newAgreementSuccessfullySaved": "Avtal sparat"
                 },
+                "caseType": "Ärendekategori",
                 "defaultDurationWeeks": "Standardvaraktighet (veckor)",
                 "description": "Beskrivning",
                 "isActive": "Aktiv",
@@ -10344,6 +10363,7 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Avtal borttaget"
                 },
+                "caseType": "Ärendekategori",
                 "confirmation": {
                     "deleteAgreementConfirmation": "Är du säker på att du vill ta bort detta avtal?"
                 },
@@ -10351,6 +10371,15 @@
                 "jobcenter": "Jobbcenter",
                 "name": "Namn",
                 "sortOrder": "Sorteringsordning"
+            },
+            "statusTypes": {
+                "title": "Statustyper för detta avtal",
+                "description": "Välj vilka statustyper som är tillgängliga för ärenden under detta avtal.",
+                "noStatusTypesAvailable": "Inga statustyper konfigurerade. Skapa statustyper under Inställningar först.",
+                "saveConfiguration": "Spara konfiguration",
+                "alert": {
+                    "configurationSaved": "Statustypkonfiguration sparad"
+                }
             }
         },
         "jobcenters": {
