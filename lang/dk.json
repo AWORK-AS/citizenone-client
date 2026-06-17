@@ -8076,7 +8076,8 @@
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Jobcentre",
             "employmentAgreements": "Aftaler",
-            "gdprRetention": "GDPR Opbevaring"
+            "gdprRetention": "GDPR Opbevaring",
+            "smsNotifications": "SMS"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -10545,5 +10546,37 @@
             "citizenRestored": "Borger gendannet"
         }
     },
-    "selectAll": "Vælg alle"
+    "selectAll": "Vælg alle",
+    "sms": {
+        "settings": {
+            "title": "SMS-notifikationer",
+            "enableSms": "Aktivér SMS-notifikationer",
+            "enableSmsHint": "Send SMS-beskeder til borgere vedrørende aftaler og påmindelser.",
+            "gatewayConfig": "Azure Communication Services",
+            "gatewayConfigHint": "Konfigurér din Azure-gateway til afsendelse af SMS.",
+            "senderName": "Afsendernavn",
+            "senderNamePlaceholder": "CitizenOne",
+            "senderNameHint": "Det navn, der vises som afsender. Maks. 11 tegn for alfanumeriske afsendere.",
+            "azureConnectionString": "Forbindelsesstreng",
+            "azureConnectionStringPlaceholder": "Endpoint=sb://...",
+            "azureConnectionStringHint": "Find denne i din Azure Communication Services-ressource.",
+            "notificationTriggers": "Notifikationsbegivenheder",
+            "notificationTriggersHint": "Vælg hvilke begivenheder der udløser en SMS til borgeren.",
+            "triggers": {
+                "newAppointment": "Ny aftale",
+                "newAppointmentHint": "Send SMS, når der oprettes en ny kalenderbegivenhed for en borger.",
+                "reminder24h": "Påmindelse 24 timer før",
+                "reminder24hHint": "Send en påmindelses-SMS 24 timer før aftalen.",
+                "reminderSameDay": "Påmindelse på dagen",
+                "reminderSameDayHint": "Send en påmindelses-SMS om morgenen på aftaledagen."
+            },
+            "alert": {
+                "settingsSaved": "SMS-indstillinger gemt"
+            }
+        },
+        "form": {
+            "sendSmsNotification": "Send SMS-notifikation til borgeren",
+            "sendSmsNotificationHint": "En SMS sendes til borgerens registrerede telefonnummer."
+        }
+    }
 }

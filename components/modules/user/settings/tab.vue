@@ -125,6 +125,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                         'settings-gdpr-retention',
                         'settings-gdpr-retention-deletion-log',
                     ]
+                }, {
+                    name: 'settings.tabs.smsNotifications',
+                    isTranslateName: true,
+                    href: `/settings/sms-notifications`,
+                    routeNames: [
+                        'settings-sms-notifications',
+                    ]
                 }] : []),
                 {
                     name: 'settings.tabs.other',
@@ -197,6 +204,9 @@ function changeTab(value: any) {
     }
     else if (value === '/settings/custom-pages') {
         navigateTo(`/settings/custom-pages`)
+    }
+    else if (value === '/settings/sms-notifications') {
+        navigateTo(`/settings/sms-notifications`)
     }
 }
 </script>

@@ -8103,7 +8103,8 @@
             "employmentBillingRules": "Billing Rules",
             "employmentJobcenters": "Jobcenters",
             "employmentAgreements": "Agreements",
-            "gdprRetention": "GDPR Retention"
+            "gdprRetention": "GDPR Retention",
+            "smsNotifications": "SMS"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -10545,5 +10546,37 @@
             "citizenRestored": "Citizen successfully restored"
         }
     },
-    "selectAll": "Select all"
+    "selectAll": "Select all",
+    "sms": {
+        "settings": {
+            "title": "SMS Notifications",
+            "enableSms": "Enable SMS notifications",
+            "enableSmsHint": "Send SMS messages to citizens for appointments and reminders.",
+            "gatewayConfig": "Azure Communication Services",
+            "gatewayConfigHint": "Configure your Azure gateway to send SMS messages.",
+            "senderName": "Sender name",
+            "senderNamePlaceholder": "CitizenOne",
+            "senderNameHint": "The name shown as the sender. Max 11 characters for alphanumeric senders.",
+            "azureConnectionString": "Connection string",
+            "azureConnectionStringPlaceholder": "Endpoint=sb://...",
+            "azureConnectionStringHint": "Find this in your Azure Communication Services resource.",
+            "notificationTriggers": "Notification events",
+            "notificationTriggersHint": "Choose which events trigger an SMS to the citizen.",
+            "triggers": {
+                "newAppointment": "New appointment",
+                "newAppointmentHint": "Send SMS when a new calendar event is created for a citizen.",
+                "reminder24h": "Reminder 24 hours before",
+                "reminder24hHint": "Send a reminder SMS 24 hours before the appointment.",
+                "reminderSameDay": "Reminder on the day",
+                "reminderSameDayHint": "Send a reminder SMS on the morning of the appointment."
+            },
+            "alert": {
+                "settingsSaved": "SMS settings saved"
+            }
+        },
+        "form": {
+            "sendSmsNotification": "Send SMS notification to citizen",
+            "sendSmsNotificationHint": "An SMS will be sent to the citizen's registered phone number."
+        }
+    }
 }

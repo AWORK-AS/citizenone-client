@@ -8067,7 +8067,8 @@
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Arbetsförmedlingar",
             "employmentAgreements": "Avtal",
-            "gdprRetention": "GDPR Lagring"
+            "gdprRetention": "GDPR Lagring",
+            "smsNotifications": "SMS"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",
@@ -10545,5 +10546,37 @@
             "citizenRestored": "Medborgare återställd"
         }
     },
-    "selectAll": "Välj alla"
+    "selectAll": "Välj alla",
+    "sms": {
+        "settings": {
+            "title": "SMS-notifieringar",
+            "enableSms": "Aktivera SMS-notifieringar",
+            "enableSmsHint": "Skicka SMS till medborgare för möten och påminnelser.",
+            "gatewayConfig": "Azure Communication Services",
+            "gatewayConfigHint": "Konfigurera din Azure-gateway för att skicka SMS.",
+            "senderName": "Avsändarnamn",
+            "senderNamePlaceholder": "CitizenOne",
+            "senderNameHint": "Namnet som visas som avsändare. Max 11 tecken för alfanumeriska avsändare.",
+            "azureConnectionString": "Anslutningssträng",
+            "azureConnectionStringPlaceholder": "Endpoint=sb://...",
+            "azureConnectionStringHint": "Hitta denna i din Azure Communication Services-resurs.",
+            "notificationTriggers": "Notifikationshändelser",
+            "notificationTriggersHint": "Välj vilka händelser som utlöser ett SMS till medborgaren.",
+            "triggers": {
+                "newAppointment": "Ny bokning",
+                "newAppointmentHint": "Skicka SMS när en ny kalenderhändelse skapas för en medborgare.",
+                "reminder24h": "Påminnelse 24 timmar innan",
+                "reminder24hHint": "Skicka ett påminnelse-SMS 24 timmar innan bokningen.",
+                "reminderSameDay": "Påminnelse på dagen",
+                "reminderSameDayHint": "Skicka ett påminnelse-SMS på morgonen för bokningsdagen."
+            },
+            "alert": {
+                "settingsSaved": "SMS-inställningar sparade"
+            }
+        },
+        "form": {
+            "sendSmsNotification": "Skicka SMS-notifiering till medborgaren",
+            "sendSmsNotificationHint": "Ett SMS skickas till medborgarens registrerade telefonnummer."
+        }
+    }
 }

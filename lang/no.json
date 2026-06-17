@@ -8067,7 +8067,8 @@
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Jobbsentre",
             "employmentAgreements": "Avtaler",
-            "gdprRetention": "GDPR Oppbevaring"
+            "gdprRetention": "GDPR Oppbevaring",
+            "smsNotifications": "SMS"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",
@@ -10545,5 +10546,37 @@
             "citizenRestored": "Borger gjenopprettet"
         }
     },
-    "selectAll": "Velg alle"
+    "selectAll": "Velg alle",
+    "sms": {
+        "settings": {
+            "title": "SMS-varsler",
+            "enableSms": "Aktiver SMS-varsler",
+            "enableSmsHint": "Send SMS-meldinger til innbyggere om avtaler og påminnelser.",
+            "gatewayConfig": "Azure Communication Services",
+            "gatewayConfigHint": "Konfigurer Azure-gatewayen for å sende SMS.",
+            "senderName": "Avsendernavn",
+            "senderNamePlaceholder": "CitizenOne",
+            "senderNameHint": "Navnet som vises som avsender. Maks 11 tegn for alfanumeriske avsendere.",
+            "azureConnectionString": "Tilkoblingsstreng",
+            "azureConnectionStringPlaceholder": "Endpoint=sb://...",
+            "azureConnectionStringHint": "Finn denne i Azure Communication Services-ressursen din.",
+            "notificationTriggers": "Varslingshendelser",
+            "notificationTriggersHint": "Velg hvilke hendelser som utløser en SMS til innbyggeren.",
+            "triggers": {
+                "newAppointment": "Ny avtale",
+                "newAppointmentHint": "Send SMS når en ny kalenderhendelse opprettes for en innbygger.",
+                "reminder24h": "Påminnelse 24 timer før",
+                "reminder24hHint": "Send en påminnelses-SMS 24 timer før avtalen.",
+                "reminderSameDay": "Påminnelse på dagen",
+                "reminderSameDayHint": "Send en påminnelses-SMS om morgenen på avtaledagen."
+            },
+            "alert": {
+                "settingsSaved": "SMS-innstillinger lagret"
+            }
+        },
+        "form": {
+            "sendSmsNotification": "Send SMS-varsel til innbyggeren",
+            "sendSmsNotificationHint": "En SMS sendes til innbyggerens registrerte telefonnummer."
+        }
+    }
 }
