@@ -10319,6 +10319,7 @@
                 "completed": "Fullført",
                 "on_hold": "På vent",
                 "paused": "Satt på pause"
+            },
             "statusHistory": {
                 "title": "Statushistorikk",
                 "history": "Historikk",

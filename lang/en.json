@@ -10346,6 +10346,7 @@
                 "completed": "Completed",
                 "on_hold": "On hold",
                 "paused": "Paused"
+            },
             "statusHistory": {
                 "title": "Status History",
                 "history": "History",

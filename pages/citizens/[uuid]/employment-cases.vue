@@ -112,6 +112,7 @@
                         </div>
                         <Pagination :data="state.cases" @previous="previous" @next="next" />
                     </div>
+                </LoadingSpinner>
             </div>
 
             <ModulesUserEmploymentCaseModalNew :isModalOpen="state.modal.isNewCaseOpen" :citizenUuid="citizenUuid"

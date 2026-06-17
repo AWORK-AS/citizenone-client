@@ -10319,6 +10319,7 @@
                 "completed": "Avslutad",
                 "on_hold": "Pausad",
                 "paused": "Pausad"
+            },
             "statusHistory": {
                 "title": "Statushistorik",
                 "history": "Historik",
