@@ -21,7 +21,7 @@
                             {{ $t('superadmin.salesCampaign.pageSubtitle') }}
                         </p>
                     </div>
-                    <button @click="openSlider(null)"
+                    <button @click="showNewCampaignSlider = true"
                         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-white shadow-sm"
                         style="background:#205E77">
                         <Icon name="ph:plus" class="w-4 h-4" />
@@ -29,24 +29,36 @@
                     </button>
                 </div>
 
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <div v-for="card in statCards" :key="card.label"
-                        class="bg-white border border-[#EAECF0] rounded-xl px-5 py-4 shadow-sm">
-                        <div class="h-0.5 rounded-full mb-4 -mx-5 -mt-4 rounded-t-xl"
-                            :style="`background:${card.color}`"></div>
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white border border-[#EAECF0] rounded-xl px-5 py-4 shadow-sm">
+                        <div class="h-0.5 rounded-full mb-4 -mx-5 -mt-4 rounded-t-xl" :style="`background:#205E77`">
+                        </div>
                         <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em]">
-                            {{ card.label }}
+                            {{ $t('superadmin.salesCampaign.statActiveCampaigns') }}
                         </p>
                         <p class="text-[28px] font-bold text-[#1F2533] mt-1 leading-none">
-                            {{ card.value }}
+                            {{ state.campaigns?.active_count ?? 0 }}
                         </p>
                         <p class="text-[11px] text-[#8891A4] mt-1">
-                            {{ card.sub }}
+                            {{ $t('superadmin.salesCampaign.statRunningNow') }}
+                        </p>
+                    </div>
+                    <div class="bg-white border border-[#EAECF0] rounded-xl px-5 py-4 shadow-sm">
+                        <div class="h-0.5 rounded-full mb-4 -mx-5 -mt-4 rounded-t-xl" :style="`background:#D4900A`">
+                        </div>
+                        <p class="text-[10px] font-bold text-[#8891A4] uppercase tracking-[0.08em]">
+                            {{ $t('superadmin.salesCampaign.statExpiringSoon') }}
+                        </p>
+                        <p class="text-[28px] font-bold text-[#1F2533] mt-1 leading-none">
+                            {{ state.campaigns?.expiring_soon_count ?? 0 }}
+                        </p>
+                        <p class="text-[11px] text-[#8891A4] mt-1">
+                            {{ $t('superadmin.salesCampaign.statWithin7Days') }}
                         </p>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-0 border-b border-[#EAECF0] mb-5">
+                <!-- <div class="flex items-center gap-0 border-b border-[#EAECF0] mb-5">
                     <button v-for="tab in mainTabs" :key="tab.key"
                         class="px-4 py-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px" :style="activeTab === tab.key
                             ? 'border-color:#205E77;color:#205E77'
@@ -58,10 +70,11 @@
                             {{ tab.count }}
                         </span>
                     </button>
-                </div>
+                </div> -->
 
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error?.message?.length > 0" />
+
                 <div v-if="activeTab === 'campaigns'">
                     <div class="flex items-center gap-3 mb-4">
                         <SuperadminTableSearch v-model="searchQuery"
@@ -84,8 +97,8 @@
                             <tr v-for="campaign in filteredCampaigns" :key="campaign.uuid ?? campaign.id"
                                 class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
                                 <td class="co-td">
-                                    <img :src="campaign.image || '/img/icons/asset-app.png'" :alt="$t('imageFailedToLoad')"
-                                        class="w-20 h-20 object-cover" />
+                                    <img :src="campaign.image || '/img/icons/asset-app.png'"
+                                        :alt="$t('imageFailedToLoad')" class="w-20 h-20 object-cover" />
                                     <p class="text-[13px] font-semibold text-[#1F2533]">
                                         {{ campaign.title }}
                                     </p>
@@ -135,12 +148,11 @@
                                 <td class="co-td" @click.stop>
                                     <div
                                         class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <SuperadminTableButton @click="openSlider(campaign)">
+                                        <SuperadminTableButton @click="openEditCampaignSlider(campaign)">
                                             <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
                                             {{ $t('superadmin.salesCampaign.edit') }}
                                         </SuperadminTableButton>
-                                        <SuperadminTableButton buttonStyle="danger"
-                                            @click="confirmDelete('campaign', campaign)">
+                                        <SuperadminTableButton buttonStyle="danger" @click="confirmDelete(campaign)">
                                             <Icon name="ph:trash" class="w-3.5 h-3.5" />
                                         </SuperadminTableButton>
                                     </div>
@@ -152,81 +164,8 @@
                     <Pagination :data="state.campaigns" @previous="previous" @next="next" />
                 </div>
 
-                <div v-if="activeTab === 'coupons'">
-                    <div class="flex items-center justify-between gap-3 mb-4">
-                        <SuperadminTableSearch v-model="couponSearch"
-                            :placeholder="$t('superadmin.salesCampaign.searchCoupons')"
-                            @input="debouncedCouponSearch" />
-                        <button @click="openCouponSlider(null)"
-                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold text-white"
-                            style="background:#205E77">
-                            <Icon name="ph:plus" class="w-4 h-4" />
-                            {{ $t('superadmin.salesCampaign.newCoupon') }}
-                        </button>
-                    </div>
-
-                    <SuperadminTable :columnHeaders="state.couponColumnHeaders" :data="couponsTableData"
-                        :isLoading="false" :emptyMessage="$t('superadmin.salesCampaign.noCoupons')"
-                        emptyIcon="ph:ticket" rowKey="uuid">
-                        <template #body>
-                            <tr v-for="coupon in filteredCoupons" :key="coupon.uuid ?? coupon.id"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                                <td class="co-td">
-                                    <span
-                                        class="font-mono text-[13px] font-bold text-[#205E77] bg-[#E4F1F6] px-2 py-0.5 rounded-md">
-                                        {{ coupon.code }}
-                                    </span>
-                                    <p v-if="coupon.description" class="text-[11px] text-[#8891A4] mt-1">
-                                        {{ coupon.description }}
-                                    </p>
-                                </td>
-                                <td class="co-td font-bold text-[14px] text-[#1F2533]">
-                                    {{
-                                        coupon.discount_type === 'percent' ?
-                                            `${coupon.discount_value}%` : `kr. ${coupon.discount_value}`
-                                    }}
-                                </td>
-                                <td class="co-td text-[13px] text-[#5C6478]">
-                                    {{ coupon.redemptions ?? 0 }}
-                                </td>
-                                <td class="co-td text-[13px] text-[#5C6478]">
-                                    {{ coupon.max_uses ?? '∞' }}
-                                </td>
-                                <td class="co-td text-[12px] text-[#5C6478]">
-                                    {{
-                                        coupon.expires_at ?
-                                            formatDate(coupon.expires_at) :
-                                            $t('superadmin.salesCampaign.never')
-                                    }}
-                                </td>
-                                <td class="co-td">
-                                    <span v-if="coupon.is_active !== false" class="co-badge co-badge-green text-[11px]">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
-                                        {{ $t('superadmin.salesCampaign.statusActive') }}
-                                    </span>
-                                    <span v-else class="co-badge co-badge-gray text-[11px]">
-                                        {{ $t('superadmin.salesCampaign.statusInactive') }}
-                                    </span>
-                                </td>
-                                <td class="co-td" @click.stop>
-                                    <div
-                                        class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <SuperadminTableButton @click="openCouponSlider(coupon)">
-                                            <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                            {{ $t('superadmin.salesCampaign.edit') }}
-                                        </SuperadminTableButton>
-                                        <SuperadminTableButton buttonStyle="danger"
-                                            @click="confirmDelete('coupon', coupon)">
-                                            <Icon name="ph:trash" class="w-3.5 h-3.5" />
-                                        </SuperadminTableButton>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                    </SuperadminTable>
-                </div>
-
-                <div v-if="activeTab === 'tools'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Marketing tools tab: hidden -->
+                <div v-if="false" class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                     <!-- Extend trial -->
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
@@ -431,319 +370,14 @@
                 </div>
             </div>
 
-            <!-- ═══ SLIDE-OVER: NEW / EDIT CAMPAIGN ═══ -->
-            <Teleport to="body">
-                <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
-                    enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200"
-                    leave-from-class="opacity-100" leave-to-class="opacity-0">
-                    <div v-if="slider.open" class="fixed inset-0 bg-black/30 z-40" @click="closeSlider" />
-                </Transition>
-                <Transition enter-active-class="transition-transform duration-300 ease-out"
-                    enter-from-class="translate-x-full" enter-to-class="translate-x-0"
-                    leave-active-class="transition-transform duration-200 ease-in" leave-from-class="translate-x-0"
-                    leave-to-class="translate-x-full">
-                    <div v-if="slider.open"
-                        class="fixed inset-y-0 right-0 z-50 w-full max-w-[460px] bg-white shadow-2xl flex flex-col">
-                        <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
-                            <div>
-                                <h2 class="text-[16px] font-semibold text-[#1F2533]">
-                                    {{
-                                        slider.editMode ?
-                                            $t('superadmin.salesCampaign.sliderEditCampaignTitle') :
-                                            $t('superadmin.salesCampaign.sliderNewCampaignTitle')
-                                    }}
-                                </h2>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">
-                                    {{ $t('superadmin.salesCampaign.sliderCampaignSubtitle') }}
-                                </p>
-                            </div>
-                            <button @click="closeSlider"
-                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
-                                <Icon name="ph:x" class="w-4 h-4" />
-                            </button>
-                        </div>
-                        <div class="flex-1 overflow-y-auto px-6 py-5 space-y-4">
-                            <Alert type="danger" :text="slider.error?.message"
-                                v-if="slider.error?.message?.length > 0" />
+            <ModulesSuperadminSalesCampaignSlideOverNewCampaign :isOpen="showNewCampaignSlider"
+                @close="showNewCampaignSlider = false" @saved="fetchCampaigns" />
 
-                            <div>
-                                <label class="co-label">
-                                    {{ $t('superadmin.salesCampaign.labelCampaignName') }}
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <input v-model="slider.form.name" type="text"
-                                    :placeholder="$t('superadmin.salesCampaign.phCampaignName')" class="co-input"
-                                    :class="slider.errors.name ? 'border-red-300' : ''" />
-                                <p v-if="slider.errors.name" class="co-error">{{ slider.errors.name }}</p>
-                            </div>
-
-                            <div>
-                                <label class="co-label">
-                                    {{ $t('superadmin.salesCampaign.labelDescription') }}
-                                </label>
-                                <textarea v-model="slider.form.description" rows="2"
-                                    :placeholder="$t('superadmin.salesCampaign.phDescription')"
-                                    class="co-input resize-none"></textarea>
-                            </div>
-
-                            <!-- Campaign type -->
-                            <div>
-                                <label class="co-label">
-                                    {{ $t('superadmin.salesCampaign.labelCampaignType') }}
-                                </label>
-                                <div class="grid grid-cols-3 gap-2">
-                                    <button v-for="ct in campaignTypes" :key="ct.value"
-                                        class="py-2.5 px-2 rounded-xl border-2 text-[12px] font-semibold transition-colors flex items-center justify-center gap-1.5"
-                                        :style="slider.form.type === ct.value ? 'border-color:#42AED9;background:#F0FAFD;color:#205E77' : 'border-color:#EAECF0;color:#5C6478'"
-                                        @click="slider.form.type = ct.value">
-                                        <Icon :name="ct.icon" class="w-3.5 h-3.5" />
-                                        {{ ct.label }}
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Discount type + value -->
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.salesCampaign.labelDiscountType') }}
-                                    </label>
-                                    <select v-model="slider.form.discount_type" class="co-input">
-                                        <option value="percent">
-                                            {{ $t('superadmin.salesCampaign.discountPercent') }}
-                                        </option>
-                                        <option value="fixed">
-                                            {{ $t('superadmin.salesCampaign.discountFixed') }}
-                                        </option>
-                                        <option value="free_months">
-                                            {{ $t('superadmin.salesCampaign.discountFreeMonths') }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.salesCampaign.labelDiscountValue') }}
-                                    </label>
-                                    <div class="relative">
-                                        <input v-model.number="slider.form.discount_value" type="number" min="0"
-                                            placeholder="0" class="co-input pr-8" />
-                                        <span
-                                            class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-[12px]">
-                                            {{
-                                                slider.form.discount_type === 'percent' ? '%' :
-                                                    slider.form.discount_type === 'fixed' ? 'kr' : 'mdr' }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Target plan -->
-                            <div>
-                                <label class="co-label">
-                                    {{ $t('superadmin.salesCampaign.labelTargetPlan') }}
-                                </label>
-                                <select v-model="slider.form.target_plan" class="co-input">
-                                    <option value="">{{ $t('superadmin.salesCampaign.allPlans') }}</option>
-                                    <option value="gratis">{{ $t('superadmin.salesCampaign.planFree') }}</option>
-                                    <option value="basis">{{ $t('superadmin.salesCampaign.planBasis') }}</option>
-                                    <option value="pro">{{ $t('superadmin.salesCampaign.planPro') }}</option>
-                                </select>
-                            </div>
-
-                            <!-- Dates -->
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.salesCampaign.labelStartDate') }}
-                                    </label>
-                                    <input v-model="slider.form.start_date" type="date" class="co-input" />
-                                </div>
-                                <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.salesCampaign.labelEndDate') }}
-                                    </label>
-                                    <input v-model="slider.form.end_date" type="date" class="co-input" />
-                                </div>
-                            </div>
-
-                            <!-- Active toggle -->
-                            <div class="flex items-center justify-between py-3 px-4 border border-[#EAECF0] rounded-xl">
-                                <div>
-                                    <p class="text-[13px] font-medium text-[#1F2533]">
-                                        {{ $t('superadmin.salesCampaign.labelActive') }}
-                                    </p>
-                                    <p class="text-[11px] text-[#8891A4] mt-0.5">
-                                        {{ $t('superadmin.salesCampaign.activeHint') }}
-                                    </p>
-                                </div>
-                                <button type="button" @click="slider.form.is_active = !slider.form.is_active"
-                                    class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
-                                    :style="slider.form.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
-                                    <span
-                                        class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
-                                        :class="slider.form.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
-                            <button @click="closeSlider"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8]">
-                                {{ $t('superadmin.salesCampaign.cancel') }}
-                            </button>
-                            <button @click="saveCampaign"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
-                                style="background:#205E77" :disabled="slider.isSaving">
-                                <span v-if="slider.isSaving" class="flex items-center justify-center gap-2">
-                                    <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
-                                    {{ $t('superadmin.salesCampaign.saving') }}
-                                </span>
-                                <span v-else>
-                                    {{
-                                        slider.editMode ?
-                                            $t('superadmin.salesCampaign.saveChanges') :
-                                            $t('superadmin.salesCampaign.createCampaign')
-                                    }}
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </Transition>
-
-                <!-- ═══ SLIDE-OVER: NEW / EDIT COUPON ═══ -->
-                <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
-                    enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200"
-                    leave-from-class="opacity-100" leave-to-class="opacity-0">
-                    <div v-if="couponSlider.open" class="fixed inset-0 bg-black/30 z-40" @click="closeCouponSlider" />
-                </Transition>
-                <Transition enter-active-class="transition-transform duration-300 ease-out"
-                    enter-from-class="translate-x-full" enter-to-class="translate-x-0"
-                    leave-active-class="transition-transform duration-200 ease-in" leave-from-class="translate-x-0"
-                    leave-to-class="translate-x-full">
-                    <div v-if="couponSlider.open"
-                        class="fixed inset-y-0 right-0 z-50 w-full max-w-[460px] bg-white shadow-2xl flex flex-col">
-                        <div class="flex items-start justify-between px-6 py-5 border-b border-[#EAECF0]">
-                            <div>
-                                <h2 class="text-[16px] font-semibold text-[#1F2533]">
-                                    {{
-                                        couponSlider.editMode ?
-                                            $t('superadmin.salesCampaign.sliderEditCouponTitle') :
-                                            $t('superadmin.salesCampaign.sliderNewCouponTitle')
-                                    }}
-                                </h2>
-                                <p class="text-[12px] text-[#8891A4] mt-0.5">
-                                    {{ $t('superadmin.salesCampaign.sliderCouponSubtitle') }}
-                                </p>
-                            </div>
-                            <button @click="closeCouponSlider"
-                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8]">
-                                <Icon name="ph:x" class="w-4 h-4" />
-                            </button>
-                        </div>
-                        <div class="flex-1 overflow-y-auto px-6 py-5 space-y-4">
-                            <div>
-                                <label class="co-label">
-                                    {{ $t('superadmin.salesCampaign.labelCouponCode') }}
-                                    <span class="text-red-500">*</span>
-                                </label>
-                                <div class="flex gap-2">
-                                    <input v-model="couponSlider.form.code" type="text"
-                                        :placeholder="$t('superadmin.salesCampaign.phCouponCode')"
-                                        class="co-input uppercase font-mono" />
-                                    <button
-                                        class="px-3 py-2 rounded-lg border border-[#EAECF0] bg-[#F5F6F8] text-[#5C6478] text-[12px] font-medium hover:bg-[#EEF4FB] hover:text-[#205E77] transition-colors whitespace-nowrap"
-                                        @click="generateCode">
-                                        {{ $t('superadmin.salesCampaign.generate') }}
-                                    </button>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="co-label">
-                                    {{ $t('superadmin.salesCampaign.labelDescription') }}
-                                </label>
-                                <input v-model="couponSlider.form.description" type="text"
-                                    :placeholder="$t('superadmin.salesCampaign.phInternalDesc')" class="co-input" />
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.salesCampaign.labelDiscountType') }}
-                                    </label>
-                                    <select v-model="couponSlider.form.discount_type" class="co-input">
-                                        <option value="percent">
-                                            {{ $t('superadmin.salesCampaign.discountPercent') }}
-                                        </option>
-                                        <option value="fixed">
-                                            {{ $t('superadmin.salesCampaign.discountFixed') }}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.salesCampaign.labelDiscountValue') }}
-                                    </label>
-                                    <input v-model.number="couponSlider.form.discount_value" type="number" min="0"
-                                        placeholder="0" class="co-input" />
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.salesCampaign.labelMaxUses') }}
-                                    </label>
-                                    <input v-model.number="couponSlider.form.max_uses" type="number" min="0"
-                                        :placeholder="$t('superadmin.salesCampaign.phUnlimited')" class="co-input" />
-                                    <p class="text-[11px] text-[#8891A4] mt-1">
-                                        {{ $t('superadmin.salesCampaign.maxUsesHint') }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <label class="co-label">
-                                        {{ $t('superadmin.salesCampaign.labelExpires') }}
-                                    </label>
-                                    <input v-model="couponSlider.form.expires_at" type="date" class="co-input" />
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between py-3 px-4 border border-[#EAECF0] rounded-xl">
-                                <p class="text-[13px] font-medium text-[#1F2533]">
-                                    {{ $t('superadmin.salesCampaign.labelActive') }}
-                                </p>
-                                <button type="button"
-                                    @click="couponSlider.form.is_active = !couponSlider.form.is_active"
-                                    class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-                                    :style="couponSlider.form.is_active ? 'background:#42AED9' : 'background:#D5D9E2'">
-                                    <span
-                                        class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
-                                        :class="couponSlider.form.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 px-6 py-4 border-t border-[#EAECF0]">
-                            <button @click="closeCouponSlider"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-medium text-[#5C6478] bg-white border border-[#EAECF0] hover:bg-[#F5F6F8]">
-                                {{ $t('superadmin.salesCampaign.cancel') }}
-                            </button>
-                            <button @click="saveCoupon"
-                                class="flex-1 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm"
-                                style="background:#205E77" :disabled="couponSlider.isSaving">
-                                <span v-if="couponSlider.isSaving" class="flex items-center justify-center gap-2">
-                                    <Icon name="ph:spinner" class="w-4 h-4 animate-spin" />
-                                    {{ $t('superadmin.salesCampaign.saving') }}
-                                </span>
-                                <span v-else>
-                                    {{
-                                        couponSlider.editMode ?
-                                            $t('superadmin.salesCampaign.saveChanges') :
-                                            $t('superadmin.salesCampaign.createCoupon')
-                                    }}
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </Transition>
-            </Teleport>
+            <ModulesSuperadminSalesCampaignSlideOverEditCampaign :isOpen="showEditCampaignSlider"
+                :campaignUuid="editCampaignUuid" @close="showEditCampaignSlider = false" @saved="fetchCampaigns" />
 
             <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
-                :message="$t('superadmin.salesCampaign.deleteConfirm', { name: state.deleteTarget?.name ?? state.deleteTarget?.code })"
+                :message="$t('superadmin.salesCampaign.deleteConfirm', { name: state.deleteTarget?.name })"
                 @close="state.modal.isDeleteOpen = false" @confirm="deleteItem" />
         </NuxtLayout>
     </div>
@@ -762,19 +396,16 @@ const { t } = useI18n()
 
 const activeTab = ref('campaigns')
 const searchQuery = ref('')
-const couponSearch = ref('')
 const campaignFilter = ref('all')
 
 let currentTablePage = 1
 let searchTimeout: any = null
-let couponSearchTimeout: any = null
 let trialSearchTimeout: any = null
 
 const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
 const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
 const formatDate = (d: string) => d ? new Date(d).toLocaleDateString('da-DK', { day: 'numeric', month: 'short', year: 'numeric' }) : '—'
 
-// ── Locale-reactive computed arrays ──
 const campaignTypes = computed(() => [
     { value: 'discount', label: t('superadmin.salesCampaign.typeDiscount'), icon: 'ph:tag' },
     { value: 'trial', label: t('superadmin.salesCampaign.typeTrial'), icon: 'ph:clock' },
@@ -790,7 +421,7 @@ const campaignTypeIcon = (v: string) => campaignTypes.value.find(ct => ct.value 
 const campaignFilters = computed(() => [
     { key: 'all', label: t('superadmin.salesCampaign.filterAll') },
     { key: 'active', label: t('superadmin.salesCampaign.filterActive') },
-    { key: 'draft', label: t('superadmin.salesCampaign.filterDraft') },
+    { key: 'inactive', label: t('superadmin.salesCampaign.statusInactive') },
     { key: 'expired', label: t('superadmin.salesCampaign.filterExpired') },
 ])
 
@@ -800,9 +431,8 @@ const bannerTypes = computed(() => [
     { value: 'warning', label: t('superadmin.salesCampaign.bannerWarning'), color: '#D4900A', bg: '#FFF9EC' },
 ])
 
-// ── Campaign status helpers (locale-safe) ──
-const campaignStatus = (c: any): 'active' | 'draft' | 'expired' => {
-    if (!c.is_active) return 'draft'
+const campaignStatus = (c: any): 'active' | 'inactive' | 'expired' => {
+    if (!c.is_active) return 'inactive'
     if (c.end_date && new Date(c.end_date) < new Date()) return 'expired'
     return 'active'
 }
@@ -810,7 +440,7 @@ const campaignStatusLabel = (c: any) => {
     const s = campaignStatus(c)
     if (s === 'active') return t('superadmin.salesCampaign.statusActive')
     if (s === 'expired') return t('superadmin.salesCampaign.statusExpired')
-    return t('superadmin.salesCampaign.statusDraft')
+    return t('superadmin.salesCampaign.statusInactive')
 }
 const campaignStatusStyle = (c: any) => {
     const s = campaignStatus(c)
@@ -836,30 +466,18 @@ const state = reactive({
         { key: 'actions', name: '' },
     ]),
     campaigns: {} as any,
-    couponColumnHeaders: computed(() => [
-        { key: 'code', name: t('superadmin.salesCampaign.colCode') },
-        { key: 'discount', name: t('superadmin.salesCampaign.colDiscount') },
-        { key: 'redemptions', name: t('superadmin.salesCampaign.colRedemptions') },
-        { key: 'max_uses', name: t('superadmin.salesCampaign.colMaxUses') },
-        { key: 'expires', name: t('superadmin.salesCampaign.colExpires') },
-        { key: 'status', name: t('superadmin.salesCampaign.colStatus') },
-        { key: 'actions', name: '' },
-    ]),
-    coupons: [] as any[],
-    dataFilter: {
-        search: ''
-    } as any,
+    dataFilter: { search: '' } as any,
     deleteTarget: null as any,
-    deleteType: '' as string,
     error: {} as Error,
     isLoading: false,
     modal: { isDeleteOpen: false },
 })
 
 const statCards = computed(() => [
-    { label: t('superadmin.salesCampaign.statActiveCampaigns'), value: (state.campaigns?.data ?? []).filter((c: any) => campaignStatus(c) === 'active').length, sub: t('superadmin.salesCampaign.statRunningNow'), color: '#205E77' },
-    { label: t('superadmin.salesCampaign.statActiveCoupons'), value: state.coupons.filter((c: any) => c.is_active !== false).length, sub: t('superadmin.salesCampaign.statCanRedeem'), color: '#42AED9' },
-    { label: t('superadmin.salesCampaign.statRedemptions'), value: state.coupons.reduce((s: number, c: any) => s + (c.redemptions ?? 0), 0), sub: t('superadmin.salesCampaign.statAllTime'), color: '#2E9E33' },
+    {
+        label: t('superadmin.salesCampaign.statActiveCampaigns'),
+        value: (state.campaigns?.data ?? []).filter((c: any) => campaignStatus(c) === 'active').length, sub: t('superadmin.salesCampaign.statRunningNow'), color: '#205E77'
+    },
     {
         label: t('superadmin.salesCampaign.statExpiringSoon'), value: (state.campaigns?.data ?? []).filter((c: any) => {
             if (!c.end_date) return false
@@ -871,8 +489,7 @@ const statCards = computed(() => [
 
 const mainTabs = computed(() => [
     { key: 'campaigns', label: t('superadmin.salesCampaign.tabCampaigns'), count: state.campaigns?.meta?.total ?? 0 },
-    { key: 'coupons', label: t('superadmin.salesCampaign.tabCoupons'), count: state.coupons.length },
-    { key: 'tools', label: t('superadmin.salesCampaign.tabTools'), count: 4 },
+    // { key: 'tools', label: t('superadmin.salesCampaign.tabTools'), count: 4 },
 ])
 
 const filteredCampaigns = computed(() => {
@@ -881,40 +498,17 @@ const filteredCampaigns = computed(() => {
     return campaigns.filter((c: any) => {
         const s = campaignStatus(c)
         if (campaignFilter.value === 'active') return s === 'active'
-        if (campaignFilter.value === 'draft') return s === 'draft'
+        if (campaignFilter.value === 'inactive') return s === 'inactive'
         if (campaignFilter.value === 'expired') return s === 'expired'
         return true
     })
 })
 
-const filteredCoupons = computed(() => state.coupons)
+const campaignsTableData = computed(() => ({ data: filteredCampaigns.value }))
 
-const campaignsTableData = computed(() => ({
-    data: filteredCampaigns.value
-}))
-
-const couponsTableData = computed(() => ({
-    data: filteredCoupons.value
-}))
-
-const slider = reactive({
-    open: false,
-    editMode: false,
-    isSaving: false,
-    error: {} as any,
-    editingId: null as any,
-    form: { name: '', description: '', type: 'discount', discount_type: 'percent', discount_value: 0, target_plan: '', start_date: '', end_date: '', is_active: true },
-    errors: { name: '' },
-})
-
-const couponSlider = reactive({
-    open: false,
-    editMode: false,
-    isSaving: false,
-    error: {} as any,
-    editingId: null as any,
-    form: { code: '', description: '', discount_type: 'percent', discount_value: 0, max_uses: 0, expires_at: '', is_active: true },
-})
+const showNewCampaignSlider = ref(false)
+const showEditCampaignSlider = ref(false)
+const editCampaignUuid = ref<string | null>(null)
 
 const tools = reactive({
     trial: { companySearch: '', results: [] as any[], company: null as any, days: 14 },
@@ -925,125 +519,41 @@ const tools = reactive({
 
 onMounted(() => {
     fetchCampaigns()
-    fetchCoupons()
 })
 
 async function fetchCampaigns() {
     state.isLoading = true
     try {
-        const params: any = {
+        const params = {
             page: currentTablePage,
-            ...state.dataFilter,
+            ...state.dataFilter
         }
         const response = await campaignService.getCampaigns(params)
-        if (response) state.campaigns = response
-    } catch (error: any) { state.error = error }
+        if (response) {
+            state.campaigns = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
     state.isLoading = false
 }
 
-async function fetchCoupons() {
-    state.isLoading = true
-    try {
-        const params: any = {}
-        if (couponSearch.value) params.search = couponSearch.value.trim()
-        const response = await campaignService.getCoupons(params)
-        state.coupons = Array.isArray(response) ? response : (response?.data ?? [])
-    } catch (error: any) { state.error = error }
-    state.isLoading = false
+function openEditCampaignSlider(c: any) {
+    editCampaignUuid.value = c?.uuid ?? c?.id ?? null
+    showEditCampaignSlider.value = true
 }
 
-function openSlider(c: any) {
-    slider.editMode = !!c
-    slider.editingId = c?.uuid ?? c?.id ?? null
-    slider.error = {}
-    slider.errors = { name: '' }
-    slider.form = c ? { name: c.name ?? '', description: c.description ?? '', type: c.type ?? 'discount', discount_type: c.discount_type ?? 'percent', discount_value: c.discount_value ?? 0, target_plan: c.target_plan ?? '', start_date: c.start_date?.split('T')[0] ?? '', end_date: c.end_date?.split('T')[0] ?? '', is_active: c.is_active !== false } :
-        { name: '', description: '', type: 'discount', discount_type: 'percent', discount_value: 0, target_plan: '', start_date: '', end_date: '', is_active: true }
-    slider.open = true; document.body.style.overflow = 'hidden'
-}
-function closeSlider() {
-    slider.open = false
-    document.body.style.overflow = ''
-}
-
-async function saveCampaign() {
-    if (!slider.form.name) {
-        slider.errors.name = t('superadmin.salesCampaign.errorCampaignNameRequired')
-        return
-    }
-    slider.isSaving = true; slider.error = {}
-    try {
-        if (slider.editMode && slider.editingId) {
-            await campaignService.updateCampaign(slider.editingId, slider.form)
-            successAlert(t('superadmin.salesCampaign.successSaved'), t('superadmin.salesCampaign.successUpdatedBody', { name: slider.form.name }))
-        } else {
-            await campaignService.createCampaign(slider.form)
-            successAlert(t('superadmin.salesCampaign.successCreated'), t('superadmin.salesCampaign.successCreatedBody', { name: slider.form.name }))
-        }
-        closeSlider()
-        fetchCampaigns()
-    } catch (error: any) {
-        slider.error = error
-    }
-    slider.isSaving = false
-}
-
-function openCouponSlider(c: any) {
-    couponSlider.editMode = !!c
-    couponSlider.editingId = c?.uuid ?? c?.id ?? null
-    couponSlider.error = {}
-    couponSlider.form = c ? { code: c.code ?? '', description: c.description ?? '', discount_type: c.discount_type ?? 'percent', discount_value: c.discount_value ?? 0, max_uses: c.max_uses ?? 0, expires_at: c.expires_at?.split('T')[0] ?? '', is_active: c.is_active !== false } :
-        { code: '', description: '', discount_type: 'percent', discount_value: 0, max_uses: 0, expires_at: '', is_active: true }
-    couponSlider.open = true
-    document.body.style.overflow = 'hidden'
-}
-function closeCouponSlider() {
-    couponSlider.open = false
-    document.body.style.overflow = ''
-}
-
-function generateCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-    couponSlider.form.code = Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
-}
-
-async function saveCoupon() {
-    couponSlider.isSaving = true; couponSlider.error = {}
-    try {
-        if (couponSlider.editMode && couponSlider.editingId) {
-            await campaignService.updateCoupon(couponSlider.editingId, couponSlider.form)
-            successAlert(t('superadmin.salesCampaign.successSaved'), t('superadmin.salesCampaign.successCouponUpdated'))
-        } else {
-            await campaignService.createCoupon(couponSlider.form)
-            successAlert(t('superadmin.salesCampaign.successCreated'), t('superadmin.salesCampaign.successCouponCreated', { code: couponSlider.form.code }))
-        }
-        closeCouponSlider(); fetchCoupons()
-    } catch (error: any) {
-        couponSlider.error = error
-    }
-    couponSlider.isSaving = false
-}
-
-function confirmDelete(type: string, item: any) {
-    state.deleteType = type
+function confirmDelete(item: any) {
     state.deleteTarget = item
     state.modal.isDeleteOpen = true
 }
 
 async function deleteItem() {
     try {
-        if (state.deleteType === 'campaign') {
-            await campaignService.deleteCampaign(state.deleteTarget.uuid ?? state.deleteTarget.id)
-            fetchCampaigns()
-        }
-        else {
-            await campaignService.deleteCoupon(state.deleteTarget.uuid ?? state.deleteTarget.id)
-            fetchCoupons()
-        }
-        successAlert(t('superadmin.salesCampaign.successDeleted'), t('superadmin.salesCampaign.successDeletedBody', { name: state.deleteTarget.name ?? state.deleteTarget.code }))
-    } catch (error: any) {
-        state.error = error
-    }
+        await campaignService.deleteCampaign(state.deleteTarget.uuid ?? state.deleteTarget.id)
+        successAlert(t('superadmin.salesCampaign.successDeleted'), t('superadmin.salesCampaign.successDeletedBody', { name: state.deleteTarget.name }))
+        fetchCampaigns()
+    } catch (error: any) { state.error = error }
 }
 
 function searchTrialCompany() {
@@ -1053,9 +563,7 @@ function searchTrialCompany() {
         try {
             const r = await companyService.getCompanies({ search: tools.trial.companySearch, page: 1 })
             tools.trial.results = r?.data?.slice(0, 6) ?? []
-        } catch (error: any) {
-            state.error = error
-        }
+        } catch (error: any) { state.error = error }
     }, 300)
 }
 
@@ -1065,36 +573,28 @@ async function extendTrial() {
         await campaignService.extendTrial(tools.trial.company.uuid, tools.trial.days)
         successAlert(t('superadmin.salesCampaign.successExtended'), t('superadmin.salesCampaign.successExtendedBody', { name: tools.trial.company.name, days: tools.trial.days }))
         tools.trial.company = null; tools.trial.companySearch = ''
-    } catch (error: any) {
-        state.error = error
-    }
+    } catch (error: any) { state.error = error }
 }
 
 async function sendMassCampaign() {
     try {
         await campaignService.sendMassCampaign({ target_group: tools.mass.targetGroup, discount: tools.mass.discount })
         successAlert(t('superadmin.salesCampaign.successSent'), t('superadmin.salesCampaign.successMassSent'))
-    } catch (error: any) {
-        state.error = error
-    }
+    } catch (error: any) { state.error = error }
 }
 
 async function saveReferral() {
     try {
         await campaignService.saveReferralSettings({ active: tools.referral.active, reward: tools.referral.reward })
         successAlert(t('superadmin.salesCampaign.successSaved'), t('superadmin.salesCampaign.successReferralSaved'))
-    } catch (error: any) {
-        state.error = error
-    }
+    } catch (error: any) { state.error = error }
 }
 
 async function saveBanner() {
     try {
         await campaignService.saveBanner({ active: tools.banner.active, message: tools.banner.message, type: tools.banner.type })
         successAlert(t('superadmin.salesCampaign.successSaved'), t('superadmin.salesCampaign.successBannerSaved'))
-    } catch (error: any) {
-        state.error = error
-    }
+    } catch (error: any) { state.error = error }
 }
 
 function debouncedSearch() {
@@ -1107,24 +607,6 @@ function debouncedSearch() {
     }, 350)
 }
 
-function previous() {
-    currentTablePage--
-    fetchCampaigns()
-}
-
-function next() {
-    currentTablePage++
-    fetchCampaigns()
-}
-
-function debouncedCouponSearch() {
-    clearTimeout(couponSearchTimeout)
-    couponSearchTimeout = setTimeout(() => {
-        fetchCoupons()
-    }, 350)
-}
-
-onMounted(() => {
-    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (slider.open) closeSlider(); if (couponSlider.open) closeCouponSlider() } })
-})
+function previous() { currentTablePage--; fetchCampaigns() }
+function next() { currentTablePage++; fetchCampaigns() }
 </script>

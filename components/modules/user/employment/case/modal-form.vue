@@ -1,82 +1,93 @@
 <template>
-    <form @submit.prevent="submitForm()" class="mt-4">
-        <Alert type="danger" :text="props?.error?.message"
-            v-if="props.error?.message && props.error.message.length > 0" />
-        <div class="space-y-3">
-            <div class="space-y-1">
-                <FormLabel for="agreement_uuid" :label="$t('employment.cases.form.agreement')" />
-                <FormSelect id="agreement_uuid" :options="state.options.agreements"
-                    v-model="state.form.agreement_uuid" @update:modelValue="onAgreementChange" />
-                <FormError :error="v$?.form?.agreement_uuid?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.agreement_uuid?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <FormLabel for="user_uuid" :label="$t('employment.cases.form.responsibleEmployee')" />
-                <FormSelect id="user_uuid" :options="state.options.users" v-model="state.form.user_uuid" />
-                <FormError :error="props?.error?.errors?.user_uuid?.[0]" />
-            </div>
-            <div class="space-y-1">
-                <FormLabel for="start_date" :label="$t('employment.cases.form.startDate')" />
-                <FormDateField id="start_date" name="start_date" v-model="state.form.start_date" />
-                <FormError :error="v$?.form?.start_date?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.start_date?.[0]" />
-            </div>
-
-            <div class="space-y-2">
-                <div class="flex gap-4">
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" value="by_weeks" v-model="state.periodMode" class="cursor-pointer" />
-                        <span class="text-sm">{{ $t('employment.cases.form.periodMode.byWeeks') }}</span>
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="radio" value="by_date" v-model="state.periodMode" class="cursor-pointer" />
-                        <span class="text-sm">{{ $t('employment.cases.form.periodMode.byDate') }}</span>
-                    </label>
+    <div>
+        <form @submit.prevent="submitForm()" class="mt-4">
+            <Alert type="danger" :text="props?.error?.message"
+                v-if="props.error?.message && props.error.message.length > 0" />
+            <div class="space-y-3">
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="agreement_uuid" :label="$t('employment.cases.form.agreement')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddAgreementOpen = true">
+                            {{ $t('employment.agreements.newAgreement') }}
+                        </span>
+                    </div>
+                    <FormSelect id="agreement_uuid" :options="state.options.agreements"
+                        v-model="state.form.agreement_uuid" @update:modelValue="onAgreementChange" />
+                    <FormError :error="v$?.form?.agreement_uuid?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.agreement_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="user_uuid" :label="$t('employment.cases.form.responsibleEmployee')" />
+                    <FormSelect id="user_uuid" :options="state.options.users" v-model="state.form.user_uuid" />
+                    <FormError :error="props?.error?.errors?.user_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="start_date" :label="$t('employment.cases.form.startDate')" />
+                    <FormDateField id="start_date" name="start_date" v-model="state.form.start_date" />
+                    <FormError :error="v$?.form?.start_date?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.start_date?.[0]" />
                 </div>
 
-                <div v-if="state.periodMode === 'by_weeks'" class="space-y-1">
-                    <FormLabel for="duration_weeks" :label="$t('employment.cases.form.durationWeeks')" />
-                    <FormNumberField id="duration_weeks" name="duration_weeks" :min="1"
-                        v-model="state.form.duration_weeks" />
-                    <FormError :error="props?.error?.errors?.duration_weeks?.[0]" />
-                </div>
-                <div v-else class="space-y-1">
-                    <FormLabel for="end_date" :label="$t('employment.cases.form.endDate')" />
-                    <FormDateField id="end_date" name="end_date" v-model="state.form.end_date" />
-                    <FormError :error="props?.error?.errors?.end_date?.[0]" />
-                </div>
-            </div>
+                <div class="space-y-2">
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" value="by_weeks" v-model="state.periodMode" class="cursor-pointer" />
+                            <span class="text-sm">{{ $t('employment.cases.form.periodMode.byWeeks') }}</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" value="by_date" v-model="state.periodMode" class="cursor-pointer" />
+                            <span class="text-sm">{{ $t('employment.cases.form.periodMode.byDate') }}</span>
+                        </label>
+                    </div>
 
-            <div class="space-y-1">
-                <FormLabel for="employment_status_type_uuid" :label="$t('employment.cases.form.statusType')" />
-                <div class="flex items-center gap-2">
-                    <FormSelect id="employment_status_type_uuid" :options="state.options.statusTypes"
-                        v-model="state.form.employment_status_type_uuid" class="flex-1" />
-                    <span v-if="selectedStatusTypeColor"
-                        :style="{ backgroundColor: selectedStatusTypeColor }"
-                        class="inline-block w-6 h-6 rounded shrink-0" />
+                    <div v-if="state.periodMode === 'by_weeks'" class="space-y-1">
+                        <FormLabel for="duration_weeks" :label="$t('employment.cases.form.durationWeeks')" />
+                        <FormNumberField id="duration_weeks" name="duration_weeks" :min="1"
+                            v-model="state.form.duration_weeks" />
+                        <FormError :error="props?.error?.errors?.duration_weeks?.[0]" />
+                    </div>
+                    <div v-else class="space-y-1">
+                        <FormLabel for="end_date" :label="$t('employment.cases.form.endDate')" />
+                        <FormDateField id="end_date" name="end_date" v-model="state.form.end_date" />
+                        <FormError :error="props?.error?.errors?.end_date?.[0]" />
+                    </div>
                 </div>
-                <FormError :error="props?.error?.errors?.employment_status_type_uuid?.[0]" />
-            </div>
 
-            <div class="space-y-1">
-                <FormLabel for="notes" :label="$t('employment.cases.form.notes')" />
-                <FormTextArea id="notes" name="notes" :placeholder="$t('employment.cases.form.notes')"
-                    v-model="state.form.notes" />
-                <FormError :error="props?.error?.errors?.notes?.[0]" />
+                <div class="space-y-1">
+                    <FormLabel for="employment_status_type_uuid" :label="$t('employment.cases.form.statusType')" />
+                    <div class="flex items-center gap-2">
+                        <FormSelect id="employment_status_type_uuid" :options="state.options.statusTypes"
+                            v-model="state.form.employment_status_type_uuid" class="flex-1" />
+                        <span v-if="selectedStatusTypeColor"
+                            :style="{ backgroundColor: selectedStatusTypeColor }"
+                            class="inline-block w-6 h-6 rounded shrink-0" />
+                    </div>
+                    <FormError :error="props?.error?.errors?.employment_status_type_uuid?.[0]" />
+                </div>
+
+                <div class="space-y-1">
+                    <FormLabel for="notes" :label="$t('employment.cases.form.notes')" />
+                    <FormTextArea id="notes" name="notes" :placeholder="$t('employment.cases.form.notes')"
+                        v-model="state.form.notes" />
+                    <FormError :error="props?.error?.errors?.notes?.[0]" />
+                </div>
             </div>
-        </div>
-        <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
-                    {{ $t('cancel') }}
-                </FormButton>
-                <FormButton type="submit" buttonStyle="primary">
-                    {{ props.formType === 'create' ? $t('save') : $t('update') }}
-                </FormButton>
+            <div class="mt-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
+                        {{ $t('cancel') }}
+                    </FormButton>
+                    <FormButton type="submit" buttonStyle="primary">
+                        {{ props.formType === 'create' ? $t('save') : $t('update') }}
+                    </FormButton>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+
+        <ModulesUserEmploymentAgreementModalNew :isModalOpen="state.modal.isAddAgreementOpen"
+            @close="state.modal.isAddAgreementOpen = false" @created="onAgreementCreated" />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -98,6 +109,9 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
+    modal: {
+        isAddAgreementOpen: false,
+    },
     periodMode: 'by_weeks' as 'by_weeks' | 'by_date',
     form: {
         agreement_uuid: null as string | null,
@@ -145,6 +159,16 @@ watch(() => props.selectedCase, (newValue: any) => {
         }
     }
 })
+
+function onAgreementCreated(newAgreement: any) {
+    const option = { value: newAgreement.uuid, label: newAgreement.name }
+    state.agreementsRaw.push(newAgreement)
+    state.options.agreements.push(option)
+    state.form.agreement_uuid = newAgreement.uuid
+    if (newAgreement.default_duration_weeks && state.periodMode === 'by_weeks') {
+        state.form.duration_weeks = newAgreement.default_duration_weeks
+    }
+}
 
 function onAgreementChange(uuid: string) {
     const agreement = state.agreementsRaw.find((a: any) => a.uuid === uuid)

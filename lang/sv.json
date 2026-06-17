@@ -97,6 +97,38 @@
             "name": "Namn"
         }
     },
+    "caseworkerSharing": {
+        "cancel": "Avbryt",
+        "changePassword": "Ändra lösenord",
+        "chooseCitizenToLoad": "Välj en medborgare för att ladda in deras mappar",
+        "citizen": "Medborgare",
+        "configNotAvailable": "Konfiguration ej tillgänglig",
+        "configureSharing": "Konfigurera delning",
+        "configureSharingSubtitle": "Konfigurera åtkomst och delade mappar för denna handläggarportal.",
+        "configureSharingTooltip": "Konfigurera vad som delas via denna handläggarportal",
+        "confirmNewPassword": "Bekräfta nytt lösenord",
+        "confirmPassword": "Bekräfta lösenord",
+        "download": "Ladda ner",
+        "firstName": "Förnamn",
+        "instruction": "Använd denna portal för att dela rapporter och filer med externa parter.",
+        "lastName": "Efternamn",
+        "manageSharing": "Hantera delning",
+        "newPassword": "Nytt lösenord",
+        "noFilesFoldersFound": "Inga filer eller mappar hittades",
+        "noFoldersSelected": "Inga mappar valda",
+        "passwordsDoNotMatch": "Lösenorden matchar inte",
+        "portalAccess": "Portaltillgång",
+        "refreshTree": "Uppdatera",
+        "saveChanges": "Spara ändringar",
+        "saving": "Sparar...",
+        "selectFoldersInstruction": "Välj de mappar du vill dela",
+        "selectedFoldersTitle": "Valda mappar",
+        "sharedFoldersTitle": "Delade mappar",
+        "sharingUpdated": "Delningsinställningar uppdaterade",
+        "unableToLoadCitizens": "Det gick inte att ladda medborgare",
+        "unableToLoadFolders": "Det gick inte att ladda mappar",
+        "view": "Visa"
+    },
     "consentDeclarationTypes": {
         "consentDeclarationTypes": "Samtyckesförklaringstyper",
         "editConsentDeclarationType": "Redigera samtyckesförklaringstyp",
@@ -1044,6 +1076,28 @@
     "chooseFile": "Välj fil",
     "chooseFiles": "Välj fil(är)",
     "citizens": {
+        "developmentGraph": {
+            "title": "Utvecklingsdiagram",
+            "absence": "Frånvaro",
+            "back": "Tillbaka",
+            "custom": "Anpassad",
+            "daily": "Daglig",
+            "endDate": "Slutdatum",
+            "last3Months": "Senaste 3 månaderna",
+            "lastMonth": "Förra månaden",
+            "monthly": "Månadsvis",
+            "noData": "Inga närvarodata tillgängliga för den valda perioden",
+            "presence": "Närvaro",
+            "protocol": "Protokoll",
+            "selectProtocol": "Välj ett protokoll",
+            "selectProtocolHeading": "Välj ett protokoll för att visa data",
+            "selectProtocolSubtext": "Välj ett protokoll från rullgardinsmenyn ovan för att läsa in utvecklingsdiagrammet.",
+            "sessions": "Sessioner",
+            "startDate": "Startdatum",
+            "thisMonth": "Denna månad",
+            "thisYear": "Detta år",
+            "weekly": "Veckovis"
+        },
         "addictions": "Substansmissbruk",
         "address": "Adress",
         "alert": {
@@ -1870,6 +1924,14 @@
                     "pnMedicine": "PN-medicin",
                     "regularMedicine": "Fast medicin"
                 },
+                "consentToPrescribe": "Medborgaren har gett samtycke till att få denna medicin ordinerad",
+                "shelfLife": "Hållbarhet (efter öppning)",
+                "dateOpened": "Öppningsdatum",
+                "shelfLifeDays": "Hållbarhet (dagar efter öppning)",
+                "shelfLifeDaysPlaceholder": "Antal dagar",
+                "expirationDate": "Utgångsdatum",
+                "whoPrescribed": "Vem ordinerade det?",
+                "whoPrescribedPlaceholder": "Vem ordinerade det",
                 "medicine": "Medicin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Var opbevarer I medicinen",
@@ -2036,6 +2098,7 @@
                 "medicineIsOverdue": "Medicinen är {timme} försenad. Giv straks eller registrér avvikelse.",
                 "dueInMinutes": "Forfaldner om {minutes} minuter. Husk att ge till tiden.",
                 "expired": "Utgången",
+                "selfAdministration": "Självadministrerande",
                 "expiredCheckDate": "Utgången — kontrollera anbrud datum",
                 "lowStock": "Lågt lager",
                 "lowStockOnly": "Lågt lager: endast {n} tillbaka",
@@ -2138,7 +2201,9 @@
                 "treatmentPeriods": "Behandlingsperioder",
                 "from": "Från",
                 "to": "till",
-                "extraIndividualDates": "Extra individuelle dagar"
+                "extraIndividualDates": "Extra individuelle dagar",
+                "expired": "Utgången",
+                "expiredTooltip": "Detta läkemedel har gått ut"
             }
         },
         "newCitizen": "Ny klient",
@@ -2444,11 +2509,28 @@
             "documents": "Dokument",
             "economy": "Ekonomi",
             "employeeGroups": "Anställdgrupper",
+            "employmentCases": "Sysselsättningsärenden",
             "health": "Hälsa",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer och mål",
-            "employmentCases": "Ärenden"
+            "timeline": "Tidslinje"
+        },
+        "timeline": {
+            "newEvent": "Ny händelse",
+            "addTimelineEvent": "Lägg till tidslinjehändelse",
+            "event": "Händelse",
+            "eventPlaceholder": "Vad hände",
+            "date": "Datum",
+            "eventType": "Händelsetyp",
+            "newEventTypePlaceholder": "Ny händelsetyp",
+            "addType": "Lägg till typ",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Lägg till en beskrivning",
+            "alert": {
+                "successfullyAdded": "Tidslinjehändelse tillagd",
+                "deletedSuccessfully": "Tidslinjehändelse borttagen"
+            }
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -2838,7 +2920,8 @@
                 "wallets": "Punge"
             },
             "wallets": "Ekonomi"
-        }
+        },
+        "noCitizensYet": "Inga medborgare än"
     },
     "client": {
         "appointments": "Möten",
@@ -3253,7 +3336,8 @@
         },
         "draft": {
             "alert": {
-                "successfullyPublished": "Tjänsteskeman publicerad"
+                "successfullyPublished": "Tjänsteskeman publicerad",
+                "publishFailed": "Publicering misslyckades. Försök igen."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Är du säker på att du vill publicera denna tjänsteschema för avdelningen",
@@ -3422,7 +3506,8 @@
                 "recurring": "Gentagende",
                 "recurringUntil": "Gentager tills",
                 "repeat": "Gentag",
-                "weekRotations": "Ugerotationer"
+                "weekRotations": "Ugerotationer",
+                "noWeekRotations": "Ingen rotation"
             },
             "viewDraftTemplate": "Skabelonvisning"
         },
@@ -5853,6 +5938,37 @@
         "sectionSettings": "Inställningar"
     },
     "goToToday": "Gå till idag",
+    "guestPortal": {
+        "admin": "Administratör",
+        "contents": "Innehåll",
+        "couldNotUnlockBody": "Felaktigt lösenord. Försök igen.",
+        "dashboardSubtitle": "Denna portal ger dig tillgång till delade rapporter och filer.",
+        "download": "Ladda ner",
+        "files": "Filer",
+        "filesAvailableThroughLink": "Filer tillgängliga via länk",
+        "folders": "Mappar",
+        "loginInstruction": "Ange lösenordet för att komma åt denna delade portal.",
+        "logout": "Logga ut",
+        "messages": "Meddelanden",
+        "noFoldersShared": "Inga mappar har delats ännu.",
+        "noMessagesYet": "Inga meddelanden ännu.",
+        "noReportsShared": "Inga rapporter har delats ännu.",
+        "password": "Lösenord",
+        "refresh": "Uppdatera",
+        "reports": "Rapporter",
+        "selectFolderToViewContents": "Välj en mapp för att visa dess innehåll.",
+        "sharedAccess": "Delad åtkomst",
+        "sharedFolders": "Delade mappar",
+        "sharedReports": "Delade rapporter",
+        "title": "Gästportal",
+        "today": "Idag",
+        "typeAMessage": "Skriv ett meddelande...",
+        "unlockAccess": "Lås upp",
+        "unlockedAlertBody": "Välkommen till portalen.",
+        "unlockedAlertTitle": "Åtkomst beviljad!",
+        "yesterday": "Igår",
+        "you": "Du"
+    },
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjälp & Guide — Tjänsteschema",
@@ -6920,7 +7036,8 @@
             "moderateRisk": "Måttlig risk",
             "useForceStatistics": "Använd av tvång statistik"
         },
-        "viewAll": "Se alla"
+        "viewAll": "Se alla",
+        "statistics": "Statistik"
     },
     "pageNotFound": "Sida inte hittad",
     "pagination": {
@@ -7772,6 +7889,7 @@
                 "warning13HourShift": "Varning vet pass över 13 timmar",
                 "warning11HourRest": "Varning vet hviletid under 11 timmar",
                 "warning48HourRule": "Varning vet 48-timers reglen",
+                "holidayNonSundayHours": "Aktivera helgdagstimmar på helgdagar som inte är söndagar",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begränsning",
                 "enableIpRestriction": "Aktivera IP-begränsning",
@@ -7867,9 +7985,11 @@
             "unusedLicense": "Ubrugt licens",
             "usedLicense": "Brugt licens",
             "userLicenses": "Brugerlicenser",
+            "caseworkerLicenses": "Handläggarlicenser",
             "departmentLicenses": "Afdelingslicenser",
             "usedDepartmentLicense": "Brugt afdelingslicens",
-            "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+            "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+            "copyLink": "Kopiera länk"
         },
         "profile": {
             "form": {
@@ -7946,7 +8066,8 @@
             "employmentCaseTypes": "Ärendetyper",
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Arbetsförmedlingar",
-            "employmentAgreements": "Avtal"
+            "employmentAgreements": "Avtal",
+            "gdprRetention": "GDPR Lagring"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",
@@ -8529,7 +8650,8 @@
                     "amount": "Belopp",
                     "percentage": "Procentdel",
                     "unit": "Enhet"
-                }
+                },
+                "couponInformation": "Kuponguppgifter"
             },
             "newCoupon": "Ny kupong",
             "noCouponsFound": "Inga kuponger hittades",
@@ -8825,7 +8947,9 @@
                 "name": "Namn",
                 "region": "Region",
                 "sender": "Avsändare",
-                "title": "Titel"
+                "title": "Titel",
+                "pollInformation": "Omröstningsinformation",
+                "pollItemInformation": "Omröstningsobjektinformation"
             },
             "newPoll": "Ny omröstning",
             "newPollItem": "Nytt omröstningspunkt",
@@ -8981,7 +9105,8 @@
             "successBannerSaved": "Banderoll sparad",
             "successCouponCreated": "Kupong {code} skapad",
             "successCouponUpdated": "Kupong uppdaterad",
-            "errorCampaignNameRequired": "Kampanjnamn krävs"
+            "errorCampaignNameRequired": "Kampanjnamn krävs",
+            "labelImage": "Bild"
         },
         "sidebar": {
             "apps": "Apps",
@@ -10013,7 +10138,9 @@
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Statustyp sparad",
                     "statusTypeSuccessfullyUpdated": "Statustyp uppdaterad"
-                }
+                },
+                "isBillable": "Fakturerbar",
+                "isBillableHint": "Veckor med denna status inkluderas i faktureringsuttag"
             },
             "table": {
                 "name": "Namn",
@@ -10085,6 +10212,24 @@
                 "alert": {
                     "newBillingRuleSuccessfullySaved": "Faktureringsregel sparad",
                     "billingRuleSuccessfullyUpdated": "Faktureringsregel uppdaterad"
+                },
+                "pricingType": "Prismodell",
+                "weeklyRate": "Veckopris",
+                "hourlyRate": "Timtaxa",
+                "bonusAmount": "Bonusbelopp",
+                "bonusConditionMonths": "Utlösningsvillkor (månaders anställning)",
+                "bonusConditionMonthsHint": "Bonus utlöses när medborgaren har varit anställd i detta antal månader",
+                "invoiceDataSection": "Fakturadata",
+                "customerNumber": "Kundnummer",
+                "productNumber": "Produktnummer",
+                "pricingTypeOptions": {
+                    "weekly": "Veckobaserad prissättning",
+                    "hourly": "Timbaserad prissättning",
+                    "bonus": "Bonusbaserad prissättning"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 månader",
+                    "six": "6 månader"
                 }
             },
             "table": {
@@ -10102,138 +10247,61 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Faktureringsregel borttagen"
-                }
-            }
-        },
-        "jobcenters": {
-            "jobcenters": "Arbetsförmedlingar",
-            "newJobcenter": "Ny arbetsförmedling",
-            "editJobcenter": "Redigera arbetsförmedling",
-            "addNewJobcenter": "Lägg till ny arbetsförmedling",
-            "form": {
-                "name": "Namn",
-                "municipality": "Kommun",
-                "email": "E-post",
-                "phone": "Telefon",
-                "contactPerson": "Kontaktperson",
-                "sortOrder": "Sorteringsordning",
-                "isActive": "Aktiv",
-                "alert": {
-                    "newJobcenterSuccessfullySaved": "Arbetsförmedling sparad",
-                    "jobcenterSuccessfullyUpdated": "Arbetsförmedling uppdaterad"
-                }
-            },
-            "table": {
-                "name": "Namn",
-                "municipality": "Kommun",
-                "contactPerson": "Kontaktperson",
-                "sortOrder": "Sorteringsordning",
-                "active": "Aktiv",
-                "actions": {
-                    "edit": "Redigera",
-                    "delete": "Ta bort"
                 },
-                "confirmation": {
-                    "deleteJobcenterConfirmation": "Är du säker på att du vill ta bort den här arbetsförmedlingen?"
-                },
-                "alert": {
-                    "jobcenterSuccessfullyDeleted": "Arbetsförmedling borttagen"
-                }
-            }
-        },
-        "agreements": {
-            "agreements": "Avtal",
-            "newAgreement": "Nytt avtal",
-            "editAgreement": "Redigera avtal",
-            "addNewAgreement": "Lägg till nytt avtal",
-            "form": {
-                "name": "Namn",
-                "jobcenter": "Arbetsförmedling",
-                "description": "Beskrivning",
-                "defaultDurationWeeks": "Standardlängd (veckor)",
-                "sortOrder": "Sorteringsordning",
-                "isActive": "Aktiv",
-                "alert": {
-                    "newAgreementSuccessfullySaved": "Avtal sparat",
-                    "agreementSuccessfullyUpdated": "Avtal uppdaterat"
-                }
-            },
-            "table": {
-                "name": "Namn",
-                "jobcenter": "Arbetsförmedling",
-                "defaultDurationWeeks": "Standardveckor",
-                "sortOrder": "Sorteringsordning",
-                "active": "Aktiv",
-                "actions": {
-                    "edit": "Redigera",
-                    "delete": "Ta bort"
-                },
-                "confirmation": {
-                    "deleteAgreementConfirmation": "Är du säker på att du vill ta bort det här avtalet?"
-                },
-                "alert": {
-                    "agreementSuccessfullyDeleted": "Avtal borttaget"
-                }
-            },
-            "statusTypes": {
-                "title": "Statustyper för detta avtal",
-                "description": "Välj vilka statustyper som är tillgängliga för ärenden under detta avtal.",
-                "noStatusTypesAvailable": "Inga statustyper konfigurerade. Skapa statustyper under Inställningar först.",
-                "saveConfiguration": "Spara konfiguration",
-                "alert": {
-                    "configurationSaved": "Statustypkonfiguration sparad"
-                }
+                "pricingType": "Prismodell",
+                "customerNumber": "Kundnr.",
+                "productNumber": "Produktnr."
             }
         },
         "cases": {
-            "cases": "Ärenden",
-            "newCase": "Nytt ärende",
-            "editCase": "Redigera ärende",
             "addNewCase": "Lägg till nytt ärende",
+            "cases": "Sysselsättningsärenden",
+            "editCase": "Redigera ärende",
+            "newCase": "Nytt ärende",
             "form": {
                 "agreement": "Avtal",
-                "responsibleEmployee": "Ansvarig medarbetare",
-                "startDate": "Startdatum",
+                "alert": {
+                    "caseSuccessfullyUpdated": "Ärende uppdaterat",
+                    "newCaseSuccessfullySaved": "Ärende sparat"
+                },
+                "durationWeeks": "Varaktighet (veckor)",
                 "endDate": "Slutdatum",
-                "durationWeeks": "Längd (veckor)",
-                "status": "Status",
                 "statusType": "Statustyp",
                 "notes": "Anteckningar",
                 "periodMode": {
-                    "byWeeks": "Per veckor",
-                    "byDate": "Per datumintervall"
+                    "byDate": "Efter datum",
+                    "byWeeks": "Efter veckor"
                 },
+                "responsibleEmployee": "Ansvarig anställd",
+                "startDate": "Startdatum",
+                "status": "Status",
                 "statusOptions": {
                     "active": "Aktiv",
                     "completed": "Avslutad",
-                    "on_hold": "Väntar",
-                    "paused": "Pausad"
-                },
-                "alert": {
-                    "newCaseSuccessfullySaved": "Ärende sparat",
-                    "caseSuccessfullyUpdated": "Ärende uppdaterat"
+                    "on_hold": "Pausad",
+                    "paused": "Satt på paus"
                 }
             },
             "table": {
-                "agreement": "Avtal",
-                "jobcenter": "Arbetsförmedling",
-                "startDate": "Startdatum",
-                "endDate": "Slutdatum",
-                "durationWeeks": "Veckor",
-                "weeksUsed": "Veckor använda",
-                "status": "Status",
-                "responsibleEmployee": "Ansvarig",
                 "actions": {
-                    "edit": "Redigera",
                     "delete": "Ta bort",
+                    "edit": "Redigera",
                     "history": "Historik"
                 },
-                "confirmation": {
-                    "deleteCaseConfirmation": "Är du säker på att du vill ta bort det här ärendet?"
-                },
+                "agreement": "Avtal",
                 "alert": {
                     "caseSuccessfullyDeleted": "Ärende borttaget"
-                }
+                },
+                "confirmation": {
+                    "deleteCaseConfirmation": "Är du säker på att du vill ta bort detta ärende?"
+                },
+                "durationWeeks": "Varaktighet (veckor)",
+                "endDate": "Slutdatum",
+                "jobcenter": "Jobbcenter",
+                "responsibleEmployee": "Ansvarig anställd",
+                "startDate": "Startdatum",
+                "status": "Status",
+                "weeksUsed": "Använda veckor"
             },
             "statusHistory": {
                 "title": "Statushistorik",
@@ -10251,7 +10319,212 @@
                     "statusUpdated": "Status uppdaterad"
                 }
             }
+        },
+        "agreements": {
+            "addNewAgreement": "Lägg till nytt avtal",
+            "agreements": "Avtal",
+            "editAgreement": "Redigera avtal",
+            "newAgreement": "Nytt avtal",
+            "form": {
+                "alert": {
+                    "agreementSuccessfullyUpdated": "Avtal uppdaterat",
+                    "newAgreementSuccessfullySaved": "Avtal sparat"
+                },
+                "defaultDurationWeeks": "Standardvaraktighet (veckor)",
+                "description": "Beskrivning",
+                "isActive": "Aktiv",
+                "jobcenter": "Jobbcenter",
+                "name": "Namn",
+                "sortOrder": "Sorteringsordning"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Ta bort",
+                    "edit": "Redigera"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Avtal borttaget"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Är du säker på att du vill ta bort detta avtal?"
+                },
+                "defaultDurationWeeks": "Standardvaraktighet (veckor)",
+                "jobcenter": "Jobbcenter",
+                "name": "Namn",
+                "sortOrder": "Sorteringsordning"
+            },
+            "statusTypes": {
+                "title": "Statustyper för detta avtal",
+                "description": "Välj vilka statustyper som är tillgängliga för ärenden under detta avtal.",
+                "noStatusTypesAvailable": "Inga statustyper konfigurerade. Skapa statustyper under Inställningar först.",
+                "saveConfiguration": "Spara konfiguration",
+                "alert": {
+                    "configurationSaved": "Statustypkonfiguration sparad"
+                }
+            }
+        },
+        "jobcenters": {
+            "addNewJobcenter": "Lägg till nytt jobbcenter",
+            "editJobcenter": "Redigera jobbcenter",
+            "jobcenters": "Jobbcenter",
+            "newJobcenter": "Nytt jobbcenter",
+            "form": {
+                "alert": {
+                    "jobcenterSuccessfullyUpdated": "Jobbcenter uppdaterat",
+                    "newJobcenterSuccessfullySaved": "Jobbcenter sparat"
+                },
+                "contactPerson": "Kontaktperson",
+                "email": "E-post",
+                "isActive": "Aktiv",
+                "municipality": "Kommun",
+                "name": "Namn",
+                "phone": "Telefon",
+                "sortOrder": "Sorteringsordning"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Ta bort",
+                    "edit": "Redigera"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Jobbcenter borttaget"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Är du säker på att du vill ta bort detta jobbcenter?"
+                },
+                "contactPerson": "Kontaktperson",
+                "municipality": "Kommun",
+                "name": "Namn",
+                "sortOrder": "Sorteringsordning"
+            }
+        },
+        "billing": {
+            "billing": "Fakturering",
+            "extraction": "Faktureringsuttag",
+            "fromDate": "Från datum",
+            "toDate": "Till datum",
+            "generate": "Generera",
+            "markAsInvoiced": "Markera som fakturerad",
+            "markSelected": "Markera valda som fakturerade",
+            "invoiced": "Fakturerad",
+            "notInvoiced": "Ej fakturerad",
+            "citizen": "Medborgare",
+            "cpr": "CPR-nummer",
+            "period": "Faktureringsperiod",
+            "pricePerWeek": "Pris / vecka",
+            "pricePerHour": "Pris / timme",
+            "weeks": "Veckor",
+            "hours": "Timmar",
+            "bonus": "Bonus",
+            "total": "Totalt",
+            "customerNumber": "Kundnummer",
+            "productNumber": "Produktnummer",
+            "agreement": "Avtal",
+            "consultant": "Konsult",
+            "excludeWeek": "Exkludera vecka",
+            "includeWeek": "Inkludera vecka",
+            "noData": "Ingen faktureringsdata hittades för vald period",
+            "selectPeriod": "Välj en period för att generera faktureringsdata",
+            "invoicedOn": "Fakturerad den",
+            "alert": {
+                "markedAsInvoiced": "Valda poster markerade som fakturerade",
+                "weekExcluded": "Vecka exkluderad från fakturering",
+                "weekIncluded": "Vecka inkluderad i fakturering"
+            },
+            "billingWeeks": "Faktureringsvecka",
+            "week": "Vecka",
+            "excluded": "Utesluten",
+            "billable": "Fakturerbar",
+            "noBillingWeeks": "Inga faktureringsveckor hittades för detta ärende",
+            "billableWeeks": "faktureringsbara veckor",
+            "excludedWeeks": "uteslutna veckor"
+        },
+        "revenue": {
+            "revenue": "Intäkt",
+            "report": "Intäktsrapport",
+            "consultant": "Konsult",
+            "citizens": "Hanterade medborgare",
+            "weeklyBilling": "Veckofakturering",
+            "hourlyBilling": "Timfakturering",
+            "bonuses": "Bonusar",
+            "totalRevenue": "Total intäkt",
+            "fromDate": "Från datum",
+            "toDate": "Till datum",
+            "generate": "Generera",
+            "noData": "Ingen intäktsdata hittades för vald period"
         }
     },
-    "delete": "Ta bort"
+    "attendance": {
+        "absenceReason": "Frånvaroorsak",
+        "absenceReasons": "Frånvarorsaker",
+        "citizen": "Medborgare",
+        "checkIn": "Incheckning",
+        "checkInOut": "Incheckning / Utcheckning",
+        "date": "Datum",
+        "generate": "Generera",
+        "in": "In",
+        "monthlyReport": "Månadsvis närvararapport",
+        "noDataForPeriod": "Ingen närvarodata hittades för vald period",
+        "noParticipantsToday": "Inga deltagare anmälda idag",
+        "notRegistered": "Ej registrerad",
+        "out": "Ut",
+        "participantList": "Deltagarlista",
+        "pending": "Väntar",
+        "period": "Period",
+        "print": "Skriv ut",
+        "printedOn": "Utskriven den",
+        "protocol": "Aktivitet",
+        "selectMonthToGenerate": "Välj en månad och klicka Generera",
+        "selectWeekToGenerate": "Välj en vecka och klicka Generera",
+        "signature": "Underskrift",
+        "total": "Totalt",
+        "week": "Vecka",
+        "weeklyReport": "Veckovis närvararapport"
+    },
+    "gdpr": {
+        "retention": {
+            "title": "GDPR Datalagring",
+            "retentionPeriod": "Lagringsperiod",
+            "retentionPeriodHint": "Data schemaläggs för radering efter denna period efter ärendets avslut.",
+            "retentionMonths": "Lagringsperiod",
+            "months": "{n} månader",
+            "monthsShort": "mån.",
+            "autoDelete": "Automatisk radering",
+            "autoDeleteHint": "Schemalägg automatiskt medborgare för radering när lagringsperioden löper ut.",
+            "notifyBeforeDeletion": "Meddela innan radering",
+            "notifyBeforeDeletionHint": "Skicka ett meddelande innan en schemalagd radering utförs.",
+            "settingsSaved": "Lagringsinställningar sparade",
+            "scheduledDeletions": "Schemalagda raderingar",
+            "viewDeletionLog": "Visa raderingslogg",
+            "noScheduledDeletions": "Inga medborgare är för närvarande schemalagda för radering.",
+            "citizen": "Medborgare",
+            "caseCompletedOn": "Ärende avslutat den",
+            "scheduledFor": "Schemalagd för",
+            "daysRemaining": "Dagar kvar",
+            "days": "dagar",
+            "cancelDeletion": "Avbryt radering",
+            "cancelDeletionConfirmation": "Är du säker på att du vill avbryta den schemalagda raderingen för denna medborgare",
+            "deletionCancelled": "Schemalagd radering avbruten"
+        },
+        "deletionLog": {
+            "title": "Raderingslogg",
+            "fromDate": "Från datum",
+            "toDate": "Till datum",
+            "trigger": "Utlösare",
+            "allTriggers": "Alla utlösare",
+            "triggerSystem": "System",
+            "triggerUser": "Användare",
+            "citizen": "Medborgare",
+            "deletedAt": "Raderad den",
+            "retentionMonths": "Lagring",
+            "deletedBy": "Raderad av",
+            "noEntries": "Inga raderingsloggposter hittades.",
+            "restore": "Återställ",
+            "restoreConfirmation": "Är du säker på att du vill återställa denna medborgare",
+            "citizenRestored": "Medborgare återställd"
+        }
+    },
+    "selectAll": "Välj alla"
 }

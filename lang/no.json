@@ -97,6 +97,38 @@
             "name": "Navn"
         }
     },
+    "caseworkerSharing": {
+        "cancel": "Avbryt",
+        "changePassword": "Endre passord",
+        "chooseCitizenToLoad": "Velg en borger for å laste inn mappene deres",
+        "citizen": "Borger",
+        "configNotAvailable": "Konfigurasjon ikke tilgjengelig",
+        "configureSharing": "Konfigurer deling",
+        "configureSharingSubtitle": "Sett opp tilgang og delte mapper for denne saksbehandlerportalen.",
+        "configureSharingTooltip": "Konfigurer hva som deles via denne saksbehandlerportalen",
+        "confirmNewPassword": "Bekreft nytt passord",
+        "confirmPassword": "Bekreft passord",
+        "download": "Last ned",
+        "firstName": "Fornavn",
+        "instruction": "Bruk denne portalen til å dele rapporter og filer med eksterne parter.",
+        "lastName": "Etternavn",
+        "manageSharing": "Administrer deling",
+        "newPassword": "Nytt passord",
+        "noFilesFoldersFound": "Ingen filer eller mapper funnet",
+        "noFoldersSelected": "Ingen mapper valgt",
+        "passwordsDoNotMatch": "Passordene stemmer ikke overens",
+        "portalAccess": "Portaltilgang",
+        "refreshTree": "Oppdater",
+        "saveChanges": "Lagre endringer",
+        "saving": "Lagrer...",
+        "selectFoldersInstruction": "Velg mappene du ønsker å dele",
+        "selectedFoldersTitle": "Valgte mapper",
+        "sharedFoldersTitle": "Delte mapper",
+        "sharingUpdated": "Delingsinnstillinger oppdatert",
+        "unableToLoadCitizens": "Kan ikke laste inn borgere",
+        "unableToLoadFolders": "Kan ikke laste inn mapper",
+        "view": "Vis"
+    },
     "consentDeclarationTypes": {
         "consentDeclarationTypes": "Samtykkerklæringstyper",
         "editConsentDeclarationType": "Rediger samtykkerklæringstype",
@@ -1044,6 +1076,28 @@
     "chooseFile": "Velg fil",
     "chooseFiles": "Velg fil(er)",
     "citizens": {
+        "developmentGraph": {
+            "title": "Utviklingsdiagram",
+            "absence": "Fravær",
+            "back": "Tilbake",
+            "custom": "Egendefinert",
+            "daily": "Daglig",
+            "endDate": "Sluttdato",
+            "last3Months": "Siste 3 måneder",
+            "lastMonth": "Forrige måned",
+            "monthly": "Månedlig",
+            "noData": "Ingen oppmøtedata tilgjengelig for den valgte perioden",
+            "presence": "Tilstedeværelse",
+            "protocol": "Protokoll",
+            "selectProtocol": "Velg en protokoll",
+            "selectProtocolHeading": "Velg en protokoll for å se data",
+            "selectProtocolSubtext": "Velg en protokoll fra rullegardinmenyen ovenfor for å laste inn utviklingsdiagrammet.",
+            "sessions": "Økter",
+            "startDate": "Startdato",
+            "thisMonth": "Denne måneden",
+            "thisYear": "Dette året",
+            "weekly": "Ukentlig"
+        },
         "addictions": "Rusmisbruk",
         "address": "Adresse",
         "alert": {
@@ -1870,6 +1924,14 @@
                     "pnMedicine": "PN-medisin",
                     "regularMedicine": "Fast medisin"
                 },
+                "consentToPrescribe": "Borgeren har gitt samtykke til å få foreskrevet denne medisinen",
+                "shelfLife": "Holdbarhet (anbrudd)",
+                "dateOpened": "Anbruddsdato",
+                "shelfLifeDays": "Holdbarhet (dager etter anbrudd)",
+                "shelfLifeDaysPlaceholder": "Antall dager",
+                "expirationDate": "Utløpsdato",
+                "whoPrescribed": "Hvem har foreskrevet det?",
+                "whoPrescribedPlaceholder": "Hvem har foreskrevet det",
                 "medicine": "Medisin",
                 "medicineStorage": "Medicinopbevaring",
                 "medicineStoragePlaceholder": "Hvor opbevarer I medisinen",
@@ -2036,6 +2098,7 @@
                 "medicineIsOverdue": "Medisinen er {time} forsinket. Gi straks eller registrér afvigelse.",
                 "dueInMinutes": "Forfaller om {minutes} minutter. Husk at gi til tiden.",
                 "expired": "Utløpt",
+                "selfAdministration": "Selvadministrerende",
                 "expiredCheckDate": "Utløpt — sjekk åpning dato",
                 "lowStock": "Lavt lager",
                 "lowStockOnly": "Lavt lager: kun {n} tilbake",
@@ -2138,7 +2201,9 @@
                 "treatmentPeriods": "Behandlingsperioder",
                 "from": "Fra",
                 "to": "til",
-                "extraIndividualDates": "Ekstra individuelle dager"
+                "extraIndividualDates": "Ekstra individuelle dager",
+                "expired": "Utløpt",
+                "expiredTooltip": "Denne medisinen er utløpt"
             }
         },
         "newCitizen": "Ny bruker",
@@ -2444,11 +2509,28 @@
             "documents": "Dokumenter",
             "economy": "Økonomi",
             "employeeGroups": "Medarbeidergrupper",
+            "employmentCases": "Sysselsettingssaker",
             "health": "Helse",
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer og mål",
-            "employmentCases": "Saker"
+            "timeline": "Tidslinje"
+        },
+        "timeline": {
+            "newEvent": "Ny hendelse",
+            "addTimelineEvent": "Legg til tidslinjehendelse",
+            "event": "Hendelse",
+            "eventPlaceholder": "Hva skjedde",
+            "date": "Dato",
+            "eventType": "Hendelsestype",
+            "newEventTypePlaceholder": "Ny hendelsestype",
+            "addType": "Legg til type",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Legg til en beskrivelse",
+            "alert": {
+                "successfullyAdded": "Tidslinjehendelse lagt til",
+                "deletedSuccessfully": "Tidslinjehendelse slettet"
+            }
         },
         "timeLogs": {
             "timeLogs": "Tidslogfiler"
@@ -2838,7 +2920,8 @@
                 "wallets": "Punge"
             },
             "wallets": "Økonomi"
-        }
+        },
+        "noCitizensYet": "Ingen borgere ennå"
     },
     "client": {
         "appointments": "Avtaler",
@@ -3253,7 +3336,8 @@
         },
         "draft": {
             "alert": {
-                "successfullyPublished": "Vaktplaner publisert vellykket"
+                "successfullyPublished": "Vaktplaner publisert vellykket",
+                "publishFailed": "Publisering mislyktes. Vennligst prøv igjen."
             },
             "confirmation": {
                 "publishForAllDepartmentConfirmation": "Er du sikker på at du vil publisere denne vaktplan for avdelingen",
@@ -3422,7 +3506,8 @@
                 "recurring": "Gjentakende",
                 "recurringUntil": "Gentager inntil",
                 "repeat": "Gjenta",
-                "weekRotations": "Ugerotationer"
+                "weekRotations": "Ugerotationer",
+                "noWeekRotations": "Ingen rotasjon"
             },
             "viewDraftTemplate": "Skabelonvisning"
         },
@@ -5853,6 +5938,37 @@
         "sectionSettings": "Innstillinger"
     },
     "goToToday": "Gå til i dag",
+    "guestPortal": {
+        "admin": "Administrator",
+        "contents": "Innhold",
+        "couldNotUnlockBody": "Feil passord. Prøv igjen.",
+        "dashboardSubtitle": "Denne portalen gir deg tilgang til delte rapporter og filer.",
+        "download": "Last ned",
+        "files": "Filer",
+        "filesAvailableThroughLink": "Filer tilgjengelig via lenke",
+        "folders": "Mapper",
+        "loginInstruction": "Skriv inn passordet for å få tilgang til denne delte portalen.",
+        "logout": "Logg ut",
+        "messages": "Meldinger",
+        "noFoldersShared": "Ingen mapper er delt ennå.",
+        "noMessagesYet": "Ingen meldinger ennå.",
+        "noReportsShared": "Ingen rapporter er delt ennå.",
+        "password": "Passord",
+        "refresh": "Oppdater",
+        "reports": "Rapporter",
+        "selectFolderToViewContents": "Velg en mappe for å se innholdet.",
+        "sharedAccess": "Delt tilgang",
+        "sharedFolders": "Delte mapper",
+        "sharedReports": "Delte rapporter",
+        "title": "Gjesteportal",
+        "today": "I dag",
+        "typeAMessage": "Skriv en melding...",
+        "unlockAccess": "Lås opp",
+        "unlockedAlertBody": "Velkommen til portalen.",
+        "unlockedAlertTitle": "Tilgang gitt!",
+        "yesterday": "I går",
+        "you": "Du"
+    },
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjelp & Guide — Vaktplan",
@@ -6920,7 +7036,8 @@
             "moderateRisk": "Moderat risiko",
             "useForceStatistics": "Bruk av makt statistikk"
         },
-        "viewAll": "Se alle"
+        "viewAll": "Se alle",
+        "statistics": "Statistikk"
     },
     "pageNotFound": "Side ikke funnet",
     "pagination": {
@@ -7772,6 +7889,7 @@
                 "warning13HourShift": "Advarsel ved vakter over 13 timer",
                 "warning11HourRest": "Advarsel ved hviletid under 11 timer",
                 "warning48HourRule": "Advarsel ved 48-timers reglen",
+                "holidayNonSundayHours": "Aktiver helligdagstimer på helligdager som ikke er søndager",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
                 "enableIpRestriction": "Aktiver IP-begrænsning",
@@ -7867,9 +7985,11 @@
             "unusedLicense": "Ubrugt lisens",
             "usedLicense": "Brukt lisens",
             "userLicenses": "Brugerlicenser",
+            "caseworkerLicenses": "Saksbehandlerlisenser",
             "departmentLicenses": "Afdelingslicenser",
             "usedDepartmentLicense": "Brukt afdelingslicens",
-            "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+            "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+            "copyLink": "Kopier lenke"
         },
         "profile": {
             "form": {
@@ -7946,7 +8066,8 @@
             "employmentCaseTypes": "Sakstyper",
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Jobbsentre",
-            "employmentAgreements": "Avtaler"
+            "employmentAgreements": "Avtaler",
+            "gdprRetention": "GDPR Oppbevaring"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",
@@ -8529,7 +8650,8 @@
                     "amount": "Beløp",
                     "percentage": "Procentdel",
                     "unit": "Enhed"
-                }
+                },
+                "couponInformation": "Kupongopplysninger"
             },
             "newCoupon": "Ny kupon",
             "noCouponsFound": "Ingen kuponger funnet",
@@ -8825,7 +8947,9 @@
                 "name": "Navn",
                 "region": "Region",
                 "sender": "Avsender",
-                "title": "Tittel"
+                "title": "Tittel",
+                "pollInformation": "Avstemningsinformasjon",
+                "pollItemInformation": "Avstemningsemne informasjon"
             },
             "newPoll": "Ny avstemning",
             "newPollItem": "Nytt avstemningspunkt",
@@ -8981,7 +9105,8 @@
             "successBannerSaved": "Banner lagret",
             "successCouponCreated": "Kupong {code} opprettet",
             "successCouponUpdated": "Kupong oppdatert",
-            "errorCampaignNameRequired": "Kampanjenavn er påkrevd"
+            "errorCampaignNameRequired": "Kampanjenavn er påkrevd",
+            "labelImage": "Bilde"
         },
         "sidebar": {
             "apps": "Apper",
@@ -10013,7 +10138,9 @@
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Statustype lagret",
                     "statusTypeSuccessfullyUpdated": "Statustype oppdatert"
-                }
+                },
+                "isBillable": "Fakturerbar",
+                "isBillableHint": "Uker med denne statusen inkluderes i faktureringsuttrekk"
             },
             "table": {
                 "name": "Navn",
@@ -10085,6 +10212,24 @@
                 "alert": {
                     "newBillingRuleSuccessfullySaved": "Faktureringsregel lagret",
                     "billingRuleSuccessfullyUpdated": "Faktureringsregel oppdatert"
+                },
+                "pricingType": "Prismodell",
+                "weeklyRate": "Ukentlig pris",
+                "hourlyRate": "Timepris",
+                "bonusAmount": "Bonusbeløp",
+                "bonusConditionMonths": "Utløsingsbetingelse (måneders ansettelse)",
+                "bonusConditionMonthsHint": "Bonus utløses når borgeren har vært ansatt i dette antall måneder",
+                "invoiceDataSection": "Fakturadata",
+                "customerNumber": "Kundenummer",
+                "productNumber": "Produktnummer",
+                "pricingTypeOptions": {
+                    "weekly": "Ukentlig prising",
+                    "hourly": "Timebasert prising",
+                    "bonus": "Bonusbasert prising"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 måneder",
+                    "six": "6 måneder"
                 }
             },
             "table": {
@@ -10102,138 +10247,61 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
-                }
-            }
-        },
-        "jobcenters": {
-            "jobcenters": "Jobbsentre",
-            "newJobcenter": "Nytt jobbsenter",
-            "editJobcenter": "Rediger jobbsenter",
-            "addNewJobcenter": "Legg til nytt jobbsenter",
-            "form": {
-                "name": "Navn",
-                "municipality": "Kommune",
-                "email": "E-post",
-                "phone": "Telefon",
-                "contactPerson": "Kontaktperson",
-                "sortOrder": "Sorteringsrekkefølge",
-                "isActive": "Aktiv",
-                "alert": {
-                    "newJobcenterSuccessfullySaved": "Jobbsenter lagret",
-                    "jobcenterSuccessfullyUpdated": "Jobbsenter oppdatert"
-                }
-            },
-            "table": {
-                "name": "Navn",
-                "municipality": "Kommune",
-                "contactPerson": "Kontaktperson",
-                "sortOrder": "Sorteringsrekkefølge",
-                "active": "Aktiv",
-                "actions": {
-                    "edit": "Rediger",
-                    "delete": "Slett"
                 },
-                "confirmation": {
-                    "deleteJobcenterConfirmation": "Er du sikker på at du vil slette dette jobbsenteret?"
-                },
-                "alert": {
-                    "jobcenterSuccessfullyDeleted": "Jobbsenter slettet"
-                }
-            }
-        },
-        "agreements": {
-            "agreements": "Avtaler",
-            "newAgreement": "Ny avtale",
-            "editAgreement": "Rediger avtale",
-            "addNewAgreement": "Legg til ny avtale",
-            "form": {
-                "name": "Navn",
-                "jobcenter": "Jobbsenter",
-                "description": "Beskrivelse",
-                "defaultDurationWeeks": "Standard varighet (uker)",
-                "sortOrder": "Sorteringsrekkefølge",
-                "isActive": "Aktiv",
-                "alert": {
-                    "newAgreementSuccessfullySaved": "Avtale lagret",
-                    "agreementSuccessfullyUpdated": "Avtale oppdatert"
-                }
-            },
-            "table": {
-                "name": "Navn",
-                "jobcenter": "Jobbsenter",
-                "defaultDurationWeeks": "Standard uker",
-                "sortOrder": "Sorteringsrekkefølge",
-                "active": "Aktiv",
-                "actions": {
-                    "edit": "Rediger",
-                    "delete": "Slett"
-                },
-                "confirmation": {
-                    "deleteAgreementConfirmation": "Er du sikker på at du vil slette denne avtalen?"
-                },
-                "alert": {
-                    "agreementSuccessfullyDeleted": "Avtale slettet"
-                }
-            },
-            "statusTypes": {
-                "title": "Statustyper for denne avtalen",
-                "description": "Velg hvilke statustyper som er tilgjengelige for saker under denne avtalen.",
-                "noStatusTypesAvailable": "Ingen statustyper konfigurert. Opprett statustyper under Innstillinger først.",
-                "saveConfiguration": "Lagre konfigurasjon",
-                "alert": {
-                    "configurationSaved": "Statustypekonfigurasjon lagret"
-                }
+                "pricingType": "Prismodell",
+                "customerNumber": "Kundenr.",
+                "productNumber": "Produktnr."
             }
         },
         "cases": {
-            "cases": "Saker",
-            "newCase": "Ny sak",
-            "editCase": "Rediger sak",
             "addNewCase": "Legg til ny sak",
+            "cases": "Sysselsettingssaker",
+            "editCase": "Rediger sak",
+            "newCase": "Ny sak",
             "form": {
                 "agreement": "Avtale",
-                "responsibleEmployee": "Ansvarlig ansatt",
-                "startDate": "Startdato",
-                "endDate": "Sluttdato",
+                "alert": {
+                    "caseSuccessfullyUpdated": "Sak oppdatert",
+                    "newCaseSuccessfullySaved": "Sak lagret"
+                },
                 "durationWeeks": "Varighet (uker)",
-                "status": "Status",
+                "endDate": "Sluttdato",
                 "statusType": "Statustype",
                 "notes": "Notater",
                 "periodMode": {
-                    "byWeeks": "Per uker",
-                    "byDate": "Per datoperiode"
+                    "byDate": "Etter dato",
+                    "byWeeks": "Etter uker"
                 },
+                "responsibleEmployee": "Ansvarlig ansatt",
+                "startDate": "Startdato",
+                "status": "Status",
                 "statusOptions": {
                     "active": "Aktiv",
                     "completed": "Fullført",
                     "on_hold": "På vent",
-                    "paused": "Pauset"
-                },
-                "alert": {
-                    "newCaseSuccessfullySaved": "Sak lagret",
-                    "caseSuccessfullyUpdated": "Sak oppdatert"
+                    "paused": "Satt på pause"
                 }
             },
             "table": {
-                "agreement": "Avtale",
-                "jobcenter": "Jobbsenter",
-                "startDate": "Startdato",
-                "endDate": "Sluttdato",
-                "durationWeeks": "Uker",
-                "weeksUsed": "Uker brukt",
-                "status": "Status",
-                "responsibleEmployee": "Ansvarlig",
                 "actions": {
-                    "edit": "Rediger",
                     "delete": "Slett",
+                    "edit": "Rediger",
                     "history": "Historikk"
+                },
+                "agreement": "Avtale",
+                "alert": {
+                    "caseSuccessfullyDeleted": "Sak slettet"
                 },
                 "confirmation": {
                     "deleteCaseConfirmation": "Er du sikker på at du vil slette denne saken?"
                 },
-                "alert": {
-                    "caseSuccessfullyDeleted": "Sak slettet"
-                }
+                "durationWeeks": "Varighet (uker)",
+                "endDate": "Sluttdato",
+                "jobcenter": "Jobbsenter",
+                "responsibleEmployee": "Ansvarlig ansatt",
+                "startDate": "Startdato",
+                "status": "Status",
+                "weeksUsed": "Brukte uker"
             },
             "statusHistory": {
                 "title": "Statushistorikk",
@@ -10251,7 +10319,212 @@
                     "statusUpdated": "Status oppdatert"
                 }
             }
+        },
+        "agreements": {
+            "addNewAgreement": "Legg til ny avtale",
+            "agreements": "Avtaler",
+            "editAgreement": "Rediger avtale",
+            "newAgreement": "Ny avtale",
+            "form": {
+                "alert": {
+                    "agreementSuccessfullyUpdated": "Avtale oppdatert",
+                    "newAgreementSuccessfullySaved": "Avtale lagret"
+                },
+                "defaultDurationWeeks": "Standard varighet (uker)",
+                "description": "Beskrivelse",
+                "isActive": "Aktiv",
+                "jobcenter": "Jobbsenter",
+                "name": "Navn",
+                "sortOrder": "Sorteringsrekkefølge"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Slett",
+                    "edit": "Rediger"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "agreementSuccessfullyDeleted": "Avtale slettet"
+                },
+                "confirmation": {
+                    "deleteAgreementConfirmation": "Er du sikker på at du vil slette denne avtalen?"
+                },
+                "defaultDurationWeeks": "Standard varighet (uker)",
+                "jobcenter": "Jobbsenter",
+                "name": "Navn",
+                "sortOrder": "Sorteringsrekkefølge"
+            },
+            "statusTypes": {
+                "title": "Statustyper for denne avtalen",
+                "description": "Velg hvilke statustyper som er tilgjengelige for saker under denne avtalen.",
+                "noStatusTypesAvailable": "Ingen statustyper konfigurert. Opprett statustyper under Innstillinger først.",
+                "saveConfiguration": "Lagre konfigurasjon",
+                "alert": {
+                    "configurationSaved": "Statustypekonfigurasjon lagret"
+                }
+            }
+        },
+        "jobcenters": {
+            "addNewJobcenter": "Legg til nytt jobbsenter",
+            "editJobcenter": "Rediger jobbsenter",
+            "jobcenters": "Jobbsentre",
+            "newJobcenter": "Nytt jobbsenter",
+            "form": {
+                "alert": {
+                    "jobcenterSuccessfullyUpdated": "Jobbsenter oppdatert",
+                    "newJobcenterSuccessfullySaved": "Jobbsenter lagret"
+                },
+                "contactPerson": "Kontaktperson",
+                "email": "E-post",
+                "isActive": "Aktiv",
+                "municipality": "Kommune",
+                "name": "Navn",
+                "phone": "Telefon",
+                "sortOrder": "Sorteringsrekkefølge"
+            },
+            "table": {
+                "actions": {
+                    "delete": "Slett",
+                    "edit": "Rediger"
+                },
+                "active": "Aktiv",
+                "alert": {
+                    "jobcenterSuccessfullyDeleted": "Jobbsenter slettet"
+                },
+                "confirmation": {
+                    "deleteJobcenterConfirmation": "Er du sikker på at du vil slette dette jobbsenteret?"
+                },
+                "contactPerson": "Kontaktperson",
+                "municipality": "Kommune",
+                "name": "Navn",
+                "sortOrder": "Sorteringsrekkefølge"
+            }
+        },
+        "billing": {
+            "billing": "Fakturering",
+            "extraction": "Faktureringsuttrekk",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generer",
+            "markAsInvoiced": "Merk som fakturert",
+            "markSelected": "Merk valgte som fakturert",
+            "invoiced": "Fakturert",
+            "notInvoiced": "Ikke fakturert",
+            "citizen": "Borger",
+            "cpr": "CPR-nummer",
+            "period": "Faktureringsperiode",
+            "pricePerWeek": "Pris / uke",
+            "pricePerHour": "Pris / time",
+            "weeks": "Uker",
+            "hours": "Timer",
+            "bonus": "Bonus",
+            "total": "Total",
+            "customerNumber": "Kundenummer",
+            "productNumber": "Produktnummer",
+            "agreement": "Avtale",
+            "consultant": "Konsulent",
+            "excludeWeek": "Ekskluder uke",
+            "includeWeek": "Inkluder uke",
+            "noData": "Ingen faktureringsdata funnet for valgt periode",
+            "selectPeriod": "Velg en periode for å generere faktureringsdata",
+            "invoicedOn": "Fakturert den",
+            "alert": {
+                "markedAsInvoiced": "Valgte oppføringer merket som fakturert",
+                "weekExcluded": "Uke ekskludert fra fakturering",
+                "weekIncluded": "Uke inkludert i fakturering"
+            },
+            "billingWeeks": "Faktureringsuke",
+            "week": "Uke",
+            "excluded": "Utelukket",
+            "billable": "Fakturerbar",
+            "noBillingWeeks": "Ingen faktureringsuke funnet for dette forløpet",
+            "billableWeeks": "fakturerbare uker",
+            "excludedWeeks": "utelukkede uker"
+        },
+        "revenue": {
+            "revenue": "Inntekt",
+            "report": "Inntektsrapport",
+            "consultant": "Konsulent",
+            "citizens": "Behandlede borgere",
+            "weeklyBilling": "Ukentlig fakturering",
+            "hourlyBilling": "Timebasert fakturering",
+            "bonuses": "Bonuser",
+            "totalRevenue": "Total inntekt",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generer",
+            "noData": "Ingen inntektsdata funnet for valgt periode"
         }
     },
-    "delete": "Slett"
+    "attendance": {
+        "absenceReason": "Fraværsgrunn",
+        "absenceReasons": "Fraværsgrunner",
+        "citizen": "Borger",
+        "checkIn": "Innsjekk",
+        "checkInOut": "Innsjekk / Utsjekk",
+        "date": "Dato",
+        "generate": "Generer",
+        "in": "Inn",
+        "monthlyReport": "Månedlig oppmøterapport",
+        "noDataForPeriod": "Ingen oppmøtedata funnet for valgt periode",
+        "noParticipantsToday": "Ingen deltakere påmeldt i dag",
+        "notRegistered": "Ikke registrert",
+        "out": "Ut",
+        "participantList": "Deltagerliste",
+        "pending": "Venter",
+        "period": "Periode",
+        "print": "Skriv ut",
+        "printedOn": "Skrevet ut den",
+        "protocol": "Aktivitet",
+        "selectMonthToGenerate": "Velg en måned og klikk Generer",
+        "selectWeekToGenerate": "Velg en uke og klikk Generer",
+        "signature": "Underskrift",
+        "total": "Total",
+        "week": "Uke",
+        "weeklyReport": "Ukentlig oppmøterapport"
+    },
+    "gdpr": {
+        "retention": {
+            "title": "GDPR Dataoppbevaring",
+            "retentionPeriod": "Oppbevaringsperiode",
+            "retentionPeriodHint": "Data planlegges for sletting etter denne perioden etter saksavslutning.",
+            "retentionMonths": "Oppbevaringsperiode",
+            "months": "{n} måneder",
+            "monthsShort": "mnd.",
+            "autoDelete": "Automatisk sletting",
+            "autoDeleteHint": "Planlegg automatisk borgere for sletting når oppbevaringsperioden utløper.",
+            "notifyBeforeDeletion": "Varsle før sletting",
+            "notifyBeforeDeletionHint": "Send et varsel før en planlagt sletting utføres.",
+            "settingsSaved": "Oppbevaringsinnstillinger lagret",
+            "scheduledDeletions": "Planlagte slettinger",
+            "viewDeletionLog": "Se slettelogg",
+            "noScheduledDeletions": "Ingen borgere er for øyeblikket planlagt for sletting.",
+            "citizen": "Borger",
+            "caseCompletedOn": "Sak avsluttet den",
+            "scheduledFor": "Planlagt for",
+            "daysRemaining": "Dager gjenstående",
+            "days": "dager",
+            "cancelDeletion": "Avbryt sletting",
+            "cancelDeletionConfirmation": "Er du sikker på at du vil avbryte den planlagte slettingen for denne borgeren",
+            "deletionCancelled": "Planlagt sletting avbrutt"
+        },
+        "deletionLog": {
+            "title": "Slettelogg",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "trigger": "Utløser",
+            "allTriggers": "Alle utløsere",
+            "triggerSystem": "System",
+            "triggerUser": "Bruker",
+            "citizen": "Borger",
+            "deletedAt": "Slettet den",
+            "retentionMonths": "Oppbevaring",
+            "deletedBy": "Slettet av",
+            "noEntries": "Ingen sletteloggoppføringer funnet.",
+            "restore": "Gjenopprett",
+            "restoreConfirmation": "Er du sikker på at du vil gjenopprette denne borgeren",
+            "citizenRestored": "Borger gjenopprettet"
+        }
+    },
+    "selectAll": "Velg alle"
 }

@@ -45,8 +45,7 @@
                         <div class="table-responsive">
                             <Table :columnHeaders="state.columnHeaders" :data="state.cases"
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                                <template #body
-                                    v-if="!(state.isTableLoading || (state.cases?.data?.length === 0))">
+                                <template #body v-if="!(state.isTableLoading || (state.cases?.data?.length === 0))">
                                     <tr v-for="(employmentCase, index) in state.cases?.data" :key="index">
                                         <td width="15%">
                                             <span>{{ employmentCase?.agreement?.name }}</span>
@@ -55,10 +54,14 @@
                                             <span>{{ employmentCase?.agreement?.jobcenter?.name }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ employmentCase?.start_date }}</span>
+                                            <span class="truncate">
+                                                {{ formatDateToReadable(employmentCase?.start_date) }}
+                                            </span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ employmentCase?.calculated_end_date }}</span>
+                                            <span class="truncate">
+                                                {{ formatDateToReadable(employmentCase?.calculated_end_date) }}
+                                            </span>
                                         </td>
                                         <td width="8%">
                                             <span>{{ employmentCase?.duration_weeks }}</span>
@@ -85,6 +88,11 @@
                                                     {{ $t('employment.cases.table.actions.history') }}
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="action"
+                                                    @click="openBillingWeeks(employmentCase)">
+                                                    <Icon name="ph:calendar-check" class="size-4" />
+                                                    {{ $t('employment.billing.billingWeeks') }}
+                                                </FormButton>
+                                                <FormButton type="button" buttonStyle="action"
                                                     @click="openEditCase(employmentCase)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('employment.cases.table.actions.edit') }}
@@ -104,17 +112,15 @@
                     </div>
             </div>
 
-            <ModulesUserEmploymentCaseModalNew
-                :isModalOpen="state.modal.isNewCaseOpen"
-                :citizenUuid="citizenUuid"
-                @close="state.modal.isNewCaseOpen = false"
+            <ModulesUserEmploymentCaseModalNew :isModalOpen="state.modal.isNewCaseOpen" :citizenUuid="citizenUuid"
+                @close="state.modal.isNewCaseOpen = false" @refreshCases="fetchCases" />
+
+            <ModulesUserEmploymentCaseModalEdit :isModalOpen="state.modal.isEditCaseOpen"
+                :selectedCaseUuid="state.selectedCaseUuid" @close="state.modal.isEditCaseOpen = false"
                 @refreshCases="fetchCases" />
 
-            <ModulesUserEmploymentCaseModalEdit
-                :isModalOpen="state.modal.isEditCaseOpen"
-                :selectedCaseUuid="state.selectedCaseUuid"
-                @close="state.modal.isEditCaseOpen = false"
-                @refreshCases="fetchCases" />
+            <ModulesUserEmploymentCaseBillingWeeksSlideOver :isOpen="state.modal.isBillingWeeksOpen"
+                :selectedCase="state.selectedCase" @close="state.modal.isBillingWeeksOpen = false" />
 
             <ModulesUserEmploymentCaseStatusHistoryModal
                 :isModalOpen="state.modal.isHistoryOpen"
@@ -131,6 +137,7 @@
 
 <script setup lang="ts">
 import { employmentService } from '@/components/api/user/EmploymentService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -139,6 +146,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { formatDateToReadable } = useDatetimeFormatter()
 const userStore = useUserStore()
 const route = useRoute()
 const citizenUuid = route?.params?.uuid as string
@@ -168,6 +176,7 @@ const state = reactive({
         isEditCaseOpen: false,
         isDeleteOpen: false,
         isHistoryOpen: false,
+        isBillingWeeksOpen: false,
     },
     selectedCaseUuid: '' as string,
     selectedCase: {} as any,
@@ -205,6 +214,11 @@ function sort(sortingData: any) {
     currentTablePage = 1
     state.sortData = { sortField: sortingData.column, sortOrder: sortingData.sort }
     fetchCases()
+}
+
+function openBillingWeeks(employmentCase: any) {
+    state.selectedCase = employmentCase
+    state.modal.isBillingWeeksOpen = true
 }
 
 function openEditCase(employmentCase: any) {

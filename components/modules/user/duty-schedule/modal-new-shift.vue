@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('dutySchedules.newSchedule')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <Alert type="warning"
                     :text="locale === 'en' ? localEmployee?.average_weekly_work_time?.message_en : localEmployee?.average_weekly_work_time?.message_dk"
@@ -82,7 +82,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close', 'saveShift', 'resetNewShiftError', 'resetShiftWarnings', 'dateTimeChange'])
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 
 const localEmployeeUuid = ref<string | null>(null)
 
@@ -98,6 +98,20 @@ watch(() => props.availableEmployees, (employees: any[]) => {
 
 const localEmployee = computed(() =>
     (props.availableEmployees as any[]).find(e => e.uuid === localEmployeeUuid.value) ?? null
+)
+
+// #28 (Birketoften): show which employee the shift is for, so context isn't lost
+// if you get interrupted mid-create.
+const employeeName = computed(() => {
+    const emp: any = props.selectedEmployee ?? localEmployee.value
+    if (!emp) return ''
+    return `${emp.firstname ?? ''} ${emp.lastname ?? ''}`.trim()
+})
+
+const modalTitle = computed(() =>
+    employeeName.value
+        ? `${t('dutySchedules.newSchedule')} · ${employeeName.value}`
+        : t('dutySchedules.newSchedule')
 )
 
 const state = reactive({

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Lag_2" data-name="Lag 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.98 38.98">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f3f9ee;
+        stroke: #fff;
+      }
+
+      .cls-1, .cls-2 {
+        opacity: .9;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        fill: #00607a;
+        stroke: #f3f9ee;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1" data-name="Layer 1">
+    <circle class="cls-2" cx="19.49" cy="19.49" r="18.99"/>
+    <circle class="cls-1" cx="19.43" cy="19.55" r="11.93"/>
+  </g>
+</svg>

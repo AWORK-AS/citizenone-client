@@ -90,7 +90,7 @@
                 <div v-for="(message, index) in state.messages" :key="index">
 
                     <!-- Date Divider -->
-                    <div v-if="shouldShowDateDivider(index)" class="flex items-center gap-3 py-2 my-1">
+                    <div v-if="shouldShowDateDivider(Number(index))" class="flex items-center gap-3 py-2 my-1">
                         <div class="flex-1 h-px bg-gray-200"></div>
                         <span class="text-xs text-gray-400 font-medium flex-shrink-0">{{
                             getMessageDateLabel(message?.created_at) }}</span>
@@ -118,7 +118,7 @@
                                 <div
                                     class="hidden group-hover/msg:flex items-center gap-0.5 absolute right-full pr-2 top-1/2 -translate-y-1/2">
                                     <div class="relative">
-                                        <button @click.stop="toggleMessageMenu(index)"
+                                        <button @click.stop="toggleMessageMenu(Number(index))"
                                             class="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
                                             :title="$t('messages.actions.more')">
                                             <Icon name="ph:dots-three" class="h-4 w-4 text-gray-400"
@@ -130,14 +130,14 @@
                                             @click.stop>
                                             <button v-if="!(message?.chat_message_attachments?.length > 0)"
                                                 class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                                                @click="editChatMessage(index, message); state.openMessageMenuIndex = null">
+                                                @click="editChatMessage(Number(index), message); state.openMessageMenuIndex = null">
                                                 <Icon name="ph:pencil-simple" class="h-4 w-4 text-gray-400"
                                                     aria-hidden="true" />
                                                 {{ $t('messages.actions.edit') }}
                                             </button>
                                             <button
                                                 class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
-                                                @click="deleteChatConfirmation(index, message); state.openMessageMenuIndex = null">
+                                                @click="deleteChatConfirmation(Number(index), message); state.openMessageMenuIndex = null">
                                                 <Icon name="ph:trash" class="h-4 w-4 text-red-500" aria-hidden="true" />
                                                 {{ $t('messages.actions.delete') }}
                                             </button>
@@ -187,10 +187,10 @@
                     <div v-else class="flex flex-col items-start mb-3">
                         <!-- Header: avatar + name + time -->
                         <div class="flex items-center gap-2 mb-1">
-                            <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'" alt="User"
+                            <img :src="senderAvatar(message)" alt="User"
                                 class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
                             <p class="text-xs text-gray-500 font-medium">
-                                {{ message?.sender?.firstname + ' ' + (message?.sender?.lastname ?? '') }}
+                                {{ senderDisplayName(message) }}
                                 <span class="text-gray-400 font-normal">{{
                                     formatMessageTime(message?.created_at) }}</span>
                             </p>
@@ -331,7 +331,7 @@ onMounted(() => {
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
 
-function toggleMessageMenu(index: number) {
+function toggleMessageMenu(index: any) {
     state.openMessageMenuIndex = state.openMessageMenuIndex === index ? null : index
 }
 
@@ -348,27 +348,70 @@ function getMessageDateLabel(datetime: string): string {
     return formatDateToReadable(datetime)
 }
 
-function shouldShowDateDivider(index: number): boolean {
-    if (index === 0) return true
-    const currentDate = moment(state.messages[index]?.created_at).format('YYYY-MM-DD')
-    const prevDate = moment(state.messages[index - 1]?.created_at).format('YYYY-MM-DD')
+function shouldShowDateDivider(index: any): boolean {
+    const idx = Number(index)
+    if (idx === 0) return true
+    const currentDate = moment(state.messages[idx]?.created_at).format('YYYY-MM-DD')
+    const prevDate = moment(state.messages[idx - 1]?.created_at).format('YYYY-MM-DD')
     return currentDate !== prevDate
 }
 
 function getChatHeaderName(): string {
     const members = excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members || [])
     if (members.length > 0) {
-        return `${members[0]?.user?.firstname} ${members[0]?.user?.lastname ?? ''}`
+        return memberDisplayName(members[0])
     }
     const self = chatToSelf(state.chat?.data?.chat_members || [])
-    return self[0] ? `${self[0]?.user?.firstname} ${self[0]?.user?.lastname ?? ''}` : ''
+    return self[0] ? memberDisplayName(self[0]) : ''
 }
 
 function getChatHeaderAvatar(): string {
     const members = excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members || [])
-    if (members.length > 0) return members[0]?.user?.profile_image ?? '/img/avatars/user.svg'
+    if (members.length > 0) return memberAvatar(members[0])
     const self = chatToSelf(state.chat?.data?.chat_members || [])
-    return self[0]?.user?.profile_image ?? '/img/avatars/user.svg'
+    return self[0] ? memberAvatar(self[0]) : '/img/avatars/user.svg'
+}
+
+function memberDisplayName(member: any) {
+    if (!member) return ''
+    const user = member.user || {}
+    const userType = member.user_type || ''
+
+    if (userType.includes('CaseworkerLicenseConfig') || userType.toLowerCase().includes('caseworker')) {
+        return user.name || `${user.firstname ?? ''} ${user.lastname ?? ''}`.trim()
+    }
+
+    return `${user.firstname ?? ''} ${user.lastname ?? ''}`.trim() || user.name || ''
+}
+
+function memberAvatar(member: any) {
+    if (!member) return '/img/avatars/user.svg'
+    const user = member.user || {}
+    const userType = member.user_type || ''
+    if (userType.includes('CaseworkerLicenseConfig') || userType.toLowerCase().includes('caseworker')) {
+        return user.profile_image ?? user.logo ?? '/img/avatars/user.svg'
+    }
+    return user.profile_image ?? '/img/avatars/user.svg'
+}
+
+function senderDisplayName(message: any) {
+    if (!message) return ''
+    const sender = message.sender || {}
+    const senderType = message.sender_type || ''
+    if (senderType.includes('CaseworkerLicenseConfig') || senderType.toLowerCase().includes('caseworker')) {
+        return sender.name || `${sender.firstname ?? ''} ${sender.lastname ?? ''}`.trim()
+    }
+    return `${sender.firstname ?? ''} ${sender.lastname ?? ''}`.trim() || sender.name || ''
+}
+
+function senderAvatar(message: any) {
+    if (!message) return '/img/avatars/user.svg'
+    const sender = message.sender || {}
+    const senderType = message.sender_type || ''
+    if (senderType.includes('CaseworkerLicenseConfig') || senderType.toLowerCase().includes('caseworker')) {
+        return sender.profile_image ?? sender.logo ?? '/img/avatars/user.svg'
+    }
+    return sender.profile_image ?? '/img/avatars/user.svg'
 }
 
 function closeUpgradeStorageModal() {
