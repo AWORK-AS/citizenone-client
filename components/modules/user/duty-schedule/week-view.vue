@@ -483,11 +483,13 @@
                                                     <template v-if="empStats(employee)?.holiday_hours?.enabled">
                                                         <p class="text-xxs text-amber-700" :title="$t('dutySchedules.holidayHoursHint')">
                                                             🌴 {{ $t('dutySchedules.holidayWorked') }}:
-                                                            {{ empStats(employee)?.holiday_hours?.worked_yearly }}
+                                                            {{ empStats(employee)?.holiday_hours?.worked_weekly }} ({{ $t('dutySchedules.week') }})
+                                                            · {{ empStats(employee)?.holiday_hours?.worked_yearly }} ({{ $t('dutySchedules.yearToDate') }})
                                                         </p>
                                                         <p class="text-xxs text-amber-700" :title="$t('dutySchedules.holidayHoursHint')">
                                                             🌴 {{ $t('dutySchedules.holidayNonWorked') }}:
-                                                            {{ empStats(employee)?.holiday_hours?.nonworked_yearly }}
+                                                            {{ empStats(employee)?.holiday_hours?.nonworked_weekly }} ({{ $t('dutySchedules.week') }})
+                                                            · {{ empStats(employee)?.holiday_hours?.nonworked_yearly }} ({{ $t('dutySchedules.yearToDate') }})
                                                         </p>
                                                     </template>
                                                     </template>
@@ -1202,6 +1204,9 @@ const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+
+// Holiday markers only show for companies that opted in to holiday hours.
+const holidaysEnabled = computed(() => !!userStore.getUser?.company?.holiday_non_sunday_hours_enabled)
 const departmentStore = useDepartmentStore()
 const { formatNumber } = useNumberFormatter()
 const { errorAlert } = useAlert()
@@ -2311,6 +2316,7 @@ const danishHolidays: Record<string, string> = {
 }
 
 function getHolidayForDay(longName: string): string | null {
+    if (!holidaysEnabled.value) return null
     const key = dayNameToKey[longName]
     if (!key) return null
     // First try API data
