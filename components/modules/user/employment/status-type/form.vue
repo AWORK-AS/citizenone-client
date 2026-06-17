@@ -29,15 +29,6 @@
                 <FormError :error="props?.error?.errors?.sort_order?.[0]" />
             </div>
             <div class="flex items-center gap-x-3">
-                <FormLabel for="is_billable" :label="$t('employment.statusTypes.form.isBillable')" />
-                <FormSwitch :value="state.formStatusType.is_billable"
-                    @toggleSwitch="state.formStatusType.is_billable = !state.formStatusType.is_billable" />
-                <FormError :error="props?.error?.errors?.is_billable?.[0]" />
-            </div>
-            <p class="text-xs text-[#8891A4] -mt-1">
-                {{ $t('employment.statusTypes.form.isBillableHint') }}
-            </p>
-            <div class="flex items-center gap-x-3">
                 <FormLabel for="is_active" :label="$t('employment.statusTypes.form.isActive')" />
                 <FormSwitch :value="state.formStatusType.is_active"
                     @toggleSwitch="state.formStatusType.is_active = !state.formStatusType.is_active" />
@@ -88,7 +79,6 @@ const state = reactive({
         name: '',
         color: '#000000',
         is_active: true,
-        is_billable: true,
         sort_order: '0' as string,
         billing_rule_uuid: null as string | null,
     },
@@ -105,9 +95,8 @@ watch(() => props.selectedStatusType, (newValue: any) => {
             name: newValue.name ?? '',
             color: newValue.color ?? '#000000',
             is_active: newValue.is_active ?? true,
-            is_billable: newValue.is_billable ?? true,
             sort_order: newValue.sort_order != null ? String(newValue.sort_order) : '0',
-            billing_rule_uuid: newValue.billing_rule?.uuid ?? null,
+            billing_rule_uuid: newValue.billing_rule?.uuid ?? newValue.billing_rule_uuid ?? null,
         }
     }
 })
