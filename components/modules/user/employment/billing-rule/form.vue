@@ -23,7 +23,7 @@
             <!-- Weekly rate -->
             <div class="space-y-1" v-if="state.formBillingRule.pricing_type === 'weekly'">
                 <FormLabel for="weekly_rate" :label="$t('employment.billingRules.form.weeklyRate')" />
-                <FormNumberField id="weekly_rate" name="weekly_rate" :min="0"
+                <FormTextField id="weekly_rate" name="weekly_rate"
                     :placeholder="$t('employment.billingRules.form.weeklyRate')"
                     v-model="state.formBillingRule.weekly_rate" />
                 <FormError :error="v$?.formBillingRule?.weekly_rate?.$errors[0]?.$message.toString()" />
@@ -33,7 +33,7 @@
             <!-- Hourly rate -->
             <div class="space-y-1" v-if="state.formBillingRule.pricing_type === 'hourly'">
                 <FormLabel for="hourly_rate" :label="$t('employment.billingRules.form.hourlyRate')" />
-                <FormNumberField id="hourly_rate" name="hourly_rate" :min="0"
+                <FormTextField id="hourly_rate" name="hourly_rate"
                     :placeholder="$t('employment.billingRules.form.hourlyRate')"
                     v-model="state.formBillingRule.hourly_rate" />
                 <FormError :error="v$?.formBillingRule?.hourly_rate?.$errors[0]?.$message.toString()" />
@@ -44,7 +44,7 @@
             <template v-if="state.formBillingRule.pricing_type === 'bonus'">
                 <div class="space-y-1">
                     <FormLabel for="bonus_amount" :label="$t('employment.billingRules.form.bonusAmount')" />
-                    <FormNumberField id="bonus_amount" name="bonus_amount" :min="0"
+                    <FormTextField id="bonus_amount" name="bonus_amount"
                         :placeholder="$t('employment.billingRules.form.bonusAmount')"
                         v-model="state.formBillingRule.bonus_amount" />
                     <FormError :error="v$?.formBillingRule?.bonus_amount?.$errors[0]?.$message.toString()" />
@@ -189,11 +189,12 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
+        const toRate = (val: string) => val !== '' ? val : null
         const payload = {
             ...state.formBillingRule,
-            weekly_rate: state.formBillingRule.weekly_rate !== '' ? Number(state.formBillingRule.weekly_rate) : null,
-            hourly_rate: state.formBillingRule.hourly_rate !== '' ? Number(state.formBillingRule.hourly_rate) : null,
-            bonus_amount: state.formBillingRule.bonus_amount !== '' ? Number(state.formBillingRule.bonus_amount) : null,
+            weekly_rate: toRate(state.formBillingRule.weekly_rate),
+            hourly_rate: toRate(state.formBillingRule.hourly_rate),
+            bonus_amount: toRate(state.formBillingRule.bonus_amount),
         }
         emit('submitForm', payload)
     }

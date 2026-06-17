@@ -74,9 +74,9 @@ async function saveBillingRule(details: any) {
         const params = {
             name: details.name,
             pricing_type: details.pricing_type,
-            rate: details.weekly_rate !== '' ? Number(details.weekly_rate) : null,
-            hourly_rate: details.hourly_rate !== '' ? Number(details.hourly_rate) : null,
-            bonus_amount: details.bonus_amount !== '' ? Number(details.bonus_amount) : null,
+            rate: details.weekly_rate !== '' ? details.weekly_rate : null,
+            hourly_rate: details.hourly_rate !== '' ? details.hourly_rate : null,
+            bonus_amount: details.bonus_amount !== '' ? details.bonus_amount : null,
             bonus_condition_months: details.bonus_condition_months ?? null,
             customer_number: details.customer_number,
             product_number: details.product_number,
