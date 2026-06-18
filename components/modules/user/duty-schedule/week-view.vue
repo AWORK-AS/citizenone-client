@@ -80,7 +80,7 @@
                     </div>
                     <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                         <button
-                            class="flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
+                            class="flex items-center gap-1.5 outline-none rounded-lg text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
                             @click="state.modal.isFilterDutyScheduleOpen = true">
                             <Icon name="ic:outline-filter-list" class="h-4 w-4" />
                             {{ $t('filter') }}
@@ -97,7 +97,7 @@
                                     v-show="state.sortData?.sortOrder === 'descend'" />
                             </button>
                         </Tooltip>
-                        <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
+                        <div class="bg-white border border-gray-200 rounded-lg px-3 py-2">
                             <div class="flex items-center gap-x-1">
                                 <span>{{ $t('entriesPerPage') }}:</span>
                                 <select class="focus:outline-none bg-transparent" @change="changePageLength"
