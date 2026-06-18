@@ -8,7 +8,7 @@
 
             <template #header>{{ $t('superadmin.coupons.editCoupon') }}</template>
 
-            <div>
+            <div class="p-1 max-w-2xl">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                     to="/superadmin/coupons">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />

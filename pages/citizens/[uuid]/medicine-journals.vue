@@ -314,6 +314,12 @@
                                             <p class="text-sm font-medium text-gray-900 truncate">
                                                 {{ getMedicineName(medicine) }}
                                             </p>
+                                            <span v-if="medicine.is_self_administered"
+                                                :title="$t('citizens.medicineJournals.page.selfAdministration')"
+                                                class="shrink-0 inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xxs font-semibold text-amber-800">
+                                                <Icon name="ph:hand-palm" class="size-3" />
+                                                {{ $t('citizens.medicineJournals.page.selfAdministration') }}
+                                            </span>
                                             <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                 :wrap="true" class="shrink-0">
                                                 <Icon name="ph:info"
@@ -457,6 +463,12 @@
                                             <p class="text-sm font-medium text-gray-900">
                                                 {{ getMedicineName(medicine) }}
                                             </p>
+                                            <span v-if="medicine.is_self_administered"
+                                                :title="$t('citizens.medicineJournals.page.selfAdministration')"
+                                                class="shrink-0 inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xxs font-semibold text-amber-800">
+                                                <Icon name="ph:hand-palm" class="size-3" />
+                                                {{ $t('citizens.medicineJournals.page.selfAdministration') }}
+                                            </span>
                                             <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                 :wrap="true" class="shrink-0">
                                                 <Icon name="ph:info"
@@ -554,7 +566,7 @@
                             </div>
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="w-full border-collapse" style="min-width: 600px;">
+                            <table class="co-table w-full border-collapse" style="min-width: 600px;">
                                 <thead>
                                     <tr>
                                         <th
@@ -582,6 +594,11 @@
                                                 <p class="truncate max-w-36">
                                                     {{ getMedicineName(medicine) }}
                                                 </p>
+                                                <Tooltip v-if="medicine.is_self_administered"
+                                                    :text="$t('citizens.medicineJournals.page.selfAdministration')"
+                                                    class="shrink-0">
+                                                    <Icon name="ph:hand-palm" class="size-3.5 text-amber-600" />
+                                                </Tooltip>
                                                 <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                     :wrap="true" class="shrink-0">
                                                     <Icon name="ph:info"
@@ -775,6 +792,11 @@
                                                     <Badge v-if="medicine.is_pn_medicine" type="primary" class="w-fit">
                                                         <p class="text-xxs">PN</p>
                                                     </Badge>
+                                                    <span v-if="medicine.is_self_administered"
+                                                        class="text-xs bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded inline-flex items-center gap-1 font-medium">
+                                                        <Icon name="ph:hand-palm" class="size-3" />
+                                                        {{ $t('citizens.medicineJournals.page.selfAdministration') }}
+                                                    </span>
                                                     <Tooltip v-if="medicine?.is_expired"
                                                         :text="$t('citizens.medicineJournals.page.expired')">
                                                         <span

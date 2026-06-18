@@ -60,6 +60,11 @@
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="navigateTo('/referrals')"
+                            v-if="(isAtLeast('Admin') || can('create_referral') || can('update_referral') || can('delete_referral')) && userStore.getUser?.company?.industry?.system_name === 'employment_services'">
+                            <Icon name="ph:arrows-in" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('referrals.referrals') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="navigateTo('/rooms')">
                             <Icon name="ph:door" class="h-4 w-4" aria-hidden="true" />
                             {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}
@@ -211,10 +216,26 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+                    <!-- Count summary -->
+                    <div class="flex items-baseline gap-2" v-if="state.citizens">
+                        <span class="text-2xl font-bold tracking-tight text-primary">
+                            <CountUp :value="Number(state.citizens?.total ?? state.citizens?.data?.length ?? 0)" />
+                        </span>
+                        <span class="text-sm font-medium text-slate-500">{{ $t('citizens.citizens') }}</span>
+                    </div>
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.citizens"
                             :isLoading="state.isTableLoading" :sortData="citizenStore.getSortData" @sort="sort">
+                            <template #empty>
+                                <div class="flex flex-col items-center justify-center gap-3 py-8">
+                                    <Icon name="ph:users-three" class="size-12 text-surface-300" />
+                                    <p class="text-sm font-medium text-slate-500">{{ $t('citizens.noCitizensYet') }}</p>
+                                    <FormButton buttonStyle="action" @click="navigateTo('/citizens/new')">
+                                        {{ $t('citizens.newCitizen') }}
+                                    </FormButton>
+                                </div>
+                            </template>
                             <template #body v-if="!(state.isTableLoading || (state.citizens?.data?.length === 0))">
                                 <tr v-for="(citizen, index) in state.citizens?.data" :key="index">
                                     <td width="30%">
