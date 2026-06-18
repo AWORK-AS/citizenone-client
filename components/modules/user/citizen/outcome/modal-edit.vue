@@ -68,7 +68,7 @@ async function updateOutcome(formData: any) {
             end_date: formData.end_date || null,
             notes: formData.notes || null,
         }
-        if (formData.billing_rule_uuid) params.billing_rule_uuid = formData.billing_rule_uuid
+        params.billing_rule_uuid = formData.billing_rule_uuid || null
 
         const response = await citizenOutcomeService.updateOutcome(state.formOutcome.uuid, params)
         if (response?.data) {

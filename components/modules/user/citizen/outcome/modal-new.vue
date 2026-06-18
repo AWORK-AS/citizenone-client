@@ -72,7 +72,7 @@ async function saveOutcome(formData: any) {
         }
         if (formData.end_date) params.end_date = formData.end_date
         if (formData.notes) params.notes = formData.notes
-        if (formData.billing_rule_uuid) params.billing_rule_uuid = formData.billing_rule_uuid
+        params.billing_rule_uuid = formData.billing_rule_uuid || null
 
         const response = await citizenOutcomeService.saveOutcome(params)
         if (response?.data) {

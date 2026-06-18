@@ -162,14 +162,14 @@ async function fetchBillingRules() {
     try {
         const response = await employmentService.getAllBillingRules()
         if (response) {
-            const options: any = [{ value: '', label: t('citizens.outcomes.form.noBillingRule') }]
+            const options: any = []
             response.data.forEach((item: any) =>
                 options.push({ value: item.uuid, label: item.name })
             )
             state.options.billingRules = options
         }
     } catch (_) {
-        state.options.billingRules = [{ value: '', label: t('citizens.outcomes.form.noBillingRule') }]
+        state.options.billingRules = []
     }
 }
 </script>
