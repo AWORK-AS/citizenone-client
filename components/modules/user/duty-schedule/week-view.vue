@@ -821,6 +821,20 @@
                                                     </Tooltip>
                                                 </div>
                                                 <div class="text-xs">
+                                                    <!-- Non-worked public holiday: employee is free but is assigned 7.4h -->
+                                                    <div v-if="isNonWorkedHolidayCell(week)"
+                                                        class="rounded-xl border border-amber-300 bg-amber-50 px-2 py-1.5 mb-2.5 flex items-start gap-1.5"
+                                                        :title="$t('dutySchedules.holidayHoursHint')">
+                                                        <span class="text-sm leading-none">🌴</span>
+                                                        <div class="leading-tight">
+                                                            <p class="text-xxs font-semibold text-amber-800">
+                                                                {{ $t('dutySchedules.holidayFreeBadge') }}
+                                                            </p>
+                                                            <p class="text-xxs text-amber-700">
+                                                                {{ $t('dutySchedules.holidayNonWorkedAssigned') }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                         :key="shiftIndex" :class="[
                                                             'rounded-xl overflow-hidden relative mb-2.5 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20'
@@ -838,6 +852,11 @@
                                                         <div class="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xs sm:text-sm"
                                                             v-if="shift?.type?.system_name === 'vacation-leave'">
                                                             🏖️
+                                                        </div>
+                                                        <div class="absolute -right-2 -top-2 sm:-right-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center text-xs sm:text-sm cursor-help"
+                                                            v-if="isWorkedHolidayShift(shift)"
+                                                            :title="$t('dutySchedules.holidayWorkedTooltip')">
+                                                            🌴
                                                         </div>
                                                         <div class="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
                                                             @click="(hasUpdatePermission || isAtLeast('Admin')) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
@@ -2327,6 +2346,32 @@ function getHolidayForDay(longName: string): string | null {
     const dayIndex = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].indexOf(key)
     const dateStr = moment(startOfWeek).add(dayIndex, 'day').format('YYYY-MM-DD')
     return danishHolidays[dateStr] || null
+}
+
+// Resolve a holiday name from an actual date (grid cells / shifts carry dates).
+function getHolidayNameByDate(dateStr: string): string | null {
+    if (!dateStr) return null
+    const wd = state.weeklySchedules?.week_data
+    if (wd) {
+        for (const k of Object.keys(wd)) {
+            if (wd[k]?.date === dateStr && wd[k]?.holiday?.name) return wd[k].holiday.name
+        }
+    }
+    return danishHolidays[dateStr] || null
+}
+
+// Non-worked, non-Sunday public holiday where the employee has no shift → 7.4h assigned.
+function isNonWorkedHolidayCell(week: any): boolean {
+    if (!holidaysEnabled.value || !week?.date) return false
+    if (!getHolidayNameByDate(week.date)) return false
+    if (moment(week.date).day() === 0) return false // Sundays excluded (matches backend)
+    return !(week?.shifts?.length > 0)
+}
+
+// A shift that falls on a public holiday → counts as both holiday hours + the shift.
+function isWorkedHolidayShift(shift: any): boolean {
+    if (!holidaysEnabled.value || !shift?.date_time_start) return false
+    return !!getHolidayNameByDate(moment(shift.date_time_start).format('YYYY-MM-DD'))
 }
 
 function isToday(fullDate: any): boolean {

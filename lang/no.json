@@ -3614,6 +3614,9 @@
         "holidayWorked": "Helligdagstimer (arbeidet)",
         "holidayNonWorked": "Helligdagstimer (ikke arbeidet)",
         "holidayHoursHint": "Helligdag: arbeidede timer ×1,5 (virksomhetens egen faktor). Ikke-arbeidede helligdager som ikke er søndager gir 7,4 timer.",
+        "holidayFreeBadge": "Fri – helligdag",
+        "holidayNonWorkedAssigned": "7,4 helligdagstimer tildelt",
+        "holidayWorkedTooltip": "Arbeidet helligdag: teller både som helligdagstimer og den vanlige vakten. De første 7,4 timene teller som helligdagstimer (×1,5 brukt), resten tilfaller vakttypen.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",
