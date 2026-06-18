@@ -1658,6 +1658,7 @@
                 "reportingRequirements": "Rapporteringskrav",
                 "secondaryConsultant": "Sekundär konsult",
                 "status": "Status",
+                "internshipCompany": "Praktikföretag",
                 "totalWeeks": "Totalt antal veckor",
                 "weeksUsed": "Använda veckor"
             },

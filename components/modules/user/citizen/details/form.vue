@@ -887,6 +887,12 @@
                         :placeholder="$t('citizens.form.employmentProgram.referralReason')"
                         v-model="state.formCitizen.employmentData.referral_reason" />
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="internship_company" :label="$t('citizens.form.employmentProgram.internshipCompany')" />
+                    <FormTextField id="internship_company" name="internship_company"
+                        :placeholder="$t('citizens.form.employmentProgram.internshipCompany')"
+                        v-model="state.formCitizen.employmentData.internship_company" />
+                </div>
             </div>
         </div>
         <div class="mt-6">
