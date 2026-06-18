@@ -821,7 +821,7 @@
                                                     <!-- Non-worked public holiday: employee is free but is assigned 7.4h -->
                                                     <div v-if="isNonWorkedHolidayCell(week)"
                                                         class="rounded-xl border border-amber-300 bg-amber-50 px-2 py-1.5 mb-2.5 flex items-start gap-1.5"
-                                                        :title="$t('dutySchedules.holidayHoursHint')">
+                                                        :title="$t('dutySchedules.holidayNonWorkedTooltip')">
                                                         <Icon name="ph:calendar-check" class="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" aria-hidden="true" />
                                                         <div class="leading-tight">
                                                             <p class="text-xxs font-semibold text-amber-800">
@@ -1730,8 +1730,9 @@ function empStats(employee: any) {
     return state.employeeHoursStats[employee?.uuid]
 }
 
-// Total of the shift-type rows PLUS the holiday buckets (worked + non-worked),
-// so the table total reconciles with the headline "Total hours".
+// Total of the shift-type rows plus only the NON-WORKED holiday hours.
+// Worked holiday hours are already included in the shift-type rows (they are not
+// moved out), so adding them again would double-count.
 function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): number {
     const toNum = (v: any) => parseFloat(String(v ?? '0').replace(',', '.')) || 0
     const stats = empStats(employee)
@@ -1740,9 +1741,7 @@ function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): nu
         .reduce((s: number, t: any) => s + toNum(t?.[key]), 0)
     const hh = stats?.holiday_hours
     if (hh?.enabled) {
-        const worked = key === 'weekly_hours' ? hh.worked_weekly : hh.worked_yearly
-        const notWorked = key === 'weekly_hours' ? hh.nonworked_weekly : hh.nonworked_yearly
-        sum += toNum(worked) + toNum(notWorked)
+        sum += toNum(key === 'weekly_hours' ? hh.nonworked_weekly : hh.nonworked_yearly)
     }
     return sum
 }
