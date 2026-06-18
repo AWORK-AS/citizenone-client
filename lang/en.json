@@ -1,4 +1,61 @@
 {
+    "companyModules": {
+        "Economy": "Economy",
+        "Journals": "Journals",
+        "Medicine card": "Medicine card",
+        "Plans and goals": "Plans and goals",
+        "Health": "Health",
+        "Documents": "Documents",
+        "Attendance": "Attendance",
+        "Calendar": "Calendar",
+        "Contacts": "Contacts",
+        "Duty Schedule": "Duty schedule",
+        "Employee Group": "Employee group"
+    },
+    "discover": {
+        "welcome": "Welcome, {name}",
+        "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
+        "whatDoYouNeed": "What do you need?",
+        "stepsProgress": "{done} of {total} steps completed",
+        "nextStep": "Next step",
+        "ready": {
+            "title": "You're ready to go live!",
+            "desc": "All onboarding steps are complete."
+        },
+        "groupProgress": "{done} of {total} completed",
+        "lockedHint": "Complete the step above first",
+        "promoTitle": "Work from anywhere, on any device",
+        "promoDesc": "Download the app to always have CitizenOne on hand.",
+        "promoCta": "Get the app",
+        "appInfoMessage": "App Store and Google Play links will appear here in the real version.",
+        "modalIntro": "Pick the parts you use — we'll only show the relevant steps.",
+        "modules": {
+            "vagtplan": "Duty schedule",
+            "medicin": "Medicine",
+            "dokumentation": "Documentation (plans, status, documents)"
+        },
+        "groups": {
+            "migration": "Migration",
+            "komIGang": "Get started",
+            "born": "Citizens",
+            "vagtplan": "Duty schedule",
+            "medicin": "Medicine",
+            "dokumentation": "Documentation"
+        },
+        "steps": {
+            "departments": { "title": "Create departments", "desc": "Departments structure staff, citizens and the duty schedule.", "tip": "E.g. \"North department\" and \"South department\".", "cta": "Go to Departments" },
+            "roles": { "title": "Roles & permissions", "desc": "Decide what each role can see and do.", "cta": "Go to Roles" },
+            "employees": { "title": "Invite staff", "desc": "Add your employees so they can log in.", "cta": "Go to Staff" },
+            "import": { "title": "Import from your old system", "desc": "Migrate citizens, staff, journals and schedules from your current system (CSV or Excel).", "cta": "Start import" },
+            "children": { "title": "Create citizens", "desc": "Add the citizens you work with.", "cta": "Go to Citizens" },
+            "childData": { "title": "Master data & contacts", "desc": "Fill in master data, contacts and caseworker.", "cta": "Go to Citizens" },
+            "shiftTypes": { "title": "Create shift types & rules", "desc": "Define shift types and working-time rules.", "cta": "Go to Shift rules" },
+            "shiftTags": { "title": "Add shift tags", "desc": "Tags make it easy to filter shifts later.", "cta": "Go to Shift tags" },
+            "schedule": { "title": "Build the duty schedule", "desc": "Plan the first shifts for your team.", "cta": "Go to Duty schedule" },
+            "medicine": { "title": "Set up medicine", "desc": "Add medicine types and dosage forms.", "cta": "Go to Medicine" },
+            "templates": { "title": "Status templates & plans", "desc": "Set up templates for status, plans and goals.", "cta": "Go to Settings" }
+        }
+    },
     "2fa": {
         "2fa": "Two factor authentication",
         "alert": {
@@ -8123,6 +8180,7 @@
             "calendarTags": "Calendar tags",
             "catalog": "Catalog",
             "company": "Company",
+            "import": "Import",
             "consentDeclarationTypes": "Consent declaration types",
             "contactJobTitles": "Contact job titles",
             "customPages": "Glossary",
@@ -8282,6 +8340,7 @@
         "citizens": "Citizens",
         "companyId": "Company ID",
         "coupons": "Coupons",
+        "discover": "Get started",
         "documents": "Documents",
         "dutySchedules": "Duty schedules",
         "leads": "Leads",
@@ -9214,6 +9273,7 @@
             "companies": "Companies",
             "coupons": "Coupons",
             "dashboard": "Dashboard",
+            "emailTemplates": "Email templates",
             "invoices": "Invoices",
             "orders": "Orders",
             "polls": "Polls",
@@ -9232,6 +9292,21 @@
             "products": "Products",
             "clientRoles": "Roles & Rights",
             "cancellations": "Cancellations"
+        },
+        "emailTemplates": {
+            "title": "Email templates",
+            "subtitle": "Edit the emails the system sends to users.",
+            "subject": "Subject",
+            "body": "Content (HTML)",
+            "preview": "Preview",
+            "placeholders": "Available placeholders",
+            "placeholdersHint": "Click to copy. They are replaced with real values when the email is sent.",
+            "edit": "Edit",
+            "save": "Save",
+            "cancel": "Cancel",
+            "saved": "Email template saved",
+            "locale": "Language",
+            "noTemplates": "No email templates found"
         },
         "users": {
             "confirmation": {

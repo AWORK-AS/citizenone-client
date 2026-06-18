@@ -1,4 +1,61 @@
 {
+    "companyModules": {
+        "Economy": "Økonomi",
+        "Journals": "Journaler",
+        "Medicine card": "Medicinkort",
+        "Plans and goals": "Planer og mål",
+        "Health": "Sundhed",
+        "Documents": "Dokumenter",
+        "Attendance": "Fremmøde",
+        "Calendar": "Kalender",
+        "Contacts": "Kontakter",
+        "Duty Schedule": "Vagtplan",
+        "Employee Group": "Medarbejdergruppe"
+    },
+    "discover": {
+        "welcome": "Velkommen, {name}",
+        "subtitle": "Her er din hurtige guide til at få CitizenOne sat op og i gang for jeres team.",
+        "whatDoYouNeed": "Hvad skal du bruge?",
+        "stepsProgress": "{done} af {total} trin fuldført",
+        "nextStep": "Næste skridt",
+        "ready": {
+            "title": "I er klar til drift!",
+            "desc": "Alle onboarding-trin er fuldført."
+        },
+        "groupProgress": "{done} af {total} fuldført",
+        "lockedHint": "Færdiggør trinnet ovenfor først",
+        "promoTitle": "Arbejd hvor som helst, på enhver enhed",
+        "promoDesc": "Hent appen, så I altid har CitizenOne ved hånden.",
+        "promoCta": "Hent appen",
+        "appInfoMessage": "App-links til App Store og Google Play kommer her i den rigtige version.",
+        "modalIntro": "Vælg de dele I bruger — så viser vi kun de relevante trin.",
+        "modules": {
+            "vagtplan": "Vagtplan",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation (planer, status, dokumenter)"
+        },
+        "groups": {
+            "migration": "Migrering",
+            "komIGang": "Kom i gang",
+            "born": "Borgere",
+            "vagtplan": "Vagtplan",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation"
+        },
+        "steps": {
+            "departments": { "title": "Opret afdelinger", "desc": "Afdelinger strukturerer personale, borgere og vagtplan.", "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".", "cta": "Gå til Afdelinger" },
+            "roles": { "title": "Roller & rettigheder", "desc": "Bestem hvad de forskellige roller må se og gøre.", "cta": "Gå til Roller" },
+            "employees": { "title": "Inviter personale", "desc": "Tilføj jeres medarbejdere, så de kan logge ind.", "cta": "Gå til Personale" },
+            "import": { "title": "Importér fra dit gamle system", "desc": "Migrér borgere, ansatte, journaler og vagtplaner fra dit nuværende system (CSV eller Excel).", "cta": "Start import" },
+            "children": { "title": "Opret borgere", "desc": "Opret de borgere I arbejder med.", "cta": "Gå til Borgere" },
+            "childData": { "title": "Stamdata & kontaktpersoner", "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.", "cta": "Gå til Borgere" },
+            "shiftTypes": { "title": "Opret vagttyper & regler", "desc": "Definér vagttyper og arbejdstidsregler.", "cta": "Gå til Vagtregler" },
+            "shiftTags": { "title": "Tilføj vagt-tags", "desc": "Tags gør det let at filtrere vagter senere.", "cta": "Gå til Vagt-tags" },
+            "schedule": { "title": "Lav vagtplanen", "desc": "Planlæg de første vagter for jeres team.", "cta": "Gå til Vagtplan" },
+            "medicine": { "title": "Opsæt medicin", "desc": "Tilføj medicintyper og doseringsformer.", "cta": "Gå til Medicin" },
+            "templates": { "title": "Statusskabeloner & planer", "desc": "Opsæt skabeloner til status, planer og mål.", "cta": "Gå til Indstillinger" }
+        }
+    },
     "2fa": {
         "2fa": "To-faktor-godkendelse",
         "alert": {
@@ -8096,6 +8153,7 @@
             "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Virksomhed",
+            "import": "Import",
             "consentDeclarationTypes": "Samtykkeerklæringstyper",
             "contactJobTitles": "Kontaktjobtitler",
             "customPages": "Ordliste",
@@ -8255,6 +8313,7 @@
         "citizens": "Borgere",
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
+        "discover": "Kom godt i gang",
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
@@ -9187,6 +9246,7 @@
             "companies": "Virksomheder",
             "coupons": "Kuponer",
             "dashboard": "Dashboard",
+            "emailTemplates": "E-mailskabeloner",
             "invoices": "Fakturaer",
             "orders": "Ordrer",
             "polls": "Afstemninger",
@@ -9205,6 +9265,21 @@
             "products": "Produkter",
             "clientRoles": "Roller & Rettigheder",
             "cancellations": "Opsigelser"
+        },
+        "emailTemplates": {
+            "title": "E-mailskabeloner",
+            "subtitle": "Redigér de e-mails systemet sender til brugerne.",
+            "subject": "Emne",
+            "body": "Indhold (HTML)",
+            "preview": "Forhåndsvisning",
+            "placeholders": "Tilgængelige felter",
+            "placeholdersHint": "Klik for at kopiere. De erstattes med rigtige værdier når mailen sendes.",
+            "edit": "Redigér",
+            "save": "Gem",
+            "cancel": "Annullér",
+            "saved": "E-mailskabelon gemt",
+            "locale": "Sprog",
+            "noTemplates": "Ingen e-mailskabeloner fundet"
         },
         "users": {
             "confirmation": {

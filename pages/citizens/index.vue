@@ -122,6 +122,11 @@
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.importCitizens.importCitizens') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="state.modal.isImportMapperOpen = true"
+                            v-if="isAtLeast('Admin')">
+                            <Icon name="ph:arrows-merge" class="h-4 w-4" aria-hidden="true" />
+                            Importér fra andet system
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="exportCitizens({})"
                             v-if="isAtLeast('Admin') && !isShelterOrCrisisCenter">
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
@@ -340,6 +345,8 @@
 
             <ModulesUserCitizenModalImport :isModalOpen="state.modal.isImportCitizensOpen"
                 @close="state.modal.isImportCitizensOpen = false" />
+            <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.isImportMapperOpen"
+                @close="state.modal.isImportMapperOpen = false" @imported="fetchCitizens()" />
             <ModulesUserCitizenModalPurchaseEmail :isModalOpen="state.modal.isShowPurchaseEmail"
                 @close="state.modal.isShowPurchaseEmail = false" />
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.isShowNote"
@@ -426,6 +433,7 @@ const state = reactive({
     modal: {
         isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
+        isImportMapperOpen: false,
         isSharedJournalsOpen: false,
         isShowNote: false,
         isShowPurchaseEmail: false,
