@@ -97,6 +97,33 @@
             "name": "Name"
         }
     },
+    "attendance": {
+        "absenceReason": "Absence reason",
+        "absenceReasons": "Absence reasons",
+        "citizen": "Citizen",
+        "checkIn": "Check-in",
+        "checkInOut": "Check-in / Check-out",
+        "date": "Date",
+        "generate": "Generate",
+        "in": "In",
+        "monthlyReport": "Monthly attendance report",
+        "noDataForPeriod": "No attendance data found for the selected period",
+        "noParticipantsToday": "No participants enrolled for today",
+        "notRegistered": "Not registered",
+        "out": "Out",
+        "participantList": "Participant list",
+        "pending": "Pending",
+        "period": "Period",
+        "print": "Print",
+        "printedOn": "Printed on",
+        "protocol": "Activity",
+        "selectMonthToGenerate": "Select a month and click Generate",
+        "selectWeekToGenerate": "Select a week and click Generate",
+        "signature": "Signature",
+        "total": "Total",
+        "week": "Week",
+        "weeklyReport": "Weekly attendance report"
+    },
     "caseworkerSharing": {
         "cancel": "Cancel",
         "changePassword": "Change password",
@@ -8169,7 +8196,8 @@
             "employmentCaseTypes": "Case Types",
             "employmentBillingRules": "Billing Rules",
             "employmentJobcenters": "Jobcenters",
-            "employmentAgreements": "Agreements"
+            "employmentAgreements": "Agreements",
+            "gdprRetention": "GDPR Retention"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -10228,6 +10256,8 @@
                 "name": "Name",
                 "color": "Color",
                 "isActive": "Active",
+                "isBillable": "Billable",
+                "isBillableHint": "Weeks with this status are included in billing extraction",
                 "sortOrder": "Sort order",
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Status type successfully saved",
@@ -10292,8 +10322,26 @@
                 "name": "Name",
                 "rate": "Rate",
                 "frequency": "Frequency",
+                "pricingType": "Pricing type",
+                "weeklyRate": "Weekly rate",
+                "hourlyRate": "Hourly rate",
+                "bonusAmount": "Bonus amount",
+                "bonusConditionMonths": "Trigger condition (months employed)",
+                "bonusConditionMonthsHint": "Bonus is triggered when the citizen has been employed for this many months",
+                "invoiceDataSection": "Invoice data",
+                "customerNumber": "Customer number",
+                "productNumber": "Product number",
                 "description": "Description",
                 "isActive": "Active",
+                "pricingTypeOptions": {
+                    "weekly": "Weekly pricing",
+                    "hourly": "Hourly pricing",
+                    "bonus": "Bonus-based pricing"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 months",
+                    "six": "6 months"
+                },
                 "frequencyOptions": {
                     "hourly": "Hourly",
                     "daily": "Daily",
@@ -10321,7 +10369,10 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Billing rule successfully deleted"
-                }
+                },
+                "pricingType": "Pricing type",
+                "customerNumber": "Customer no.",
+                "productNumber": "Product no."
             }
         },
         "cases": {
@@ -10443,6 +10494,105 @@
                 "name": "Name",
                 "sortOrder": "Sort order"
             }
+        },
+        "billing": {
+            "billing": "Billing",
+            "extraction": "Billing extraction",
+            "fromDate": "From date",
+            "toDate": "To date",
+            "generate": "Generate",
+            "markAsInvoiced": "Mark as invoiced",
+            "markSelected": "Mark selected as invoiced",
+            "invoiced": "Invoiced",
+            "notInvoiced": "Not invoiced",
+            "citizen": "Citizen",
+            "cpr": "CPR number",
+            "period": "Billing period",
+            "pricePerWeek": "Price / week",
+            "pricePerHour": "Price / hour",
+            "weeks": "Weeks",
+            "hours": "Hours",
+            "bonus": "Bonus",
+            "total": "Total",
+            "customerNumber": "Customer number",
+            "productNumber": "Product number",
+            "agreement": "Agreement",
+            "consultant": "Consultant",
+            "excludeWeek": "Exclude week",
+            "includeWeek": "Include week",
+            "noData": "No billing data found for the selected period",
+            "selectPeriod": "Select a period to generate billing data",
+            "invoicedOn": "Invoiced on",
+            "alert": {
+                "markedAsInvoiced": "Selected entries marked as invoiced",
+                "weekExcluded": "Week excluded from billing",
+                "weekIncluded": "Week included in billing"
+            },
+            "billingWeeks": "Billing weeks",
+            "week": "Week",
+            "excluded": "Excluded",
+            "billable": "Billable",
+            "noBillingWeeks": "No billing weeks found for this case",
+            "billableWeeks": "billable weeks",
+            "excludedWeeks": "excluded weeks"
+        },
+        "revenue": {
+            "revenue": "Revenue",
+            "report": "Revenue report",
+            "consultant": "Consultant",
+            "citizens": "Citizens handled",
+            "weeklyBilling": "Weekly billing",
+            "hourlyBilling": "Hourly billing",
+            "bonuses": "Bonuses",
+            "totalRevenue": "Total revenue",
+            "fromDate": "From date",
+            "toDate": "To date",
+            "generate": "Generate",
+            "noData": "No revenue data found for the selected period"
         }
-    }
+    },
+    "gdpr": {
+        "retention": {
+            "title": "GDPR Data Retention",
+            "retentionPeriod": "Retention period",
+            "retentionPeriodHint": "Data will be scheduled for deletion after this period following case completion.",
+            "retentionMonths": "Retention period",
+            "months": "{n} months",
+            "monthsShort": "mo.",
+            "autoDelete": "Automatic deletion",
+            "autoDeleteHint": "Automatically schedule citizens for deletion when the retention period expires.",
+            "notifyBeforeDeletion": "Notify before deletion",
+            "notifyBeforeDeletionHint": "Send a notification before a scheduled deletion is executed.",
+            "settingsSaved": "Retention settings saved",
+            "scheduledDeletions": "Scheduled deletions",
+            "viewDeletionLog": "View deletion log",
+            "noScheduledDeletions": "No citizens are currently scheduled for deletion.",
+            "citizen": "Citizen",
+            "caseCompletedOn": "Case completed on",
+            "scheduledFor": "Scheduled for",
+            "daysRemaining": "Days remaining",
+            "days": "days",
+            "cancelDeletion": "Cancel deletion",
+            "cancelDeletionConfirmation": "Are you sure you want to cancel the scheduled deletion for this citizen",
+            "deletionCancelled": "Scheduled deletion cancelled"
+        },
+        "deletionLog": {
+            "title": "Deletion log",
+            "fromDate": "From date",
+            "toDate": "To date",
+            "trigger": "Trigger",
+            "allTriggers": "All triggers",
+            "triggerSystem": "System",
+            "triggerUser": "User",
+            "citizen": "Citizen",
+            "deletedAt": "Deleted at",
+            "retentionMonths": "Retention",
+            "deletedBy": "Deleted by",
+            "noEntries": "No deletion log entries found.",
+            "restore": "Restore",
+            "restoreConfirmation": "Are you sure you want to restore this citizen",
+            "citizenRestored": "Citizen successfully restored"
+        }
+    },
+    "selectAll": "Select all"
 }

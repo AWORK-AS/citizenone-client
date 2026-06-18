@@ -150,6 +150,33 @@ class EmploymentService extends BaseAPIService {
     async deleteCase(uuid: any): Promise<any> {
         return await this.request(`/user/employment/cases/${uuid}`, 'DELETE')
     }
+
+    // Billing — Week-level tracking
+    async getCaseBillingWeeks(caseUuid: string, params: object = {}): Promise<any> {
+        return await this.request(`/user/employment/cases/${caseUuid}/billing-weeks`, 'GET', params)
+    }
+
+    async excludeWeekFromBilling(caseUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/employment/cases/${caseUuid}/billing-weeks/exclude`, 'POST', params)
+    }
+
+    async includeWeekInBilling(caseUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/employment/cases/${caseUuid}/billing-weeks/include`, 'POST', params)
+    }
+
+    // Billing — Extraction
+    async getBillingExtraction(params: object): Promise<any> {
+        return await this.request(`/user/employment/billing/extraction`, 'GET', params)
+    }
+
+    async markWeeksAsInvoiced(params: object): Promise<any> {
+        return await this.request(`/user/employment/billing/mark-invoiced`, 'POST', params)
+    }
+
+    // Revenue — Consultant report
+    async getRevenueReport(params: object): Promise<any> {
+        return await this.request(`/user/employment/billing/revenue-report`, 'GET', params)
+    }
 }
 
 export const employmentService = new EmploymentService()

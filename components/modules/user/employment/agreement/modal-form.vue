@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form @submit.prevent="submitForm()" class="mt-6 max-w-xl">
+        <form @submit.prevent="submitForm()" class="mt-4">
             <Alert type="danger" :text="props?.error?.message"
                 v-if="props.error?.message && props.error.message.length > 0" />
             <div class="space-y-3">
@@ -52,12 +52,11 @@
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FormButton type="button" buttonStyle="cancel"
-                        @click="navigateTo('/settings/employment-agreements')">
+                    <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                         {{ $t('cancel') }}
                     </FormButton>
                     <FormButton type="submit" buttonStyle="primary">
-                        {{ props.formType === 'create' ? $t('save') : $t('update') }}
+                        {{ $t('save') }}
                     </FormButton>
                 </div>
             </div>
@@ -77,15 +76,12 @@ import type { Error } from '@/types'
 
 const props = defineProps({
     error: { type: Object, required: false },
-    formType: { type: String, required: true },
-    selectedAgreement: { type: Object, required: false },
 })
-const emit = defineEmits(['isPageLoading', 'submitForm'])
+const emit = defineEmits(['submitForm', 'closeModal', 'isPageLoading'])
 
 const { t } = useI18n()
 
 const state = reactive({
-    error: {} as Error,
     formAgreement: {
         name: '',
         jobcenter_uuid: null as string | null,
@@ -104,19 +100,6 @@ const state = reactive({
 
 onMounted(() => { fetchJobcenters() })
 
-watch(() => props.selectedAgreement, (newValue: any) => {
-    if (newValue != null) {
-        state.formAgreement = {
-            name: newValue.name ?? '',
-            jobcenter_uuid: newValue.jobcenter?.uuid ?? null,
-            description: newValue.description ?? '',
-            default_duration_weeks: newValue.default_duration_weeks ?? null,
-            sort_order: newValue.sort_order ?? 0,
-            is_active: newValue.is_active ?? true,
-        }
-    }
-})
-
 function onJobcenterCreated(newJobcenter: any) {
     state.options.jobcenters.push({ value: newJobcenter.uuid, label: newJobcenter.name })
     state.formAgreement.jobcenter_uuid = newJobcenter.uuid
@@ -132,9 +115,7 @@ async function fetchJobcenters() {
                 label: item.name,
             }))
         }
-    } catch (error: any) {
-        // silently fail — jobcenters are optional
-    }
+    } catch { /* silently fail — jobcenters are optional */ }
     emit('isPageLoading', false)
 }
 
@@ -149,7 +130,6 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, state)
 
 function submitForm() {
-    state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
         emit('submitForm', state.formAgreement)

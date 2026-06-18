@@ -8169,7 +8169,8 @@
             "employmentCaseTypes": "Sagstyper",
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Jobcentre",
-            "employmentAgreements": "Aftaler"
+            "employmentAgreements": "Aftaler",
+            "gdprRetention": "GDPR Opbevaring"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -10232,7 +10233,9 @@
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Statustype gemt",
                     "statusTypeSuccessfullyUpdated": "Statustype opdateret"
-                }
+                },
+                "isBillable": "Fakturerbar",
+                "isBillableHint": "Uger med denne status medtages i faktureringsudtræk"
             },
             "table": {
                 "name": "Navn",
@@ -10304,6 +10307,24 @@
                 "alert": {
                     "newBillingRuleSuccessfullySaved": "Faktureringsregel gemt",
                     "billingRuleSuccessfullyUpdated": "Faktureringsregel opdateret"
+                },
+                "pricingType": "Prismodel",
+                "weeklyRate": "Ugentlig pris",
+                "hourlyRate": "Timepris",
+                "bonusAmount": "Bonusbeløb",
+                "bonusConditionMonths": "Udløsningsbetingelse (måneders ansættelse)",
+                "bonusConditionMonthsHint": "Bonus udløses, når borgeren har været ansat i dette antal måneder",
+                "invoiceDataSection": "Fakturadata",
+                "customerNumber": "Kundenummer",
+                "productNumber": "Produktnummer",
+                "pricingTypeOptions": {
+                    "weekly": "Ugentlig prissætning",
+                    "hourly": "Timebaseret prissætning",
+                    "bonus": "Bonusbaseret prissætning"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 måneder",
+                    "six": "6 måneder"
                 }
             },
             "table": {
@@ -10321,7 +10342,10 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Faktureringsregel slettet"
-                }
+                },
+                "pricingType": "Prismodel",
+                "customerNumber": "Kundenr.",
+                "productNumber": "Produktnr."
             }
         },
         "cases": {
@@ -10443,6 +10467,132 @@
                 "name": "Navn",
                 "sortOrder": "Sorteringsrækkefølge"
             }
+        },
+        "billing": {
+            "billing": "Fakturering",
+            "extraction": "Faktureringsudtræk",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generér",
+            "markAsInvoiced": "Markér som faktureret",
+            "markSelected": "Markér valgte som faktureret",
+            "invoiced": "Faktureret",
+            "notInvoiced": "Ikke faktureret",
+            "citizen": "Borger",
+            "cpr": "CPR-nummer",
+            "period": "Faktureringsperiode",
+            "pricePerWeek": "Pris / uge",
+            "pricePerHour": "Pris / time",
+            "weeks": "Uger",
+            "hours": "Timer",
+            "bonus": "Bonus",
+            "total": "Total",
+            "customerNumber": "Kundenummer",
+            "productNumber": "Produktnummer",
+            "agreement": "Aftale",
+            "consultant": "Konsulent",
+            "excludeWeek": "Ekskludér uge",
+            "includeWeek": "Inkludér uge",
+            "noData": "Ingen faktureringsdata fundet for den valgte periode",
+            "selectPeriod": "Vælg en periode for at generere faktureringsdata",
+            "invoicedOn": "Faktureret den",
+            "alert": {
+                "markedAsInvoiced": "Valgte poster markeret som faktureret",
+                "weekExcluded": "Uge ekskluderet fra fakturering",
+                "weekIncluded": "Uge inkluderet i fakturering"
+            },
+            "billingWeeks": "Faktureringsuge",
+            "week": "Uge",
+            "excluded": "Udelukket",
+            "billable": "Fakturerbar",
+            "noBillingWeeks": "Ingen faktureringsuge fundet for dette forløb",
+            "billableWeeks": "fakturerbare uger",
+            "excludedWeeks": "udelukkede uger"
+        },
+        "revenue": {
+            "revenue": "Omsætning",
+            "report": "Omsætningsrapport",
+            "consultant": "Konsulent",
+            "citizens": "Håndterede borgere",
+            "weeklyBilling": "Ugentlig fakturering",
+            "hourlyBilling": "Timebaseret fakturering",
+            "bonuses": "Bonusser",
+            "totalRevenue": "Samlet omsætning",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generér",
+            "noData": "Ingen omsætningsdata fundet for den valgte periode"
         }
-    }
+    },
+    "attendance": {
+        "absenceReason": "Fraværsårsag",
+        "absenceReasons": "Fraværsårsager",
+        "citizen": "Borger",
+        "checkIn": "Check-in",
+        "checkInOut": "Check-in / Check-out",
+        "date": "Dato",
+        "generate": "Generér",
+        "in": "Ind",
+        "monthlyReport": "Månedlig fremmøderapport",
+        "noDataForPeriod": "Ingen fremmødedata fundet for den valgte periode",
+        "noParticipantsToday": "Ingen deltagere tilmeldt i dag",
+        "notRegistered": "Ikke registreret",
+        "out": "Ud",
+        "participantList": "Deltagerliste",
+        "pending": "Afventer",
+        "period": "Periode",
+        "print": "Udskriv",
+        "printedOn": "Udskrevet den",
+        "protocol": "Aktivitet",
+        "selectMonthToGenerate": "Vælg en måned og klik Generér",
+        "selectWeekToGenerate": "Vælg en uge og klik Generér",
+        "signature": "Underskrift",
+        "total": "Total",
+        "week": "Uge",
+        "weeklyReport": "Ugentlig fremmøderapport"
+    },
+    "gdpr": {
+        "retention": {
+            "title": "GDPR Dataopbevaring",
+            "retentionPeriod": "Opbevaringsperiode",
+            "retentionPeriodHint": "Data planlægges til sletning efter denne periode efter sagens afslutning.",
+            "retentionMonths": "Opbevaringsperiode",
+            "months": "{n} måneder",
+            "monthsShort": "mdr.",
+            "autoDelete": "Automatisk sletning",
+            "autoDeleteHint": "Planlæg automatisk borgere til sletning, når opbevaringsperioden udløber.",
+            "notifyBeforeDeletion": "Notificer inden sletning",
+            "notifyBeforeDeletionHint": "Send en notifikation, inden en planlagt sletning udføres.",
+            "settingsSaved": "Opbevaringsindstillinger gemt",
+            "scheduledDeletions": "Planlagte sletninger",
+            "viewDeletionLog": "Se sletningslog",
+            "noScheduledDeletions": "Ingen borgere er i øjeblikket planlagt til sletning.",
+            "citizen": "Borger",
+            "caseCompletedOn": "Sag afsluttet den",
+            "scheduledFor": "Planlagt til",
+            "daysRemaining": "Dage tilbage",
+            "days": "dage",
+            "cancelDeletion": "Annuller sletning",
+            "cancelDeletionConfirmation": "Er du sikker på, at du vil annullere den planlagte sletning for denne borger",
+            "deletionCancelled": "Planlagt sletning annulleret"
+        },
+        "deletionLog": {
+            "title": "Sletningslog",
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "trigger": "Udløser",
+            "allTriggers": "Alle udløsere",
+            "triggerSystem": "System",
+            "triggerUser": "Bruger",
+            "citizen": "Borger",
+            "deletedAt": "Slettet den",
+            "retentionMonths": "Opbevaring",
+            "deletedBy": "Slettet af",
+            "noEntries": "Ingen sletningslogposter fundet.",
+            "restore": "Gendan",
+            "restoreConfirmation": "Er du sikker på, at du vil gendanne denne borger",
+            "citizenRestored": "Borger gendannet"
+        }
+    },
+    "selectAll": "Vælg alle"
 }

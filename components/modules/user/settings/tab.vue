@@ -117,6 +117,15 @@ watch(() => userStore.getUser, (newValue: any) => {
                         'settings-time-logs'
                     ]
                 },
+                ...(newValue?.company?.industry?.system_name === 'employment_services' ? [{
+                    name: 'settings.tabs.gdprRetention',
+                    isTranslateName: true,
+                    href: `/settings/gdpr-retention`,
+                    routeNames: [
+                        'settings-gdpr-retention',
+                        'settings-gdpr-retention-deletion-log',
+                    ]
+                }] : []),
                 {
                     name: 'settings.tabs.other',
                     isTranslateName: true,
