@@ -2,8 +2,6 @@
     <div class="space-y-5">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <Alert type="danger" :text="state?.errorUpdateShift?.message"
-            v-if="state.errorUpdateShift?.message && state.errorUpdateShift.message.length > 0" />
         <Alert type="danger" :text="state?.copyShiftError?.message"
             v-if="state.copyShiftError?.message && state.copyShiftError.message.length > 0" />
         <LoadingSpinner :isActive="state.isPageLoading">
@@ -482,6 +480,33 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="flex items-center gap-1 px-2.5 pb-1.5"
+                                                                v-if="shift?.shift_span_position">
+                                                                <div v-if="shift.shift_span_position === 'start'"
+                                                                    class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                    <Icon name="ph:arrow-right"
+                                                                        class="w-3 h-3 text-white flex-shrink-0" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{
+                                                                            $t('dutySchedules.shiftSpan.start') }}</span>
+                                                                </div>
+                                                                <div v-if="shift.shift_span_position === 'middle'"
+                                                                    class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                    <Icon name="ph:arrows-horizontal"
+                                                                        class="w-3 h-3 text-white flex-shrink-0" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{
+                                                                            $t('dutySchedules.shiftSpan.middle') }}</span>
+                                                                </div>
+                                                                <div v-if="shift.shift_span_position === 'end'"
+                                                                    class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
+                                                                    <Icon name="ph:arrow-left"
+                                                                        class="w-3 h-3 text-white flex-shrink-0" />
+                                                                    <span class="text-xxs font-medium"
+                                                                        style="color:white">{{
+                                                                            $t('dutySchedules.shiftSpan.end') }}</span>
+                                                                </div>
+                                                            </div>
                                                             <div :class="[
                                                                 shift?.citizen_schedules?.length > 0 && 'mt-1'
                                                             ]" v-if="shift?.citizen_schedules?.length > 0">
@@ -518,7 +543,7 @@
                                                             </div>
                                                             <button
                                                                 class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
-                                                                @click="removeShift(week, employeeIndex, weekIndex, shift, shiftIndex)"
+                                                                @click="removeShiftConfirmation(shift)"
                                                                 v-if="isAtLeast('Admin')">
                                                                 <Tooltip position="left"
                                                                     :text="$t('dutySchedules.removeSchedule.removeSchedule')">
@@ -605,6 +630,13 @@
                 :isModalOpen="state.modal.isCopyMultipleWeeklyScheduleOpen"
                 @close="state.modal.isCopyMultipleWeeklyScheduleOpen = false"
                 @refreshDutySchedules="fetchDraftDutySchedule()" />
+            <ModulesUserDutyScheduleModalRemoveShiftConfirmation
+                :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
+                @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
+            <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
+                :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
+                @close="state.modal.isRemoveShiftSpanConfirmationOpen = false"
+                @confirm-single="removeShift" @confirm-entire="removeEntireShiftSpan" />
         </LoadingSpinner>
     </div>
 </template>
@@ -669,7 +701,12 @@ const state = reactive({
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
         isAnnualNormHoursInfoOpen: false,
+        isRemoveShiftConfirmationOpen: false,
+        isRemoveShiftSpanConfirmationOpen: false,
     } as any,
+    removeShift: {
+        selectedShift: {} as any,
+    },
     newShift: {
         selectedDate: '',
         selectedEmployee: {},
@@ -990,7 +1027,7 @@ function nextWeek() {
 }
 
 const weekNumber = computed(() => {
-    return moment(currentDate.value).week()
+    return moment(currentDate.value).isoWeek()
 })
 
 const weekDays = computed(() => {
@@ -1274,14 +1311,47 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
     }
 }
 
-async function removeShift(week: any, employeeIndex: number, weekIndex: number, shift: any, shiftIndex: number) {
+function removeShiftConfirmation(shift: any) {
+    state.removeShift.selectedShift = shift
+    if (shift.shift_span_position !== 'single') {
+        state.modal.isRemoveShiftSpanConfirmationOpen = true
+        return
+    }
+    state.modal.isRemoveShiftConfirmationOpen = true
+}
+
+async function removeShift() {
     state.isRemoveShift = true
-    const scheduleUuid = shift.schedule_uuid
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
         identifyTheProgressPercentage()
         const response = await draftTemplateScheduleService.deleteDraftDutySchedule(scheduleUuid)
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDraftDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    } finally {
+        state.isRemoveShift = false
+    }
+}
+
+async function removeEntireShiftSpan() {
+    state.isRemoveShift = true
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await draftTemplateScheduleService.deleteDraftDutySchedule(scheduleUuid, { delete_entire_shift: true })
         if (response) {
             state.progress.totalRequests = state.progress.totalRequests - 1
             state.progress.pendingRequests = state.progress.pendingRequests - 1
@@ -1368,6 +1438,7 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
     } finally {
+        state.editShiftError = errorUpdateShift
         state.errorUpdateShift = errorUpdateShift
         state.isUpdateShift = false
         fetchDraftDutySchedule()

@@ -193,7 +193,7 @@
                                     :position="dayIndex === 0 ? 'right' : 'left'" v-for="(day, dayIndex) in weekDays"
                                     :key="day.date"
                                     :class="['relative cursor-pointer hover:bg-blue-50/50 flex flex-col items-center justify-center py-2 sm:py-3 border-0.5 transition-colors', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
-                                    @click="openManageScheduleSlotModal(day)" v-if="isAtLeast('Admin')">
+                                    @click="openManageScheduleSlotModal(day)" v-if="hasScheduleManageAccess">
                                     <span class="flex gap-x-1 text-sm">
                                         <span v-if="day.longName === 'Mon'">
                                             {{ $t('calendar.week.short.Monday') }}
@@ -234,7 +234,7 @@
                                 <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
                                     :key="day.date"
                                     :class="['relative flex flex-col items-center justify-center py-2 sm:py-3 pb-5 sm:pb-6 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
-                                    v-if="!isAtLeast('Admin')">
+                                    v-if="!hasScheduleManageAccess">
                                     <span class="flex gap-x-1 text-sm">
                                         <span v-if="day.longName === 'Mon'">
                                             {{ $t('calendar.week.short.Monday') }}
@@ -384,7 +384,7 @@
                                                         </Tooltip>
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.extraHours.extraHours')"
-                                                            v-if="isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid">
+                                                            v-if="hasScheduleManageAccess || userStore.getUser?.uuid === employee?.uuid">
                                                             <button
                                                                 class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                                 @click="viewExtraHours(employee)">
@@ -1274,6 +1274,7 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        schedule_tag_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -1382,6 +1383,8 @@ const hasUpdatePermission = computed(() => {
 const hasDeletePermission = computed(() => {
     return !!userStore.user?.permissions?.find((permission: any) => permission.name === 'delete_schedule')
 })
+
+const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || hasUpdatePermission.value)
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
     if (newPercentage < 100) {
@@ -1548,6 +1551,9 @@ async function fetchDutySchedule() {
         if (state.filter.employee_uuids?.length > 0) {
             params.employee_uuids = Array(state.filter.employee_uuids)
         }
+        if (state.filter.schedule_tag_uuids?.length > 0) {
+            params.schedule_tag_uuids = Array(state.filter.schedule_tag_uuids)
+        }
         if (state.filter.time_from) {
             params.time_from = state.filter.time_from
         }
@@ -1594,6 +1600,7 @@ function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    state.filter.schedule_tag_uuids = filter.schedule_tag_uuids ?? []
     state.filter.time_from = filter.time_from ?? ''
     state.filter.time_to = filter.time_to ?? ''
     emit('setDutyScheduleCurrentFilter', state.filter)
@@ -1720,7 +1727,7 @@ function nextWeek() {
 }
 
 const weekNumber = computed(() => {
-    return moment(currentDate.value).week()
+    return moment(currentDate.value).isoWeek()
 })
 
 const weekDays = computed(() => {

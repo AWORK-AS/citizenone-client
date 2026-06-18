@@ -19,9 +19,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserEmploymentCaseTypeForm formType="create"
-                        :selectedCaseType="state.formCaseType" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                    <ModulesUserEmploymentCaseTypeForm formType="create" :selectedCaseType="state.formCaseType"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="saveCaseType" />
                 </LoadingSpinner>
             </div>

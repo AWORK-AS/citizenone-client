@@ -12,9 +12,13 @@
 
             <template #header>
                 <div class="flex items-center gap-x-4">
-                    <span>
-                        {{ $t('overview.overview') }}
-                    </span>
+                    <div class="flex items-center gap-x-6">
+                        <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                            @click="navigateTo('/discover')">Discover</span>
+                        <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
+                            {{ $t('overview.overview') }}
+                        </span>
+                    </div>
                     <!-- Date navigator -->
                     <div
                         class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
@@ -81,7 +85,7 @@
                         {{ $t('overview.citizensEvents') }}
                     </div>
                     <div class="mt-2 stat-value text-primary">
-                        {{ state.stats.citizenCalendarEvents?.data?.length ?? 0 }}
+                        <CountUp :value="Number(state.stats.citizenCalendarEvents?.data?.length ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
                         {{ $t('overview.stats.ongoing') }} |
@@ -94,7 +98,7 @@
                         {{ $t('overview.stats.journalEntries') || 'Journal entries' }}
                     </div>
                     <div class="mt-2 stat-value text-accent-green">
-                        {{ state.stats.latestCitizensJournal?.data?.length ?? 0 }}
+                        <CountUp :value="Number(state.stats.latestCitizensJournal?.data?.length ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
                         {{ $t('overview.stats.acrossCitizens') }}
@@ -106,7 +110,7 @@
                         {{ $t('overview.stats.medicationsDue') || 'Medications due' }}
                     </div>
                     <div class="mt-2 stat-value text-accent-orange">
-                        {{ state.stats.medicinesPendingCount }}
+                        <CountUp :value="Number(state.stats.medicinesPendingCount ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
                         {{ state.stats.medicinesGivenCount }}
@@ -124,20 +128,48 @@
                         {{ $t('overview.stats.activeTreatments') }}
                     </div>
                     <div class="mt-2 stat-value text-green-600">
-                        {{ state.stats.activeTreatmentsCount }}
+                        <CountUp :value="Number(state.stats.activeTreatmentsCount ?? 0)" />
                     </div>
                     <div class="stat-sublabel flex items-center gap-1">
                         {{ $t('overview.stats.viewAll') }}
                         <Icon name="ph:arrow-right" class="size-3" />
                     </div>
                 </div>
+                <!-- Birthdays: today's are shown, the rest open in a popup (hidden when none) -->
+                <div class="stat-card" v-if="state.stats.birthdays.length > 0">
+                    <div class="stat-label">
+                        <Icon name="ph:cake" class="h-4 w-4 text-accent-orange" />
+                        {{ todaysBirthdays.length > 0 ? $t('overview.birthdays.todayTitle') : $t('overview.birthdays.title') }}
+                        <span class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
+                            {{ todaysBirthdays.length > 0 ? todaysBirthdays.length : state.stats.birthdays.length }}
+                        </span>
+                    </div>
+                    <ul v-if="todaysBirthdays.length > 0" class="mt-2 space-y-1.5 max-h-24 overflow-y-auto pr-1">
+                        <li v-for="(birthday, birthdayIndex) in todaysBirthdays" :key="birthdayIndex"
+                            class="flex items-center justify-between gap-x-2 text-xs font-semibold text-primary">
+                            <span class="truncate">{{ birthday.name }}</span>
+                            <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</span>
+                        </li>
+                    </ul>
+                    <button v-if="laterBirthdaysCount > 0 || todaysBirthdays.length === 0" type="button"
+                        @click="state.modal.isBirthdaysOpen = true"
+                        class="mt-2 inline-flex items-center gap-x-1 text-xs text-primary font-medium hover:text-primary-700 transition-colors">
+                        <template v-if="todaysBirthdays.length > 0">
+                            {{ $t('overview.birthdays.moreThisWeek', { count: laterBirthdaysCount }) }}
+                        </template>
+                        <template v-else>
+                            {{ $t('overview.birthdays.countThisWeek', { count: state.stats.birthdays.length }) }}
+                        </template>
+                        <Icon name="ph:arrow-right" class="size-3" />
+                    </button>
+                </div>
             </div>
 
             <!-- Main content grid -->
-            <div class="mt-6 space-y-6">
+            <div class="mt-8 space-y-10">
                 <!-- Citizens' events + Latest journal notes row -->
                 <!-- Medication overview and Follow-up reminders row -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6 stagger-children" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
                     overviewStore.getDailyOverviewFilter.showLatestJournal ||
                     overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
                     overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders ||
@@ -259,6 +291,10 @@
                         v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
                 </div>
 
+                <!-- Statistics (collapsible; collapsed by default to keep the dashboard calm) -->
+                <CollapsibleSection v-if="showStatisticsSection" :title="$t('overview.statistics')"
+                    :default-open="false" storage-key="overview-statistics">
+                    <div class="space-y-10">
                 <!-- Statistics grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
                     overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
@@ -320,6 +356,8 @@
                         <ModulesUserDailyOverviewUseOfForceStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
                 </div>
+                    </div>
+                </CollapsibleSection>
 
                 <!-- Schedule + Plans -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
@@ -358,6 +396,39 @@
                 @close="state.modal.isDateRangeHelperOpen = false" />
             <ModulesUserDailyOverviewQuickRiskAssessmentModalNew :isModalOpen="state.modal.isQuickRiskAssessmentOpen"
                 @close="state.modal.isQuickRiskAssessmentOpen = false" />
+            <Modal size="sm" :title="$t('overview.birthdays.title')" :show="state.modal.isBirthdaysOpen"
+                @close="state.modal.isBirthdaysOpen = false">
+                <template #modal-body>
+                    <ul class="space-y-2 max-h-96 overflow-y-auto pr-1">
+                        <li v-for="(birthday, birthdayIndex) in state.stats.birthdays" :key="birthdayIndex"
+                            class="flex items-center justify-between gap-x-3 rounded-xl border px-3 py-2.5 transition-colors"
+                            :class="birthday.days_until === 0 ? 'border-primary/30 bg-primary/5' : 'border-slate-100 hover:bg-slate-50'">
+                            <div class="flex items-center gap-x-3 min-w-0">
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold"
+                                    :class="birthday.type === 'staff' ? 'bg-slate-100 text-slate-600' : 'bg-emerald-50 text-emerald-700'">
+                                    {{ getInitials(birthday.name) }}
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-x-2">
+                                        <span class="truncate font-medium text-slate-900">{{ birthday.name }}</span>
+                                        <span class="shrink-0 rounded-full px-2 py-0.5 text-[11px]"
+                                            :class="birthday.type === 'staff' ? 'bg-slate-100 text-slate-500' : 'bg-emerald-50 text-emerald-600'">
+                                            {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') : $t('overview.birthdays.child') }}
+                                        </span>
+                                    </div>
+                                    <div class="text-xs text-slate-400">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</div>
+                                </div>
+                            </div>
+                            <span class="inline-flex shrink-0 items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-medium"
+                                :class="birthday.days_until === 0 ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'">
+                                <Icon v-if="birthday.days_until === 0" name="ph:cake-fill" class="h-3.5 w-3.5" />
+                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today') }}</template>
+                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until }) }}</template>
+                            </span>
+                        </li>
+                    </ul>
+                </template>
+            </Modal>
             <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDailyOverviewOpen = false" />
@@ -383,6 +454,17 @@ const breadcrumbLinks = [
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const departmentStore = useDepartmentStore()
+
+// True when any statistics widget is enabled — guards the collapsible Statistics
+// section so an empty header never shows.
+const showStatisticsSection = computed(() => {
+    const f = overviewStore.getDailyOverviewFilter
+    return f.showCitizensAdmissionAndDischarged || f.showCitizensOrigin || f.showCitizensAddictions
+        || f.showCitizensDiagnoses || f.showRiskAssessment || f.showGender
+        || f.showStatusesScoreStatistics || f.showGoalsScoreStatistics || f.showIncidentStatistics
+        || f.showMedicineDeviationStatistics || f.showJournalScoreStatistics || f.showSubgoalsScoreStatistics
+        || f.showUseOfForceStatistics
+})
 const userStore = useUserStore() as any
 const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)
@@ -403,6 +485,7 @@ const state = reactive({
         isFilterDailyOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
         isQuickRiskAssessmentOpen: false,
+        isBirthdaysOpen: false,
     },
     stats: {
         citizenCalendarEvents: [],
@@ -412,11 +495,27 @@ const state = reactive({
         medicinesGivenCount: 0,
         medicinesPendingCount: 0,
         activeTreatmentsCount: 0,
+        birthdays: [],
     } as any,
 })
 
+function getInitials(name: string) {
+    const parts = (name ?? '').trim().split(/\s+/).filter(Boolean)
+    if (parts.length === 0) return '?'
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase()
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase()
+}
+
+const todaysBirthdays = computed(() => (state.stats.birthdays ?? []).filter((birthday: any) => birthday.days_until === 0))
+const laterBirthdaysCount = computed(() => (state.stats.birthdays ?? []).length - todaysBirthdays.value.length)
+
 onMounted(() => {
     scrollToNewsIfNeeded()
+    fetchUpcomingBirthdays()
+})
+
+watch(() => departmentStore.getSelectedDepartmentName, () => {
+    fetchUpcomingBirthdays()
 })
 
 watch(() => userStore.getUser, (user: any) => {
@@ -534,6 +633,19 @@ async function fetchCitizenCalendarEvents(dateRange: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function fetchUpcomingBirthdays() {
+    try {
+        const response = await dailyOverviewService.getUpcomingBirthdays({
+            department: departmentStore.getSelectedDepartmentName,
+        })
+        if (response) {
+            state.stats.birthdays = response.data ?? []
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function fetchCitizensLatestJournal(dateRange: any) {

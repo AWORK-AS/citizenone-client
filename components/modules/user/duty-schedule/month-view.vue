@@ -238,7 +238,7 @@
                                     <button
                                         class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center"
                                         @click="viewExtraHours(employee)"
-                                        v-if="isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid">
+                                        v-if="hasScheduleManageAccess || userStore.getUser?.uuid === employee?.uuid">
                                         <Icon name="mdi:clock-outline" class="h-3 w-3" />
                                     </button>
                                     <button
@@ -447,7 +447,7 @@
                         <div class="grid grid-cols-7 border-b border-gray-200 bg-gray-50/80 sticky top-0 z-20">
                             <template v-for="(day, dayIndex) in week.days" :key="'wh-' + dayIndex">
                                 <!-- Admin: clickable with tooltip + slot badge -->
-                                <Tooltip v-if="isAtLeast('Admin')"
+                                <Tooltip v-if="hasScheduleManageAccess"
                                     :text="day !== null ? $t('dutySchedules.scheduleSlots.scheduleSlots') : ''"
                                     :position="dayIndex === 0 ? 'right' : 'left'" :class="[
                                         isToday(day) && 'bg-primary/10',
@@ -973,6 +973,7 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        schedule_tag_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -1178,12 +1179,18 @@ function getHoliday(day: any) {
 // Permissions
 // ============================================================
 const hasCreatePermission = computed(() => {
-    return userStore.getUser?.permissions?.includes('duty-schedule.create') || false
+    return !!userStore.getUser?.permissions?.find((p: any) => p.name === 'create_schedule')
+})
+
+const hasUpdatePermission = computed(() => {
+    return !!userStore.getUser?.permissions?.find((p: any) => p.name === 'update_schedule')
 })
 
 const hasDeletePermission = computed(() => {
-    return userStore.getUser?.permissions?.includes('duty-schedule.delete') || false
+    return !!userStore.getUser?.permissions?.find((p: any) => p.name === 'delete_schedule')
 })
+
+const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || hasUpdatePermission.value)
 
 
 // ============================================================
@@ -1214,6 +1221,7 @@ async function fetchDutySchedule() {
         if (state.filter.department_uuids?.length > 0) params.department_uuids = Array(state.filter.department_uuids)
         if (state.filter.employment_status) params.employment_status = Array(state.filter.employment_status)
         if (state.filter.employee_uuids?.length > 0) params.employee_uuids = Array(state.filter.employee_uuids)
+        if (state.filter.schedule_tag_uuids?.length > 0) params.schedule_tag_uuids = Array(state.filter.schedule_tag_uuids)
         if (state.filter.time_from) params.time_from = state.filter.time_from
         if (state.filter.time_to) params.time_to = state.filter.time_to
         const response = await dutyScheduleService.getDutySchedulesMonthView(params)

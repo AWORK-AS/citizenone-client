@@ -669,6 +669,7 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        schedule_tag_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -889,14 +890,15 @@ function openGuidedTour() {
 
 function setDutyScheduleCurrentDate(selectedDate: any) {
     state.selectedDate = selectedDate
-
-    state.dutyScheduleCurrentDate = date
+    // Bug: previously assigned an undefined `date` here, throwing a ReferenceError
+    // on every week navigation (the week-view emits this on each date change).
 }
 
 function setDutyScheduleCurrentFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    state.filter.schedule_tag_uuids = filter.schedule_tag_uuids ?? []
     state.filter.time_from = filter.time_from ?? ''
     state.filter.time_to = filter.time_to ?? ''
 }

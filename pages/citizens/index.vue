@@ -60,6 +60,16 @@
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="navigateTo('/reports')"
+                            v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services'">
+                            <Icon name="ph:file-text" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizenReports.reports') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" @click="navigateTo('/referrals')"
+                            v-if="(isAtLeast('Admin') || can('create_referral') || can('update_referral') || can('delete_referral')) && userStore.getUser?.company?.industry?.system_name === 'employment_services'">
+                            <Icon name="ph:arrows-in" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('referrals.referrals') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="navigateTo('/rooms')">
                             <Icon name="ph:door" class="h-4 w-4" aria-hidden="true" />
                             {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}
@@ -116,6 +126,11 @@
                             v-if="isAtLeast('Admin')">
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.importCitizens.importCitizens') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" @click="state.modal.isImportMapperOpen = true"
+                            v-if="isAtLeast('Admin')">
+                            <Icon name="ph:arrows-merge" class="h-4 w-4" aria-hidden="true" />
+                            Importér fra andet system
                         </FormButton>
                         <FormButton buttonStyle="action" @click="exportCitizens({})"
                             v-if="isAtLeast('Admin') && !isShelterOrCrisisCenter">
@@ -211,10 +226,26 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+                    <!-- Count summary -->
+                    <div class="flex items-baseline gap-2" v-if="state.citizens">
+                        <span class="text-2xl font-bold tracking-tight text-primary">
+                            <CountUp :value="Number(state.citizens?.total ?? state.citizens?.data?.length ?? 0)" />
+                        </span>
+                        <span class="text-sm font-medium text-slate-500">{{ $t('citizens.citizens') }}</span>
+                    </div>
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.citizens"
                             :isLoading="state.isTableLoading" :sortData="citizenStore.getSortData" @sort="sort">
+                            <template #empty>
+                                <div class="flex flex-col items-center justify-center gap-3 py-8">
+                                    <Icon name="ph:users-three" class="size-12 text-surface-300" />
+                                    <p class="text-sm font-medium text-slate-500">{{ $t('citizens.noCitizensYet') }}</p>
+                                    <FormButton buttonStyle="action" @click="navigateTo('/citizens/new')">
+                                        {{ $t('citizens.newCitizen') }}
+                                    </FormButton>
+                                </div>
+                            </template>
                             <template #body v-if="!(state.isTableLoading || (state.citizens?.data?.length === 0))">
                                 <tr v-for="(citizen, index) in state.citizens?.data" :key="index">
                                     <td width="30%">
@@ -319,6 +350,8 @@
 
             <ModulesUserCitizenModalImport :isModalOpen="state.modal.isImportCitizensOpen"
                 @close="state.modal.isImportCitizensOpen = false" />
+            <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.isImportMapperOpen"
+                @close="state.modal.isImportMapperOpen = false" @imported="fetchCitizens()" />
             <ModulesUserCitizenModalPurchaseEmail :isModalOpen="state.modal.isShowPurchaseEmail"
                 @close="state.modal.isShowPurchaseEmail = false" />
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.isShowNote"
@@ -405,6 +438,7 @@ const state = reactive({
     modal: {
         isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
+        isImportMapperOpen: false,
         isSharedJournalsOpen: false,
         isShowNote: false,
         isShowPurchaseEmail: false,

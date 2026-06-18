@@ -17,8 +17,8 @@ class DraftScheduleService extends BaseAPIService {
         return await this.request(`/user/draft-schedules/${scheduleUuid}`, 'PUT', params)
     }
 
-    async deleteDraftDutySchedule(scheduleUuid: any): Promise<any> {
-        return await this.request(`/user/draft-schedules/${scheduleUuid}`, 'DELETE')
+    async deleteDraftDutySchedule(scheduleUuid: any, params: object = {}): Promise<any> {
+        return await this.request(`/user/draft-schedules/${scheduleUuid}`, 'DELETE', params)
     }
 
     async getDraftDutyScheduleAbsencePercentage(params: object): Promise<any> {
@@ -39,6 +39,10 @@ class DraftScheduleService extends BaseAPIService {
 
     async publishSchedule(params: object): Promise<any> {
         return await this.request(`/user/draft-schedules/publish/all`, 'POST', params)
+    }
+
+    async getPublishStatus(): Promise<any> {
+        return await this.request(`/user/draft-schedules/publish/status`, 'GET')
     }
 
     async pinSelfToTopOfSchedule(): Promise<any> {

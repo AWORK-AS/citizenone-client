@@ -18,15 +18,12 @@
                             <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(chat?.chat_members)"
                                 :index="index" class="grid grid-cols-12 items-center">
                                 <div class="col-span-2">
-                                    <img :src="chatMember?.user?.profile_image ?? '/img/avatars/user.svg'" alt="Item 1"
+                                        <img :src="memberAvatar(chatMember)" alt="Item 1"
                                         class="w-11 h-11 rounded-full object-cover">
                                 </div>
                                 <div class="col-span-10">
-                                    <Tooltip :text="chatMember?.user?.firstname + ' ' + chatMember?.user?.lastname">
-                                        <h4 class="font-semibold text-sm">
-                                            {{ chatMember?.user?.firstname + " " +
-                                                chatMember?.user?.lastname }}
-                                        </h4>
+                                    <Tooltip :text="memberDisplayName(chatMember)">
+                                        <h4 class="font-semibold text-sm">{{ memberDisplayName(chatMember) }}</h4>
                                     </Tooltip>
                                     <p class="text-xxs" v-if="chat?.unread_messages > 0">
                                         {{ chat?.unread_messages }}
@@ -37,16 +34,12 @@
                         </div>
                         <div v-else class="grid grid-cols-12 items-center">
                             <div class="col-span-2">
-                                <img :src="chatToSelf(chat?.chat_members)[0]?.user?.profile_image ?? '/img/avatars/user.svg'"
+                                <img :src="memberAvatar(chatToSelf(chat?.chat_members)[0])"
                                     alt="Item 1" class="w-11 h-11 rounded-full object-cover">
                             </div>
                             <div class="col-span-10">
-                                <Tooltip :text="chatToSelf(chat?.chat_members)[0]?.user?.firstname + ' ' +
-                                    chatToSelf(chat?.chat_members)[0]?.user?.lastname">
-                                    <h4 class="font-semibold text-sm">
-                                        {{ chatToSelf(chat?.chat_members)[0]?.user?.firstname + " " +
-                                            chatToSelf(chat?.chat_members)[0]?.user?.lastname }}
-                                    </h4>
+                                <Tooltip :text="memberDisplayName(chatToSelf(chat?.chat_members)[0])">
+                                    <h4 class="font-semibold text-sm">{{ memberDisplayName(chatToSelf(chat?.chat_members)[0]) }}</h4>
                                 </Tooltip>
                                 <p class="text-xxs" v-if="chat?.unread_messages > 0">
                                     {{ chat?.unread_messages }}
@@ -127,11 +120,31 @@ function excludeCurrentUserFromChatMembers(chatMembers: any) {
 
 function chatGroupMembers(chat: any) {
     return excludeCurrentUserFromChatMembers(chat?.chat_members)
-        ?.map((chatMember: any) => `${chatMember?.user?.firstname} ${chatMember?.user?.lastname}`)
+    ?.map((chatMember: any) => memberDisplayName(chatMember))
         ?.join(', ')
 }
 
 function openChat(chat: any) {
     navigateTo(`/relative/messages/${chat.uuid}`)
+}
+
+function memberDisplayName(member: any) {
+    if (!member) return ''
+    const user = member.user || {}
+    const userType = member.user_type || ''
+    if (userType.includes('CaseworkerLicenseConfig') || userType.toLowerCase().includes('caseworker')) {
+        return user.name || `${user.firstname ?? ''} ${user.lastname ?? ''}`.trim()
+    }
+    return `${user.firstname ?? ''} ${user.lastname ?? ''}`.trim() || user.name || ''
+}
+
+function memberAvatar(member: any) {
+    if (!member) return '/img/avatars/user.svg'
+    const user = member.user || {}
+    const userType = member.user_type || ''
+    if (userType.includes('CaseworkerLicenseConfig') || userType.toLowerCase().includes('caseworker')) {
+        return user.profile_image ?? user.logo ?? '/img/avatars/user.svg'
+    }
+    return user.profile_image ?? '/img/avatars/user.svg'
 }
 </script>

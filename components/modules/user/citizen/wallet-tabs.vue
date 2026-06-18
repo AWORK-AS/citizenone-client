@@ -1,5 +1,5 @@
 <template>
-    <Tabs id="wallet-tabs" :tabs="state.tabs" :isJustifyBetween="false" @changeTab="changeTab" />
+    <Tabs id="wallet-tabs" :tabs="state.tabs" :isJustifyBetween="false" variant="sub" @changeTab="changeTab" />
 </template>
 
 <script setup lang="ts">
