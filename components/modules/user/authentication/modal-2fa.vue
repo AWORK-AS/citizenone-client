@@ -108,12 +108,12 @@ async function verifyCode() {
             userStore.setUser(response?.data?.user)
             userStore.setLanguage(response?.data?.user?.language?.code)
             language.locale.value = response?.data?.user?.language?.code
-            if (['Admin', 'User'].includes(response.data.user?.role)) {
-                navigateTo('/overview')
-            } else if (response.data.user?.role === 'Citizen') {
+            if (response.data.user?.role === 'Citizen') {
                 navigateTo('/citizen/overview')
             } else if (response.data.user?.role === 'Relative') {
                 navigateTo('/relative/citizens')
+            } else {
+                navigateTo('/overview')
             }
         }
     } catch (error: any) {

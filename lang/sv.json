@@ -99,7 +99,8 @@
         "ready": {
             "title": "Du är redo att gå live!",
             "desc": "Alla onboarding-steg är slutförda."
-        }
+        },
+        "title": "Utforska"
     },
     "2fa": {
         "2fa": "Tvåfaktorsautentisering",
@@ -2617,6 +2618,7 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer och mål",
+            "outcomes": "Resultat",
             "reports": "Rapporter",
             "timeline": "Tidslinje"
         },
@@ -3024,6 +3026,43 @@
                 "wallets": "Punge"
             },
             "wallets": "Ekonomi"
+        },
+        "outcomes": {
+            "outcomes": "Resultat",
+            "newOutcome": "Nytt resultat",
+            "editOutcome": "Redigera resultat",
+            "type": {
+                "employment": "Anställning",
+                "education": "Utbildning",
+                "workPlacement": "Praktik"
+            },
+            "form": {
+                "type": "Typ",
+                "employerInstitution": "Arbetsgivare / Institution",
+                "startDate": "Startdatum",
+                "endDate": "Slutdatum",
+                "notes": "Anteckningar",
+                "billingRule": "Fakturaregel",
+                "noBillingRule": "Ingen"
+            },
+            "table": {
+                "type": "Typ",
+                "employerInstitution": "Arbetsgivare / Institution",
+                "startDate": "Startdatum",
+                "endDate": "Slutdatum",
+                "consultant": "Konsult",
+                "billingRule": "Fakturaregel"
+            },
+            "alert": {
+                "savedSuccessfully": "Resultat sparat",
+                "updatedSuccessfully": "Resultat uppdaterat",
+                "deletedSuccessfully": "Resultat borttaget"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Är du säker på att du vill ta bort detta resultat?"
+            },
+            "edit": "Redigera",
+            "delete": "Ta bort"
         },
         "noCitizensYet": "Inga medborgare än"
     },
@@ -8005,6 +8044,8 @@
             "name": "Namn",
             "permissions": "Behörigheter",
             "user": "Användare",
+            "referrer": "Remittent",
+            "company": "Företag",
             "level": "Level",
             "regular": "Regular",
             "manager": "Manager"
