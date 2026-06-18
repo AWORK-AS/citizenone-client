@@ -83,7 +83,7 @@
                                     <th class="co-th">{{ $t('employment.billing.cpr') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.agreement') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.period') }}</th>
-                                    <th class="co-th">{{ $t('employment.billing.pricePerWeek') }}</th>
+                                    <th class="co-th">{{ $t('employment.billingRules.table.rate') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.weeks') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.bonus') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.total') }}</th>
@@ -113,10 +113,18 @@
                                         {{ formatDateToReadable(row.period_from) }} – {{ formatDateToReadable(row.period_to) }}
                                     </td>
                                     <td class="co-td text-[13px] text-[#1F2533]">
-                                        {{ formatAmount(row.price_per_week) }}
+                                        {{ row.pricing_type === 'hourly'
+                                            ? formatAmount(row.price_per_hour)
+                                            : row.pricing_type === 'bonus'
+                                                ? '—'
+                                                : formatAmount(row.price_per_week) }}
                                     </td>
                                     <td class="co-td text-[13px] text-[#1F2533]">
-                                        {{ row.billable_weeks ?? 0 }}
+                                        {{ row.pricing_type === 'hourly'
+                                            ? (row.billable_hours ?? 0)
+                                            : row.pricing_type === 'bonus'
+                                                ? '—'
+                                                : (row.billable_weeks ?? 0) }}
                                     </td>
                                     <td class="co-td text-[13px] text-[#1F2533]">
                                         {{ row.bonus_amount ? formatAmount(row.bonus_amount) : '—' }}
@@ -222,17 +230,43 @@ function exportToCsv() {
     }
     const escape = (val: string) => `"${String(val ?? '').replace(/"/g, '""')}"`
 
-    const header = 'CustomerNumber,ProductNumber,Description,Quantity,UnitPrice,Date,YourReference'
+    const header = [
+        t('employment.billing.citizen'),
+        t('employment.billing.cpr'),
+        t('employment.billing.agreement'),
+        t('employment.billing.period'),
+        t('employment.billingRules.table.rate'),
+        t('employment.billing.weeks'),
+        t('employment.billing.bonus'),
+        t('employment.billing.total'),
+        t('employment.billing.customerNumber'),
+        t('employment.billing.productNumber'),
+        t('employment.billing.invoiced'),
+    ].map(escape).join(',')
+
     const lines = state.rows.map(r => {
-        const desc = `${r.citizen_name} — ${r.agreement_name ?? ''} (${fmtDate(r.period_from)}–${fmtDate(r.period_to)})`
+        const rate = r.pricing_type === 'hourly'
+            ? (r.price_per_hour ?? '')
+            : r.pricing_type === 'bonus'
+                ? ''
+                : (r.price_per_week ?? '')
+        const qty = r.pricing_type === 'hourly'
+            ? (r.billable_hours ?? '')
+            : r.pricing_type === 'bonus'
+                ? ''
+                : (r.billable_weeks ?? '')
         return [
-            r.customer_number ?? '',
-            r.product_number ?? '',
-            escape(desc),
-            r.billable_weeks ?? 0,
-            r.price_per_week ?? 0,
-            r.period_to,
-            r.uuid,
+            escape(r.citizen_name ?? ''),
+            escape(r.cpr ?? ''),
+            escape(r.agreement_name ?? ''),
+            escape(`${fmtDate(r.period_from)} – ${fmtDate(r.period_to)}`),
+            rate !== '' ? escape(formatAmount(rate)) : '',
+            qty,
+            r.bonus_amount != null ? escape(formatAmount(r.bonus_amount)) : '',
+            r.total != null ? escape(formatAmount(r.total)) : '',
+            escape(r.customer_number ?? ''),
+            escape(r.product_number ?? ''),
+            r.is_invoiced ? t('employment.billing.invoiced') : t('employment.billing.notInvoiced'),
         ].join(',')
     })
 
