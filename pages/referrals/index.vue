@@ -40,7 +40,7 @@
                                 @update:modelValue="handleStatusFilter" />
                         </div>
                         <FormButton buttonStyle="action" @click="openNewModal"
-                            v-if="can('create_referral')">
+                            v-if="isAtLeast('Admin') || can('create_referral')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('referrals.newReferral') }}
                         </FormButton>
@@ -98,13 +98,13 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('referrals.table.actions.edit')"
-                                                v-if="can('update_referral')">
+                                                v-if="isAtLeast('Admin') || can('update_referral')">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="editReferral(referral)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('referrals.table.actions.delete')" v-if="can('delete_referral')">
+                                            <Tooltip :text="$t('referrals.table.actions.delete')" v-if="isAtLeast('Admin') || can('delete_referral')">
                                                 <FormButton type="button" buttonStyle="danger"
                                                     @click="deleteConfirmation(referral)">
                                                     <Icon name="ph:trash" class="size-4" />

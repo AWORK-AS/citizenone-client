@@ -131,7 +131,6 @@
                                     <tr>
                                         <th class="text-left py-2 pr-4 text-gray-500 font-medium text-xs">{{ $t('referrals.periodLog.previousPeriod') }}</th>
                                         <th class="text-left py-2 pr-4 text-gray-500 font-medium text-xs">{{ $t('referrals.periodLog.newPeriod') }}</th>
-                                        <th class="text-left py-2 pr-4 text-gray-500 font-medium text-xs">{{ $t('referrals.periodLog.reason') }}</th>
                                         <th class="text-left py-2 pr-4 text-gray-500 font-medium text-xs">{{ $t('referrals.periodLog.changedBy') }}</th>
                                         <th class="text-left py-2 text-gray-500 font-medium text-xs">{{ $t('referrals.periodLog.date') }}</th>
                                     </tr>
@@ -146,7 +145,6 @@
                                             {{ formatDateToReadable(log.new_start_date) }} –
                                             {{ formatDateToReadable(log.new_end_date) }}
                                         </td>
-                                        <td class="py-2 pr-4 text-gray-600">{{ log.reason }}</td>
                                         <td class="py-2 pr-4 text-gray-600">{{ log.changed_by?.name }}</td>
                                         <td class="py-2 text-gray-600">{{ formatDateToReadable(log.created_at) }}</td>
                                     </tr>
