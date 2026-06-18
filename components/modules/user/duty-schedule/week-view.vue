@@ -480,18 +480,29 @@
                                                         {{ $t('dutySchedules.extraHours.extraHours') }}:
                                                         {{ empStats(employee)?.extra_hours }}
                                                     </p>
-                                                    <template v-if="empStats(employee)?.holiday_hours?.enabled">
-                                                        <p class="text-xxs text-amber-700" :title="$t('dutySchedules.holidayHoursHint')">
-                                                            ⭐ {{ $t('dutySchedules.holidayWorked') }}:
-                                                            {{ empStats(employee)?.holiday_hours?.worked_weekly }} ({{ $t('dutySchedules.week') }})
-                                                            · {{ empStats(employee)?.holiday_hours?.worked_yearly }} ({{ $t('dutySchedules.yearToDate') }})
-                                                        </p>
-                                                        <p class="text-xxs text-amber-700" :title="$t('dutySchedules.holidayHoursHint')">
-                                                            ⭐ {{ $t('dutySchedules.holidayNonWorked') }}:
-                                                            {{ empStats(employee)?.holiday_hours?.nonworked_weekly }} ({{ $t('dutySchedules.week') }})
-                                                            · {{ empStats(employee)?.holiday_hours?.nonworked_yearly }} ({{ $t('dutySchedules.yearToDate') }})
-                                                        </p>
-                                                    </template>
+                                                    <div v-if="empStats(employee)?.holiday_hours?.enabled"
+                                                        class="mt-1.5 rounded-lg border border-amber-200 bg-amber-50/70 px-2 py-1.5"
+                                                        :title="$t('dutySchedules.holidayHoursHint')">
+                                                        <div class="flex items-center gap-1 mb-1">
+                                                            <span class="text-[11px] leading-none">⭐</span>
+                                                            <span class="text-xxs font-semibold text-amber-800">
+                                                                {{ $t('dutySchedules.holidays') }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="grid grid-cols-[1fr_auto_auto] gap-x-2.5 gap-y-0.5 text-xxs text-amber-800">
+                                                            <span></span>
+                                                            <span class="text-right font-medium text-amber-600">{{ $t('dutySchedules.week') }}</span>
+                                                            <span class="text-right font-medium text-amber-600">{{ $t('dutySchedules.yearToDate') }}</span>
+
+                                                            <span>{{ $t('dutySchedules.holidayWorkedShort') }}</span>
+                                                            <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.worked_weekly }}</span>
+                                                            <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.worked_yearly }}</span>
+
+                                                            <span>{{ $t('dutySchedules.holidayNonWorkedShort') }}</span>
+                                                            <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.nonworked_weekly }}</span>
+                                                            <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.nonworked_yearly }}</span>
+                                                        </div>
+                                                    </div>
                                                     </template>
 
                                                     <div class="p-0 m-0 text-xxs text-primary cursor-pointer hover:text-primary-700"

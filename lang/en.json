@@ -3614,6 +3614,8 @@
         "holidayWorked": "Public holiday hours (worked)",
         "holidayNonWorked": "Public holiday hours (not worked)",
         "holidayHoursHint": "Public holiday: worked hours ×1.5 (company's own factor). Non-Sunday public holidays not worked count as 7.4 hours.",
+        "holidayWorkedShort": "Worked",
+        "holidayNonWorkedShort": "Not worked",
         "holidayFreeBadge": "Off – public holiday",
         "holidayNonWorkedAssigned": "7.4 holiday hours assigned",
         "holidayWorkedTooltip": "Worked public holiday: counts as both holiday hours and the regular shift. The first 7.4h count as holiday hours (×1.5 applied), the rest stays with the shift type.",

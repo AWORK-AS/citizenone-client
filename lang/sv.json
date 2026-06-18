@@ -3614,6 +3614,8 @@
         "holidayWorked": "Helgdagstimmar (arbetade)",
         "holidayNonWorked": "Helgdagstimmar (ej arbetade)",
         "holidayHoursHint": "Helgdag: arbetade timmar ×1,5 (företagets egen faktor). Ej arbetade helgdagar som inte är söndagar ger 7,4 timmar.",
+        "holidayWorkedShort": "Arbetad",
+        "holidayNonWorkedShort": "Ej arbetad",
         "holidayFreeBadge": "Ledig – helgdag",
         "holidayNonWorkedAssigned": "7,4 helgdagstimmar tilldelade",
         "holidayWorkedTooltip": "Arbetad helgdag: räknas både som helgdagstimmar och det vanliga passet. De första 7,4 timmarna räknas som helgdagstimmar (×1,5 tillämpat), resten tillfaller passtypen.",
