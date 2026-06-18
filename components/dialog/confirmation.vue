@@ -6,6 +6,7 @@
                 <p>
                     {{ props.message }}
                 </p>
+                <slot name="extra" />
                 <div class="mt-5 flex gap-x-3">
                     <FormButton buttonStyle="cancel" @click="closeModal" class="w-full">
                         {{ $t('cancel') }}

@@ -438,11 +438,13 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
+const { isAtLeast } = usePermissions()
 const language = useI18n()
 const router = useRouter()
 const route = useRoute()
@@ -524,12 +526,15 @@ watch(() => language.locale.value, (newLanguage: any) => {
 function getNavItemLabel(item: any) {
     const t = language.t
     if (item.name === 'Overview') return t('sidebar.overview')
+    if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
     if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
     if (item.name === 'Messages') return t('sidebar.messages')
     if (item.name === 'Procedures') return t('sidebar.procedures') || 'Procedurer'
     if (item.name === 'Protocols') return t('sidebar.protocols')
+    if (item.name === 'Reports') return t('sidebar.reports')
+    if (item.name === 'Report Templates') return t('sidebar.reportTemplates')
     if (item.name === 'Documents') return t('sidebar.documents')
     if (item.name === 'Mail') return t('sidebar.mail')
     if (item.name === 'Leads') return t('sidebar.leads')
@@ -544,7 +549,10 @@ function generateSidebarLinks(user: any) {
     navigation = []
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
-    const userHasPageAttendanceAccess = user?.pages?.some((page: any) => page.name === "Attendance")
+    // Company-level module enablement: no list (empty) = every module on (default).
+    const companyModulePages = user?.company?.module_pages
+    const companyHasModule = (name: string) => !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(name)
+    const userHasPageAttendanceAccess = companyHasModule("Attendance") && user?.pages?.some((page: any) => page.name === "Attendance")
     navigation.push({
         name: 'Overview',
         href: '/overview',
@@ -553,6 +561,16 @@ function generateSidebarLinks(user: any) {
             'overview',
         ]
     })
+    if (isAtLeast('Admin')) {
+        navigation.push({
+            name: 'Discover',
+            href: '/discover',
+            icon: 'ph:compass',
+            activeRouteNames: [
+                'discover',
+            ]
+        })
+    }
     navigation.push({
         name: 'Citizens',
         href: '/citizens',
@@ -573,19 +591,22 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-wallets',
             'citizens-uuid-wallets-wallet_uuid',
             'citizens-uuid-contacts',
+            'citizens-uuid-reports',
         ]
     })
-    navigation.push({
-        name: 'Calendar',
-        href: '/calendar',
-        icon: 'ph:calendar-blank',
-        activeRouteNames: [
-            'calendar',
-            'calendar-appointments',
-            'calendar-appointments-settings',
-        ]
-    })
-    if (user.pages?.find((page: any) => page.name === "Duty Schedule")) {
+    if (companyHasModule("Calendar")) {
+        navigation.push({
+            name: 'Calendar',
+            href: '/calendar',
+            icon: 'ph:calendar-blank',
+            activeRouteNames: [
+                'calendar',
+                'calendar-appointments',
+                'calendar-appointments-settings',
+            ]
+        })
+    }
+    if (companyHasModule("Duty Schedule") && user.pages?.find((page: any) => page.name === "Duty Schedule")) {
         navigation.push({
             name: 'Duty schedules',
             href: '/schedules',
@@ -609,7 +630,23 @@ function generateSidebarLinks(user: any) {
         navigation.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
     }
 
-    navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
+    if (user?.company?.industry?.system_name === 'employment_services') {
+        navigation.push({
+            name: 'Reports',
+            href: '/reports',
+            icon: 'ph:file-text',
+            activeRouteNames: [
+                'reports',
+                'reports-new',
+                'reports-uuid-view-details',
+                'reports-uuid-edit',
+            ]
+        })
+    }
+
+    if (companyHasModule("Documents")) {
+        navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
+    }
 
     if (userHasSecuredMailAccess) {
         navigation.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', activeRouteNames: ['mail'] })
@@ -669,9 +706,22 @@ async function fetchUser() {
             plansGoalsSubgoalsCompletionReminderModalVisibility(response)
             checkInReminderModalVisibility(response)
             guidedUserTourModalVisibility()
-
+            maybeRedirectToDiscover(response?.data)
         }
     } catch (error: any) { state.error = error }
+}
+
+// New companies (admin, no onboarding preferences set yet) land on Discover
+// once per session; once they save "what do you need" they land on the dashboard.
+function maybeRedirectToDiscover(user: any) {
+    if (typeof window === 'undefined') return
+    if (sessionStorage.getItem('discover_landing_done')) return
+    const prefs = user?.company?.onboarding_preferences
+    const isFresh = !prefs || (typeof prefs === 'object' && Object.keys(prefs).length === 0)
+    if (isAtLeast('Admin') && isFresh && routeName === 'overview') {
+        sessionStorage.setItem('discover_landing_done', '1')
+        navigateTo('/discover')
+    }
 }
 
 function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
