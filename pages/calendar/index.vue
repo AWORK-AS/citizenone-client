@@ -122,6 +122,7 @@
                         @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
+                        @createEventForDate="openCreateEventChooser"
                         v-if="state.calendarView === 'default'" />
                     <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                         @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
@@ -139,11 +140,38 @@
             <ModulesUserCitizenCalendarModalFilter :isModalOpen="state.modal.isFilterCalendarOpen"
                 @close="state.modal.isFilterCalendarOpen = false" @setFilter="setFilter" />
             <ModulesUserMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
+                :selectedDate="state.selectedEventDate"
                 @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
+                :selectedDate="state.selectedEventDate"
                 @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen"
+                :selectedDate="state.selectedEventDate"
                 @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
+
+            <Modal size="xs" :title="$t('events.newEvent')" :show="state.modal.isCreateEventChooserOpen"
+                @close="state.modal.isCreateEventChooserOpen = false">
+                <template #modal-body>
+                    <p class="text-sm text-slate-600">{{ $t('events.chooseEventType') }}</p>
+                    <div class="mt-3 space-y-2">
+                        <button type="button" @click="openCreateModal('myself')"
+                            class="flex w-full items-center gap-x-2 rounded-md border border-gray-200 px-3 py-2.5 text-sm hover:bg-gray-50">
+                            <Icon name="ph:user" class="h-5 w-5 text-primary" />
+                            {{ $t('events.myself') }}
+                        </button>
+                        <button type="button" @click="openCreateModal('employee')"
+                            class="flex w-full items-center gap-x-2 rounded-md border border-gray-200 px-3 py-2.5 text-sm hover:bg-gray-50">
+                            <Icon name="ph:users-three" class="h-5 w-5 text-primary" />
+                            {{ $t('events.employees') }}
+                        </button>
+                        <button type="button" @click="openCreateModal('citizen')"
+                            class="flex w-full items-center gap-x-2 rounded-md border border-gray-200 px-3 py-2.5 text-sm hover:bg-gray-50">
+                            <Icon name="heroicons:user-group" class="h-5 w-5 text-primary" />
+                            {{ $t('events.citizens') }}
+                        </button>
+                    </div>
+                </template>
+            </Modal>
             <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
@@ -227,7 +255,9 @@ const state = reactive({
         isEventJournalPromptOpen: false,
         isCreateEventJournalOpen: false,
         isCompletionStatisticsOpen: false,
+        isCreateEventChooserOpen: false,
     },
+    selectedEventDate: '',
     pendingEventStatus: '' as 'completed' | 'not_completed' | '',
     myCalendarEvents: [] as any,
     selectedDate: {
@@ -584,5 +614,21 @@ function setFilter(filter: any) {
     setCalendarView(filter.selectedView.title)
     state.filter.tags_uuid = filter.tags
     fetchMyCalendarEvents()
+}
+
+function openCreateEventChooser(date: string) {
+    state.selectedEventDate = date
+    state.modal.isCreateEventChooserOpen = true
+}
+
+function openCreateModal(type: 'myself' | 'employee' | 'citizen') {
+    state.modal.isCreateEventChooserOpen = false
+    if (type === 'myself') {
+        state.modal.isAddEventForMyselfOpen = true
+    } else if (type === 'employee') {
+        state.modal.isAddEventForEmployeeOpen = true
+    } else {
+        state.modal.isAddEventForCitizenOpen = true
+    }
 }
 </script>

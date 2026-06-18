@@ -1,4 +1,106 @@
 {
+    "companyModules": {
+        "Economy": "Økonomi",
+        "Journals": "Journaler",
+        "Medicine card": "Medicinkort",
+        "Plans and goals": "Planer og mål",
+        "Health": "Sundhed",
+        "Documents": "Dokumenter",
+        "Attendance": "Fremmøde",
+        "Calendar": "Kalender",
+        "Contacts": "Kontakter",
+        "Duty Schedule": "Vagtplan",
+        "Employee Group": "Medarbejdergruppe"
+    },
+    "discover": {
+        "welcome": "Velkommen, {name}",
+        "subtitle": "Her er din hurtige guide til at få CitizenOne sat op og i gang for jeres team.",
+        "whatDoYouNeed": "Hvad skal du bruge?",
+        "stepsProgress": "{done} af {total} trin fuldført",
+        "nextStep": "Næste skridt",
+        "ready": {
+            "title": "I er klar til drift!",
+            "desc": "Alle onboarding-trin er fuldført."
+        },
+        "groupProgress": "{done} af {total} fuldført",
+        "lockedHint": "Færdiggør trinnet ovenfor først",
+        "promoTitle": "Arbejd hvor som helst, på enhver enhed",
+        "promoDesc": "Hent appen, så I altid har CitizenOne ved hånden.",
+        "promoCta": "Hent appen",
+        "appInfoMessage": "App-links til App Store og Google Play kommer her i den rigtige version.",
+        "modalIntro": "Vælg de dele I bruger — så viser vi kun de relevante trin.",
+        "modules": {
+            "vagtplan": "Vagtplan",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation (planer, status, dokumenter)"
+        },
+        "groups": {
+            "migration": "Migrering",
+            "komIGang": "Kom i gang",
+            "born": "Borgere",
+            "vagtplan": "Vagtplan",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation"
+        },
+        "steps": {
+            "departments": {
+                "title": "Opret afdelinger",
+                "desc": "Afdelinger strukturerer personale, borgere og vagtplan.",
+                "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".",
+                "cta": "Gå til Afdelinger"
+            },
+            "roles": {
+                "title": "Roller & rettigheder",
+                "desc": "Bestem hvad de forskellige roller må se og gøre.",
+                "cta": "Gå til Roller"
+            },
+            "employees": {
+                "title": "Inviter personale",
+                "desc": "Tilføj jeres medarbejdere, så de kan logge ind.",
+                "cta": "Gå til Personale"
+            },
+            "import": {
+                "title": "Importér fra dit gamle system",
+                "desc": "Migrér borgere, ansatte, journaler og vagtplaner fra dit nuværende system (CSV eller Excel).",
+                "cta": "Start import"
+            },
+            "children": {
+                "title": "Opret borgere",
+                "desc": "Opret de borgere I arbejder med.",
+                "cta": "Gå til Borgere"
+            },
+            "childData": {
+                "title": "Stamdata & kontaktpersoner",
+                "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.",
+                "cta": "Gå til Borgere"
+            },
+            "shiftTypes": {
+                "title": "Opret vagttyper & regler",
+                "desc": "Definér vagttyper og arbejdstidsregler.",
+                "cta": "Gå til Vagtregler"
+            },
+            "shiftTags": {
+                "title": "Tilføj vagt-tags",
+                "desc": "Tags gør det let at filtrere vagter senere.",
+                "cta": "Gå til Vagt-tags"
+            },
+            "schedule": {
+                "title": "Lav vagtplanen",
+                "desc": "Planlæg de første vagter for jeres team.",
+                "cta": "Gå til Vagtplan"
+            },
+            "medicine": {
+                "title": "Opsæt medicin",
+                "desc": "Tilføj medicintyper og doseringsformer.",
+                "cta": "Gå til Medicin"
+            },
+            "templates": {
+                "title": "Statusskabeloner & planer",
+                "desc": "Opsæt skabeloner til status, planer og mål.",
+                "cta": "Gå til Indstillinger"
+            }
+        }
+    },
     "2fa": {
         "2fa": "To-faktor-godkendelse",
         "alert": {
@@ -845,6 +947,7 @@
         },
         "newBooking": "Ny booking",
         "newEvent": "Ny begivenhed",
+        "chooseEventType": "Hvilken type begivenhed?",
         "singleEvent": {
             "createASingleEvent": "Opret en enkelt begivenhed",
             "createASingleEventLabel": "Opret en enkelt eller tilbagevendende begivenhed",
@@ -2514,6 +2617,8 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer og mål",
+            "outcomes": "Resultater",
+            "reports": "Rapporter",
             "timeline": "Tidslinje"
         },
         "timeline": {
@@ -2920,6 +3025,43 @@
                 "wallets": "Punge"
             },
             "wallets": "Økonomi"
+        },
+        "outcomes": {
+            "outcomes": "Resultater",
+            "newOutcome": "Nyt resultat",
+            "editOutcome": "Rediger resultat",
+            "type": {
+                "employment": "Beskæftigelse",
+                "education": "Uddannelse",
+                "workPlacement": "Praktik"
+            },
+            "form": {
+                "type": "Type",
+                "employerInstitution": "Arbejdsgiver / Institution",
+                "startDate": "Startdato",
+                "endDate": "Slutdato",
+                "notes": "Noter",
+                "billingRule": "Faktureringsregel",
+                "noBillingRule": "Ingen"
+            },
+            "table": {
+                "type": "Type",
+                "employerInstitution": "Arbejdsgiver / Institution",
+                "startDate": "Startdato",
+                "endDate": "Slutdato",
+                "consultant": "Konsulent",
+                "billingRule": "Faktureringsregel"
+            },
+            "alert": {
+                "savedSuccessfully": "Resultat gemt",
+                "updatedSuccessfully": "Resultat opdateret",
+                "deletedSuccessfully": "Resultat slettet"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette dette resultat?"
+            },
+            "edit": "Rediger",
+            "delete": "Slet"
         },
         "noCitizensYet": "Ingen borgere endnu"
     },
@@ -3583,6 +3725,7 @@
             "employee": "Medarbejder",
             "employees": "Medarbejdere",
             "employmentStatus": "Ansættelsesstatus",
+            "tags": "Tags",
             "filterDate": "Filtrer dato",
             "filterDateAndTime": "Filtrer dato og tid",
             "timeFrom": "Tid fra",
@@ -3651,7 +3794,9 @@
                 "confirmation": {
                     "approveLeaveRequestConfirmation": "Er du sikker på, at du vil godkende denne ferie?",
                     "deleteLeaveRequestConfirmation": "Er du sikker på, at du vil slette denne ferie?",
-                    "rejectLeaveRequestConfirmation": "Er du sikker på, at du vil afvise denne ferie?"
+                    "rejectLeaveRequestConfirmation": "Er du sikker på, at du vil afvise denne ferie?",
+                    "rejectComment": "Kommentar (valgfri)",
+                    "rejectCommentPlaceholder": "Tilføj en begrundelse, medarbejderen kan se"
                 },
                 "dateTimeEnd": "Slutdato og -tid",
                 "dateTimeStart": "Startdato og -tid",
@@ -6866,6 +7011,17 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Borgeres begivenheder",
+        "birthdays": {
+            "title": "Fødselsdage denne uge",
+            "todayTitle": "Fødselsdage i dag",
+            "moreThisWeek": "{count} flere denne uge",
+            "countThisWeek": "{count} fødselsdage denne uge",
+            "today": "I dag",
+            "inDays": "Om {days} dage",
+            "turns": "fylder {age}",
+            "staff": "Personale",
+            "child": "Barn"
+        },
         "citizensOrigin": "Borgernes oprindelse",
         "createdBy": "Oprettet af",
         "dailyOverview": "Daglig oversigt",
@@ -7452,6 +7608,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Rediger rapportskabelon",
+        "newReportTemplate": "Ny rapportskabelon",
+        "reportTemplates": "Rapportskabeloner",
+        "alert": {
+            "templateSuccessfullyDeleted": "Rapportskabelon blev slettet",
+            "templateSuccessfullySaved": "Rapportskabelon blev gemt",
+            "templateSuccessfullyUpdated": "Rapportskabelon blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne rapportskabelon"
+        },
+        "form": {
+            "agreementType": "Sagstype",
+            "body": "Indhold",
+            "isActive": "Aktiv",
+            "name": "Navn"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "agreementType": "Sagstype",
+            "isActive": "Aktiv",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "name": "Navn"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Kopiér link",
+        "draft": "Kladde",
+        "editReport": "Rediger rapport",
+        "finalize": "Færdiggør",
+        "finalized": "Færdiggjort",
+        "newReport": "Ny rapport",
+        "publicLink": "Offentligt link",
+        "reports": "Rapporter",
+        "alert": {
+            "cannotEditFinalized": "Færdiggjorte rapporter kan ikke redigeres",
+            "finalizedSuccessfully": "Rapport blev færdiggjort",
+            "reportSuccessfullyDeleted": "Rapport blev slettet",
+            "reportSuccessfullySaved": "Rapport blev gemt",
+            "reportSuccessfullyUpdated": "Rapport blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne rapport",
+            "finalizeConfirmation": "Er du sikker på, at du vil færdiggøre denne rapport? Denne handling kan ikke fortrydes"
+        },
+        "form": {
+            "agreementType": "Sagstype",
+            "body": "Indhold",
+            "bodyTemplateHint": "Lad feltet være tomt for at udfylde automatisk fra den valgte skabelon",
+            "caseworker": "Sagsbehandler",
+            "citizen": "Borger",
+            "consultant": "Konsulent",
+            "template": "Skabelon",
+            "title": "Titel"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "finalize": "Færdiggør",
+                "view": "Se"
+            },
+            "agreementType": "Sagstype",
+            "createdAt": "Oprettet",
+            "status": "Status",
+            "title": "Titel"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Tilføj krav",
+        "editRequirement": "Rediger krav",
+        "noRequirements": "Ingen krav tilføjet endnu",
+        "requirements": "Krav",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Krav blev slettet",
+            "requirementSuccessfullySaved": "Krav blev gemt",
+            "requirementSuccessfullyUpdated": "Krav blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette dette krav"
+        },
+        "form": {
+            "description": "Beskrivelse",
+            "linkedReport": "Tilknyttet rapport",
+            "title": "Titel"
+        }
+    },
     "recurring": {
         "addThisSessions": "Tilføj denne session",
         "applyChangesToAllRecurringShifts": "Anvend også ændring for fremtidige vagter",
@@ -7757,6 +8005,56 @@
             "manager": "Leder"
         }
     },
+    "referrals": {
+        "alert": {
+            "referralSuccessfullySaved": "Henvisning gemt",
+            "referralSuccessfullyUpdated": "Henvisning opdateret",
+            "referralSuccessfullyDeleted": "Henvisning slettet"
+        },
+        "referrals": "Henvisninger",
+        "newReferral": "Ny henvisning",
+        "referral": "Henvisning",
+        "citizen": "Borger",
+        "department": "Afdeling",
+        "municipality": "Kommune",
+        "caseworkerName": "Sagsbehandlers navn",
+        "caseworkerEmail": "Sagsbehandlers e-mail",
+        "caseworkerPhone": "Sagsbehandlers telefon",
+        "startDate": "Startdato",
+        "endDate": "Slutdato",
+        "weeks": "Uger",
+        "weeksCalculated": "Beregnet slutdato",
+        "status": "Status",
+        "notes": "Noter",
+        "periodChangeReason": "Årsag til periodeændring",
+        "periodLogs": "Periodeændringshistorik",
+        "noPeriodLogs": "Ingen periodeændringer registreret",
+        "statusActive": "Aktiv",
+        "statusPending": "Afventer",
+        "statusClosed": "Lukket",
+        "deleteReferral": "Slet henvisning",
+        "deleteReferralConfirm": "Er du sikker på, at du vil slette denne henvisning?",
+        "table": {
+            "citizen": "Borger",
+            "municipality": "Kommune",
+            "caseworker": "Sagsbehandler",
+            "startDate": "Startdato",
+            "endDate": "Slutdato",
+            "status": "Status",
+            "actions": {
+                "view": "Vis",
+                "edit": "Rediger",
+                "delete": "Slet"
+            }
+        },
+        "periodLog": {
+            "previousPeriod": "Tidligere periode",
+            "newPeriod": "Ny periode",
+            "reason": "Årsag",
+            "changedBy": "Ændret af",
+            "date": "Dato"
+        }
+    },
     "rooms": {
         "addNewRoom": "Tilføj nyt værelse",
         "editRoom": "Rediger værelse",
@@ -8031,6 +8329,7 @@
             "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Virksomhed",
+            "import": "Import",
             "consentDeclarationTypes": "Samtykkeerklæringstyper",
             "contactJobTitles": "Kontaktjobtitler",
             "customPages": "Ordliste",
@@ -8070,6 +8369,7 @@
             "ipRestrictions": "IP-begrænsninger",
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+            "reportTemplates": "Rapportskabeloner",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sagstyper",
@@ -8190,6 +8490,7 @@
         "citizens": "Borgere",
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
+        "discover": "Kom godt i gang",
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
@@ -8197,6 +8498,8 @@
         "messages": "Beskeder",
         "overview": "Oversigt",
         "protocols": "Protokol",
+        "reports": "Rapporter",
+        "reportTemplates": "Rapportskabeloner",
         "journalNotes": "Journalnotater",
         "pinSidebar": "Fastgør sidebar",
         "unpinSidebar": "Frigør sidebar"
@@ -9122,6 +9425,7 @@
             "companies": "Virksomheder",
             "coupons": "Kuponer",
             "dashboard": "Dashboard",
+            "emailTemplates": "E-mailskabeloner",
             "invoices": "Fakturaer",
             "orders": "Ordrer",
             "polls": "Afstemninger",
@@ -9140,6 +9444,21 @@
             "products": "Produkter",
             "clientRoles": "Roller & Rettigheder",
             "cancellations": "Opsigelser"
+        },
+        "emailTemplates": {
+            "title": "E-mailskabeloner",
+            "subtitle": "Redigér de e-mails systemet sender til brugerne.",
+            "subject": "Emne",
+            "body": "Indhold (HTML)",
+            "preview": "Forhåndsvisning",
+            "placeholders": "Tilgængelige felter",
+            "placeholdersHint": "Klik for at kopiere. De erstattes med rigtige værdier når mailen sendes.",
+            "edit": "Redigér",
+            "save": "Gem",
+            "cancel": "Annullér",
+            "saved": "E-mailskabelon gemt",
+            "locale": "Sprog",
+            "noTemplates": "Ingen e-mailskabeloner fundet"
         },
         "users": {
             "confirmation": {
@@ -10545,5 +10864,103 @@
             "citizenRestored": "Borger gendannet"
         }
     },
-    "selectAll": "Vælg alle"
+    "selectAll": "Vælg alle",
+    "import": {
+        "modal": {
+            "title": "Importér fra andet system",
+            "question": "Hvad vil du importere fra dit gamle system?"
+        },
+        "steps": {
+            "type": {
+                "comingSoon": "Kommer snart"
+            },
+            "upload": {
+                "instruction": "Upload en fil med dine {entity} (CSV eller Excel). Vi kobler kolonnerne til CitizenOne i næste trin.",
+                "dropzone": "Træk en fil hertil, eller klik for at vælge en CSV- eller Excel-fil"
+            },
+            "map": {
+                "columnsFound": "{headers} kolonner fundet, {rows} rækker",
+                "yourColumns": "Dine kolonner — træk dem over",
+                "noName": "(uden navn)",
+                "noColumnName": "(kolonne)",
+                "citizenOneFields": "CitizenOne-felter",
+                "dragColumnHere": "Træk en kolonne hertil",
+                "preview": "Forhåndsvisning",
+                "requiredFieldsHint": "De obligatoriske felter (*) skal kobles for at kunne importere."
+            },
+            "dryRun": {
+                "title": "Gennemgang før import — intet er gemt endnu.",
+                "readyToImport": "klar til import",
+                "skipped": "springes over",
+                "whySkipped": "Hvorfor springes rækker over",
+                "journalHint": "Rækker uden match i CitizenOne (ukendt CPR) frasorteres automatisk under importen og vises i opsummeringen.",
+                "scheduleHint": "Rækker uden match i CitizenOne (ukendt e-mail eller vagttype) frasorteres automatisk under importen og vises i opsummeringen.",
+                "citizensHint": "Borgere der allerede findes (samme CPR eller navn) springes over.",
+                "employeesHint": "Ansatte der allerede findes (samme e-mail eller navn) springes over. Hver ny ansat bruger én bruger-licens — løber I tør, oprettes resten ikke.",
+                "noValidRows": "Ingen gyldige rækker at importere. Gå tilbage og tjek mapping og data."
+            },
+            "importing": {
+                "label": "Importerer…"
+            },
+            "done": {
+                "imported": "{count} importeret",
+                "rowsSkipped": "{count} række(r) kunne ikke matches og blev sprunget over.",
+                "allImported": "Alle rækker blev importeret.",
+                "alreadyExisted": "{count} fandtes allerede og blev sprunget over.",
+                "licenseBlocked": "{count} ansatte kunne ikke oprettes — I mangler bruger-licenser.",
+                "licenseHint": "Tilføj mindst {count} licens(er) og kør importen igen — allerede oprettede springes over.",
+                "addLicenses": "Tilføj licenser",
+                "invitesSent": "Login-mails er sendt til de oprettede ansatte.",
+                "sendInvites": "Send login-mails til {count} ansatte",
+                "inviteHint": "De oprettede ansatte får en e-mail med login og kom-i-gang-info. Importen sender ikke mails af sig selv.",
+                "undone": "Importen er fortrudt — rækkerne er slettet igen.",
+                "undo": "Fortryd import ({count} oprettet)",
+                "unmatchedCpr": "Ikke-matchede CPR:",
+                "unmatchedEmails": "Ikke-matchede e-mails:",
+                "unknownShifts": "Ukendte vagttyper:"
+            }
+        },
+        "footer": {
+            "close": "Luk",
+            "back": "Tilbage",
+            "review": "Gennemse {count} række(r)",
+            "import": "Importér {count} {entity}"
+        },
+        "entities": {
+            "citizens": "Børn / borgere",
+            "employees": "Ansatte",
+            "journals": "Journalnotater",
+            "schedules": "Vagtplaner"
+        },
+        "fields": {
+            "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "cpr_number": "CPR-nummer",
+            "birthday": "Fødselsdato (ÅÅÅÅ-MM-DD)",
+            "gender": "Køn (male/female)",
+            "email": "E-mail",
+            "phone": "Telefon",
+            "date_admitted": "Indskrivningsdato",
+            "date_discharged": "Udskrivningsdato",
+            "departments": "Afdelinger (adskilt med ;)",
+            "seniority_date": "Anciennitetsdato",
+            "cpr": "Borgerens CPR-nummer (match)",
+            "date": "Dato (ÅÅÅÅ-MM-DD)",
+            "title": "Titel",
+            "content": "Notat-tekst",
+            "shift": "Vagttype (navn)",
+            "start_time": "Starttid (TT:MM)",
+            "end_time": "Sluttid (TT:MM)",
+            "email_employee": "Medarbejderens e-mail (match)"
+        },
+        "errors": {
+            "emptyFile": "Filen ser tom ud eller har ingen datarækker.",
+            "readError": "Kunne ikke læse filen. Tjek at det er en gyldig CSV- eller Excel-fil.",
+            "importFailed": "Importen fejlede. Tjek mapping og datoformater (ÅÅÅÅ-MM-DD).",
+            "undoFailed": "Kunne ikke fortryde importen.",
+            "invitesFailed": "Kunne ikke sende login-mails.",
+            "missingField": "Mangler {field}",
+            "invalidField": "Ugyldig {field}"
+        }
+    }
 }
