@@ -8001,6 +8001,8 @@
             "name": "Navn",
             "permissions": "Tilladelser",
             "user": "Bruger",
+            "referrer": "Henviser",
+            "company": "Virksomhed",
             "level": "Niveau",
             "regular": "Almindelig",
             "manager": "Leder"

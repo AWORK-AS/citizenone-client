@@ -7992,6 +7992,8 @@
             "name": "Navn",
             "permissions": "Tillatelser",
             "user": "Bruker",
+            "referrer": "Henviser",
+            "company": "Virksomhet",
             "level": "Level",
             "regular": "Regular",
             "manager": "Manager"
