@@ -2617,6 +2617,7 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer og mål",
+            "reports": "Rapporter",
             "timeline": "Tidslinje"
         },
         "timeline": {
@@ -7560,6 +7561,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Rediger rapportmal",
+        "newReportTemplate": "Ny rapportmal",
+        "reportTemplates": "Rapportmaler",
+        "alert": {
+            "templateSuccessfullyDeleted": "Rapportmal ble slettet",
+            "templateSuccessfullySaved": "Rapportmal ble lagret",
+            "templateSuccessfullyUpdated": "Rapportmal ble oppdatert"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på at du vil slette denne rapportmalen"
+        },
+        "form": {
+            "agreementType": "Sakstype",
+            "body": "Innhold",
+            "isActive": "Aktiv",
+            "name": "Navn"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slett",
+                "edit": "Rediger"
+            },
+            "agreementType": "Sakstype",
+            "isActive": "Aktiv",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "name": "Navn"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Kopier lenke",
+        "draft": "Utkast",
+        "editReport": "Rediger rapport",
+        "finalize": "Ferdigstill",
+        "finalized": "Ferdigstilt",
+        "newReport": "Ny rapport",
+        "publicLink": "Offentlig lenke",
+        "reports": "Rapporter",
+        "alert": {
+            "cannotEditFinalized": "Ferdigstilte rapporter kan ikke redigeres",
+            "finalizedSuccessfully": "Rapport ble ferdigstilt",
+            "reportSuccessfullyDeleted": "Rapport ble slettet",
+            "reportSuccessfullySaved": "Rapport ble lagret",
+            "reportSuccessfullyUpdated": "Rapport ble oppdatert"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på at du vil slette denne rapporten",
+            "finalizeConfirmation": "Er du sikker på at du vil ferdigstille denne rapporten? Denne handlingen kan ikke angres"
+        },
+        "form": {
+            "agreementType": "Sakstype",
+            "body": "Innhold",
+            "bodyTemplateHint": "La feltet stå tomt for å fylle automatisk fra valgt mal",
+            "caseworker": "Saksbehandler",
+            "citizen": "Bruker",
+            "consultant": "Konsulent",
+            "template": "Mal",
+            "title": "Tittel"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slett",
+                "edit": "Rediger",
+                "finalize": "Ferdigstill",
+                "view": "Vis"
+            },
+            "agreementType": "Sakstype",
+            "createdAt": "Opprettet",
+            "status": "Status",
+            "title": "Tittel"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Legg til krav",
+        "editRequirement": "Rediger krav",
+        "noRequirements": "Ingen krav lagt til ennå",
+        "requirements": "Krav",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Krav ble slettet",
+            "requirementSuccessfullySaved": "Krav ble lagret",
+            "requirementSuccessfullyUpdated": "Krav ble oppdatert"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på at du vil slette dette kravet"
+        },
+        "form": {
+            "description": "Beskrivelse",
+            "linkedReport": "Tilknyttet rapport",
+            "title": "Tittel"
+        }
+    },
     "recurring": {
         "addThisSessions": "Legg til denne session",
         "applyChangesToAllRecurringShifts": "Bruk også endring for fremtidige vakter",
@@ -8229,6 +8322,7 @@
             "ipRestrictions": "IP-begrænsninger",
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sykeplejejournalskabeloner",
+            "reportTemplates": "Rapportmaler",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sakstyper",
@@ -8356,6 +8450,8 @@
         "messages": "Meldinger",
         "overview": "Oversigt",
         "protocols": "Protokoll",
+        "reports": "Rapporter",
+        "reportTemplates": "Rapportmaler",
         "pinSidebar": "Fest sidefelt",
         "unpinSidebar": "Løsne sidefelt",
         "journalNotes": "Journal notes",
