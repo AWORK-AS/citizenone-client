@@ -228,7 +228,7 @@
                                         class="absolute bottom-1 left-0 right-0 text-center px-0.5">
                                         <span
                                             class="inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
-                                            style="color:#b45309">🌴 {{ getHolidayForDay(day.longName) }}</span>
+                                            style="color:#b45309">⭐ {{ getHolidayForDay(day.longName) }}</span>
                                     </span>
                                 </Tooltip>
                                 <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
@@ -265,7 +265,7 @@
                                         class="absolute bottom-1 left-0 right-0 text-center px-0.5">
                                         <span
                                             class="inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
-                                            style="color:#b45309">🌴 {{ getHolidayForDay(day.longName) }}</span>
+                                            style="color:#b45309">⭐ {{ getHolidayForDay(day.longName) }}</span>
                                     </span>
                                 </div>
                             </div>
@@ -281,43 +281,43 @@
                                 <div class="border-0.5 py-2 flex items-center justify-center">
                                     <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
                                         v-if="state.weeklySchedules?.week_data?.monday?.holiday">
-                                        🌴 {{ state.weeklySchedules?.week_data?.monday?.holiday?.name }}
+                                        ⭐ {{ state.weeklySchedules?.week_data?.monday?.holiday?.name }}
                                     </p>
                                 </div>
                                 <div class="border-0.5 py-2 flex items-center justify-center">
                                     <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
                                         v-if="state.weeklySchedules?.week_data?.tuesday?.holiday">
-                                        🌴 {{ state.weeklySchedules?.week_data?.tuesday?.holiday?.name }}
+                                        ⭐ {{ state.weeklySchedules?.week_data?.tuesday?.holiday?.name }}
                                     </p>
                                 </div>
                                 <div class="border-0.5 py-2 flex items-center justify-center">
                                     <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
                                         v-if="state.weeklySchedules?.week_data?.wednesday?.holiday">
-                                        🌴 {{ state.weeklySchedules?.week_data?.wednesday?.holiday?.name }}
+                                        ⭐ {{ state.weeklySchedules?.week_data?.wednesday?.holiday?.name }}
                                     </p>
                                 </div>
                                 <div class="border-0.5 py-2 flex items-center justify-center">
                                     <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
                                         v-if="state.weeklySchedules?.week_data?.thursday?.holiday">
-                                        🌴 {{ state.weeklySchedules?.week_data?.thursday?.holiday?.name }}
+                                        ⭐ {{ state.weeklySchedules?.week_data?.thursday?.holiday?.name }}
                                     </p>
                                 </div>
                                 <div class="border-0.5 py-2 flex items-center justify-center">
                                     <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
                                         v-if="state.weeklySchedules?.week_data?.friday?.holiday">
-                                        🌴 {{ state.weeklySchedules?.week_data?.friday?.holiday?.name }}
+                                        ⭐ {{ state.weeklySchedules?.week_data?.friday?.holiday?.name }}
                                     </p>
                                 </div>
                                 <div class="border-0.5 py-2 flex items-center justify-center">
                                     <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
                                         v-if="state.weeklySchedules?.week_data?.saturday?.holiday">
-                                        🌴 {{ state.weeklySchedules?.week_data?.saturday?.holiday?.name }}
+                                        ⭐ {{ state.weeklySchedules?.week_data?.saturday?.holiday?.name }}
                                     </p>
                                 </div>
                                 <div class="border-0.5 py-2 flex items-center justify-center">
                                     <p class="bg-secondary text-white text-center text-xxs px-3 py-0.5 rounded-lg"
                                         v-if="state.weeklySchedules?.week_data?.sunday?.holiday">
-                                        🌴 {{ state.weeklySchedules?.week_data?.sunday?.holiday?.name }}
+                                        ⭐ {{ state.weeklySchedules?.week_data?.sunday?.holiday?.name }}
                                     </p>
                                 </div>
                             </div>
@@ -482,12 +482,12 @@
                                                     </p>
                                                     <template v-if="empStats(employee)?.holiday_hours?.enabled">
                                                         <p class="text-xxs text-amber-700" :title="$t('dutySchedules.holidayHoursHint')">
-                                                            🌴 {{ $t('dutySchedules.holidayWorked') }}:
+                                                            ⭐ {{ $t('dutySchedules.holidayWorked') }}:
                                                             {{ empStats(employee)?.holiday_hours?.worked_weekly }} ({{ $t('dutySchedules.week') }})
                                                             · {{ empStats(employee)?.holiday_hours?.worked_yearly }} ({{ $t('dutySchedules.yearToDate') }})
                                                         </p>
                                                         <p class="text-xxs text-amber-700" :title="$t('dutySchedules.holidayHoursHint')">
-                                                            🌴 {{ $t('dutySchedules.holidayNonWorked') }}:
+                                                            ⭐ {{ $t('dutySchedules.holidayNonWorked') }}:
                                                             {{ empStats(employee)?.holiday_hours?.nonworked_weekly }} ({{ $t('dutySchedules.week') }})
                                                             · {{ empStats(employee)?.holiday_hours?.nonworked_yearly }} ({{ $t('dutySchedules.yearToDate') }})
                                                         </p>
@@ -825,7 +825,7 @@
                                                     <div v-if="isNonWorkedHolidayCell(week)"
                                                         class="rounded-xl border border-amber-300 bg-amber-50 px-2 py-1.5 mb-2.5 flex items-start gap-1.5"
                                                         :title="$t('dutySchedules.holidayHoursHint')">
-                                                        <span class="text-sm leading-none">🌴</span>
+                                                        <span class="text-sm leading-none">⭐</span>
                                                         <div class="leading-tight">
                                                             <p class="text-xxs font-semibold text-amber-800">
                                                                 {{ $t('dutySchedules.holidayFreeBadge') }}
@@ -856,7 +856,7 @@
                                                         <div class="absolute -right-2 -top-2 sm:-right-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center text-xs sm:text-sm cursor-help"
                                                             v-if="isWorkedHolidayShift(shift)"
                                                             :title="$t('dutySchedules.holidayWorkedTooltip')">
-                                                            🌴
+                                                            ⭐
                                                         </div>
                                                         <div class="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
                                                             @click="(hasUpdatePermission || isAtLeast('Admin')) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
