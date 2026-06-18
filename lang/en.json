@@ -10545,5 +10545,32 @@
             "citizenRestored": "Citizen successfully restored"
         }
     },
-    "selectAll": "Select all"
+    "selectAll": "Select all",
+    "referrer": {
+        "myProfile": "My profile",
+        "citizens": "Citizens",
+        "shareLink": "Share link",
+        "organization": "Organization",
+        "shareLinkValid": "This share link is valid",
+        "shareLinkInvalid": "This share link is invalid or has expired",
+        "expiresAt": "Expires at"
+    },
+    "employer": {
+        "overview": "Overview",
+        "citizens": "Citizens",
+        "employmentCases": "Employment cases",
+        "employmentCase": "Employment case",
+        "company": "Company",
+        "cvr": "CVR",
+        "website": "Website",
+        "resetPassword": "Reset password",
+        "confirmPassword": "Confirm password",
+        "forgotPasswordSent": "A password reset link has been sent to your email address.",
+        "forgotPasswordDescription": "Enter your email address and we will send you a link to reset your password.",
+        "sendResetLink": "Send reset link",
+        "resetTokenInvalid": "This reset link is invalid or has expired.",
+        "requestNewLink": "Request a new link",
+        "passwordResetSuccess": "Your password has been reset successfully.",
+        "passwordsMustMatch": "Passwords must match"
+    }
 }

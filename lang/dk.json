@@ -10545,5 +10545,32 @@
             "citizenRestored": "Borger gendannet"
         }
     },
-    "selectAll": "Vælg alle"
+    "selectAll": "Vælg alle",
+    "referrer": {
+        "myProfile": "Min profil",
+        "citizens": "Borgere",
+        "shareLink": "Delingslink",
+        "organization": "Organisation",
+        "shareLinkValid": "Dette delingslink er gyldigt",
+        "shareLinkInvalid": "Dette delingslink er ugyldigt eller udløbet",
+        "expiresAt": "Udløber"
+    },
+    "employer": {
+        "overview": "Oversigt",
+        "citizens": "Borgere",
+        "employmentCases": "Beskæftigelsessager",
+        "employmentCase": "Beskæftigelsessag",
+        "company": "Virksomhed",
+        "cvr": "CVR",
+        "website": "Hjemmeside",
+        "resetPassword": "Nulstil adgangskode",
+        "confirmPassword": "Bekræft adgangskode",
+        "forgotPasswordSent": "Et link til nulstilling af adgangskode er sendt til din e-mailadresse.",
+        "forgotPasswordDescription": "Indtast din e-mailadresse, og vi sender dig et link til at nulstille din adgangskode.",
+        "sendResetLink": "Send nulstillingslink",
+        "resetTokenInvalid": "Dette nulstillingslink er ugyldigt eller udløbet.",
+        "requestNewLink": "Anmod om nyt link",
+        "passwordResetSuccess": "Din adgangskode er blevet nulstillet.",
+        "passwordsMustMatch": "Adgangskoderne skal stemme overens"
+    }
 }
