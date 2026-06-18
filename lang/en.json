@@ -8027,6 +8027,8 @@
             "name": "Name",
             "permissions": "Permissions",
             "user": "User",
+            "referrer": "Referrer",
+            "company": "Company",
             "level": "Level",
             "regular": "Regular",
             "manager": "Manager"

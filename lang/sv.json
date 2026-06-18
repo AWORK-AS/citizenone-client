@@ -7991,6 +7991,8 @@
             "name": "Namn",
             "permissions": "Behörigheter",
             "user": "Användare",
+            "referrer": "Remittent",
+            "company": "Företag",
             "level": "Level",
             "regular": "Regular",
             "manager": "Manager"
