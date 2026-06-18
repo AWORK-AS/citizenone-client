@@ -38,17 +38,67 @@
             "dokumentation": "Dokumentation"
         },
         "steps": {
-            "departments": { "title": "Skapa avdelningar", "desc": "Avdelningar strukturerar personal, klienter och schema.", "tip": "T.ex. \"Avdelning Nord\" och \"Avdelning Syd\".", "cta": "Gå till Avdelningar" },
-            "roles": { "title": "Roller och behörigheter", "desc": "Bestäm vad varje roll får se och göra.", "cta": "Gå till Roller" },
-            "employees": { "title": "Bjud in personal", "desc": "Lägg till dina anställda så att de kan logga in.", "cta": "Gå till Personal" },
-            "import": { "title": "Importera från ditt gamla system", "desc": "Migrera klienter, personal, journaler och scheman från ditt nuvarande system (CSV eller Excel).", "cta": "Starta import" },
-            "children": { "title": "Skapa klienter", "desc": "Lägg till klienterna ni arbetar med.", "cta": "Gå till Klienter" },
-            "childData": { "title": "Stamdata och kontaktpersoner", "desc": "Fyll i stamdata, kontaktpersoner och handläggare.", "cta": "Gå till Klienter" },
-            "shiftTypes": { "title": "Skapa skifttyper och regler", "desc": "Definiera skifttyper och arbetstidsregler.", "cta": "Gå till Skiftregler" },
-            "shiftTags": { "title": "Lägg till skift-taggar", "desc": "Taggar gör det enkelt att filtrera skift senare.", "cta": "Gå till Skift-taggar" },
-            "schedule": { "title": "Bygg schemat", "desc": "Planera de första skiften för ditt team.", "cta": "Gå till Schema" },
-            "medicine": { "title": "Ställ in medicin", "desc": "Lägg till medicintyper och doseringsformer.", "cta": "Gå till Medicin" },
-            "templates": { "title": "Statusmallar och planer", "desc": "Ställ in mallar för status, planer och mål.", "cta": "Gå till Inställningar" }
+            "departments": {
+                "title": "Skapa avdelningar",
+                "desc": "Avdelningar strukturerar personal, klienter och schema.",
+                "tip": "T.ex. \"Avdelning Nord\" och \"Avdelning Syd\".",
+                "cta": "Gå till Avdelningar"
+            },
+            "roles": {
+                "title": "Roller och behörigheter",
+                "desc": "Bestäm vad varje roll får se och göra.",
+                "cta": "Gå till Roller"
+            },
+            "employees": {
+                "title": "Bjud in personal",
+                "desc": "Lägg till dina anställda så att de kan logga in.",
+                "cta": "Gå till Personal"
+            },
+            "import": {
+                "title": "Importera från ditt gamla system",
+                "desc": "Migrera klienter, personal, journaler och scheman från ditt nuvarande system (CSV eller Excel).",
+                "cta": "Starta import"
+            },
+            "children": {
+                "title": "Skapa klienter",
+                "desc": "Lägg till klienterna ni arbetar med.",
+                "cta": "Gå till Klienter"
+            },
+            "childData": {
+                "title": "Stamdata och kontaktpersoner",
+                "desc": "Fyll i stamdata, kontaktpersoner och handläggare.",
+                "cta": "Gå till Klienter"
+            },
+            "shiftTypes": {
+                "title": "Skapa skifttyper och regler",
+                "desc": "Definiera skifttyper och arbetstidsregler.",
+                "cta": "Gå till Skiftregler"
+            },
+            "shiftTags": {
+                "title": "Lägg till skift-taggar",
+                "desc": "Taggar gör det enkelt att filtrera skift senare.",
+                "cta": "Gå till Skift-taggar"
+            },
+            "schedule": {
+                "title": "Bygg schemat",
+                "desc": "Planera de första skiften för ditt team.",
+                "cta": "Gå till Schema"
+            },
+            "medicine": {
+                "title": "Ställ in medicin",
+                "desc": "Lägg till medicintyper och doseringsformer.",
+                "cta": "Gå till Medicin"
+            },
+            "templates": {
+                "title": "Statusmallar och planer",
+                "desc": "Ställ in mallar för status, planer och mål.",
+                "cta": "Gå till Inställningar"
+            }
+        },
+        "nextStep": "Nästa steg",
+        "ready": {
+            "title": "Du är redo att gå live!",
+            "desc": "Alla onboarding-steg är slutförda."
         }
     },
     "2fa": {
@@ -8404,7 +8454,8 @@
         "reportTemplates": "Rapportmallar",
         "pinSidebar": "Fäst sidebar",
         "unpinSidebar": "Lossa sidebar",
-        "journalNotes": "Journal notes"
+        "journalNotes": "Journal notes",
+        "discover": "Kom igång"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -9344,7 +9395,8 @@
             "licenses": "Licenser",
             "products": "Produkter",
             "clientRoles": "Klientroller",
-            "cancellations": "Avslutningar"
+            "cancellations": "Avslutningar",
+            "emailTemplates": "E-postmallar"
         },
         "users": {
             "confirmation": {
@@ -9833,6 +9885,21 @@
             "saving": "Sparar...",
             "saveChanges": "Spara ändringar",
             "register": "Registrera"
+        },
+        "emailTemplates": {
+            "title": "E-postmallar",
+            "subtitle": "Redigera de e-postmeddelanden systemet skickar till användare.",
+            "subject": "Ämne",
+            "body": "Innehåll (HTML)",
+            "preview": "Förhandsvisning",
+            "placeholders": "Tillgängliga platshållare",
+            "placeholdersHint": "Klicka för att kopiera. De ersätts med riktiga värden när e-posten skickas.",
+            "edit": "Redigera",
+            "save": "Spara",
+            "cancel": "Avbryt",
+            "saved": "E-postmall sparad",
+            "locale": "Språk",
+            "noTemplates": "Inga e-postmallar hittades"
         }
     },
     "support": {
@@ -10759,5 +10826,103 @@
             "citizenRestored": "Medborgare återställd"
         }
     },
-    "selectAll": "Välj alla"
+    "selectAll": "Välj alla",
+    "import": {
+        "modal": {
+            "title": "Importera från annat system",
+            "question": "Vad vill du importera från ditt gamla system?"
+        },
+        "steps": {
+            "type": {
+                "comingSoon": "Kommer snart"
+            },
+            "upload": {
+                "instruction": "Ladda upp en fil med dina {entity} (CSV eller Excel). Vi mappar kolumnerna till CitizenOne i nästa steg.",
+                "dropzone": "Dra en fil hit, eller klicka för att välja en CSV- eller Excel-fil"
+            },
+            "map": {
+                "columnsFound": "{headers} kolumner hittades, {rows} rader",
+                "yourColumns": "Dina kolumner — dra dem hit",
+                "noName": "(inget namn)",
+                "noColumnName": "(kolumn)",
+                "citizenOneFields": "CitizenOne-fält",
+                "dragColumnHere": "Dra en kolumn hit",
+                "preview": "Förhandsvisning",
+                "requiredFieldsHint": "Obligatoriska fält (*) måste mappas innan import."
+            },
+            "dryRun": {
+                "title": "Genomgång innan import — inget är sparat ännu.",
+                "readyToImport": "redo att importera",
+                "skipped": "hoppas över",
+                "whySkipped": "Varför rader hoppas över",
+                "journalHint": "Rader utan matchning i CitizenOne (okänt CPR) sorteras automatiskt bort under importen och visas i sammanfattningen.",
+                "scheduleHint": "Rader utan matchning i CitizenOne (okänd e-post eller skifttyp) sorteras automatiskt bort under importen och visas i sammanfattningen.",
+                "citizensHint": "Medborgare som redan finns (samma CPR eller namn) hoppas över.",
+                "employeesHint": "Anställda som redan finns (samma e-post eller namn) hoppas över. Varje ny anställd använder en användarlicens — om du tar slut skapas resten inte.",
+                "noValidRows": "Inga giltiga rader att importera. Gå tillbaka och kontrollera mappning och data."
+            },
+            "importing": {
+                "label": "Importerar…"
+            },
+            "done": {
+                "imported": "{count} importerade",
+                "rowsSkipped": "{count} rad(er) kunde inte matchas och hoppades över.",
+                "allImported": "Alla rader importerades.",
+                "alreadyExisted": "{count} fanns redan och hoppades över.",
+                "licenseBlocked": "{count} anställda kunde inte skapas — ni saknar användarlicenser.",
+                "licenseHint": "Lägg till minst {count} licens(er) och kör importen igen — redan skapade hoppas över.",
+                "addLicenses": "Lägg till licenser",
+                "invitesSent": "Inloggningsmail har skickats till de skapade anställda.",
+                "sendInvites": "Skicka inloggningsmail till {count} anställda",
+                "inviteHint": "De skapade anställda får ett e-postmeddelande med inloggning och kom-igång-info. Importen skickar inte mail automatiskt.",
+                "undone": "Importen har ångrats — raderna har tagits bort igen.",
+                "undo": "Ångra import ({count} skapade)",
+                "unmatchedCpr": "Omatchade CPR-nummer:",
+                "unmatchedEmails": "Omatchade e-postadresser:",
+                "unknownShifts": "Okända skifttyper:"
+            }
+        },
+        "footer": {
+            "close": "Stäng",
+            "back": "Tillbaka",
+            "review": "Granska {count} rad(er)",
+            "import": "Importera {count} {entity}"
+        },
+        "entities": {
+            "citizens": "Barn / medborgare",
+            "employees": "Anställda",
+            "journals": "Journalanteckningar",
+            "schedules": "Arbetsscheman"
+        },
+        "fields": {
+            "firstname": "Förnamn",
+            "lastname": "Efternamn",
+            "cpr_number": "CPR-nummer",
+            "birthday": "Födelsedatum (ÅÅÅÅ-MM-DD)",
+            "gender": "Kön (male/female)",
+            "email": "E-post",
+            "phone": "Telefon",
+            "date_admitted": "Inskrivningsdatum",
+            "date_discharged": "Utskrivningsdatum",
+            "departments": "Avdelningar (separerade med ;)",
+            "seniority_date": "Anställningsdatum",
+            "cpr": "Medborgarens CPR-nummer (matchning)",
+            "date": "Datum (ÅÅÅÅ-MM-DD)",
+            "title": "Titel",
+            "content": "Anteckningstext",
+            "shift": "Skifttyp (namn)",
+            "start_time": "Starttid (TT:MM)",
+            "end_time": "Sluttid (TT:MM)",
+            "email_employee": "Anställds e-post (matchning)"
+        },
+        "errors": {
+            "emptyFile": "Filen verkar tom eller saknar datarader.",
+            "readError": "Kunde inte läsa filen. Kontrollera att det är en giltig CSV- eller Excel-fil.",
+            "importFailed": "Importen misslyckades. Kontrollera mappning och datumformat (ÅÅÅÅ-MM-DD).",
+            "undoFailed": "Kunde inte ångra importen.",
+            "invitesFailed": "Kunde inte skicka inloggningsmail.",
+            "missingField": "Saknar {field}",
+            "invalidField": "Ogiltigt {field}"
+        }
+    }
 }
