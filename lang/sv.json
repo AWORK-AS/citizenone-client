@@ -1,4 +1,56 @@
 {
+    "companyModules": {
+        "Economy": "Ekonomi",
+        "Journals": "Journaler",
+        "Medicine card": "Medicinkort",
+        "Plans and goals": "Planer och mål",
+        "Health": "Hälsa",
+        "Documents": "Dokument",
+        "Attendance": "Närvaro",
+        "Calendar": "Kalender",
+        "Contacts": "Kontakter",
+        "Duty Schedule": "Schema",
+        "Employee Group": "Medarbetargrupp"
+    },
+    "discover": {
+        "welcome": "Välkommen, {name}",
+        "subtitle": "Här är din snabbguide för att få CitizenOne uppsatt och igång för ditt team.",
+        "whatDoYouNeed": "Vad behöver du?",
+        "stepsProgress": "{done} av {total} steg slutförda",
+        "groupProgress": "{done} av {total} slutförda",
+        "lockedHint": "Slutför steget ovan först",
+        "promoTitle": "Arbeta var som helst, på vilken enhet som helst",
+        "promoDesc": "Ladda ner appen så att du alltid har CitizenOne till hands.",
+        "promoCta": "Hämta appen",
+        "appInfoMessage": "App Store- och Google Play-länkar visas här i den riktiga versionen.",
+        "modalIntro": "Välj de delar ni använder — så visar vi bara relevanta steg.",
+        "modules": {
+            "vagtplan": "Schema",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation (planer, status, dokument)"
+        },
+        "groups": {
+            "migration": "Migrering",
+            "komIGang": "Kom igång",
+            "born": "Klienter",
+            "vagtplan": "Schema",
+            "medicin": "Medicin",
+            "dokumentation": "Dokumentation"
+        },
+        "steps": {
+            "departments": { "title": "Skapa avdelningar", "desc": "Avdelningar strukturerar personal, klienter och schema.", "tip": "T.ex. \"Avdelning Nord\" och \"Avdelning Syd\".", "cta": "Gå till Avdelningar" },
+            "roles": { "title": "Roller och behörigheter", "desc": "Bestäm vad varje roll får se och göra.", "cta": "Gå till Roller" },
+            "employees": { "title": "Bjud in personal", "desc": "Lägg till dina anställda så att de kan logga in.", "cta": "Gå till Personal" },
+            "import": { "title": "Importera från ditt gamla system", "desc": "Migrera klienter, personal, journaler och scheman från ditt nuvarande system (CSV eller Excel).", "cta": "Starta import" },
+            "children": { "title": "Skapa klienter", "desc": "Lägg till klienterna ni arbetar med.", "cta": "Gå till Klienter" },
+            "childData": { "title": "Stamdata och kontaktpersoner", "desc": "Fyll i stamdata, kontaktpersoner och handläggare.", "cta": "Gå till Klienter" },
+            "shiftTypes": { "title": "Skapa skifttyper och regler", "desc": "Definiera skifttyper och arbetstidsregler.", "cta": "Gå till Skiftregler" },
+            "shiftTags": { "title": "Lägg till skift-taggar", "desc": "Taggar gör det enkelt att filtrera skift senare.", "cta": "Gå till Skift-taggar" },
+            "schedule": { "title": "Bygg schemat", "desc": "Planera de första skiften för ditt team.", "cta": "Gå till Schema" },
+            "medicine": { "title": "Ställ in medicin", "desc": "Lägg till medicintyper och doseringsformer.", "cta": "Gå till Medicin" },
+            "templates": { "title": "Statusmallar och planer", "desc": "Ställ in mallar för status, planer och mål.", "cta": "Gå till Inställningar" }
+        }
+    },
     "2fa": {
         "2fa": "Tvåfaktorsautentisering",
         "alert": {
@@ -845,6 +897,7 @@
         },
         "newBooking": "Ny bokning",
         "newEvent": "Ny händelse",
+        "chooseEventType": "Vilken typ av händelse?",
         "singleEvent": {
             "createASingleEvent": "Skapa en enkelt händelse",
             "createASingleEventLabel": "Skapa en enkelt eller tilbagevendende händelse",
@@ -3584,6 +3637,7 @@
             "employee": "Anställd",
             "employees": "Anställda",
             "employmentStatus": "Anställningsstatus",
+            "tags": "Taggar",
             "filterDate": "Filtrera datum",
             "filterDateAndTime": "Filtrera datum och tid",
             "timeFrom": "Tid från",
@@ -3652,7 +3706,9 @@
                 "confirmation": {
                     "approveLeaveRequestConfirmation": "Är du säker på att du vill godkänna denna semester?",
                     "deleteLeaveRequestConfirmation": "Är du säker på att du vill radera denna semester?",
-                    "rejectLeaveRequestConfirmation": "Är du säker på att du vill afvise denna semester?"
+                    "rejectLeaveRequestConfirmation": "Är du säker på att du vill afvise denna semester?",
+                    "rejectComment": "Kommentar (valfri)",
+                    "rejectCommentPlaceholder": "Lägg till en motivering som medarbetaren kan se"
                 },
                 "dateTimeEnd": "Slutdatum och -tid",
                 "dateTimeStart": "Startdatum och -tid",
@@ -6858,6 +6914,17 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Klienters händelser",
+        "birthdays": {
+            "title": "Födelsedagar denna vecka",
+            "todayTitle": "Födelsedagar idag",
+            "moreThisWeek": "{count} fler denna vecka",
+            "countThisWeek": "{count} födelsedagar denna vecka",
+            "today": "Idag",
+            "inDays": "Om {days} dagar",
+            "turns": "fyller {age}",
+            "staff": "Personal",
+            "child": "Barn"
+        },
         "citizensOrigin": "Borgernes ursprung",
         "createdBy": "Skapad av",
         "dailyOverview": "Daglig översikt",
@@ -7841,6 +7908,56 @@
             "manager": "Manager"
         }
     },
+    "referrals": {
+        "alert": {
+            "referralSuccessfullySaved": "Remiss sparad",
+            "referralSuccessfullyUpdated": "Remiss uppdaterad",
+            "referralSuccessfullyDeleted": "Remiss raderad"
+        },
+        "referrals": "Remisser",
+        "newReferral": "Ny remiss",
+        "referral": "Remiss",
+        "citizen": "Invånare",
+        "department": "Avdelning",
+        "municipality": "Kommun",
+        "caseworkerName": "Handläggarens namn",
+        "caseworkerEmail": "Handläggarens e-post",
+        "caseworkerPhone": "Handläggarens telefon",
+        "startDate": "Startdatum",
+        "endDate": "Slutdatum",
+        "weeks": "Veckor",
+        "weeksCalculated": "Beräknat slutdatum",
+        "status": "Status",
+        "notes": "Anteckningar",
+        "periodChangeReason": "Anledning till periodobyte",
+        "periodLogs": "Periodobyteshistorik",
+        "noPeriodLogs": "Inga periodbytningar registrerade",
+        "statusActive": "Aktiv",
+        "statusPending": "Väntande",
+        "statusClosed": "Stängd",
+        "deleteReferral": "Ta bort remiss",
+        "deleteReferralConfirm": "Är du säker på att du vill ta bort denna remiss?",
+        "table": {
+            "citizen": "Invånare",
+            "municipality": "Kommun",
+            "caseworker": "Handläggare",
+            "startDate": "Startdatum",
+            "endDate": "Slutdatum",
+            "status": "Status",
+            "actions": {
+                "view": "Visa",
+                "edit": "Redigera",
+                "delete": "Ta bort"
+            }
+        },
+        "periodLog": {
+            "previousPeriod": "Tidigare period",
+            "newPeriod": "Ny period",
+            "reason": "Anledning",
+            "changedBy": "Ändrad av",
+            "date": "Datum"
+        }
+    },
     "rooms": {
         "addNewRoom": "Lägg till nytt rum",
         "editRoom": "Redigera rum",
@@ -8115,6 +8232,7 @@
             "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Företag",
+            "import": "Import",
             "consentDeclarationTypes": "Samtyckesförklaringstyper",
             "contactJobTitles": "Kontaktjobtitler",
             "customPages": "Ordliste",
@@ -10228,6 +10346,7 @@
             "form": {
                 "name": "Namn",
                 "color": "Färg",
+                "billingRule": "Faktureringsregel",
                 "isActive": "Aktiv",
                 "sortOrder": "Sorteringsordning",
                 "alert": {
@@ -10361,6 +10480,7 @@
                 },
                 "durationWeeks": "Varaktighet (veckor)",
                 "endDate": "Slutdatum",
+                "statusType": "Statustyp",
                 "notes": "Anteckningar",
                 "periodMode": {
                     "byDate": "Efter datum",
@@ -10374,12 +10494,24 @@
                     "completed": "Avslutad",
                     "on_hold": "Pausad",
                     "paused": "Satt på paus"
-                }
+                },
+                "reminderEnabled": "Automatiska rapporteringspåminnelser",
+                "reminderEnabledHint": "Skapa automatiskt påminnelser för varje rapporteringsdatum under ärendeperioden",
+                "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "reportingFrequencyOptions": {
+                    "every2weeks": "Var 2:a vecka",
+                    "every4weeks": "Var 4:e vecka",
+                    "every6weeks": "Var 6:e vecka",
+                    "every8weeks": "Var 8:e vecka"
+                },
+                "reportingReminderTitle": "Rapporteringspåminnelse",
+                "reportingReminderNote": "Automatisk rapporteringspåminnelse för sysselsättningsärende"
             },
             "table": {
                 "actions": {
                     "delete": "Ta bort",
-                    "edit": "Redigera"
+                    "edit": "Redigera",
+                    "history": "Historik"
                 },
                 "agreement": "Avtal",
                 "alert": {
@@ -10395,6 +10527,28 @@
                 "startDate": "Startdatum",
                 "status": "Status",
                 "weeksUsed": "Använda veckor"
+            },
+            "status": {
+                "active": "Aktiv",
+                "completed": "Avslutad",
+                "on_hold": "Pausad",
+                "paused": "Pausad"
+            },
+            "statusHistory": {
+                "title": "Statushistorik",
+                "history": "Historik",
+                "addEntry": "Registrera statusändring",
+                "noHistory": "Inga statusändringar registrerade ännu.",
+                "statusCleared": "Status borttagen",
+                "form": {
+                    "statusType": "Ny status",
+                    "notes": "Anteckningar",
+                    "notesPlaceholder": "Anledning till statusändring (valfritt)",
+                    "save": "Spara"
+                },
+                "alert": {
+                    "statusUpdated": "Status uppdaterad"
+                }
             }
         },
         "agreements": {
@@ -10407,6 +10561,7 @@
                     "agreementSuccessfullyUpdated": "Avtal uppdaterat",
                     "newAgreementSuccessfullySaved": "Avtal sparat"
                 },
+                "caseType": "Ärendekategori",
                 "defaultDurationWeeks": "Standardvaraktighet (veckor)",
                 "description": "Beskrivning",
                 "isActive": "Aktiv",
@@ -10423,6 +10578,7 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Avtal borttaget"
                 },
+                "caseType": "Ärendekategori",
                 "confirmation": {
                     "deleteAgreementConfirmation": "Är du säker på att du vill ta bort detta avtal?"
                 },
@@ -10430,6 +10586,15 @@
                 "jobcenter": "Jobbcenter",
                 "name": "Namn",
                 "sortOrder": "Sorteringsordning"
+            },
+            "statusTypes": {
+                "title": "Statustyper för detta avtal",
+                "description": "Välj vilka statustyper som är tillgängliga för ärenden under detta avtal.",
+                "noStatusTypesAvailable": "Inga statustyper konfigurerade. Skapa statustyper under Inställningar först.",
+                "saveConfiguration": "Spara konfiguration",
+                "alert": {
+                    "configurationSaved": "Statustypkonfiguration sparad"
+                }
             }
         },
         "jobcenters": {

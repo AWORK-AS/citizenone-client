@@ -1,4 +1,56 @@
 {
+    "companyModules": {
+        "Economy": "Økonomi",
+        "Journals": "Journaler",
+        "Medicine card": "Medisinkort",
+        "Plans and goals": "Planer og mål",
+        "Health": "Helse",
+        "Documents": "Dokumenter",
+        "Attendance": "Fremmøte",
+        "Calendar": "Kalender",
+        "Contacts": "Kontakter",
+        "Duty Schedule": "Vaktplan",
+        "Employee Group": "Medarbeidergruppe"
+    },
+    "discover": {
+        "welcome": "Velkommen, {name}",
+        "subtitle": "Her er din raske guide til å få CitizenOne satt opp og i gang for teamet ditt.",
+        "whatDoYouNeed": "Hva trenger du?",
+        "stepsProgress": "{done} av {total} trinn fullført",
+        "groupProgress": "{done} av {total} fullført",
+        "lockedHint": "Fullfør trinnet over først",
+        "promoTitle": "Jobb hvor som helst, på enhver enhet",
+        "promoDesc": "Last ned appen, så du alltid har CitizenOne for hånden.",
+        "promoCta": "Hent appen",
+        "appInfoMessage": "App Store- og Google Play-lenker kommer her i den ekte versjonen.",
+        "modalIntro": "Velg delene dere bruker — så viser vi bare de relevante trinnene.",
+        "modules": {
+            "vagtplan": "Vaktplan",
+            "medicin": "Medisin",
+            "dokumentation": "Dokumentasjon (planer, status, dokumenter)"
+        },
+        "groups": {
+            "migration": "Migrering",
+            "komIGang": "Kom i gang",
+            "born": "Brukere",
+            "vagtplan": "Vaktplan",
+            "medicin": "Medisin",
+            "dokumentation": "Dokumentasjon"
+        },
+        "steps": {
+            "departments": { "title": "Opprett avdelinger", "desc": "Avdelinger strukturerer personale, brukere og vaktplan.", "tip": "F.eks. \"Avdeling Nord\" og \"Avdeling Sør\".", "cta": "Gå til Avdelinger" },
+            "roles": { "title": "Roller og rettigheter", "desc": "Bestem hva de ulike rollene kan se og gjøre.", "cta": "Gå til Roller" },
+            "employees": { "title": "Inviter personale", "desc": "Legg til de ansatte så de kan logge inn.", "cta": "Gå til Personale" },
+            "import": { "title": "Importer fra ditt gamle system", "desc": "Migrer brukere, ansatte, journaler og vaktplaner fra ditt nåværende system (CSV eller Excel).", "cta": "Start import" },
+            "children": { "title": "Opprett brukere", "desc": "Legg til brukerne dere jobber med.", "cta": "Gå til Brukere" },
+            "childData": { "title": "Stamdata og kontaktpersoner", "desc": "Fyll inn stamdata, kontaktpersoner og saksbehandler.", "cta": "Gå til Brukere" },
+            "shiftTypes": { "title": "Opprett vakttyper og regler", "desc": "Definer vakttyper og arbeidstidsregler.", "cta": "Gå til Vaktregler" },
+            "shiftTags": { "title": "Legg til vakt-tagger", "desc": "Tagger gjør det enkelt å filtrere vakter senere.", "cta": "Gå til Vakt-tagger" },
+            "schedule": { "title": "Lag vaktplanen", "desc": "Planlegg de første vaktene for teamet.", "cta": "Gå til Vaktplan" },
+            "medicine": { "title": "Sett opp medisin", "desc": "Legg til medisintyper og doseringsformer.", "cta": "Gå til Medisin" },
+            "templates": { "title": "Statusmaler og planer", "desc": "Sett opp maler for status, planer og mål.", "cta": "Gå til Innstillinger" }
+        }
+    },
     "2fa": {
         "2fa": "To-faktor-godkendelse",
         "alert": {
@@ -845,6 +897,7 @@
         },
         "newBooking": "Ny booking",
         "newEvent": "Ny arrangement",
+        "chooseEventType": "Hvilken type arrangement?",
         "singleEvent": {
             "createASingleEvent": "Opprett en enkelt arrangement",
             "createASingleEventLabel": "Opprett en enkelt eller gjentakende arrangement",
@@ -3584,6 +3637,7 @@
             "employee": "Medarbeider",
             "employees": "Medarbeidere",
             "employmentStatus": "Ansættelsesstatus",
+            "tags": "Tags",
             "filterDate": "Filtrer dato",
             "filterDateAndTime": "Filtrer dato og tid",
             "timeFrom": "Tid fra",
@@ -3652,7 +3706,9 @@
                 "confirmation": {
                     "approveLeaveRequestConfirmation": "Er du sikker på at du vil godkjenne denne ferie?",
                     "deleteLeaveRequestConfirmation": "Er du sikker på at du vil slette denne ferie?",
-                    "rejectLeaveRequestConfirmation": "Er du sikker på at du vil avvise denne ferie?"
+                    "rejectLeaveRequestConfirmation": "Er du sikker på at du vil avvise denne ferie?",
+                    "rejectComment": "Kommentar (valgfri)",
+                    "rejectCommentPlaceholder": "Legg til en begrunnelse den ansatte kan se"
                 },
                 "dateTimeEnd": "Sluttdato og -tid",
                 "dateTimeStart": "Startdato og -tid",
@@ -6858,6 +6914,17 @@
         },
         "citizensDiagnoses": "Brukernes diagnoser",
         "citizensEvents": "Brukeres arrangementer",
+        "birthdays": {
+            "title": "Bursdager denne uke",
+            "todayTitle": "Bursdager i dag",
+            "moreThisWeek": "{count} flere denne uke",
+            "countThisWeek": "{count} bursdager denne uke",
+            "today": "I dag",
+            "inDays": "Om {days} dager",
+            "turns": "fyller {age}",
+            "staff": "Personale",
+            "child": "Barn"
+        },
         "citizensOrigin": "Brukernes oprindelse",
         "createdBy": "Opprettet av",
         "dailyOverview": "Daglig oversigt",
@@ -7841,6 +7908,56 @@
             "manager": "Manager"
         }
     },
+    "referrals": {
+        "alert": {
+            "referralSuccessfullySaved": "Henvisning lagret",
+            "referralSuccessfullyUpdated": "Henvisning oppdatert",
+            "referralSuccessfullyDeleted": "Henvisning slettet"
+        },
+        "referrals": "Henvisninger",
+        "newReferral": "Ny henvisning",
+        "referral": "Henvisning",
+        "citizen": "Bruker",
+        "department": "Avdeling",
+        "municipality": "Kommune",
+        "caseworkerName": "Saksbehandlers navn",
+        "caseworkerEmail": "Saksbehandlers e-post",
+        "caseworkerPhone": "Saksbehandlers telefon",
+        "startDate": "Startdato",
+        "endDate": "Sluttdato",
+        "weeks": "Uker",
+        "weeksCalculated": "Beregnet sluttdato",
+        "status": "Status",
+        "notes": "Notater",
+        "periodChangeReason": "Årsak til periodeendring",
+        "periodLogs": "Periodeendringshistorikk",
+        "noPeriodLogs": "Ingen periodeendringer registrert",
+        "statusActive": "Aktiv",
+        "statusPending": "Venter",
+        "statusClosed": "Lukket",
+        "deleteReferral": "Slett henvisning",
+        "deleteReferralConfirm": "Er du sikker på at du vil slette denne henvisningen?",
+        "table": {
+            "citizen": "Bruker",
+            "municipality": "Kommune",
+            "caseworker": "Saksbehandler",
+            "startDate": "Startdato",
+            "endDate": "Sluttdato",
+            "status": "Status",
+            "actions": {
+                "view": "Vis",
+                "edit": "Rediger",
+                "delete": "Slett"
+            }
+        },
+        "periodLog": {
+            "previousPeriod": "Tidligere periode",
+            "newPeriod": "Ny periode",
+            "reason": "Årsak",
+            "changedBy": "Endret av",
+            "date": "Dato"
+        }
+    },
     "rooms": {
         "addNewRoom": "Legg til nytt rom",
         "editRoom": "Rediger rom",
@@ -8115,6 +8232,7 @@
             "calendarTags": "Kalenderetiketter",
             "catalog": "Katalog",
             "company": "Virksomhet",
+            "import": "Import",
             "consentDeclarationTypes": "Samtykkerklæringstyper",
             "contactJobTitles": "Kontaktjobbtitler",
             "customPages": "Ordliste",
@@ -10228,6 +10346,7 @@
             "form": {
                 "name": "Navn",
                 "color": "Farge",
+                "billingRule": "Faktureringsregel",
                 "isActive": "Aktiv",
                 "sortOrder": "Sorteringsrekkefølge",
                 "alert": {
@@ -10361,6 +10480,7 @@
                 },
                 "durationWeeks": "Varighet (uker)",
                 "endDate": "Sluttdato",
+                "statusType": "Statustype",
                 "notes": "Notater",
                 "periodMode": {
                     "byDate": "Etter dato",
@@ -10374,12 +10494,24 @@
                     "completed": "Fullført",
                     "on_hold": "På vent",
                     "paused": "Satt på pause"
-                }
+                },
+                "reminderEnabled": "Automatiske rapporteringspåminnelser",
+                "reminderEnabledHint": "Opprett automatisk påminnelser for hver rapporteringsdato i saksperioden",
+                "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "reportingFrequencyOptions": {
+                    "every2weeks": "Hver 2. uke",
+                    "every4weeks": "Hver 4. uke",
+                    "every6weeks": "Hver 6. uke",
+                    "every8weeks": "Hver 8. uke"
+                },
+                "reportingReminderTitle": "Rapporteringspåminnelse",
+                "reportingReminderNote": "Automatisk rapporteringspåminnelse for sysselsettingssak"
             },
             "table": {
                 "actions": {
                     "delete": "Slett",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "history": "Historikk"
                 },
                 "agreement": "Avtale",
                 "alert": {
@@ -10395,6 +10527,28 @@
                 "startDate": "Startdato",
                 "status": "Status",
                 "weeksUsed": "Brukte uker"
+            },
+            "status": {
+                "active": "Aktiv",
+                "completed": "Fullført",
+                "on_hold": "På vent",
+                "paused": "Satt på pause"
+            },
+            "statusHistory": {
+                "title": "Statushistorikk",
+                "history": "Historikk",
+                "addEntry": "Registrer statusendring",
+                "noHistory": "Ingen statusendringer registrert ennå.",
+                "statusCleared": "Status fjernet",
+                "form": {
+                    "statusType": "Ny status",
+                    "notes": "Notater",
+                    "notesPlaceholder": "Årsak til statusendring (valgfritt)",
+                    "save": "Lagre"
+                },
+                "alert": {
+                    "statusUpdated": "Status oppdatert"
+                }
             }
         },
         "agreements": {
@@ -10407,6 +10561,7 @@
                     "agreementSuccessfullyUpdated": "Avtale oppdatert",
                     "newAgreementSuccessfullySaved": "Avtale lagret"
                 },
+                "caseType": "Sakskategori",
                 "defaultDurationWeeks": "Standard varighet (uker)",
                 "description": "Beskrivelse",
                 "isActive": "Aktiv",
@@ -10423,6 +10578,7 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Avtale slettet"
                 },
+                "caseType": "Sakskategori",
                 "confirmation": {
                     "deleteAgreementConfirmation": "Er du sikker på at du vil slette denne avtalen?"
                 },
@@ -10430,6 +10586,15 @@
                 "jobcenter": "Jobbsenter",
                 "name": "Navn",
                 "sortOrder": "Sorteringsrekkefølge"
+            },
+            "statusTypes": {
+                "title": "Statustyper for denne avtalen",
+                "description": "Velg hvilke statustyper som er tilgjengelige for saker under denne avtalen.",
+                "noStatusTypesAvailable": "Ingen statustyper konfigurert. Opprett statustyper under Innstillinger først.",
+                "saveConfiguration": "Lagre konfigurasjon",
+                "alert": {
+                    "configurationSaved": "Statustypekonfigurasjon lagret"
+                }
             }
         },
         "jobcenters": {
