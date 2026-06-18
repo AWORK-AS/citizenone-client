@@ -1730,8 +1730,9 @@ function empStats(employee: any) {
     return state.employeeHoursStats[employee?.uuid]
 }
 
-// Total of the shift-type rows PLUS the holiday compensation (worked + non-worked).
-// Holiday hours are paid on top of the actual work, so both buckets are added.
+// Total of the shift-type rows plus only the NON-WORKED holiday hours.
+// Worked holiday hours (e.g. 9h × 1.5 = 13.5) are already in the shift-type rows;
+// the Holidays box just mirrors them, so adding them again would double-count.
 function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): number {
     const toNum = (v: any) => parseFloat(String(v ?? '0').replace(',', '.')) || 0
     const stats = empStats(employee)
@@ -1740,9 +1741,7 @@ function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): nu
         .reduce((s: number, t: any) => s + toNum(t?.[key]), 0)
     const hh = stats?.holiday_hours
     if (hh?.enabled) {
-        const worked = key === 'weekly_hours' ? hh.worked_weekly : hh.worked_yearly
-        const notWorked = key === 'weekly_hours' ? hh.nonworked_weekly : hh.nonworked_yearly
-        sum += toNum(worked) + toNum(notWorked)
+        sum += toNum(key === 'weekly_hours' ? hh.nonworked_weekly : hh.nonworked_yearly)
     }
     return sum
 }

@@ -3618,7 +3618,7 @@
         "holidayNonWorkedShort": "Ikke arbeidet",
         "holidayFreeBadge": "Fri – helligdag",
         "holidayNonWorkedAssigned": "7,4 helligdagstimer tildelt",
-        "holidayWorkedTooltip": "Du arbeider på en helligdag. Vakten teller fortsatt som vanlig arbeidstid, og du opptjener samtidig helligdagstimene som organisasjonen har satt opp.",
+        "holidayWorkedTooltip": "Du arbeider på en helligdag. Vaktens timer ganges med organisasjonens helligdagsfaktor (f.eks. ×1,5) og vises både under vakttypen og som helligdagstimer.",
         "holidayNonWorkedTooltip": "Denne dagen er en helligdag. Du mottar helligdagstimer selv om det ikke er registrert noen vakt.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",

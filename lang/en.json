@@ -3618,7 +3618,7 @@
         "holidayNonWorkedShort": "Not worked",
         "holidayFreeBadge": "Off – public holiday",
         "holidayNonWorkedAssigned": "7.4 holiday hours assigned",
-        "holidayWorkedTooltip": "You are working on a public holiday. The shift still counts as normal working time, and you also earn the holiday hours your organisation has set up.",
+        "holidayWorkedTooltip": "You are working on a public holiday. The shift's hours are multiplied by your organisation's holiday factor (e.g. ×1.5) and appear both under the shift type and as holiday hours.",
         "holidayNonWorkedTooltip": "This day is a public holiday. You receive holiday hours even though no shift is registered.",
         "indicators": {
             "exceedsNorm": "Exceeds norm",

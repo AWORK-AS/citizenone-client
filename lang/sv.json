@@ -3618,7 +3618,7 @@
         "holidayNonWorkedShort": "Ej arbetad",
         "holidayFreeBadge": "Ledig – helgdag",
         "holidayNonWorkedAssigned": "7,4 helgdagstimmar tilldelade",
-        "holidayWorkedTooltip": "Du arbetar på en helgdag. Passet räknas fortfarande som vanlig arbetstid, och du tjänar samtidigt in de helgdagstimmar som organisationen har ställt in.",
+        "holidayWorkedTooltip": "Du arbetar på en helgdag. Passets timmar multipliceras med organisationens helgdagsfaktor (t.ex. ×1,5) och visas både under passtypen och som helgdagstimmar.",
         "holidayNonWorkedTooltip": "Den här dagen är en helgdag. Du får helgdagstimmar även om inget pass är registrerat.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
