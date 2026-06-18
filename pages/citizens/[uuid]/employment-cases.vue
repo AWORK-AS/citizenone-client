@@ -75,9 +75,10 @@
                                             <span>{{ employmentCase?.weeks_used }}</span>
                                         </td>
                                         <td width="10%">
-                                            <Badge :type="statusBadgeType(employmentCase?.status)">
-                                                {{ $t(`employment.cases.status.${employmentCase?.status}`) }}
+                                            <Badge v-if="employmentCase?.status" :type="statusBadgeType(employmentCase.status)">
+                                                {{ $t(`employment.cases.status.${employmentCase.status}`) }}
                                             </Badge>
+                                            <span v-else class="text-[#8891A4]">—</span>
                                         </td>
                                         <td width="12%">
                                             <span>{{ employmentCase?.user?.name }}</span>

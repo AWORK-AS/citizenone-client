@@ -33,6 +33,10 @@
                             <Icon name="ph:check-circle" class="w-4 h-4" />
                             {{ $t('employment.billing.markSelected') }} ({{ selectedUuids.length }})
                         </FormButton>
+                        <FormButton v-if="state.rows.length > 0" buttonStyle="action" @click="exportToCsv">
+                            <Icon name="ph:download-simple" class="w-4 h-4" />
+                            {{ $t('employment.billing.exportCsv') }}
+                        </FormButton>
                     </div>
                 </div>
 
@@ -146,6 +150,7 @@
 </template>
 
 <script setup lang="ts">
+import { saveAs } from 'file-saver'
 import { employmentService } from '@/components/api/user/EmploymentService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -208,6 +213,35 @@ async function fetchBillingData() {
         state.error = error
     }
     state.isLoading = false
+}
+
+function exportToCsv() {
+    const fmtDate = (d: string) => {
+        const [y, m, day] = d.split('-')
+        return `${day}/${m}/${y}`
+    }
+    const escape = (val: string) => `"${String(val ?? '').replace(/"/g, '""')}"`
+
+    const header = 'CustomerNumber,ProductNumber,Description,Quantity,UnitPrice,Date,YourReference'
+    const lines = state.rows.map(r => {
+        const desc = `${r.citizen_name} — ${r.agreement_name ?? ''} (${fmtDate(r.period_from)}–${fmtDate(r.period_to)})`
+        return [
+            r.customer_number ?? '',
+            r.product_number ?? '',
+            escape(desc),
+            r.billable_weeks ?? 0,
+            r.price_per_week ?? 0,
+            r.period_to,
+            r.uuid,
+        ].join(',')
+    })
+
+    const csv = [header, ...lines].join('\n')
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
+    const period = state.filter.from_date && state.filter.to_date
+        ? `${state.filter.from_date}_${state.filter.to_date}`
+        : 'export'
+    saveAs(blob, `billing-${period}.csv`)
 }
 
 async function markSelectedAsInvoiced() {

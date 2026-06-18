@@ -10598,7 +10598,9 @@
             "billable": "Fakturerbar",
             "noBillingWeeks": "Ingen faktureringsuge fundet for dette forløb",
             "billableWeeks": "fakturerbare uger",
-            "excludedWeeks": "udelukkede uger"
+            "excludedWeeks": "udelukkede uger",
+            "exportCsv": "Eksportér til e-conomic (CSV)",
+            "excludeReasonPlaceholder": "fx. Borger indlagt"
         },
         "revenue": {
             "revenue": "Omsætning",

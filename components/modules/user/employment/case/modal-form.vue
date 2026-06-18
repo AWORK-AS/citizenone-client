@@ -201,7 +201,7 @@ watch(() => props.selectedCase, (newValue: any) => {
             start_date: newValue.start_date ?? '',
             end_date: newValue.end_date ?? '',
             duration_weeks: newValue.duration_weeks != null ? String(newValue.duration_weeks) : null,
-            status: newValue.status ?? null,
+            employment_status_type_uuid: newValue.status_type?.uuid ?? null,
             notes: newValue.notes ?? '',
             reminder_enabled: newValue.reminder_enabled ?? false,
             reporting_frequency_weeks: newValue.reporting_frequency_weeks ?? null,
@@ -265,13 +265,10 @@ async function fetchAgreementStatusTypes(agreementUuid: string) {
         const response = await employmentService.getAgreementStatusTypes(agreementUuid)
         if (response?.data) {
             state.statusTypesRaw = response.data
-            state.options.statusTypes = [
-                { value: null, label: '—' },
-                ...response.data.map((st: any) => ({
-                    value: st.uuid,
-                    label: st.name,
-                })),
-            ]
+            state.options.statusTypes = response.data.map((st: any) => ({
+                value: st.uuid,
+                label: st.name,
+            }))
         }
     } catch { /* ignore */ }
 }
