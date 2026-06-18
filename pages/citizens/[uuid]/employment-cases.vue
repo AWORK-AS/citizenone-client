@@ -75,9 +75,11 @@
                                             <span>{{ employmentCase?.weeks_used }}</span>
                                         </td>
                                         <td width="10%">
-                                            <Badge v-if="employmentCase?.status" :type="statusBadgeType(employmentCase.status)">
-                                                {{ $t(`employment.cases.status.${employmentCase.status}`) }}
-                                            </Badge>
+                                            <span v-if="employmentCase?.status_type"
+                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-white"
+                                                :style="{ backgroundColor: employmentCase.status_type.color || '#6b7280' }">
+                                                {{ employmentCase.status_type.name }}
+                                            </span>
                                             <span v-else class="text-[#8891A4]">—</span>
                                         </td>
                                         <td width="12%">
@@ -125,6 +127,9 @@
 
             <ModulesUserEmploymentCaseBillingWeeksSlideOver :isOpen="state.modal.isBillingWeeksOpen"
                 :selectedCase="state.selectedCase" @close="state.modal.isBillingWeeksOpen = false" />
+
+            <ModulesUserEmploymentCaseStatusHistoryModal :isModalOpen="state.modal.isHistoryOpen"
+                :selectedCase="state.selectedCase" @close="closeHistoryModal" @statusUpdated="fetchCases" />
 
             <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen"
                 @close="state.modal.isSubscribeOpen = false" />
@@ -209,16 +214,6 @@ async function fetchCases() {
     state.isTableLoading = false
 }
 
-const statusBadgeTypeMap: Record<string, string> = {
-    active: 'active',
-    completed: 'primary',
-    on_hold: 'pending',
-    paused: 'inactive',
-}
-
-function statusBadgeType(status: string): string {
-    return statusBadgeTypeMap[status] ?? 'primary'
-}
 
 function previous() { currentTablePage--; fetchCases() }
 function next() { currentTablePage++; fetchCases() }

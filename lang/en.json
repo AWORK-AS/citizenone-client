@@ -43,17 +43,62 @@
             "dokumentation": "Documentation"
         },
         "steps": {
-            "departments": { "title": "Create departments", "desc": "Departments structure staff, citizens and the duty schedule.", "tip": "E.g. \"North department\" and \"South department\".", "cta": "Go to Departments" },
-            "roles": { "title": "Roles & permissions", "desc": "Decide what each role can see and do.", "cta": "Go to Roles" },
-            "employees": { "title": "Invite staff", "desc": "Add your employees so they can log in.", "cta": "Go to Staff" },
-            "import": { "title": "Import from your old system", "desc": "Migrate citizens, staff, journals and schedules from your current system (CSV or Excel).", "cta": "Start import" },
-            "children": { "title": "Create citizens", "desc": "Add the citizens you work with.", "cta": "Go to Citizens" },
-            "childData": { "title": "Master data & contacts", "desc": "Fill in master data, contacts and caseworker.", "cta": "Go to Citizens" },
-            "shiftTypes": { "title": "Create shift types & rules", "desc": "Define shift types and working-time rules.", "cta": "Go to Shift rules" },
-            "shiftTags": { "title": "Add shift tags", "desc": "Tags make it easy to filter shifts later.", "cta": "Go to Shift tags" },
-            "schedule": { "title": "Build the duty schedule", "desc": "Plan the first shifts for your team.", "cta": "Go to Duty schedule" },
-            "medicine": { "title": "Set up medicine", "desc": "Add medicine types and dosage forms.", "cta": "Go to Medicine" },
-            "templates": { "title": "Status templates & plans", "desc": "Set up templates for status, plans and goals.", "cta": "Go to Settings" }
+            "departments": {
+                "title": "Create departments",
+                "desc": "Departments structure staff, citizens and the duty schedule.",
+                "tip": "E.g. \"North department\" and \"South department\".",
+                "cta": "Go to Departments"
+            },
+            "roles": {
+                "title": "Roles & permissions",
+                "desc": "Decide what each role can see and do.",
+                "cta": "Go to Roles"
+            },
+            "employees": {
+                "title": "Invite staff",
+                "desc": "Add your employees so they can log in.",
+                "cta": "Go to Staff"
+            },
+            "import": {
+                "title": "Import from your old system",
+                "desc": "Migrate citizens, staff, journals and schedules from your current system (CSV or Excel).",
+                "cta": "Start import"
+            },
+            "children": {
+                "title": "Create citizens",
+                "desc": "Add the citizens you work with.",
+                "cta": "Go to Citizens"
+            },
+            "childData": {
+                "title": "Master data & contacts",
+                "desc": "Fill in master data, contacts and caseworker.",
+                "cta": "Go to Citizens"
+            },
+            "shiftTypes": {
+                "title": "Create shift types & rules",
+                "desc": "Define shift types and working-time rules.",
+                "cta": "Go to Shift rules"
+            },
+            "shiftTags": {
+                "title": "Add shift tags",
+                "desc": "Tags make it easy to filter shifts later.",
+                "cta": "Go to Shift tags"
+            },
+            "schedule": {
+                "title": "Build the duty schedule",
+                "desc": "Plan the first shifts for your team.",
+                "cta": "Go to Duty schedule"
+            },
+            "medicine": {
+                "title": "Set up medicine",
+                "desc": "Add medicine types and dosage forms.",
+                "cta": "Go to Medicine"
+            },
+            "templates": {
+                "title": "Status templates & plans",
+                "desc": "Set up templates for status, plans and goals.",
+                "cta": "Go to Settings"
+            }
         }
     },
     "2fa": {
@@ -2599,6 +2644,7 @@
             "journals": "Journals",
             "medicineCard": "Medicine card",
             "plansAndGoals": "Plans and goals",
+            "reports": "Reports",
             "timeline": "Timeline"
         },
         "timeline": {
@@ -7551,6 +7597,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Edit report template",
+        "newReportTemplate": "New report template",
+        "reportTemplates": "Report templates",
+        "alert": {
+            "templateSuccessfullyDeleted": "Report template successfully deleted",
+            "templateSuccessfullySaved": "Report template successfully saved",
+            "templateSuccessfullyUpdated": "Report template successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this report template"
+        },
+        "form": {
+            "agreementType": "Case type",
+            "body": "Body",
+            "isActive": "Is active",
+            "name": "Name"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "agreementType": "Case type",
+            "isActive": "Active",
+            "active": "Active",
+            "inactive": "Inactive",
+            "name": "Name"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Copy link",
+        "draft": "Draft",
+        "editReport": "Edit report",
+        "finalize": "Finalize",
+        "finalized": "Finalized",
+        "newReport": "New report",
+        "publicLink": "Public link",
+        "reports": "Reports",
+        "alert": {
+            "cannotEditFinalized": "Finalized reports cannot be edited",
+            "finalizedSuccessfully": "Report successfully finalized",
+            "reportSuccessfullyDeleted": "Report successfully deleted",
+            "reportSuccessfullySaved": "Report successfully saved",
+            "reportSuccessfullyUpdated": "Report successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this report",
+            "finalizeConfirmation": "Are you sure you want to finalize this report? This action cannot be undone"
+        },
+        "form": {
+            "agreementType": "Case type",
+            "body": "Body",
+            "bodyTemplateHint": "Leave blank to auto-fill from the selected template",
+            "caseworker": "Caseworker",
+            "citizen": "Citizen",
+            "consultant": "Consultant",
+            "template": "Template",
+            "title": "Title"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "finalize": "Finalize",
+                "view": "View"
+            },
+            "agreementType": "Case type",
+            "createdAt": "Created",
+            "status": "Status",
+            "title": "Title"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Add requirement",
+        "editRequirement": "Edit requirement",
+        "noRequirements": "No requirements added yet",
+        "requirements": "Requirements",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Requirement successfully deleted",
+            "requirementSuccessfullySaved": "Requirement successfully saved",
+            "requirementSuccessfullyUpdated": "Requirement successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this requirement"
+        },
+        "form": {
+            "description": "Description",
+            "linkedReport": "Linked report",
+            "title": "Title"
+        }
+    },
     "recurring": {
         "addThisSessions": "Add this session",
         "applyChangesToAllRecurringShifts": "Apply changes to all recurring shifts",
@@ -8220,6 +8358,7 @@
             "ipRestrictions": "IP restrictions",
             "approvedDevices": "Approved devices",
             "nursingProfessionalRecordTemplates": "Nursing record templates",
+            "reportTemplates": "Report templates",
             "treatmentTemplates": "Treatment templates",
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
@@ -8348,6 +8487,8 @@
         "messages": "Messages",
         "overview": "Overview",
         "protocols": "Protocols",
+        "reports": "Reports",
+        "reportTemplates": "Report templates",
         "journalNotes": "Journal notes",
         "pinSidebar": "Pin sidebar",
         "unpinSidebar": "Unpin sidebar"
@@ -10687,5 +10828,103 @@
             "citizenRestored": "Citizen successfully restored"
         }
     },
-    "selectAll": "Select all"
+    "selectAll": "Select all",
+    "import": {
+        "modal": {
+            "title": "Import from another system",
+            "question": "What do you want to import from your old system?"
+        },
+        "steps": {
+            "type": {
+                "comingSoon": "Coming soon"
+            },
+            "upload": {
+                "instruction": "Upload a file with your {entity} (CSV or Excel). We will map the columns to CitizenOne in the next step.",
+                "dropzone": "Drag a file here, or click to select a CSV or Excel file"
+            },
+            "map": {
+                "columnsFound": "{headers} columns found, {rows} rows",
+                "yourColumns": "Your columns — drag them over",
+                "noName": "(no name)",
+                "noColumnName": "(column)",
+                "citizenOneFields": "CitizenOne fields",
+                "dragColumnHere": "Drag a column here",
+                "preview": "Preview",
+                "requiredFieldsHint": "Required fields (*) must be mapped before importing."
+            },
+            "dryRun": {
+                "title": "Review before import — nothing is saved yet.",
+                "readyToImport": "ready to import",
+                "skipped": "skipped",
+                "whySkipped": "Why rows are skipped",
+                "journalHint": "Rows without a match in CitizenOne (unknown CPR) are automatically excluded during import and shown in the summary.",
+                "scheduleHint": "Rows without a match in CitizenOne (unknown email or shift type) are automatically excluded during import and shown in the summary.",
+                "citizensHint": "Citizens that already exist (same CPR or name) will be skipped.",
+                "employeesHint": "Employees that already exist (same email or name) will be skipped. Each new employee uses one user license — if you run out, the rest will not be created.",
+                "noValidRows": "No valid rows to import. Go back and check mapping and data."
+            },
+            "importing": {
+                "label": "Importing…"
+            },
+            "done": {
+                "imported": "{count} imported",
+                "rowsSkipped": "{count} row(s) could not be matched and were skipped.",
+                "allImported": "All rows were imported.",
+                "alreadyExisted": "{count} already existed and were skipped.",
+                "licenseBlocked": "{count} employees could not be created — you are out of user licenses.",
+                "licenseHint": "Add at least {count} license(s) and run the import again — already created will be skipped.",
+                "addLicenses": "Add licenses",
+                "invitesSent": "Login emails have been sent to the created employees.",
+                "sendInvites": "Send login emails to {count} employees",
+                "inviteHint": "The created employees will receive an email with login and getting-started info. The import does not send emails automatically.",
+                "undone": "The import has been undone — the rows have been deleted again.",
+                "undo": "Undo import ({count} created)",
+                "unmatchedCpr": "Unmatched CPR numbers:",
+                "unmatchedEmails": "Unmatched emails:",
+                "unknownShifts": "Unknown shift types:"
+            }
+        },
+        "footer": {
+            "close": "Close",
+            "back": "Back",
+            "review": "Review {count} row(s)",
+            "import": "Import {count} {entity}"
+        },
+        "entities": {
+            "citizens": "Children / citizens",
+            "employees": "Employees",
+            "journals": "Journal notes",
+            "schedules": "Shift plans"
+        },
+        "fields": {
+            "firstname": "First name",
+            "lastname": "Last name",
+            "cpr_number": "CPR number",
+            "birthday": "Date of birth (YYYY-MM-DD)",
+            "gender": "Gender (male/female)",
+            "email": "Email",
+            "phone": "Phone",
+            "date_admitted": "Admission date",
+            "date_discharged": "Discharge date",
+            "departments": "Departments (separated by ;)",
+            "seniority_date": "Seniority date",
+            "cpr": "Citizen's CPR number (match)",
+            "date": "Date (YYYY-MM-DD)",
+            "title": "Title",
+            "content": "Note text",
+            "shift": "Shift type (name)",
+            "start_time": "Start time (HH:MM)",
+            "end_time": "End time (HH:MM)",
+            "email_employee": "Employee's email (match)"
+        },
+        "errors": {
+            "emptyFile": "The file appears empty or has no data rows.",
+            "readError": "Could not read the file. Make sure it is a valid CSV or Excel file.",
+            "importFailed": "Import failed. Check mapping and date formats (YYYY-MM-DD).",
+            "undoFailed": "Could not undo the import.",
+            "invitesFailed": "Could not send login emails.",
+            "missingField": "Missing {field}",
+            "invalidField": "Invalid {field}"
+        }
+    }
 }

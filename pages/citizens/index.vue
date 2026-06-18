@@ -60,6 +60,11 @@
                             <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiries.inquiries') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="navigateTo('/reports')"
+                            v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services'">
+                            <Icon name="ph:file-text" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizenReports.reports') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="navigateTo('/referrals')"
                             v-if="(isAtLeast('Admin') || can('create_referral') || can('update_referral') || can('delete_referral')) && userStore.getUser?.company?.industry?.system_name === 'employment_services'">
                             <Icon name="ph:arrows-in" class="h-4 w-4" aria-hidden="true" />

@@ -43,17 +43,62 @@
             "dokumentation": "Dokumentation"
         },
         "steps": {
-            "departments": { "title": "Opret afdelinger", "desc": "Afdelinger strukturerer personale, borgere og vagtplan.", "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".", "cta": "Gå til Afdelinger" },
-            "roles": { "title": "Roller & rettigheder", "desc": "Bestem hvad de forskellige roller må se og gøre.", "cta": "Gå til Roller" },
-            "employees": { "title": "Inviter personale", "desc": "Tilføj jeres medarbejdere, så de kan logge ind.", "cta": "Gå til Personale" },
-            "import": { "title": "Importér fra dit gamle system", "desc": "Migrér borgere, ansatte, journaler og vagtplaner fra dit nuværende system (CSV eller Excel).", "cta": "Start import" },
-            "children": { "title": "Opret borgere", "desc": "Opret de borgere I arbejder med.", "cta": "Gå til Borgere" },
-            "childData": { "title": "Stamdata & kontaktpersoner", "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.", "cta": "Gå til Borgere" },
-            "shiftTypes": { "title": "Opret vagttyper & regler", "desc": "Definér vagttyper og arbejdstidsregler.", "cta": "Gå til Vagtregler" },
-            "shiftTags": { "title": "Tilføj vagt-tags", "desc": "Tags gør det let at filtrere vagter senere.", "cta": "Gå til Vagt-tags" },
-            "schedule": { "title": "Lav vagtplanen", "desc": "Planlæg de første vagter for jeres team.", "cta": "Gå til Vagtplan" },
-            "medicine": { "title": "Opsæt medicin", "desc": "Tilføj medicintyper og doseringsformer.", "cta": "Gå til Medicin" },
-            "templates": { "title": "Statusskabeloner & planer", "desc": "Opsæt skabeloner til status, planer og mål.", "cta": "Gå til Indstillinger" }
+            "departments": {
+                "title": "Opret afdelinger",
+                "desc": "Afdelinger strukturerer personale, borgere og vagtplan.",
+                "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".",
+                "cta": "Gå til Afdelinger"
+            },
+            "roles": {
+                "title": "Roller & rettigheder",
+                "desc": "Bestem hvad de forskellige roller må se og gøre.",
+                "cta": "Gå til Roller"
+            },
+            "employees": {
+                "title": "Inviter personale",
+                "desc": "Tilføj jeres medarbejdere, så de kan logge ind.",
+                "cta": "Gå til Personale"
+            },
+            "import": {
+                "title": "Importér fra dit gamle system",
+                "desc": "Migrér borgere, ansatte, journaler og vagtplaner fra dit nuværende system (CSV eller Excel).",
+                "cta": "Start import"
+            },
+            "children": {
+                "title": "Opret borgere",
+                "desc": "Opret de borgere I arbejder med.",
+                "cta": "Gå til Borgere"
+            },
+            "childData": {
+                "title": "Stamdata & kontaktpersoner",
+                "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.",
+                "cta": "Gå til Borgere"
+            },
+            "shiftTypes": {
+                "title": "Opret vagttyper & regler",
+                "desc": "Definér vagttyper og arbejdstidsregler.",
+                "cta": "Gå til Vagtregler"
+            },
+            "shiftTags": {
+                "title": "Tilføj vagt-tags",
+                "desc": "Tags gør det let at filtrere vagter senere.",
+                "cta": "Gå til Vagt-tags"
+            },
+            "schedule": {
+                "title": "Lav vagtplanen",
+                "desc": "Planlæg de første vagter for jeres team.",
+                "cta": "Gå til Vagtplan"
+            },
+            "medicine": {
+                "title": "Opsæt medicin",
+                "desc": "Tilføj medicintyper og doseringsformer.",
+                "cta": "Gå til Medicin"
+            },
+            "templates": {
+                "title": "Statusskabeloner & planer",
+                "desc": "Opsæt skabeloner til status, planer og mål.",
+                "cta": "Gå til Indstillinger"
+            }
         }
     },
     "2fa": {
@@ -2572,6 +2617,7 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer og mål",
+            "reports": "Rapporter",
             "timeline": "Tidslinje"
         },
         "timeline": {
@@ -7524,6 +7570,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Rediger rapportskabelon",
+        "newReportTemplate": "Ny rapportskabelon",
+        "reportTemplates": "Rapportskabeloner",
+        "alert": {
+            "templateSuccessfullyDeleted": "Rapportskabelon blev slettet",
+            "templateSuccessfullySaved": "Rapportskabelon blev gemt",
+            "templateSuccessfullyUpdated": "Rapportskabelon blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne rapportskabelon"
+        },
+        "form": {
+            "agreementType": "Sagstype",
+            "body": "Indhold",
+            "isActive": "Aktiv",
+            "name": "Navn"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "agreementType": "Sagstype",
+            "isActive": "Aktiv",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "name": "Navn"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Kopiér link",
+        "draft": "Kladde",
+        "editReport": "Rediger rapport",
+        "finalize": "Færdiggør",
+        "finalized": "Færdiggjort",
+        "newReport": "Ny rapport",
+        "publicLink": "Offentligt link",
+        "reports": "Rapporter",
+        "alert": {
+            "cannotEditFinalized": "Færdiggjorte rapporter kan ikke redigeres",
+            "finalizedSuccessfully": "Rapport blev færdiggjort",
+            "reportSuccessfullyDeleted": "Rapport blev slettet",
+            "reportSuccessfullySaved": "Rapport blev gemt",
+            "reportSuccessfullyUpdated": "Rapport blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne rapport",
+            "finalizeConfirmation": "Er du sikker på, at du vil færdiggøre denne rapport? Denne handling kan ikke fortrydes"
+        },
+        "form": {
+            "agreementType": "Sagstype",
+            "body": "Indhold",
+            "bodyTemplateHint": "Lad feltet være tomt for at udfylde automatisk fra den valgte skabelon",
+            "caseworker": "Sagsbehandler",
+            "citizen": "Borger",
+            "consultant": "Konsulent",
+            "template": "Skabelon",
+            "title": "Titel"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "finalize": "Færdiggør",
+                "view": "Se"
+            },
+            "agreementType": "Sagstype",
+            "createdAt": "Oprettet",
+            "status": "Status",
+            "title": "Titel"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Tilføj krav",
+        "editRequirement": "Rediger krav",
+        "noRequirements": "Ingen krav tilføjet endnu",
+        "requirements": "Krav",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Krav blev slettet",
+            "requirementSuccessfullySaved": "Krav blev gemt",
+            "requirementSuccessfullyUpdated": "Krav blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette dette krav"
+        },
+        "form": {
+            "description": "Beskrivelse",
+            "linkedReport": "Tilknyttet rapport",
+            "title": "Titel"
+        }
+    },
     "recurring": {
         "addThisSessions": "Tilføj denne session",
         "applyChangesToAllRecurringShifts": "Anvend også ændring for fremtidige vagter",
@@ -8193,6 +8331,7 @@
             "ipRestrictions": "IP-begrænsninger",
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+            "reportTemplates": "Rapportskabeloner",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sagstyper",
@@ -8321,6 +8460,8 @@
         "messages": "Beskeder",
         "overview": "Oversigt",
         "protocols": "Protokol",
+        "reports": "Rapporter",
+        "reportTemplates": "Rapportskabeloner",
         "journalNotes": "Journalnotater",
         "pinSidebar": "Fastgør sidebar",
         "unpinSidebar": "Frigør sidebar"
@@ -10687,5 +10828,103 @@
             "citizenRestored": "Borger gendannet"
         }
     },
-    "selectAll": "Vælg alle"
+    "selectAll": "Vælg alle",
+    "import": {
+        "modal": {
+            "title": "Importér fra andet system",
+            "question": "Hvad vil du importere fra dit gamle system?"
+        },
+        "steps": {
+            "type": {
+                "comingSoon": "Kommer snart"
+            },
+            "upload": {
+                "instruction": "Upload en fil med dine {entity} (CSV eller Excel). Vi kobler kolonnerne til CitizenOne i næste trin.",
+                "dropzone": "Træk en fil hertil, eller klik for at vælge en CSV- eller Excel-fil"
+            },
+            "map": {
+                "columnsFound": "{headers} kolonner fundet, {rows} rækker",
+                "yourColumns": "Dine kolonner — træk dem over",
+                "noName": "(uden navn)",
+                "noColumnName": "(kolonne)",
+                "citizenOneFields": "CitizenOne-felter",
+                "dragColumnHere": "Træk en kolonne hertil",
+                "preview": "Forhåndsvisning",
+                "requiredFieldsHint": "De obligatoriske felter (*) skal kobles for at kunne importere."
+            },
+            "dryRun": {
+                "title": "Gennemgang før import — intet er gemt endnu.",
+                "readyToImport": "klar til import",
+                "skipped": "springes over",
+                "whySkipped": "Hvorfor springes rækker over",
+                "journalHint": "Rækker uden match i CitizenOne (ukendt CPR) frasorteres automatisk under importen og vises i opsummeringen.",
+                "scheduleHint": "Rækker uden match i CitizenOne (ukendt e-mail eller vagttype) frasorteres automatisk under importen og vises i opsummeringen.",
+                "citizensHint": "Borgere der allerede findes (samme CPR eller navn) springes over.",
+                "employeesHint": "Ansatte der allerede findes (samme e-mail eller navn) springes over. Hver ny ansat bruger én bruger-licens — løber I tør, oprettes resten ikke.",
+                "noValidRows": "Ingen gyldige rækker at importere. Gå tilbage og tjek mapping og data."
+            },
+            "importing": {
+                "label": "Importerer…"
+            },
+            "done": {
+                "imported": "{count} importeret",
+                "rowsSkipped": "{count} række(r) kunne ikke matches og blev sprunget over.",
+                "allImported": "Alle rækker blev importeret.",
+                "alreadyExisted": "{count} fandtes allerede og blev sprunget over.",
+                "licenseBlocked": "{count} ansatte kunne ikke oprettes — I mangler bruger-licenser.",
+                "licenseHint": "Tilføj mindst {count} licens(er) og kør importen igen — allerede oprettede springes over.",
+                "addLicenses": "Tilføj licenser",
+                "invitesSent": "Login-mails er sendt til de oprettede ansatte.",
+                "sendInvites": "Send login-mails til {count} ansatte",
+                "inviteHint": "De oprettede ansatte får en e-mail med login og kom-i-gang-info. Importen sender ikke mails af sig selv.",
+                "undone": "Importen er fortrudt — rækkerne er slettet igen.",
+                "undo": "Fortryd import ({count} oprettet)",
+                "unmatchedCpr": "Ikke-matchede CPR:",
+                "unmatchedEmails": "Ikke-matchede e-mails:",
+                "unknownShifts": "Ukendte vagttyper:"
+            }
+        },
+        "footer": {
+            "close": "Luk",
+            "back": "Tilbage",
+            "review": "Gennemse {count} række(r)",
+            "import": "Importér {count} {entity}"
+        },
+        "entities": {
+            "citizens": "Børn / borgere",
+            "employees": "Ansatte",
+            "journals": "Journalnotater",
+            "schedules": "Vagtplaner"
+        },
+        "fields": {
+            "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "cpr_number": "CPR-nummer",
+            "birthday": "Fødselsdato (ÅÅÅÅ-MM-DD)",
+            "gender": "Køn (male/female)",
+            "email": "E-mail",
+            "phone": "Telefon",
+            "date_admitted": "Indskrivningsdato",
+            "date_discharged": "Udskrivningsdato",
+            "departments": "Afdelinger (adskilt med ;)",
+            "seniority_date": "Anciennitetsdato",
+            "cpr": "Borgerens CPR-nummer (match)",
+            "date": "Dato (ÅÅÅÅ-MM-DD)",
+            "title": "Titel",
+            "content": "Notat-tekst",
+            "shift": "Vagttype (navn)",
+            "start_time": "Starttid (TT:MM)",
+            "end_time": "Sluttid (TT:MM)",
+            "email_employee": "Medarbejderens e-mail (match)"
+        },
+        "errors": {
+            "emptyFile": "Filen ser tom ud eller har ingen datarækker.",
+            "readError": "Kunne ikke læse filen. Tjek at det er en gyldig CSV- eller Excel-fil.",
+            "importFailed": "Importen fejlede. Tjek mapping og datoformater (ÅÅÅÅ-MM-DD).",
+            "undoFailed": "Kunne ikke fortryde importen.",
+            "invitesFailed": "Kunne ikke sende login-mails.",
+            "missingField": "Mangler {field}",
+            "invalidField": "Ugyldig {field}"
+        }
+    }
 }
