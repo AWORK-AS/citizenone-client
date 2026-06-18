@@ -13,7 +13,17 @@
             </template>
 
             <div>
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex justify-end items-center gap-2 mb-5">
+                    <template v-if="isEmploymentServices">
+                        <FormButton buttonStyle="action" @click="navigateTo('/reports/attendance/weekly')">
+                            <Icon name="ph:calendar-check" class="h-4 w-4" />
+                            {{ $t('attendance.weeklyReport') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" @click="navigateTo('/reports/attendance/monthly')">
+                            <Icon name="ph:calendar-dots" class="h-4 w-4" />
+                            {{ $t('attendance.monthlyReport') }}
+                        </FormButton>
+                    </template>
                     <FormButton buttonStyle="action" @click="navigateTo('/protocols/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('protocols.newProtocol') }}
@@ -92,6 +102,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { protocolService } from '@/components/api/user/ProtocolService'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { saveAs } from 'file-saver'
@@ -102,6 +113,8 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
+const userStore = useUserStore() as any
+const isEmploymentServices = computed(() => userStore.getUser?.company?.industry?.system_name === 'employment_services')
 let currentTablePage = 1
 const breadcrumbLinks = [
     {

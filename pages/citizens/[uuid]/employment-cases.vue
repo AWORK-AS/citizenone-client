@@ -37,7 +37,11 @@
 
                 <LoadingSpinner :isActive="state.isTableLoading">
                     <div class="mt-8 space-y-3">
-                        <div class="flex justify-end items-center">
+                        <div class="flex justify-end items-center gap-2">
+                            <FormButton buttonStyle="action" @click="state.modal.isSubscribeOpen = true">
+                                <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('events.subscribe.label') }}
+                            </FormButton>
                             <FormButton buttonStyle="action" @click="state.modal.isNewCaseOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('employment.cases.addNewCase') }}
@@ -71,13 +75,25 @@
                                             <span>{{ employmentCase?.weeks_used }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ employmentCase?.status }}</span>
+                                            <Badge :type="statusBadgeType(employmentCase?.status)">
+                                                {{ $t(`employment.cases.status.${employmentCase?.status}`) }}
+                                            </Badge>
                                         </td>
-                                        <td width="14%">
+                                        <td width="12%">
                                             <span>{{ employmentCase?.user?.name }}</span>
                                         </td>
                                         <td width="10%">
                                             <div class="flex items-end justify-end gap-2">
+                                                <FormButton type="button" buttonStyle="secondary"
+                                                    @click="openStatusHistory(employmentCase)">
+                                                    <Icon name="ph:clock-countdown" class="size-4" />
+                                                    {{ $t('employment.cases.table.actions.history') }}
+                                                </FormButton>
+                                                <FormButton type="button" buttonStyle="action"
+                                                    @click="openBillingWeeks(employmentCase)">
+                                                    <Icon name="ph:calendar-check" class="size-4" />
+                                                    {{ $t('employment.billing.billingWeeks') }}
+                                                </FormButton>
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="openEditCase(employmentCase)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
@@ -105,6 +121,12 @@
             <ModulesUserEmploymentCaseModalEdit :isModalOpen="state.modal.isEditCaseOpen"
                 :selectedCaseUuid="state.selectedCaseUuid" @close="state.modal.isEditCaseOpen = false"
                 @refreshCases="fetchCases" />
+
+            <ModulesUserEmploymentCaseBillingWeeksSlideOver :isOpen="state.modal.isBillingWeeksOpen"
+                :selectedCase="state.selectedCase" @close="state.modal.isBillingWeeksOpen = false" />
+
+            <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen"
+                @close="state.modal.isSubscribeOpen = false" />
 
             <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
                 :message="$t('employment.cases.table.confirmation.deleteCaseConfirmation')"
@@ -153,6 +175,9 @@ const state = reactive({
         isNewCaseOpen: false,
         isEditCaseOpen: false,
         isDeleteOpen: false,
+        isHistoryOpen: false,
+        isBillingWeeksOpen: false,
+        isSubscribeOpen: false,
     },
     selectedCaseUuid: '' as string,
     selectedCase: {} as any,
@@ -183,6 +208,17 @@ async function fetchCases() {
     state.isTableLoading = false
 }
 
+const statusBadgeTypeMap: Record<string, string> = {
+    active: 'active',
+    completed: 'primary',
+    on_hold: 'pending',
+    paused: 'inactive',
+}
+
+function statusBadgeType(status: string): string {
+    return statusBadgeTypeMap[status] ?? 'primary'
+}
+
 function previous() { currentTablePage--; fetchCases() }
 function next() { currentTablePage++; fetchCases() }
 
@@ -192,9 +228,24 @@ function sort(sortingData: any) {
     fetchCases()
 }
 
+function openBillingWeeks(employmentCase: any) {
+    state.selectedCase = employmentCase
+    state.modal.isBillingWeeksOpen = true
+}
+
 function openEditCase(employmentCase: any) {
     state.selectedCaseUuid = employmentCase.uuid
     state.modal.isEditCaseOpen = true
+}
+
+function openStatusHistory(employmentCase: any) {
+    state.selectedCase = employmentCase
+    state.modal.isHistoryOpen = true
+}
+
+function closeHistoryModal() {
+    state.modal.isHistoryOpen = false
+    state.selectedCase = {}
 }
 
 function deleteCaseConfirmation(employmentCase: any) {

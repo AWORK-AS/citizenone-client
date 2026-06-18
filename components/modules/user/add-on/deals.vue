@@ -14,17 +14,12 @@
                             {{ $t('subscription.addOnDeals.extraDepartment') }}
                         </p>
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                            <p v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
-                                {{ formatAmount(state.addOnDeals.department?.data?.monthly_price) }}
+                            <p>
+                                {{ formatAmount(isMonthly
+                                    ? state.addOnDeals.department?.data?.monthly_price
+                                    : state.addOnDeals.department?.data?.yearly_price) }}
                                 <span class="lowercase">
-                                    /{{ $t('subscription.deal.month') }}
-                                    {{ $t('excludeVat') }}
-                                </span>
-                            </p>
-                            <p v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
-                                {{ formatAmount(state.addOnDeals.department?.data?.yearly_price) }}
-                                <span class="lowercase">
-                                    /{{ $t('subscription.deal.year') }}
+                                    /{{ isMonthly ? $t('subscription.deal.month') : $t('subscription.deal.year') }}
                                     {{ $t('excludeVat') }}
                                 </span>
                             </p>
@@ -35,17 +30,11 @@
                             @input="validateDepartmentQuantity" />
                     </div>
                     <div class="flex items-center lg:justify-end">
-                        <p class="leading-6 text-gray-900"
-                            v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
-                            {{ formatAmount(state.addOnDeals.department?.data?.monthly_price *
-                                parseInt(state.formAddOn.department === '' ? '0' :
-                                    state.formAddOn.department)) }}
-                        </p>
-                        <p class="leading-6 text-gray-900"
-                            v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
-                            {{ formatAmount(state.addOnDeals.department?.data?.yearly_price *
-                                parseInt(state.formAddOn.department === '' ? '0' :
-                                    state.formAddOn.department)) }}
+                        <p class="leading-6 text-gray-900">
+                            {{ formatAmount((isMonthly
+                                ? state.addOnDeals.department?.data?.monthly_price
+                                : state.addOnDeals.department?.data?.yearly_price) *
+                                parseInt(state.formAddOn.department || '0')) }}
                         </p>
                     </div>
                 </div>
@@ -55,17 +44,12 @@
                             {{ $t('subscription.addOnDeals.extraUser') }}
                         </p>
                         <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                            <p v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
-                                {{ formatAmount(state.addOnDeals.user?.data?.monthly_price) }}
+                            <p>
+                                {{ formatAmount(isMonthly
+                                    ? state.addOnDeals.user?.data?.monthly_price
+                                    : state.addOnDeals.user?.data?.yearly_price) }}
                                 <span class="lowercase">
-                                    /{{ $t('subscription.deal.month') }}
-                                    {{ $t('excludeVat') }}
-                                </span>
-                            </p>
-                            <p v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
-                                {{ formatAmount(state.addOnDeals.user?.data?.yearly_price) }}
-                                <span class="lowercase">
-                                    /{{ $t('subscription.deal.year') }}
+                                    /{{ isMonthly ? $t('subscription.deal.month') : $t('subscription.deal.year') }}
                                     {{ $t('excludeVat') }}
                                 </span>
                             </p>
@@ -76,17 +60,11 @@
                             @input="validateUserQuantity" />
                     </div>
                     <div class="flex items-center lg:justify-end">
-                        <p class="leading-6 text-gray-900"
-                            v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
-                            {{ formatAmount(state.addOnDeals.user?.data?.monthly_price *
-                                parseInt(state.formAddOn.user === '' ? '0' :
-                                    state.formAddOn.user)) }}
-                        </p>
-                        <p class="leading-6 text-gray-900"
-                            v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
-                            {{ formatAmount(state.addOnDeals.user?.data?.yearly_price *
-                                parseInt(state.formAddOn.user === '' ? '0' :
-                                    state.formAddOn.user)) }}
+                        <p class="leading-6 text-gray-900">
+                            {{ formatAmount((isMonthly
+                                ? state.addOnDeals.user?.data?.monthly_price
+                                : state.addOnDeals.user?.data?.yearly_price) *
+                                parseInt(state.formAddOn.user || '0')) }}
                         </p>
                     </div>
                 </div>
@@ -94,29 +72,10 @@
                     <p class="font-semibold">
                         {{ $t('subscription.addOnDeals.total') }}
                     </p>
-                    <p v-if="userStore.getUser?.user_subscription?.type === 'monthly'">
-                        <span class="font-semibold">
-                            {{ formatAmount((state.addOnDeals.department?.data?.monthly_price *
-                                parseInt(state.formAddOn.department === '' ? '0' :
-                                    state.formAddOn.department) + (state.addOnDeals.user?.data?.monthly_price *
-                                        parseInt(state.formAddOn.user === '' ? '0' :
-                                            state.formAddOn.user)))) }}
-                        </span>
+                    <p>
+                        <span class="font-semibold">{{ formatAmount(totalAmount) }}</span>
                         <span class="lowercase text-xs">
-                            /{{ $t('subscription.deal.month') }}
-                            {{ $t('excludeVat') }}
-                        </span>
-                    </p>
-                    <p v-if="userStore.getUser?.user_subscription?.type === 'yearly'">
-                        <span class="font-semibold">
-                            {{ formatAmount((state.addOnDeals.department?.data?.yearly_price *
-                                parseInt(state.formAddOn.department === '' ? '0' :
-                                    state.formAddOn.department) + (state.addOnDeals.user?.data?.yearly_price *
-                                        parseInt(state.formAddOn.user === '' ? '0' :
-                                            state.formAddOn.user)))) }}
-                        </span>
-                        <span class="lowercase text-xs">
-                            /{{ $t('subscription.deal.year') }}
+                            /{{ isMonthly ? $t('subscription.deal.month') : $t('subscription.deal.year') }}
                             {{ $t('excludeVat') }}
                         </span>
                     </p>
@@ -160,6 +119,19 @@ const { formatAmount } = useAmountFormatter()
 const couponStore = useCouponStore()
 const userStore = useUserStore() as any
 let checkout = null as any
+
+const isMonthly = computed(() => userStore.getUser?.user_subscription?.type === 'monthly')
+
+const totalAmount = computed(() => {
+    const deptPrice = isMonthly.value
+        ? state.addOnDeals.department?.data?.monthly_price
+        : state.addOnDeals.department?.data?.yearly_price
+    const userPrice = isMonthly.value
+        ? state.addOnDeals.user?.data?.monthly_price
+        : state.addOnDeals.user?.data?.yearly_price
+    return (deptPrice ?? 0) * parseInt(state.formAddOn.department || '0')
+        + (userPrice ?? 0) * parseInt(state.formAddOn.user || '0')
+})
 
 const state = reactive({
     error: {} as Error,
@@ -298,10 +270,6 @@ function validateUserQuantity(event: Event) {
 }
 
 function hasItemOnCart() {
-    return (state.addOnDeals.department?.data?.monthly_price *
-        parseInt(state.formAddOn.department === '' ? '0' :
-            state.formAddOn.department) + (state.addOnDeals.user?.data?.monthly_price *
-                parseInt(state.formAddOn.user === '' ? '0' :
-                    state.formAddOn.user))) > 0
+    return totalAmount.value > 0
 }
 </script>
