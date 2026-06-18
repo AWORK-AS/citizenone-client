@@ -634,26 +634,12 @@
                                                     </div>
                                                     <div class="col-span-2">
                                                         <div class="text-right py-1 pr-2 font-bold">
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    (empStats(employee)?.hours ?? []).filter((t: any) => t?.shift?.system_name
-                                                                        !== 'time-filter')
-                                                                        .reduce((sum: number, t: any) => sum +
-                                                                            (parseFloat(String(t?.weekly_hours || '0').replace(',',
-                                                                                '.')) || 0), 0))
-                                                            }}
+                                                            {{ formatNumber(language.locale.value, shiftTypeTotal(employee, 'weekly_hours')) }}
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2 border-l-0.5 border-gray-200">
                                                         <div class="text-right py-1 pr-2 font-bold">
-                                                            {{
-                                                                formatNumber(language.locale.value,
-                                                                    (empStats(employee)?.hours ?? []).filter((t: any) => t?.shift?.system_name
-                                                                        !== 'time-filter')
-                                                                        .reduce((sum: number, t: any) => sum +
-                                                                            (parseFloat(String(t?.yearly_hours || '0').replace(',',
-                                                                                '.')) || 0), 0))
-                                                            }}
+                                                            {{ formatNumber(language.locale.value, shiftTypeTotal(employee, 'yearly_hours')) }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1742,6 +1728,23 @@ async function fetchEmployeeHoursStats(employee: any) {
 
 function empStats(employee: any) {
     return state.employeeHoursStats[employee?.uuid]
+}
+
+// Total of the shift-type rows PLUS the holiday buckets (worked + non-worked),
+// so the table total reconciles with the headline "Total hours".
+function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): number {
+    const toNum = (v: any) => parseFloat(String(v ?? '0').replace(',', '.')) || 0
+    const stats = empStats(employee)
+    let sum = (stats?.hours ?? [])
+        .filter((t: any) => t?.shift?.system_name !== 'time-filter')
+        .reduce((s: number, t: any) => s + toNum(t?.[key]), 0)
+    const hh = stats?.holiday_hours
+    if (hh?.enabled) {
+        const worked = key === 'weekly_hours' ? hh.worked_weekly : hh.worked_yearly
+        const notWorked = key === 'weekly_hours' ? hh.nonworked_weekly : hh.nonworked_yearly
+        sum += toNum(worked) + toNum(notWorked)
+    }
+    return sum
 }
 
 function isStatsLoading(employee: any) {
