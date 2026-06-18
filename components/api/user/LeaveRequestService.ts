@@ -25,8 +25,8 @@ class LeaveRequestService extends BaseAPIService {
         return await this.request(`/user/schedule-leave-requests/${leaveRequestUuid}/approve`, 'POST')
     }
 
-    async rejectLeaveRequest(leaveRequestUuid: any): Promise<any> {
-        return await this.request(`/user/schedule-leave-requests/${leaveRequestUuid}/reject`, 'POST')
+    async rejectLeaveRequest(leaveRequestUuid: any, comment?: string): Promise<any> {
+        return await this.request(`/user/schedule-leave-requests/${leaveRequestUuid}/reject`, 'POST', { comment })
     }
 }
 

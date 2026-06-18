@@ -845,6 +845,7 @@
         },
         "newBooking": "Ny bokning",
         "newEvent": "Ny händelse",
+        "chooseEventType": "Vilken typ av händelse?",
         "singleEvent": {
             "createASingleEvent": "Skapa en enkelt händelse",
             "createASingleEventLabel": "Skapa en enkelt eller tilbagevendende händelse",
@@ -3583,6 +3584,7 @@
             "employee": "Anställd",
             "employees": "Anställda",
             "employmentStatus": "Anställningsstatus",
+            "tags": "Taggar",
             "filterDate": "Filtrera datum",
             "filterDateAndTime": "Filtrera datum och tid",
             "timeFrom": "Tid från",
@@ -3651,7 +3653,9 @@
                 "confirmation": {
                     "approveLeaveRequestConfirmation": "Är du säker på att du vill godkänna denna semester?",
                     "deleteLeaveRequestConfirmation": "Är du säker på att du vill radera denna semester?",
-                    "rejectLeaveRequestConfirmation": "Är du säker på att du vill afvise denna semester?"
+                    "rejectLeaveRequestConfirmation": "Är du säker på att du vill afvise denna semester?",
+                    "rejectComment": "Kommentar (valfri)",
+                    "rejectCommentPlaceholder": "Lägg till en motivering som medarbetaren kan se"
                 },
                 "dateTimeEnd": "Slutdatum och -tid",
                 "dateTimeStart": "Startdatum och -tid",
@@ -6857,6 +6861,17 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Klienters händelser",
+        "birthdays": {
+            "title": "Födelsedagar denna vecka",
+            "todayTitle": "Födelsedagar idag",
+            "moreThisWeek": "{count} fler denna vecka",
+            "countThisWeek": "{count} födelsedagar denna vecka",
+            "today": "Idag",
+            "inDays": "Om {days} dagar",
+            "turns": "fyller {age}",
+            "staff": "Personal",
+            "child": "Barn"
+        },
         "citizensOrigin": "Borgernes ursprung",
         "createdBy": "Skapad av",
         "dailyOverview": "Daglig översikt",

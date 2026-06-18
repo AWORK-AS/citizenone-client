@@ -845,6 +845,7 @@
         },
         "newBooking": "Ny booking",
         "newEvent": "Ny begivenhed",
+        "chooseEventType": "Hvilken type begivenhed?",
         "singleEvent": {
             "createASingleEvent": "Opret en enkelt begivenhed",
             "createASingleEventLabel": "Opret en enkelt eller tilbagevendende begivenhed",
@@ -3583,6 +3584,7 @@
             "employee": "Medarbejder",
             "employees": "Medarbejdere",
             "employmentStatus": "Ansættelsesstatus",
+            "tags": "Tags",
             "filterDate": "Filtrer dato",
             "filterDateAndTime": "Filtrer dato og tid",
             "timeFrom": "Tid fra",
@@ -3651,7 +3653,9 @@
                 "confirmation": {
                     "approveLeaveRequestConfirmation": "Er du sikker på, at du vil godkende denne ferie?",
                     "deleteLeaveRequestConfirmation": "Er du sikker på, at du vil slette denne ferie?",
-                    "rejectLeaveRequestConfirmation": "Er du sikker på, at du vil afvise denne ferie?"
+                    "rejectLeaveRequestConfirmation": "Er du sikker på, at du vil afvise denne ferie?",
+                    "rejectComment": "Kommentar (valgfri)",
+                    "rejectCommentPlaceholder": "Tilføj en begrundelse, medarbejderen kan se"
                 },
                 "dateTimeEnd": "Slutdato og -tid",
                 "dateTimeStart": "Startdato og -tid",
@@ -6866,6 +6870,17 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Borgeres begivenheder",
+        "birthdays": {
+            "title": "Fødselsdage denne uge",
+            "todayTitle": "Fødselsdage i dag",
+            "moreThisWeek": "{count} flere denne uge",
+            "countThisWeek": "{count} fødselsdage denne uge",
+            "today": "I dag",
+            "inDays": "Om {days} dage",
+            "turns": "fylder {age}",
+            "staff": "Personale",
+            "child": "Barn"
+        },
         "citizensOrigin": "Borgernes oprindelse",
         "createdBy": "Oprettet af",
         "dailyOverview": "Daglig oversigt",

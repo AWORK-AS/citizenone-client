@@ -872,6 +872,7 @@
         },
         "newBooking": "New booking",
         "newEvent": "New event",
+        "chooseEventType": "What kind of event?",
         "singleEvent": {
             "createASingleEvent": "Create a single event",
             "createASingleEventLabel": "Create a single or recurring event",
@@ -3610,6 +3611,7 @@
             "employee": "Employee",
             "employees": "Employees",
             "employmentStatus": "Employment status",
+            "tags": "Tags",
             "filterDate": "Filter date",
             "filterDateAndTime": "Filter date and time",
             "timeFrom": "Time from",
@@ -3678,7 +3680,9 @@
                 "confirmation": {
                     "approveLeaveRequestConfirmation": "Are you sure you want to approve this leave",
                     "deleteLeaveRequestConfirmation": "Are you sure you want to delete this leave",
-                    "rejectLeaveRequestConfirmation": "Are you sure you want to disapprove this leave"
+                    "rejectLeaveRequestConfirmation": "Are you sure you want to disapprove this leave",
+                    "rejectComment": "Comment (optional)",
+                    "rejectCommentPlaceholder": "Add a reason the employee will see"
                 },
                 "dateTimeEnd": "Date and time end",
                 "dateTimeStart": "Date and time start",
@@ -6893,6 +6897,17 @@
         },
         "citizensDiagnoses": "Citizens diagnoses",
         "citizensEvents": "Citizens' events",
+        "birthdays": {
+            "title": "Birthdays this week",
+            "todayTitle": "Birthdays today",
+            "moreThisWeek": "{count} more this week",
+            "countThisWeek": "{count} birthdays this week",
+            "today": "Today",
+            "inDays": "In {days} days",
+            "turns": "turns {age}",
+            "staff": "Staff",
+            "child": "Child"
+        },
         "citizensOrigin": "Citizens origin",
         "createdBy": "Created by",
         "dailyOverview": "Daily overview",

@@ -31,8 +31,19 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedDate: {
+        type: String,
+        default: '',
+    },
 })
 const emit = defineEmits(['close', 'refreshSchedules'])
+
+watch(() => props.isModalOpen, (open: boolean) => {
+    if (open && props.selectedDate) {
+        state.formSchedule.date_time_start = moment(props.selectedDate).startOf('day').format('YYYY-MM-DD HH:mm')
+        state.formSchedule.date_time_end = moment(props.selectedDate).startOf('day').add(1, 'hour').format('YYYY-MM-DD HH:mm')
+    }
+})
 
 const state = reactive({
     error: {} as Error,

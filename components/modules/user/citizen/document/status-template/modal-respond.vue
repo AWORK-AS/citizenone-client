@@ -237,7 +237,8 @@
                                 <FormButton type="button" buttonStyle="primary" @click="submitResponse">
                                     {{ $t('save') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="primary" @click="submitResponseAndDownloadPDF">
+                                <FormButton type="button" buttonStyle="primary" @click="submitResponseAndDownloadPDF"
+                                    v-if="isAtLeast('Admin')">
                                     {{ $t('citizens.documents.createTemplate.form.saveAndDownload') }}
                                 </FormButton>
                             </div>
@@ -262,6 +263,7 @@ import { citizenDocumentStatusService } from '@/components/api/user/CitizenDocum
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -288,6 +290,7 @@ const state = reactive({
 })
 
 const { formatDateToReadable } = useDatetimeFormatter()
+const { isAtLeast } = usePermissions()
 
 const followUpDate = computed(() => {
     const duration = state.form?.data?.follow_up_duration

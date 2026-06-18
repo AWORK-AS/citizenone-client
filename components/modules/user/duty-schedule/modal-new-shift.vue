@@ -100,8 +100,8 @@ const localEmployee = computed(() =>
     (props.availableEmployees as any[]).find(e => e.uuid === localEmployeeUuid.value) ?? null
 )
 
-// #28 (Birketoften): show which employee the shift is for, so context isn't lost
-// if you get interrupted mid-create.
+// Show which employee the shift is for, so context isn't lost if you get
+// interrupted mid-create.
 const employeeName = computed(() => {
     const emp: any = props.selectedEmployee ?? localEmployee.value
     if (!emp) return ''
