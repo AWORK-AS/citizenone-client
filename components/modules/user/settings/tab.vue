@@ -37,6 +37,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
+                    name: 'settings.tabs.import',
+                    isTranslateName: true,
+                    href: `/settings/import`,
+                    routeNames: [
+                        'settings-import'
+                    ]
+                },
+                {
                     name: 'settings.tabs.invoices',
                     isTranslateName: true,
                     href: `/settings/invoices`,
@@ -117,6 +125,15 @@ watch(() => userStore.getUser, (newValue: any) => {
                         'settings-time-logs'
                     ]
                 },
+                ...(newValue?.company?.industry?.system_name === 'employment_services' ? [{
+                    name: 'settings.tabs.gdprRetention',
+                    isTranslateName: true,
+                    href: `/settings/gdpr-retention`,
+                    routeNames: [
+                        'settings-gdpr-retention',
+                        'settings-gdpr-retention-deletion-log',
+                    ]
+                }] : []),
                 {
                     name: 'settings.tabs.other',
                     isTranslateName: true,
