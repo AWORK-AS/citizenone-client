@@ -444,6 +444,7 @@ const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
+const { term } = useTerminology()
 const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
@@ -534,7 +535,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Mail') return t('sidebar.mail')
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
-    if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
+    if (item.name === 'Journal Notes') return term('journalNotes', t('sidebar.journalNotes'))
     return item.name
 }
 
