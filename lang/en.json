@@ -2645,6 +2645,8 @@
             "journals": "Journals",
             "medicineCard": "Medicine card",
             "plansAndGoals": "Plans and goals",
+            "outcomes": "Outcomes",
+            "reports": "Reports",
             "timeline": "Timeline"
         },
         "timeline": {
@@ -3051,6 +3053,43 @@
                 "wallets": "Wallets"
             },
             "wallets": "Wallets"
+        },
+        "outcomes": {
+            "outcomes": "Outcomes",
+            "newOutcome": "New outcome",
+            "editOutcome": "Edit outcome",
+            "type": {
+                "employment": "Employment",
+                "education": "Education",
+                "workPlacement": "Work placement"
+            },
+            "form": {
+                "type": "Type",
+                "employerInstitution": "Employer / Institution",
+                "startDate": "Start date",
+                "endDate": "End date",
+                "notes": "Notes",
+                "billingRule": "Billing rule",
+                "noBillingRule": "None"
+            },
+            "table": {
+                "type": "Type",
+                "employerInstitution": "Employer / Institution",
+                "startDate": "Start date",
+                "endDate": "End date",
+                "consultant": "Consultant",
+                "billingRule": "Billing rule"
+            },
+            "alert": {
+                "savedSuccessfully": "Outcome successfully saved",
+                "updatedSuccessfully": "Outcome successfully updated",
+                "deletedSuccessfully": "Outcome successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this outcome?"
+            },
+            "edit": "Edit",
+            "delete": "Delete"
         },
         "noCitizensYet": "No citizens yet"
     },
@@ -7597,6 +7636,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Edit report template",
+        "newReportTemplate": "New report template",
+        "reportTemplates": "Report templates",
+        "alert": {
+            "templateSuccessfullyDeleted": "Report template successfully deleted",
+            "templateSuccessfullySaved": "Report template successfully saved",
+            "templateSuccessfullyUpdated": "Report template successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this report template"
+        },
+        "form": {
+            "agreementType": "Case type",
+            "body": "Body",
+            "isActive": "Is active",
+            "name": "Name"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "agreementType": "Case type",
+            "isActive": "Active",
+            "active": "Active",
+            "inactive": "Inactive",
+            "name": "Name"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Copy link",
+        "draft": "Draft",
+        "editReport": "Edit report",
+        "finalize": "Finalize",
+        "finalized": "Finalized",
+        "newReport": "New report",
+        "publicLink": "Public link",
+        "reports": "Reports",
+        "alert": {
+            "cannotEditFinalized": "Finalized reports cannot be edited",
+            "finalizedSuccessfully": "Report successfully finalized",
+            "reportSuccessfullyDeleted": "Report successfully deleted",
+            "reportSuccessfullySaved": "Report successfully saved",
+            "reportSuccessfullyUpdated": "Report successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this report",
+            "finalizeConfirmation": "Are you sure you want to finalize this report? This action cannot be undone"
+        },
+        "form": {
+            "agreementType": "Case type",
+            "body": "Body",
+            "bodyTemplateHint": "Leave blank to auto-fill from the selected template",
+            "caseworker": "Caseworker",
+            "citizen": "Citizen",
+            "consultant": "Consultant",
+            "template": "Template",
+            "title": "Title"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "finalize": "Finalize",
+                "view": "View"
+            },
+            "agreementType": "Case type",
+            "createdAt": "Created",
+            "status": "Status",
+            "title": "Title"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Add requirement",
+        "editRequirement": "Edit requirement",
+        "noRequirements": "No requirements added yet",
+        "requirements": "Requirements",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Requirement successfully deleted",
+            "requirementSuccessfullySaved": "Requirement successfully saved",
+            "requirementSuccessfullyUpdated": "Requirement successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this requirement"
+        },
+        "form": {
+            "description": "Description",
+            "linkedReport": "Linked report",
+            "title": "Title"
+        }
+    },
     "recurring": {
         "addThisSessions": "Add this session",
         "applyChangesToAllRecurringShifts": "Apply changes to all recurring shifts",
@@ -8266,6 +8397,7 @@
             "ipRestrictions": "IP restrictions",
             "approvedDevices": "Approved devices",
             "nursingProfessionalRecordTemplates": "Nursing record templates",
+            "reportTemplates": "Report templates",
             "treatmentTemplates": "Treatment templates",
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
@@ -8394,6 +8526,8 @@
         "messages": "Messages",
         "overview": "Overview",
         "protocols": "Protocols",
+        "reports": "Reports",
+        "reportTemplates": "Report templates",
         "journalNotes": "Journal notes",
         "pinSidebar": "Pin sidebar",
         "unpinSidebar": "Unpin sidebar"

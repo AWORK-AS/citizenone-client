@@ -2618,6 +2618,8 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer og mål",
+            "outcomes": "Resultater",
+            "reports": "Rapporter",
             "timeline": "Tidslinje"
         },
         "timeline": {
@@ -3024,6 +3026,43 @@
                 "wallets": "Punge"
             },
             "wallets": "Økonomi"
+        },
+        "outcomes": {
+            "outcomes": "Resultater",
+            "newOutcome": "Nyt resultat",
+            "editOutcome": "Rediger resultat",
+            "type": {
+                "employment": "Beskæftigelse",
+                "education": "Uddannelse",
+                "workPlacement": "Praktik"
+            },
+            "form": {
+                "type": "Type",
+                "employerInstitution": "Arbejdsgiver / Institution",
+                "startDate": "Startdato",
+                "endDate": "Slutdato",
+                "notes": "Noter",
+                "billingRule": "Faktureringsregel",
+                "noBillingRule": "Ingen"
+            },
+            "table": {
+                "type": "Type",
+                "employerInstitution": "Arbejdsgiver / Institution",
+                "startDate": "Startdato",
+                "endDate": "Slutdato",
+                "consultant": "Konsulent",
+                "billingRule": "Faktureringsregel"
+            },
+            "alert": {
+                "savedSuccessfully": "Resultat gemt",
+                "updatedSuccessfully": "Resultat opdateret",
+                "deletedSuccessfully": "Resultat slettet"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Er du sikker på, at du vil slette dette resultat?"
+            },
+            "edit": "Rediger",
+            "delete": "Slet"
         },
         "noCitizensYet": "Ingen borgere endnu"
     },
@@ -7570,6 +7609,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Rediger rapportskabelon",
+        "newReportTemplate": "Ny rapportskabelon",
+        "reportTemplates": "Rapportskabeloner",
+        "alert": {
+            "templateSuccessfullyDeleted": "Rapportskabelon blev slettet",
+            "templateSuccessfullySaved": "Rapportskabelon blev gemt",
+            "templateSuccessfullyUpdated": "Rapportskabelon blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne rapportskabelon"
+        },
+        "form": {
+            "agreementType": "Sagstype",
+            "body": "Indhold",
+            "isActive": "Aktiv",
+            "name": "Navn"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger"
+            },
+            "agreementType": "Sagstype",
+            "isActive": "Aktiv",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "name": "Navn"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Kopiér link",
+        "draft": "Kladde",
+        "editReport": "Rediger rapport",
+        "finalize": "Færdiggør",
+        "finalized": "Færdiggjort",
+        "newReport": "Ny rapport",
+        "publicLink": "Offentligt link",
+        "reports": "Rapporter",
+        "alert": {
+            "cannotEditFinalized": "Færdiggjorte rapporter kan ikke redigeres",
+            "finalizedSuccessfully": "Rapport blev færdiggjort",
+            "reportSuccessfullyDeleted": "Rapport blev slettet",
+            "reportSuccessfullySaved": "Rapport blev gemt",
+            "reportSuccessfullyUpdated": "Rapport blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne rapport",
+            "finalizeConfirmation": "Er du sikker på, at du vil færdiggøre denne rapport? Denne handling kan ikke fortrydes"
+        },
+        "form": {
+            "agreementType": "Sagstype",
+            "body": "Indhold",
+            "bodyTemplateHint": "Lad feltet være tomt for at udfylde automatisk fra den valgte skabelon",
+            "caseworker": "Sagsbehandler",
+            "citizen": "Borger",
+            "consultant": "Konsulent",
+            "template": "Skabelon",
+            "title": "Titel"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "finalize": "Færdiggør",
+                "view": "Se"
+            },
+            "agreementType": "Sagstype",
+            "createdAt": "Oprettet",
+            "status": "Status",
+            "title": "Titel"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Tilføj krav",
+        "editRequirement": "Rediger krav",
+        "noRequirements": "Ingen krav tilføjet endnu",
+        "requirements": "Krav",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Krav blev slettet",
+            "requirementSuccessfullySaved": "Krav blev gemt",
+            "requirementSuccessfullyUpdated": "Krav blev opdateret"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Er du sikker på, at du vil slette dette krav"
+        },
+        "form": {
+            "description": "Beskrivelse",
+            "linkedReport": "Tilknyttet rapport",
+            "title": "Titel"
+        }
+    },
     "recurring": {
         "addThisSessions": "Tilføj denne session",
         "applyChangesToAllRecurringShifts": "Anvend også ændring for fremtidige vagter",
@@ -8239,6 +8370,7 @@
             "ipRestrictions": "IP-begrænsninger",
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+            "reportTemplates": "Rapportskabeloner",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sagstyper",
@@ -8367,6 +8499,8 @@
         "messages": "Beskeder",
         "overview": "Oversigt",
         "protocols": "Protokol",
+        "reports": "Rapporter",
+        "reportTemplates": "Rapportskabeloner",
         "journalNotes": "Journalnotater",
         "pinSidebar": "Fastgør sidebar",
         "unpinSidebar": "Frigør sidebar"

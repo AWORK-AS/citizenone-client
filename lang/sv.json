@@ -2618,6 +2618,8 @@
             "journals": "Journaler",
             "medicineCard": "Medicinkort",
             "plansAndGoals": "Planer och mål",
+            "outcomes": "Resultat",
+            "reports": "Rapporter",
             "timeline": "Tidslinje"
         },
         "timeline": {
@@ -3024,6 +3026,43 @@
                 "wallets": "Punge"
             },
             "wallets": "Ekonomi"
+        },
+        "outcomes": {
+            "outcomes": "Resultat",
+            "newOutcome": "Nytt resultat",
+            "editOutcome": "Redigera resultat",
+            "type": {
+                "employment": "Anställning",
+                "education": "Utbildning",
+                "workPlacement": "Praktik"
+            },
+            "form": {
+                "type": "Typ",
+                "employerInstitution": "Arbetsgivare / Institution",
+                "startDate": "Startdatum",
+                "endDate": "Slutdatum",
+                "notes": "Anteckningar",
+                "billingRule": "Fakturaregel",
+                "noBillingRule": "Ingen"
+            },
+            "table": {
+                "type": "Typ",
+                "employerInstitution": "Arbetsgivare / Institution",
+                "startDate": "Startdatum",
+                "endDate": "Slutdatum",
+                "consultant": "Konsult",
+                "billingRule": "Fakturaregel"
+            },
+            "alert": {
+                "savedSuccessfully": "Resultat sparat",
+                "updatedSuccessfully": "Resultat uppdaterat",
+                "deletedSuccessfully": "Resultat borttaget"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Är du säker på att du vill ta bort detta resultat?"
+            },
+            "edit": "Redigera",
+            "delete": "Ta bort"
         },
         "noCitizensYet": "Inga medborgare än"
     },
@@ -7561,6 +7600,98 @@
             }
         }
     },
+    "reportTemplates": {
+        "editReportTemplate": "Redigera rapportmall",
+        "newReportTemplate": "Ny rapportmall",
+        "reportTemplates": "Rapportmallar",
+        "alert": {
+            "templateSuccessfullyDeleted": "Rapportmall raderades",
+            "templateSuccessfullySaved": "Rapportmall sparades",
+            "templateSuccessfullyUpdated": "Rapportmall uppdaterades"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Är du säker på att du vill radera denna rapportmall"
+        },
+        "form": {
+            "agreementType": "Ärendetyp",
+            "body": "Innehåll",
+            "isActive": "Aktiv",
+            "name": "Namn"
+        },
+        "table": {
+            "actions": {
+                "delete": "Radera",
+                "edit": "Redigera"
+            },
+            "agreementType": "Ärendetyp",
+            "isActive": "Aktiv",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "name": "Namn"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Kopiera länk",
+        "draft": "Utkast",
+        "editReport": "Redigera rapport",
+        "finalize": "Slutför",
+        "finalized": "Slutförd",
+        "newReport": "Ny rapport",
+        "publicLink": "Offentlig länk",
+        "reports": "Rapporter",
+        "alert": {
+            "cannotEditFinalized": "Slutförda rapporter kan inte redigeras",
+            "finalizedSuccessfully": "Rapport slutfördes",
+            "reportSuccessfullyDeleted": "Rapport raderades",
+            "reportSuccessfullySaved": "Rapport sparades",
+            "reportSuccessfullyUpdated": "Rapport uppdaterades"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Är du säker på att du vill radera denna rapport",
+            "finalizeConfirmation": "Är du säker på att du vill slutföra denna rapport? Åtgärden kan inte ångras"
+        },
+        "form": {
+            "agreementType": "Ärendetyp",
+            "body": "Innehåll",
+            "bodyTemplateHint": "Lämna tomt för att fylla i automatiskt från den valda mallen",
+            "caseworker": "Handläggare",
+            "citizen": "Klient",
+            "consultant": "Konsult",
+            "template": "Mall",
+            "title": "Titel"
+        },
+        "table": {
+            "actions": {
+                "delete": "Radera",
+                "edit": "Redigera",
+                "finalize": "Slutför",
+                "view": "Visa"
+            },
+            "agreementType": "Ärendetyp",
+            "createdAt": "Skapad",
+            "status": "Status",
+            "title": "Titel"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Lägg till krav",
+        "editRequirement": "Redigera krav",
+        "noRequirements": "Inga krav tillagda ännu",
+        "requirements": "Krav",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Krav raderades",
+            "requirementSuccessfullySaved": "Krav sparades",
+            "requirementSuccessfullyUpdated": "Krav uppdaterades"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Är du säker på att du vill radera detta krav"
+        },
+        "form": {
+            "description": "Beskrivning",
+            "linkedReport": "Länkad rapport",
+            "title": "Titel"
+        }
+    },
     "recurring": {
         "addThisSessions": "Lägg till denna session",
         "applyChangesToAllRecurringShifts": "Använd också ändring för fremtidige pass",
@@ -8230,6 +8361,7 @@
             "ipRestrictions": "IP-begränsningar",
             "approvedDevices": "Godkända enheter",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
+            "reportTemplates": "Rapportmallar",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Ärendetyper",
@@ -8357,6 +8489,8 @@
         "messages": "Meddelanden",
         "overview": "Översikt",
         "protocols": "Protokoll",
+        "reports": "Rapporter",
+        "reportTemplates": "Rapportmallar",
         "pinSidebar": "Fäst sidebar",
         "unpinSidebar": "Lossa sidebar",
         "journalNotes": "Journal notes",
