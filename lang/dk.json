@@ -99,7 +99,8 @@
                 "desc": "Opsæt skabeloner til status, planer og mål.",
                 "cta": "Gå til Indstillinger"
             }
-        }
+        },
+        "title": "Opdag"
     },
     "2fa": {
         "2fa": "To-faktor-godkendelse",

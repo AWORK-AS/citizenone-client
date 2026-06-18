@@ -99,7 +99,8 @@
         "ready": {
             "title": "Du är redo att gå live!",
             "desc": "Alla onboarding-steg är slutförda."
-        }
+        },
+        "title": "Utforska"
     },
     "2fa": {
         "2fa": "Tvåfaktorsautentisering",

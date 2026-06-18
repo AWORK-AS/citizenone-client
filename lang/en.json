@@ -99,7 +99,8 @@
                 "desc": "Set up templates for status, plans and goals.",
                 "cta": "Go to Settings"
             }
-        }
+        },
+        "title": "Discover"
     },
     "2fa": {
         "2fa": "Two factor authentication",
