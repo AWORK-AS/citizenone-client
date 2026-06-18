@@ -360,10 +360,6 @@ async function login() {
 						navigateTo('/citizen/overview')
 					} else if (response.data.user?.role === 'Relative') {
 						navigateTo('/relative/citizens')
-					} else if (response.data.user?.role === 'Referrer') {
-						navigateTo('/referrer/citizens')
-					} else if (response.data.user?.role === 'Employer') {
-						navigateTo('/employer/overview')
 					} else {
 						navigateTo('/overview')
 					}

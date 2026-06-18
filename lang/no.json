@@ -10545,32 +10545,5 @@
             "citizenRestored": "Borger gjenopprettet"
         }
     },
-    "selectAll": "Velg alle",
-    "referrer": {
-        "myProfile": "Min profil",
-        "citizens": "Borgere",
-        "shareLink": "Delingslenke",
-        "organization": "Organisasjon",
-        "shareLinkValid": "Denne delingslenken er gyldig",
-        "shareLinkInvalid": "Denne delingslenken er ugyldig eller utløpt",
-        "expiresAt": "Utløper"
-    },
-    "employer": {
-        "overview": "Oversikt",
-        "citizens": "Borgere",
-        "employmentCases": "Arbeidssaker",
-        "employmentCase": "Arbeidssak",
-        "company": "Bedrift",
-        "cvr": "CVR",
-        "website": "Nettside",
-        "resetPassword": "Tilbakestill passord",
-        "confirmPassword": "Bekreft passord",
-        "forgotPasswordSent": "En lenke for tilbakestilling av passord er sendt til e-postadressen din.",
-        "forgotPasswordDescription": "Skriv inn e-postadressen din, så sender vi deg en lenke for å tilbakestille passordet.",
-        "sendResetLink": "Send tilbakestillingslenke",
-        "resetTokenInvalid": "Denne tilbakestillingslenken er ugyldig eller utløpt.",
-        "requestNewLink": "Be om ny lenke",
-        "passwordResetSuccess": "Passordet ditt har blitt tilbakestilt.",
-        "passwordsMustMatch": "Passordene må være like"
-    }
+    "selectAll": "Velg alle"
 }

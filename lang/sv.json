@@ -10545,32 +10545,5 @@
             "citizenRestored": "Medborgare återställd"
         }
     },
-    "selectAll": "Välj alla",
-    "referrer": {
-        "myProfile": "Min profil",
-        "citizens": "Medborgare",
-        "shareLink": "Delningslänk",
-        "organization": "Organisation",
-        "shareLinkValid": "Den här delningslänken är giltig",
-        "shareLinkInvalid": "Den här delningslänken är ogiltig eller har löpt ut",
-        "expiresAt": "Upphör"
-    },
-    "employer": {
-        "overview": "Översikt",
-        "citizens": "Medborgare",
-        "employmentCases": "Sysselsättningsärenden",
-        "employmentCase": "Sysselsättningsärende",
-        "company": "Företag",
-        "cvr": "CVR",
-        "website": "Webbplats",
-        "resetPassword": "Återställ lösenord",
-        "confirmPassword": "Bekräfta lösenord",
-        "forgotPasswordSent": "En länk för återställning av lösenord har skickats till din e-postadress.",
-        "forgotPasswordDescription": "Ange din e-postadress så skickar vi en länk för att återställa ditt lösenord.",
-        "sendResetLink": "Skicka återställningslänk",
-        "resetTokenInvalid": "Den här återställningslänken är ogiltig eller har löpt ut.",
-        "requestNewLink": "Begär en ny länk",
-        "passwordResetSuccess": "Ditt lösenord har återställts.",
-        "passwordsMustMatch": "Lösenorden måste matcha"
-    }
+    "selectAll": "Välj alla"
 }
