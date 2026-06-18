@@ -141,7 +141,7 @@
                                 <div class="col-span-2 border-0.5">
                                     <div class="flex items-center gap-x-3 px-3 pt-3">
                                         <p class="text-sm font-medium">
-                                            {{ $t('dutySchedules.week') }} {{ moment(state.selectedDate).week() }}
+                                            {{ $t('dutySchedules.week') }} {{ moment(state.selectedDate).isoWeek() }}
                                         </p>
                                     </div>
                                 </div>

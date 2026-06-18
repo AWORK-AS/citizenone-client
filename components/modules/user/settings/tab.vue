@@ -37,6 +37,14 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 {
+                    name: 'settings.tabs.import',
+                    isTranslateName: true,
+                    href: `/settings/import`,
+                    routeNames: [
+                        'settings-import'
+                    ]
+                },
+                {
                     name: 'settings.tabs.invoices',
                     isTranslateName: true,
                     href: `/settings/invoices`,

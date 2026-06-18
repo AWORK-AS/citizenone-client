@@ -35,8 +35,13 @@
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
 
-                <div class="mt-8 space-y-3">
-                        <div class="flex justify-end items-center">
+                <LoadingSpinner :isActive="state.isTableLoading">
+                    <div class="mt-8 space-y-3">
+                        <div class="flex justify-end items-center gap-2">
+                            <FormButton buttonStyle="action" @click="state.modal.isSubscribeOpen = true">
+                                <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('events.subscribe.label') }}
+                            </FormButton>
                             <FormButton buttonStyle="action" @click="state.modal.isNewCaseOpen = true">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('employment.cases.addNewCase') }}
@@ -69,13 +74,10 @@
                                         <td width="8%">
                                             <span>{{ employmentCase?.weeks_used }}</span>
                                         </td>
-                                        <td width="12%">
-                                            <span v-if="employmentCase?.status_type"
-                                                class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium text-white"
-                                                :style="{ backgroundColor: employmentCase.status_type.color || '#6b7280' }">
-                                                {{ employmentCase.status_type.name }}
-                                            </span>
-                                            <span v-else class="text-gray-400 text-sm">—</span>
+                                        <td width="10%">
+                                            <Badge :type="statusBadgeType(employmentCase?.status)">
+                                                {{ $t(`employment.cases.status.${employmentCase?.status}`) }}
+                                            </Badge>
                                         </td>
                                         <td width="12%">
                                             <span>{{ employmentCase?.user?.name }}</span>
@@ -110,6 +112,7 @@
                         </div>
                         <Pagination :data="state.cases" @previous="previous" @next="next" />
                     </div>
+                </LoadingSpinner>
             </div>
 
             <ModulesUserEmploymentCaseModalNew :isModalOpen="state.modal.isNewCaseOpen" :citizenUuid="citizenUuid"
@@ -122,11 +125,8 @@
             <ModulesUserEmploymentCaseBillingWeeksSlideOver :isOpen="state.modal.isBillingWeeksOpen"
                 :selectedCase="state.selectedCase" @close="state.modal.isBillingWeeksOpen = false" />
 
-            <ModulesUserEmploymentCaseStatusHistoryModal
-                :isModalOpen="state.modal.isHistoryOpen"
-                :selectedCase="state.selectedCase"
-                @close="closeHistoryModal"
-                @statusUpdated="fetchCases" />
+            <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen"
+                @close="state.modal.isSubscribeOpen = false" />
 
             <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
                 :message="$t('employment.cases.table.confirmation.deleteCaseConfirmation')"
@@ -177,6 +177,7 @@ const state = reactive({
         isDeleteOpen: false,
         isHistoryOpen: false,
         isBillingWeeksOpen: false,
+        isSubscribeOpen: false,
     },
     selectedCaseUuid: '' as string,
     selectedCase: {} as any,
@@ -205,6 +206,17 @@ async function fetchCases() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+const statusBadgeTypeMap: Record<string, string> = {
+    active: 'active',
+    completed: 'primary',
+    on_hold: 'pending',
+    paused: 'inactive',
+}
+
+function statusBadgeType(status: string): string {
+    return statusBadgeTypeMap[status] ?? 'primary'
 }
 
 function previous() { currentTablePage--; fetchCases() }

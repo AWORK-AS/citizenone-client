@@ -787,7 +787,7 @@ function nextWeek() {
 }
 
 const weekNumber = computed(() => {
-    return moment(currentDate.value).week()
+    return moment(currentDate.value).isoWeek()
 })
 
 const weekDays = computed(() => {
