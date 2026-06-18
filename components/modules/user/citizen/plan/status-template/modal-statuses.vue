@@ -54,6 +54,11 @@
                                                     {{ $t('plansandgoals.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton buttonStyle="action" buttonSize="sm"
+                                                    @click="openStatus(status)" v-if="!status.is_draft">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                    {{ $t('plansandgoals.table.actions.view') }}
+                                                </FormButton>
+                                                <FormButton buttonStyle="action" buttonSize="sm"
                                                     @click="downloadStatus(status)">
                                                     <Icon name="ph:download" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.download') }}
@@ -200,6 +205,24 @@ function handleSearch(value: any) {
 
 function toggleExpanded(index: number) {
     expandedDescription[index] = !expandedDescription[index]
+}
+
+async function openStatus(status: any) {
+    state.isTableLoading = true
+    state.error = {}
+    try {
+        const attachmentUuid = status?.uuid
+        const response = await planGoalSubgoalService.downloadPlanGoalSubgoalStatuses(attachmentUuid)
+        if (response) {
+            const blob = response instanceof Blob ? response : new Blob([response], { type: 'application/pdf' })
+            const url = URL.createObjectURL(blob)
+            window.open(url, '_blank')
+            setTimeout(() => URL.revokeObjectURL(url), 60000)
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred.'
+    }
+    state.isTableLoading = false
 }
 
 async function downloadStatus(status: any) {
