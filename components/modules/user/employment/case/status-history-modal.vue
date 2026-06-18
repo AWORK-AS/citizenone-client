@@ -147,13 +147,10 @@ async function fetchAgreementStatusTypes() {
         const response = await employmentService.getAgreementStatusTypes(agreementUuid)
         if (response?.data) {
             state.statusTypesRaw = response.data
-            state.options.statusTypes = [
-                { value: null, label: '—' },
-                ...response.data.map((st: any) => ({
-                    value: st.uuid,
-                    label: st.name,
-                })),
-            ]
+            state.options.statusTypes = response.data.map((st: any) => ({
+                value: st.uuid,
+                label: st.name,
+            }))
         }
     } catch { /* ignore */ }
 }
