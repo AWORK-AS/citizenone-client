@@ -7757,6 +7757,56 @@
             "manager": "Leder"
         }
     },
+    "referrals": {
+        "alert": {
+            "referralSuccessfullySaved": "Henvisning gemt",
+            "referralSuccessfullyUpdated": "Henvisning opdateret",
+            "referralSuccessfullyDeleted": "Henvisning slettet"
+        },
+        "referrals": "Henvisninger",
+        "newReferral": "Ny henvisning",
+        "referral": "Henvisning",
+        "citizen": "Borger",
+        "department": "Afdeling",
+        "municipality": "Kommune",
+        "caseworkerName": "Sagsbehandlers navn",
+        "caseworkerEmail": "Sagsbehandlers e-mail",
+        "caseworkerPhone": "Sagsbehandlers telefon",
+        "startDate": "Startdato",
+        "endDate": "Slutdato",
+        "weeks": "Uger",
+        "weeksCalculated": "Beregnet slutdato",
+        "status": "Status",
+        "notes": "Noter",
+        "periodChangeReason": "Årsag til periodeændring",
+        "periodLogs": "Periodeændringshistorik",
+        "noPeriodLogs": "Ingen periodeændringer registreret",
+        "statusActive": "Aktiv",
+        "statusPending": "Afventer",
+        "statusClosed": "Lukket",
+        "deleteReferral": "Slet henvisning",
+        "deleteReferralConfirm": "Er du sikker på, at du vil slette denne henvisning?",
+        "table": {
+            "citizen": "Borger",
+            "municipality": "Kommune",
+            "caseworker": "Sagsbehandler",
+            "startDate": "Startdato",
+            "endDate": "Slutdato",
+            "status": "Status",
+            "actions": {
+                "view": "Vis",
+                "edit": "Rediger",
+                "delete": "Slet"
+            }
+        },
+        "periodLog": {
+            "previousPeriod": "Tidligere periode",
+            "newPeriod": "Ny periode",
+            "reason": "Årsag",
+            "changedBy": "Ændret af",
+            "date": "Dato"
+        }
+    },
     "rooms": {
         "addNewRoom": "Tilføj nyt værelse",
         "editRoom": "Rediger værelse",

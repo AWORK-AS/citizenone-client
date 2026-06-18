@@ -7748,6 +7748,56 @@
             "manager": "Manager"
         }
     },
+    "referrals": {
+        "alert": {
+            "referralSuccessfullySaved": "Henvisning lagret",
+            "referralSuccessfullyUpdated": "Henvisning oppdatert",
+            "referralSuccessfullyDeleted": "Henvisning slettet"
+        },
+        "referrals": "Henvisninger",
+        "newReferral": "Ny henvisning",
+        "referral": "Henvisning",
+        "citizen": "Bruker",
+        "department": "Avdeling",
+        "municipality": "Kommune",
+        "caseworkerName": "Saksbehandlers navn",
+        "caseworkerEmail": "Saksbehandlers e-post",
+        "caseworkerPhone": "Saksbehandlers telefon",
+        "startDate": "Startdato",
+        "endDate": "Sluttdato",
+        "weeks": "Uker",
+        "weeksCalculated": "Beregnet sluttdato",
+        "status": "Status",
+        "notes": "Notater",
+        "periodChangeReason": "Årsak til periodeendring",
+        "periodLogs": "Periodeendringshistorikk",
+        "noPeriodLogs": "Ingen periodeendringer registrert",
+        "statusActive": "Aktiv",
+        "statusPending": "Venter",
+        "statusClosed": "Lukket",
+        "deleteReferral": "Slett henvisning",
+        "deleteReferralConfirm": "Er du sikker på at du vil slette denne henvisningen?",
+        "table": {
+            "citizen": "Bruker",
+            "municipality": "Kommune",
+            "caseworker": "Saksbehandler",
+            "startDate": "Startdato",
+            "endDate": "Sluttdato",
+            "status": "Status",
+            "actions": {
+                "view": "Vis",
+                "edit": "Rediger",
+                "delete": "Slett"
+            }
+        },
+        "periodLog": {
+            "previousPeriod": "Tidligere periode",
+            "newPeriod": "Ny periode",
+            "reason": "Årsak",
+            "changedBy": "Endret av",
+            "date": "Dato"
+        }
+    },
     "rooms": {
         "addNewRoom": "Legg til nytt rom",
         "editRoom": "Rediger rom",
