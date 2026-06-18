@@ -161,7 +161,7 @@
                                         <Icon name="ph:eye" class="w-3.5 h-3.5" />
                                         {{ $t('superadmin.invoices.table.actions.view') }}
                                     </SuperadminTableButton>
-                                    <SuperadminTableButton v-if="!invoice?.is_paid && !invoice?.invoice_type"
+                                    <SuperadminTableButton v-if="!invoice?.is_paid"
                                         buttonStyle="success" @click="confirmMarkInvoiceAsPaid(invoice)">
                                         <Icon name="ph:check" class="w-3.5 h-3.5" />
                                         {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
