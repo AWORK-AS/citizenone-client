@@ -7574,7 +7574,7 @@
             "deleteConfirmation": "Er du sikker på at du vil slette denne rapportmalen"
         },
         "form": {
-            "agreementType": "Avtaletype",
+            "agreementType": "Sakstype",
             "body": "Innhold",
             "isActive": "Aktiv",
             "name": "Navn"
@@ -7584,7 +7584,7 @@
                 "delete": "Slett",
                 "edit": "Rediger"
             },
-            "agreementType": "Avtaletype",
+            "agreementType": "Sakstype",
             "isActive": "Aktiv",
             "active": "Aktiv",
             "inactive": "Inaktiv",
@@ -7612,7 +7612,7 @@
             "finalizeConfirmation": "Er du sikker på at du vil ferdigstille denne rapporten? Denne handlingen kan ikke angres"
         },
         "form": {
-            "agreementType": "Avtaletype",
+            "agreementType": "Sakstype",
             "body": "Innhold",
             "bodyTemplateHint": "La feltet stå tomt for å fylle automatisk fra valgt mal",
             "caseworker": "Saksbehandler",
@@ -7628,7 +7628,7 @@
                 "finalize": "Ferdigstill",
                 "view": "Vis"
             },
-            "agreementType": "Avtaletype",
+            "agreementType": "Sakstype",
             "createdAt": "Opprettet",
             "status": "Status",
             "title": "Tittel"

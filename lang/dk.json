@@ -7583,7 +7583,7 @@
             "deleteConfirmation": "Er du sikker på, at du vil slette denne rapportskabelon"
         },
         "form": {
-            "agreementType": "Aftaletype",
+            "agreementType": "Sagstype",
             "body": "Indhold",
             "isActive": "Aktiv",
             "name": "Navn"
@@ -7593,7 +7593,7 @@
                 "delete": "Slet",
                 "edit": "Rediger"
             },
-            "agreementType": "Aftaletype",
+            "agreementType": "Sagstype",
             "isActive": "Aktiv",
             "active": "Aktiv",
             "inactive": "Inaktiv",
@@ -7621,7 +7621,7 @@
             "finalizeConfirmation": "Er du sikker på, at du vil færdiggøre denne rapport? Denne handling kan ikke fortrydes"
         },
         "form": {
-            "agreementType": "Aftaletype",
+            "agreementType": "Sagstype",
             "body": "Indhold",
             "bodyTemplateHint": "Lad feltet være tomt for at udfylde automatisk fra den valgte skabelon",
             "caseworker": "Sagsbehandler",
@@ -7637,7 +7637,7 @@
                 "finalize": "Færdiggør",
                 "view": "Se"
             },
-            "agreementType": "Aftaletype",
+            "agreementType": "Sagstype",
             "createdAt": "Oprettet",
             "status": "Status",
             "title": "Titel"

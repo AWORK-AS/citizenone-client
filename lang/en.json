@@ -7610,7 +7610,7 @@
             "deleteConfirmation": "Are you sure you want to delete this report template"
         },
         "form": {
-            "agreementType": "Agreement type",
+            "agreementType": "Case type",
             "body": "Body",
             "isActive": "Is active",
             "name": "Name"
@@ -7620,7 +7620,7 @@
                 "delete": "Delete",
                 "edit": "Edit"
             },
-            "agreementType": "Agreement type",
+            "agreementType": "Case type",
             "isActive": "Active",
             "active": "Active",
             "inactive": "Inactive",
@@ -7648,7 +7648,7 @@
             "finalizeConfirmation": "Are you sure you want to finalize this report? This action cannot be undone"
         },
         "form": {
-            "agreementType": "Agreement type",
+            "agreementType": "Case type",
             "body": "Body",
             "bodyTemplateHint": "Leave blank to auto-fill from the selected template",
             "caseworker": "Caseworker",
@@ -7664,7 +7664,7 @@
                 "finalize": "Finalize",
                 "view": "View"
             },
-            "agreementType": "Agreement type",
+            "agreementType": "Case type",
             "createdAt": "Created",
             "status": "Status",
             "title": "Title"
