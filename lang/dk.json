@@ -6559,7 +6559,28 @@
         "chooseYourEmailConfiguration": {
             "chooseYourEmailConfiguration": "Vælg din e-mailkonfiguration",
             "loginViaMicrosoft": "Log ind via Microsoft",
-            "loginViaSmtp": "Log ind via SMTP"
+            "loginViaSmtp": "Log ind via SMTP",
+            "microsoftGuide": {
+                "title": "Sådan forbinder du din Microsoft-konto",
+                "intro": "Følg disse trin for at forbinde din Microsoft-arbejdskonto, så du kan sende og modtage e-mails i CitizenOne.",
+                "step1": "Klik på Log ind via Microsoft herover — du bliver viderestillet til Microsofts login-side.",
+                "step2": "Indtast din arbejds-e-mailadresse (f.eks. ditnavn(at)dinvirksomhed.dk) og adgangskode.",
+                "step3": "Gennemfør multifaktorgodkendelse (MFA), hvis din organisation kræver det.",
+                "step4": "På tilladelsessiden anmoder CitizenOne om adgang til at læse og sende e-mails på dine vegne. Vælg en af følgende:",
+                "step4Accept": "Accepter — giver adgang kun for din egen konto. Du kan starte med det samme.",
+                "step4Request": "Anmod om godkendelse — hvis din IT-administrator har begrænset app-adgang, klik her for at sende dem en godkendelsesanmodning. Vend tilbage for at forbinde, når de har godkendt det i Azure Portal.",
+                "step4Hint": "Er du i tvivl, så klik Accepter. Hvis det mislykkes med en tilladselsesfejl, skal du kontakte din IT-administrator og bede dem om at give administratorsamtykke til CitizenOne i din organisations Azure Active Directory.",
+                "step5": "Du bliver automatisk viderestillet tilbage til CitizenOne, og en succesbesked bekræfter forbindelsen.",
+                "step6": "Din indbakke er nu forbundet. Du kan læse, svare, videresende og sende e-mails fra CitizenOne.",
+                "stayConnected": "CitizenOne opdaterer automatisk din forbindelse. Du skal muligvis genoprette forbindelsen, hvis du skifter din Microsoft-adgangskode, din organisation tilbagekalder app-adgang, eller din konto deaktiveres i Azure AD.",
+                "troubleshootTitle": "Fejlfinding",
+                "troubleshoot1Q": "Fejl efter login",
+                "troubleshoot1A": "Sørg for, at du bruger din arbejdskonto (ikke en personlig Microsoft-konto), og at din IT-administrator har godkendt CitizenOne.",
+                "troubleshoot2Q": "Siden omdirigeres tilbage uden forbindelse",
+                "troubleshoot2A": "Din browser har muligvis blokeret omdirigeringen. Deaktiver pop-up-blokkere for dette websted og prøv igen.",
+                "troubleshoot3Q": "\"Du har ikke tilladelse til at tilgå dette\"",
+                "troubleshoot3A": "Din IT-administrator skal give administratorsamtykke til CitizenOne i din organisations Azure-portal."
+            }
         },
         "compose": "Send e-mail",
         "connectYourMail": "Forbind din mail",

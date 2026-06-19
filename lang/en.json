@@ -6586,7 +6586,28 @@
         "chooseYourEmailConfiguration": {
             "chooseYourEmailConfiguration": "Choose your email configuration",
             "loginViaMicrosoft": "Login via Microsoft",
-            "loginViaSmtp": "Login via SMTP"
+            "loginViaSmtp": "Login via SMTP",
+            "microsoftGuide": {
+                "title": "How to connect your Microsoft account",
+                "intro": "Follow these steps to link your work Microsoft account so you can send and receive emails within CitizenOne.",
+                "step1": "Click Login via Microsoft above — you will be redirected to the Microsoft sign-in page.",
+                "step2": "Enter your work email address (e.g. yourname(at)yourcompany.com) and password.",
+                "step3": "Complete multi-factor authentication (MFA) if your organisation requires it.",
+                "step4": "On the permissions screen, CitizenOne is requesting access to read and send emails on your behalf. Choose one of the following:",
+                "step4Accept": "Accept — grants access for your own account only. You can start immediately.",
+                "step4Request": "Request approval — if your IT admin has restricted app access, click this to send them an approval request. Return to connect once they have approved it in the Azure Portal.",
+                "step4Hint": "If you are unsure, click Accept. If it fails with a permissions error, contact your IT administrator and ask them to grant admin consent for CitizenOne in your organisation's Azure Active Directory.",
+                "step5": "You will be redirected back to CitizenOne automatically and a success message will confirm the connection.",
+                "step6": "Your inbox is now connected. You can read, reply, forward, and send emails from within CitizenOne.",
+                "stayConnected": "CitizenOne refreshes your connection automatically. You may need to reconnect if you change your Microsoft password, your organisation revokes app access, or your account is disabled in Azure AD.",
+                "troubleshootTitle": "Troubleshooting",
+                "troubleshoot1Q": "Error after signing in",
+                "troubleshoot1A": "Make sure you are using your work account (not a personal Microsoft account) and that your IT admin has approved CitizenOne.",
+                "troubleshoot2Q": "Page redirects back without connecting",
+                "troubleshoot2A": "Your browser may have blocked the redirect. Disable popup blockers for this site and try again.",
+                "troubleshoot3Q": "\"You don't have permission to access this\"",
+                "troubleshoot3A": "Your IT administrator needs to grant admin consent for CitizenOne in your organisation's Azure portal."
+            }
         },
         "compose": "Compose",
         "connectYourMail": "Connect your mail",
