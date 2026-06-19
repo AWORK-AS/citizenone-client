@@ -32,8 +32,10 @@
                                     </p>
                                 </div>
                                 <div class="flex items-center gap-3 shrink-0">
-                                    <span class="text-sm font-medium text-[#205E77] bg-[#E4F1F6] px-3 py-1 rounded-full">
-                                        {{ $t('sms.settings.balance') }}: {{ formatBalance(state.settings.sms_balance) }}
+                                    <span
+                                        class="text-sm font-medium text-[#205E77] bg-[#E4F1F6] px-3 py-1 rounded-full">
+                                        {{ $t('sms.settings.balance') }}: {{ formatBalance(state.settings.sms_balance)
+                                        }}
                                     </span>
                                     <button type="button"
                                         class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none"
@@ -51,7 +53,8 @@
                                     {{ $t('sms.settings.notificationEvents') }}
                                 </p>
                                 <div class="flex items-center justify-between py-2">
-                                    <p class="text-[14px] text-[#1F2533]">{{ $t('sms.settings.notifyNewAppointment') }}</p>
+                                    <p class="text-[14px] text-[#1F2533]">{{ $t('sms.settings.notifyNewAppointment') }}
+                                    </p>
                                     <button type="button"
                                         class="relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none"
                                         :class="state.settings.notify_new_appointment ? 'bg-[#205E77]' : 'bg-[#D1D5DB]'"
@@ -134,8 +137,8 @@
                                     <div class="flex items-center gap-2 max-w-xs">
                                         <FormNumberField name="auto_recharge_threshold"
                                             :placeholder="$t('sms.settings.autoRechargeThreshold')"
-                                            v-model="state.settings.auto_recharge_threshold" :min="1"
-                                            :max="1000" class="flex-1" />
+                                            v-model="state.settings.auto_recharge_threshold" :min="1" :max="1000"
+                                            class="flex-1" />
                                         <span class="text-sm text-[#5C6478]">DKK</span>
                                     </div>
                                 </div>
@@ -144,8 +147,8 @@
                                     <div class="flex items-center gap-2 max-w-xs">
                                         <FormNumberField name="auto_recharge_amount"
                                             :placeholder="$t('sms.settings.autoRechargeAmount')"
-                                            v-model="state.settings.auto_recharge_amount" :min="50"
-                                            :max="10000" class="flex-1" />
+                                            v-model="state.settings.auto_recharge_amount" :min="50" :max="10000"
+                                            class="flex-1" />
                                         <span class="text-sm text-[#5C6478]">DKK</span>
                                     </div>
                                 </div>
@@ -170,8 +173,7 @@
 
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
                                 <button v-for="preset in creditPresets" :key="preset"
-                                    class="py-3 rounded-xl border-2 text-[13px] font-semibold transition-colors"
-                                    :style="state.creditAmount === preset && !state.customCredit
+                                    class="py-3 rounded-xl border-2 text-[13px] font-semibold transition-colors" :style="state.creditAmount === preset && !state.customCredit
                                         ? 'border-color:#205E77;background:#E4F1F6;color:#205E77'
                                         : 'border-color:#EAECF0;background:white;color:#5C6478'"
                                     @click="selectPreset(preset)">
@@ -182,9 +184,8 @@
                             <div class="space-y-1 mb-1">
                                 <FormLabel :label="$t('sms.credits.customAmount')" />
                                 <div class="flex items-center gap-2 max-w-xs">
-                                    <FormNumberField name="credit_amount" v-model="state.customAmountInput"
-                                        :min="50" :max="10000"
-                                        :placeholder="$t('sms.credits.customAmountPlaceholder')"
+                                    <FormNumberField name="credit_amount" v-model="state.customAmountInput" :min="50"
+                                        :max="10000" :placeholder="$t('sms.credits.customAmountPlaceholder')"
                                         @update:modelValue="onCustomAmountChange" class="flex-1" />
                                     <span class="text-sm text-[#5C6478]">DKK</span>
                                 </div>
@@ -221,6 +222,7 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
+const route = useRoute()
 
 const breadcrumbLinks = [
     { name: 'sms.settings.title', translate: true, href: '/settings/sms-notifications' },
@@ -242,10 +244,10 @@ const state = reactive({
         notify_new_appointment: false,
         notify_reminder_24h: false,
         notify_reminder_same_day: false,
-        sms_balance: 0,
+        sms_balance: 0 as number,
         auto_recharge_enabled: false,
-        auto_recharge_threshold: 10,
-        auto_recharge_amount: 100,
+        auto_recharge_threshold: '10' as string,
+        auto_recharge_amount: '100' as string,
     },
     creditAmount: 100 as number | null,
     customCredit: false,
@@ -281,14 +283,16 @@ function onCustomAmountChange(val: any) {
     }
 }
 
-onMounted(async () => {
-    const paymentId = router.currentRoute.value.query.paymentId as string | undefined
-    if (paymentId) {
-        await verifyPayment(paymentId)
-        router.replace({ query: {} })
-    }
-    await fetchSettings()
+onMounted(() => {
+    fetchSettings()
     fetchSmsAppUuid()
+})
+
+watch(() => route.query.paymentId, async (paymentId) => {
+    if (!paymentId) return
+    await verifyPayment(paymentId as string)
+    router.replace({ query: {} })
+    await fetchSettings()
 })
 
 async function fetchSettings() {
@@ -296,16 +300,16 @@ async function fetchSettings() {
     state.error = {} as Error
     try {
         const response = await smsService.getSettings()
-        if (response?.data) {
-            const d = response.data
+        const d = response?.data ?? response
+        if (d) {
             state.settings.sms_enabled = d.sms_enabled ?? false
             state.settings.notify_new_appointment = d.notify_new_appointment ?? false
             state.settings.notify_reminder_24h = d.notify_reminder_24h ?? false
             state.settings.notify_reminder_same_day = d.notify_reminder_same_day ?? false
             state.settings.sms_balance = d.sms_balance ?? 0
             state.settings.auto_recharge_enabled = d.auto_recharge_enabled ?? false
-            state.settings.auto_recharge_threshold = d.auto_recharge_threshold ?? 10
-            state.settings.auto_recharge_amount = d.auto_recharge_amount ?? 100
+            state.settings.auto_recharge_threshold = String(d.auto_recharge_threshold ?? 10)
+            state.settings.auto_recharge_amount = String(d.auto_recharge_amount ?? 100)
         }
     } catch (error: any) {
         state.error = error
@@ -315,13 +319,18 @@ async function fetchSettings() {
 
 async function fetchSmsAppUuid() {
     if (smsAppUuid) return
-    try {
-        const response = await appService.getApps({ type: 'citizenone' })
-        const apps = response?.data ?? response ?? []
-        const list = Array.isArray(apps) ? apps : apps?.data ?? []
-        const app = list.find((a: any) => a.generic_name === 'sms-notification')
-        if (app?.uuid) smsAppUuid = app.uuid
-    } catch { /* ignore */ }
+    const categories = ['citizenone', 'fst', 'marketing', 'visual', 'other']
+    for (const type of categories) {
+        try {
+            const response = await appService.getApps({ type, per_page: 100 })
+            const list: any[] = response?.data ?? []
+            const app = list.find((a: any) => a.generic_name === 'sms-notification')
+            if (app?.uuid) {
+                smsAppUuid = app.uuid
+                return
+            }
+        } catch { /* try next category */ }
+    }
 }
 
 async function saveSettings() {
@@ -335,8 +344,8 @@ async function saveSettings() {
             notify_reminder_same_day: state.settings.notify_reminder_same_day,
             auto_recharge_enabled: state.settings.auto_recharge_enabled,
             ...(state.settings.auto_recharge_enabled ? {
-                auto_recharge_threshold: state.settings.auto_recharge_threshold,
-                auto_recharge_amount: state.settings.auto_recharge_amount,
+                auto_recharge_threshold: Number(state.settings.auto_recharge_threshold),
+                auto_recharge_amount: Number(state.settings.auto_recharge_amount),
             } : {}),
         })
         successAlert(`${t('alert.success')}!`, `${t('sms.settings.savedSuccess')}.`)
@@ -359,6 +368,8 @@ async function purchaseCredits() {
         }
         const response = await appService.activateApp(smsAppUuid as any, { amount: state.creditAmount })
         if (response) {
+            state.isCheckoutVisible = true
+            await nextTick()
             const checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
                 paymentId: response?.paymentId,
@@ -366,15 +377,15 @@ async function purchaseCredits() {
                 language: 'da-DK',
                 theme: { buttonRadius: '5px' },
             }
-            checkout = new (window as any).Dibs.Checkout(checkoutOptions)
+            checkout = new Dibs.Checkout(checkoutOptions)
             checkout.on('payment-completed', (res: any) => {
                 checkout.cleanup()
                 navigateTo(`/settings/sms-notifications?paymentId=${res['paymentId']}`)
             })
-            state.isCheckoutVisible = true
         }
     } catch (error: any) {
         state.error = error
+        state.isCheckoutVisible = false
     }
     state.isPurchasing = false
 }
