@@ -9,13 +9,20 @@ export function useAmountFormatter() {
         return locale.value === 'en' ? 'EUR' : 'DKK'
     }
 
-    function formatAmount(amount: any) {
-        if (amount === null || amount === undefined) {
-            return currencyCode() + ' 0'
+    function parseAmount(amount: any): number {
+        if (amount === null || amount === undefined) return NaN
+        const str = String(amount).trim()
+        // European format: "5.000,00" — comma is the decimal separator
+        if (/,\d{1,2}$/.test(str)) {
+            return parseFloat(str.replace(/\./g, '').replace(',', '.'))
         }
+        // English format: "4,440.00" — period is the decimal separator
+        return parseFloat(str.replace(/,/g, ''))
+    }
 
-        const cleaned = parseFloat(String(amount).replace(/,/g, ''))
-        if (isNaN(cleaned)) {
+    function formatAmount(amount: any) {
+        const value = parseAmount(amount)
+        if (isNaN(value)) {
             return currencyCode() + ' 0'
         }
 
@@ -23,7 +30,7 @@ export function useAmountFormatter() {
         const thousandsSep = isEn ? ',' : '.'
         const decimalSep = isEn ? '.' : ','
 
-        const parts = cleaned.toFixed(2).split('.')
+        const parts = value.toFixed(2).split('.')
         const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSep)
 
         return currencyCode() + ' ' + integerPart + decimalSep + parts[1]
