@@ -7634,6 +7634,7 @@
         "myProtocols": "My protocols",
         "today": "Today",
         "other": "Other",
+        "noTodayEntries": "No protocol entries for today",
         "newProtocol": "New protocol",
         "protocols": "Protocols",
         "table": {

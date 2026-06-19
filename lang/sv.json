@@ -7598,6 +7598,7 @@
         "myProtocols": "Mina protokoll",
         "today": "Idag",
         "other": "Övriga",
+        "noTodayEntries": "Inga protokollregistreringar för idag",
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {

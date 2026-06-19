@@ -7607,6 +7607,7 @@
         "myProtocols": "Mine protokoller",
         "today": "I dag",
         "other": "Andre",
+        "noTodayEntries": "Ingen protokolregistreringer for i dag",
         "newProtocol": "Ny protokol",
         "protocols": "Protokol",
         "table": {

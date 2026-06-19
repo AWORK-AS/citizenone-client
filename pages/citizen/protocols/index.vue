@@ -17,11 +17,15 @@
                         <Alert type="info" :text="$t('theListIsEmpty')" />
                     </div>
 
-                    <template v-else>
+                    <div v-else class="space-y-8">
                         <!-- Today's entries -->
-                        <section v-if="todayProtocols.length > 0">
+                        <section>
                             <p class="mb-3 text-xs font-bold text-primary uppercase tracking-widest">{{ $t('protocols.today') }}</p>
-                            <div class="space-y-3">
+                            <div v-if="todayProtocols.length === 0"
+                                class="bg-white rounded-2xl border border-gray-200 px-5 py-4 text-sm text-gray-400 italic">
+                                {{ $t('protocols.noTodayEntries') }}
+                            </div>
+                            <div v-else class="space-y-3">
                                 <div v-for="protocol in todayProtocols" :key="protocol.uuid"
                                     class="bg-white rounded-2xl border border-primary/30 px-5 py-4 flex items-center justify-between gap-4 shadow-sm">
                                     <div class="space-y-1.5">
@@ -53,7 +57,7 @@
                         </section>
 
                         <!-- Other entries (paginated) -->
-                        <section v-if="otherProtocols.length > 0" class="mt-8">
+                        <section v-if="otherProtocols.length > 0">
                             <p class="mb-3 text-xs font-bold text-gray-400 uppercase tracking-widest">{{ $t('protocols.other') }}</p>
                             <div class="space-y-3">
                                 <div v-for="protocol in paginatedOthers" :key="protocol.uuid"
@@ -80,7 +84,7 @@
                                 </FormButton>
                             </div>
                         </section>
-                    </template>
+                    </div>
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
