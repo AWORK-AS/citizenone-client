@@ -7685,15 +7685,33 @@
         "editProtocol": "Edit protocol",
         "form": {
             "alert": {
+                "checkInSuccess": "Successfully checked in",
+                "checkOutSuccess": "Successfully checked out",
                 "newProtocolSuccessfullySaved": "New protocol successfully saved",
                 "protocolSuccessfullyUpdated": "Protocol successfully updated"
             },
             "citizens": "Citizens",
             "endDate": "End date",
+            "every": "Every",
             "excludeWeekends": "Exclude weekends",
+            "frequency": "Frequency",
+            "isRecurring": "Recurring",
+            "monthlyEach": "On days",
+            "monthlyOnThe": "On the",
             "protocolName": "Protocol name",
-            "startDate": "Start date"
+            "recurringType": "Repeat",
+            "recurringUntil": "Recurring until",
+            "selectDatesFirst": "Select start and end dates first",
+            "startDate": "Start date",
+            "weeklyOn": "On",
+            "yearlyInMonths": "In months"
         },
+        "checkIn": "Check in",
+        "checkOut": "Check out",
+        "myProtocols": "My protocols",
+        "today": "Today",
+        "other": "Other",
+        "noTodayEntries": "No protocol entries for today",
         "newProtocol": "New protocol",
         "protocols": "Protocols",
         "table": {
@@ -7722,7 +7740,8 @@
             "startDate": "Start date",
             "status": {
                 "absent": "Absent",
-                "attended": "Attended"
+                "attended": "Attended",
+                "notRecorded": "Not recorded"
             }
         }
     },

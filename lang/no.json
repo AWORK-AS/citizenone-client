@@ -7649,15 +7649,33 @@
         "editProtocol": "Rediger protokoll",
         "form": {
             "alert": {
+                "checkInSuccess": "Sjekket inn",
+                "checkOutSuccess": "Sjekket ut",
                 "newProtocolSuccessfullySaved": "Ny protokoll lagret vellykket",
                 "protocolSuccessfullyUpdated": "Protokoll oppdatert vellykket"
             },
             "citizens": "Brukere",
             "endDate": "Sluttdato",
+            "every": "Hver",
             "excludeWeekends": "Udelad weekender",
+            "frequency": "Frekvens",
+            "isRecurring": "Gjentas",
+            "monthlyEach": "På dager",
+            "monthlyOnThe": "Den",
             "protocolName": "Protokolnavn",
-            "startDate": "Startdato"
+            "recurringType": "Gjenta",
+            "recurringUntil": "Gjentas til",
+            "selectDatesFirst": "Velg start- og sluttdato først",
+            "startDate": "Startdato",
+            "weeklyOn": "På",
+            "yearlyInMonths": "I måneder"
         },
+        "checkIn": "Sjekk inn",
+        "checkOut": "Sjekk ut",
+        "myProtocols": "Mine protokoller",
+        "today": "I dag",
+        "other": "Andre",
+        "noTodayEntries": "Ingen protokollregistreringer for i dag",
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {
@@ -7686,7 +7704,8 @@
             "startDate": "Startdato",
             "status": {
                 "absent": "Fraværende",
-                "attended": "Tilstede"
+                "attended": "Tilstede",
+                "notRecorded": "Ikke registrert"
             }
         }
     },

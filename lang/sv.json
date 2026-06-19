@@ -7649,15 +7649,33 @@
         "editProtocol": "Redigera protokoll",
         "form": {
             "alert": {
+                "checkInSuccess": "Incheckad",
+                "checkOutSuccess": "Utcheckad",
                 "newProtocolSuccessfullySaved": "Ny protokoll sparad",
                 "protocolSuccessfullyUpdated": "Protokoll uppdaterad"
             },
             "citizens": "Klienter",
             "endDate": "Slutdatum",
+            "every": "Var",
             "excludeWeekends": "Udelad weekender",
+            "frequency": "Frekvens",
+            "isRecurring": "Återkommande",
+            "monthlyEach": "På dagar",
+            "monthlyOnThe": "Den",
             "protocolName": "Protokolnavn",
-            "startDate": "Startdatum"
+            "recurringType": "Upprepa",
+            "recurringUntil": "Återkommande till",
+            "selectDatesFirst": "Välj start- och slutdatum först",
+            "startDate": "Startdatum",
+            "weeklyOn": "På",
+            "yearlyInMonths": "I månader"
         },
+        "checkIn": "Checka in",
+        "checkOut": "Checka ut",
+        "myProtocols": "Mina protokoll",
+        "today": "Idag",
+        "other": "Övriga",
+        "noTodayEntries": "Inga protokollregistreringar för idag",
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {
@@ -7686,7 +7704,8 @@
             "startDate": "Startdatum",
             "status": {
                 "absent": "Frånvarande",
-                "attended": "Närvarande"
+                "attended": "Närvarande",
+                "notRecorded": "Inte registrerad"
             }
         }
     },
