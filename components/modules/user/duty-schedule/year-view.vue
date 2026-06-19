@@ -655,7 +655,7 @@
 
         <!-- Modals -->
         <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
-            @close="state.modal.isFilterDutyScheduleOpen = false" @filter="setFilter" />
+            @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
         <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
             :selectedEmployee="state.normHours.selectedEmployeeSchedule"
             @close="state.modal.isCompensatoryHoursOpen = false" />
@@ -833,6 +833,7 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        schedule_tag_uuids: [],
     },
     monthDataMap: {} as Record<string, any>,
     newShift: {
@@ -943,6 +944,7 @@ async function fetchAllMonths() {
         if (state.filter.department_uuids?.length > 0) params.department_uuids = Array(state.filter.department_uuids)
         if (state.filter.employment_status) params.employment_status = Array(state.filter.employment_status)
         if (state.filter.employee_uuids?.length > 0) params.employee_uuids = Array(state.filter.employee_uuids)
+        if (state.filter.schedule_tag_uuids?.length > 0) params.schedule_tag_uuids = Array(state.filter.schedule_tag_uuids)
         const response = await dutyScheduleService.getDutySchedulesMonthView(params)
         if (response) {
             // Share the same response across every month key so all

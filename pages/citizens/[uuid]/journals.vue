@@ -66,43 +66,55 @@
                         </div>
 
                         <div>
-                            <div class="flex flex-wrap justify-end items-end gap-2">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2">
                                 <FormTextField id="filter_journal" name="filter_journal"
                                     :placeholder="$t('citizens.citizenJournals.filter.searchJournal')"
                                     v-model="state.filter.journal" class="flex-1" @blur="filterJournal"
                                     @keyup.enter="filterJournal" />
                                 <FormDateRangeField id="date_range" name="date_range"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
-                                    v-model="state.filter.date_range" class="w-full md:w-96 h-11" />
-                                <FormButton buttonSize="sm" :class="[
-                                    ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                    'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
-                                    <Icon name="mdi:sort-ascending" class="size-4" />
-                                </FormButton>
-                                <FormButton buttonSize="sm" :class="[
-                                    ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                    'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
-                                    <Icon name="mdi:sort-descending" class="size-4" />
-                                </FormButton>
-                                <FormButton buttonSize="sm" :class="[
-                                    citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
-                                    'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
-                                    <Icon name="ph:lock" class="size-4" />
-                                </FormButton>
-                                <FormButton buttonSize="sm" :class="[
-                                    citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
-                                    'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
-                                    <Icon name="ph:star" class="size-4" />
-                                </FormButton>
-                                <FormButton class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
-                                    <Icon name="mdi:refresh" class="size-4" />
-                                </FormButton>
+                                    v-model="state.filter.date_range" class="w-full md:w-72 h-11" />
+                                <div class="flex items-center gap-1.5 shrink-0">
+                                <Tooltip text="Ældste øverst">
+                                    <FormButton buttonSize="sm" :class="[
+                                        ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                        'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
+                                        <Icon name="mdi:sort-ascending" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip text="Nyeste øverst">
+                                    <FormButton buttonSize="sm" :class="[
+                                        ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                        'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
+                                        <Icon name="mdi:sort-descending" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip text="Vis kun låste notater">
+                                    <FormButton buttonSize="sm" :class="[
+                                        citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
+                                        'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
+                                        <Icon name="ph:lock" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip text="Vis kun favoritter">
+                                    <FormButton buttonSize="sm" :class="[
+                                        citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
+                                        'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
+                                        <Icon name="ph:star" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                <Tooltip text="Nulstil filtre">
+                                    <FormButton class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
+                                        <Icon name="mdi:refresh" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
+                                </div>
                             </div>
                         </div>
                         <div class="mt-5 space-y-5 stagger-children">
                             <div :class="[
-                                'bg-white ring-1 rounded-md p-5 border-l-4 transition-shadow duration-200 hover:shadow-card-hover',
-                                journal.is_pinned ? 'ring-primary/40 border-primary' : 'ring-gray-200 border-secondary'
+                                'bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-gray-100 border-l-4',
+                                journal.is_pinned ? 'border-l-primary' : 'border-l-secondary'
                             ]" v-for="(journal, index) in state.journals?.data" :key="index" :data-uuid="journal.uuid">
                                 <div class="space-y-3">
                                     <div class="space-y-1.5">
@@ -202,7 +214,7 @@
                                             </div>
                                         </div>
                                         <div class="text-sm text-muted-400"
-                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
+                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView) && journal.note">
                                             <p class="font-semibold">
                                                 {{ customPagesStore.getCustomPagesName?.riskAssessment }}:
                                             </p>
@@ -297,10 +309,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="state.journals?.data?.length === 0">
-                                <p class="text-center py-10">
-                                    {{ $t('theresNoDataAvailableToDisplay') }}.
-                                </p>
+                            <div v-if="state.journals?.data?.length === 0"
+                                class="flex flex-col items-center justify-center py-16 text-center">
+                                <Icon name="ph:note-pencil" class="h-10 w-10 text-slate-300" aria-hidden="true" />
+                                <p class="mt-3 text-slate-500">{{ $t('theresNoDataAvailableToDisplay') }}.</p>
+                                <button type="button" v-if="isAtLeast('Admin') || can('create_citizen_journal')"
+                                    @click="state.modal.isAddJournalOpen = true"
+                                    class="mt-3 inline-flex items-center gap-x-1.5 rounded-lg bg-primary text-white px-3.5 py-2 text-sm font-medium hover:bg-[#0d3f61] transition-colors">
+                                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.newNote') }}
+                                </button>
                             </div>
                             <Pagination :data="state.journals" @previous="previous" @next="next" />
                         </div>

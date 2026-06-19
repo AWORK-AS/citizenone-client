@@ -4,7 +4,7 @@ export const useDutyScheduleStore = defineStore('dutyScheduleStore',
     {
         persist: true,
         state: () => ({
-            currentPageLength: 10,
+            currentPageLength: 50,
             currentPageNumber: 1,
             showEmployeesWorkingToday: false,
         }),

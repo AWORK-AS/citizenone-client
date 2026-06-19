@@ -3,7 +3,8 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('employment.billingRules.editBillingRule') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('employment.billingRules.editBillingRule') }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
 
             <template #breadcrumb>
@@ -19,9 +20,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserEmploymentBillingRuleForm formType="update"
-                        :selectedBillingRule="state.formBillingRule" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                    <ModulesUserEmploymentBillingRuleForm formType="update" :selectedBillingRule="state.formBillingRule"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="updateBillingRule" />
                 </LoadingSpinner>
             </div>
@@ -58,8 +58,13 @@ const state = reactive({
     error: {} as Error,
     formBillingRule: {
         name: '',
-        rate: '',
-        frequency: null as string | null,
+        pricing_type: 'weekly' as string,
+        weekly_rate: '' as string,
+        hourly_rate: '' as string,
+        bonus_amount: '' as string,
+        bonus_condition_months: null as number | null,
+        customer_number: '',
+        product_number: '',
         description: '',
         is_active: true,
     },
@@ -76,12 +81,18 @@ async function fetchBillingRule() {
     try {
         const response = await employmentService.getBillingRule(billingRuleUuid)
         if (response) {
+            const d = response?.data
             state.formBillingRule = {
-                name: response?.data?.name ?? '',
-                rate: response?.data?.rate ?? '',
-                frequency: response?.data?.frequency ?? null,
-                description: response?.data?.description ?? '',
-                is_active: response?.data?.is_active ?? true,
+                name: d?.name ?? '',
+                pricing_type: d?.pricing_type ?? 'weekly',
+                weekly_rate: d?.rate != null ? String(d.rate) : '',
+                hourly_rate: d?.hourly_rate != null ? String(d.hourly_rate) : '',
+                bonus_amount: d?.bonus_amount != null ? String(d.bonus_amount) : '',
+                bonus_condition_months: d?.bonus_condition_months ?? null,
+                customer_number: d?.customer_number ?? '',
+                product_number: d?.product_number ?? '',
+                description: d?.description ?? '',
+                is_active: d?.is_active ?? true,
             }
         }
     } catch (error: any) {
@@ -96,8 +107,13 @@ async function updateBillingRule(details: any) {
     try {
         const params = {
             name: details.name,
-            rate: details.rate,
-            frequency: details.frequency,
+            pricing_type: details.pricing_type,
+            rate: details.weekly_rate !== '' ? details.weekly_rate : null,
+            hourly_rate: details.hourly_rate !== '' ? details.hourly_rate : null,
+            bonus_amount: details.bonus_amount !== '' ? details.bonus_amount : null,
+            bonus_condition_months: details.bonus_condition_months ?? null,
+            customer_number: details.customer_number,
+            product_number: details.product_number,
             description: details.description,
             is_active: details.is_active,
         }
