@@ -7901,6 +7901,7 @@
                 "warning48HourRule": "Advarsel ved 48-timers reglen",
                 "holidayNonSundayHours": "Aktiver helligdagstimer på helligdager som ikke er søndager",
                 "whichHolidaysCount": "Hvilke helligdager skal telle med? (slå av dem som ikke gjelder for dere)",
+                "holidayState": { "full": "Full", "half": "Halv", "off": "Av" },
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
                 "enableIpRestriction": "Aktiver IP-begrænsning",

@@ -275,12 +275,23 @@
                         <div v-if="state.formCompany.holiday_non_sunday_hours_enabled && state.options.holidayNames.length > 0"
                             class="ml-12 mt-1 space-y-2">
                             <p class="text-xs text-gray-500">{{ $t('settings.company.form.whichHolidaysCount') }}</p>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 max-w-2xl">
-                                <label v-for="name in state.options.holidayNames" :key="name"
-                                    class="flex items-center gap-2 cursor-pointer">
-                                    <FormSwitch :value="isHolidayIncluded(name)" @toggleSwitch="toggleHoliday(name)" />
-                                    <span class="text-xs text-gray-700 capitalize">{{ name }}</span>
-                                </label>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-2 max-w-3xl">
+                                <div v-for="name in state.options.holidayNames" :key="name"
+                                    class="flex items-center justify-between gap-3">
+                                    <span class="text-xs text-gray-700 capitalize truncate">{{ name }}</span>
+                                    <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden flex-shrink-0">
+                                        <button type="button" v-for="opt in (['full', 'half', 'off'] as const)" :key="opt"
+                                            @click="setHolidayState(name, opt)"
+                                            :class="[
+                                                'px-2.5 py-1 text-xxs font-medium transition-colors',
+                                                holidayState(name) === opt
+                                                    ? (opt === 'off' ? 'bg-red-50 text-red-600' : opt === 'half' ? 'bg-amber-50 text-amber-700' : 'bg-primary/10 text-primary')
+                                                    : 'text-gray-400 hover:bg-gray-50'
+                                            ]">
+                                            {{ $t('settings.company.form.holidayState.' + opt) }}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -412,6 +423,7 @@ const state = reactive({
         device_restriction_action: 'block' as string,
         holiday_non_sunday_hours_enabled: false,
         excluded_holiday_names: [] as string[],
+        half_holiday_names: [] as string[],
     },
     isPageLoading: false,
     options: {
@@ -448,18 +460,21 @@ async function fetchPublicHolidays() {
     }
 }
 
-function isHolidayIncluded(name: string): boolean {
-    return !state.formCompany.excluded_holiday_names.includes(name)
+function holidayState(name: string): 'full' | 'half' | 'off' {
+    if (state.formCompany.excluded_holiday_names.includes(name)) return 'off'
+    if (state.formCompany.half_holiday_names.includes(name)) return 'half'
+    return 'full'
 }
 
-function toggleHoliday(name: string) {
-    const excluded = state.formCompany.excluded_holiday_names
-    const idx = excluded.indexOf(name)
-    if (idx >= 0) {
-        excluded.splice(idx, 1)
-    } else {
-        excluded.push(name)
+function setHolidayState(name: string, target: 'full' | 'half' | 'off') {
+    const remove = (list: string[]) => {
+        const i = list.indexOf(name)
+        if (i >= 0) list.splice(i, 1)
     }
+    remove(state.formCompany.excluded_holiday_names)
+    remove(state.formCompany.half_holiday_names)
+    if (target === 'off') state.formCompany.excluded_holiday_names.push(name)
+    else if (target === 'half') state.formCompany.half_holiday_names.push(name)
 }
 
 watch(() => language.locale.value, (newValue: any) => {
@@ -507,6 +522,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             device_restriction_action: newValue?.company?.device_restriction_action ?? 'block',
             holiday_non_sunday_hours_enabled: newValue?.company?.holiday_non_sunday_hours_enabled ? true : false,
             excluded_holiday_names: Array.isArray(newValue?.company?.excluded_holiday_names) ? [...newValue.company.excluded_holiday_names] : [],
+            half_holiday_names: Array.isArray(newValue?.company?.half_holiday_names) ? [...newValue.company.half_holiday_names] : [],
             logo: null,
             should_delete_logo: false,
         }
@@ -681,6 +697,7 @@ async function submitForm() {
                 device_restriction_action: state.formCompany.device_restriction_action,
                 holiday_non_sunday_hours_enabled: state.formCompany.holiday_non_sunday_hours_enabled,
                 excluded_holiday_names: state.formCompany.excluded_holiday_names,
+                half_holiday_names: state.formCompany.half_holiday_names,
             }
 
             const response = await userService.updateCompany(params)
