@@ -498,6 +498,12 @@
                                                             <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.worked_weekly }}</span>
                                                             <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.worked_yearly }}</span>
 
+                                                            <template v-if="parseFloat(String(empStats(employee)?.holiday_hours?.compensation_yearly ?? '0').replace(',', '.')) > 0">
+                                                                <span>{{ $t('dutySchedules.holidayCompensation') }}</span>
+                                                                <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.compensation_weekly }}</span>
+                                                                <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.compensation_yearly }}</span>
+                                                            </template>
+
                                                             <span>{{ $t('dutySchedules.holidayNonWorkedShort') }}</span>
                                                             <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.nonworked_weekly }}</span>
                                                             <span class="text-right tabular-nums">{{ empStats(employee)?.holiday_hours?.nonworked_yearly }}</span>

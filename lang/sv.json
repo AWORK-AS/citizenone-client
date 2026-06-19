@@ -3615,6 +3615,7 @@
         "holidayNonWorked": "Helgdagstimmar (ej arbetade)",
         "holidayHoursHint": "Helgdag: arbetade timmar ×1,5 (företagets egen faktor). Ej arbetade helgdagar som inte är söndagar ger 7,4 timmar.",
         "holidayWorkedShort": "Arbetad",
+        "holidayCompensation": "Helgdagskompensation",
         "holidayNonWorkedShort": "Ej arbetad",
         "holidayFreeBadge": "Ledig – helgdag",
         "holidayNonWorkedAssigned": "7,4 helgdagstimmar tilldelade",

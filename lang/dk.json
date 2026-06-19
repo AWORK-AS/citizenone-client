@@ -3615,6 +3615,7 @@
         "holidayNonWorked": "Helligdagstimer (ikke-arbejdet)",
         "holidayHoursHint": "Helligdag: arbejdede timer ×1,5 (virksomhedens egen faktor). Ikke-arbejdede helligdage der ikke er søndage giver 7,4 timer.",
         "holidayWorkedShort": "Arbejdet",
+        "holidayCompensation": "Helligdagskompensation",
         "holidayNonWorkedShort": "Ikke arbejdet",
         "holidayFreeBadge": "Fri – helligdag",
         "holidayNonWorkedAssigned": "7,4 helligdagstimer tildelt",
