@@ -7596,6 +7596,8 @@
         "checkIn": "Sjekk inn",
         "checkOut": "Sjekk ut",
         "myProtocols": "Mine protokoller",
+        "today": "I dag",
+        "other": "Andre",
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {

@@ -7632,6 +7632,8 @@
         "checkIn": "Check in",
         "checkOut": "Check out",
         "myProtocols": "My protocols",
+        "today": "Today",
+        "other": "Other",
         "newProtocol": "New protocol",
         "protocols": "Protocols",
         "table": {

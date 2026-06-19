@@ -8,7 +8,7 @@
 
             <template #header>{{ $t('protocols.myProtocols') }}</template>
 
-            <div class="mt-5 space-y-5">
+            <div class="mt-6 space-y-8">
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
@@ -17,35 +17,70 @@
                         <Alert type="info" :text="$t('theListIsEmpty')" />
                     </div>
 
-                    <div v-else class="space-y-3">
-                        <div v-for="protocol in state.protocols" :key="protocol.uuid"
-                            class="bg-white rounded-2xl border border-gray-200 p-4 flex items-center justify-between gap-4">
-                            <div class="space-y-1">
-                                <p class="font-semibold text-gray-900">{{ protocol.protocol?.name }}</p>
-                                <p class="text-sm text-gray-500">{{ formatDateToReadable(protocol.date) }}</p>
-                                <span :class="statusClass(protocol.status)"
-                                    class="inline-block text-xs font-medium px-2.5 py-0.5 rounded-full">
-                                    {{ statusLabel(protocol.status) }}
-                                </span>
+                    <template v-else>
+                        <!-- Today's entries -->
+                        <section v-if="todayProtocols.length > 0">
+                            <p class="mb-3 text-xs font-bold text-primary uppercase tracking-widest">{{ $t('protocols.today') }}</p>
+                            <div class="space-y-3">
+                                <div v-for="protocol in todayProtocols" :key="protocol.uuid"
+                                    class="bg-white rounded-2xl border border-primary/30 px-5 py-4 flex items-center justify-between gap-4 shadow-sm">
+                                    <div class="space-y-1.5">
+                                        <p class="font-semibold text-gray-900">{{ protocol.protocol?.name }}</p>
+                                        <p class="text-sm text-gray-500">{{ formatDateToReadable(protocol.date) }}</p>
+                                        <span :class="statusClass(protocol.status)"
+                                            class="inline-block text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                            {{ statusLabel(protocol.status) }}
+                                        </span>
+                                    </div>
+                                    <div class="flex gap-2 shrink-0">
+                                        <FormButton v-if="protocol.status === null" type="button" buttonStyle="action"
+                                            :disabled="state.loadingUuid === protocol.uuid"
+                                            @click="checkIn(protocol.uuid)">
+                                            {{ $t('protocols.checkIn') }}
+                                        </FormButton>
+                                        <FormButton v-else-if="protocol.status === 'attended'" type="button"
+                                            buttonStyle="cancel"
+                                            :disabled="state.loadingUuid === protocol.uuid"
+                                            @click="checkOut(protocol.uuid)">
+                                            {{ $t('protocols.checkOut') }}
+                                        </FormButton>
+                                        <span v-else class="text-sm text-gray-400 italic self-center">
+                                            {{ $t('protocols.table.status.absent') }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="flex gap-2 shrink-0">
-                                <FormButton v-if="protocol.status === null" type="button" buttonStyle="action"
-                                    :disabled="state.loadingUuid === protocol.uuid"
-                                    @click="checkIn(protocol.uuid)">
-                                    {{ $t('protocols.checkIn') }}
-                                </FormButton>
-                                <FormButton v-else-if="protocol.status === 'attended'" type="button"
-                                    buttonStyle="cancel"
-                                    :disabled="state.loadingUuid === protocol.uuid"
-                                    @click="checkOut(protocol.uuid)">
-                                    {{ $t('protocols.checkOut') }}
-                                </FormButton>
-                                <span v-else class="text-sm text-gray-400 italic self-center">
-                                    {{ $t('protocols.table.status.absent') }}
-                                </span>
+                        </section>
+
+                        <!-- Other entries (paginated) -->
+                        <section v-if="otherProtocols.length > 0" class="mt-8">
+                            <p class="mb-3 text-xs font-bold text-gray-400 uppercase tracking-widest">{{ $t('protocols.other') }}</p>
+                            <div class="space-y-3">
+                                <div v-for="protocol in paginatedOthers" :key="protocol.uuid"
+                                    class="bg-white rounded-2xl border border-gray-200 px-5 py-4 flex items-center justify-between gap-4">
+                                    <div class="space-y-1.5">
+                                        <p class="font-semibold text-gray-900">{{ protocol.protocol?.name }}</p>
+                                        <p class="text-sm text-gray-500">{{ formatDateToReadable(protocol.date) }}</p>
+                                        <span :class="statusClass(protocol.status)"
+                                            class="inline-block text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                            {{ statusLabel(protocol.status) }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                            <div class="flex items-center justify-between mt-4" v-if="otherProtocols.length > perPage">
+                                <FormButton type="button" buttonStyle="cancel" :disabled="state.currentPage === 1"
+                                    @click="state.currentPage--">
+                                    {{ $t('pagination.previous') }}
+                                </FormButton>
+                                <span class="text-sm text-gray-500">{{ state.currentPage }} / {{ totalPages }}</span>
+                                <FormButton type="button" buttonStyle="cancel" :disabled="state.currentPage === totalPages"
+                                    @click="state.currentPage++">
+                                    {{ $t('pagination.next') }}
+                                </FormButton>
+                            </div>
+                        </section>
+                    </template>
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
@@ -64,25 +99,37 @@ const { successAlert, errorAlert } = useAlert()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 
+const perPage = 10
+
 const state = reactive({
     protocols: [] as any[],
     isLoading: false,
     loadingUuid: null as string | null,
     error: {} as Error,
+    currentPage: 1,
+})
+
+const todayProtocols = computed(() => state.protocols.filter((p: any) => p.date === today))
+const otherProtocols = computed(() => state.protocols.filter((p: any) => p.date !== today))
+const totalPages = computed(() => Math.max(1, Math.ceil(otherProtocols.value.length / perPage)))
+const paginatedOthers = computed(() => {
+    const start = (state.currentPage - 1) * perPage
+    return otherProtocols.value.slice(start, start + perPage)
 })
 
 onMounted(() => {
     fetchProtocols()
 })
 
+const today = new Date().toISOString().slice(0, 10)
+
 async function fetchProtocols() {
     state.error = {}
     state.isLoading = true
     try {
-        const today = new Date().toISOString().slice(0, 10)
-        const response = await citizenProtocolService.getProtocols({ date: today })
+        const response = await citizenProtocolService.getProtocols({})
         if (response?.data) {
-            state.protocols = response.data
+            state.protocols = [...response.data].sort((a: any, b: any) => a.date < b.date ? -1 : 1)
         }
     } catch (error: any) {
         state.error = error

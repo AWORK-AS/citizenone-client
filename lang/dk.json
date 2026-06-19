@@ -7605,6 +7605,8 @@
         "checkIn": "Tjek ind",
         "checkOut": "Tjek ud",
         "myProtocols": "Mine protokoller",
+        "today": "I dag",
+        "other": "Andre",
         "newProtocol": "Ny protokol",
         "protocols": "Protokol",
         "table": {
