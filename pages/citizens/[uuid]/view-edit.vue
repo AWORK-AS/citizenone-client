@@ -362,8 +362,15 @@ async function archiveCitizen() {
     try {
         const response = await citizenService.archiveUnarchiveCitizen(citizenUuid)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('citizens.alert.citizenSuccessfullyArchived')}.`)
             navigateTo('/citizens')
+            const { show: showUndo } = useUndo()
+            showUndo({
+                message: `${t('citizens.alert.citizenSuccessfullyArchived')}`,
+                onUndo: async () => {
+                    await citizenService.archiveUnarchiveCitizen(citizenUuid)
+                    successAlert(`${t('alert.success')}!`, `${t('archived.alert.citizenSuccessfullyUnarchive')}.`)
+                },
+            })
         }
     } catch (error: any) {
         state.error = error

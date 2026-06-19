@@ -1,4 +1,107 @@
 {
+    "companyModules": {
+        "Economy": "Economy",
+        "Journals": "Journals",
+        "Medicine card": "Medicine card",
+        "Plans and goals": "Plans and goals",
+        "Health": "Health",
+        "Documents": "Documents",
+        "Attendance": "Attendance",
+        "Calendar": "Calendar",
+        "Contacts": "Contacts",
+        "Duty Schedule": "Duty schedule",
+        "Employee Group": "Employee group"
+    },
+    "discover": {
+        "welcome": "Welcome, {name}",
+        "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
+        "whatDoYouNeed": "What do you need?",
+        "stepsProgress": "{done} of {total} steps completed",
+        "nextStep": "Next step",
+        "ready": {
+            "title": "You're ready to go live!",
+            "desc": "All onboarding steps are complete."
+        },
+        "groupProgress": "{done} of {total} completed",
+        "lockedHint": "Complete the step above first",
+        "promoTitle": "Work from anywhere, on any device",
+        "promoDesc": "Download the app to always have CitizenOne on hand.",
+        "promoCta": "Get the app",
+        "appInfoMessage": "App Store and Google Play links will appear here in the real version.",
+        "modalIntro": "Pick the parts you use — we'll only show the relevant steps.",
+        "modules": {
+            "vagtplan": "Duty schedule",
+            "medicin": "Medicine",
+            "dokumentation": "Documentation (plans, status, documents)"
+        },
+        "groups": {
+            "migration": "Migration",
+            "komIGang": "Get started",
+            "born": "Citizens",
+            "vagtplan": "Duty schedule",
+            "medicin": "Medicine",
+            "dokumentation": "Documentation"
+        },
+        "steps": {
+            "departments": {
+                "title": "Create departments",
+                "desc": "Departments structure staff, citizens and the duty schedule.",
+                "tip": "E.g. \"North department\" and \"South department\".",
+                "cta": "Go to Departments"
+            },
+            "roles": {
+                "title": "Roles & permissions",
+                "desc": "Decide what each role can see and do.",
+                "cta": "Go to Roles"
+            },
+            "employees": {
+                "title": "Invite staff",
+                "desc": "Add your employees so they can log in.",
+                "cta": "Go to Staff"
+            },
+            "import": {
+                "title": "Import from your old system",
+                "desc": "Migrate citizens, staff, journals and schedules from your current system (CSV or Excel).",
+                "cta": "Start import"
+            },
+            "children": {
+                "title": "Create citizens",
+                "desc": "Add the citizens you work with.",
+                "cta": "Go to Citizens"
+            },
+            "childData": {
+                "title": "Master data & contacts",
+                "desc": "Fill in master data, contacts and caseworker.",
+                "cta": "Go to Citizens"
+            },
+            "shiftTypes": {
+                "title": "Create shift types & rules",
+                "desc": "Define shift types and working-time rules.",
+                "cta": "Go to Shift rules"
+            },
+            "shiftTags": {
+                "title": "Add shift tags",
+                "desc": "Tags make it easy to filter shifts later.",
+                "cta": "Go to Shift tags"
+            },
+            "schedule": {
+                "title": "Build the duty schedule",
+                "desc": "Plan the first shifts for your team.",
+                "cta": "Go to Duty schedule"
+            },
+            "medicine": {
+                "title": "Set up medicine",
+                "desc": "Add medicine types and dosage forms.",
+                "cta": "Go to Medicine"
+            },
+            "templates": {
+                "title": "Status templates & plans",
+                "desc": "Set up templates for status, plans and goals.",
+                "cta": "Go to Settings"
+            }
+        },
+        "title": "Discover"
+    },
     "2fa": {
         "2fa": "Two factor authentication",
         "alert": {
@@ -96,6 +199,33 @@
             },
             "name": "Name"
         }
+    },
+    "attendance": {
+        "absenceReason": "Absence reason",
+        "absenceReasons": "Absence reasons",
+        "citizen": "Citizen",
+        "checkIn": "Check-in",
+        "checkInOut": "Check-in / Check-out",
+        "date": "Date",
+        "generate": "Generate",
+        "in": "In",
+        "monthlyReport": "Monthly attendance report",
+        "noDataForPeriod": "No attendance data found for the selected period",
+        "noParticipantsToday": "No participants enrolled for today",
+        "notRegistered": "Not registered",
+        "out": "Out",
+        "participantList": "Participant list",
+        "pending": "Pending",
+        "period": "Period",
+        "print": "Print",
+        "printedOn": "Printed on",
+        "protocol": "Activity",
+        "selectMonthToGenerate": "Select a month and click Generate",
+        "selectWeekToGenerate": "Select a week and click Generate",
+        "signature": "Signature",
+        "total": "Total",
+        "week": "Week",
+        "weeklyReport": "Weekly attendance report"
     },
     "caseworkerSharing": {
         "cancel": "Cancel",
@@ -580,8 +710,12 @@
     },
     "back": "Back",
     "bellNotification": {
+        "birthday": {
+            "title": "Birthday today"
+        },
         "categories": {
             "all": "All",
+            "birthday": "Birthdays",
             "dutyShift": "Duty Shift Rule",
             "incidents": "Incidents",
             "messages": "Messages",
@@ -845,6 +979,7 @@
         },
         "newBooking": "New booking",
         "newEvent": "New event",
+        "chooseEventType": "What kind of event?",
         "singleEvent": {
             "createASingleEvent": "Create a single event",
             "createASingleEventLabel": "Create a single or recurring event",
@@ -1658,6 +1793,7 @@
                 "reportingRequirements": "Reporting requirements",
                 "secondaryConsultant": "Secondary consultant",
                 "status": "Status",
+                "internshipCompany": "Internship company",
                 "totalWeeks": "Total weeks",
                 "weeksUsed": "Weeks used"
             },
@@ -2514,6 +2650,8 @@
             "journals": "Journals",
             "medicineCard": "Medicine card",
             "plansAndGoals": "Plans and goals",
+            "outcomes": "Outcomes",
+            "reports": "Reports",
             "timeline": "Timeline"
         },
         "timeline": {
@@ -2920,6 +3058,43 @@
                 "wallets": "Wallets"
             },
             "wallets": "Wallets"
+        },
+        "outcomes": {
+            "outcomes": "Outcomes",
+            "newOutcome": "New outcome",
+            "editOutcome": "Edit outcome",
+            "type": {
+                "employment": "Employment",
+                "education": "Education",
+                "workPlacement": "Work placement"
+            },
+            "form": {
+                "type": "Type",
+                "employerInstitution": "Employer / Institution",
+                "startDate": "Start date",
+                "endDate": "End date",
+                "notes": "Notes",
+                "billingRule": "Billing rule",
+                "noBillingRule": "None"
+            },
+            "table": {
+                "type": "Type",
+                "employerInstitution": "Employer / Institution",
+                "startDate": "Start date",
+                "endDate": "End date",
+                "consultant": "Consultant",
+                "billingRule": "Billing rule"
+            },
+            "alert": {
+                "savedSuccessfully": "Outcome successfully saved",
+                "updatedSuccessfully": "Outcome successfully updated",
+                "deletedSuccessfully": "Outcome successfully deleted"
+            },
+            "confirmation": {
+                "deleteConfirmation": "Are you sure you want to delete this outcome?"
+            },
+            "edit": "Edit",
+            "delete": "Delete"
         },
         "noCitizensYet": "No citizens yet"
     },
@@ -3583,6 +3758,7 @@
             "employee": "Employee",
             "employees": "Employees",
             "employmentStatus": "Employment status",
+            "tags": "Tags",
             "filterDate": "Filter date",
             "filterDateAndTime": "Filter date and time",
             "timeFrom": "Time from",
@@ -3611,6 +3787,15 @@
             "users": "Users"
         },
         "holidays": "Holidays",
+        "holidayWorked": "Public holiday hours (worked)",
+        "holidayNonWorked": "Public holiday hours (not worked)",
+        "holidayHoursHint": "Public holiday: worked hours ×1.5 (company's own factor). Non-Sunday public holidays not worked count as 7.4 hours.",
+        "holidayWorkedShort": "Worked",
+        "holidayNonWorkedShort": "Not worked",
+        "holidayFreeBadge": "Off – public holiday",
+        "holidayNonWorkedAssigned": "7.4 holiday hours assigned",
+        "holidayWorkedTooltip": "You are working on a public holiday. The shift's hours are multiplied by your organisation's holiday factor (e.g. ×1.5) and appear both under the shift type and as holiday hours.",
+        "holidayNonWorkedTooltip": "This day is a public holiday. You receive holiday hours even though no shift is registered.",
         "indicators": {
             "exceedsNorm": "Exceeds norm",
             "negative": "Negative balance",
@@ -3651,7 +3836,9 @@
                 "confirmation": {
                     "approveLeaveRequestConfirmation": "Are you sure you want to approve this leave",
                     "deleteLeaveRequestConfirmation": "Are you sure you want to delete this leave",
-                    "rejectLeaveRequestConfirmation": "Are you sure you want to disapprove this leave"
+                    "rejectLeaveRequestConfirmation": "Are you sure you want to disapprove this leave",
+                    "rejectComment": "Comment (optional)",
+                    "rejectCommentPlaceholder": "Add a reason the employee will see"
                 },
                 "dateTimeEnd": "Date and time end",
                 "dateTimeStart": "Date and time start",
@@ -5906,7 +6093,59 @@
             "description": "Description",
             "title": "Title"
         },
-        "viewResponses": "View responses"
+        "viewResponses": "View responses",
+        "tabs": {
+            "formBuilder": "Form builder",
+            "predefinedEvents": "Predefined events"
+        },
+        "predefinedEvents": {
+            "predefinedEvents": "Predefined events",
+            "newPredefinedEvent": "New predefined event",
+            "editPredefinedEvent": "Edit predefined event",
+            "calendarTypes": {
+                "citizens": "Citizens",
+                "employees": "Employees"
+            },
+            "recurringTypes": {
+                "everyday": "Every day",
+                "every_week": "Every week",
+                "every_second_week": "Every second week",
+                "every_third_week": "Every third week",
+                "every_fourth_week": "Every fourth week",
+                "every_month": "Every month"
+            },
+            "form": {
+                "title": "Title",
+                "description": "Description",
+                "calendarType": "Calendar type",
+                "durationMinutes": "Duration (minutes)",
+                "isActive": "Active",
+                "isPrivate": "Private",
+                "isRecurring": "Recurring",
+                "recurringType": "Repeat",
+                "recurringEndDate": "End date",
+                "recurringEndDateHint": "Leave empty for no end date (ongoing)"
+            },
+            "table": {
+                "title": "Title",
+                "calendarType": "Calendar type",
+                "durationMinutes": "Duration (min)",
+                "isRecurring": "Recurring",
+                "isActive": "Active",
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                }
+            },
+            "alert": {
+                "predefinedEventSuccessfullySaved": "Predefined event successfully saved",
+                "predefinedEventSuccessfullyUpdated": "Predefined event successfully updated",
+                "predefinedEventSuccessfullyDeleted": "Predefined event successfully deleted"
+            },
+            "confirmation": {
+                "deletePredefinedEventConfirmation": "Are you sure you want to delete this predefined event"
+            }
+        }
     },
     "gender": {
         "female": "Female",
@@ -5914,7 +6153,28 @@
         "nonbinary": "Nonbinary",
         "willNotDisclose": "Will not disclose"
     },
+    "cmdkTip": {
+        "title": "Quick search ⚡",
+        "body": "Press anywhere:",
+        "try": "Try it",
+        "gotIt": "Got it"
+    },
+    "undo": {
+        "action": "Undo"
+    },
     "globalSearch": {
+        "actions": {
+            "title": "Quick actions",
+            "newCitizen": "Add citizen",
+            "newEmployee": "Add employee",
+            "journalNotes": "Journal notes",
+            "statistics": "Statistics"
+        },
+        "footerHint": "Search & act fast",
+        "openHint": "open",
+        "closeHint": "close",
+        "pinned": "Pinned",
+        "recentCitizens": "Recently viewed",
         "attendance": "Attendance",
         "bookings": "Bookings",
         "calendar": "Calendar",
@@ -6412,7 +6672,28 @@
         "chooseYourEmailConfiguration": {
             "chooseYourEmailConfiguration": "Choose your email configuration",
             "loginViaMicrosoft": "Login via Microsoft",
-            "loginViaSmtp": "Login via SMTP"
+            "loginViaSmtp": "Login via SMTP",
+            "microsoftGuide": {
+                "title": "How to connect your Microsoft account",
+                "intro": "Follow these steps to link your work Microsoft account so you can send and receive emails within CitizenOne.",
+                "step1": "Click Login via Microsoft above — you will be redirected to the Microsoft sign-in page.",
+                "step2": "Enter your work email address (e.g. yourname(at)yourcompany.com) and password.",
+                "step3": "Complete multi-factor authentication (MFA) if your organisation requires it.",
+                "step4": "On the permissions screen, CitizenOne is requesting access to read and send emails on your behalf. Choose one of the following:",
+                "step4Accept": "Accept — grants access for your own account only. You can start immediately.",
+                "step4Request": "Request approval — if your IT admin has restricted app access, click this to send them an approval request. Return to connect once they have approved it in the Azure Portal.",
+                "step4Hint": "If you are unsure, click Accept. If it fails with a permissions error, contact your IT administrator and ask them to grant admin consent for CitizenOne in your organisation's Azure Active Directory.",
+                "step5": "You will be redirected back to CitizenOne automatically and a success message will confirm the connection.",
+                "step6": "Your inbox is now connected. You can read, reply, forward, and send emails from within CitizenOne.",
+                "stayConnected": "CitizenOne refreshes your connection automatically. You may need to reconnect if you change your Microsoft password, your organisation revokes app access, or your account is disabled in Azure AD.",
+                "troubleshootTitle": "Troubleshooting",
+                "troubleshoot1Q": "Error after signing in",
+                "troubleshoot1A": "Make sure you are using your work account (not a personal Microsoft account) and that your IT admin has approved CitizenOne.",
+                "troubleshoot2Q": "Page redirects back without connecting",
+                "troubleshoot2A": "Your browser may have blocked the redirect. Disable popup blockers for this site and try again.",
+                "troubleshoot3Q": "\"You don't have permission to access this\"",
+                "troubleshoot3A": "Your IT administrator needs to grant admin consent for CitizenOne in your organisation's Azure portal."
+            }
         },
         "compose": "Compose",
         "connectYourMail": "Connect your mail",
@@ -6553,7 +6834,20 @@
             "smtpHost": "SMTP Host",
             "smtpPassword": "SMTP Password",
             "smtpPort": "SMTP Port",
-            "smtpUsername": "SMTP Username"
+            "smtpUsername": "SMTP Username",
+            "gmailGuide": {
+                "title": "Using Gmail? You need an App Password",
+                "intro": "Google no longer allows regular passwords for third-party SMTP/IMAP access. You must use an App Password instead.",
+                "step1": "Go to your Google Account at myaccount.google.com",
+                "step2": "Make sure 2-Step Verification is enabled (Security → 2-Step Verification)",
+                "step3": "Go to Security → App Passwords (only visible once 2FA is on)",
+                "step4": "Click \"Create app password\", choose \"Other (Custom name)\", name it \"CitizenOne\"",
+                "step5": "Google gives you a 16-character password (e.g. xxxx xxxx xxxx xxxx)",
+                "step6": "In CitizenOne's SMTP/IMAP settings, use:",
+                "step6Username": "Username: your full Gmail address (you(at)gmail.com)",
+                "step6Password": "Password: the 16-character app password (without spaces)",
+                "oauthNote": "Note: XOAUTH2 requires a full OAuth2 flow with access tokens and is not supported here. App Password is the correct approach for this integration."
+            }
         }
     },
     "massUnits": {
@@ -6866,6 +7160,27 @@
         },
         "citizensDiagnoses": "Citizens diagnoses",
         "citizensEvents": "Citizens' events",
+        "briefing": {
+            "morning": "Good morning, {name}",
+            "afternoon": "Good afternoon, {name}",
+            "evening": "Good evening, {name}",
+            "birthdays": "{count} with a birthday today",
+            "medicine": "{count} need medicine action",
+            "appointments": "{count} appointments",
+            "allCalm": "Looks calm right now"
+        },
+        "birthdays": {
+            "title": "Birthdays this week",
+            "todayTitle": "Birthdays today",
+            "nextTitle": "Next birthday",
+            "moreThisWeek": "{count} more this week",
+            "countThisWeek": "{count} birthdays this week",
+            "today": "Today",
+            "inDays": "In {days} days",
+            "turns": "turns {age}",
+            "staff": "Staff",
+            "child": "Child"
+        },
         "citizensOrigin": "Citizens origin",
         "createdBy": "Created by",
         "dailyOverview": "Daily overview",
@@ -6933,6 +7248,16 @@
             "latestJournal": "Latest journal notes",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Needs action today",
+            "deviated": "Deviations: {count}",
+            "overdue": "Overdue: {count}",
+            "more": "+{count} citizens"
+        },
+        "medsDone": {
+            "title": "Nice! 🎉",
+            "body": "All medicine given today"
+        },
         "medicationOverview": {
             "delivered": "Delivered",
             "deviated": "Deviated",
@@ -6955,6 +7280,7 @@
         "noNewsToShow": "No news to show",
         "openLink": "Open link",
         "overview": "Overview",
+        "statisticsTab": "Statistics",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Goals statistics",
             "plansAndGoals": "Plans and goals",
@@ -7411,15 +7737,33 @@
         "editProtocol": "Edit protocol",
         "form": {
             "alert": {
+                "checkInSuccess": "Successfully checked in",
+                "checkOutSuccess": "Successfully checked out",
                 "newProtocolSuccessfullySaved": "New protocol successfully saved",
                 "protocolSuccessfullyUpdated": "Protocol successfully updated"
             },
             "citizens": "Citizens",
             "endDate": "End date",
+            "every": "Every",
             "excludeWeekends": "Exclude weekends",
+            "frequency": "Frequency",
+            "isRecurring": "Recurring",
+            "monthlyEach": "On days",
+            "monthlyOnThe": "On the",
             "protocolName": "Protocol name",
-            "startDate": "Start date"
+            "recurringType": "Repeat",
+            "recurringUntil": "Recurring until",
+            "selectDatesFirst": "Select start and end dates first",
+            "startDate": "Start date",
+            "weeklyOn": "On",
+            "yearlyInMonths": "In months"
         },
+        "checkIn": "Check in",
+        "checkOut": "Check out",
+        "myProtocols": "My protocols",
+        "today": "Today",
+        "other": "Other",
+        "noTodayEntries": "No protocol entries for today",
         "newProtocol": "New protocol",
         "protocols": "Protocols",
         "table": {
@@ -7448,8 +7792,101 @@
             "startDate": "Start date",
             "status": {
                 "absent": "Absent",
-                "attended": "Attended"
+                "attended": "Attended",
+                "notRecorded": "Not recorded"
             }
+        }
+    },
+    "reportTemplates": {
+        "editReportTemplate": "Edit report template",
+        "newReportTemplate": "New report template",
+        "reportTemplates": "Report templates",
+        "alert": {
+            "templateSuccessfullyDeleted": "Report template successfully deleted",
+            "templateSuccessfullySaved": "Report template successfully saved",
+            "templateSuccessfullyUpdated": "Report template successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this report template"
+        },
+        "form": {
+            "agreementType": "Case type",
+            "body": "Body",
+            "isActive": "Is active",
+            "name": "Name"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit"
+            },
+            "agreementType": "Case type",
+            "isActive": "Active",
+            "active": "Active",
+            "inactive": "Inactive",
+            "name": "Name"
+        }
+    },
+    "citizenReports": {
+        "copyLink": "Copy link",
+        "draft": "Draft",
+        "editReport": "Edit report",
+        "finalize": "Finalize",
+        "finalized": "Finalized",
+        "newReport": "New report",
+        "publicLink": "Public link",
+        "reports": "Reports",
+        "alert": {
+            "cannotEditFinalized": "Finalized reports cannot be edited",
+            "finalizedSuccessfully": "Report successfully finalized",
+            "reportSuccessfullyDeleted": "Report successfully deleted",
+            "reportSuccessfullySaved": "Report successfully saved",
+            "reportSuccessfullyUpdated": "Report successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this report",
+            "finalizeConfirmation": "Are you sure you want to finalize this report? This action cannot be undone"
+        },
+        "form": {
+            "agreementType": "Case type",
+            "body": "Body",
+            "bodyTemplateHint": "Leave blank to auto-fill from the selected template",
+            "caseworker": "Caseworker",
+            "citizen": "Citizen",
+            "consultant": "Consultant",
+            "template": "Template",
+            "title": "Title"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "finalize": "Finalize",
+                "view": "View"
+            },
+            "agreementType": "Case type",
+            "createdAt": "Created",
+            "status": "Status",
+            "title": "Title"
+        }
+    },
+    "reportRequirements": {
+        "addRequirement": "Add requirement",
+        "editRequirement": "Edit requirement",
+        "noRequirements": "No requirements added yet",
+        "requirements": "Requirements",
+        "alert": {
+            "requirementSuccessfullyDeleted": "Requirement successfully deleted",
+            "requirementSuccessfullySaved": "Requirement successfully saved",
+            "requirementSuccessfullyUpdated": "Requirement successfully updated"
+        },
+        "confirmation": {
+            "deleteConfirmation": "Are you sure you want to delete this requirement"
+        },
+        "form": {
+            "description": "Description",
+            "linkedReport": "Linked report",
+            "title": "Title"
         }
     },
     "recurring": {
@@ -7752,9 +8189,61 @@
             "name": "Name",
             "permissions": "Permissions",
             "user": "User",
+            "referrer": "Referrer",
+            "company": "Company",
             "level": "Level",
             "regular": "Regular",
             "manager": "Manager"
+        }
+    },
+    "referrals": {
+        "alert": {
+            "referralSuccessfullySaved": "Referral successfully saved",
+            "referralSuccessfullyUpdated": "Referral successfully updated",
+            "referralSuccessfullyDeleted": "Referral successfully deleted"
+        },
+        "referrals": "Referrals",
+        "newReferral": "New referral",
+        "referral": "Referral",
+        "citizen": "Citizen",
+        "department": "Department",
+        "municipality": "Municipality",
+        "caseworkerName": "Caseworker name",
+        "caseworkerEmail": "Caseworker email",
+        "caseworkerPhone": "Caseworker phone",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "weeks": "Weeks",
+        "weeksCalculated": "Calculated end date",
+        "status": "Status",
+        "notes": "Notes",
+        "periodChangeReason": "Reason for period change",
+        "periodLogs": "Period change history",
+        "noPeriodLogs": "No period changes registered",
+        "statusActive": "Active",
+        "statusPending": "Pending",
+        "statusClosed": "Closed",
+        "deleteReferral": "Delete referral",
+        "deleteReferralConfirm": "Are you sure you want to delete this referral?",
+        "table": {
+            "citizen": "Citizen",
+            "municipality": "Municipality",
+            "caseworker": "Caseworker",
+            "startDate": "Start date",
+            "endDate": "End date",
+            "status": "Status",
+            "actions": {
+                "view": "View",
+                "edit": "Edit",
+                "delete": "Delete"
+            }
+        },
+        "periodLog": {
+            "previousPeriod": "Previous period",
+            "newPeriod": "New period",
+            "reason": "Reason",
+            "changedBy": "Changed by",
+            "date": "Date"
         }
     },
     "rooms": {
@@ -7970,6 +8459,12 @@
                 "warning11HourRest": "Warning for rest periods under 11 hours",
                 "warning48HourRule": "Warning for the 48-hour rule",
                 "holidayNonSundayHours": "Enable holiday hours on non-Sunday public holidays",
+                "terminology": "Word list",
+                "terminologyHint": "Customise the journal terms. Leave a field blank to use the default.",
+                "termJournals": "Journals",
+                "termJournal": "Journal",
+                "termJournalNoteTag": "Journal note tag",
+                "termJournalNotes": "Journal notes",
                 "website": "Website",
                 "ipRestriction": "IP restriction",
                 "enableIpRestriction": "Enable IP restriction",
@@ -8021,6 +8516,12 @@
         "subscription": {
             "subscription": "Subscription"
         },
+        "groups": {
+            "company": "Company",
+            "billing": "Billing",
+            "data": "Data",
+            "logs": "Logs"
+        },
         "tabs": {
             "absences": "Absences",
             "activityLogs": "Activity logs",
@@ -8031,6 +8532,7 @@
             "calendarTags": "Calendar tags",
             "catalog": "Catalog",
             "company": "Company",
+            "import": "Import",
             "consentDeclarationTypes": "Consent declaration types",
             "contactJobTitles": "Contact job titles",
             "customPages": "Glossary",
@@ -8070,12 +8572,15 @@
             "ipRestrictions": "IP restrictions",
             "approvedDevices": "Approved devices",
             "nursingProfessionalRecordTemplates": "Nursing record templates",
+            "reportTemplates": "Report templates",
             "treatmentTemplates": "Treatment templates",
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
             "employmentBillingRules": "Billing Rules",
             "employmentJobcenters": "Jobcenters",
-            "employmentAgreements": "Agreements"
+            "employmentAgreements": "Agreements",
+            "gdprRetention": "GDPR Retention",
+            "smsNotifications": "SMS"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -8189,6 +8694,7 @@
         "citizens": "Citizens",
         "companyId": "Company ID",
         "coupons": "Coupons",
+        "discover": "Get started",
         "documents": "Documents",
         "dutySchedules": "Duty schedules",
         "leads": "Leads",
@@ -8196,6 +8702,8 @@
         "messages": "Messages",
         "overview": "Overview",
         "protocols": "Protocols",
+        "reports": "Reports",
+        "reportTemplates": "Report templates",
         "journalNotes": "Journal notes",
         "pinSidebar": "Pin sidebar",
         "unpinSidebar": "Unpin sidebar"
@@ -9121,6 +9629,7 @@
             "companies": "Companies",
             "coupons": "Coupons",
             "dashboard": "Dashboard",
+            "emailTemplates": "Email templates",
             "invoices": "Invoices",
             "orders": "Orders",
             "polls": "Polls",
@@ -9139,6 +9648,21 @@
             "products": "Products",
             "clientRoles": "Roles & Rights",
             "cancellations": "Cancellations"
+        },
+        "emailTemplates": {
+            "title": "Email templates",
+            "subtitle": "Edit the emails the system sends to users.",
+            "subject": "Subject",
+            "body": "Content (HTML)",
+            "preview": "Preview",
+            "placeholders": "Available placeholders",
+            "placeholdersHint": "Click to copy. They are replaced with real values when the email is sent.",
+            "edit": "Edit",
+            "save": "Save",
+            "cancel": "Cancel",
+            "saved": "Email template saved",
+            "locale": "Language",
+            "noTemplates": "No email templates found"
         },
         "users": {
             "confirmation": {
@@ -9946,6 +10470,7 @@
     },
     "update": "Update",
     "updates": {
+        "newUpdates": "New updates",
         "newUpdatesFrom": "New updates from",
         "showUpdate": "Show update",
         "updates": "Updates"
@@ -10131,7 +10656,10 @@
             "form": {
                 "name": "Name",
                 "color": "Color",
+                "billingRule": "Billing rule",
                 "isActive": "Active",
+                "isBillable": "Billable",
+                "isBillableHint": "Weeks with this status are included in billing extraction",
                 "sortOrder": "Sort order",
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Status type successfully saved",
@@ -10196,8 +10724,26 @@
                 "name": "Name",
                 "rate": "Rate",
                 "frequency": "Frequency",
+                "pricingType": "Pricing type",
+                "weeklyRate": "Weekly rate",
+                "hourlyRate": "Hourly rate",
+                "bonusAmount": "Bonus amount",
+                "bonusConditionMonths": "Trigger condition (months employed)",
+                "bonusConditionMonthsHint": "Bonus is triggered when the citizen has been employed for this many months",
+                "invoiceDataSection": "Invoice data",
+                "customerNumber": "Customer number",
+                "productNumber": "Product number",
                 "description": "Description",
                 "isActive": "Active",
+                "pricingTypeOptions": {
+                    "weekly": "Weekly pricing",
+                    "hourly": "Hourly pricing",
+                    "bonus": "Bonus-based pricing"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 months",
+                    "six": "6 months"
+                },
                 "frequencyOptions": {
                     "hourly": "Hourly",
                     "daily": "Daily",
@@ -10225,7 +10771,10 @@
                 },
                 "alert": {
                     "billingRuleSuccessfullyDeleted": "Billing rule successfully deleted"
-                }
+                },
+                "pricingType": "Pricing type",
+                "customerNumber": "Customer no.",
+                "productNumber": "Product no."
             }
         },
         "cases": {
@@ -10241,6 +10790,7 @@
                 },
                 "durationWeeks": "Duration (weeks)",
                 "endDate": "End date",
+                "statusType": "Status type",
                 "notes": "Notes",
                 "periodMode": {
                     "byDate": "By date",
@@ -10254,12 +10804,24 @@
                     "completed": "Completed",
                     "on_hold": "On hold",
                     "paused": "Paused"
-                }
+                },
+                "reminderEnabled": "Automatic reporting reminders",
+                "reminderEnabledHint": "Automatically create reminders for each reporting date in the case period",
+                "reportingFrequencyWeeks": "Reporting frequency",
+                "reportingFrequencyOptions": {
+                    "every2weeks": "Every 2 weeks",
+                    "every4weeks": "Every 4 weeks",
+                    "every6weeks": "Every 6 weeks",
+                    "every8weeks": "Every 8 weeks"
+                },
+                "reportingReminderTitle": "Reporting reminder",
+                "reportingReminderNote": "Automatic reporting reminder for employment case"
             },
             "table": {
                 "actions": {
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "history": "History"
                 },
                 "agreement": "Agreement",
                 "alert": {
@@ -10275,6 +10837,28 @@
                 "startDate": "Start date",
                 "status": "Status",
                 "weeksUsed": "Weeks used"
+            },
+            "status": {
+                "active": "Active",
+                "completed": "Completed",
+                "on_hold": "On hold",
+                "paused": "Paused"
+            },
+            "statusHistory": {
+                "title": "Status History",
+                "history": "History",
+                "addEntry": "Record status change",
+                "noHistory": "No status changes recorded yet.",
+                "statusCleared": "Status cleared",
+                "form": {
+                    "statusType": "New status",
+                    "notes": "Notes",
+                    "notesPlaceholder": "Reason for status change (optional)",
+                    "save": "Save"
+                },
+                "alert": {
+                    "statusUpdated": "Status updated"
+                }
             }
         },
         "agreements": {
@@ -10287,6 +10871,7 @@
                     "agreementSuccessfullyUpdated": "Agreement successfully updated",
                     "newAgreementSuccessfullySaved": "Agreement successfully saved"
                 },
+                "caseType": "Case type",
                 "defaultDurationWeeks": "Default duration (weeks)",
                 "description": "Description",
                 "isActive": "Active",
@@ -10303,6 +10888,7 @@
                 "alert": {
                     "agreementSuccessfullyDeleted": "Agreement successfully deleted"
                 },
+                "caseType": "Case type",
                 "confirmation": {
                     "deleteAgreementConfirmation": "Are you sure you want to delete this agreement?"
                 },
@@ -10310,6 +10896,15 @@
                 "jobcenter": "Job center",
                 "name": "Name",
                 "sortOrder": "Sort order"
+            },
+            "statusTypes": {
+                "title": "Status Types for this Agreement",
+                "description": "Select which status types are available for cases under this agreement.",
+                "noStatusTypesAvailable": "No status types configured. Create status types in Settings first.",
+                "saveConfiguration": "Save configuration",
+                "alert": {
+                    "configurationSaved": "Status type configuration saved"
+                }
             }
         },
         "jobcenters": {
@@ -10347,6 +10942,240 @@
                 "name": "Name",
                 "sortOrder": "Sort order"
             }
+        },
+        "billing": {
+            "billing": "Billing",
+            "extraction": "Billing extraction",
+            "fromDate": "From date",
+            "toDate": "To date",
+            "generate": "Generate",
+            "markAsInvoiced": "Mark as invoiced",
+            "markSelected": "Mark selected as invoiced",
+            "invoiced": "Invoiced",
+            "notInvoiced": "Not invoiced",
+            "citizen": "Citizen",
+            "cpr": "CPR number",
+            "period": "Billing period",
+            "pricePerWeek": "Price / week",
+            "pricePerHour": "Price / hour",
+            "weeks": "Weeks",
+            "hours": "Hours",
+            "bonus": "Bonus",
+            "total": "Total",
+            "customerNumber": "Customer number",
+            "productNumber": "Product number",
+            "agreement": "Agreement",
+            "consultant": "Consultant",
+            "excludeWeek": "Exclude week",
+            "includeWeek": "Include week",
+            "noData": "No billing data found for the selected period",
+            "selectPeriod": "Select a period to generate billing data",
+            "invoicedOn": "Invoiced on",
+            "alert": {
+                "markedAsInvoiced": "Selected entries marked as invoiced",
+                "weekExcluded": "Week excluded from billing",
+                "weekIncluded": "Week included in billing"
+            },
+            "billingWeeks": "Billing weeks",
+            "week": "Week",
+            "excluded": "Excluded",
+            "billable": "Billable",
+            "noBillingWeeks": "No billing weeks found for this case",
+            "billableWeeks": "billable weeks",
+            "excludedWeeks": "excluded weeks",
+            "exportCsv": "Export to e-conomic (CSV)",
+            "excludeReasonPlaceholder": "e.g. Citizen hospitalised"
+        },
+        "revenue": {
+            "revenue": "Revenue",
+            "report": "Revenue report",
+            "consultant": "Consultant",
+            "citizens": "Citizens handled",
+            "weeklyBilling": "Weekly billing",
+            "hourlyBilling": "Hourly billing",
+            "bonuses": "Bonuses",
+            "totalRevenue": "Total revenue",
+            "fromDate": "From date",
+            "toDate": "To date",
+            "generate": "Generate",
+            "noData": "No revenue data found for the selected period"
+        }
+    },
+    "gdpr": {
+        "retention": {
+            "title": "GDPR Data Retention",
+            "retentionPeriod": "Retention period",
+            "retentionPeriodHint": "Data will be scheduled for deletion after this period following case completion.",
+            "retentionMonths": "Retention period",
+            "months": "{n} months",
+            "monthsShort": "mo.",
+            "autoDelete": "Automatic deletion",
+            "autoDeleteHint": "Automatically schedule citizens for deletion when the retention period expires.",
+            "notifyBeforeDeletion": "Notify before deletion",
+            "notifyBeforeDeletionHint": "Send a notification before a scheduled deletion is executed.",
+            "settingsSaved": "Retention settings saved",
+            "scheduledDeletions": "Scheduled deletions",
+            "viewDeletionLog": "View deletion log",
+            "noScheduledDeletions": "No citizens are currently scheduled for deletion.",
+            "citizen": "Citizen",
+            "caseCompletedOn": "Case completed on",
+            "scheduledFor": "Scheduled for",
+            "daysRemaining": "Days remaining",
+            "days": "days",
+            "cancelDeletion": "Cancel deletion",
+            "cancelDeletionConfirmation": "Are you sure you want to cancel the scheduled deletion for this citizen",
+            "deletionCancelled": "Scheduled deletion cancelled"
+        },
+        "deletionLog": {
+            "title": "Deletion log",
+            "fromDate": "From date",
+            "toDate": "To date",
+            "trigger": "Trigger",
+            "allTriggers": "All triggers",
+            "triggerSystem": "System",
+            "triggerUser": "User",
+            "citizen": "Citizen",
+            "deletedAt": "Deleted at",
+            "retentionMonths": "Retention",
+            "deletedBy": "Deleted by",
+            "noEntries": "No deletion log entries found.",
+            "restore": "Restore",
+            "restoreConfirmation": "Are you sure you want to restore this citizen",
+            "citizenRestored": "Citizen successfully restored"
+        }
+    },
+    "selectAll": "Select all",
+    "import": {
+        "modal": {
+            "title": "Import from another system",
+            "question": "What do you want to import from your old system?"
+        },
+        "steps": {
+            "type": {
+                "comingSoon": "Coming soon"
+            },
+            "upload": {
+                "instruction": "Upload a file with your {entity} (CSV or Excel). We will map the columns to CitizenOne in the next step.",
+                "dropzone": "Drag a file here, or click to select a CSV or Excel file"
+            },
+            "map": {
+                "columnsFound": "{headers} columns found, {rows} rows",
+                "yourColumns": "Your columns — drag them over",
+                "noName": "(no name)",
+                "noColumnName": "(column)",
+                "citizenOneFields": "CitizenOne fields",
+                "dragColumnHere": "Drag a column here",
+                "preview": "Preview",
+                "requiredFieldsHint": "Required fields (*) must be mapped before importing."
+            },
+            "dryRun": {
+                "title": "Review before import — nothing is saved yet.",
+                "readyToImport": "ready to import",
+                "skipped": "skipped",
+                "whySkipped": "Why rows are skipped",
+                "journalHint": "Rows without a match in CitizenOne (unknown CPR) are automatically excluded during import and shown in the summary.",
+                "scheduleHint": "Rows without a match in CitizenOne (unknown email or shift type) are automatically excluded during import and shown in the summary.",
+                "citizensHint": "Citizens that already exist (same CPR or name) will be skipped.",
+                "employeesHint": "Employees that already exist (same email or name) will be skipped. Each new employee uses one user license — if you run out, the rest will not be created.",
+                "noValidRows": "No valid rows to import. Go back and check mapping and data."
+            },
+            "importing": {
+                "label": "Importing…"
+            },
+            "done": {
+                "imported": "{count} imported",
+                "rowsSkipped": "{count} row(s) could not be matched and were skipped.",
+                "allImported": "All rows were imported.",
+                "alreadyExisted": "{count} already existed and were skipped.",
+                "licenseBlocked": "{count} employees could not be created — you are out of user licenses.",
+                "licenseHint": "Add at least {count} license(s) and run the import again — already created will be skipped.",
+                "addLicenses": "Add licenses",
+                "invitesSent": "Login emails have been sent to the created employees.",
+                "sendInvites": "Send login emails to {count} employees",
+                "inviteHint": "The created employees will receive an email with login and getting-started info. The import does not send emails automatically.",
+                "undone": "The import has been undone — the rows have been deleted again.",
+                "undo": "Undo import ({count} created)",
+                "unmatchedCpr": "Unmatched CPR numbers:",
+                "unmatchedEmails": "Unmatched emails:",
+                "unknownShifts": "Unknown shift types:"
+            }
+        },
+        "footer": {
+            "close": "Close",
+            "back": "Back",
+            "review": "Review {count} row(s)",
+            "import": "Import {count} {entity}"
+        },
+        "entities": {
+            "citizens": "Children / citizens",
+            "employees": "Employees",
+            "journals": "Journal notes",
+            "schedules": "Shift plans"
+        },
+        "fields": {
+            "firstname": "First name",
+            "lastname": "Last name",
+            "cpr_number": "CPR number",
+            "birthday": "Date of birth (YYYY-MM-DD)",
+            "gender": "Gender (male/female)",
+            "email": "Email",
+            "phone": "Phone",
+            "date_admitted": "Admission date",
+            "date_discharged": "Discharge date",
+            "departments": "Departments (separated by ;)",
+            "seniority_date": "Seniority date",
+            "cpr": "Citizen's CPR number (match)",
+            "date": "Date (YYYY-MM-DD)",
+            "title": "Title",
+            "content": "Note text",
+            "shift": "Shift type (name)",
+            "start_time": "Start time (HH:MM)",
+            "end_time": "End time (HH:MM)",
+            "email_employee": "Employee's email (match)"
+        },
+        "errors": {
+            "emptyFile": "The file appears empty or has no data rows.",
+            "readError": "Could not read the file. Make sure it is a valid CSV or Excel file.",
+            "importFailed": "Import failed. Check mapping and date formats (YYYY-MM-DD).",
+            "undoFailed": "Could not undo the import.",
+            "invitesFailed": "Could not send login emails.",
+            "missingField": "Missing {field}",
+            "invalidField": "Invalid {field}"
+        }
+    },
+    "sms": {
+        "settings": {
+            "title": "SMS Notifications",
+            "enableSms": "Enable SMS",
+            "enableSmsHint": "Send SMS notifications to citizens via Azure Communication Services.",
+            "balance": "Balance",
+            "notificationEvents": "Notification events",
+            "notifyNewAppointment": "New appointment created",
+            "notifyReminder24h": "Reminder 24 hours before appointment",
+            "notifyReminderSameDay": "Reminder on the day of appointment",
+            "azureTitle": "Azure Communication Services",
+            "azureDesc": "SMS messages are sent through Azure Communication Services with CitizenOne as sender.",
+            "autoRecharge": "Auto-recharge",
+            "autoRechargeHint": "Automatically top up your balance when it falls below the threshold.",
+            "autoRechargeThreshold": "Top up when balance falls below",
+            "autoRechargeAmount": "Top up with",
+            "savedSuccess": "SMS settings saved"
+        },
+        "credits": {
+            "title": "Buy SMS credits",
+            "desc": "Purchase prepaid SMS credits. 1 DKK = 1 SMS. Credits are added immediately after payment.",
+            "customAmount": "Custom amount",
+            "customAmountPlaceholder": "Enter amount",
+            "amountError": "Amount must be between 50 and 10,000 DKK",
+            "pricingNote": "1 DKK per SMS · 25% VAT on credit amount · 4.75 DKK service fee per purchase",
+            "buyButton": "Buy credits",
+            "processing": "Processing...",
+            "purchaseSuccess": "Credits added to your account",
+            "appNotFound": "SMS app not found. Please try again later."
+        },
+        "form": {
+            "sendSmsNotification": "Send SMS notification",
+            "sendSmsNotificationHint": "The citizen will receive an SMS with appointment details."
         }
     }
 }

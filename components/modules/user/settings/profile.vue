@@ -286,6 +286,7 @@ watch(() => userStore.getUser, (newValue: any) => {
         newValue?.notification_departments?.forEach((department: any) => {
             state.formProfile.department_uuid?.push(department?.uuid)
         })
+        markClean()
     }
 })
 
@@ -314,9 +315,24 @@ function setUser() {
     user?.notification_departments?.forEach((department: any) => {
         state.formProfile.department_uuid?.push(department?.uuid)
     })
+    markClean()
 }
 
-
+// Unsaved-changes guard: warn before navigating away or reloading with edits.
+const isDirty = ref(false)
+const formReady = ref(false)
+function markClean() {
+    formReady.value = false
+    nextTick(() => { formReady.value = true; isDirty.value = false })
+}
+watch(() => state.formProfile, () => { if (formReady.value) isDirty.value = true }, { deep: true })
+function beforeUnloadHandler(e: BeforeUnloadEvent) { if (isDirty.value) { e.preventDefault(); e.returnValue = '' } }
+onMounted(() => window.addEventListener('beforeunload', beforeUnloadHandler))
+onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnloadHandler))
+onBeforeRouteLeave(() => {
+    if (isDirty.value) return window.confirm('Du har ugemte ændringer. Vil du forlade siden uden at gemme?')
+    return true
+})
 
 async function fetchDepartments() {
     state.error = {}
@@ -416,6 +432,7 @@ async function submitForm() {
                 userStore.setUser(response?.data)
                 language.locale.value = response?.data?.language?.code
                 state.isChangePassword = false
+                isDirty.value = false
                 successAlert(`${t('alert.success')}!`, `${t('settings.profile.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {

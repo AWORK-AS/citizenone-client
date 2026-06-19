@@ -17,7 +17,7 @@
                         </div>
                     </div>
                 </div>
-                <FormError :error="v$?.formEmployee?.profile_image?.$errors[0]?.$message.toString()"
+                <FormError :error="v$?.formMedicine?.profile_image?.$errors[0]?.$message.toString()"
                     class="text-center" />
                 <FormError :error="props?.error?.errors?.profile_image?.[0]" class="text-center" />
             </div>

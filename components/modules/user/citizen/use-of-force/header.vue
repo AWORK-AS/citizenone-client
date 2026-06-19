@@ -2,7 +2,7 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="flex flex-col gap-y-2">
             <button type="button"
-                class="inline-flex w-full items-center justify-center gap-x-1.5 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition-colors hover:border-red-300 hover:bg-red-100 whitespace-nowrap"
+                class="flex w-full items-center justify-center gap-x-1.5 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100 hover:border-red-300 transition-colors"
                 @click="state.modal.isReportUseOfForceOpen = true">
                 <Icon name="ph:warning-circle" class="h-4 w-4" aria-hidden="true" />
                 {{ $t('citizens.useOfForce.reportUseOfForce') }}

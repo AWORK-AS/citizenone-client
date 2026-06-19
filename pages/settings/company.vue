@@ -276,6 +276,33 @@
                     </div>
 
                     <div class="mt-6 border-t border-gray-200 pt-6 space-y-4">
+                        <h3 class="text-sm font-semibold text-gray-700">{{ $t('settings.company.form.terminology') }}</h3>
+                        <p class="text-xs text-gray-500">{{ $t('settings.company.form.terminologyHint') }}</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <FormLabel for="term_journals" :label="$t('settings.company.form.termJournals')" />
+                                <FormTextField id="term_journals" name="term_journals"
+                                    placeholder="Journaler" v-model="state.formCompany.term_journals" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="term_journal" :label="$t('settings.company.form.termJournal')" />
+                                <FormTextField id="term_journal" name="term_journal"
+                                    placeholder="Journal" v-model="state.formCompany.term_journal" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="term_journal_note_tag" :label="$t('settings.company.form.termJournalNoteTag')" />
+                                <FormTextField id="term_journal_note_tag" name="term_journal_note_tag"
+                                    placeholder="Journalnotetag" v-model="state.formCompany.term_journal_note_tag" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="term_journal_notes" :label="$t('settings.company.form.termJournalNotes')" />
+                                <FormTextField id="term_journal_notes" name="term_journal_notes"
+                                    placeholder="Journalnotater" v-model="state.formCompany.term_journal_notes" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 border-t border-gray-200 pt-6 space-y-4">
                         <h3 class="text-sm font-semibold text-gray-700">{{ $t('settings.company.form.ipRestriction') }}</h3>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.is_ip_restriction_enabled"
@@ -325,6 +352,26 @@
                         </FormButton>
                     </div>
                 </form>
+
+                <!-- Company modules — admin enables/disables whole modules for the company -->
+                <div class="mt-8 card" v-if="isAtLeast('Admin') && moduleState.pages.length">
+                    <div class="card-header">
+                        <h3 class="text-sm font-semibold text-slate-900">Moduler</h3>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-1 mb-4">Vælg hvilke moduler virksomheden bruger. Slået fra skjuler modulet for alle i virksomheden.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div v-for="page in moduleState.pages" :key="page.uuid"
+                            class="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2.5">
+                            <span class="text-sm text-slate-800">{{ $t(`companyModules.${page.name}`) }}</span>
+                            <FormSwitch :value="moduleState.enabled.includes(page.uuid)" @toggleSwitch="toggleModule(page.uuid)" />
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <FormButton type="button" buttonStyle="primary" @click="saveModules">
+                            {{ $t('save') }}
+                        </FormButton>
+                    </div>
+                </div>
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -337,6 +384,8 @@ import { userService } from "@/components/api/user/UserService";
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
+import { companyService } from '@/components/api/user/CompanyService'
+import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
 import { useCompanyStore } from '@/store/company'
 import { useAlert } from '@/composables/alert'
@@ -349,6 +398,37 @@ const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast } = usePermissions()
+
+// --- Company modules (admin enable/disable whole modules) ---
+const moduleState = reactive<{ pages: any[]; enabled: string[] }>({ pages: [], enabled: [] })
+
+async function fetchCompanyModules() {
+    try {
+        const response = await companyService.getCompanyModules()
+        moduleState.pages = response?.pages ?? []
+        moduleState.enabled = response?.enabled_page_uuids ?? []
+    } catch (e) { /* leave empty */ }
+}
+
+function toggleModule(uuid: string) {
+    const i = moduleState.enabled.indexOf(uuid)
+    if (i === -1) moduleState.enabled.push(uuid)
+    else moduleState.enabled.splice(i, 1)
+}
+
+async function saveModules() {
+    try {
+        await companyService.updateCompanyModules({ page_uuids: moduleState.enabled })
+        // Update the in-memory user so the sidebar regenerates live (no reload).
+        const enabledNames = moduleState.pages.filter((p: any) => moduleState.enabled.includes(p.uuid)).map((p: any) => p.name)
+        const u: any = userStore.getUser
+        if (u?.company) userStore.setUser({ ...u, company: { ...u.company, module_pages: enabledNames } })
+        successAlert(`${t('alert.success')}!`, 'Moduler opdateret.')
+    } catch (e) { }
+}
+
+onMounted(fetchCompanyModules)
 
 // Company logo for PDF branding
 const logoInput = ref<HTMLInputElement | null>(null)
@@ -400,6 +480,10 @@ const state = reactive({
         is_device_restriction_enabled: false,
         device_restriction_action: 'block' as string,
         holiday_non_sunday_hours_enabled: false,
+        term_journals: '' as string,
+        term_journal: '' as string,
+        term_journal_note_tag: '' as string,
+        term_journal_notes: '' as string,
     },
     isPageLoading: false,
     options: {
@@ -409,6 +493,10 @@ const state = reactive({
         regions: [],
     }
 })
+
+// Unsaved-changes guard: warn before navigating away or reloading with edits.
+const isDirty = ref(false)
+const formReady = ref(false)
 
 const rules = computed(() => {
     return {
@@ -469,6 +557,10 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_device_restriction_enabled: newValue?.company?.is_device_restriction_enabled ? true : false,
             device_restriction_action: newValue?.company?.device_restriction_action ?? 'block',
             holiday_non_sunday_hours_enabled: newValue?.company?.holiday_non_sunday_hours_enabled ? true : false,
+            term_journals: newValue?.company?.term_journals ?? '',
+            term_journal: newValue?.company?.term_journal ?? '',
+            term_journal_note_tag: newValue?.company?.term_journal_note_tag ?? '',
+            term_journal_notes: newValue?.company?.term_journal_notes ?? '',
             logo: null,
             should_delete_logo: false,
         }
@@ -481,7 +573,28 @@ watch(() => userStore.getUser, (newValue: any) => {
         displays?.forEach((item: any) => {
             state.formCompany.citizen_display_uuid.push(item.uuid)
         })
+        // Treat the freshly-loaded values as the clean baseline.
+        formReady.value = false
+        nextTick(() => { formReady.value = true; isDirty.value = false })
     }
+})
+
+// Mark the form dirty once the user changes anything after it loaded.
+watch(() => state.formCompany, () => {
+    if (formReady.value) isDirty.value = true
+}, { deep: true })
+
+function beforeUnloadHandler(e: BeforeUnloadEvent) {
+    if (isDirty.value) { e.preventDefault(); e.returnValue = '' }
+}
+onMounted(() => window.addEventListener('beforeunload', beforeUnloadHandler))
+onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnloadHandler))
+
+onBeforeRouteLeave(() => {
+    if (isDirty.value) {
+        return window.confirm('Du har ugemte ændringer. Vil du forlade siden uden at gemme?')
+    }
+    return true
 })
 
 async function fetchAllCitizenDisplays() {
@@ -642,6 +755,10 @@ async function submitForm() {
                 is_device_restriction_enabled: state.formCompany.is_device_restriction_enabled,
                 device_restriction_action: state.formCompany.device_restriction_action,
                 holiday_non_sunday_hours_enabled: state.formCompany.holiday_non_sunday_hours_enabled,
+                term_journals: state.formCompany.term_journals,
+                term_journal: state.formCompany.term_journal,
+                term_journal_note_tag: state.formCompany.term_journal_note_tag,
+                term_journal_notes: state.formCompany.term_journal_notes,
             }
 
             const response = await userService.updateCompany(params)
@@ -659,6 +776,7 @@ async function submitForm() {
                     userStore.setUser(currentUser)
                 }
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
+                isDirty.value = false
             }
         } catch (error: any) {
             state.error = error

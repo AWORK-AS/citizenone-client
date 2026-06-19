@@ -47,7 +47,7 @@
                     <FormLabel for="role" :label="$t('superadmin.accounts.form.role')" />
                     <FormSelect id="role" name="role" :options="state.options.roleOptions"
                         v-model="state.formAccount.role" />
-                    <FormError :error="v$?.formEmployee?.role?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formAccount?.role?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.role?.[0]" />
                 </div>
             </div>
