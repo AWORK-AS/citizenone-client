@@ -11,12 +11,14 @@
             </template>
 
             <template #header>
-                <div class="flex items-center gap-x-4">
+                <div class="h-12 flex items-center gap-x-4">
                     <div class="flex items-center gap-x-6">
-                        <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
-                            @click="navigateTo('/discover')">Discover</span>
                         <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
                             {{ $t('overview.overview') }}
+                        </span>
+                        <span class="mb-1.5 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                            @click="navigateTo('/discover')">
+                            {{ $t('discover.title') }}
                         </span>
                     </div>
                     <!-- Date navigator -->
@@ -139,8 +141,10 @@
                 <div class="stat-card" v-if="state.stats.birthdays.length > 0">
                     <div class="stat-label">
                         <Icon name="ph:cake" class="h-4 w-4 text-accent-orange" />
-                        {{ todaysBirthdays.length > 0 ? $t('overview.birthdays.todayTitle') : $t('overview.birthdays.title') }}
-                        <span class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
+                        {{ todaysBirthdays.length > 0 ? $t('overview.birthdays.todayTitle') :
+                            $t('overview.birthdays.title') }}
+                        <span
+                            class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
                             {{ todaysBirthdays.length > 0 ? todaysBirthdays.length : state.stats.birthdays.length }}
                         </span>
                     </div>
@@ -148,7 +152,8 @@
                         <li v-for="(birthday, birthdayIndex) in todaysBirthdays" :key="birthdayIndex"
                             class="flex items-center justify-between gap-x-2 text-xs font-semibold text-primary">
                             <span class="truncate">{{ birthday.name }}</span>
-                            <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</span>
+                            <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age })
+                            }}</span>
                         </li>
                     </ul>
                     <button v-if="laterBirthdaysCount > 0 || todaysBirthdays.length === 0" type="button"
@@ -295,67 +300,77 @@
                 <CollapsibleSection v-if="showStatisticsSection" :title="$t('overview.statistics')"
                     :default-open="false" storage-key="overview-statistics">
                     <div class="space-y-10">
-                <!-- Statistics grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
-                    overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
-                    overviewStore.getDailyOverviewFilter.showCitizensAddictions ||
-                    overviewStore.getDailyOverviewFilter.showCitizensDiagnoses ||
-                    overviewStore.getDailyOverviewFilter.showRiskAssessment ||
-                    overviewStore.getDailyOverviewFilter.showGender">
-                    <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
-                        <ModulesUserDailyOverviewCitizensAdmissionDischarged
-                            :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showCitizensOrigin">
-                        <ModulesUserDailyOverviewCitizensOrigin />
-                    </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions">
-                        <ModulesUserDailyOverviewCitizensAddictions :dateRange="state.dateRange.formDateRange" />
-                        <ModulesUserDailyOverviewCitizensAddictionsCount :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
-                        <ModulesUserDailyOverviewCitizensDiagnoses :dateRange="state.dateRange.formDateRange" />
-                        <ModulesUserDailyOverviewCitizensDiagnosesCount :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment">
-                        <ModulesUserDailyOverviewCitizensRiskAssessment :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showGender">
-                        <ModulesUserDailyOverviewCitizensGender />
-                    </div>
-                </div>
+                        <!-- Statistics grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
+                            overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
+                            overviewStore.getDailyOverviewFilter.showCitizensAddictions ||
+                            overviewStore.getDailyOverviewFilter.showCitizensDiagnoses ||
+                            overviewStore.getDailyOverviewFilter.showRiskAssessment ||
+                            overviewStore.getDailyOverviewFilter.showGender">
+                            <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
+                                <ModulesUserDailyOverviewCitizensAdmissionDischarged
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div v-if="overviewStore.getDailyOverviewFilter.showCitizensOrigin">
+                                <ModulesUserDailyOverviewCitizensOrigin />
+                            </div>
+                            <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions">
+                                <ModulesUserDailyOverviewCitizensAddictions
+                                    :dateRange="state.dateRange.formDateRange" />
+                                <ModulesUserDailyOverviewCitizensAddictionsCount
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
+                                <ModulesUserDailyOverviewCitizensDiagnoses :dateRange="state.dateRange.formDateRange" />
+                                <ModulesUserDailyOverviewCitizensDiagnosesCount
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment">
+                                <ModulesUserDailyOverviewCitizensRiskAssessment
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showGender">
+                                <ModulesUserDailyOverviewCitizensGender />
+                            </div>
+                        </div>
 
-                <!-- Score statistics -->
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showIncidentStatistics ||
-                    overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
-                    overviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
-                    <div v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
-                        <ModulesUserDailyOverviewStatusesScoreStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
-                        <ModulesUserDailyOverviewGoalsScoreStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showIncidentStatistics">
-                        <ModulesUserDailyOverviewIncidentReportsStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics">
-                        <ModulesUserDailyOverviewMedicineDeviationStatistics
-                            :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
-                        <ModulesUserDailyOverviewJournalScoreStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
-                        <ModulesUserDailyOverviewSubgoalsScoreStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
-                        <ModulesUserDailyOverviewUseOfForceStatistics :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                </div>
+                        <!-- Score statistics -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics ||
+                            overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics ||
+                            overviewStore.getDailyOverviewFilter.showIncidentStatistics ||
+                            overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
+                            overviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
+                            overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
+                            overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
+                            <div v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
+                                <ModulesUserDailyOverviewStatusesScoreStatistics
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div v-if="overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
+                                <ModulesUserDailyOverviewGoalsScoreStatistics
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div v-if="overviewStore.getDailyOverviewFilter.showIncidentStatistics">
+                                <ModulesUserDailyOverviewIncidentReportsStatistics
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div v-if="overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics">
+                                <ModulesUserDailyOverviewMedicineDeviationStatistics
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div v-if="overviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
+                                <ModulesUserDailyOverviewJournalScoreStatistics
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div v-if="overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
+                                <ModulesUserDailyOverviewSubgoalsScoreStatistics
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                            <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
+                                <ModulesUserDailyOverviewUseOfForceStatistics
+                                    :dateRange="state.dateRange.formDateRange" />
+                            </div>
+                        </div>
                     </div>
                 </CollapsibleSection>
 
@@ -413,17 +428,24 @@
                                         <span class="truncate font-medium text-slate-900">{{ birthday.name }}</span>
                                         <span class="shrink-0 rounded-full px-2 py-0.5 text-[11px]"
                                             :class="birthday.type === 'staff' ? 'bg-slate-100 text-slate-500' : 'bg-emerald-50 text-emerald-600'">
-                                            {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') : $t('overview.birthdays.child') }}
+                                            {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') :
+                                                $t('overview.birthdays.child') }}
                                         </span>
                                     </div>
-                                    <div class="text-xs text-slate-400">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</div>
+                                    <div class="text-xs text-slate-400">{{ $t('overview.birthdays.turns', {
+                                        age:
+                                            birthday.age
+                                    }) }}</div>
                                 </div>
                             </div>
-                            <span class="inline-flex shrink-0 items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-medium"
+                            <span
+                                class="inline-flex shrink-0 items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-medium"
                                 :class="birthday.days_until === 0 ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'">
                                 <Icon v-if="birthday.days_until === 0" name="ph:cake-fill" class="h-3.5 w-3.5" />
-                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today') }}</template>
-                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until }) }}</template>
+                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today')
+                                }}</template>
+                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until })
+                                }}</template>
                             </span>
                         </li>
                     </ul>

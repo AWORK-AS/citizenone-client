@@ -24,7 +24,8 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="start_date" :label="$t('employment.cases.form.startDate')" />
-                    <FormDateField id="start_date" name="start_date" :placeholder="$t('employment.cases.form.startDate')" v-model="state.form.start_date" />
+                    <FormDateField id="start_date" name="start_date"
+                        :placeholder="$t('employment.cases.form.startDate')" v-model="state.form.start_date" />
                     <FormError :error="v$?.form?.start_date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.start_date?.[0]" />
                 </div>
@@ -44,12 +45,14 @@
                     <div v-if="state.periodMode === 'by_weeks'" class="space-y-1">
                         <FormLabel for="duration_weeks" :label="$t('employment.cases.form.durationWeeks')" />
                         <FormNumberField id="duration_weeks" name="duration_weeks" :min="1"
-                            :placeholder="$t('employment.cases.form.durationWeeks')" v-model="state.form.duration_weeks" />
+                            :placeholder="$t('employment.cases.form.durationWeeks')"
+                            v-model="state.form.duration_weeks" />
                         <FormError :error="props?.error?.errors?.duration_weeks?.[0]" />
                     </div>
                     <div v-else class="space-y-1">
                         <FormLabel for="end_date" :label="$t('employment.cases.form.endDate')" />
-                        <FormDateField id="end_date" name="end_date" :placeholder="$t('employment.cases.form.endDate')" v-model="state.form.end_date" />
+                        <FormDateField id="end_date" name="end_date" :placeholder="$t('employment.cases.form.endDate')"
+                            v-model="state.form.end_date" />
                         <FormError :error="props?.error?.errors?.end_date?.[0]" />
                     </div>
                 </div>
@@ -59,8 +62,7 @@
                     <div class="flex items-center gap-2">
                         <FormSelect id="employment_status_type_uuid" :options="state.options.statusTypes"
                             v-model="state.form.employment_status_type_uuid" class="flex-1" />
-                        <span v-if="selectedStatusTypeColor"
-                            :style="{ backgroundColor: selectedStatusTypeColor }"
+                        <span v-if="selectedStatusTypeColor" :style="{ backgroundColor: selectedStatusTypeColor }"
                             class="inline-block w-6 h-6 rounded shrink-0" />
                     </div>
                     <FormError :error="props?.error?.errors?.employment_status_type_uuid?.[0]" />

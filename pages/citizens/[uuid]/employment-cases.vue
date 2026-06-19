@@ -42,7 +42,8 @@
                                 <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('events.subscribe.label') }}
                             </FormButton>
-                            <FormButton buttonStyle="action" @click="state.modal.isNewCaseOpen = true">
+                            <FormButton buttonStyle="action" @click="state.modal.isNewCaseOpen = true"
+                                v-if="isAtLeast('Admin') || can('manage_citizen_period')">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('employment.cases.addNewCase') }}
                             </FormButton>
@@ -98,12 +99,14 @@
                                                     {{ $t('employment.billing.billingWeeks') }}
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="action"
-                                                    @click="openEditCase(employmentCase)">
+                                                    @click="openEditCase(employmentCase)"
+                                                    v-if="isAtLeast('Admin') || can('manage_citizen_period')">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('employment.cases.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="danger"
-                                                    @click="deleteCaseConfirmation(employmentCase)">
+                                                    @click="deleteCaseConfirmation(employmentCase)"
+                                                    v-if="isAtLeast('Admin') || can('manage_citizen_period')">
                                                     <Icon name="ph:trash" class="size-4" />
                                                     {{ $t('employment.cases.table.actions.delete') }}
                                                 </FormButton>
@@ -147,12 +150,14 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { isAtLeast, can } = usePermissions()
 const userStore = useUserStore()
 const route = useRoute()
 const citizenUuid = route?.params?.uuid as string

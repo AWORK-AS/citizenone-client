@@ -99,7 +99,8 @@
         "ready": {
             "title": "Du är redo att gå live!",
             "desc": "Alla onboarding-steg är slutförda."
-        }
+        },
+        "title": "Utforska"
     },
     "2fa": {
         "2fa": "Tvåfaktorsautentisering",
@@ -6689,7 +6690,20 @@
             "smtpHost": "SMTP värt",
             "smtpPassword": "SMTP lösenord",
             "smtpPort": "SMTP port",
-            "smtpUsername": "SMTP användarnamn"
+            "smtpUsername": "SMTP användarnamn",
+            "gmailGuide": {
+                "title": "Använder du Gmail? Du behöver ett applösenord",
+                "intro": "Google tillåter inte längre vanliga lösenord för tredjepartsåtkomst via SMTP/IMAP. Du måste använda ett applösenord istället.",
+                "step1": "Gå till ditt Google-konto på myaccount.google.com",
+                "step2": "Se till att tvåstegsverifiering är aktiverad (Säkerhet → Tvåstegsverifiering)",
+                "step3": "Gå till Säkerhet → Applösenord (syns bara när 2FA är aktiverat)",
+                "step4": "Klicka på \"Skapa applösenord\", välj \"Annat (anpassat namn)\", och döp det till \"CitizenOne\"",
+                "step5": "Google ger dig ett 16-teckens lösenord (t.ex. xxxx xxxx xxxx xxxx)",
+                "step6": "I CitizenOnes SMTP/IMAP-inställningar, använd:",
+                "step6Username": "Användarnamn: din fullständiga Gmail-adress (du(at)gmail.com)",
+                "step6Password": "Lösenord: det 16-teckens applösenordet (utan mellanslag)",
+                "oauthNote": "Obs: XOAUTH2 kräver ett fullständigt OAuth2-flöde med åtkomsttokens och stöds inte här. Applösenord är rätt metod för denna integration."
+            }
         }
     },
     "massUnits": {
@@ -7991,6 +8005,8 @@
             "name": "Namn",
             "permissions": "Behörigheter",
             "user": "Användare",
+            "referrer": "Remittent",
+            "company": "Företag",
             "level": "Level",
             "regular": "Regular",
             "manager": "Manager"
@@ -8367,7 +8383,8 @@
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Arbetsförmedlingar",
             "employmentAgreements": "Avtal",
-            "gdprRetention": "GDPR Lagring"
+            "gdprRetention": "GDPR Lagring",
+            "smsNotifications": "SMS"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",
@@ -10963,6 +10980,41 @@
             "invitesFailed": "Kunde inte skicka inloggningsmail.",
             "missingField": "Saknar {field}",
             "invalidField": "Ogiltigt {field}"
+        }
+    },
+    "sms": {
+        "settings": {
+            "title": "SMS-notifikationer",
+            "enableSms": "Aktivera SMS",
+            "enableSmsHint": "Skicka SMS-notifikationer till medborgare via Azure Communication Services.",
+            "balance": "Saldo",
+            "notificationEvents": "Notifikationshändelser",
+            "notifyNewAppointment": "Ny bokning skapad",
+            "notifyReminder24h": "Påminnelse 24 timmar före bokning",
+            "notifyReminderSameDay": "Påminnelse på bokningsdagen",
+            "azureTitle": "Azure Communication Services",
+            "azureDesc": "SMS-meddelanden skickas via Azure Communication Services med CitizenOne som avsändare.",
+            "autoRecharge": "Automatisk påfyllning",
+            "autoRechargeHint": "Fyll på automatiskt när saldot faller under gränsen.",
+            "autoRechargeThreshold": "Fyll på när saldo faller under",
+            "autoRechargeAmount": "Fyll på med",
+            "savedSuccess": "SMS-inställningar sparade"
+        },
+        "credits": {
+            "title": "Köp SMS-krediter",
+            "desc": "Köp förbetalda SMS-krediter. 1 DKK = 1 SMS. Krediter läggs till omedelbart efter betalning.",
+            "customAmount": "Annat belopp",
+            "customAmountPlaceholder": "Ange belopp",
+            "amountError": "Beloppet måste vara mellan 50 och 10 000 DKK",
+            "pricingNote": "1 DKK per SMS · 25% moms på kreditbelopp · 4,75 DKK serviceavgift per köp",
+            "buyButton": "Köp krediter",
+            "processing": "Bearbetar...",
+            "purchaseSuccess": "Krediter tillagda på ditt konto",
+            "appNotFound": "SMS-appen hittades inte. Försök igen senare."
+        },
+        "form": {
+            "sendSmsNotification": "Skicka SMS-notifikation",
+            "sendSmsNotificationHint": "Medborgaren får ett SMS med bokningsinformation."
         }
     }
 }
