@@ -1762,6 +1762,7 @@
                 "reportingRequirements": "Indberetningskrav",
                 "secondaryConsultant": "Sekundær konsulent",
                 "status": "Status",
+                "internshipCompany": "Praktikvirksomhed",
                 "totalWeeks": "Samlede uger",
                 "weeksUsed": "Brugte uger"
             },

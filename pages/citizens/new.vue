@@ -153,6 +153,7 @@ const state = reactive({
             reporting_requirements: '',
             activation_deadline: '',
             referral_reason: '',
+            internship_company: '',
         },
     } as CitizenForm,
     isPageLoading: false,
@@ -267,6 +268,7 @@ async function saveCitizen(citizenDetails: any) {
             params.append('reporting_requirements', citizenDetails.employmentData.reporting_requirements)
             params.append('activation_deadline', citizenDetails.employmentData.activation_deadline != 'Invalid date' ? citizenDetails.employmentData.activation_deadline : '')
             params.append('referral_reason', citizenDetails.employmentData.referral_reason)
+            params.append('internship_company', citizenDetails.employmentData.internship_company)
         }
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
