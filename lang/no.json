@@ -3760,6 +3760,15 @@
             "users": "Brukere"
         },
         "holidays": "Helligdage",
+        "holidayWorked": "Helligdagstimer (arbeidet)",
+        "holidayNonWorked": "Helligdagstimer (ikke arbeidet)",
+        "holidayHoursHint": "Helligdag: arbeidede timer ×1,5 (virksomhetens egen faktor). Ikke-arbeidede helligdager som ikke er søndager gir 7,4 timer.",
+        "holidayWorkedShort": "Arbeidet",
+        "holidayNonWorkedShort": "Ikke arbeidet",
+        "holidayFreeBadge": "Fri – helligdag",
+        "holidayNonWorkedAssigned": "7,4 helligdagstimer tildelt",
+        "holidayWorkedTooltip": "Du arbeider på en helligdag. Vaktens timer ganges med organisasjonens helligdagsfaktor (f.eks. ×1,5) og vises både under vakttypen og som helligdagstimer.",
+        "holidayNonWorkedTooltip": "Denne dagen er en helligdag. Du mottar helligdagstimer selv om det ikke er registrert noen vakt.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",
