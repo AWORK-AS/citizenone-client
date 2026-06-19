@@ -29,6 +29,10 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/company/update/details`, 'PUT', params)
     }
 
+    async getPublicHolidays(): Promise<any> {
+        return await this.request(`/user/public-holidays`, 'GET')
+    }
+
     async getAllUsers(params: object): Promise<any> {
         return await this.request(`/user/employees/all/list`, 'GET', params)
     }

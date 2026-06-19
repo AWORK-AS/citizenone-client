@@ -7980,6 +7980,7 @@
                 "warning11HourRest": "Advarsel ved hviletid under 11 timer",
                 "warning48HourRule": "Advarsel ved 48-timers reglen",
                 "holidayNonSundayHours": "Aktivér helligdagstimer på helligdage der ikke er søndage",
+                "whichHolidaysCount": "Hvilke helligdage skal tælle med? (slå fra dem der ikke gælder for jer)",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
                 "enableIpRestriction": "Aktivér IP-begrænsning",

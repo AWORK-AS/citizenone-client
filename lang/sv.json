@@ -7900,6 +7900,7 @@
                 "warning11HourRest": "Varning vet hviletid under 11 timmar",
                 "warning48HourRule": "Varning vet 48-timers reglen",
                 "holidayNonSundayHours": "Aktivera helgdagstimmar på helgdagar som inte är söndagar",
+                "whichHolidaysCount": "Vilka helgdagar ska räknas? (stäng av de som inte gäller för er)",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begränsning",
                 "enableIpRestriction": "Aktivera IP-begränsning",

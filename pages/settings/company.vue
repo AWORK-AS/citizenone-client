@@ -272,6 +272,17 @@
                                 {{ $t('settings.company.form.holidayNonSundayHours') }}
                             </p>
                         </div>
+                        <div v-if="state.formCompany.holiday_non_sunday_hours_enabled && state.options.holidayNames.length > 0"
+                            class="ml-12 mt-1 space-y-2">
+                            <p class="text-xs text-gray-500">{{ $t('settings.company.form.whichHolidaysCount') }}</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 max-w-2xl">
+                                <label v-for="name in state.options.holidayNames" :key="name"
+                                    class="flex items-center gap-2 cursor-pointer">
+                                    <FormSwitch :value="isHolidayIncluded(name)" @toggleSwitch="toggleHoliday(name)" />
+                                    <span class="text-xs text-gray-700 capitalize">{{ name }}</span>
+                                </label>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -400,6 +411,7 @@ const state = reactive({
         is_device_restriction_enabled: false,
         device_restriction_action: 'block' as string,
         holiday_non_sunday_hours_enabled: false,
+        excluded_holiday_names: [] as string[],
     },
     isPageLoading: false,
     options: {
@@ -407,6 +419,7 @@ const state = reactive({
         citizen_displays: [],
         municipalities: [],
         regions: [],
+        holidayNames: [] as string[],
     }
 })
 
@@ -423,7 +436,31 @@ const rules = computed(() => {
 onMounted(() => {
     fetchAllCitizenDisplays()
     fetchRegions()
+    fetchPublicHolidays()
 })
+
+async function fetchPublicHolidays() {
+    try {
+        const response = await userService.getPublicHolidays()
+        state.options.holidayNames = response?.data ?? []
+    } catch (error: any) {
+        state.options.holidayNames = []
+    }
+}
+
+function isHolidayIncluded(name: string): boolean {
+    return !state.formCompany.excluded_holiday_names.includes(name)
+}
+
+function toggleHoliday(name: string) {
+    const excluded = state.formCompany.excluded_holiday_names
+    const idx = excluded.indexOf(name)
+    if (idx >= 0) {
+        excluded.splice(idx, 1)
+    } else {
+        excluded.push(name)
+    }
+}
 
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
@@ -469,6 +506,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_device_restriction_enabled: newValue?.company?.is_device_restriction_enabled ? true : false,
             device_restriction_action: newValue?.company?.device_restriction_action ?? 'block',
             holiday_non_sunday_hours_enabled: newValue?.company?.holiday_non_sunday_hours_enabled ? true : false,
+            excluded_holiday_names: Array.isArray(newValue?.company?.excluded_holiday_names) ? [...newValue.company.excluded_holiday_names] : [],
             logo: null,
             should_delete_logo: false,
         }
@@ -642,6 +680,7 @@ async function submitForm() {
                 is_device_restriction_enabled: state.formCompany.is_device_restriction_enabled,
                 device_restriction_action: state.formCompany.device_restriction_action,
                 holiday_non_sunday_hours_enabled: state.formCompany.holiday_non_sunday_hours_enabled,
+                excluded_holiday_names: state.formCompany.excluded_holiday_names,
             }
 
             const response = await userService.updateCompany(params)
