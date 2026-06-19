@@ -91,7 +91,8 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
-                                            <Tooltip :text="$t('referrals.table.actions.view')">
+                                            <Tooltip :text="$t('referrals.table.actions.view')"
+                                                v-if="isAtLeast('Admin') || can('view_referral')">
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="viewReferral(referral)">
                                                     <Icon name="ph:eye" class="size-4" />
