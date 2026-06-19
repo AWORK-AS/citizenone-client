@@ -7588,6 +7588,7 @@
             "protocolName": "Protokolnavn",
             "recurringType": "Upprepa",
             "recurringUntil": "Återkommande till",
+            "selectDatesFirst": "Välj start- och slutdatum först",
             "startDate": "Startdatum",
             "weeklyOn": "På",
             "yearlyInMonths": "I månader"

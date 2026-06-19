@@ -7588,6 +7588,7 @@
             "protocolName": "Protokolnavn",
             "recurringType": "Gjenta",
             "recurringUntil": "Gjentas til",
+            "selectDatesFirst": "Velg start- og sluttdato først",
             "startDate": "Startdato",
             "weeklyOn": "På",
             "yearlyInMonths": "I måneder"

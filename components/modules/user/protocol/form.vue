@@ -31,7 +31,12 @@
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <FormLabel for="citizens" :label="$t('protocols.form.citizens')" />
                 <FormSelectMultiple id="citizens" name="citizens" :options="state.citizenOptions"
+                    :disabled="!state.formProtocol.start_date || !state.formProtocol.end_date"
                     v-model="state.formProtocol.citizens" />
+                <p v-if="!state.formProtocol.start_date || !state.formProtocol.end_date"
+                    class="text-xs text-gray-400 mt-1">
+                    {{ $t('protocols.form.selectDatesFirst') }}
+                </p>
                 <FormError :error="v$?.formProtocol?.citizens?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.citizens?.[0]" />
             </div>
