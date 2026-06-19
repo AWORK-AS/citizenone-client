@@ -311,9 +311,7 @@ async function fetchSettings() {
             state.settings.auto_recharge_threshold = String(d.auto_recharge_threshold ?? 10)
             state.settings.auto_recharge_amount = String(d.auto_recharge_amount ?? 100)
         }
-    } catch (error: any) {
-        state.error = error
-    }
+    } catch { /* ignore — settings may not exist yet for this company */ }
     state.isPageLoading = false
 }
 

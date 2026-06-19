@@ -125,14 +125,15 @@ watch(() => userStore.getUser, (newValue: any) => {
                         'settings-time-logs'
                     ]
                 },
-                ...(newValue?.company?.industry?.system_name === 'employment_services' ? [{
+                {
                     name: 'settings.tabs.smsNotifications',
                     isTranslateName: true,
                     href: `/settings/sms-notifications`,
                     routeNames: [
                         'settings-sms-notifications',
                     ]
-                }, {
+                },
+                ...(newValue?.company?.industry?.system_name === 'employment_services' ? [{
                     name: 'settings.tabs.gdprRetention',
                     isTranslateName: true,
                     href: `/settings/gdpr-retention`,
