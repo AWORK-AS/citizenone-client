@@ -29,20 +29,26 @@
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.billingRules"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body
-                                v-if="!(state.isTableLoading || (state.billingRules?.data?.length === 0))">
+                            <template #body v-if="!(state.isTableLoading || (state.billingRules?.data?.length === 0))">
                                 <tr v-for="(billingRule, index) in state.billingRules?.data" :key="index">
-                                    <td width="25%">
-                                        <span>{{ billingRule?.name }}</span>
+                                    <td width="20%">
+                                        <span class="font-medium text-[#1F2533]">{{ billingRule?.name }}</span>
                                     </td>
                                     <td width="15%">
-                                        <span>{{ billingRule?.rate }}</span>
+                                        <span class="co-badge co-badge-navy text-[11px]">
+                                            {{ pricingTypeLabel(billingRule?.pricing_type) }}
+                                        </span>
                                     </td>
                                     <td width="15%">
-                                        <span>{{ billingRule?.frequency }}</span>
+                                        <span>{{ effectiveRate(billingRule) }}</span>
                                     </td>
-                                    <td width="25%">
-                                        <span>{{ billingRule?.description }}</span>
+                                    <td width="15%">
+                                        <span class="font-mono text-[13px]">{{ billingRule?.customer_number || '—'
+                                        }}</span>
+                                    </td>
+                                    <td width="15%">
+                                        <span class="font-mono text-[13px]">{{ billingRule?.product_number || '—'
+                                        }}</span>
                                     </td>
                                     <td width="10%">
                                         <span>{{ billingRule?.is_active ? $t('yes') : $t('no') }}</span>
@@ -77,6 +83,7 @@
 
 <script setup lang="ts">
 import { employmentService } from '@/components/api/user/EmploymentService'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -85,8 +92,32 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { formatAmount } = useAmountFormatter()
 const userStore = useUserStore()
 let currentTablePage = 1
+
+function pricingTypeLabel(type: string): string {
+    const map: Record<string, string> = {
+        weekly: t('employment.billingRules.form.pricingTypeOptions.weekly'),
+        hourly: t('employment.billingRules.form.pricingTypeOptions.hourly'),
+        bonus: t('employment.billingRules.form.pricingTypeOptions.bonus'),
+    }
+    return map[type] ?? type ?? '—'
+}
+
+function effectiveRate(rule: any): string {
+    if (rule?.pricing_type === 'weekly' && rule?.rate != null) return formatAmount(rule.rate)
+    if (rule?.pricing_type === 'hourly' && rule?.hourly_rate != null) return formatAmount(rule.hourly_rate)
+    if (rule?.pricing_type === 'bonus' && rule?.bonus_amount != null) {
+        const monthsLabel = rule.bonus_condition_months === 3
+            ? t('employment.billingRules.form.bonusMonthOptions.three')
+            : rule.bonus_condition_months === 6
+                ? t('employment.billingRules.form.bonusMonthOptions.six')
+                : null
+        return monthsLabel ? `${formatAmount(rule.bonus_amount)} (${monthsLabel})` : formatAmount(rule.bonus_amount)
+    }
+    return rule?.rate != null ? formatAmount(rule.rate) : '—'
+}
 const breadcrumbLinks = [
     {
         name: 'employment.billingRules.billingRules',
@@ -99,9 +130,10 @@ const state = reactive({
     billingRules: [] as any,
     columnHeaders: [
         { name: 'employment.billingRules.table.name', isTranslateName: true, sorter: true, key: 'name' },
+        { name: 'employment.billingRules.table.pricingType', isTranslateName: true, sorter: false, key: 'pricing_type' },
         { name: 'employment.billingRules.table.rate', isTranslateName: true, sorter: false, key: 'rate' },
-        { name: 'employment.billingRules.table.frequency', isTranslateName: true, sorter: false, key: 'frequency' },
-        { name: 'employment.billingRules.table.description', isTranslateName: true, sorter: false, key: 'description' },
+        { name: 'employment.billingRules.table.customerNumber', isTranslateName: true, sorter: false, key: 'customer_number' },
+        { name: 'employment.billingRules.table.productNumber', isTranslateName: true, sorter: false, key: 'product_number' },
         { name: 'employment.billingRules.table.active', isTranslateName: true, sorter: false, key: 'is_active' },
         { name: '' },
     ],

@@ -74,6 +74,14 @@
                 </div>
             </div>
             <ol class="text-sm leading-6 lg:col-span-7 xl:col-span-8">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="font-semibold text-gray-900">{{ formatDateToReadable(state.selectedDate) }}</span>
+                    <button type="button" @click="createEventForSelectedDate"
+                        class="inline-flex items-center gap-x-1 text-sm text-primary font-medium hover:text-primary-700 transition-colors">
+                        <Icon name="ph:plus" class="h-4 w-4" />
+                        {{ $t('events.newEvent') }}
+                    </button>
+                </div>
                 <div class="md:flex gap-x-3 text-sm">
                     <div class="flex items-center gap-x-2">
                         <div class="w-3 h-3 rounded-sm bg-primary"></div>
@@ -327,7 +335,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEventForDate'])
 const userStore = useUserStore() as any
 
 const currentMonth = ref(moment().startOf('month'))
@@ -415,6 +423,10 @@ function selectDay(selectedDay: any) {
     }))
     state.selectedDate = selectedDay.date
     filterBasedOnSelectedDate()
+}
+
+function createEventForSelectedDate() {
+    emit('createEventForDate', state.selectedDate)
 }
 
 function hasSchedule(day: any) {

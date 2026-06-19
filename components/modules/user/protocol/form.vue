@@ -102,7 +102,7 @@ watch(() => props.selectedProtocol, (newValue: any) => {
             start_date: newValue.start_date,
             end_date: newValue.end_date,
             citizens: newValue.citizens,
-            exclude_weekends: newValue.citizens,
+            exclude_weekends: newValue.exclude_weekends,
         }
     }
 })

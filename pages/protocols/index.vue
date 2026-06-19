@@ -13,8 +13,14 @@
             </template>
 
             <div>
-                <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" @click="navigateTo('/protocols/new')">
+                <div class="flex justify-between items-center mb-5 gap-3">
+                    <span v-if="departmentStore.getSelectedDepartmentName && departmentStore.getSelectedDepartmentName !== 'All departments'"
+                        class="inline-flex items-center gap-x-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-medium">
+                        <Icon name="ph:buildings" class="h-4 w-4" aria-hidden="true" />
+                        {{ departmentStore.getSelectedDepartmentName }}
+                    </span>
+                    <span v-else></span>
+                    <FormButton buttonStyle="success" @click="navigateTo('/protocols/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('protocols.newProtocol') }}
                     </FormButton>
@@ -42,7 +48,11 @@
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.protocols"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
+                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort"
+                            emptyIcon="ph:clipboard-text"
+                            emptyMessage="Ingen protokoller fundet — opret en ny protokol eller justér filtrene.">
+                            <!-- empty-state guides toward the primary action / filters -->
+
                             <template #body v-if="!(state.isTableLoading || (state.protocols?.data?.length === 0))">
                                 <tr v-for="(protocol, index) in state.protocols?.data" :key="index">
                                     <td width="25%">
@@ -92,6 +102,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { protocolService } from '@/components/api/user/ProtocolService'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { saveAs } from 'file-saver'
@@ -102,6 +113,8 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
+const userStore = useUserStore() as any
+const isEmploymentServices = computed(() => userStore.getUser?.company?.industry?.system_name === 'employment_services')
 let currentTablePage = 1
 const breadcrumbLinks = [
     {

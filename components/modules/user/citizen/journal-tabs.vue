@@ -34,6 +34,7 @@ watch(() => userStore.getUser, (newValue: any) => {
         Economy: pages.some((page: any) => page.name === 'Economy'),
         Contacts: pages.some((page: any) => page.name === 'Contacts'),
         EmployeeGroups: pages.some((page: any) => page.name === 'Employee Group'),
+        Reports: pages.some((page: any) => page.name === 'Reports'),
     }
 
     state.tabs = []
@@ -160,6 +161,15 @@ watch(() => userStore.getUser, (newValue: any) => {
         })
     }
 
+    if (accessMap.Reports && newValue?.company?.industry?.system_name === 'employment_services') {
+        state.tabs.push({
+            name: 'citizens.tabs.reports',
+            isTranslateName: true,
+            href: `/citizens/${citizenUuid}/reports`,
+            routeNames: ['citizens-uuid-reports']
+        })
+    }
+
     if (newValue?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(newValue?.company?.facility_type?.en_name)) {
         state.tabs.push({
             name: 'citizens.tabs.children',
@@ -176,6 +186,12 @@ watch(() => userStore.getUser, (newValue: any) => {
             isTranslateName: true,
             href: `/citizens/${citizenUuid}/employment-cases`,
             routeNames: ['citizens-uuid-employment-cases']
+        })
+        state.tabs.push({
+            name: 'citizens.tabs.outcomes',
+            isTranslateName: true,
+            href: `/citizens/${citizenUuid}/outcomes`,
+            routeNames: ['citizens-uuid-outcomes']
         })
     }
 
@@ -234,6 +250,15 @@ function changeTab(value: any) {
     }
     else if (value === `/citizens/${citizenUuid}/children`) {
         navigateTo(`/citizens/${citizenUuid}/children`)
+    }
+    else if (value === `/citizens/${citizenUuid}/reports`) {
+        navigateTo(`/citizens/${citizenUuid}/reports`)
+    }
+    else if (value === `/citizens/${citizenUuid}/employment-cases`) {
+        navigateTo(`/citizens/${citizenUuid}/employment-cases`)
+    }
+    else if (value === `/citizens/${citizenUuid}/outcomes`) {
+        navigateTo(`/citizens/${citizenUuid}/outcomes`)
     }
 }
 </script>

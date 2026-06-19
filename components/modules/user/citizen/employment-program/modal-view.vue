@@ -198,6 +198,16 @@
                                 {{ props?.selectedCitizen?.data?.employment_profile?.referral_reason }}
                             </dd>
                         </div>
+                        <!-- Internship Company -->
+                        <div v-if="props?.selectedCitizen?.data?.employment_profile?.internship_company"
+                            class="grid grid-cols-5 px-4 py-2.5">
+                            <dt class="col-span-2 text-xs text-gray-500 self-center">
+                                {{ $t('citizens.form.employmentProgram.internshipCompany') }}
+                            </dt>
+                            <dd class="col-span-3 text-sm text-gray-800 font-medium">
+                                {{ props?.selectedCitizen?.data?.employment_profile?.internship_company }}
+                            </dd>
+                        </div>
                     </dl>
                 </div>
             </template>

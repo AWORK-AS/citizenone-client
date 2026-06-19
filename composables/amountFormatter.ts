@@ -9,25 +9,31 @@ export function useAmountFormatter() {
         return locale.value === 'en' ? 'EUR' : 'DKK'
     }
 
+    function parseAmount(amount: any): number {
+        if (amount === null || amount === undefined) return NaN
+        const str = String(amount).trim()
+        // European format: "5.000,00" — comma is the decimal separator
+        if (/,\d{1,2}$/.test(str)) {
+            return parseFloat(str.replace(/\./g, '').replace(',', '.'))
+        }
+        // English format: "4,440.00" — period is the decimal separator
+        return parseFloat(str.replace(/,/g, ''))
+    }
+
     function formatAmount(amount: any) {
-        // Ensure the input is a valid number
-        if (isNaN(amount) || amount === null || amount === undefined) {
-            return currencyCode() + ' ' + 0
+        const value = parseAmount(amount)
+        if (isNaN(value)) {
+            return currencyCode() + ' 0'
         }
 
-        // Convert the number to a string with two decimal places
-        let numberStr = parseFloat(amount).toFixed(2)
+        const isEn = locale.value === 'en'
+        const thousandsSep = isEn ? ',' : '.'
+        const decimalSep = isEn ? '.' : ','
 
-        // Split the string into integer and decimal parts
-        let parts = numberStr.split('.')
-        let integerPart = parts[0]
-        let decimalPart = parts[1]
+        const parts = value.toFixed(2).split('.')
+        const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSep)
 
-        // Add the thousands separators
-        let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-
-        // Combine the integer part with the decimal part
-        return currencyCode() + ' ' + formattedIntegerPart + ',' + decimalPart
+        return currencyCode() + ' ' + integerPart + decimalSep + parts[1]
     }
 
     return { formatAmount }

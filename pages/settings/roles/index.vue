@@ -39,6 +39,12 @@
                                         <span v-else-if="role.name === 'User'">
                                             {{ $t('roles.table.user') }}
                                         </span>
+                                        <span v-else-if="role.name === 'Referrer'">
+                                            {{ $t('roles.table.referrer') }}
+                                        </span>
+                                        <span v-else-if="role.name === 'Company'">
+                                            {{ $t('roles.table.company') }}
+                                        </span>
                                         <span v-else>
                                             {{ role?.name }}
                                         </span>

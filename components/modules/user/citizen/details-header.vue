@@ -330,19 +330,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-12 lg:col-span-3">
+                <div class="col-span-12 lg:col-span-3 flex flex-col justify-start gap-6 pt-1">
                     <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
-                    <!-- Reports & alerts panel — contained so it reads as one cohesive widget. -->
-                    <div v-if="$route.name === 'citizens-uuid-journals'"
-                        class="flex h-full flex-col gap-4 rounded-md border-l-4 border-red-300 bg-white p-5 ring-1 ring-gray-200">
+                    <div class="flex flex-col items-stretch gap-y-4">
                         <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
-                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
-                        <div class="h-px bg-surface-200"
-                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'"></div>
-                        <ModulesUserCitizenIncidentsHeader />
-                        <p class="mt-auto cursor-pointer pt-1 text-center text-xs text-primary transition-colors hover:text-secondary-700"
-                            @click="state.modal.isViewRelevantHelpLinksOpen = true">
+                            v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
+                        <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
+                        <p class="w-full text-center text-xs text-primary hover:text-secondary-700 cursor-pointer"
+                            @click="state.modal.isViewRelevantHelpLinksOpen = true"
+                            v-if="$route.name === 'citizens-uuid-journals'">
                             {{
                                 $t('citizens.useOfForce.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports')
                             }}
@@ -405,6 +402,8 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useConfetti } from '@/composables/useConfetti'
+import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -463,6 +462,21 @@ const isTransportRegistrationEnabled = computed(() => {
 const isInterventionCheckinEnabled = computed(() => {
     return userStore.getUser?.company?.intervention_checkin_enabled === true
 })
+
+const { celebrate } = useConfetti()
+const { recordVisit } = useRecentCitizens()
+let birthdayCelebrated = false
+
+// A little 🎂 confetti when you open a citizen on their birthday.
+function celebrateBirthdayIfToday(birthday?: string | null) {
+    if (!birthday || birthdayCelebrated) return
+    const now = new Date()
+    const todayMonthDay = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+    if (String(birthday).slice(5, 10) === todayMonthDay) {
+        birthdayCelebrated = true
+        celebrate()
+    }
+}
 
 onMounted(() => {
     fetchCitizen()
@@ -636,6 +650,8 @@ async function fetchCitizen() {
         if (response) {
             state.selectedCitizen = response
             citizenStore.setSelectedCitizen(response?.data)
+            recordVisit(response?.data)
+            celebrateBirthdayIfToday(response?.data?.birthday)
         }
     } catch (error: any) {
         state.error = error
