@@ -8428,6 +8428,12 @@
         "subscription": {
             "subscription": "Abonnement"
         },
+        "groups": {
+            "company": "Bedrift",
+            "billing": "Fakturering",
+            "data": "Data",
+            "logs": "Logger"
+        },
         "tabs": {
             "absences": "Fravær",
             "activityLogs": "Aktivitetslogfiler",
@@ -10376,6 +10382,7 @@
     },
     "update": "Oppdater",
     "updates": {
+        "newUpdates": "Nye oppdateringer",
         "newUpdatesFrom": "Nye oppdateringer fra",
         "showUpdate": "Vis oppdatering",
         "updates": "Oppdateringer"

@@ -8428,6 +8428,12 @@
         "subscription": {
             "subscription": "Prenumeration"
         },
+        "groups": {
+            "company": "Företag",
+            "billing": "Fakturering",
+            "data": "Data",
+            "logs": "Loggar"
+        },
         "tabs": {
             "absences": "Frånvaro",
             "activityLogs": "Aktivitetsloggar",
@@ -10376,6 +10382,7 @@
     },
     "update": "Uppdatera",
     "updates": {
+        "newUpdates": "Nya uppdateringar",
         "newUpdatesFrom": "Nya opdateringer från",
         "showUpdate": "Visa uppdatering",
         "updates": "Opdateringer"

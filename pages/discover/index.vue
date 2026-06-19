@@ -13,9 +13,17 @@
 
             <template #header>
                 <div class="flex items-center gap-x-6">
-                    <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">Discover</span>
-                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer" @click="navigateTo('/overview')">{{ $t('overview.overview') }}</span>
-                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer" @click="navigateTo('/statistics')">{{ $t('overview.statisticsTab') }}</span>
+                    <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
+                        {{ $t('discover.title') }}
+                    </span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer mb-1.5"
+                        @click="navigateTo('/overview')">
+                        {{ $t('overview.overview') }}
+                    </span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer mb-1.5"
+                        @click="navigateTo('/statistics')">
+                        {{ $t('overview.statisticsTab') }}
+                    </span>
                 </div>
             </template>
 
@@ -66,7 +74,7 @@
                     </div>
                     <div class="min-w-0">
                         <p class="text-xs font-semibold uppercase tracking-wide text-primary">{{ $t('discover.nextStep')
-                        }}</p>
+                            }}</p>
                         <p class="font-semibold text-slate-900 truncate">{{
                             $t(`discover.steps.${nextStep.step.key}.title`) }}</p>
                         <p class="text-sm text-slate-500 truncate">{{ $t(`discover.steps.${nextStep.step.key}.desc`) }}

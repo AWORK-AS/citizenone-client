@@ -12,10 +12,15 @@
 
             <template #header>
                 <div class="flex items-center gap-x-6">
-                    <span v-if="!discoverCompleted" class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
-                        @click="navigateTo('/discover')">Discover</span>
-                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
-                        @click="navigateTo('/overview')">{{ $t('overview.overview') }}</span>
+                    <span v-if="!discoverCompleted"
+                        class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors mb-1.5"
+                        @click="navigateTo('/discover')">
+                        {{ $t('discover.title') }}
+                    </span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors mb-1.5"
+                        @click="navigateTo('/overview')">
+                        {{ $t('overview.overview') }}
+                    </span>
                     <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
                         {{ $t('overview.statisticsTab') }}
                     </span>
@@ -31,7 +36,8 @@
                     <span>{{ $t('showHide') }}</span>
                 </button>
                 <!-- Date navigator -->
-                <div class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
+                <div
+                    class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
                     <button @click="previousDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
                         <Icon name="heroicons:chevron-left-20-solid" class="h-4 w-4 text-slate-400" />
                     </button>
