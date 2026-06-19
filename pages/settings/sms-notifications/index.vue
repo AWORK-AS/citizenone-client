@@ -13,7 +13,7 @@
             <div>
                 <ModulesUserSettingsTab />
 
-                <div id="sms-checkout"></div>
+                <div id="sms-checkout" v-show="state.isCheckoutVisible"></div>
 
                 <div v-if="!state.isCheckoutVisible" class="mt-6 space-y-4">
                     <Alert type="danger" :text="state.error?.message"
@@ -290,9 +290,10 @@ onMounted(() => {
 
 watch(() => route.query.paymentId, async (paymentId) => {
     if (!paymentId) return
-    await verifyPayment(paymentId as string)
+    state.isCheckoutVisible = false
+    const success = await verifyPayment(paymentId as string)
     router.replace({ query: {} })
-    await fetchSettings()
+    if (success) await fetchSettings()
 })
 
 async function fetchSettings() {
@@ -317,18 +318,8 @@ async function fetchSettings() {
 
 async function fetchSmsAppUuid() {
     if (smsAppUuid) return
-    const categories = ['citizenone', 'fst', 'marketing', 'visual', 'other']
-    for (const type of categories) {
-        try {
-            const response = await appService.getApps({ type, per_page: 100 })
-            const list: any[] = response?.data ?? []
-            const app = list.find((a: any) => a.generic_name === 'sms-notification')
-            if (app?.uuid) {
-                smsAppUuid = app.uuid
-                return
-            }
-        } catch { /* try next category */ }
-    }
+    const response = await smsService.getSettings()
+    smsAppUuid = response?.data?.sms_app_uuid ?? null
 }
 
 async function saveSettings() {
@@ -368,6 +359,8 @@ async function purchaseCredits() {
         if (response) {
             state.isCheckoutVisible = true
             await nextTick()
+            const checkoutEl = document.getElementById('sms-checkout')
+            if (checkoutEl) checkoutEl.innerHTML = ''
             const checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
                 paymentId: response?.paymentId,
@@ -388,14 +381,17 @@ async function purchaseCredits() {
     state.isPurchasing = false
 }
 
-async function verifyPayment(paymentId: string) {
+async function verifyPayment(paymentId: string): Promise<boolean> {
     state.isPageLoading = true
     try {
         await appService.validatePurchase(paymentId)
         successAlert(`${t('alert.success')}!`, `${t('sms.credits.purchaseSuccess')}.`)
+        return true
     } catch (error: any) {
         state.error = error
+        return false
+    } finally {
+        state.isPageLoading = false
     }
-    state.isPageLoading = false
 }
 </script>
