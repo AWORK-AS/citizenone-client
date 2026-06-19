@@ -8379,7 +8379,8 @@
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Jobcentre",
             "employmentAgreements": "Aftaler",
-            "gdprRetention": "GDPR Opbevaring"
+            "gdprRetention": "GDPR Opbevaring",
+            "smsNotifications": "SMS"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -10964,6 +10965,41 @@
             "invitesFailed": "Kunne ikke sende login-mails.",
             "missingField": "Mangler {field}",
             "invalidField": "Ugyldig {field}"
+        }
+    },
+    "sms": {
+        "settings": {
+            "title": "SMS-notifikationer",
+            "enableSms": "Aktiver SMS",
+            "enableSmsHint": "Send SMS-notifikationer til borgere via Azure Communication Services.",
+            "balance": "Saldo",
+            "notificationEvents": "Notifikationshændelser",
+            "notifyNewAppointment": "Ny aftale oprettet",
+            "notifyReminder24h": "Påmindelse 24 timer før aftale",
+            "notifyReminderSameDay": "Påmindelse på dagen for aftalen",
+            "azureTitle": "Azure Communication Services",
+            "azureDesc": "SMS-beskeder sendes via Azure Communication Services med CitizenOne som afsender.",
+            "autoRecharge": "Automatisk genopfyldning",
+            "autoRechargeHint": "Fyld automatisk op, når saldoen falder under grænsen.",
+            "autoRechargeThreshold": "Genopfyld når saldo falder under",
+            "autoRechargeAmount": "Genopfyld med",
+            "savedSuccess": "SMS-indstillinger gemt"
+        },
+        "credits": {
+            "title": "Køb SMS-kreditter",
+            "desc": "Køb forudbetalte SMS-kreditter. 1 DKK = 1 SMS. Kreditter tilføjes straks efter betaling.",
+            "customAmount": "Andet beløb",
+            "customAmountPlaceholder": "Indtast beløb",
+            "amountError": "Beløbet skal være mellem 50 og 10.000 DKK",
+            "pricingNote": "1 DKK pr. SMS · 25% moms på kreditbeløb · 4,75 DKK servicegebyr pr. køb",
+            "buyButton": "Køb kreditter",
+            "processing": "Behandler...",
+            "purchaseSuccess": "Kreditter tilføjet til din konto",
+            "appNotFound": "SMS-app ikke fundet. Prøv venligst igen senere."
+        },
+        "form": {
+            "sendSmsNotification": "Send SMS-notifikation",
+            "sendSmsNotificationHint": "Borgeren modtager en SMS med oplysninger om aftalen."
         }
     }
 }

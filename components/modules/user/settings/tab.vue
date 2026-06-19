@@ -126,6 +126,13 @@ watch(() => userStore.getUser, (newValue: any) => {
                     ]
                 },
                 ...(newValue?.company?.industry?.system_name === 'employment_services' ? [{
+                    name: 'settings.tabs.smsNotifications',
+                    isTranslateName: true,
+                    href: `/settings/sms-notifications`,
+                    routeNames: [
+                        'settings-sms-notifications',
+                    ]
+                }, {
                     name: 'settings.tabs.gdprRetention',
                     isTranslateName: true,
                     href: `/settings/gdpr-retention`,
