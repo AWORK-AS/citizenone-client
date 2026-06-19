@@ -6066,7 +6066,59 @@
             "description": "Beskrivelse",
             "title": "Titel"
         },
-        "viewResponses": "Se svar"
+        "viewResponses": "Se svar",
+        "tabs": {
+            "formBuilder": "Formularbygger",
+            "predefinedEvents": "Foruddefinerede hændelser"
+        },
+        "predefinedEvents": {
+            "predefinedEvents": "Foruddefinerede hændelser",
+            "newPredefinedEvent": "Ny foruddefineret hændelse",
+            "editPredefinedEvent": "Rediger foruddefineret hændelse",
+            "calendarTypes": {
+                "citizens": "Borgere",
+                "employees": "Medarbejdere"
+            },
+            "recurringTypes": {
+                "everyday": "Hver dag",
+                "every_week": "Hver uge",
+                "every_second_week": "Hver anden uge",
+                "every_third_week": "Hver tredje uge",
+                "every_fourth_week": "Hver fjerde uge",
+                "every_month": "Hver måned"
+            },
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivelse",
+                "calendarType": "Kalendertype",
+                "durationMinutes": "Varighed (minutter)",
+                "isActive": "Aktiv",
+                "isPrivate": "Privat",
+                "isRecurring": "Gentagende",
+                "recurringType": "Gentagelse",
+                "recurringEndDate": "Slutdato",
+                "recurringEndDateHint": "Lad stå tomt for ingen slutdato (løbende)"
+            },
+            "table": {
+                "title": "Titel",
+                "calendarType": "Kalendertype",
+                "durationMinutes": "Varighed (min)",
+                "isRecurring": "Gentagende",
+                "isActive": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                }
+            },
+            "alert": {
+                "predefinedEventSuccessfullySaved": "Foruddefineret hændelse gemt med succes",
+                "predefinedEventSuccessfullyUpdated": "Foruddefineret hændelse opdateret med succes",
+                "predefinedEventSuccessfullyDeleted": "Foruddefineret hændelse slettet med succes"
+            },
+            "confirmation": {
+                "deletePredefinedEventConfirmation": "Er du sikker på, at du vil slette denne foruddefinerede hændelse"
+            }
+        }
     },
     "gender": {
         "female": "Kvinde",

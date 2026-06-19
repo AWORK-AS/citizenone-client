@@ -6093,7 +6093,59 @@
             "description": "Description",
             "title": "Title"
         },
-        "viewResponses": "View responses"
+        "viewResponses": "View responses",
+        "tabs": {
+            "formBuilder": "Form builder",
+            "predefinedEvents": "Predefined events"
+        },
+        "predefinedEvents": {
+            "predefinedEvents": "Predefined events",
+            "newPredefinedEvent": "New predefined event",
+            "editPredefinedEvent": "Edit predefined event",
+            "calendarTypes": {
+                "citizens": "Citizens",
+                "employees": "Employees"
+            },
+            "recurringTypes": {
+                "everyday": "Every day",
+                "every_week": "Every week",
+                "every_second_week": "Every second week",
+                "every_third_week": "Every third week",
+                "every_fourth_week": "Every fourth week",
+                "every_month": "Every month"
+            },
+            "form": {
+                "title": "Title",
+                "description": "Description",
+                "calendarType": "Calendar type",
+                "durationMinutes": "Duration (minutes)",
+                "isActive": "Active",
+                "isPrivate": "Private",
+                "isRecurring": "Recurring",
+                "recurringType": "Repeat",
+                "recurringEndDate": "End date",
+                "recurringEndDateHint": "Leave empty for no end date (ongoing)"
+            },
+            "table": {
+                "title": "Title",
+                "calendarType": "Calendar type",
+                "durationMinutes": "Duration (min)",
+                "isRecurring": "Recurring",
+                "isActive": "Active",
+                "actions": {
+                    "edit": "Edit",
+                    "delete": "Delete"
+                }
+            },
+            "alert": {
+                "predefinedEventSuccessfullySaved": "Predefined event successfully saved",
+                "predefinedEventSuccessfullyUpdated": "Predefined event successfully updated",
+                "predefinedEventSuccessfullyDeleted": "Predefined event successfully deleted"
+            },
+            "confirmation": {
+                "deletePredefinedEventConfirmation": "Are you sure you want to delete this predefined event"
+            }
+        }
     },
     "gender": {
         "female": "Female",

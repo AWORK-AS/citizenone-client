@@ -6066,7 +6066,59 @@
             "description": "Beskrivning",
             "title": "Titel"
         },
-        "viewResponses": "Se svar"
+        "viewResponses": "Se svar",
+        "tabs": {
+            "formBuilder": "Formulärbyggare",
+            "predefinedEvents": "Fördefinierade händelser"
+        },
+        "predefinedEvents": {
+            "predefinedEvents": "Fördefinierade händelser",
+            "newPredefinedEvent": "Ny fördefinierad händelse",
+            "editPredefinedEvent": "Redigera fördefinierad händelse",
+            "calendarTypes": {
+                "citizens": "Brukare",
+                "employees": "Anställda"
+            },
+            "recurringTypes": {
+                "everyday": "Varje dag",
+                "every_week": "Varje vecka",
+                "every_second_week": "Varannan vecka",
+                "every_third_week": "Var tredje vecka",
+                "every_fourth_week": "Var fjärde vecka",
+                "every_month": "Varje månad"
+            },
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivning",
+                "calendarType": "Kalendertyp",
+                "durationMinutes": "Varaktighet (minuter)",
+                "isActive": "Aktiv",
+                "isPrivate": "Privat",
+                "isRecurring": "Återkommande",
+                "recurringType": "Upprepning",
+                "recurringEndDate": "Slutdatum",
+                "recurringEndDateHint": "Lämna tomt för inget slutdatum (pågående)"
+            },
+            "table": {
+                "title": "Titel",
+                "calendarType": "Kalendertyp",
+                "durationMinutes": "Varaktighet (min)",
+                "isRecurring": "Återkommande",
+                "isActive": "Aktiv",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Radera"
+                }
+            },
+            "alert": {
+                "predefinedEventSuccessfullySaved": "Fördefinierad händelse sparad",
+                "predefinedEventSuccessfullyUpdated": "Fördefinierad händelse uppdaterad",
+                "predefinedEventSuccessfullyDeleted": "Fördefinierad händelse raderad"
+            },
+            "confirmation": {
+                "deletePredefinedEventConfirmation": "Är du säker på att du vill radera denna fördefinierade händelse"
+            }
+        }
     },
     "gender": {
         "female": "Kvinde",
