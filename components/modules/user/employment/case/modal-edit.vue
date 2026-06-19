@@ -137,7 +137,11 @@ async function updateCase(details: any) {
             await deleteOldReportingEvents(props.selectedCaseUuid, oldStartDate, oldEndDate)
         }
 
-        const response = await employmentService.updateCase(props.selectedCaseUuid, casePayload)
+        const response = await employmentService.updateCase(props.selectedCaseUuid, {
+            ...casePayload,
+            reminder_enabled,
+            reporting_frequency_weeks: reminder_enabled ? reporting_frequency_weeks : null,
+        })
         if (response.data) {
             if (reminder_enabled && reporting_frequency_weeks) {
                 await createReportingEvents(response.data, reporting_frequency_weeks)

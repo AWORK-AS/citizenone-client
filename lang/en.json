@@ -6778,7 +6778,20 @@
             "smtpHost": "SMTP Host",
             "smtpPassword": "SMTP Password",
             "smtpPort": "SMTP Port",
-            "smtpUsername": "SMTP Username"
+            "smtpUsername": "SMTP Username",
+            "gmailGuide": {
+                "title": "Using Gmail? You need an App Password",
+                "intro": "Google no longer allows regular passwords for third-party SMTP/IMAP access. You must use an App Password instead.",
+                "step1": "Go to your Google Account at myaccount.google.com",
+                "step2": "Make sure 2-Step Verification is enabled (Security → 2-Step Verification)",
+                "step3": "Go to Security → App Passwords (only visible once 2FA is on)",
+                "step4": "Click \"Create app password\", choose \"Other (Custom name)\", name it \"CitizenOne\"",
+                "step5": "Google gives you a 16-character password (e.g. xxxx xxxx xxxx xxxx)",
+                "step6": "In CitizenOne's SMTP/IMAP settings, use:",
+                "step6Username": "Username: your full Gmail address (you(at)gmail.com)",
+                "step6Password": "Password: the 16-character app password (without spaces)",
+                "oauthNote": "Note: XOAUTH2 requires a full OAuth2 flow with access tokens and is not supported here. App Password is the correct approach for this integration."
+            }
         }
     },
     "massUnits": {
@@ -8458,7 +8471,8 @@
             "employmentBillingRules": "Billing Rules",
             "employmentJobcenters": "Jobcenters",
             "employmentAgreements": "Agreements",
-            "gdprRetention": "GDPR Retention"
+            "gdprRetention": "GDPR Retention",
+            "smsNotifications": "SMS"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -10859,7 +10873,9 @@
             "billable": "Billable",
             "noBillingWeeks": "No billing weeks found for this case",
             "billableWeeks": "billable weeks",
-            "excludedWeeks": "excluded weeks"
+            "excludedWeeks": "excluded weeks",
+            "exportCsv": "Export to e-conomic (CSV)",
+            "excludeReasonPlaceholder": "e.g. Citizen hospitalised"
         },
         "revenue": {
             "revenue": "Revenue",
@@ -11016,6 +11032,41 @@
             "invitesFailed": "Could not send login emails.",
             "missingField": "Missing {field}",
             "invalidField": "Invalid {field}"
+        }
+    },
+    "sms": {
+        "settings": {
+            "title": "SMS Notifications",
+            "enableSms": "Enable SMS",
+            "enableSmsHint": "Send SMS notifications to citizens via Azure Communication Services.",
+            "balance": "Balance",
+            "notificationEvents": "Notification events",
+            "notifyNewAppointment": "New appointment created",
+            "notifyReminder24h": "Reminder 24 hours before appointment",
+            "notifyReminderSameDay": "Reminder on the day of appointment",
+            "azureTitle": "Azure Communication Services",
+            "azureDesc": "SMS messages are sent through Azure Communication Services with CitizenOne as sender.",
+            "autoRecharge": "Auto-recharge",
+            "autoRechargeHint": "Automatically top up your balance when it falls below the threshold.",
+            "autoRechargeThreshold": "Top up when balance falls below",
+            "autoRechargeAmount": "Top up with",
+            "savedSuccess": "SMS settings saved"
+        },
+        "credits": {
+            "title": "Buy SMS credits",
+            "desc": "Purchase prepaid SMS credits. 1 DKK = 1 SMS. Credits are added immediately after payment.",
+            "customAmount": "Custom amount",
+            "customAmountPlaceholder": "Enter amount",
+            "amountError": "Amount must be between 50 and 10,000 DKK",
+            "pricingNote": "1 DKK per SMS · 25% VAT on credit amount · 4.75 DKK service fee per purchase",
+            "buyButton": "Buy credits",
+            "processing": "Processing...",
+            "purchaseSuccess": "Credits added to your account",
+            "appNotFound": "SMS app not found. Please try again later."
+        },
+        "form": {
+            "sendSmsNotification": "Send SMS notification",
+            "sendSmsNotificationHint": "The citizen will receive an SMS with appointment details."
         }
     }
 }

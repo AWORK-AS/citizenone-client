@@ -33,6 +33,10 @@
                             <Icon name="ph:check-circle" class="w-4 h-4" />
                             {{ $t('employment.billing.markSelected') }} ({{ selectedUuids.length }})
                         </FormButton>
+                        <FormButton v-if="state.rows.length > 0" buttonStyle="action" @click="exportToCsv">
+                            <Icon name="ph:download-simple" class="w-4 h-4" />
+                            {{ $t('employment.billing.exportCsv') }}
+                        </FormButton>
                     </div>
                 </div>
 
@@ -79,7 +83,7 @@
                                     <th class="co-th">{{ $t('employment.billing.cpr') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.agreement') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.period') }}</th>
-                                    <th class="co-th">{{ $t('employment.billing.pricePerWeek') }}</th>
+                                    <th class="co-th">{{ $t('employment.billingRules.table.rate') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.weeks') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.bonus') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.total') }}</th>
@@ -109,10 +113,18 @@
                                         {{ formatDateToReadable(row.period_from) }} – {{ formatDateToReadable(row.period_to) }}
                                     </td>
                                     <td class="co-td text-[13px] text-[#1F2533]">
-                                        {{ formatAmount(row.price_per_week) }}
+                                        {{ row.pricing_type === 'hourly'
+                                            ? formatAmount(row.price_per_hour)
+                                            : row.pricing_type === 'bonus'
+                                                ? '—'
+                                                : formatAmount(row.price_per_week) }}
                                     </td>
                                     <td class="co-td text-[13px] text-[#1F2533]">
-                                        {{ row.billable_weeks ?? 0 }}
+                                        {{ row.pricing_type === 'hourly'
+                                            ? (row.billable_hours ?? 0)
+                                            : row.pricing_type === 'bonus'
+                                                ? '—'
+                                                : (row.billable_weeks ?? 0) }}
                                     </td>
                                     <td class="co-td text-[13px] text-[#1F2533]">
                                         {{ row.bonus_amount ? formatAmount(row.bonus_amount) : '—' }}
@@ -146,6 +158,7 @@
 </template>
 
 <script setup lang="ts">
+import { saveAs } from 'file-saver'
 import { employmentService } from '@/components/api/user/EmploymentService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -208,6 +221,61 @@ async function fetchBillingData() {
         state.error = error
     }
     state.isLoading = false
+}
+
+function exportToCsv() {
+    const fmtDate = (d: string) => {
+        const [y, m, day] = d.split('-')
+        return `${day}/${m}/${y}`
+    }
+    const escape = (val: string) => `"${String(val ?? '').replace(/"/g, '""')}"`
+
+    const header = [
+        t('employment.billing.citizen'),
+        t('employment.billing.cpr'),
+        t('employment.billing.agreement'),
+        t('employment.billing.period'),
+        t('employment.billingRules.table.rate'),
+        t('employment.billing.weeks'),
+        t('employment.billing.bonus'),
+        t('employment.billing.total'),
+        t('employment.billing.customerNumber'),
+        t('employment.billing.productNumber'),
+        t('employment.billing.invoiced'),
+    ].map(escape).join(',')
+
+    const lines = state.rows.map(r => {
+        const rate = r.pricing_type === 'hourly'
+            ? (r.price_per_hour ?? '')
+            : r.pricing_type === 'bonus'
+                ? ''
+                : (r.price_per_week ?? '')
+        const qty = r.pricing_type === 'hourly'
+            ? (r.billable_hours ?? '')
+            : r.pricing_type === 'bonus'
+                ? ''
+                : (r.billable_weeks ?? '')
+        return [
+            escape(r.citizen_name ?? ''),
+            escape(r.cpr ?? ''),
+            escape(r.agreement_name ?? ''),
+            escape(`${fmtDate(r.period_from)} – ${fmtDate(r.period_to)}`),
+            rate !== '' ? escape(formatAmount(rate)) : '',
+            qty,
+            r.bonus_amount != null ? escape(formatAmount(r.bonus_amount)) : '',
+            r.total != null ? escape(formatAmount(r.total)) : '',
+            escape(r.customer_number ?? ''),
+            escape(r.product_number ?? ''),
+            r.is_invoiced ? t('employment.billing.invoiced') : t('employment.billing.notInvoiced'),
+        ].join(',')
+    })
+
+    const csv = [header, ...lines].join('\n')
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
+    const period = state.filter.from_date && state.filter.to_date
+        ? `${state.filter.from_date}_${state.filter.to_date}`
+        : 'export'
+    saveAs(blob, `billing-${period}.csv`)
 }
 
 async function markSelectedAsInvoiced() {

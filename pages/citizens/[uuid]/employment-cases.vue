@@ -81,7 +81,7 @@
                                                 :style="{ backgroundColor: employmentCase.status_type.color || '#6b7280' }">
                                                 {{ employmentCase.status_type.name }}
                                             </span>
-                                            <span v-else class="text-sm text-gray-400">—</span>
+                                            <span v-else class="text-[#8891A4]">—</span>
                                         </td>
                                         <td width="12%">
                                             <span>{{ employmentCase?.user?.name }}</span>

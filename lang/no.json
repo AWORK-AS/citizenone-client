@@ -6742,7 +6742,20 @@
             "smtpHost": "SMTP vært",
             "smtpPassword": "SMTP passord",
             "smtpPort": "SMTP port",
-            "smtpUsername": "SMTP brukernavn"
+            "smtpUsername": "SMTP brukernavn",
+            "gmailGuide": {
+                "title": "Bruker du Gmail? Du trenger et apppassord",
+                "intro": "Google tillater ikke lenger vanlige passord for tredjeparts SMTP/IMAP-tilgang. Du må bruke et apppassord i stedet.",
+                "step1": "Gå til Google-kontoen din på myaccount.google.com",
+                "step2": "Sørg for at totrinnsbekreftelse er aktivert (Sikkerhet → Totrinnsbekreftelse)",
+                "step3": "Gå til Sikkerhet → Apppassord (vises bare når 2FA er aktivert)",
+                "step4": "Klikk på \"Opprett apppassord\", velg \"Annet (egendefinert navn)\", og gi det navnet \"CitizenOne\"",
+                "step5": "Google gir deg et passord med 16 tegn (f.eks. xxxx xxxx xxxx xxxx)",
+                "step6": "I CitizenOnes SMTP/IMAP-innstillinger, bruk:",
+                "step6Username": "Brukernavn: din fulle Gmail-adresse (deg(at)gmail.com)",
+                "step6Password": "Passord: apppassordet med 16 tegn (uten mellomrom)",
+                "oauthNote": "Merk: XOAUTH2 krever en fullstendig OAuth2-flyt med tilgangstokens og støttes ikke her. Apppassord er riktig tilnærming for denne integrasjonen."
+            }
         }
     },
     "massUnits": {
@@ -8422,7 +8435,8 @@
             "employmentBillingRules": "Faktureringsregler",
             "employmentJobcenters": "Jobbsentre",
             "employmentAgreements": "Avtaler",
-            "gdprRetention": "GDPR Oppbevaring"
+            "gdprRetention": "GDPR Oppbevaring",
+            "smsNotifications": "SMS"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",
@@ -10832,7 +10846,9 @@
             "billable": "Fakturerbar",
             "noBillingWeeks": "Ingen faktureringsuke funnet for dette forløpet",
             "billableWeeks": "fakturerbare uker",
-            "excludedWeeks": "utelukkede uker"
+            "excludedWeeks": "utelukkede uker",
+            "exportCsv": "Eksporter til e-conomic (CSV)",
+            "excludeReasonPlaceholder": "f.eks. Borger innlagt"
         },
         "revenue": {
             "revenue": "Inntekt",
@@ -11016,6 +11032,41 @@
             "invitesFailed": "Kunne ikke sende innloggings-e-poster.",
             "missingField": "Mangler {field}",
             "invalidField": "Ugyldig {field}"
+        }
+    },
+    "sms": {
+        "settings": {
+            "title": "SMS-varsler",
+            "enableSms": "Aktiver SMS",
+            "enableSmsHint": "Send SMS-varsler til innbyggere via Azure Communication Services.",
+            "balance": "Saldo",
+            "notificationEvents": "Varselhendelser",
+            "notifyNewAppointment": "Ny avtale opprettet",
+            "notifyReminder24h": "Påminnelse 24 timer før avtale",
+            "notifyReminderSameDay": "Påminnelse på avtaledagen",
+            "azureTitle": "Azure Communication Services",
+            "azureDesc": "SMS-meldinger sendes via Azure Communication Services med CitizenOne som avsender.",
+            "autoRecharge": "Automatisk påfylling",
+            "autoRechargeHint": "Fyll automatisk på når saldoen faller under grensen.",
+            "autoRechargeThreshold": "Fyll på når saldo faller under",
+            "autoRechargeAmount": "Fyll på med",
+            "savedSuccess": "SMS-innstillinger lagret"
+        },
+        "credits": {
+            "title": "Kjøp SMS-kreditter",
+            "desc": "Kjøp forhåndsbetalte SMS-kreditter. 1 DKK = 1 SMS. Kreditter legges til umiddelbart etter betaling.",
+            "customAmount": "Annet beløp",
+            "customAmountPlaceholder": "Skriv inn beløp",
+            "amountError": "Beløpet må være mellom 50 og 10 000 DKK",
+            "pricingNote": "1 DKK per SMS · 25% mva på kreditbeløp · 4,75 DKK serviceavgift per kjøp",
+            "buyButton": "Kjøp kreditter",
+            "processing": "Behandler...",
+            "purchaseSuccess": "Kreditter lagt til på kontoen din",
+            "appNotFound": "SMS-appen ble ikke funnet. Prøv igjen senere."
+        },
+        "form": {
+            "sendSmsNotification": "Send SMS-varsel",
+            "sendSmsNotificationHint": "Innbyggeren mottar en SMS med avtaleinformasjon."
         }
     }
 }

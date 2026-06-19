@@ -50,54 +50,82 @@
                                             <!-- Week list -->
                                             <div v-else class="space-y-2">
                                                 <div v-for="week in state.weeks" :key="week.week_start"
-                                                    class="flex items-center justify-between px-4 py-3 rounded-xl border transition-colors"
+                                                    class="px-4 py-3 rounded-xl border transition-colors"
                                                     :class="week.is_excluded
                                                         ? 'border-[#F5C2C7] bg-[#FFF5F5]'
                                                         : 'border-[#EAECF0] bg-white hover:bg-[#F9FAFB]'">
 
-                                                    <!-- Left: week info -->
-                                                    <div class="flex items-center gap-3">
-                                                        <div class="w-9 h-9 rounded-lg flex items-center justify-center text-[12px] font-bold"
-                                                            :class="week.is_excluded
-                                                                ? 'bg-[#F5C2C7] text-[#9B1C1C]'
-                                                                : 'bg-[#E4F1F6] text-[#205E77]'">
-                                                            {{ week.week_number }}
+                                                    <!-- Main row -->
+                                                    <div class="flex items-center justify-between">
+
+                                                        <!-- Left: week info -->
+                                                        <div class="flex items-center gap-3">
+                                                            <div class="w-9 h-9 rounded-lg flex items-center justify-center text-[12px] font-bold"
+                                                                :class="week.is_excluded
+                                                                    ? 'bg-[#F5C2C7] text-[#9B1C1C]'
+                                                                    : 'bg-[#E4F1F6] text-[#205E77]'">
+                                                                {{ isoWeek(week.week_start) }}
+                                                            </div>
+                                                            <div>
+                                                                <p class="text-[13px] font-medium text-[#1F2533]">
+                                                                    {{ $t('employment.billing.week') }} {{ isoWeek(week.week_start) }}
+                                                                </p>
+                                                                <p class="text-[11px] text-[#8891A4] mt-0.5">
+                                                                    {{ formatDateToReadable(week.week_start) }} –
+                                                                    {{ formatDateToReadable(week.week_end) }}
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                            <p class="text-[13px] font-medium text-[#1F2533]">
-                                                                {{ $t('employment.billing.week') }} {{ week.week_number }}
-                                                            </p>
-                                                            <p class="text-[11px] text-[#8891A4] mt-0.5">
-                                                                {{ formatDateToReadable(week.week_start) }} –
-                                                                {{ formatDateToReadable(week.week_end) }}
-                                                            </p>
+
+                                                        <!-- Right: status + action -->
+                                                        <div class="flex items-center gap-3">
+                                                            <span class="text-[11px] font-medium px-2 py-0.5 rounded-full"
+                                                                :class="week.is_excluded
+                                                                    ? 'bg-[#F5C2C7] text-[#9B1C1C]'
+                                                                    : 'bg-[#D1FAE5] text-[#065F46]'">
+                                                                {{ week.is_excluded
+                                                                    ? $t('employment.billing.excluded')
+                                                                    : $t('employment.billing.billable') }}
+                                                            </span>
+                                                            <button
+                                                                class="text-[12px] font-medium px-3 py-1.5 rounded-lg border transition-colors"
+                                                                :class="week.is_excluded
+                                                                    ? 'border-[#205E77] text-[#205E77] hover:bg-[#E4F1F6]'
+                                                                    : 'border-[#DC2626] text-[#DC2626] hover:bg-[#FFF5F5]'"
+                                                                :disabled="state.togglingUuid === week.week_start"
+                                                                @click="week.is_excluded ? includeWeek(week) : startExclude(week)">
+                                                                <Icon v-if="state.togglingUuid === week.week_start"
+                                                                    name="ph:spinner" class="w-3 h-3 animate-spin" />
+                                                                <span v-else>
+                                                                    {{ week.is_excluded
+                                                                        ? $t('employment.billing.includeWeek')
+                                                                        : $t('employment.billing.excludeWeek') }}
+                                                                </span>
+                                                            </button>
                                                         </div>
                                                     </div>
 
-                                                    <!-- Right: status + action -->
-                                                    <div class="flex items-center gap-3">
-                                                        <span class="text-[11px] font-medium px-2 py-0.5 rounded-full"
-                                                            :class="week.is_excluded
-                                                                ? 'bg-[#F5C2C7] text-[#9B1C1C]'
-                                                                : 'bg-[#D1FAE5] text-[#065F46]'">
-                                                            {{ week.is_excluded
-                                                                ? $t('employment.billing.excluded')
-                                                                : $t('employment.billing.billable') }}
-                                                        </span>
-                                                        <button
-                                                            class="text-[12px] font-medium px-3 py-1.5 rounded-lg border transition-colors"
-                                                            :class="week.is_excluded
-                                                                ? 'border-[#205E77] text-[#205E77] hover:bg-[#E4F1F6]'
-                                                                : 'border-[#DC2626] text-[#DC2626] hover:bg-[#FFF5F5]'"
-                                                            :disabled="state.togglingUuid === week.week_start"
-                                                            @click="toggleWeek(week)">
-                                                            <Icon v-if="state.togglingUuid === week.week_start"
-                                                                name="ph:spinner" class="w-3 h-3 animate-spin" />
-                                                            <span v-else>
-                                                                {{ week.is_excluded
-                                                                    ? $t('employment.billing.includeWeek')
-                                                                    : $t('employment.billing.excludeWeek') }}
-                                                            </span>
+                                                    <!-- Reason display for excluded weeks -->
+                                                    <p v-if="week.is_excluded && week.reason"
+                                                        class="mt-1.5 ml-12 text-[11px] text-[#9B1C1C] italic">
+                                                        {{ week.reason }}
+                                                    </p>
+
+                                                    <!-- Reason input when excluding -->
+                                                    <div v-if="state.pendingExcludeWeekStart === week.week_start"
+                                                        class="mt-3 flex items-center gap-2">
+                                                        <input type="text" v-model="state.pendingReason"
+                                                            :placeholder="$t('employment.billing.excludeReasonPlaceholder')"
+                                                            class="flex-1 text-[12px] border border-[#EAECF0] rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#DC2626] bg-white"
+                                                            @keyup.enter="confirmExclude(week)"
+                                                            @keyup.escape="cancelExclude" />
+                                                        <button @click="confirmExclude(week)"
+                                                            class="text-[12px] font-medium px-3 py-1.5 rounded-lg bg-[#DC2626] text-white hover:bg-[#B91C1C] transition-colors whitespace-nowrap">
+                                                            {{ $t('confirm') }}
+                                                        </button>
+                                                        <button @click="cancelExclude"
+                                                            class="w-7 h-7 rounded-lg flex items-center justify-center text-[#8891A4] hover:bg-[#F5F6F8] hover:text-[#1F2533] transition-colors">
+                                                            <Icon name="ph:x" class="w-3.5 h-3.5" />
                                                         </button>
                                                     </div>
                                                 </div>
@@ -150,7 +178,16 @@ const state = reactive({
     weeks: [] as any[],
     error: {} as Error,
     togglingUuid: null as string | null,
+    pendingExcludeWeekStart: null as string | null,
+    pendingReason: '',
 })
+
+function isoWeek(dateStr: string): number {
+    const d = new Date(dateStr)
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7))
+    const y = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+    return Math.ceil(((d.getTime() - y.getTime()) / 86400000 + 1) / 7)
+}
 
 const billableCount = computed(() => state.weeks.filter(w => !w.is_excluded).length)
 const excludedCount = computed(() => state.weeks.filter(w => w.is_excluded).length)
@@ -161,6 +198,7 @@ watch(() => props.isOpen, (val) => {
     } else {
         state.weeks = []
         state.error = {}
+        cancelExclude()
     }
 })
 
@@ -176,20 +214,42 @@ async function fetchWeeks() {
     state.isLoading = false
 }
 
-async function toggleWeek(week: any) {
+function startExclude(week: any) {
+    state.pendingExcludeWeekStart = week.week_start
+    state.pendingReason = ''
+}
+
+function cancelExclude() {
+    state.pendingExcludeWeekStart = null
+    state.pendingReason = ''
+}
+
+async function confirmExclude(week: any) {
+    state.togglingUuid = week.week_start
+    state.pendingExcludeWeekStart = null
+    state.error = {}
+    try {
+        const params: any = { week_start: week.week_start }
+        if (state.pendingReason.trim()) params.reason = state.pendingReason.trim()
+        await employmentService.excludeWeekFromBilling(props.selectedCase.uuid, params)
+        successAlert(`${t('alert.success')}!`, `${t('employment.billing.alert.weekExcluded')}.`)
+        week.is_excluded = true
+        week.reason = state.pendingReason.trim() || null
+        state.pendingReason = ''
+    } catch (error: any) {
+        state.error = error
+    }
+    state.togglingUuid = null
+}
+
+async function includeWeek(week: any) {
     state.togglingUuid = week.week_start
     state.error = {}
     try {
-        const params = { week_start: week.week_start }
-        if (week.is_excluded) {
-            await employmentService.includeWeekInBilling(props.selectedCase.uuid, params)
-            successAlert(`${t('alert.success')}!`, `${t('employment.billing.alert.weekIncluded')}.`)
-            week.is_excluded = false
-        } else {
-            await employmentService.excludeWeekFromBilling(props.selectedCase.uuid, params)
-            successAlert(`${t('alert.success')}!`, `${t('employment.billing.alert.weekExcluded')}.`)
-            week.is_excluded = true
-        }
+        await employmentService.includeWeekInBilling(props.selectedCase.uuid, { week_start: week.week_start })
+        successAlert(`${t('alert.success')}!`, `${t('employment.billing.alert.weekIncluded')}.`)
+        week.is_excluded = false
+        week.reason = null
     } catch (error: any) {
         state.error = error
     }
