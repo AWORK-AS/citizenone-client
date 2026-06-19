@@ -99,6 +99,8 @@ async function saveCase(details: any) {
         const response = await employmentService.saveCase({
             ...casePayload,
             citizen_uuid: props.citizenUuid,
+            reminder_enabled,
+            reporting_frequency_weeks: reminder_enabled ? reporting_frequency_weeks : null,
         })
         if (response.data) {
             if (reminder_enabled && reporting_frequency_weeks) {
