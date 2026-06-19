@@ -683,8 +683,12 @@
     },
     "back": "Tilbake",
     "bellNotification": {
+        "birthday": {
+            "title": "Bursdag i dag"
+        },
         "categories": {
             "all": "Alle",
+            "birthday": "Bursdager",
             "dutyShift": "Vaktregel",
             "incidents": "Hændelser",
             "messages": "Meldinger",
@@ -6061,7 +6065,28 @@
         "nonbinary": "Ikke-binær",
         "willNotDisclose": "Vil ikke oplyse"
     },
+    "cmdkTip": {
+        "title": "Hurtigsøk ⚡",
+        "body": "Trykk hvor som helst:",
+        "try": "Prøv nå",
+        "gotIt": "Forstått"
+    },
+    "undo": {
+        "action": "Angre"
+    },
     "globalSearch": {
+        "actions": {
+            "title": "Hurtighandlinger",
+            "newCitizen": "Legg til innbygger",
+            "newEmployee": "Legg til medarbeider",
+            "journalNotes": "Journalnotater",
+            "statistics": "Statistikk"
+        },
+        "footerHint": "Søk & handle raskt",
+        "openHint": "åpne",
+        "closeHint": "lukk",
+        "pinned": "Festet",
+        "recentCitizens": "Nylig sett",
         "attendance": "Fremmøde",
         "bookings": "Bookinger",
         "calendar": "Kalender",
@@ -7038,9 +7063,19 @@
         },
         "citizensDiagnoses": "Brukernes diagnoser",
         "citizensEvents": "Brukeres arrangementer",
+        "briefing": {
+            "morning": "God morgen, {name}",
+            "afternoon": "God ettermiddag, {name}",
+            "evening": "God kveld, {name}",
+            "birthdays": "{count} har bursdag i dag",
+            "medicine": "{count} krever medisin-handling",
+            "appointments": "{count} avtaler",
+            "allCalm": "Ser rolig ut akkurat nå"
+        },
         "birthdays": {
             "title": "Bursdager denne uke",
             "todayTitle": "Bursdager i dag",
+            "nextTitle": "Neste bursdag",
             "moreThisWeek": "{count} flere denne uke",
             "countThisWeek": "{count} bursdager denne uke",
             "today": "I dag",
@@ -7116,6 +7151,16 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Krever handling i dag",
+            "deviated": "Avvik: {count}",
+            "overdue": "Forfalt: {count}",
+            "more": "+{count} innbyggere"
+        },
+        "medsDone": {
+            "title": "Flott! 🎉",
+            "body": "All medisin er gitt i dag"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Afvigelse",
@@ -7138,6 +7183,7 @@
         "noNewsToShow": "Ingen nyheter at vise",
         "openLink": "Åpne link",
         "overview": "Oversigt",
+        "statisticsTab": "Statistikk",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistikk",
             "plansAndGoals": "Planer og mål",

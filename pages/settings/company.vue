@@ -463,6 +463,10 @@ const state = reactive({
     }
 })
 
+// Unsaved-changes guard: warn before navigating away or reloading with edits.
+const isDirty = ref(false)
+const formReady = ref(false)
+
 const rules = computed(() => {
     return {
         formCompany: {
@@ -534,7 +538,28 @@ watch(() => userStore.getUser, (newValue: any) => {
         displays?.forEach((item: any) => {
             state.formCompany.citizen_display_uuid.push(item.uuid)
         })
+        // Treat the freshly-loaded values as the clean baseline.
+        formReady.value = false
+        nextTick(() => { formReady.value = true; isDirty.value = false })
     }
+})
+
+// Mark the form dirty once the user changes anything after it loaded.
+watch(() => state.formCompany, () => {
+    if (formReady.value) isDirty.value = true
+}, { deep: true })
+
+function beforeUnloadHandler(e: BeforeUnloadEvent) {
+    if (isDirty.value) { e.preventDefault(); e.returnValue = '' }
+}
+onMounted(() => window.addEventListener('beforeunload', beforeUnloadHandler))
+onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnloadHandler))
+
+onBeforeRouteLeave(() => {
+    if (isDirty.value) {
+        return window.confirm('Du har ugemte ændringer. Vil du forlade siden uden at gemme?')
+    }
+    return true
 })
 
 async function fetchAllCitizenDisplays() {
@@ -712,6 +737,7 @@ async function submitForm() {
                     userStore.setUser(currentUser)
                 }
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
+                isDirty.value = false
             }
         } catch (error: any) {
             state.error = error

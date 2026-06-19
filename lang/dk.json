@@ -683,8 +683,12 @@
     },
     "back": "Tilbage",
     "bellNotification": {
+        "birthday": {
+            "title": "Fødselsdag i dag"
+        },
         "categories": {
             "all": "Alle",
+            "birthday": "Fødselsdage",
             "dutyShift": "Vagtregel",
             "incidents": "Hændelser",
             "messages": "Beskeder",
@@ -6061,7 +6065,28 @@
         "nonbinary": "Ikke-binær",
         "willNotDisclose": "Vil ikke oplyse"
     },
+    "cmdkTip": {
+        "title": "Hurtig søgning ⚡",
+        "body": "Tryk hvor som helst:",
+        "try": "Prøv nu",
+        "gotIt": "Forstået"
+    },
+    "undo": {
+        "action": "Fortryd"
+    },
     "globalSearch": {
+        "actions": {
+            "title": "Hurtige handlinger",
+            "newCitizen": "Tilføj borger",
+            "newEmployee": "Tilføj medarbejder",
+            "journalNotes": "Journalnotater",
+            "statistics": "Statistik"
+        },
+        "footerHint": "Søg & handl hurtigt",
+        "openHint": "åbn",
+        "closeHint": "luk",
+        "pinned": "Fastgjorte",
+        "recentCitizens": "Senest set",
         "attendance": "Fremmøde",
         "bookings": "Bookinger",
         "calendar": "Kalender",
@@ -7047,9 +7072,19 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Borgeres begivenheder",
+        "briefing": {
+            "morning": "God morgen, {name}",
+            "afternoon": "God eftermiddag, {name}",
+            "evening": "God aften, {name}",
+            "birthdays": "{count} har fødselsdag i dag",
+            "medicine": "{count} kræver medicin-handling",
+            "appointments": "{count} aftaler",
+            "allCalm": "Alt ser roligt ud lige nu"
+        },
         "birthdays": {
             "title": "Fødselsdage denne uge",
             "todayTitle": "Fødselsdage i dag",
+            "nextTitle": "Næste fødselsdag",
             "moreThisWeek": "{count} flere denne uge",
             "countThisWeek": "{count} fødselsdage denne uge",
             "today": "I dag",
@@ -7125,6 +7160,16 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Kræver handling i dag",
+            "deviated": "Afvigelser: {count}",
+            "overdue": "Overskredet: {count}",
+            "more": "+{count} borgere"
+        },
+        "medsDone": {
+            "title": "Flot! 🎉",
+            "body": "Al medicin er givet i dag"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Afvigelse",
@@ -7147,6 +7192,7 @@
         "noNewsToShow": "Ingen nyheder at vise",
         "openLink": "Åbn link",
         "overview": "Oversigt",
+        "statisticsTab": "Statistik",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistik",
             "plansAndGoals": "Planer og mål",
@@ -8356,6 +8402,12 @@
         "settings": "Indstillinger",
         "subscription": {
             "subscription": "Abonnement"
+        },
+        "groups": {
+            "company": "Virksomhed",
+            "billing": "Fakturering",
+            "data": "Data",
+            "logs": "Logs"
         },
         "tabs": {
             "absences": "Fravær",
@@ -10305,6 +10357,7 @@
     },
     "update": "Opdater",
     "updates": {
+        "newUpdates": "Nye opdateringer",
         "newUpdatesFrom": "Nye opdateringer fra",
         "showUpdate": "Vis opdatering",
         "updates": "Opdateringer"

@@ -710,8 +710,12 @@
     },
     "back": "Back",
     "bellNotification": {
+        "birthday": {
+            "title": "Birthday today"
+        },
         "categories": {
             "all": "All",
+            "birthday": "Birthdays",
             "dutyShift": "Duty Shift Rule",
             "incidents": "Incidents",
             "messages": "Messages",
@@ -6088,7 +6092,28 @@
         "nonbinary": "Nonbinary",
         "willNotDisclose": "Will not disclose"
     },
+    "cmdkTip": {
+        "title": "Quick search ⚡",
+        "body": "Press anywhere:",
+        "try": "Try it",
+        "gotIt": "Got it"
+    },
+    "undo": {
+        "action": "Undo"
+    },
     "globalSearch": {
+        "actions": {
+            "title": "Quick actions",
+            "newCitizen": "Add citizen",
+            "newEmployee": "Add employee",
+            "journalNotes": "Journal notes",
+            "statistics": "Statistics"
+        },
+        "footerHint": "Search & act fast",
+        "openHint": "open",
+        "closeHint": "close",
+        "pinned": "Pinned",
+        "recentCitizens": "Recently viewed",
         "attendance": "Attendance",
         "bookings": "Bookings",
         "calendar": "Calendar",
@@ -7074,9 +7099,19 @@
         },
         "citizensDiagnoses": "Citizens diagnoses",
         "citizensEvents": "Citizens' events",
+        "briefing": {
+            "morning": "Good morning, {name}",
+            "afternoon": "Good afternoon, {name}",
+            "evening": "Good evening, {name}",
+            "birthdays": "{count} with a birthday today",
+            "medicine": "{count} need medicine action",
+            "appointments": "{count} appointments",
+            "allCalm": "Looks calm right now"
+        },
         "birthdays": {
             "title": "Birthdays this week",
             "todayTitle": "Birthdays today",
+            "nextTitle": "Next birthday",
             "moreThisWeek": "{count} more this week",
             "countThisWeek": "{count} birthdays this week",
             "today": "Today",
@@ -7152,6 +7187,16 @@
             "latestJournal": "Latest journal notes",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Needs action today",
+            "deviated": "Deviations: {count}",
+            "overdue": "Overdue: {count}",
+            "more": "+{count} citizens"
+        },
+        "medsDone": {
+            "title": "Nice! 🎉",
+            "body": "All medicine given today"
+        },
         "medicationOverview": {
             "delivered": "Delivered",
             "deviated": "Deviated",
@@ -7174,6 +7219,7 @@
         "noNewsToShow": "No news to show",
         "openLink": "Open link",
         "overview": "Overview",
+        "statisticsTab": "Statistics",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Goals statistics",
             "plansAndGoals": "Plans and goals",
@@ -8383,6 +8429,12 @@
         "settings": "Settings",
         "subscription": {
             "subscription": "Subscription"
+        },
+        "groups": {
+            "company": "Company",
+            "billing": "Billing",
+            "data": "Data",
+            "logs": "Logs"
         },
         "tabs": {
             "absences": "Absences",
@@ -10332,6 +10384,7 @@
     },
     "update": "Update",
     "updates": {
+        "newUpdates": "New updates",
         "newUpdatesFrom": "New updates from",
         "showUpdate": "Show update",
         "updates": "Updates"

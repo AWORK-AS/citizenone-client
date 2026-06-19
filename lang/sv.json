@@ -683,8 +683,12 @@
     },
     "back": "Tillbaka",
     "bellNotification": {
+        "birthday": {
+            "title": "Födelsedag idag"
+        },
         "categories": {
             "all": "Alla",
+            "birthday": "Födelsedagar",
             "dutyShift": "Vagtregel",
             "incidents": "Händelser",
             "messages": "Meddelanden",
@@ -6061,7 +6065,28 @@
         "nonbinary": "Inte-binär",
         "willNotDisclose": "Vill inte oplyse"
     },
+    "cmdkTip": {
+        "title": "Snabbsök ⚡",
+        "body": "Tryck var som helst:",
+        "try": "Prova nu",
+        "gotIt": "Uppfattat"
+    },
+    "undo": {
+        "action": "Ångra"
+    },
     "globalSearch": {
+        "actions": {
+            "title": "Snabbåtgärder",
+            "newCitizen": "Lägg till medborgare",
+            "newEmployee": "Lägg till medarbetare",
+            "journalNotes": "Journalanteckningar",
+            "statistics": "Statistik"
+        },
+        "footerHint": "Sök & agera snabbt",
+        "openHint": "öppna",
+        "closeHint": "stäng",
+        "pinned": "Fästa",
+        "recentCitizens": "Senast visade",
         "attendance": "Närvaro",
         "bookings": "Bokningar",
         "calendar": "Kalender",
@@ -7038,9 +7063,19 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Klienters händelser",
+        "briefing": {
+            "morning": "God morgon, {name}",
+            "afternoon": "God eftermiddag, {name}",
+            "evening": "God kväll, {name}",
+            "birthdays": "{count} har födelsedag idag",
+            "medicine": "{count} kräver medicin-åtgärd",
+            "appointments": "{count} möten",
+            "allCalm": "Ser lugnt ut just nu"
+        },
         "birthdays": {
             "title": "Födelsedagar denna vecka",
             "todayTitle": "Födelsedagar idag",
+            "nextTitle": "Nästa födelsedag",
             "moreThisWeek": "{count} fler denna vecka",
             "countThisWeek": "{count} födelsedagar denna vecka",
             "today": "Idag",
@@ -7116,6 +7151,16 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Kräver åtgärd idag",
+            "deviated": "Avvikelser: {count}",
+            "overdue": "Försenad: {count}",
+            "more": "+{count} medborgare"
+        },
+        "medsDone": {
+            "title": "Bra jobbat! 🎉",
+            "body": "All medicin är given idag"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Avvikelse",
@@ -7138,6 +7183,7 @@
         "noNewsToShow": "Inga nyheter att visa",
         "openLink": "Öppna länk",
         "overview": "Översikt",
+        "statisticsTab": "Statistik",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistik",
             "plansAndGoals": "Planer och mål",

@@ -80,10 +80,14 @@
                     </div>
                     <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                         <button
-                            class="flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
+                            :class="[activeFilterCount > 0 ? 'border-primary text-primary bg-primary/5' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50', 'flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold border px-3 py-2']"
                             @click="state.modal.isFilterDutyScheduleOpen = true">
                             <Icon name="ic:outline-filter-list" class="h-4 w-4" />
                             {{ $t('filter') }}
+                            <span v-if="activeFilterCount > 0"
+                                class="ml-0.5 inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-primary text-white text-[10px] font-bold px-1">
+                                {{ activeFilterCount }}
+                            </span>
                         </button>
                         <Tooltip
                             :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
@@ -802,9 +806,9 @@
                                                     </Tooltip>
                                                     <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
                                                         <button
-                                                            class="bg-gray-200 w-5 h-5 sm:w-6 sm:h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
+                                                            class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-md border border-dashed border-primary/40 bg-primary/5 text-primary hover:bg-primary/15 hover:border-primary transition-colors"
                                                             @click="openAddNewShiftModal(employee, employeeIndex as number, weekIndex as number, week)">
-                                                            +
+                                                            <Icon name="ph:plus" class="h-3.5 w-3.5" aria-hidden="true" />
                                                         </button>
                                                     </Tooltip>
                                                 </div>
@@ -1370,6 +1374,17 @@ const state = reactive({
     employeeHoursStatsLoading: {} as Record<string, boolean>,
     shiftWarnings: [] as any,
     showWarningDialog: false,
+})
+
+// Number of active filters, surfaced as a badge on the Filter button.
+const activeFilterCount = computed(() => {
+    const f = state.filter
+    let n = 0
+    if (f.department_uuids?.length) n++
+    if (f.employment_status?.length) n++
+    if (f.employee_uuids?.length) n++
+    if (f.time_from && f.time_to) n++
+    return n
 })
 
 const hasCreatePermission = computed(() => {

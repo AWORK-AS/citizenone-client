@@ -36,7 +36,15 @@
             </template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <div class="space-y-5">
+                <div class="space-y-5 relative" @dragover.prevent="onDragOver" @dragenter.prevent="onDragOver"
+                    @dragleave.prevent="onDragLeave" @drop.prevent="handleDrop">
+                    <div v-if="isDragging"
+                        class="absolute inset-0 z-40 flex items-center justify-center rounded-xl border-2 border-dashed border-primary bg-primary/5 pointer-events-none">
+                        <div class="flex flex-col items-center gap-2 text-primary">
+                            <Icon name="ph:upload-simple" class="h-10 w-10" aria-hidden="true" />
+                            <span class="text-sm font-medium">{{ $t('drive.uploadFile') }} — slip filer her</span>
+                        </div>
+                    </div>
                     <div class="mt-8 flex flex-col md:flex-row justify-between gap-3">
                         <div class="flex items-center justify-end md:justify-start gap-x-3">
                             <FormButton buttonStyle="action" @click="toggleGoogleDriveView">
@@ -99,7 +107,7 @@
 
                             <!-- Knap til opret ny mappe (Google Drive/OneDrive) fjernet efter ønske -->
 
-                            <FormButton buttonStyle="action"
+                            <FormButton buttonStyle="success"
                                 @click="state.viewMode === 'google-drive' ? uploadToGoogleDrive() : state.isInsideOneDrive ? handleOneDriveUpload() : triggerFileInput()"
                                 v-if="state.viewMode === 'google-drive' || state.isInsideOneDrive || state.viewMode === 'local'">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
@@ -157,12 +165,20 @@
                             <Icon name="ph:arrow-left" size="16" class="text-black" />
                             <span class="text-sm">{{ $t('back') }}</span>
                         </div>
-                        <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                            @click="goBackLocalFolder"
-                            v-if="state.viewMode === 'local' && (router.currentRoute.value.query.folder_uuid || state.folderStack.length)">
-                            <Icon name="ph:arrow-left" size="16" class="text-black" />
-                            <span class="text-sm">{{ $t('back') }}</span>
-                        </div>
+                        <nav v-if="state.viewMode === 'local' && folderPath.length"
+                            class="flex items-center flex-wrap gap-x-1 gap-y-1 mb-3 text-sm">
+                            <button type="button" @click="navigateTo('/drive')"
+                                class="text-slate-500 hover:text-primary font-medium">
+                                {{ $t('drive.companyDocuments') }}
+                            </button>
+                            <template v-for="(f, i) in folderPath" :key="f.uuid">
+                                <Icon name="ph:caret-right" class="h-3.5 w-3.5 text-slate-300 shrink-0" aria-hidden="true" />
+                                <button type="button" @click="navigateTo(`/drive?folder_uuid=${f.uuid}`)"
+                                    :class="i === folderPath.length - 1 ? 'text-slate-800 font-semibold' : 'text-slate-500 hover:text-primary'">
+                                    {{ f.name }}
+                                </button>
+                            </template>
+                        </nav>
                         <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                             @click="goBackOneDriveFolder"
                             v-if="state.isInsideOneDrive && (state.oneDriveFolderStack.length > 0 || state.dataFilter.search)">
@@ -175,7 +191,8 @@
                         <Table v-else :columnHeaders="state.columnHeaders"
                             :data="state.viewMode === 'google-drive' ? state.googleDriveFiles : state.documents"
                             :isLoading="state.isTableLoading" :sortData="state.sortData"
-                            :emptyMessage="state.viewMode === 'google-drive' && !state.googleDriveConnected ? 'You have not activated or linked your Google Drive' : ''"
+                            emptyIcon="ph:folder-notch-open"
+                            :emptyMessage="state.viewMode === 'google-drive' && !state.googleDriveConnected ? 'You have not activated or linked your Google Drive' : 'Ingen filer eller mapper her endnu — upload en fil eller opret en mappe via “Ny”.'"
                             @sort="sort">
                             <template #body
                                 v-if="!(state.isTableLoading || ((state.viewMode === 'google-drive' ? state.googleDriveFiles : state.documents)?.data?.length === 0))">
@@ -1141,6 +1158,22 @@ async function goBackOneDriveFolder() {
         await fetchOneDriveFiles();
     }
 }
+// Breadcrumb path (root → current folder) — fetched from the backend so it is
+// correct on reload, deep links and folder-structure jumps.
+const folderPath = ref<{ uuid: string; name: string }[]>([])
+async function fetchFolderPath(folderUuid: any) {
+    if (state.viewMode !== 'local' || state.isInsideOneDrive || !folderUuid || typeof folderUuid !== 'string') {
+        folderPath.value = []
+        return
+    }
+    try {
+        const res: any = await documentService.getFolderPath(folderUuid)
+        folderPath.value = res?.data ?? []
+    } catch (e) {
+        folderPath.value = []
+    }
+}
+
 async function fetchDocuments(folderUuid: any = null): Promise<void> {
 
     if (state.isInsideOneDrive || router?.currentRoute?.value?.query?.onedrive === '1') {
@@ -1150,6 +1183,7 @@ async function fetchDocuments(folderUuid: any = null): Promise<void> {
     state.isTableLoading = true;
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid;
+        fetchFolderPath(folderUuid);
         const params = {
             page: currentTablePage,
             sortField: state.sortData.sortField,
@@ -1353,6 +1387,19 @@ async function downloadFile(document: any) {
 
 function triggerFileInput() {
     documentFile.value.click()
+}
+
+// Drag-and-drop upload (local CitizenOne Documents only — reuses uploadFile).
+const isDragging = ref(false)
+function onDragOver() {
+    if (state.viewMode === 'local' && !state.isInsideOneDrive) isDragging.value = true
+}
+function onDragLeave() { isDragging.value = false }
+function handleDrop(e: DragEvent) {
+    isDragging.value = false
+    if (!(state.viewMode === 'local' && !state.isInsideOneDrive)) return
+    const files = e.dataTransfer?.files
+    if (files && files.length) uploadFile({ target: { files } })
 }
 
 async function uploadFile(event: any) {

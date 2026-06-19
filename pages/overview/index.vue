@@ -11,30 +11,14 @@
             </template>
 
             <template #header>
-                <div class="h-12 flex items-center gap-x-4">
-                    <div class="flex items-center gap-x-6">
-                        <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
-                            {{ $t('overview.overview') }}
-                        </span>
-                        <span class="mb-1.5 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
-                            @click="navigateTo('/discover')">
-                            {{ $t('discover.title') }}
-                        </span>
-                    </div>
-                    <!-- Date navigator -->
-                    <div
-                        class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
-                        <button @click="previousDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
-                            <Icon name="heroicons:chevron-left-20-solid" class="h-4 w-4 text-slate-400" />
-                        </button>
-                        <button @click="state.modal.isDailyOverviewDateRangeOpen = true"
-                            class="text-sm font-medium text-slate-700 hover:text-primary transition-colors px-1">
-                            {{ formatDisplayDate() }}
-                        </button>
-                        <button @click="nextDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
-                            <Icon name="heroicons:chevron-right-20-solid" class="h-4 w-4 text-slate-400" />
-                        </button>
-                    </div>
+                <div class="flex items-center gap-x-6">
+                    <span v-if="!discoverCompleted" class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                        @click="navigateTo('/discover')">Discover</span>
+                    <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
+                        {{ $t('overview.overview') }}
+                    </span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                        @click="navigateTo('/statistics')">{{ $t('overview.statisticsTab') }}</span>
                 </div>
             </template>
 
@@ -51,15 +35,53 @@
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
 
+            <!-- Shift briefing -->
+            <div class="mb-4 rounded-2xl border border-surface-200 bg-gradient-to-br from-primary/[0.06] to-secondary/[0.06] px-5 py-4">
+                <p class="text-lg font-semibold text-slate-900">
+                    {{ $t('overview.briefing.' + greetingPart, { name: firstName }) }} 👋
+                </p>
+                <div class="mt-2 flex flex-wrap items-center gap-2 text-sm">
+                    <span v-if="todaysBirthdays.length > 0"
+                        class="inline-flex items-center gap-x-1 rounded-full bg-emerald-50 text-emerald-700 px-2.5 py-1">
+                        🎂 {{ $t('overview.briefing.birthdays', { count: todaysBirthdays.length }) }}
+                    </span>
+                    <span v-if="medicineActionCitizens.length > 0"
+                        class="inline-flex items-center gap-x-1 rounded-full bg-red-50 text-red-600 px-2.5 py-1">
+                        💊 {{ $t('overview.briefing.medicine', { count: medicineActionCitizens.length }) }}
+                    </span>
+                    <span v-if="todaysEventsCount > 0"
+                        class="inline-flex items-center gap-x-1 rounded-full bg-blue-50 text-blue-700 px-2.5 py-1">
+                        📅 {{ $t('overview.briefing.appointments', { count: todaysEventsCount }) }}
+                    </span>
+                    <span v-if="todaysBirthdays.length === 0 && medicineActionCitizens.length === 0 && todaysEventsCount === 0"
+                        class="text-slate-500">
+                        {{ $t('overview.briefing.allCalm') }} ☀️
+                    </span>
+                </div>
+            </div>
+
             <!-- Action bar -->
             <div class="flex items-center justify-between gap-3 flex-wrap">
-                <div class="flex items-center gap-x-2">
+                <div class="flex items-center gap-x-3">
                     <button
                         class="flex items-center gap-x-1.5 text-sm text-slate-500 hover:text-primary transition-colors rounded-lg px-2.5 py-1.5 hover:bg-primary-25"
                         @click="state.modal.isFilterDailyOverviewOpen = true">
                         <Icon name="ph:sliders-horizontal" class="w-4 h-4" />
                         <span>{{ $t('showHide') }}</span>
                     </button>
+                    <!-- Date navigator -->
+                    <div class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
+                        <button @click="previousDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                            <Icon name="heroicons:chevron-left-20-solid" class="h-4 w-4 text-slate-400" />
+                        </button>
+                        <button @click="state.modal.isDailyOverviewDateRangeOpen = true"
+                            class="text-sm font-medium text-slate-700 hover:text-primary transition-colors px-1">
+                            {{ formatDisplayDate() }}
+                        </button>
+                        <button @click="nextDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                            <Icon name="heroicons:chevron-right-20-solid" class="h-4 w-4 text-slate-400" />
+                        </button>
+                    </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <FormButton buttonStyle="primary" class="w-full md:w-fit shadow-sm"
@@ -137,36 +159,79 @@
                         <Icon name="ph:arrow-right" class="size-3" />
                     </div>
                 </div>
-                <!-- Birthdays: today's are shown, the rest open in a popup (hidden when none) -->
+                <!-- Birthdays: today's are shown, the rest open in a popup; when
+                     none this week, the next birthday in line is shown instead. -->
                 <div class="stat-card" v-if="state.stats.birthdays.length > 0">
                     <div class="stat-label">
                         <Icon name="ph:cake" class="h-4 w-4 text-accent-orange" />
-                        {{ todaysBirthdays.length > 0 ? $t('overview.birthdays.todayTitle') :
-                            $t('overview.birthdays.title') }}
-                        <span
+                        {{ todaysBirthdays.length > 0
+                            ? $t('overview.birthdays.todayTitle')
+                            : (hasThisWeekBirthdays ? $t('overview.birthdays.title') : $t('overview.birthdays.nextTitle')) }}
+                        <span v-if="hasThisWeekBirthdays"
                             class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
-                            {{ todaysBirthdays.length > 0 ? todaysBirthdays.length : state.stats.birthdays.length }}
+                            {{ todaysBirthdays.length > 0 ? todaysBirthdays.length : thisWeekBirthdays.length }}
                         </span>
                     </div>
                     <ul v-if="todaysBirthdays.length > 0" class="mt-2 space-y-1.5 max-h-24 overflow-y-auto pr-1">
                         <li v-for="(birthday, birthdayIndex) in todaysBirthdays" :key="birthdayIndex"
                             class="flex items-center justify-between gap-x-2 text-xs font-semibold text-primary">
                             <span class="truncate">{{ birthday.name }}</span>
-                            <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age })
-                            }}</span>
+                            <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</span>
                         </li>
                     </ul>
-                    <button v-if="laterBirthdaysCount > 0 || todaysBirthdays.length === 0" type="button"
+                    <!-- No birthdays this week: surface the next one in line -->
+                    <div v-else-if="!hasThisWeekBirthdays && nextBirthday" class="mt-2 flex items-center justify-between gap-x-2">
+                        <span class="truncate text-xs font-semibold text-primary">{{ nextBirthday.name }}</span>
+                        <span class="shrink-0 text-[11px] text-slate-500">
+                            {{ $t('overview.birthdays.inDays', { days: nextBirthday.days_until }) }} · {{ $t('overview.birthdays.turns', { age: nextBirthday.age }) }}
+                        </span>
+                    </div>
+                    <button v-if="hasThisWeekBirthdays && (laterBirthdaysCount > 0 || todaysBirthdays.length === 0)" type="button"
                         @click="state.modal.isBirthdaysOpen = true"
                         class="mt-2 inline-flex items-center gap-x-1 text-xs text-primary font-medium hover:text-primary-700 transition-colors">
                         <template v-if="todaysBirthdays.length > 0">
                             {{ $t('overview.birthdays.moreThisWeek', { count: laterBirthdaysCount }) }}
                         </template>
                         <template v-else>
-                            {{ $t('overview.birthdays.countThisWeek', { count: state.stats.birthdays.length }) }}
+                            {{ $t('overview.birthdays.countThisWeek', { count: thisWeekBirthdays.length }) }}
                         </template>
                         <Icon name="ph:arrow-right" class="size-3" />
                     </button>
+                </div>
+                <!-- Medicine: citizens with a deviation or missed dose today -->
+                <div class="stat-card" v-if="medicineActionCitizens.length > 0">
+                    <div class="stat-label">
+                        <Icon name="ph:pill" class="h-4 w-4 text-red-500" />
+                        {{ $t('overview.medicineAction.title') }}
+                        <span class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
+                            {{ medicineActionCitizens.length }}
+                        </span>
+                    </div>
+                    <ul class="mt-2 -mx-1.5 space-y-0.5">
+                        <li v-for="citizen in medicineActionCitizens.slice(0, 3)" :key="citizen.uuid || citizen.name"
+                            @click="citizen.uuid && navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)"
+                            class="group flex items-center gap-x-2 rounded-lg px-1.5 py-1.5 cursor-pointer hover:bg-surface-50 transition-colors">
+                            <div class="min-w-0 flex-1">
+                                <CitizenHoverCard :uuid="citizen.uuid" :name="citizen.name"
+                                    class="text-xs font-semibold text-primary group-hover:text-primary-700">
+                                    <span class="truncate">{{ citizen.name }}</span>
+                                </CitizenHoverCard>
+                                <div class="mt-0.5 flex items-center gap-x-1 text-[11px]">
+                                    <span v-if="citizen.deviated > 0" class="rounded-full bg-red-50 text-red-600 px-1.5 py-0.5">
+                                        {{ $t('overview.medicineAction.deviated', { count: citizen.deviated }) }}
+                                    </span>
+                                    <span v-if="citizen.overdue > 0" class="rounded-full bg-amber-50 text-amber-600 px-1.5 py-0.5">
+                                        {{ $t('overview.medicineAction.overdue', { count: citizen.overdue }) }}
+                                    </span>
+                                </div>
+                            </div>
+                            <Icon name="ph:caret-right"
+                                class="size-3 shrink-0 text-slate-300 group-hover:text-primary transition-colors" />
+                        </li>
+                    </ul>
+                    <p v-if="medicineActionCitizens.length > 3" class="mt-2 text-xs text-slate-400">
+                        {{ $t('overview.medicineAction.more', { count: medicineActionCitizens.length - 3 }) }}
+                    </p>
                 </div>
             </div>
 
@@ -296,84 +361,6 @@
                         v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
                 </div>
 
-                <!-- Statistics (collapsible; collapsed by default to keep the dashboard calm) -->
-                <CollapsibleSection v-if="showStatisticsSection" :title="$t('overview.statistics')"
-                    :default-open="false" storage-key="overview-statistics">
-                    <div class="space-y-10">
-                        <!-- Statistics grid -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
-                            overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
-                            overviewStore.getDailyOverviewFilter.showCitizensAddictions ||
-                            overviewStore.getDailyOverviewFilter.showCitizensDiagnoses ||
-                            overviewStore.getDailyOverviewFilter.showRiskAssessment ||
-                            overviewStore.getDailyOverviewFilter.showGender">
-                            <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
-                                <ModulesUserDailyOverviewCitizensAdmissionDischarged
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showCitizensOrigin">
-                                <ModulesUserDailyOverviewCitizensOrigin />
-                            </div>
-                            <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions">
-                                <ModulesUserDailyOverviewCitizensAddictions
-                                    :dateRange="state.dateRange.formDateRange" />
-                                <ModulesUserDailyOverviewCitizensAddictionsCount
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
-                                <ModulesUserDailyOverviewCitizensDiagnoses :dateRange="state.dateRange.formDateRange" />
-                                <ModulesUserDailyOverviewCitizensDiagnosesCount
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment">
-                                <ModulesUserDailyOverviewCitizensRiskAssessment
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showGender">
-                                <ModulesUserDailyOverviewCitizensGender />
-                            </div>
-                        </div>
-
-                        <!-- Score statistics -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics ||
-                            overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics ||
-                            overviewStore.getDailyOverviewFilter.showIncidentStatistics ||
-                            overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
-                            overviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
-                            overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
-                            overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
-                            <div v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
-                                <ModulesUserDailyOverviewStatusesScoreStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
-                                <ModulesUserDailyOverviewGoalsScoreStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showIncidentStatistics">
-                                <ModulesUserDailyOverviewIncidentReportsStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics">
-                                <ModulesUserDailyOverviewMedicineDeviationStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
-                                <ModulesUserDailyOverviewJournalScoreStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
-                                <ModulesUserDailyOverviewSubgoalsScoreStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                            <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
-                                <ModulesUserDailyOverviewUseOfForceStatistics
-                                    :dateRange="state.dateRange.formDateRange" />
-                            </div>
-                        </div>
-                    </div>
-                </CollapsibleSection>
-
                 <!-- Schedule + Plans -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
                     v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots || overviewStore.getDailyOverviewFilter.showPlansAndGoals">
@@ -382,21 +369,6 @@
                     </div>
                     <div v-if="overviewStore.getDailyOverviewFilter.showPlansAndGoals">
                         <ModulesUserDailyOverviewPlansAndGoals :dateRange="state.dateRange.formDateRange" />
-                    </div>
-                </div>
-
-                <!-- News section -->
-                <div>
-                    <p class="text-lg font-semibold text-slate-900">
-                        {{ $t('overview.from') }} CitizenOne<sup class="text-xs">&#8482;</sup>
-                    </p>
-                    <div class="mt-3 grid grid-cols-1 md:grid-cols-7 gap-5" ref="newsSection" id="news">
-                        <div class="min-h-44 md:col-span-4">
-                            <ModulesUserDailyOverviewNews />
-                        </div>
-                        <div class="min-h-44 md:col-span-3">
-                            <ModulesUserDailyOverviewPoll />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -428,24 +400,17 @@
                                         <span class="truncate font-medium text-slate-900">{{ birthday.name }}</span>
                                         <span class="shrink-0 rounded-full px-2 py-0.5 text-[11px]"
                                             :class="birthday.type === 'staff' ? 'bg-slate-100 text-slate-500' : 'bg-emerald-50 text-emerald-600'">
-                                            {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') :
-                                                $t('overview.birthdays.child') }}
+                                            {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') : $t('overview.birthdays.child') }}
                                         </span>
                                     </div>
-                                    <div class="text-xs text-slate-400">{{ $t('overview.birthdays.turns', {
-                                        age:
-                                            birthday.age
-                                    }) }}</div>
+                                    <div class="text-xs text-slate-400">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</div>
                                 </div>
                             </div>
-                            <span
-                                class="inline-flex shrink-0 items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-medium"
+                            <span class="inline-flex shrink-0 items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-medium"
                                 :class="birthday.days_until === 0 ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'">
                                 <Icon v-if="birthday.days_until === 0" name="ph:cake-fill" class="h-3.5 w-3.5" />
-                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today')
-                                }}</template>
-                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until })
-                                }}</template>
+                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today') }}</template>
+                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until }) }}</template>
                             </span>
                         </li>
                     </ul>
@@ -464,6 +429,9 @@ import { useUserStore } from '@/store/user'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDepartmentStore } from '@/store/department'
+import { useConfetti } from '@/composables/useConfetti'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const breadcrumbLinks = [
@@ -488,6 +456,10 @@ const showStatisticsSection = computed(() => {
         || f.showUseOfForceStatistics
 })
 const userStore = useUserStore() as any
+const { celebrate } = useConfetti()
+const { successAlert } = useAlert()
+const { t } = useI18n()
+const { completed: discoverCompleted } = useDiscoverDone()
 const route = useRoute()
 const newsSection = ref<HTMLElement | null>(null)
 
@@ -529,7 +501,51 @@ function getInitials(name: string) {
 }
 
 const todaysBirthdays = computed(() => (state.stats.birthdays ?? []).filter((birthday: any) => birthday.days_until === 0))
-const laterBirthdaysCount = computed(() => (state.stats.birthdays ?? []).length - todaysBirthdays.value.length)
+const thisWeekBirthdays = computed(() => (state.stats.birthdays ?? []).filter((birthday: any) => birthday.days_until <= 7))
+const hasThisWeekBirthdays = computed(() => thisWeekBirthdays.value.length > 0)
+const laterBirthdaysCount = computed(() => thisWeekBirthdays.value.length - todaysBirthdays.value.length)
+// When nobody has a birthday this week the backend returns just the next one
+// in line, so the card can still show who's up next.
+const nextBirthday = computed(() => (state.stats.birthdays ?? [])[0] ?? null)
+
+// Citizens needing medicine attention now: a deviation, or an overdue dose
+// (scheduled earlier today and still not given). Doses later today that aren't
+// due yet are excluded — they're not actionable yet.
+const medicineActionCitizens = computed(() => {
+    const now = moment()
+    const today = now.format('YYYY-MM-DD')
+    const byCitizen = new Map<string, { uuid: string; name: string; deviated: number; overdue: number }>()
+    for (const medicine of (state.stats.medicines?.data ?? [])) {
+        const citizen = medicine?.citizen
+        if (!citizen) continue
+        const todaysDoses = (medicine.due_dates ?? []).filter((due: any) => due.date === today)
+        const deviated = todaysDoses.filter((due: any) => due.status === 'deviated').length
+        const overdue = todaysDoses.filter((due: any) =>
+            due.status === null && due.time && moment(`${today} ${due.time}`, 'YYYY-MM-DD HH:mm').isBefore(now)
+        ).length
+        if (deviated === 0 && overdue === 0) continue
+        const key = citizen.uuid ?? `${citizen.firstname}-${citizen.lastname}`
+        const entry = byCitizen.get(key) ?? {
+            uuid: citizen.uuid ?? '',
+            name: `${citizen.firstname ?? ''} ${citizen.lastname ?? ''}`.trim(),
+            deviated: 0,
+            overdue: 0,
+        }
+        entry.deviated += deviated
+        entry.overdue += overdue
+        byCitizen.set(key, entry)
+    }
+    // Deviations are more urgent than overdue doses, so surface them first.
+    return Array.from(byCitizen.values()).sort((a, b) => (b.deviated - a.deviated) || (b.overdue - a.overdue))
+})
+
+// Warm, time-of-day greeting for the shift briefing.
+const firstName = computed(() => userStore.getUser?.firstname ?? '')
+const greetingPart = computed(() => {
+    const hour = moment().hour()
+    return hour < 12 ? 'morning' : (hour < 18 ? 'afternoon' : 'evening')
+})
+const todaysEventsCount = computed(() => state.stats.citizenCalendarEvents?.data?.length ?? 0)
 
 onMounted(() => {
     scrollToNewsIfNeeded()
@@ -725,11 +741,26 @@ async function fetchCitizensMedicines(dateRange: any) {
             state.stats.medicinesDeviatedCount = todayDueDates.filter(
                 (dueDate: any) => dueDate.status === 'deviated'
             ).length
+
+            maybeCelebrateMedicines()
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+// A small celebration the first time today's medicine is fully done.
+function maybeCelebrateMedicines() {
+    const given = state.stats.medicinesGivenCount
+    const pending = state.stats.medicinesPendingCount
+    const deviated = state.stats.medicinesDeviatedCount
+    if (given <= 0 || pending !== 0 || deviated !== 0) return
+    const key = 'medsCelebrated-' + moment().format('YYYY-MM-DD')
+    if (typeof localStorage === 'undefined' || localStorage.getItem(key)) return
+    localStorage.setItem(key, 'true')
+    celebrate({ emojis: ['🎉', '✨', '🥳', '💊'], count: 24 })
+    successAlert(t('overview.medsDone.title'), t('overview.medsDone.body'))
 }
 
 async function fetchActiveTreatmentsCount() {

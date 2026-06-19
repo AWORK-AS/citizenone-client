@@ -1,6 +1,16 @@
 <template>
     <div>
-        <Tabs :id="props?.id" :tabs="state.tabs" :isJustifyBetween="false" :isSwipeable="true" @changeTab="changeTab" />
+        <div class="mb-3 max-w-xs">
+            <div class="relative">
+                <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" aria-hidden="true" />
+                <input v-model="search" type="text" :placeholder="$t('search') + '…'"
+                    class="w-full rounded-lg border border-slate-200 pl-9 pr-3 py-2 text-sm focus:border-primary focus:outline-none" />
+            </div>
+        </div>
+        <Tabs :id="props?.id" :tabs="filteredTabs" :isJustifyBetween="false" :isSwipeable="true" @changeTab="changeTab" />
+        <p v-if="search && filteredTabs.length === 0" class="mt-3 text-sm text-slate-400">
+            Ingen indstillinger matcher “{{ search }}”.
+        </p>
     </div>
 </template>
 
@@ -22,6 +32,17 @@ const { t } = useI18n()
 
 const state = reactive({
     tabs: [] as any
+})
+
+// Filter the long catalog list by name so users can find a setting fast.
+const search = ref('')
+const filteredTabs = computed(() => {
+    const q = search.value.trim().toLowerCase()
+    if (!q) return state.tabs
+    return state.tabs.filter((tab: any) => {
+        const label = (tab.isTranslateName ? t(tab.name) : tab.name) || ''
+        return label.toLowerCase().includes(q)
+    })
 })
 
 watch(() => userStore.getUser, (newValue: any) => {

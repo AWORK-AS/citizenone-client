@@ -12,14 +12,10 @@
             </template>
 
             <template #header>
-                <div class="h-12 flex items-center gap-x-6">
-                    <span class="mb-1.5 text-slate-400 hover:text-slate-600 cursor-pointer"
-                        @click="navigateTo('/overview')">
-                        {{ $t('overview.overview') }}
-                    </span>
-                    <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
-                        {{ $t('discover.title') }}
-                    </span>
+                <div class="flex items-center gap-x-6">
+                    <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">Discover</span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer" @click="navigateTo('/overview')">{{ $t('overview.overview') }}</span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer" @click="navigateTo('/statistics')">{{ $t('overview.statisticsTab') }}</span>
                 </div>
             </template>
 
@@ -290,6 +286,10 @@ const totalSteps = computed(() => visibleGroups.value.reduce((n, g) => n + g.ste
 const totalDone = computed(() => visibleGroups.value.reduce((n, g) => n + groupDone(g), 0))
 const progressPct = computed(() => totalSteps.value ? Math.round((totalDone.value / totalSteps.value) * 100) : 0)
 const allDone = computed(() => totalSteps.value > 0 && totalDone.value === totalSteps.value)
+
+// Once the whole journey is done, graduate the Discover tab away.
+const { markCompleted } = useDiscoverDone()
+watch(allDone, (done) => { if (done) markCompleted() }, { immediate: true })
 
 // First actionable (not done, not locked) step across the visible groups.
 const nextStep = computed(() => {

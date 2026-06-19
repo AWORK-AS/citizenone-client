@@ -58,11 +58,12 @@
 
                     <div class="hidden lg:block h-5 w-px bg-slate-200" />
 
-                    <!-- Shift Types Toggle -->
+                    <!-- Shift Types legend — surfaced as a clear button so the colour key is discoverable -->
                     <button
                         @click="state.modal.isShowDistributionOfShiftTypes = !state.modal.isShowDistributionOfShiftTypes"
-                        class="text-primary text-xs font-medium hover:text-primary-700 hidden lg:block">
-                        {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm">
+                        <Icon name="ph:palette" class="h-3.5 w-3.5" aria-hidden="true" />
+                        <span class="hidden md:inline">{{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}</span>
                     </button>
 
                     <div class="hidden lg:block h-5 w-px bg-slate-200" />
