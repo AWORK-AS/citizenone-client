@@ -6690,7 +6690,20 @@
             "smtpHost": "SMTP värt",
             "smtpPassword": "SMTP lösenord",
             "smtpPort": "SMTP port",
-            "smtpUsername": "SMTP användarnamn"
+            "smtpUsername": "SMTP användarnamn",
+            "gmailGuide": {
+                "title": "Använder du Gmail? Du behöver ett applösenord",
+                "intro": "Google tillåter inte längre vanliga lösenord för tredjepartsåtkomst via SMTP/IMAP. Du måste använda ett applösenord istället.",
+                "step1": "Gå till ditt Google-konto på myaccount.google.com",
+                "step2": "Se till att tvåstegsverifiering är aktiverad (Säkerhet → Tvåstegsverifiering)",
+                "step3": "Gå till Säkerhet → Applösenord (syns bara när 2FA är aktiverat)",
+                "step4": "Klicka på \"Skapa applösenord\", välj \"Annat (anpassat namn)\", och döp det till \"CitizenOne\"",
+                "step5": "Google ger dig ett 16-teckens lösenord (t.ex. xxxx xxxx xxxx xxxx)",
+                "step6": "I CitizenOnes SMTP/IMAP-inställningar, använd:",
+                "step6Username": "Användarnamn: din fullständiga Gmail-adress (du(at)gmail.com)",
+                "step6Password": "Lösenord: det 16-teckens applösenordet (utan mellanslag)",
+                "oauthNote": "Obs: XOAUTH2 kräver ett fullständigt OAuth2-flöde med åtkomsttokens och stöds inte här. Applösenord är rätt metod för denna integration."
+            }
         }
     },
     "massUnits": {

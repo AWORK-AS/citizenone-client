@@ -6699,7 +6699,20 @@
             "smtpHost": "SMTP vært",
             "smtpPassword": "SMTP adgangskode",
             "smtpPort": "SMTP port",
-            "smtpUsername": "SMTP brugernavn"
+            "smtpUsername": "SMTP brugernavn",
+            "gmailGuide": {
+                "title": "Bruger du Gmail? Du skal bruge en App-adgangskode",
+                "intro": "Google tillader ikke længere almindelige adgangskoder til tredjeparts SMTP/IMAP-adgang. Du skal i stedet bruge en App-adgangskode.",
+                "step1": "Gå til din Google-konto på myaccount.google.com",
+                "step2": "Sørg for, at 2-trinsbekræftelse er aktiveret (Sikkerhed → 2-trinsbekræftelse)",
+                "step3": "Gå til Sikkerhed → App-adgangskoder (kun synlig, når 2FA er aktiveret)",
+                "step4": "Klik på \"Opret app-adgangskode\", vælg \"Anden (brugerdefineret navn)\", og navngiv den \"CitizenOne\"",
+                "step5": "Google giver dig en 16-tegns adgangskode (f.eks. xxxx xxxx xxxx xxxx)",
+                "step6": "I CitizenOnes SMTP/IMAP-indstillinger, brug:",
+                "step6Username": "Brugernavn: din fulde Gmail-adresse (dig(at)gmail.com)",
+                "step6Password": "Adgangskode: den 16-tegns app-adgangskode (uden mellemrum)",
+                "oauthNote": "Bemærk: XOAUTH2 kræver et fuldt OAuth2-flow med adgangstokens og understøttes ikke her. App-adgangskode er den korrekte tilgang til denne integration."
+            }
         }
     },
     "massUnits": {

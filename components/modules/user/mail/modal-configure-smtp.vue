@@ -82,6 +82,47 @@
                                 <FormError :error="state?.error?.errors?.imap_encryption?.[0]" />
                             </div>
                         </div>
+                        <!-- Gmail App Password guide -->
+                        <div class="mt-4 border border-[#FEE2E2] rounded-xl overflow-hidden">
+                            <button type="button"
+                                class="w-full flex items-center justify-between px-4 py-3 bg-[#FFF5F5] text-left"
+                                @click="state.isGuideOpen = !state.isGuideOpen">
+                                <div class="flex items-center gap-2">
+                                    <Icon name="ph:google-logo" class="w-4 h-4 text-[#B91C1C]" />
+                                    <span class="text-[13px] font-medium text-[#B91C1C]">
+                                        {{ $t('mail.settings.gmailGuide.title') }}
+                                    </span>
+                                </div>
+                                <Icon :name="state.isGuideOpen ? 'ph:caret-up' : 'ph:caret-down'"
+                                    class="w-4 h-4 text-[#B91C1C]" />
+                            </button>
+                            <div v-show="state.isGuideOpen"
+                                class="px-4 py-3 bg-white space-y-3 text-[13px] text-[#374151]">
+                                <p>{{ $t('mail.settings.gmailGuide.intro') }}</p>
+                                <ol class="space-y-1.5 list-decimal list-inside">
+                                    <li>{{ $t('mail.settings.gmailGuide.step1') }}</li>
+                                    <li>{{ $t('mail.settings.gmailGuide.step2') }}</li>
+                                    <li>{{ $t('mail.settings.gmailGuide.step3') }}</li>
+                                    <li>{{ $t('mail.settings.gmailGuide.step4') }}</li>
+                                    <li>{{ $t('mail.settings.gmailGuide.step5') }}</li>
+                                    <li>
+                                        {{ $t('mail.settings.gmailGuide.step6') }}
+                                        <ul class="mt-1 ml-4 space-y-0.5 list-disc list-inside text-[#6B7280]">
+                                            <li>{{ $t('mail.settings.gmailGuide.step6Username') }}</li>
+                                            <li>{{ $t('mail.settings.gmailGuide.step6Password') }}</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                                <p class="text-[#6B7280]">{{ $t('mail.settings.gmailGuide.oauthNote') }}</p>
+                                <a href="https://myaccount.google.com/apppasswords" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-1 text-[#205E77] hover:underline font-medium">
+                                    <Icon name="ph:arrow-square-out" class="w-3.5 h-3.5" />
+                                    myaccount.google.com/apppasswords
+                                </a>
+                            </div>
+                        </div>
+
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 <FormButton type="button" buttonStyle="cancel" @click="emit('close')">
@@ -132,6 +173,7 @@ const encryptionOptions = [
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    isGuideOpen: false,
     formEmail: {
         smtp_host: '',
         smtp_port: '',
