@@ -217,7 +217,7 @@
                                         <FormSelect id="municipality" :options="state.options.municipalities"
                                             v-model="state.formManageCompany.municipality" />
                                         <FormError
-                                            :error="v$?.formCitizen?.municipality?.$errors[0]?.$message.toString()" />
+                                            :error="v$?.formManageCompany?.municipality?.$errors[0]?.$message.toString()" />
                                         <FormError :error="state?.error?.errors?.municipality_uuid?.[0]" />
                                     </div>
                                 </div>

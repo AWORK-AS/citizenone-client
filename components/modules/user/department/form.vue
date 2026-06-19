@@ -20,7 +20,7 @@
             <div class="space-y-1 flex items-center gap-x-1">
                 <FormLabel for="color" :label="$t('departments.form.color')" />
                 <FormColorPicker id="color" v-model="state.formDepartment.color" />
-                <FormError :error="v$?.formTag?.color?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formDepartment?.color?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.color?.[0]" />
             </div>
         </div>

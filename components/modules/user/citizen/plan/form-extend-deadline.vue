@@ -68,7 +68,7 @@
                 <div class="space-y-1">
                     <FormLabel for="score" :label="$t('plansandgoals.form.expectedLevels.expectedLevel')" />
                     <FormSelect id="score" :options="state.options.scores" v-model="state.formPlan.score" />
-                    <FormError :error="v$?.formGoal?.score?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formPlan?.score?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.score?.[0]" />
                 </div>
                 <div class="space-y-1">

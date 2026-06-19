@@ -406,6 +406,12 @@ onMounted(() => {
     state.formSchedule.date_time_end = props.selectedSchedule.date_time_end
 })
 
+watch(() => props.selectedSchedule?.date_time_start, (dateTimeStart: any) => {
+    if (dateTimeStart) {
+        state.formSchedule.date_time_start = dateTimeStart
+    }
+})
+
 watch(() => state.formSchedule.date_time_start, (dateTimeStart: any) => {
     state.formSchedule.date_time_end = moment(dateTimeStart).add(1, 'hours').format('YYYY-MM-DD HH:mm')
 })

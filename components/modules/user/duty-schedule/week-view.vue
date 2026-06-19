@@ -84,6 +84,10 @@
                             @click="state.modal.isFilterDutyScheduleOpen = true">
                             <Icon name="ic:outline-filter-list" class="h-4 w-4" />
                             {{ $t('filter') }}
+                            <span v-if="activeFilterCount > 0"
+                                class="ml-0.5 inline-flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-primary text-white text-[10px] font-bold px-1">
+                                {{ activeFilterCount }}
+                            </span>
                         </button>
                         <Tooltip
                             :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
@@ -811,9 +815,9 @@
                                                     </Tooltip>
                                                     <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
                                                         <button
-                                                            class="bg-gray-200 w-5 h-5 sm:w-6 sm:h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200"
+                                                            class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-md border border-dashed border-primary/40 bg-primary/5 text-primary hover:bg-primary/15 hover:border-primary transition-colors"
                                                             @click="openAddNewShiftModal(employee, employeeIndex as number, weekIndex as number, week)">
-                                                            +
+                                                            <Icon name="ph:plus" class="h-3.5 w-3.5" aria-hidden="true" />
                                                         </button>
                                                     </Tooltip>
                                                 </div>
@@ -1305,6 +1309,7 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        schedule_tag_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -1400,6 +1405,17 @@ const state = reactive({
     employeeHoursStatsLoading: {} as Record<string, boolean>,
     shiftWarnings: [] as any,
     showWarningDialog: false,
+})
+
+// Number of active filters, surfaced as a badge on the Filter button.
+const activeFilterCount = computed(() => {
+    const f = state.filter
+    let n = 0
+    if (f.department_uuids?.length) n++
+    if (f.employment_status?.length) n++
+    if (f.employee_uuids?.length) n++
+    if (f.time_from && f.time_to) n++
+    return n
 })
 
 const hasCreatePermission = computed(() => {
@@ -1581,6 +1597,9 @@ async function fetchDutySchedule() {
         if (state.filter.employee_uuids?.length > 0) {
             params.employee_uuids = Array(state.filter.employee_uuids)
         }
+        if (state.filter.schedule_tag_uuids?.length > 0) {
+            params.schedule_tag_uuids = Array(state.filter.schedule_tag_uuids)
+        }
         if (state.filter.time_from) {
             params.time_from = state.filter.time_from
         }
@@ -1627,6 +1646,7 @@ function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    state.filter.schedule_tag_uuids = filter.schedule_tag_uuids ?? []
     state.filter.time_from = filter.time_from ?? ''
     state.filter.time_to = filter.time_to ?? ''
     emit('setDutyScheduleCurrentFilter', state.filter)
@@ -1769,7 +1789,7 @@ function nextWeek() {
 }
 
 const weekNumber = computed(() => {
-    return moment(currentDate.value).week()
+    return moment(currentDate.value).isoWeek()
 })
 
 const weekDays = computed(() => {
