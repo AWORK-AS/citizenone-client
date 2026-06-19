@@ -658,6 +658,11 @@
                                                     v-if="shift?.type?.system_name === 'vacation-leave'">
                                                     🏖️
                                                 </div>
+                                                <div class="absolute -bottom-2 -left-2 z-20 w-5 h-5 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help"
+                                                    v-if="isWorkedHolidayShift(shift) && !['sick-leave', 'vacation-leave'].includes(shift?.type?.system_name)"
+                                                    :title="$t('dutySchedules.holidayWorkedTooltip')">
+                                                    <Icon name="ph:calendar-check" class="w-3 h-3 text-amber-500" aria-hidden="true" />
+                                                </div>
                                                 <button
                                                     class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2"
                                                     style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
@@ -807,6 +812,15 @@
                                                             <span v-if="tag?.tag">{{ tag?.tag?.charAt(0) }}</span>
                                                         </div>
                                                     </Tooltip>
+                                                </div>
+                                            </div>
+                                            <div v-if="isNonWorkedHolidayCell(day, employeeIndex as number)"
+                                                class="rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 mt-2 flex items-start gap-1.5"
+                                                :title="$t('dutySchedules.holidayNonWorkedTooltip')">
+                                                <Icon name="ph:calendar-check" class="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                                                <div class="leading-tight">
+                                                    <p class="text-xxs font-semibold text-amber-800">{{ $t('dutySchedules.holidayFreeBadge') }}</p>
+                                                    <p class="text-xxs text-amber-700">{{ $t('dutySchedules.holidayNonWorkedAssigned') }}</p>
                                                 </div>
                                             </div>
                                         </template>
@@ -1203,6 +1217,23 @@ function getHoliday(day: any) {
     const year = moment(day).year()
     const danishHolidays = getDanishHolidays(year)
     return danishHolidays[dateKey] || null
+}
+
+// Public-holiday markers (opt-in via the company flag), mirroring the week view.
+const holidaysEnabled = computed(() => !!userStore.getUser?.company?.holiday_non_sunday_hours_enabled)
+
+function isWorkedHolidayShift(shift: any) {
+    if (!holidaysEnabled.value || !shift?.date_time_start) return false
+    return !!getHoliday(shift.date_time_start)
+}
+
+function isNonWorkedHolidayCell(day: any, employeeIndex: number) {
+    if (!holidaysEnabled.value || !day) return false
+    if (!getHoliday(day)) return false
+    if (moment(day).day() === 0) return false // Sundays excluded (matches backend)
+    const dateKey = moment(day).format('YYYY-MM-DD')
+    const shifts = state.monthlySchedules?.data?.[employeeIndex]?.days?.[dateKey]?.shifts
+    return !(shifts && shifts.length > 0)
 }
 
 // ============================================================
