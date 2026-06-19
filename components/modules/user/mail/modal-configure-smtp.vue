@@ -3,7 +3,7 @@
         <Modal size="sm" :title="$t('mail.connectYourMail')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form @submit.prevent="submitForm()">
+                    <form @submit.prevent="submitForm()" id="formConfigureSMTP">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <div class="space-y-3">
@@ -39,8 +39,7 @@
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="smtp_encryption" :label="$t('mail.settings.smtpEncryption')" />
-                                <FormTextField id="smtp_encryption" name="smtp_encryption"
-                                    :placeholder="$t('mail.settings.smtpEncryption')"
+                                <FormSelect id="smtp_encryption" :options="encryptionOptions"
                                     v-model="state.formEmail.smtp_encryption" />
                                 <FormError :error="v$?.formEmail?.smtp_encryption?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.smtp_encryption?.[0]" />
@@ -77,8 +76,7 @@
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="imap_encryption" :label="$t('mail.settings.portEncryption')" />
-                                <FormTextField id="imap_encryption" name="imap_encryption"
-                                    :placeholder="$t('mail.settings.portEncryption')"
+                                <FormSelect id="imap_encryption" :options="encryptionOptions"
                                     v-model="state.formEmail.imap_encryption" />
                                 <FormError :error="v$?.formEmail?.imap_encryption?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.imap_encryption?.[0]" />
@@ -124,6 +122,12 @@ const props = defineProps({
 const emit = defineEmits(['close', 'closeChooseEmail'])
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+const encryptionOptions = [
+    { value: 'SSL', label: 'SSL' },
+    { value: 'TLS', label: 'TLS' },
+    { value: 'STARTTLS', label: 'STARTTLS' },
+]
 
 const state = reactive({
     error: {} as Error,
@@ -246,3 +250,9 @@ async function saveEmailConfiguration() {
     state.isPageLoading = false
 }
 </script>
+
+<style>
+#formConfigureSMTP .multiselect-dropdown {
+    max-height: 5rem !important;
+}
+</style>
