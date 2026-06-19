@@ -505,6 +505,7 @@ const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const { isAtLeast } = usePermissions()
 const language = useI18n()
+const { term } = useTerminology()
 const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
