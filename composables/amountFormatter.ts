@@ -10,7 +10,12 @@ export function useAmountFormatter() {
     }
 
     function formatAmount(amount: any) {
-        if (isNaN(amount) || amount === null || amount === undefined) {
+        if (amount === null || amount === undefined) {
+            return currencyCode() + ' 0'
+        }
+
+        const cleaned = parseFloat(String(amount).replace(/,/g, ''))
+        if (isNaN(cleaned)) {
             return currencyCode() + ' 0'
         }
 
@@ -18,7 +23,7 @@ export function useAmountFormatter() {
         const thousandsSep = isEn ? ',' : '.'
         const decimalSep = isEn ? '.' : ','
 
-        const parts = parseFloat(amount).toFixed(2).split('.')
+        const parts = cleaned.toFixed(2).split('.')
         const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSep)
 
         return currencyCode() + ' ' + integerPart + decimalSep + parts[1]
