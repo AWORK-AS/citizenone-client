@@ -83,6 +83,7 @@
 
 <script setup lang="ts">
 import { employmentService } from '@/components/api/user/EmploymentService'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -91,6 +92,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { formatAmount } = useAmountFormatter()
 const userStore = useUserStore()
 let currentTablePage = 1
 
@@ -104,13 +106,17 @@ function pricingTypeLabel(type: string): string {
 }
 
 function effectiveRate(rule: any): string {
-    if (rule?.pricing_type === 'weekly' && rule?.rate != null) return String(rule.rate)
-    if (rule?.pricing_type === 'hourly' && rule?.hourly_rate != null) return String(rule.hourly_rate)
+    if (rule?.pricing_type === 'weekly' && rule?.rate != null) return formatAmount(rule.rate)
+    if (rule?.pricing_type === 'hourly' && rule?.hourly_rate != null) return formatAmount(rule.hourly_rate)
     if (rule?.pricing_type === 'bonus' && rule?.bonus_amount != null) {
-        const months = rule.bonus_condition_months ? ` (${rule.bonus_condition_months} mdr.)` : ''
-        return `${rule.bonus_amount}${months}`
+        const monthsLabel = rule.bonus_condition_months === 3
+            ? t('employment.billingRules.form.bonusMonthOptions.three')
+            : rule.bonus_condition_months === 6
+                ? t('employment.billingRules.form.bonusMonthOptions.six')
+                : null
+        return monthsLabel ? `${formatAmount(rule.bonus_amount)} (${monthsLabel})` : formatAmount(rule.bonus_amount)
     }
-    return rule?.rate ?? '—'
+    return rule?.rate != null ? formatAmount(rule.rate) : '—'
 }
 const breadcrumbLinks = [
     {

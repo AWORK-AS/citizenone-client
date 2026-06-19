@@ -10794,7 +10794,9 @@
             "billable": "Fakturerbar",
             "noBillingWeeks": "Inga faktureringsveckor hittades för detta ärende",
             "billableWeeks": "faktureringsbara veckor",
-            "excludedWeeks": "uteslutna veckor"
+            "excludedWeeks": "uteslutna veckor",
+            "exportCsv": "Exportera till e-conomic (CSV)",
+            "excludeReasonPlaceholder": "t.ex. Klient inlagd"
         },
         "revenue": {
             "revenue": "Intäkt",

@@ -10821,7 +10821,9 @@
             "billable": "Billable",
             "noBillingWeeks": "No billing weeks found for this case",
             "billableWeeks": "billable weeks",
-            "excludedWeeks": "excluded weeks"
+            "excludedWeeks": "excluded weeks",
+            "exportCsv": "Export to e-conomic (CSV)",
+            "excludeReasonPlaceholder": "e.g. Citizen hospitalised"
         },
         "revenue": {
             "revenue": "Revenue",
