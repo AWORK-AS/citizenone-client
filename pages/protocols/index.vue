@@ -102,6 +102,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { protocolService } from '@/components/api/user/ProtocolService'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { saveAs } from 'file-saver'
@@ -112,6 +113,8 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
+const userStore = useUserStore() as any
+const isEmploymentServices = computed(() => userStore.getUser?.company?.industry?.system_name === 'employment_services')
 let currentTablePage = 1
 const breadcrumbLinks = [
     {

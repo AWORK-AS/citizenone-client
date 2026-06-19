@@ -23,7 +23,7 @@
 
             <template #header>{{ $t('citizens.editCitizen') }}</template>
 
-            <div>
+            <div class="animate-fade-in">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                     :to="`/citizens/${citizenUuid}/journals`">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />

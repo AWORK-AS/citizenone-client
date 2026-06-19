@@ -265,6 +265,13 @@
                                 {{ $t('settings.company.form.registerTransport') }}
                             </p>
                         </div>
+                        <div class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.holiday_non_sunday_hours_enabled"
+                                @toggleSwitch="state.formCompany.holiday_non_sunday_hours_enabled = !state.formCompany.holiday_non_sunday_hours_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.holidayNonSundayHours') }}
+                            </p>
+                        </div>
 
                     </div>
 
@@ -445,6 +452,7 @@ const state = reactive({
         ip_restriction_action: 'block' as string,
         is_device_restriction_enabled: false,
         device_restriction_action: 'block' as string,
+        holiday_non_sunday_hours_enabled: false,
     },
     isPageLoading: false,
     options: {
@@ -517,6 +525,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             ip_restriction_action: newValue?.company?.ip_restriction_action ?? 'block',
             is_device_restriction_enabled: newValue?.company?.is_device_restriction_enabled ? true : false,
             device_restriction_action: newValue?.company?.device_restriction_action ?? 'block',
+            holiday_non_sunday_hours_enabled: newValue?.company?.holiday_non_sunday_hours_enabled ? true : false,
             logo: null,
             should_delete_logo: false,
         }
@@ -710,6 +719,7 @@ async function submitForm() {
                 ip_restriction_action: state.formCompany.ip_restriction_action,
                 is_device_restriction_enabled: state.formCompany.is_device_restriction_enabled,
                 device_restriction_action: state.formCompany.device_restriction_action,
+                holiday_non_sunday_hours_enabled: state.formCompany.holiday_non_sunday_hours_enabled,
             }
 
             const response = await userService.updateCompany(params)

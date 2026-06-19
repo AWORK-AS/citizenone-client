@@ -234,6 +234,13 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+                    <!-- Count summary -->
+                    <div class="flex items-baseline gap-2" v-if="state.citizens">
+                        <span class="text-2xl font-bold tracking-tight text-primary">
+                            <CountUp :value="Number(state.citizens?.total ?? state.citizens?.data?.length ?? 0)" />
+                        </span>
+                        <span class="text-sm font-medium text-slate-500">{{ $t('citizens.citizens') }}</span>
+                    </div>
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.citizens"

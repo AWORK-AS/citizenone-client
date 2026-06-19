@@ -1278,6 +1278,7 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        schedule_tag_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -1565,6 +1566,9 @@ async function fetchDutySchedule() {
         if (state.filter.employee_uuids?.length > 0) {
             params.employee_uuids = Array(state.filter.employee_uuids)
         }
+        if (state.filter.schedule_tag_uuids?.length > 0) {
+            params.schedule_tag_uuids = Array(state.filter.schedule_tag_uuids)
+        }
         if (state.filter.time_from) {
             params.time_from = state.filter.time_from
         }
@@ -1611,6 +1615,7 @@ function setFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    state.filter.schedule_tag_uuids = filter.schedule_tag_uuids ?? []
     state.filter.time_from = filter.time_from ?? ''
     state.filter.time_to = filter.time_to ?? ''
     emit('setDutyScheduleCurrentFilter', state.filter)
@@ -1737,7 +1742,7 @@ function nextWeek() {
 }
 
 const weekNumber = computed(() => {
-    return moment(currentDate.value).week()
+    return moment(currentDate.value).isoWeek()
 })
 
 const weekDays = computed(() => {

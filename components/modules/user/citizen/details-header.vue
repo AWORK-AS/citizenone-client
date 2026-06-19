@@ -179,6 +179,24 @@
                                         </div>
                                         {{ $t('citizens.inquiryStayData.inquiryAndStayData') }}
                                     </button>
+                                    <button
+                                        class="flex items-center gap-x-1 text-sm font-medium text-gray-700 outline-none hover:text-primary"
+                                        @click="state.modal.isDevelopmentGraphOpen = true"
+                                        v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services'">
+                                        <div class="flex items-center">
+                                            <Icon name="ph:chart-bar" class="h-4 w-4" aria-hidden="true" />
+                                        </div>
+                                        {{ $t('citizens.developmentGraph.title') }}
+                                    </button>
+                                    <button
+                                        class="flex items-center gap-x-1 text-sm font-medium text-gray-700 outline-none hover:text-primary"
+                                        @click="state.modal.isEmploymentProgramOpen = true"
+                                        v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services'">
+                                        <div class="flex items-center">
+                                            <Icon name="ph:briefcase" class="h-4 w-4" aria-hidden="true" />
+                                        </div>
+                                        {{ $t('citizens.sections.employmentProgram') }}
+                                    </button>
                                 </div>
                                 <div class="space-y-1">
                                     <div class="flex items-center gap-x-1"
@@ -335,6 +353,8 @@
                 @close="state.modal.isFollowUpNotificationsOpen = false" @refreshCount="fetchFollowUpReminderCount" />
             <ModulesUserCitizenInquiryStayDataModalView :isModalOpen="state.modal.isInquiryStayDataOpen"
                 @close="state.modal.isInquiryStayDataOpen = false" :selectedCitizen="state.selectedCitizen" />
+            <ModulesUserCitizenEmploymentProgramModalView :isModalOpen="state.modal.isEmploymentProgramOpen"
+                @close="state.modal.isEmploymentProgramOpen = false" :selectedCitizen="state.selectedCitizen" />
             <ModulesUserCitizenInterventionHoursModalView :isModalOpen="state.modal.isViewPatienCareHoursOpen"
                 @close="state.modal.isViewPatienCareHoursOpen = false" @refreshCitizenDetails="fetchCitizen()"
                 @openTimeLogs="switchToTimeLogs" />
@@ -343,6 +363,9 @@
                 @openInterventionHours="switchToInterventionHours" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
+            <ModulesUserCitizenDevelopmentGraphModalView
+                :isModalOpen="state.modal.isDevelopmentGraphOpen"
+                @close="state.modal.isDevelopmentGraphOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
                 @open-work="workLogin" />
@@ -414,6 +437,8 @@ const state = reactive({
         isTransportLogoutOpen: false,
         isConfirmArrivalOpen: false,
         isConfirmWorkingOpen: false,
+        isDevelopmentGraphOpen: false,
+        isEmploymentProgramOpen: false,
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,

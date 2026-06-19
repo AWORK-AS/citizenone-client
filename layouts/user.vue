@@ -616,11 +616,15 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Messages') return t('sidebar.messages')
     if (item.name === 'Procedures') return t('sidebar.procedures') || 'Procedurer'
     if (item.name === 'Protocols') return t('sidebar.protocols')
+    if (item.name === 'Reports') return t('sidebar.reports')
+    if (item.name === 'Report Templates') return t('sidebar.reportTemplates')
     if (item.name === 'Documents') return t('sidebar.documents')
     if (item.name === 'Mail') return t('sidebar.mail')
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
     if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
+    if (item.name === 'Billing') return language.t('employment.billing.billing')
+    if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     return item.name
 }
 
@@ -670,6 +674,7 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-wallets',
             'citizens-uuid-wallets-wallet_uuid',
             'citizens-uuid-contacts',
+            'citizens-uuid-reports',
         ]
     })
     if (companyHasModule("Calendar")) {
@@ -708,6 +713,20 @@ function generateSidebarLinks(user: any) {
         navigation.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
     }
 
+    if (user?.company?.industry?.system_name === 'employment_services') {
+        navigation.push({
+            name: 'Reports',
+            href: '/reports',
+            icon: 'ph:file-text',
+            activeRouteNames: [
+                'reports',
+                'reports-new',
+                'reports-uuid-view-details',
+                'reports-uuid-edit',
+            ]
+        })
+    }
+
     if (companyHasModule("Documents")) {
         navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
     }
@@ -723,6 +742,11 @@ function generateSidebarLinks(user: any) {
     navigation.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
 
     navigation.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
+
+    if (user?.company?.industry?.system_name === 'employment_services') {
+        navigation.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
+        navigation.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+    }
 
     state.isSidebarLoading = false
 }

@@ -135,6 +135,26 @@ const state = reactive({
             personal_guardianship: false,
             financial_guardianship: false,
         },
+        employmentData: {
+            employment_case_type_uuid: '',
+            employment_status_type_uuid: '',
+            financial_support_basis: '',
+            primary_consultant_uuid: '',
+            secondary_consultant_uuid: '',
+            referrer_name: '',
+            referrer_phone: '',
+            referrer_email: '',
+            referrer_organization: '',
+            referral_date: '',
+            case_start_date: '',
+            case_end_date: '',
+            total_weeks: '',
+            weeks_used: '',
+            reporting_requirements: '',
+            activation_deadline: '',
+            referral_reason: '',
+            internship_company: '',
+        },
     } as CitizenForm,
     isPageLoading: false,
 })
@@ -230,6 +250,26 @@ async function saveCitizen(citizenDetails: any) {
         params.append('general_consent', citizenDetails.stayData.general_consent)
         params.append('personal_guardianship', citizenDetails.stayData.personal_guardianship)
         params.append('financial_guardianship', citizenDetails.stayData.financial_guardianship)
+        if (citizenDetails.employmentData) {
+            params.append('employment_case_type_uuid', citizenDetails.employmentData.employment_case_type_uuid)
+            params.append('employment_status_type_uuid', citizenDetails.employmentData.employment_status_type_uuid)
+            params.append('financial_support_basis', citizenDetails.employmentData.financial_support_basis)
+            params.append('primary_consultant_uuid', citizenDetails.employmentData.primary_consultant_uuid)
+            params.append('secondary_consultant_uuid', citizenDetails.employmentData.secondary_consultant_uuid)
+            params.append('referrer_name', citizenDetails.employmentData.referrer_name)
+            params.append('referrer_phone', citizenDetails.employmentData.referrer_phone)
+            params.append('referrer_email', citizenDetails.employmentData.referrer_email)
+            params.append('referrer_organization', citizenDetails.employmentData.referrer_organization)
+            params.append('referral_date', citizenDetails.employmentData.referral_date != 'Invalid date' ? citizenDetails.employmentData.referral_date : '')
+            params.append('case_start_date', citizenDetails.employmentData.case_start_date != 'Invalid date' ? citizenDetails.employmentData.case_start_date : '')
+            params.append('case_end_date', citizenDetails.employmentData.case_end_date != 'Invalid date' ? citizenDetails.employmentData.case_end_date : '')
+            params.append('total_weeks', citizenDetails.employmentData.total_weeks)
+            params.append('weeks_used', citizenDetails.employmentData.weeks_used)
+            params.append('reporting_requirements', citizenDetails.employmentData.reporting_requirements)
+            params.append('activation_deadline', citizenDetails.employmentData.activation_deadline != 'Invalid date' ? citizenDetails.employmentData.activation_deadline : '')
+            params.append('referral_reason', citizenDetails.employmentData.referral_reason)
+            params.append('internship_company', citizenDetails.employmentData.internship_company)
+        }
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.form.alert.successfullyAdded')}.`)

@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-5 space-y-5">
+                        <div class="mt-5 space-y-5 stagger-children">
                             <div :class="[
                                 'bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-gray-100 border-l-4',
                                 journal.is_pinned ? 'border-l-primary' : 'border-l-secondary'

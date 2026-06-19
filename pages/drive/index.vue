@@ -209,7 +209,8 @@
                                                 </Tooltip>
                                                 <span class="truncate">{{ document?.name }}</span>
                                             </div>
-                                            <div class="text-black flex items-center gap-x-1" v-else>
+                                            <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                                v-else @click="viewGoogleDriveDirectory(document)">
                                                 <Icon name="ph:folder-notch-open-light" class="size-6" />
                                                 <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
                                                     class="flex items-center" v-if="document?.is_admin_access">
@@ -229,8 +230,9 @@
                                                 </Tooltip>
                                                 <span class="truncate">{{ document?.name }}</span>
                                             </div>
-                                            <div class="text-black flex items-center gap-x-1"
-                                                v-else-if="document?.type === 'folder'">
+                                            <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                                v-else-if="document?.type === 'folder'"
+                                                @click="viewOneDriveDirectory(document)">
                                                 <Icon name="ph:folder-notch-open-light" class="size-6" />
                                                 <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
                                                     class="flex items-center" v-if="document?.is_admin_access">
@@ -249,14 +251,15 @@
                                                 </Tooltip>
                                                 <span class="truncate">{{ document?.name }}</span>
                                             </div>
-                                            <span v-else class="flex items-center gap-x-1">
+                                            <div v-else class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
+                                                @click="viewDirectory(document)">
                                                 <Icon name="ph:folder-notch-open-light" class="size-6" />
                                                 <Tooltip :text="$t('drive.form.forAdministratorsOnly')"
                                                     class="flex items-center" v-if="document?.is_admin_access">
                                                     <Icon name="ph:lock-key-fill" class="w-5 h-5 text-red-700" />
                                                 </Tooltip>
                                                 <span class="truncate">{{ document?.name }}</span>
-                                            </span>
+                                            </div>
                                         </div>
                                     </td>
                                     <td width="20%">

@@ -80,6 +80,11 @@ class CitizenService extends BaseAPIService {
     async getAllAssignedCitizenByEmployee(params: object): Promise<any> {
         return await this.request(`/user/citizens/all/list/user/assigned/department`, 'GET', params)
     }
+
+    async getDevelopmentGraph(citizenUuid: string, params?: any): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/development-graph`, 'GET', params)
+    }
 }
+
 
 export const citizenService = new CitizenService()

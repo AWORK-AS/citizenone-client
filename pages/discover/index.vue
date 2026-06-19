@@ -3,11 +3,12 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>Discover - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('discover.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
-                <Breadcrumb :links="[{ name: 'overview.overview', href: '/overview', isTranslateName: true }, { name: 'Discover', href: '/discover', isTranslateName: false }]" />
+                <Breadcrumb
+                    :links="[{ name: 'overview.overview', href: '/overview', translate: true }, { name: 'discover.title', href: '/discover', translate: true }]" />
             </template>
 
             <template #header>
@@ -19,27 +20,35 @@
             </template>
 
             <!-- Welcome -->
-            <div class="mt-4 rounded-2xl bg-gradient-to-br from-primary to-[#1b6d8a] text-white p-6 md:p-8 relative overflow-hidden">
+            <div
+                class="mt-4 rounded-2xl bg-gradient-to-br from-primary to-[#1b6d8a] text-white p-6 md:p-8 relative overflow-hidden">
                 <div class="relative z-10 flex items-center justify-between gap-x-6">
                     <div class="max-w-2xl">
-                        <h1 class="text-2xl md:text-3xl font-bold">{{ $t('discover.welcome', { name: firstName }) }} 👋</h1>
+                        <h1 class="text-2xl md:text-3xl font-bold">{{ $t('discover.welcome', { name: firstName }) }} 👋
+                        </h1>
                         <p v-if="!allDone" class="mt-2 text-white/80">{{ $t('discover.subtitle') }}</p>
-                        <p v-else class="mt-2 text-white/90 font-medium">🎉 {{ $t('discover.ready.title') }} — {{ $t('discover.ready.desc') }}</p>
+                        <p v-else class="mt-2 text-white/90 font-medium">🎉 {{ $t('discover.ready.title') }} — {{
+                            $t('discover.ready.desc') }}</p>
                         <div class="mt-4 flex items-center gap-x-3">
                             <button type="button" @click="state.modal.whatDoYouNeed = true"
                                 class="inline-flex items-center gap-x-2 rounded-lg bg-white/15 hover:bg-white/25 px-3.5 py-2 text-sm font-medium transition-colors">
                                 <Icon name="ph:sliders-horizontal" class="h-4 w-4" />
                                 {{ $t('discover.whatDoYouNeed') }}
                             </button>
-                            <span class="text-sm text-white/70">{{ $t('discover.stepsProgress', { done: totalDone, total: totalSteps }) }}</span>
+                            <span class="text-sm text-white/70">{{ $t('discover.stepsProgress', {
+                                done: totalDone,
+                                total: totalSteps
+                            }) }}</span>
                         </div>
                     </div>
                     <!-- Overall progress ring -->
                     <div class="hidden md:flex shrink-0 relative h-24 w-24 items-center justify-center">
                         <svg viewBox="0 0 36 36" class="h-24 w-24 -rotate-90">
-                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="3" />
-                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"
-                                :stroke-dasharray="`${progressPct} 100`" class="transition-all duration-500" />
+                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="rgba(255,255,255,0.2)"
+                                stroke-width="3" />
+                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="white" stroke-width="3"
+                                stroke-linecap="round" :stroke-dasharray="`${progressPct} 100`"
+                                class="transition-all duration-500" />
                         </svg>
                         <span class="absolute text-xl font-bold">{{ progressPct }}%</span>
                     </div>
@@ -51,13 +60,17 @@
             <div v-if="!allDone && nextStep"
                 class="mt-6 rounded-2xl border-2 border-primary/30 bg-primary/5 p-5 flex items-center justify-between gap-x-4">
                 <div class="flex items-center gap-x-4 min-w-0">
-                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary shrink-0">
+                    <div
+                        class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary shrink-0">
                         <Icon :name="nextStep.group.icon" class="h-6 w-6" />
                     </div>
                     <div class="min-w-0">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-primary">{{ $t('discover.nextStep') }}</p>
-                        <p class="font-semibold text-slate-900 truncate">{{ $t(`discover.steps.${nextStep.step.key}.title`) }}</p>
-                        <p class="text-sm text-slate-500 truncate">{{ $t(`discover.steps.${nextStep.step.key}.desc`) }}</p>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-primary">{{ $t('discover.nextStep')
+                        }}</p>
+                        <p class="font-semibold text-slate-900 truncate">{{
+                            $t(`discover.steps.${nextStep.step.key}.title`) }}</p>
+                        <p class="text-sm text-slate-500 truncate">{{ $t(`discover.steps.${nextStep.step.key}.desc`) }}
+                        </p>
                     </div>
                 </div>
                 <button type="button" @click="runStep(nextStep.step)"
@@ -78,32 +91,43 @@
                             </div>
                             <div class="text-left">
                                 <h3 class="font-semibold text-slate-900">{{ $t(`discover.groups.${group.key}`) }}</h3>
-                                <p class="text-xs text-slate-500">{{ $t('discover.groupProgress', { done: groupDone(group), total: group.steps.length }) }}</p>
+                                <p class="text-xs text-slate-500">{{ $t('discover.groupProgress', {
+                                    done:
+                                        groupDone(group), total:
+                                        group.steps.length
+                                }) }}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-x-4">
                             <div class="hidden sm:block w-40 h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                                <div class="h-full bg-primary transition-all" :style="{ width: `${group.steps.length ? (groupDone(group) / group.steps.length) * 100 : 0}%` }" />
+                                <div class="h-full bg-primary transition-all"
+                                    :style="{ width: `${group.steps.length ? (groupDone(group) / group.steps.length) * 100 : 0}%` }" />
                             </div>
-                            <Icon :name="isOpen(group.key) ? 'ph:caret-up' : 'ph:caret-down'" class="h-5 w-5 text-slate-400" />
+                            <Icon :name="isOpen(group.key) ? 'ph:caret-up' : 'ph:caret-down'"
+                                class="h-5 w-5 text-slate-400" />
                         </div>
                     </button>
 
                     <div v-show="isOpen(group.key)" class="px-5 pb-5 pt-1 divide-y divide-slate-100">
                         <div v-for="(step, i) in group.steps" :key="step.key"
                             class="flex items-start gap-x-4 py-4 first:pt-2">
-                            <Icon :name="stepDone(step) ? 'ph:check-circle-fill' : (stepLocked(group, i) ? 'ph:lock-simple' : 'ph:circle')"
+                            <Icon
+                                :name="stepDone(step) ? 'ph:check-circle-fill' : (stepLocked(group, i) ? 'ph:lock-simple' : 'ph:circle')"
                                 class="mt-0.5 h-6 w-6 shrink-0"
                                 :class="stepDone(step) ? 'text-emerald-500' : 'text-slate-300'" />
                             <div class="min-w-0 flex-1">
-                                <p class="font-medium" :class="stepDone(step) ? 'text-slate-400 line-through' : 'text-slate-900'">{{ $t(`discover.steps.${step.key}.title`) }}</p>
+                                <p class="font-medium"
+                                    :class="stepDone(step) ? 'text-slate-400 line-through' : 'text-slate-900'">{{
+                                        $t(`discover.steps.${step.key}.title`) }}</p>
                                 <p class="text-sm text-slate-500 mt-0.5">{{ $t(`discover.steps.${step.key}.desc`) }}</p>
-                                <div v-if="step.tip" class="mt-2 flex items-start gap-x-2 rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-500">
+                                <div v-if="step.tip"
+                                    class="mt-2 flex items-start gap-x-2 rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-500">
                                     <Icon name="ph:lightbulb" class="h-4 w-4 shrink-0 text-amber-400" />
                                     <span>{{ $t(`discover.steps.${step.key}.tip`) }}</span>
                                 </div>
                                 <div class="mt-3" v-if="!stepDone(step)">
-                                    <button type="button" v-if="!stepLocked(group, i)" @click="step.action ? runStepAction(step.action) : navigateTo(step.route)"
+                                    <button type="button" v-if="!stepLocked(group, i)"
+                                        @click="step.action ? runStepAction(step.action) : navigateTo(step.route)"
                                         class="inline-flex items-center gap-x-1.5 rounded-lg bg-primary text-white px-3.5 py-2 text-sm font-medium hover:bg-[#0d3f61] transition-colors">
                                         {{ $t(`discover.steps.${step.key}.cta`) }}
                                         <Icon name="ph:arrow-right" class="h-4 w-4" />
@@ -119,7 +143,8 @@
                 </div>
 
                 <!-- Promo: mobile app -->
-                <div class="rounded-2xl bg-slate-800 text-white p-6 flex items-center justify-between gap-x-4 overflow-hidden relative">
+                <div
+                    class="rounded-2xl bg-slate-800 text-white p-6 flex items-center justify-between gap-x-4 overflow-hidden relative">
                     <div class="relative z-10">
                         <h3 class="text-lg font-semibold">{{ $t('discover.promoTitle') }}</h3>
                         <p class="mt-1 text-white/70 text-sm">{{ $t('discover.promoDesc') }}</p>
@@ -133,7 +158,8 @@
             </div>
 
             <!-- "What do you need?" modal -->
-            <Modal size="sm" :title="$t('discover.whatDoYouNeed')" :show="state.modal.whatDoYouNeed" @close="state.modal.whatDoYouNeed = false">
+            <Modal size="sm" :title="$t('discover.whatDoYouNeed')" :show="state.modal.whatDoYouNeed"
+                @close="state.modal.whatDoYouNeed = false">
                 <template #modal-body>
                     <p class="text-sm text-slate-600">{{ $t('discover.modalIntro') }}</p>
                     <div class="mt-4 space-y-1">
@@ -144,19 +170,22 @@
                                 <Icon :name="mod.icon" class="h-5 w-5 text-primary" />
                                 <span class="text-sm text-slate-800">{{ $t(`discover.modules.${mod.key}`) }}</span>
                             </div>
-                            <FormSwitch :value="modules[mod.key]" @toggleSwitch="modules[mod.key] = !modules[mod.key]" />
+                            <FormSwitch :value="modules[mod.key]"
+                                @toggleSwitch="modules[mod.key] = !modules[mod.key]" />
                         </div>
                     </div>
                     <div class="mt-6 flex gap-x-3">
-                        <FormButton buttonStyle="cancel" class="w-full" @click="state.modal.whatDoYouNeed = false">{{ $t('cancel') }}</FormButton>
-                        <FormButton buttonStyle="primary" class="w-full" @click="saveModules">{{ $t('save') }}</FormButton>
+                        <FormButton buttonStyle="cancel" class="w-full" @click="state.modal.whatDoYouNeed = false">{{
+                            $t('cancel') }}</FormButton>
+                        <FormButton buttonStyle="primary" class="w-full" @click="saveModules">{{ $t('save') }}
+                        </FormButton>
                     </div>
                 </template>
             </Modal>
 
             <DialogConfirmation :isModalOpen="state.modal.appInfo" :title="$t('discover.promoCta')"
-                :message="$t('discover.appInfoMessage')"
-                @close="state.modal.appInfo = false" @confirm="state.modal.appInfo = false" />
+                :message="$t('discover.appInfoMessage')" @close="state.modal.appInfo = false"
+                @confirm="state.modal.appInfo = false" />
 
             <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.importMapper"
                 @close="state.modal.importMapper = false" @imported="onImported" />
