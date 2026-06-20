@@ -7766,6 +7766,7 @@
                 "roomSuccessfullyUpdated": "Værelse opdateret"
             },
             "capacity": "Kapacitet",
+            "departments": "Afdelinger",
             "name": "Navn"
         },
         "addCitizen": "Tilføj borger",

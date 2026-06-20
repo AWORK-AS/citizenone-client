@@ -13,6 +13,12 @@
             <FormNumberField id="capacity" name="capacity" placeholder="0" :min="0" v-model="state.formRoom.capacity" />
             <FormError :error="props?.error?.errors?.capacity?.[0]" />
         </div>
+        <div class="space-y-1 mt-4">
+            <FormLabel for="departments" :label="$t('rooms.form.departments')" />
+            <FormSelectMultiple id="departments" name="departments" :options="state.departmentOptions"
+                v-model="state.formRoom.department_uuids" />
+            <FormError :error="props?.error?.errors?.department_uuids?.[0]" />
+        </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/rooms')">
@@ -31,6 +37,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { departmentService } from '@/components/api/user/DepartmentService'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -53,9 +60,11 @@ const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
+    departmentOptions: [] as any[],
     formRoom: {
         name: '',
         capacity: '' as string,
+        department_uuids: [] as string[],
     },
 })
 
@@ -64,7 +73,21 @@ watch(() => props.selectedRoom, (newValue: any) => {
         state.formRoom = {
             name: newValue.name,
             capacity: newValue.capacity ?? '',
+            department_uuids: Array.isArray(newValue.departments)
+                ? newValue.departments.map((d: any) => d.uuid)
+                : [],
         }
+    }
+})
+
+onMounted(async () => {
+    try {
+        const response = await departmentService.getAllDepartments({})
+        state.departmentOptions = (response?.data ?? [])
+            .filter((d: any) => d?.id != null && d?.uuid !== 'all-departments')
+            .map((d: any) => ({ value: d.uuid, label: d.name }))
+    } catch (e) {
+        state.departmentOptions = []
     }
 })
 

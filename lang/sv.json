@@ -7757,6 +7757,7 @@
                 "roomSuccessfullyUpdated": "Rum uppdaterad"
             },
             "capacity": "Kapacitet",
+            "departments": "Avdelningar",
             "name": "Namn"
         },
         "addCitizen": "Lägg till klient",

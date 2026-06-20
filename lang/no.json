@@ -7757,6 +7757,7 @@
                 "roomSuccessfullyUpdated": "Rom oppdatert"
             },
             "capacity": "Kapasitet",
+            "departments": "Avdelinger",
             "name": "Navn"
         },
         "addCitizen": "Legg til bruker",

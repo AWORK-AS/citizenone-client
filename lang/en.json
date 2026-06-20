@@ -7766,6 +7766,7 @@
                 "roomSuccessfullyUpdated": "Room successfully updated"
             },
             "capacity": "Capacity",
+            "departments": "Departments",
             "name": "Name"
         },
         "addCitizen": "Add citizen",
