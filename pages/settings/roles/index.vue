@@ -32,7 +32,7 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.roles?.data?.length === 0))">
                                 <tr v-for="(role, index) in state.roles?.data" :key="index">
-                                    <td width="25%">
+                                    <td width="20%">
                                         <span v-if="role.name === 'Admin'">
                                             {{ $t('roles.table.admin') }}
                                         </span>
@@ -43,7 +43,7 @@
                                             {{ role?.name }}
                                         </span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="12%">
                                         <span v-if="role?.level === 80"
                                             class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-md font-medium">
                                             {{ $t('roles.table.admin') }}
@@ -57,11 +57,19 @@
                                             {{ $t('roles.table.regular') }}
                                         </span>
                                     </td>
-                                    <td width="30%">
+                                    <td width="26%">
                                         <div class="text-xxs flex flex-wrap gap-1">
                                             <span v-for="(permission, index) in role?.permissions" :key=index
                                                 class="bg-primary px-2 py-1 text-white rounded-md">
                                                 {{ getPermissionLabel(permission, locale) }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td width="22%">
+                                        <div class="text-xxs flex flex-wrap gap-1">
+                                            <span v-for="(page, index) in role?.pages" :key=index
+                                                class="bg-green-100 text-green-800 px-2 py-1 rounded-md">
+                                                {{ page?.name }}
                                             </span>
                                         </div>
                                     </td>
@@ -119,6 +127,7 @@ const state = reactive({
         { name: 'roles.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: 'roles.table.level', isTranslateName: true },
         { name: 'roles.table.permissions', isTranslateName: true, },
+        { name: 'roles.table.pages', isTranslateName: true, },
         { name: '' }
     ],
     dataFilter: {

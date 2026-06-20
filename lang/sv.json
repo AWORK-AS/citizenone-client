@@ -7684,6 +7684,7 @@
             },
             "name": "Namn",
             "permissions": "Behörigheter",
+            "pages": "Sidåtkomst",
             "level": "Level"
         },
         "newRole": "Ny roll",
@@ -7742,6 +7743,7 @@
             },
             "name": "Namn",
             "permissions": "Behörigheter",
+            "pages": "Sidåtkomst",
             "user": "Användare",
             "level": "Level",
             "regular": "Regular",

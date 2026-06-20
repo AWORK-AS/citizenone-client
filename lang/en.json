@@ -7693,6 +7693,7 @@
             },
             "name": "Name",
             "permissions": "Permissions",
+            "pages": "Page access",
             "level": "Level"
         },
         "newRole": "New role",
@@ -7751,6 +7752,7 @@
             },
             "name": "Name",
             "permissions": "Permissions",
+            "pages": "Page access",
             "user": "User",
             "level": "Level",
             "regular": "Regular",

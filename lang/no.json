@@ -7684,6 +7684,7 @@
             },
             "name": "Navn",
             "permissions": "Tillatelser",
+            "pages": "Sidetilgang",
             "level": "Level"
         },
         "newRole": "Ny rolle",
@@ -7742,6 +7743,7 @@
             },
             "name": "Navn",
             "permissions": "Tillatelser",
+            "pages": "Sidetilgang",
             "user": "Bruker",
             "level": "Level",
             "regular": "Regular",
