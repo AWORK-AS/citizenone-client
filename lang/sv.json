@@ -7758,6 +7758,7 @@
             },
             "capacity": "Kapacitet",
             "departments": "Avdelningar",
+            "departmentsProOnly": "Tilldelning av avdelningar ingår i Pro-profilen.",
             "name": "Namn"
         },
         "addCitizen": "Lägg till klient",

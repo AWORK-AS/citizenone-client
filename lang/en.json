@@ -7767,6 +7767,7 @@
             },
             "capacity": "Capacity",
             "departments": "Departments",
+            "departmentsProOnly": "Assigning departments is available on the Pro plan.",
             "name": "Name"
         },
         "addCitizen": "Add citizen",
