@@ -1,7 +1,7 @@
 <template>
     <div>
         <Modal size="4xl"
-            :title="`${$t('dutySchedules.scheduleRequests.requests')} (${formatDateToReadable(props?.selectedDate)}) - ${props.selectedEmployee?.firstname} ${props.selectedEmployee?.lastname}`"
+            :title="`${$t('dutySchedules.scheduleRequests.requests')} (${formatDateToReadable(props?.selectedDate)})${props.selectedEmployee?.firstname ? ` - ${props.selectedEmployee.firstname} ${props.selectedEmployee.lastname ?? ''}` : ''}`"
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>

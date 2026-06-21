@@ -1199,6 +1199,8 @@ const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const teleportReady = ref(false)
+const route = useRoute()
+const hasHandledSwapDeepLink = ref(false)
 const expandedRecords = reactive([] as boolean[])
 const weekHeaderRef = ref<HTMLElement | null>(null)
 const weekBodyRef = ref<HTMLElement | null>(null)
@@ -1423,9 +1425,10 @@ watch(() => state.weeklySchedules, (newSchedules) => {
     }
 })
 
-onMounted(() => {
+onMounted(async () => {
     teleportReady.value = true
-    fetchDutySchedule()
+    await fetchDutySchedule()
+    handleSwapRequestDeepLink()
     window.addEventListener('keydown', handleKeyDown)
 })
 
@@ -1790,6 +1793,22 @@ function requestTimeAdjustment(employeeIndex: number, shift: any) {
     state.manageTimeRequest.selectedEmployee = selectedEmployee
     state.manageTimeRequest.selectedSchedule = shift
     state.modal.isRequestTimeAdjustmentOpen = true
+}
+
+function handleSwapRequestDeepLink() {
+    if (hasHandledSwapDeepLink.value) return
+    const swapRequestEmployee = route.query.swapRequestEmployee as string | undefined
+    const swapRequestDate = route.query.swapRequestDate as string | undefined
+    if (!swapRequestEmployee || !swapRequestDate) return
+
+    hasHandledSwapDeepLink.value = true
+
+    const matchedEmployee = state.weeklySchedules?.data?.find(
+        (employee: any) => employee?.uuid === swapRequestEmployee
+    )
+    state.manageSwapScheduleRequest.selectedEmployee = matchedEmployee ?? { uuid: swapRequestEmployee }
+    state.manageSwapScheduleRequest.selectedDate = swapRequestDate
+    state.modal.isManageSwapScheduleRequestsOpen = true
 }
 
 function viewSwapScheduleRequests(employeeIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
