@@ -94,7 +94,7 @@
                 @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitles="fetchJobTitles" />
             <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
                 @close="state.modal.isAddJobSpecialtyOpen = false" @refreshJobTitles="fetchJobTitles"
-                @refreshJobSpecialty="fetchJobSpecialties(state.formScheduleSlot.job_title_uuid)" />
+                @refreshJobSpecialty="fetchJobSpecialties($event)" />
         </form>
     </LoadingSpinner>
 </template>
