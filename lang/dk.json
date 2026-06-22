@@ -8229,6 +8229,8 @@
                 "roomSuccessfullyUpdated": "Værelse opdateret"
             },
             "capacity": "Kapacitet",
+            "departments": "Afdelinger",
+            "departmentsProOnly": "Tildeling af afdelinger er en del af Pro-profilen.",
             "name": "Navn"
         },
         "addCitizen": "Tilføj borger",

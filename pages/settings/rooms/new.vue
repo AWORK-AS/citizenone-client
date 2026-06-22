@@ -63,6 +63,7 @@ async function saveRoom(roomDetails: any) {
         const params = {
             name: roomDetails.name,
             capacity: roomDetails.capacity,
+            department_uuids: roomDetails.department_uuids ?? [],
         }
         const response = await roomService.saveRoom(params)
         if (response.data) {

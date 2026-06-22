@@ -8220,6 +8220,8 @@
                 "roomSuccessfullyUpdated": "Rom oppdatert"
             },
             "capacity": "Kapasitet",
+            "departments": "Avdelinger",
+            "departmentsProOnly": "Tildeling av avdelinger er en del av Pro-profilen.",
             "name": "Navn"
         },
         "addCitizen": "Legg til bruker",

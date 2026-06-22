@@ -72,6 +72,7 @@ async function fetchRoom() {
             state.formRoom = {
                 name: response?.data?.name ?? '',
                 capacity: response?.data?.capacity ?? null,
+                departments: response?.data?.departments ?? [],
             }
         }
     } catch (error: any) {
@@ -87,6 +88,7 @@ async function updateRoom(roomDetails: any) {
         const params = {
             name: roomDetails.name,
             capacity: roomDetails.capacity,
+            department_uuids: roomDetails.department_uuids ?? [],
         }
         const response = await roomService.updateRoom(roomUuid, params)
         if (response.data) {
