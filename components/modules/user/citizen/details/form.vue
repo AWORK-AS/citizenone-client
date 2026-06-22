@@ -1349,7 +1349,11 @@ onMounted(async () => {
     try {
         const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen' })
         if (response?.data) {
-            const config = response.data.find((c: any) => c.form_type === props.formType)
+            // The form config is keyed 'create' / 'edit', but this form receives
+            // formType 'create' / 'update' — map 'update' to the 'edit' config so the
+            // Edit-form settings also apply to existing citizens (not just new ones).
+            const configType = props.formType === 'create' ? 'create' : 'edit'
+            const config = response.data.find((c: any) => c.form_type === configType)
             if (config?.form_fields) {
                 formConfig.value = config.form_fields
             }
