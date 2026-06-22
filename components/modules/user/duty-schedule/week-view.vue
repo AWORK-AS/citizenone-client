@@ -1240,6 +1240,8 @@ const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
 const teleportReady = ref(false)
+const route = useRoute()
+const hasHandledSwapDeepLink = ref(false)
 const expandedRecords = reactive([] as boolean[])
 const weekHeaderRef = ref<HTMLElement | null>(null)
 const weekBodyRef = ref<HTMLElement | null>(null)
@@ -1478,19 +1480,8 @@ watch(() => state.weeklySchedules, (newSchedules) => {
 
 onMounted(async () => {
     teleportReady.value = true
-    // Deep-link from a request e-mail: ?reqType=swap|time|extra|leave&employee=<uuid>&date=<Y-m-d>
-    const route = useRoute()
-    const reqType = route.query.reqType as string | undefined
-    const reqEmployee = route.query.employee as string | undefined
-    const reqDate = route.query.date as string | undefined
-    if (reqType && reqEmployee && reqDate) {
-        currentDate.value = moment(reqDate)
-        state.selectedDate = moment(reqDate).format('YYYY-MM-DD')
-    }
     await fetchDutySchedule()
-    if (reqType && reqEmployee && reqDate) {
-        openRequestFromDeepLink(reqType, reqEmployee, reqDate)
-    }
+    handleSwapRequestDeepLink()
     window.addEventListener('keydown', handleKeyDown)
 })
 
@@ -1894,6 +1885,22 @@ function requestTimeAdjustment(employeeIndex: number, shift: any) {
     state.manageTimeRequest.selectedEmployee = selectedEmployee
     state.manageTimeRequest.selectedSchedule = shift
     state.modal.isRequestTimeAdjustmentOpen = true
+}
+
+function handleSwapRequestDeepLink() {
+    if (hasHandledSwapDeepLink.value) return
+    const swapRequestEmployee = route.query.swapRequestEmployee as string | undefined
+    const swapRequestDate = route.query.swapRequestDate as string | undefined
+    if (!swapRequestEmployee || !swapRequestDate) return
+
+    hasHandledSwapDeepLink.value = true
+
+    const matchedEmployee = state.weeklySchedules?.data?.find(
+        (employee: any) => employee?.uuid === swapRequestEmployee
+    )
+    state.manageSwapScheduleRequest.selectedEmployee = matchedEmployee ?? { uuid: swapRequestEmployee }
+    state.manageSwapScheduleRequest.selectedDate = swapRequestDate
+    state.modal.isManageSwapScheduleRequestsOpen = true
 }
 
 function viewSwapScheduleRequests(employeeIndex: number, weekIndex: any, weeklySchedule: any, weekNumber: number) {
