@@ -8104,6 +8104,7 @@
             },
             "name": "Navn",
             "permissions": "Tilladelser",
+            "pages": "Sideadgange",
             "level": "Niveau"
         },
         "newRole": "Ny rolle",
@@ -8162,6 +8163,7 @@
             },
             "name": "Navn",
             "permissions": "Tilladelser",
+            "pages": "Sideadgange",
             "user": "Bruger",
             "referrer": "Henviser",
             "company": "Virksomhed",

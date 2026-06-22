@@ -8095,6 +8095,7 @@
             },
             "name": "Navn",
             "permissions": "Tillatelser",
+            "pages": "Sidetilgang",
             "level": "Level"
         },
         "newRole": "Ny rolle",
@@ -8153,6 +8154,7 @@
             },
             "name": "Navn",
             "permissions": "Tillatelser",
+            "pages": "Sidetilgang",
             "user": "Bruker",
             "referrer": "Henviser",
             "company": "Virksomhet",

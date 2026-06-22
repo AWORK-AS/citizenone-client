@@ -8095,6 +8095,7 @@
             },
             "name": "Namn",
             "permissions": "Behörigheter",
+            "pages": "Sidåtkomst",
             "level": "Level"
         },
         "newRole": "Ny roll",
@@ -8153,6 +8154,7 @@
             },
             "name": "Namn",
             "permissions": "Behörigheter",
+            "pages": "Sidåtkomst",
             "user": "Användare",
             "referrer": "Remittent",
             "company": "Företag",
