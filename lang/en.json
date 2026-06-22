@@ -8461,8 +8461,11 @@
                 "warning48HourRule": "Warning for the 48-hour rule",
                 "holidayNonSundayHours": "Enable public holiday hours on non-Sunday public holidays",
                 "whichHolidaysCount": "Which public holidays should count? (turn off the ones that do not apply to you)",
-                "holidayState": { "full": "Full", "half": "Half", "off": "Off" },
-                "holidayNonSundayHours": "Enable holiday hours on non-Sunday public holidays",
+                "holidayState": {
+                    "full": "Full",
+                    "half": "Half",
+                    "off": "Off"
+                },
                 "terminology": "Word list",
                 "terminologyHint": "Customise the journal terms. Leave a field blank to use the default.",
                 "termJournals": "Journals",

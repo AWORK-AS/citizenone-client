@@ -8354,7 +8354,11 @@
                 "warning48HourRule": "Varning vet 48-timers reglen",
                 "holidayNonSundayHours": "Aktivera helgdagstimmar på helgdagar som inte är söndagar",
                 "whichHolidaysCount": "Vilka helgdagar ska räknas? (stäng av de som inte gäller för er)",
-                "holidayState": { "full": "Hel", "half": "Halv", "off": "Av" },
+                "holidayState": {
+                    "full": "Hel",
+                    "half": "Halv",
+                    "off": "Av"
+                },
                 "terminology": "Ordlista",
                 "terminologyHint": "Anpassa termerna för journaler. Lämna tomt för standard.",
                 "termJournals": "Journaler",
