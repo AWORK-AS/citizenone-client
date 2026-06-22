@@ -8465,6 +8465,8 @@
                 "warning11HourRest": "Warning for rest periods under 11 hours",
                 "warning48HourRule": "Warning for the 48-hour rule",
                 "holidayNonSundayHours": "Enable public holiday hours on non-Sunday public holidays",
+                "absenceCountsInNormHours": "Count vacation and sick leave toward norm hours and compensatory time off",
+                "upgradeToPro": "Upgrade to Pro",
                 "whichHolidaysCount": "Which public holidays should count? (turn off the ones that do not apply to you)",
                 "holidayState": {
                     "full": "Full",

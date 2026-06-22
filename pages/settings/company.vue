@@ -265,6 +265,22 @@
                                 {{ $t('settings.company.form.registerTransport') }}
                             </p>
                         </div>
+                        <div v-if="isPro" class="space-y-1 flex items-center gap-x-2">
+                            <FormSwitch :value="state.formCompany.absence_counts_in_norm_hours_enabled"
+                                @toggleSwitch="state.formCompany.absence_counts_in_norm_hours_enabled = !state.formCompany.absence_counts_in_norm_hours_enabled" />
+                            <p>
+                                {{ $t('settings.company.form.absenceCountsInNormHours') }}
+                            </p>
+                        </div>
+                        <div v-else class="flex items-center gap-x-2 text-gray-400">
+                            <Icon name="ph:lock-simple" class="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                            <p>{{ $t('settings.company.form.absenceCountsInNormHours') }}</p>
+                            <button type="button" @click="navigateTo('/settings/subscription')"
+                                class="ml-1 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+                                <Icon name="ph:sparkle" class="w-3.5 h-3.5" aria-hidden="true" />
+                                {{ $t('settings.company.form.upgradeToPro') }}
+                            </button>
+                        </div>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.holiday_non_sunday_hours_enabled"
                                 @toggleSwitch="state.formCompany.holiday_non_sunday_hours_enabled = !state.formCompany.holiday_non_sunday_hours_enabled" />
@@ -416,6 +432,8 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+// Counting absence toward norm hours is a Pro-plan feature.
+const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
 const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
@@ -502,6 +520,7 @@ const state = reactive({
         is_device_restriction_enabled: false,
         device_restriction_action: 'block' as string,
         holiday_non_sunday_hours_enabled: false,
+        absence_counts_in_norm_hours_enabled: false,
         excluded_holiday_names: [] as string[],
         half_holiday_names: [] as string[],
         term_journals: '' as string,
@@ -609,6 +628,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_device_restriction_enabled: newValue?.company?.is_device_restriction_enabled ? true : false,
             device_restriction_action: newValue?.company?.device_restriction_action ?? 'block',
             holiday_non_sunday_hours_enabled: newValue?.company?.holiday_non_sunday_hours_enabled ? true : false,
+            absence_counts_in_norm_hours_enabled: newValue?.company?.absence_counts_in_norm_hours_enabled ? true : false,
             excluded_holiday_names: Array.isArray(newValue?.company?.excluded_holiday_names) ? [...newValue.company.excluded_holiday_names] : [],
             half_holiday_names: Array.isArray(newValue?.company?.half_holiday_names) ? [...newValue.company.half_holiday_names] : [],
             term_journals: newValue?.company?.term_journals ?? '',
@@ -809,6 +829,7 @@ async function submitForm() {
                 is_device_restriction_enabled: state.formCompany.is_device_restriction_enabled,
                 device_restriction_action: state.formCompany.device_restriction_action,
                 holiday_non_sunday_hours_enabled: state.formCompany.holiday_non_sunday_hours_enabled,
+                absence_counts_in_norm_hours_enabled: state.formCompany.absence_counts_in_norm_hours_enabled,
                 excluded_holiday_names: state.formCompany.excluded_holiday_names,
                 half_holiday_names: state.formCompany.half_holiday_names,
                 term_journals: state.formCompany.term_journals,
