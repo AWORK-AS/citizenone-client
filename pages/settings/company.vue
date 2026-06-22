@@ -146,10 +146,12 @@
                                 :error="v$?.formCompany?.intervention_notification_hours?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.intervention_notification_hours?.[0]" />
                         </div>
-                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
-                            {{ $t('settings.company.form.groupAccess') }}
-                        </h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                        <button type="button" @click="openSections.access = !openSections.access"
+                            class="flex items-center justify-between w-full text-left text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3 hover:text-gray-700">
+                            <span>{{ $t('settings.company.form.groupAccess') }}</span>
+                            <Icon name="ph:caret-down" class="w-4 h-4 transition-transform" :class="{ '-rotate-90': !openSections.access }" />
+                        </button>
+                        <div v-show="openSections.access" class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.is_2fa_enabled"
                                     @toggleSwitch="state.formCompany.is_2fa_enabled = !state.formCompany.is_2fa_enabled" />
@@ -166,10 +168,12 @@
                             </div>
                         </div>
 
-                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
-                            {{ $t('settings.company.form.groupCommunication') }}
-                        </h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                        <button type="button" @click="openSections.communication = !openSections.communication"
+                            class="flex items-center justify-between w-full text-left text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3 hover:text-gray-700">
+                            <span>{{ $t('settings.company.form.groupCommunication') }}</span>
+                            <Icon name="ph:caret-down" class="w-4 h-4 transition-transform" :class="{ '-rotate-90': !openSections.communication }" />
+                        </button>
+                        <div v-show="openSections.communication" class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.group_chat_enabled"
                                     @toggleSwitch="state.formCompany.group_chat_enabled = !state.formCompany.group_chat_enabled" />
@@ -193,10 +197,12 @@
                             </div>
                         </div>
 
-                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
-                            {{ $t('settings.company.form.groupPlans') }}
-                        </h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                        <button type="button" @click="openSections.plans = !openSections.plans"
+                            class="flex items-center justify-between w-full text-left text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3 hover:text-gray-700">
+                            <span>{{ $t('settings.company.form.groupPlans') }}</span>
+                            <Icon name="ph:caret-down" class="w-4 h-4 transition-transform" :class="{ '-rotate-90': !openSections.plans }" />
+                        </button>
+                        <div v-show="openSections.plans" class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.plans_enabled"
                                     @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
@@ -220,9 +226,12 @@
                             </div>
                         </div>
 
-                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
-                            {{ $t('settings.company.form.groupSchedule') }}
-                        </h4>
+                        <button type="button" @click="openSections.schedule = !openSections.schedule"
+                            class="flex items-center justify-between w-full text-left text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3 hover:text-gray-700">
+                            <span>{{ $t('settings.company.form.groupSchedule') }}</span>
+                            <Icon name="ph:caret-down" class="w-4 h-4 transition-transform" :class="{ '-rotate-90': !openSections.schedule }" />
+                        </button>
+                        <div v-show="openSections.schedule">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.is_lock_past_schedules"
@@ -312,11 +321,14 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
 
-                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
-                            {{ $t('settings.company.form.groupOther') }}
-                        </h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                        <button type="button" @click="openSections.other = !openSections.other"
+                            class="flex items-center justify-between w-full text-left text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3 hover:text-gray-700">
+                            <span>{{ $t('settings.company.form.groupOther') }}</span>
+                            <Icon name="ph:caret-down" class="w-4 h-4 transition-transform" :class="{ '-rotate-90': !openSections.other }" />
+                        </button>
+                        <div v-show="openSections.other" class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.quick_risk_assessment_enabled"
                                     @toggleSwitch="state.formCompany.quick_risk_assessment_enabled = !state.formCompany.quick_risk_assessment_enabled" />
@@ -436,6 +448,8 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 // Counting absence toward norm hours is a Pro-plan feature.
 const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
+// Collapsible (accordion) open-state for the grouped toggle sections (default all open).
+const openSections = reactive({ access: true, communication: true, plans: true, schedule: true, other: true })
 const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
