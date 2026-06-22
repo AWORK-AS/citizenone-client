@@ -146,133 +146,135 @@
                                 :error="v$?.formCompany?.intervention_notification_hours?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.intervention_notification_hours?.[0]" />
                         </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.is_2fa_enabled"
-                                @toggleSwitch="state.formCompany.is_2fa_enabled = !state.formCompany.is_2fa_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.2fa') }}
-                            </p>
+                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
+                            {{ $t('settings.company.form.groupAccess') }}
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.is_2fa_enabled"
+                                    @toggleSwitch="state.formCompany.is_2fa_enabled = !state.formCompany.is_2fa_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.2fa') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.change_password_enabled"
+                                    @toggleSwitch="state.formCompany.change_password_enabled = !state.formCompany.change_password_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.allowChangePassword') }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.group_chat_enabled"
-                                @toggleSwitch="state.formCompany.group_chat_enabled = !state.formCompany.group_chat_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.groupChat') }}
-                            </p>
+
+                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
+                            {{ $t('settings.company.form.groupCommunication') }}
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.group_chat_enabled"
+                                    @toggleSwitch="state.formCompany.group_chat_enabled = !state.formCompany.group_chat_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.groupChat') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.checkin_enabled"
+                                    @toggleSwitch="state.formCompany.checkin_enabled = !state.formCompany.checkin_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.checkinOut') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.intervention_checkin_enabled"
+                                    @toggleSwitch="state.formCompany.intervention_checkin_enabled = !state.formCompany.intervention_checkin_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.interventionCheckinOut') }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.checkin_enabled"
-                                @toggleSwitch="state.formCompany.checkin_enabled = !state.formCompany.checkin_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.checkinOut') }}
-                            </p>
+
+                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
+                            {{ $t('settings.company.form.groupPlans') }}
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.plans_enabled"
+                                    @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.allowPlans') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.goals_enabled"
+                                    @toggleSwitch="state.formCompany.goals_enabled = !state.formCompany.goals_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.allowGoals') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.subgoals_enabled"
+                                    @toggleSwitch="state.formCompany.subgoals_enabled = !state.formCompany.subgoals_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.allowSubGoals') }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.intervention_checkin_enabled"
-                                @toggleSwitch="state.formCompany.intervention_checkin_enabled = !state.formCompany.intervention_checkin_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.interventionCheckinOut') }}
-                            </p>
+
+                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
+                            {{ $t('settings.company.form.groupSchedule') }}
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.is_lock_past_schedules"
+                                    @toggleSwitch="state.formCompany.is_lock_past_schedules = !state.formCompany.is_lock_past_schedules" />
+                                <p>
+                                    {{ $t('settings.company.form.lockPastSchedules') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.warning_13_hour_shift_enabled"
+                                    @toggleSwitch="state.formCompany.warning_13_hour_shift_enabled = !state.formCompany.warning_13_hour_shift_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.warning13HourShift') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.warning_11_hour_rest_enabled"
+                                    @toggleSwitch="state.formCompany.warning_11_hour_rest_enabled = !state.formCompany.warning_11_hour_rest_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.warning11HourRest') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.warning_48_hour_rule_enabled"
+                                    @toggleSwitch="state.formCompany.warning_48_hour_rule_enabled = !state.formCompany.warning_48_hour_rule_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.warning48HourRule') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.transfer_norm_hours_enabled"
+                                    @toggleSwitch="state.formCompany.transfer_norm_hours_enabled = !state.formCompany.transfer_norm_hours_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.transferNormHours') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.is_sort_by_status"
+                                    @toggleSwitch="state.formCompany.is_sort_by_status = !state.formCompany.is_sort_by_status" />
+                                <p>
+                                    {{ $t('settings.company.form.isSortByStatus') }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.change_password_enabled"
-                                @toggleSwitch="state.formCompany.change_password_enabled = !state.formCompany.change_password_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.allowChangePassword') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.plans_enabled"
-                                @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.allowPlans') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.goals_enabled"
-                                @toggleSwitch="state.formCompany.goals_enabled = !state.formCompany.goals_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.allowGoals') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.subgoals_enabled"
-                                @toggleSwitch="state.formCompany.subgoals_enabled = !state.formCompany.subgoals_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.allowSubGoals') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.is_lock_past_schedules"
-                                @toggleSwitch="state.formCompany.is_lock_past_schedules = !state.formCompany.is_lock_past_schedules" />
-                            <p>
-                                {{ $t('settings.company.form.lockPastSchedules') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.warning_13_hour_shift_enabled"
-                                @toggleSwitch="state.formCompany.warning_13_hour_shift_enabled = !state.formCompany.warning_13_hour_shift_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.warning13HourShift') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.warning_11_hour_rest_enabled"
-                                @toggleSwitch="state.formCompany.warning_11_hour_rest_enabled = !state.formCompany.warning_11_hour_rest_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.warning11HourRest') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.warning_48_hour_rule_enabled"
-                                @toggleSwitch="state.formCompany.warning_48_hour_rule_enabled = !state.formCompany.warning_48_hour_rule_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.warning48HourRule') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.transfer_norm_hours_enabled"
-                                @toggleSwitch="state.formCompany.transfer_norm_hours_enabled = !state.formCompany.transfer_norm_hours_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.transferNormHours') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.is_sort_by_status"
-                                @toggleSwitch="state.formCompany.is_sort_by_status = !state.formCompany.is_sort_by_status" />
-                            <p>
-                                {{ $t('settings.company.form.isSortByStatus') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.social_og_boligstyrelsen"
-                                @toggleSwitch="state.formCompany.social_og_boligstyrelsen = !state.formCompany.social_og_boligstyrelsen" />
-                            <p>
-                                Social- og Boligstyrelsen
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.quick_risk_assessment_enabled"
-                                @toggleSwitch="state.formCompany.quick_risk_assessment_enabled = !state.formCompany.quick_risk_assessment_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.quickRiskAssessment') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.register_transport_enabled"
-                                @toggleSwitch="state.formCompany.register_transport_enabled = !state.formCompany.register_transport_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.registerTransport') }}
-                            </p>
-                        </div>
-                        <div v-if="isPro" class="space-y-1 flex items-center gap-x-2">
+                        <div v-if="isPro" class="space-y-1 flex items-center gap-x-2 mt-3">
                             <FormSwitch :value="state.formCompany.absence_counts_in_norm_hours_enabled"
                                 @toggleSwitch="state.formCompany.absence_counts_in_norm_hours_enabled = !state.formCompany.absence_counts_in_norm_hours_enabled" />
                             <p>
                                 {{ $t('settings.company.form.absenceCountsInNormHours') }}
                             </p>
                         </div>
-                        <div v-else class="flex items-center gap-x-2 text-gray-400">
+                        <div v-else class="flex items-center gap-x-2 text-gray-400 mt-3">
                             <Icon name="ph:lock-simple" class="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                             <p>{{ $t('settings.company.form.absenceCountsInNormHours') }}</p>
                             <button type="button" @click="navigateTo('/settings/subscription')"
@@ -281,7 +283,7 @@
                                 {{ $t('settings.company.form.upgradeToPro') }}
                             </button>
                         </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
+                        <div class="space-y-1 flex items-center gap-x-2 mt-3">
                             <FormSwitch :value="state.formCompany.holiday_non_sunday_hours_enabled"
                                 @toggleSwitch="state.formCompany.holiday_non_sunday_hours_enabled = !state.formCompany.holiday_non_sunday_hours_enabled" />
                             <p>
@@ -308,6 +310,33 @@
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <h4 class="text-xs font-semibold uppercase tracking-wide text-gray-500 mt-6 mb-3">
+                            {{ $t('settings.company.form.groupOther') }}
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.quick_risk_assessment_enabled"
+                                    @toggleSwitch="state.formCompany.quick_risk_assessment_enabled = !state.formCompany.quick_risk_assessment_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.quickRiskAssessment') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.register_transport_enabled"
+                                    @toggleSwitch="state.formCompany.register_transport_enabled = !state.formCompany.register_transport_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.registerTransport') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.social_og_boligstyrelsen"
+                                    @toggleSwitch="state.formCompany.social_og_boligstyrelsen = !state.formCompany.social_og_boligstyrelsen" />
+                                <p>
+                                    Social- og Boligstyrelsen
+                                </p>
                             </div>
                         </div>
 
