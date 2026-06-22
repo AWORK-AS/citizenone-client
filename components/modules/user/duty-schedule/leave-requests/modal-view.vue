@@ -120,7 +120,16 @@
                     @close="state.modal.isApproveRequest = false" @confirm="approveLeaveRequestRequest" />
                 <DialogConfirmation :isModalOpen="state.modal.isRejectRequest"
                     :message="$t('dutySchedules.leaveRequests.table.confirmation.rejectLeaveRequestConfirmation') + '?'"
-                    @close="state.modal.isRejectRequest = false" @confirm="rejectLeaveRequestRequest" />
+                    @close="state.modal.isRejectRequest = false" @confirm="rejectLeaveRequestRequest">
+                    <template #extra>
+                        <label class="mt-4 block text-sm font-medium text-gray-700">
+                            {{ $t('dutySchedules.leaveRequests.table.confirmation.rejectComment') }}
+                        </label>
+                        <textarea v-model="state.rejectComment" rows="3"
+                            :placeholder="$t('dutySchedules.leaveRequests.table.confirmation.rejectCommentPlaceholder')"
+                            class="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-palette-green focus:ring-palette-green" />
+                    </template>
+                </DialogConfirmation>
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteLeaveRequestOpen"
                     :message="$t('dutySchedules.leaveRequests.table.confirmation.deleteLeaveRequestConfirmation') + '?'"
                     @close="state.modal.isDeleteLeaveRequestOpen = false" @confirm="deleteLeaveRequest" />
@@ -185,6 +194,7 @@ const state = reactive({
     },
     leaveRequests: [] as any,
     selectedLeaveRequest: [] as any,
+    rejectComment: '',
     shiftDateRange: {
         formDateRange: {
             start_date: moment().startOf('week').add(1, 'day'),
@@ -292,6 +302,7 @@ async function approveLeaveRequestRequest() {
 
 function confirmRejectLeaveRequestRequest(leaveRequests: any) {
     state.selectedLeaveRequest = leaveRequests
+    state.rejectComment = ''
     state.modal.isRejectRequest = true
 }
 
@@ -300,8 +311,10 @@ async function rejectLeaveRequestRequest() {
     state.isTableLoading = true
     try {
         const leaveRequestsUuid = state.selectedLeaveRequest.uuid
-        const response = await leaveRequestService.rejectLeaveRequest(leaveRequestsUuid)
+        const comment = state.rejectComment?.trim() || undefined
+        const response = await leaveRequestService.rejectLeaveRequest(leaveRequestsUuid, comment)
         if (response) {
+            state.rejectComment = ''
             fetchLeaveRequests()
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.leaveRequests.table.alert.leaveRequestsSuccessfullyRejected')}.`)
             emit('refreshDutySchedules')

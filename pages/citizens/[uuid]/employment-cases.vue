@@ -37,8 +37,13 @@
 
                 <LoadingSpinner :isActive="state.isTableLoading">
                     <div class="mt-8 space-y-3">
-                        <div class="flex justify-end items-center">
-                            <FormButton buttonStyle="action" @click="state.modal.isNewCaseOpen = true">
+                        <div class="flex justify-end items-center gap-2">
+                            <FormButton buttonStyle="action" @click="state.modal.isSubscribeOpen = true">
+                                <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('events.subscribe.label') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" @click="state.modal.isNewCaseOpen = true"
+                                v-if="isAtLeast('Admin') || can('manage_citizen_period')">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('employment.cases.addNewCase') }}
                             </FormButton>
@@ -71,20 +76,37 @@
                                             <span>{{ employmentCase?.weeks_used }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ employmentCase?.status }}</span>
+                                            <span v-if="employmentCase?.status_type"
+                                                class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium text-white"
+                                                :style="{ backgroundColor: employmentCase.status_type.color || '#6b7280' }">
+                                                {{ employmentCase.status_type.name }}
+                                            </span>
+                                            <span v-else class="text-[#8891A4]">—</span>
                                         </td>
-                                        <td width="14%">
+                                        <td width="12%">
                                             <span>{{ employmentCase?.user?.name }}</span>
                                         </td>
                                         <td width="10%">
                                             <div class="flex items-end justify-end gap-2">
+                                                <FormButton type="button" buttonStyle="secondary"
+                                                    @click="openStatusHistory(employmentCase)">
+                                                    <Icon name="ph:clock-countdown" class="size-4" />
+                                                    {{ $t('employment.cases.table.actions.history') }}
+                                                </FormButton>
                                                 <FormButton type="button" buttonStyle="action"
-                                                    @click="openEditCase(employmentCase)">
+                                                    @click="openBillingWeeks(employmentCase)">
+                                                    <Icon name="ph:calendar-check" class="size-4" />
+                                                    {{ $t('employment.billing.billingWeeks') }}
+                                                </FormButton>
+                                                <FormButton type="button" buttonStyle="action"
+                                                    @click="openEditCase(employmentCase)"
+                                                    v-if="isAtLeast('Admin') || can('manage_citizen_period')">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                     {{ $t('employment.cases.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="danger"
-                                                    @click="deleteCaseConfirmation(employmentCase)">
+                                                    @click="deleteCaseConfirmation(employmentCase)"
+                                                    v-if="isAtLeast('Admin') || can('manage_citizen_period')">
                                                     <Icon name="ph:trash" class="size-4" />
                                                     {{ $t('employment.cases.table.actions.delete') }}
                                                 </FormButton>
@@ -106,6 +128,15 @@
                 :selectedCaseUuid="state.selectedCaseUuid" @close="state.modal.isEditCaseOpen = false"
                 @refreshCases="fetchCases" />
 
+            <ModulesUserEmploymentCaseBillingWeeksSlideOver :isOpen="state.modal.isBillingWeeksOpen"
+                :selectedCase="state.selectedCase" @close="state.modal.isBillingWeeksOpen = false" />
+
+            <ModulesUserEmploymentCaseStatusHistoryModal :isModalOpen="state.modal.isHistoryOpen"
+                :selectedCase="state.selectedCase" @close="closeHistoryModal" @statusUpdated="fetchCases" />
+
+            <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen"
+                @close="state.modal.isSubscribeOpen = false" />
+
             <DialogConfirmation :isModalOpen="state.modal.isDeleteOpen"
                 :message="$t('employment.cases.table.confirmation.deleteCaseConfirmation')"
                 @close="state.modal.isDeleteOpen = false" @confirm="deleteCase" />
@@ -119,12 +150,14 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { isAtLeast, can } = usePermissions()
 const userStore = useUserStore()
 const route = useRoute()
 const citizenUuid = route?.params?.uuid as string
@@ -153,6 +186,9 @@ const state = reactive({
         isNewCaseOpen: false,
         isEditCaseOpen: false,
         isDeleteOpen: false,
+        isHistoryOpen: false,
+        isBillingWeeksOpen: false,
+        isSubscribeOpen: false,
     },
     selectedCaseUuid: '' as string,
     selectedCase: {} as any,
@@ -183,6 +219,7 @@ async function fetchCases() {
     state.isTableLoading = false
 }
 
+
 function previous() { currentTablePage--; fetchCases() }
 function next() { currentTablePage++; fetchCases() }
 
@@ -192,9 +229,24 @@ function sort(sortingData: any) {
     fetchCases()
 }
 
+function openBillingWeeks(employmentCase: any) {
+    state.selectedCase = employmentCase
+    state.modal.isBillingWeeksOpen = true
+}
+
 function openEditCase(employmentCase: any) {
     state.selectedCaseUuid = employmentCase.uuid
     state.modal.isEditCaseOpen = true
+}
+
+function openStatusHistory(employmentCase: any) {
+    state.selectedCase = employmentCase
+    state.modal.isHistoryOpen = true
+}
+
+function closeHistoryModal() {
+    state.modal.isHistoryOpen = false
+    state.selectedCase = {}
 }
 
 function deleteCaseConfirmation(employmentCase: any) {

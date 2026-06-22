@@ -19,7 +19,15 @@
                 </NuxtLink>
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
-                <div class="flex justify-end">
+                <div class="flex items-center justify-end gap-2">
+                    <FormButton buttonStyle="action" @click="navigateTo(`/protocols/${protocolUuid}/checkin`)">
+                        <Icon name="ph:check-square" class="w-4 h-4" />
+                        {{ $t('attendance.checkIn') }}
+                    </FormButton>
+                    <FormButton buttonStyle="action" @click="printProtocol">
+                        <Icon name="ph:printer" class="w-4 h-4" />
+                        {{ $t('attendance.print') }}
+                    </FormButton>
                     <FormButton buttonStyle="action" @click="downloadProtocol()">
                         {{ $t('protocols.download') }}
                     </FormButton>
@@ -231,6 +239,25 @@ async function downloadProtocol() {
         const response = await protocolService.downloadProtocol(protocolUuid, params)
         if (response) {
             saveAs(response, protocolUuid)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function printProtocol() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const params = {
+            department: departmentStore.getSelectedDepartmentName,
+        }
+        const response = await protocolService.downloadProtocol(protocolUuid, params)
+        if (response) {
+            const url = URL.createObjectURL(response)
+            window.open(url, '_blank')
+            setTimeout(() => URL.revokeObjectURL(url), 10000)
         }
     } catch (error: any) {
         state.error = error

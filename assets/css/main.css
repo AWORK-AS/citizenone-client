@@ -209,11 +209,11 @@ table td {
     @vueform/multiselect
 ---------------------------------------------------------------------------------------------------- */
 .multiselect {
-    @apply border border-gray-200 rounded-full min-h-11 !important;
+    @apply border border-gray-200 rounded-lg min-h-11 !important;
 }
 
 .multiselect-wrapper, .multiselect-search {
-    @apply rounded-full !important;
+    @apply rounded-lg !important;
 }
 
 .multiselect-dropdown {

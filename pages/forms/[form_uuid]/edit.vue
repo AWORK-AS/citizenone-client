@@ -17,16 +17,21 @@
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
 
-            <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesUserForm formType="update" :selectedForm="state.formForm" :error="state.error"
-                    @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateForm" />
-            </LoadingSpinner>
+            <Tabs v-if="isEmploymentServices" :tabs="tabs" />
+
+            <div :class="isEmploymentServices ? 'mt-6' : ''">
+                <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesUserForm formType="update" :selectedForm="state.formForm" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateForm" />
+                </LoadingSpinner>
+            </div>
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { formService } from '@/components/api/user/FormService'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -36,6 +41,11 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const formUuid = router?.currentRoute?.value?.params?.form_uuid
+const userStore = useUserStore()
+
+const isEmploymentServices = computed(() =>
+    userStore.getUser?.company?.industry?.system_name === 'employment_services'
+)
 const breadcrumbLinks = [
     {
         name: 'forms.forms',
@@ -48,6 +58,21 @@ const breadcrumbLinks = [
         href: `/forms/${formUuid}/edit`,
     },
 ]
+
+const tabs = computed(() => [
+    {
+        name: 'forms.tabs.formBuilder',
+        isTranslateName: true,
+        href: `/forms/${formUuid}/edit`,
+        routeNames: ['forms-form_uuid-edit'],
+    },
+    {
+        name: 'forms.tabs.predefinedEvents',
+        isTranslateName: true,
+        href: `/forms/${formUuid}/predefined-events`,
+        routeNames: ['forms-form_uuid-predefined-events'],
+    },
+])
 
 const state = reactive({
     error: {} as Error,
@@ -116,5 +141,5 @@ async function updateForm(formDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
-} 
+}
 </script>

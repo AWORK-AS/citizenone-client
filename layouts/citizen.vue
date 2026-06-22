@@ -47,6 +47,9 @@
                                                         <span v-if="item.name === 'Duty schedules'">
                                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                                         </span>
+                                                        <span v-if="item.name === 'Protocols'">
+                                                            {{ $t('sidebar.protocols') }}
+                                                        </span>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
                                                         <DisclosureButton
@@ -106,6 +109,9 @@
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
+                                        </span>
+                                        <span v-if="item.name === 'Protocols'">
+                                            {{ $t('sidebar.protocols') }}
                                         </span>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -282,7 +288,7 @@ const language = useI18n()
 const router = useRouter()
 const routeName = router?.currentRoute?.value?.name
 
-const navigation = [
+const navigation = ref([
     {
         name: 'Overview',
         href: '/citizen/overview',
@@ -299,7 +305,7 @@ const navigation = [
             'citizen-schedules'
         ]
     },
-] as any
+] as any[])
 
 const sidebarOpen = ref(false)
 
@@ -374,6 +380,18 @@ async function fetchUser() {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)
             language.locale.value = response?.data?.language?.code
+
+            if (response.data?.company?.industry?.system_name === 'employment_services') {
+                const alreadyAdded = navigation.value.some((n: any) => n.name === 'Protocols')
+                if (!alreadyAdded) {
+                    navigation.value.push({
+                        name: 'Protocols',
+                        href: '/citizen/protocols',
+                        icon: 'ic:outline-shield',
+                        activeRouteNames: ['citizen-protocols'],
+                    })
+                }
+            }
         }
     } catch (error: any) {
         state.error = error

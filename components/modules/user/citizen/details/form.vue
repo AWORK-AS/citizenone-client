@@ -887,6 +887,12 @@
                         :placeholder="$t('citizens.form.employmentProgram.referralReason')"
                         v-model="state.formCitizen.employmentData.referral_reason" />
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="internship_company" :label="$t('citizens.form.employmentProgram.internshipCompany')" />
+                    <FormTextField id="internship_company" name="internship_company"
+                        :placeholder="$t('citizens.form.employmentProgram.internshipCompany')"
+                        v-model="state.formCitizen.employmentData.internship_company" />
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -1343,7 +1349,11 @@ onMounted(async () => {
     try {
         const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen' })
         if (response?.data) {
-            const config = response.data.find((c: any) => c.form_type === props.formType)
+            // The form config is keyed 'create' / 'edit', but this form receives
+            // formType 'create' / 'update' — map 'update' to the 'edit' config so the
+            // Edit-form settings also apply to existing citizens (not just new ones).
+            const configType = props.formType === 'create' ? 'create' : 'edit'
+            const config = response.data.find((c: any) => c.form_type === configType)
             if (config?.form_fields) {
                 formConfig.value = config.form_fields
             }

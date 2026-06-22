@@ -1,7 +1,7 @@
 <template>
     <flat-pickr v-model="state.timeValue" :config="config" :id="props.id" :name="props.name"
         @input="updateValue($event)" :placeholder="props.placeholder"
-        class="appearance-none block w-full px-4 h-11 border border-gray-200 placeholder-gray-500 text-gray-900 rounded-full focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
+        class="appearance-none block w-full px-4 h-11 border border-gray-200 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary-700 focus:border-primary-700 focus:z-10 sm:text-sm" />
 </template>
 
 <script setup lang="ts">

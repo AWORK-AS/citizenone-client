@@ -362,7 +362,7 @@
                             :options="state.options.jobSpecialties"
                             v-model="state.formEmployee.employment.job_specialties" />
                         <FormError
-                            :error="v$?.formScheduleSlot?.employment?.job_specialties?.$errors[0]?.$message.toString()" />
+                            :error="v$?.formEmployee?.employment?.job_specialties?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.job_specialties?.[0]" />
                     </div>
                 </div>
@@ -546,7 +546,7 @@
             @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitles="fetchJobTitles" />
         <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
             @close="state.modal.isAddJobSpecialtyOpen = false" @refreshJobTitles="fetchJobTitles"
-            @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
+            @refreshJobSpecialty="fetchJobSpecialties($event)" />
         <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
             @close="state.modal.isAnnualNormHoursInfoOpen = false" />
         <ModulesUserEmployeeModalNormPeriod :isModalOpen="state.modal.isAddNewNormPeriod"
