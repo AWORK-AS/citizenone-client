@@ -45,8 +45,8 @@ function refreshJobTitles() {
     emit('refreshJobTitles')
 }
 
-function refreshJobSpecialty() {
-    emit('refreshJobSpecialty')
+function refreshJobSpecialty(jobTitleUuid: string) {
+    emit('refreshJobSpecialty', jobTitleUuid)
 }
 
 async function saveJobTitle(jobTitleDetails: any) {
@@ -61,7 +61,7 @@ async function saveJobTitle(jobTitleDetails: any) {
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('jobSpecialties.form.alert.newJobSpecialtySuccessfullySaved')}.`)
             refreshJobTitles()
-            refreshJobSpecialty()
+            refreshJobSpecialty(jobTitleDetails.job_title_uuid)
             closeModal()
         }
     } catch (error: any) {

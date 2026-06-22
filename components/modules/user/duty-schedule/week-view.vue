@@ -1476,11 +1476,42 @@ watch(() => state.weeklySchedules, (newSchedules) => {
     }
 })
 
-onMounted(() => {
+onMounted(async () => {
     teleportReady.value = true
-    fetchDutySchedule()
+    // Deep-link from a request e-mail: ?reqType=swap|time|extra|leave&employee=<uuid>&date=<Y-m-d>
+    const route = useRoute()
+    const reqType = route.query.reqType as string | undefined
+    const reqEmployee = route.query.employee as string | undefined
+    const reqDate = route.query.date as string | undefined
+    if (reqType && reqEmployee && reqDate) {
+        currentDate.value = moment(reqDate)
+        state.selectedDate = moment(reqDate).format('YYYY-MM-DD')
+    }
+    await fetchDutySchedule()
+    if (reqType && reqEmployee && reqDate) {
+        openRequestFromDeepLink(reqType, reqEmployee, reqDate)
+    }
     window.addEventListener('keydown', handleKeyDown)
 })
+
+// Open the relevant request panel for an employee when arriving from an e-mail link.
+function openRequestFromDeepLink(reqType: string, employeeUuid: string, date: string) {
+    const employee = (state.weeklySchedules?.data ?? []).find((e: any) => e?.uuid === employeeUuid)
+    if (!employee) return
+    if (reqType === 'swap') {
+        state.manageSwapScheduleRequest.selectedEmployee = employee
+        state.manageSwapScheduleRequest.selectedDate = date
+        state.modal.isManageSwapScheduleRequestsOpen = true
+    } else if (reqType === 'time') {
+        state.manageTimeRequest.selectedEmployee = employee
+        state.manageTimeRequest.selectedDate = date
+        state.modal.isManageTimeAdjustmentRequestsOpen = true
+    } else if (reqType === 'extra') {
+        viewExtraHours(employee)
+    } else if (reqType === 'leave') {
+        viewLeaveRequests(employee)
+    }
+}
 
 onBeforeUnmount(() => {
     teleportReady.value = false

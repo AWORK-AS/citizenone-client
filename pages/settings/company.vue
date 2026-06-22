@@ -298,6 +298,33 @@
                     </div>
 
                     <div class="mt-6 border-t border-gray-200 pt-6 space-y-4">
+                        <h3 class="text-sm font-semibold text-gray-700">{{ $t('settings.company.form.terminology') }}</h3>
+                        <p class="text-xs text-gray-500">{{ $t('settings.company.form.terminologyHint') }}</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <FormLabel for="term_journals" :label="$t('settings.company.form.termJournals')" />
+                                <FormTextField id="term_journals" name="term_journals"
+                                    placeholder="Journaler" v-model="state.formCompany.term_journals" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="term_journal" :label="$t('settings.company.form.termJournal')" />
+                                <FormTextField id="term_journal" name="term_journal"
+                                    placeholder="Journal" v-model="state.formCompany.term_journal" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="term_journal_note_tag" :label="$t('settings.company.form.termJournalNoteTag')" />
+                                <FormTextField id="term_journal_note_tag" name="term_journal_note_tag"
+                                    placeholder="Journalnotetag" v-model="state.formCompany.term_journal_note_tag" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="term_journal_notes" :label="$t('settings.company.form.termJournalNotes')" />
+                                <FormTextField id="term_journal_notes" name="term_journal_notes"
+                                    placeholder="Journalnotater" v-model="state.formCompany.term_journal_notes" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 border-t border-gray-200 pt-6 space-y-4">
                         <h3 class="text-sm font-semibold text-gray-700">{{ $t('settings.company.form.ipRestriction') }}</h3>
                         <div class="space-y-1 flex items-center gap-x-2">
                             <FormSwitch :value="state.formCompany.is_ip_restriction_enabled"
@@ -477,6 +504,10 @@ const state = reactive({
         holiday_non_sunday_hours_enabled: false,
         excluded_holiday_names: [] as string[],
         half_holiday_names: [] as string[],
+        term_journals: '' as string,
+        term_journal: '' as string,
+        term_journal_note_tag: '' as string,
+        term_journal_notes: '' as string,
     },
     isPageLoading: false,
     options: {
@@ -580,6 +611,10 @@ watch(() => userStore.getUser, (newValue: any) => {
             holiday_non_sunday_hours_enabled: newValue?.company?.holiday_non_sunday_hours_enabled ? true : false,
             excluded_holiday_names: Array.isArray(newValue?.company?.excluded_holiday_names) ? [...newValue.company.excluded_holiday_names] : [],
             half_holiday_names: Array.isArray(newValue?.company?.half_holiday_names) ? [...newValue.company.half_holiday_names] : [],
+            term_journals: newValue?.company?.term_journals ?? '',
+            term_journal: newValue?.company?.term_journal ?? '',
+            term_journal_note_tag: newValue?.company?.term_journal_note_tag ?? '',
+            term_journal_notes: newValue?.company?.term_journal_notes ?? '',
             logo: null,
             should_delete_logo: false,
         }
@@ -776,6 +811,10 @@ async function submitForm() {
                 holiday_non_sunday_hours_enabled: state.formCompany.holiday_non_sunday_hours_enabled,
                 excluded_holiday_names: state.formCompany.excluded_holiday_names,
                 half_holiday_names: state.formCompany.half_holiday_names,
+                term_journals: state.formCompany.term_journals,
+                term_journal: state.formCompany.term_journal,
+                term_journal_note_tag: state.formCompany.term_journal_note_tag,
+                term_journal_notes: state.formCompany.term_journal_notes,
             }
 
             const response = await userService.updateCompany(params)

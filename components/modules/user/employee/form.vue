@@ -546,7 +546,7 @@
             @close="state.modal.isAddJobTitleOpen = false" @refreshJobTitles="fetchJobTitles" />
         <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
             @close="state.modal.isAddJobSpecialtyOpen = false" @refreshJobTitles="fetchJobTitles"
-            @refreshJobSpecialty="fetchJobSpecialties(state.formEmployee.employment.job_title_uuid)" />
+            @refreshJobSpecialty="fetchJobSpecialties($event)" />
         <ModulesUserDutyScheduleNormHoursModalInfo :isModalOpen="state.modal.isAnnualNormHoursInfoOpen"
             @close="state.modal.isAnnualNormHoursInfoOpen = false" />
         <ModulesUserEmployeeModalNormPeriod :isModalOpen="state.modal.isAddNewNormPeriod"

@@ -6067,7 +6067,59 @@
             "description": "Beskrivning",
             "title": "Titel"
         },
-        "viewResponses": "Se svar"
+        "viewResponses": "Se svar",
+        "tabs": {
+            "formBuilder": "Formulärbyggare",
+            "predefinedEvents": "Fördefinierade händelser"
+        },
+        "predefinedEvents": {
+            "predefinedEvents": "Fördefinierade händelser",
+            "newPredefinedEvent": "Ny fördefinierad händelse",
+            "editPredefinedEvent": "Redigera fördefinierad händelse",
+            "calendarTypes": {
+                "citizens": "Brukare",
+                "employees": "Anställda"
+            },
+            "recurringTypes": {
+                "everyday": "Varje dag",
+                "every_week": "Varje vecka",
+                "every_second_week": "Varannan vecka",
+                "every_third_week": "Var tredje vecka",
+                "every_fourth_week": "Var fjärde vecka",
+                "every_month": "Varje månad"
+            },
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivning",
+                "calendarType": "Kalendertyp",
+                "durationMinutes": "Varaktighet (minuter)",
+                "isActive": "Aktiv",
+                "isPrivate": "Privat",
+                "isRecurring": "Återkommande",
+                "recurringType": "Upprepning",
+                "recurringEndDate": "Slutdatum",
+                "recurringEndDateHint": "Lämna tomt för inget slutdatum (pågående)"
+            },
+            "table": {
+                "title": "Titel",
+                "calendarType": "Kalendertyp",
+                "durationMinutes": "Varaktighet (min)",
+                "isRecurring": "Återkommande",
+                "isActive": "Aktiv",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Radera"
+                }
+            },
+            "alert": {
+                "predefinedEventSuccessfullySaved": "Fördefinierad händelse sparad",
+                "predefinedEventSuccessfullyUpdated": "Fördefinierad händelse uppdaterad",
+                "predefinedEventSuccessfullyDeleted": "Fördefinierad händelse raderad"
+            },
+            "confirmation": {
+                "deletePredefinedEventConfirmation": "Är du säker på att du vill radera denna fördefinierade händelse"
+            }
+        }
     },
     "gender": {
         "female": "Kvinde",
@@ -7650,15 +7702,33 @@
         "editProtocol": "Redigera protokoll",
         "form": {
             "alert": {
+                "checkInSuccess": "Incheckad",
+                "checkOutSuccess": "Utcheckad",
                 "newProtocolSuccessfullySaved": "Ny protokoll sparad",
                 "protocolSuccessfullyUpdated": "Protokoll uppdaterad"
             },
             "citizens": "Klienter",
             "endDate": "Slutdatum",
+            "every": "Var",
             "excludeWeekends": "Udelad weekender",
+            "frequency": "Frekvens",
+            "isRecurring": "Återkommande",
+            "monthlyEach": "På dagar",
+            "monthlyOnThe": "Den",
             "protocolName": "Protokolnavn",
-            "startDate": "Startdatum"
+            "recurringType": "Upprepa",
+            "recurringUntil": "Återkommande till",
+            "selectDatesFirst": "Välj start- och slutdatum först",
+            "startDate": "Startdatum",
+            "weeklyOn": "På",
+            "yearlyInMonths": "I månader"
         },
+        "checkIn": "Checka in",
+        "checkOut": "Checka ut",
+        "myProtocols": "Mina protokoll",
+        "today": "Idag",
+        "other": "Övriga",
+        "noTodayEntries": "Inga protokollregistreringar för idag",
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {
@@ -7687,7 +7757,8 @@
             "startDate": "Startdatum",
             "status": {
                 "absent": "Frånvarande",
-                "attended": "Närvarande"
+                "attended": "Närvarande",
+                "notRecorded": "Inte registrerad"
             }
         }
     },
@@ -8284,6 +8355,12 @@
                 "holidayNonSundayHours": "Aktivera helgdagstimmar på helgdagar som inte är söndagar",
                 "whichHolidaysCount": "Vilka helgdagar ska räknas? (stäng av de som inte gäller för er)",
                 "holidayState": { "full": "Hel", "half": "Halv", "off": "Av" },
+                "terminology": "Ordlista",
+                "terminologyHint": "Anpassa termerna för journaler. Lämna tomt för standard.",
+                "termJournals": "Journaler",
+                "termJournal": "Journal",
+                "termJournalNoteTag": "Journalanteckningstagg",
+                "termJournalNotes": "Journalanteckningar",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begränsning",
                 "enableIpRestriction": "Aktivera IP-begränsning",
@@ -8405,6 +8482,12 @@
         "settings": "Inställningar",
         "subscription": {
             "subscription": "Prenumeration"
+        },
+        "groups": {
+            "company": "Företag",
+            "billing": "Fakturering",
+            "data": "Data",
+            "logs": "Loggar"
         },
         "tabs": {
             "absences": "Frånvaro",
@@ -10354,6 +10437,7 @@
     },
     "update": "Uppdatera",
     "updates": {
+        "newUpdates": "Nya uppdateringar",
         "newUpdatesFrom": "Nya opdateringer från",
         "showUpdate": "Visa uppdatering",
         "updates": "Opdateringer"

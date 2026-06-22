@@ -6067,7 +6067,59 @@
             "description": "Beskrivelse",
             "title": "Titel"
         },
-        "viewResponses": "Se svar"
+        "viewResponses": "Se svar",
+        "tabs": {
+            "formBuilder": "Formularbygger",
+            "predefinedEvents": "Foruddefinerede hændelser"
+        },
+        "predefinedEvents": {
+            "predefinedEvents": "Foruddefinerede hændelser",
+            "newPredefinedEvent": "Ny foruddefineret hændelse",
+            "editPredefinedEvent": "Rediger foruddefineret hændelse",
+            "calendarTypes": {
+                "citizens": "Borgere",
+                "employees": "Medarbejdere"
+            },
+            "recurringTypes": {
+                "everyday": "Hver dag",
+                "every_week": "Hver uge",
+                "every_second_week": "Hver anden uge",
+                "every_third_week": "Hver tredje uge",
+                "every_fourth_week": "Hver fjerde uge",
+                "every_month": "Hver måned"
+            },
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivelse",
+                "calendarType": "Kalendertype",
+                "durationMinutes": "Varighed (minutter)",
+                "isActive": "Aktiv",
+                "isPrivate": "Privat",
+                "isRecurring": "Gentagende",
+                "recurringType": "Gentagelse",
+                "recurringEndDate": "Slutdato",
+                "recurringEndDateHint": "Lad stå tomt for ingen slutdato (løbende)"
+            },
+            "table": {
+                "title": "Titel",
+                "calendarType": "Kalendertype",
+                "durationMinutes": "Varighed (min)",
+                "isRecurring": "Gentagende",
+                "isActive": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slet"
+                }
+            },
+            "alert": {
+                "predefinedEventSuccessfullySaved": "Foruddefineret hændelse gemt med succes",
+                "predefinedEventSuccessfullyUpdated": "Foruddefineret hændelse opdateret med succes",
+                "predefinedEventSuccessfullyDeleted": "Foruddefineret hændelse slettet med succes"
+            },
+            "confirmation": {
+                "deletePredefinedEventConfirmation": "Er du sikker på, at du vil slette denne foruddefinerede hændelse"
+            }
+        }
     },
     "gender": {
         "female": "Kvinde",
@@ -7659,15 +7711,33 @@
         "editProtocol": "Rediger protokol",
         "form": {
             "alert": {
+                "checkInSuccess": "Tjekket ind",
+                "checkOutSuccess": "Tjekket ud",
                 "newProtocolSuccessfullySaved": "Ny protokol gemt med succes",
                 "protocolSuccessfullyUpdated": "Protokol opdateret med succes"
             },
             "citizens": "Borgere",
             "endDate": "Slutdato",
+            "every": "Hver",
             "excludeWeekends": "Udelad weekender",
+            "frequency": "Frekvens",
+            "isRecurring": "Gentages",
+            "monthlyEach": "På dage",
+            "monthlyOnThe": "Den",
             "protocolName": "Protokolnavn",
-            "startDate": "Startdato"
+            "recurringType": "Gentag",
+            "recurringUntil": "Gentages til",
+            "selectDatesFirst": "Vælg start- og slutdato først",
+            "startDate": "Startdato",
+            "weeklyOn": "På",
+            "yearlyInMonths": "I måneder"
         },
+        "checkIn": "Tjek ind",
+        "checkOut": "Tjek ud",
+        "myProtocols": "Mine protokoller",
+        "today": "I dag",
+        "other": "Andre",
+        "noTodayEntries": "Ingen protokolregistreringer for i dag",
         "newProtocol": "Ny protokol",
         "protocols": "Protokol",
         "table": {
@@ -7696,7 +7766,8 @@
             "startDate": "Startdato",
             "status": {
                 "absent": "Fraværende",
-                "attended": "Tilstede"
+                "attended": "Tilstede",
+                "notRecorded": "Ikke registreret"
             }
         }
     },
@@ -8364,6 +8435,12 @@
                 "holidayNonSundayHours": "Aktivér helligdagstimer på helligdage der ikke er søndage",
                 "whichHolidaysCount": "Hvilke helligdage skal tælle med? (slå fra dem der ikke gælder for jer)",
                 "holidayState": { "full": "Fuld", "half": "Halv", "off": "Fra" },
+                "terminology": "Ordliste",
+                "terminologyHint": "Tilpas betegnelserne for journaler. Tomt felt = standardbetegnelse.",
+                "termJournals": "Journaler",
+                "termJournal": "Journal",
+                "termJournalNoteTag": "Journalnotetag",
+                "termJournalNotes": "Journalnotater",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
                 "enableIpRestriction": "Aktivér IP-begrænsning",

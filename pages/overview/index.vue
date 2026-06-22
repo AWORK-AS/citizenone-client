@@ -12,13 +12,18 @@
 
             <template #header>
                 <div class="flex items-center gap-x-6">
-                    <span v-if="!discoverCompleted" class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
-                        @click="navigateTo('/discover')">Discover</span>
+                    <span v-if="!discoverCompleted"
+                        class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors mb-1.5"
+                        @click="navigateTo('/discover')">
+                        {{ $t('discover.title') }}
+                    </span>
                     <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
                         {{ $t('overview.overview') }}
                     </span>
-                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
-                        @click="navigateTo('/statistics')">{{ $t('overview.statisticsTab') }}</span>
+                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors mb-1.5"
+                        @click="navigateTo('/statistics')">
+                        {{ $t('overview.statisticsTab') }}
+                    </span>
                 </div>
             </template>
 
@@ -36,7 +41,8 @@
                 v-if="state.error?.message && state.error.message.length > 0" />
 
             <!-- Shift briefing -->
-            <div class="mb-4 rounded-2xl border border-surface-200 bg-gradient-to-br from-primary/[0.06] to-secondary/[0.06] px-5 py-4">
+            <div
+                class="mb-4 rounded-2xl border border-surface-200 bg-gradient-to-br from-primary/[0.06] to-secondary/[0.06] px-5 py-4">
                 <p class="text-lg font-semibold text-slate-900">
                     {{ $t('overview.briefing.' + greetingPart, { name: firstName }) }} 👋
                 </p>
@@ -53,7 +59,8 @@
                         class="inline-flex items-center gap-x-1 rounded-full bg-blue-50 text-blue-700 px-2.5 py-1">
                         📅 {{ $t('overview.briefing.appointments', { count: todaysEventsCount }) }}
                     </span>
-                    <span v-if="todaysBirthdays.length === 0 && medicineActionCitizens.length === 0 && todaysEventsCount === 0"
+                    <span
+                        v-if="todaysBirthdays.length === 0 && medicineActionCitizens.length === 0 && todaysEventsCount === 0"
                         class="text-slate-500">
                         {{ $t('overview.briefing.allCalm') }} ☀️
                     </span>
@@ -70,7 +77,8 @@
                         <span>{{ $t('showHide') }}</span>
                     </button>
                     <!-- Date navigator -->
-                    <div class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
+                    <div
+                        class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
                         <button @click="previousDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
                             <Icon name="heroicons:chevron-left-20-solid" class="h-4 w-4 text-slate-400" />
                         </button>
@@ -166,7 +174,8 @@
                         <Icon name="ph:cake" class="h-4 w-4 text-accent-orange" />
                         {{ todaysBirthdays.length > 0
                             ? $t('overview.birthdays.todayTitle')
-                            : (hasThisWeekBirthdays ? $t('overview.birthdays.title') : $t('overview.birthdays.nextTitle')) }}
+                            : (hasThisWeekBirthdays ? $t('overview.birthdays.title') : $t('overview.birthdays.nextTitle'))
+                        }}
                         <span v-if="hasThisWeekBirthdays"
                             class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
                             {{ todaysBirthdays.length > 0 ? todaysBirthdays.length : thisWeekBirthdays.length }}
@@ -176,18 +185,21 @@
                         <li v-for="(birthday, birthdayIndex) in todaysBirthdays" :key="birthdayIndex"
                             class="flex items-center justify-between gap-x-2 text-xs font-semibold text-primary">
                             <span class="truncate">{{ birthday.name }}</span>
-                            <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</span>
+                            <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age })
+                                }}</span>
                         </li>
                     </ul>
                     <!-- No birthdays this week: surface the next one in line -->
-                    <div v-else-if="!hasThisWeekBirthdays && nextBirthday" class="mt-2 flex items-center justify-between gap-x-2">
+                    <div v-else-if="!hasThisWeekBirthdays && nextBirthday"
+                        class="mt-2 flex items-center justify-between gap-x-2">
                         <span class="truncate text-xs font-semibold text-primary">{{ nextBirthday.name }}</span>
                         <span class="shrink-0 text-[11px] text-slate-500">
-                            {{ $t('overview.birthdays.inDays', { days: nextBirthday.days_until }) }} · {{ $t('overview.birthdays.turns', { age: nextBirthday.age }) }}
+                            {{ $t('overview.birthdays.inDays', { days: nextBirthday.days_until }) }} · {{
+                                $t('overview.birthdays.turns', { age: nextBirthday.age }) }}
                         </span>
                     </div>
-                    <button v-if="hasThisWeekBirthdays && (laterBirthdaysCount > 0 || todaysBirthdays.length === 0)" type="button"
-                        @click="state.modal.isBirthdaysOpen = true"
+                    <button v-if="hasThisWeekBirthdays && (laterBirthdaysCount > 0 || todaysBirthdays.length === 0)"
+                        type="button" @click="state.modal.isBirthdaysOpen = true"
                         class="mt-2 inline-flex items-center gap-x-1 text-xs text-primary font-medium hover:text-primary-700 transition-colors">
                         <template v-if="todaysBirthdays.length > 0">
                             {{ $t('overview.birthdays.moreThisWeek', { count: laterBirthdaysCount }) }}
@@ -203,7 +215,8 @@
                     <div class="stat-label">
                         <Icon name="ph:pill" class="h-4 w-4 text-red-500" />
                         {{ $t('overview.medicineAction.title') }}
-                        <span class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
+                        <span
+                            class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
                             {{ medicineActionCitizens.length }}
                         </span>
                     </div>
@@ -217,10 +230,12 @@
                                     <span class="truncate">{{ citizen.name }}</span>
                                 </CitizenHoverCard>
                                 <div class="mt-0.5 flex items-center gap-x-1 text-[11px]">
-                                    <span v-if="citizen.deviated > 0" class="rounded-full bg-red-50 text-red-600 px-1.5 py-0.5">
+                                    <span v-if="citizen.deviated > 0"
+                                        class="rounded-full bg-red-50 text-red-600 px-1.5 py-0.5">
                                         {{ $t('overview.medicineAction.deviated', { count: citizen.deviated }) }}
                                     </span>
-                                    <span v-if="citizen.overdue > 0" class="rounded-full bg-amber-50 text-amber-600 px-1.5 py-0.5">
+                                    <span v-if="citizen.overdue > 0"
+                                        class="rounded-full bg-amber-50 text-amber-600 px-1.5 py-0.5">
                                         {{ $t('overview.medicineAction.overdue', { count: citizen.overdue }) }}
                                     </span>
                                 </div>
@@ -400,17 +415,24 @@
                                         <span class="truncate font-medium text-slate-900">{{ birthday.name }}</span>
                                         <span class="shrink-0 rounded-full px-2 py-0.5 text-[11px]"
                                             :class="birthday.type === 'staff' ? 'bg-slate-100 text-slate-500' : 'bg-emerald-50 text-emerald-600'">
-                                            {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') : $t('overview.birthdays.child') }}
+                                            {{ birthday.type === 'staff' ? $t('overview.birthdays.staff') :
+                                                $t('overview.birthdays.child') }}
                                         </span>
                                     </div>
-                                    <div class="text-xs text-slate-400">{{ $t('overview.birthdays.turns', { age: birthday.age }) }}</div>
+                                    <div class="text-xs text-slate-400">{{ $t('overview.birthdays.turns', {
+                                        age:
+                                            birthday.age
+                                    }) }}</div>
                                 </div>
                             </div>
-                            <span class="inline-flex shrink-0 items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-medium"
+                            <span
+                                class="inline-flex shrink-0 items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-medium"
                                 :class="birthday.days_until === 0 ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'">
                                 <Icon v-if="birthday.days_until === 0" name="ph:cake-fill" class="h-3.5 w-3.5" />
-                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today') }}</template>
-                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until }) }}</template>
+                                <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today')
+                                    }}</template>
+                                <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until })
+                                    }}</template>
                             </span>
                         </li>
                     </ul>
