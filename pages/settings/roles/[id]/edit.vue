@@ -54,6 +54,7 @@ const state = reactive({
         name: '',
         predefined: false,
         permissions: [] as any,
+        pages: [] as any,
         is_name_editable: false,
         level: 20,
     },
@@ -75,6 +76,7 @@ async function fetchRole() {
                 predefined: response?.data?.predefined ?? false,
                 is_name_editable: response?.data?.is_name_editable ?? false,
                 permissions: [],
+                pages: response?.data?.pages ?? [],
                 level: String(response?.data?.level ?? 20),
             }
             response?.data?.permissions.forEach((permission: any) => {
@@ -95,6 +97,7 @@ async function updateRole(roleDetails: any) {
             name: roleDetails.name,
             level: roleDetails.level,
             permission_uuid: roleDetails.permissions,
+            page_uuid: roleDetails.page_uuid ?? [],
         }
         const response = await roleService.updateRole(roleId, params)
         if (response.data) {

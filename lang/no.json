@@ -3764,6 +3764,7 @@
         "holidayNonWorked": "Helligdagstimer (ikke arbeidet)",
         "holidayHoursHint": "Helligdag: arbeidede timer ×1,5 (virksomhetens egen faktor). Ikke-arbeidede helligdager som ikke er søndager gir 7,4 timer.",
         "holidayWorkedShort": "Arbeidet",
+        "holidayCompensation": "Helligdagskompensasjon",
         "holidayNonWorkedShort": "Ikke arbeidet",
         "holidayFreeBadge": "Fri – helligdag",
         "holidayNonWorkedAssigned": "7,4 helligdagstimer tildelt",
@@ -7623,6 +7624,7 @@
                 "archive": "Arkiver",
                 "delete": "Slett",
                 "download": "Last ned",
+                "openInNewTab": "Åpne i ny fane",
                 "edit": "Rediger",
                 "graph": "Graf",
                 "notes": "Noter",
@@ -8094,6 +8096,7 @@
             },
             "name": "Navn",
             "permissions": "Tillatelser",
+            "pages": "Sidetilgang",
             "level": "Level"
         },
         "newRole": "Ny rolle",
@@ -8152,6 +8155,7 @@
             },
             "name": "Navn",
             "permissions": "Tillatelser",
+            "pages": "Sidetilgang",
             "user": "Bruker",
             "referrer": "Henviser",
             "company": "Virksomhet",
@@ -8219,6 +8223,8 @@
                 "roomSuccessfullyUpdated": "Rom oppdatert"
             },
             "capacity": "Kapasitet",
+            "departments": "Avdelinger",
+            "departmentsProOnly": "Tildeling av avdelinger er en del av Pro-profilen.",
             "name": "Navn"
         },
         "addCitizen": "Legg til bruker",
@@ -8352,6 +8358,12 @@
                 "warning11HourRest": "Advarsel ved hviletid under 11 timer",
                 "warning48HourRule": "Advarsel ved 48-timers reglen",
                 "holidayNonSundayHours": "Aktiver helligdagstimer på helligdager som ikke er søndager",
+                "whichHolidaysCount": "Hvilke helligdager skal telle med? (slå av dem som ikke gjelder for dere)",
+                "holidayState": {
+                    "full": "Full",
+                    "half": "Halv",
+                    "off": "Av"
+                },
                 "terminology": "Ordliste",
                 "terminologyHint": "Tilpass betegnelsene for journaler. Tomt felt = standard.",
                 "termJournals": "Journaler",

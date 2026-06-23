@@ -26,6 +26,12 @@
                 <FormError :error="v$?.formRole?.permissions?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.permission_uuid?.[0]" />
             </div>
+            <div class="space-y-1">
+                <FormLabel for="pages" :label="$t('roles.form.pages')" />
+                <FormSelectMultiple id="pages" :options="pageOptions"
+                    v-model="state.formRole.page_uuid" />
+                <FormError :error="props?.error?.errors?.page_uuid?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -43,6 +49,7 @@
 
 <script setup lang="ts">
 import { permissionService } from '@/components/api/user/PermissionService'
+import { pageService } from '@/components/api/user/PageService'
 import { getPermissionLabel } from '@/composables/usePermissions'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -75,10 +82,12 @@ const state = reactive({
         name: '',
         predefined: false,
         permissions: [],
+        page_uuid: [] as any[],
         is_name_editable: true,
         level: '20',
     },
     permissions: [] as any[],
+    pages: [] as any[],
 })
 
 const levelOptions = computed(() => [
@@ -89,6 +98,7 @@ const levelOptions = computed(() => [
 const isInitializing = ref(true)
 
 onMounted(() => {
+    fetchAllPages()
     if (props.formType === 'create') {
         fetchAllPermissions()
     }
@@ -102,6 +112,7 @@ watch(() => props.selectedRole, (newValue: any) => {
             name: newValue.name,
             predefined: newValue.predefined || false,
             permissions: newValue.permissions || [],
+            page_uuid: Array.isArray(newValue.pages) ? newValue.pages.map((p: any) => p.uuid) : [],
             is_name_editable: newValue.is_name_editable || false,
             level: String(newValue.level ?? 20),
         }
@@ -148,6 +159,27 @@ const translatedPermissions = computed(() => {
     return state.permissions.map((permission: any) => ({
         value: permission.uuid,
         label: getPermissionLabel(permission, locale.value),
+    }))
+})
+
+async function fetchAllPages() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await pageService.getAllPages()
+        if (response?.data) {
+            state.pages = response.data
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+const pageOptions = computed(() => {
+    return state.pages.map((page: any) => ({
+        value: page.uuid,
+        label: page.name,
     }))
 })
 

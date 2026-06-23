@@ -165,7 +165,13 @@
 
                         <div class="flex justify-between gap-4 mt-6">
                             <FormButton type="button" buttonStyle="primary" class="rounded-md flex-1"
-                                @click="downloadReport" :disabled="state.isDownloading">
+                                @click="openReport" :disabled="state.isDownloading || state.isOpening"
+                                :title="$t('plansandgoals.table.actions.openInNewTab')">
+                                <Icon v-if="!state.isOpening" name="ph:arrow-square-out" class="size-4" />
+                                {{ $t('plansandgoals.table.actions.openInNewTab') }}
+                            </FormButton>
+                            <FormButton type="button" buttonStyle="primary" class="rounded-md flex-1"
+                                @click="downloadReport" :disabled="state.isDownloading || state.isOpening">
                                 <Icon v-if="!state.isDownloading" name="ph:download" class="size-4" />
                                 {{ $t('plansandgoals.table.actions.download') }}
                             </FormButton>
@@ -199,6 +205,7 @@ const emit = defineEmits(['close'])
 
 const state = reactive({
     isDownloading: false,
+    isOpening: false,
     error: '' as string,
 })
 
@@ -228,6 +235,23 @@ function isCheckboxChecked(response: any, option: string): boolean {
         }
     }
     return false
+}
+
+async function openReport() {
+    state.isOpening = true
+    state.error = ''
+    try {
+        const attachmentUuid = props.report?.uuid
+        const response = await planGoalSubgoalService.downloadPlanGoalSubgoalStatuses(attachmentUuid)
+        if (response) {
+            const url = URL.createObjectURL(response)
+            window.open(url, '_blank')
+            setTimeout(() => URL.revokeObjectURL(url), 60000)
+        }
+    } catch (error: any) {
+        state.error = error?.message || 'An error occurred while opening the file.'
+    }
+    state.isOpening = false
 }
 
 async function downloadReport() {

@@ -3786,16 +3786,17 @@
             "useCompensatoryTime": "Use compensatory time",
             "users": "Users"
         },
-        "holidays": "Holidays",
+        "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
         "holidayNonWorked": "Public holiday hours (not worked)",
         "holidayHoursHint": "Public holiday: worked hours ×1.5 (company's own factor). Non-Sunday public holidays not worked count as 7.4 hours.",
         "holidayWorkedShort": "Worked",
+        "holidayCompensation": "Public holiday compensation",
         "holidayNonWorkedShort": "Not worked",
         "holidayFreeBadge": "Off – public holiday",
-        "holidayNonWorkedAssigned": "7.4 holiday hours assigned",
-        "holidayWorkedTooltip": "You are working on a public holiday. The shift's hours are multiplied by your organisation's holiday factor (e.g. ×1.5) and appear both under the shift type and as holiday hours.",
-        "holidayNonWorkedTooltip": "This day is a public holiday. You receive holiday hours even though no shift is registered.",
+        "holidayNonWorkedAssigned": "7.4 public holiday hours assigned",
+        "holidayWorkedTooltip": "You are working on a public holiday. The shift's hours are multiplied by your organisation's public holiday factor (e.g. ×1.5) and appear both under the shift type and as public holiday hours.",
+        "holidayNonWorkedTooltip": "This day is a public holiday. You receive public holiday hours even though no shift is registered.",
         "indicators": {
             "exceedsNorm": "Exceeds norm",
             "negative": "Negative balance",
@@ -4166,7 +4167,7 @@
         },
         "table": {
             "awakeNightShiftHours": "Awake night shift",
-            "holidayHours": "Holiday hours",
+            "holidayHours": "Public holiday hours",
             "sickLeaveHours": "Sick leave hours",
             "sleepingNightShiftHours": "Sleeping night shift",
             "timer": "Timer"
@@ -5585,7 +5586,7 @@
             "tags": "Tags",
             "title": "Title"
         },
-        "holidays": "Holidays",
+        "holidays": "Public holidays",
         "invitees": "Invitees",
         "myself": "Myself",
         "newEvent": "New event",
@@ -7659,6 +7660,7 @@
                 "archive": "Archive",
                 "delete": "Delete",
                 "download": "Download",
+                "openInNewTab": "Open in new tab",
                 "edit": "Edit",
                 "graph": "Graph",
                 "notes": "Notes",
@@ -8130,6 +8132,7 @@
             },
             "name": "Name",
             "permissions": "Permissions",
+            "pages": "Page access",
             "level": "Level"
         },
         "newRole": "New role",
@@ -8188,6 +8191,7 @@
             },
             "name": "Name",
             "permissions": "Permissions",
+            "pages": "Page access",
             "user": "User",
             "referrer": "Referrer",
             "company": "Company",
@@ -8255,6 +8259,8 @@
                 "roomSuccessfullyUpdated": "Room successfully updated"
             },
             "capacity": "Capacity",
+            "departments": "Departments",
+            "departmentsProOnly": "Assigning departments is available on the Pro plan.",
             "name": "Name"
         },
         "addCitizen": "Add citizen",
@@ -8458,7 +8464,13 @@
                 "warning13HourShift": "Warning for shifts exceeding 13 hours",
                 "warning11HourRest": "Warning for rest periods under 11 hours",
                 "warning48HourRule": "Warning for the 48-hour rule",
-                "holidayNonSundayHours": "Enable holiday hours on non-Sunday public holidays",
+                "holidayNonSundayHours": "Enable public holiday hours on non-Sunday public holidays",
+                "whichHolidaysCount": "Which public holidays should count? (turn off the ones that do not apply to you)",
+                "holidayState": {
+                    "full": "Full",
+                    "half": "Half",
+                    "off": "Off"
+                },
                 "terminology": "Word list",
                 "terminologyHint": "Customise the journal terms. Leave a field blank to use the default.",
                 "termJournals": "Journals",

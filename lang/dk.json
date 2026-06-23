@@ -3764,6 +3764,7 @@
         "holidayNonWorked": "Helligdagstimer (ikke-arbejdet)",
         "holidayHoursHint": "Helligdag: arbejdede timer ×1,5 (virksomhedens egen faktor). Ikke-arbejdede helligdage der ikke er søndage giver 7,4 timer.",
         "holidayWorkedShort": "Arbejdet",
+        "holidayCompensation": "Helligdagskompensation",
         "holidayNonWorkedShort": "Ikke arbejdet",
         "holidayFreeBadge": "Fri – helligdag",
         "holidayNonWorkedAssigned": "7,4 helligdagstimer tildelt",
@@ -7632,6 +7633,7 @@
                 "archive": "Arkivér",
                 "delete": "Slet",
                 "download": "Download",
+                "openInNewTab": "Åbn i ny fane",
                 "edit": "Rediger",
                 "graph": "Graf",
                 "notes": "Noter",
@@ -8103,6 +8105,7 @@
             },
             "name": "Navn",
             "permissions": "Tilladelser",
+            "pages": "Sideadgange",
             "level": "Niveau"
         },
         "newRole": "Ny rolle",
@@ -8161,6 +8164,7 @@
             },
             "name": "Navn",
             "permissions": "Tilladelser",
+            "pages": "Sideadgange",
             "user": "Bruger",
             "referrer": "Henviser",
             "company": "Virksomhed",
@@ -8228,6 +8232,8 @@
                 "roomSuccessfullyUpdated": "Værelse opdateret"
             },
             "capacity": "Kapacitet",
+            "departments": "Afdelinger",
+            "departmentsProOnly": "Tildeling af afdelinger er en del af Pro-profilen.",
             "name": "Navn"
         },
         "addCitizen": "Tilføj borger",
@@ -8432,6 +8438,12 @@
                 "warning11HourRest": "Advarsel ved hviletid under 11 timer",
                 "warning48HourRule": "Advarsel ved 48-timers reglen",
                 "holidayNonSundayHours": "Aktivér helligdagstimer på helligdage der ikke er søndage",
+                "whichHolidaysCount": "Hvilke helligdage skal tælle med? (slå fra dem der ikke gælder for jer)",
+                "holidayState": {
+                    "full": "Fuld",
+                    "half": "Halv",
+                    "off": "Fra"
+                },
                 "terminology": "Ordliste",
                 "terminologyHint": "Tilpas betegnelserne for journaler. Tomt felt = standardbetegnelse.",
                 "termJournals": "Journaler",

@@ -3764,6 +3764,7 @@
         "holidayNonWorked": "Helgdagstimmar (ej arbetade)",
         "holidayHoursHint": "Helgdag: arbetade timmar ×1,5 (företagets egen faktor). Ej arbetade helgdagar som inte är söndagar ger 7,4 timmar.",
         "holidayWorkedShort": "Arbetad",
+        "holidayCompensation": "Helgdagskompensation",
         "holidayNonWorkedShort": "Ej arbetad",
         "holidayFreeBadge": "Ledig – helgdag",
         "holidayNonWorkedAssigned": "7,4 helgdagstimmar tilldelade",
@@ -7623,6 +7624,7 @@
                 "archive": "Arkivér",
                 "delete": "Radera",
                 "download": "Ladda ner",
+                "openInNewTab": "Öppna i ny flik",
                 "edit": "Redigera",
                 "graph": "Graf",
                 "notes": "Anteckningar",
@@ -8094,6 +8096,7 @@
             },
             "name": "Namn",
             "permissions": "Behörigheter",
+            "pages": "Sidåtkomst",
             "level": "Level"
         },
         "newRole": "Ny roll",
@@ -8152,6 +8155,7 @@
             },
             "name": "Namn",
             "permissions": "Behörigheter",
+            "pages": "Sidåtkomst",
             "user": "Användare",
             "referrer": "Remittent",
             "company": "Företag",
@@ -8219,6 +8223,8 @@
                 "roomSuccessfullyUpdated": "Rum uppdaterad"
             },
             "capacity": "Kapacitet",
+            "departments": "Avdelningar",
+            "departmentsProOnly": "Tilldelning av avdelningar ingår i Pro-profilen.",
             "name": "Namn"
         },
         "addCitizen": "Lägg till klient",
@@ -8352,6 +8358,12 @@
                 "warning11HourRest": "Varning vet hviletid under 11 timmar",
                 "warning48HourRule": "Varning vet 48-timers reglen",
                 "holidayNonSundayHours": "Aktivera helgdagstimmar på helgdagar som inte är söndagar",
+                "whichHolidaysCount": "Vilka helgdagar ska räknas? (stäng av de som inte gäller för er)",
+                "holidayState": {
+                    "full": "Hel",
+                    "half": "Halv",
+                    "off": "Av"
+                },
                 "terminology": "Ordlista",
                 "terminologyHint": "Anpassa termerna för journaler. Lämna tomt för standard.",
                 "termJournals": "Journaler",
