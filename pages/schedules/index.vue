@@ -82,7 +82,7 @@
                     <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
                         @click="state.modal.isSubscribeOpen = true">
                         <Icon name="ph:calendar-plus" class="h-4 w-4" aria-hidden="true" />
-                        <span class="hidden xl:inline">{{ $t('events.subscribe.label') }}</span>
+                        <span class="hidden xl:inline">{{ $t('events.subscribe.addToCalendar') }}</span>
                     </FormButton>
                     <FormButton v-if="state.isZenegyConnected" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-green-700 !border-green-700 !text-white hover:!bg-green-800"
