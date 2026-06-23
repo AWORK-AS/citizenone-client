@@ -8458,7 +8458,8 @@
                     "level": "Level",
                     "regular": "Regular",
                     "manager": "Manager"
-                }
+                },
+                "proFeatureHint": "Denne funksjonen er en del av Pro-abonnementet. Oppgrader for å slå den på."
             }
         },
         "licenseOverview": {

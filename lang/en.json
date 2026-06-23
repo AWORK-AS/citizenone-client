@@ -8494,7 +8494,8 @@
                 "deviceRestrictionAction": "Restriction action",
                 "manageApprovedDevices": "Manage approved devices",
                 "actionBlock": "Block access",
-                "actionOtp": "Require OTP verification"
+                "actionOtp": "Require OTP verification",
+                "proFeatureHint": "This feature is part of the Pro plan. Upgrade to enable it."
             }
         },
         "licenseOverview": {

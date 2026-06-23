@@ -8458,7 +8458,8 @@
                     "level": "Level",
                     "regular": "Regular",
                     "manager": "Manager"
-                }
+                },
+                "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den."
             }
         },
         "licenseOverview": {

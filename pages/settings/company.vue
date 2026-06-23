@@ -321,11 +321,14 @@
                                 {{ $t('settings.company.form.absenceCountsInNormHours') }}
                             </p>
                         </div>
-                        <div v-else class="flex items-center gap-x-2 text-gray-400 mt-3">
-                            <Icon name="ph:lock-simple" class="w-4 h-4 flex-shrink-0" aria-hidden="true" />
-                            <p>{{ $t('settings.company.form.absenceCountsInNormHours') }}</p>
+                        <div v-else class="mt-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5">
+                            <div class="flex items-center gap-x-2 text-gray-500">
+                                <Icon name="ph:lock-simple" class="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                                <p class="font-medium">{{ $t('settings.company.form.absenceCountsInNormHours') }}</p>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1.5">{{ $t('settings.company.form.proFeatureHint') }}</p>
                             <button type="button" @click="navigateTo('/settings/subscription')"
-                                class="ml-1 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+                                class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
                                 <Icon name="ph:sparkle" class="w-3.5 h-3.5" aria-hidden="true" />
                                 {{ $t('settings.company.form.upgradeToPro') }}
                             </button>
