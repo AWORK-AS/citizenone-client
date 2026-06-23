@@ -11160,6 +11160,12 @@
             "invitesFailed": "Kunde inte skicka inloggningsmail.",
             "missingField": "Saknar {field}",
             "invalidField": "Ogiltigt {field}"
+        },
+        "page": {
+            "title": "Importera från ett annat system",
+            "description": "Migrera invånare, anställda, journaler och scheman från ert nuvarande system via CSV eller Excel. Ladda upp filen, koppla kolumnerna till CitizenOne och importera.",
+            "startImport": "Starta import",
+            "adminOnly": "Endast administratörer kan importera data."
         }
     },
     "sms": {

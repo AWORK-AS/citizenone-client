@@ -11160,6 +11160,12 @@
             "invitesFailed": "Kunne ikke sende innloggings-e-poster.",
             "missingField": "Mangler {field}",
             "invalidField": "Ugyldig {field}"
+        },
+        "page": {
+            "title": "Importer fra et annet system",
+            "description": "Migrer borgere, ansatte, journaler og vaktplaner fra ditt nåværende system via CSV eller Excel. Last opp filen, koble kolonnene til CitizenOne, og importer.",
+            "startImport": "Start import",
+            "adminOnly": "Kun administratorer kan importere data."
         }
     },
     "sms": {

@@ -11160,6 +11160,12 @@
             "invitesFailed": "Could not send login emails.",
             "missingField": "Missing {field}",
             "invalidField": "Invalid {field}"
+        },
+        "page": {
+            "title": "Import from another system",
+            "description": "Migrate citizens, employees, journals and shift plans from your current system via CSV or Excel. Upload the file, map the columns to CitizenOne, and import.",
+            "startImport": "Start import",
+            "adminOnly": "Only administrators can import data."
         }
     },
     "sms": {
