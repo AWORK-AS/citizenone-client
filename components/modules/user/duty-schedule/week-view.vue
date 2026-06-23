@@ -230,7 +230,7 @@
                                     <span v-if="getHolidayForDay(day.longName)"
                                         class="absolute bottom-1 left-0 right-0 text-center px-0.5">
                                         <span
-                                            class="inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
+                                            class="capitalize inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
                                             style="color:#b45309">{{ getHolidayForDay(day.longName) }}</span>
                                     </span>
                                 </Tooltip>
@@ -267,7 +267,7 @@
                                     <span v-if="getHolidayForDay(day.longName)"
                                         class="absolute bottom-1 left-0 right-0 text-center px-0.5">
                                         <span
-                                            class="inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
+                                            class="capitalize inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
                                             style="color:#b45309">{{ getHolidayForDay(day.longName) }}</span>
                                     </span>
                                 </div>
@@ -892,13 +892,17 @@
                                                             v-if="shift?.type?.system_name === 'vacation-leave'">
                                                             🏖️
                                                         </div>
-                                                        <div class="absolute left-4 -top-2 sm:-right-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help"
-                                                            v-if="isWorkedHolidayShift(shift)"
-                                                            :title="$t('dutySchedules.holidayWorkedTooltip')">
-                                                            <Icon name="ph:calendar-check"
-                                                                class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500"
-                                                                aria-hidden="true" />
-                                                        </div>
+                                                        <Tooltip v-if="isWorkedHolidayShift(shift)"
+                                                            :text="$t('dutySchedules.holidayWorkedTooltip')"
+                                                            position="top"
+                                                            class="absolute left-4 -top-2 sm:-right-3 sm:-top-3 z-10">
+                                                            <div
+                                                                class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help">
+                                                                <Icon name="ph:calendar-check"
+                                                                    class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500"
+                                                                    aria-hidden="true" />
+                                                            </div>
+                                                        </Tooltip>
                                                         <div class="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
                                                             @click="(hasUpdatePermission || isAtLeast('Admin')) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                             <!-- Start time -->
@@ -2446,10 +2450,9 @@ const danishHolidays: Record<string, string> = {
 }
 
 function getHolidayForDay(longName: string): string | null {
-    if (!holidaysEnabled.value) return null
     const key = dayNameToKey[longName]
     if (!key) return null
-    // First try API data
+    // First try API data — always show holiday names regardless of holiday_non_sunday_hours_enabled
     const apiHoliday = state.weeklySchedules?.week_data?.[key]?.holiday?.name
     if (apiHoliday) return apiHoliday
     // Fallback to local Danish holidays
