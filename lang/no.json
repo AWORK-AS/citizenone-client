@@ -5526,6 +5526,12 @@
         "somethingWentWrong": "Vi har registreret denne feil. Du behøver ikke at gøre noe. Vi vender tilbake til dig raskst muligt"
     },
     "events": {
+        "onlineMeeting": {
+            "toggle": "Nettmøte",
+            "linkLabel": "Møtelenke",
+            "autoHint": "La feltet stå tomt for automatisk å opprette et Teams-møte (krever Outlook-tilkobling).",
+            "join": "Bli med i møte"
+        },
         "alert": {
             "successfullyAdded": "Ny arrangement ble lagt til vellykket",
             "successfullyDeleted": "Arrangement slettet vellykket",

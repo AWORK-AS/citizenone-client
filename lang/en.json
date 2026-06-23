@@ -5553,6 +5553,12 @@
         "somethingWentWrong": "We have registered this error. You don't have to do anything. We will get back to you as soon as possible"
     },
     "events": {
+        "onlineMeeting": {
+            "toggle": "Online meeting",
+            "linkLabel": "Meeting link",
+            "autoHint": "Leave blank to auto-create a Teams meeting (requires Outlook connection).",
+            "join": "Join meeting"
+        },
         "alert": {
             "successfullyAdded": "New event successfully added",
             "successfullyDeleted": "Event successfully deleted",

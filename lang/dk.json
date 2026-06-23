@@ -5526,6 +5526,12 @@
         "somethingWentWrong": "Vi har registreret denne fejl. Du behøver ikke at gøre noget. Vi vender tilbage til dig hurtigst muligt"
     },
     "events": {
+        "onlineMeeting": {
+            "toggle": "Online møde",
+            "linkLabel": "Mødelink",
+            "autoHint": "Lad feltet stå tomt for automatisk at oprette et Teams-møde (kræver Outlook-forbindelse).",
+            "join": "Deltag i møde"
+        },
         "alert": {
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
             "successfullyDeleted": "Begivenhed slettet med succes",

@@ -202,6 +202,13 @@
                                     </dd>
                                 </div>
                             </dl>
+                            <div class="mt-2" v-if="myCalendarEvent?.meeting_url">
+                                <a :href="myCalendarEvent.meeting_url" target="_blank" rel="noopener"
+                                    class="inline-flex items-center gap-x-1.5 rounded-md bg-tertiary px-3 py-1.5 text-xs font-medium text-white hover:bg-tertiary-800">
+                                    <Icon name="ph:video-camera" class="h-4 w-4" />
+                                    {{ $t('events.onlineMeeting.join') }}
+                                </a>
+                            </div>
                             <div class="text-xxs flex flex-wrap gap-1 mt-1"
                                 v-if="myCalendarEvent.calendar_tags?.length > 0">
                                 <span v-for="(calendarTag, index) in myCalendarEvent.calendar_tags" :key=index

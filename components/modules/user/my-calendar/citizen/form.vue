@@ -38,6 +38,20 @@
                 <FormError :error="v$?.formSchedule?.date_time_end?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
             </div>
+            <div class="space-y-1 flex items-center gap-x-2">
+                <FormSwitch :value="state.formSchedule.is_online_meeting"
+                    @toggleSwitch="state.formSchedule.is_online_meeting = !state.formSchedule.is_online_meeting" />
+                <p>
+                    {{ $t('events.onlineMeeting.toggle') }}
+                </p>
+            </div>
+            <div class="space-y-1" v-if="state.formSchedule.is_online_meeting">
+                <FormLabel for="meeting_url" :label="$t('events.onlineMeeting.linkLabel')" />
+                <FormTextField id="meeting_url" name="meeting_url"
+                    placeholder="https://teams.microsoft.com/..." v-model="state.formSchedule.meeting_url" />
+                <p class="text-xs text-[#8891A4]">{{ $t('events.onlineMeeting.autoHint') }}</p>
+                <FormError :error="props?.error?.errors?.meeting_url?.[0]" />
+            </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
                     <FormLabel for="unit_uuid" :label="`${$t('units.form.doYouWantToReserveAUnit')}?`" />
@@ -279,6 +293,8 @@ const state = reactive({
         unit_uuid: '',
         calendar_tag_uuid: [],
         is_private: false,
+        is_online_meeting: false,
+        meeting_url: '',
         send_invitation: false,
         recurring: {
             is_recurring: false,
