@@ -506,34 +506,34 @@
                                                                     $t('dutySchedules.yearToDate') }}</span>
 
                                                                 <span>{{ $t('dutySchedules.holidayWorkedShort')
-                                                                }}</span>
+                                                                    }}</span>
                                                                 <span class="text-right tabular-nums">{{
                                                                     empStats(employee)?.holiday_hours?.worked_weekly
-                                                                }}</span>
+                                                                    }}</span>
                                                                 <span class="text-right tabular-nums">{{
                                                                     empStats(employee)?.holiday_hours?.worked_yearly
-                                                                }}</span>
+                                                                    }}</span>
 
                                                                 <template
                                                                     v-if="parseFloat(String(empStats(employee)?.holiday_hours?.compensation_yearly ?? '0').replace(',', '.')) > 0">
                                                                     <span>{{ $t('dutySchedules.holidayCompensation')
-                                                                    }}</span>
+                                                                        }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.compensation_weekly
-                                                                    }}</span>
+                                                                        }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.compensation_yearly
-                                                                    }}</span>
+                                                                        }}</span>
                                                                 </template>
 
                                                                 <span>{{ $t('dutySchedules.holidayNonWorkedShort')
-                                                                }}</span>
+                                                                    }}</span>
                                                                 <span class="text-right tabular-nums">{{
                                                                     empStats(employee)?.holiday_hours?.nonworked_weekly
-                                                                }}</span>
+                                                                    }}</span>
                                                                 <span class="text-right tabular-nums">{{
                                                                     empStats(employee)?.holiday_hours?.nonworked_yearly
-                                                                }}</span>
+                                                                    }}</span>
                                                             </div>
                                                         </div>
                                                     </template>
@@ -895,7 +895,8 @@
                                                         <Tooltip v-if="isWorkedHolidayShift(shift)"
                                                             :text="$t('dutySchedules.holidayWorkedTooltip')"
                                                             position="top"
-                                                            class="absolute left-4 -top-2 sm:-right-3 sm:-top-3 z-10">
+                                                            class="absolute left-4 -top-2 sm:-right-3 sm:-top-3 z-10"
+                                                            :wrap="true">
                                                             <div
                                                                 class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help">
                                                                 <Icon name="ph:calendar-check"
