@@ -8438,6 +8438,13 @@
                 "warning11HourRest": "Advarsel ved hviletid under 11 timer",
                 "warning48HourRule": "Advarsel ved 48-timers reglen",
                 "holidayNonSundayHours": "Aktivér helligdagstimer på helligdage der ikke er søndage",
+                "groupAccess": "Sikkerhed & adgang",
+                "groupCommunication": "Kommunikation & check-ind",
+                "groupPlans": "Planer & mål",
+                "groupSchedule": "Vagtplan & arbejdstid",
+                "groupOther": "Øvrigt & integrationer",
+                "absenceCountsInNormHours": "Ferie og sygdom tæller med i normtimer og afspadsering",
+                "upgradeToPro": "Opgradér til Pro",
                 "whichHolidaysCount": "Hvilke helligdage skal tælle med? (slå fra dem der ikke gælder for jer)",
                 "holidayState": {
                     "full": "Fuld",

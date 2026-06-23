@@ -146,126 +146,191 @@
                                 :error="v$?.formCompany?.intervention_notification_hours?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.intervention_notification_hours?.[0]" />
                         </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.is_2fa_enabled"
-                                @toggleSwitch="state.formCompany.is_2fa_enabled = !state.formCompany.is_2fa_enabled" />
+                        <div class="space-y-3 mt-6">
+                        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <button type="button" @click="openSections.access = !openSections.access"
+                            class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                                <Icon name="ph:shield-check" class="w-5 h-5" />
+                            </span>
+                            <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupAccess') }}</span>
+                            <span class="ml-auto flex items-center gap-3">
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ accessCount }} / 2</span>
+                                <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.access }" />
+                            </span>
+                        </button>
+                        <div v-show="openSections.access" class="px-5 pb-5 pt-3 border-t border-gray-100">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.is_2fa_enabled"
+                                    @toggleSwitch="state.formCompany.is_2fa_enabled = !state.formCompany.is_2fa_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.2fa') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.change_password_enabled"
+                                    @toggleSwitch="state.formCompany.change_password_enabled = !state.formCompany.change_password_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.allowChangePassword') }}
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
+                        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <button type="button" @click="openSections.communication = !openSections.communication"
+                            class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                                <Icon name="ph:chats-circle" class="w-5 h-5" />
+                            </span>
+                            <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupCommunication') }}</span>
+                            <span class="ml-auto flex items-center gap-3">
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ communicationCount }} / 3</span>
+                                <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.communication }" />
+                            </span>
+                        </button>
+                        <div v-show="openSections.communication" class="px-5 pb-5 pt-3 border-t border-gray-100">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.group_chat_enabled"
+                                    @toggleSwitch="state.formCompany.group_chat_enabled = !state.formCompany.group_chat_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.groupChat') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.checkin_enabled"
+                                    @toggleSwitch="state.formCompany.checkin_enabled = !state.formCompany.checkin_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.checkinOut') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.intervention_checkin_enabled"
+                                    @toggleSwitch="state.formCompany.intervention_checkin_enabled = !state.formCompany.intervention_checkin_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.interventionCheckinOut') }}
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
+                        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <button type="button" @click="openSections.plans = !openSections.plans"
+                            class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                                <Icon name="ph:target" class="w-5 h-5" />
+                            </span>
+                            <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupPlans') }}</span>
+                            <span class="ml-auto flex items-center gap-3">
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ plansCount }} / 3</span>
+                                <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.plans }" />
+                            </span>
+                        </button>
+                        <div v-show="openSections.plans" class="px-5 pb-5 pt-3 border-t border-gray-100">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.plans_enabled"
+                                    @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.allowPlans') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.goals_enabled"
+                                    @toggleSwitch="state.formCompany.goals_enabled = !state.formCompany.goals_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.allowGoals') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.subgoals_enabled"
+                                    @toggleSwitch="state.formCompany.subgoals_enabled = !state.formCompany.subgoals_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.allowSubGoals') }}
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
+                        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <button type="button" @click="openSections.schedule = !openSections.schedule"
+                            class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                                <Icon name="ph:calendar-check" class="w-5 h-5" />
+                            </span>
+                            <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupSchedule') }}</span>
+                            <span class="ml-auto flex items-center gap-3">
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ scheduleCount }} / 8</span>
+                                <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.schedule }" />
+                            </span>
+                        </button>
+                        <div v-show="openSections.schedule" class="px-5 pb-5 pt-3 border-t border-gray-100">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.is_lock_past_schedules"
+                                    @toggleSwitch="state.formCompany.is_lock_past_schedules = !state.formCompany.is_lock_past_schedules" />
+                                <p>
+                                    {{ $t('settings.company.form.lockPastSchedules') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.warning_13_hour_shift_enabled"
+                                    @toggleSwitch="state.formCompany.warning_13_hour_shift_enabled = !state.formCompany.warning_13_hour_shift_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.warning13HourShift') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.warning_11_hour_rest_enabled"
+                                    @toggleSwitch="state.formCompany.warning_11_hour_rest_enabled = !state.formCompany.warning_11_hour_rest_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.warning11HourRest') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.warning_48_hour_rule_enabled"
+                                    @toggleSwitch="state.formCompany.warning_48_hour_rule_enabled = !state.formCompany.warning_48_hour_rule_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.warning48HourRule') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.transfer_norm_hours_enabled"
+                                    @toggleSwitch="state.formCompany.transfer_norm_hours_enabled = !state.formCompany.transfer_norm_hours_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.transferNormHours') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.is_sort_by_status"
+                                    @toggleSwitch="state.formCompany.is_sort_by_status = !state.formCompany.is_sort_by_status" />
+                                <p>
+                                    {{ $t('settings.company.form.isSortByStatus') }}
+                                </p>
+                            </div>
+                        </div>
+                        <div v-if="isPro" class="space-y-1 flex items-center gap-x-2 mt-3">
+                            <FormSwitch :value="state.formCompany.absence_counts_in_norm_hours_enabled"
+                                @toggleSwitch="state.formCompany.absence_counts_in_norm_hours_enabled = !state.formCompany.absence_counts_in_norm_hours_enabled" />
                             <p>
-                                {{ $t('settings.company.form.2fa') }}
+                                {{ $t('settings.company.form.absenceCountsInNormHours') }}
                             </p>
                         </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.group_chat_enabled"
-                                @toggleSwitch="state.formCompany.group_chat_enabled = !state.formCompany.group_chat_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.groupChat') }}
-                            </p>
+                        <div v-else class="flex items-center gap-x-2 text-gray-400 mt-3">
+                            <Icon name="ph:lock-simple" class="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                            <p>{{ $t('settings.company.form.absenceCountsInNormHours') }}</p>
+                            <button type="button" @click="navigateTo('/settings/subscription')"
+                                class="ml-1 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
+                                <Icon name="ph:sparkle" class="w-3.5 h-3.5" aria-hidden="true" />
+                                {{ $t('settings.company.form.upgradeToPro') }}
+                            </button>
                         </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.checkin_enabled"
-                                @toggleSwitch="state.formCompany.checkin_enabled = !state.formCompany.checkin_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.checkinOut') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.intervention_checkin_enabled"
-                                @toggleSwitch="state.formCompany.intervention_checkin_enabled = !state.formCompany.intervention_checkin_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.interventionCheckinOut') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.change_password_enabled"
-                                @toggleSwitch="state.formCompany.change_password_enabled = !state.formCompany.change_password_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.allowChangePassword') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.plans_enabled"
-                                @toggleSwitch="state.formCompany.plans_enabled = !state.formCompany.plans_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.allowPlans') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.goals_enabled"
-                                @toggleSwitch="state.formCompany.goals_enabled = !state.formCompany.goals_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.allowGoals') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.subgoals_enabled"
-                                @toggleSwitch="state.formCompany.subgoals_enabled = !state.formCompany.subgoals_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.allowSubGoals') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.is_lock_past_schedules"
-                                @toggleSwitch="state.formCompany.is_lock_past_schedules = !state.formCompany.is_lock_past_schedules" />
-                            <p>
-                                {{ $t('settings.company.form.lockPastSchedules') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.warning_13_hour_shift_enabled"
-                                @toggleSwitch="state.formCompany.warning_13_hour_shift_enabled = !state.formCompany.warning_13_hour_shift_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.warning13HourShift') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.warning_11_hour_rest_enabled"
-                                @toggleSwitch="state.formCompany.warning_11_hour_rest_enabled = !state.formCompany.warning_11_hour_rest_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.warning11HourRest') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.warning_48_hour_rule_enabled"
-                                @toggleSwitch="state.formCompany.warning_48_hour_rule_enabled = !state.formCompany.warning_48_hour_rule_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.warning48HourRule') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.transfer_norm_hours_enabled"
-                                @toggleSwitch="state.formCompany.transfer_norm_hours_enabled = !state.formCompany.transfer_norm_hours_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.transferNormHours') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.is_sort_by_status"
-                                @toggleSwitch="state.formCompany.is_sort_by_status = !state.formCompany.is_sort_by_status" />
-                            <p>
-                                {{ $t('settings.company.form.isSortByStatus') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.social_og_boligstyrelsen"
-                                @toggleSwitch="state.formCompany.social_og_boligstyrelsen = !state.formCompany.social_og_boligstyrelsen" />
-                            <p>
-                                Social- og Boligstyrelsen
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.quick_risk_assessment_enabled"
-                                @toggleSwitch="state.formCompany.quick_risk_assessment_enabled = !state.formCompany.quick_risk_assessment_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.quickRiskAssessment') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
-                            <FormSwitch :value="state.formCompany.register_transport_enabled"
-                                @toggleSwitch="state.formCompany.register_transport_enabled = !state.formCompany.register_transport_enabled" />
-                            <p>
-                                {{ $t('settings.company.form.registerTransport') }}
-                            </p>
-                        </div>
-                        <div class="space-y-1 flex items-center gap-x-2">
+                        <div class="space-y-1 flex items-center gap-x-2 mt-3">
                             <FormSwitch :value="state.formCompany.holiday_non_sunday_hours_enabled"
                                 @toggleSwitch="state.formCompany.holiday_non_sunday_hours_enabled = !state.formCompany.holiday_non_sunday_hours_enabled" />
                             <p>
@@ -294,34 +359,49 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
+                        </div>
 
-                    </div>
-
-                    <div class="mt-6 border-t border-gray-200 pt-6 space-y-4">
-                        <h3 class="text-sm font-semibold text-gray-700">{{ $t('settings.company.form.terminology') }}</h3>
-                        <p class="text-xs text-gray-500">{{ $t('settings.company.form.terminologyHint') }}</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="space-y-1">
-                                <FormLabel for="term_journals" :label="$t('settings.company.form.termJournals')" />
-                                <FormTextField id="term_journals" name="term_journals"
-                                    placeholder="Journaler" v-model="state.formCompany.term_journals" />
+                        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <button type="button" @click="openSections.other = !openSections.other"
+                            class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                                <Icon name="ph:sliders-horizontal" class="w-5 h-5" />
+                            </span>
+                            <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupOther') }}</span>
+                            <span class="ml-auto flex items-center gap-3">
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount }} / 3</span>
+                                <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.other }" />
+                            </span>
+                        </button>
+                        <div v-show="openSections.other" class="px-5 pb-5 pt-3 border-t border-gray-100">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.quick_risk_assessment_enabled"
+                                    @toggleSwitch="state.formCompany.quick_risk_assessment_enabled = !state.formCompany.quick_risk_assessment_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.quickRiskAssessment') }}
+                                </p>
                             </div>
-                            <div class="space-y-1">
-                                <FormLabel for="term_journal" :label="$t('settings.company.form.termJournal')" />
-                                <FormTextField id="term_journal" name="term_journal"
-                                    placeholder="Journal" v-model="state.formCompany.term_journal" />
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.register_transport_enabled"
+                                    @toggleSwitch="state.formCompany.register_transport_enabled = !state.formCompany.register_transport_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.registerTransport') }}
+                                </p>
                             </div>
-                            <div class="space-y-1">
-                                <FormLabel for="term_journal_note_tag" :label="$t('settings.company.form.termJournalNoteTag')" />
-                                <FormTextField id="term_journal_note_tag" name="term_journal_note_tag"
-                                    placeholder="Journalnotetag" v-model="state.formCompany.term_journal_note_tag" />
-                            </div>
-                            <div class="space-y-1">
-                                <FormLabel for="term_journal_notes" :label="$t('settings.company.form.termJournalNotes')" />
-                                <FormTextField id="term_journal_notes" name="term_journal_notes"
-                                    placeholder="Journalnotater" v-model="state.formCompany.term_journal_notes" />
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.social_og_boligstyrelsen"
+                                    @toggleSwitch="state.formCompany.social_og_boligstyrelsen = !state.formCompany.social_og_boligstyrelsen" />
+                                <p>
+                                    Social- og Boligstyrelsen
+                                </p>
                             </div>
                         </div>
+                        </div>
+                        </div>
+                        </div>
+
                     </div>
 
                     <div class="mt-6 border-t border-gray-200 pt-6 space-y-4">
@@ -416,6 +496,16 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+// Counting absence toward norm hours is a Pro-plan feature.
+const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
+// Collapsible (accordion) open-state for the grouped toggle sections (default all open).
+const openSections = reactive({ access: true, communication: true, plans: true, schedule: true, other: true })
+// Count of enabled toggles per group, for the header count chips (default-safe via filter(Boolean)).
+const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
+const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled].filter(Boolean).length)
+const plansCount = computed(() => [state.formCompany.plans_enabled, state.formCompany.goals_enabled, state.formCompany.subgoals_enabled].filter(Boolean).length)
+const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled].filter(Boolean).length)
+const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen].filter(Boolean).length)
 const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
@@ -502,12 +592,9 @@ const state = reactive({
         is_device_restriction_enabled: false,
         device_restriction_action: 'block' as string,
         holiday_non_sunday_hours_enabled: false,
+        absence_counts_in_norm_hours_enabled: false,
         excluded_holiday_names: [] as string[],
         half_holiday_names: [] as string[],
-        term_journals: '' as string,
-        term_journal: '' as string,
-        term_journal_note_tag: '' as string,
-        term_journal_notes: '' as string,
     },
     isPageLoading: false,
     options: {
@@ -609,12 +696,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_device_restriction_enabled: newValue?.company?.is_device_restriction_enabled ? true : false,
             device_restriction_action: newValue?.company?.device_restriction_action ?? 'block',
             holiday_non_sunday_hours_enabled: newValue?.company?.holiday_non_sunday_hours_enabled ? true : false,
+            absence_counts_in_norm_hours_enabled: newValue?.company?.absence_counts_in_norm_hours_enabled ? true : false,
             excluded_holiday_names: Array.isArray(newValue?.company?.excluded_holiday_names) ? [...newValue.company.excluded_holiday_names] : [],
             half_holiday_names: Array.isArray(newValue?.company?.half_holiday_names) ? [...newValue.company.half_holiday_names] : [],
-            term_journals: newValue?.company?.term_journals ?? '',
-            term_journal: newValue?.company?.term_journal ?? '',
-            term_journal_note_tag: newValue?.company?.term_journal_note_tag ?? '',
-            term_journal_notes: newValue?.company?.term_journal_notes ?? '',
             logo: null,
             should_delete_logo: false,
         }
@@ -809,12 +893,9 @@ async function submitForm() {
                 is_device_restriction_enabled: state.formCompany.is_device_restriction_enabled,
                 device_restriction_action: state.formCompany.device_restriction_action,
                 holiday_non_sunday_hours_enabled: state.formCompany.holiday_non_sunday_hours_enabled,
+                absence_counts_in_norm_hours_enabled: state.formCompany.absence_counts_in_norm_hours_enabled,
                 excluded_holiday_names: state.formCompany.excluded_holiday_names,
                 half_holiday_names: state.formCompany.half_holiday_names,
-                term_journals: state.formCompany.term_journals,
-                term_journal: state.formCompany.term_journal,
-                term_journal_note_tag: state.formCompany.term_journal_note_tag,
-                term_journal_notes: state.formCompany.term_journal_notes,
             }
 
             const response = await userService.updateCompany(params)
