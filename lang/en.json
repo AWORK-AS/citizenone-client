@@ -5562,6 +5562,8 @@
         },
         "calendar": "Calendar",
         "citizens": "Citizens",
+        "showShifts": "Show shifts",
+        "shiftLabel": "Shift",
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this event",
             "deleteFutureEvents": "Delete future events"
