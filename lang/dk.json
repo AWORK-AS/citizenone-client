@@ -8468,7 +8468,8 @@
                 "deviceRestrictionAction": "Begrænsningshandling",
                 "manageApprovedDevices": "Administrér godkendte enheder",
                 "actionBlock": "Blokér adgang",
-                "actionOtp": "Kræv OTP-bekræftelse"
+                "actionOtp": "Kræv OTP-bekræftelse",
+                "proFeatureHint": "Denne funktion er en del af Pro-abonnementet. Opgradér for at slå den til."
             }
         },
         "licenseOverview": {
