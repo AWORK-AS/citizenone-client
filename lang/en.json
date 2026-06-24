@@ -5606,7 +5606,8 @@
             "regenerate": "Regenerate",
             "regenerateWarning": "Regenerating will invalidate your current URL. Anyone who subscribed with the old link will no longer receive updates.",
             "title": "Subscribe to calendar",
-            "yourCalendarUrl": "Your personal calendar URL"
+            "yourCalendarUrl": "Your personal calendar URL",
+            "addToCalendar": "Add to calendar"
         },
         "createJournalNote": "Create journal note",
         "markAsCompleted": "Mark as completed",

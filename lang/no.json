@@ -5579,7 +5579,8 @@
             "regenerate": "Regenerér",
             "regenerateWarning": "Regenerering vil ugyldiggøre din nåværende URL. Alle der har abonneret med det gamle link vil ikke længere motta oppdateringer.",
             "title": "Abonner på kalender",
-            "yourCalendarUrl": "Din personlige kalender-URL"
+            "yourCalendarUrl": "Din personlige kalender-URL",
+            "addToCalendar": "Legg til i kalender"
         },
         "createJournalNote": "Opprett journalnotat",
         "markAsCompleted": "Merk som fullført",

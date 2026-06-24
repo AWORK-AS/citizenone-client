@@ -79,6 +79,11 @@
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         <span class="hidden xl:inline">{{ $t('dutySchedules.download.download') }}</span>
                     </FormButton>
+                    <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
+                        @click="state.modal.isSubscribeOpen = true">
+                        <Icon name="ph:calendar-plus" class="h-4 w-4" aria-hidden="true" />
+                        <span class="hidden xl:inline">{{ $t('events.subscribe.addToCalendar') }}</span>
+                    </FormButton>
                     <FormButton v-if="state.isZenegyConnected" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-green-700 !border-green-700 !text-white hover:!bg-green-800"
                         @click="openZenegySyncModal">
@@ -170,6 +175,8 @@
                 @close="state.modal.isShowDistributionOfShiftTypes = false" />
             <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
                 :selectedDate="state.selectedDate" :filter="state.filter" @close="state.modal.isDownloadOpen = false" />
+            <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen" :dutySchedule="true"
+                @close="state.modal.isSubscribeOpen = false" />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 @close="state.modal.isActivityLogsOpen = false" />
             <ModulesUserDutyScheduleShareModalView :isModalOpen="state.modal.isViewSharedDutyScheduleOpen"
@@ -681,6 +688,7 @@ const state = reactive({
         isShowDistributionOfShiftTypes: false,
         isViewSharedDutyScheduleOpen: false,
         isZenegySyncOpen: false,
+        isSubscribeOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),
     syncStep: 'configure' as 'configure' | 'assign-rates' | 'review' | 'result',
