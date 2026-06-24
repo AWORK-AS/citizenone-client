@@ -5,6 +5,10 @@ class MyCalendarService extends BaseAPIService {
         return await this.request(`/user/my-calendars`, 'GET', params)
     }
 
+    async getCalendarShifts(params: object): Promise<any> {
+        return await this.request(`/user/my-calendars/shifts/list`, 'GET', params)
+    }
+
     async saveSchedule(params: object): Promise<any> {
         return await this.request(`/user/my-calendars`, 'POST', params)
     }

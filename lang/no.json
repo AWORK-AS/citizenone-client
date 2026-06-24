@@ -5541,6 +5541,8 @@
         },
         "calendar": "Kalender",
         "citizens": "Brukere",
+        "showShifts": "Vis vakter",
+        "shiftLabel": "Vakt",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på at du vil slette denne arrangement",
             "deleteFutureEvents": "Slett fremtidige arrangementer"

@@ -5541,6 +5541,8 @@
         },
         "calendar": "Kalender",
         "citizens": "Borgere",
+        "showShifts": "Vis vagter",
+        "shiftLabel": "Vagt",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed",
             "deleteFutureEvents": "Slet fremtidige begivenheder"

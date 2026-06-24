@@ -128,7 +128,27 @@
                             </ol>
                             <ol v-if="day.events.length > 0" class="mt-2 space-y-2">
                                 <li v-for="(myCalendarEvent, index) in day.events" :key="index">
-                                    <div class="relative group cursor-pointer bg-gray-200 p-2 rounded-md text-xxs space-y-1"
+                                    <div v-if="myCalendarEvent?.is_shift"
+                                        class="relative bg-indigo-50 p-2 rounded-md text-xxs space-y-1 border-l-4 border-indigo-500">
+                                        <div class="flex items-center gap-x-1">
+                                            <Icon name="ph:briefcase" class="h-3 w-3 text-indigo-600" />
+                                            <p class="flex-auto truncate font-medium text-indigo-800">
+                                                {{ myCalendarEvent?.title }}
+                                            </p>
+                                        </div>
+                                        <span
+                                            class="inline-flex items-center gap-x-0.5 rounded-full bg-indigo-100 px-1.5 py-0.5 text-xxs font-medium text-indigo-700">
+                                            <Icon name="ph:clock" class="h-3 w-3" />
+                                            {{ $t('events.shiftLabel') }}
+                                        </span>
+                                        <p class="text-gray-600">
+                                            {{ myCalendarEvent.time_start }} - {{ myCalendarEvent.time_end }}
+                                        </p>
+                                        <p class="text-gray-600" v-if="myCalendarEvent?.employee">
+                                            {{ myCalendarEvent?.employee }}
+                                        </p>
+                                    </div>
+                                    <div v-else class="relative group cursor-pointer bg-gray-200 p-2 rounded-md text-xxs space-y-1"
                                         :class="[
                                             myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
                                             myCalendarEvent?.type === 'employees' && 'border-green-700',
@@ -326,12 +346,40 @@
                 </li>
                 <li v-for="(myCalendarEvent, index) in state.days.find(day => day.date === state.selectedDay?.date)?.events || []"
                     :key="index" :class="[
-                        myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
-                        myCalendarEvent?.type === 'employees' && 'border-green-700',
-                        myCalendarEvent?.type === 'my_self' && 'border-primary',
+                        myCalendarEvent?.is_shift && 'border-indigo-500 bg-indigo-50/60 rounded-r-md',
+                        !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
+                        !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'employees' && 'border-green-700',
+                        !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'my_self' && 'border-primary',
                         'pl-4 border-l-4'
                     ]">
-                    <div class="relative flex space-x-6 py-6">
+                    <div v-if="myCalendarEvent?.is_shift" class="relative py-4">
+                        <div class="flex items-center gap-x-2 flex-wrap">
+                            <Icon name="ph:briefcase" class="h-4 w-4 text-indigo-600" aria-hidden="true" />
+                            <dd class="font-semibold text-gray-900 xl:pr-0">{{ myCalendarEvent?.title }}</dd>
+                            <span
+                                class="inline-flex items-center gap-x-1 rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-medium text-indigo-700">
+                                <Icon name="ph:clock" class="h-3.5 w-3.5" />
+                                {{ $t('events.shiftLabel') }}
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1" v-if="myCalendarEvent?.employee">{{ myCalendarEvent?.employee }}</p>
+                        <dl class="text-gray-500">
+                            <div class="flex items-center space-x-3 text-xs">
+                                <dt class="flex items-center">
+                                    <span class="sr-only">Date</span>
+                                    <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                </dt>
+                                <dd>
+                                    <time :datetime="myCalendarEvent.date_time_start">
+                                        {{ formatDateTimeToReadable(myCalendarEvent.date_time_start) }}
+                                        -
+                                        {{ formatDateTimeToReadable(myCalendarEvent.date_time_end) }}
+                                    </time>
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div v-else class="relative flex space-x-6 py-6">
                         <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.title}`"
                             alt="Image" class="h-14 w-14 flex-none rounded-full" />
                         <div class="flex-auto">
@@ -633,6 +681,7 @@ const year = computed(() => {
 })
 
 function editMyCalendarEvent(myCalendarEvent: any) {
+    if (myCalendarEvent?.is_shift) return
     if (!state.modal.isShowAllInviteesOpen) {
         emit('editMyCalendarEvent', myCalendarEvent)
     }

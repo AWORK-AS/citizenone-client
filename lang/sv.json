@@ -5541,6 +5541,8 @@
         },
         "calendar": "Kalender",
         "citizens": "Klienter",
+        "showShifts": "Visa pass",
+        "shiftLabel": "Pass",
         "confirmation": {
             "deleteConfirmation": "Är du säker på att du vill radera denna händelse",
             "deleteFutureEvents": "Radera fremtidige händelser"
