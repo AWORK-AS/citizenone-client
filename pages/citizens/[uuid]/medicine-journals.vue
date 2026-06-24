@@ -186,7 +186,7 @@
                     </div>
                     <div class="flex items-center gap-2 justify-end flex-wrap">
                         <FormButton buttonStyle="action" class="rounded-md"
-                            @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
+                            @click="state.modal.isFmkOpen = true"
                             v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
                             <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
@@ -942,6 +942,8 @@
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
                     @close="state.modal.isDownloadMedicineOverviewOpen = false" />
+                <ModulesUserCitizenMedicineModalFmk :isModalOpen="state.modal.isFmkOpen"
+                    :citizenUuid="String(citizenUuid)" @close="state.modal.isFmkOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
                     @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
@@ -1072,6 +1074,7 @@ const state = reactive({
         isDownloadMedicineOverviewOpen: false,
         isEditMedicineOpen: false,
         isFilterMedicineOpen: false,
+        isFmkOpen: false,
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
         isGivePNMedicineOpen: false,
