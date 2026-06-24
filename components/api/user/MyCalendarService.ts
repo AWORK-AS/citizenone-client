@@ -5,6 +5,10 @@ class MyCalendarService extends BaseAPIService {
         return await this.request(`/user/my-calendars`, 'GET', params)
     }
 
+    async getCalendarShifts(params: object): Promise<any> {
+        return await this.request(`/user/my-calendars/shifts/list`, 'GET', params)
+    }
+
     async saveSchedule(params: object): Promise<any> {
         return await this.request(`/user/my-calendars`, 'POST', params)
     }
@@ -27,6 +31,10 @@ class MyCalendarService extends BaseAPIService {
 
     async refreshIcalToken(): Promise<any> {
         return await this.request(`/user/my-calendars/ical/token/refresh`, 'POST')
+    }
+
+    async getDutyScheduleIcalUrl(): Promise<any> {
+        return await this.request(`/user/my-calendars/ical/duty-schedule/url`, 'GET')
     }
 
     async updateEventStatus(scheduleUuid: string, params: object): Promise<any> {

@@ -76,6 +76,8 @@ async function updateSchedule(scheduleDetails: any) {
             unit_uuid: scheduleDetails.unit_uuid,
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             is_private: scheduleDetails.is_private,
+            is_online_meeting: scheduleDetails.is_online_meeting,
+            meeting_url: scheduleDetails.meeting_url,
             apply_changes_to_future_events: scheduleDetails.apply_changes_to_future_events,
         } as any
 

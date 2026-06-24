@@ -131,12 +131,46 @@
                     </div>
                 </li>
                 <li v-for="(myCalendarEvent, index) in state.filteredCalendarEvents" :key="index" :class="[
-                    myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
-                    myCalendarEvent?.type === 'employees' && 'border-green-700',
-                    myCalendarEvent?.type === 'my_self' && 'border-primary',
+                    myCalendarEvent?.is_shift && 'border-indigo-500 bg-indigo-50/60 rounded-r-md',
+                    !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'citizens' && 'border-yellow-500',
+                    !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'employees' && 'border-green-700',
+                    !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'my_self' && 'border-primary',
                     'mt-6 pl-4 border-l-4'
                 ]">
-                    <div class="relative flex space-x-6 py-6">
+                    <template v-if="myCalendarEvent?.is_shift">
+                        <div class="relative py-4">
+                            <div class="flex items-center gap-x-2 flex-wrap">
+                                <Icon name="ph:briefcase" class="h-4 w-4 text-indigo-600" aria-hidden="true" />
+                                <dd class="font-semibold text-gray-900 xl:pr-0">
+                                    {{ myCalendarEvent?.title }}
+                                </dd>
+                                <span
+                                    class="inline-flex items-center gap-x-1 rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-medium text-indigo-700">
+                                    <Icon name="ph:clock" class="h-3.5 w-3.5" />
+                                    {{ $t('events.shiftLabel') }}
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1" v-if="myCalendarEvent?.employee">
+                                {{ myCalendarEvent?.employee }}
+                            </p>
+                            <dl class="text-gray-500">
+                                <div class="flex items-center space-x-3 text-xs">
+                                    <dt class="flex items-center">
+                                        <span class="sr-only">Date</span>
+                                        <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                    </dt>
+                                    <dd>
+                                        <time :datetime="myCalendarEvent.date_time_start">
+                                            {{ formatDateTimeToReadable(myCalendarEvent.date_time_start) }}
+                                            -
+                                            {{ formatDateTimeToReadable(myCalendarEvent.date_time_end) }}
+                                        </time>
+                                    </dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </template>
+                    <div v-else class="relative flex space-x-6 py-6">
                         <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.title}`"
                             class="h-14 w-14 rounded-full bg-gray-50 object-cover" />
                         <div class="flex-auto">
@@ -202,6 +236,13 @@
                                     </dd>
                                 </div>
                             </dl>
+                            <div class="mt-2" v-if="myCalendarEvent?.meeting_url">
+                                <a :href="myCalendarEvent.meeting_url" target="_blank" rel="noopener"
+                                    class="inline-flex items-center gap-x-1.5 rounded-md bg-tertiary px-3 py-1.5 text-xs font-medium text-white hover:bg-tertiary-800">
+                                    <Icon name="ph:video-camera" class="h-4 w-4" />
+                                    {{ $t('events.onlineMeeting.join') }}
+                                </a>
+                            </div>
                             <div class="text-xxs flex flex-wrap gap-1 mt-1"
                                 v-if="myCalendarEvent.calendar_tags?.length > 0">
                                 <span v-for="(calendarTag, index) in myCalendarEvent.calendar_tags" :key=index
@@ -474,6 +515,7 @@ function showAllInvitees(myCalendarEven: any) {
 }
 
 function editMyCalendarEvent(myCalendarEvent: any) {
+    if (myCalendarEvent?.is_shift) return
     emit('editMyCalendarEvent', myCalendarEvent)
 }
 

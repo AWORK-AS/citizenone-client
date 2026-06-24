@@ -107,6 +107,8 @@ async function saveSchedule(scheduleDetails: any) {
             unit_uuid: scheduleDetails.unit_uuid,
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             is_private: scheduleDetails.is_private,
+            is_online_meeting: scheduleDetails.is_online_meeting,
+            meeting_url: scheduleDetails.meeting_url,
             citizens_uuid: scheduleDetails.citizens_uuid,
             users_uuid: scheduleDetails.users_uuid,
             user_group_uuid: scheduleDetails.user_group_uuid,

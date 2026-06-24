@@ -83,7 +83,7 @@
             </div>
 
             <div class="grid lg:grid-cols-6 gap-3">
-                <div class="flex items-center gap-x-3 lg:col-span-3">
+                <div class="flex items-center gap-x-4 lg:col-span-3">
                     <button class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterCalendarOpen = true">
                         <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
@@ -91,6 +91,14 @@
                             {{ $t('filter') }}
                         </span>
                     </button>
+                    <div class="flex items-center gap-x-2">
+                        <FormSwitch :value="state.showShifts"
+                            @toggleSwitch="state.showShifts = !state.showShifts" />
+                        <span class="inline-flex items-center gap-x-1 text-sm text-gray-700">
+                            <Icon name="ph:briefcase" class="h-4 w-4 text-indigo-600" aria-hidden="true" />
+                            {{ $t('events.showShifts') }}
+                        </span>
+                    </div>
                 </div>
                 <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-x-3">
                     <div>
@@ -243,6 +251,7 @@ const state = reactive({
         employee_group_uuid: [] as any,
     },
     isPageLoading: false,
+    showShifts: false,
     modal: {
         isAddEventForMyselfOpen: false,
         isAddEventForCitizenOpen: false,
@@ -340,6 +349,10 @@ watch(() => language.locale.value, () => {
     fetchAllCitizens()
     fetchAllUsers()
     fetchAllEmployeeGroups()
+})
+
+watch(() => state.showShifts, () => {
+    fetchMyCalendarEvents()
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
@@ -491,6 +504,20 @@ async function fetchMyCalendarEvents() {
         const response = await myCalendarService.getSchedules(params)
         if (response.data) {
             state.myCalendarEvents = response
+        }
+
+        if (state.showShifts) {
+            const shiftsResponse = await myCalendarService.getCalendarShifts(params)
+            if (shiftsResponse?.data?.length && state.myCalendarEvents?.data) {
+                const shifts = shiftsResponse.data.map((shift: any) => ({
+                    ...shift,
+                    is_shift: true,
+                }))
+                state.myCalendarEvents = {
+                    ...state.myCalendarEvents,
+                    data: [...state.myCalendarEvents.data, ...shifts],
+                }
+            }
         }
     } catch (error: any) {
         state.error = { message: error.message }

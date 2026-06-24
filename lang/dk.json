@@ -200,6 +200,33 @@
             "name": "Navn"
         }
     },
+    "attendance": {
+        "absenceReason": "Fraværsårsag",
+        "absenceReasons": "Fraværsårsager",
+        "citizen": "Borger",
+        "checkIn": "Check-in",
+        "checkInOut": "Check-in / Check-out",
+        "date": "Dato",
+        "generate": "Generér",
+        "in": "Ind",
+        "monthlyReport": "Månedlig fremmøderapport",
+        "noDataForPeriod": "Ingen fremmødedata fundet for den valgte periode",
+        "noParticipantsToday": "Ingen deltagere tilmeldt i dag",
+        "notRegistered": "Ikke registreret",
+        "out": "Ud",
+        "participantList": "Deltagerliste",
+        "pending": "Afventer",
+        "period": "Periode",
+        "print": "Udskriv",
+        "printedOn": "Udskrevet den",
+        "protocol": "Aktivitet",
+        "selectMonthToGenerate": "Vælg en måned og klik Generér",
+        "selectWeekToGenerate": "Vælg en uge og klik Generér",
+        "signature": "Underskrift",
+        "total": "Total",
+        "week": "Uge",
+        "weeklyReport": "Ugentlig fremmøderapport"
+    },
     "caseworkerSharing": {
         "cancel": "Annuller",
         "changePassword": "Skift adgangskode",
@@ -5452,6 +5479,7 @@
             "role": "Rolle",
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbejdstimer",
+            "showCompensatoryHours": "Vis / skjul kompensationstimer",
             "street": "Gade"
         },
         "importEmployees": {
@@ -5526,6 +5554,12 @@
         "somethingWentWrong": "Vi har registreret denne fejl. Du behøver ikke at gøre noget. Vi vender tilbage til dig hurtigst muligt"
     },
     "events": {
+        "onlineMeeting": {
+            "toggle": "Online møde",
+            "linkLabel": "Mødelink",
+            "autoHint": "Lad feltet stå tomt for automatisk at oprette et Teams-møde (kræver Outlook-forbindelse).",
+            "join": "Deltag i møde"
+        },
         "alert": {
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
             "successfullyDeleted": "Begivenhed slettet med succes",
@@ -5535,6 +5569,8 @@
         },
         "calendar": "Kalender",
         "citizens": "Borgere",
+        "showShifts": "Vis vagter",
+        "shiftLabel": "Vagt",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed",
             "deleteFutureEvents": "Slet fremtidige begivenheder"
@@ -5579,7 +5615,8 @@
             "regenerate": "Regenerér",
             "regenerateWarning": "Regenerering vil ugyldiggøre din nuværende URL. Alle der har abonneret med det gamle link vil ikke længere modtage opdateringer.",
             "title": "Abonner på kalender",
-            "yourCalendarUrl": "Din personlige kalender-URL"
+            "yourCalendarUrl": "Din personlige kalender-URL",
+            "addToCalendar": "Tilføj til kalender"
         },
         "createJournalNote": "Opret journalnotat",
         "markAsCompleted": "Markér som gennemført",
@@ -8357,7 +8394,6 @@
                     "createCitizenPlan": "Opret borgerplan",
                     "createSchedule": "Opret vagtplan",
                     "deleteCalendar": "Slet kalender",
-                    "deleteCalendarEvent": "Slet kalenderhændelse",
                     "deleteCitizenCalendar": "Slet borgerkalender",
                     "deleteCitizenChildren": "Slet borgerbørn",
                     "deleteCitizenContact": "Slet borgerkontakt",
@@ -8385,7 +8421,8 @@
                     "viewCitizenCalendar": "Se borgerkalender",
                     "viewCitizenHealth": "Se borgersundhed",
                     "viewCitizenJournal": "Se borgerjournal",
-                    "viewSchedule": "Se vagtplan"
+                    "viewSchedule": "Se vagtplan",
+                    "deleteCalendarEvent": "Slet kalenderhændelse"
                 },
                 "roles": "Roller",
                 "table": {
@@ -8467,7 +8504,8 @@
                 "deviceRestrictionAction": "Begrænsningshandling",
                 "manageApprovedDevices": "Administrér godkendte enheder",
                 "actionBlock": "Blokér adgang",
-                "actionOtp": "Kræv OTP-bekræftelse"
+                "actionOtp": "Kræv OTP-bekræftelse",
+                "proFeatureHint": "Denne funktion er en del af Pro-abonnementet. Opgradér for at slå den til."
             }
         },
         "licenseOverview": {
@@ -10650,13 +10688,13 @@
                 "color": "Farve",
                 "billingRule": "Faktureringsregel",
                 "isActive": "Aktiv",
+                "isBillable": "Fakturerbar",
+                "isBillableHint": "Uger med denne status medtages i faktureringsudtræk",
                 "sortOrder": "Sorteringsrækkefølge",
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Statustype gemt",
                     "statusTypeSuccessfullyUpdated": "Statustype opdateret"
-                },
-                "isBillable": "Fakturerbar",
-                "isBillableHint": "Uger med denne status medtages i faktureringsudtræk"
+                }
             },
             "table": {
                 "name": "Navn",
@@ -10716,8 +10754,26 @@
                 "name": "Navn",
                 "rate": "Takst",
                 "frequency": "Frekvens",
+                "pricingType": "Prismodel",
+                "weeklyRate": "Ugentlig pris",
+                "hourlyRate": "Timepris",
+                "bonusAmount": "Bonusbeløb",
+                "bonusConditionMonths": "Udløsningsbetingelse (måneders ansættelse)",
+                "bonusConditionMonthsHint": "Bonus udløses, når borgeren har været ansat i dette antal måneder",
+                "invoiceDataSection": "Fakturadata",
+                "customerNumber": "Kundenummer",
+                "productNumber": "Produktnummer",
                 "description": "Beskrivelse",
                 "isActive": "Aktiv",
+                "pricingTypeOptions": {
+                    "weekly": "Ugentlig prissætning",
+                    "hourly": "Timebaseret prissætning",
+                    "bonus": "Bonusbaseret prissætning"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 måneder",
+                    "six": "6 måneder"
+                },
                 "frequencyOptions": {
                     "hourly": "Pr. time",
                     "daily": "Pr. dag",
@@ -10728,24 +10784,6 @@
                 "alert": {
                     "newBillingRuleSuccessfullySaved": "Faktureringsregel gemt",
                     "billingRuleSuccessfullyUpdated": "Faktureringsregel opdateret"
-                },
-                "pricingType": "Prismodel",
-                "weeklyRate": "Ugentlig pris",
-                "hourlyRate": "Timepris",
-                "bonusAmount": "Bonusbeløb",
-                "bonusConditionMonths": "Udløsningsbetingelse (måneders ansættelse)",
-                "bonusConditionMonthsHint": "Bonus udløses, når borgeren har været ansat i dette antal måneder",
-                "invoiceDataSection": "Fakturadata",
-                "customerNumber": "Kundenummer",
-                "productNumber": "Produktnummer",
-                "pricingTypeOptions": {
-                    "weekly": "Ugentlig prissætning",
-                    "hourly": "Timebaseret prissætning",
-                    "bonus": "Bonusbaseret prissætning"
-                },
-                "bonusMonthOptions": {
-                    "three": "3 måneder",
-                    "six": "6 måneder"
                 }
             },
             "table": {
@@ -10993,33 +11031,6 @@
             "noData": "Ingen omsætningsdata fundet for den valgte periode"
         }
     },
-    "attendance": {
-        "absenceReason": "Fraværsårsag",
-        "absenceReasons": "Fraværsårsager",
-        "citizen": "Borger",
-        "checkIn": "Check-in",
-        "checkInOut": "Check-in / Check-out",
-        "date": "Dato",
-        "generate": "Generér",
-        "in": "Ind",
-        "monthlyReport": "Månedlig fremmøderapport",
-        "noDataForPeriod": "Ingen fremmødedata fundet for den valgte periode",
-        "noParticipantsToday": "Ingen deltagere tilmeldt i dag",
-        "notRegistered": "Ikke registreret",
-        "out": "Ud",
-        "participantList": "Deltagerliste",
-        "pending": "Afventer",
-        "period": "Periode",
-        "print": "Udskriv",
-        "printedOn": "Udskrevet den",
-        "protocol": "Aktivitet",
-        "selectMonthToGenerate": "Vælg en måned og klik Generér",
-        "selectWeekToGenerate": "Vælg en uge og klik Generér",
-        "signature": "Underskrift",
-        "total": "Total",
-        "week": "Uge",
-        "weeklyReport": "Ugentlig fremmøderapport"
-    },
     "gdpr": {
         "retention": {
             "title": "GDPR Dataopbevaring",
@@ -11160,6 +11171,12 @@
             "invitesFailed": "Kunne ikke sende login-mails.",
             "missingField": "Mangler {field}",
             "invalidField": "Ugyldig {field}"
+        },
+        "page": {
+            "title": "Importér fra et andet system",
+            "description": "Migrér borgere, ansatte, journaler og vagtplaner fra jeres nuværende system via CSV eller Excel. Upload filen, kobl kolonnerne til CitizenOne, og importér.",
+            "startImport": "Start import",
+            "adminOnly": "Kun administratorer kan importere data."
         }
     },
     "sms": {
