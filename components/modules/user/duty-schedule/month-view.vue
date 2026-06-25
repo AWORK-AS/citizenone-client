@@ -207,7 +207,7 @@
                     <div v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
                         :key="'sidebar-' + employee.uuid"
                         class="border-b border-gray-100 flex flex-col items-center justify-center py-3 px-2 cursor-default relative"
-                        @mouseenter="(isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid) && showPopover(employeeIndex)"
+                        @mouseenter="(isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid) && showPopover(employeeIndex as any)"
                         @mouseleave="hidePopoverWithDelay()">
                         <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                             :class="[
@@ -302,34 +302,44 @@
                                         <div
                                             class="grid grid-cols-[1fr_auto_auto] gap-x-2.5 gap-y-0.5 text-xxs text-amber-800">
                                             <span></span>
-                                            <span class="text-right font-medium text-amber-600">{{
-                                                $t('dutySchedules.month')
-                                                }}</span>
-                                            <span class="text-right font-medium text-amber-600">{{
-                                                $t('dutySchedules.yearToDate') }}</span>
-
-                                            <span>{{ $t('dutySchedules.holidayWorkedShort') }}</span>
-                                            <span class="text-right tabular-nums">{{
-                                                employee?.holiday_hours?.worked_weekly
-                                                }}</span>
-                                            <span class="text-right tabular-nums">{{
-                                                employee?.holiday_hours?.worked_yearly
-                                                }}</span>
+                                            <span class="text-right font-medium text-amber-600">
+                                                {{ $t('dutySchedules.month') }}
+                                            </span>
+                                            <span class="text-right font-medium text-amber-600">
+                                                {{ $t('dutySchedules.yearToDate') }}
+                                            </span>
+                                            <span>
+                                                {{ $t('dutySchedules.holidayWorkedShort') }}
+                                            </span>
+                                            <span class="text-right tabular-nums">
+                                                {{ employee?.holiday_hours?.worked_weekly }}
+                                            </span>
+                                            <span class="text-right tabular-nums">
+                                                {{ employee?.holiday_hours?.worked_yearly }}
+                                            </span>
 
                                             <template
                                                 v-if="parseFloat(String(employee?.holiday_hours?.compensation_yearly ?? '0').replace(',', '.')) > 0">
-                                                <span>{{ $t('dutySchedules.holidayCompensation') }}</span>
-                                                <span class="text-right tabular-nums">{{
-                                                    employee?.holiday_hours?.compensation_weekly }}</span>
-                                                <span class="text-right tabular-nums">{{
-                                                    employee?.holiday_hours?.compensation_yearly }}</span>
+                                                <span>
+                                                    {{ $t('dutySchedules.holidayCompensation') }}
+                                                </span>
+                                                <span class="text-right tabular-nums">
+                                                    {{ employee?.holiday_hours?.compensation_weekly }}
+                                                </span>
+                                                <span class="text-right tabular-nums">
+                                                    {{ employee?.holiday_hours?.compensation_yearly }}
+                                                </span>
                                             </template>
 
-                                            <span>{{ $t('dutySchedules.holidayNonWorkedShort') }}</span>
-                                            <span class="text-right tabular-nums">{{
-                                                employee?.holiday_hours?.nonworked_weekly }}</span>
-                                            <span class="text-right tabular-nums">{{
-                                                employee?.holiday_hours?.nonworked_yearly }}</span>
+                                            <span>
+                                                {{ $t('dutySchedules.holidayNonWorkedShort') }}
+                                            </span>
+                                            <span class="text-right tabular-nums">
+                                                {{ employee?.holiday_hours?.nonworked_weekly }}
+                                            </span>
+                                            <span class="text-right tabular-nums">
+                                                {{ employee?.holiday_hours?.nonworked_yearly }}
+                                            </span>
                                         </div>
                                     </div>
                                 </Tooltip>
@@ -400,7 +410,8 @@
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
                                         {{(employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum, t) => sum + (parseFloat(t?.monthly_hours || t?.weekly_hours) ||
+                                            .reduce((sum: any, t: any) => sum + (parseFloat(t?.monthly_hours ||
+                                                t?.weekly_hours) ||
                                                 0), 0)
                                             + (parseFloat(String(employee?.holiday_hours?.nonworked_weekly ??
                                                 '0').replace(',', '.')) || 0)).toFixed(2)
@@ -408,7 +419,7 @@
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
                                         {{(employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum, t) => sum + (parseFloat(t?.yearly_hours) || 0), 0)
+                                            .reduce((sum: any, t: any) => sum + (parseFloat(t?.yearly_hours) || 0), 0)
                                             + (parseFloat(String(employee?.holiday_hours?.nonworked_yearly ??
                                                 '0').replace(',', '.')) || 0)).toFixed(2)
                                         }}
@@ -416,7 +427,7 @@
                                 </div>
                             </div>
                             <div class="border-t border-gray-100 pt-2 mt-2 space-y-1"
-                                v-if="isAtLeast('Admin') || userStore.getUser?.show_working_hours">
+                                v-if="employee?.show_compensatory_hours">
                                 <div class="text-primary flex items-center gap-1 cursor-pointer text-xxs"
                                     @click="openGraphModal(employee)">
                                     <Icon name="ph:chart-bar-bold" class="h-3 w-3" />
@@ -1563,7 +1574,7 @@ function openAddNewShiftModal(employee: any, employeeIndex: number, day: any) {
 function openManageScheduleSlotModal(day: any) {
     state.manageScheduleSlot.selectedDay = {
         fullDate: day
-    }
+    } as any
     state.modal.isManageScheduleSlotOpen = true
 }
 

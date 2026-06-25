@@ -313,7 +313,7 @@
                                 </div>
                             </div>
                             <div class="border-t border-gray-100 pt-2 mt-2 space-y-1"
-                                v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.show_working_hours">
+                                v-if="employee?.show_compensatory_hours">
                                 <div class="text-primary flex items-center gap-1 cursor-pointer text-xxs"
                                     @click="openGraphModal(employee)">
                                     <Icon name="ph:chart-bar-bold" class="h-3 w-3" />

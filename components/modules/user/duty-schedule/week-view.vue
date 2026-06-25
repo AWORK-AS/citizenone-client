@@ -686,7 +686,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="text-xs grid grid-cols-7">
+                                                <div class="text-xs grid grid-cols-7"
+                                                    v-if="employee?.show_compensatory_hours">
                                                     <div
                                                         class="px-3 col-span-7 mt-4 border-t-0.5 border-gray-200 pt-3 space-y-2">
 
