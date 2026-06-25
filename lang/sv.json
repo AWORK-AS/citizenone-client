@@ -5479,7 +5479,7 @@
             "role": "Roll",
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Visa arbejdstimer",
-            "showCompensatoryHours": "Visa / dölj kompensationstimmar",
+            "showCompensatoryHours": "Visa komptid och semesterdagar",
             "street": "Gata"
         },
         "importEmployees": {

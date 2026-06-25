@@ -5479,7 +5479,7 @@
             "role": "Rolle",
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbejdstimer",
-            "showCompensatoryHours": "Vis / skjul kompensationstimer",
+            "showCompensatoryHours": "Vis afspadsering og feriedage",
             "street": "Gade"
         },
         "importEmployees": {

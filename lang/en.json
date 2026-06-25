@@ -5479,7 +5479,7 @@
             "role": "Role",
             "seniorityDate": "Seniority date",
             "showWorkingHours": "Show working hours",
-            "showCompensatoryHours": "Show / hide compensatory hours",
+            "showCompensatoryHours": "Show time off in lieu and vacation days",
             "street": "Street"
         },
         "importEmployees": {
