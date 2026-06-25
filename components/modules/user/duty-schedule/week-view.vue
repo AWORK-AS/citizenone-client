@@ -1836,10 +1836,6 @@ function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): nu
     let sum = (stats?.hours ?? [])
         .filter((t: any) => t?.shift?.system_name !== 'time-filter')
         .reduce((s: number, t: any) => s + toNum(t?.[key]), 0)
-    const hh = stats?.holiday_hours
-    if (hh?.enabled) {
-        sum += toNum(key === 'weekly_hours' ? hh.nonworked_weekly : hh.nonworked_yearly)
-    }
     return sum
 }
 
