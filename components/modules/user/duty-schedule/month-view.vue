@@ -302,15 +302,15 @@
                                         class="grid grid-cols-[1fr_auto_auto] gap-x-2.5 gap-y-0.5 text-xxs text-amber-800">
                                         <span></span>
                                         <span class="text-right font-medium text-amber-600">{{ $t('dutySchedules.month')
-                                            }}</span>
+                                        }}</span>
                                         <span class="text-right font-medium text-amber-600">{{
                                             $t('dutySchedules.yearToDate') }}</span>
 
                                         <span>{{ $t('dutySchedules.holidayWorkedShort') }}</span>
                                         <span class="text-right tabular-nums">{{ employee?.holiday_hours?.worked_weekly
-                                            }}</span>
+                                        }}</span>
                                         <span class="text-right tabular-nums">{{ employee?.holiday_hours?.worked_yearly
-                                            }}</span>
+                                        }}</span>
 
                                         <template
                                             v-if="parseFloat(String(employee?.holiday_hours?.compensation_yearly ?? '0').replace(',', '.')) > 0">
@@ -835,19 +835,22 @@
                                                     </Tooltip>
                                                 </div>
                                             </div>
-                                            <div v-if="isNonWorkedHolidayCell(day, employeeIndex as number)"
-                                                class="rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 mt-2 flex items-start gap-1.5"
-                                                :title="$t('dutySchedules.holidayNonWorkedTooltip')">
-                                                <Icon name="ph:calendar-check"
-                                                    class="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5"
-                                                    aria-hidden="true" />
-                                                <div class="leading-tight">
-                                                    <p class="text-xxs font-semibold text-amber-800">{{
-                                                        $t('dutySchedules.holidayFreeBadge') }}</p>
-                                                    <p class="text-xxs text-amber-700">{{
-                                                        $t('dutySchedules.holidayNonWorkedAssigned') }}</p>
+                                            <Tooltip v-if="isNonWorkedHolidayCell(day, employeeIndex as number)"
+                                                :text="$t('dutySchedules.holidayNonWorkedTooltip')" position="top"
+                                                :wrap="true" class="w-full mt-2">
+                                                <div
+                                                    class="rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 flex items-start gap-1.5 w-full">
+                                                    <Icon name="ph:calendar-check"
+                                                        class="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5"
+                                                        aria-hidden="true" />
+                                                    <div class="leading-tight">
+                                                        <p class="text-xxs font-semibold text-amber-800">{{
+                                                            $t('dutySchedules.holidayFreeBadge') }}</p>
+                                                        <p class="text-xxs text-amber-700">{{
+                                                            $t('dutySchedules.holidayNonWorkedAssigned') }}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </Tooltip>
                                         </template>
                                     </div>
                                 </template>

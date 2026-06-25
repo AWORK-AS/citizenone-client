@@ -503,19 +503,23 @@
                                                 <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
                                                     :daysData="getMonthEmployees(monthMeta.key)[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]"
                                                     :employee="employee" @error="(err: any) => state.error = err" />
-                                                <div v-if="isNonWorkedHolidayCell(day, monthMeta.key, employee.uuid)"
-                                                    class="rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 mt-2 flex items-start gap-1.5"
-                                                    :title="$t('dutySchedules.holidayNonWorkedTooltip')">
-                                                    <Icon name="ph:calendar-check"
-                                                        class="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5"
-                                                        aria-hidden="true" />
-                                                    <div class="leading-tight">
-                                                        <p class="text-xxs font-semibold text-amber-800">{{
-                                                            $t('dutySchedules.holidayFreeBadge') }}</p>
-                                                        <p class="text-xxs text-amber-700">{{
-                                                            $t('dutySchedules.holidayNonWorkedAssigned') }}</p>
+                                                <Tooltip
+                                                    v-if="isNonWorkedHolidayCell(day, monthMeta.key, employee.uuid)"
+                                                    :text="$t('dutySchedules.holidayNonWorkedTooltip')" position="top"
+                                                    :wrap="true" class="w-full mt-2">
+                                                    <div
+                                                        class="rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 flex items-start gap-1.5 w-full">
+                                                        <Icon name="ph:calendar-check"
+                                                            class="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5"
+                                                            aria-hidden="true" />
+                                                        <div class="leading-tight">
+                                                            <p class="text-xxs font-semibold text-amber-800">{{
+                                                                $t('dutySchedules.holidayFreeBadge') }}</p>
+                                                            <p class="text-xxs text-amber-700">{{
+                                                                $t('dutySchedules.holidayNonWorkedAssigned') }}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </Tooltip>
                                             </template>
 
                                             <!-- Pass 2: shifts for all employees -->
