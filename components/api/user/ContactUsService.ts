@@ -12,6 +12,10 @@ class ContactUsService extends BaseAPIService {
     async sendWishMessage(params: object): Promise<any> {
         return await this.request(`/user/contact-us/wishes`, 'POST', params)
     }
+
+    async getWishes(): Promise<any> {
+        return await this.request(`/user/contact-us/wishes`, 'GET')
+    }
 }
 
 export const contactUsService = new ContactUsService()
