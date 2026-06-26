@@ -1688,6 +1688,8 @@
                 "status": "Status"
             }
         },
+        "actions": "Actions",
+        "importFromOtherSystem": "Import from another system",
         "exportCitizens": "Export citizens",
         "form": {
             "addictions": "Substance abuse",

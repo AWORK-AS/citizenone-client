@@ -1688,6 +1688,8 @@
                 "status": "Status"
             }
         },
+        "actions": "Åtgärder",
+        "importFromOtherSystem": "Importera från ett annat system",
         "exportCitizens": "Exportera klienter",
         "form": {
             "addictions": "Substansmissbruk",

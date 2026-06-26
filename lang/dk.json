@@ -1688,6 +1688,8 @@
                 "status": "Status"
             }
         },
+        "actions": "Handlinger",
+        "importFromOtherSystem": "Importér fra andet system",
         "exportCitizens": "Eksporter borgere",
         "form": {
             "addictions": "Stofmisbrug",

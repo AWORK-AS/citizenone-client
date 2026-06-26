@@ -38,7 +38,8 @@
                 <div
                     class="flex justify-between items-start flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
                     <div class="flex items-center gap-x-3">
-                        <span v-if="departmentStore.getSelectedDepartmentName && departmentStore.getSelectedDepartmentName !== 'All departments'"
+                        <span
+                            v-if="departmentStore.getSelectedDepartmentName && departmentStore.getSelectedDepartmentName !== 'All departments'"
                             class="inline-flex items-center gap-x-1.5 rounded-full bg-primary/10 text-primary px-3 py-1 text-sm font-medium">
                             <Icon name="ph:buildings" class="h-4 w-4" aria-hidden="true" />
                             {{ departmentStore.getSelectedDepartmentName }}
@@ -65,7 +66,7 @@
                                 <MenuButton>
                                     <FormButton buttonStyle="action">
                                         <Icon name="ph:dots-three-outline" class="h-4 w-4" aria-hidden="true" />
-                                        Handlinger
+                                        {{ $t('citizens.actions') }}
                                         <Icon name="ph:caret-down" class="h-3.5 w-3.5" aria-hidden="true" />
                                     </FormButton>
                                 </MenuButton>
@@ -80,60 +81,76 @@
                                     class="absolute right-0 mt-2 min-w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none max-h-96 overflow-y-auto z-30">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="state.modal.isViewLocationsOpen = true">
-                                            <Icon name="ph:map-pin" class="h-4 w-4 text-gray-500" aria-hidden="true" />
-                                            {{ $t('citizens.viewLocations.viewLocations') }}
-                                        </button>
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="state.modal.isViewLocationsOpen = true">
+                                                <Icon name="ph:map-pin" class="h-4 w-4 text-gray-500"
+                                                    aria-hidden="true" />
+                                                {{ $t('citizens.viewLocations.viewLocations') }}
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }" v-if="isShelterOrCrisisCenter">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="navigateTo('/inquiries')">
-                                            <Icon name="ph:list-bullets" class="h-4 w-4 text-gray-500" aria-hidden="true" />
-                                            {{ $t('inquiries.inquiries') }}
-                                        </button>
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="navigateTo('/inquiries')">
+                                                <Icon name="ph:list-bullets" class="h-4 w-4 text-gray-500"
+                                                    aria-hidden="true" />
+                                                {{ $t('inquiries.inquiries') }}
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="navigateTo('/rooms')">
-                                            <Icon name="ph:door" class="h-4 w-4 text-gray-500" aria-hidden="true" />
-                                            {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}
-                                        </button>
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="navigateTo('/rooms')">
+                                                <Icon name="ph:door" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                                {{ customPagesStore.getCustomPagesName?.rooms || $t('rooms.rooms') }}
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="state.modal.isSharedJournalsOpen = true">
-                                            <Icon name="ph:share-fat" class="h-4 w-4 text-gray-500" aria-hidden="true" />
-                                            {{ $t('citizens.citizenJournals.shareJournals.sharedJournals') }}
-                                        </button>
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="state.modal.isSharedJournalsOpen = true">
+                                                <Icon name="ph:share-fat" class="h-4 w-4 text-gray-500"
+                                                    aria-hidden="true" />
+                                                {{ $t('citizens.citizenJournals.shareJournals.sharedJournals') }}
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }" v-if="isAtLeast('Admin')">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="state.modal.isImportCitizensOpen = true">
-                                            <Icon name="ph:file-arrow-up" class="h-4 w-4 text-gray-500" aria-hidden="true" />
-                                            {{ $t('citizens.importCitizens.importCitizens') }}
-                                        </button>
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="state.modal.isImportCitizensOpen = true">
+                                                <Icon name="ph:file-arrow-up" class="h-4 w-4 text-gray-500"
+                                                    aria-hidden="true" />
+                                                {{ $t('citizens.importCitizens.importCitizens') }}
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }" v-if="isAtLeast('Admin')">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="state.modal.isImportMapperOpen = true">
-                                            <Icon name="ph:arrows-merge" class="h-4 w-4 text-gray-500" aria-hidden="true" />
-                                            Importér fra andet system
-                                        </button>
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="state.modal.isImportMapperOpen = true">
+                                                <Icon name="ph:arrows-merge" class="h-4 w-4 text-gray-500"
+                                                    aria-hidden="true" />
+                                                {{ $t('citizens.importFromOtherSystem') }}
+                                            </button>
                                         </MenuItem>
-                                        <MenuItem v-slot="{ active }" v-if="isAtLeast('Admin') && !isShelterOrCrisisCenter">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="exportCitizens({})">
-                                            <Icon name="ph:file-arrow-down" class="h-4 w-4 text-gray-500" aria-hidden="true" />
-                                            {{ $t('citizens.exportCitizens') }}
-                                        </button>
+                                        <MenuItem v-slot="{ active }"
+                                            v-if="isAtLeast('Admin') && !isShelterOrCrisisCenter">
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="exportCitizens({})">
+                                                <Icon name="ph:file-arrow-down" class="h-4 w-4 text-gray-500"
+                                                    aria-hidden="true" />
+                                                {{ $t('citizens.exportCitizens') }}
+                                            </button>
                                         </MenuItem>
-                                        <MenuItem v-slot="{ active }" v-if="isAtLeast('Admin') || can('update_form_field_config')">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="navigateTo('/citizens/citizen-form')">
-                                            <Icon name="ph:gear" class="h-4 w-4 text-gray-500" aria-hidden="true" />
-                                            {{ $t('citizens.editCitizenForm') }}
-                                        </button>
+                                        <MenuItem v-slot="{ active }"
+                                            v-if="isAtLeast('Admin') || can('update_form_field_config')">
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="navigateTo('/citizens/citizen-form')">
+                                                <Icon name="ph:gear" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                                {{ $t('citizens.editCitizenForm') }}
+                                            </button>
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -160,23 +177,23 @@
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none max-h-96 overflow-y-auto">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]" @click="exportCitizens({})">
-                                            {{ $t('department.allDepartment') }}
-                                        </button>
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                            ]" @click="exportCitizens({})">
+                                                {{ $t('department.allDepartment') }}
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }"
                                             v-for="(department, index) in state.departments?.data?.filter((d: any) => d.name !== 'All departments')"
                                             :key="index">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]"
-                                            @click="exportCitizens({ department: department.name, department_uuid: department.uuid })">
-                                            {{ department.name }}
-                                        </button>
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                            ]"
+                                                @click="exportCitizens({ department: department.name, department_uuid: department.uuid })">
+                                                {{ department.name }}
+                                            </button>
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -204,20 +221,20 @@
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]" @click="openExportInquiriesModal('shelter')">
-                                            {{ shelterName }}
-                                        </button>
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                            ]" @click="openExportInquiriesModal('shelter')">
+                                                {{ shelterName }}
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                        ]" @click="openExportInquiriesModal('crisis_center')">
-                                            {{ crisisCenterName }}
-                                        </button>
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]" @click="openExportInquiriesModal('crisis_center')">
+                                                {{ crisisCenterName }}
+                                            </button>
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -386,12 +403,9 @@
                 :workingMinutes="state.workingMinutes" @close="state.modal.isConfirmWorkingOpen = false"
                 @confirmed="onWorkConfirmed" @dismissed="onWorkDismissed" />
 
-            <ModulesUserCitizenModalExportInquiries
-                :isModalOpen="state.modal.isExportInquiriesDepartmentOpen"
-                :title="exportInquiryModalTitle"
-                :departmentOptions="exportInquiryDepartmentOptions"
-                @close="state.modal.isExportInquiriesDepartmentOpen = false"
-                @confirm="confirmExportInquiries" />
+            <ModulesUserCitizenModalExportInquiries :isModalOpen="state.modal.isExportInquiriesDepartmentOpen"
+                :title="exportInquiryModalTitle" :departmentOptions="exportInquiryDepartmentOptions"
+                @close="state.modal.isExportInquiriesDepartmentOpen = false" @confirm="confirmExportInquiries" />
         </NuxtLayout>
     </div>
 </template>

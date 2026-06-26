@@ -1688,6 +1688,8 @@
                 "status": "Status"
             }
         },
+        "actions": "Handlinger",
+        "importFromOtherSystem": "Importer fra et annet system",
         "exportCitizens": "Eksporter brukere",
         "form": {
             "addictions": "Rusmisbruk",
