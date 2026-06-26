@@ -319,9 +319,9 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="text-xs font-medium text-gray-700"
-                                :class="state.showExpandedNote ? '' : 'line-clamp-2'" v-if="hasNoteAccess()">
-                                {{ state.selectedCitizen?.data?.note }}
+                            <div class="text-sm text-gray-700" :class="state.showExpandedNote ? '' : 'line-clamp-2'"
+                                v-if="hasNoteAccess()">
+                                <div v-html="state.selectedCitizen?.data?.note" class="content" />
                             </div>
                             <button @click="state.showExpandedNote = !state.showExpandedNote"
                                 class="text-primary text-xs hover:text-primary-700" v-if="hasNoteAccess()">
@@ -363,8 +363,7 @@
                 @openInterventionHours="switchToInterventionHours" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
-            <ModulesUserCitizenDevelopmentGraphModalView
-                :isModalOpen="state.modal.isDevelopmentGraphOpen"
+            <ModulesUserCitizenDevelopmentGraphModalView :isModalOpen="state.modal.isDevelopmentGraphOpen"
                 @close="state.modal.isDevelopmentGraphOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"

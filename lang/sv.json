@@ -1688,6 +1688,8 @@
                 "status": "Status"
             }
         },
+        "actions": "Åtgärder",
+        "importFromOtherSystem": "Importera från ett annat system",
         "exportCitizens": "Exportera klienter",
         "form": {
             "addictions": "Substansmissbruk",
@@ -9167,6 +9169,7 @@
                 "tabs": {
                     "overview": "Översikt"
                 },
+                "searchPlaceholder": "Sök efter namn eller e-post...",
                 "userAccounts": "Användarkonton",
                 "yearly": "år."
             }

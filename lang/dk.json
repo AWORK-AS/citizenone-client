@@ -1688,6 +1688,8 @@
                 "status": "Status"
             }
         },
+        "actions": "Handlinger",
+        "importFromOtherSystem": "Importér fra andet system",
         "exportCitizens": "Eksporter borgere",
         "form": {
             "addictions": "Stofmisbrug",
@@ -9167,6 +9169,7 @@
                 "tabs": {
                     "overview": "Oversigt"
                 },
+                "searchPlaceholder": "Søg efter navn eller e-mail...",
                 "userAccounts": "Brugerkonti",
                 "yearly": "år"
             }

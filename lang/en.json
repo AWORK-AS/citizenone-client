@@ -1688,6 +1688,8 @@
                 "status": "Status"
             }
         },
+        "actions": "Actions",
+        "importFromOtherSystem": "Import from another system",
         "exportCitizens": "Export citizens",
         "form": {
             "addictions": "Substance abuse",
@@ -9167,6 +9169,7 @@
                 "tabs": {
                     "overview": "Overview"
                 },
+                "searchPlaceholder": "Search by name or email...",
                 "userAccounts": "User accounts",
                 "yearly": "yr."
             }
