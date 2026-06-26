@@ -175,6 +175,47 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-2">
+                        <!-- Command palette (⌘K) -->
+                        <div class="hidden sm:block relative">
+                            <Tooltip :text="$t('commandPalette.hint')" position="bottom" :wrap="true">
+                                <button type="button" @click="openCommandPalette()"
+                                    class="flex items-center gap-2 rounded-lg border border-gray-200 bg-white/70 px-2.5 py-1.5 text-gray-400 hover:text-gray-600 hover:border-gray-300 transition-colors">
+                                    <Icon name="ph:magnifying-glass" class="h-4 w-4" aria-hidden="true" />
+                                    <kbd class="rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium leading-none">⌘K</kbd>
+                                </button>
+                            </Tooltip>
+                            <!-- One-time "did you know?" discovery hint -->
+                            <transition enter-active-class="transition ease-out duration-200"
+                                enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
+                                leave-active-class="transition ease-in duration-150"
+                                leave-from-class="opacity-100" leave-to-class="opacity-0">
+                                <div v-if="showCmdkHint"
+                                    class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
+                                    <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
+                                    <div class="relative flex items-start gap-2.5 px-3.5 py-3">
+                                        <Icon name="ph:lightbulb" class="mt-0.5 size-4 shrink-0 text-amber-300" />
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-semibold">{{ $t('commandPalette.didYouKnowTitle') }}</p>
+                                            <p class="mt-0.5 text-xs text-white/90">{{ $t('commandPalette.didYouKnowBody') }}</p>
+                                            <button type="button" @click="dismissCmdkHint"
+                                                class="mt-2 rounded-md bg-white/15 px-2.5 py-1 text-xs font-medium hover:bg-white/25 transition-colors">
+                                                {{ $t('commandPalette.didYouKnowDismiss') }}
+                                            </button>
+                                        </div>
+                                        <button type="button" @click="dismissCmdkHint"
+                                            class="shrink-0 text-white/60 hover:text-white">
+                                            <Icon name="ph:x" class="size-3.5" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </transition>
+                        </div>
+                        <button type="button" @click="openCommandPalette()"
+                            class="sm:hidden w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
+                            :title="$t('commandPalette.placeholder')">
+                            <Icon name="ph:magnifying-glass" class="h-5 w-5" aria-hidden="true" />
+                        </button>
+
                         <!-- AI (mobile) -->
                         <div class="xl:hidden">
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
@@ -403,6 +444,8 @@
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
+        <CommandPalette :commands="commandPaletteItems" />
+        <ShortcutsHelp />
         <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
             :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourDailyOverviewOpen = false" @back="handleBackGuidedTour"
@@ -628,6 +671,40 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     return item.name
 }
+
+// Global command palette (⌘K): sidebar navigation + any commands the current
+// page contributes via useCommandPalette().
+const { pageCommands, open: openCommandPalette } = useCommandPalette()
+const commandPaletteItems = computed(() => {
+    const _user = userStore.getUser // recompute when sidebar links rebuild
+    const _locale = language.locale.value // recompute when labels change
+    const nav = (navigation || []).map((item: any) => ({
+        id: 'nav-' + item.href,
+        group: language.t('commandPalette.navigate'),
+        icon: item.icon,
+        label: getNavItemLabel(item),
+        run: () => navigateTo(item.href),
+    }))
+    return [...pageCommands.value, ...nav]
+})
+
+// One-time "did you know?" hint pointing at the ⌘K button.
+const showCmdkHint = ref(false)
+let cmdkHintTimer: any
+const CMDK_HINT_KEY = 'co_cmdk_hint_seen'
+function dismissCmdkHint() {
+    showCmdkHint.value = false
+    clearTimeout(cmdkHintTimer)
+}
+onMounted(() => {
+    if (typeof localStorage === 'undefined' || localStorage.getItem(CMDK_HINT_KEY) === '1') return
+    cmdkHintTimer = setTimeout(() => {
+        showCmdkHint.value = true
+        localStorage.setItem(CMDK_HINT_KEY, '1') // show at most once per browser
+        cmdkHintTimer = setTimeout(() => { showCmdkHint.value = false }, 12000)
+    }, 2500)
+})
+onUnmounted(() => clearTimeout(cmdkHintTimer))
 
 function generateSidebarLinks(user: any) {
     navigation = []

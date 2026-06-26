@@ -38,13 +38,13 @@
                 <!-- STATUS STATS -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                     <button type="button" @click="toggleStatsFilter('overdue')"
-                        :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'overdue' ? 'border-red-400 bg-red-100 ring-2 ring-red-300' : 'border-red-200 bg-red-50 hover:bg-red-100']">
+                        :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'overdue' ? 'border-red-400 bg-red-100 ring-2 ring-red-300' : 'border-red-200 bg-red-50 hover:bg-red-100', stats.overdue > 0 ? 'pulse-danger' : '']">
                         <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
                             <Icon name="ph:warning-circle" class="size-4 text-red-600" />
                         </div>
                         <div>
                             <p class="text-2xl font-semibold text-red-700 leading-none">
-                                {{ stats.overdue }}
+                                <AnimatedNumber :value="stats.overdue" />
                             </p>
                             <p class="text-xs text-red-500 mt-0.5">
                                 {{ $t('citizens.medicineJournals.page.overdue') }}
@@ -58,7 +58,7 @@
                         </div>
                         <div>
                             <p class="text-2xl font-semibold text-amber-700 leading-none">
-                                {{ stats.dueSoon }}
+                                <AnimatedNumber :value="stats.dueSoon" />
                             </p>
                             <p class="text-xs text-amber-500 mt-0.5">
                                 {{ $t('citizens.medicineJournals.page.dueSoon') }}
@@ -72,7 +72,7 @@
                         </div>
                         <div>
                             <p class="text-2xl font-semibold text-green-700 leading-none">
-                                {{ stats.given }}
+                                <AnimatedNumber :value="stats.given" />
                             </p>
                             <p class="text-xs text-green-500 mt-0.5">
                                 {{ $t('citizens.medicineJournals.page.givenToday') }}
@@ -86,7 +86,7 @@
                         </div>
                         <div>
                             <p class="text-2xl font-semibold text-gray-700 leading-none">
-                                {{ stats.pending }}
+                                <AnimatedNumber :value="stats.pending" />
                             </p>
                             <p class="text-xs text-gray-500 mt-0.5">
                                 {{ $t('citizens.medicineJournals.page.pending') }}
@@ -178,51 +178,63 @@
                                 {{ $t('citizens.medicineJournals.page.today') }}
                             </button>
                         </div>
-                        <button class="flex items-center gap-x-1 text-sm text-primary group"
+                    </div>
+                    <!-- Find + actions: search flexes/shrinks, buttons stay on one line -->
+                    <div class="flex items-center gap-2 flex-wrap md:flex-nowrap md:flex-1 md:min-w-0 md:justify-end">
+                        <div class="w-full sm:flex-1 sm:min-w-0 lg:flex-none lg:w-64">
+                            <TableSearch @search="handleSearch" />
+                        </div>
+                        <button type="button"
+                            class="shrink-0 flex items-center gap-x-1.5 text-sm text-gray-600 hover:text-primary px-3 py-2 rounded-md border border-gray-200 hover:bg-gray-50 transition-colors"
                             @click="state.modal.isFilterMedicineOpen = true">
                             <Icon name="ic:outline-filter-list" class="w-5 h-5" />
                             <span>{{ $t('filter') }}</span>
                         </button>
-                    </div>
-                    <div class="flex items-center gap-2 justify-end flex-wrap">
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
-                            v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                            <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
-                            {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
-                        </FormButton>
-                        <!-- <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAnbrudOpen = true">
-                            <Icon name="ph:drop" class="h-4 w-4" />
-                            {{ $t('citizens.medicineJournals.page.newPackageOpening') }}
-                        </FormButton> -->
-                        <FormButton buttonStyle="action" class="rounded-md"
+                        <FormButton buttonStyle="action" class="rounded-md shrink-0"
                             @click="state.modal.isAddMedicineOpen = true"
                             v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
                             <Icon name="ph:plus" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.newMedicine') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isDownloadMedicineOverviewOpen = true"
-                            v-if="isAtLeast('Admin') || can('create_citizen_medicine') || can('update_citizen_medicine')">
-                            <Icon name="ph:download" class="h-4 w-4" />
-                            {{ $t('citizens.medicineJournals.downloadOverview') }}
-                        </FormButton>
+                        <!-- Secondary actions overflow -->
+                        <Menu as="div" class="relative inline-block text-left shrink-0"
+                            v-if="isAtLeast('Admin') || can('update_citizen_medicine') || can('create_citizen_medicine')">
+                            <MenuButton
+                                class="flex items-center justify-center p-2 rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors">
+                                <Icon name="ph:dots-three-bold" class="size-5" />
+                            </MenuButton>
+                            <transition enter-active-class="transition ease-out duration-100"
+                                enter-from-class="transform opacity-0 scale-95"
+                                enter-to-class="transform opacity-100 scale-100"
+                                leave-active-class="transition ease-in duration-75"
+                                leave-from-class="transform opacity-100 scale-100"
+                                leave-to-class="transform opacity-0 scale-95">
+                                <MenuItems
+                                    class="absolute right-0 z-20 mt-2 w-60 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div class="py-1">
+                                        <MenuItem v-if="isAtLeast('Admin') || can('update_citizen_medicine')"
+                                            v-slot="{ active }">
+                                        <button type="button" @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
+                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
+                                            <Icon name="mdi:cloud-refresh-outline" class="size-4" />
+                                            {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem
+                                            v-if="isAtLeast('Admin') || can('create_citizen_medicine') || can('update_citizen_medicine')"
+                                            v-slot="{ active }">
+                                        <button type="button" @click="state.modal.isDownloadMedicineOverviewOpen = true"
+                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
+                                            <Icon name="ph:download" class="size-4" />
+                                            {{ $t('citizens.medicineJournals.downloadOverview') }}
+                                        </button>
+                                        </MenuItem>
+                                    </div>
+                                </MenuItems>
+                            </transition>
+                        </Menu>
                     </div>
                 </div>
-                <div>
-                    <div class="flex items-center gap-x-1 text-sm text-gray-600">
-                        <span>{{ $t('entriesPerPage') }}:</span>
-                        <select class="focus:outline-none bg-transparent" @change="changePageLength">
-                            <option v-for="(pageLength, pageLengthIndex) in [10, 20, 30, 40, 50, 100, 500]"
-                                :key="pageLengthIndex" :value="pageLength"
-                                :selected="state.currentPageLength === pageLength">
-                                {{ pageLength }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <TableSearch @search="handleSearch" />
 
                 <!-- Bulk give -->
                 <div v-if="citizenMedicineStore.getSelectedMedicines?.length > 0"
@@ -244,8 +256,20 @@
 
                 <!-- DAY VIEW -->
                 <div v-if="state.viewMode === 'day'" class="space-y-4">
-                    <div v-if="state.isTableLoading" class="flex justify-center py-16">
-                        <Icon name="ph:spinner" class="size-8 text-primary animate-spin" />
+                    <div v-if="state.isTableLoading" class="space-y-2 py-2">
+                        <div v-for="n in 5" :key="n"
+                            class="flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 py-4 animate-pulse">
+                            <div class="size-4 rounded bg-gray-200 shrink-0"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="h-3 w-1/3 rounded bg-gray-200"></div>
+                                <div class="h-2.5 w-1/4 rounded bg-gray-100"></div>
+                            </div>
+                            <div class="hidden h-3 w-16 rounded bg-gray-200 sm:block"></div>
+                            <div class="flex gap-1.5">
+                                <div class="size-6 rounded bg-gray-100"></div>
+                                <div class="size-6 rounded bg-gray-100"></div>
+                            </div>
+                        </div>
                     </div>
                     <div v-else-if="!allMedicines.length"
                         class="border-2 border-gray-200 border-dashed rounded-xl flex flex-col items-center justify-center min-h-48 gap-3">
@@ -253,12 +277,20 @@
                         <p class="text-sm text-gray-400">
                             {{ $t('citizens.medicineJournals.page.noActiveMedicines') }}
                         </p>
-                        <FormButton buttonStyle="action" class="rounded-md"
-                            @click="state.modal.isAddMedicineOpen = true"
-                            v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
-                            <Icon name="ph:plus" class="h-4 w-4" />
-                            {{ $t('citizens.medicineJournals.page.addMedicine') }}
-                        </FormButton>
+                        <div class="flex flex-wrap items-center justify-center gap-2">
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="state.modal.isAddMedicineOpen = true"
+                                v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
+                                <Icon name="ph:plus" class="h-4 w-4" />
+                                {{ $t('citizens.medicineJournals.page.addMedicine') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
+                                v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
+                                <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
+                                {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                            </FormButton>
+                        </div>
                     </div>
 
                     <div v-else class="rounded-xl border border-gray-200 overflow-hidden">
@@ -537,13 +569,37 @@
                             </div>
                         </div>
                     </div>
-                    <Pagination :data="state.medicines" @previous="previous" @next="next" />
+                    <div class="flex items-center justify-between gap-3 flex-wrap mt-2">
+                        <div class="flex items-center gap-x-1 text-sm text-gray-600">
+                            <span>{{ $t('entriesPerPage') }}:</span>
+                            <select class="focus:outline-none bg-transparent" @change="changePageLength">
+                                <option v-for="(pageLength, pageLengthIndex) in [10, 20, 30, 40, 50, 100, 500]"
+                                    :key="pageLengthIndex" :value="pageLength"
+                                    :selected="state.currentPageLength === pageLength">
+                                    {{ pageLength }}
+                                </option>
+                            </select>
+                        </div>
+                        <Pagination :data="state.medicines" @previous="previous" @next="next" />
+                    </div>
                 </div>
 
                 <!-- WEEK VIEW -->
                 <div v-if="state.viewMode === 'week'" class="rounded-xl border border-gray-200 overflow-hidden">
-                    <div v-if="state.isTableLoading" class="flex justify-center py-16">
-                        <Icon name="ph:spinner" class="size-8 text-primary animate-spin" />
+                    <div v-if="state.isTableLoading" class="space-y-2 py-2">
+                        <div v-for="n in 5" :key="n"
+                            class="flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 py-4 animate-pulse">
+                            <div class="size-4 rounded bg-gray-200 shrink-0"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="h-3 w-1/3 rounded bg-gray-200"></div>
+                                <div class="h-2.5 w-1/4 rounded bg-gray-100"></div>
+                            </div>
+                            <div class="hidden h-3 w-16 rounded bg-gray-200 sm:block"></div>
+                            <div class="flex gap-1.5">
+                                <div class="size-6 rounded bg-gray-100"></div>
+                                <div class="size-6 rounded bg-gray-100"></div>
+                            </div>
+                        </div>
                     </div>
                     <div v-else>
                         <div class="bg-primary text-white px-5 py-3 flex items-center justify-between">
@@ -656,8 +712,20 @@
 
                 <!-- MONTH VIEW -->
                 <div v-if="state.viewMode === 'month'" class="rounded-xl border border-gray-200 overflow-hidden">
-                    <div v-if="state.isTableLoading" class="flex justify-center py-16">
-                        <Icon name="ph:spinner" class="size-8 text-primary animate-spin" />
+                    <div v-if="state.isTableLoading" class="space-y-2 py-2">
+                        <div v-for="n in 5" :key="n"
+                            class="flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 py-4 animate-pulse">
+                            <div class="size-4 rounded bg-gray-200 shrink-0"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="h-3 w-1/3 rounded bg-gray-200"></div>
+                                <div class="h-2.5 w-1/4 rounded bg-gray-100"></div>
+                            </div>
+                            <div class="hidden h-3 w-16 rounded bg-gray-200 sm:block"></div>
+                            <div class="flex gap-1.5">
+                                <div class="size-6 rounded bg-gray-100"></div>
+                                <div class="size-6 rounded bg-gray-100"></div>
+                            </div>
+                        </div>
                     </div>
                     <div v-else>
                         <div class="bg-primary text-white px-5 py-3 flex items-center justify-between">
@@ -913,7 +981,19 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.medicines" @previous="previous" @next="next" />
+                    <div class="flex items-center justify-between gap-3 flex-wrap mt-2">
+                        <div class="flex items-center gap-x-1 text-sm text-gray-600">
+                            <span>{{ $t('entriesPerPage') }}:</span>
+                            <select class="focus:outline-none bg-transparent" @change="changePageLength">
+                                <option v-for="(pageLength, pageLengthIndex) in [10, 20, 30, 40, 50, 100, 500]"
+                                    :key="pageLengthIndex" :value="pageLength"
+                                    :selected="state.currentPageLength === pageLength">
+                                    {{ pageLength }}
+                                </option>
+                            </select>
+                        </div>
+                        <Pagination :data="state.medicines" @previous="previous" @next="next" />
+                    </div>
                 </div>
 
                 <!-- MODALS -->
@@ -984,6 +1064,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { useI18n } from "vue-i18n"
@@ -991,12 +1072,14 @@ import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import { usePermissions } from '@/composables/usePermissions'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
+const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const citizenMedicineStore = useCitizenMedicineStore() as any
 const language = useI18n()
@@ -1102,6 +1185,72 @@ onUnmounted(() => {
     citizenMedicineStore.resetSelectedMedicine()
     clearInterval(clockInterval)
 })
+
+// --- Command palette (⌘K) + keyboard shortcuts ------------------------------
+function focusSearch() {
+    const el = document.querySelector('input[name="search"]') as HTMLInputElement | null
+    el?.focus()
+}
+
+const paletteCommands = computed(() => {
+    const u = citizenUuid
+    const pages = userStore.getUser?.pages || []
+    const hasPage = (n: string) => pages.some((p: any) => p.name === n)
+    const A = t('commandPalette.actions')
+    const G = t('commandPalette.citizen')
+    const cmds: any[] = []
+
+    if (isAtLeast('Admin') || can('create_citizen_medicine')) {
+        cmds.push({ id: 'new-medicine', group: A, icon: 'ph:plus', hint: 'N', label: t('citizens.medicineJournals.newMedicine'), run: () => { state.modal.isAddMedicineOpen = true } })
+    }
+    cmds.push({ id: 'focus-search', group: A, icon: 'ph:magnifying-glass', hint: '/', label: t('search'), run: () => focusSearch() })
+    if (isAtLeast('Admin') || can('update_citizen_medicine')) {
+        cmds.push({ id: 'fmk', group: A, icon: 'mdi:cloud-refresh-outline', label: t('citizens.medicineJournals.synchronizeWithFMK'), run: () => navigateToExternalLink('https://fmk-online.dk/fmk') })
+    }
+    cmds.push({ id: 'download', group: A, icon: 'ph:download', label: t('citizens.medicineJournals.downloadOverview'), run: () => { state.modal.isDownloadMedicineOverviewOpen = true } })
+    cmds.push({ id: 'filter', group: A, icon: 'ic:outline-filter-list', label: t('filter'), run: () => { state.modal.isFilterMedicineOpen = true } })
+
+    const nav = (cond: boolean, label: string, icon: string, href: string) => {
+        if (cond) cmds.push({ id: 'go-' + href, group: G, icon, label, run: () => navigateTo(href) })
+    }
+    nav(hasPage('Journals'), t('citizens.tabs.journals'), 'ph:notebook', `/citizens/${u}/journals`)
+    nav(hasPage('Plans and goals'), t('citizens.tabs.plansAndGoals'), 'ph:target', `/citizens/${u}/plans-and-goals/all`)
+    nav(hasPage('Health'), t('citizens.tabs.health'), 'ph:heartbeat', `/citizens/${u}/nursing-areas?open=nursing-professional-records`)
+    nav(hasPage('Documents'), t('citizens.tabs.documents'), 'ph:files', `/citizens/${u}/documents`)
+    nav(hasPage('Calendar'), t('citizens.tabs.calendar'), 'ph:calendar-blank', `/citizens/${u}/calendar`)
+    nav(hasPage('Attendance'), t('citizens.tabs.attendance'), 'ph:clock', `/citizens/${u}/attendance`)
+    nav(hasPage('Economy'), t('citizens.tabs.economy'), 'ph:wallet', `/citizens/${u}/wallets`)
+    nav(hasPage('Contacts'), t('citizens.tabs.contacts'), 'ph:address-book', `/citizens/${u}/contacts`)
+    return cmds
+})
+
+function onMedicineShortcut(e: KeyboardEvent) {
+    const el = e.target as HTMLElement
+    const tag = (el?.tagName || '').toLowerCase()
+    if (tag === 'input' || tag === 'textarea' || el?.isContentEditable) return
+    if (e.metaKey || e.ctrlKey || e.altKey) return
+    if (e.key === '/') {
+        e.preventDefault()
+        focusSearch()
+    } else if (e.key.toLowerCase() === 'n' && (isAtLeast('Admin') || can('create_citizen_medicine'))) {
+        e.preventDefault()
+        state.modal.isAddMedicineOpen = true
+    }
+}
+onMounted(() => window.addEventListener('keydown', onMedicineShortcut))
+onUnmounted(() => window.removeEventListener('keydown', onMedicineShortcut))
+
+// Contribute this page's commands + shortcuts to the global palette / help overlay.
+const { setPageCommands, clearPageCommands, setPageShortcuts, clearPageShortcuts } = useCommandPalette()
+watchEffect(() => setPageCommands(paletteCommands.value))
+watchEffect(() => {
+    const sc = [{ keys: '/', label: t('search') }]
+    if (isAtLeast('Admin') || can('create_citizen_medicine')) {
+        sc.push({ keys: 'N', label: t('citizens.medicineJournals.newMedicine') })
+    }
+    setPageShortcuts(sc)
+})
+onUnmounted(() => { clearPageCommands(); clearPageShortcuts() })
 
 watch(() => state.modal.isViewMedicineHistoryOpen, (val: any) => { if (!val) fetchCitizenMedicines() })
 watch(() => state.viewMode, (newMode) => fetchCitizenMedicines(newMode))
@@ -1654,3 +1803,17 @@ async function toggleActivateDeactivateMedicine() {
     state.isTableLoading = false
 }
 </script>
+
+<style scoped>
+/* Soft attention pulse on the "Overdue" stat card when something is overdue. */
+@keyframes pulse-danger {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(248, 113, 113, 0); }
+    50% { box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.35); }
+}
+.pulse-danger {
+    animation: pulse-danger 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+    .pulse-danger { animation: none; }
+}
+</style>
