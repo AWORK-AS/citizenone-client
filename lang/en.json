@@ -10528,6 +10528,14 @@
             "pleaseDescribeTheFeature": "Please describe the feature you would like to have. Include any specific details or requirements you have in mind",
             "pleaseWriteHere": "Please write here",
             "sendMessage": "Send message"
+        },
+        "confirmation": {
+            "requestSent": "Request sent",
+            "thankYou": "Thank you! Your request has been received and we will take it into account"
+        },
+        "previousRequests": {
+            "title": "Your previous requests",
+            "empty": "No previous requests"
         }
     },
     "no": "No",

@@ -10528,6 +10528,14 @@
             "pleaseDescribeTheFeature": "Beskriv venligst den funktion, du gerne vil have. Inkluder eventuelle specifikke detaljer eller krav, du har i tankerne",
             "pleaseWriteHere": "Skriv venligst her",
             "sendMessage": "Send besked"
+        },
+        "confirmation": {
+            "requestSent": "Anmodning sendt",
+            "thankYou": "Tak! Din anmodning er modtaget, og vi vil tage den i betragtning"
+        },
+        "previousRequests": {
+            "title": "Dine tidligere anmodninger",
+            "empty": "Ingen tidligere anmodninger"
         }
     },
     "no": "Nej",
