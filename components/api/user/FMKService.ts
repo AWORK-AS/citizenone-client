@@ -12,6 +12,11 @@ class FMKService extends BaseAPIService {
     async getMedicineCard(params: MedicineCardParams): Promise<any> {
         return await this.request(`/user/fmk`, 'POST', params)
     }
+
+    // GET /user/fmk/last-sync/{citizenUuid} — last successful FMK sync for a citizen.
+    async getLastSync(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/fmk/last-sync/${citizenUuid}`, 'GET')
+    }
 }
 
 export const fMKService = new FMKService()

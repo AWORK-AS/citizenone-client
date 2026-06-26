@@ -2317,7 +2317,14 @@
                 "missingCvr": "Organisationens CVR mangler — kan ikke slå op i FMK.",
                 "missingCpr": "Borgerens CPR mangler — kan ikke slå op i FMK.",
                 "error": "FMK-opslaget fejlede.",
-                "loginPending": "Direkte FMK-opslag kræver login med MitID Erhverv, som endnu ikke er aktiveret. Brug \"Åbn FMK Online\" indtil videre."
+                "loginPending": "Direkte FMK-opslag kræver login med MitID Erhverv, som endnu ikke er aktiveret. Brug \"Åbn FMK Online\" indtil videre.",
+                "fromFmk": "FMK",
+                "fromFmkHint": "Importeret fra FMK",
+                "draftBadge": "Kladde",
+                "draftHint": "Kladde importeret fra FMK — bekræft for at aktivere",
+                "confirmDraft": "Bekræft",
+                "confirmed": "Medicinen er bekræftet og er nu aktiv.",
+                "lastSynced": "Sidst synkroniseret med FMK"
             },
             "table": {
                 "actions": {

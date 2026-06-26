@@ -25,6 +25,10 @@ class MedicineJournalService extends BaseAPIService {
         return await this.request(`/user/citizen-medicines/${medicineUuid}/activate-deactivate `, 'PUT')
     }
 
+    async confirmMedicine(medicineUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-medicines/${medicineUuid}/confirm`, 'PUT')
+    }
+
     async getAllSelectedMedicines(params: object): Promise<any> {
         return await this.request(`/user/citizen-medicines/multiple/list`, 'GET', params)
     }

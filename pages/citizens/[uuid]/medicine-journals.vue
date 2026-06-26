@@ -185,6 +185,11 @@
                         </button>
                     </div>
                     <div class="flex items-center gap-2 justify-end flex-wrap">
+                        <span v-if="state.fmkLastSyncedAt && (isAtLeast('Admin') || can('update_citizen_medicine'))"
+                            class="text-xs text-gray-500 self-center">
+                            {{ $t('citizens.medicineJournals.fmk.lastSynced') }}:
+                            {{ moment(state.fmkLastSyncedAt).format('DD-MM-YYYY HH:mm') }}
+                        </span>
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="state.modal.isFmkOpen = true"
                             v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
@@ -314,6 +319,7 @@
                                             <p class="text-sm font-medium text-gray-900 truncate">
                                                 {{ getMedicineName(medicine) }}
                                             </p>
+                                            <ModulesUserCitizenMedicineSourceBadges :medicine="medicine" />
                                             <span v-if="medicine.is_self_administered"
                                                 :title="$t('citizens.medicineJournals.page.selfAdministration')"
                                                 class="shrink-0 inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xxs font-semibold text-amber-800">
@@ -371,6 +377,14 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-0.5 shrink-0">
+                                        <Tooltip v-if="medicine?.is_draft && (isAtLeast('Admin') || can('update_citizen_medicine'))"
+                                            :text="$t('citizens.medicineJournals.fmk.confirmDraft')">
+                                            <button type="button"
+                                                class="p-1.5 rounded hover:bg-green-50 text-gray-400 hover:text-green-600"
+                                                @click="confirmDraftMedicine(medicine)">
+                                                <Icon name="ph:check-circle" class="size-4" />
+                                            </button>
+                                        </Tooltip>
                                         <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')">
                                             <button type="button"
                                                 class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
@@ -463,6 +477,7 @@
                                             <p class="text-sm font-medium text-gray-900">
                                                 {{ getMedicineName(medicine) }}
                                             </p>
+                                            <ModulesUserCitizenMedicineSourceBadges :medicine="medicine" />
                                             <span v-if="medicine.is_self_administered"
                                                 :title="$t('citizens.medicineJournals.page.selfAdministration')"
                                                 class="shrink-0 inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xxs font-semibold text-amber-800">
@@ -594,6 +609,7 @@
                                                 <p class="truncate max-w-36">
                                                     {{ getMedicineName(medicine) }}
                                                 </p>
+                                                <ModulesUserCitizenMedicineSourceBadges :medicine="medicine" />
                                                 <Tooltip v-if="medicine.is_self_administered"
                                                     :text="$t('citizens.medicineJournals.page.selfAdministration')"
                                                     class="shrink-0">
@@ -943,7 +959,8 @@
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
                     @close="state.modal.isDownloadMedicineOverviewOpen = false" />
                 <ModulesUserCitizenMedicineModalFmk :isModalOpen="state.modal.isFmkOpen"
-                    :citizenUuid="String(citizenUuid)" @close="state.modal.isFmkOpen = false" />
+                    :citizenUuid="String(citizenUuid)" @close="state.modal.isFmkOpen = false"
+                    @refreshMedicines="() => { fetchCitizenMedicines(); fetchFmkLastSync() }" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
                     @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
@@ -988,6 +1005,7 @@
 import moment from 'moment'
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
+import { fMKService } from '@/components/api/user/FMKService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -1066,6 +1084,7 @@ const state = reactive({
     error: {} as Error,
     isTableLoading: false,
     medicines: [] as any,
+    fmkLastSyncedAt: null as string | null,
     modal: {
         isAddMedicineOpen: false,
         isAnbrudOpen: false,
@@ -1098,8 +1117,20 @@ let clockInterval: any
 onMounted(() => {
     citizenMedicineStore.setFilterMedicationType('all')
     fetchCitizenMedicines()
+    fetchFmkLastSync()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
+
+// Last successful FMK synchronisation for this citizen (timestamp shown next to
+// the "Synchronize with FMK" button). Refreshed after every sync.
+async function fetchFmkLastSync() {
+    try {
+        const response = await fMKService.getLastSync(String(citizenUuid))
+        state.fmkLastSyncedAt = response?.data?.lastSyncedAt ?? null
+    } catch {
+        state.fmkLastSyncedAt = null
+    }
+}
 
 onUnmounted(() => {
     citizenMedicineStore.resetSelectedMedicine()
@@ -1650,6 +1681,23 @@ async function toggleActivateDeactivateMedicine() {
         if (response?.data) {
             fetchCitizenMedicines()
             successAlert(`${t('alert.success')}!`, response.data.is_deactivated ? `${t('citizens.medicineJournals.alert.successfullyDeactivated')}.` : `${t('citizens.medicineJournals.alert.successfullyActivated')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+// Confirm an FMK-imported draft: flips is_draft -> false so it becomes a live
+// medicine. The "Kladde" badge disappears on the next list refresh.
+async function confirmDraftMedicine(medicine: any) {
+    state.error = {} as Error
+    state.isTableLoading = true
+    try {
+        const response = await medicineJournalService.confirmMedicine(medicine.uuid)
+        if (response?.data) {
+            fetchCitizenMedicines()
+            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.fmk.confirmed')}`)
         }
     } catch (error: any) {
         state.error = error

@@ -73,7 +73,7 @@ const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
     citizenUuid: { type: String, required: true },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'refreshMedicines'])
 
 const { t } = useI18n()
 const companyStore = useCompanyStore() as any
@@ -120,6 +120,11 @@ async function fetchCard() {
             citizenId: citizen?.id,
         })
         state.medications = result?.data?.medicineCard?.medications ?? []
+        // The backend imported these into the citizen's medicine list as drafts;
+        // tell the parent page to refresh so they appear without a manual reload.
+        if ((result?.import?.imported ?? 0) > 0 || (result?.import?.updated ?? 0) > 0) {
+            emit('refreshMedicines')
+        }
     } catch (error: any) {
         const faultCode = error?.data?.faultCode
         const message = error?.data?.message || error?.message || t('citizens.medicineJournals.fmk.error')
