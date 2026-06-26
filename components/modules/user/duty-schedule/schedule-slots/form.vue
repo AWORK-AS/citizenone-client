@@ -76,6 +76,30 @@
                     <FormError :error="v$?.formScheduleSlot?.available_slots?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.available_slots?.[0]" />
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="citizen_uuid" :label="$t('dutySchedules.form.citizens')" />
+                    <FormSelectMultiple id="citizen_uuid" :options="state.options.citizens"
+                        v-model="state.formScheduleSlot.citizen_uuid" />
+                    <FormError :error="props?.error?.errors?.citizen_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddNewScheduleTagOpen = true">
+                            {{ $t('scheduleTags.addNewScheduleTag') }}
+                        </span>
+                    </div>
+                    <FormSelectMultiple id="schedule_tag_uuid" name="schedule_tag_uuid"
+                        :options="state.options.scheduleTags" v-model="state.formScheduleSlot.schedule_tag_uuid" />
+                    <FormError :error="props?.error?.errors?.schedule_tag_uuid?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="note" :label="`${$t('dutySchedules.form.note')}.`" />
+                    <FormTextArea id="note" name="note" :placeholder="$t('dutySchedules.form.note')"
+                        v-model="state.formScheduleSlot.note" />
+                    <FormError :error="props?.error?.errors?.note?.[0]" />
+                </div>
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -95,6 +119,8 @@
             <ModulesUserJobSpecialtyModalNew :isModalOpen="state.modal.isAddJobSpecialtyOpen"
                 @close="state.modal.isAddJobSpecialtyOpen = false" @refreshJobTitles="fetchJobTitles"
                 @refreshJobSpecialty="fetchJobSpecialties($event)" />
+            <ModulesUserScheduleTagModalNew :isModalOpen="state.modal.isAddNewScheduleTagOpen"
+                @close="state.modal.isAddNewScheduleTagOpen = false" @refreshScheduleTags="fetchAllScheduleTags" />
         </form>
     </LoadingSpinner>
 </template>
@@ -104,7 +130,10 @@ import { departmentService } from '@/components/api/user/DepartmentService'
 import { jobTitleService } from '@/components/api/user/JobTitleService'
 import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
 import { shiftService } from '@/components/api/user/ShiftService'
+import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDepartmentStore } from '@/store/department'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -138,6 +167,7 @@ const { errorAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const departmentStore = useDepartmentStore()
 
 const state = reactive({
     error: {} as Error,
@@ -149,17 +179,23 @@ const state = reactive({
         job_specialty_uuid: [],
         available_slots: props.selectedScheduleSlot?.available_slots.toString(),
         shift_type: props.selectedScheduleSlot?.shift?.uuid,
+        citizen_uuid: [] as string[],
+        schedule_tag_uuid: [] as string[],
+        note: props.selectedScheduleSlot?.note ?? '',
     } as any,
     modal: {
         isAddDepartmentOpen: false,
         isAddJobSpecialtyOpen: false,
         isAddJobTitleOpen: false,
+        isAddNewScheduleTagOpen: false,
     },
     options: {
         departments: [],
         jobSpecialties: [],
         jobTitles: [],
-        shifts: []
+        shifts: [],
+        citizens: [],
+        scheduleTags: [],
     }
 })
 
@@ -167,6 +203,8 @@ onMounted(() => {
     fetchDepartments()
     fetchAllShifts()
     fetchJobTitles()
+    fetchAllCitizens()
+    fetchAllScheduleTags()
     if (props.selectedScheduleSlot?.job_titles) {
         props.selectedScheduleSlot.job_titles.forEach((jobTitle: any) => {
             state.formScheduleSlot.job_title_uuid.push(jobTitle?.uuid)
@@ -181,6 +219,16 @@ onMounted(() => {
     if (props.selectedScheduleSlot?.schedule_specialties) {
         props.selectedScheduleSlot.schedule_specialties.forEach((scheduleSpeciality: any) => {
             state.formScheduleSlot.job_specialty_uuid.push(scheduleSpeciality?.job_specialty?.uuid)
+        })
+    }
+    if (props.selectedScheduleSlot?.citizens) {
+        props.selectedScheduleSlot.citizens.forEach((c: any) => {
+            state.formScheduleSlot.citizen_uuid.push(c.uuid)
+        })
+    }
+    if (props.selectedScheduleSlot?.tags) {
+        props.selectedScheduleSlot.tags.forEach((tag: any) => {
+            state.formScheduleSlot.schedule_tag_uuid.push(tag.uuid)
         })
     }
 })
@@ -291,6 +339,36 @@ function addNewJobSpecialty() {
     } else {
         errorAlert(`${t('alert.required')}!`, `${t('alert.jobTitleRequired')}.`)
     }
+}
+
+async function fetchAllCitizens() {
+    emit('isPageLoading', true)
+    try {
+        const response = await citizenService.getAllCitizens({})
+        if (response.data) {
+            state.options.citizens = response.data.map((c: any) => ({
+                value: c.uuid,
+                label: c.firstname + ' ' + (c.lastname ?? ''),
+            }))
+        }
+    } catch (error: any) { state.error = error }
+    emit('isPageLoading', false)
+}
+
+async function fetchAllScheduleTags() {
+    emit('isPageLoading', true)
+    try {
+        const response = await scheduleTagService.getAllScheduleTags({
+            department: departmentStore.getSelectedDepartmentName,
+        })
+        if (response.data) {
+            state.options.scheduleTags = response.data.map((tag: any) => ({
+                value: tag.uuid,
+                label: tag.tag,
+            }))
+        }
+    } catch (error: any) { state.error = error }
+    emit('isPageLoading', false)
 }
 
 const rules = computed(() => {

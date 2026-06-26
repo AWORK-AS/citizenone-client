@@ -59,6 +59,9 @@ async function updateScheduleSlot(scheduleSlotDetails: any) {
             job_specialty_uuid: scheduleSlotDetails.job_specialty_uuid,
             available_slots: scheduleSlotDetails.available_slots,
             shift_type_uuid: scheduleSlotDetails.shift_type,
+            citizen_uuid: scheduleSlotDetails.citizen_uuid,
+            schedule_tag_uuid: scheduleSlotDetails.schedule_tag_uuid,
+            note: scheduleSlotDetails.note,
         }
         const response = await scheduleSlotService.updateScheduleSlot(scheduleSlotUuid, params)
         if (response) {
