@@ -9169,6 +9169,7 @@
                 "tabs": {
                     "overview": "Oversikt"
                 },
+                "searchPlaceholder": "Søk etter navn eller e-post...",
                 "userAccounts": "Brukerkontoer",
                 "yearly": "år."
             }
