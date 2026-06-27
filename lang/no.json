@@ -1,4 +1,17 @@
 {
+    "inquiryPipeline": {
+        "board": "Henvendelses-pipeline",
+        "enableLabel": "Henvendelses-pipeline (kanban)",
+        "enableHint": "Vis henvendelser som et kanban-brett",
+        "moved": "Henvendelse flyttet",
+        "stages": {
+            "new": "Ny",
+            "clarification": "Avklaring",
+            "offer": "Tilbud",
+            "won": "Vunnet",
+            "lost": "Tapt"
+        }
+    },
     "managementEconomy": {
         "title": "Ledelse & økonomi",
         "fromDate": "Fra dato",

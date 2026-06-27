@@ -17,6 +17,10 @@ class CitizenInquiryService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'PUT', params)
     }
 
+    async updatePipelineStatus(inquiryUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/${inquiryUuid}/pipeline-status`, 'PUT', params)
+    }
+
     async deleteInquiry(inquiryUuid: any): Promise<any> {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'DELETE')
     }

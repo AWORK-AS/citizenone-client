@@ -1,4 +1,17 @@
 {
+    "inquiryPipeline": {
+        "board": "Inquiry pipeline",
+        "enableLabel": "Inquiry pipeline (kanban)",
+        "enableHint": "Show inquiries as a kanban board",
+        "moved": "Inquiry moved",
+        "stages": {
+            "new": "New",
+            "clarification": "Clarification",
+            "offer": "Offer",
+            "won": "Won",
+            "lost": "Lost"
+        }
+    },
     "managementEconomy": {
         "title": "Management & economy",
         "fromDate": "From date",

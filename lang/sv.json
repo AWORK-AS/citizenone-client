@@ -1,4 +1,17 @@
 {
+    "inquiryPipeline": {
+        "board": "Förfrågningspipeline",
+        "enableLabel": "Förfrågningspipeline (kanban)",
+        "enableHint": "Visa förfrågningar som en kanban-tavla",
+        "moved": "Förfrågan flyttad",
+        "stages": {
+            "new": "Ny",
+            "clarification": "Utredning",
+            "offer": "Erbjudande",
+            "won": "Vunnen",
+            "lost": "Förlorad"
+        }
+    },
     "managementEconomy": {
         "title": "Ledning & ekonomi",
         "fromDate": "Från datum",

@@ -114,6 +114,42 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+                    <!-- Inquiry pipeline (kanban) — opt-in per company -->
+                    <div v-if="pipelineEnabled" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-3">
+                        <div v-for="stage in pipelineStages" :key="stage.key"
+                            class="rounded-xl bg-surface-50 border border-surface-200 p-3 min-h-[220px]">
+                            <div class="flex items-center justify-between mb-3 px-1">
+                                <span class="text-xs font-bold uppercase tracking-wide text-slate-500">
+                                    {{ $t('inquiryPipeline.stages.' + stage.key) }}
+                                </span>
+                                <span class="text-xs text-slate-400">{{ inquiriesByStage(stage.key).length }}</span>
+                            </div>
+                            <div class="space-y-2">
+                                <div v-for="inq in inquiriesByStage(stage.key)" :key="inq.uuid"
+                                    class="rounded-lg bg-white border border-surface-200 p-3 shadow-sm">
+                                    <p class="text-sm font-semibold text-slate-900 truncate">
+                                        {{ inq.inquirer_name || (inq.firstname + ' ' + inq.lastname) }}
+                                    </p>
+                                    <p class="text-xs text-slate-400 mt-0.5">
+                                        {{ formatDateToReadable(inq.inquiry_date) }}
+                                    </p>
+                                    <div class="mt-2 flex items-center justify-between">
+                                        <button v-if="stage.prev" @click="moveStage(inq, stage.prev)"
+                                            class="text-slate-300 hover:text-secondary">
+                                            <Icon name="ph:arrow-left" class="size-4" />
+                                        </button>
+                                        <span v-else></span>
+                                        <button v-if="stage.next" @click="moveStage(inq, stage.next)"
+                                            class="text-slate-300 hover:text-secondary">
+                                            <Icon name="ph:arrow-right" class="size-4" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <template v-if="!pipelineEnabled">
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.inquiries"
@@ -186,6 +222,7 @@
                         </Table>
                     </div>
                     <Pagination :data="state.inquiries" @previous="previous" @next="next" />
+                    </template>
                 </div>
             </div>
 
@@ -224,14 +261,40 @@ import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore() as any
 const inquiryStore = useInquiryStore() as any
 const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+// Inquiry pipeline (kanban) — opt-in per company.
+const pipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
+const pipelineStages = [
+    { key: 'new', prev: null, next: 'clarification' },
+    { key: 'clarification', prev: 'new', next: 'offer' },
+    { key: 'offer', prev: 'clarification', next: 'won' },
+    { key: 'won', prev: 'offer', next: 'lost' },
+    { key: 'lost', prev: 'won', next: null },
+]
+function inquiriesByStage(stage: string) {
+    return (state.inquiries?.data ?? []).filter((i: any) => (i.pipeline_status || 'new') === stage)
+}
+async function moveStage(inquiry: any, status: string) {
+    try {
+        const response = await citizenInquiryService.updatePipelineStatus(inquiry.uuid, { pipeline_status: status })
+        if (response?.data) {
+            fetchInquiries()
+            successAlert(`${t('alert.success')}!`, `${t('inquiryPipeline.moved')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
 const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
