@@ -1,4 +1,18 @@
 {
+    "citizenRelations": {
+        "tab": "Relasjoner",
+        "title": "Relasjoner",
+        "new": "Legg til relasjon",
+        "relatedCitizen": "Relatert borger",
+        "relationshipType": "Relasjonstype",
+        "selectCitizen": "Velg borger",
+        "name": "Navn",
+        "action": "Handling",
+        "empty": "Ingen relasjoner ennå",
+        "deleteConfirmation": "Slett denne relasjonen",
+        "added": "Relasjon lagt til",
+        "deleted": "Relasjon slettet"
+    },
     "companyModules": {
         "Economy": "Økonomi",
         "Journals": "Journaler",

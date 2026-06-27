@@ -1,4 +1,18 @@
 {
+    "citizenRelations": {
+        "tab": "Relations",
+        "title": "Relations",
+        "new": "Add relation",
+        "relatedCitizen": "Related citizen",
+        "relationshipType": "Relationship type",
+        "selectCitizen": "Select citizen",
+        "name": "Name",
+        "action": "Action",
+        "empty": "No relations yet",
+        "deleteConfirmation": "Delete this relation",
+        "added": "Relation added",
+        "deleted": "Relation deleted"
+    },
     "companyModules": {
         "Economy": "Economy",
         "Journals": "Journals",

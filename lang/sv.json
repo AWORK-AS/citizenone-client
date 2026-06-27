@@ -1,4 +1,18 @@
 {
+    "citizenRelations": {
+        "tab": "Relationer",
+        "title": "Relationer",
+        "new": "Lägg till relation",
+        "relatedCitizen": "Relaterad medborgare",
+        "relationshipType": "Relationstyp",
+        "selectCitizen": "Välj medborgare",
+        "name": "Namn",
+        "action": "Åtgärd",
+        "empty": "Inga relationer än",
+        "deleteConfirmation": "Ta bort denna relation",
+        "added": "Relation tillagd",
+        "deleted": "Relation borttagen"
+    },
     "companyModules": {
         "Economy": "Ekonomi",
         "Journals": "Journaler",
