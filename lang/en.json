@@ -1,4 +1,18 @@
 {
+    "managementEconomy": {
+        "title": "Management & economy",
+        "fromDate": "From date",
+        "toDate": "To date",
+        "generate": "Generate",
+        "selectPeriod": "Select a period to view the economy",
+        "noData": "No data for the period",
+        "allocatedRevenue": "Allocated revenue",
+        "interventions": "Interventions",
+        "coordinators": "Coordinators",
+        "coordinatorSplit": "Revenue per coordinator",
+        "primary": "Primary",
+        "secondary": "Secondary"
+    },
     "citizenRelations": {
         "addFirst": "Add first relation",
         "tab": "Relations",

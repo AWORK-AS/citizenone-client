@@ -669,6 +669,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
     if (item.name === 'Billing') return language.t('employment.billing.billing')
     if (item.name === 'Revenue report') return language.t('employment.revenue.report')
+    if (item.name === 'Management & Economy') return language.t('managementEconomy.title')
     return item.name
 }
 
@@ -824,6 +825,10 @@ function generateSidebarLinks(user: any) {
     if (user?.company?.industry?.system_name === 'employment_services') {
         navigation.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
         navigation.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+    }
+
+    if (user?.company?.industry?.system_name === 'social_welfare') {
+        navigation.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', activeRouteNames: ['management-economy'] })
     }
 
     state.isSidebarLoading = false

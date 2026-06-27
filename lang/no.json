@@ -1,4 +1,18 @@
 {
+    "managementEconomy": {
+        "title": "Ledelse & økonomi",
+        "fromDate": "Fra dato",
+        "toDate": "Til dato",
+        "generate": "Generer",
+        "selectPeriod": "Velg en periode for å se økonomien",
+        "noData": "Ingen data for perioden",
+        "allocatedRevenue": "Fordelt omsetning",
+        "interventions": "Innsatser",
+        "coordinators": "Koordinatorer",
+        "coordinatorSplit": "Omsetning per koordinator",
+        "primary": "Primær",
+        "secondary": "Sekundær"
+    },
     "citizenRelations": {
         "addFirst": "Legg til første relasjon",
         "tab": "Relasjoner",

@@ -1,4 +1,18 @@
 {
+    "managementEconomy": {
+        "title": "Ledning & ekonomi",
+        "fromDate": "Från datum",
+        "toDate": "Till datum",
+        "generate": "Generera",
+        "selectPeriod": "Välj en period för att se ekonomin",
+        "noData": "Ingen data för perioden",
+        "allocatedRevenue": "Fördelad intäkt",
+        "interventions": "Insatser",
+        "coordinators": "Koordinatorer",
+        "coordinatorSplit": "Intäkt per koordinator",
+        "primary": "Primär",
+        "secondary": "Sekundär"
+    },
     "citizenRelations": {
         "addFirst": "Lägg till första relation",
         "tab": "Relationer",
