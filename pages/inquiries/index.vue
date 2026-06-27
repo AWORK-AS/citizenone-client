@@ -117,7 +117,10 @@
                     <!-- Inquiry pipeline (kanban) — opt-in per company -->
                     <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto pb-2">
                         <div v-for="stage in pipelineStages" :key="stage.key"
-                            class="w-[300px] shrink-0 rounded-2xl bg-surface-50 p-3">
+                            class="w-[300px] shrink-0 rounded-2xl bg-surface-50 p-3 transition-colors"
+                            :class="dragOverKey === stage.key ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''"
+                            @dragover.prevent="dragOverKey = stage.key" @dragleave="dragOverKey = null"
+                            @drop="onDrop(stage.key)">
                             <div class="flex items-center gap-2 mb-3 px-1.5">
                                 <span class="size-2.5 rounded-full" :style="{ background: stage.color }"></span>
                                 <span class="text-[15px] font-bold text-slate-700">
@@ -129,7 +132,10 @@
                             </div>
                             <div class="space-y-2.5">
                                 <div v-for="inq in inquiriesByStage(stage.key)" :key="inq.uuid"
-                                    class="group rounded-xl bg-white border border-surface-200 p-3.5 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover">
+                                    draggable="true" @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
+                                    @click="editInquiry(inq)"
+                                    class="group cursor-pointer rounded-xl bg-white border border-surface-200 p-3.5 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover active:cursor-grabbing"
+                                    :class="dragged?.uuid === inq.uuid ? 'opacity-40' : ''">
                                     <p class="text-xs font-bold text-secondary">
                                         {{ inq.inquirer_name || $t('inquiries.inquiries') }}
                                     </p>
@@ -155,18 +161,8 @@
                                                 {{ formatDateToReadable(inq.inquiry_date) }}
                                             </span>
                                         </div>
-                                        <div class="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
-                                            <button v-if="stage.prev" @click="moveStage(inq, stage.prev)"
-                                                class="rounded-md p-1 text-slate-300 hover:bg-surface-100 hover:text-secondary"
-                                                :aria-label="$t('inquiryPipeline.stages.' + stage.prev)">
-                                                <Icon name="ph:arrow-left" class="size-4" />
-                                            </button>
-                                            <button v-if="stage.next" @click="moveStage(inq, stage.next)"
-                                                class="rounded-md p-1 text-slate-300 hover:bg-surface-100 hover:text-secondary"
-                                                :aria-label="$t('inquiryPipeline.stages.' + stage.next)">
-                                                <Icon name="ph:arrow-right" class="size-4" />
-                                            </button>
-                                        </div>
+                                        <Icon name="ph:dots-six-vertical"
+                                            class="size-4 text-slate-300 opacity-0 transition-opacity group-hover:opacity-100" />
                                     </div>
                                 </div>
                                 <p v-if="inquiriesByStage(stage.key).length === 0"
@@ -322,6 +318,21 @@ function inqInitials(inq: any) {
     if (!parts.length) return '?'
     return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase()
 }
+// Drag and drop between pipeline columns.
+const dragged = ref<any>(null)
+const dragOverKey = ref<string | null>(null)
+function onDragStart(inq: any) {
+    dragged.value = inq
+}
+function onDrop(stageKey: string) {
+    dragOverKey.value = null
+    const inq = dragged.value
+    dragged.value = null
+    if (inq && (inq.pipeline_status || 'new') !== stageKey) {
+        moveStage(inq, stageKey)
+    }
+}
+
 async function moveStage(inquiry: any, status: string) {
     try {
         const response = await citizenInquiryService.updatePipelineStatus(inquiry.uuid, { pipeline_status: status })
