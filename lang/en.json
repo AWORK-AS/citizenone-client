@@ -10731,6 +10731,13 @@
         "title": "Your ChatGPT Integration"
     },
     "employment": {
+        "economy": {
+            "coordinatorSplit": "Revenue per coordinator",
+            "allocatedRevenue": "Allocated revenue",
+            "interventions": "Interventions",
+            "primary": "Primary",
+            "secondary": "Secondary"
+        },
         "statusTypes": {
             "statusTypes": "Status Types",
             "newStatusType": "New Status Type",
@@ -10891,6 +10898,8 @@
                 "reminderEnabled": "Automatic reporting reminders",
                 "reminderEnabledHint": "Automatically create reminders for each reporting date in the case period",
                 "reportingFrequencyWeeks": "Reporting frequency",
+                "contractPrice": "Contract price",
+                "primarySplitPercentage": "Primary coordinator share (%)",
                 "reportingFrequencyOptions": {
                     "every2weeks": "Every 2 weeks",
                     "every4weeks": "Every 4 weeks",

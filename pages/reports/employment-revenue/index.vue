@@ -82,6 +82,27 @@
                             </div>
                         </div>
 
+                        <!-- Coordinator economy: contract price split across primary/secondary -->
+                        <div v-if="state.economy.coordinators?.length"
+                            class="bg-white border border-[#EAECF0] rounded-xl shadow-sm p-5 mb-5">
+                            <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+                                <h3 class="text-sm font-semibold text-[#1F2533]">
+                                    {{ $t('employment.economy.coordinatorSplit') }}
+                                </h3>
+                                <div class="flex items-center gap-5 text-sm">
+                                    <span class="text-[#8891A4]">{{ $t('employment.economy.allocatedRevenue') }}:
+                                        <span class="font-bold text-[#1F2533]">{{ formatAmount(state.economy.total_revenue) }}</span>
+                                    </span>
+                                    <span class="text-[#8891A4]">{{ $t('employment.economy.interventions') }}:
+                                        <span class="font-bold text-[#1F2533]">{{ state.economy.case_count }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <ClientOnly>
+                                <VChart :option="economyChartOption" style="height: 320px; width: 100%;" autoresize />
+                            </ClientOnly>
+                        </div>
+
                         <!-- Consultant table -->
                         <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
                             <table class="w-full">
@@ -176,7 +197,39 @@ const state = reactive({
     hasFetched: false,
     isLoading: false,
     rows: [] as any[],
+    economy: { total_revenue: 0, case_count: 0, coordinators: [] as any[] },
     filter: { from_date: '', to_date: '' },
+})
+
+const economyChartOption = computed(() => {
+    const names = state.economy.coordinators.map((c: any) => c.consultant_name)
+    return {
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+        legend: { bottom: 0, icon: 'roundRect' },
+        grid: { left: 70, right: 20, top: 20, bottom: 50 },
+        xAxis: {
+            type: 'category',
+            data: names,
+            axisLabel: { interval: 0, rotate: names.length > 4 ? 25 : 0 },
+        },
+        yAxis: { type: 'value' },
+        series: [
+            {
+                name: t('employment.economy.primary'),
+                type: 'bar',
+                stack: 'total',
+                itemStyle: { color: '#1b6d8a' },
+                data: state.economy.coordinators.map((c: any) => c.primary_revenue),
+            },
+            {
+                name: t('employment.economy.secondary'),
+                type: 'bar',
+                stack: 'total',
+                itemStyle: { color: '#2dbab2' },
+                data: state.economy.coordinators.map((c: any) => c.secondary_revenue),
+            },
+        ],
+    }
 })
 
 const totals = computed(() => ({
@@ -194,8 +247,12 @@ async function fetchReport() {
     state.error = {} as Error
     state.isLoading = true
     try {
-        const response = await employmentService.getRevenueReport(state.filter)
+        const [response, economy] = await Promise.all([
+            employmentService.getRevenueReport(state.filter),
+            employmentService.getCoordinatorEconomy(state.filter),
+        ])
         state.rows = response?.data ?? response ?? []
+        state.economy = economy?.data ?? economy ?? { total_revenue: 0, case_count: 0, coordinators: [] }
         state.hasFetched = true
     } catch (error: any) {
         state.error = error

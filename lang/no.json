@@ -10704,6 +10704,13 @@
         "title": "Din ChatGPT-integrasjon"
     },
     "employment": {
+        "economy": {
+            "coordinatorSplit": "Omsetning per koordinator",
+            "allocatedRevenue": "Fordelt omsetning",
+            "interventions": "Innsatser",
+            "primary": "Primær",
+            "secondary": "Sekundær"
+        },
         "statusTypes": {
             "statusTypes": "Statustyper",
             "newStatusType": "Ny statustype",
@@ -10864,6 +10871,8 @@
                 "reminderEnabled": "Automatiske rapporteringspåminnelser",
                 "reminderEnabledHint": "Opprett automatisk påminnelser for hver rapporteringsdato i saksperioden",
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær koordinator andel (%)",
                 "reportingFrequencyOptions": {
                     "every2weeks": "Hver 2. uke",
                     "every4weeks": "Hver 4. uke",

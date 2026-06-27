@@ -195,6 +195,11 @@ class EmploymentService extends BaseAPIService {
     async getRevenueReport(params: object): Promise<any> {
         return await this.request(`/user/employment/billing/revenue-report`, 'GET', params)
     }
+
+    // Revenue split across primary/secondary coordinators
+    async getCoordinatorEconomy(params: object): Promise<any> {
+        return await this.request(`/user/employment/billing/coordinator-economy`, 'GET', params)
+    }
 }
 
 export const employmentService = new EmploymentService()
