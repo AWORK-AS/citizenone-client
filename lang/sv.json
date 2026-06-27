@@ -1,5 +1,6 @@
 {
     "citizenRelations": {
+        "addFirst": "Lägg till första relation",
         "tab": "Relationer",
         "title": "Relationer",
         "new": "Lägg till relation",

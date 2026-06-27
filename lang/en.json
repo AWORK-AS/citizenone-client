@@ -1,5 +1,6 @@
 {
     "citizenRelations": {
+        "addFirst": "Add first relation",
         "tab": "Relations",
         "title": "Relations",
         "new": "Add relation",
@@ -5807,6 +5808,7 @@
     "filter": "Filter",
     "more": "More",
     "commandPalette": {
+        "actions": "Actions",
         "placeholder": "Search actions or sections…",
         "hint": "Search and jump around — ⌘K. Press ? for all shortcuts.",
         "didYouKnowTitle": "Did you know?",

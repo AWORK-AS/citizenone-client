@@ -458,6 +458,7 @@ import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { useCommandPalette } from '@/composables/useCommandPalette'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDepartmentStore } from '@/store/department'
 import { useConfetti } from '@/composables/useConfetti'
@@ -580,11 +581,24 @@ const greetingPart = computed(() => {
 })
 const todaysEventsCount = computed(() => state.stats.citizenCalendarEvents?.data?.length ?? 0)
 
+const { setPageCommands, clearPageCommands } = useCommandPalette()
+
 onMounted(() => {
     scrollToNewsIfNeeded()
     fetchUpcomingBirthdays()
     fetchAllCitizens()
+    setPageCommands([
+        {
+            id: 'overview-new-journal',
+            group: t('commandPalette.actions'),
+            icon: 'ph:note-pencil',
+            label: t('journalNotes.newNote'),
+            run: () => { state.modal.isCreateJournalOpen = true },
+        },
+    ])
 })
+
+onBeforeUnmount(() => clearPageCommands())
 
 async function fetchAllCitizens() {
     try {

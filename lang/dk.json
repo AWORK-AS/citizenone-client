@@ -1,5 +1,6 @@
 {
     "citizenRelations": {
+        "addFirst": "Tilføj første relation",
         "tab": "Relationer",
         "title": "Relationer",
         "new": "Tilføj relation",
@@ -5807,6 +5808,7 @@
     "filter": "Filtrer",
     "more": "Mere",
     "commandPalette": {
+        "actions": "Handlinger",
         "placeholder": "Søg efter handlinger eller sektioner…",
         "hint": "Søg og hop rundt — ⌘K. Tryk ? for alle genveje.",
         "didYouKnowTitle": "Vidste du?",

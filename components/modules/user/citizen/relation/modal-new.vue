@@ -13,10 +13,18 @@
                                 v-model="state.form.related_citizen_uuid" />
                             <FormError :error="state.error?.errors?.related_citizen_uuid?.[0]" />
                         </div>
-                        <div class="space-y-1">
-                            <FormLabel for="relationship_type" :label="$t('citizenRelations.relationshipType')" />
-                            <FormSelect id="relationship_type" :options="props.relationshipOptions"
-                                v-model="state.form.relationship_uuid" />
+                        <div class="space-y-1" v-if="props.relationshipOptions.length > 0">
+                            <FormLabel :label="$t('citizenRelations.relationshipType')" />
+                            <div class="flex flex-wrap gap-2">
+                                <button v-for="opt in props.relationshipOptions" :key="opt.value" type="button"
+                                    @click="toggleRelationship(opt.value)"
+                                    :class="['rounded-full border px-3 py-1.5 text-xs font-semibold transition',
+                                        state.form.relationship_uuid === opt.value
+                                            ? 'border-[#2dbab2] bg-[#f0faf9] text-[#1b6d8a]'
+                                            : 'border-surface-200 bg-white text-slate-500 hover:border-secondary/40 hover:text-secondary']">
+                                    {{ opt.label }}
+                                </button>
+                            </div>
                             <FormError :error="state.error?.errors?.relationship_uuid?.[0]" />
                         </div>
                         <div class="grid grid-cols-2 gap-3 mt-6">
@@ -105,6 +113,11 @@ async function saveRelation() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function toggleRelationship(value: string) {
+    // Tap a selected chip again to clear it — relationship type is optional.
+    state.form.relationship_uuid = state.form.relationship_uuid === value ? '' : value
 }
 
 function closeModal() {
