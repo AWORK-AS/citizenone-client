@@ -92,6 +92,11 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
+                    <FormButton buttonStyle="action" class="w-full md:w-fit shadow-sm"
+                        @click="state.modal.isCreateJournalOpen = true">
+                        <Icon name="ph:note-pencil" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('journalNotes.newNote') }}
+                    </FormButton>
                     <FormButton buttonStyle="primary" class="w-full md:w-fit shadow-sm"
                         @click="navigateTo('/overview/view')">
                         {{ $t('overview.viewAll') }}
@@ -398,6 +403,9 @@
                 @close="state.modal.isDateRangeHelperOpen = false" />
             <ModulesUserDailyOverviewQuickRiskAssessmentModalNew :isModalOpen="state.modal.isQuickRiskAssessmentOpen"
                 @close="state.modal.isQuickRiskAssessmentOpen = false" />
+            <ModulesUserJournalNotesModalNew :isModalOpen="state.modal.isCreateJournalOpen"
+                :citizenOptions="state.citizenOptions" @close="state.modal.isCreateJournalOpen = false"
+                @refreshJournal="fetchCitizensLatestJournal(state.dateRange.formDateRange)" />
             <Modal size="sm" :title="$t('overview.birthdays.title')" :show="state.modal.isBirthdaysOpen"
                 @close="state.modal.isBirthdaysOpen = false">
                 <template #modal-body>
@@ -449,6 +457,7 @@
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDepartmentStore } from '@/store/department'
 import { useConfetti } from '@/composables/useConfetti'
@@ -495,6 +504,7 @@ const state = reactive({
     } as any,
     error: {} as Error,
     isPageLoading: false,
+    citizenOptions: [] as any,
     modal: {
         isDailyOverviewDateRangeOpen: false,
         isDateRangeHelperOpen: false,
@@ -502,6 +512,7 @@ const state = reactive({
         isGuidedTourDailyOverviewOpen: false,
         isQuickRiskAssessmentOpen: false,
         isBirthdaysOpen: false,
+        isCreateJournalOpen: false,
     },
     stats: {
         citizenCalendarEvents: [],
@@ -572,7 +583,22 @@ const todaysEventsCount = computed(() => state.stats.citizenCalendarEvents?.data
 onMounted(() => {
     scrollToNewsIfNeeded()
     fetchUpcomingBirthdays()
+    fetchAllCitizens()
 })
+
+async function fetchAllCitizens() {
+    try {
+        const response = await citizenService.getAllCitizens({})
+        if (response?.data) {
+            state.citizenOptions = response.data.map((citizen: any) => ({
+                value: citizen?.uuid,
+                label: `${citizen?.firstname} ${citizen?.lastname}`,
+            }))
+        }
+    } catch {
+        // silently ignore - citizens list is optional for the quick journal-note shortcut
+    }
+}
 
 watch(() => departmentStore.getSelectedDepartmentName, () => {
     fetchUpcomingBirthdays()
