@@ -115,36 +115,62 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <!-- Inquiry pipeline (kanban) — opt-in per company -->
-                    <div v-if="pipelineEnabled" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-3">
+                    <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto pb-2">
                         <div v-for="stage in pipelineStages" :key="stage.key"
-                            class="rounded-xl bg-surface-50 border border-surface-200 p-3 min-h-[220px]">
-                            <div class="flex items-center justify-between mb-3 px-1">
-                                <span class="text-xs font-bold uppercase tracking-wide text-slate-500">
+                            class="w-[300px] shrink-0 rounded-2xl bg-surface-50 p-3">
+                            <div class="flex items-center gap-2 mb-3 px-1.5">
+                                <span class="size-2.5 rounded-full" :style="{ background: stage.color }"></span>
+                                <span class="text-[15px] font-bold text-slate-700">
                                     {{ $t('inquiryPipeline.stages.' + stage.key) }}
                                 </span>
-                                <span class="text-xs text-slate-400">{{ inquiriesByStage(stage.key).length }}</span>
+                                <span class="ml-auto rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold text-slate-400">
+                                    {{ inquiriesByStage(stage.key).length }}
+                                </span>
                             </div>
-                            <div class="space-y-2">
+                            <div class="space-y-2.5">
                                 <div v-for="inq in inquiriesByStage(stage.key)" :key="inq.uuid"
-                                    class="rounded-lg bg-white border border-surface-200 p-3 shadow-sm">
-                                    <p class="text-sm font-semibold text-slate-900 truncate">
-                                        {{ inq.inquirer_name || (inq.firstname + ' ' + inq.lastname) }}
+                                    class="group rounded-xl bg-white border border-surface-200 p-3.5 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover">
+                                    <p class="text-xs font-bold text-secondary">
+                                        {{ inq.inquirer_name || $t('inquiries.inquiries') }}
                                     </p>
-                                    <p class="text-xs text-slate-400 mt-0.5">
-                                        {{ formatDateToReadable(inq.inquiry_date) }}
+                                    <p class="mt-1 text-[15px] font-bold leading-snug text-slate-900">
+                                        {{ inqTitle(inq) }}
                                     </p>
-                                    <div class="mt-2 flex items-center justify-between">
-                                        <button v-if="stage.prev" @click="moveStage(inq, stage.prev)"
-                                            class="text-slate-300 hover:text-secondary">
-                                            <Icon name="ph:arrow-left" class="size-4" />
-                                        </button>
-                                        <span v-else></span>
-                                        <button v-if="stage.next" @click="moveStage(inq, stage.next)"
-                                            class="text-slate-300 hover:text-secondary">
-                                            <Icon name="ph:arrow-right" class="size-4" />
-                                        </button>
+                                    <div class="mt-2 flex flex-wrap items-center gap-1.5">
+                                        <span v-if="inqSource(inq)"
+                                            class="inline-flex items-center rounded-full bg-surface-100 px-2 py-0.5 text-[11px] font-semibold text-slate-500">
+                                            {{ inqSource(inq) }}
+                                        </span>
+                                        <span v-if="inq.citizen_id"
+                                            class="inline-flex items-center gap-1 rounded-full bg-[#e6f6ee] px-2 py-0.5 text-[11px] font-bold text-[#1f9d6b]">
+                                            <Icon name="ph:check" class="size-3" /> {{ $t('inquiries.table.status.convertedAsCitizen') }}
+                                        </span>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-surface-100 pt-2.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="grid size-6 place-items-center rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-[10px] font-bold text-white">
+                                                {{ inqInitials(inq) }}
+                                            </div>
+                                            <span class="text-[11px] text-slate-400">
+                                                {{ formatDateToReadable(inq.inquiry_date) }}
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+                                            <button v-if="stage.prev" @click="moveStage(inq, stage.prev)"
+                                                class="rounded-md p-1 text-slate-300 hover:bg-surface-100 hover:text-secondary"
+                                                :aria-label="$t('inquiryPipeline.stages.' + stage.prev)">
+                                                <Icon name="ph:arrow-left" class="size-4" />
+                                            </button>
+                                            <button v-if="stage.next" @click="moveStage(inq, stage.next)"
+                                                class="rounded-md p-1 text-slate-300 hover:bg-surface-100 hover:text-secondary"
+                                                :aria-label="$t('inquiryPipeline.stages.' + stage.next)">
+                                                <Icon name="ph:arrow-right" class="size-4" />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
+                                <p v-if="inquiriesByStage(stage.key).length === 0"
+                                    class="px-1.5 py-6 text-center text-xs text-slate-300">—</p>
                             </div>
                         </div>
                     </div>
@@ -275,14 +301,26 @@ const { t } = useI18n()
 // Inquiry pipeline (kanban) — opt-in per company.
 const pipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
 const pipelineStages = [
-    { key: 'new', prev: null, next: 'clarification' },
-    { key: 'clarification', prev: 'new', next: 'offer' },
-    { key: 'offer', prev: 'clarification', next: 'won' },
-    { key: 'won', prev: 'offer', next: 'lost' },
-    { key: 'lost', prev: 'won', next: null },
+    { key: 'new', prev: null, next: 'clarification', color: '#2dbab2' },
+    { key: 'clarification', prev: 'new', next: 'offer', color: '#5bbfb5' },
+    { key: 'offer', prev: 'clarification', next: 'won', color: '#1b6d8a' },
+    { key: 'won', prev: 'offer', next: 'lost', color: '#1f9d6b' },
+    { key: 'lost', prev: 'won', next: null, color: '#d2553f' },
 ]
 function inquiriesByStage(stage: string) {
     return (state.inquiries?.data ?? []).filter((i: any) => (i.pipeline_status || 'new') === stage)
+}
+function inqTitle(inq: any) {
+    return inq?.purpose || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`.trim() || inq?.inquirer_name || '—'
+}
+function inqSource(inq: any) {
+    return inq?.contacted_by || inq?.inquiry_type || ''
+}
+function inqInitials(inq: any) {
+    const src = (inq?.inquirer_name || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`).trim()
+    const parts = src.split(/\s+/).filter(Boolean)
+    if (!parts.length) return '?'
+    return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase()
 }
 async function moveStage(inquiry: any, status: string) {
     try {
