@@ -147,6 +147,18 @@
                                             class="inline-flex items-center rounded-full bg-surface-100 px-2 py-0.5 text-[11px] font-semibold text-slate-500">
                                             {{ inqSource(inq) }}
                                         </span>
+                                        <span v-for="(dept, di) in inq.departments" :key="'d' + di"
+                                            class="inline-flex items-center rounded-full bg-[#dcf1f7] px-2 py-0.5 text-[11px] font-semibold text-[#1b6d8a]">
+                                            {{ dept?.name }}
+                                        </span>
+                                        <span v-for="(topic, ti) in inq.topics" :key="'t' + ti"
+                                            class="inline-flex items-center rounded-full bg-surface-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">
+                                            {{ topic?.name }}
+                                        </span>
+                                        <span v-if="inq.outcome"
+                                            class="inline-flex items-center rounded-full bg-[#fdf3df] px-2 py-0.5 text-[11px] font-semibold text-[#c98a12]">
+                                            {{ inq.outcome }}
+                                        </span>
                                         <span v-if="inq.citizen_id"
                                             class="inline-flex items-center gap-1 rounded-full bg-[#e6f6ee] px-2 py-0.5 text-[11px] font-bold text-[#1f9d6b]">
                                             <Icon name="ph:check" class="size-3" /> {{ $t('inquiries.table.status.convertedAsCitizen') }}
