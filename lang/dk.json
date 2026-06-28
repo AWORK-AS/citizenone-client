@@ -1817,7 +1817,9 @@
                 "parentCollaboration": "Forældresamarbejde",
                 "personalGuardianship": "Personværge",
                 "photo": "Foto",
-                "studentCollaboration": "Elevsamarbejde"
+                "studentCollaboration": "Elevsamarbejde",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær-koordinator andel (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -1849,7 +1851,8 @@
                 "yellow": "Gul"
             },
             "transportation": "Transportere",
-            "useThisLocation": "Brug denne placering"
+            "useThisLocation": "Brug denne placering",
+            "secondaryCaseworker": "Sekundær sagsbehandler"
         },
         "importCitizens": {
             "alert": {
@@ -5842,7 +5845,6 @@
         "didYouKnowBody": "Du kan søge og hoppe rundt overalt med ⌘K — tryk ? for alle genveje.",
         "didYouKnowDismiss": "Forstået",
         "empty": "Ingen resultater",
-        "actions": "Handlinger",
         "navigate": "Gå til",
         "citizen": "Borger"
     },

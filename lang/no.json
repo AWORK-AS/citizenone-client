@@ -1817,7 +1817,9 @@
                 "parentCollaboration": "Forældresamarbeide",
                 "personalGuardianship": "Personværge",
                 "photo": "Foto",
-                "studentCollaboration": "Elevsamarbeide"
+                "studentCollaboration": "Elevsamarbeide",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær koordinator andel (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -1849,7 +1851,8 @@
                 "yellow": "Gul"
             },
             "transportation": "Transportere",
-            "useThisLocation": "Bruk denne plassering"
+            "useThisLocation": "Bruk denne plassering",
+            "secondaryCaseworker": "Sekundær saksbehandler"
         },
         "importCitizens": {
             "alert": {

@@ -295,6 +295,12 @@
                     <FormError :error="v$?.formCitizen?.primary_case_worker_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.primary_case_worker_uuid?.[0]" />
                 </div>
+                <div class="space-y-1" v-if="isFieldVisible('primary_case_worker')">
+                    <FormLabel for="secondary_case_worker_uuid" :label="$t('citizens.form.secondaryCaseworker')" />
+                    <FormSelect id="secondary_case_worker_uuid" :options="state.options.caseworkers"
+                        v-model="state.formCitizen.secondary_case_worker_uuid" />
+                    <FormError :error="props?.error?.errors?.secondary_case_worker_uuid?.[0]" />
+                </div>
                 <div class="space-y-1" v-if="isFieldVisible('paying_municipality')">
                     <FormLabel for="paying_municipality" :label="$t('citizens.form.payingMunicipality')" />
                     <FormSelect id="paying_municipality" :options="state.options.municipalities"
@@ -495,6 +501,21 @@
                         v-model="state.formCitizen.stayData.journal_number" />
                     <FormError :error="v$?.formCitizen?.stayData?.journal_number?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.journal_number?.[0]" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="contract_price" :label="$t('citizens.form.stayData.contractPrice')" />
+                        <FormNumberField id="contract_price" name="contract_price" :min="0"
+                            v-model="state.formCitizen.stayData.contract_price" />
+                        <FormError :error="props?.error?.errors?.contract_price?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="primary_split_percentage"
+                            :label="$t('citizens.form.stayData.primarySplitPercentage')" />
+                        <FormNumberField id="primary_split_percentage" name="primary_split_percentage" :min="0" :max="100"
+                            placeholder="100" v-model="state.formCitizen.stayData.primary_split_percentage" />
+                        <FormError :error="props?.error?.errors?.primary_split_percentage?.[0]" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
@@ -1057,6 +1078,7 @@ const state = reactive({
         pricing: '',
         pricing_start_date: '',
         primary_case_worker_uuid: '',
+        secondary_case_worker_uuid: '',
         paying_municipality: '',
         assessment_municipality: '',
         responsible_municipality: '',
@@ -1085,6 +1107,8 @@ const state = reactive({
             accommodation_end_date: '',
             accommodation_start_date: '',
             journal_number: '',
+            contract_price: '',
+            primary_split_percentage: '',
             accompanying_children: [{
                 name: '',
                 social_security_number: '',
@@ -1235,6 +1259,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             pricing: formatPrice(selectedCitizen.pricing, language.locale.value),
             pricing_start_date: selectedCitizen.pricing_start_date,
             primary_case_worker_uuid: selectedCitizen.primary_case_worker_uuid,
+            secondary_case_worker_uuid: selectedCitizen.secondary_case_worker_uuid,
             paying_municipality: selectedCitizen.paying_municipality,
             assessment_municipality: selectedCitizen.assessment_municipality,
             responsible_municipality: selectedCitizen.responsible_municipality,
@@ -1263,6 +1288,8 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 accommodation_end_date: selectedCitizen.stayData?.accommodation_end_date || '',
                 accommodation_start_date: selectedCitizen.stayData?.accommodation_start_date || '',
                 journal_number: selectedCitizen.stayData?.journal_number || '',
+                contract_price: selectedCitizen.stayData?.contract_price || '',
+                primary_split_percentage: selectedCitizen.stayData?.primary_split_percentage || '',
                 accompanying_children: selectedCitizen.stayData?.accompanying_children ?? [],
                 residence_before_uuid: selectedCitizen.stayData?.residence_before_uuid || '',
                 residence_after_uuid: selectedCitizen.stayData?.residence_after_uuid || '',

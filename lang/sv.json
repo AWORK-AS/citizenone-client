@@ -1817,7 +1817,9 @@
                 "parentCollaboration": "Föräldrasamarbete",
                 "personalGuardianship": "Personförmyndare",
                 "photo": "Foto",
-                "studentCollaboration": "Elevsamarbejde"
+                "studentCollaboration": "Elevsamarbejde",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primär koordinator andel (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -1849,7 +1851,8 @@
                 "yellow": "Gul"
             },
             "transportation": "Transportere",
-            "useThisLocation": "Använd denna placering"
+            "useThisLocation": "Använd denna placering",
+            "secondaryCaseworker": "Sekundär handläggare"
         },
         "importCitizens": {
             "alert": {

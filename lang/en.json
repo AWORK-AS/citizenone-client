@@ -1817,7 +1817,9 @@
                 "parentCollaboration": "Parent collaboration",
                 "personalGuardianship": "Personal guardianship",
                 "photo": "Photo",
-                "studentCollaboration": "Student collaboration"
+                "studentCollaboration": "Student collaboration",
+                "contractPrice": "Contract price",
+                "primarySplitPercentage": "Primary coordinator share (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Activation deadline",
@@ -1849,7 +1851,8 @@
                 "yellow": "Yellow"
             },
             "transportation": "Transportation",
-            "useThisLocation": "Use This Location"
+            "useThisLocation": "Use This Location",
+            "secondaryCaseworker": "Secondary caseworker"
         },
         "importCitizens": {
             "alert": {
@@ -5842,7 +5845,6 @@
         "didYouKnowBody": "You can search and jump anywhere with ⌘K — press ? for all shortcuts.",
         "didYouKnowDismiss": "Got it",
         "empty": "No results",
-        "actions": "Actions",
         "navigate": "Go to",
         "citizen": "Citizen"
     },
