@@ -823,7 +823,7 @@ function generateSidebarLinks(user: any) {
 
     navigation.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
 
-    if (user?.company?.inquiry_pipeline_enabled) {
+    if (user?.company?.inquiry_pipeline_enabled && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
         navigation.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', activeRouteNames: ['inquiries'] })
     }
 
@@ -832,7 +832,7 @@ function generateSidebarLinks(user: any) {
         navigation.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
     }
 
-    if (user?.company?.industry?.system_name === 'social_welfare') {
+    if (user?.company?.industry?.system_name === 'social_welfare' && user?.pages?.some((page: any) => page.name === 'Management & Economy')) {
         navigation.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', activeRouteNames: ['management-economy'] })
     }
 
