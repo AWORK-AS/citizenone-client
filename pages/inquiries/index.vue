@@ -164,6 +164,13 @@
                                             <Icon name="ph:check" class="size-3" /> {{ $t('inquiries.table.status.convertedAsCitizen') }}
                                         </span>
                                     </div>
+                                    <!-- Won inquiry → create a citizen case directly from the card -->
+                                    <button v-if="stage.key === 'won' && !inq.citizen_id" type="button"
+                                        @click.stop="convertInquiryConfirmation(inq)"
+                                        class="mt-3 w-full inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#1f9d6b] px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#1b8a5e]">
+                                        <Icon name="ph:user-plus" class="size-4" />
+                                        {{ $t('inquiries.table.actions.convertAsCitizen') }}
+                                    </button>
                                     <div class="mt-3 flex items-center justify-between border-t border-surface-100 pt-2.5">
                                         <div class="flex items-center gap-2">
                                             <div class="grid size-6 place-items-center rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-[10px] font-bold text-white">

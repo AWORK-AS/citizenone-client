@@ -24,7 +24,8 @@
         "coordinators": "Coordinators",
         "coordinatorSplit": "Revenue per coordinator",
         "primary": "Primary",
-        "secondary": "Secondary"
+        "secondary": "Secondary",
+        "exportCsv": "Export CSV"
     },
     "citizenRelations": {
         "addFirst": "Add first relation",

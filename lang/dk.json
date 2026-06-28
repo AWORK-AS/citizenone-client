@@ -24,7 +24,8 @@
         "coordinators": "Koordinatorer",
         "coordinatorSplit": "Omsætning pr. koordinator",
         "primary": "Primær",
-        "secondary": "Sekundær"
+        "secondary": "Sekundær",
+        "exportCsv": "Eksportér CSV"
     },
     "citizenRelations": {
         "addFirst": "Tilføj første relation",

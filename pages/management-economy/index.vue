@@ -29,6 +29,11 @@
                             <Icon name="ph:chart-bar" class="w-4 h-4" />
                             {{ $t('managementEconomy.generate') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="exportCsv"
+                            v-if="state.hasFetched && state.economy.coordinators?.length">
+                            <Icon name="ph:file-arrow-down" class="w-4 h-4" />
+                            {{ $t('managementEconomy.exportCsv') }}
+                        </FormButton>
                     </div>
                 </div>
 
@@ -134,6 +139,41 @@ const economyChartOption = computed(() => {
         ],
     }
 })
+
+// Client-side CSV of the coordinator split — a quick step before full Power BI.
+function exportCsv() {
+    const coordinators = state.economy.coordinators ?? []
+    const header = [
+        t('managementEconomy.coordinators'),
+        t('managementEconomy.primary'),
+        t('managementEconomy.secondary'),
+        'Total',
+    ]
+    const rows = coordinators.map((c: any) => {
+        const primary = Number(c.primary_revenue ?? 0)
+        const secondary = Number(c.secondary_revenue ?? 0)
+        return [c.consultant_name ?? '', primary, secondary, primary + secondary]
+    })
+    rows.push([
+        t('managementEconomy.allocatedRevenue'),
+        coordinators.reduce((s: number, c: any) => s + Number(c.primary_revenue ?? 0), 0),
+        coordinators.reduce((s: number, c: any) => s + Number(c.secondary_revenue ?? 0), 0),
+        Number(state.economy.total_revenue ?? 0),
+    ])
+    // Semicolon-delimited + UTF-8 BOM so Danish characters open correctly in Excel.
+    const csv = [header, ...rows]
+        .map((r) => r.map((cell) => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(';'))
+        .join('\r\n')
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `koordinator-split_${state.filter.from_date || 'start'}_${state.filter.to_date || 'slut'}.csv`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+}
 
 async function fetchReport() {
     state.error = {} as Error
