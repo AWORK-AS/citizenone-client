@@ -8145,7 +8145,9 @@
             "name": "Navn",
             "permissions": "Tillatelser",
             "pages": "Sidetilgang",
-            "level": "Level"
+            "level": "Level",
+            "selectAll": "Velg alle",
+            "clearAll": "Tøm alle"
         },
         "newRole": "Ny rolle",
         "permissions": {

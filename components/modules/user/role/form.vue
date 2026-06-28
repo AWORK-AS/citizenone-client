@@ -29,10 +29,23 @@
                     <FormLabel for="permissions" :label="$t('roles.form.permissions')" />
                     <span class="text-xs text-slate-400">{{ state.formRole.permissions.length }} / {{ allPermissionUuids.length }}</span>
                 </div>
-                <div class="relative max-w-xs">
-                    <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" aria-hidden="true" />
-                    <input v-model="permSearch" type="text" :placeholder="$t('search') + '…'"
-                        class="w-full rounded-lg border border-slate-200 pl-9 pr-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div class="relative max-w-xs flex-1 min-w-[12rem]">
+                        <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" aria-hidden="true" />
+                        <input v-model="permSearch" type="text" :placeholder="$t('search') + '…'"
+                            class="w-full rounded-lg border border-slate-200 pl-9 pr-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                    </div>
+                    <div class="flex items-center gap-2 text-xs">
+                        <button type="button" @click="selectAllPermissions"
+                            class="rounded-lg border border-slate-200 px-3 py-2 text-slate-600 hover:bg-slate-50">
+                            {{ $t('roles.form.selectAll') }}
+                        </button>
+                        <button type="button" @click="clearAllPermissions"
+                            class="rounded-lg border border-slate-200 px-3 py-2 text-slate-600 hover:bg-slate-50"
+                            :class="state.formRole.permissions.length === 0 ? 'opacity-40 pointer-events-none' : ''">
+                            {{ $t('roles.form.clearAll') }}
+                        </button>
+                    </div>
                 </div>
 
                 <FormError :error="v$?.formRole?.permissions?.$errors[0]?.$message.toString()" />
@@ -46,7 +59,7 @@
                             <span class="flex items-center gap-2">
                                 <span class="text-[11px] text-slate-400">{{ group.selectedCount }}/{{ group.items.length }}</span>
                                 <input type="checkbox" class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
-                                    :checked="group.allSelected"
+                                    :checked="group.allSelected" v-indeterminate="group.someSelected"
                                     @change="toggleGroup(group, ($event.target as HTMLInputElement).checked)" />
                             </span>
                         </label>
@@ -122,6 +135,13 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t, locale } = useI18n()
+
+// Native checkboxes can't express "some but not all" via a prop — set the
+// DOM indeterminate flag directly.
+const vIndeterminate = {
+    mounted(el: HTMLInputElement, binding: any) { el.indeterminate = !!binding.value },
+    updated(el: HTMLInputElement, binding: any) { el.indeterminate = !!binding.value },
+}
 
 const state = reactive({
     error: {} as Error,
@@ -277,10 +297,18 @@ const filteredPermissionGroups = computed(() => {
                 items,
                 selectedCount,
                 allSelected: items.length > 0 && selectedCount === items.length,
+                someSelected: selectedCount > 0 && selectedCount < items.length,
             }
         })
         .filter((group) => group.items.length > 0)
 })
+
+function selectAllPermissions() {
+    state.formRole.permissions = [...allPermissionUuids.value]
+}
+function clearAllPermissions() {
+    state.formRole.permissions = []
+}
 
 function toggleGroup(group: any, checked: boolean) {
     const ids = group.items.map((p: any) => p.uuid)

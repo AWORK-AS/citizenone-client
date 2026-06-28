@@ -8145,7 +8145,9 @@
             "name": "Name",
             "permissions": "Permissions",
             "pages": "Page access",
-            "level": "Level"
+            "level": "Level",
+            "selectAll": "Select all",
+            "clearAll": "Clear all"
         },
         "newRole": "New role",
         "permissions": {
