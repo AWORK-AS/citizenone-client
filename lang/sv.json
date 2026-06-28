@@ -8612,7 +8612,8 @@
             "employmentJobcenters": "Arbetsförmedlingar",
             "employmentAgreements": "Avtal",
             "gdprRetention": "GDPR Lagring",
-            "smsNotifications": "SMS"
+            "smsNotifications": "SMS",
+            "powerBi": "Power BI"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",
@@ -8625,6 +8626,33 @@
                 "sendCitizenWalletTransactions": "Skicka klient tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
+        },
+        "powerBi": {
+            "title": "Power BI-export",
+            "subtitle": "Anslut Power BI till realtidsdata via ett säkert feed-token.",
+            "tabLabel": "Power BI",
+            "status": "Status",
+            "active": "Aktiv",
+            "inactive": "Inte aktiverad",
+            "generate": "Generera token",
+            "regenerate": "Generera nytt token",
+            "revoke": "Återkalla",
+            "tokenOnce": "Kopiera tokenet nu — det visas bara denna enda gång.",
+            "copy": "Kopiera",
+            "copied": "Kopierat!",
+            "feeds": "Feed-URL:er",
+            "feedEconomy": "Koordinatorekonomi",
+            "feedInquiries": "Förfrågningar",
+            "feedCases": "Medborgare / ärenden",
+            "createdAt": "Skapad",
+            "tokenEnds": "Token slutar på",
+            "howTitle": "Så ansluter du Power BI",
+            "how1": "Öppna Power BI Desktop → Hämta data → Webb.",
+            "how2": "Klistra in en feed-URL ovan (tokenet är redan inkluderat).",
+            "how3": "Välj JSON som format och läs in. Uppdatera enligt schema vid behov.",
+            "revokeWarning": "Återkallande gör alla feed-URL:er ogiltiga omedelbart. Power BI-rapporter kan inte längre uppdateras förrän ett nytt token genereras.",
+            "confirmRevoke": "Återkalla Power BI-token?",
+            "adminOnly": "Endast administratörer kan hantera Power BI-token."
         }
     },
     "setupPassword": {

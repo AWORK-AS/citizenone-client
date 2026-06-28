@@ -8612,7 +8612,8 @@
             "employmentJobcenters": "Jobcentre",
             "employmentAgreements": "Aftaler",
             "gdprRetention": "GDPR Opbevaring",
-            "smsNotifications": "SMS"
+            "smsNotifications": "SMS",
+            "powerBi": "Power BI"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -8625,6 +8626,33 @@
                 "sendCitizenWalletTransactions": "Send borger tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
+        },
+        "powerBi": {
+            "title": "Power BI-eksport",
+            "subtitle": "Forbind Power BI til live data via et sikkert feed-token.",
+            "tabLabel": "Power BI",
+            "status": "Status",
+            "active": "Aktiv",
+            "inactive": "Ikke aktiveret",
+            "generate": "Generér token",
+            "regenerate": "Generér nyt token",
+            "revoke": "Tilbagekald",
+            "tokenOnce": "Kopiér tokenet nu — det vises kun denne ene gang.",
+            "copy": "Kopiér",
+            "copied": "Kopieret!",
+            "feeds": "Feed-URL'er",
+            "feedEconomy": "Koordinatorøkonomi",
+            "feedInquiries": "Henvendelser",
+            "feedCases": "Borgere / sager",
+            "createdAt": "Oprettet",
+            "tokenEnds": "Token slutter på",
+            "howTitle": "Sådan forbinder du Power BI",
+            "how1": "Åbn Power BI Desktop → Hent data → Web.",
+            "how2": "Indsæt en feed-URL ovenfor (tokenet er allerede inkluderet).",
+            "how3": "Vælg JSON som format og indlæs. Opdatér på skema efter behov.",
+            "revokeWarning": "Tilbagekald gør alle feed-URL’er ugyldige med det samme. Power BI-rapporter kan ikke længere opdatere før et nyt token genereres.",
+            "confirmRevoke": "Tilbagekald Power BI-token?",
+            "adminOnly": "Kun administratorer kan administrere Power BI-token."
         }
     },
     "setupPassword": {

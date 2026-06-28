@@ -8612,7 +8612,8 @@
             "employmentJobcenters": "Jobcenters",
             "employmentAgreements": "Agreements",
             "gdprRetention": "GDPR Retention",
-            "smsNotifications": "SMS"
+            "smsNotifications": "SMS",
+            "powerBi": "Power BI"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -8625,6 +8626,33 @@
                 "sendCitizenWalletTransactions": "Send citizen wallet transactions",
                 "wallets": "Wallets"
             }
+        },
+        "powerBi": {
+            "title": "Power BI export",
+            "subtitle": "Connect Power BI to live data through a secure feed token.",
+            "tabLabel": "Power BI",
+            "status": "Status",
+            "active": "Active",
+            "inactive": "Not enabled",
+            "generate": "Generate token",
+            "regenerate": "Generate new token",
+            "revoke": "Revoke",
+            "tokenOnce": "Copy the token now — it is shown only once.",
+            "copy": "Copy",
+            "copied": "Copied!",
+            "feeds": "Feed URLs",
+            "feedEconomy": "Coordinator economy",
+            "feedInquiries": "Inquiries",
+            "feedCases": "Citizens / cases",
+            "createdAt": "Created",
+            "tokenEnds": "Token ends in",
+            "howTitle": "How to connect Power BI",
+            "how1": "Open Power BI Desktop → Get data → Web.",
+            "how2": "Paste a feed URL above (the token is already included).",
+            "how3": "Choose JSON as the format and load. Refresh on a schedule as needed.",
+            "revokeWarning": "Revoking invalidates all feed URLs immediately. Power BI reports can no longer refresh until a new token is generated.",
+            "confirmRevoke": "Revoke the Power BI token?",
+            "adminOnly": "Only administrators can manage the Power BI token."
         }
     },
     "setupPassword": {

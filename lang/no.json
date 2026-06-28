@@ -8612,7 +8612,8 @@
             "employmentJobcenters": "Jobbsentre",
             "employmentAgreements": "Avtaler",
             "gdprRetention": "GDPR Oppbevaring",
-            "smsNotifications": "SMS"
+            "smsNotifications": "SMS",
+            "powerBi": "Power BI"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",
@@ -8625,6 +8626,33 @@
                 "sendCitizenWalletTransactions": "Send bruker tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
+        },
+        "powerBi": {
+            "title": "Power BI-eksport",
+            "subtitle": "Koble Power BI til sanntidsdata via et sikkert feed-token.",
+            "tabLabel": "Power BI",
+            "status": "Status",
+            "active": "Aktiv",
+            "inactive": "Ikke aktivert",
+            "generate": "Generer token",
+            "regenerate": "Generer nytt token",
+            "revoke": "Tilbakekall",
+            "tokenOnce": "Kopier tokenet nå — det vises bare denne ene gangen.",
+            "copy": "Kopier",
+            "copied": "Kopiert!",
+            "feeds": "Feed-URL-er",
+            "feedEconomy": "Koordinatorøkonomi",
+            "feedInquiries": "Henvendelser",
+            "feedCases": "Borgere / saker",
+            "createdAt": "Opprettet",
+            "tokenEnds": "Token slutter på",
+            "howTitle": "Slik kobler du til Power BI",
+            "how1": "Åpne Power BI Desktop → Hent data → Web.",
+            "how2": "Lim inn en feed-URL over (tokenet er allerede inkludert).",
+            "how3": "Velg JSON som format og last inn. Oppdater på tidsplan etter behov.",
+            "revokeWarning": "Tilbakekalling gjør alle feed-URL-er ugyldige umiddelbart. Power BI-rapporter kan ikke lenger oppdateres før et nytt token genereres.",
+            "confirmRevoke": "Tilbakekalle Power BI-token?",
+            "adminOnly": "Bare administratorer kan administrere Power BI-token."
         }
     },
     "setupPassword": {
