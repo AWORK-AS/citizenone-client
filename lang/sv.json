@@ -656,7 +656,8 @@
             "disconnectConfirmation": "Är du säker på att du vill afbryde forbindelsen till din Zenegy-konto? Detta vill ta bort forbindelsen mellan dina CitizenOne- och Zenegy-konton.",
             "disconnectTitle": "Avbryt Zenegy",
             "disconnected": "Zenegy-konto är afbrudt"
-        }
+        },
+        "setupFee": "uppstart"
     },
     "archived": {
         "alert": {
@@ -8652,7 +8653,9 @@
             "how3": "Välj JSON som format och läs in. Uppdatera enligt schema vid behov.",
             "revokeWarning": "Återkallande gör alla feed-URL:er ogiltiga omedelbart. Power BI-rapporter kan inte längre uppdateras förrän ett nytt token genereras.",
             "confirmRevoke": "Återkalla Power BI-token?",
-            "adminOnly": "Endast administratörer kan hantera Power BI-token."
+            "adminOnly": "Endast administratörer kan hantera Power BI-token.",
+            "notPurchased": "Power BI-appen är inte aktiverad ännu. Aktivera den under Appar för att få åtkomst till realtids-dataflöden.",
+            "goToApps": "Gå till Appar"
         }
     },
     "setupPassword": {

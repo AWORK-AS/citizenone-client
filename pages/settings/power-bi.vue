@@ -23,8 +23,23 @@
 
                     <Alert v-if="!isAdmin" type="info" :text="$t('settings.powerBi.adminOnly')" />
 
+                    <!-- App not purchased: point the admin to the Apps marketplace -->
+                    <div v-if="!state.status.app_active"
+                        class="rounded-xl border border-dashed border-surface-200 bg-surface-50 p-8 text-center">
+                        <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-[#f0faf9] text-[#2dbab2]">
+                            <Icon name="ph:lock-key" class="size-6" />
+                        </div>
+                        <p class="mt-3 text-sm text-slate-500">{{ $t('settings.powerBi.notPurchased') }}</p>
+                        <div class="mt-4 flex justify-center">
+                            <FormButton buttonStyle="primary" @click="navigateTo('/apps')">
+                                <Icon name="ph:storefront" class="h-4 w-4" />
+                                {{ $t('settings.powerBi.goToApps') }}
+                            </FormButton>
+                        </div>
+                    </div>
+
                     <!-- Status + actions -->
-                    <div class="rounded-xl border border-surface-200 bg-white p-5 shadow-sm">
+                    <div v-if="state.status.app_active" class="rounded-xl border border-surface-200 bg-white p-5 shadow-sm">
                         <div class="flex items-center justify-between flex-wrap gap-3">
                             <div>
                                 <p class="text-xs uppercase tracking-wide text-slate-400">
@@ -93,7 +108,7 @@
                     </div>
 
                     <!-- How-to -->
-                    <div class="rounded-xl border border-surface-200 bg-white p-5 shadow-sm">
+                    <div v-if="state.status.app_active" class="rounded-xl border border-surface-200 bg-white p-5 shadow-sm">
                         <h3 class="text-sm font-semibold text-slate-900 mb-3">{{ $t('settings.powerBi.howTitle') }}</h3>
                         <ol class="space-y-2 text-sm text-slate-600 list-decimal pl-5">
                             <li>{{ $t('settings.powerBi.how1') }}</li>
@@ -133,7 +148,7 @@ const state = reactive({
     error: {} as Error,
     isLoading: false,
     rawToken: '' as string,
-    status: { enabled: false, last4: null as string | null, created_at: null as string | null, feeds: {} as Record<string, string> },
+    status: { app_active: false, enabled: false, last4: null as string | null, created_at: null as string | null, feeds: {} as Record<string, string> },
     modal: { confirmRevoke: false },
 })
 
@@ -173,7 +188,7 @@ async function generate() {
         const response = await powerBiService.generateToken()
         const data = response?.data ?? {}
         state.rawToken = data.token ?? ''
-        state.status = { enabled: data.enabled, last4: data.last4, created_at: data.created_at, feeds: data.feeds }
+        state.status = { app_active: data.app_active ?? state.status.app_active, enabled: data.enabled, last4: data.last4, created_at: data.created_at, feeds: data.feeds }
         successAlert(`${t('alert.success')}!`, t('settings.powerBi.active'))
     } catch (error: any) {
         state.error = error

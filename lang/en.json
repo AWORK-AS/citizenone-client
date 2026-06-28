@@ -656,7 +656,8 @@
             "disconnectConfirmation": "Are you sure you want to disconnect your Zenegy account? This will remove the connection between your CitizenOne and Zenegy accounts.",
             "disconnectTitle": "Disconnect Zenegy",
             "disconnected": "Zenegy account successfully disconnected"
-        }
+        },
+        "setupFee": "setup"
     },
     "archived": {
         "alert": {
@@ -8652,7 +8653,9 @@
             "how3": "Choose JSON as the format and load. Refresh on a schedule as needed.",
             "revokeWarning": "Revoking invalidates all feed URLs immediately. Power BI reports can no longer refresh until a new token is generated.",
             "confirmRevoke": "Revoke the Power BI token?",
-            "adminOnly": "Only administrators can manage the Power BI token."
+            "adminOnly": "Only administrators can manage the Power BI token.",
+            "notPurchased": "The Power BI app is not active yet. Activate it under Apps to get access to the live data feeds.",
+            "goToApps": "Go to Apps"
         }
     },
     "setupPassword": {
