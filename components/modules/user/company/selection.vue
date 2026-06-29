@@ -83,9 +83,31 @@ async function fetchCompanies() {
         const response = await companyService.getAllCompanies()
         if (response) {
             state.companies = response
+            syncSelectedCompany(response?.data ?? [])
         }
     } catch (error: any) {
         state.error = error
+    }
+}
+
+// The company store is persisted (localStorage), so a stale `selectedCompany`
+// can survive across sessions and miss server-side changes (e.g. a newly set
+// CVR). Re-sync it from the freshly fetched list on every mount:
+//  - if a company is already selected, refresh it with the latest data (by uuid)
+//  - otherwise default to the first company, so single-company users (where the
+//    switcher isn't rendered) still get a populated selectedCompany.
+function syncSelectedCompany(memberships: any[]) {
+    if (!Array.isArray(memberships) || memberships.length === 0) return
+
+    const current = companyStore.getSelectedCompany
+    const currentUuid = current && Object.keys(current).length ? current.uuid : null
+
+    const fresh = currentUuid
+        ? memberships.find((m: any) => m?.company?.uuid === currentUuid)?.company
+        : memberships[0]?.company
+
+    if (fresh) {
+        companyStore.setSelectedCompany(fresh)
     }
 }
 

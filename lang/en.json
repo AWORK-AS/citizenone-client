@@ -2307,6 +2307,25 @@
                 "weekly": "Weekly"
             },
             "synchronizeWithFMK": "Synchronize with FMK",
+            "fmk": {
+                "drug": "Drug",
+                "dosage": "Dosage",
+                "period": "Period",
+                "empty": "No medicine found in FMK for this citizen.",
+                "openOnline": "Open FMK Online",
+                "refresh": "Refresh",
+                "missingCvr": "The organisation's CVR is missing — cannot query FMK.",
+                "missingCpr": "The citizen's CPR is missing — cannot query FMK.",
+                "error": "The FMK lookup failed.",
+                "loginPending": "Direct FMK lookup requires MitID Erhverv login, which is not enabled yet. Use \"Open FMK Online\" for now.",
+                "fromFmk": "FMK",
+                "fromFmkHint": "Imported from FMK",
+                "draftBadge": "Draft",
+                "draftHint": "Draft imported from FMK — confirm to activate",
+                "confirmDraft": "Confirm",
+                "confirmed": "The medicine has been confirmed and is now active.",
+                "lastSynced": "Last synchronized with FMK"
+            },
             "table": {
                 "actions": {
                     "activate": "Activate",
