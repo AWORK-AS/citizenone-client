@@ -4146,7 +4146,7 @@
         },
         "week": "Uge",
         "weeklyNormHours": "Ugentlige normtimer",
-        "yearToDate": "År til dato",
+        "yearToDate": "Indeværende år",
         "zenegy_all_departments": "Alle afdelinger",
         "zenegy_assign_rates_description": "Tildel en lønsats til hver vagttype pr. medarbejder.",
         "zenegy_assign_rates_info": "Medarbejdere der ikke er tildelt en standard rate/sats i Zenegy, skal vælges en rate her under 'Vælg lønsats'.",

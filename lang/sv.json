@@ -5072,7 +5072,7 @@
         },
         "week": "Vecka",
         "weeklyNormHours": "Ugentlige normtimer",
-        "yearToDate": "År till datum",
+        "yearToDate": "Innevarande år",
         "zenegy_all_departments": "Alla avdelningar",
         "zenegy_assign_rates_description": "Tilldela en lönesats till varje passtyp pr. anställd.",
         "zenegy_assign_rates_info": "Anställda där inte är tilldelad en standard rate/sats i Zenegy, ska välges en rate här under 'Välg lönesats'.",
