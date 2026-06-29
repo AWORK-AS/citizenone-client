@@ -10,7 +10,7 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('journalNotes.title') }}</template>
+            <template #header>{{ term('journalNotes', $t('journalNotes.title')) }}</template>
 
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
@@ -317,6 +317,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
+const { term } = useTerminology()
 const { t } = useI18n()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any

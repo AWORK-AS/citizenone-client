@@ -1,7 +1,7 @@
 <template>
     <flat-pickr v-model="state.dateValue" :config="state.datePickerConfig" :id="props.id" :name="props.name"
         @on-change="updateValue" :placeholder="props.placeholder"
-        class="appearance-none block w-full px-3 h-11 border border-gray-200 placeholder-gray-500 text-gray-900 rounded-full focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" />
+        class="appearance-none block w-full px-3 h-11 border border-gray-200 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" />
 </template>
 
 <script setup lang="ts">

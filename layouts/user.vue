@@ -175,6 +175,47 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-2">
+                        <!-- Command palette (⌘K) -->
+                        <div class="hidden sm:block relative">
+                            <Tooltip :text="$t('commandPalette.hint')" position="bottom" :wrap="true">
+                                <button type="button" @click="openCommandPalette()"
+                                    class="flex items-center gap-2 rounded-lg border border-gray-200 bg-white/70 px-2.5 py-1.5 text-gray-400 hover:text-gray-600 hover:border-gray-300 transition-colors">
+                                    <Icon name="ph:magnifying-glass" class="h-4 w-4" aria-hidden="true" />
+                                    <kbd class="rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium leading-none">⌘K</kbd>
+                                </button>
+                            </Tooltip>
+                            <!-- One-time "did you know?" discovery hint -->
+                            <transition enter-active-class="transition ease-out duration-200"
+                                enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
+                                leave-active-class="transition ease-in duration-150"
+                                leave-from-class="opacity-100" leave-to-class="opacity-0">
+                                <div v-if="showCmdkHint"
+                                    class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
+                                    <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
+                                    <div class="relative flex items-start gap-2.5 px-3.5 py-3">
+                                        <Icon name="ph:lightbulb" class="mt-0.5 size-4 shrink-0 text-amber-300" />
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-semibold">{{ $t('commandPalette.didYouKnowTitle') }}</p>
+                                            <p class="mt-0.5 text-xs text-white/90">{{ $t('commandPalette.didYouKnowBody') }}</p>
+                                            <button type="button" @click="dismissCmdkHint"
+                                                class="mt-2 rounded-md bg-white/15 px-2.5 py-1 text-xs font-medium hover:bg-white/25 transition-colors">
+                                                {{ $t('commandPalette.didYouKnowDismiss') }}
+                                            </button>
+                                        </div>
+                                        <button type="button" @click="dismissCmdkHint"
+                                            class="shrink-0 text-white/60 hover:text-white">
+                                            <Icon name="ph:x" class="size-3.5" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </transition>
+                        </div>
+                        <button type="button" @click="openCommandPalette()"
+                            class="sm:hidden w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
+                            :title="$t('commandPalette.placeholder')">
+                            <Icon name="ph:magnifying-glass" class="h-5 w-5" aria-hidden="true" />
+                        </button>
+
                         <!-- AI (mobile) -->
                         <div class="xl:hidden">
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
@@ -231,9 +272,13 @@
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-slate-200" aria-hidden="true" />
 
                         <!-- Search -->
-                        <button type="button" @click="globalSearch?.open()"
-                            class="w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-surface-100 transition-colors">
+                        <button type="button" @click="globalSearch?.open()" :title="$t('globalSearch.placeholder')"
+                            class="h-9 px-2.5 rounded-full flex items-center gap-x-2 text-slate-400 hover:text-slate-600 hover:bg-surface-100 transition-colors">
                             <Icon name="heroicons:magnifying-glass" class="h-5 w-5" aria-hidden="true" />
+                            <kbd
+                                class="hidden lg:inline-flex items-center rounded border border-slate-200 bg-surface-50 px-1.5 py-0.5 text-[11px] font-medium leading-none text-slate-400">
+                                {{ searchShortcut }}
+                            </kbd>
                         </button>
 
 
@@ -399,6 +444,8 @@
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
+        <CommandPalette :commands="commandPaletteItems" />
+        <ShortcutsHelp />
         <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
             :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourDailyOverviewOpen = false" @back="handleBackGuidedTour"
@@ -426,6 +473,61 @@
         <ModulesUserAssistantModalAssistant :isModalOpen="state.modal.isAIAssistantOpen"
             @close="state.modal.isAIAssistantOpen = false" />
         <ModulesUserOwnChatGptSyncProgressBar />
+
+        <!-- One-time ⌘K discovery tip -->
+        <Transition enter-active-class="transition ease-out duration-300" enter-from-class="opacity-0 translate-y-2"
+            enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-200"
+            leave-from-class="opacity-100" leave-to-class="opacity-0 translate-y-2">
+            <div v-if="showCmdkTip"
+                class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
+                <div class="flex items-start gap-x-3">
+                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <Icon name="ph:lightbulb" class="h-5 w-5" />
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-semibold text-slate-900">{{ $t('cmdkTip.title') }}</p>
+                        <p class="mt-0.5 text-xs text-slate-500">
+                            {{ $t('cmdkTip.body') }}
+                            <kbd class="rounded border border-slate-200 bg-surface-50 px-1.5 py-0.5 text-[11px] font-medium text-slate-600">{{ searchShortcut }}</kbd>
+                        </p>
+                        <div class="mt-3 flex items-center gap-x-2">
+                            <button type="button" @click="tryCmdkTip"
+                                class="rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-white hover:bg-primary-700 transition-colors">
+                                {{ $t('cmdkTip.try') }}
+                            </button>
+                            <button type="button" @click="dismissCmdkTip"
+                                class="rounded-lg px-3 py-1.5 text-xs font-medium text-slate-500 hover:bg-surface-100 transition-colors">
+                                {{ $t('cmdkTip.gotIt') }}
+                            </button>
+                        </div>
+                    </div>
+                    <button type="button" @click="dismissCmdkTip"
+                        class="ml-auto -mr-1 -mt-1 rounded p-1 text-slate-400 hover:bg-surface-100 transition-colors">
+                        <Icon name="heroicons:x-mark" class="h-4 w-4" />
+                    </button>
+                </div>
+            </div>
+        </Transition>
+
+        <!-- Global undo snackbar (teleported + high z so it stays above modals) -->
+        <Teleport to="body">
+            <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 translate-y-2"
+                enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-150"
+                leave-from-class="opacity-100" leave-to-class="opacity-0 translate-y-2">
+                <div v-if="undoVisible"
+                    class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[120] flex items-center gap-x-3 rounded-xl bg-slate-900 pl-4 pr-2 py-2.5 text-white shadow-xl">
+                    <span class="text-sm">{{ undoMessage }}</span>
+                    <button type="button" @click="undo"
+                        class="text-sm font-semibold text-secondary hover:text-white transition-colors">
+                        {{ $t('undo.action') }}
+                    </button>
+                    <button type="button" @click="dismissUndo"
+                        class="rounded p-1 text-slate-400 hover:bg-white/10 hover:text-white transition-colors">
+                        <Icon name="heroicons:x-mark" class="h-4 w-4" />
+                    </button>
+                </div>
+            </Transition>
+        </Teleport>
     </LoadingSpinner>
 </template>
 
@@ -438,12 +540,15 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
+const { isAtLeast } = usePermissions()
 const language = useI18n()
+const { term } = useTerminology()
 const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
@@ -453,6 +558,26 @@ let navigation = [] as any
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
+
+// Keyboard hint for the global search button (⌘K on mac, Ctrl K elsewhere)
+const { visible: undoVisible, message: undoMessage, undo, dismiss: dismissUndo } = useUndo()
+
+const showCmdkTip = ref(false)
+const CMDK_TIP_KEY = 'hasSeenCmdkTip'
+
+function dismissCmdkTip() {
+    showCmdkTip.value = false
+    if (typeof localStorage !== 'undefined') localStorage.setItem(CMDK_TIP_KEY, 'true')
+}
+function tryCmdkTip() {
+    dismissCmdkTip()
+    globalSearch.value?.open()
+}
+
+const searchShortcut = computed(() => {
+    const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform)
+    return isMac ? '⌘K' : 'Ctrl K'
+})
 
 const sidebarOpen = ref(false)
 const sidebarPinned = ref(localStorage.getItem('sidebarPinned') !== 'false')
@@ -487,6 +612,10 @@ function toggleSidebarPin() { sidebarPinned.value = !sidebarPinned.value; localS
 onMounted(() => {
     fetchUser()
     animateAssets()
+    // Show the ⌘K discovery tip once, shortly after the app settles.
+    if (typeof localStorage !== 'undefined' && !localStorage.getItem(CMDK_TIP_KEY)) {
+        setTimeout(() => { showCmdkTip.value = true }, 3000)
+    }
 })
 
 const state = reactive({
@@ -524,25 +653,67 @@ watch(() => language.locale.value, (newLanguage: any) => {
 function getNavItemLabel(item: any) {
     const t = language.t
     if (item.name === 'Overview') return t('sidebar.overview')
+    if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
     if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
     if (item.name === 'Messages') return t('sidebar.messages')
     if (item.name === 'Procedures') return t('sidebar.procedures') || 'Procedurer'
     if (item.name === 'Protocols') return t('sidebar.protocols')
+    if (item.name === 'Reports') return t('sidebar.reports')
+    if (item.name === 'Report Templates') return t('sidebar.reportTemplates')
     if (item.name === 'Documents') return t('sidebar.documents')
     if (item.name === 'Mail') return t('sidebar.mail')
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
     if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
+    if (item.name === 'Billing') return language.t('employment.billing.billing')
+    if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     return item.name
 }
+
+// Global command palette (⌘K): sidebar navigation + any commands the current
+// page contributes via useCommandPalette().
+const { pageCommands, open: openCommandPalette } = useCommandPalette()
+const commandPaletteItems = computed(() => {
+    const _user = userStore.getUser // recompute when sidebar links rebuild
+    const _locale = language.locale.value // recompute when labels change
+    const nav = (navigation || []).map((item: any) => ({
+        id: 'nav-' + item.href,
+        group: language.t('commandPalette.navigate'),
+        icon: item.icon,
+        label: getNavItemLabel(item),
+        run: () => navigateTo(item.href),
+    }))
+    return [...pageCommands.value, ...nav]
+})
+
+// One-time "did you know?" hint pointing at the ⌘K button.
+const showCmdkHint = ref(false)
+let cmdkHintTimer: any
+const CMDK_HINT_KEY = 'co_cmdk_hint_seen'
+function dismissCmdkHint() {
+    showCmdkHint.value = false
+    clearTimeout(cmdkHintTimer)
+}
+onMounted(() => {
+    if (typeof localStorage === 'undefined' || localStorage.getItem(CMDK_HINT_KEY) === '1') return
+    cmdkHintTimer = setTimeout(() => {
+        showCmdkHint.value = true
+        localStorage.setItem(CMDK_HINT_KEY, '1') // show at most once per browser
+        cmdkHintTimer = setTimeout(() => { showCmdkHint.value = false }, 12000)
+    }, 2500)
+})
+onUnmounted(() => clearTimeout(cmdkHintTimer))
 
 function generateSidebarLinks(user: any) {
     navigation = []
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
-    const userHasPageAttendanceAccess = user?.pages?.some((page: any) => page.name === "Attendance")
+    // Company-level module enablement: no list (empty) = every module on (default).
+    const companyModulePages = user?.company?.module_pages
+    const companyHasModule = (name: string) => !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(name)
+    const userHasPageAttendanceAccess = companyHasModule("Attendance") && user?.pages?.some((page: any) => page.name === "Attendance")
     navigation.push({
         name: 'Overview',
         href: '/overview',
@@ -551,6 +722,16 @@ function generateSidebarLinks(user: any) {
             'overview',
         ]
     })
+    if (isAtLeast('Admin')) {
+        navigation.push({
+            name: 'Discover',
+            href: '/discover',
+            icon: 'ph:compass',
+            activeRouteNames: [
+                'discover',
+            ]
+        })
+    }
     navigation.push({
         name: 'Citizens',
         href: '/citizens',
@@ -571,19 +752,22 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-wallets',
             'citizens-uuid-wallets-wallet_uuid',
             'citizens-uuid-contacts',
+            'citizens-uuid-reports',
         ]
     })
-    navigation.push({
-        name: 'Calendar',
-        href: '/calendar',
-        icon: 'ph:calendar-blank',
-        activeRouteNames: [
-            'calendar',
-            'calendar-appointments',
-            'calendar-appointments-settings',
-        ]
-    })
-    if (user.pages?.find((page: any) => page.name === "Duty Schedule")) {
+    if (companyHasModule("Calendar")) {
+        navigation.push({
+            name: 'Calendar',
+            href: '/calendar',
+            icon: 'ph:calendar-blank',
+            activeRouteNames: [
+                'calendar',
+                'calendar-appointments',
+                'calendar-appointments-settings',
+            ]
+        })
+    }
+    if (companyHasModule("Duty Schedule") && user.pages?.find((page: any) => page.name === "Duty Schedule")) {
         navigation.push({
             name: 'Duty schedules',
             href: '/schedules',
@@ -607,7 +791,23 @@ function generateSidebarLinks(user: any) {
         navigation.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
     }
 
-    navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
+    if (user?.company?.industry?.system_name === 'employment_services') {
+        navigation.push({
+            name: 'Reports',
+            href: '/reports',
+            icon: 'ph:file-text',
+            activeRouteNames: [
+                'reports',
+                'reports-new',
+                'reports-uuid-view-details',
+                'reports-uuid-edit',
+            ]
+        })
+    }
+
+    if (companyHasModule("Documents")) {
+        navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
+    }
 
     if (userHasSecuredMailAccess) {
         navigation.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', activeRouteNames: ['mail'] })
@@ -620,6 +820,11 @@ function generateSidebarLinks(user: any) {
     navigation.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
 
     navigation.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
+
+    if (user?.company?.industry?.system_name === 'employment_services') {
+        navigation.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
+        navigation.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+    }
 
     state.isSidebarLoading = false
 }
@@ -662,9 +867,22 @@ async function fetchUser() {
             plansGoalsSubgoalsCompletionReminderModalVisibility(response)
             checkInReminderModalVisibility(response)
             guidedUserTourModalVisibility()
-
+            maybeRedirectToDiscover(response?.data)
         }
     } catch (error: any) { state.error = error }
+}
+
+// New companies (admin, no onboarding preferences set yet) land on Discover
+// once per session; once they save "what do you need" they land on the dashboard.
+function maybeRedirectToDiscover(user: any) {
+    if (typeof window === 'undefined') return
+    if (sessionStorage.getItem('discover_landing_done')) return
+    const prefs = user?.company?.onboarding_preferences
+    const isFresh = !prefs || (typeof prefs === 'object' && Object.keys(prefs).length === 0)
+    if (isAtLeast('Admin') && isFresh && routeName === 'overview') {
+        sessionStorage.setItem('discover_landing_done', '1')
+        navigateTo('/discover')
+    }
 }
 
 function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
@@ -747,7 +965,7 @@ function identifyFlag() {
 }
 
 async function navigateToNews() {
-    navigateTo('/overview#news')
+    navigateTo('/statistics#news')
     state.error = {}
     state.isPageLoading = true
     try {

@@ -108,6 +108,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    dutySchedule: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const emit = defineEmits(['close'])
@@ -140,7 +144,9 @@ async function fetchToken() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await myCalendarService.getIcalToken()
+        const response = props.dutySchedule
+            ? await myCalendarService.getDutyScheduleIcalUrl()
+            : await myCalendarService.getIcalToken()
         if (response?.url) {
             state.icalUrl = response?.url
         }
@@ -155,7 +161,14 @@ async function regenerateToken() {
     state.isRefreshing = true
     try {
         const response = await myCalendarService.refreshIcalToken()
-        if (response?.url) {
+        if (props.dutySchedule) {
+            // The refresh endpoint returns the calendar URL; re-fetch the
+            // duty-schedule URL so the displayed path is correct.
+            const dutyResponse = await myCalendarService.getDutyScheduleIcalUrl()
+            if (dutyResponse?.url) {
+                state.icalUrl = dutyResponse?.url
+            }
+        } else if (response?.url) {
             state.icalUrl = response?.url
         }
         state.copied = false

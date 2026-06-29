@@ -70,16 +70,6 @@
                     </div>
                 </div>
                 <div class="md:col-span-8 grid md:grid-cols-1"
-                    v-if="userStore.getUser?.roles?.some((role: any) => role.name === 'Admin')">
-                    <div class="space-y-1">
-                        <FormLabel for="pages" :label="$t('settings.profile.form.pageAccess')" />
-                        <FormSelectMultiple id="pages" :options="state.options.pages"
-                            v-model="state.formProfile.pages" />
-                        <FormError :error="v$?.formProfile?.pages?.$errors[0]?.$message.toString()" />
-                        <FormError :error="state?.error?.errors?.page_uuid?.[0]" />
-                    </div>
-                </div>
-                <div class="md:col-span-8 grid md:grid-cols-1"
                     v-if="userStore.getUser?.company?.change_password_enabled">
                     <div class="space-y-1">
                         <div class="w-fit flex items-center cursor-pointer"
@@ -150,7 +140,6 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { languageService } from '@/components/api/user/LanguageService'
-import { pageService } from '@/components/api/user/PageService'
 import { userService } from "@/components/api/user/UserService"
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
@@ -182,7 +171,6 @@ const state = reactive({
         phone: '',
         birthday: '',
         language_uuid: '',
-        pages: [] as any,
         password: '',
         email_notifications_enabled: false,
         shift_based_notifications_enabled: false,
@@ -194,7 +182,6 @@ const state = reactive({
     options: {
         departments: [],
         languages: [],
-        pages: [],
     },
 })
 
@@ -254,7 +241,6 @@ const rulesFormProfile = computed(() => {
 onMounted(() => {
     fetchDepartments()
     fetchLanguages()
-    fetchPages()
     if (!props.isFirstLoad) {
         setUser()
     }
@@ -273,19 +259,16 @@ watch(() => userStore.getUser, (newValue: any) => {
             phone: newValue?.phone,
             birthday: newValue?.birthday,
             language_uuid: newValue?.language?.uuid,
-            pages: [],
             password: '',
             email_notifications_enabled: newValue?.email_notifications_enabled ?? false,
             shift_based_notifications_enabled: newValue?.shift_based_notifications_enabled ?? false,
             system_notifications_enabled: newValue?.system_notifications_enabled ?? false,
             department_uuid: [],
         }
-        newValue?.pages.forEach((page: any) => {
-            state.formProfile.pages.push(page?.uuid)
-        })
         newValue?.notification_departments?.forEach((department: any) => {
             state.formProfile.department_uuid?.push(department?.uuid)
         })
+        markClean()
     }
 })
 
@@ -302,21 +285,32 @@ function setUser() {
         phone: user?.phone,
         birthday: user?.birthday,
         language_uuid: user?.language?.uuid,
-        pages: [],
         password: '',
         email_notifications_enabled: user?.email_notifications_enabled ?? false,
         shift_based_notifications_enabled: user?.shift_based_notifications_enabled ?? false,
         system_notifications_enabled: user?.system_notifications_enabled ?? false,
     }
-    user?.pages.forEach((page: any) => {
-        state.formProfile.pages.push(page?.uuid)
-    })
     user?.notification_departments?.forEach((department: any) => {
         state.formProfile.department_uuid?.push(department?.uuid)
     })
+    markClean()
 }
 
-
+// Unsaved-changes guard: warn before navigating away or reloading with edits.
+const isDirty = ref(false)
+const formReady = ref(false)
+function markClean() {
+    formReady.value = false
+    nextTick(() => { formReady.value = true; isDirty.value = false })
+}
+watch(() => state.formProfile, () => { if (formReady.value) isDirty.value = true }, { deep: true })
+function beforeUnloadHandler(e: BeforeUnloadEvent) { if (isDirty.value) { e.preventDefault(); e.returnValue = '' } }
+onMounted(() => window.addEventListener('beforeunload', beforeUnloadHandler))
+onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnloadHandler))
+onBeforeRouteLeave(() => {
+    if (isDirty.value) return window.confirm('Du har ugemte ændringer. Vil du forlade siden uden at gemme?')
+    return true
+})
 
 async function fetchDepartments() {
     state.error = {}
@@ -361,27 +355,6 @@ async function fetchLanguages() {
     state.isPageLoading = false
 }
 
-async function fetchPages() {
-    state.isPageLoading = true
-    state.error = {}
-    try {
-        const response = await pageService.getAllPages()
-        if (response) {
-            let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
-                    value: item.uuid,
-                    label: item.name,
-                })
-            )
-            state.options.pages = options
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
 const v$ = useVuelidate(rulesFormProfile, state)
 
 async function submitForm() {
@@ -400,9 +373,6 @@ async function submitForm() {
             if (state.formProfile.language_uuid) {
                 params.append('language_uuid', state.formProfile.language_uuid)
             }
-            if (state.formProfile.pages) {
-                params.append('page_uuid', JSON.stringify(state.formProfile.pages))
-            }
             if (state.formProfile.password) {
                 params.append('password', state.formProfile.password)
             }
@@ -416,6 +386,7 @@ async function submitForm() {
                 userStore.setUser(response?.data)
                 language.locale.value = response?.data?.language?.code
                 state.isChangePassword = false
+                isDirty.value = false
                 successAlert(`${t('alert.success')}!`, `${t('settings.profile.form.alert.successfullyUpdated')}.`)
             }
         } catch (error: any) {

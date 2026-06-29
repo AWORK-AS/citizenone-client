@@ -140,8 +140,7 @@
                                                     <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
                                                 </button>
                                             </Tooltip>
-                                            <div class="flex-1 flex justify-end gap-x-2"
-                                                v-if="isAtLeast('Admin')">
+                                            <div class="flex-1 flex justify-end gap-x-2" v-if="isAtLeast('Admin')">
                                                 <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')">
                                                     <button
                                                         class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -304,7 +303,7 @@
                                                         <div
                                                             class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200">
                                                             <p class="text-xxs py-2 pr-2">
-                                                                {{ $t('dutySchedules.yearToDate') }}
+                                                                {{ $t('dutySchedules.currentYear') }}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -418,8 +417,7 @@
                                                 @click="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(employeeIndex, weekIndex)">
                                                 <div class="space-y-2"
                                                     v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)">
-                                                    <div class="flex justify-end gap-2"
-                                                        v-if="isAtLeast('Admin')">
+                                                    <div class="flex justify-end gap-2" v-if="isAtLeast('Admin')">
                                                         <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                                             <button
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
@@ -635,8 +633,8 @@
                 @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
             <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
                 :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
-                @close="state.modal.isRemoveShiftSpanConfirmationOpen = false"
-                @confirm-single="removeShift" @confirm-entire="removeEntireShiftSpan" />
+                @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift"
+                @confirm-entire="removeEntireShiftSpan" />
         </LoadingSpinner>
     </div>
 </template>
@@ -1027,7 +1025,7 @@ function nextWeek() {
 }
 
 const weekNumber = computed(() => {
-    return moment(currentDate.value).week()
+    return moment(currentDate.value).isoWeek()
 })
 
 const weekDays = computed(() => {

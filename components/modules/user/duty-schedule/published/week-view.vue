@@ -250,7 +250,7 @@
                                                         <div
                                                             class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200">
                                                             <p class="text-xxs py-2 pr-2">
-                                                                {{ $t('dutySchedules.yearToDate') }}
+                                                                {{ $t('dutySchedules.currentYear') }}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -787,7 +787,7 @@ function nextWeek() {
 }
 
 const weekNumber = computed(() => {
-    return moment(currentDate.value).week()
+    return moment(currentDate.value).isoWeek()
 })
 
 const weekDays = computed(() => {

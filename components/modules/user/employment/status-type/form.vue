@@ -16,8 +16,15 @@
                 <FormError :error="props?.error?.errors?.color?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="billing_rule_uuid" :label="$t('employment.statusTypes.form.billingRule')" />
+                <FormSelect id="billing_rule_uuid" :options="state.options.billingRules"
+                    v-model="state.formStatusType.billing_rule_uuid" />
+                <FormError :error="props?.error?.errors?.billing_rule_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="sort_order" :label="$t('employment.statusTypes.form.sortOrder')" />
                 <FormNumberField id="sort_order" name="sort_order" :min="0"
+                    :placeholder="$t('employment.statusTypes.form.sortOrder')"
                     v-model="state.formStatusType.sort_order" />
                 <FormError :error="props?.error?.errors?.sort_order?.[0]" />
             </div>
@@ -30,8 +37,7 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel"
-                    @click="navigateTo('/settings/employment-status-types')">
+                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/employment-status-types')">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary">
@@ -43,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import { employmentService } from '@/components/api/user/EmploymentService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -72,9 +79,15 @@ const state = reactive({
         name: '',
         color: '#000000',
         is_active: true,
-        sort_order: 0,
+        sort_order: '0' as string,
+        billing_rule_uuid: null as string | null,
+    },
+    options: {
+        billingRules: [] as any[],
     },
 })
+
+onMounted(() => { fetchBillingRules() })
 
 watch(() => props.selectedStatusType, (newValue: any) => {
     if (newValue != null) {
@@ -82,10 +95,25 @@ watch(() => props.selectedStatusType, (newValue: any) => {
             name: newValue.name ?? '',
             color: newValue.color ?? '#000000',
             is_active: newValue.is_active ?? true,
-            sort_order: newValue.sort_order ?? 0,
+            sort_order: newValue.sort_order != null ? String(newValue.sort_order) : '0',
+            billing_rule_uuid: newValue.billing_rule?.uuid ?? newValue.billing_rule_uuid ?? null,
         }
     }
 })
+
+async function fetchBillingRules() {
+    emit('isPageLoading', true)
+    try {
+        const response = await employmentService.getAllBillingRules()
+        if (response?.data) {
+            state.options.billingRules = response.data.map((item: any) => ({
+                value: item.uuid,
+                label: item.name,
+            }))
+        }
+    } catch { /* ignore */ }
+    emit('isPageLoading', false)
+}
 
 const rules = computed(() => {
     return {
@@ -103,7 +131,10 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formStatusType)
+        emit('submitForm', {
+            ...state.formStatusType,
+            sort_order: Number(state.formStatusType.sort_order),
+        })
     }
 }
 </script>

@@ -17,6 +17,11 @@
         "subtitle": "Här är din snabbguide för att få CitizenOne uppsatt och igång för ditt team.",
         "whatDoYouNeed": "Vad behöver du?",
         "stepsProgress": "{done} av {total} steg slutförda",
+        "nextStep": "Nästa steg",
+        "ready": {
+            "title": "Du är redo att gå live!",
+            "desc": "Alla onboarding-steg är slutförda."
+        },
         "groupProgress": "{done} av {total} slutförda",
         "lockedHint": "Slutför steget ovan först",
         "promoTitle": "Arbeta var som helst, på vilken enhet som helst",
@@ -94,11 +99,6 @@
                 "desc": "Ställ in mallar för status, planer och mål.",
                 "cta": "Gå till Inställningar"
             }
-        },
-        "nextStep": "Nästa steg",
-        "ready": {
-            "title": "Du är redo att gå live!",
-            "desc": "Alla onboarding-steg är slutförda."
         },
         "title": "Utforska"
     },
@@ -199,6 +199,33 @@
             },
             "name": "Namn"
         }
+    },
+    "attendance": {
+        "absenceReason": "Frånvaroorsak",
+        "absenceReasons": "Frånvarorsaker",
+        "citizen": "Medborgare",
+        "checkIn": "Incheckning",
+        "checkInOut": "Incheckning / Utcheckning",
+        "date": "Datum",
+        "generate": "Generera",
+        "in": "In",
+        "monthlyReport": "Månadsvis närvararapport",
+        "noDataForPeriod": "Ingen närvarodata hittades för vald period",
+        "noParticipantsToday": "Inga deltagare anmälda idag",
+        "notRegistered": "Ej registrerad",
+        "out": "Ut",
+        "participantList": "Deltagarlista",
+        "pending": "Väntar",
+        "period": "Period",
+        "print": "Skriv ut",
+        "printedOn": "Utskriven den",
+        "protocol": "Aktivitet",
+        "selectMonthToGenerate": "Välj en månad och klicka Generera",
+        "selectWeekToGenerate": "Välj en vecka och klicka Generera",
+        "signature": "Underskrift",
+        "total": "Totalt",
+        "week": "Vecka",
+        "weeklyReport": "Veckovis närvararapport"
     },
     "caseworkerSharing": {
         "cancel": "Avbryt",
@@ -683,8 +710,12 @@
     },
     "back": "Tillbaka",
     "bellNotification": {
+        "birthday": {
+            "title": "Födelsedag idag"
+        },
         "categories": {
             "all": "Alla",
+            "birthday": "Födelsedagar",
             "dutyShift": "Vagtregel",
             "incidents": "Händelser",
             "messages": "Meddelanden",
@@ -1186,21 +1217,21 @@
             "back": "Tillbaka",
             "custom": "Anpassad",
             "daily": "Daglig",
+            "presence": "Närvaro",
+            "weekly": "Veckovis",
+            "monthly": "Månadsvis",
+            "startDate": "Startdatum",
             "endDate": "Slutdatum",
             "last3Months": "Senaste 3 månaderna",
             "lastMonth": "Förra månaden",
-            "monthly": "Månadsvis",
             "noData": "Inga närvarodata tillgängliga för den valda perioden",
-            "presence": "Närvaro",
             "protocol": "Protokoll",
             "selectProtocol": "Välj ett protokoll",
             "selectProtocolHeading": "Välj ett protokoll för att visa data",
             "selectProtocolSubtext": "Välj ett protokoll från rullgardinsmenyn ovan för att läsa in utvecklingsdiagrammet.",
             "sessions": "Sessioner",
-            "startDate": "Startdatum",
             "thisMonth": "Denna månad",
-            "thisYear": "Detta år",
-            "weekly": "Veckovis"
+            "thisYear": "Detta år"
         },
         "addictions": "Substansmissbruk",
         "address": "Adress",
@@ -1657,6 +1688,8 @@
                 "status": "Status"
             }
         },
+        "actions": "Åtgärder",
+        "importFromOtherSystem": "Importera från ett annat system",
         "exportCitizens": "Exportera klienter",
         "form": {
             "addictions": "Substansmissbruk",
@@ -1762,6 +1795,7 @@
                 "reportingRequirements": "Rapporteringskrav",
                 "secondaryConsultant": "Sekundär konsult",
                 "status": "Status",
+                "internshipCompany": "Praktikföretag",
                 "totalWeeks": "Totalt antal veckor",
                 "weeksUsed": "Använda veckor"
             },
@@ -2538,9 +2572,9 @@
         "rooms": "Rum",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
+            "employmentProgram": "Sysselsättningsförlopp",
             "inquiryData": "Henvendelsesdata",
-            "stayData": "Vistelsedata",
-            "employmentProgram": "Sysselsättningsförlopp"
+            "stayData": "Vistelsedata"
         },
         "statuses": {
             "alert": {
@@ -2620,7 +2654,13 @@
             "plansAndGoals": "Planer och mål",
             "outcomes": "Resultat",
             "reports": "Rapporter",
-            "timeline": "Tidslinje"
+            "timeline": "Tidslinje",
+            "categories": {
+                "care": "Vård & behandling",
+                "documentation": "Dokumentation",
+                "time": "Tid & närvaro",
+                "admin": "Administration"
+            }
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -3755,6 +3795,16 @@
             "users": "Användare"
         },
         "holidays": "Helgdagar",
+        "holidayWorked": "Helgdagstimmar (arbetade)",
+        "holidayNonWorked": "Helgdagstimmar (ej arbetade)",
+        "holidayHoursHint": "Helgdag: arbetade timmar ×1,5 (företagets egen faktor). Ej arbetade helgdagar som inte är söndagar ger 7,4 timmar.",
+        "holidayWorkedShort": "Arbetad",
+        "holidayCompensation": "Helgdagskompensation",
+        "holidayNonWorkedShort": "Ej arbetad",
+        "holidayFreeBadge": "Ledig – helgdag",
+        "holidayNonWorkedAssigned": "7,4 helgdagstimmar tilldelade",
+        "holidayWorkedTooltip": "Du arbetar på en helgdag. Passets timmar multipliceras med organisationens helgdagsfaktor (t.ex. ×1,5) och visas både under passtypen och som helgdagstimmar.",
+        "holidayNonWorkedTooltip": "Den här dagen är en helgdag. Du får helgdagstimmar även om inget pass är registrerat.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",
@@ -4082,10 +4132,10 @@
             },
             "noSubscription": {
                 "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ut till, att du inte har ett aktivt prenumeration i ögonblicket",
-                "noActiveSubscription": "Inga aktiv prenumeration",
                 "subscribeNow": "Abonnér nu",
                 "toEnjoyOurFullRangeOfServicesAndBenefits": "För att nyde vår fulla udvalg av tjänster och fordele, overvej att prenumerera på en av vår planer",
-                "upgradeNow": "Opgradér nu"
+                "upgradeNow": "Opgradér nu",
+                "noActiveSubscription": "Inga aktiv prenumeration"
             },
             "subscribed": {
                 "goHome": "Gå hjem",
@@ -4099,6 +4149,122 @@
             "updateSubscription": "Uppdatera prenumeration",
             "upgrade": "Opgradér"
         },
+        "shiftNote": "Anteckning",
+        "shiftSpan": {
+            "deleteConfirmMessage": "Vill du radera hele vagten (från startdatum till slutdatum) eller endast denna dag?",
+            "end": "Pass slut",
+            "entireShift": "Hele vagten",
+            "middle": "Pass fortsatt",
+            "onlyShift": "Endast denna dag",
+            "start": "Pass start"
+        },
+        "shiftThreshold": {
+            "high": "Hög bemanding: anställda är över minimitröskeln",
+            "low": "Låg bemanding: anställda är under minimitröskeln",
+            "moderate": "Måttlig bemanding: anställda är tät på minimitröskeln"
+        },
+        "shiftWarning": {
+            "warning": "Varning",
+            "warningsFound": "Varningar är hittad i denna pass."
+        },
+        "showEmployeesWorkingToday": "Visa anställda, där arbetar idag",
+        "showTheDistributionOfShiftTypes": "Visa vagttypers fordeling",
+        "sort": {
+            "sortNamesInAscendingOrder": "Sortera navne i stigande räkkefölge",
+            "sortNamesInDescendingOrder": "Sortera navne i fallande räkkefölge"
+        },
+        "table": {
+            "awakeNightShiftHours": "Vågen nattpass",
+            "holidayHours": "Ferietimer",
+            "sickLeaveHours": "Sygdomsfravärstimer",
+            "sleepingNightShiftHours": "Sovende nattpass",
+            "timer": "Timmar"
+        },
+        "total": "Total",
+        "totalHours": "Totalt antal timmar",
+        "typeOfShift": "Passtyper",
+        "typeOfShifts": "Passtyper",
+        "viewCalendar": "Se kalender",
+        "viewSchedule": {
+            "citizens": "Klienter",
+            "dateTimeEnd": "Datum och tid slut",
+            "datetimeStart": "Datum och tid start",
+            "departments": "Avdelningar",
+            "note": "Anmärkning",
+            "typeOfShift": "Typ av pass",
+            "viewSchedule": "Se schema"
+        },
+        "week": "Vecka",
+        "weeklyNormHours": "Ugentlige normtimer",
+        "currentYear": "Gjeldende år",
+        "zenegy_all_departments": "Alla avdelningar",
+        "zenegy_assign_rates_description": "Tilldela en lönesats till varje passtyp pr. anställd.",
+        "zenegy_assign_rates_info": "Anställda där inte är tilldelad en standard rate/sats i Zenegy, ska välges en rate här under 'Välg lönesats'.",
+        "zenegy_custom_period": "Brugerdefineret datointerval",
+        "zenegy_date_range": "Datointerval",
+        "zenegy_deduction": "Fratrukket",
+        "zenegy_department": "Avdelning",
+        "zenegy_employee": "Anställd",
+        "zenegy_entries": "poster",
+        "zenegy_entry": "post",
+        "zenegy_error_already_exists": "En eller fler registreringer findes allerede i Zenegy för de valda datum.",
+        "zenegy_error_conflict_period": "Där findes allerede registreringer i Zenegy för den valda period. Radera vänligen de eksisterende registreringer i Zenegy först, eller välj ett annat datointerval.",
+        "zenegy_error_invalid_period": "En eller fler datum falder utan för den öppna löneperiod i Zenegy. Vänligen välj datum innan för den aktuelle löneperiod.",
+        "zenegy_error_mixed_periods": "De valda anställda har forskellige lönperioder i Zenegy. Vänligen välj endast anställda med samma löneperiod.",
+        "zenegy_error_rate_forbidden": "Den valda lönesats är inte tillgänglig för en eller fler anställda. Vänligen välj en annan sats eller kontakt din administratör.",
+        "zenegy_error_rate_override": "Den valda sats tillader inte att belöbet overskrives. Vänligen välj en sats där understötter brugerdefinerede belopp, eller använd satsens standardbelöb.",
+        "zenegy_error_rate_requirements": "En eller fler anställda opfylder inte kravene för den valda sats i Zenegy. Vänligen välj en annan sats, eller kontroller medarbejderens inställningar i Zenegy.",
+        "zenegy_error_user_not_found": "En eller fler anställda kunde inte findes i Zenegy. Kontroller vänligen medarbejdertilknytningen.",
+        "zenegy_hours": "Timmar",
+        "zenegy_hours_let": "t",
+        "zenegy_no_employees": "Inga anställda hittad i vagtplanen.",
+        "zenegy_no_match": "Dessa anställda matchede inte din Zenegy-profil",
+        "zenegy_no_match_badge": "Inga match",
+        "zenegy_no_match_info": "Dessa anställda kunde inte matches med en anställd i din Zenegy-profil. Kontrollér, att namn och e-post är ens i både CitizenOne och Zenegy, och att den anställde är i den rätta avdelning på Zenegy.",
+        "zenegy_no_matched_employees": "Inga matchede anställda vald.",
+        "zenegy_no_preset": "Inga förinställning vald",
+        "zenegy_no_registrations": "Inga registreringer hittad för de valda kriterier.",
+        "zenegy_no_shift_types": "Inga passtyper vald.",
+        "zenegy_pay_period": "Löneperiod",
+        "zenegy_period_biweekly": "Varje annan vecka (innevarande 2-ugers period)",
+        "zenegy_period_monthly": "Månadsvis (innevarande månad)",
+        "zenegy_period_not_set": "Inte konfigureret",
+        "zenegy_period_unknown": "Ukendt period ({code})",
+        "zenegy_period_weekly": "Veckovis (innevarande vecka)",
+        "zenegy_preset_name_placeholder": "Namn på förinställning...",
+        "zenegy_presets": "Förinställningar",
+        "zenegy_rate": "Sats",
+        "zenegy_registrations": "vagtregistreringer",
+        "zenegy_review": "Gennemgå",
+        "zenegy_review_description": "{count} registrering(är) sendes till Zenegy.",
+        "zenegy_save_preset": "+ Spara som förinställning",
+        "zenegy_select_all": "Välj alla",
+        "zenegy_select_date_range": "Välj datointerval",
+        "zenegy_select_employees": "Välj anställda",
+        "zenegy_select_rate": "Välj lönesats",
+        "zenegy_select_shift_types": "Passtyper & lönsatser",
+        "zenegy_shifts": "pass",
+        "zenegy_step_assign_rates": "Tilldela satser",
+        "zenegy_step_configure": "Konfigurera",
+        "zenegy_step_result": "Resultat",
+        "zenegy_step_review": "Gennemse",
+        "zenegy_supplement": "Tillägg",
+        "zenegy_supplement_rates_description": "Tilldela en sats för varje extra-timetype pr. anställd.",
+        "zenegy_supplement_rates_title": "Tillägs- & fradragssatser",
+        "zenegy_supplement_registrations": "tillägg/fradragsregistreringer",
+        "zenegy_supplements": "tillägg/fradrag",
+        "zenegy_sync": "Synkronisera till Zenegy",
+        "zenegy_sync_description": "Överför planlagte timmar, tillägg och fradrag från dina tjänsteskeman direkte till Zenegy lön. Välj anställda, välj en löneperiod, och tilldela passtyper till Zenegy-satser före synkronisering.",
+        "zenegy_sync_failed": "Synkronisering till Zenegy misslyckades. Försök igen.",
+        "zenegy_sync_partial": "Några registreringer blev synkroniserad, men andra misslyckades. Se detaljer nedenfor.",
+        "zenegy_sync_result_count": "{count} registrering(är) synkroniserad.",
+        "zenegy_sync_success": "Synkroniserad till Zenegy",
+        "zenegy_unknown_shift": "Ukendt pass",
+        "zenegy_update_preset": "Uppdatera förinställning",
+        "zenegy_validation_assign_rates": "Tilldela vänligen en sats för alla passtyper och tillägg.",
+        "zenegy_validation_date_range": "Vänligen välj ett datointerval.",
+        "zenegy_validation_select_employee": "Vänligen välj minst én anställd.",
+        "timeRange": "Tidsinterval",
         "superadmin": {
             "accounts": {
                 "accounts": "Konton",
@@ -5024,123 +5190,7 @@
                 "successDeletedBody": "Licenstyp '{name}' har raderats.",
                 "deleteConfirm": "Ta bort licenstyp '{name}'?"
             }
-        },
-        "shiftNote": "Anteckning",
-        "shiftSpan": {
-            "deleteConfirmMessage": "Vill du radera hele vagten (från startdatum till slutdatum) eller endast denna dag?",
-            "end": "Pass slut",
-            "entireShift": "Hele vagten",
-            "middle": "Pass fortsatt",
-            "onlyShift": "Endast denna dag",
-            "start": "Pass start"
-        },
-        "shiftThreshold": {
-            "high": "Hög bemanding: anställda är över minimitröskeln",
-            "low": "Låg bemanding: anställda är under minimitröskeln",
-            "moderate": "Måttlig bemanding: anställda är tät på minimitröskeln"
-        },
-        "shiftWarning": {
-            "warning": "Varning",
-            "warningsFound": "Varningar är hittad i denna pass."
-        },
-        "showEmployeesWorkingToday": "Visa anställda, där arbetar idag",
-        "showTheDistributionOfShiftTypes": "Visa vagttypers fordeling",
-        "sort": {
-            "sortNamesInAscendingOrder": "Sortera navne i stigande räkkefölge",
-            "sortNamesInDescendingOrder": "Sortera navne i fallande räkkefölge"
-        },
-        "table": {
-            "awakeNightShiftHours": "Vågen nattpass",
-            "holidayHours": "Ferietimer",
-            "sickLeaveHours": "Sygdomsfravärstimer",
-            "sleepingNightShiftHours": "Sovende nattpass",
-            "timer": "Timmar"
-        },
-        "total": "Total",
-        "totalHours": "Totalt antal timmar",
-        "typeOfShift": "Passtyper",
-        "typeOfShifts": "Passtyper",
-        "viewCalendar": "Se kalender",
-        "viewSchedule": {
-            "citizens": "Klienter",
-            "dateTimeEnd": "Datum och tid slut",
-            "datetimeStart": "Datum och tid start",
-            "departments": "Avdelningar",
-            "note": "Anmärkning",
-            "typeOfShift": "Typ av pass",
-            "viewSchedule": "Se schema"
-        },
-        "week": "Vecka",
-        "weeklyNormHours": "Ugentlige normtimer",
-        "yearToDate": "Innevarande år",
-        "zenegy_all_departments": "Alla avdelningar",
-        "zenegy_assign_rates_description": "Tilldela en lönesats till varje passtyp pr. anställd.",
-        "zenegy_assign_rates_info": "Anställda där inte är tilldelad en standard rate/sats i Zenegy, ska välges en rate här under 'Välg lönesats'.",
-        "zenegy_custom_period": "Brugerdefineret datointerval",
-        "zenegy_date_range": "Datointerval",
-        "zenegy_deduction": "Fratrukket",
-        "zenegy_department": "Avdelning",
-        "zenegy_employee": "Anställd",
-        "zenegy_entries": "poster",
-        "zenegy_entry": "post",
-        "zenegy_error_already_exists": "En eller fler registreringer findes allerede i Zenegy för de valda datum.",
-        "zenegy_error_conflict_period": "Där findes allerede registreringer i Zenegy för den valda period. Radera vänligen de eksisterende registreringer i Zenegy först, eller välj ett annat datointerval.",
-        "zenegy_error_invalid_period": "En eller fler datum falder utan för den öppna löneperiod i Zenegy. Vänligen välj datum innan för den aktuelle löneperiod.",
-        "zenegy_error_mixed_periods": "De valda anställda har forskellige lönperioder i Zenegy. Vänligen välj endast anställda med samma löneperiod.",
-        "zenegy_error_rate_forbidden": "Den valda lönesats är inte tillgänglig för en eller fler anställda. Vänligen välj en annan sats eller kontakt din administratör.",
-        "zenegy_error_rate_override": "Den valda sats tillader inte att belöbet overskrives. Vänligen välj en sats där understötter brugerdefinerede belopp, eller använd satsens standardbelöb.",
-        "zenegy_error_rate_requirements": "En eller fler anställda opfylder inte kravene för den valda sats i Zenegy. Vänligen välj en annan sats, eller kontroller medarbejderens inställningar i Zenegy.",
-        "zenegy_error_user_not_found": "En eller fler anställda kunde inte findes i Zenegy. Kontroller vänligen medarbejdertilknytningen.",
-        "zenegy_hours": "Timmar",
-        "zenegy_hours_let": "t",
-        "zenegy_no_employees": "Inga anställda hittad i vagtplanen.",
-        "zenegy_no_match": "Dessa anställda matchede inte din Zenegy-profil",
-        "zenegy_no_match_badge": "Inga match",
-        "zenegy_no_match_info": "Dessa anställda kunde inte matches med en anställd i din Zenegy-profil. Kontrollér, att namn och e-post är ens i både CitizenOne och Zenegy, och att den anställde är i den rätta avdelning på Zenegy.",
-        "zenegy_no_matched_employees": "Inga matchede anställda vald.",
-        "zenegy_no_preset": "Inga förinställning vald",
-        "zenegy_no_registrations": "Inga registreringer hittad för de valda kriterier.",
-        "zenegy_no_shift_types": "Inga passtyper vald.",
-        "zenegy_pay_period": "Löneperiod",
-        "zenegy_period_biweekly": "Varje annan vecka (innevarande 2-ugers period)",
-        "zenegy_period_monthly": "Månadsvis (innevarande månad)",
-        "zenegy_period_not_set": "Inte konfigureret",
-        "zenegy_period_unknown": "Ukendt period ({code})",
-        "zenegy_period_weekly": "Veckovis (innevarande vecka)",
-        "zenegy_preset_name_placeholder": "Namn på förinställning...",
-        "zenegy_presets": "Förinställningar",
-        "zenegy_rate": "Sats",
-        "zenegy_registrations": "vagtregistreringer",
-        "zenegy_review": "Gennemgå",
-        "zenegy_review_description": "{count} registrering(är) sendes till Zenegy.",
-        "zenegy_save_preset": "+ Spara som förinställning",
-        "zenegy_select_all": "Välj alla",
-        "zenegy_select_date_range": "Välj datointerval",
-        "zenegy_select_employees": "Välj anställda",
-        "zenegy_select_rate": "Välj lönesats",
-        "zenegy_select_shift_types": "Passtyper & lönsatser",
-        "zenegy_shifts": "pass",
-        "zenegy_step_assign_rates": "Tilldela satser",
-        "zenegy_step_configure": "Konfigurera",
-        "zenegy_step_result": "Resultat",
-        "zenegy_step_review": "Gennemse",
-        "zenegy_supplement": "Tillägg",
-        "zenegy_supplement_rates_description": "Tilldela en sats för varje extra-timetype pr. anställd.",
-        "zenegy_supplement_rates_title": "Tillägs- & fradragssatser",
-        "zenegy_supplement_registrations": "tillägg/fradragsregistreringer",
-        "zenegy_supplements": "tillägg/fradrag",
-        "zenegy_sync": "Synkronisera till Zenegy",
-        "zenegy_sync_description": "Överför planlagte timmar, tillägg och fradrag från dina tjänsteskeman direkte till Zenegy lön. Välj anställda, välj en löneperiod, och tilldela passtyper till Zenegy-satser före synkronisering.",
-        "zenegy_sync_failed": "Synkronisering till Zenegy misslyckades. Försök igen.",
-        "zenegy_sync_partial": "Några registreringer blev synkroniserad, men andra misslyckades. Se detaljer nedenfor.",
-        "zenegy_sync_result_count": "{count} registrering(är) synkroniserad.",
-        "zenegy_sync_success": "Synkroniserad till Zenegy",
-        "zenegy_unknown_shift": "Ukendt pass",
-        "zenegy_update_preset": "Uppdatera förinställning",
-        "zenegy_validation_assign_rates": "Tilldela vänligen en sats för alla passtyper och tillägg.",
-        "zenegy_validation_date_range": "Vänligen välj ett datointerval.",
-        "zenegy_validation_select_employee": "Vänligen välj minst én anställd.",
-        "timeRange": "Tidsinterval"
+        }
     },
     "dutyShiftRuleNotifications": {
         "empty": "Du har inga vagtregel notiser",
@@ -5437,6 +5487,7 @@
             "role": "Roll",
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Visa arbejdstimer",
+            "showCompensatoryHours": "Visa komptid och semesterdagar",
             "street": "Gata"
         },
         "importEmployees": {
@@ -5511,6 +5562,12 @@
         "somethingWentWrong": "Vi har registrerad denna fel. Du behöver inte att göra något. Vi vender tillbaka till dig hurtigst muligt"
     },
     "events": {
+        "onlineMeeting": {
+            "toggle": "Onlinemöte",
+            "linkLabel": "Möteslänk",
+            "autoHint": "Lämna fältet tomt för att automatiskt skapa ett Teams-möte (kräver Outlook-anslutning).",
+            "join": "Anslut till möte"
+        },
         "alert": {
             "successfullyAdded": "Ny händelse har lagts till",
             "successfullyDeleted": "Händelse raderad",
@@ -5520,6 +5577,8 @@
         },
         "calendar": "Kalender",
         "citizens": "Klienter",
+        "showShifts": "Visa pass",
+        "shiftLabel": "Pass",
         "confirmation": {
             "deleteConfirmation": "Är du säker på att du vill radera denna händelse",
             "deleteFutureEvents": "Radera fremtidige händelser"
@@ -5564,7 +5623,8 @@
             "regenerate": "Regenerér",
             "regenerateWarning": "Regenerering vill ugyldiggöre din nuvarande URL. Alla där har abonneret med det gamla länk vill inte längere modtage opdateringer.",
             "title": "Prenumerera på kalender",
-            "yourCalendarUrl": "Din personliga kalender-URL"
+            "yourCalendarUrl": "Din personliga kalender-URL",
+            "addToCalendar": "Lägg till i kalender"
         },
         "createJournalNote": "Skapa journalanteckning",
         "markAsCompleted": "Markera som slutförd",
@@ -5731,6 +5791,26 @@
         "seeNewFeatures": "Se nya funktioner"
     },
     "filter": "Filtrera",
+    "more": "Mer",
+    "commandPalette": {
+        "placeholder": "Sök efter åtgärder eller sektioner…",
+        "hint": "Sök och hoppa runt — ⌘K. Tryck ? för alla genvägar.",
+        "didYouKnowTitle": "Visste du?",
+        "didYouKnowBody": "Du kan söka och hoppa var som helst med ⌘K — tryck ? för alla genvägar.",
+        "didYouKnowDismiss": "Förstått",
+        "empty": "Inga resultat",
+        "actions": "Åtgärder",
+        "navigate": "Gå till",
+        "citizen": "Medborgare"
+    },
+    "shortcuts": {
+        "title": "Tangentbordsgenvägar",
+        "general": "Allmänt",
+        "onThisPage": "På den här sidan",
+        "palette": "Kommandopalett",
+        "help": "Visa genvägar",
+        "close": "Stäng"
+    },
     "filterDate": {
         "custom": "Brugerdefineret",
         "filterDate": "Filtrera datum",
@@ -5985,8 +6065,8 @@
             "primaryCaseWorker": "Primär handläggare",
             "responsibleMunicipality": "Ansvarig kommun",
             "section": "Paragraf",
-            "stayData": "Vistelsedata",
             "employmentData": "Sysselsättningsförlopp",
+            "stayData": "Vistelsedata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafikljus",
             "transportation": "Transport"
@@ -6052,7 +6132,59 @@
             "description": "Beskrivning",
             "title": "Titel"
         },
-        "viewResponses": "Se svar"
+        "viewResponses": "Se svar",
+        "tabs": {
+            "formBuilder": "Formulärbyggare",
+            "predefinedEvents": "Fördefinierade händelser"
+        },
+        "predefinedEvents": {
+            "predefinedEvents": "Fördefinierade händelser",
+            "newPredefinedEvent": "Ny fördefinierad händelse",
+            "editPredefinedEvent": "Redigera fördefinierad händelse",
+            "calendarTypes": {
+                "citizens": "Brukare",
+                "employees": "Anställda"
+            },
+            "recurringTypes": {
+                "everyday": "Varje dag",
+                "every_week": "Varje vecka",
+                "every_second_week": "Varannan vecka",
+                "every_third_week": "Var tredje vecka",
+                "every_fourth_week": "Var fjärde vecka",
+                "every_month": "Varje månad"
+            },
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivning",
+                "calendarType": "Kalendertyp",
+                "durationMinutes": "Varaktighet (minuter)",
+                "isActive": "Aktiv",
+                "isPrivate": "Privat",
+                "isRecurring": "Återkommande",
+                "recurringType": "Upprepning",
+                "recurringEndDate": "Slutdatum",
+                "recurringEndDateHint": "Lämna tomt för inget slutdatum (pågående)"
+            },
+            "table": {
+                "title": "Titel",
+                "calendarType": "Kalendertyp",
+                "durationMinutes": "Varaktighet (min)",
+                "isRecurring": "Återkommande",
+                "isActive": "Aktiv",
+                "actions": {
+                    "edit": "Redigera",
+                    "delete": "Radera"
+                }
+            },
+            "alert": {
+                "predefinedEventSuccessfullySaved": "Fördefinierad händelse sparad",
+                "predefinedEventSuccessfullyUpdated": "Fördefinierad händelse uppdaterad",
+                "predefinedEventSuccessfullyDeleted": "Fördefinierad händelse raderad"
+            },
+            "confirmation": {
+                "deletePredefinedEventConfirmation": "Är du säker på att du vill radera denna fördefinierade händelse"
+            }
+        }
     },
     "gender": {
         "female": "Kvinde",
@@ -6060,7 +6192,28 @@
         "nonbinary": "Inte-binär",
         "willNotDisclose": "Vill inte oplyse"
     },
+    "cmdkTip": {
+        "title": "Snabbsök ⚡",
+        "body": "Tryck var som helst:",
+        "try": "Prova nu",
+        "gotIt": "Uppfattat"
+    },
+    "undo": {
+        "action": "Ångra"
+    },
     "globalSearch": {
+        "actions": {
+            "title": "Snabbåtgärder",
+            "newCitizen": "Lägg till medborgare",
+            "newEmployee": "Lägg till medarbetare",
+            "journalNotes": "Journalanteckningar",
+            "statistics": "Statistik"
+        },
+        "footerHint": "Sök & agera snabbt",
+        "openHint": "öppna",
+        "closeHint": "stäng",
+        "pinned": "Fästa",
+        "recentCitizens": "Senast visade",
         "attendance": "Närvaro",
         "bookings": "Bokningar",
         "calendar": "Kalender",
@@ -6390,6 +6543,15 @@
             }
         }
     },
+    "journalNotes": {
+        "title": "Journal notes",
+        "citizen": "Citizen",
+        "department": "Department",
+        "newNote": "New note",
+        "selectCitizen": "Select citizen",
+        "citizenRequired": "Please select a citizen",
+        "assessment": "Assessment"
+    },
     "journalContents": {
         "addnNewJournalContent": "Nytt journalindhold",
         "editJournalContent": "Redigera journalindhold",
@@ -6549,7 +6711,28 @@
         "chooseYourEmailConfiguration": {
             "chooseYourEmailConfiguration": "Välj din e-mailkonfiguration",
             "loginViaMicrosoft": "Logga in via Microsoft",
-            "loginViaSmtp": "Logga in via SMTP"
+            "loginViaSmtp": "Logga in via SMTP",
+            "microsoftGuide": {
+                "title": "Så här ansluter du ditt Microsoft-konto",
+                "intro": "Följ dessa steg för att länka ditt Microsoft-arbetskonto så att du kan skicka och ta emot e-post i CitizenOne.",
+                "step1": "Klicka på Logga in via Microsoft ovan — du omdirigeras till Microsofts inloggningssida.",
+                "step2": "Ange din arbets-e-postadress (t.ex. dittnamn(at)dittforetag.se) och lösenord.",
+                "step3": "Slutför multifaktorautentisering (MFA) om din organisation kräver det.",
+                "step4": "På behörighetsskärmen begär CitizenOne åtkomst för att läsa och skicka e-post åt dig. Välj något av följande:",
+                "step4Accept": "Acceptera — ger åtkomst enbart för ditt eget konto. Du kan börja direkt.",
+                "step4Request": "Begär godkännande — om din IT-administratör har begränsat appåtkomst, klicka här för att skicka en godkännandebegäran till dem. Återvänd för att ansluta när de har godkänt det i Azure Portal.",
+                "step4Hint": "Om du är osäker, klicka på Acceptera. Om det misslyckas med ett behörighetsfel, kontakta din IT-administratör och be dem bevilja administratörsmedgivande för CitizenOne i din organisations Azure Active Directory.",
+                "step5": "Du omdirigeras automatiskt tillbaka till CitizenOne och ett bekräftelsemeddelande visas.",
+                "step6": "Din inkorg är nu ansluten. Du kan läsa, svara, vidarebefordra och skicka e-post från CitizenOne.",
+                "stayConnected": "CitizenOne uppdaterar din anslutning automatiskt. Du kan behöva återansluta om du byter ditt Microsoft-lösenord, din organisation återkallar appåtkomst, eller ditt konto inaktiveras i Azure AD.",
+                "troubleshootTitle": "Felsökning",
+                "troubleshoot1Q": "Fel efter inloggning",
+                "troubleshoot1A": "Se till att du använder ditt arbetskonto (inte ett personligt Microsoft-konto) och att din IT-administratör har godkänt CitizenOne.",
+                "troubleshoot2Q": "Sidan omdirigerar tillbaka utan anslutning",
+                "troubleshoot2A": "Din webbläsare kan ha blockerat omdirigeringen. Inaktivera popup-blockerare för den här webbplatsen och försök igen.",
+                "troubleshoot3Q": "\"Du har inte behörighet att komma åt detta\"",
+                "troubleshoot3A": "Din IT-administratör måste bevilja administratörsmedgivande för CitizenOne i din organisations Azure-portal."
+            }
         },
         "compose": "Skicka e-post",
         "connectYourMail": "Anslut din e-post",
@@ -7016,9 +7199,19 @@
         },
         "citizensDiagnoses": "Borgernes diagnoser",
         "citizensEvents": "Klienters händelser",
+        "briefing": {
+            "morning": "God morgon, {name}",
+            "afternoon": "God eftermiddag, {name}",
+            "evening": "God kväll, {name}",
+            "birthdays": "{count} har födelsedag idag",
+            "medicine": "{count} kräver medicin-åtgärd",
+            "appointments": "{count} möten",
+            "allCalm": "Ser lugnt ut just nu"
+        },
         "birthdays": {
             "title": "Födelsedagar denna vecka",
             "todayTitle": "Födelsedagar idag",
+            "nextTitle": "Nästa födelsedag",
             "moreThisWeek": "{count} fler denna vecka",
             "countThisWeek": "{count} födelsedagar denna vecka",
             "today": "Idag",
@@ -7094,6 +7287,16 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Kräver åtgärd idag",
+            "deviated": "Avvikelser: {count}",
+            "overdue": "Försenad: {count}",
+            "more": "+{count} medborgare"
+        },
+        "medsDone": {
+            "title": "Bra jobbat! 🎉",
+            "body": "All medicin är given idag"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Avvikelse",
@@ -7116,6 +7319,7 @@
         "noNewsToShow": "Inga nyheter att visa",
         "openLink": "Öppna länk",
         "overview": "Översikt",
+        "statisticsTab": "Statistik",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistik",
             "plansAndGoals": "Planer och mål",
@@ -7494,6 +7698,7 @@
                 "archive": "Arkivér",
                 "delete": "Radera",
                 "download": "Ladda ner",
+                "openInNewTab": "Öppna i ny flik",
                 "edit": "Redigera",
                 "graph": "Graf",
                 "notes": "Anteckningar",
@@ -7572,15 +7777,33 @@
         "editProtocol": "Redigera protokoll",
         "form": {
             "alert": {
+                "checkInSuccess": "Incheckad",
+                "checkOutSuccess": "Utcheckad",
                 "newProtocolSuccessfullySaved": "Ny protokoll sparad",
                 "protocolSuccessfullyUpdated": "Protokoll uppdaterad"
             },
             "citizens": "Klienter",
             "endDate": "Slutdatum",
+            "every": "Var",
             "excludeWeekends": "Udelad weekender",
+            "frequency": "Frekvens",
+            "isRecurring": "Återkommande",
+            "monthlyEach": "På dagar",
+            "monthlyOnThe": "Den",
             "protocolName": "Protokolnavn",
-            "startDate": "Startdatum"
+            "recurringType": "Upprepa",
+            "recurringUntil": "Återkommande till",
+            "selectDatesFirst": "Välj start- och slutdatum först",
+            "startDate": "Startdatum",
+            "weeklyOn": "På",
+            "yearlyInMonths": "I månader"
         },
+        "checkIn": "Checka in",
+        "checkOut": "Checka ut",
+        "myProtocols": "Mina protokoll",
+        "today": "Idag",
+        "other": "Övriga",
+        "noTodayEntries": "Inga protokollregistreringar för idag",
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {
@@ -7609,7 +7832,8 @@
             "startDate": "Startdatum",
             "status": {
                 "absent": "Frånvarande",
-                "attended": "Närvarande"
+                "attended": "Närvarande",
+                "notRecorded": "Inte registrerad"
             }
         }
     },
@@ -7946,7 +8170,11 @@
             },
             "name": "Namn",
             "permissions": "Behörigheter",
-            "level": "Level"
+            "pages": "Sidåtkomst",
+            "level": "Level",
+            "selectAll": "Välj alla",
+            "clearAll": "Rensa alla",
+            "noPermissionsMatch": "Inga behörigheter matchar \"{search}\"."
         },
         "newRole": "Ny roll",
         "permissions": {
@@ -8004,6 +8232,7 @@
             },
             "name": "Namn",
             "permissions": "Behörigheter",
+            "pages": "Sidåtkomst",
             "user": "Användare",
             "referrer": "Remittent",
             "company": "Företag",
@@ -8071,6 +8300,8 @@
                 "roomSuccessfullyUpdated": "Rum uppdaterad"
             },
             "capacity": "Kapacitet",
+            "departments": "Avdelningar",
+            "departmentsProOnly": "Tilldelning av avdelningar ingår i Pro-profilen.",
             "name": "Namn"
         },
         "addCitizen": "Lägg till klient",
@@ -8170,51 +8401,6 @@
                 "alert": {
                     "successfullyUpdated": "Firma uppdaterad"
                 },
-                "allowChangePassword": "Tillåt anställda att ändra lösenord",
-                "allowGoals": "Tillåt anställda att skapa mål",
-                "allowPlans": "Tillåt anställda att skapa planer",
-                "allowSubGoals": "Tillåt anställda att skapa delmål",
-                "checkinOut": "Check in/ut",
-                "chooseNotificationDepartments": "Välj hvilke avdelningar du vill modtage notiser från",
-                "citizensDisplay": "Klientens visning",
-                "city": "Stad",
-                "companyLogo": "Firmalogo",
-                "companyName": "Företagsnamn",
-                "cvr": "ORGANISATIONSNUMMER",
-                "enableEmailNotifications": "Aktivera e-post-notiser",
-                "enableNursingAreaNotifications": "Aktivera omvårdnadsområde-notiser",
-                "enableSystemNotifications": "Aktivera systemnotifikationer",
-                "groupChat": "Gruppechat",
-                "interventionCheckinOut": "Check in/ut för insats",
-                "interventionNotificationHours": "Varslingstimer för insats",
-                "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
-                "lockPastSchedules": "Lås tidigare tjänsteskeman",
-                "municipality": "Kommun",
-                "onlySendItWhenIAmOnADutyShift": "Skicka endast, när jag är på en pass",
-                "phone": "Telefon",
-                "postCode": "Postnummer",
-                "quickRiskAssessment": "Snabb riskbedömning",
-                "region": "Region",
-                "registerTransport": "Registrer transport",
-                "sundayShiftCalculation": "Aktivera söndagsvagtberegning",
-                "remove": "Ta bort firmalogo",
-                "street": "Gata",
-                "transferNormHours": "Överför normtimer till nästa år, om de inte är brugt",
-                "warning13HourShift": "Varning vet pass över 13 timmar",
-                "warning11HourRest": "Varning vet hviletid under 11 timmar",
-                "warning48HourRule": "Varning vet 48-timers reglen",
-                "holidayNonSundayHours": "Aktivera helgdagstimmar på helgdagar som inte är söndagar",
-                "website": "Hjemmeside",
-                "ipRestriction": "IP-begränsning",
-                "enableIpRestriction": "Aktivera IP-begränsning",
-                "ipRestrictionAction": "Begränsningshandling",
-                "manageIpWhitelist": "Administrér IP-hvidliste",
-                "deviceRestriction": "Enhedsbegränsning",
-                "enableDeviceRestriction": "Aktivera enhedsbegränsning",
-                "deviceRestrictionAction": "Begränsningshandling",
-                "manageApprovedDevices": "Administrér godkända enheter",
-                "actionBlock": "Blokér åtkomst",
-                "actionOtp": "Kräv OTP-bekräftelse",
                 "editRole": "Edit role",
                 "form": {
                     "alert": {
@@ -8285,7 +8471,72 @@
                     "level": "Level",
                     "regular": "Regular",
                     "manager": "Manager"
-                }
+                },
+                "allowChangePassword": "Tillåt anställda att ändra lösenord",
+                "allowGoals": "Tillåt anställda att skapa mål",
+                "allowPlans": "Tillåt anställda att skapa planer",
+                "allowSubGoals": "Tillåt anställda att skapa delmål",
+                "checkinOut": "Check in/ut",
+                "chooseNotificationDepartments": "Välj hvilke avdelningar du vill modtage notiser från",
+                "citizensDisplay": "Klientens visning",
+                "city": "Stad",
+                "companyLogo": "Firmalogo",
+                "companyName": "Företagsnamn",
+                "cvr": "ORGANISATIONSNUMMER",
+                "enableEmailNotifications": "Aktivera e-post-notiser",
+                "enableNursingAreaNotifications": "Aktivera omvårdnadsområde-notiser",
+                "enableSystemNotifications": "Aktivera systemnotifikationer",
+                "groupChat": "Gruppechat",
+                "interventionCheckinOut": "Check in/ut för insats",
+                "interventionNotificationHours": "Varslingstimer för insats",
+                "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
+                "lockPastSchedules": "Lås tidigare tjänsteskeman",
+                "municipality": "Kommun",
+                "onlySendItWhenIAmOnADutyShift": "Skicka endast, när jag är på en pass",
+                "phone": "Telefon",
+                "postCode": "Postnummer",
+                "quickRiskAssessment": "Snabb riskbedömning",
+                "region": "Region",
+                "registerTransport": "Registrer transport",
+                "sundayShiftCalculation": "Aktivera söndagsvagtberegning",
+                "remove": "Ta bort firmalogo",
+                "street": "Gata",
+                "transferNormHours": "Överför normtimer till nästa år, om de inte är brugt",
+                "warning13HourShift": "Varning vet pass över 13 timmar",
+                "warning11HourRest": "Varning vet hviletid under 11 timmar",
+                "warning48HourRule": "Varning vet 48-timers reglen",
+                "holidayNonSundayHours": "Aktivera helgdagstimmar på helgdagar som inte är söndagar",
+                "groupAccess": "Säkerhet & åtkomst",
+                "groupCommunication": "Kommunikation & incheckning",
+                "groupPlans": "Planer & mål",
+                "groupSchedule": "Schema & arbetstid",
+                "groupOther": "Övrigt & integrationer",
+                "absenceCountsInNormHours": "Semester och sjukfrånvaro räknas med i normtimmar och kompledighet",
+                "upgradeToPro": "Uppgradera till Pro",
+                "whichHolidaysCount": "Vilka helgdagar ska räknas? (stäng av de som inte gäller för er)",
+                "holidayState": {
+                    "full": "Hel",
+                    "half": "Halv",
+                    "off": "Av"
+                },
+                "terminology": "Ordlista",
+                "terminologyHint": "Anpassa termerna för journaler. Lämna tomt för standard.",
+                "termJournals": "Journaler",
+                "termJournal": "Journal",
+                "termJournalNoteTag": "Journalanteckningstagg",
+                "termJournalNotes": "Journalanteckningar",
+                "website": "Hjemmeside",
+                "ipRestriction": "IP-begränsning",
+                "enableIpRestriction": "Aktivera IP-begränsning",
+                "ipRestrictionAction": "Begränsningshandling",
+                "manageIpWhitelist": "Administrér IP-hvidliste",
+                "deviceRestriction": "Enhedsbegränsning",
+                "enableDeviceRestriction": "Aktivera enhedsbegränsning",
+                "deviceRestrictionAction": "Begränsningshandling",
+                "manageApprovedDevices": "Administrér godkända enheter",
+                "actionBlock": "Blokér åtkomst",
+                "actionOtp": "Kräv OTP-bekräftelse",
+                "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den."
             }
         },
         "licenseOverview": {
@@ -8325,6 +8576,12 @@
         "settings": "Inställningar",
         "subscription": {
             "subscription": "Prenumeration"
+        },
+        "groups": {
+            "company": "Företag",
+            "billing": "Fakturering",
+            "data": "Data",
+            "logs": "Loggar"
         },
         "tabs": {
             "absences": "Frånvaro",
@@ -8386,6 +8643,9 @@
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS"
         },
+        "catalog": {
+            "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
+        },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",
             "form": {
@@ -8436,16 +8696,9 @@
             "markAsLeaveType": "Markera som fravärstype",
             "nameDanish": "Namn (danska)",
             "nameEnglish": "Namn (engelska)",
-            "nameNorwegian": "Namn (norska)",
-            "nameSwedish": "Namn (svenska)",
             "paycode": "Lönningskode",
             "timeIn": "Tid in",
             "timeOut": "Tid ut",
-            "workingHoursFactor": "Arbetstidsfaktor",
-            "workingHoursFactorFrom": "Från",
-            "workingHoursFactorInterval": "Använd innan för tidsinterval (valfritt)",
-            "workingHoursFactorPlaceholder": "f.eks. 0.75",
-            "workingHoursFactorTo": "Till",
             "multiplierRules": "Timmultiplikatorregler",
             "multiplierRulesEmpty": "Inga regler konfigurerade",
             "addMultiplierRule": "Lägg till regel",
@@ -8461,7 +8714,14 @@
             "multiplierRuleAppliesToWeekdays": "Vardagar",
             "multiplierRuleAppliesToWeekends": "Helger",
             "multiplierRuleAppliesToHolidays": "Helgdagar",
-            "multiplierRuleIsActive": "Aktiv"
+            "multiplierRuleIsActive": "Aktiv",
+            "workingHoursFactor": "Arbetstidsfaktor",
+            "workingHoursFactorFrom": "Från",
+            "workingHoursFactorInterval": "Använd innan för tidsinterval (valfritt)",
+            "workingHoursFactorPlaceholder": "f.eks. 0.75",
+            "workingHoursFactorTo": "Till",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)"
         },
         "newShift": "Ny pass",
         "shifts": "Pass",
@@ -8477,14 +8737,14 @@
             "markedAsLeave": "Markeret som semester",
             "nameDanish": "Namn (danska)",
             "nameEnglish": "Namn (engelska)",
-            "nameNorwegian": "Namn (norska)",
-            "nameSwedish": "Namn (svenska)",
             "paycode": "Lönningskode",
             "standard": "Standard",
             "standardShift": "Standard pass",
             "timeIn": "Tid in",
             "timeOut": "Tid ut",
-            "workingHoursFactor": "Arbetstidsfaktor"
+            "workingHoursFactor": "Arbetstidsfaktor",
+            "nameNorwegian": "Namn (norska)",
+            "nameSwedish": "Namn (svenska)"
         }
     },
     "show": "Visa",
@@ -8498,6 +8758,7 @@
         "citizens": "Klienter",
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
+        "discover": "Kom igång",
         "documents": "Dokument",
         "dutySchedules": "Tjänsteschema",
         "leads": "Leads",
@@ -8507,10 +8768,9 @@
         "protocols": "Protokoll",
         "reports": "Rapporter",
         "reportTemplates": "Rapportmallar",
-        "pinSidebar": "Fäst sidebar",
-        "unpinSidebar": "Lossa sidebar",
         "journalNotes": "Journal notes",
-        "discover": "Kom igång"
+        "pinSidebar": "Fäst sidebar",
+        "unpinSidebar": "Lossa sidebar"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -8919,6 +9179,7 @@
             },
             "noCompaniesFound": "Inga företag hittades",
             "createFirstClient": "Skapa din första klient",
+            "showing": "Visar {from}–{to} av {total}",
             "accounts": {
                 "activatedAppsAndModules": "Aktiverade appar och moduler",
                 "allCompanies": "Alla företag",
@@ -8932,18 +9193,18 @@
                 "paymentCard": "Betalkort",
                 "sendCardLink": "Skicka kortlänk",
                 "stats": {
-                    "activatedModules": "aktiverade moduler",
                     "activeLicenses": "aktiva licenser",
+                    "activatedModules": "aktiverade moduler",
                     "availableLicenses": "tillgängliga licenser",
                     "unused": "Oanvända"
                 },
                 "tabs": {
                     "overview": "Översikt"
                 },
+                "searchPlaceholder": "Sök efter namn eller e-post...",
                 "userAccounts": "Användarkonton",
                 "yearly": "år."
-            },
-            "showing": "Visar {from}–{to} av {total}"
+            }
         },
         "coupons": {
             "active": "Aktiv",
@@ -9433,6 +9694,7 @@
             "companies": "Företag",
             "coupons": "Kuponer",
             "dashboard": "Dashboard",
+            "emailTemplates": "E-postmallar",
             "invoices": "Fakturor",
             "orders": "Ordrer",
             "polls": "Afstemninger",
@@ -9450,8 +9712,22 @@
             "licenses": "Licenser",
             "products": "Produkter",
             "clientRoles": "Klientroller",
-            "cancellations": "Avslutningar",
-            "emailTemplates": "E-postmallar"
+            "cancellations": "Avslutningar"
+        },
+        "emailTemplates": {
+            "title": "E-postmallar",
+            "subtitle": "Redigera de e-postmeddelanden systemet skickar till användare.",
+            "subject": "Ämne",
+            "body": "Innehåll (HTML)",
+            "preview": "Förhandsvisning",
+            "placeholders": "Tillgängliga platshållare",
+            "placeholdersHint": "Klicka för att kopiera. De ersätts med riktiga värden när e-posten skickas.",
+            "edit": "Redigera",
+            "save": "Spara",
+            "cancel": "Avbryt",
+            "saved": "E-postmall sparad",
+            "locale": "Språk",
+            "noTemplates": "Inga e-postmallar hittades"
         },
         "users": {
             "confirmation": {
@@ -9527,23 +9803,20 @@
                 "90d": "Senaste 90 dagarna",
                 "12m": "Senaste 12 månaderna"
             },
-            "revenue": "Intäkter",
             "revenueSubtitle": "Prenumerationsbaserad inntäkt",
-            "mrr": "MRR",
-            "mrrFull": "Månadsvis återkommande intäkt",
-            "arr": "ARR",
-            "arrFull": "Årsvis återkommande intäkt",
+            "vsPrevious": "vs. föregående",
             "forecastMRR": "Prognos nästa månad",
             "collected": "Insamlat",
             "collectionRateLabel": "insamlingsgrad",
             "paidInPeriod": "betalt under perioden",
             "outstanding": "Utestående",
             "allPaid": "av fakturerat",
-            "notYetCollected": "ännu inte insamlat",
             "invoicesPending": "fakturor väntar",
+            "notYetCollected": "ännu inte insamlat",
             "mrrOverTime": "MRR över tid",
             "mrrHelp": "Månadsvis återkommande intäkt (MRR) visar prenumerationsbaserad intäkt per månad",
             "newARR": "Ny ARR",
+            "noData": "Ingen data ännu",
             "newRevenue": "Ny intäkt",
             "fromCompanies": "från nya företag",
             "expansionRevenue": "Expansionsintäkt",
@@ -9554,23 +9827,55 @@
             "subscriptions": "prenumerationer",
             "activeCompanies": "Aktiva företag",
             "payingSubscribers": "betalande prenumeranter",
-            "arpu": "ARPU",
-            "arpuFull": "Genomsnittlig intäkt per användare",
+            "activeLicenses": "Aktiva licenser idag",
             "overBenchmark": "över benchmark",
+            "underBenchmark": "Under riktmärket",
             "trialPeriods": "Provperioder",
             "conversionRate": "konverteringsgrad",
             "activeTrials": "aktiva prover",
             "expiringSoon": "Löper ut snart",
             "within7Days": "inom 7 dagar",
-            "requiresAttention": "kräver uppmärksamhet",
+            "requiresFollowUp": "Kräver uppföljning nu",
+            "planDistribution": "Paketfördelning",
+            "plans": "Vilka paket driver din intäkt",
+            "comp": "företag.",
+            "annualPlanShare": "Andel årsabonnemang",
+            "topCompanies": "Toppföretag",
+            "top": "Topp",
+            "highestPaying": "högst betalande kunder",
+            "noDataYet": "Ingen data ännu",
+            "mo": "/mån",
             "growth": "Tillväxt",
-            "churnRate": "Avhoppsgrad",
-            "churnedRevenue": "Avhoppsintäkt",
-            "lastMonth": "förra månaden",
+            "marketingRoas": "Marknadsföring, konvertering och ROAS",
+            "momGrowth": "MoM-tillväxt",
+            "newCompaniesVs": "Nya företag vs. föregående mån.",
+            "newCompanies": "Nya företag",
+            "inPeriod": "Under perioden",
+            "netGrowth": "Nettotillväxt",
+            "goalRoas": "Mål-ROAS",
+            "conversionFunnel": "Konverteringstratt",
+            "dropOffTrial": "Spårar bortfall i provperiod → betalande kunder",
             "visitors": "Besökare",
-            "registration": "Registrering",
+            "signup": "Registrering",
             "paying": "Betalande",
+            "risk": "Risk",
+            "churnIssues": "Bortfall, betalningsproblem och varningar",
+            "healthyLevel": "Hälsosam nivå",
+            "requiresAttention": "kräver uppmärksamhet",
+            "critical": "Kritiskt — agera nu",
+            "goalUnder2": "Mål: under 2%/mån.",
+            "churnedRevenue": "Avhoppsintäkt",
+            "companiesLost": "förlorade företag",
+            "lostMRR": "Förlorad MRR under perioden",
+            "paymentFailures": "Betalningsfel",
+            "requiresFollowUpShort": "Kräver uppföljning",
+            "declined": "Nekade betalningar",
+            "goalNRR": "Mål: > 100%",
+            "churnOverTime": "Bortfall över tid",
+            "churnSpikes": "Spårar toppar i bortfall och säsongsmönster",
             "churnReasons": "Avhoppsskäl",
+            "whatDrives": "Vad driver uppsägningar",
+            "basedOn": "Baserat på data från uppsägningsflöde",
             "churnReasonLabels": [
                 "För dyrt",
                 "Saknade funktioner",
@@ -9578,8 +9883,22 @@
                 "Företaget lade ner",
                 "Övrigt"
             ],
-            "paymentFailures": "Betalningsfel",
-            "goalRoas": "Mål-ROAS",
+            "alertCriticalChurnTitle": "Kritiskt bortfall:",
+            "alertCriticalChurnBody": "är över kritisk tröskel på 5%.",
+            "alertPaymentTitle": "Betalningsfel:",
+            "alertPaymentBody": "fakturor nekade. Kontakta de berörda företagen.",
+            "alertTrialTitle": "Provperioder:",
+            "alertTrialBody": "löper ut inom 7 dagar.",
+            "alertNRRTitle": "NRR under 100%:",
+            "alertNRRBody": "Du förlorar mer än du vinner. Fokusera på expansion och att minska bortfallet.",
+            "revenue": "Intäkter",
+            "mrrFull": "Månadsvis återkommande intäkt",
+            "arrFull": "Årsvis återkommande intäkt",
+            "arpuFull": "Genomsnittlig intäkt per användare",
+            "momFull": "Månad-över-Månad",
+            "roasFull": "Avkastning på annonsutgifter",
+            "ltvFull": "Livstidsvärde",
+            "nrrFull": "Netto intäktsretention",
             "months": [
                 "Jan",
                 "Feb",
@@ -9608,58 +9927,15 @@
                 "November",
                 "December"
             ],
+            "churnRate": "Avhoppsgrad",
+            "arpu": "ARPU",
+            "arr": "ARR",
             "besogende": "Besökare",
-            "tilmelding": "Registrering",
             "betalende": "Betalande",
-            "activeLicenses": "Aktiva licenser idag",
-            "alertCriticalChurnBody": "är över kritisk tröskel på 5%.",
-            "alertCriticalChurnTitle": "Kritiskt bortfall:",
-            "alertNRRBody": "Du förlorar mer än du vinner. Fokusera på expansion och att minska bortfallet.",
-            "alertNRRTitle": "NRR under 100%:",
-            "alertPaymentBody": "fakturor nekade. Kontakta de berörda företagen.",
-            "alertPaymentTitle": "Betalningsfel:",
-            "alertTrialBody": "löper ut inom 7 dagar.",
-            "alertTrialTitle": "Provperioder:",
-            "annualPlanShare": "Andel årsabonnemang",
-            "basedOn": "Baserat på data från uppsägningsflöde",
-            "churnIssues": "Bortfall, betalningsproblem och varningar",
-            "churnOverTime": "Bortfall över tid",
-            "churnSpikes": "Spårar toppar i bortfall och säsongsmönster",
-            "comp": "företag.",
-            "companiesLost": "förlorade företag",
-            "conversionFunnel": "Konverteringstratt",
-            "critical": "Kritiskt — agera nu",
-            "declined": "Nekade betalningar",
-            "dropOffTrial": "Spårar bortfall i provperiod → betalande kunder",
-            "goalNRR": "Mål: > 100%",
-            "goalUnder2": "Mål: under 2%/mån.",
-            "healthyLevel": "Hälsosam nivå",
-            "highestPaying": "högst betalande kunder",
-            "inPeriod": "Under perioden",
-            "lostMRR": "Förlorad MRR under perioden",
-            "ltvFull": "Livstidsvärde",
-            "marketingRoas": "Marknadsföring, konvertering och ROAS",
-            "mo": "/mån",
-            "momFull": "Månad-över-Månad",
-            "momGrowth": "MoM-tillväxt",
-            "netGrowth": "Nettotillväxt",
-            "newCompanies": "Nya företag",
-            "newCompaniesVs": "Nya företag vs. föregående mån.",
-            "noData": "Ingen data ännu",
-            "noDataYet": "Ingen data ännu",
-            "nrrFull": "Netto intäktsretention",
-            "planDistribution": "Paketfördelning",
-            "plans": "Vilka paket driver din intäkt",
-            "requiresFollowUp": "Kräver uppföljning nu",
-            "requiresFollowUpShort": "Kräver uppföljning",
-            "risk": "Risk",
-            "roasFull": "Avkastning på annonsutgifter",
-            "signup": "Registrering",
-            "top": "Topp",
-            "topCompanies": "Toppföretag",
-            "underBenchmark": "Under riktmärket",
-            "vsPrevious": "vs. föregående",
-            "whatDrives": "Vad driver uppsägningar"
+            "lastMonth": "förra månaden",
+            "mrr": "MRR",
+            "registration": "Registrering",
+            "tilmelding": "Registrering"
         },
         "licenses": {
             "pageTitle": "App-licenser",
@@ -9940,21 +10216,6 @@
             "saving": "Sparar...",
             "saveChanges": "Spara ändringar",
             "register": "Registrera"
-        },
-        "emailTemplates": {
-            "title": "E-postmallar",
-            "subtitle": "Redigera de e-postmeddelanden systemet skickar till användare.",
-            "subject": "Ämne",
-            "body": "Innehåll (HTML)",
-            "preview": "Förhandsvisning",
-            "placeholders": "Tillgängliga platshållare",
-            "placeholdersHint": "Klicka för att kopiera. De ersätts med riktiga värden när e-posten skickas.",
-            "edit": "Redigera",
-            "save": "Spara",
-            "cancel": "Avbryt",
-            "saved": "E-postmall sparad",
-            "locale": "Språk",
-            "noTemplates": "Inga e-postmallar hittades"
         }
     },
     "support": {
@@ -10274,6 +10535,7 @@
     },
     "update": "Uppdatera",
     "updates": {
+        "newUpdates": "Nya uppdateringar",
         "newUpdatesFrom": "Nya opdateringer från",
         "showUpdate": "Visa uppdatering",
         "updates": "Opdateringer"
@@ -10458,15 +10720,6 @@
         "syncing": "Synkroniserar...",
         "title": "Din ChatGPT-integration"
     },
-    "journalNotes": {
-        "title": "Journal notes",
-        "citizen": "Citizen",
-        "department": "Department",
-        "newNote": "New note",
-        "selectCitizen": "Select citizen",
-        "citizenRequired": "Please select a citizen",
-        "assessment": "Assessment"
-    },
     "employment": {
         "statusTypes": {
             "statusTypes": "Statustyper",
@@ -10478,13 +10731,13 @@
                 "color": "Färg",
                 "billingRule": "Faktureringsregel",
                 "isActive": "Aktiv",
+                "isBillable": "Fakturerbar",
+                "isBillableHint": "Veckor med denna status inkluderas i faktureringsuttag",
                 "sortOrder": "Sorteringsordning",
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Statustyp sparad",
                     "statusTypeSuccessfullyUpdated": "Statustyp uppdaterad"
-                },
-                "isBillable": "Fakturerbar",
-                "isBillableHint": "Veckor med denna status inkluderas i faktureringsuttag"
+                }
             },
             "table": {
                 "name": "Namn",
@@ -10544,8 +10797,26 @@
                 "name": "Namn",
                 "rate": "Taxa",
                 "frequency": "Frekvens",
+                "pricingType": "Prismodell",
+                "weeklyRate": "Veckopris",
+                "hourlyRate": "Timtaxa",
+                "bonusAmount": "Bonusbelopp",
+                "bonusConditionMonths": "Utlösningsvillkor (månaders anställning)",
+                "bonusConditionMonthsHint": "Bonus utlöses när medborgaren har varit anställd i detta antal månader",
+                "invoiceDataSection": "Fakturadata",
+                "customerNumber": "Kundnummer",
+                "productNumber": "Produktnummer",
                 "description": "Beskrivning",
                 "isActive": "Aktiv",
+                "pricingTypeOptions": {
+                    "weekly": "Veckobaserad prissättning",
+                    "hourly": "Timbaserad prissättning",
+                    "bonus": "Bonusbaserad prissättning"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 månader",
+                    "six": "6 månader"
+                },
                 "frequencyOptions": {
                     "hourly": "Per timme",
                     "daily": "Per dag",
@@ -10556,24 +10827,6 @@
                 "alert": {
                     "newBillingRuleSuccessfullySaved": "Faktureringsregel sparad",
                     "billingRuleSuccessfullyUpdated": "Faktureringsregel uppdaterad"
-                },
-                "pricingType": "Prismodell",
-                "weeklyRate": "Veckopris",
-                "hourlyRate": "Timtaxa",
-                "bonusAmount": "Bonusbelopp",
-                "bonusConditionMonths": "Utlösningsvillkor (månaders anställning)",
-                "bonusConditionMonthsHint": "Bonus utlöses när medborgaren har varit anställd i detta antal månader",
-                "invoiceDataSection": "Fakturadata",
-                "customerNumber": "Kundnummer",
-                "productNumber": "Produktnummer",
-                "pricingTypeOptions": {
-                    "weekly": "Veckobaserad prissättning",
-                    "hourly": "Timbaserad prissättning",
-                    "bonus": "Bonusbaserad prissättning"
-                },
-                "bonusMonthOptions": {
-                    "three": "3 månader",
-                    "six": "6 månader"
                 }
             },
             "table": {
@@ -10802,7 +11055,9 @@
             "billable": "Fakturerbar",
             "noBillingWeeks": "Inga faktureringsveckor hittades för detta ärende",
             "billableWeeks": "faktureringsbara veckor",
-            "excludedWeeks": "uteslutna veckor"
+            "excludedWeeks": "uteslutna veckor",
+            "exportCsv": "Exportera till e-conomic (CSV)",
+            "excludeReasonPlaceholder": "t.ex. Klient inlagd"
         },
         "revenue": {
             "revenue": "Intäkt",
@@ -10818,33 +11073,6 @@
             "generate": "Generera",
             "noData": "Ingen intäktsdata hittades för vald period"
         }
-    },
-    "attendance": {
-        "absenceReason": "Frånvaroorsak",
-        "absenceReasons": "Frånvarorsaker",
-        "citizen": "Medborgare",
-        "checkIn": "Incheckning",
-        "checkInOut": "Incheckning / Utcheckning",
-        "date": "Datum",
-        "generate": "Generera",
-        "in": "In",
-        "monthlyReport": "Månadsvis närvararapport",
-        "noDataForPeriod": "Ingen närvarodata hittades för vald period",
-        "noParticipantsToday": "Inga deltagare anmälda idag",
-        "notRegistered": "Ej registrerad",
-        "out": "Ut",
-        "participantList": "Deltagarlista",
-        "pending": "Väntar",
-        "period": "Period",
-        "print": "Skriv ut",
-        "printedOn": "Utskriven den",
-        "protocol": "Aktivitet",
-        "selectMonthToGenerate": "Välj en månad och klicka Generera",
-        "selectWeekToGenerate": "Välj en vecka och klicka Generera",
-        "signature": "Underskrift",
-        "total": "Totalt",
-        "week": "Vecka",
-        "weeklyReport": "Veckovis närvararapport"
     },
     "gdpr": {
         "retention": {
@@ -10986,6 +11214,12 @@
             "invitesFailed": "Kunde inte skicka inloggningsmail.",
             "missingField": "Saknar {field}",
             "invalidField": "Ogiltigt {field}"
+        },
+        "page": {
+            "title": "Importera från ett annat system",
+            "description": "Migrera invånare, anställda, journaler och scheman från ert nuvarande system via CSV eller Excel. Ladda upp filen, koppla kolumnerna till CitizenOne och importera.",
+            "startImport": "Starta import",
+            "adminOnly": "Endast administratörer kan importera data."
         }
     },
     "sms": {

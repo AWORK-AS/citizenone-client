@@ -61,6 +61,7 @@ const state = reactive({
         color: '#000000',
         is_active: true,
         sort_order: 0,
+        billing_rule_uuid: null as string | null,
     },
     isPageLoading: false,
 })
@@ -80,6 +81,7 @@ async function fetchStatusType() {
                 color: response?.data?.color ?? '#000000',
                 is_active: response?.data?.is_active ?? true,
                 sort_order: response?.data?.sort_order ?? 0,
+                billing_rule_uuid: response?.data?.billing_rule?.uuid ?? null,
             }
         }
     } catch (error: any) {
@@ -97,6 +99,7 @@ async function updateStatusType(details: any) {
             color: details.color,
             is_active: details.is_active,
             sort_order: details.sort_order,
+            billing_rule_uuid: details.billing_rule_uuid ?? null,
         }
         const response = await employmentService.updateStatusType(statusTypeUuid, params)
         if (response.data) {

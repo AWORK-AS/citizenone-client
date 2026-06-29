@@ -5,6 +5,10 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/company-file-folders`, 'GET', params)
     }
 
+    async getFolderPath(folderUuid: any): Promise<any> {
+        return await this.request(`/user/company-file-folders/${folderUuid}/path`, 'GET')
+    }
+
     async saveFileFolder(params: object): Promise<any> {
         return await this.request(`/user/company-file-folders`, 'POST', params)
     }

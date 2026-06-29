@@ -11,7 +11,7 @@
                     <FormDateTimeField id="date_time" name="date_time"
                         :placeholder="$t('plansandgoals.notifications.form.dateTime')"
                         v-model="state.formNotification.date_time" />
-                    <FormError :error="v$?.formSchedule?.date_time?.$errors[0]?.$message.toString()" />
+                    <FormError :error="v$?.formNotification?.date_time?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date_time?.[0]" />
                 </div>
                 <div class="space-y-1">

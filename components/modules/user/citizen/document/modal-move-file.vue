@@ -11,7 +11,7 @@
                                 <FormLabel for="folder" :label="$t('citizens.documents.form.folderName')" />
                                 <FormSelect id="folder" :options="state.options.folders"
                                     v-model="state.formFile.folder_uuid" />
-                                <FormError :error="v$?.formDirectory?.folder_uuid?.$errors[0]?.$message.toString()" />
+                                <FormError :error="v$?.formFile?.folder_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.folder_uuid?.[0]" />
                             </div>
                         </div>

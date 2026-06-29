@@ -1,0 +1,12 @@
+{
+  "name": "citizenone-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Standalone browser E2E tests (Playwright + system Chrome). Isolated from the app's dependencies.",
+  "scripts": {
+    "test:email-templates": "node email-templates.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "1.60.0"
+  }
+}
