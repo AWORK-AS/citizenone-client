@@ -2654,7 +2654,13 @@
             "plansAndGoals": "Planer og mål",
             "outcomes": "Resultater",
             "reports": "Rapporter",
-            "timeline": "Tidslinje"
+            "timeline": "Tidslinje",
+            "categories": {
+                "care": "Behandling & pleie",
+                "documentation": "Dokumentasjon",
+                "time": "Tid & oppmøte",
+                "admin": "Administrasjon"
+            }
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -4190,7 +4196,7 @@
         },
         "week": "Uke",
         "weeklyNormHours": "Ukentlige normtimer",
-        "yearToDate": "År til dato",
+        "currentYear": "Gjeldende år",
         "zenegy_all_departments": "Alle avdelinger",
         "zenegy_assign_rates_description": "Tildel en lønsats til hver vakttype pr. medarbeider.",
         "zenegy_assign_rates_info": "Medarbeidere der ikke er tildelt en standard rate/sats i Zenegy, skal vælges en rate her under 'Velg lønsats'.",
@@ -5785,6 +5791,26 @@
         "seeNewFeatures": "Se nye funksjoner"
     },
     "filter": "Filtrer",
+    "more": "Mer",
+    "commandPalette": {
+        "placeholder": "Søk etter handlinger eller seksjoner…",
+        "hint": "Søk og hopp rundt — ⌘K. Trykk ? for alle snarveier.",
+        "didYouKnowTitle": "Visste du?",
+        "didYouKnowBody": "Du kan søke og hoppe overalt med ⌘K — trykk ? for alle snarveier.",
+        "didYouKnowDismiss": "Forstått",
+        "empty": "Ingen resultater",
+        "actions": "Handlinger",
+        "navigate": "Gå til",
+        "citizen": "Innbygger"
+    },
+    "shortcuts": {
+        "title": "Tastatursnarveier",
+        "general": "Generelt",
+        "onThisPage": "På denne siden",
+        "palette": "Kommandopalett",
+        "help": "Vis snarveier",
+        "close": "Lukk"
+    },
     "filterDate": {
         "custom": "Brugerdefineret",
         "filterDate": "Filtrer dato",
