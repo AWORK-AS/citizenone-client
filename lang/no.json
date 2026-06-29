@@ -8145,7 +8145,10 @@
             "name": "Navn",
             "permissions": "Tillatelser",
             "pages": "Sidetilgang",
-            "level": "Level"
+            "level": "Level",
+            "selectAll": "Velg alle",
+            "clearAll": "Tøm alle",
+            "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\"."
         },
         "newRole": "Ny rolle",
         "permissions": {
@@ -8613,6 +8616,9 @@
             "employmentAgreements": "Avtaler",
             "gdprRetention": "GDPR Oppbevaring",
             "smsNotifications": "SMS"
+        },
+        "catalog": {
+            "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",

@@ -2654,7 +2654,13 @@
             "plansAndGoals": "Plans and goals",
             "outcomes": "Outcomes",
             "reports": "Reports",
-            "timeline": "Timeline"
+            "timeline": "Timeline",
+            "categories": {
+                "care": "Care & treatment",
+                "documentation": "Documentation",
+                "time": "Time & attendance",
+                "admin": "Administration"
+            }
         },
         "timeline": {
             "newEvent": "New event",
@@ -5785,6 +5791,26 @@
         "seeNewFeatures": "See new features"
     },
     "filter": "Filter",
+    "more": "More",
+    "commandPalette": {
+        "placeholder": "Search actions or sections…",
+        "hint": "Search and jump around — ⌘K. Press ? for all shortcuts.",
+        "didYouKnowTitle": "Did you know?",
+        "didYouKnowBody": "You can search and jump anywhere with ⌘K — press ? for all shortcuts.",
+        "didYouKnowDismiss": "Got it",
+        "empty": "No results",
+        "actions": "Actions",
+        "navigate": "Go to",
+        "citizen": "Citizen"
+    },
+    "shortcuts": {
+        "title": "Keyboard shortcuts",
+        "general": "General",
+        "onThisPage": "On this page",
+        "palette": "Command palette",
+        "help": "Show shortcuts",
+        "close": "Close"
+    },
     "filterDate": {
         "custom": "Custom",
         "filterDate": "Filter date",
@@ -8145,7 +8171,10 @@
             "name": "Name",
             "permissions": "Permissions",
             "pages": "Page access",
-            "level": "Level"
+            "level": "Level",
+            "selectAll": "Select all",
+            "clearAll": "Clear all",
+            "noPermissionsMatch": "No permissions match \"{search}\"."
         },
         "newRole": "New role",
         "permissions": {
@@ -8613,6 +8642,9 @@
             "employmentAgreements": "Agreements",
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS"
+        },
+        "catalog": {
+            "noSettingsMatch": "No settings match \"{search}\"."
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",

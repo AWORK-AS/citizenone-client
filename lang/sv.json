@@ -8145,7 +8145,10 @@
             "name": "Namn",
             "permissions": "Behörigheter",
             "pages": "Sidåtkomst",
-            "level": "Level"
+            "level": "Level",
+            "selectAll": "Välj alla",
+            "clearAll": "Rensa alla",
+            "noPermissionsMatch": "Inga behörigheter matchar \"{search}\"."
         },
         "newRole": "Ny roll",
         "permissions": {
@@ -8613,6 +8616,9 @@
             "employmentAgreements": "Avtal",
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS"
+        },
+        "catalog": {
+            "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",

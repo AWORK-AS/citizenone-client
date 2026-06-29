@@ -2654,7 +2654,13 @@
             "plansAndGoals": "Planer og mål",
             "outcomes": "Resultater",
             "reports": "Rapporter",
-            "timeline": "Tidslinje"
+            "timeline": "Tidslinje",
+            "categories": {
+                "care": "Behandling & pleje",
+                "documentation": "Dokumentation",
+                "time": "Tid & fremmøde",
+                "admin": "Administration"
+            }
         },
         "timeline": {
             "newEvent": "Ny hændelse",
@@ -5785,6 +5791,26 @@
         "seeNewFeatures": "Se nye funktioner"
     },
     "filter": "Filtrer",
+    "more": "Mere",
+    "commandPalette": {
+        "placeholder": "Søg efter handlinger eller sektioner…",
+        "hint": "Søg og hop rundt — ⌘K. Tryk ? for alle genveje.",
+        "didYouKnowTitle": "Vidste du?",
+        "didYouKnowBody": "Du kan søge og hoppe rundt overalt med ⌘K — tryk ? for alle genveje.",
+        "didYouKnowDismiss": "Forstået",
+        "empty": "Ingen resultater",
+        "actions": "Handlinger",
+        "navigate": "Gå til",
+        "citizen": "Borger"
+    },
+    "shortcuts": {
+        "title": "Tastatur-genveje",
+        "general": "Generelt",
+        "onThisPage": "På denne side",
+        "palette": "Kommandopalette",
+        "help": "Vis genveje",
+        "close": "Luk"
+    },
     "filterDate": {
         "custom": "Brugerdefineret",
         "filterDate": "Filtrer dato",
@@ -8145,7 +8171,10 @@
             "name": "Navn",
             "permissions": "Tilladelser",
             "pages": "Sideadgange",
-            "level": "Niveau"
+            "level": "Niveau",
+            "selectAll": "Vælg alle",
+            "clearAll": "Ryd alle",
+            "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\"."
         },
         "newRole": "Ny rolle",
         "permissions": {
@@ -8613,6 +8642,9 @@
             "employmentAgreements": "Aftaler",
             "gdprRetention": "GDPR Opbevaring",
             "smsNotifications": "SMS"
+        },
+        "catalog": {
+            "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
