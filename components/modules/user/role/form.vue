@@ -27,11 +27,14 @@
             <div class="space-y-2">
                 <div class="flex items-center justify-between flex-wrap gap-2">
                     <FormLabel for="permissions" :label="$t('roles.form.permissions')" />
-                    <span class="text-xs text-slate-400">{{ state.formRole.permissions.length }} / {{ allPermissionUuids.length }}</span>
+                    <span class="text-xs text-slate-400">{{ state.formRole.permissions.length }} / {{
+                        allPermissionUuids.length }}</span>
                 </div>
                 <div class="flex items-center justify-between flex-wrap gap-2">
                     <div class="relative max-w-xs flex-1 min-w-[12rem]">
-                        <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" aria-hidden="true" />
+                        <Icon name="ph:magnifying-glass"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"
+                            aria-hidden="true" />
                         <input v-model="permSearch" type="text" :placeholder="$t('search') + '…'"
                             class="w-full rounded-lg border border-slate-200 pl-9 pr-3 py-2 text-sm focus:border-primary focus:outline-none" />
                     </div>
@@ -57,8 +60,10 @@
                         <label class="flex items-center justify-between gap-2 mb-3 cursor-pointer">
                             <span class="text-sm font-semibold text-slate-800">{{ group.label }}</span>
                             <span class="flex items-center gap-2">
-                                <span class="text-[11px] text-slate-400">{{ group.selectedCount }}/{{ group.items.length }}</span>
-                                <input type="checkbox" class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
+                                <span class="text-[11px] text-slate-400">{{ group.selectedCount }}/{{ group.items.length
+                                    }}</span>
+                                <input type="checkbox"
+                                    class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
                                     :checked="group.allSelected" v-indeterminate="group.someSelected"
                                     @change="toggleGroup(group, ($event.target as HTMLInputElement).checked)" />
                             </span>
@@ -66,7 +71,8 @@
                         <div class="space-y-1.5">
                             <label v-for="perm in group.items" :key="perm.uuid"
                                 class="flex items-center gap-2.5 text-sm text-slate-700 cursor-pointer rounded-md px-1.5 py-1 hover:bg-slate-50">
-                                <input type="checkbox" class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
+                                <input type="checkbox"
+                                    class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
                                     :value="perm.uuid" v-model="state.formRole.permissions" />
                                 {{ perm.label }}
                             </label>
@@ -74,7 +80,7 @@
                     </div>
                 </div>
                 <p v-if="permSearch && filteredPermissionGroups.length === 0" class="text-sm text-slate-400">
-                    Ingen tilladelser matcher “{{ permSearch }}”.
+                    {{ $t('roles.form.noPermissionsMatch', { search: permSearch }) }}
                 </p>
             </div>
 
@@ -85,7 +91,8 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1.5">
                         <label v-for="page in pageOptions" :key="page.value"
                             class="flex items-center gap-2.5 text-sm text-slate-700 cursor-pointer rounded-md px-1.5 py-1 hover:bg-slate-50">
-                            <input type="checkbox" class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
+                            <input type="checkbox"
+                                class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
                                 :value="page.value" v-model="state.formRole.page_uuid" />
                             {{ page.label }}
                         </label>

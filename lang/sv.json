@@ -8147,7 +8147,8 @@
             "pages": "Sidåtkomst",
             "level": "Level",
             "selectAll": "Välj alla",
-            "clearAll": "Rensa alla"
+            "clearAll": "Rensa alla",
+            "noPermissionsMatch": "Inga behörigheter matchar \"{search}\"."
         },
         "newRole": "Ny roll",
         "permissions": {
