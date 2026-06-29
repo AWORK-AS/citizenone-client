@@ -966,4 +966,20 @@ async function transportLogout(transportLogoutDetails: any) {
     }
     state.isTableLoading = false
 }
+
+// Contribute commands to the global palette (⌘K).
+const { setPageCommands, clearPageCommands } = useCommandPalette()
+watchEffect(() => {
+    const A = t('commandPalette.actions')
+    const cmds: any[] = []
+    if (isAtLeast('Admin') || can('create_citizen')) {
+        cmds.push({ id: 'new-citizen', group: A, icon: 'ph:user-plus', label: t('citizens.newCitizen'), run: () => navigateTo('/citizens/new') })
+    }
+    if (isAtLeast('Admin')) {
+        cmds.push({ id: 'import-citizens', group: A, icon: 'ph:upload-simple', label: t('citizens.importCitizens.importCitizens'), run: () => { state.modal.isImportCitizensOpen = true } })
+    }
+    cmds.push({ id: 'shared-journals', group: A, icon: 'ph:share-network', label: t('citizens.citizenJournals.shareJournals.sharedJournals'), run: () => { state.modal.isSharedJournalsOpen = true } })
+    setPageCommands(cmds)
+})
+onUnmounted(() => clearPageCommands())
 </script>

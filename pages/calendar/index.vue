@@ -658,4 +658,16 @@ function openCreateModal(type: 'myself' | 'employee' | 'citizen') {
         state.modal.isAddEventForCitizenOpen = true
     }
 }
+
+// Contribute commands to the global palette (⌘K).
+const { setPageCommands, clearPageCommands } = useCommandPalette()
+watchEffect(() => {
+    const A = t('commandPalette.actions')
+    setPageCommands([
+        { id: 'cal-new-self', group: A, icon: 'ph:user', label: `${t('events.newEvent')} – ${t('events.myself')}`, run: () => { state.modal.isAddEventForMyselfOpen = true } },
+        { id: 'cal-new-citizen', group: A, icon: 'ph:user-circle', label: `${t('events.newEvent')} – ${t('events.citizens')}`, run: () => { state.modal.isAddEventForCitizenOpen = true } },
+        { id: 'cal-filter', group: A, icon: 'ic:outline-filter-list', label: t('filter'), run: () => { state.modal.isFilterCalendarOpen = true } },
+    ])
+})
+onUnmounted(() => clearPageCommands())
 </script>
