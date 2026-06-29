@@ -8145,7 +8145,9 @@
             "name": "Namn",
             "permissions": "Behörigheter",
             "pages": "Sidåtkomst",
-            "level": "Level"
+            "level": "Level",
+            "selectAll": "Välj alla",
+            "clearAll": "Rensa alla"
         },
         "newRole": "Ny roll",
         "permissions": {
