@@ -2654,7 +2654,13 @@
             "plansAndGoals": "Planer och mål",
             "outcomes": "Resultat",
             "reports": "Rapporter",
-            "timeline": "Tidslinje"
+            "timeline": "Tidslinje",
+            "categories": {
+                "care": "Vård & behandling",
+                "documentation": "Dokumentation",
+                "time": "Tid & närvaro",
+                "admin": "Administration"
+            }
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -4190,7 +4196,7 @@
         },
         "week": "Vecka",
         "weeklyNormHours": "Ugentlige normtimer",
-        "yearToDate": "År till datum",
+        "currentYear": "Gjeldende år",
         "zenegy_all_departments": "Alla avdelningar",
         "zenegy_assign_rates_description": "Tilldela en lönesats till varje passtyp pr. anställd.",
         "zenegy_assign_rates_info": "Anställda där inte är tilldelad en standard rate/sats i Zenegy, ska välges en rate här under 'Välg lönesats'.",
@@ -5785,6 +5791,26 @@
         "seeNewFeatures": "Se nya funktioner"
     },
     "filter": "Filtrera",
+    "more": "Mer",
+    "commandPalette": {
+        "placeholder": "Sök efter åtgärder eller sektioner…",
+        "hint": "Sök och hoppa runt — ⌘K. Tryck ? för alla genvägar.",
+        "didYouKnowTitle": "Visste du?",
+        "didYouKnowBody": "Du kan söka och hoppa var som helst med ⌘K — tryck ? för alla genvägar.",
+        "didYouKnowDismiss": "Förstått",
+        "empty": "Inga resultat",
+        "actions": "Åtgärder",
+        "navigate": "Gå till",
+        "citizen": "Medborgare"
+    },
+    "shortcuts": {
+        "title": "Tangentbordsgenvägar",
+        "general": "Allmänt",
+        "onThisPage": "På den här sidan",
+        "palette": "Kommandopalett",
+        "help": "Visa genvägar",
+        "close": "Stäng"
+    },
     "filterDate": {
         "custom": "Brugerdefineret",
         "filterDate": "Filtrera datum",

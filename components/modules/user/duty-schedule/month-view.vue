@@ -306,7 +306,7 @@
                                                 {{ $t('dutySchedules.month') }}
                                             </span>
                                             <span class="text-right font-medium text-amber-600">
-                                                {{ $t('dutySchedules.yearToDate') }}
+                                                {{ $t('dutySchedules.currentYear') }}
                                             </span>
                                             <span>
                                                 {{ $t('dutySchedules.holidayWorkedShort') }}
@@ -353,7 +353,7 @@
                                     </div>
                                     <div
                                         class="col-span-2 text-right pr-2 text-gray-400 font-semibold border-l border-gray-100">
-                                        {{ $t('dutySchedules.yearToDate') }}
+                                        {{ $t('dutySchedules.currentYear') }}
                                     </div>
                                 </div>
                                 <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
@@ -417,7 +417,8 @@
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
                                         {{(employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + (parseFloat(t?.yearly_hours) || 0), 0)).toFixed(2)
+                                            .reduce((sum: any, t: any) => sum + (parseFloat(t?.yearly_hours) || 0),
+                                                0)).toFixed(2)
                                         }}
                                     </div>
                                 </div>

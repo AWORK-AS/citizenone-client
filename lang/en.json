@@ -4196,7 +4196,7 @@
         },
         "week": "Week",
         "weeklyNormHours": "Weekly norm hours",
-        "yearToDate": "Year to date",
+        "currentYear": "Current year",
         "zenegy_all_departments": "All departments",
         "zenegy_assign_rates_description": "Assign a rate to each shift type per employee.",
         "zenegy_assign_rates_info": "Employees who are not assigned a default rate in Zenegy must be assigned one here under 'Select pay rate'.",
