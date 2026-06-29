@@ -54,6 +54,12 @@
                                                     {{ $t('plansandgoals.table.actions.edit') }}
                                                 </FormButton>
                                                 <FormButton buttonStyle="action" buttonSize="sm"
+                                                    @click="openStatus(status)"
+                                                    :title="$t('plansandgoals.table.actions.openInNewTab')">
+                                                    <Icon name="ph:arrow-square-out" class="size-4" />
+                                                    {{ $t('plansandgoals.table.actions.openInNewTab') }}
+                                                </FormButton>
+                                                <FormButton buttonStyle="action" buttonSize="sm"
                                                     @click="downloadStatus(status)">
                                                     <Icon name="ph:download" class="size-4" />
                                                     {{ $t('plansandgoals.table.actions.download') }}
@@ -200,6 +206,23 @@ function handleSearch(value: any) {
 
 function toggleExpanded(index: number) {
     expandedDescription[index] = !expandedDescription[index]
+}
+
+async function openStatus(status: any) {
+    state.isTableLoading = true
+    state.error = {}
+    try {
+        const attachmentUuid = status?.uuid
+        const response = await planGoalSubgoalService.downloadPlanGoalSubgoalStatuses(attachmentUuid)
+        if (response) {
+            const url = URL.createObjectURL(response)
+            window.open(url, '_blank')
+            setTimeout(() => URL.revokeObjectURL(url), 60000)
+        }
+    } catch (error: any) {
+        state.error.message = error?.message || 'An error occurred while opening the file.'
+    }
+    state.isTableLoading = false
 }
 
 async function downloadStatus(status: any) {

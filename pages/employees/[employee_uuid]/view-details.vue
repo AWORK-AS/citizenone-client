@@ -95,7 +95,8 @@
                                     <div class="space-y-1" v-if="isAtLeast('Admin')">
                                         <Label :label="$t('employees.form.role')" />
                                         <div class="flex flex-wrap gap-1">
-                                            <span v-for="(roleName, index) in state.selectedEmployee?.roles" :key="index"
+                                            <span v-for="(roleName, index) in state.selectedEmployee?.roles"
+                                                :key="index"
                                                 class="bg-primary px-2 py-1 text-white text-xs rounded-md font-medium">
                                                 {{ roleName }}
                                             </span>
@@ -108,8 +109,7 @@
                                         {{ state.selectedEmployee?.street }}
                                     </p>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="isAtLeast('Admin')">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.region')" />
                                         <p class="font-medium">
@@ -123,8 +123,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="isAtLeast('Admin')">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.city')" />
                                         <p class="font-medium">
@@ -170,6 +169,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
+                                    v-if="!state.selectedEmployee?.roles?.includes('Admin')">
+                                    <div class="space-y-1">
+                                        <Label :label="$t('employees.form.showWorkingHours')" />
+                                        <p class="font-medium">
+                                            {{ state.selectedEmployee?.show_working_hours ? $t('yes') : $t('no') }}
+                                        </p>
+                                    </div>
+                                    <div class="space-y-1" v-if="state.selectedEmployee?.show_working_hours">
+                                        <Label :label="$t('employees.form.showCompensatoryHours')" />
+                                        <p class="font-medium">
+                                            {{ state.selectedEmployee?.show_compensatory_hours ? $t('yes') : $t('no') }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div
@@ -185,8 +199,7 @@
                             </div>
                             <div
                                 class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="isAtLeast('Admin')">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.employmentDate')" />
                                         <p class="font-medium" v-if="state.selectedEmployee.employment.employment_date">
@@ -205,8 +218,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="isAtLeast('Admin')">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.annualNormHours')" />
                                         <p class="font-medium">
@@ -241,8 +253,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
-                                    v-if="isAtLeast('Admin')">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isAtLeast('Admin')">
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.workingHours')" />
                                         <p class="font-medium capitalize">
@@ -507,6 +518,8 @@ const state = reactive({
         city: '',
         post_code: '',
         permissions: [],
+        show_working_hours: false,
+        show_compensatory_hours: false,
         media_risks: [],
         employment: {
             salary_id: '',
@@ -568,6 +581,8 @@ async function fetchEmployee() {
                 city: response?.data?.employee_address?.city ?? '',
                 post_code: response?.data?.employee_address?.post_code ?? '',
                 permissions: response?.data?.permissions ?? [],
+                show_working_hours: response?.data?.show_working_hours ?? false,
+                show_compensatory_hours: response?.data?.show_compensatory_hours ?? false,
                 media_risks: response?.data?.media_risks ?? [],
                 employment: {
                     salary_id: response?.data?.employee_detail?.salary_id,

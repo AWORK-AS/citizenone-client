@@ -32,6 +32,21 @@
                 <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
             </div>
 
+            <div class="space-y-1 flex items-center gap-x-2">
+                <FormSwitch :value="state.formSchedule.is_online_meeting"
+                    @toggleSwitch="state.formSchedule.is_online_meeting = !state.formSchedule.is_online_meeting" />
+                <p>
+                    {{ $t('events.onlineMeeting.toggle') }}
+                </p>
+            </div>
+            <div class="space-y-1" v-if="state.formSchedule.is_online_meeting">
+                <FormLabel for="meeting_url" :label="$t('events.onlineMeeting.linkLabel')" />
+                <FormTextField id="meeting_url" name="meeting_url"
+                    placeholder="https://teams.microsoft.com/..." v-model="state.formSchedule.meeting_url" />
+                <p class="text-xs text-[#8891A4]">{{ $t('events.onlineMeeting.autoHint') }}</p>
+                <FormError :error="props?.error?.errors?.meeting_url?.[0]" />
+            </div>
+
             <div class="" v-if="state.formSchedule.recurring.is_recurring">
                 <!-- Recurring Frequency Fields -->
                 <div class="space-y-1">
@@ -206,14 +221,14 @@
                 <FormLabel for="citizens_uuid" :label="$t('events.form.citizens')" />
                 <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
                     v-model="state.formSchedule.citizens_uuid" />
-                <FormError :error="v$?.formProtocol?.citizens_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formSchedule?.citizens_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.citizens_uuid?.[0]" />
             </div>
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <FormLabel for="users_uuid" :label="$t('events.form.employees')" />
                 <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
                     v-model="state.formSchedule.users_uuid" />
-                <FormError :error="v$?.formProtocol?.users_uuid?.$errors[0]?.$message.toString()" />
+                <FormError :error="v$?.formSchedule?.users_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.users_uuid?.[0]" />
             </div>
             <div class="space-y-1" v-if="props.formType === 'create'">
@@ -222,6 +237,15 @@
                     <FormCheckbox :value="state.formSchedule.send_invitation" />
                     {{ $t('events.form.sendInvitation') }}
                 </div>
+            </div>
+            <div class="space-y-1"
+                v-if="props.formType === 'create' && isEmploymentServices && state.formSchedule.citizens_uuid?.length > 0">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formSchedule.send_sms_notification = !state.formSchedule.send_sms_notification">
+                    <FormCheckbox :value="state.formSchedule.send_sms_notification" />
+                    {{ $t('sms.form.sendSmsNotification') }}
+                </div>
+                <p class="text-xs text-[#8891A4] ml-5">{{ $t('sms.form.sendSmsNotificationHint') }}</p>
             </div>
             <div class="space-y-1" v-if="props.selectedSchedule?.is_recurring">
                 <div class="w-fit flex items-center cursor-pointer"
@@ -258,6 +282,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -277,6 +302,11 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
+const userStore = useUserStore()
+
+const isEmploymentServices = computed(
+    () => userStore.getUser?.company?.industry?.system_name === 'employment_services'
+)
 
 interface Option {
     value: string
@@ -295,10 +325,13 @@ const state = reactive({
         date_time_end: '',
         unit_uuid: '',
         is_private: false,
+        is_online_meeting: false,
+        meeting_url: '',
         citizens_uuid: [],
         users_uuid: [],
         calendar_tag_uuid: [] as any,
         send_invitation: false,
+        send_sms_notification: false,
         apply_changes_to_future_events: false,
         recurring: {
             is_recurring: true,
@@ -430,10 +463,13 @@ onMounted(() => {
         date_time_end: props.selectedSchedule.date_time_end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.date_time_end) : formatDateToYYYYmmddHHmm('', true),
         unit_uuid: props.selectedSchedule.unit_uuid,
         is_private: props.selectedSchedule.is_private,
+        is_online_meeting: props.selectedSchedule.is_online_meeting ?? false,
+        meeting_url: props.selectedSchedule.meeting_url ?? '',
         citizens_uuid: props.selectedSchedule.citizens_uuid,
         users_uuid: props.selectedSchedule.users_uuid,
         calendar_tag_uuid: [],
         send_invitation: props.selectedSchedule.send_invitation,
+        send_sms_notification: props.selectedSchedule.send_sms_notification ?? false,
         apply_changes_to_future_events: false,
         recurring: {
             is_recurring: true,

@@ -71,6 +71,7 @@ async function saveStatusType(details: any) {
             color: details.color,
             is_active: details.is_active,
             sort_order: details.sort_order,
+            billing_rule_uuid: details.billing_rule_uuid ?? null,
         }
         const response = await employmentService.saveStatusType(params)
         if (response.data) {

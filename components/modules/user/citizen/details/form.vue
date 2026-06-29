@@ -367,9 +367,8 @@
                     </div>
                 </div>
                 <div class="space-y-1" v-if="isFieldVisible('note')">
-                    <FormLabel for="note" :label="$t('citizens.form.note')" />
-                    <FormTextArea id="note" name="note" :placeholder="$t('citizens.form.note')"
-                        v-model="state.formCitizen.note" />
+                    <p class="text-sm text-gray-600">{{ $t('citizens.form.note') }}</p>
+                    <ckeditor :editor="editor" v-model="state.formCitizen.note" :config="editorNoteConfig" />
                     <FormError :error="v$?.formCitizen?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
                 </div>
@@ -781,54 +780,64 @@
             </div>
             <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
                 <div class="space-y-1">
-                    <FormLabel for="employment_case_type_uuid" :label="$t('citizens.form.employmentProgram.caseType')" />
+                    <FormLabel for="employment_case_type_uuid"
+                        :label="$t('citizens.form.employmentProgram.caseType')" />
                     <FormSelect id="employment_case_type_uuid" :options="state.options.employmentCaseTypes"
                         v-model="state.formCitizen.employmentData.employment_case_type_uuid" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="employment_status_type_uuid" :label="$t('citizens.form.employmentProgram.status')" />
+                    <FormLabel for="employment_status_type_uuid"
+                        :label="$t('citizens.form.employmentProgram.status')" />
                     <FormSelect id="employment_status_type_uuid" :options="state.options.employmentStatusTypes"
                         v-model="state.formCitizen.employmentData.employment_status_type_uuid" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="financial_support_basis" :label="$t('citizens.form.employmentProgram.financialSupportBasis')" />
+                    <FormLabel for="financial_support_basis"
+                        :label="$t('citizens.form.employmentProgram.financialSupportBasis')" />
                     <FormTextField id="financial_support_basis" name="financial_support_basis"
                         :placeholder="$t('citizens.form.employmentProgram.financialSupportBasis')"
                         v-model="state.formCitizen.employmentData.financial_support_basis" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="primary_consultant_uuid" :label="$t('citizens.form.employmentProgram.primaryConsultant')" />
+                    <FormLabel for="primary_consultant_uuid"
+                        :label="$t('citizens.form.employmentProgram.primaryConsultant')" />
                     <FormSelect id="primary_consultant_uuid" :options="state.options.consultants"
                         v-model="state.formCitizen.employmentData.primary_consultant_uuid" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="secondary_consultant_uuid" :label="$t('citizens.form.employmentProgram.secondaryConsultant')" />
+                    <FormLabel for="secondary_consultant_uuid"
+                        :label="$t('citizens.form.employmentProgram.secondaryConsultant')" />
                     <FormSelect id="secondary_consultant_uuid" :options="state.options.consultants"
                         v-model="state.formCitizen.employmentData.secondary_consultant_uuid" />
                 </div>
                 <div class="space-y-2">
-                    <p class="text-sm font-medium text-gray-700">{{ $t('citizens.form.employmentProgram.referrerInfo') }}</p>
+                    <p class="text-sm font-medium text-gray-700">{{ $t('citizens.form.employmentProgram.referrerInfo')
+                    }}</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div class="space-y-1">
-                            <FormLabel for="referrer_name" :label="$t('citizens.form.employmentProgram.referrerName')" />
+                            <FormLabel for="referrer_name"
+                                :label="$t('citizens.form.employmentProgram.referrerName')" />
                             <FormTextField id="referrer_name" name="referrer_name"
                                 :placeholder="$t('citizens.form.employmentProgram.referrerName')"
                                 v-model="state.formCitizen.employmentData.referrer_name" />
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="referrer_organization" :label="$t('citizens.form.employmentProgram.referrerOrganization')" />
+                            <FormLabel for="referrer_organization"
+                                :label="$t('citizens.form.employmentProgram.referrerOrganization')" />
                             <FormTextField id="referrer_organization" name="referrer_organization"
                                 :placeholder="$t('citizens.form.employmentProgram.referrerOrganization')"
                                 v-model="state.formCitizen.employmentData.referrer_organization" />
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="referrer_phone" :label="$t('citizens.form.employmentProgram.referrerPhone')" />
+                            <FormLabel for="referrer_phone"
+                                :label="$t('citizens.form.employmentProgram.referrerPhone')" />
                             <FormTextField id="referrer_phone" name="referrer_phone"
                                 :placeholder="$t('citizens.form.employmentProgram.referrerPhone')"
                                 v-model="state.formCitizen.employmentData.referrer_phone" />
                         </div>
                         <div class="space-y-1">
-                            <FormLabel for="referrer_email" :label="$t('citizens.form.employmentProgram.referrerEmail')" />
+                            <FormLabel for="referrer_email"
+                                :label="$t('citizens.form.employmentProgram.referrerEmail')" />
                             <FormTextField id="referrer_email" name="referrer_email"
                                 :placeholder="$t('citizens.form.employmentProgram.referrerEmail')"
                                 v-model="state.formCitizen.employmentData.referrer_email" />
@@ -870,13 +879,15 @@
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="reporting_requirements" :label="$t('citizens.form.employmentProgram.reportingRequirements')" />
+                    <FormLabel for="reporting_requirements"
+                        :label="$t('citizens.form.employmentProgram.reportingRequirements')" />
                     <FormTextArea id="reporting_requirements" name="reporting_requirements"
                         :placeholder="$t('citizens.form.employmentProgram.reportingRequirements')"
                         v-model="state.formCitizen.employmentData.reporting_requirements" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="activation_deadline" :label="$t('citizens.form.employmentProgram.activationDeadline')" />
+                    <FormLabel for="activation_deadline"
+                        :label="$t('citizens.form.employmentProgram.activationDeadline')" />
                     <FormDateField id="activation_deadline" name="activation_deadline"
                         :placeholder="$t('citizens.form.employmentProgram.activationDeadline')"
                         v-model="state.formCitizen.employmentData.activation_deadline" />
@@ -886,6 +897,13 @@
                     <FormTextArea id="referral_reason" name="referral_reason"
                         :placeholder="$t('citizens.form.employmentProgram.referralReason')"
                         v-model="state.formCitizen.employmentData.referral_reason" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="internship_company"
+                        :label="$t('citizens.form.employmentProgram.internshipCompany')" />
+                    <FormTextField id="internship_company" name="internship_company"
+                        :placeholder="$t('citizens.form.employmentProgram.internshipCompany')"
+                        v-model="state.formCitizen.employmentData.internship_company" />
                 </div>
             </div>
         </div>
@@ -954,6 +972,8 @@ import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { employmentService } from '@/components/api/user/EmploymentService'
 import { employeeService } from '@/components/api/user/EmployeeService'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { journalService } from '@/components/api/user/JournalService'
 
 const userStore = useUserStore() as any
 const { t } = useI18n()
@@ -964,6 +984,22 @@ const avatarUrl = ref('/img/avatars/user.svg')
 const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+
+const editor = ref(ClassicEditor)
+const editorNoteConfig = ref({
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+            { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+            { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
+        ]
+    },
+}) as any
 
 const props = defineProps({
     error: {
@@ -1343,7 +1379,11 @@ onMounted(async () => {
     try {
         const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen' })
         if (response?.data) {
-            const config = response.data.find((c: any) => c.form_type === props.formType)
+            // The form config is keyed 'create' / 'edit', but this form receives
+            // formType 'create' / 'update' — map 'update' to the 'edit' config so the
+            // Edit-form settings also apply to existing citizens (not just new ones).
+            const configType = props.formType === 'create' ? 'create' : 'edit'
+            const config = response.data.find((c: any) => c.form_type === configType)
             if (config?.form_fields) {
                 formConfig.value = config.form_fields
             }

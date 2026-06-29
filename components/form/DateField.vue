@@ -3,7 +3,7 @@
         @on-change="updateValue" :placeholder="props.placeholder" :class="[
             props.dateType === 'duty-schedule' && 'h-11 text-center rounded-none border-l-0 border-r-0 border border-gray-300 focus:outline-none',
             props.dateType === 'calendar' && 'h-11 text-center rounded-none border-0 focus:outline-none bg-transparent',
-            !props.dateType && 'rounded-full border border-gray-200 focus:outline-none focus:ring-primary focus:border-primary',
+            !props.dateType && 'rounded-lg border border-gray-200 focus:outline-none focus:ring-primary focus:border-primary',
             'appearance-none block w-full px-5 py-3 placeholder-gray-500 text-gray-900 focus:z-10 sm:text-sm'
         ]" />
 </template>

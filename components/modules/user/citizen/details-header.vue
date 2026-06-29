@@ -319,9 +319,9 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="text-xs font-medium text-gray-700"
-                                :class="state.showExpandedNote ? '' : 'line-clamp-2'" v-if="hasNoteAccess()">
-                                {{ state.selectedCitizen?.data?.note }}
+                            <div class="text-sm text-gray-700" :class="state.showExpandedNote ? '' : 'line-clamp-2'"
+                                v-if="hasNoteAccess()">
+                                <div v-html="state.selectedCitizen?.data?.note" class="content" />
                             </div>
                             <button @click="state.showExpandedNote = !state.showExpandedNote"
                                 class="text-primary text-xs hover:text-primary-700" v-if="hasNoteAccess()">
@@ -330,18 +330,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-12 lg:col-span-3">
+                <div class="col-span-12 lg:col-span-3 flex flex-col justify-start gap-6 pt-1 h-full">
                     <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
-                    <!-- Reports & alerts panel — contained so it reads as one cohesive widget. -->
                     <div v-if="$route.name === 'citizens-uuid-journals'"
                         class="flex h-full flex-col gap-4 rounded-md border-l-4 border-red-300 bg-white p-5 ring-1 ring-gray-200">
                         <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
                             v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
-                        <div class="h-px bg-surface-200"
-                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'"></div>
+                        <hr class="border-gray-200"
+                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
                         <ModulesUserCitizenIncidentsHeader />
-                        <p class="mt-auto cursor-pointer pt-1 text-center text-xs text-primary transition-colors hover:text-secondary-700"
+                        <p class="w-full text-center text-xs text-primary hover:text-secondary-700 cursor-pointer mt-auto pt-2"
                             @click="state.modal.isViewRelevantHelpLinksOpen = true">
                             {{
                                 $t('citizens.useOfForce.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports')
@@ -366,8 +365,7 @@
                 @openInterventionHours="switchToInterventionHours" />
             <ModulesUserCitizenUseOfForceModalRelevantHelpLinks :isModalOpen="state.modal.isViewRelevantHelpLinksOpen"
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
-            <ModulesUserCitizenDevelopmentGraphModalView
-                :isModalOpen="state.modal.isDevelopmentGraphOpen"
+            <ModulesUserCitizenDevelopmentGraphModalView :isModalOpen="state.modal.isDevelopmentGraphOpen"
                 @close="state.modal.isDevelopmentGraphOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
@@ -405,6 +403,8 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useConfetti } from '@/composables/useConfetti'
+import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -463,6 +463,21 @@ const isTransportRegistrationEnabled = computed(() => {
 const isInterventionCheckinEnabled = computed(() => {
     return userStore.getUser?.company?.intervention_checkin_enabled === true
 })
+
+const { celebrate } = useConfetti()
+const { recordVisit } = useRecentCitizens()
+let birthdayCelebrated = false
+
+// A little 🎂 confetti when you open a citizen on their birthday.
+function celebrateBirthdayIfToday(birthday?: string | null) {
+    if (!birthday || birthdayCelebrated) return
+    const now = new Date()
+    const todayMonthDay = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+    if (String(birthday).slice(5, 10) === todayMonthDay) {
+        birthdayCelebrated = true
+        celebrate()
+    }
+}
 
 onMounted(() => {
     fetchCitizen()
@@ -636,6 +651,8 @@ async function fetchCitizen() {
         if (response) {
             state.selectedCitizen = response
             citizenStore.setSelectedCitizen(response?.data)
+            recordVisit(response?.data)
+            celebrateBirthdayIfToday(response?.data?.birthday)
         }
     } catch (error: any) {
         state.error = error

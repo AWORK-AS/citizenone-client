@@ -69,6 +69,7 @@ const state = reactive({
         post_code: '',
         permissions: [],
         show_working_hours: false,
+        show_compensatory_hours: false,
         do_not_count_sick_leave: false,
         media_risks: [],
         pages: [],
@@ -106,6 +107,7 @@ async function saveEmployee(employeeDetails: any) {
         employeeDetails.roles.forEach((role: string) => params.append('roles[]', role))
         params.append('permission', JSON.stringify(employeeDetails.permissions))
         params.append('show_working_hours', employeeDetails.show_working_hours)
+        params.append('show_compensatory_hours', employeeDetails.show_compensatory_hours)
         params.append('do_not_count_sick_leave', employeeDetails.do_not_count_sick_leave)
         params.append('mediarisk_uuid', JSON.stringify(employeeDetails.media_risks))
         params.append('page_uuid', JSON.stringify(employeeDetails.pages))

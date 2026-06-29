@@ -30,8 +30,19 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    selectedDate: {
+        type: String,
+        default: '',
+    },
 })
 const emit = defineEmits(['close', 'refreshSchedules'])
+
+watch(() => props.isModalOpen, (open: boolean) => {
+    if (open && props.selectedDate) {
+        state.formSchedule.date_time_start = moment(props.selectedDate).startOf('day').format('YYYY-MM-DD HH:mm')
+        state.formSchedule.date_time_end = moment(props.selectedDate).startOf('day').add(1, 'hour').format('YYYY-MM-DD HH:mm')
+    }
+})
 
 const state = reactive({
     error: {} as Error,
@@ -96,6 +107,8 @@ async function saveSchedule(scheduleDetails: any) {
             unit_uuid: scheduleDetails.unit_uuid,
             calendar_tag_uuid: scheduleDetails.calendar_tag_uuid,
             is_private: scheduleDetails.is_private,
+            is_online_meeting: scheduleDetails.is_online_meeting,
+            meeting_url: scheduleDetails.meeting_url,
             citizens_uuid: scheduleDetails.citizens_uuid,
             users_uuid: scheduleDetails.users_uuid,
             user_group_uuid: scheduleDetails.user_group_uuid,

@@ -19,9 +19,8 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserEmploymentBillingRuleForm formType="create"
-                        :selectedBillingRule="state.formBillingRule" :error="state.error"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                    <ModulesUserEmploymentBillingRuleForm formType="create" :selectedBillingRule="state.formBillingRule"
+                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="saveBillingRule" />
                 </LoadingSpinner>
             </div>
@@ -55,8 +54,13 @@ const state = reactive({
     error: {} as Error,
     formBillingRule: {
         name: '',
-        rate: '',
-        frequency: null,
+        pricing_type: 'weekly' as string,
+        weekly_rate: '' as string,
+        hourly_rate: '' as string,
+        bonus_amount: '' as string,
+        bonus_condition_months: null as number | null,
+        customer_number: '',
+        product_number: '',
         description: '',
         is_active: true,
     },
@@ -69,8 +73,13 @@ async function saveBillingRule(details: any) {
     try {
         const params = {
             name: details.name,
-            rate: details.rate,
-            frequency: details.frequency,
+            pricing_type: details.pricing_type,
+            rate: details.weekly_rate !== '' ? details.weekly_rate : null,
+            hourly_rate: details.hourly_rate !== '' ? details.hourly_rate : null,
+            bonus_amount: details.bonus_amount !== '' ? details.bonus_amount : null,
+            bonus_condition_months: details.bonus_condition_months ?? null,
+            customer_number: details.customer_number,
+            product_number: details.product_number,
             description: details.description,
             is_active: details.is_active,
         }

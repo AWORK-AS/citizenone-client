@@ -10,19 +10,81 @@
                 <FormError :error="v$?.formBillingRule?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
+
+            <!-- Pricing type -->
             <div class="space-y-1">
-                <FormLabel for="rate" :label="$t('employment.billingRules.form.rate')" />
-                <FormTextField id="rate" name="rate" :placeholder="$t('employment.billingRules.form.rate')"
-                    v-model="state.formBillingRule.rate" />
-                <FormError :error="v$?.formBillingRule?.rate?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.rate?.[0]" />
+                <FormLabel for="pricing_type" :label="$t('employment.billingRules.form.pricingType')" />
+                <FormSelect id="pricing_type" :options="pricingTypeOptions"
+                    v-model="state.formBillingRule.pricing_type" />
+                <FormError :error="v$?.formBillingRule?.pricing_type?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.pricing_type?.[0]" />
             </div>
-            <div class="space-y-1">
-                <FormLabel for="frequency" :label="$t('employment.billingRules.form.frequency')" />
-                <FormSelect id="frequency" :options="frequencyOptions" v-model="state.formBillingRule.frequency" />
-                <FormError :error="v$?.formBillingRule?.frequency?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.frequency?.[0]" />
+
+            <!-- Weekly rate -->
+            <div class="space-y-1" v-if="state.formBillingRule.pricing_type === 'weekly'">
+                <FormLabel for="weekly_rate" :label="$t('employment.billingRules.form.weeklyRate')" />
+                <FormTextField id="weekly_rate" name="weekly_rate"
+                    :placeholder="$t('employment.billingRules.form.weeklyRate')"
+                    v-model="state.formBillingRule.weekly_rate" />
+                <FormError :error="v$?.formBillingRule?.weekly_rate?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.weekly_rate?.[0]" />
             </div>
+
+            <!-- Hourly rate -->
+            <div class="space-y-1" v-if="state.formBillingRule.pricing_type === 'hourly'">
+                <FormLabel for="hourly_rate" :label="$t('employment.billingRules.form.hourlyRate')" />
+                <FormTextField id="hourly_rate" name="hourly_rate"
+                    :placeholder="$t('employment.billingRules.form.hourlyRate')"
+                    v-model="state.formBillingRule.hourly_rate" />
+                <FormError :error="v$?.formBillingRule?.hourly_rate?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.hourly_rate?.[0]" />
+            </div>
+
+            <!-- Bonus fields -->
+            <template v-if="state.formBillingRule.pricing_type === 'bonus'">
+                <div class="space-y-1">
+                    <FormLabel for="bonus_amount" :label="$t('employment.billingRules.form.bonusAmount')" />
+                    <FormTextField id="bonus_amount" name="bonus_amount"
+                        :placeholder="$t('employment.billingRules.form.bonusAmount')"
+                        v-model="state.formBillingRule.bonus_amount" />
+                    <FormError :error="v$?.formBillingRule?.bonus_amount?.$errors[0]?.$message.toString()" />
+                    <FormError :error="props?.error?.errors?.bonus_amount?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="bonus_condition_months"
+                        :label="$t('employment.billingRules.form.bonusConditionMonths')" />
+                    <FormSelect id="bonus_condition_months" :options="bonusMonthOptions"
+                        v-model="state.formBillingRule.bonus_condition_months" />
+                    <p class="text-xs text-[#8891A4]">
+                        {{ $t('employment.billingRules.form.bonusConditionMonthsHint') }}
+                    </p>
+                    <FormError :error="props?.error?.errors?.bonus_condition_months?.[0]" />
+                </div>
+            </template>
+
+            <!-- Invoice data fields -->
+            <div class="border-t border-[#EAECF0] pt-3 mt-1">
+                <p class="text-xs font-semibold text-[#8891A4] uppercase tracking-wide mb-3">
+                    {{ $t('employment.billingRules.form.invoiceDataSection') }}
+                </p>
+                <div class="space-y-3">
+                    <div class="space-y-1">
+                        <FormLabel for="customer_number" :label="$t('employment.billingRules.form.customerNumber')" />
+                        <FormTextField id="customer_number" name="customer_number"
+                            :placeholder="$t('employment.billingRules.form.customerNumber')"
+                            v-model="state.formBillingRule.customer_number" />
+                        <FormError :error="props?.error?.errors?.customer_number?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="product_number" :label="$t('employment.billingRules.form.productNumber')" />
+                        <FormTextField id="product_number" name="product_number"
+                            :placeholder="$t('employment.billingRules.form.productNumber')"
+                            v-model="state.formBillingRule.product_number" />
+                        <FormError :error="props?.error?.errors?.product_number?.[0]" />
+                    </div>
+                </div>
+            </div>
+
             <div class="space-y-1">
                 <FormLabel for="description" :label="$t('employment.billingRules.form.description')" />
                 <FormTextArea id="description" name="description"
@@ -58,37 +120,36 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const props = defineProps({
-    error: {
-        type: Object,
-        required: false,
-    },
-    formType: {
-        type: String,
-        required: true,
-    },
-    selectedBillingRule: {
-        type: Object,
-        required: false,
-    },
+    error: { type: Object, required: false },
+    formType: { type: String, required: true },
+    selectedBillingRule: { type: Object, required: false },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
 
-const frequencyOptions = computed(() => [
-    { value: 'hourly', label: t('employment.billingRules.form.frequencyOptions.hourly') },
-    { value: 'daily', label: t('employment.billingRules.form.frequencyOptions.daily') },
-    { value: 'weekly', label: t('employment.billingRules.form.frequencyOptions.weekly') },
-    { value: 'monthly', label: t('employment.billingRules.form.frequencyOptions.monthly') },
-    { value: 'fixed', label: t('employment.billingRules.form.frequencyOptions.fixed') },
+const pricingTypeOptions = computed(() => [
+    { value: 'weekly', label: t('employment.billingRules.form.pricingTypeOptions.weekly') },
+    { value: 'hourly', label: t('employment.billingRules.form.pricingTypeOptions.hourly') },
+    { value: 'bonus', label: t('employment.billingRules.form.pricingTypeOptions.bonus') },
+])
+
+const bonusMonthOptions = computed(() => [
+    { value: 3, label: t('employment.billingRules.form.bonusMonthOptions.three') },
+    { value: 6, label: t('employment.billingRules.form.bonusMonthOptions.six') },
 ])
 
 const state = reactive({
     error: {} as Error,
     formBillingRule: {
         name: '',
-        rate: '',
-        frequency: null as string | null,
+        pricing_type: 'weekly' as any,
+        weekly_rate: '' as string,
+        hourly_rate: '' as string,
+        bonus_amount: '' as string,
+        bonus_condition_months: null as any | null,
+        customer_number: '',
+        product_number: '',
         description: '',
         is_active: true,
     },
@@ -98,29 +159,29 @@ watch(() => props.selectedBillingRule, (newValue: any) => {
     if (newValue != null) {
         state.formBillingRule = {
             name: newValue.name ?? '',
-            rate: newValue.rate ?? '',
-            frequency: newValue.frequency ?? null,
+            pricing_type: newValue.pricing_type ?? 'weekly',
+            weekly_rate: newValue.weekly_rate != null ? String(newValue.weekly_rate) : '',
+            hourly_rate: newValue.hourly_rate != null ? String(newValue.hourly_rate) : '',
+            bonus_amount: newValue.bonus_amount != null ? String(newValue.bonus_amount) : '',
+            bonus_condition_months: newValue.bonus_condition_months ?? null,
+            customer_number: newValue.customer_number ?? '',
+            product_number: newValue.product_number ?? '',
             description: newValue.description ?? '',
             is_active: newValue.is_active ?? true,
         }
     }
 })
 
-const rules = computed(() => {
-    return {
-        formBillingRule: {
-            name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            rate: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            frequency: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
+const rules = computed(() => ({
+    formBillingRule: {
+        name: {
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
         },
-    }
-})
+        pricing_type: {
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+        },
+    },
+}))
 
 const v$ = useVuelidate(rules, state)
 
@@ -128,7 +189,14 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formBillingRule)
+        const toRate = (val: string) => val !== '' ? val : null
+        const payload = {
+            ...state.formBillingRule,
+            weekly_rate: toRate(state.formBillingRule.weekly_rate),
+            hourly_rate: toRate(state.formBillingRule.hourly_rate),
+            bonus_amount: toRate(state.formBillingRule.bonus_amount),
+        }
+        emit('submitForm', payload)
     }
 }
 </script>

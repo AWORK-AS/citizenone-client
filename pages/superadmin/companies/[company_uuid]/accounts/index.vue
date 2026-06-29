@@ -47,7 +47,7 @@
                                     <div>
                                         <h2 class="text-[20px] font-bold text-[#1F2533]">{{ state.company?.data?.name ||
                                             '—'
-                                        }}</h2>
+                                            }}</h2>
                                         <div class="flex flex-wrap items-center gap-2 mt-2">
                                             <!-- Active status -->
                                             <span v-if="state.company?.data?.is_active" class="co-badge co-badge-green">
@@ -269,9 +269,15 @@
 
                         <!-- Accounts table -->
                         <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
-                            <div class="flex items-center justify-between px-5 py-4 border-b border-[#EAECF0]">
-                                <h3 class="text-[13px] font-semibold text-[#1F2533]">{{
-                                    $t('superadmin.companies.accounts.userAccounts') }}</h3>
+                            <div
+                                class="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-[#EAECF0]">
+                                <div class="flex items-center gap-3">
+                                    <h3 class="text-[13px] font-semibold text-[#1F2533]">{{
+                                        $t('superadmin.companies.accounts.userAccounts') }}</h3>
+                                    <SuperadminTableSearch v-model="searchQuery"
+                                        :placeholder="$t('superadmin.companies.accounts.searchPlaceholder')"
+                                        @input="debouncedAccountsSearch" style="min-width: 320px; max-width: none" />
+                                </div>
                                 <button @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/new`)"
                                     class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-medium text-white transition-colors"
                                     style="background:#205E77">
@@ -279,66 +285,69 @@
                                     {{ $t('superadmin.companies.accounts.newAccount') }}
                                 </button>
                             </div>
-                            <SuperadminTable :columnHeaders="state.accountColumnHeaders" :data="state.accounts"
-                                :isLoading="state.isAccountsLoading"
-                                :emptyMessage="$t('superadmin.companies.accounts.noAccounts')" emptyIcon="ph:users"
-                                rowKey="uuid">
-                                <template #body>
-                                    <tr v-for="(account, i) in state.accounts?.data" :key="i"
-                                        class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
-                                        <td class="co-td">
-                                            <div class="flex items-center gap-2.5">
-                                                <img :src="account?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${account?.firstname}+${account?.lastname}&size=32`"
-                                                    class="w-8 h-8 rounded-full object-cover" />
-                                                <span class="text-[13px] font-medium text-[#1F2533]">{{
-                                                    account?.firstname }} {{
-                                                        account?.lastname }}</span>
-                                            </div>
-                                        </td>
-                                        <td class="co-td text-[13px] text-[#5C6478]">{{ account?.email }}</td>
-                                        <td class="co-td text-[13px] text-[#5C6478]">{{ account?.phone || '—' }}</td>
-                                        <td class="co-td">
-                                            <span v-for="(role, ri) in account?.roles" :key="ri"
-                                                class="co-badge co-badge-gray text-[11px]">{{ role.name }}</span>
-                                        </td>
-                                        <td class="co-td">
-                                            <span v-if="account?.is_active"
-                                                class="co-badge co-badge-green text-[11px]">{{
-                                                    $t('superadmin.companies.table.active') }}</span>
-                                            <span v-else class="co-badge co-badge-red text-[11px]">{{
-                                                $t('superadmin.companies.table.inactive') }}</span>
-                                        </td>
-                                        <td class="co-td" @click.stop>
-                                            <div
-                                                class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <SuperadminTableButton
-                                                    v-if="!account?.roles?.some((r: any) => r.name === 'Superadmin')"
-                                                    @click="impersonateAccount(account)"
-                                                    :title="$t('superadmin.accounts.table.actions.impersonate')">
-                                                    <Icon name="ph:user-switch" class="w-3.5 h-3.5" />
-                                                </SuperadminTableButton>
-                                                <SuperadminTableButton
-                                                    @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/${account.uuid}/edit`)"
-                                                    :title="$t('superadmin.accounts.table.actions.edit')">
-                                                    <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                                </SuperadminTableButton>
-                                                <SuperadminTableButton
-                                                    @click="activateDeactivateAccount(i, account)"
-                                                    :title="account.is_active ? $t('superadmin.accounts.table.actions.deactivate') : $t('superadmin.accounts.table.actions.activate')">
-                                                    <Icon :name="account.is_active ? 'ph:x' : 'ph:check'" class="w-3.5 h-3.5" />
-                                                </SuperadminTableButton>
-                                                <SuperadminTableButton
-                                                    @click="confirmAccountDeletion(account)"
-                                                    :title="$t('superadmin.accounts.table.actions.delete')"
-                                                    buttonStyle="danger">
-                                                    <Icon name="ph:trash" class="w-3.5 h-3.5" />
-                                                </SuperadminTableButton>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </SuperadminTable>
-                            <Pagination :data="state.accounts" @previous="prevAccounts" @next="nextAccounts" />
+                            <div class="p-5">
+                                <SuperadminTable :columnHeaders="state.accountColumnHeaders" :data="state.accounts"
+                                    :isLoading="state.isAccountsLoading"
+                                    :emptyMessage="$t('superadmin.companies.accounts.noAccounts')" emptyIcon="ph:users"
+                                    rowKey="uuid">
+                                    <template #body>
+                                        <tr v-for="(account, i) in state.accounts?.data" :key="i"
+                                            class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
+                                            <td class="co-td">
+                                                <div class="flex items-center gap-2.5">
+                                                    <img :src="account?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${account?.firstname}+${account?.lastname}&size=32`"
+                                                        class="w-8 h-8 rounded-full object-cover" />
+                                                    <span class="text-[13px] font-medium text-[#1F2533]">{{
+                                                        account?.firstname }} {{
+                                                            account?.lastname }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="co-td text-[13px] text-[#5C6478]">{{ account?.email }}</td>
+                                            <td class="co-td text-[13px] text-[#5C6478]">{{ account?.phone || '—' }}
+                                            </td>
+                                            <td class="co-td">
+                                                <span v-for="(role, ri) in account?.roles" :key="ri"
+                                                    class="co-badge co-badge-gray text-[11px]">{{ role.name }}</span>
+                                            </td>
+                                            <td class="co-td">
+                                                <span v-if="account?.is_active"
+                                                    class="co-badge co-badge-green text-[11px]">{{
+                                                        $t('superadmin.companies.table.active') }}</span>
+                                                <span v-else class="co-badge co-badge-red text-[11px]">{{
+                                                    $t('superadmin.companies.table.inactive') }}</span>
+                                            </td>
+                                            <td class="co-td" @click.stop>
+                                                <div
+                                                    class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <SuperadminTableButton
+                                                        v-if="!account?.roles?.some((r: any) => r.name === 'Superadmin')"
+                                                        @click="impersonateAccount(account)"
+                                                        :title="$t('superadmin.accounts.table.actions.impersonate')">
+                                                        <Icon name="ph:user-switch" class="w-3.5 h-3.5" />
+                                                    </SuperadminTableButton>
+                                                    <SuperadminTableButton
+                                                        @click="navigateTo(`/superadmin/companies/${companyUuid}/accounts/${account.uuid}/edit`)"
+                                                        :title="$t('superadmin.accounts.table.actions.edit')">
+                                                        <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
+                                                    </SuperadminTableButton>
+                                                    <SuperadminTableButton
+                                                        @click="activateDeactivateAccount(i as number, account)"
+                                                        :title="account.is_active ? $t('superadmin.accounts.table.actions.deactivate') : $t('superadmin.accounts.table.actions.activate')">
+                                                        <Icon :name="account.is_active ? 'ph:x' : 'ph:check'"
+                                                            class="w-3.5 h-3.5" />
+                                                    </SuperadminTableButton>
+                                                    <SuperadminTableButton @click="confirmAccountDeletion(account)"
+                                                        :title="$t('superadmin.accounts.table.actions.delete')"
+                                                        buttonStyle="danger">
+                                                        <Icon name="ph:trash" class="w-3.5 h-3.5" />
+                                                    </SuperadminTableButton>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </SuperadminTable>
+                                <Pagination :data="state.accounts" @previous="prevAccounts" @next="nextAccounts" />
+                            </div>
                         </div>
                     </div>
                 </LoadingSpinner>
@@ -365,6 +374,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid as string
+const searchQuery = ref('')
 
 const state = reactive({
     accountColumnHeaders: computed(() => [
@@ -378,6 +388,9 @@ const state = reactive({
     accounts: [] as any,
     apps: [] as any,
     company: null as any,
+    dataFilter: {
+        search: '',
+    } as any,
     error: {} as Error,
     isAccountsLoading: false,
     isAppsLoading: false,
@@ -409,6 +422,7 @@ const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 
 let accountsPage = 1
+let accountsSearchTimeout: any = null
 
 onMounted(() => {
     fetchCompany()
@@ -477,16 +491,33 @@ async function fetchApps() {
     state.isAppsLoading = false
 }
 
+function debouncedAccountsSearch() {
+    clearTimeout(accountsSearchTimeout)
+    accountsSearchTimeout = setTimeout(() => {
+        accountsPage = 1
+        fetchAccounts()
+    }, 350)
+
+    clearTimeout(accountsSearchTimeout)
+    accountsSearchTimeout = setTimeout(() => {
+        const trimmed = searchQuery.value.trim()
+        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
+        accountsPage = 1
+        fetchAccounts()
+    }, 350)
+}
+
 async function fetchAccounts() {
     state.error = {}
     state.isAccountsLoading = true
     try {
-        const params = {
+        const params: any = {
             company_uuid: companyUuid,
             page: accountsPage,
             sortField: 'id',
             sortOrder: 'descend',
         }
+        if (state.dataFilter.search) params.search = state.dataFilter.search
         const response = await accountService.getAccounts(params)
         if (response) {
             state.accounts = response

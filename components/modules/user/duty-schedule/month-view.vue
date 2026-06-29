@@ -207,7 +207,7 @@
                     <div v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
                         :key="'sidebar-' + employee.uuid"
                         class="border-b border-gray-100 flex flex-col items-center justify-center py-3 px-2 cursor-default relative"
-                        @mouseenter="(isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid) && showPopover(employeeIndex)"
+                        @mouseenter="(isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid) && showPopover(employeeIndex as any)"
                         @mouseleave="hidePopoverWithDelay()">
                         <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
                             :class="[
@@ -288,6 +288,61 @@
                                     @click="navigateTo('/calendar?employee_uuid=' + employee?.uuid)">
                                     {{ $t('dutySchedules.monthView.seeCalendar') }}
                                 </p>
+                                <Tooltip v-if="employee?.holiday_hours?.enabled"
+                                    :text="$t('dutySchedules.holidayHoursHint')" position="top" :wrap="true"
+                                    class="w-full mt-1.5">
+                                    <div class="w-full rounded-lg border border-amber-200 bg-amber-50/70 px-2 py-1.5">
+                                        <div class="flex items-center gap-1 mb-1">
+                                            <Icon name="ph:calendar-check" class="w-3 h-3 text-amber-500"
+                                                aria-hidden="true" />
+                                            <span class="text-xxs font-semibold text-amber-800">
+                                                {{ $t('dutySchedules.holidays') }}
+                                            </span>
+                                        </div>
+                                        <div
+                                            class="grid grid-cols-[1fr_auto_auto] gap-x-2.5 gap-y-0.5 text-xxs text-amber-800">
+                                            <span></span>
+                                            <span class="text-right font-medium text-amber-600">
+                                                {{ $t('dutySchedules.month') }}
+                                            </span>
+                                            <span class="text-right font-medium text-amber-600">
+                                                {{ $t('dutySchedules.currentYear') }}
+                                            </span>
+                                            <span>
+                                                {{ $t('dutySchedules.holidayWorkedShort') }}
+                                            </span>
+                                            <span class="text-right tabular-nums">
+                                                {{ employee?.holiday_hours?.worked_weekly }}
+                                            </span>
+                                            <span class="text-right tabular-nums">
+                                                {{ employee?.holiday_hours?.worked_yearly }}
+                                            </span>
+
+                                            <template
+                                                v-if="parseFloat(String(employee?.holiday_hours?.compensation_yearly ?? '0').replace(',', '.')) > 0">
+                                                <span>
+                                                    {{ $t('dutySchedules.holidayCompensation') }}
+                                                </span>
+                                                <span class="text-right tabular-nums">
+                                                    {{ employee?.holiday_hours?.compensation_weekly }}
+                                                </span>
+                                                <span class="text-right tabular-nums">
+                                                    {{ employee?.holiday_hours?.compensation_yearly }}
+                                                </span>
+                                            </template>
+
+                                            <span>
+                                                {{ $t('dutySchedules.holidayNonWorkedShort') }}
+                                            </span>
+                                            <span class="text-right tabular-nums">
+                                                {{ employee?.holiday_hours?.nonworked_weekly }}
+                                            </span>
+                                            <span class="text-right tabular-nums">
+                                                {{ employee?.holiday_hours?.nonworked_yearly }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Tooltip>
                             </div>
                             <div v-if="(isAtLeast('Admin') || userStore.getUser?.show_working_hours) && employee?.hours?.length > 0"
                                 class="border-t border-gray-100 pt-2">
@@ -298,7 +353,7 @@
                                     </div>
                                     <div
                                         class="col-span-2 text-right pr-2 text-gray-400 font-semibold border-l border-gray-100">
-                                        {{ $t('dutySchedules.yearToDate') }}
+                                        {{ $t('dutySchedules.currentYear') }}
                                     </div>
                                 </div>
                                 <div v-for="(time, timeIndex) in employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')"
@@ -354,18 +409,22 @@
                                         {{ $t('dutySchedules.total') }}:
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum, t) => sum + (parseFloat(t?.monthly_hours || t?.weekly_hours) ||
-                                                0), 0).toFixed(2)}}
+                                        {{(employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                            .reduce((sum: any, t: any) => sum + (parseFloat(t?.monthly_hours ||
+                                                t?.weekly_hours) ||
+                                                0), 0)).toFixed(2)
+                                        }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum, t) => sum + (parseFloat(t?.yearly_hours) || 0), 0).toFixed(2)}}
+                                        {{(employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                            .reduce((sum: any, t: any) => sum + (parseFloat(t?.yearly_hours) || 0),
+                                                0)).toFixed(2)
+                                        }}
                                     </div>
                                 </div>
                             </div>
                             <div class="border-t border-gray-100 pt-2 mt-2 space-y-1"
-                                v-if="isAtLeast('Admin') || userStore.getUser?.show_working_hours">
+                                v-if="employee?.show_compensatory_hours">
                                 <div class="text-primary flex items-center gap-1 cursor-pointer text-xxs"
                                     @click="openGraphModal(employee)">
                                     <Icon name="ph:chart-bar-bold" class="h-3 w-3" />
@@ -468,8 +527,8 @@
                                                 </span>
                                             </div>
                                             <span v-if="getHoliday(day)"
-                                                class="inline-block text-amber-700 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full leading-none mt-0.5 truncate max-w-full">
-                                                🌴 {{ getHoliday(day) }}
+                                                class="capitalize inline-block text-amber-700 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full leading-none mt-0.5 truncate max-w-full">
+                                                {{ getHoliday(day) }}
                                             </span>
                                         </div>
                                         <!-- Slot badge -->
@@ -498,8 +557,8 @@
                                                 </span>
                                             </div>
                                             <span v-if="getHoliday(day)"
-                                                class="inline-block text-amber-700 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full leading-none mt-0.5 truncate max-w-full">
-                                                🌴 {{ getHoliday(day) }}
+                                                class="capitalize inline-block text-amber-700 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-2 py-0.5 rounded-full leading-none mt-0.5 truncate max-w-full">
+                                                {{ getHoliday(day) }}
                                             </span>
                                         </div>
                                     </template>
@@ -627,6 +686,17 @@
                                                     v-if="shift?.type?.system_name === 'vacation-leave'">
                                                     🏖️
                                                 </div>
+                                                <Tooltip v-if="isWorkedHolidayShift(shift)"
+                                                    :text="$t('dutySchedules.holidayWorkedTooltip')" position="top"
+                                                    class="absolute left-5 -top-2 sm:-right-3 sm:-top-3 z-10"
+                                                    :wrap="true">
+                                                    <div
+                                                        class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help">
+                                                        <Icon name="ph:calendar-check"
+                                                            class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500"
+                                                            aria-hidden="true" />
+                                                    </div>
+                                                </Tooltip>
                                                 <button
                                                     class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2"
                                                     style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
@@ -778,6 +848,22 @@
                                                     </Tooltip>
                                                 </div>
                                             </div>
+                                            <Tooltip v-if="isNonWorkedHolidayCell(day, employeeIndex as number)"
+                                                :text="$t('dutySchedules.holidayNonWorkedTooltip')" position="top"
+                                                :wrap="true" class="w-full mt-2">
+                                                <div
+                                                    class="rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 flex items-start gap-1.5 w-full">
+                                                    <Icon name="ph:calendar-check"
+                                                        class="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5"
+                                                        aria-hidden="true" />
+                                                    <div class="leading-tight">
+                                                        <p class="text-xxs font-semibold text-amber-800">{{
+                                                            $t('dutySchedules.holidayFreeBadge') }}</p>
+                                                        <p class="text-xxs text-amber-700">{{
+                                                            $t('dutySchedules.holidayNonWorkedAssigned') }}</p>
+                                                    </div>
+                                                </div>
+                                            </Tooltip>
                                         </template>
                                     </div>
                                 </template>
@@ -973,6 +1059,7 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        schedule_tag_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -1174,6 +1261,23 @@ function getHoliday(day: any) {
     return danishHolidays[dateKey] || null
 }
 
+// Public-holiday markers (opt-in via the company flag), mirroring the week view.
+const holidaysEnabled = computed(() => !!userStore.getUser?.company?.holiday_non_sunday_hours_enabled)
+
+function isWorkedHolidayShift(shift: any) {
+    if (!holidaysEnabled.value || !shift?.date_time_start) return false
+    return !!getHoliday(shift.date_time_start)
+}
+
+function isNonWorkedHolidayCell(day: any, employeeIndex: number) {
+    if (!holidaysEnabled.value || !day) return false
+    if (!getHoliday(day)) return false
+    if (moment(day).day() === 0) return false // Sundays excluded (matches backend)
+    const dateKey = moment(day).format('YYYY-MM-DD')
+    const shifts = state.monthlySchedules?.data?.[employeeIndex]?.days?.[dateKey]?.shifts
+    return !(shifts && shifts.length > 0)
+}
+
 // ============================================================
 // Permissions
 // ============================================================
@@ -1220,6 +1324,7 @@ async function fetchDutySchedule() {
         if (state.filter.department_uuids?.length > 0) params.department_uuids = Array(state.filter.department_uuids)
         if (state.filter.employment_status) params.employment_status = Array(state.filter.employment_status)
         if (state.filter.employee_uuids?.length > 0) params.employee_uuids = Array(state.filter.employee_uuids)
+        if (state.filter.schedule_tag_uuids?.length > 0) params.schedule_tag_uuids = Array(state.filter.schedule_tag_uuids)
         if (state.filter.time_from) params.time_from = state.filter.time_from
         if (state.filter.time_to) params.time_to = state.filter.time_to
         const response = await dutyScheduleService.getDutySchedulesMonthView(params)
@@ -1466,7 +1571,7 @@ function openAddNewShiftModal(employee: any, employeeIndex: number, day: any) {
 function openManageScheduleSlotModal(day: any) {
     state.manageScheduleSlot.selectedDay = {
         fullDate: day
-    }
+    } as any
     state.modal.isManageScheduleSlotOpen = true
 }
 

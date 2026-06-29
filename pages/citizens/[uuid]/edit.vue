@@ -163,6 +163,7 @@ const state = reactive({
             reporting_requirements: '',
             activation_deadline: '',
             referral_reason: '',
+            internship_company: '',
         },
     } as CitizenForm,
     isPageLoading: false,
@@ -274,6 +275,7 @@ async function fetchCitizen() {
                     reporting_requirements: response?.data?.employment_profile?.reporting_requirements || '',
                     activation_deadline: response?.data?.employment_profile?.activation_deadline || '',
                     referral_reason: response?.data?.employment_profile?.referral_reason || '',
+                    internship_company: response?.data?.employment_profile?.internship_company || '',
                 } as any,
             }
             response?.data?.departments?.forEach((department: any) => {
@@ -419,6 +421,7 @@ async function updateCitizen(citizenDetails: any) {
             params.append('reporting_requirements', citizenDetails.employmentData.reporting_requirements)
             params.append('activation_deadline', citizenDetails.employmentData.activation_deadline != 'Invalid date' ? citizenDetails.employmentData.activation_deadline : '')
             params.append('referral_reason', citizenDetails.employmentData.referral_reason)
+            params.append('internship_company', citizenDetails.employmentData.internship_company)
         }
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {
@@ -441,8 +444,15 @@ async function archiveCitizen() {
     try {
         const response = await citizenService.archiveUnarchiveCitizen(citizenUuid)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('citizens.alert.citizenSuccessfullyArchived')}.`)
             navigateTo('/citizens')
+            const { show: showUndo } = useUndo()
+            showUndo({
+                message: `${t('citizens.alert.citizenSuccessfullyArchived')}`,
+                onUndo: async () => {
+                    await citizenService.archiveUnarchiveCitizen(citizenUuid)
+                    successAlert(`${t('alert.success')}!`, `${t('archived.alert.citizenSuccessfullyUnarchive')}.`)
+                },
+            })
         }
     } catch (error: any) {
         state.error = error

@@ -58,11 +58,12 @@
 
                     <div class="hidden lg:block h-5 w-px bg-slate-200" />
 
-                    <!-- Shift Types Toggle -->
+                    <!-- Shift Types legend — surfaced as a clear button so the colour key is discoverable -->
                     <button
                         @click="state.modal.isShowDistributionOfShiftTypes = !state.modal.isShowDistributionOfShiftTypes"
-                        class="text-primary text-xs font-medium hover:text-primary-700 hidden lg:block">
-                        {{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm">
+                        <Icon name="ph:palette" class="h-3.5 w-3.5" aria-hidden="true" />
+                        <span class="hidden md:inline">{{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}</span>
                     </button>
 
                     <div class="hidden lg:block h-5 w-px bg-slate-200" />
@@ -77,6 +78,11 @@
                         @click="state.modal.isDownloadOpen = true">
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         <span class="hidden xl:inline">{{ $t('dutySchedules.download.download') }}</span>
+                    </FormButton>
+                    <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
+                        @click="state.modal.isSubscribeOpen = true">
+                        <Icon name="ph:calendar-plus" class="h-4 w-4" aria-hidden="true" />
+                        <span class="hidden xl:inline">{{ $t('events.subscribe.addToCalendar') }}</span>
                     </FormButton>
                     <FormButton v-if="state.isZenegyConnected" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-green-700 !border-green-700 !text-white hover:!bg-green-800"
@@ -169,6 +175,8 @@
                 @close="state.modal.isShowDistributionOfShiftTypes = false" />
             <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
                 :selectedDate="state.selectedDate" :filter="state.filter" @close="state.modal.isDownloadOpen = false" />
+            <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen" :dutySchedule="true"
+                @close="state.modal.isSubscribeOpen = false" />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 @close="state.modal.isActivityLogsOpen = false" />
             <ModulesUserDutyScheduleShareModalView :isModalOpen="state.modal.isViewSharedDutyScheduleOpen"
@@ -669,6 +677,7 @@ const state = reactive({
         department_uuids: [],
         employment_status: [],
         employee_uuids: [],
+        schedule_tag_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -679,6 +688,7 @@ const state = reactive({
         isShowDistributionOfShiftTypes: false,
         isViewSharedDutyScheduleOpen: false,
         isZenegySyncOpen: false,
+        isSubscribeOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),
     syncStep: 'configure' as 'configure' | 'assign-rates' | 'review' | 'result',
@@ -897,6 +907,7 @@ function setDutyScheduleCurrentFilter(filter: any) {
     state.filter.department_uuids = filter.department_uuids
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
+    state.filter.schedule_tag_uuids = filter.schedule_tag_uuids ?? []
     state.filter.time_from = filter.time_from ?? ''
     state.filter.time_to = filter.time_to ?? ''
 }

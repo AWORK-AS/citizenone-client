@@ -83,7 +83,7 @@
             </div>
 
             <div class="grid lg:grid-cols-6 gap-3">
-                <div class="flex items-center gap-x-3 lg:col-span-3">
+                <div class="flex items-center gap-x-4 lg:col-span-3">
                     <button class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterCalendarOpen = true">
                         <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
@@ -91,6 +91,14 @@
                             {{ $t('filter') }}
                         </span>
                     </button>
+                    <div class="flex items-center gap-x-2">
+                        <FormSwitch :value="state.showShifts"
+                            @toggleSwitch="state.showShifts = !state.showShifts" />
+                        <span class="inline-flex items-center gap-x-1 text-sm text-gray-700">
+                            <Icon name="ph:briefcase" class="h-4 w-4 text-indigo-600" aria-hidden="true" />
+                            {{ $t('events.showShifts') }}
+                        </span>
+                    </div>
                 </div>
                 <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-x-3">
                     <div>
@@ -122,6 +130,7 @@
                         @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
+                        @createEventForDate="openCreateEventChooser"
                         v-if="state.calendarView === 'default'" />
                     <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                         @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
@@ -139,11 +148,38 @@
             <ModulesUserCitizenCalendarModalFilter :isModalOpen="state.modal.isFilterCalendarOpen"
                 @close="state.modal.isFilterCalendarOpen = false" @setFilter="setFilter" />
             <ModulesUserMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
+                :selectedDate="state.selectedEventDate"
                 @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
+                :selectedDate="state.selectedEventDate"
                 @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen"
+                :selectedDate="state.selectedEventDate"
                 @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
+
+            <Modal size="xs" :title="$t('events.newEvent')" :show="state.modal.isCreateEventChooserOpen"
+                @close="state.modal.isCreateEventChooserOpen = false">
+                <template #modal-body>
+                    <p class="text-sm text-slate-600">{{ $t('events.chooseEventType') }}</p>
+                    <div class="mt-3 space-y-2">
+                        <button type="button" @click="openCreateModal('myself')"
+                            class="flex w-full items-center gap-x-2 rounded-md border border-gray-200 px-3 py-2.5 text-sm hover:bg-gray-50">
+                            <Icon name="ph:user" class="h-5 w-5 text-primary" />
+                            {{ $t('events.myself') }}
+                        </button>
+                        <button type="button" @click="openCreateModal('employee')"
+                            class="flex w-full items-center gap-x-2 rounded-md border border-gray-200 px-3 py-2.5 text-sm hover:bg-gray-50">
+                            <Icon name="ph:users-three" class="h-5 w-5 text-primary" />
+                            {{ $t('events.employees') }}
+                        </button>
+                        <button type="button" @click="openCreateModal('citizen')"
+                            class="flex w-full items-center gap-x-2 rounded-md border border-gray-200 px-3 py-2.5 text-sm hover:bg-gray-50">
+                            <Icon name="heroicons:user-group" class="h-5 w-5 text-primary" />
+                            {{ $t('events.citizens') }}
+                        </button>
+                    </div>
+                </template>
+            </Modal>
             <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
@@ -215,6 +251,7 @@ const state = reactive({
         employee_group_uuid: [] as any,
     },
     isPageLoading: false,
+    showShifts: false,
     modal: {
         isAddEventForMyselfOpen: false,
         isAddEventForCitizenOpen: false,
@@ -227,7 +264,9 @@ const state = reactive({
         isEventJournalPromptOpen: false,
         isCreateEventJournalOpen: false,
         isCompletionStatisticsOpen: false,
+        isCreateEventChooserOpen: false,
     },
+    selectedEventDate: '',
     pendingEventStatus: '' as 'completed' | 'not_completed' | '',
     myCalendarEvents: [] as any,
     selectedDate: {
@@ -310,6 +349,10 @@ watch(() => language.locale.value, () => {
     fetchAllCitizens()
     fetchAllUsers()
     fetchAllEmployeeGroups()
+})
+
+watch(() => state.showShifts, () => {
+    fetchMyCalendarEvents()
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
@@ -462,6 +505,20 @@ async function fetchMyCalendarEvents() {
         if (response.data) {
             state.myCalendarEvents = response
         }
+
+        if (state.showShifts) {
+            const shiftsResponse = await myCalendarService.getCalendarShifts(params)
+            if (shiftsResponse?.data?.length && state.myCalendarEvents?.data) {
+                const shifts = shiftsResponse.data.map((shift: any) => ({
+                    ...shift,
+                    is_shift: true,
+                }))
+                state.myCalendarEvents = {
+                    ...state.myCalendarEvents,
+                    data: [...state.myCalendarEvents.data, ...shifts],
+                }
+            }
+        }
     } catch (error: any) {
         state.error = { message: error.message }
     }
@@ -585,4 +642,32 @@ function setFilter(filter: any) {
     state.filter.tags_uuid = filter.tags
     fetchMyCalendarEvents()
 }
+
+function openCreateEventChooser(date: string) {
+    state.selectedEventDate = date
+    state.modal.isCreateEventChooserOpen = true
+}
+
+function openCreateModal(type: 'myself' | 'employee' | 'citizen') {
+    state.modal.isCreateEventChooserOpen = false
+    if (type === 'myself') {
+        state.modal.isAddEventForMyselfOpen = true
+    } else if (type === 'employee') {
+        state.modal.isAddEventForEmployeeOpen = true
+    } else {
+        state.modal.isAddEventForCitizenOpen = true
+    }
+}
+
+// Contribute commands to the global palette (⌘K).
+const { setPageCommands, clearPageCommands } = useCommandPalette()
+watchEffect(() => {
+    const A = t('commandPalette.actions')
+    setPageCommands([
+        { id: 'cal-new-self', group: A, icon: 'ph:user', label: `${t('events.newEvent')} – ${t('events.myself')}`, run: () => { state.modal.isAddEventForMyselfOpen = true } },
+        { id: 'cal-new-citizen', group: A, icon: 'ph:user-circle', label: `${t('events.newEvent')} – ${t('events.citizens')}`, run: () => { state.modal.isAddEventForCitizenOpen = true } },
+        { id: 'cal-filter', group: A, icon: 'ic:outline-filter-list', label: t('filter'), run: () => { state.modal.isFilterCalendarOpen = true } },
+    ])
+})
+onUnmounted(() => clearPageCommands())
 </script>

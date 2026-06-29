@@ -17,6 +17,11 @@
         "subtitle": "Her er din raske guide til å få CitizenOne satt opp og i gang for teamet ditt.",
         "whatDoYouNeed": "Hva trenger du?",
         "stepsProgress": "{done} av {total} trinn fullført",
+        "nextStep": "Neste steg",
+        "ready": {
+            "title": "Du er klar til å gå live!",
+            "desc": "Alle onboarding-steg er fullført."
+        },
         "groupProgress": "{done} av {total} fullført",
         "lockedHint": "Fullfør trinnet over først",
         "promoTitle": "Jobb hvor som helst, på enhver enhet",
@@ -94,11 +99,6 @@
                 "desc": "Sett opp maler for status, planer og mål.",
                 "cta": "Gå til Innstillinger"
             }
-        },
-        "nextStep": "Neste steg",
-        "ready": {
-            "title": "Du er klar til å gå live!",
-            "desc": "Alle onboarding-steg er fullført."
         },
         "title": "Utforsk"
     },
@@ -199,6 +199,33 @@
             },
             "name": "Navn"
         }
+    },
+    "attendance": {
+        "absenceReason": "Fraværsgrunn",
+        "absenceReasons": "Fraværsgrunner",
+        "citizen": "Borger",
+        "checkIn": "Innsjekk",
+        "checkInOut": "Innsjekk / Utsjekk",
+        "date": "Dato",
+        "generate": "Generer",
+        "in": "Inn",
+        "monthlyReport": "Månedlig oppmøterapport",
+        "noDataForPeriod": "Ingen oppmøtedata funnet for valgt periode",
+        "noParticipantsToday": "Ingen deltakere påmeldt i dag",
+        "notRegistered": "Ikke registrert",
+        "out": "Ut",
+        "participantList": "Deltagerliste",
+        "pending": "Venter",
+        "period": "Periode",
+        "print": "Skriv ut",
+        "printedOn": "Skrevet ut den",
+        "protocol": "Aktivitet",
+        "selectMonthToGenerate": "Velg en måned og klikk Generer",
+        "selectWeekToGenerate": "Velg en uke og klikk Generer",
+        "signature": "Underskrift",
+        "total": "Total",
+        "week": "Uke",
+        "weeklyReport": "Ukentlig oppmøterapport"
     },
     "caseworkerSharing": {
         "cancel": "Avbryt",
@@ -683,8 +710,12 @@
     },
     "back": "Tilbake",
     "bellNotification": {
+        "birthday": {
+            "title": "Bursdag i dag"
+        },
         "categories": {
             "all": "Alle",
+            "birthday": "Bursdager",
             "dutyShift": "Vaktregel",
             "incidents": "Hændelser",
             "messages": "Meldinger",
@@ -1186,21 +1217,21 @@
             "back": "Tilbake",
             "custom": "Egendefinert",
             "daily": "Daglig",
+            "presence": "Tilstedeværelse",
+            "weekly": "Ukentlig",
+            "monthly": "Månedlig",
+            "startDate": "Startdato",
             "endDate": "Sluttdato",
             "last3Months": "Siste 3 måneder",
             "lastMonth": "Forrige måned",
-            "monthly": "Månedlig",
             "noData": "Ingen oppmøtedata tilgjengelig for den valgte perioden",
-            "presence": "Tilstedeværelse",
             "protocol": "Protokoll",
             "selectProtocol": "Velg en protokoll",
             "selectProtocolHeading": "Velg en protokoll for å se data",
             "selectProtocolSubtext": "Velg en protokoll fra rullegardinmenyen ovenfor for å laste inn utviklingsdiagrammet.",
             "sessions": "Økter",
-            "startDate": "Startdato",
             "thisMonth": "Denne måneden",
-            "thisYear": "Dette året",
-            "weekly": "Ukentlig"
+            "thisYear": "Dette året"
         },
         "addictions": "Rusmisbruk",
         "address": "Adresse",
@@ -1657,6 +1688,8 @@
                 "status": "Status"
             }
         },
+        "actions": "Handlinger",
+        "importFromOtherSystem": "Importer fra et annet system",
         "exportCitizens": "Eksporter brukere",
         "form": {
             "addictions": "Rusmisbruk",
@@ -1762,6 +1795,7 @@
                 "reportingRequirements": "Rapporteringskrav",
                 "secondaryConsultant": "Sekundær konsulent",
                 "status": "Status",
+                "internshipCompany": "Praksisvirksomhet",
                 "totalWeeks": "Totalt antall uker",
                 "weeksUsed": "Brukte uker"
             },
@@ -2538,9 +2572,9 @@
         "rooms": "Rom",
         "sections": {
             "citizenDetails": "Brukeroplysninger",
+            "employmentProgram": "Sysselsettingsforløp",
             "inquiryData": "Henvendelsesdata",
-            "stayData": "Opholdsdata",
-            "employmentProgram": "Sysselsettingsforløp"
+            "stayData": "Opholdsdata"
         },
         "statuses": {
             "alert": {
@@ -2620,7 +2654,13 @@
             "plansAndGoals": "Planer og mål",
             "outcomes": "Resultater",
             "reports": "Rapporter",
-            "timeline": "Tidslinje"
+            "timeline": "Tidslinje",
+            "categories": {
+                "care": "Behandling & pleie",
+                "documentation": "Dokumentasjon",
+                "time": "Tid & oppmøte",
+                "admin": "Administrasjon"
+            }
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -3755,6 +3795,16 @@
             "users": "Brukere"
         },
         "holidays": "Helligdage",
+        "holidayWorked": "Helligdagstimer (arbeidet)",
+        "holidayNonWorked": "Helligdagstimer (ikke arbeidet)",
+        "holidayHoursHint": "Helligdag: arbeidede timer ×1,5 (virksomhetens egen faktor). Ikke-arbeidede helligdager som ikke er søndager gir 7,4 timer.",
+        "holidayWorkedShort": "Arbeidet",
+        "holidayCompensation": "Helligdagskompensasjon",
+        "holidayNonWorkedShort": "Ikke arbeidet",
+        "holidayFreeBadge": "Fri – helligdag",
+        "holidayNonWorkedAssigned": "7,4 helligdagstimer tildelt",
+        "holidayWorkedTooltip": "Du arbeider på en helligdag. Vaktens timer ganges med organisasjonens helligdagsfaktor (f.eks. ×1,5) og vises både under vakttypen og som helligdagstimer.",
+        "holidayNonWorkedTooltip": "Denne dagen er en helligdag. Du mottar helligdagstimer selv om det ikke er registrert noen vakt.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",
@@ -4082,10 +4132,10 @@
             },
             "noSubscription": {
                 "itLooksLikeYouDontHaveAnActiveSubscriptionAtTheMoment": "Det ser ut til, at du ikke har et aktivt abonnement i øjeblikket",
-                "noActiveSubscription": "Ingen aktiv abonnement",
                 "subscribeNow": "Abonner nå",
                 "toEnjoyOurFullRangeOfServicesAndBenefits": "For at nyde vores fulde utvalg av tjenester og fordele, overvej at abonnere på en av vores planer",
-                "upgradeNow": "Opgradér nå"
+                "upgradeNow": "Opgradér nå",
+                "noActiveSubscription": "Ingen aktiv abonnement"
             },
             "subscribed": {
                 "goHome": "Gå hjem",
@@ -4099,6 +4149,122 @@
             "updateSubscription": "Oppdater abonnement",
             "upgrade": "Opgradér"
         },
+        "shiftNote": "Note",
+        "shiftSpan": {
+            "deleteConfirmMessage": "Vil du slette hele vakten (fra startdato til sluttdato) eller kun denne dag?",
+            "end": "Vakt slutt",
+            "entireShift": "Hele vakten",
+            "middle": "Vakt fortsat",
+            "onlyShift": "Kun denne dag",
+            "start": "Vakt start"
+        },
+        "shiftThreshold": {
+            "high": "Høy bemanding: medarbeidere er over minimumstærsklen",
+            "low": "Lav bemanding: medarbeidere er under minimumstærsklen",
+            "moderate": "Moderat bemanding: medarbeidere er tæt på minimumstærsklen"
+        },
+        "shiftWarning": {
+            "warning": "Advarsel",
+            "warningsFound": "Advarsler er funnet i denne vakt."
+        },
+        "showEmployeesWorkingToday": "Vis medarbeidere, der arbeider i dag",
+        "showTheDistributionOfShiftTypes": "Vis vagttypers fordeling",
+        "sort": {
+            "sortNamesInAscendingOrder": "Sorter navne i stigende rekkefølge",
+            "sortNamesInDescendingOrder": "Sorter navne i faldende rekkefølge"
+        },
+        "table": {
+            "awakeNightShiftHours": "Vågen nattevagt",
+            "holidayHours": "Ferietimer",
+            "sickLeaveHours": "Sykdomsfraværstimer",
+            "sleepingNightShiftHours": "Sovende nattevagt",
+            "timer": "Timer"
+        },
+        "total": "Totalt",
+        "totalHours": "Samlet antall timer",
+        "typeOfShift": "Vakttyper",
+        "typeOfShifts": "Vakttyper",
+        "viewCalendar": "Se kalender",
+        "viewSchedule": {
+            "citizens": "Brukere",
+            "dateTimeEnd": "Dato og tid slutt",
+            "datetimeStart": "Dato og tid start",
+            "departments": "Avdelinger",
+            "note": "Bemærkning",
+            "typeOfShift": "Type av vakt",
+            "viewSchedule": "Se tidsplan"
+        },
+        "week": "Uke",
+        "weeklyNormHours": "Ukentlige normtimer",
+        "currentYear": "Gjeldende år",
+        "zenegy_all_departments": "Alle avdelinger",
+        "zenegy_assign_rates_description": "Tildel en lønsats til hver vakttype pr. medarbeider.",
+        "zenegy_assign_rates_info": "Medarbeidere der ikke er tildelt en standard rate/sats i Zenegy, skal vælges en rate her under 'Velg lønsats'.",
+        "zenegy_custom_period": "Brugerdefineret datointerval",
+        "zenegy_date_range": "Datointerval",
+        "zenegy_deduction": "Fratrukket",
+        "zenegy_department": "Avdeling",
+        "zenegy_employee": "Medarbeider",
+        "zenegy_entries": "poster",
+        "zenegy_entry": "post",
+        "zenegy_error_already_exists": "En eller flere registreringer findes allerede i Zenegy for de valgte datoer.",
+        "zenegy_error_conflict_period": "Der findes allerede registreringer i Zenegy for den valgte periode. Slett vennligst de eksisterende registreringer i Zenegy først, eller velg et annet datointerval.",
+        "zenegy_error_invalid_period": "En eller flere datoer falder uten for den åpne lønperiode i Zenegy. Velg vennligst datoer inden for den aktuelle lønperiode.",
+        "zenegy_error_mixed_periods": "De valgte medarbeidere har forskellige lønperioder i Zenegy. Velg vennligst kun medarbeidere med samme lønperiode.",
+        "zenegy_error_rate_forbidden": "Den valgte lønsats er ikke tilgjengelig for en eller flere medarbeidere. Velg vennligst en annen sats eller kontakt din administrator.",
+        "zenegy_error_rate_override": "Den valgte sats tillater ikke at beløbet overskrives. Velg vennligst en sats der understøtter brugerdefinerede beløp, eller bruk satsens standardbeløb.",
+        "zenegy_error_rate_requirements": "En eller flere medarbeidere opfylder ikke kravene for den valgte sats i Zenegy. Velg vennligst en annen sats, eller kontroller medarbeiderens innstillinger i Zenegy.",
+        "zenegy_error_user_not_found": "En eller flere medarbeidere kunne ikke findes i Zenegy. Kontroller vennligst medarbeidertilknytningen.",
+        "zenegy_hours": "Timer",
+        "zenegy_hours_let": "t",
+        "zenegy_no_employees": "Ingen medarbeidere funnet i vaktplanen.",
+        "zenegy_no_match": "Disse medarbeidere matchede ikke din Zenegy-profil",
+        "zenegy_no_match_badge": "Ingen match",
+        "zenegy_no_match_info": "Disse medarbeidere kunne ikke matches med en medarbeider i din Zenegy-profil. Kontrollér, at navn og e-post er ens i både CitizenOne og Zenegy, og at medarbeideren er i den rette avdeling på Zenegy.",
+        "zenegy_no_matched_employees": "Ingen matchede medarbeidere valgt.",
+        "zenegy_no_preset": "Ingen forhåndsinnstilling valgt",
+        "zenegy_no_registrations": "Ingen registreringer funnet for de valgte kriterier.",
+        "zenegy_no_shift_types": "Ingen vakttyper valgt.",
+        "zenegy_pay_period": "Lønperiode",
+        "zenegy_period_biweekly": "Hver annen uke (indeværende 2-ugers periode)",
+        "zenegy_period_monthly": "Månedlig (indeværende måned)",
+        "zenegy_period_not_set": "Ikke konfigureret",
+        "zenegy_period_unknown": "Ukendt periode ({code})",
+        "zenegy_period_weekly": "Ukentlig (indeværende uke)",
+        "zenegy_preset_name_placeholder": "Navn på forhåndsinnstilling...",
+        "zenegy_presets": "Forhåndsinnstillinger",
+        "zenegy_rate": "Sats",
+        "zenegy_registrations": "vagtregistreringer",
+        "zenegy_review": "Gennemgå",
+        "zenegy_review_description": "{count} registrering(er) sendes til Zenegy.",
+        "zenegy_save_preset": "+ Lagre som forhåndsinnstilling",
+        "zenegy_select_all": "Velg alle",
+        "zenegy_select_date_range": "Velg datointerval",
+        "zenegy_select_employees": "Velg medarbeidere",
+        "zenegy_select_rate": "Velg lønsats",
+        "zenegy_select_shift_types": "Vakttyper & lønsatser",
+        "zenegy_shifts": "vakter",
+        "zenegy_step_assign_rates": "Tildel satser",
+        "zenegy_step_configure": "Konfigurer",
+        "zenegy_step_result": "Resultat",
+        "zenegy_step_review": "Gennemse",
+        "zenegy_supplement": "Tillæg",
+        "zenegy_supplement_rates_description": "Tildel en sats for hver ekstra-timetype pr. medarbeider.",
+        "zenegy_supplement_rates_title": "Tillægs- & fradragssatser",
+        "zenegy_supplement_registrations": "tillæg/fradragsregistreringer",
+        "zenegy_supplements": "tillæg/fradrag",
+        "zenegy_sync": "Synkroniser til Zenegy",
+        "zenegy_sync_description": "Overfør planlagte timer, tillæg og fradrag fra dine vaktplaner direkte til Zenegy løn. Velg medarbeidere, velg en lønperiode, og tildel vakttyper til Zenegy-satser før synkronisering.",
+        "zenegy_sync_failed": "Synkronisering til Zenegy mislyktes. Prøv vennligst igjen.",
+        "zenegy_sync_partial": "Noen registreringer ble synkronisert, men andre fejlede. Se detaljer nedenfor.",
+        "zenegy_sync_result_count": "{count} registrering(er) synkronisert.",
+        "zenegy_sync_success": "Synkronisert til Zenegy",
+        "zenegy_unknown_shift": "Ukendt vakt",
+        "zenegy_update_preset": "Oppdater forhåndsinnstilling",
+        "zenegy_validation_assign_rates": "Tildel vennligst en sats for alle vakttyper og tillæg.",
+        "zenegy_validation_date_range": "Velg vennligst et datointerval.",
+        "zenegy_validation_select_employee": "Velg vennligst minst én medarbeider.",
+        "timeRange": "Tidsinterval",
         "superadmin": {
             "accounts": {
                 "accounts": "Kontoer",
@@ -5024,123 +5190,7 @@
                 "successDeletedBody": "Lisenstype '{name}' er slettet.",
                 "deleteConfirm": "Slett lisenstype '{name}'?"
             }
-        },
-        "shiftNote": "Note",
-        "shiftSpan": {
-            "deleteConfirmMessage": "Vil du slette hele vakten (fra startdato til sluttdato) eller kun denne dag?",
-            "end": "Vakt slutt",
-            "entireShift": "Hele vakten",
-            "middle": "Vakt fortsat",
-            "onlyShift": "Kun denne dag",
-            "start": "Vakt start"
-        },
-        "shiftThreshold": {
-            "high": "Høy bemanding: medarbeidere er over minimumstærsklen",
-            "low": "Lav bemanding: medarbeidere er under minimumstærsklen",
-            "moderate": "Moderat bemanding: medarbeidere er tæt på minimumstærsklen"
-        },
-        "shiftWarning": {
-            "warning": "Advarsel",
-            "warningsFound": "Advarsler er funnet i denne vakt."
-        },
-        "showEmployeesWorkingToday": "Vis medarbeidere, der arbeider i dag",
-        "showTheDistributionOfShiftTypes": "Vis vagttypers fordeling",
-        "sort": {
-            "sortNamesInAscendingOrder": "Sorter navne i stigende rekkefølge",
-            "sortNamesInDescendingOrder": "Sorter navne i faldende rekkefølge"
-        },
-        "table": {
-            "awakeNightShiftHours": "Vågen nattevagt",
-            "holidayHours": "Ferietimer",
-            "sickLeaveHours": "Sykdomsfraværstimer",
-            "sleepingNightShiftHours": "Sovende nattevagt",
-            "timer": "Timer"
-        },
-        "total": "Totalt",
-        "totalHours": "Samlet antall timer",
-        "typeOfShift": "Vakttyper",
-        "typeOfShifts": "Vakttyper",
-        "viewCalendar": "Se kalender",
-        "viewSchedule": {
-            "citizens": "Brukere",
-            "dateTimeEnd": "Dato og tid slutt",
-            "datetimeStart": "Dato og tid start",
-            "departments": "Avdelinger",
-            "note": "Bemærkning",
-            "typeOfShift": "Type av vakt",
-            "viewSchedule": "Se tidsplan"
-        },
-        "week": "Uke",
-        "weeklyNormHours": "Ukentlige normtimer",
-        "yearToDate": "Inneværende år",
-        "zenegy_all_departments": "Alle avdelinger",
-        "zenegy_assign_rates_description": "Tildel en lønsats til hver vakttype pr. medarbeider.",
-        "zenegy_assign_rates_info": "Medarbeidere der ikke er tildelt en standard rate/sats i Zenegy, skal vælges en rate her under 'Velg lønsats'.",
-        "zenegy_custom_period": "Brugerdefineret datointerval",
-        "zenegy_date_range": "Datointerval",
-        "zenegy_deduction": "Fratrukket",
-        "zenegy_department": "Avdeling",
-        "zenegy_employee": "Medarbeider",
-        "zenegy_entries": "poster",
-        "zenegy_entry": "post",
-        "zenegy_error_already_exists": "En eller flere registreringer findes allerede i Zenegy for de valgte datoer.",
-        "zenegy_error_conflict_period": "Der findes allerede registreringer i Zenegy for den valgte periode. Slett vennligst de eksisterende registreringer i Zenegy først, eller velg et annet datointerval.",
-        "zenegy_error_invalid_period": "En eller flere datoer falder uten for den åpne lønperiode i Zenegy. Velg vennligst datoer inden for den aktuelle lønperiode.",
-        "zenegy_error_mixed_periods": "De valgte medarbeidere har forskellige lønperioder i Zenegy. Velg vennligst kun medarbeidere med samme lønperiode.",
-        "zenegy_error_rate_forbidden": "Den valgte lønsats er ikke tilgjengelig for en eller flere medarbeidere. Velg vennligst en annen sats eller kontakt din administrator.",
-        "zenegy_error_rate_override": "Den valgte sats tillater ikke at beløbet overskrives. Velg vennligst en sats der understøtter brugerdefinerede beløp, eller bruk satsens standardbeløb.",
-        "zenegy_error_rate_requirements": "En eller flere medarbeidere opfylder ikke kravene for den valgte sats i Zenegy. Velg vennligst en annen sats, eller kontroller medarbeiderens innstillinger i Zenegy.",
-        "zenegy_error_user_not_found": "En eller flere medarbeidere kunne ikke findes i Zenegy. Kontroller vennligst medarbeidertilknytningen.",
-        "zenegy_hours": "Timer",
-        "zenegy_hours_let": "t",
-        "zenegy_no_employees": "Ingen medarbeidere funnet i vaktplanen.",
-        "zenegy_no_match": "Disse medarbeidere matchede ikke din Zenegy-profil",
-        "zenegy_no_match_badge": "Ingen match",
-        "zenegy_no_match_info": "Disse medarbeidere kunne ikke matches med en medarbeider i din Zenegy-profil. Kontrollér, at navn og e-post er ens i både CitizenOne og Zenegy, og at medarbeideren er i den rette avdeling på Zenegy.",
-        "zenegy_no_matched_employees": "Ingen matchede medarbeidere valgt.",
-        "zenegy_no_preset": "Ingen forhåndsinnstilling valgt",
-        "zenegy_no_registrations": "Ingen registreringer funnet for de valgte kriterier.",
-        "zenegy_no_shift_types": "Ingen vakttyper valgt.",
-        "zenegy_pay_period": "Lønperiode",
-        "zenegy_period_biweekly": "Hver annen uke (indeværende 2-ugers periode)",
-        "zenegy_period_monthly": "Månedlig (indeværende måned)",
-        "zenegy_period_not_set": "Ikke konfigureret",
-        "zenegy_period_unknown": "Ukendt periode ({code})",
-        "zenegy_period_weekly": "Ukentlig (indeværende uke)",
-        "zenegy_preset_name_placeholder": "Navn på forhåndsinnstilling...",
-        "zenegy_presets": "Forhåndsinnstillinger",
-        "zenegy_rate": "Sats",
-        "zenegy_registrations": "vagtregistreringer",
-        "zenegy_review": "Gennemgå",
-        "zenegy_review_description": "{count} registrering(er) sendes til Zenegy.",
-        "zenegy_save_preset": "+ Lagre som forhåndsinnstilling",
-        "zenegy_select_all": "Velg alle",
-        "zenegy_select_date_range": "Velg datointerval",
-        "zenegy_select_employees": "Velg medarbeidere",
-        "zenegy_select_rate": "Velg lønsats",
-        "zenegy_select_shift_types": "Vakttyper & lønsatser",
-        "zenegy_shifts": "vakter",
-        "zenegy_step_assign_rates": "Tildel satser",
-        "zenegy_step_configure": "Konfigurer",
-        "zenegy_step_result": "Resultat",
-        "zenegy_step_review": "Gennemse",
-        "zenegy_supplement": "Tillæg",
-        "zenegy_supplement_rates_description": "Tildel en sats for hver ekstra-timetype pr. medarbeider.",
-        "zenegy_supplement_rates_title": "Tillægs- & fradragssatser",
-        "zenegy_supplement_registrations": "tillæg/fradragsregistreringer",
-        "zenegy_supplements": "tillæg/fradrag",
-        "zenegy_sync": "Synkroniser til Zenegy",
-        "zenegy_sync_description": "Overfør planlagte timer, tillæg og fradrag fra dine vaktplaner direkte til Zenegy løn. Velg medarbeidere, velg en lønperiode, og tildel vakttyper til Zenegy-satser før synkronisering.",
-        "zenegy_sync_failed": "Synkronisering til Zenegy mislyktes. Prøv vennligst igjen.",
-        "zenegy_sync_partial": "Noen registreringer ble synkronisert, men andre fejlede. Se detaljer nedenfor.",
-        "zenegy_sync_result_count": "{count} registrering(er) synkronisert.",
-        "zenegy_sync_success": "Synkronisert til Zenegy",
-        "zenegy_unknown_shift": "Ukendt vakt",
-        "zenegy_update_preset": "Oppdater forhåndsinnstilling",
-        "zenegy_validation_assign_rates": "Tildel vennligst en sats for alle vakttyper og tillæg.",
-        "zenegy_validation_date_range": "Velg vennligst et datointerval.",
-        "zenegy_validation_select_employee": "Velg vennligst minst én medarbeider.",
-        "timeRange": "Tidsinterval"
+        }
     },
     "dutyShiftRuleNotifications": {
         "empty": "Du har ingen vaktregel varsler",
@@ -5437,6 +5487,7 @@
             "role": "Rolle",
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbeidstimer",
+            "showCompensatoryHours": "Vis avspasering og feriedager",
             "street": "Gade"
         },
         "importEmployees": {
@@ -5511,6 +5562,12 @@
         "somethingWentWrong": "Vi har registreret denne feil. Du behøver ikke at gøre noe. Vi vender tilbake til dig raskst muligt"
     },
     "events": {
+        "onlineMeeting": {
+            "toggle": "Nettmøte",
+            "linkLabel": "Møtelenke",
+            "autoHint": "La feltet stå tomt for automatisk å opprette et Teams-møte (krever Outlook-tilkobling).",
+            "join": "Bli med i møte"
+        },
         "alert": {
             "successfullyAdded": "Ny arrangement ble lagt til vellykket",
             "successfullyDeleted": "Arrangement slettet vellykket",
@@ -5520,6 +5577,8 @@
         },
         "calendar": "Kalender",
         "citizens": "Brukere",
+        "showShifts": "Vis vakter",
+        "shiftLabel": "Vakt",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på at du vil slette denne arrangement",
             "deleteFutureEvents": "Slett fremtidige arrangementer"
@@ -5564,7 +5623,8 @@
             "regenerate": "Regenerér",
             "regenerateWarning": "Regenerering vil ugyldiggøre din nåværende URL. Alle der har abonneret med det gamle link vil ikke længere motta oppdateringer.",
             "title": "Abonner på kalender",
-            "yourCalendarUrl": "Din personlige kalender-URL"
+            "yourCalendarUrl": "Din personlige kalender-URL",
+            "addToCalendar": "Legg til i kalender"
         },
         "createJournalNote": "Opprett journalnotat",
         "markAsCompleted": "Merk som fullført",
@@ -5731,6 +5791,26 @@
         "seeNewFeatures": "Se nye funksjoner"
     },
     "filter": "Filtrer",
+    "more": "Mer",
+    "commandPalette": {
+        "placeholder": "Søk etter handlinger eller seksjoner…",
+        "hint": "Søk og hopp rundt — ⌘K. Trykk ? for alle snarveier.",
+        "didYouKnowTitle": "Visste du?",
+        "didYouKnowBody": "Du kan søke og hoppe overalt med ⌘K — trykk ? for alle snarveier.",
+        "didYouKnowDismiss": "Forstått",
+        "empty": "Ingen resultater",
+        "actions": "Handlinger",
+        "navigate": "Gå til",
+        "citizen": "Innbygger"
+    },
+    "shortcuts": {
+        "title": "Tastatursnarveier",
+        "general": "Generelt",
+        "onThisPage": "På denne siden",
+        "palette": "Kommandopalett",
+        "help": "Vis snarveier",
+        "close": "Lukk"
+    },
     "filterDate": {
         "custom": "Brugerdefineret",
         "filterDate": "Filtrer dato",
@@ -5985,8 +6065,8 @@
             "primaryCaseWorker": "Primær sagsbehandler",
             "responsibleMunicipality": "Ansvarlig kommune",
             "section": "Paragraf",
-            "stayData": "Opholdsdata",
             "employmentData": "Sysselsettingsforløp",
+            "stayData": "Opholdsdata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafiklys",
             "transportation": "Transport"
@@ -6052,7 +6132,59 @@
             "description": "Beskrivelse",
             "title": "Tittel"
         },
-        "viewResponses": "Se svar"
+        "viewResponses": "Se svar",
+        "tabs": {
+            "formBuilder": "Skjemabygger",
+            "predefinedEvents": "Forhåndsdefinerte hendelser"
+        },
+        "predefinedEvents": {
+            "predefinedEvents": "Forhåndsdefinerte hendelser",
+            "newPredefinedEvent": "Ny forhåndsdefinert hendelse",
+            "editPredefinedEvent": "Rediger forhåndsdefinert hendelse",
+            "calendarTypes": {
+                "citizens": "Brukere",
+                "employees": "Ansatte"
+            },
+            "recurringTypes": {
+                "everyday": "Hver dag",
+                "every_week": "Hver uke",
+                "every_second_week": "Hver annen uke",
+                "every_third_week": "Hver tredje uke",
+                "every_fourth_week": "Hver fjerde uke",
+                "every_month": "Hver måned"
+            },
+            "form": {
+                "title": "Tittel",
+                "description": "Beskrivelse",
+                "calendarType": "Kalendertype",
+                "durationMinutes": "Varighet (minutter)",
+                "isActive": "Aktiv",
+                "isPrivate": "Privat",
+                "isRecurring": "Gjentagende",
+                "recurringType": "Gjentakelse",
+                "recurringEndDate": "Sluttdato",
+                "recurringEndDateHint": "La stå tomt for ingen sluttdato (løpende)"
+            },
+            "table": {
+                "title": "Tittel",
+                "calendarType": "Kalendertype",
+                "durationMinutes": "Varighet (min)",
+                "isRecurring": "Gjentagende",
+                "isActive": "Aktiv",
+                "actions": {
+                    "edit": "Rediger",
+                    "delete": "Slett"
+                }
+            },
+            "alert": {
+                "predefinedEventSuccessfullySaved": "Forhåndsdefinert hendelse lagret vellykket",
+                "predefinedEventSuccessfullyUpdated": "Forhåndsdefinert hendelse oppdatert vellykket",
+                "predefinedEventSuccessfullyDeleted": "Forhåndsdefinert hendelse slettet vellykket"
+            },
+            "confirmation": {
+                "deletePredefinedEventConfirmation": "Er du sikker på at du vil slette denne forhåndsdefinerte hendelsen"
+            }
+        }
     },
     "gender": {
         "female": "Kvinne",
@@ -6060,7 +6192,28 @@
         "nonbinary": "Ikke-binær",
         "willNotDisclose": "Vil ikke oplyse"
     },
+    "cmdkTip": {
+        "title": "Hurtigsøk ⚡",
+        "body": "Trykk hvor som helst:",
+        "try": "Prøv nå",
+        "gotIt": "Forstått"
+    },
+    "undo": {
+        "action": "Angre"
+    },
     "globalSearch": {
+        "actions": {
+            "title": "Hurtighandlinger",
+            "newCitizen": "Legg til innbygger",
+            "newEmployee": "Legg til medarbeider",
+            "journalNotes": "Journalnotater",
+            "statistics": "Statistikk"
+        },
+        "footerHint": "Søk & handle raskt",
+        "openHint": "åpne",
+        "closeHint": "lukk",
+        "pinned": "Festet",
+        "recentCitizens": "Nylig sett",
         "attendance": "Fremmøde",
         "bookings": "Bookinger",
         "calendar": "Kalender",
@@ -6390,6 +6543,15 @@
             }
         }
     },
+    "journalNotes": {
+        "title": "Journal notes",
+        "citizen": "Citizen",
+        "department": "Department",
+        "newNote": "New note",
+        "selectCitizen": "Select citizen",
+        "citizenRequired": "Please select a citizen",
+        "assessment": "Assessment"
+    },
     "journalContents": {
         "addnNewJournalContent": "Nytt journalinnhold",
         "editJournalContent": "Rediger journalinnhold",
@@ -6549,7 +6711,28 @@
         "chooseYourEmailConfiguration": {
             "chooseYourEmailConfiguration": "Velg din e-mailkonfigurasjon",
             "loginViaMicrosoft": "Logg inn via Microsoft",
-            "loginViaSmtp": "Logg inn via SMTP"
+            "loginViaSmtp": "Logg inn via SMTP",
+            "microsoftGuide": {
+                "title": "Slik kobler du til Microsoft-kontoen din",
+                "intro": "Følg disse trinnene for å koble til Microsoft-arbeidskontoen din slik at du kan sende og motta e-post i CitizenOne.",
+                "step1": "Klikk på Logg inn via Microsoft ovenfor — du blir videresendt til Microsofts påloggingsside.",
+                "step2": "Skriv inn arbeids-e-postadressen din (f.eks. dittnavnt(at)dinbedrift.no) og passord.",
+                "step3": "Fullfør multifaktorautentisering (MFA) hvis organisasjonen din krever det.",
+                "step4": "På tillatelsessiden ber CitizenOne om tilgang til å lese og sende e-post på dine vegne. Velg ett av følgende:",
+                "step4Accept": "Godta — gir tilgang kun for din egen konto. Du kan starte umiddelbart.",
+                "step4Request": "Be om godkjenning — hvis IT-administratoren din har begrenset apptilgang, klikk her for å sende dem en godkjenningsforespørsel. Returner for å koble til når de har godkjent det i Azure Portal.",
+                "step4Hint": "Hvis du er usikker, klikk Godta. Hvis det mislykkes med en tillatelsefeil, kontakt IT-administratoren din og be dem gi administratorsamtykke til CitizenOne i organisasjonens Azure Active Directory.",
+                "step5": "Du blir automatisk videresendt tilbake til CitizenOne og en suksessmelding bekrefter tilkoblingen.",
+                "step6": "Innboksen din er nå koblet til. Du kan lese, svare, videresende og sende e-post fra CitizenOne.",
+                "stayConnected": "CitizenOne oppdaterer tilkoblingen din automatisk. Du må kanskje koble til på nytt hvis du endrer Microsoft-passordet ditt, organisasjonen tilbakekaller apptilgang, eller kontoen din deaktiveres i Azure AD.",
+                "troubleshootTitle": "Feilsøking",
+                "troubleshoot1Q": "Feil etter innlogging",
+                "troubleshoot1A": "Sørg for at du bruker arbeidskontoen din (ikke en personlig Microsoft-konto) og at IT-administratoren din har godkjent CitizenOne.",
+                "troubleshoot2Q": "Siden omdirigeres tilbake uten tilkobling",
+                "troubleshoot2A": "Nettleseren din kan ha blokkert omdirigeringen. Deaktiver popup-blokkere for dette nettstedet og prøv igjen.",
+                "troubleshoot3Q": "\"Du har ikke tillatelse til å få tilgang til dette\"",
+                "troubleshoot3A": "IT-administratoren din må gi administratorsamtykke til CitizenOne i organisasjonens Azure-portal."
+            }
         },
         "compose": "Send e-post",
         "connectYourMail": "Koble din e-post",
@@ -7016,9 +7199,19 @@
         },
         "citizensDiagnoses": "Brukernes diagnoser",
         "citizensEvents": "Brukeres arrangementer",
+        "briefing": {
+            "morning": "God morgen, {name}",
+            "afternoon": "God ettermiddag, {name}",
+            "evening": "God kveld, {name}",
+            "birthdays": "{count} har bursdag i dag",
+            "medicine": "{count} krever medisin-handling",
+            "appointments": "{count} avtaler",
+            "allCalm": "Ser rolig ut akkurat nå"
+        },
         "birthdays": {
             "title": "Bursdager denne uke",
             "todayTitle": "Bursdager i dag",
+            "nextTitle": "Neste bursdag",
             "moreThisWeek": "{count} flere denne uke",
             "countThisWeek": "{count} bursdager denne uke",
             "today": "I dag",
@@ -7094,6 +7287,16 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "medicineAction": {
+            "title": "Krever handling i dag",
+            "deviated": "Avvik: {count}",
+            "overdue": "Forfalt: {count}",
+            "more": "+{count} innbyggere"
+        },
+        "medsDone": {
+            "title": "Flott! 🎉",
+            "body": "All medisin er gitt i dag"
+        },
         "medicationOverview": {
             "delivered": "Udleveret",
             "deviated": "Afvigelse",
@@ -7116,6 +7319,7 @@
         "noNewsToShow": "Ingen nyheter at vise",
         "openLink": "Åpne link",
         "overview": "Oversigt",
+        "statisticsTab": "Statistikk",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistikk",
             "plansAndGoals": "Planer og mål",
@@ -7494,6 +7698,7 @@
                 "archive": "Arkiver",
                 "delete": "Slett",
                 "download": "Last ned",
+                "openInNewTab": "Åpne i ny fane",
                 "edit": "Rediger",
                 "graph": "Graf",
                 "notes": "Noter",
@@ -7572,15 +7777,33 @@
         "editProtocol": "Rediger protokoll",
         "form": {
             "alert": {
+                "checkInSuccess": "Sjekket inn",
+                "checkOutSuccess": "Sjekket ut",
                 "newProtocolSuccessfullySaved": "Ny protokoll lagret vellykket",
                 "protocolSuccessfullyUpdated": "Protokoll oppdatert vellykket"
             },
             "citizens": "Brukere",
             "endDate": "Sluttdato",
+            "every": "Hver",
             "excludeWeekends": "Udelad weekender",
+            "frequency": "Frekvens",
+            "isRecurring": "Gjentas",
+            "monthlyEach": "På dager",
+            "monthlyOnThe": "Den",
             "protocolName": "Protokolnavn",
-            "startDate": "Startdato"
+            "recurringType": "Gjenta",
+            "recurringUntil": "Gjentas til",
+            "selectDatesFirst": "Velg start- og sluttdato først",
+            "startDate": "Startdato",
+            "weeklyOn": "På",
+            "yearlyInMonths": "I måneder"
         },
+        "checkIn": "Sjekk inn",
+        "checkOut": "Sjekk ut",
+        "myProtocols": "Mine protokoller",
+        "today": "I dag",
+        "other": "Andre",
+        "noTodayEntries": "Ingen protokollregistreringer for i dag",
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {
@@ -7609,7 +7832,8 @@
             "startDate": "Startdato",
             "status": {
                 "absent": "Fraværende",
-                "attended": "Tilstede"
+                "attended": "Tilstede",
+                "notRecorded": "Ikke registrert"
             }
         }
     },
@@ -7946,7 +8170,11 @@
             },
             "name": "Navn",
             "permissions": "Tillatelser",
-            "level": "Level"
+            "pages": "Sidetilgang",
+            "level": "Level",
+            "selectAll": "Velg alle",
+            "clearAll": "Tøm alle",
+            "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\"."
         },
         "newRole": "Ny rolle",
         "permissions": {
@@ -8004,6 +8232,7 @@
             },
             "name": "Navn",
             "permissions": "Tillatelser",
+            "pages": "Sidetilgang",
             "user": "Bruker",
             "referrer": "Henviser",
             "company": "Virksomhet",
@@ -8071,6 +8300,8 @@
                 "roomSuccessfullyUpdated": "Rom oppdatert"
             },
             "capacity": "Kapasitet",
+            "departments": "Avdelinger",
+            "departmentsProOnly": "Tildeling av avdelinger er en del av Pro-profilen.",
             "name": "Navn"
         },
         "addCitizen": "Legg til bruker",
@@ -8170,51 +8401,6 @@
                 "alert": {
                     "successfullyUpdated": "Firma oppdatert vellykket"
                 },
-                "allowChangePassword": "Tillat medarbeidere at endre passord",
-                "allowGoals": "Tillat medarbeidere at opprette mål",
-                "allowPlans": "Tillat medarbeidere at opprette planer",
-                "allowSubGoals": "Tillat medarbeidere at opprette delmål",
-                "checkinOut": "Sjekk inn/ut",
-                "chooseNotificationDepartments": "Velg hvilke avdelinger du vil motta varsler fra",
-                "citizensDisplay": "Brukerens visning",
-                "city": "By",
-                "companyLogo": "Firmalogo",
-                "companyName": "Firmanavn",
-                "cvr": "CVR",
-                "enableEmailNotifications": "Aktiver e-post-varsler",
-                "enableNursingAreaNotifications": "Aktiver pleieområde-varsler",
-                "enableSystemNotifications": "Aktiver systemnotifikationer",
-                "groupChat": "Gruppechat",
-                "interventionCheckinOut": "Sjekk inn/ut for innsats",
-                "interventionNotificationHours": "Varslingstimer for innsats",
-                "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
-                "lockPastSchedules": "Lås tidligere vaktplaner",
-                "municipality": "Kommune",
-                "onlySendItWhenIAmOnADutyShift": "Send kun, når jeg er på en vakt",
-                "phone": "Telefon",
-                "postCode": "Postnummer",
-                "quickRiskAssessment": "Rask risikovurdering",
-                "region": "Region",
-                "registerTransport": "Registrer transport",
-                "sundayShiftCalculation": "Aktiver søndagsvagtberegning",
-                "remove": "Fjern firmalogo",
-                "street": "Gade",
-                "transferNormHours": "Overfør normtimer til neste år, hvis de ikke er brukt",
-                "warning13HourShift": "Advarsel ved vakter over 13 timer",
-                "warning11HourRest": "Advarsel ved hviletid under 11 timer",
-                "warning48HourRule": "Advarsel ved 48-timers reglen",
-                "holidayNonSundayHours": "Aktiver helligdagstimer på helligdager som ikke er søndager",
-                "website": "Hjemmeside",
-                "ipRestriction": "IP-begrænsning",
-                "enableIpRestriction": "Aktiver IP-begrænsning",
-                "ipRestrictionAction": "Begrænsningshandling",
-                "manageIpWhitelist": "Administrér IP-hvidliste",
-                "deviceRestriction": "Enhedsbegrænsning",
-                "enableDeviceRestriction": "Aktiver enhedsbegrænsning",
-                "deviceRestrictionAction": "Begrænsningshandling",
-                "manageApprovedDevices": "Administrér godkendte enheder",
-                "actionBlock": "Blokér tilgang",
-                "actionOtp": "Krev OTP-bekreftelse",
                 "editRole": "Edit role",
                 "form": {
                     "alert": {
@@ -8285,7 +8471,72 @@
                     "level": "Level",
                     "regular": "Regular",
                     "manager": "Manager"
-                }
+                },
+                "allowChangePassword": "Tillat medarbeidere at endre passord",
+                "allowGoals": "Tillat medarbeidere at opprette mål",
+                "allowPlans": "Tillat medarbeidere at opprette planer",
+                "allowSubGoals": "Tillat medarbeidere at opprette delmål",
+                "checkinOut": "Sjekk inn/ut",
+                "chooseNotificationDepartments": "Velg hvilke avdelinger du vil motta varsler fra",
+                "citizensDisplay": "Brukerens visning",
+                "city": "By",
+                "companyLogo": "Firmalogo",
+                "companyName": "Firmanavn",
+                "cvr": "CVR",
+                "enableEmailNotifications": "Aktiver e-post-varsler",
+                "enableNursingAreaNotifications": "Aktiver pleieområde-varsler",
+                "enableSystemNotifications": "Aktiver systemnotifikationer",
+                "groupChat": "Gruppechat",
+                "interventionCheckinOut": "Sjekk inn/ut for innsats",
+                "interventionNotificationHours": "Varslingstimer for innsats",
+                "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
+                "lockPastSchedules": "Lås tidligere vaktplaner",
+                "municipality": "Kommune",
+                "onlySendItWhenIAmOnADutyShift": "Send kun, når jeg er på en vakt",
+                "phone": "Telefon",
+                "postCode": "Postnummer",
+                "quickRiskAssessment": "Rask risikovurdering",
+                "region": "Region",
+                "registerTransport": "Registrer transport",
+                "sundayShiftCalculation": "Aktiver søndagsvagtberegning",
+                "remove": "Fjern firmalogo",
+                "street": "Gade",
+                "transferNormHours": "Overfør normtimer til neste år, hvis de ikke er brukt",
+                "warning13HourShift": "Advarsel ved vakter over 13 timer",
+                "warning11HourRest": "Advarsel ved hviletid under 11 timer",
+                "warning48HourRule": "Advarsel ved 48-timers reglen",
+                "holidayNonSundayHours": "Aktiver helligdagstimer på helligdager som ikke er søndager",
+                "groupAccess": "Sikkerhet & tilgang",
+                "groupCommunication": "Kommunikasjon & innsjekk",
+                "groupPlans": "Planer & mål",
+                "groupSchedule": "Vaktplan & arbeidstid",
+                "groupOther": "Annet & integrasjoner",
+                "absenceCountsInNormHours": "Ferie og sykdom teller med i normtimer og avspasering",
+                "upgradeToPro": "Oppgrader til Pro",
+                "whichHolidaysCount": "Hvilke helligdager skal telle med? (slå av dem som ikke gjelder for dere)",
+                "holidayState": {
+                    "full": "Full",
+                    "half": "Halv",
+                    "off": "Av"
+                },
+                "terminology": "Ordliste",
+                "terminologyHint": "Tilpass betegnelsene for journaler. Tomt felt = standard.",
+                "termJournals": "Journaler",
+                "termJournal": "Journal",
+                "termJournalNoteTag": "Journalnotetagg",
+                "termJournalNotes": "Journalnotater",
+                "website": "Hjemmeside",
+                "ipRestriction": "IP-begrænsning",
+                "enableIpRestriction": "Aktiver IP-begrænsning",
+                "ipRestrictionAction": "Begrænsningshandling",
+                "manageIpWhitelist": "Administrér IP-hvidliste",
+                "deviceRestriction": "Enhedsbegrænsning",
+                "enableDeviceRestriction": "Aktiver enhedsbegrænsning",
+                "deviceRestrictionAction": "Begrænsningshandling",
+                "manageApprovedDevices": "Administrér godkendte enheder",
+                "actionBlock": "Blokér tilgang",
+                "actionOtp": "Krev OTP-bekreftelse",
+                "proFeatureHint": "Denne funksjonen er en del av Pro-abonnementet. Oppgrader for å slå den på."
             }
         },
         "licenseOverview": {
@@ -8325,6 +8576,12 @@
         "settings": "Innstillinger",
         "subscription": {
             "subscription": "Abonnement"
+        },
+        "groups": {
+            "company": "Bedrift",
+            "billing": "Fakturering",
+            "data": "Data",
+            "logs": "Logger"
         },
         "tabs": {
             "absences": "Fravær",
@@ -8386,6 +8643,9 @@
             "gdprRetention": "GDPR Oppbevaring",
             "smsNotifications": "SMS"
         },
+        "catalog": {
+            "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
+        },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",
             "form": {
@@ -8436,16 +8696,9 @@
             "markAsLeaveType": "Marker som fraværstype",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
-            "nameNorwegian": "Navn (norsk)",
-            "nameSwedish": "Navn (svensk)",
             "paycode": "Lønningskode",
             "timeIn": "Tid inn",
             "timeOut": "Tid ut",
-            "workingHoursFactor": "Arbeidstidsfaktor",
-            "workingHoursFactorFrom": "Fra",
-            "workingHoursFactorInterval": "Bruk inden for tidsinterval (valgfrit)",
-            "workingHoursFactorPlaceholder": "f.eks. 0.75",
-            "workingHoursFactorTo": "Til",
             "multiplierRules": "Timemultiplikatorregler",
             "multiplierRulesEmpty": "Ingen regler konfigurert",
             "addMultiplierRule": "Legg til regel",
@@ -8461,7 +8714,14 @@
             "multiplierRuleAppliesToWeekdays": "Hverdager",
             "multiplierRuleAppliesToWeekends": "Helger",
             "multiplierRuleAppliesToHolidays": "Helligdager",
-            "multiplierRuleIsActive": "Aktiv"
+            "multiplierRuleIsActive": "Aktiv",
+            "workingHoursFactor": "Arbeidstidsfaktor",
+            "workingHoursFactorFrom": "Fra",
+            "workingHoursFactorInterval": "Bruk inden for tidsinterval (valgfrit)",
+            "workingHoursFactorPlaceholder": "f.eks. 0.75",
+            "workingHoursFactorTo": "Til",
+            "nameNorwegian": "Navn (norsk)",
+            "nameSwedish": "Navn (svensk)"
         },
         "newShift": "Ny vakt",
         "shifts": "Vakter",
@@ -8477,14 +8737,14 @@
             "markedAsLeave": "Markert som ferie",
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
-            "nameNorwegian": "Navn (norsk)",
-            "nameSwedish": "Navn (svensk)",
             "paycode": "Lønningskode",
             "standard": "Standard",
             "standardShift": "Standard vakt",
             "timeIn": "Tid inn",
             "timeOut": "Tid ut",
-            "workingHoursFactor": "Arbeidstidsfaktor"
+            "workingHoursFactor": "Arbeidstidsfaktor",
+            "nameNorwegian": "Navn (norsk)",
+            "nameSwedish": "Navn (svensk)"
         }
     },
     "show": "Vis",
@@ -8498,6 +8758,7 @@
         "citizens": "Brukere",
         "companyId": "Virksomhets-ID",
         "coupons": "Kuponer",
+        "discover": "Kom i gang",
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
@@ -8507,10 +8768,9 @@
         "protocols": "Protokoll",
         "reports": "Rapporter",
         "reportTemplates": "Rapportmaler",
-        "pinSidebar": "Fest sidefelt",
-        "unpinSidebar": "Løsne sidefelt",
         "journalNotes": "Journal notes",
-        "discover": "Kom i gang"
+        "pinSidebar": "Fest sidefelt",
+        "unpinSidebar": "Løsne sidefelt"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -8919,6 +9179,7 @@
             },
             "noCompaniesFound": "Ingen bedrifter funnet",
             "createFirstClient": "Opprett din første klient",
+            "showing": "Viser {from}–{to} av {total}",
             "accounts": {
                 "activatedAppsAndModules": "Aktiverte apper og moduler",
                 "allCompanies": "Alle bedrifter",
@@ -8932,18 +9193,18 @@
                 "paymentCard": "Betalingskort",
                 "sendCardLink": "Send kortlenke",
                 "stats": {
-                    "activatedModules": "aktiverte moduler",
                     "activeLicenses": "aktive lisenser",
+                    "activatedModules": "aktiverte moduler",
                     "availableLicenses": "tilgjengelige lisenser",
                     "unused": "Ubrukt"
                 },
                 "tabs": {
                     "overview": "Oversikt"
                 },
+                "searchPlaceholder": "Søk etter navn eller e-post...",
                 "userAccounts": "Brukerkontoer",
                 "yearly": "år."
-            },
-            "showing": "Viser {from}–{to} av {total}"
+            }
         },
         "coupons": {
             "active": "Aktiv",
@@ -9433,6 +9694,7 @@
             "companies": "Virksomheter",
             "coupons": "Kuponer",
             "dashboard": "Dashboard",
+            "emailTemplates": "E-postmaler",
             "invoices": "Fakturaer",
             "orders": "Ordrer",
             "polls": "Avstemninger",
@@ -9450,8 +9712,22 @@
             "licenses": "Lisenser",
             "products": "Produkter",
             "clientRoles": "Klientroller",
-            "cancellations": "Oppsigelser",
-            "emailTemplates": "E-postmaler"
+            "cancellations": "Oppsigelser"
+        },
+        "emailTemplates": {
+            "title": "E-postmaler",
+            "subtitle": "Rediger e-postene systemet sender til brukere.",
+            "subject": "Emne",
+            "body": "Innhold (HTML)",
+            "preview": "Forhåndsvisning",
+            "placeholders": "Tilgjengelige plassholdere",
+            "placeholdersHint": "Klikk for å kopiere. De erstattes med ekte verdier når e-posten sendes.",
+            "edit": "Rediger",
+            "save": "Lagre",
+            "cancel": "Avbryt",
+            "saved": "E-postmal lagret",
+            "locale": "Språk",
+            "noTemplates": "Ingen e-postmaler funnet"
         },
         "users": {
             "confirmation": {
@@ -9527,23 +9803,20 @@
                 "90d": "Siste 90 dager",
                 "12m": "Siste 12 måneder"
             },
-            "revenue": "Inntekter",
             "revenueSubtitle": "Abonnementsbasert inntekt",
-            "mrr": "MRR",
-            "mrrFull": "Månedlig tilbakevendende inntekt",
-            "arr": "ARR",
-            "arrFull": "Årlig tilbakevendende inntekt",
+            "vsPrevious": "vs. forrige",
             "forecastMRR": "Prognose neste måned",
             "collected": "Innsamlet",
             "collectionRateLabel": "innsamlingsrate",
             "paidInPeriod": "betalt i perioden",
             "outstanding": "Utestående",
             "allPaid": "av fakturert",
-            "notYetCollected": "ikke ennå innsamlet",
             "invoicesPending": "fakturaer venter",
+            "notYetCollected": "ikke ennå innsamlet",
             "mrrOverTime": "MRR over tid",
             "mrrHelp": "Månedlig tilbakevendende inntekt (MRR) viser abonnementsbasert inntekt per måned",
             "newARR": "Ny ARR",
+            "noData": "Ingen data ennå",
             "newRevenue": "Ny inntekt",
             "fromCompanies": "fra nye bedrifter",
             "expansionRevenue": "Ekspansjonsinntekt",
@@ -9554,23 +9827,55 @@
             "subscriptions": "abonnementer",
             "activeCompanies": "Aktive bedrifter",
             "payingSubscribers": "betalende abonnenter",
-            "arpu": "ARPU",
-            "arpuFull": "Gjennomsnittlig inntekt per bruker",
+            "activeLicenses": "Aktive lisenser i dag",
             "overBenchmark": "over benchmark",
+            "underBenchmark": "Under referanseverdien",
             "trialPeriods": "Prøveperioder",
             "conversionRate": "konverteringsrate",
             "activeTrials": "aktive prøver",
             "expiringSoon": "Utløper snart",
             "within7Days": "innen 7 dager",
-            "requiresAttention": "krever oppmerksomhet",
+            "requiresFollowUp": "Krever oppfølging nå",
+            "planDistribution": "Pakkefordeling",
+            "plans": "Hvilke pakker driver inntekten din",
+            "comp": "selskap.",
+            "annualPlanShare": "Andel årsabonnementer",
+            "topCompanies": "Topp bedrifter",
+            "top": "Topp",
+            "highestPaying": "høyest betalende kunder",
+            "noDataYet": "Ingen data ennå",
+            "mo": "/mnd",
             "growth": "Vekst",
-            "churnRate": "Avgangrate",
-            "churnedRevenue": "Avgangsinntekt",
-            "lastMonth": "forrige måned",
+            "marketingRoas": "Markedsføring, konvertering og ROAS",
+            "momGrowth": "MoM-vekst",
+            "newCompaniesVs": "Nye bedrifter vs. forrige mnd.",
+            "newCompanies": "Nye bedrifter",
+            "inPeriod": "I perioden",
+            "netGrowth": "Nettovekst",
+            "goalRoas": "Mål-ROAS",
+            "conversionFunnel": "Konverteringstrakt",
+            "dropOffTrial": "Sporer frafall i prøveperiode → betalende kunder",
             "visitors": "Besøkende",
-            "registration": "Registrering",
+            "signup": "Registrering",
             "paying": "Betalende",
+            "risk": "Risiko",
+            "churnIssues": "Frafall, betalingsproblemer og varsler",
+            "healthyLevel": "Sunt nivå",
+            "requiresAttention": "krever oppmerksomhet",
+            "critical": "Kritisk — handle nå",
+            "goalUnder2": "Mål: under 2%/mnd.",
+            "churnedRevenue": "Avgangsinntekt",
+            "companiesLost": "tapte bedrifter",
+            "lostMRR": "Tapt MRR i perioden",
+            "paymentFailures": "Betalingsfeil",
+            "requiresFollowUpShort": "Krever oppfølging",
+            "declined": "Avviste betalinger",
+            "goalNRR": "Mål: > 100%",
+            "churnOverTime": "Frafall over tid",
+            "churnSpikes": "Sporer frafallstopper og sesongmønstre",
             "churnReasons": "Avgangsgrunner",
+            "whatDrives": "Hva driver oppsigelser",
+            "basedOn": "Basert på data fra oppsigelsesflyt",
             "churnReasonLabels": [
                 "For dyrt",
                 "Manglende funksjoner",
@@ -9578,8 +9883,22 @@
                 "Bedrift lagt ned",
                 "Annet"
             ],
-            "paymentFailures": "Betalingsfeil",
-            "goalRoas": "Mål-ROAS",
+            "alertCriticalChurnTitle": "Kritisk frafall:",
+            "alertCriticalChurnBody": "er over kritisk terskel på 5%.",
+            "alertPaymentTitle": "Betalingsfeil:",
+            "alertPaymentBody": "fakturaer avvist. Kontakt de berørte bedriftene.",
+            "alertTrialTitle": "Prøveperioder:",
+            "alertTrialBody": "utløper innen 7 dager.",
+            "alertNRRTitle": "NRR under 100%:",
+            "alertNRRBody": "Du taper mer enn du vinner. Fokuser på ekspansjon og redusering av frafall.",
+            "revenue": "Inntekter",
+            "mrrFull": "Månedlig tilbakevendende inntekt",
+            "arrFull": "Årlig tilbakevendende inntekt",
+            "arpuFull": "Gjennomsnittlig inntekt per bruker",
+            "momFull": "Måned-over-Måned",
+            "roasFull": "Avkastning på annonsespend",
+            "ltvFull": "Livstidsverdi",
+            "nrrFull": "Netto inntektsretensjon",
             "months": [
                 "Jan",
                 "Feb",
@@ -9608,58 +9927,15 @@
                 "November",
                 "Desember"
             ],
+            "churnRate": "Avgangrate",
+            "arpu": "ARPU",
+            "arr": "ARR",
             "besogende": "Besøkende",
-            "tilmelding": "Registrering",
             "betalende": "Betalende",
-            "activeLicenses": "Aktive lisenser i dag",
-            "alertCriticalChurnBody": "er over kritisk terskel på 5%.",
-            "alertCriticalChurnTitle": "Kritisk frafall:",
-            "alertNRRBody": "Du taper mer enn du vinner. Fokuser på ekspansjon og redusering av frafall.",
-            "alertNRRTitle": "NRR under 100%:",
-            "alertPaymentBody": "fakturaer avvist. Kontakt de berørte bedriftene.",
-            "alertPaymentTitle": "Betalingsfeil:",
-            "alertTrialBody": "utløper innen 7 dager.",
-            "alertTrialTitle": "Prøveperioder:",
-            "annualPlanShare": "Andel årsabonnementer",
-            "basedOn": "Basert på data fra oppsigelsesflyt",
-            "churnIssues": "Frafall, betalingsproblemer og varsler",
-            "churnOverTime": "Frafall over tid",
-            "churnSpikes": "Sporer frafallstopper og sesongmønstre",
-            "comp": "selskap.",
-            "companiesLost": "tapte bedrifter",
-            "conversionFunnel": "Konverteringstrakt",
-            "critical": "Kritisk — handle nå",
-            "declined": "Avviste betalinger",
-            "dropOffTrial": "Sporer frafall i prøveperiode → betalende kunder",
-            "goalNRR": "Mål: > 100%",
-            "goalUnder2": "Mål: under 2%/mnd.",
-            "healthyLevel": "Sunt nivå",
-            "highestPaying": "høyest betalende kunder",
-            "inPeriod": "I perioden",
-            "lostMRR": "Tapt MRR i perioden",
-            "ltvFull": "Livstidsverdi",
-            "marketingRoas": "Markedsføring, konvertering og ROAS",
-            "mo": "/mnd",
-            "momFull": "Måned-over-Måned",
-            "momGrowth": "MoM-vekst",
-            "netGrowth": "Nettovekst",
-            "newCompanies": "Nye bedrifter",
-            "newCompaniesVs": "Nye bedrifter vs. forrige mnd.",
-            "noData": "Ingen data ennå",
-            "noDataYet": "Ingen data ennå",
-            "nrrFull": "Netto inntektsretensjon",
-            "planDistribution": "Pakkefordeling",
-            "plans": "Hvilke pakker driver inntekten din",
-            "requiresFollowUp": "Krever oppfølging nå",
-            "requiresFollowUpShort": "Krever oppfølging",
-            "risk": "Risiko",
-            "roasFull": "Avkastning på annonsespend",
-            "signup": "Registrering",
-            "top": "Topp",
-            "topCompanies": "Topp bedrifter",
-            "underBenchmark": "Under referanseverdien",
-            "vsPrevious": "vs. forrige",
-            "whatDrives": "Hva driver oppsigelser"
+            "lastMonth": "forrige måned",
+            "mrr": "MRR",
+            "registration": "Registrering",
+            "tilmelding": "Registrering"
         },
         "licenses": {
             "pageTitle": "App-lisenser",
@@ -9940,21 +10216,6 @@
             "saving": "Lagrer...",
             "saveChanges": "Lagre endringer",
             "register": "Registrer"
-        },
-        "emailTemplates": {
-            "title": "E-postmaler",
-            "subtitle": "Rediger e-postene systemet sender til brukere.",
-            "subject": "Emne",
-            "body": "Innhold (HTML)",
-            "preview": "Forhåndsvisning",
-            "placeholders": "Tilgjengelige plassholdere",
-            "placeholdersHint": "Klikk for å kopiere. De erstattes med ekte verdier når e-posten sendes.",
-            "edit": "Rediger",
-            "save": "Lagre",
-            "cancel": "Avbryt",
-            "saved": "E-postmal lagret",
-            "locale": "Språk",
-            "noTemplates": "Ingen e-postmaler funnet"
         }
     },
     "support": {
@@ -10274,6 +10535,7 @@
     },
     "update": "Oppdater",
     "updates": {
+        "newUpdates": "Nye oppdateringer",
         "newUpdatesFrom": "Nye oppdateringer fra",
         "showUpdate": "Vis oppdatering",
         "updates": "Oppdateringer"
@@ -10458,15 +10720,6 @@
         "syncing": "Synkroniserer...",
         "title": "Din ChatGPT-integrasjon"
     },
-    "journalNotes": {
-        "title": "Journal notes",
-        "citizen": "Citizen",
-        "department": "Department",
-        "newNote": "New note",
-        "selectCitizen": "Select citizen",
-        "citizenRequired": "Please select a citizen",
-        "assessment": "Assessment"
-    },
     "employment": {
         "statusTypes": {
             "statusTypes": "Statustyper",
@@ -10478,13 +10731,13 @@
                 "color": "Farge",
                 "billingRule": "Faktureringsregel",
                 "isActive": "Aktiv",
+                "isBillable": "Fakturerbar",
+                "isBillableHint": "Uker med denne statusen inkluderes i faktureringsuttrekk",
                 "sortOrder": "Sorteringsrekkefølge",
                 "alert": {
                     "newStatusTypeSuccessfullySaved": "Statustype lagret",
                     "statusTypeSuccessfullyUpdated": "Statustype oppdatert"
-                },
-                "isBillable": "Fakturerbar",
-                "isBillableHint": "Uker med denne statusen inkluderes i faktureringsuttrekk"
+                }
             },
             "table": {
                 "name": "Navn",
@@ -10544,8 +10797,26 @@
                 "name": "Navn",
                 "rate": "Sats",
                 "frequency": "Frekvens",
+                "pricingType": "Prismodell",
+                "weeklyRate": "Ukentlig pris",
+                "hourlyRate": "Timepris",
+                "bonusAmount": "Bonusbeløp",
+                "bonusConditionMonths": "Utløsingsbetingelse (måneders ansettelse)",
+                "bonusConditionMonthsHint": "Bonus utløses når borgeren har vært ansatt i dette antall måneder",
+                "invoiceDataSection": "Fakturadata",
+                "customerNumber": "Kundenummer",
+                "productNumber": "Produktnummer",
                 "description": "Beskrivelse",
                 "isActive": "Aktiv",
+                "pricingTypeOptions": {
+                    "weekly": "Ukentlig prising",
+                    "hourly": "Timebasert prising",
+                    "bonus": "Bonusbasert prising"
+                },
+                "bonusMonthOptions": {
+                    "three": "3 måneder",
+                    "six": "6 måneder"
+                },
                 "frequencyOptions": {
                     "hourly": "Per time",
                     "daily": "Per dag",
@@ -10556,24 +10827,6 @@
                 "alert": {
                     "newBillingRuleSuccessfullySaved": "Faktureringsregel lagret",
                     "billingRuleSuccessfullyUpdated": "Faktureringsregel oppdatert"
-                },
-                "pricingType": "Prismodell",
-                "weeklyRate": "Ukentlig pris",
-                "hourlyRate": "Timepris",
-                "bonusAmount": "Bonusbeløp",
-                "bonusConditionMonths": "Utløsingsbetingelse (måneders ansettelse)",
-                "bonusConditionMonthsHint": "Bonus utløses når borgeren har vært ansatt i dette antall måneder",
-                "invoiceDataSection": "Fakturadata",
-                "customerNumber": "Kundenummer",
-                "productNumber": "Produktnummer",
-                "pricingTypeOptions": {
-                    "weekly": "Ukentlig prising",
-                    "hourly": "Timebasert prising",
-                    "bonus": "Bonusbasert prising"
-                },
-                "bonusMonthOptions": {
-                    "three": "3 måneder",
-                    "six": "6 måneder"
                 }
             },
             "table": {
@@ -10802,7 +11055,9 @@
             "billable": "Fakturerbar",
             "noBillingWeeks": "Ingen faktureringsuke funnet for dette forløpet",
             "billableWeeks": "fakturerbare uker",
-            "excludedWeeks": "utelukkede uker"
+            "excludedWeeks": "utelukkede uker",
+            "exportCsv": "Eksporter til e-conomic (CSV)",
+            "excludeReasonPlaceholder": "f.eks. Borger innlagt"
         },
         "revenue": {
             "revenue": "Inntekt",
@@ -10818,33 +11073,6 @@
             "generate": "Generer",
             "noData": "Ingen inntektsdata funnet for valgt periode"
         }
-    },
-    "attendance": {
-        "absenceReason": "Fraværsgrunn",
-        "absenceReasons": "Fraværsgrunner",
-        "citizen": "Borger",
-        "checkIn": "Innsjekk",
-        "checkInOut": "Innsjekk / Utsjekk",
-        "date": "Dato",
-        "generate": "Generer",
-        "in": "Inn",
-        "monthlyReport": "Månedlig oppmøterapport",
-        "noDataForPeriod": "Ingen oppmøtedata funnet for valgt periode",
-        "noParticipantsToday": "Ingen deltakere påmeldt i dag",
-        "notRegistered": "Ikke registrert",
-        "out": "Ut",
-        "participantList": "Deltagerliste",
-        "pending": "Venter",
-        "period": "Periode",
-        "print": "Skriv ut",
-        "printedOn": "Skrevet ut den",
-        "protocol": "Aktivitet",
-        "selectMonthToGenerate": "Velg en måned og klikk Generer",
-        "selectWeekToGenerate": "Velg en uke og klikk Generer",
-        "signature": "Underskrift",
-        "total": "Total",
-        "week": "Uke",
-        "weeklyReport": "Ukentlig oppmøterapport"
     },
     "gdpr": {
         "retention": {
@@ -10986,6 +11214,12 @@
             "invitesFailed": "Kunne ikke sende innloggings-e-poster.",
             "missingField": "Mangler {field}",
             "invalidField": "Ugyldig {field}"
+        },
+        "page": {
+            "title": "Importer fra et annet system",
+            "description": "Migrer borgere, ansatte, journaler og vaktplaner fra ditt nåværende system via CSV eller Excel. Last opp filen, koble kolonnene til CitizenOne, og importer.",
+            "startImport": "Start import",
+            "adminOnly": "Kun administratorer kan importere data."
         }
     },
     "sms": {

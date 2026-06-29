@@ -225,6 +225,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="space-y-1"
+                    v-if="!state.formEmployee?.roles?.includes('Admin') && state.formEmployee.show_working_hours">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formEmployee.show_compensatory_hours = !state.formEmployee.show_compensatory_hours">
+                        <FormCheckbox id="show_compensatory_hours"
+                            :value="state.formEmployee.show_compensatory_hours" />
+                        {{ $t('employees.form.showCompensatoryHours') }}
+                    </div>
+                </div>
                 <div class="space-y-1" v-if="isAtLeast('Admin')">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
                     <FormSelectMultiple id="pages" :options="state.options.pages" v-model="state.formEmployee.pages" />
@@ -362,7 +371,7 @@
                             :options="state.options.jobSpecialties"
                             v-model="state.formEmployee.employment.job_specialties" />
                         <FormError
-                            :error="v$?.formScheduleSlot?.employment?.job_specialties?.$errors[0]?.$message.toString()" />
+                            :error="v$?.formEmployee?.employment?.job_specialties?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.job_specialties?.[0]" />
                     </div>
                 </div>
@@ -659,6 +668,7 @@ const state = reactive({
             trustees: [],
         },
         show_working_hours: false,
+        show_compensatory_hours: false,
         do_not_count_sick_leave: false,
     } as EmployeeForm,
     isChangePassword: false,
@@ -765,6 +775,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 norm_period_uuid: newValue.employment?.norm_period_uuid || 'default',
             },
             show_working_hours: newValue.show_working_hours,
+            show_compensatory_hours: newValue.show_compensatory_hours ?? false,
             do_not_count_sick_leave: newValue.do_not_count_sick_leave,
         }
         fetchMunicipalitiesPerRegion(newValue.region_uuid)
