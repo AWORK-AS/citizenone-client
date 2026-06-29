@@ -10,23 +10,25 @@
                 </a>
                 <!-- multiple pages: render as a dropdown group -->
                 <Menu v-else as="div" class="relative inline-block text-left">
-                    <MenuButton :class="[groupActive(group) ? activeCls : inactiveCls, baseCls, 'inline-flex items-center gap-x-1']">
+                    <MenuButton
+                        :class="[groupActive(group) ? activeCls : inactiveCls, baseCls, 'inline-flex items-center gap-x-1']">
                         {{ $t(group.labelKey) }}
                         <Icon name="ph:caret-down" class="h-3.5 w-3.5" aria-hidden="true" />
                     </MenuButton>
                     <transition enter-active-class="transition duration-100 ease-out"
                         enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
                         leave-active-class="transition duration-75 ease-in"
-                        leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+                        leave-from-class="transform scale-100 opacity-100"
+                        leave-to-class="transform scale-95 opacity-0">
                         <MenuItems
                             class="absolute left-0 mt-2 min-w-52 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none z-30">
                             <div class="px-1 py-1">
                                 <MenuItem v-for="item in group.items" :key="item.href" v-slot="{ active }">
-                                <button
-                                    :class="[active && 'bg-gray-100', itemActive(item) ? 'text-primary font-semibold' : 'text-gray-700', 'group flex w-full items-center rounded-md px-3 py-2.5 text-sm text-left']"
-                                    @click="navigateTo(item.href)">
-                                    {{ itemLabel(item) }}
-                                </button>
+                                    <button
+                                        :class="[active && 'bg-gray-100', itemActive(item) ? 'text-primary font-semibold' : 'text-gray-700', 'group flex w-full items-center rounded-md px-3 py-2.5 text-sm text-left']"
+                                        @click="navigateTo(item.href)">
+                                        {{ itemLabel(item) }}
+                                    </button>
                                 </MenuItem>
                             </div>
                         </MenuItems>
@@ -78,13 +80,15 @@ watch(() => userStore.getUser, (newValue: any) => {
             subscription: { name: 'settings.tabs.subscription', isTranslateName: true, href: '/settings/subscription', routeNames: ['settings-subscription'] },
             archived: { name: 'settings.tabs.archived', isTranslateName: true, href: '/settings/archived/citizens', routeNames: ['settings-archived-citizens', 'settings-archived-employees', 'settings-archived-documents'] },
             catalog: { name: 'settings.tabs.catalog', isTranslateName: true, href: '/settings/absences', routeNames: ['settings-absences', 'settings-addictions', 'settings-booking-tags', 'settings-calendar-tags', 'settings-departments', 'settings-diagnoses', 'settings-foreign-cities', 'settings-job-titles', 'settings-journal-note-tags', 'settings-medicines', 'settings-relationships', 'settings-schedule-tags', 'settings-sections', 'settings-shifts', 'settings-units'] },
+            gdprRetention: { name: 'settings.tabs.gdprRetention', isTranslateName: true, href: '/settings/gdpr-retention', routeNames: ['settings-gdpr-retention'] },
+            smsNotifications: { name: 'settings.tabs.smsNotifications', isTranslateName: true, href: '/settings/sms-notifications', routeNames: ['settings-sms-notifications'] },
             activityLogs: { name: 'settings.tabs.activityLogs', isTranslateName: true, href: '/settings/activity-logs', routeNames: ['settings-activity-logs'] },
             timeLogs: { name: 'settings.tabs.timeLogs', isTranslateName: true, href: '/settings/time-logs', routeNames: ['settings-time-logs'] },
             other: { name: 'settings.tabs.other', isTranslateName: true, href: '/settings/custom-pages', routeNames: ['settings-custom-pages', 'settings-transactions'] },
         }
         state.groups = [
             { labelKey: 'settings.tabs.profile', items: [T.profile] },
-            { labelKey: 'settings.groups.company', items: [T.company, T.catalog, T.import] },
+            { labelKey: 'settings.groups.company', items: [T.company, T.catalog, T.import, T.gdprRetention, T.smsNotifications] },
             { labelKey: 'settings.groups.billing', items: [T.subscription, T.invoices, T.licenses, T.storage] },
             { labelKey: 'settings.groups.data', items: [T.archived, T.other] },
             { labelKey: 'settings.groups.logs', items: [T.activityLogs, T.timeLogs] },

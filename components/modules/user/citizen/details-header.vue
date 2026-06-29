@@ -330,16 +330,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-12 lg:col-span-3 flex flex-col justify-start gap-6 pt-1">
+                <div class="col-span-12 lg:col-span-3 flex flex-col justify-start gap-6 pt-1 h-full">
                     <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen"
                         v-if="$route.name === 'citizens-uuid-medicine-journals'" />
-                    <div class="flex flex-col items-stretch gap-y-4">
+                    <div v-if="$route.name === 'citizens-uuid-journals'"
+                        class="flex h-full flex-col gap-4 rounded-md border-l-4 border-red-300 bg-white p-5 ring-1 ring-gray-200">
                         <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
-                            v-if="$route.name === 'citizens-uuid-journals' && userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
-                        <ModulesUserCitizenIncidentsHeader v-if="$route.name === 'citizens-uuid-journals'" />
-                        <p class="w-full text-center text-xs text-primary hover:text-secondary-700 cursor-pointer"
-                            @click="state.modal.isViewRelevantHelpLinksOpen = true"
-                            v-if="$route.name === 'citizens-uuid-journals'">
+                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
+                        <hr class="border-gray-200"
+                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
+                        <ModulesUserCitizenIncidentsHeader />
+                        <p class="w-full text-center text-xs text-primary hover:text-secondary-700 cursor-pointer mt-auto pt-2"
+                            @click="state.modal.isViewRelevantHelpLinksOpen = true">
                             {{
                                 $t('citizens.useOfForce.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports.relevantHelpLinksForWorkingWithUseOfForceAndIncidentReports')
                             }}
