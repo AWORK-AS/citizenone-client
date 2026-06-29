@@ -8614,6 +8614,9 @@
             "gdprRetention": "GDPR Oppbevaring",
             "smsNotifications": "SMS"
         },
+        "catalog": {
+            "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
+        },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for brukernes wallets",
             "form": {

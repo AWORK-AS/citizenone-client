@@ -3,7 +3,8 @@
         <!-- Search filters the whole catalog by label -->
         <div class="mb-4">
             <div class="relative">
-                <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" aria-hidden="true" />
+                <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"
+                    aria-hidden="true" />
                 <input v-model="search" type="text" :placeholder="$t('search') + '…'"
                     class="w-full rounded-lg border border-slate-200 pl-9 pr-3 py-2 text-sm focus:border-primary focus:outline-none" />
             </div>
@@ -17,8 +18,7 @@
                 <ul class="space-y-0.5">
                     <li v-for="tab in group.items" :key="tab.href">
                         <button type="button" @click="changeTab(tab.href)"
-                            class="w-full text-left rounded-lg px-3 py-2 text-sm transition-colors"
-                            :class="isActive(tab)
+                            class="w-full text-left rounded-lg px-3 py-2 text-sm transition-colors" :class="isActive(tab)
                                 ? 'bg-primary/10 text-primary font-medium'
                                 : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'">
                             {{ tab.isTranslateName ? $t(tab.name) : tab.name }}
@@ -29,7 +29,7 @@
         </div>
 
         <p v-if="search && filteredGroups.length === 0" class="mt-3 px-2 text-sm text-slate-400">
-            Ingen indstillinger matcher “{{ search }}”.
+            {{ $t('settings.catalog.noSettingsMatch', { search }) }}
         </p>
     </nav>
 </template>
@@ -157,9 +157,10 @@ function changeTab(href: string) {
         position: sticky;
         top: 1rem;
     }
-    .catalog-shell + .mt-8 {
+
+    .catalog-shell+.mt-8 {
         margin-left: 16.5rem;
-        margin-top: 0;
+        margin-top: 1.25rem;
     }
 }
 </style>

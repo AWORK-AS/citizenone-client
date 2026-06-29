@@ -8640,6 +8640,9 @@
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS"
         },
+        "catalog": {
+            "noSettingsMatch": "No settings match \"{search}\"."
+        },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
             "form": {
