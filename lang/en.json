@@ -740,7 +740,11 @@
             "minutesAgo": "{count} min. ago",
             "yesterday": "Yesterday"
         },
-        "title": "Notifications"
+        "title": "Notifications",
+        "planReminder": {
+            "title": "Plans & goals overdue",
+            "description": "{count} plans, goals or subgoals have reached their completion date. Click to update or complete."
+        }
     },
     "bookingSettings": {
         "alert": {

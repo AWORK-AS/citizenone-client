@@ -1,12 +1,12 @@
 <template>
-    <div v-if="unreadCount > 0" class="relative py-1" ref="bellRef">
+    <div v-if="bellVisible" class="relative py-1" ref="bellRef">
         <button
             class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
             @click="togglePanel" type="button">
             <Icon name="ph:bell-ringing-light" class="h-5 w-5" aria-hidden="true" />
-            <Badge v-if="unreadCount > 0" type="notification"
+            <Badge v-if="totalBadge > 0" type="notification"
                 class="w-4.5 h-4.5 flex items-center justify-center absolute -top-0.5 -right-0.5 text-[10px]">
-                {{ unreadCount > 99 ? '99+' : unreadCount }}
+                {{ totalBadge > 99 ? '99+' : totalBadge }}
             </Badge>
         </button>
 
@@ -29,6 +29,21 @@
                 </select>
             </div>
             <div class="overflow-y-auto max-h-[340px]">
+                <!-- Plan/goal completion reminder — surfaced here instead of a blocking modal -->
+                <div v-if="showPlanReminder" @click="goToPlanCompletions"
+                    class="flex items-start gap-3 px-4 py-3 border-b border-gray-50 cursor-pointer transition-colors bg-amber-50/60 hover:bg-amber-50">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-0.5 bg-amber-100">
+                        <Icon name="ph:calendar-check" class="h-4 w-4 text-amber-600" />
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-semibold text-gray-800">{{ $t('bellNotification.planReminder.title') }}</p>
+                        <p class="text-xs text-gray-500 mt-0.5 line-clamp-2">
+                            {{ $t('bellNotification.planReminder.description', { count: overduePlansCount }) }}
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0 w-2 h-2 rounded-full bg-secondary mt-2" />
+                </div>
+
                 <template v-if="state.isLoading">
                     <div v-for="n in 5" :key="n" class="flex items-start gap-3 px-4 py-3 border-b border-gray-50">
                         <div class="w-8 h-8 rounded-full bg-gray-200 animate-pulse flex-shrink-0 mt-0.5" />
@@ -38,7 +53,7 @@
                         </div>
                     </div>
                 </template>
-                <template v-else-if="filteredNotifications.length === 0">
+                <template v-else-if="filteredNotifications.length === 0 && !showPlanReminder">
                     <div class="flex flex-col items-center justify-center py-10 px-4 text-center">
                         <Icon name="ph:bell-slash" class="h-10 w-10 text-gray-300 mb-2" />
                         <p class="text-sm text-gray-500 font-medium">{{ $t('bellNotification.empty.title') }}</p>
@@ -132,6 +147,22 @@ function getCategoryStyle(type: string) {
 }
 
 const unreadCount = computed(() => userStore.getUser?.unread_system_notification_count ?? 0)
+
+// Overdue plans/goals/subgoals surfaced as a bell item instead of a blocking modal.
+const overduePlansCount = computed(() => userStore.getUser?.plans_goals_subgoals_reached_deadline_count ?? 0)
+const route = useRoute()
+const showPlanReminder = computed(() =>
+    overduePlansCount.value > 0
+    && state.activeCategory === 'all'
+    && route.name !== 'plans-goals-subgoals-completions'
+)
+const bellVisible = computed(() => unreadCount.value > 0 || overduePlansCount.value > 0)
+const totalBadge = computed(() => unreadCount.value + (overduePlansCount.value > 0 ? 1 : 0))
+
+function goToPlanCompletions() {
+    state.isOpen = false
+    navigateTo('/plans-goals-subgoals-completions')
+}
 
 const filteredNotifications = computed(() => state.notifications)
 

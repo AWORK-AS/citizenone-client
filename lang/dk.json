@@ -740,7 +740,11 @@
             "minutesAgo": "{count} min. siden",
             "yesterday": "I går"
         },
-        "title": "Notifikationer"
+        "title": "Notifikationer",
+        "planReminder": {
+            "title": "Planer & mål forfaldet",
+            "description": "{count} planer, mål eller delmål har nået deres slutdato. Klik for at opdatere eller fuldføre."
+        }
     },
     "bookingSettings": {
         "alert": {

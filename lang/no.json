@@ -740,7 +740,11 @@
             "minutesAgo": "{count} min. siden",
             "yesterday": "I går"
         },
-        "title": "Varsler"
+        "title": "Varsler",
+        "planReminder": {
+            "title": "Planer & mål forfalt",
+            "description": "{count} planer, mål eller delmål har nådd sin fullføringsdato. Klikk for å oppdatere eller fullføre."
+        }
     },
     "bookingSettings": {
         "alert": {
