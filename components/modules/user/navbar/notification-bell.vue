@@ -11,7 +11,7 @@
         </button>
 
         <div v-if="state.isOpen"
-            class="absolute right-0 top-full mt-1 w-[380px] bg-white rounded-sm shadow-lg ring-1 ring-gray-900/5 z-50 origin-top-right">
+            class="absolute right-0 top-full mt-2 w-[380px] bg-white rounded-xl overflow-hidden shadow-xl ring-1 ring-gray-900/5 z-50 origin-top-right">
             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                 <h3 class="text-sm font-semibold text-gray-900">{{ $t('bellNotification.title') }}</h3>
                 <button v-if="state.notifications.length > 0" @click="markAllAsRead" :disabled="state.isMarkingAll"
