@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="800" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f3fbf7"/>
+      <stop offset="1" stop-color="#dcf3e8"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="330" y1="120" x2="470" y2="260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2bb673"/>
+      <stop offset="1" stop-color="#1a7a5e"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg)"/>
+  <circle cx="690" cy="70" r="120" fill="#1a7a5e" opacity="0.08"/>
+  <circle cx="120" cy="340" r="90" fill="#2bb673" opacity="0.10"/>
+  <g transform="translate(330 110)">
+    <rect x="0" y="0" width="140" height="140" rx="34" fill="url(#mark)"/>
+    <path d="M40 78h44a22 22 0 1 0-4.4-13.2" stroke="#fff" stroke-width="12" stroke-linecap="round" fill="none"/>
+    <path d="M40 78a26 26 0 0 0 43 20" stroke="#fff" stroke-width="12" stroke-linecap="round" fill="none"/>
+  </g>
+  <text x="400" y="330" text-anchor="middle" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="40" font-weight="700" fill="#1a7a5e">e-conomic</text>
+</svg>

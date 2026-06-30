@@ -8614,7 +8614,8 @@
             "employmentAgreements": "Agreements",
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS",
-            "powerBi": "Power BI"
+            "powerBi": "Power BI",
+            "economic": "e-conomic"
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",
@@ -8656,6 +8657,24 @@
             "adminOnly": "Only administrators can manage the Power BI token.",
             "notPurchased": "The Power BI app is not active yet. Activate it under Apps to get access to the live data feeds.",
             "goToApps": "Go to Apps"
+        },
+        "economic": {
+            "title": "e-conomic",
+            "subtitle": "Send customers and draft invoices from CitizenOne to e-conomic.",
+            "adminOnly": "Only administrators can manage the e-conomic connection.",
+            "notPurchased": "The e-conomic app is not active yet. Activate it under Apps to connect.",
+            "goToApps": "Go to Apps",
+            "connection": "Connection",
+            "connected": "Connected",
+            "notConnected": "Not connected",
+            "connect": "Connect to e-conomic",
+            "reconnect": "Reconnect",
+            "disconnect": "Disconnect",
+            "confirmDisconnect": "Disconnect from e-conomic?",
+            "howTitle": "How to connect",
+            "how1": "Click “Connect to e-conomic”.",
+            "how2": "Approve access in e-conomic (App Connect).",
+            "how3": "You are returned here — invoices can then be sent to e-conomic."
         }
     },
     "setupPassword": {

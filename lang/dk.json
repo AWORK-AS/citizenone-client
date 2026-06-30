@@ -8614,7 +8614,8 @@
             "employmentAgreements": "Aftaler",
             "gdprRetention": "GDPR Opbevaring",
             "smsNotifications": "SMS",
-            "powerBi": "Power BI"
+            "powerBi": "Power BI",
+            "economic": "e-conomic"
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner for borgernes wallets",
@@ -8656,6 +8657,24 @@
             "adminOnly": "Kun administratorer kan administrere Power BI-token.",
             "notPurchased": "Power BI-app’en er ikke aktiveret endnu. Aktivér den under Apps for at få adgang til live-datafeeds.",
             "goToApps": "Gå til Apps"
+        },
+        "economic": {
+            "title": "e-conomic",
+            "subtitle": "Send kunder og kladde-fakturaer fra CitizenOne til e-conomic.",
+            "adminOnly": "Kun administratorer kan administrere e-conomic-forbindelsen.",
+            "notPurchased": "e-conomic-app’en er ikke aktiveret endnu. Aktivér den under Apps for at forbinde.",
+            "goToApps": "Gå til Apps",
+            "connection": "Forbindelse",
+            "connected": "Forbundet",
+            "notConnected": "Ikke forbundet",
+            "connect": "Forbind til e-conomic",
+            "reconnect": "Forbind igen",
+            "disconnect": "Afbryd",
+            "confirmDisconnect": "Afbryd forbindelsen til e-conomic?",
+            "howTitle": "Sådan forbinder du",
+            "how1": "Klik “Forbind til e-conomic”.",
+            "how2": "Godkend adgangen i e-conomic (App Connect).",
+            "how3": "Du sendes tilbage hertil — herefter kan fakturaer sendes til e-conomic."
         }
     },
     "setupPassword": {
