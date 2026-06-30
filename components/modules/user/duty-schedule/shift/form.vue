@@ -182,7 +182,7 @@
                 <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/settings/shifts')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary">
+                <FormButton type="submit" buttonStyle="primary" :disabled="props.isModalLoading">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -211,6 +211,10 @@ const props = defineProps({
     selectedShift: {
         type: Object,
         required: false,
+    },
+    isModalLoading: {
+        type: Boolean,
+        default: false,
     },
 })
 
