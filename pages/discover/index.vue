@@ -209,9 +209,54 @@
                 </template>
             </Modal>
 
-            <DialogConfirmation :isModalOpen="state.modal.appInfo" :title="$t('discover.promoCta')"
-                :message="$t('discover.appInfoMessage')" @close="state.modal.appInfo = false"
-                @confirm="state.modal.appInfo = false" />
+            <Modal size="sm" :title="$t('discover.promoCta')" :show="state.modal.appInfo"
+                @close="state.modal.appInfo = false">
+                <template #modal-body>
+                    <div class="flex items-start justify-center gap-x-6 py-2">
+                        <!-- App Store -->
+                        <div class="flex flex-col items-center gap-y-3">
+                            <div
+                                class="w-40 h-40 rounded-2xl bg-slate-50 border border-slate-100 shadow-sm flex items-center justify-center overflow-hidden p-2">
+                                <QRCodeVue3 value="https://apps.apple.com/ph/app/citizenone/id6737061242" :width="144"
+                                    :height="144" :qrOptions="{ errorCorrectionLevel: 'M' }"
+                                    :dotsOptions="{ type: 'rounded', color: '#205E77' }"
+                                    :cornersSquareOptions="{ type: 'extra-rounded', color: '#205E77' }"
+                                    :cornersDotOptions="{ type: 'dot', color: '#41ADD8' }" />
+                            </div>
+                            <div class="flex flex-col items-center gap-y-0.5">
+                                <div class="flex items-center gap-x-1.5 text-sm font-semibold text-slate-800">
+                                    <Icon name="ph:apple-logo-fill" class="h-4 w-4" />
+                                    App Store
+                                </div>
+                                <p class="text-xs text-slate-400">iOS &amp; iPadOS</p>
+                            </div>
+                        </div>
+
+                        <div class="w-px self-stretch bg-slate-100 mx-1"></div>
+
+                        <!-- Google Play -->
+                        <div class="flex flex-col items-center gap-y-3">
+                            <div
+                                class="w-40 h-40 rounded-2xl bg-slate-50 border border-slate-100 shadow-sm flex items-center justify-center overflow-hidden p-2">
+                                <QRCodeVue3
+                                    value="https://play.google.com/store/apps/details?id=com.aworkAS.CitizenOne&pcampaignid=web_share"
+                                    :width="144" :height="144" :qrOptions="{ errorCorrectionLevel: 'M' }"
+                                    :dotsOptions="{ type: 'rounded', color: '#205E77' }"
+                                    :cornersSquareOptions="{ type: 'extra-rounded', color: '#205E77' }"
+                                    :cornersDotOptions="{ type: 'dot', color: '#41ADD8' }" />
+                            </div>
+                            <div class="flex flex-col items-center gap-y-0.5">
+                                <div class="flex items-center gap-x-1.5 text-sm font-semibold text-slate-800">
+                                    <Icon name="ph:google-play-logo-fill" class="h-4 w-4" />
+                                    Google Play
+                                </div>
+                                <p class="text-xs text-slate-400">Android</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-center text-xs text-slate-400">{{ $t('discover.appScanHint') }}</p>
+                </template>
+            </Modal>
 
             <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.importMapper"
                 @close="state.modal.importMapper = false" @imported="onImported" />
@@ -222,6 +267,7 @@
 
 <script setup lang="ts">
 import { departmentService } from '@/components/api/user/DepartmentService'
+const QRCodeVue3 = defineAsyncComponent(() => import('qrcode-vue3'))
 import { userService } from '@/components/api/user/UserService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
