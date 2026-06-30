@@ -743,7 +743,12 @@
         "title": "Notifikationer",
         "planReminder": {
             "title": "Planer & mål forfaldet",
-            "description": "{count} planer, mål eller delmål har nået deres slutdato. Klik for at opdatere eller fuldføre."
+            "description": "{count} planer, mål eller delmål har nået deres slutdato. Klik for at opdatere eller fuldføre.",
+            "action": "Se planer"
+        },
+        "checkInReminder": {
+            "title": "Husk at tjekke ind",
+            "description": "Du har ikke tjekket ind i dag."
         }
     },
     "bookingSettings": {

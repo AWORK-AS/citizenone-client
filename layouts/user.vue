@@ -865,9 +865,8 @@ async function fetchUser() {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)
             language.locale.value = response?.data?.language?.code
-            // Plan/goal completion reminder is surfaced in the notification bell
-            // (see NotificationBell) instead of a blocking modal.
-            checkInReminderModalVisibility(response)
+            // Plan/goal completion and check-in reminders are surfaced in the
+            // notification bell (see NotificationBell) instead of blocking modals.
             guidedUserTourModalVisibility()
             maybeRedirectToDiscover(response?.data)
         }

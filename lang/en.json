@@ -743,7 +743,12 @@
         "title": "Notifications",
         "planReminder": {
             "title": "Plans & goals overdue",
-            "description": "{count} plans, goals or subgoals have reached their completion date. Click to update or complete."
+            "description": "{count} plans, goals or subgoals have reached their completion date. Click to update or complete.",
+            "action": "View plans"
+        },
+        "checkInReminder": {
+            "title": "Remember to check in",
+            "description": "You haven't checked in today."
         }
     },
     "bookingSettings": {
