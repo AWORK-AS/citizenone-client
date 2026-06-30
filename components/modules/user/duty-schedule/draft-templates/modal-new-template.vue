@@ -6,6 +6,7 @@
                     <ModulesUserDutyScheduleDraftTemplatesNewTemplateForm formType="create"
                         :selected-draft-template="state.formTemplate"
                         :error="state.error"
+                        :isModalLoading="state.isPageLoading"
                         @is-loading="setLoading"
                         @closeModal="closeModal"
                         @submitForm="saveTemplate" />
@@ -54,6 +55,7 @@ const state = reactive({
 })
 
 function closeModal() {
+    if (state.isPageLoading) return
     emit('close')
 }
 
@@ -82,11 +84,14 @@ async function saveTemplate(draftTemplateDetails: any) {
         const response = await draftTemplateService.saveDraftTemplate(params)
         if (response?.data) {
             refreshDraftTemplates()
-            closeModal()
             successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyAdded')}.`)
+            state.isPageLoading = false
+            closeModal()
+            return
         }
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 </script>
