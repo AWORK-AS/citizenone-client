@@ -548,7 +548,7 @@ const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
 const routeName = router?.currentRoute?.value?.name
 
-let navigation = [] as any
+const navigation = shallowRef<any[]>([])
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
@@ -638,6 +638,11 @@ watch(() => userStore.getUser, (user: any) => {
     if (user?.company?.is_2fa_enabled && !user?.is_google_2fa_enabled) { state.modal.is2faRequiredOpen = true }
 })
 
+watch(() => userStore.getUser?.company?.onboarding_preferences?.modules?.vagtplan, () => {
+    const user = userStore.getUser
+    if (user) generateSidebarLinks(user)
+})
+
 watch(() => language.locale.value, (newLanguage: any) => {
     setCustomPageNames()
     if (newLanguage === 'en' && departmentStore.getSelectedDepartmentName === 'Alle afdelinger') departmentStore.setSelectedDepartmentName('All departments')
@@ -672,7 +677,7 @@ const { pageCommands, open: openCommandPalette } = useCommandPalette()
 const commandPaletteItems = computed(() => {
     const _user = userStore.getUser // recompute when sidebar links rebuild
     const _locale = language.locale.value // recompute when labels change
-    const nav = (navigation || []).map((item: any) => ({
+    const nav = (navigation.value || []).map((item: any) => ({
         id: 'nav-' + item.href,
         group: language.t('commandPalette.navigate'),
         icon: item.icon,
@@ -701,14 +706,14 @@ onMounted(() => {
 onUnmounted(() => clearTimeout(cmdkHintTimer))
 
 function generateSidebarLinks(user: any) {
-    navigation = []
+    const nav: any[] = []
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
     // Company-level module enablement: no list (empty) = every module on (default).
     const companyModulePages = user?.company?.module_pages
     const companyHasModule = (name: string) => !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(name)
     const userHasPageAttendanceAccess = companyHasModule("Attendance") && user?.pages?.some((page: any) => page.name === "Attendance")
-    navigation.push({
+    nav.push({
         name: 'Overview',
         href: '/overview',
         icon: 'material-symbols:dashboard',
@@ -717,7 +722,7 @@ function generateSidebarLinks(user: any) {
         ]
     })
     if (isAtLeast('Admin')) {
-        navigation.push({
+        nav.push({
             name: 'Discover',
             href: '/discover',
             icon: 'ph:compass',
@@ -726,7 +731,7 @@ function generateSidebarLinks(user: any) {
             ]
         })
     }
-    navigation.push({
+    nav.push({
         name: 'Citizens',
         href: '/citizens',
         icon: 'heroicons:user-group',
@@ -750,7 +755,7 @@ function generateSidebarLinks(user: any) {
         ]
     })
     if (companyHasModule("Calendar")) {
-        navigation.push({
+        nav.push({
             name: 'Calendar',
             href: '/calendar',
             icon: 'ph:calendar-blank',
@@ -761,8 +766,9 @@ function generateSidebarLinks(user: any) {
             ]
         })
     }
-    if (companyHasModule("Duty Schedule") && user.pages?.find((page: any) => page.name === "Duty Schedule")) {
-        navigation.push({
+    const vagtplanEnabled = user?.company?.onboarding_preferences?.modules?.vagtplan !== false
+    if (companyHasModule("Duty Schedule") && user.pages?.find((page: any) => page.name === "Duty Schedule") && vagtplanEnabled) {
+        nav.push({
             name: 'Duty schedules',
             href: '/schedules',
             icon: 'ph:calendar-dots',
@@ -772,7 +778,7 @@ function generateSidebarLinks(user: any) {
             ]
         })
     }
-    navigation.push({
+    nav.push({
         name: 'Messages',
         href: '/messages',
         icon: 'ph:chat-circle',
@@ -782,11 +788,11 @@ function generateSidebarLinks(user: any) {
         ]
     })
     if (userHasPageAttendanceAccess) {
-        navigation.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
+        nav.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
     }
 
     if (user?.company?.industry?.system_name === 'employment_services') {
-        navigation.push({
+        nav.push({
             name: 'Reports',
             href: '/reports',
             icon: 'ph:file-text',
@@ -800,26 +806,27 @@ function generateSidebarLinks(user: any) {
     }
 
     if (companyHasModule("Documents")) {
-        navigation.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
+        nav.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
     }
 
     if (userHasSecuredMailAccess) {
-        navigation.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', activeRouteNames: ['mail'] })
+        nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', activeRouteNames: ['mail'] })
     }
 
     if (userHasLeadsActive) {
-        navigation.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', activeRouteNames: ['leads'] })
+        nav.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', activeRouteNames: ['leads'] })
     }
 
-    navigation.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
+    nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
 
-    navigation.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
+    nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
 
     if (user?.company?.industry?.system_name === 'employment_services') {
-        navigation.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
-        navigation.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+        nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
+        nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
     }
 
+    navigation.value = nav
     state.isSidebarLoading = false
 }
 
