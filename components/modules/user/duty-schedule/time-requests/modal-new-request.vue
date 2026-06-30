@@ -59,10 +59,13 @@ watch(() => props.selectedSchedule, (selectedSchedule: any) => {
 })
 
 function closeModal() {
+    if (state.isPageLoading) return
     emit('close')
 }
 
 async function saveScheduleRequest(scheduleRequestDetails: any) {
+    state.isPageLoading = true
+    state.error = {} as any
     try {
         const selectedScheduleUuid = props.selectedSchedule?.schedule_uuid
         const params = {
@@ -74,10 +77,13 @@ async function saveScheduleRequest(scheduleRequestDetails: any) {
         const response = await scheduleRequestService.saveScheduleRequest(params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.changeTime.form.alert.requestSuccessfullySent')}.`)
+            state.isPageLoading = false
             closeModal()
+            return
         }
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 </script>

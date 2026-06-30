@@ -37,10 +37,10 @@
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FormButton type="button" buttonStyle="cancel" @click="closeModal">
+                    <FormButton type="button" buttonStyle="cancel" @click="closeModal" :disabled="props.isModalLoading">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary">
+                    <FormButton type="submit" buttonStyle="primary" :disabled="props.isModalLoading">
                         {{ props.formType === 'create' ? $t('save') :
                             $t('update') }}
                     </FormButton>
@@ -69,7 +69,11 @@ const props = defineProps({
     selectedLeaveRequest: {
         type: Object,
         required: true,
-    }
+    },
+    isModalLoading: {
+        type: Boolean,
+        default: false,
+    },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal'])
 const { t } = useI18n()
@@ -100,6 +104,7 @@ watch(() => language.locale.value, () => {
 })
 
 function closeModal() {
+    if (props.isModalLoading) return
     emit('closeModal')
 }
 

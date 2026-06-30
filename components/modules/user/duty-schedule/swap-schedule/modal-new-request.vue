@@ -6,6 +6,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleSwapScheduleForm formType="create" :error="state.error"
                         :selectedSchedule="props.selectedSchedule"
+                        :isModalLoading="state.isPageLoading"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveScheduleRequest" />
                 </LoadingSpinner>
@@ -41,10 +42,13 @@ const state = reactive({
 })
 
 function closeModal() {
+    if (state.isPageLoading) return
     emit('close')
 }
 
 async function saveScheduleRequest(scheduleRequestDetails: any) {
+    state.isPageLoading = true
+    state.error = {} as any
     try {
         const selectedScheduleUuid = props.selectedSchedule?.schedule_uuid
         const params = {
@@ -55,10 +59,13 @@ async function saveScheduleRequest(scheduleRequestDetails: any) {
         const response = await shiftSwapRequestService.saveScheduleSwapRequest(params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.scheduleRequests.swapSchedule.form.alert.requestSuccessfullySent')}.`)
+            state.isPageLoading = false
             closeModal()
+            return
         }
     } catch (error: any) {
         state.error = error
     }
+    state.isPageLoading = false
 }
 </script>

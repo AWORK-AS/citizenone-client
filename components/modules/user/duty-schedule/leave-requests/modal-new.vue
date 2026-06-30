@@ -6,6 +6,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleLeaveRequestsForm formType="create"
                         :selectedLeaveRequest="state.formLeaveRequest" :error="state.error"
+                        :isModalLoading="state.isPageLoading"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveLeaveRequest" />
                 </LoadingSpinner>
@@ -48,6 +49,7 @@ const state = reactive({
 })
 
 function closeModal() {
+    if (state.isPageLoading) return
     emit('close')
 }
 
@@ -70,7 +72,9 @@ async function saveLeaveRequest(leaveRequestDetails: any) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.leaveRequests.form.alert.leaveRequestSuccessfullyAdded')}.`)
             refreshLeaveRequests()
             emit('refreshDutySchedules')
+            state.isPageLoading = false
             closeModal()
+            return
         }
     } catch (error: any) {
         state.error = error

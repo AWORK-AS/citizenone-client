@@ -31,7 +31,9 @@
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="create" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
-                        :showEmployeeSelect="props.showEmployeeSelect" @dateTimeChange="dateTimeChange"
+                        :showEmployeeSelect="props.showEmployeeSelect"
+                        :isModalLoading="props.isModalLoading || state.isPageLoading"
+                        @dateTimeChange="dateTimeChange"
                         @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @saveShift="saveShift" />
                 </LoadingSpinner>
@@ -159,6 +161,7 @@ watch(() => props.isModalOpen, (isModalOpen) => {
 })
 
 function closeModal() {
+    if (props.isModalLoading || state.isPageLoading) return
     emit('close')
 }
 

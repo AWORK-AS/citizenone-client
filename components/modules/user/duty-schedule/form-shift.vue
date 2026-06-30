@@ -344,10 +344,10 @@
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" @click="closeModal">
+                <FormButton type="button" buttonStyle="cancel" @click="closeModal" :disabled="props.isModalLoading">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="w-full">
+                <FormButton type="submit" buttonStyle="primary" class="w-full" :disabled="props.isModalLoading">
                     {{ props.formType === 'create' ? $t('save') :
                         $t('update') }}
                 </FormButton>
@@ -391,6 +391,10 @@ const props = defineProps({
         required: true,
     },
     showEmployeeSelect: {
+        type: Boolean,
+        default: false,
+    },
+    isModalLoading: {
         type: Boolean,
         default: false,
     },
@@ -730,6 +734,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function closeModal() {
+    if (props.isModalLoading) return
     emit('close')
 }
 
