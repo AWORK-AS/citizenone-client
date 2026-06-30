@@ -28,6 +28,7 @@
         "promoDesc": "Hent appen, så I altid har CitizenOne ved hånden.",
         "promoCta": "Hent appen",
         "appInfoMessage": "App-links til App Store og Google Play kommer her i den rigtige version.",
+        "appScanHint": "Scan QR-koden med din telefonkamera for at hente appen.",
         "modalIntro": "Vælg de dele I bruger — så viser vi kun de relevante trin.",
         "modules": {
             "vagtplan": "Vagtplan",

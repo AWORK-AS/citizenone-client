@@ -28,6 +28,7 @@
         "promoDesc": "Download the app to always have CitizenOne on hand.",
         "promoCta": "Get the app",
         "appInfoMessage": "App Store and Google Play links will appear here in the real version.",
+        "appScanHint": "Scan the QR code with your phone camera to download the app.",
         "modalIntro": "Pick the parts you use — we'll only show the relevant steps.",
         "modules": {
             "vagtplan": "Duty schedule",
