@@ -1,10 +1,11 @@
 <template>
     <div v-if="unreadCount > 0" class="relative py-1" ref="bellRef">
-        <button class="relative w-full text-primary hover:text-primary-700 rounded-md py-3 flex items-center gap-x-2"
+        <button
+            class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
             @click="togglePanel" type="button">
-            <Icon name="ph:bell-ringing-light" class="h-6 w-6" aria-hidden="true" />
+            <Icon name="ph:bell-ringing-light" class="h-5 w-5" aria-hidden="true" />
             <Badge v-if="unreadCount > 0" type="notification"
-                class="w-5 h-5 flex items-center justify-center absolute top-0 left-3">
+                class="w-4.5 h-4.5 flex items-center justify-center absolute -top-0.5 -right-0.5 text-[10px]">
                 {{ unreadCount > 99 ? '99+' : unreadCount }}
             </Badge>
         </button>
