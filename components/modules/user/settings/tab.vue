@@ -46,7 +46,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 
-const userStore = useUserStore()
+const userStore = useUserStore() as any
 const router = useRouter()
 const route = useRoute()
 const { t } = useI18n()
