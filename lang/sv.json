@@ -8638,7 +8638,7 @@
             "generate": "Generera token",
             "regenerate": "Generera nytt token",
             "revoke": "Återkalla",
-            "tokenOnce": "Kopiera tokenet nu — det visas bara denna enda gång.",
+            "tokenOnce": "Kopiera tokenet nu. Det visas bara denna enda gång.",
             "copy": "Kopiera",
             "copied": "Kopierat!",
             "feeds": "Feed-URL:er",
