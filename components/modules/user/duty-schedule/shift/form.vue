@@ -53,6 +53,14 @@
                 <FormError :error="props?.error?.errors?.time_out?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="end_time_day_offset" :label="$t('shifts.form.endTimeDayOffset')" />
+                <FormNumberField id="end_time_day_offset" name="end_time_day_offset" :min="0"
+                    :placeholder="$t('shifts.form.endTimeDayOffset')"
+                    v-model="state.formShift.end_time_day_offset" />
+                <FormError :error="v$?.formShift?.end_time_day_offset?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.end_time_day_offset?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="color" :label="$t('shifts.form.color')" />
                 <FormColorPicker id="color" v-model="state.formShift.color" />
                 <FormError :error="v$?.formShift?.color?.$errors[0]?.$message.toString()" />
@@ -234,6 +242,7 @@ const state = reactive({
         pay_code: '',
         time_in: '',
         time_out: '',
+        end_time_day_offset: '0',
         color: '#000000',
         is_leave_shift_type: false,
         multiplier_rules: [] as any[],
@@ -250,6 +259,7 @@ watch(() => props.selectedShift, (newValue: any) => {
             pay_code: newValue.pay_code,
             time_in: newValue.time_in,
             time_out: newValue.time_out,
+            end_time_day_offset: newValue.end_time_day_offset != null ? String(newValue.end_time_day_offset) : '0',
             color: newValue.color,
             is_leave_shift_type: newValue.is_leave_shift_type,
             multiplier_rules: (newValue.multiplier_rules ?? []).map((rule: any) => ({
@@ -376,6 +386,7 @@ function submitForm() {
         }))
         emit('submitForm', {
             ...state.formShift,
+            end_time_day_offset: Number(state.formShift.end_time_day_offset) || 0,
             multiplier_rules: multiplierRules,
         })
     }
