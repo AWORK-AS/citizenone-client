@@ -657,7 +657,8 @@
             "disconnectTitle": "Disconnect Zenegy",
             "disconnected": "Zenegy account successfully disconnected"
         },
-        "setupFee": "setup"
+        "setupFee": "setup",
+        "goToSetup": "Go to setup"
     },
     "archived": {
         "alert": {

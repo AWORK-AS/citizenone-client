@@ -52,6 +52,13 @@
                             v-if="props.selectedApp?.url_field">
                             {{ $t('apps.goToPartner') }}
                         </FormButton>
+                        <!-- Configurable apps (e.g. e-conomic, Power BI): once activated, send the
+                             user to the app's own settings page instead of an inert "Activated" button. -->
+                        <FormButton type="button" buttonStyle="primary" class="w-full"
+                            v-else-if="setupLink && props.selectedApp?.user_activated" @click="goToSetup">
+                            <Icon name="ph:gear-six" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('apps.goToSetup') }}
+                        </FormButton>
                         <FormButton type="button"
                             :buttonStyle="props.selectedApp?.user_activated ? 'app-activated' : 'action'" :class="[
                                 props.selectedApp?.user_activated && 'cursor-not-allowed',
@@ -102,6 +109,19 @@ const state = reactive({
         isContactUsOpen: false,
     }
 })
+
+// Apps that have their own in-app settings page to configure after activation.
+const setupLinks: Record<string, string> = {
+    'economic': '/settings/economic',
+    'power-bi': '/settings/power-bi',
+}
+const setupLink = computed(() => setupLinks[props.selectedApp?.generic_name] ?? null)
+
+function goToSetup() {
+    if (!setupLink.value) return
+    closeModal()
+    navigateTo(setupLink.value)
+}
 
 function closeModal() {
     emit('close')

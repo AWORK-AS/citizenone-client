@@ -657,7 +657,8 @@
             "disconnectTitle": "Koble fra Zenegy",
             "disconnected": "Zenegy-konto er vellykket afbrudt"
         },
-        "setupFee": "oppstart"
+        "setupFee": "oppstart",
+        "goToSetup": "Gå til oppsett"
     },
     "archived": {
         "alert": {
