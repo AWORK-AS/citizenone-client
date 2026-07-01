@@ -228,8 +228,8 @@
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="primary" class="w-full"
-                                @click="state.modal.isEditMedicineOpen = true">
+                            <FormButton v-if="isAtLeast('Admin') || can('update_citizen_medicine')" type="button"
+                                buttonStyle="primary" class="w-full" @click="state.modal.isEditMedicineOpen = true">
                                 {{ $t('citizens.medicineJournals.editMedicine') }}
                             </FormButton>
                             <FormButton type="button" buttonStyle="cancel" class="col-start-2" @click="closeModal()">
@@ -251,10 +251,12 @@
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { usePermissions } from '@/composables/usePermissions'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const language = useI18n()
+const { isAtLeast, can } = usePermissions()
 
 const props = defineProps({
     isModalOpen: {
