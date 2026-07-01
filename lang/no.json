@@ -8641,7 +8641,7 @@
             "generate": "Generer token",
             "regenerate": "Generer nytt token",
             "revoke": "Tilbakekall",
-            "tokenOnce": "Kopier tokenet nå — det vises bare denne ene gangen.",
+            "tokenOnce": "Kopier tokenet nå. Det vises bare denne ene gangen.",
             "copy": "Kopier",
             "copied": "Kopiert!",
             "feeds": "Feed-URL-er",

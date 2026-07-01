@@ -8641,7 +8641,7 @@
             "generate": "Generate token",
             "regenerate": "Generate new token",
             "revoke": "Revoke",
-            "tokenOnce": "Copy the token now — it is shown only once.",
+            "tokenOnce": "Copy the token now. It is shown only once.",
             "copy": "Copy",
             "copied": "Copied!",
             "feeds": "Feed URLs",
