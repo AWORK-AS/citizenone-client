@@ -185,7 +185,7 @@
                                     </div>
                                 </div>
                                 <p v-if="inquiriesByStage(stage.key).length === 0"
-                                    class="px-1.5 py-6 text-center text-xs text-slate-300">—</p>
+                                    class="px-1.5 py-6 text-center text-xs text-slate-300">-</p>
                             </div>
                         </div>
                     </div>
@@ -326,7 +326,7 @@ function inquiriesByStage(stage: string) {
     return (state.inquiries?.data ?? []).filter((i: any) => (i.pipeline_status || 'new') === stage)
 }
 function inqTitle(inq: any) {
-    return inq?.purpose || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`.trim() || inq?.inquirer_name || '—'
+    return inq?.purpose || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`.trim() || inq?.inquirer_name || '-'
 }
 function inqSource(inq: any) {
     return inq?.contacted_by || inq?.inquiry_type || ''
