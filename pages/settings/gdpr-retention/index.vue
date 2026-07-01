@@ -172,9 +172,6 @@ const { t } = useI18n()
 const userStore = useUserStore() as any
 
 onMounted(() => {
-    if (userStore.getUser?.company?.industry?.system_name !== 'employment_services') {
-        navigateTo('/overview')
-    }
     fetchRetentionSettings()
     fetchScheduledDeletions()
 })
