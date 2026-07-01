@@ -417,7 +417,7 @@
                                                 <Icon name="ph:files" class="size-4" />
                                             </button>
                                         </Tooltip>
-                                        <Tooltip v-if="medicine?.is_editable"
+                                        <Tooltip v-if="medicine?.is_editable && (isAtLeast('Admin') || can('update_citizen_medicine'))"
                                             :text="$t('citizens.medicineJournals.table.actions.edit')">
                                             <button type="button"
                                                 class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
@@ -560,7 +560,7 @@
                                         @click="viewMedicineHistory(medicine)">
                                         <Icon name="ph:files" class="size-4" />
                                     </button>
-                                    <button v-if="medicine?.is_editable" type="button"
+                                    <button v-if="medicine?.is_editable && (isAtLeast('Admin') || can('update_citizen_medicine'))" type="button"
                                         class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                                         @click="editMedicine(medicine)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
@@ -951,7 +951,7 @@
                                                     <Icon name="ph:files" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip v-if="medicine?.is_editable"
+                                            <Tooltip v-if="medicine?.is_editable && (isAtLeast('Admin') || can('update_citizen_medicine'))"
                                                 :text="$t('citizens.medicineJournals.table.actions.edit')"
                                                 position="left">
                                                 <FormButton type="button" buttonStyle="action" class="rounded-md"
