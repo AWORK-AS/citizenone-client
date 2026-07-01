@@ -8554,7 +8554,8 @@
             "company": "Företag",
             "billing": "Fakturering",
             "data": "Data",
-            "logs": "Loggar"
+            "logs": "Loggar",
+            "integrations": "Integrationer"
         },
         "tabs": {
             "absences": "Frånvaro",

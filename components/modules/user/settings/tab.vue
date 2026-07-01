@@ -88,7 +88,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             { labelKey: 'settings.tabs.profile', items: [T.profile] },
             { labelKey: 'settings.groups.company', items: [T.company, T.catalog, T.import] },
             { labelKey: 'settings.groups.billing', items: [T.subscription, T.invoices, T.licenses, T.storage] },
-            { labelKey: 'settings.groups.data', items: [T.archived, T.other, T.powerBi, T.economic] },
+            { labelKey: 'settings.groups.data', items: [T.archived, T.other] },
+            { labelKey: 'settings.groups.integrations', items: [T.powerBi, T.economic] },
             { labelKey: 'settings.groups.logs', items: [T.activityLogs, T.timeLogs] },
         ]
         state.tabs = Object.values(T)

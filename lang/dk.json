@@ -8554,7 +8554,8 @@
             "company": "Virksomhed",
             "billing": "Fakturering",
             "data": "Data",
-            "logs": "Logs"
+            "logs": "Logs",
+            "integrations": "Integrationer"
         },
         "tabs": {
             "absences": "Fravær",

@@ -8554,7 +8554,8 @@
             "company": "Company",
             "billing": "Billing",
             "data": "Data",
-            "logs": "Logs"
+            "logs": "Logs",
+            "integrations": "Integrations"
         },
         "tabs": {
             "absences": "Absences",

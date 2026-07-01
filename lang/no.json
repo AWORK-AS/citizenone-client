@@ -8554,7 +8554,8 @@
             "company": "Bedrift",
             "billing": "Fakturering",
             "data": "Data",
-            "logs": "Logger"
+            "logs": "Logger",
+            "integrations": "Integrasjoner"
         },
         "tabs": {
             "absences": "Fravær",
