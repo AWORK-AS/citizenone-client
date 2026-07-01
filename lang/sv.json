@@ -740,7 +740,16 @@
             "minutesAgo": "{count} min. sedan",
             "yesterday": "Igår"
         },
-        "title": "Notiser"
+        "title": "Notiser",
+        "planReminder": {
+            "title": "Planer & mål förfallna",
+            "description": "{count} planer, mål eller delmål har nått sitt slutdatum. Klicka för att uppdatera eller slutföra.",
+            "action": "Visa planer"
+        },
+        "checkInReminder": {
+            "title": "Kom ihåg att checka in",
+            "description": "Du har inte checkat in idag."
+        }
     },
     "bookingSettings": {
         "alert": {
