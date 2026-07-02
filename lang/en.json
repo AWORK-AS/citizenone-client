@@ -1374,8 +1374,13 @@
                 "date": "Date",
                 "filterDate": "Filter date",
                 "journalNoteView": "Journal note view",
+                "newestFirst": "Newest first",
+                "oldestFirst": "Oldest first",
+                "resetFilters": "Reset filters",
                 "riskAssessmentView": "Risk assessment view",
                 "searchJournal": "Search journal",
+                "showFavoritesOnly": "Show favorites only",
+                "showLockedOnly": "Show locked notes only",
                 "standardView": "Standard view"
             },
             "form": {
@@ -2731,6 +2736,7 @@
             "addType": "Add type",
             "description": "Description",
             "descriptionPlaceholder": "Add a description",
+            "viewFullTimeline": "View full timeline",
             "alert": {
                 "successfullyAdded": "Timeline event added",
                 "deletedSuccessfully": "Timeline event deleted"
@@ -6693,6 +6699,12 @@
             "fieldType": "Type",
             "fieldTypeText": "Text",
             "fieldTypeTextarea": "Textarea",
+            "fieldTypeCheckbox": "Checkbox",
+            "fieldTypeRadio": "Radio",
+            "fieldTypeDate": "Date",
+            "addOption": "Add option",
+            "optionPlaceholder": "Enter option",
+            "optionsRequired": "Add at least one option",
             "required": "Required"
         },
         "journalTitles": "Journal titles",

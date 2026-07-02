@@ -84,6 +84,7 @@ const props = defineProps<{
         category: string
         primary?: boolean
         isTranslateName?: boolean
+        hidden?: boolean
     }>
 }>()
 
@@ -98,11 +99,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 const OVERFLOW_ORDER = ['documentation', 'time', 'admin', 'care']
 const MOBILE_ORDER = ['care', 'documentation', 'time', 'admin']
 
-const primaryTabs = computed(() => props.tabs.filter((tab) => tab.primary))
-const overflowGroups = computed(() => buildGroups(OVERFLOW_ORDER, (tab) => !tab.primary))
-const mobileGroups = computed(() => buildGroups(MOBILE_ORDER, () => true))
+const primaryTabs = computed(() => props.tabs.filter((tab) => tab.primary && !tab.hidden))
+const overflowGroups = computed(() => buildGroups(OVERFLOW_ORDER, (tab) => !tab.primary && !tab.hidden))
+const mobileGroups = computed(() => buildGroups(MOBILE_ORDER, (tab) => !tab.hidden))
 const hasOverflow = computed(() => overflowGroups.value.length > 0)
-const overflowHasActive = computed(() => props.tabs.some((tab) => !tab.primary && isActive(tab)))
+const overflowHasActive = computed(() => props.tabs.some((tab) => !tab.primary && !tab.hidden && isActive(tab)))
 
 function buildGroups(order: string[], predicate: (tab: any) => boolean) {
     return order

@@ -35,9 +35,11 @@ watch(() => userStore.getUser, (newValue: any) => {
             routeNames: ['citizens-uuid-journals'],
         })
     }
+    // Not rendered in the nav/"More" dropdown anymore (surfaced in the details card instead),
+    // but kept in `tabs` so direct navigation to the full timeline page isn't treated as inaccessible.
     tabs.push({
         name: 'citizens.tabs.timeline', icon: 'ph:clock-counter-clockwise', isTranslateName: true,
-        category: 'documentation', primary: false,
+        category: 'documentation', primary: false, hidden: true,
         href: `/citizens/${citizenUuid}/timeline`,
         routeNames: ['citizens-uuid-timeline'],
     })
