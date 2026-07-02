@@ -64,6 +64,27 @@
                     <FormLabel :for="`dyn_field_${field.uuid}`" :label="field.label" />
                     <FormTextArea v-if="field.field_type === 'textarea'" :name="`dyn_field_${field.uuid}`"
                         placeholder="" :rows="3" v-model="state.formJournal.field_answers[i].response" />
+                    <FormDateField v-else-if="field.field_type === 'date'" :id="`dyn_field_${field.uuid}`"
+                        :name="`dyn_field_${field.uuid}`" placeholder=""
+                        v-model="state.formJournal.field_answers[i].response" />
+                    <div v-else-if="field.field_type === 'radio'" class="flex flex-col gap-y-2">
+                        <div v-for="option in field.options" :key="option"
+                            class="flex items-center gap-x-2 cursor-pointer w-fit"
+                            @click="state.formJournal.field_answers[i].response = option">
+                            <FormRadioButton :name="`dyn_field_${field.uuid}`" :modelValue="option"
+                                :checked="state.formJournal.field_answers[i].response === option" />
+                            <span class="text-sm text-gray-600">{{ option }}</span>
+                        </div>
+                    </div>
+                    <div v-else-if="field.field_type === 'checkbox'" class="flex flex-col gap-y-2">
+                        <div v-for="option in field.options" :key="option"
+                            class="flex items-center gap-x-2 cursor-pointer w-fit"
+                            @click="toggleCheckboxAnswer(i, option)">
+                            <FormCheckbox
+                                :value="(state.formJournal.field_answers[i].response || []).includes(option)" />
+                            <span class="text-sm text-gray-600">{{ option }}</span>
+                        </div>
+                    </div>
                     <FormTextField v-else :id="`dyn_field_${field.uuid}`" :name="`dyn_field_${field.uuid}`"
                         placeholder="" v-model="state.formJournal.field_answers[i].response" />
                 </div>
@@ -464,9 +485,9 @@ const state = reactive({
         score: '',
         teeth: [],
         is_for_teeth: false,
-        field_answers: [] as Array<{ journal_title_field_uuid: string, response: string }>,
+        field_answers: [] as Array<{ journal_title_field_uuid: string, response: string | string[] }>,
     } as any,
-    selectedJournalTitleFields: [] as Array<{ uuid: string, label: string, field_type: string }>,
+    selectedJournalTitleFields: [] as Array<{ uuid: string, label: string, field_type: string, options: string[] }>,
     hasChanges: false,
     modal: {
         isAddJournalNoteTagsOpen: false,
@@ -603,12 +624,24 @@ watch([() => state.formJournal.title, () => state.usePredefinedJournalTitle], ()
         uuid: f.uuid,
         label: f.label,
         field_type: f.field_type ?? 'text',
+        options: f.options ?? [],
     }))
     state.formJournal.field_answers = state.selectedJournalTitleFields.map((f: any) => ({
         journal_title_field_uuid: f.uuid,
-        response: '',
+        response: f.field_type === 'checkbox' ? [] : '',
     }))
 })
+
+function toggleCheckboxAnswer(fieldIndex: number, option: string) {
+    const current = state.formJournal.field_answers[fieldIndex].response || []
+    const idx = current.indexOf(option)
+    if (idx === -1) {
+        current.push(option)
+    } else {
+        current.splice(idx, 1)
+    }
+    state.formJournal.field_answers[fieldIndex].response = current
+}
 
 watch(() => state.formJournal, () => {
     if (!isInitialized) return
@@ -682,10 +715,11 @@ function setFormJournalFromSelected(journal: any) {
             uuid: a.journal_title_field_uuid,
             label: a.label ?? '',
             field_type: a.field_type ?? 'text',
+            options: a.options ?? [],
         }))
         state.formJournal.field_answers = savedAnswers.map((a: any) => ({
             journal_title_field_uuid: a.journal_title_field_uuid,
-            response: a.response ?? '',
+            response: a.field_type === 'checkbox' ? (a.response ?? []) : (a.response ?? ''),
         }))
     } else {
         state.selectedJournalTitleFields = []

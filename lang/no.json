@@ -1320,8 +1320,13 @@
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
                 "journalNoteView": "Journalnotatvisning",
+                "newestFirst": "Nyeste øverst",
+                "oldestFirst": "Eldste øverst",
+                "resetFilters": "Nullstill filtre",
                 "riskAssessmentView": "Risikovurderingsvisning",
                 "searchJournal": "Søk i journal",
+                "showFavoritesOnly": "Vis kun favoritter",
+                "showLockedOnly": "Vis kun låste notater",
                 "standardView": "Standardvisning"
             },
             "form": {
@@ -2674,6 +2679,7 @@
             "addType": "Legg til type",
             "description": "Beskrivelse",
             "descriptionPlaceholder": "Legg til en beskrivelse",
+            "viewFullTimeline": "Vis hele tidslinjen",
             "alert": {
                 "successfullyAdded": "Tidslinjehendelse lagt til",
                 "deletedSuccessfully": "Tidslinjehendelse slettet"
@@ -6636,6 +6642,12 @@
             "fieldType": "Type",
             "fieldTypeText": "Text",
             "fieldTypeTextarea": "Textarea",
+            "fieldTypeCheckbox": "Avkrysningsboks",
+            "fieldTypeRadio": "Radioknapp",
+            "fieldTypeDate": "Dato",
+            "addOption": "Legg til alternativ",
+            "optionPlaceholder": "Skriv inn alternativ",
+            "optionsRequired": "Legg til minst ett alternativ",
             "required": "Required"
         },
         "journalTitles": "Journal titler",

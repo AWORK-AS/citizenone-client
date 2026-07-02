@@ -327,6 +327,23 @@
                                 class="text-primary text-xs hover:text-primary-700" v-if="hasNoteAccess()">
                                 {{ state.showExpandedNote ? $t('showLess') : $t('showMore') }}
                             </button>
+                            <div class="space-y-1">
+                                <button @click="toggleTimeline" class="text-primary text-xs hover:text-primary-700">
+                                    {{ state.showTimeline ? $t('showLess') : $t('showMore') }} {{ $t('citizens.tabs.timeline') }}
+                                </button>
+                                <div v-if="state.showTimeline">
+                                    <LoadingSpinner :isActive="state.isTimelineLoading">
+                                        <div class="max-h-96 overflow-y-auto">
+                                            <ModulesUserCitizenTimelineEntryList :timeline="state.timelineEntries"
+                                                @delete="handleTimelineDelete" />
+                                        </div>
+                                    </LoadingSpinner>
+                                    <NuxtLink :to="`/citizens/${citizenUuid}/timeline`"
+                                        class="text-primary text-xs hover:text-primary-700">
+                                        {{ $t('citizens.timeline.viewFullTimeline') }}
+                                    </NuxtLink>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -398,6 +415,7 @@
 import { citizenService } from '@/components/api/user/CitizenService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { reportService } from '@/components/api/user/ReportService'
+import { timelineService } from '@/components/api/user/TimelineService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
@@ -443,6 +461,9 @@ const state = reactive({
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,
+    showTimeline: false,
+    timelineEntries: [] as any[],
+    isTimelineLoading: false,
     arrivalDistance: 0,
     workingMinutes: 0,
 })
@@ -659,6 +680,40 @@ async function fetchCitizen() {
     }
     state.isPageLoading = false
 }
+
+function toggleTimeline() {
+    state.showTimeline = !state.showTimeline
+    if (state.showTimeline && state.timelineEntries.length === 0) {
+        fetchTimeline()
+    }
+}
+
+async function fetchTimeline() {
+    state.isTimelineLoading = true
+    try {
+        const response = await timelineService.getTimeline(citizenUuid)
+        state.timelineEntries = response?.data ?? []
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTimelineLoading = false
+}
+
+async function handleTimelineDelete(uuid: string) {
+    try {
+        await timelineService.deleteEvent(uuid)
+        fetchTimeline()
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+watch(() => language.locale.value, () => {
+    state.timelineEntries = []
+    if (state.showTimeline) {
+        fetchTimeline()
+    }
+})
 
 async function fetchFollowUpReminderCount() {
     try {
