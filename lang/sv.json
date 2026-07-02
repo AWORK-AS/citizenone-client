@@ -701,7 +701,8 @@
             "disconnectTitle": "Avbryt Zenegy",
             "disconnected": "Zenegy-konto är afbrudt"
         },
-        "setupFee": "uppstart"
+        "setupFee": "uppstart",
+        "goToSetup": "Gå till inställningar"
     },
     "archived": {
         "alert": {
@@ -8638,7 +8639,8 @@
             "company": "Företag",
             "billing": "Fakturering",
             "data": "Data",
-            "logs": "Loggar"
+            "logs": "Loggar",
+            "integrations": "Integrationer"
         },
         "tabs": {
             "absences": "Frånvaro",
@@ -8699,7 +8701,8 @@
             "employmentAgreements": "Avtal",
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS",
-            "powerBi": "Power BI"
+            "powerBi": "Power BI",
+            "economic": "e-conomic"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -8744,6 +8747,24 @@
             "adminOnly": "Endast administratörer kan hantera Power BI-token.",
             "notPurchased": "Power BI-appen är inte aktiverad ännu. Aktivera den under Appar för att få åtkomst till realtids-dataflöden.",
             "goToApps": "Gå till Appar"
+        },
+        "economic": {
+            "title": "e-conomic",
+            "subtitle": "Skicka kunder och utkastfakturor från CitizenOne till e-conomic.",
+            "adminOnly": "Endast administratörer kan hantera e-conomic-anslutningen.",
+            "notPurchased": "e-conomic-appen är inte aktiverad ännu. Aktivera den under Appar för att ansluta.",
+            "goToApps": "Gå till Appar",
+            "connection": "Anslutning",
+            "connected": "Ansluten",
+            "notConnected": "Inte ansluten",
+            "connect": "Anslut till e-conomic",
+            "reconnect": "Anslut igen",
+            "disconnect": "Koppla från",
+            "confirmDisconnect": "Koppla från e-conomic?",
+            "howTitle": "Så här ansluter du",
+            "how1": "Klicka “Anslut till e-conomic”.",
+            "how2": "Godkänn åtkomsten i e-conomic (App Connect).",
+            "how3": "Du skickas tillbaka hit. Därefter kan fakturor skickas till e-conomic."
         }
     },
     "setupPassword": {
