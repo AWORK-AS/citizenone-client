@@ -6637,6 +6637,12 @@
             "fieldType": "Type",
             "fieldTypeText": "Text",
             "fieldTypeTextarea": "Textarea",
+            "fieldTypeCheckbox": "Checkbox",
+            "fieldTypeRadio": "Radio",
+            "fieldTypeDate": "Date",
+            "addOption": "Add option",
+            "optionPlaceholder": "Enter option",
+            "optionsRequired": "Add at least one option",
             "required": "Required"
         },
         "journalTitles": "Journal titles",

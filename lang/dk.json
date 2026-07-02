@@ -6637,6 +6637,12 @@
             "fieldType": "Type",
             "fieldTypeText": "Tekst",
             "fieldTypeTextarea": "Tekstområde",
+            "fieldTypeCheckbox": "Afkrydsningsfelt",
+            "fieldTypeRadio": "Radioknap",
+            "fieldTypeDate": "Dato",
+            "addOption": "Tilføj mulighed",
+            "optionPlaceholder": "Indtast mulighed",
+            "optionsRequired": "Tilføj mindst én mulighed",
             "required": "Påkrævet"
         },
         "journalTitles": "Journal titler",

@@ -6637,6 +6637,12 @@
             "fieldType": "Type",
             "fieldTypeText": "Text",
             "fieldTypeTextarea": "Textarea",
+            "fieldTypeCheckbox": "Kryssruta",
+            "fieldTypeRadio": "Radioknapp",
+            "fieldTypeDate": "Datum",
+            "addOption": "Lägg till alternativ",
+            "optionPlaceholder": "Ange alternativ",
+            "optionsRequired": "Lägg till minst ett alternativ",
             "required": "Required"
         },
         "journalTitles": "Journal titlar",

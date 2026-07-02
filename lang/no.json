@@ -6637,6 +6637,12 @@
             "fieldType": "Type",
             "fieldTypeText": "Text",
             "fieldTypeTextarea": "Textarea",
+            "fieldTypeCheckbox": "Avkrysningsboks",
+            "fieldTypeRadio": "Radioknapp",
+            "fieldTypeDate": "Dato",
+            "addOption": "Legg til alternativ",
+            "optionPlaceholder": "Skriv inn alternativ",
+            "optionsRequired": "Legg til minst ett alternativ",
             "required": "Required"
         },
         "journalTitles": "Journal titler",
