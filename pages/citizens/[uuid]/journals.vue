@@ -75,35 +75,35 @@
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
                                     v-model="state.filter.date_range" class="w-full md:w-72 h-11" />
                                 <div class="flex items-center gap-1.5 shrink-0">
-                                <Tooltip text="Ældste øverst">
+                                <Tooltip :text="$t('citizens.citizenJournals.filter.oldestFirst')">
                                     <FormButton buttonSize="sm" :class="[
                                         ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
                                         'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
                                         <Icon name="mdi:sort-ascending" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
-                                <Tooltip text="Nyeste øverst">
+                                <Tooltip :text="$t('citizens.citizenJournals.filter.newestFirst')">
                                     <FormButton buttonSize="sm" :class="[
                                         ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
                                         'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
                                         <Icon name="mdi:sort-descending" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
-                                <Tooltip text="Vis kun låste notater">
+                                <Tooltip :text="$t('citizens.citizenJournals.filter.showLockedOnly')">
                                     <FormButton buttonSize="sm" :class="[
                                         citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
                                         'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
                                         <Icon name="ph:lock" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
-                                <Tooltip text="Vis kun favoritter">
+                                <Tooltip :text="$t('citizens.citizenJournals.filter.showFavoritesOnly')">
                                     <FormButton buttonSize="sm" :class="[
                                         citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
                                         'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
                                         <Icon name="ph:star" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
-                                <Tooltip text="Nulstil filtre">
+                                <Tooltip :text="$t('citizens.citizenJournals.filter.resetFilters')">
                                     <FormButton class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
                                         <Icon name="mdi:refresh" class="size-4" />
                                     </FormButton>

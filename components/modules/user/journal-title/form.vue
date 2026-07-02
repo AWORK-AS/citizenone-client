@@ -53,6 +53,26 @@
                     <FormCheckbox :id="`field_required_${index}`" :value="field.is_required" />
                     <span class="text-sm text-gray-600">{{ $t('journalTitles.form.required') }}</span>
                 </div>
+                <div v-if="['checkbox', 'radio'].includes(field.field_type)" class="space-y-2 pl-1">
+                    <div v-for="(option, optionIndex) in field.options" :key="optionIndex"
+                        class="flex items-center gap-x-2">
+                        <FormTextField :name="`field_option_${index}_${optionIndex}`"
+                            :placeholder="$t('journalTitles.form.optionPlaceholder')"
+                            v-model="field.options[optionIndex]" />
+                        <button type="button" class="text-red-500 hover:text-red-700"
+                            @click="removeOption(index, optionIndex)">
+                            <Icon name="ph:trash" size="18" />
+                        </button>
+                    </div>
+                    <button type="button"
+                        class="text-sm text-primary hover:text-primary-700 flex items-center gap-x-1"
+                        @click="addOption(index)">
+                        <Icon name="ph:plus" size="16" />
+                        {{ $t('journalTitles.form.addOption') }}
+                    </button>
+                    <FormError v-if="state.optionErrors.includes(index)"
+                        :error="$t('journalTitles.form.optionsRequired')" />
+                </div>
             </div>
         </div>
 
@@ -97,14 +117,18 @@ const { t } = useI18n()
 const fieldTypeOptions = [
     { value: 'text', label: t('journalTitles.form.fieldTypeText') },
     { value: 'textarea', label: t('journalTitles.form.fieldTypeTextarea') },
+    { value: 'checkbox', label: t('journalTitles.form.fieldTypeCheckbox') },
+    { value: 'radio', label: t('journalTitles.form.fieldTypeRadio') },
+    { value: 'date', label: t('journalTitles.form.fieldTypeDate') },
 ]
 
 const state = reactive({
     error: {} as Error,
     formJournalTitle: {
         title: '',
-        journal_fields: [] as Array<{ uuid: string | null, label: string, field_type: string, is_required: boolean }>,
+        journal_fields: [] as Array<{ uuid: string | null, label: string, field_type: string, options: string[], is_required: boolean }>,
     },
+    optionErrors: [] as number[],
 })
 
 watch(() => props.selectedJournalTitle, (newValue: any) => {
@@ -115,6 +139,7 @@ watch(() => props.selectedJournalTitle, (newValue: any) => {
                 uuid: f.uuid ?? null,
                 label: f.label ?? '',
                 field_type: f.field_type ?? 'text',
+                options: f.options ?? [],
                 is_required: !!f.is_required,
             })),
         }
@@ -126,12 +151,22 @@ function addField() {
         uuid: null,
         label: '',
         field_type: 'text',
+        options: [],
         is_required: false,
     })
 }
 
 function removeField(index: number) {
     state.formJournalTitle.journal_fields.splice(index, 1)
+}
+
+function addOption(fieldIndex: number) {
+    state.formJournalTitle.journal_fields[fieldIndex].options.push('')
+    state.optionErrors = state.optionErrors.filter((i) => i !== fieldIndex)
+}
+
+function removeOption(fieldIndex: number, optionIndex: number) {
+    state.formJournalTitle.journal_fields[fieldIndex].options.splice(optionIndex, 1)
 }
 
 const rules = computed(() => {
@@ -149,13 +184,19 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     state.error = {}
     v$.value.$validate()
-    if (!v$.value.$error) {
+    state.optionErrors = state.formJournalTitle.journal_fields
+        .map((f, i) => (['checkbox', 'radio'].includes(f.field_type) && f.options.filter((o) => o.trim()).length === 0 ? i : null))
+        .filter((i): i is number => i !== null)
+    if (!v$.value.$error && state.optionErrors.length === 0) {
         const payload = {
             title: state.formJournalTitle.title,
             journal_fields: state.formJournalTitle.journal_fields.map((f, i) => ({
                 uuid: f.uuid,
                 label: f.label,
                 field_type: f.field_type,
+                options: ['checkbox', 'radio'].includes(f.field_type)
+                    ? f.options.filter((o) => o.trim())
+                    : null,
                 is_required: f.is_required,
                 field_order: i,
             })),
