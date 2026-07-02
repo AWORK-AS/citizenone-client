@@ -1320,8 +1320,13 @@
                 "date": "Datum",
                 "filterDate": "Filtrera datum",
                 "journalNoteView": "Journalnotatvisning",
+                "newestFirst": "Nyaste först",
+                "oldestFirst": "Äldsta först",
+                "resetFilters": "Återställ filter",
                 "riskAssessmentView": "Risikovurderingsvisning",
                 "searchJournal": "Sök i journal",
+                "showFavoritesOnly": "Visa endast favoriter",
+                "showLockedOnly": "Visa endast låsta anteckningar",
                 "standardView": "Standardvisning"
             },
             "form": {

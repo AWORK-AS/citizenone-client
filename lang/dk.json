@@ -1320,8 +1320,13 @@
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
                 "journalNoteView": "Journalnotatvisning",
+                "newestFirst": "Nyeste øverst",
+                "oldestFirst": "Ældste øverst",
+                "resetFilters": "Nulstil filtre",
                 "riskAssessmentView": "Risikovurderingsvisning",
                 "searchJournal": "Søg i journal",
+                "showFavoritesOnly": "Vis kun favoritter",
+                "showLockedOnly": "Vis kun låste notater",
                 "standardView": "Standardvisning"
             },
             "form": {

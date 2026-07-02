@@ -1320,8 +1320,13 @@
                 "date": "Date",
                 "filterDate": "Filter date",
                 "journalNoteView": "Journal note view",
+                "newestFirst": "Newest first",
+                "oldestFirst": "Oldest first",
+                "resetFilters": "Reset filters",
                 "riskAssessmentView": "Risk assessment view",
                 "searchJournal": "Search journal",
+                "showFavoritesOnly": "Show favorites only",
+                "showLockedOnly": "Show locked notes only",
                 "standardView": "Standard view"
             },
             "form": {
