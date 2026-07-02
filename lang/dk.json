@@ -6810,6 +6810,7 @@
         "content": {
             "from": "Fra",
             "on": "Den",
+            "selectAMessage": "Vælg en besked",
             "to": "Til"
         },
         "download": "Download",
