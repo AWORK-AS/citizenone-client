@@ -2674,6 +2674,7 @@
             "addType": "Tilføj type",
             "description": "Beskrivelse",
             "descriptionPlaceholder": "Tilføj en beskrivelse",
+            "viewFullTimeline": "Vis hele tidslinjen",
             "alert": {
                 "successfullyAdded": "Tidslinjehændelse tilføjet",
                 "deletedSuccessfully": "Tidslinjehændelse slettet"

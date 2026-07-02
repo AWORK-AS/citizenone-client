@@ -2674,6 +2674,7 @@
             "addType": "Add type",
             "description": "Description",
             "descriptionPlaceholder": "Add a description",
+            "viewFullTimeline": "View full timeline",
             "alert": {
                 "successfullyAdded": "Timeline event added",
                 "deletedSuccessfully": "Timeline event deleted"
