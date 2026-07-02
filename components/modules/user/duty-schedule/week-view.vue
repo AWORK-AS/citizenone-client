@@ -332,7 +332,7 @@
                         <div>
 
                             <div class="relative mt-0.5"
-                                @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
+                                @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && !state.isPasting && pasteWeeklySchedule(weekNumber)"
                                 :class="[
                                     isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
                                     !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && 'cursor-copy relative group',
@@ -357,7 +357,7 @@
                                         isEmployeeWeeklyScheduleCopied() && 'cursor-copy relative group',
                                         'col-span-9 grid grid-cols-9'
                                     ]" v-if="!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)"
-                                        @click="isEmployeeWeeklyScheduleCopied() && (!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)) && pasteEmployeeWeeklySchedule(employee)">
+                                        @click="isEmployeeWeeklyScheduleCopied() && (!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)) && !state.isPasting && pasteEmployeeWeeklySchedule(employee)">
                                         <div class="col-span-2 border-r border-gray-100 bg-gray-50/30">
                                             <div class="px-2 pt-2 pb-1 sm:px-4 sm:pt-4 sm:pb-2 relative">
                                                 <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
@@ -766,7 +766,7 @@
                                                 !isDailyScheduleCopied(employeeIndex as number, weekIndex as number, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group',
                                                 hasConflict(week) && 'border-1.5 border-red-400 rounded-md bg-red-100/60',
                                             ]"
-                                            @click="!isDailyScheduleCopied(employeeIndex as number, weekIndex as number, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(employeeIndex as number, weekIndex as number)">
+                                            @click="!isDailyScheduleCopied(employeeIndex as number, weekIndex as number, weekNumber) && !isDailyScheduleCopiedEmpty() && !state.isPasting && pasteEmployeeDailySchedule(employeeIndex as number, weekIndex as number)">
                                             <div v-if="hasConflict(week)" class="absolute -top-1 -left-2 z-20 group/ct">
                                                 <Tooltip position="left" :text="$t('dutySchedules.conflictTooltip', {
                                                     count:
@@ -1372,6 +1372,7 @@ const state = reactive({
     },
     isPageLoading: false,
     isModalLoading: false,
+    isPasting: false,
     manageScheduleSlot: {
         selectedDay: [],
     },
@@ -2113,6 +2114,8 @@ async function pasteEmployeeDailySchedule(employeeIndex: number, weekIndex: numb
 }
 
 async function copyDutySchedule(params: object) {
+    if (state.isPasting) return
+    state.isPasting = true
     state.copyShiftError = {}
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
@@ -2131,6 +2134,8 @@ async function copyDutySchedule(params: object) {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    } finally {
+        state.isPasting = false
     }
 }
 
@@ -2162,6 +2167,8 @@ function viewLeaveRequests(employee: any) {
 }
 
 async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
+    if (state.isPasting) return
+    state.isPasting = true
     state.copyShiftError = {}
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
@@ -2185,6 +2192,8 @@ async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    } finally {
+        state.isPasting = false
     }
 }
 
@@ -2196,12 +2205,16 @@ function isWeeklyScheduleCopied(weekNumber: number) {
     return state.copy.allEmployeeSchedules.weekNumber === weekNumber
 }
 
+let copyWeeklyScheduleTimer: ReturnType<typeof setTimeout> | null = null
+
 function copyWeeklySchedule(weekNumber: number) {
+    if (copyWeeklyScheduleTimer) return
     state.copy.allEmployeeSchedules = {
         weekNumber: weekNumber,
         yearSource: currentDate.value.year(),
         weeklySchedules: state.weeklySchedules?.data
     }
+    copyWeeklyScheduleTimer = setTimeout(() => { copyWeeklyScheduleTimer = null }, 300)
 }
 
 function pasteWeeklySchedule(weekNumber: number) {
@@ -2216,6 +2229,8 @@ function pasteWeeklySchedule(weekNumber: number) {
 }
 
 async function saveCopiedWeeklyDutySchedule(params: object) {
+    if (state.isPasting) return
+    state.isPasting = true
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -2232,6 +2247,8 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    } finally {
+        state.isPasting = false
     }
 }
 
@@ -2384,7 +2401,6 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         identifyTheProgressPercentage()
     } finally {
         state.isUpdateShift = false
-        fetchDutySchedule()
         setTimeout(() => {
             state.isModalLoading = false
         }, 300)

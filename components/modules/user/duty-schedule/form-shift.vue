@@ -892,6 +892,7 @@ async function fetchAllCitizensPerUserDepartment() {
 }
 
 async function saveShift() {
+    if (props.isModalLoading) return
     v$.value.$validate()
     if (!v$.value.$error) {
         const payload = { ...state.formShift }
