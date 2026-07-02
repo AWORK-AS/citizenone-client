@@ -162,11 +162,13 @@ async function switchLanguage(selectedLanguage: any) {
         state.error = {}
         state.isPageLoading = true
         try {
-            await userService.updateUserLangugage({ language_uuid: selectedLanguage.uuid })
-        } catch {
-            // API call may fail in guest contexts — silently ignore and apply locale locally
+            const response = await userService.updateUserLangugage({ language_uuid: selectedLanguage.uuid })
+            if (response) {
+                applyLocale()
+            }
+        } catch (error: any) {
+            state.error = error
         }
-        applyLocale()
         state.isPageLoading = false
     } else {
         applyLocale()

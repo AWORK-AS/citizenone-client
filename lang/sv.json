@@ -1374,8 +1374,13 @@
                 "date": "Datum",
                 "filterDate": "Filtrera datum",
                 "journalNoteView": "Journalnotatvisning",
+                "newestFirst": "Nyaste först",
+                "oldestFirst": "Äldsta först",
+                "resetFilters": "Återställ filter",
                 "riskAssessmentView": "Risikovurderingsvisning",
                 "searchJournal": "Sök i journal",
+                "showFavoritesOnly": "Visa endast favoriter",
+                "showLockedOnly": "Visa endast låsta anteckningar",
                 "standardView": "Standardvisning"
             },
             "form": {
@@ -2731,6 +2736,7 @@
             "addType": "Lägg till typ",
             "description": "Beskrivning",
             "descriptionPlaceholder": "Lägg till en beskrivning",
+            "viewFullTimeline": "Visa hela tidslinjen",
             "alert": {
                 "successfullyAdded": "Tidslinjehändelse tillagd",
                 "deletedSuccessfully": "Tidslinjehändelse borttagen"
@@ -6693,6 +6699,12 @@
             "fieldType": "Type",
             "fieldTypeText": "Text",
             "fieldTypeTextarea": "Textarea",
+            "fieldTypeCheckbox": "Kryssruta",
+            "fieldTypeRadio": "Radioknapp",
+            "fieldTypeDate": "Datum",
+            "addOption": "Lägg till alternativ",
+            "optionPlaceholder": "Ange alternativ",
+            "optionsRequired": "Lägg till minst ett alternativ",
             "required": "Required"
         },
         "journalTitles": "Journal titlar",
