@@ -54,20 +54,20 @@
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                        ]" @click="shelterNewInquiry">
-                                            {{ shelterName }}
-                                        </button>
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                            ]" @click="shelterNewInquiry">
+                                                {{ shelterName }}
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[
-                                            active && 'bg-gray-100',
-                                            'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                        ]" @click="crisisCenterNewInquiry">
-                                            {{ crisisCenterName }}
-                                        </button>
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
+                                            ]" @click="crisisCenterNewInquiry">
+                                                {{ crisisCenterName }}
+                                            </button>
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -94,16 +94,18 @@
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                     <div class="px-1 py-1">
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="openExportModal('shelter')">
-                                            {{ shelterName }}
-                                        </button>
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="openExportModal('shelter')">
+                                                {{ shelterName }}
+                                            </button>
                                         </MenuItem>
                                         <MenuItem v-slot="{ active }">
-                                        <button :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
-                                            @click="openExportModal('crisis_center')">
-                                            {{ crisisCenterName }}
-                                        </button>
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="openExportModal('crisis_center')">
+                                                {{ crisisCenterName }}
+                                            </button>
                                         </MenuItem>
                                     </div>
                                 </MenuItems>
@@ -115,7 +117,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <!-- Inquiry pipeline (kanban) — opt-in per company -->
-                    <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto pb-2">
+                    <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto p-2">
                         <div v-for="stage in pipelineStages" :key="stage.key"
                             class="w-[300px] shrink-0 rounded-2xl bg-surface-50 p-3 transition-colors"
                             :class="dragOverKey === stage.key ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''"
@@ -126,13 +128,14 @@
                                 <span class="text-[15px] font-bold text-slate-700">
                                     {{ $t('inquiryPipeline.stages.' + stage.key) }}
                                 </span>
-                                <span class="ml-auto rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold text-slate-400">
+                                <span
+                                    class="ml-auto rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold text-slate-400">
                                     {{ inquiriesByStage(stage.key).length }}
                                 </span>
                             </div>
                             <div class="space-y-2.5">
-                                <div v-for="inq in inquiriesByStage(stage.key)" :key="inq.uuid"
-                                    draggable="true" @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
+                                <div v-for="inq in inquiriesByStage(stage.key)" :key="inq.uuid" draggable="true"
+                                    @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
                                     @click="editInquiry(inq)"
                                     class="group cursor-pointer rounded-xl bg-white border border-surface-200 p-3.5 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover active:cursor-grabbing"
                                     :class="dragged?.uuid === inq.uuid ? 'opacity-40' : ''">
@@ -161,7 +164,8 @@
                                         </span>
                                         <span v-if="inq.citizen_id"
                                             class="inline-flex items-center gap-1 rounded-full bg-[#e6f6ee] px-2 py-0.5 text-[11px] font-bold text-[#1f9d6b]">
-                                            <Icon name="ph:check" class="size-3" /> {{ $t('inquiries.table.status.convertedAsCitizen') }}
+                                            <Icon name="ph:check" class="size-3" /> {{
+                                                $t('inquiries.table.status.convertedAsCitizen') }}
                                         </span>
                                     </div>
                                     <!-- Won inquiry → create a citizen case directly from the card -->
@@ -171,9 +175,11 @@
                                         <Icon name="ph:user-plus" class="size-4" />
                                         {{ $t('inquiries.table.actions.convertAsCitizen') }}
                                     </button>
-                                    <div class="mt-3 flex items-center justify-between border-t border-surface-100 pt-2.5">
+                                    <div
+                                        class="mt-3 flex items-center justify-between border-t border-surface-100 pt-2.5">
                                         <div class="flex items-center gap-2">
-                                            <div class="grid size-6 place-items-center rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-[10px] font-bold text-white">
+                                            <div
+                                                class="grid size-6 place-items-center rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-[10px] font-bold text-white">
                                                 {{ inqInitials(inq) }}
                                             </div>
                                             <span class="text-[11px] text-slate-400">
@@ -191,78 +197,78 @@
                     </div>
 
                     <template v-if="!pipelineEnabled">
-                    <TableSearch @search="handleSearch" />
-                    <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.inquiries"
-                            :isLoading="state.isTableLoading" :sortData="inquiryStore.getSortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.inquiries?.data?.length === 0))">
-                                <tr v-for="(inquiry, index) in state.inquiries?.data" :key="index">
-                                    <td width="15%">
-                                        {{ formatDateToReadable(inquiry?.inquiry_date) }}
-                                    </td>
-                                    <td width="15%">
-                                        <Badge :type="inquiry?.citizen_id ? 'active' : 'primary'" class="w-fit">
-                                            <p class="text-xxs truncate">
-                                                {{ inquiry?.citizen_id ?
-                                                    $t('inquiries.table.status.convertedAsCitizen') :
-                                                    $t('inquiries.table.status.forConversion') }}
-                                            </p>
-                                        </Badge>
-                                    </td>
-                                    <td width="15%">
-                                        <span>{{ inquiry?.inquirer_name }}</span>
-                                    </td>
-                                    <td width="10%">
-                                        <span>{{ inquiry?.firstname }}</span>
-                                    </td>
-                                    <td width="10%">
-                                        <span>{{ inquiry?.lastname }}</span>
-                                    </td>
-                                    <td width="10%">
-                                        <div class="flex flex-wrap gap-1">
-                                            <span v-for="(dept, di) in inquiry?.departments" :key="di"
-                                                class="bg-primary px-2 py-1 text-white text-xxs rounded-md">
-                                                {{ dept?.name }}
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td width="10%">
-                                        <span>{{ inquiry?.outcome }}</span>
-                                    </td>
-                                    <td width="10%">
-                                        <span>{{ inquiry?.purpose }}</span>
-                                    </td>
-                                    <td width="15%">
-                                        <span>{{ inquiry?.conversation_summary }}</span>
-                                    </td>
-                                    <td width="10%">
-                                        <div class="flex items-end justify-end gap-2">
-                                            <Tooltip :text="$t('inquiries.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action"
-                                                    @click="editInquiry(inquiry)">
-                                                    <Icon name="ph:pencil-simple" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')"
-                                                v-if="!inquiry?.citizen_id">
-                                                <FormButton type="button" buttonStyle="action"
-                                                    @click="convertInquiryConfirmation(inquiry)">
-                                                    <Icon name="ph:check" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('inquiries.table.actions.delete')">
-                                                <FormButton type="button" buttonStyle="danger"
-                                                    @click="deleteConfirmation(inquiry)">
-                                                    <Icon name="ph:trash" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
-                        </Table>
-                    </div>
-                    <Pagination :data="state.inquiries" @previous="previous" @next="next" />
+                        <TableSearch @search="handleSearch" />
+                        <div class="table-responsive">
+                            <Table :columnHeaders="state.columnHeaders" :data="state.inquiries"
+                                :isLoading="state.isTableLoading" :sortData="inquiryStore.getSortData" @sort="sort">
+                                <template #body v-if="!(state.isTableLoading || (state.inquiries?.data?.length === 0))">
+                                    <tr v-for="(inquiry, index) in state.inquiries?.data" :key="index">
+                                        <td width="15%">
+                                            {{ formatDateToReadable(inquiry?.inquiry_date) }}
+                                        </td>
+                                        <td width="15%">
+                                            <Badge :type="inquiry?.citizen_id ? 'active' : 'primary'" class="w-fit">
+                                                <p class="text-xxs truncate">
+                                                    {{ inquiry?.citizen_id ?
+                                                        $t('inquiries.table.status.convertedAsCitizen') :
+                                                        $t('inquiries.table.status.forConversion') }}
+                                                </p>
+                                            </Badge>
+                                        </td>
+                                        <td width="15%">
+                                            <span>{{ inquiry?.inquirer_name }}</span>
+                                        </td>
+                                        <td width="10%">
+                                            <span>{{ inquiry?.firstname }}</span>
+                                        </td>
+                                        <td width="10%">
+                                            <span>{{ inquiry?.lastname }}</span>
+                                        </td>
+                                        <td width="10%">
+                                            <div class="flex flex-wrap gap-1">
+                                                <span v-for="(dept, di) in inquiry?.departments" :key="di"
+                                                    class="bg-primary px-2 py-1 text-white text-xxs rounded-md">
+                                                    {{ dept?.name }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td width="10%">
+                                            <span>{{ inquiry?.outcome }}</span>
+                                        </td>
+                                        <td width="10%">
+                                            <span>{{ inquiry?.purpose }}</span>
+                                        </td>
+                                        <td width="15%">
+                                            <span>{{ inquiry?.conversation_summary }}</span>
+                                        </td>
+                                        <td width="10%">
+                                            <div class="flex items-end justify-end gap-2">
+                                                <Tooltip :text="$t('inquiries.table.actions.edit')">
+                                                    <FormButton type="button" buttonStyle="action"
+                                                        @click="editInquiry(inquiry)">
+                                                        <Icon name="ph:pencil-simple" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')"
+                                                    v-if="!inquiry?.citizen_id">
+                                                    <FormButton type="button" buttonStyle="action"
+                                                        @click="convertInquiryConfirmation(inquiry)">
+                                                        <Icon name="ph:check" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                                <Tooltip :text="$t('inquiries.table.actions.delete')">
+                                                    <FormButton type="button" buttonStyle="danger"
+                                                        @click="deleteConfirmation(inquiry)">
+                                                        <Icon name="ph:trash" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </Table>
+                        </div>
+                        <Pagination :data="state.inquiries" @previous="previous" @next="next" />
                     </template>
                 </div>
             </div>
@@ -280,12 +286,9 @@
                 :message="$t('inquiries.table.confirmation.deleteInquiryConfirmation') + '?'"
                 @close="state.modal.isDeleteInquiryOpen = false" @confirm="deleteInquiry" />
 
-            <ModulesUserCitizenModalExportInquiries
-                :isModalOpen="state.modal.isExportDepartmentOpen"
-                :title="exportModalTitle"
-                :departmentOptions="exportDepartmentOptions"
-                @close="state.modal.isExportDepartmentOpen = false"
-                @confirm="confirmExport" />
+            <ModulesUserCitizenModalExportInquiries :isModalOpen="state.modal.isExportDepartmentOpen"
+                :title="exportModalTitle" :departmentOptions="exportDepartmentOptions"
+                @close="state.modal.isExportDepartmentOpen = false" @confirm="confirmExport" />
         </NuxtLayout>
     </div>
 </template>
