@@ -71,6 +71,7 @@
         "promoDesc": "Ladda ner appen så att du alltid har CitizenOne till hands.",
         "promoCta": "Hämta appen",
         "appInfoMessage": "App Store- och Google Play-länkar visas här i den riktiga versionen.",
+        "appScanHint": "Skanna QR-koden med din telefonkamera för att ladda ner appen.",
         "modalIntro": "Välj de delar ni använder — så visar vi bara relevanta steg.",
         "modules": {
             "vagtplan": "Schema",
@@ -782,7 +783,16 @@
             "minutesAgo": "{count} min. sedan",
             "yesterday": "Igår"
         },
-        "title": "Notiser"
+        "title": "Notiser",
+        "planReminder": {
+            "title": "Planer & mål förfallna",
+            "description": "{count} planer, mål eller delmål har nått sitt slutdatum. Klicka för att uppdatera eller slutföra.",
+            "action": "Visa planer"
+        },
+        "checkInReminder": {
+            "title": "Kom ihåg att checka in",
+            "description": "Du har inte checkat in idag."
+        }
     },
     "bookingSettings": {
         "alert": {
@@ -2700,7 +2710,13 @@
             "plansAndGoals": "Planer och mål",
             "outcomes": "Resultat",
             "reports": "Rapporter",
-            "timeline": "Tidslinje"
+            "timeline": "Tidslinje",
+            "categories": {
+                "care": "Vård & behandling",
+                "documentation": "Dokumentation",
+                "time": "Tid & närvaro",
+                "admin": "Administration"
+            }
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -4236,7 +4252,7 @@
         },
         "week": "Vecka",
         "weeklyNormHours": "Ugentlige normtimer",
-        "yearToDate": "År till datum",
+        "currentYear": "Gjeldende år",
         "zenegy_all_departments": "Alla avdelningar",
         "zenegy_assign_rates_description": "Tilldela en lönesats till varje passtyp pr. anställd.",
         "zenegy_assign_rates_info": "Anställda där inte är tilldelad en standard rate/sats i Zenegy, ska välges en rate här under 'Välg lönesats'.",
@@ -5831,6 +5847,26 @@
         "seeNewFeatures": "Se nya funktioner"
     },
     "filter": "Filtrera",
+    "more": "Mer",
+    "commandPalette": {
+        "placeholder": "Sök efter åtgärder eller sektioner…",
+        "hint": "Sök och hoppa runt — ⌘K. Tryck ? för alla genvägar.",
+        "didYouKnowTitle": "Visste du?",
+        "didYouKnowBody": "Du kan söka och hoppa var som helst med ⌘K — tryck ? för alla genvägar.",
+        "didYouKnowDismiss": "Förstått",
+        "empty": "Inga resultat",
+        "actions": "Åtgärder",
+        "navigate": "Gå till",
+        "citizen": "Medborgare"
+    },
+    "shortcuts": {
+        "title": "Tangentbordsgenvägar",
+        "general": "Allmänt",
+        "onThisPage": "På den här sidan",
+        "palette": "Kommandopalett",
+        "help": "Visa genvägar",
+        "close": "Stäng"
+    },
     "filterDate": {
         "custom": "Brugerdefineret",
         "filterDate": "Filtrera datum",
@@ -8191,7 +8227,10 @@
             "name": "Namn",
             "permissions": "Behörigheter",
             "pages": "Sidåtkomst",
-            "level": "Level"
+            "level": "Level",
+            "selectAll": "Välj alla",
+            "clearAll": "Rensa alla",
+            "noPermissionsMatch": "Inga behörigheter matchar \"{search}\"."
         },
         "newRole": "Ny roll",
         "permissions": {
@@ -8659,6 +8698,9 @@
             "employmentAgreements": "Avtal",
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS"
+        },
+        "catalog": {
+            "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
         },
         "wallets": {
             "citizenWalletTransactions": "Transaktioner för borgernes wallets",

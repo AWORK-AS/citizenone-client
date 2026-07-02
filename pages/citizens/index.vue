@@ -315,13 +315,14 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.table.actions.medicationOverview')">
+                                            <Tooltip v-if="isMedicineEnabled"
+                                                :text="$t('citizens.table.actions.medicationOverview')">
                                                 <FormButton type="button" buttonStyle="action" buttonSize="xs"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)">
                                                     <Icon name="solar:jar-of-pills-2-linear" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="citizen?.plans_goals_status === 'none' ? $t('citizens.table.actions.plansAndGoals.noPlansAndGoals') :
+                                            <Tooltip v-if="isDokumentationEnabled" :text="citizen?.plans_goals_status === 'none' ? $t('citizens.table.actions.plansAndGoals.noPlansAndGoals') :
                                                 citizen?.plans_goals_status === 'expiring' ? $t('citizens.table.actions.plansAndGoals.expiringPlansAndGoals') :
                                                     citizen?.plans_goals_status === 'expired' ? $t('citizens.table.actions.plansAndGoals.expiredPlansAndGoals') :
                                                         $t('citizens.table.actions.plansAndGoals.plansAndGoals')">
@@ -426,7 +427,7 @@ import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
-const departmentStore = useDepartmentStore()
+const departmentStore = useDepartmentStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
@@ -501,6 +502,14 @@ const isShelterOrCrisisCenter = computed(() => {
 
 const isInterventionCheckinEnabled = computed(() => {
     return userStore.getUser?.company?.intervention_checkin_enabled === true
+})
+
+const isMedicineEnabled = computed(() => {
+    return userStore.getUser?.company?.onboarding_preferences?.modules?.medicin !== false
+})
+
+const isDokumentationEnabled = computed(() => {
+    return userStore.getUser?.company?.onboarding_preferences?.modules?.dokumentation !== false
 })
 
 onMounted(() => {

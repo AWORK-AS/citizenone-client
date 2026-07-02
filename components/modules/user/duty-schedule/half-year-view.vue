@@ -225,7 +225,7 @@
                                                 {{ $t('dutySchedules.month') }}
                                             </span>
                                             <span class="text-right font-medium text-amber-600">
-                                                {{ $t('dutySchedules.yearToDate') }}
+                                                {{ $t('dutySchedules.currentYear') }}
                                             </span>
                                             <span>
                                                 {{ $t('dutySchedules.holidayWorkedShort') }}
@@ -270,7 +270,7 @@
                                     </div>
                                     <div
                                         class="col-span-2 text-right pr-2 text-gray-400 font-semibold border-l border-gray-100">
-                                        {{ $t('dutySchedules.yearToDate') }}
+                                        {{ $t('dutySchedules.currentYear') }}
                                     </div>
                                 </div>
                                 <div v-for="(time, timeIndex) in employee?.hours" :key="timeIndex"

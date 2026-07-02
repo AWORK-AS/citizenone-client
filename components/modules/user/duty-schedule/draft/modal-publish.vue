@@ -45,10 +45,10 @@
                             </div>
                             <div class="mt-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <FormButton type="button" buttonStyle="cancel" @click="closeModal">
+                                    <FormButton type="button" buttonStyle="cancel" @click="closeModal" :disabled="state.isPublishing">
                                         {{ $t('cancel') }}
                                     </FormButton>
-                                    <FormButton type="submit" buttonStyle="primary" class="w-full">
+                                    <FormButton type="submit" buttonStyle="primary" class="w-full" :disabled="state.isPublishing">
                                         {{ $t('dutySchedules.draft.publish') }}
                                     </FormButton>
                                 </div>

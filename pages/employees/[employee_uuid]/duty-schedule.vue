@@ -197,7 +197,7 @@
                                                             <div
                                                                 class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200 ml-3">
                                                                 <p class="text-xxs py-2">
-                                                                    {{ $t('dutySchedules.yearToDate') }}
+                                                                    {{ $t('dutySchedules.currentYear') }}
                                                                 </p>
                                                             </div>
                                                             <div class="col-span-3 space-y-2">
@@ -205,9 +205,11 @@
                                                                     :key="timeIndex">
                                                                     {{ language.locale.value === 'en' ?
                                                                         time?.shift?.en_name :
-                                                                        language.locale.value === 'no' ? time?.shift?.no_name :
-                                                                        language.locale.value === 'sv' ? time?.shift?.sv_name :
-                                                                        time?.shift?.dk_name }}
+                                                                        language.locale.value === 'no' ?
+                                                                            time?.shift?.no_name :
+                                                                            language.locale.value === 'sv' ?
+                                                                                time?.shift?.sv_name :
+                                                                                time?.shift?.dk_name }}
                                                                 </p>
                                                             </div>
                                                             <div class="col-span-2 flex gap-2 flex-col items-end">

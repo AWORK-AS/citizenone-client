@@ -7,6 +7,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleExtraHoursForm formType="update"
                         :selectedExtraHoursRequest="props.selectedExtraHoursRequest" :error="state.error"
+                        :isModalLoading="state.isPageLoading"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="updateScheduleSlot" />
                 </LoadingSpinner>
@@ -47,6 +48,7 @@ const state = reactive({
 })
 
 function closeModal() {
+    if (state.isPageLoading) return
     emit('close')
 }
 
@@ -74,7 +76,9 @@ async function updateScheduleSlot(extraHoursDetails: any) {
                 successAlert(`${t('alert.success')}!`, `${t('dutySchedules.extraHours.form.alert.extraHoursRequestSuccessfullyUpdated')}.`)
             }
             refreshExtraHours()
+            state.isPageLoading = false
             closeModal()
+            return
         }
     } catch (error: any) {
         state.error = error

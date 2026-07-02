@@ -41,7 +41,7 @@ watch(() => userStore.getUser, (newValue: any) => {
         href: `/citizens/${citizenUuid}/timeline`,
         routeNames: ['citizens-uuid-timeline'],
     })
-    if (can('Medicine card')) {
+    if (can('Medicine card') && newValue?.company?.onboarding_preferences?.modules?.medicin !== false) {
         tabs.push({
             name: 'citizens.tabs.medicineCard', icon: 'ph:pill', isTranslateName: true,
             category: 'care', primary: true,
@@ -49,7 +49,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             routeNames: ['citizens-uuid-medicine-journals'],
         })
     }
-    if (can('Plans and goals')) {
+    if (can('Plans and goals') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
         tabs.push({
             name: 'citizens.tabs.plansAndGoals', icon: 'ph:target', isTranslateName: true,
             category: 'care', primary: true,
@@ -73,7 +73,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             ],
         })
     }
-    if (can('Documents')) {
+    if (can('Documents') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
         tabs.push({
             name: 'citizens.tabs.documents', icon: 'ph:files', isTranslateName: true,
             category: 'documentation', primary: false,

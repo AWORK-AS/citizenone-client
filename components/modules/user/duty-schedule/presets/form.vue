@@ -138,16 +138,16 @@
 
             <div class="mt-10">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <FormButton type="button" buttonStyle="cancel" @click="closeForm()" v-if="state.currentStep === 1">
+                    <FormButton type="button" buttonStyle="cancel" @click="closeForm()" v-if="state.currentStep === 1" :disabled="props.isModalLoading">
                         {{ $t('cancel') }}
                     </FormButton>
-                    <FormButton type="button" buttonStyle="cancel" @click="handleBack()" v-if="state.currentStep > 1">
+                    <FormButton type="button" buttonStyle="cancel" @click="handleBack()" v-if="state.currentStep > 1" :disabled="props.isModalLoading">
                         {{ $t('back') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" v-if="state.currentStep === 1">
+                    <FormButton type="submit" buttonStyle="primary" v-if="state.currentStep === 1" :disabled="props.isModalLoading">
                         {{ $t('next') }}
                     </FormButton>
-                    <FormButton type="submit" buttonStyle="primary" v-if="state.currentStep > 1">
+                    <FormButton type="submit" buttonStyle="primary" v-if="state.currentStep > 1" :disabled="props.isModalLoading">
                         {{ props.formType === 'create' ? $t('save') :
                             $t('update') }}
                     </FormButton>
@@ -172,6 +172,10 @@ const props = defineProps({
     formType: {
         type: String,
         required: true,
+    },
+    isModalLoading: {
+        type: Boolean,
+        default: false,
     },
 })
 const emit = defineEmits(['isPageLoading', 'submitForm', 'closeModal'])

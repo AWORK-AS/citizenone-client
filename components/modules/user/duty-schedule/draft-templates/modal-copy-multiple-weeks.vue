@@ -31,10 +31,10 @@
                             </div>
                             <div class="mt-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                    <FormButton type="button" buttonStyle="cancel" @click="closeModal">
+                                    <FormButton type="button" buttonStyle="cancel" @click="closeModal" :disabled="state.isPageLoading">
                                         {{ $t('cancel') }}
                                     </FormButton>
-                                    <FormButton type="submit" buttonStyle="primary" class="w-full">
+                                    <FormButton type="submit" buttonStyle="primary" class="w-full" :disabled="state.isPageLoading">
                                         {{ $t('dutySchedules.copy.copy') }}
                                     </FormButton>
                                 </div>
@@ -115,6 +115,7 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function closeModal() {
+    if (state.isPageLoading) return
     emit('close')
 }
 
@@ -261,7 +262,9 @@ async function copyWeeklyDutySchedule() {
         const response = await draftTemplateScheduleService.copyMultipleWeeklyDraftDutySchedule(params)
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.alert.scheduleSuccessfullyCopied')}.`)
+            state.isPageLoading = false
             closeModal()
+            return
         }
     } catch (error: any) {
         state.error = error

@@ -1,7 +1,8 @@
 <template>
     <div>
-        <Tooltip :text="$t('updates.newUpdates')">
-            <button class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
+        <Tooltip :text="$t('updates.newUpdates')" position="left">
+            <button
+                class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
                 @click="openUpdatesModal">
                 <Icon name="ph:lightbulb" class="h-5 w-5" aria-hidden="true" />
                 <Badge v-if="!userStore.getUser?.is_read_updates" type="notification"

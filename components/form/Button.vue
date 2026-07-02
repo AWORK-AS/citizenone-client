@@ -28,7 +28,7 @@
             props.buttonSize === 'sm' && 'p-3',
             props.buttonSize === 'xs' && 'p-2',
             !props.buttonSize && 'px-4 py-2.5',
-            props.disabled && 'py-3 bg-red-400 border-none hover:bg-red-400 cursor-not-allowed'
+            props.disabled && 'opacity-50 cursor-not-allowed pointer-events-none'
         ]" :disabled="props.disabled">
         <slot name="icon-left" />
         <slot></slot>

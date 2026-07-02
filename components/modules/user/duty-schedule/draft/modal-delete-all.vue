@@ -13,10 +13,10 @@
                             <p class="text-sm text-red-700">{{ $t('dutySchedules.draft.deleteAll.confirmation') }}</p>
                         </div>
                         <div class="grid grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="cancel" @click="closeModal">
+                            <FormButton type="button" buttonStyle="cancel" @click="closeModal" :disabled="state.isLoading">
                                 {{ $t('cancel') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="danger" @click="handleDeleteAll">
+                            <FormButton type="button" buttonStyle="danger" @click="handleDeleteAll" :disabled="state.isLoading">
                                 {{ $t('dutySchedules.draft.deleteAll.button') }}
                             </FormButton>
                         </div>
@@ -54,21 +54,24 @@ watch(() => props.isModalOpen, () => {
 })
 
 function closeModal() {
+    if (state.isLoading) return
     emit('close')
 }
 
 async function handleDeleteAll() {
     state.isLoading = true
     state.error = {}
+    let success = false
     try {
         await draftScheduleService.deleteAllCompanyDraftSchedules()
         successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.deleteAll.successAlert')}`)
         emit('deleted')
-        closeModal()
+        success = true
     } catch (error: any) {
         state.error = error
     } finally {
         state.isLoading = false
     }
+    if (success) closeModal()
 }
 </script>

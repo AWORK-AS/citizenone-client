@@ -508,37 +508,37 @@
                                                                             $t('dutySchedules.week') }}</span>
                                                                     <span
                                                                         class="text-right font-medium text-amber-600">{{
-                                                                            $t('dutySchedules.yearToDate') }}</span>
+                                                                            $t('dutySchedules.currentYear') }}</span>
 
                                                                     <span>{{ $t('dutySchedules.holidayWorkedShort')
-                                                                    }}</span>
+                                                                        }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.worked_weekly
-                                                                    }}</span>
+                                                                        }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.worked_yearly
-                                                                    }}</span>
+                                                                        }}</span>
 
                                                                     <template
                                                                         v-if="parseFloat(String(empStats(employee)?.holiday_hours?.compensation_yearly ?? '0').replace(',', '.')) > 0">
                                                                         <span>{{ $t('dutySchedules.holidayCompensation')
-                                                                        }}</span>
+                                                                            }}</span>
                                                                         <span class="text-right tabular-nums">{{
                                                                             empStats(employee)?.holiday_hours?.compensation_weekly
-                                                                        }}</span>
+                                                                            }}</span>
                                                                         <span class="text-right tabular-nums">{{
                                                                             empStats(employee)?.holiday_hours?.compensation_yearly
-                                                                        }}</span>
+                                                                            }}</span>
                                                                     </template>
 
                                                                     <span>{{ $t('dutySchedules.holidayNonWorkedShort')
-                                                                    }}</span>
+                                                                        }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.nonworked_weekly
-                                                                    }}</span>
+                                                                        }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.nonworked_yearly
-                                                                    }}</span>
+                                                                        }}</span>
                                                                 </div>
                                                             </div>
                                                         </Tooltip>
@@ -577,7 +577,7 @@
                                                     <div
                                                         class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200">
                                                         <p class="text-xxs py-2 pr-2 text-right leading-tight">
-                                                            {{ $t('dutySchedules.yearToDate') }}
+                                                            {{ $t('dutySchedules.currentYear') }}
                                                         </p>
                                                     </div>
                                                 </div>

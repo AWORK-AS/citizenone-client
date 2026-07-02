@@ -64,20 +64,36 @@
                                         </span>
                                     </td>
                                     <td width="26%">
-                                        <div class="text-xxs flex flex-wrap gap-1">
-                                            <span v-for="(permission, index) in role?.permissions" :key=index
-                                                class="bg-primary px-2 py-1 text-white rounded-md">
-                                                {{ getPermissionLabel(permission, locale) }}
-                                            </span>
+                                        <div v-if="role?.permissions?.length" class="text-xxs">
+                                            <button type="button" @click="togglePerms(role.id)"
+                                                class="inline-flex items-center gap-1 bg-primary/10 text-primary px-2 py-1 rounded-md font-medium hover:bg-primary/20">
+                                                {{ role.permissions.length }} {{ $t('roles.form.permissions').toLowerCase() }}
+                                                <Icon :name="expandedPerms.has(role.id) ? 'ph:caret-up' : 'ph:caret-down'" class="h-3 w-3" />
+                                            </button>
+                                            <div v-if="expandedPerms.has(role.id)" class="flex flex-wrap gap-1 mt-2">
+                                                <span v-for="(permission, index) in role.permissions" :key="index"
+                                                    class="bg-primary px-2 py-1 text-white rounded-md">
+                                                    {{ getPermissionLabel(permission, locale) }}
+                                                </span>
+                                            </div>
                                         </div>
+                                        <span v-else class="text-xxs text-slate-300">—</span>
                                     </td>
                                     <td width="22%">
-                                        <div class="text-xxs flex flex-wrap gap-1">
-                                            <span v-for="(page, index) in role?.pages" :key=index
-                                                class="bg-green-100 text-green-800 px-2 py-1 rounded-md">
-                                                {{ page?.name }}
-                                            </span>
+                                        <div v-if="role?.pages?.length" class="text-xxs">
+                                            <button type="button" @click="togglePages(role.id)"
+                                                class="inline-flex items-center gap-1 bg-green-100 text-green-800 px-2 py-1 rounded-md font-medium hover:bg-green-200">
+                                                {{ role.pages.length }} {{ $t('roles.form.pages').toLowerCase() }}
+                                                <Icon :name="expandedPages.has(role.id) ? 'ph:caret-up' : 'ph:caret-down'" class="h-3 w-3" />
+                                            </button>
+                                            <div v-if="expandedPages.has(role.id)" class="flex flex-wrap gap-1 mt-2">
+                                                <span v-for="(page, index) in role.pages" :key="index"
+                                                    class="bg-green-100 text-green-800 px-2 py-1 rounded-md">
+                                                    {{ page?.name }}
+                                                </span>
+                                            </div>
                                         </div>
+                                        <span v-else class="text-xxs text-slate-300">—</span>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
@@ -120,6 +136,18 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t, locale } = useI18n()
 let currentTablePage = 1
+
+// Per-row expand state so the table stays scannable (counts) until expanded.
+const expandedPerms = ref(new Set<number>())
+const expandedPages = ref(new Set<number>())
+function togglePerms(id: number) {
+    expandedPerms.value.has(id) ? expandedPerms.value.delete(id) : expandedPerms.value.add(id)
+    expandedPerms.value = new Set(expandedPerms.value)
+}
+function togglePages(id: number) {
+    expandedPages.value.has(id) ? expandedPages.value.delete(id) : expandedPages.value.add(id)
+    expandedPages.value = new Set(expandedPages.value)
+}
 const breadcrumbLinks = [
     {
         name: 'roles.roles',

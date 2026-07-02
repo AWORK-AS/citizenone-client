@@ -71,6 +71,7 @@
         "promoDesc": "Download the app to always have CitizenOne on hand.",
         "promoCta": "Get the app",
         "appInfoMessage": "App Store and Google Play links will appear here in the real version.",
+        "appScanHint": "Scan the QR code with your phone camera to download the app.",
         "modalIntro": "Pick the parts you use — we'll only show the relevant steps.",
         "modules": {
             "vagtplan": "Duty schedule",
@@ -782,7 +783,16 @@
             "minutesAgo": "{count} min. ago",
             "yesterday": "Yesterday"
         },
-        "title": "Notifications"
+        "title": "Notifications",
+        "planReminder": {
+            "title": "Plans & goals overdue",
+            "description": "{count} plans, goals or subgoals have reached their completion date. Click to update or complete.",
+            "action": "View plans"
+        },
+        "checkInReminder": {
+            "title": "Remember to check in",
+            "description": "You haven't checked in today."
+        }
     },
     "bookingSettings": {
         "alert": {
@@ -4242,7 +4252,7 @@
         },
         "week": "Week",
         "weeklyNormHours": "Weekly norm hours",
-        "yearToDate": "Year to date",
+        "currentYear": "Current year",
         "zenegy_all_departments": "All departments",
         "zenegy_assign_rates_description": "Assign a rate to each shift type per employee.",
         "zenegy_assign_rates_info": "Employees who are not assigned a default rate in Zenegy must be assigned one here under 'Select pay rate'.",
@@ -8217,7 +8227,10 @@
             "name": "Name",
             "permissions": "Permissions",
             "pages": "Page access",
-            "level": "Level"
+            "level": "Level",
+            "selectAll": "Select all",
+            "clearAll": "Clear all",
+            "noPermissionsMatch": "No permissions match \"{search}\"."
         },
         "newRole": "New role",
         "permissions": {
@@ -8685,6 +8698,9 @@
             "employmentAgreements": "Agreements",
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS"
+        },
+        "catalog": {
+            "noSettingsMatch": "No settings match \"{search}\"."
         },
         "wallets": {
             "citizenWalletTransactions": "Citizen wallet transactions",

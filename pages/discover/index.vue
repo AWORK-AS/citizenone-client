@@ -32,21 +32,28 @@
                 class="mt-4 rounded-2xl bg-gradient-to-br from-primary to-[#1b6d8a] text-white p-6 md:p-8 relative overflow-hidden">
                 <div class="relative z-10 flex items-center justify-between gap-x-6">
                     <div class="max-w-2xl">
-                        <h1 class="text-2xl md:text-3xl font-bold">{{ $t('discover.welcome', { name: firstName }) }} 👋
+                        <h1 class="text-2xl md:text-3xl font-bold">
+                            {{ $t('discover.welcome', { name: firstName }) }} 👋
                         </h1>
-                        <p v-if="!allDone" class="mt-2 text-white/80">{{ $t('discover.subtitle') }}</p>
-                        <p v-else class="mt-2 text-white/90 font-medium">🎉 {{ $t('discover.ready.title') }} — {{
-                            $t('discover.ready.desc') }}</p>
+                        <p v-if="!allDone" class="mt-2 text-white/80">
+                            {{ $t('discover.subtitle') }}
+                        </p>
+                        <p v-else class="mt-2 text-white/90 font-medium">
+                            🎉 {{ $t('discover.ready.title') }} — {{
+                                $t('discover.ready.desc') }}
+                        </p>
                         <div class="mt-4 flex items-center gap-x-3">
                             <button type="button" @click="state.modal.whatDoYouNeed = true"
                                 class="inline-flex items-center gap-x-2 rounded-lg bg-white/15 hover:bg-white/25 px-3.5 py-2 text-sm font-medium transition-colors">
                                 <Icon name="ph:sliders-horizontal" class="h-4 w-4" />
                                 {{ $t('discover.whatDoYouNeed') }}
                             </button>
-                            <span class="text-sm text-white/70">{{ $t('discover.stepsProgress', {
-                                done: totalDone,
-                                total: totalSteps
-                            }) }}</span>
+                            <span class="text-sm text-white/70">
+                                {{ $t('discover.stepsProgress', {
+                                    done: totalDone,
+                                    total: totalSteps
+                                }) }}
+                            </span>
                         </div>
                     </div>
                     <!-- Overall progress ring -->
@@ -73,11 +80,14 @@
                         <Icon :name="nextStep.group.icon" class="h-6 w-6" />
                     </div>
                     <div class="min-w-0">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-primary">{{ $t('discover.nextStep')
-                            }}</p>
-                        <p class="font-semibold text-slate-900 truncate">{{
-                            $t(`discover.steps.${nextStep.step.key}.title`) }}</p>
-                        <p class="text-sm text-slate-500 truncate">{{ $t(`discover.steps.${nextStep.step.key}.desc`) }}
+                        <p class="text-xs font-semibold uppercase tracking-wide text-primary">
+                            {{ $t('discover.nextStep') }}
+                        </p>
+                        <p class="font-semibold text-slate-900 truncate">
+                            {{ $t(`discover.steps.${nextStep.step.key}.title`) }}
+                        </p>
+                        <p class="text-sm text-slate-500 truncate">
+                            {{ $t(`discover.steps.${nextStep.step.key}.desc`) }}
                         </p>
                     </div>
                 </div>
@@ -98,12 +108,18 @@
                                 <Icon :name="group.icon" class="h-5 w-5" />
                             </div>
                             <div class="text-left">
-                                <h3 class="font-semibold text-slate-900">{{ $t(`discover.groups.${group.key}`) }}</h3>
-                                <p class="text-xs text-slate-500">{{ $t('discover.groupProgress', {
-                                    done:
-                                        groupDone(group), total:
-                                        group.steps.length
-                                }) }}</p>
+                                <h3 class="font-semibold text-slate-900">
+                                    {{ $t(`discover.groups.${group.key}`) }}
+                                </h3>
+                                <p class="text-xs text-slate-500">
+                                    {{
+                                        $t('discover.groupProgress', {
+                                            done:
+                                                groupDone(group), total:
+                                                group.steps.length
+                                        })
+                                    }}
+                                </p>
                             </div>
                         </div>
                         <div class="flex items-center gap-x-4">
@@ -120,21 +136,23 @@
                         <div v-for="(step, i) in group.steps" :key="step.key"
                             class="flex items-start gap-x-4 py-4 first:pt-2">
                             <Icon
-                                :name="stepDone(step) ? 'ph:check-circle-fill' : (stepLocked(group, i) ? 'ph:lock-simple' : 'ph:circle')"
+                                :name="stepDone(step) ? 'ph:check-circle-fill' : (stepLocked(group, i as number) ? 'ph:lock-simple' : 'ph:circle')"
                                 class="mt-0.5 h-6 w-6 shrink-0"
                                 :class="stepDone(step) ? 'text-emerald-500' : 'text-slate-300'" />
                             <div class="min-w-0 flex-1">
                                 <p class="font-medium"
                                     :class="stepDone(step) ? 'text-slate-400 line-through' : 'text-slate-900'">{{
                                         $t(`discover.steps.${step.key}.title`) }}</p>
-                                <p class="text-sm text-slate-500 mt-0.5">{{ $t(`discover.steps.${step.key}.desc`) }}</p>
+                                <p class="text-sm text-slate-500 mt-0.5">
+                                    {{ $t(`discover.steps.${step.key}.desc`) }}
+                                </p>
                                 <div v-if="step.tip"
                                     class="mt-2 flex items-start gap-x-2 rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-500">
                                     <Icon name="ph:lightbulb" class="h-4 w-4 shrink-0 text-amber-400" />
                                     <span>{{ $t(`discover.steps.${step.key}.tip`) }}</span>
                                 </div>
                                 <div class="mt-3" v-if="!stepDone(step)">
-                                    <button type="button" v-if="!stepLocked(group, i)"
+                                    <button type="button" v-if="!stepLocked(group, i as number)"
                                         @click="step.action ? runStepAction(step.action) : navigateTo(step.route)"
                                         class="inline-flex items-center gap-x-1.5 rounded-lg bg-primary text-white px-3.5 py-2 text-sm font-medium hover:bg-[#0d3f61] transition-colors">
                                         {{ $t(`discover.steps.${step.key}.cta`) }}
@@ -178,7 +196,7 @@
                                 <Icon :name="mod.icon" class="h-5 w-5 text-primary" />
                                 <span class="text-sm text-slate-800">{{ $t(`discover.modules.${mod.key}`) }}</span>
                             </div>
-                            <FormSwitch :value="modules[mod.key]"
+                            <FormSwitch :value="modules[mod.key]" @click.stop
                                 @toggleSwitch="modules[mod.key] = !modules[mod.key]" />
                         </div>
                     </div>
@@ -191,9 +209,54 @@
                 </template>
             </Modal>
 
-            <DialogConfirmation :isModalOpen="state.modal.appInfo" :title="$t('discover.promoCta')"
-                :message="$t('discover.appInfoMessage')" @close="state.modal.appInfo = false"
-                @confirm="state.modal.appInfo = false" />
+            <Modal size="sm" :title="$t('discover.promoCta')" :show="state.modal.appInfo"
+                @close="state.modal.appInfo = false">
+                <template #modal-body>
+                    <div class="flex items-start justify-center gap-x-6 py-2">
+                        <!-- App Store -->
+                        <div class="flex flex-col items-center gap-y-3">
+                            <div
+                                class="w-40 h-40 rounded-2xl bg-slate-50 border border-slate-100 shadow-sm flex items-center justify-center overflow-hidden p-2">
+                                <QRCodeVue3 value="https://apps.apple.com/ph/app/citizenone/id6737061242" :width="144"
+                                    :height="144" :qrOptions="{ errorCorrectionLevel: 'M' }"
+                                    :dotsOptions="{ type: 'rounded', color: '#205E77' }"
+                                    :cornersSquareOptions="{ type: 'extra-rounded', color: '#205E77' }"
+                                    :cornersDotOptions="{ type: 'dot', color: '#41ADD8' }" />
+                            </div>
+                            <div class="flex flex-col items-center gap-y-0.5">
+                                <div class="flex items-center gap-x-1.5 text-sm font-semibold text-slate-800">
+                                    <Icon name="ph:apple-logo-fill" class="h-4 w-4" />
+                                    App Store
+                                </div>
+                                <p class="text-xs text-slate-400">iOS &amp; iPadOS</p>
+                            </div>
+                        </div>
+
+                        <div class="w-px self-stretch bg-slate-100 mx-1"></div>
+
+                        <!-- Google Play -->
+                        <div class="flex flex-col items-center gap-y-3">
+                            <div
+                                class="w-40 h-40 rounded-2xl bg-slate-50 border border-slate-100 shadow-sm flex items-center justify-center overflow-hidden p-2">
+                                <QRCodeVue3
+                                    value="https://play.google.com/store/apps/details?id=com.aworkAS.CitizenOne&pcampaignid=web_share"
+                                    :width="144" :height="144" :qrOptions="{ errorCorrectionLevel: 'M' }"
+                                    :dotsOptions="{ type: 'rounded', color: '#205E77' }"
+                                    :cornersSquareOptions="{ type: 'extra-rounded', color: '#205E77' }"
+                                    :cornersDotOptions="{ type: 'dot', color: '#41ADD8' }" />
+                            </div>
+                            <div class="flex flex-col items-center gap-y-0.5">
+                                <div class="flex items-center gap-x-1.5 text-sm font-semibold text-slate-800">
+                                    <Icon name="ph:google-play-logo-fill" class="h-4 w-4" />
+                                    Google Play
+                                </div>
+                                <p class="text-xs text-slate-400">Android</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-center text-xs text-slate-400">{{ $t('discover.appScanHint') }}</p>
+                </template>
+            </Modal>
 
             <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.importMapper"
                 @close="state.modal.importMapper = false" @imported="onImported" />
@@ -204,6 +267,7 @@
 
 <script setup lang="ts">
 import { departmentService } from '@/components/api/user/DepartmentService'
+const QRCodeVue3 = defineAsyncComponent(() => import('qrcode-vue3'))
 import { userService } from '@/components/api/user/UserService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'

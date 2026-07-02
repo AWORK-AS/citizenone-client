@@ -231,6 +231,15 @@
                                             }}
                                         </span>
                                     </div>
+                                    <div class="flex items-center gap-3 text-[13px]">
+                                        <div
+                                            class="w-7 h-7 rounded-lg bg-[#F5F6F8] flex items-center justify-center flex-shrink-0">
+                                            <Icon name="ph:building" class="w-3.5 h-3.5 text-[#8891A4]" />
+                                        </div>
+                                        <span class="text-[#5C6478]">
+                                            74312{{ state.company?.data.id }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 

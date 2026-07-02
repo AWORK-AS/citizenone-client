@@ -14,7 +14,8 @@
                         </div>
                     </div>
                     <ModulesUserDutySchedulePresetsForm formType="create"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        :error="state.error" :isModalLoading="state.isPageLoading"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveDraftSchedulePreset" />
                 </LoadingSpinner>
             </template>
@@ -52,20 +53,23 @@ const state = reactive({
 })
 
 function closeModal() {
+    if (state.isPageLoading) return
     state.error = {} as Error
     emit('close')
 }
 
 async function saveDraftSchedulePreset(draftSchedulePresetDetails: any) {
     state.isPageLoading = true
+    let success = false
     try {
         await draftSchedulePresetService.savePreset(draftSchedulePresetDetails)
         successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.preset.saveSuccess')}`)
-        closeModal()
+        success = true
     } catch (error: any) {
         state.error = error
     } finally {
         state.isPageLoading = false
     }
+    if (success) closeModal()
 }
 </script>

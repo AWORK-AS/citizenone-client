@@ -3,7 +3,7 @@
         <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0"
             enter-to-class="opacity-100" leave-active-class="transition ease-in duration-150"
             leave-from-class="opacity-100" leave-to-class="opacity-0">
-            <div v-if="state.isOpen" class="fixed inset-0 z-[100] bg-slate-900/50 backdrop-blur-sm" @click="close">
+            <div v-if="state.isOpen" class="fixed inset-0 z-[100]" @click="close">
                 <div class="flex items-start justify-center pt-[15vh]" @click.stop>
                     <div
                         class="w-full max-w-xl bg-white rounded-2xl shadow-2xl border border-surface-200 overflow-hidden">
@@ -27,7 +27,8 @@
                                     <button v-for="action in visibleActions" :key="action.uuid"
                                         class="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-surface-50 hover:text-primary transition-colors text-left"
                                         @click="runAction(action)">
-                                        <div class="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                        <div
+                                            class="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                                             <Icon :name="action.icon" class="h-4 w-4 text-primary" />
                                         </div>
                                         {{ $t(action.titleKey) }}
@@ -40,8 +41,10 @@
                                     <div v-for="c in pinned" :key="'pin-' + c.uuid"
                                         class="group flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-surface-50 cursor-pointer transition-colors"
                                         @click="openCitizen(c)">
-                                        <img :src="citizenAvatar(c)" class="h-7 w-7 rounded-full object-cover shrink-0" />
-                                        <span class="flex-1 truncate text-sm text-slate-700 group-hover:text-primary">{{ c.name }}</span>
+                                        <img :src="citizenAvatar(c)"
+                                            class="h-7 w-7 rounded-full object-cover shrink-0" />
+                                        <span class="flex-1 truncate text-sm text-slate-700 group-hover:text-primary">{{
+                                            c.name }}</span>
                                         <button type="button" @click.stop="togglePin(c)"
                                             class="shrink-0 p-1 rounded text-primary hover:bg-primary/10">
                                             <Icon name="ph:push-pin-fill" class="h-4 w-4" />
@@ -55,12 +58,15 @@
                                     <div v-for="c in recentCitizens" :key="'recent-' + c.uuid"
                                         class="group flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-surface-50 cursor-pointer transition-colors"
                                         @click="openCitizen(c)">
-                                        <img :src="citizenAvatar(c)" class="h-7 w-7 rounded-full object-cover shrink-0" />
-                                        <span class="flex-1 truncate text-sm text-slate-700 group-hover:text-primary">{{ c.name }}</span>
+                                        <img :src="citizenAvatar(c)"
+                                            class="h-7 w-7 rounded-full object-cover shrink-0" />
+                                        <span class="flex-1 truncate text-sm text-slate-700 group-hover:text-primary">{{
+                                            c.name }}</span>
                                         <button type="button" @click.stop="togglePin(c)"
                                             class="shrink-0 p-1 rounded text-slate-300 opacity-0 group-hover:opacity-100 hover:text-primary transition"
                                             :class="{ 'opacity-100 text-primary': isPinned(c.uuid) }">
-                                            <Icon :name="isPinned(c.uuid) ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-4 w-4" />
+                                            <Icon :name="isPinned(c.uuid) ? 'ph:push-pin-fill' : 'ph:push-pin'"
+                                                class="h-4 w-4" />
                                         </button>
                                     </div>
                                 </div>
@@ -122,11 +128,15 @@
                             <span>{{ $t('globalSearch.footerHint') }}</span>
                             <span class="flex items-center gap-x-2">
                                 <span class="flex items-center gap-x-1">
-                                    <kbd class="rounded border border-slate-200 bg-surface-50 px-1.5 py-0.5 font-medium">{{ shortcutLabel }}</kbd>
+                                    <kbd
+                                        class="rounded border border-slate-200 bg-surface-50 px-1.5 py-0.5 font-medium">{{
+                                            shortcutLabel
+                                        }}</kbd>
                                     {{ $t('globalSearch.openHint') }}
                                 </span>
                                 <span class="flex items-center gap-x-1">
-                                    <kbd class="rounded border border-slate-200 bg-surface-50 px-1.5 py-0.5 font-medium">esc</kbd>
+                                    <kbd
+                                        class="rounded border border-slate-200 bg-surface-50 px-1.5 py-0.5 font-medium">esc</kbd>
                                     {{ $t('globalSearch.closeHint') }}
                                 </span>
                             </span>
@@ -520,7 +530,6 @@ watch(() => state.searchQuery, (val) => {
 
 onMounted(() => {
     const handler = (e: KeyboardEvent) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); open() }
         if (e.key === 'Escape' && state.isOpen) { close() }
     }
     window.addEventListener('keydown', handler)
