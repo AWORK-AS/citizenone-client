@@ -33,6 +33,9 @@
                                     {{ formatAmount(props.selectedApp?.monthly_price) }}
                                     <span class="lowercase">/{{ $t('apps.month') }}</span>
                                 </span>
+                                <span v-if="props.selectedApp?.setup_fee > 0" class="text-muted-500">
+                                    + {{ formatAmount(props.selectedApp?.setup_fee) }} {{ $t('apps.setupFee') }}
+                                </span>
                                 {{ $t('excludeVat') }}
                             </p>
                             <p class="text-muted-800 dark:text-muted-100 font-sans text-sm">

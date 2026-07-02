@@ -700,7 +700,8 @@
             "disconnectConfirmation": "Er du sikker på, at du vil afbryde forbindelsen til din Zenegy-konto? Dette vil fjerne forbindelsen mellem dine CitizenOne- og Zenegy-konti.",
             "disconnectTitle": "Afbryd Zenegy",
             "disconnected": "Zenegy-konto er succesfuldt afbrudt"
-        }
+        },
+        "setupFee": "opstart"
     },
     "archived": {
         "alert": {
@@ -8697,7 +8698,8 @@
             "employmentJobcenters": "Jobcentre",
             "employmentAgreements": "Aftaler",
             "gdprRetention": "GDPR Opbevaring",
-            "smsNotifications": "SMS"
+            "smsNotifications": "SMS",
+            "powerBi": "Power BI"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -8713,6 +8715,35 @@
                 "sendCitizenWalletTransactions": "Send borger tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
+        },
+        "powerBi": {
+            "title": "Power BI-eksport",
+            "subtitle": "Forbind Power BI til live data via et sikkert feed-token.",
+            "tabLabel": "Power BI",
+            "status": "Status",
+            "active": "Aktiv",
+            "inactive": "Ikke aktiveret",
+            "generate": "Generér token",
+            "regenerate": "Generér nyt token",
+            "revoke": "Tilbagekald",
+            "tokenOnce": "Kopiér tokenet nu. Det vises kun denne ene gang.",
+            "copy": "Kopiér",
+            "copied": "Kopieret!",
+            "feeds": "Feed-URL'er",
+            "feedEconomy": "Koordinatorøkonomi",
+            "feedInquiries": "Henvendelser",
+            "feedCases": "Borgere / sager",
+            "createdAt": "Oprettet",
+            "tokenEnds": "Token slutter på",
+            "howTitle": "Sådan forbinder du Power BI",
+            "how1": "Åbn Power BI Desktop → Hent data → Web.",
+            "how2": "Indsæt en feed-URL ovenfor (tokenet er allerede inkluderet).",
+            "how3": "Vælg JSON som format og indlæs. Opdatér på skema efter behov.",
+            "revokeWarning": "Tilbagekald gør alle feed-URL’er ugyldige med det samme. Power BI-rapporter kan ikke længere opdatere før et nyt token genereres.",
+            "confirmRevoke": "Tilbagekald Power BI-token?",
+            "adminOnly": "Kun administratorer kan administrere Power BI-token.",
+            "notPurchased": "Power BI-app’en er ikke aktiveret endnu. Aktivér den under Apps for at få adgang til live-datafeeds.",
+            "goToApps": "Gå til Apps"
         }
     },
     "setupPassword": {

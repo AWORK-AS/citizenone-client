@@ -85,6 +85,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             activityLogs: { name: 'settings.tabs.activityLogs', isTranslateName: true, href: '/settings/activity-logs', routeNames: ['settings-activity-logs'] },
             timeLogs: { name: 'settings.tabs.timeLogs', isTranslateName: true, href: '/settings/time-logs', routeNames: ['settings-time-logs'] },
             other: { name: 'settings.tabs.other', isTranslateName: true, href: '/settings/custom-pages', routeNames: ['settings-custom-pages', 'settings-transactions'] },
+            powerBi: { name: 'settings.tabs.powerBi', isTranslateName: true, href: '/settings/power-bi', routeNames: ['settings-power-bi'] },
         }
         const isEmploymentServices = newValue?.company?.industry?.system_name === 'employment_services'
         const companyItems = [T.company, T.catalog, T.import]
@@ -93,7 +94,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             { labelKey: 'settings.tabs.profile', items: [T.profile] },
             { labelKey: 'settings.groups.company', items: companyItems },
             { labelKey: 'settings.groups.billing', items: [T.subscription, T.invoices, T.licenses, T.storage] },
-            { labelKey: 'settings.groups.data', items: [T.archived, T.other] },
+            { labelKey: 'settings.groups.data', items: [T.archived, T.other, T.powerBi] },
             { labelKey: 'settings.groups.logs', items: [T.activityLogs, T.timeLogs] },
         ]
         state.tabs = Object.values(T)
