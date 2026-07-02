@@ -18,8 +18,8 @@
             </NuxtLink>
             <LoadingSpinner :isActive="state.isPageLoading">
                 <ModulesUserDutyScheduleShiftForm formType="create" :selectedShift="state.formShift"
-                    :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                    @submitForm="saveShift" />
+                    :error="state.error" :isModalLoading="state.isPageLoading"
+                    @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="saveShift" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>

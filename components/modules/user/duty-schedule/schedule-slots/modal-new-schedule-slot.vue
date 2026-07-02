@@ -5,7 +5,8 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserDutyScheduleScheduleSlotsForm formType="create" :selectedDay="props.selectedDay"
-                        :selectedScheduleSlot="state.formScheduleSlot" :error="state.error" :isModalLoading="state.isModalLoading"
+                        :selectedScheduleSlot="state.formScheduleSlot" :error="state.error"
+                        :isModalLoading="state.isModalLoading"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveScheduleSlot" />
                 </LoadingSpinner>
@@ -60,6 +61,7 @@ function refreshScheduleSlot() {
 }
 
 async function saveScheduleSlot(scheduleSlotDetails: any) {
+    if (state.isModalLoading) return
     try {
         state.isModalLoading = true
         const params = {

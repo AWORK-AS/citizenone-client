@@ -1,11 +1,25 @@
 import APIError from '@/components/api/user/APIError'
 
 class BaseAPIService {
+    private readonly inflightRequests = new Map<string, Promise<any>>()
+
     async request(url: string, method: string, params: object = [], signal?: AbortSignal): Promise<any> {
+        if (method !== 'GET') {
+            const key = `${method}:${url}:${JSON.stringify(params)}`
+            const existing = this.inflightRequests.get(key)
+            if (existing) return existing
+            const promise = this._sendRequest(url, method, params, signal)
+                .finally(() => this.inflightRequests.delete(key))
+            this.inflightRequests.set(key, promise)
+            return promise
+        }
+        return this._sendRequest(url, method, params, signal)
+    }
+
+    private async _sendRequest(url: string, method: string, params: object, signal?: AbortSignal): Promise<any> {
         const runtimeConfig = useRuntimeConfig()
         let config: any = null
         if (method === 'GET') {
-            // GET
             config = {
                 baseURL: runtimeConfig.public.apiBaseURL,
                 method: method,
@@ -19,7 +33,6 @@ class BaseAPIService {
                 },
             }
         } else {
-            // POST, PUT, DELETE
             config = {
                 baseURL: runtimeConfig.public.apiBaseURL,
                 method: method,
