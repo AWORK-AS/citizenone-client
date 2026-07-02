@@ -1,4 +1,47 @@
 {
+    "inquiryPipeline": {
+        "board": "Henvendelses-pipeline",
+        "enableLabel": "Henvendelses-pipeline (kanban)",
+        "enableHint": "Vis henvendelser som et kanban-brett",
+        "moved": "Henvendelse flyttet",
+        "stages": {
+            "new": "Ny",
+            "clarification": "Avklaring",
+            "offer": "Tilbud",
+            "won": "Vunnet",
+            "lost": "Tapt"
+        }
+    },
+    "managementEconomy": {
+        "title": "Ledelse & økonomi",
+        "fromDate": "Fra dato",
+        "toDate": "Til dato",
+        "generate": "Generer",
+        "selectPeriod": "Velg en periode for å se økonomien",
+        "noData": "Ingen data for perioden",
+        "allocatedRevenue": "Fordelt omsetning",
+        "interventions": "Innsatser",
+        "coordinators": "Koordinatorer",
+        "coordinatorSplit": "Omsetning per koordinator",
+        "primary": "Primær",
+        "secondary": "Sekundær",
+        "exportCsv": "Eksporter CSV"
+    },
+    "citizenRelations": {
+        "addFirst": "Legg til første relasjon",
+        "tab": "Relasjoner",
+        "title": "Relasjoner",
+        "new": "Legg til relasjon",
+        "relatedCitizen": "Relatert borger",
+        "relationshipType": "Relasjonstype",
+        "selectCitizen": "Velg borger",
+        "name": "Navn",
+        "action": "Handling",
+        "empty": "Ingen relasjoner ennå",
+        "deleteConfirmation": "Slett denne relasjonen",
+        "added": "Relasjon lagt til",
+        "deleted": "Relasjon slettet"
+    },
     "companyModules": {
         "Economy": "Økonomi",
         "Journals": "Journaler",
@@ -1785,7 +1828,9 @@
                 "parentCollaboration": "Forældresamarbeide",
                 "personalGuardianship": "Personværge",
                 "photo": "Foto",
-                "studentCollaboration": "Elevsamarbeide"
+                "studentCollaboration": "Elevsamarbeide",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær koordinator andel (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -1817,7 +1862,8 @@
                 "yellow": "Gul"
             },
             "transportation": "Transportere",
-            "useThisLocation": "Bruk denne plassering"
+            "useThisLocation": "Bruk denne plassering",
+            "secondaryCaseworker": "Sekundær saksbehandler"
         },
         "importCitizens": {
             "alert": {
@@ -10731,6 +10777,13 @@
         "title": "Din ChatGPT-integrasjon"
     },
     "employment": {
+        "economy": {
+            "coordinatorSplit": "Omsetning per koordinator",
+            "allocatedRevenue": "Fordelt omsetning",
+            "interventions": "Innsatser",
+            "primary": "Primær",
+            "secondary": "Sekundær"
+        },
         "statusTypes": {
             "statusTypes": "Statustyper",
             "newStatusType": "Ny statustype",
@@ -10891,6 +10944,8 @@
                 "reminderEnabled": "Automatiske rapporteringspåminnelser",
                 "reminderEnabledHint": "Opprett automatisk påminnelser for hver rapporteringsdato i saksperioden",
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær koordinator andel (%)",
                 "reportingFrequencyOptions": {
                     "every2weeks": "Hver 2. uke",
                     "every4weeks": "Hver 4. uke",

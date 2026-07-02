@@ -114,6 +114,83 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+                    <!-- Inquiry pipeline (kanban) — opt-in per company -->
+                    <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto pb-2">
+                        <div v-for="stage in pipelineStages" :key="stage.key"
+                            class="w-[300px] shrink-0 rounded-2xl bg-surface-50 p-3 transition-colors"
+                            :class="dragOverKey === stage.key ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''"
+                            @dragover.prevent="dragOverKey = stage.key" @dragleave="dragOverKey = null"
+                            @drop="onDrop(stage.key)">
+                            <div class="flex items-center gap-2 mb-3 px-1.5">
+                                <span class="size-2.5 rounded-full" :style="{ background: stage.color }"></span>
+                                <span class="text-[15px] font-bold text-slate-700">
+                                    {{ $t('inquiryPipeline.stages.' + stage.key) }}
+                                </span>
+                                <span class="ml-auto rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold text-slate-400">
+                                    {{ inquiriesByStage(stage.key).length }}
+                                </span>
+                            </div>
+                            <div class="space-y-2.5">
+                                <div v-for="inq in inquiriesByStage(stage.key)" :key="inq.uuid"
+                                    draggable="true" @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
+                                    @click="editInquiry(inq)"
+                                    class="group cursor-pointer rounded-xl bg-white border border-surface-200 p-3.5 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover active:cursor-grabbing"
+                                    :class="dragged?.uuid === inq.uuid ? 'opacity-40' : ''">
+                                    <p class="text-xs font-bold text-secondary">
+                                        {{ inq.inquirer_name || $t('inquiries.inquiries') }}
+                                    </p>
+                                    <p class="mt-1 text-[15px] font-bold leading-snug text-slate-900">
+                                        {{ inqTitle(inq) }}
+                                    </p>
+                                    <div class="mt-2 flex flex-wrap items-center gap-1.5">
+                                        <span v-if="inqSource(inq)"
+                                            class="inline-flex items-center rounded-full bg-surface-100 px-2 py-0.5 text-[11px] font-semibold text-slate-500">
+                                            {{ inqSource(inq) }}
+                                        </span>
+                                        <span v-for="(dept, di) in inq.departments" :key="'d' + di"
+                                            class="inline-flex items-center rounded-full bg-[#dcf1f7] px-2 py-0.5 text-[11px] font-semibold text-[#1b6d8a]">
+                                            {{ dept?.name }}
+                                        </span>
+                                        <span v-for="(topic, ti) in inq.topics" :key="'t' + ti"
+                                            class="inline-flex items-center rounded-full bg-surface-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">
+                                            {{ topic?.name }}
+                                        </span>
+                                        <span v-if="inq.outcome"
+                                            class="inline-flex items-center rounded-full bg-[#fdf3df] px-2 py-0.5 text-[11px] font-semibold text-[#c98a12]">
+                                            {{ inq.outcome }}
+                                        </span>
+                                        <span v-if="inq.citizen_id"
+                                            class="inline-flex items-center gap-1 rounded-full bg-[#e6f6ee] px-2 py-0.5 text-[11px] font-bold text-[#1f9d6b]">
+                                            <Icon name="ph:check" class="size-3" /> {{ $t('inquiries.table.status.convertedAsCitizen') }}
+                                        </span>
+                                    </div>
+                                    <!-- Won inquiry → create a citizen case directly from the card -->
+                                    <button v-if="stage.key === 'won' && !inq.citizen_id" type="button"
+                                        @click.stop="convertInquiryConfirmation(inq)"
+                                        class="mt-3 w-full inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#1f9d6b] px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#1b8a5e]">
+                                        <Icon name="ph:user-plus" class="size-4" />
+                                        {{ $t('inquiries.table.actions.convertAsCitizen') }}
+                                    </button>
+                                    <div class="mt-3 flex items-center justify-between border-t border-surface-100 pt-2.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="grid size-6 place-items-center rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-[10px] font-bold text-white">
+                                                {{ inqInitials(inq) }}
+                                            </div>
+                                            <span class="text-[11px] text-slate-400">
+                                                {{ formatDateToReadable(inq.inquiry_date) }}
+                                            </span>
+                                        </div>
+                                        <Icon name="ph:dots-six-vertical"
+                                            class="size-4 text-slate-300 opacity-0 transition-opacity group-hover:opacity-100" />
+                                    </div>
+                                </div>
+                                <p v-if="inquiriesByStage(stage.key).length === 0"
+                                    class="px-1.5 py-6 text-center text-xs text-slate-300">-</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <template v-if="!pipelineEnabled">
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.inquiries"
@@ -186,6 +263,7 @@
                         </Table>
                     </div>
                     <Pagination :data="state.inquiries" @previous="previous" @next="next" />
+                    </template>
                 </div>
             </div>
 
@@ -224,14 +302,67 @@ import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore() as any
 const inquiryStore = useInquiryStore() as any
 const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+// Inquiry pipeline (kanban) — opt-in per company.
+const pipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
+const pipelineStages = [
+    { key: 'new', prev: null, next: 'clarification', color: '#2dbab2' },
+    { key: 'clarification', prev: 'new', next: 'offer', color: '#5bbfb5' },
+    { key: 'offer', prev: 'clarification', next: 'won', color: '#1b6d8a' },
+    { key: 'won', prev: 'offer', next: 'lost', color: '#1f9d6b' },
+    { key: 'lost', prev: 'won', next: null, color: '#d2553f' },
+]
+function inquiriesByStage(stage: string) {
+    return (state.inquiries?.data ?? []).filter((i: any) => (i.pipeline_status || 'new') === stage)
+}
+function inqTitle(inq: any) {
+    return inq?.purpose || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`.trim() || inq?.inquirer_name || '-'
+}
+function inqSource(inq: any) {
+    return inq?.contacted_by || inq?.inquiry_type || ''
+}
+function inqInitials(inq: any) {
+    const src = (inq?.inquirer_name || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`).trim()
+    const parts = src.split(/\s+/).filter(Boolean)
+    if (!parts.length) return '?'
+    return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase()
+}
+// Drag and drop between pipeline columns.
+const dragged = ref<any>(null)
+const dragOverKey = ref<string | null>(null)
+function onDragStart(inq: any) {
+    dragged.value = inq
+}
+function onDrop(stageKey: string) {
+    dragOverKey.value = null
+    const inq = dragged.value
+    dragged.value = null
+    if (inq && (inq.pipeline_status || 'new') !== stageKey) {
+        moveStage(inq, stageKey)
+    }
+}
+
+async function moveStage(inquiry: any, status: string) {
+    try {
+        const response = await citizenInquiryService.updatePipelineStatus(inquiry.uuid, { pipeline_status: status })
+        if (response?.data) {
+            fetchInquiries()
+            successAlert(`${t('alert.success')}!`, `${t('inquiryPipeline.moved')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
 const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))

@@ -68,6 +68,23 @@
                     <FormError :error="props?.error?.errors?.employment_status_type_uuid?.[0]" />
                 </div>
 
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="contract_price" :label="$t('employment.cases.form.contractPrice')" />
+                        <FormNumberField id="contract_price" name="contract_price" :min="0"
+                            :placeholder="$t('employment.cases.form.contractPrice')"
+                            v-model="state.form.contract_price" />
+                        <FormError :error="props?.error?.errors?.contract_price?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="primary_split_percentage"
+                            :label="$t('employment.cases.form.primarySplitPercentage')" />
+                        <FormNumberField id="primary_split_percentage" name="primary_split_percentage" :min="0" :max="100"
+                            placeholder="100" v-model="state.form.primary_split_percentage" />
+                        <FormError :error="props?.error?.errors?.primary_split_percentage?.[0]" />
+                    </div>
+                </div>
+
                 <div class="space-y-1">
                     <FormLabel for="notes" :label="$t('employment.cases.form.notes')" />
                     <FormTextArea id="notes" name="notes" :placeholder="$t('employment.cases.form.notes')"
@@ -173,6 +190,8 @@ const state = reactive({
         notes: '',
         reminder_enabled: false,
         reporting_frequency_weeks: null as number | null,
+        contract_price: null as number | null,
+        primary_split_percentage: null as number | null,
     },
     options: {
         agreements: [] as any[],
@@ -207,6 +226,8 @@ watch(() => props.selectedCase, (newValue: any) => {
             notes: newValue.notes ?? '',
             reminder_enabled: newValue.reminder_enabled ?? false,
             reporting_frequency_weeks: newValue.reporting_frequency_weeks ?? null,
+            contract_price: newValue.contract_price ?? null,
+            primary_split_percentage: newValue.primary_split_percentage ?? null,
         }
         if (newValue.agreement?.uuid) {
             fetchAgreementStatusTypes(newValue.agreement.uuid)
@@ -300,6 +321,8 @@ function submitForm() {
             notes: state.form.notes,
             reminder_enabled: state.form.reminder_enabled,
             reporting_frequency_weeks: state.form.reminder_enabled ? state.form.reporting_frequency_weeks : null,
+            contract_price: state.form.contract_price,
+            primary_split_percentage: state.form.primary_split_percentage,
         }
         if (state.periodMode === 'by_weeks') {
             payload.duration_weeks = state.form.duration_weeks

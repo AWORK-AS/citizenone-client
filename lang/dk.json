@@ -1,4 +1,47 @@
 {
+    "inquiryPipeline": {
+        "board": "Henvendelses-pipeline",
+        "enableLabel": "Henvendelses-pipeline (kanban)",
+        "enableHint": "Vis henvendelser som et kanban-board",
+        "moved": "Henvendelse flyttet",
+        "stages": {
+            "new": "Ny",
+            "clarification": "Afklaring",
+            "offer": "Tilbud",
+            "won": "Vundet",
+            "lost": "Tabt"
+        }
+    },
+    "managementEconomy": {
+        "title": "Ledelse & økonomi",
+        "fromDate": "Fra dato",
+        "toDate": "Til dato",
+        "generate": "Generér",
+        "selectPeriod": "Vælg en periode for at se økonomien",
+        "noData": "Ingen data for perioden",
+        "allocatedRevenue": "Fordelt omsætning",
+        "interventions": "Indsatser",
+        "coordinators": "Koordinatorer",
+        "coordinatorSplit": "Omsætning pr. koordinator",
+        "primary": "Primær",
+        "secondary": "Sekundær",
+        "exportCsv": "Eksportér CSV"
+    },
+    "citizenRelations": {
+        "addFirst": "Tilføj første relation",
+        "tab": "Relationer",
+        "title": "Relationer",
+        "new": "Tilføj relation",
+        "relatedCitizen": "Relateret borger",
+        "relationshipType": "Relationstype",
+        "selectCitizen": "Vælg borger",
+        "name": "Navn",
+        "action": "Handling",
+        "empty": "Ingen relationer endnu",
+        "deleteConfirmation": "Slet denne relation",
+        "added": "Relation tilføjet",
+        "deleted": "Relation slettet"
+    },
     "companyModules": {
         "Economy": "Økonomi",
         "Journals": "Journaler",
@@ -1785,7 +1828,9 @@
                 "parentCollaboration": "Forældresamarbejde",
                 "personalGuardianship": "Personværge",
                 "photo": "Foto",
-                "studentCollaboration": "Elevsamarbejde"
+                "studentCollaboration": "Elevsamarbejde",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær-koordinator andel (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -1817,7 +1862,8 @@
                 "yellow": "Gul"
             },
             "transportation": "Transportere",
-            "useThisLocation": "Brug denne placering"
+            "useThisLocation": "Brug denne placering",
+            "secondaryCaseworker": "Sekundær sagsbehandler"
         },
         "importCitizens": {
             "alert": {
@@ -5803,13 +5849,13 @@
     "filter": "Filtrer",
     "more": "Mere",
     "commandPalette": {
+        "actions": "Handlinger",
         "placeholder": "Søg efter handlinger eller sektioner…",
         "hint": "Søg og hop rundt — ⌘K. Tryk ? for alle genveje.",
         "didYouKnowTitle": "Vidste du?",
         "didYouKnowBody": "Du kan søge og hoppe rundt overalt med ⌘K — tryk ? for alle genveje.",
         "didYouKnowDismiss": "Forstået",
         "empty": "Ingen resultater",
-        "actions": "Handlinger",
         "navigate": "Gå til",
         "citizen": "Borger"
     },
@@ -10731,6 +10777,13 @@
         "title": "Din ChatGPT Integration"
     },
     "employment": {
+        "economy": {
+            "coordinatorSplit": "Omsætning pr. koordinator",
+            "allocatedRevenue": "Fordelt omsætning",
+            "interventions": "Indsatser",
+            "primary": "Primær",
+            "secondary": "Sekundær"
+        },
         "statusTypes": {
             "statusTypes": "Statustyper",
             "newStatusType": "Ny statustype",
@@ -10891,6 +10944,8 @@
                 "reminderEnabled": "Automatiske rapporteringspåmindelser",
                 "reminderEnabledHint": "Opret automatisk påmindelser for hver rapporteringsdato i sagsperioden",
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær-koordinator andel (%)",
                 "reportingFrequencyOptions": {
                     "every2weeks": "Hver 2. uge",
                     "every4weeks": "Hver 4. uge",

@@ -668,6 +668,8 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
     if (item.name === 'Billing') return language.t('employment.billing.billing')
     if (item.name === 'Revenue report') return language.t('employment.revenue.report')
+    if (item.name === 'Management & Economy') return language.t('managementEconomy.title')
+    if (item.name === 'Inquiries') return language.t('inquiries.inquiries')
     return item.name
 }
 
@@ -821,9 +823,17 @@ function generateSidebarLinks(user: any) {
 
     nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
 
+    if (user?.company?.inquiry_pipeline_enabled && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
+        navigation.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', activeRouteNames: ['inquiries'] })
+    }
+
     if (user?.company?.industry?.system_name === 'employment_services') {
         nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
         nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+    }
+
+    if (user?.company?.industry?.system_name === 'social_welfare' && user?.pages?.some((page: any) => page.name === 'Management & Economy')) {
+        navigation.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', activeRouteNames: ['management-economy'] })
     }
 
     navigation.value = nav

@@ -112,6 +112,12 @@ watch(() => userStore.getUser, (newValue: any) => {
             href: `/citizens/${citizenUuid}/contacts`,
             routeNames: ['citizens-uuid-contacts'],
         })
+        tabs.push({
+            name: 'citizenRelations.tab', icon: 'ph:users-three', isTranslateName: true,
+            category: 'admin', primary: false,
+            href: `/citizens/${citizenUuid}/relations`,
+            routeNames: ['citizens-uuid-relations'],
+        })
     }
     if (can('Employee Group')) {
         tabs.push({

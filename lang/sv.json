@@ -1,4 +1,47 @@
 {
+    "inquiryPipeline": {
+        "board": "Förfrågningspipeline",
+        "enableLabel": "Förfrågningspipeline (kanban)",
+        "enableHint": "Visa förfrågningar som en kanban-tavla",
+        "moved": "Förfrågan flyttad",
+        "stages": {
+            "new": "Ny",
+            "clarification": "Utredning",
+            "offer": "Erbjudande",
+            "won": "Vunnen",
+            "lost": "Förlorad"
+        }
+    },
+    "managementEconomy": {
+        "title": "Ledning & ekonomi",
+        "fromDate": "Från datum",
+        "toDate": "Till datum",
+        "generate": "Generera",
+        "selectPeriod": "Välj en period för att se ekonomin",
+        "noData": "Ingen data för perioden",
+        "allocatedRevenue": "Fördelad intäkt",
+        "interventions": "Insatser",
+        "coordinators": "Koordinatorer",
+        "coordinatorSplit": "Intäkt per koordinator",
+        "primary": "Primär",
+        "secondary": "Sekundär",
+        "exportCsv": "Exportera CSV"
+    },
+    "citizenRelations": {
+        "addFirst": "Lägg till första relation",
+        "tab": "Relationer",
+        "title": "Relationer",
+        "new": "Lägg till relation",
+        "relatedCitizen": "Relaterad medborgare",
+        "relationshipType": "Relationstyp",
+        "selectCitizen": "Välj medborgare",
+        "name": "Namn",
+        "action": "Åtgärd",
+        "empty": "Inga relationer än",
+        "deleteConfirmation": "Ta bort denna relation",
+        "added": "Relation tillagd",
+        "deleted": "Relation borttagen"
+    },
     "companyModules": {
         "Economy": "Ekonomi",
         "Journals": "Journaler",
@@ -1785,7 +1828,9 @@
                 "parentCollaboration": "Föräldrasamarbete",
                 "personalGuardianship": "Personförmyndare",
                 "photo": "Foto",
-                "studentCollaboration": "Elevsamarbejde"
+                "studentCollaboration": "Elevsamarbejde",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primär koordinator andel (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -1817,7 +1862,8 @@
                 "yellow": "Gul"
             },
             "transportation": "Transportere",
-            "useThisLocation": "Använd denna placering"
+            "useThisLocation": "Använd denna placering",
+            "secondaryCaseworker": "Sekundär handläggare"
         },
         "importCitizens": {
             "alert": {
@@ -10731,6 +10777,13 @@
         "title": "Din ChatGPT-integration"
     },
     "employment": {
+        "economy": {
+            "coordinatorSplit": "Intäkt per koordinator",
+            "allocatedRevenue": "Fördelad intäkt",
+            "interventions": "Insatser",
+            "primary": "Primär",
+            "secondary": "Sekundär"
+        },
         "statusTypes": {
             "statusTypes": "Statustyper",
             "newStatusType": "Ny statustyp",
@@ -10891,6 +10944,8 @@
                 "reminderEnabled": "Automatiska rapporteringspåminnelser",
                 "reminderEnabledHint": "Skapa automatiskt påminnelser för varje rapporteringsdatum under ärendeperioden",
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primär koordinator andel (%)",
                 "reportingFrequencyOptions": {
                     "every2weeks": "Var 2:a vecka",
                     "every4weeks": "Var 4:e vecka",
