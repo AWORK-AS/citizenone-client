@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.aworkAS.CitizenOne",
+      "sha256_cert_fingerprints": ["4E:31:E1:1F:CE:4C:08:50:19:F4:76:93:8B:A7:91:54:07:CC:A5:69:45:53:15:09:77:5B:85:2C:A7:7C:F3:D8"]
+    }
+  }
+]
