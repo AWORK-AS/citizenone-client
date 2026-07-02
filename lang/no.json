@@ -1,4 +1,47 @@
 {
+    "inquiryPipeline": {
+        "board": "Henvendelses-pipeline",
+        "enableLabel": "Henvendelses-pipeline (kanban)",
+        "enableHint": "Vis henvendelser som et kanban-brett",
+        "moved": "Henvendelse flyttet",
+        "stages": {
+            "new": "Ny",
+            "clarification": "Avklaring",
+            "offer": "Tilbud",
+            "won": "Vunnet",
+            "lost": "Tapt"
+        }
+    },
+    "managementEconomy": {
+        "title": "Ledelse & økonomi",
+        "fromDate": "Fra dato",
+        "toDate": "Til dato",
+        "generate": "Generer",
+        "selectPeriod": "Velg en periode for å se økonomien",
+        "noData": "Ingen data for perioden",
+        "allocatedRevenue": "Fordelt omsetning",
+        "interventions": "Innsatser",
+        "coordinators": "Koordinatorer",
+        "coordinatorSplit": "Omsetning per koordinator",
+        "primary": "Primær",
+        "secondary": "Sekundær",
+        "exportCsv": "Eksporter CSV"
+    },
+    "citizenRelations": {
+        "addFirst": "Legg til første relasjon",
+        "tab": "Relasjoner",
+        "title": "Relasjoner",
+        "new": "Legg til relasjon",
+        "relatedCitizen": "Relatert borger",
+        "relationshipType": "Relasjonstype",
+        "selectCitizen": "Velg borger",
+        "name": "Navn",
+        "action": "Handling",
+        "empty": "Ingen relasjoner ennå",
+        "deleteConfirmation": "Slett denne relasjonen",
+        "added": "Relasjon lagt til",
+        "deleted": "Relasjon slettet"
+    },
     "companyModules": {
         "Economy": "Økonomi",
         "Journals": "Journaler",
@@ -657,7 +700,9 @@
             "disconnectConfirmation": "Er du sikker på at du vil koble frae tilkoblingn til din Zenegy-konto? Dette vil fjerne tilkoblingn mellem dine CitizenOne- og Zenegy-kontoer.",
             "disconnectTitle": "Koble fra Zenegy",
             "disconnected": "Zenegy-konto er vellykket afbrudt"
-        }
+        },
+        "setupFee": "oppstart",
+        "goToSetup": "Gå til oppsett"
     },
     "archived": {
         "alert": {
@@ -740,7 +785,16 @@
             "minutesAgo": "{count} min. siden",
             "yesterday": "I går"
         },
-        "title": "Varsler"
+        "title": "Varsler",
+        "planReminder": {
+            "title": "Planer & mål forfalt",
+            "description": "{count} planer, mål eller delmål har nådd sin fullføringsdato. Klikk for å oppdatere eller fullføre.",
+            "action": "Se planer"
+        },
+        "checkInReminder": {
+            "title": "Husk å sjekke inn",
+            "description": "Du har ikke sjekket inn i dag."
+        }
     },
     "bookingSettings": {
         "alert": {
@@ -1776,7 +1830,9 @@
                 "parentCollaboration": "Forældresamarbeide",
                 "personalGuardianship": "Personværge",
                 "photo": "Foto",
-                "studentCollaboration": "Elevsamarbeide"
+                "studentCollaboration": "Elevsamarbeide",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær koordinator andel (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -1808,7 +1864,8 @@
                 "yellow": "Gul"
             },
             "transportation": "Transportere",
-            "useThisLocation": "Bruk denne plassering"
+            "useThisLocation": "Bruk denne plassering",
+            "secondaryCaseworker": "Sekundær saksbehandler"
         },
         "importCitizens": {
             "alert": {
@@ -8582,7 +8639,8 @@
             "company": "Bedrift",
             "billing": "Fakturering",
             "data": "Data",
-            "logs": "Logger"
+            "logs": "Logger",
+            "integrations": "Integrasjoner"
         },
         "tabs": {
             "absences": "Fravær",
@@ -8642,7 +8700,9 @@
             "employmentJobcenters": "Jobbsentre",
             "employmentAgreements": "Avtaler",
             "gdprRetention": "GDPR Oppbevaring",
-            "smsNotifications": "SMS"
+            "smsNotifications": "SMS",
+            "powerBi": "Power BI",
+            "economic": "e-conomic"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -8658,6 +8718,53 @@
                 "sendCitizenWalletTransactions": "Send bruker tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
+        },
+        "powerBi": {
+            "title": "Power BI-eksport",
+            "subtitle": "Koble Power BI til sanntidsdata via et sikkert feed-token.",
+            "tabLabel": "Power BI",
+            "status": "Status",
+            "active": "Aktiv",
+            "inactive": "Ikke aktivert",
+            "generate": "Generer token",
+            "regenerate": "Generer nytt token",
+            "revoke": "Tilbakekall",
+            "tokenOnce": "Kopier tokenet nå. Det vises bare denne ene gangen.",
+            "copy": "Kopier",
+            "copied": "Kopiert!",
+            "feeds": "Feed-URL-er",
+            "feedEconomy": "Koordinatorøkonomi",
+            "feedInquiries": "Henvendelser",
+            "feedCases": "Borgere / saker",
+            "createdAt": "Opprettet",
+            "tokenEnds": "Token slutter på",
+            "howTitle": "Slik kobler du til Power BI",
+            "how1": "Åpne Power BI Desktop → Hent data → Web.",
+            "how2": "Lim inn en feed-URL over (tokenet er allerede inkludert).",
+            "how3": "Velg JSON som format og last inn. Oppdater på tidsplan etter behov.",
+            "revokeWarning": "Tilbakekalling gjør alle feed-URL-er ugyldige umiddelbart. Power BI-rapporter kan ikke lenger oppdateres før et nytt token genereres.",
+            "confirmRevoke": "Tilbakekalle Power BI-token?",
+            "adminOnly": "Bare administratorer kan administrere Power BI-token.",
+            "notPurchased": "Power BI-appen er ikke aktivert ennå. Aktiver den under Apps for å få tilgang til sanntids-datafeeder.",
+            "goToApps": "Gå til Apps"
+        },
+        "economic": {
+            "title": "e-conomic",
+            "subtitle": "Send kunder og kladde-fakturaer fra CitizenOne til e-conomic.",
+            "adminOnly": "Bare administratorer kan administrere e-conomic-tilkoblingen.",
+            "notPurchased": "e-conomic-appen er ikke aktivert ennå. Aktiver den under Apps for å koble til.",
+            "goToApps": "Gå til Apps",
+            "connection": "Tilkobling",
+            "connected": "Tilkoblet",
+            "notConnected": "Ikke tilkoblet",
+            "connect": "Koble til e-conomic",
+            "reconnect": "Koble til igjen",
+            "disconnect": "Koble fra",
+            "confirmDisconnect": "Koble fra e-conomic?",
+            "howTitle": "Slik kobler du til",
+            "how1": "Klikk “Koble til e-conomic”.",
+            "how2": "Godkjenn tilgangen i e-conomic (App Connect).",
+            "how3": "Du sendes tilbake hit. Deretter kan fakturaer sendes til e-conomic."
         }
     },
     "setupPassword": {
@@ -10722,6 +10829,13 @@
         "title": "Din ChatGPT-integrasjon"
     },
     "employment": {
+        "economy": {
+            "coordinatorSplit": "Omsetning per koordinator",
+            "allocatedRevenue": "Fordelt omsetning",
+            "interventions": "Innsatser",
+            "primary": "Primær",
+            "secondary": "Sekundær"
+        },
         "statusTypes": {
             "statusTypes": "Statustyper",
             "newStatusType": "Ny statustype",
@@ -10882,6 +10996,8 @@
                 "reminderEnabled": "Automatiske rapporteringspåminnelser",
                 "reminderEnabledHint": "Opprett automatisk påminnelser for hver rapporteringsdato i saksperioden",
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær koordinator andel (%)",
                 "reportingFrequencyOptions": {
                     "every2weeks": "Hver 2. uke",
                     "every4weeks": "Hver 4. uke",

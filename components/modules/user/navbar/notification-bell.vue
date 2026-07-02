@@ -1,17 +1,17 @@
 <template>
-    <div v-if="unreadCount > 0" class="relative py-1" ref="bellRef">
+    <div v-if="bellVisible" class="relative py-1" ref="bellRef">
         <button
             class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
             @click="togglePanel" type="button">
             <Icon name="ph:bell-ringing-light" class="h-5 w-5" aria-hidden="true" />
-            <Badge v-if="unreadCount > 0" type="notification"
+            <Badge v-if="totalBadge > 0" type="notification"
                 class="w-4.5 h-4.5 flex items-center justify-center absolute -top-0.5 -right-0.5 text-[10px]">
-                {{ unreadCount > 99 ? '99+' : unreadCount }}
+                {{ totalBadge > 99 ? '99+' : totalBadge }}
             </Badge>
         </button>
 
         <div v-if="state.isOpen"
-            class="absolute right-0 top-full mt-1 w-[380px] bg-white rounded-sm shadow-lg ring-1 ring-gray-900/5 z-50 origin-top-right">
+            class="absolute right-0 top-full mt-2 w-[380px] bg-white rounded-xl overflow-hidden shadow-xl ring-1 ring-gray-900/5 z-50 origin-top-right">
             <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                 <h3 class="text-sm font-semibold text-gray-900">{{ $t('bellNotification.title') }}</h3>
                 <button v-if="state.notifications.length > 0" @click="markAllAsRead" :disabled="state.isMarkingAll"
@@ -29,6 +29,48 @@
                 </select>
             </div>
             <div class="overflow-y-auto max-h-[340px]">
+                <!-- Action reminders — surfaced here instead of blocking modals -->
+                <div v-if="showCheckInReminder || showPlanReminder" class="p-2 space-y-2">
+                    <!-- Check-in -->
+                    <div v-if="showCheckInReminder" @click="checkIn" role="button"
+                        class="group relative overflow-hidden rounded-xl border border-secondary/20 bg-gradient-to-br from-[#f0faf9] to-white p-3 cursor-pointer transition-all hover:shadow-card hover:border-secondary/40">
+                        <div class="absolute -right-4 -top-6 size-16 rounded-full bg-secondary/10 transition-transform group-hover:scale-110" />
+                        <div class="relative flex items-start gap-3">
+                            <div class="flex-shrink-0 grid place-items-center size-9 rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-white shadow-sm">
+                                <Icon name="ph:fingerprint" class="h-5 w-5" />
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs font-bold text-slate-800">{{ $t('bellNotification.checkInReminder.title') }}</p>
+                                <p class="text-[11px] text-slate-500 mt-0.5 leading-snug">{{ $t('bellNotification.checkInReminder.description') }}</p>
+                                <span class="mt-2 inline-flex items-center gap-1 rounded-lg bg-secondary px-2.5 py-1 text-[11px] font-semibold text-white transition-colors group-hover:bg-secondary-700">
+                                    <Icon name="ph:sign-in" class="h-3.5 w-3.5" /> {{ $t('reminders.checkIn') }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plan/goal completion -->
+                    <div v-if="showPlanReminder" @click="goToPlanCompletions" role="button"
+                        class="group relative overflow-hidden rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-3 cursor-pointer transition-all hover:shadow-card hover:border-amber-300">
+                        <div class="absolute -right-4 -top-6 size-16 rounded-full bg-amber-100/70 transition-transform group-hover:scale-110" />
+                        <div class="relative flex items-start gap-3">
+                            <div class="flex-shrink-0 grid place-items-center size-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-500 text-white shadow-sm">
+                                <Icon name="ph:calendar-check" class="h-5 w-5" />
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs font-bold text-slate-800">{{ $t('bellNotification.planReminder.title') }}</p>
+                                <p class="text-[11px] text-slate-500 mt-0.5 leading-snug line-clamp-2">
+                                    {{ $t('bellNotification.planReminder.description', { count: overduePlansCount }) }}
+                                </p>
+                                <span class="mt-2 inline-flex items-center gap-1 rounded-lg bg-amber-500 px-2.5 py-1 text-[11px] font-semibold text-white transition-colors group-hover:bg-amber-600">
+                                    {{ $t('bellNotification.planReminder.action') }}
+                                    <Icon name="ph:arrow-right" class="h-3.5 w-3.5" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <template v-if="state.isLoading">
                     <div v-for="n in 5" :key="n" class="flex items-start gap-3 px-4 py-3 border-b border-gray-50">
                         <div class="w-8 h-8 rounded-full bg-gray-200 animate-pulse flex-shrink-0 mt-0.5" />
@@ -38,7 +80,7 @@
                         </div>
                     </div>
                 </template>
-                <template v-else-if="filteredNotifications.length === 0">
+                <template v-else-if="filteredNotifications.length === 0 && !showPlanReminder && !showCheckInReminder">
                     <div class="flex flex-col items-center justify-center py-10 px-4 text-center">
                         <Icon name="ph:bell-slash" class="h-10 w-10 text-gray-300 mb-2" />
                         <p class="text-sm text-gray-500 font-medium">{{ $t('bellNotification.empty.title') }}</p>
@@ -132,6 +174,30 @@ function getCategoryStyle(type: string) {
 }
 
 const unreadCount = computed(() => userStore.getUser?.unread_system_notification_count ?? 0)
+
+// Action reminders surfaced as bell items instead of blocking modals.
+const overduePlansCount = computed(() => userStore.getUser?.plans_goals_subgoals_reached_deadline_count ?? 0)
+const route = useRoute()
+// Eligibility drives the bell badge/visibility (independent of the panel filter).
+const planEligible = computed(() => overduePlansCount.value > 0 && route.name !== 'plans-goals-subgoals-completions')
+const checkInEligible = computed(() => !!userStore.getUser?.checkin_enabled && !userStore.getIsLoggedIn)
+// In-panel rows only show under the "all" category.
+const showPlanReminder = computed(() => planEligible.value && state.activeCategory === 'all')
+const showCheckInReminder = computed(() => checkInEligible.value && state.activeCategory === 'all')
+
+const actionReminderCount = computed(() => (planEligible.value ? 1 : 0) + (checkInEligible.value ? 1 : 0))
+const bellVisible = computed(() => unreadCount.value > 0 || actionReminderCount.value > 0)
+const totalBadge = computed(() => unreadCount.value + actionReminderCount.value)
+
+function goToPlanCompletions() {
+    state.isOpen = false
+    navigateTo('/plans-goals-subgoals-completions')
+}
+
+function checkIn() {
+    state.isOpen = false
+    userStore.setIsCheckInNow(true)
+}
 
 const filteredNotifications = computed(() => state.notifications)
 

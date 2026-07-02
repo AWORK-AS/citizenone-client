@@ -1,4 +1,47 @@
 {
+    "inquiryPipeline": {
+        "board": "Henvendelses-pipeline",
+        "enableLabel": "Henvendelses-pipeline (kanban)",
+        "enableHint": "Vis henvendelser som et kanban-board",
+        "moved": "Henvendelse flyttet",
+        "stages": {
+            "new": "Ny",
+            "clarification": "Afklaring",
+            "offer": "Tilbud",
+            "won": "Vundet",
+            "lost": "Tabt"
+        }
+    },
+    "managementEconomy": {
+        "title": "Ledelse & økonomi",
+        "fromDate": "Fra dato",
+        "toDate": "Til dato",
+        "generate": "Generér",
+        "selectPeriod": "Vælg en periode for at se økonomien",
+        "noData": "Ingen data for perioden",
+        "allocatedRevenue": "Fordelt omsætning",
+        "interventions": "Indsatser",
+        "coordinators": "Koordinatorer",
+        "coordinatorSplit": "Omsætning pr. koordinator",
+        "primary": "Primær",
+        "secondary": "Sekundær",
+        "exportCsv": "Eksportér CSV"
+    },
+    "citizenRelations": {
+        "addFirst": "Tilføj første relation",
+        "tab": "Relationer",
+        "title": "Relationer",
+        "new": "Tilføj relation",
+        "relatedCitizen": "Relateret borger",
+        "relationshipType": "Relationstype",
+        "selectCitizen": "Vælg borger",
+        "name": "Navn",
+        "action": "Handling",
+        "empty": "Ingen relationer endnu",
+        "deleteConfirmation": "Slet denne relation",
+        "added": "Relation tilføjet",
+        "deleted": "Relation slettet"
+    },
     "companyModules": {
         "Economy": "Økonomi",
         "Journals": "Journaler",
@@ -657,7 +700,9 @@
             "disconnectConfirmation": "Er du sikker på, at du vil afbryde forbindelsen til din Zenegy-konto? Dette vil fjerne forbindelsen mellem dine CitizenOne- og Zenegy-konti.",
             "disconnectTitle": "Afbryd Zenegy",
             "disconnected": "Zenegy-konto er succesfuldt afbrudt"
-        }
+        },
+        "setupFee": "opstart",
+        "goToSetup": "Gå til opsætning"
     },
     "archived": {
         "alert": {
@@ -740,7 +785,16 @@
             "minutesAgo": "{count} min. siden",
             "yesterday": "I går"
         },
-        "title": "Notifikationer"
+        "title": "Notifikationer",
+        "planReminder": {
+            "title": "Planer & mål forfaldet",
+            "description": "{count} planer, mål eller delmål har nået deres slutdato. Klik for at opdatere eller fuldføre.",
+            "action": "Se planer"
+        },
+        "checkInReminder": {
+            "title": "Husk at tjekke ind",
+            "description": "Du har ikke tjekket ind i dag."
+        }
     },
     "bookingSettings": {
         "alert": {
@@ -1776,7 +1830,9 @@
                 "parentCollaboration": "Forældresamarbejde",
                 "personalGuardianship": "Personværge",
                 "photo": "Foto",
-                "studentCollaboration": "Elevsamarbejde"
+                "studentCollaboration": "Elevsamarbejde",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær-koordinator andel (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -1808,7 +1864,8 @@
                 "yellow": "Gul"
             },
             "transportation": "Transportere",
-            "useThisLocation": "Brug denne placering"
+            "useThisLocation": "Brug denne placering",
+            "secondaryCaseworker": "Sekundær sagsbehandler"
         },
         "importCitizens": {
             "alert": {
@@ -5794,13 +5851,13 @@
     "filter": "Filtrer",
     "more": "Mere",
     "commandPalette": {
+        "actions": "Handlinger",
         "placeholder": "Søg efter handlinger eller sektioner…",
         "hint": "Søg og hop rundt — ⌘K. Tryk ? for alle genveje.",
         "didYouKnowTitle": "Vidste du?",
         "didYouKnowBody": "Du kan søge og hoppe rundt overalt med ⌘K — tryk ? for alle genveje.",
         "didYouKnowDismiss": "Forstået",
         "empty": "Ingen resultater",
-        "actions": "Handlinger",
         "navigate": "Gå til",
         "citizen": "Borger"
     },
@@ -8582,7 +8639,8 @@
             "company": "Virksomhed",
             "billing": "Fakturering",
             "data": "Data",
-            "logs": "Logs"
+            "logs": "Logs",
+            "integrations": "Integrationer"
         },
         "tabs": {
             "absences": "Fravær",
@@ -8642,7 +8700,9 @@
             "employmentJobcenters": "Jobcentre",
             "employmentAgreements": "Aftaler",
             "gdprRetention": "GDPR Opbevaring",
-            "smsNotifications": "SMS"
+            "smsNotifications": "SMS",
+            "powerBi": "Power BI",
+            "economic": "e-conomic"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -8658,6 +8718,53 @@
                 "sendCitizenWalletTransactions": "Send borger tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
+        },
+        "powerBi": {
+            "title": "Power BI-eksport",
+            "subtitle": "Forbind Power BI til live data via et sikkert feed-token.",
+            "tabLabel": "Power BI",
+            "status": "Status",
+            "active": "Aktiv",
+            "inactive": "Ikke aktiveret",
+            "generate": "Generér token",
+            "regenerate": "Generér nyt token",
+            "revoke": "Tilbagekald",
+            "tokenOnce": "Kopiér tokenet nu. Det vises kun denne ene gang.",
+            "copy": "Kopiér",
+            "copied": "Kopieret!",
+            "feeds": "Feed-URL'er",
+            "feedEconomy": "Koordinatorøkonomi",
+            "feedInquiries": "Henvendelser",
+            "feedCases": "Borgere / sager",
+            "createdAt": "Oprettet",
+            "tokenEnds": "Token slutter på",
+            "howTitle": "Sådan forbinder du Power BI",
+            "how1": "Åbn Power BI Desktop → Hent data → Web.",
+            "how2": "Indsæt en feed-URL ovenfor (tokenet er allerede inkluderet).",
+            "how3": "Vælg JSON som format og indlæs. Opdatér på skema efter behov.",
+            "revokeWarning": "Tilbagekald gør alle feed-URL’er ugyldige med det samme. Power BI-rapporter kan ikke længere opdatere før et nyt token genereres.",
+            "confirmRevoke": "Tilbagekald Power BI-token?",
+            "adminOnly": "Kun administratorer kan administrere Power BI-token.",
+            "notPurchased": "Power BI-app’en er ikke aktiveret endnu. Aktivér den under Apps for at få adgang til live-datafeeds.",
+            "goToApps": "Gå til Apps"
+        },
+        "economic": {
+            "title": "e-conomic",
+            "subtitle": "Send kunder og kladde-fakturaer fra CitizenOne til e-conomic.",
+            "adminOnly": "Kun administratorer kan administrere e-conomic-forbindelsen.",
+            "notPurchased": "e-conomic-app’en er ikke aktiveret endnu. Aktivér den under Apps for at forbinde.",
+            "goToApps": "Gå til Apps",
+            "connection": "Forbindelse",
+            "connected": "Forbundet",
+            "notConnected": "Ikke forbundet",
+            "connect": "Forbind til e-conomic",
+            "reconnect": "Forbind igen",
+            "disconnect": "Afbryd",
+            "confirmDisconnect": "Afbryd forbindelsen til e-conomic?",
+            "howTitle": "Sådan forbinder du",
+            "how1": "Klik “Forbind til e-conomic”.",
+            "how2": "Godkend adgangen i e-conomic (App Connect).",
+            "how3": "Du sendes tilbage hertil. Herefter kan fakturaer sendes til e-conomic."
         }
     },
     "setupPassword": {
@@ -10722,6 +10829,13 @@
         "title": "Din ChatGPT Integration"
     },
     "employment": {
+        "economy": {
+            "coordinatorSplit": "Omsætning pr. koordinator",
+            "allocatedRevenue": "Fordelt omsætning",
+            "interventions": "Indsatser",
+            "primary": "Primær",
+            "secondary": "Sekundær"
+        },
         "statusTypes": {
             "statusTypes": "Statustyper",
             "newStatusType": "Ny statustype",
@@ -10882,6 +10996,8 @@
                 "reminderEnabled": "Automatiske rapporteringspåmindelser",
                 "reminderEnabledHint": "Opret automatisk påmindelser for hver rapporteringsdato i sagsperioden",
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primær-koordinator andel (%)",
                 "reportingFrequencyOptions": {
                     "every2weeks": "Hver 2. uge",
                     "every4weeks": "Hver 4. uge",

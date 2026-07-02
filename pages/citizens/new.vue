@@ -90,6 +90,7 @@ const state = reactive({
         pricing: '',
         pricing_start_date: '',
         primary_case_worker_uuid: '',
+        secondary_case_worker_uuid: '',
         paying_municipality: '',
         assessment_municipality: '',
         responsible_municipality: '',
@@ -118,6 +119,8 @@ const state = reactive({
             accommodation_end_date: '',
             accommodation_start_date: '',
             journal_number: '',
+            contract_price: '',
+            primary_split_percentage: '',
             accompanying_children: [{
                 name: '',
                 gender: '',
@@ -214,6 +217,7 @@ async function saveCitizen(citizenDetails: any) {
 
         params.append('pricing_start_date', citizenDetails.pricing_start_date)
         params.append('primary_case_worker_uuid', citizenDetails.primary_case_worker_uuid)
+        params.append('secondary_case_worker_uuid', citizenDetails.secondary_case_worker_uuid)
         params.append('paying_municipality', citizenDetails.paying_municipality)
         params.append('assessment_municipality', citizenDetails.assessment_municipality)
         params.append('responsible_municipality', citizenDetails.responsible_municipality)
@@ -235,6 +239,8 @@ async function saveCitizen(citizenDetails: any) {
         params.append('end_date', citizenDetails.stayData.accommodation_end_date)
         params.append('start_date', citizenDetails.stayData.accommodation_start_date)
         params.append('journal_number', citizenDetails.stayData.journal_number)
+        params.append('contract_price', citizenDetails.stayData.contract_price)
+        params.append('primary_split_percentage', citizenDetails.stayData.primary_split_percentage)
         params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
         if (citizenDetails.stayData.residence_before_uuid) {
             params.append('residence_before_uuid', citizenDetails.stayData.residence_before_uuid)

@@ -58,8 +58,9 @@ function closeModal() {
 }
 
 const state = reactive({
-    currentVersion: '2026-05-15',
+    currentVersion: '2026-06-26',
     availableVersions: [
+        '2026-06-26',
         '2026-05-15',
         '2026-05-08',
         '2026-05-01',
@@ -92,6 +93,211 @@ const state = reactive({
 
 const allUpdates: Record<string, Record<string, { title: string, description: string[] }[]>> = {
     en: {
+        '2026-06-26': [
+            {
+                title: 'F-01 — Employment sector setup',
+                description: [
+                    'Module: Sector Configuration · Type: New',
+                    'Add "Employment Services" as a new sector category in the system.',
+                    'Build a sector configuration model per contract where sector-specific settings can be defined.',
+                    'Configuration must include: active status types, case types (agreements), and billing rules.',
+                    'Sector-specific components must only be visible within the Employment Services sector and must not appear in other sectors.',
+                    'Reuse: the existing sector/permission architecture in permissions_table can be extended; the department structure (citizen_departments, user_departments) can be reused.',
+                    'Notes: Foundation module — must be built first.',
+                ],
+            },
+            {
+                title: 'F-02 — Extended citizen profile (employment)',
+                description: [
+                    'Module: Citizen Profile · Type: Extension',
+                    'Extend the existing citizen profile with employment-related fields required for employment programs.',
+                    'New fields include: case type (linked to jobcenter agreement), status (approx. 30 configurable types per contract), financial support basis, language, primary and secondary consultant, referrer information and contact details, referral date, case period with change logging, total weeks vs. weeks used, reporting requirements, activation deadline, referral reason, candidate goals, internal notes, and development history.',
+                    'Reuse: citizens table already exists; citizen_goals + citizen_subgoals can store candidate goals; citizen_journals can store internal notes; citizen_departments handles department assignment; activity_log handles change logging.',
+                    'Notes: The status field will drive billing logic and must be modeled carefully.',
+                ],
+            },
+            {
+                title: 'F-03 — Case and agreement model',
+                description: [
+                    'Module: Case Management · Type: Extension',
+                    'Build a case and agreement structure.',
+                    'Agreement: defines the type of case linked to a specific jobcenter contract.',
+                    'Case: represents the concrete instance of an agreement for a specific citizen. A citizen may have multiple cases simultaneously.',
+                    'Case setup options: define period by date interval or number of weeks; end date is calculated automatically; all period changes are logged; weeks used are calculated continuously.',
+                    'Reuse: the deals table may represent agreements; citizen_plans may represent case instances; time_logs may track weeks used.',
+                    'Notes: Before building, confirm mapping — Deals → Agreements, Citizen plans → Cases.',
+                ],
+            },
+            {
+                title: 'F-04 — Configurable status model',
+                description: [
+                    'Module: Status Model · Type: New',
+                    'Create a flexible status system where approximately 30 status types can be configured per contract.',
+                    'Statuses must support: active/inactive states, contract-specific configuration, and status history per citizen.',
+                    'Status changes must be logged automatically.',
+                    'Status updates must also trigger billing basis updates.',
+                    'Reuse: activity_log already supports change history; the permissions_table configuration pattern can inspire status configuration.',
+                    'Notes: Must be built before the billing module.',
+                ],
+            },
+            {
+                title: 'F-05 — Billing module with e-conomic export',
+                description: [
+                    'Module: Billing · Type: Extension',
+                    'Create a billing module supporting three billing models per agreement type: billing based on commenced weeks, billing based on activities performed, and bonus billing based on milestones.',
+                    'Billing basis must be calculated per citizen and per case.',
+                    'All billing data must be exportable to e-conomic.',
+                    'The module must only be visible in the Employment Services sector.',
+                    'Reuse: invoices + invoice_details tables already exist; carts table may support billing line items; add_on_deals likely handles bonus billing patterns.',
+                    'Notes: Confirm e-conomic import format before building (CSV / API / XML).',
+                ],
+            },
+            {
+                title: 'F-06 — Referral module',
+                description: [
+                    'Module: Referral · Type: New',
+                    'Create a referral module where referrals can be created by external caseworkers or internal consultants.',
+                    'Referral creation allows: selecting a date interval or number of weeks (end date calculated automatically).',
+                    'Citizen profiles must be created automatically via CPR register lookup.',
+                    'System must support: logging of period changes and consultant permissions to create and edit referrals.',
+                    'Reuse: applications table may partially cover referral intake; citizen_departments supports assignment; activity_log handles logging.',
+                    'Notes: Requires integration with CPR register API.',
+                ],
+            },
+            {
+                title: 'F-07 — Report module with templates',
+                description: [
+                    'Module: Reports · Type: Extension',
+                    'Build a report module with templates per agreement type.',
+                    'Templates must automatically insert: citizen data, caseworker data, and consultant data.',
+                    'When a report is finalized: external read access is enabled, the caseworker is notified, and the reporting task is marked as completed.',
+                    'Reporting requirements must be visible on the citizen profile and be checkable.',
+                    'Reuse: protocols + citizen_protocols may store reports; media table handles attachments; schedules may manage task completion tracking.',
+                    'Notes: Clarify whether external access should use login-based access or token-based public links.',
+                ],
+            },
+            {
+                title: 'F-08 — Automatic reminders and reporting tasks',
+                description: [
+                    'Module: Reminders · Type: Extension',
+                    'When a case requires reporting (e.g. every 4 weeks), the system must automatically create recurring tasks and generate reminders for consultants.',
+                    'Reminders must appear in the consultant\'s calendar.',
+                    'If the case period changes, all reminders must update automatically.',
+                    'System must support Outlook synchronization.',
+                    'Reuse: reminders table already exists; my_calendars, calendar_users, and schedules handle calendar functionality; the queues folder indicates async job handling is available; AzureToken.php exists for Microsoft Graph.',
+                    'Notes: Verify if Microsoft Graph authentication is already configured.',
+                ],
+            },
+            {
+                title: 'F-09 — SMS notifications for citizens',
+                description: [
+                    'Module: SMS · Type: Extension',
+                    'Citizens must receive SMS notifications for: new appointment creation, a reminder 24 hours before an appointment, and a reminder on the same day.',
+                    'All SMS notifications must be sent through an SMS gateway integration with "CitizenOne" as the sender name.',
+                    'Reuse: existing queues infrastructure supports asynchronous dispatch; journal-notifications indicates notification patterns already exist.',
+                    'Notes: Check if Azure Communication Services is already in use.',
+                ],
+            },
+            {
+                title: 'F-10 — Activity and attendance module',
+                description: [
+                    'Module: Activities · Type: Extension',
+                    'Extend activity functionality to support attendance registration.',
+                    'Features include: check-in / check-out via iPad or mobile app, printable participant lists per activity, attendance registration per participant, absence registration per participant, and absence reason recording.',
+                    'System must generate weekly and monthly attendance lists per citizen, including attendance, absence, and absence reasons.',
+                    'Reuse: protocols + citizen_protocols already log activity participation; Absence.php model already exists; activity_log supports batch operations.',
+                    'Notes: Verify whether absence reasons are already partially modeled.',
+                ],
+            },
+            {
+                title: 'F-11 — New actor types: Referrer and Company',
+                description: [
+                    'Module: Roles · Type: Extension',
+                    'Add two new actor types.',
+                    'Referrer: typically a caseworker at a jobcenter. Permissions include: create referrals, view referrals, receive report notifications, and read externally shared reports.',
+                    'Company: represents an employer or internship placement. Must support: linking to a citizen, a period-based relationship, and employer information storage.',
+                    'Existing system roles must be extended with employment-specific permissions.',
+                    'Reuse: companies + company_addresses tables already exist; permissions_table already supports role permissions; client and relative route groups indicate existing external access architecture.',
+                    'Notes: Likely only requires adding a citizen relationship and time period.',
+                ],
+            },
+            {
+                title: 'F-12 — Employment and education outcomes',
+                description: [
+                    'Module: Outcomes · Type: New',
+                    'Consultants must be able to register citizen outcomes, including: employment, education, and work placement.',
+                    'Each outcome must include: employer or institution, and time period.',
+                    'Outcome data must be stored on the citizen profile and must also feed into the bonus billing model.',
+                    'Reuse: citizen_goals + citizen_subgoals already support goal tracking; the plans-goals-subgoals-completions page may already handle completion tracking.',
+                    'Notes: Review the existing completion tracking page before implementing.',
+                ],
+            },
+            {
+                title: 'F-13 — Automated GDPR data retention and deletion',
+                description: [
+                    'Module: GDPR · Type: Extension',
+                    'Implement automated data retention and deletion for citizen data.',
+                    'Citizen data must be recoverable if accidentally deleted.',
+                    'Automatic deletion is triggered after a configurable number of months following case completion.',
+                    'Retention period must be configurable per contract: 3, 6, or 9 months.',
+                    'All deletions must be logged with a timestamp and the user or system trigger.',
+                    'Reuse: activity_log handles deletion logging; queues infrastructure can run scheduled jobs; time_logs may track case completion dates.',
+                    'Notes: Confirm backup and restore strategy for GDPR data recovery.',
+                ],
+            },
+            {
+                title: '💼 Case / Program Management – Billing & Revenue Logic',
+                description: [
+                    'The system must support three pricing models: weekly pricing, hourly pricing, and bonus-based pricing.',
+                    'It must be possible to define: a fixed weekly rate per citizen, bonus payments per citizen, and conditional bonuses (e.g., a bonus triggered when a citizen has been employed for 3 or 6 months).',
+                    'It must be possible to calculate and extract revenue per consultant, based on the number of citizens handled and associated billing (weekly, hourly, bonus).',
+                    'It must be possible to exclude specific weeks from billing — for example if a citizen was sick or inactive during a period.',
+                    'Citizens must have configurable statuses (managed via the catalog), such as: Active, Deactivated, On hold, and In internship. These statuses must influence what is billable.',
+                    'Billing data can be extracted by selecting a from/to date range. The output must clearly show what should be invoiced and which entries are already invoiced.',
+                    'Each billing unit must have a status: Invoiced or Not invoiced. When billing is processed, the relevant weeks are automatically marked as "Invoiced".',
+                    'The following data fields must be supported for invoice generation: CPR number, citizen name, billing period, price per week/hour, customer number, and product number.',
+                ],
+            },
+            {
+                title: '🔐 Caseworker Access & Communication',
+                description: [
+                    'Caseworkers must be able to access reports via shared link-based access, without requiring a full system login.',
+                    'Access must be permission-based: specific folders can be selected, and it must be sufficient to grant access to one folder per citizen.',
+                    'It must be possible to define which folders a caseworker has access to, ensuring caseworkers can only view their assigned folders.',
+                    'Caseworkers must also be able to chat with the organization directly through the system.',
+                ],
+            },
+            {
+                title: '📊 Citizen Card – Development Graph',
+                description: [
+                    'The "development graph" on the citizen card is defined by attendance data: presence and absence.',
+                ],
+            },
+            {
+                title: '📋 Protocol – Scheduling & Citizen Access',
+                description: [
+                    'It must be possible to create custom protocol schedules — for example, every 2nd Tuesday.',
+                    'The system must support flexible recurrence rules, not just standard daily/weekly patterns.',
+                    'Citizens must be able to log in to the system and check in / check out.',
+                ],
+            },
+            {
+                title: '🏢 Internship – Company Field',
+                description: [
+                    'It must be possible to add a "Company" field to indicate where a citizen is placed for an internship.',
+                    'The field should be available on the citizen profile (or relevant module, e.g., internship/protocol) and allow input of company name and optionally additional details.',
+                ],
+            },
+            {
+                title: '📄 Extended Predefined Events for Reports (Forms)',
+                description: [
+                    'Expand the functionality for predefined events when creating reports (forms).',
+                    'It must be possible to create recurring events with a defined end date, or with no end date (ongoing).',
+                    'The system must automatically create an event/activity in the calendar when a form is created.',
+                    'Purpose: automate scheduling based on report creation and reduce manual calendar management.',
+                ],
+            },
+        ],
         '2026-05-15': [
             {
                 title: '🔁 Template & Copying Improvements',
@@ -1571,6 +1777,211 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     dk: {
+        '2026-06-26': [
+            {
+                title: 'F-01 — Opsætning af beskæftigelsessektor',
+                description: [
+                    'Modul: Sektorkonfiguration · Type: Ny',
+                    'Tilføj "Beskæftigelse" som en ny sektorkategori i systemet.',
+                    'Byg en sektorkonfigurationsmodel per kontrakt, hvor sektorspecifikke indstillinger kan defineres.',
+                    'Konfigurationen skal indeholde: aktive statustyper, sagstyper (aftaler) og faktureringsregler.',
+                    'Sektorspecifikke komponenter må kun være synlige inden for beskæftigelsessektoren og må ikke vises i andre sektorer.',
+                    'Genbrug: den eksisterende sektor-/tilladelsesarkitektur i permissions_table kan udvides; afdelingsstrukturen (citizen_departments, user_departments) kan genbruges.',
+                    'Bemærkning: Grundmodul — skal bygges først.',
+                ],
+            },
+            {
+                title: 'F-02 — Udvidet borgerprofil (beskæftigelse)',
+                description: [
+                    'Modul: Borgerprofil · Type: Udvidelse',
+                    'Udvid den eksisterende borgerprofil med beskæftigelsesrelaterede felter, der er påkrævet til beskæftigelsesindsatser.',
+                    'Nye felter omfatter: sagstype (koblet til jobcenteraftale), status (ca. 30 konfigurerbare typer per kontrakt), forsørgelsesgrundlag, sprog, primær og sekundær konsulent, visitatorinformation og kontaktoplysninger, visiteringsdato, sagsperiode med ændringslog, samlede uger vs. brugte uger, indberetningskrav, aktiveringsfrist, visitationsårsag, kandidatmål, interne noter og udviklingshistorik.',
+                    'Genbrug: citizens-tabellen eksisterer allerede; citizen_goals + citizen_subgoals kan gemme kandidatmål; citizen_journals kan gemme interne noter; citizen_departments håndterer afdelingstildeling; activity_log håndterer ændringslog.',
+                    'Bemærkning: Statusfeltet vil drive faktureringslogikken og skal modelleres omhyggeligt.',
+                ],
+            },
+            {
+                title: 'F-03 — Sags- og aftalemodel',
+                description: [
+                    'Modul: Sagsbehandling · Type: Udvidelse',
+                    'Byg en sags- og aftalestruktur.',
+                    'Aftale: definerer sagstypen knyttet til en specifik jobcenterkontrakt.',
+                    'Sag: repræsenterer den konkrete instans af en aftale for en specifik borger. En borger kan have flere sager samtidigt.',
+                    'Sagsopsætning: definer periode via datointerval eller antal uger; slutdato beregnes automatisk; alle periodeændringer logges; brugte uger beregnes løbende.',
+                    'Genbrug: deals-tabellen kan repræsentere aftaler; citizen_plans kan repræsentere sagsinstanser; time_logs kan spore brugte uger.',
+                    'Bemærkning: Bekræft mapping før bygning — Deals → Aftaler, Citizen plans → Sager.',
+                ],
+            },
+            {
+                title: 'F-04 — Konfigurerbar statusmodel',
+                description: [
+                    'Modul: Statusmodel · Type: Ny',
+                    'Opret et fleksibelt statussystem, hvor ca. 30 statustyper kan konfigureres per kontrakt.',
+                    'Statusser skal understøtte: aktive/inaktive tilstande, kontraktspecifik konfiguration og statushistorik per borger.',
+                    'Statusændringer skal logges automatisk.',
+                    'Statusopdateringer skal også udløse opdateringer af faktureringsgrundlaget.',
+                    'Genbrug: activity_log understøtter allerede ændringshistorik; konfigurationsmønsteret i permissions_table kan inspirere statuskonfigurationen.',
+                    'Bemærkning: Skal bygges før faktureringsmodulet.',
+                ],
+            },
+            {
+                title: 'F-05 — Faktureringsmodul med e-conomic-eksport',
+                description: [
+                    'Modul: Fakturering · Type: Udvidelse',
+                    'Opret et faktureringsmodul der understøtter tre faktureringsmodeller per aftaletype: fakturering baseret på påbegyndte uger, fakturering baseret på udførte aktiviteter og bonusfakturering baseret på milepæle.',
+                    'Faktureringsgrundlaget skal beregnes per borger og per sag.',
+                    'Alle faktureringsdata skal kunne eksporteres til e-conomic.',
+                    'Modulet må kun være synligt i beskæftigelsessektoren.',
+                    'Genbrug: invoices + invoice_details-tabeller eksisterer allerede; carts-tabellen kan understøtte faktureringslinjer; add_on_deals håndterer sandsynligvis bonusfakturering.',
+                    'Bemærkning: Bekræft e-conomic-importformat inden bygning (CSV / API / XML).',
+                ],
+            },
+            {
+                title: 'F-06 — Visitationsmodul',
+                description: [
+                    'Modul: Visitation · Type: Ny',
+                    'Opret et visitationsmodul, hvor visitationer kan oprettes af eksterne sagsbehandlere eller interne konsulenter.',
+                    'Visitationsoprettelse tillader: valg af datointerval eller antal uger (slutdato beregnes automatisk).',
+                    'Borgerprofiler skal oprettes automatisk via CPR-registeropslag.',
+                    'Systemet skal understøtte: logning af periodeændringer og konsulenttilladelser til at oprette og redigere visitationer.',
+                    'Genbrug: applications-tabellen kan delvist dække visitationsindtag; citizen_departments understøtter tildeling; activity_log håndterer logning.',
+                    'Bemærkning: Kræver integration med CPR-register-API.',
+                ],
+            },
+            {
+                title: 'F-07 — Rapportmodul med skabeloner',
+                description: [
+                    'Modul: Rapporter · Type: Udvidelse',
+                    'Byg et rapportmodul med skabeloner per aftaletype.',
+                    'Skabeloner skal automatisk indsætte: borgerdata, sagsbehandlerdata og konsulentdata.',
+                    'Når en rapport færdiggøres: ekstern læseadgang aktiveres, sagsbehandleren notificeres og indberetningsopgaven markeres som fuldført.',
+                    'Indberetningskrav skal være synlige på borgerprofilen og kunne afkrydses.',
+                    'Genbrug: protocols + citizen_protocols kan gemme rapporter; media-tabellen håndterer vedhæftninger; schedules kan styre opgavefærdiggørelsessporing.',
+                    'Bemærkning: Afklar om ekstern adgang skal bruge loginbaseret adgang eller tokenbaserede offentlige links.',
+                ],
+            },
+            {
+                title: 'F-08 — Automatiske påmindelser og indberetningsopgaver',
+                description: [
+                    'Modul: Påmindelser · Type: Udvidelse',
+                    'Når en sag kræver indberetning (f.eks. hver 4. uge), skal systemet automatisk oprette tilbagevendende opgaver og generere påmindelser til konsulenter.',
+                    'Påmindelser skal vises i konsulentens kalender.',
+                    'Hvis sagsperioden ændres, skal alle påmindelser opdateres automatisk.',
+                    'Systemet skal understøtte Outlook-synkronisering.',
+                    'Genbrug: reminders-tabellen eksisterer allerede; my_calendars, calendar_users og schedules håndterer kalenderfunktionalitet; queues-mappen indikerer asynkron jobbehåndtering; AzureToken.php eksisterer til Microsoft Graph.',
+                    'Bemærkning: Verificer om Microsoft Graph-godkendelse allerede er konfigureret.',
+                ],
+            },
+            {
+                title: 'F-09 — SMS-notifikationer til borgere',
+                description: [
+                    'Modul: SMS · Type: Udvidelse',
+                    'Borgere skal modtage SMS-notifikationer ved: oprettelse af ny aftale, påmindelse 24 timer før en aftale og påmindelse på selve dagen.',
+                    'Alle SMS-notifikationer skal sendes via en SMS-gateway-integration med "CitizenOne" som afsendernavn.',
+                    'Genbrug: eksisterende queues-infrastruktur understøtter asynkron afsendelse; journal-notifications indikerer at notifikationsmønstre allerede eksisterer.',
+                    'Bemærkning: Tjek om Azure Communication Services allerede er i brug.',
+                ],
+            },
+            {
+                title: 'F-10 — Aktivitets- og fremmøderegistreringsmodul',
+                description: [
+                    'Modul: Aktiviteter · Type: Udvidelse',
+                    'Udvid aktivitetsfunktionaliteten til at understøtte fremmøderegistrering.',
+                    'Funktioner inkluderer: check-in / check-out via iPad eller mobilapp, udskrivelige deltagerlister per aktivitet, fremmøderegistrering per deltager, fraværsregistrering per deltager og fraværsårsagsregistrering.',
+                    'Systemet skal generere ugentlige og månedlige fremmødelister per borger, inklusiv fremmøde, fravær og fraværsårsager.',
+                    'Genbrug: protocols + citizen_protocols logger allerede aktivitetsdeltagelse; Absence.php-modellen eksisterer allerede; activity_log understøtter batchoperationer.',
+                    'Bemærkning: Verificer om fraværsårsager allerede er delvist modelleret.',
+                ],
+            },
+            {
+                title: 'F-11 — Nye aktørtyper: Visitator og Virksomhed',
+                description: [
+                    'Modul: Roller · Type: Udvidelse',
+                    'Tilføj to nye aktørtyper.',
+                    'Visitator: typisk en sagsbehandler på et jobcenter. Tilladelser inkluderer: oprette visitationer, se visitationer, modtage rapportnotifikationer og læse eksternt delte rapporter.',
+                    'Virksomhed: repræsenterer en arbejdsgiver eller praktikplads. Skal understøtte: tilknytning til borger, et periodebaseret forhold og lagring af arbejdsgiveroplysninger.',
+                    'Eksisterende systemroller skal udvides med beskæftigelsesspecifikke tilladelser.',
+                    'Genbrug: companies + company_addresses-tabeller eksisterer allerede; permissions_table understøtter allerede rolletilladelser; client- og relative-rutegrupper indikerer eksisterende ekstern adgangsarkitektur.',
+                    'Bemærkning: Kræver sandsynligvis kun tilføjelse af borgerrelation og tidsperiode.',
+                ],
+            },
+            {
+                title: 'F-12 — Beskæftigelses- og uddannelsesresultater',
+                description: [
+                    'Modul: Resultater · Type: Ny',
+                    'Konsulenter skal kunne registrere borgerresultater, herunder: beskæftigelse, uddannelse og praktikplads.',
+                    'Hvert resultat skal indeholde: arbejdsgiver eller institution og tidsperiode.',
+                    'Resultatdata skal gemmes på borgerprofilen og skal også indgå i bonusfaktureringsmodellen.',
+                    'Genbrug: citizen_goals + citizen_subgoals understøtter allerede målsporing; plans-goals-subgoals-completions-siden kan allerede håndtere færdiggørelsessporing.',
+                    'Bemærkning: Gennemgå den eksisterende færdiggørelsessporingsside inden implementering.',
+                ],
+            },
+            {
+                title: 'F-13 — Automatisk GDPR-dataopbevaring og -sletning',
+                description: [
+                    'Modul: GDPR · Type: Udvidelse',
+                    'Implementer automatisk dataopbevaring og -sletning for borgerdata.',
+                    'Borgerdata skal kunne gendannes, hvis de ved et uheld slettes.',
+                    'Automatisk sletning udløses efter et konfigurerbart antal måneder efter sagsafslutning.',
+                    'Opbevaringsperioden skal kunne konfigureres per kontrakt: 3, 6 eller 9 måneder.',
+                    'Alle sletninger skal logges med tidsstempel og bruger- eller systemudløser.',
+                    'Genbrug: activity_log håndterer sletningslogning; queues-infrastruktur kan køre planlagte jobs; time_logs kan spore sagsafslutningsdatoer.',
+                    'Bemærkning: Bekræft backup- og gendannelsesstrategi for GDPR-datagendannelse.',
+                ],
+            },
+            {
+                title: '💼 Sags-/programstyring – Fakturerings- og omsætningslogik',
+                description: [
+                    'Systemet skal understøtte tre prismodeller: ugentlig prissætning, timepris og bonusbaseret prissætning.',
+                    'Det skal være muligt at definere: en fast ugepris per borger, bonusbetalinger per borger og betingede bonusser (f.eks. en bonus udløst når en borger har været i beskæftigelse i 3 eller 6 måneder).',
+                    'Det skal være muligt at beregne og udtrække omsætning per konsulent, baseret på antallet af håndterede borgere og tilknyttet fakturering (ugentlig, timebasis, bonus).',
+                    'Det skal være muligt at udelade specifikke uger fra fakturering — f.eks. hvis en borger var syg eller inaktiv i en periode.',
+                    'Borgere skal have konfigurerbare statusser (administreret via katalog), såsom: Aktiv, Deaktiveret, On hold og I praktik. Disse statusser skal påvirke hvad der kan faktureres.',
+                    'Faktureringsdata kan udtrækkes ved at vælge et fra/til-datointerval. Outputtet skal tydeligt vise hvad der skal faktureres og hvilke poster der allerede er faktureret.',
+                    'Hver faktureringsenhed skal have en status: Faktureret eller Ikke faktureret. Når fakturering behandles, markeres de relevante uger automatisk som "Faktureret".',
+                    'Følgende datafelter skal understøttes til fakturagenerering: CPR-nummer, borgernavn, faktureringsperiode, pris per uge/time, kundenummer og produktnummer.',
+                ],
+            },
+            {
+                title: '🔐 Sagsbehandleradgang og kommunikation',
+                description: [
+                    'Sagsbehandlere skal kunne tilgå rapporter via delt linkbaseret adgang, uden at kræve fuldt systemlogin.',
+                    'Adgang skal være tilladelsesbaseret: specifikke mapper kan vælges, og det skal være tilstrækkeligt at give adgang til én mappe per borger.',
+                    'Det skal være muligt at definere hvilke mapper en sagsbehandler har adgang til, og sikre at sagsbehandlere kun kan se tildelte mapper.',
+                    'Sagsbehandlere skal også kunne chatte med organisationen direkte via systemet.',
+                ],
+            },
+            {
+                title: '📊 Borgerkort – Udviklingsgraf',
+                description: [
+                    'Udviklingsgrafen på borgerkortet defineres af fremmødedata: tilstedeværelse og fravær.',
+                ],
+            },
+            {
+                title: '📋 Protokol – Planlægning og borgeradgang',
+                description: [
+                    'Det skal være muligt at oprette brugerdefinerede protokolplaner — f.eks. hver 2. tirsdag.',
+                    'Systemet skal understøtte fleksible gentagelsesregler, ikke kun standardmønstre som daglig/ugentlig.',
+                    'Borgere skal kunne logge ind i systemet og checke ind / checke ud.',
+                ],
+            },
+            {
+                title: '🏢 Praktik – Virksomhedsfelt',
+                description: [
+                    'Det skal være muligt at tilføje et "Virksomhed"-felt for at angive, hvor en borger er i praktik.',
+                    'Feltet skal være tilgængeligt på borgerprofilen (eller det relevante modul, f.eks. praktik/protokol) og tillade input af virksomhedsnavn og eventuelt yderligere detaljer.',
+                ],
+            },
+            {
+                title: '📄 Udvidede foruddefinerede begivenheder til rapporter (formularer)',
+                description: [
+                    'Udvid funktionaliteten for foruddefinerede begivenheder ved oprettelse af rapporter (formularer).',
+                    'Det skal være muligt at oprette tilbagevendende begivenheder med en defineret slutdato eller uden slutdato (løbende).',
+                    'Systemet skal automatisk oprette en begivenhed/aktivitet i kalenderen, når en formular oprettes.',
+                    'Formål: automatiser planlægning baseret på rapportoprettelse og reducer manuel kalenderhåndtering.',
+                ],
+            },
+        ],
         '2026-05-15': [
             {
                 title: '🔁 Forbedringer af skabeloner og kopiering',
@@ -3050,6 +3461,211 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     no: {
+        '2026-06-26': [
+            {
+                title: 'F-01 — Oppsett av sysselsettingssektor',
+                description: [
+                    'Modul: Sektorkonfigurasjon · Type: Ny',
+                    'Legg til "Sysselsettingstjenester" som en ny sektorkategori i systemet.',
+                    'Bygg en sektorkonfigurasjonsmodell per kontrakt der sektorspesifikke innstillinger kan defineres.',
+                    'Konfigurasjonen må inkludere: aktive statustyper, sakstyper (avtaler) og faktureringsregler.',
+                    'Sektorspesifikke komponenter skal kun være synlige innenfor sysselsettingssektoren og må ikke vises i andre sektorer.',
+                    'Gjenbruk: eksisterende sektor-/tillatelsesarkitektur i permissions_table kan utvides; avdelingsstrukturen (citizen_departments, user_departments) kan gjenbrukes.',
+                    'Merk: Grunnmodul — må bygges først.',
+                ],
+            },
+            {
+                title: 'F-02 — Utvidet borgerprofil (sysselsetting)',
+                description: [
+                    'Modul: Borgerprofil · Type: Utvidelse',
+                    'Utvid eksisterende borgerprofil med sysselsettingsrelaterte felt som kreves for sysselsettingsprogrammer.',
+                    'Nye felt inkluderer: sakstype (koblet til NAV-avtale), status (ca. 30 konfigurerbare typer per kontrakt), forsørgelsesgrunnlag, språk, primær og sekundær konsulent, visitørinformasjon og kontaktopplysninger, visitasjonsdato, saksperiode med endringslogg, totale uker vs. brukte uker, rapporteringskrav, aktiveringsfrist, visitasjonsårsak, kandidatmål, interne notater og utviklingshistorikk.',
+                    'Gjenbruk: citizens-tabellen eksisterer allerede; citizen_goals + citizen_subgoals kan lagre kandidatmål; citizen_journals kan lagre interne notater; citizen_departments håndterer avdelingstildeling; activity_log håndterer endringslogging.',
+                    'Merk: Statusfeltet vil styre faktureringslogikken og må modelleres nøye.',
+                ],
+            },
+            {
+                title: 'F-03 — Saks- og avtalemodell',
+                description: [
+                    'Modul: Saksbehandling · Type: Utvidelser',
+                    'Bygg en saks- og avtalestruktur.',
+                    'Avtale: definerer sakstypen knyttet til en spesifikk NAV-kontrakt.',
+                    'Sak: representerer den konkrete instansen av en avtale for en spesifikk borger. En borger kan ha flere saker samtidig.',
+                    'Saksoppsett: definer periode via datointerval eller antall uker; sluttdato beregnes automatisk; alle periodeendringer logges; brukte uker beregnes løpende.',
+                    'Gjenbruk: deals-tabellen kan representere avtaler; citizen_plans kan representere saksinstanser; time_logs kan spore brukte uker.',
+                    'Merk: Bekreft mapping før bygging — Deals → Avtaler, Citizen plans → Saker.',
+                ],
+            },
+            {
+                title: 'F-04 — Konfigurerbar statusmodell',
+                description: [
+                    'Modul: Statusmodell · Type: Nyr',
+                    'Opprett et fleksibelt statussystem der ca. 30 statustyper kan konfigureres per kontrakt.',
+                    'Statuser må støtte: aktive/inaktive tilstander, kontraktspesifikk konfigurasjon og statushistorikk per borger.',
+                    'Statusendringer må logges automatisk.',
+                    'Statusoppdateringer må også utløse oppdateringer av faktureringsgrunnlaget.',
+                    'Gjenbruk: activity_log støtter allerede endringshistorikk; konfigurasjonstmønsteret i permissions_table kan inspirere statuskonfigurasjonen.',
+                    'Merk: Må bygges før faktureringsmodulen.',
+                ],
+            },
+            {
+                title: 'F-05 — Faktureringsmodul med e-conomic-eksport',
+                description: [
+                    'Modul: Fakturering · Type: Utvidelser',
+                    'Opprett en faktureringsmodul som støtter tre faktureringsmodeller per avtaletype: fakturering basert på påbegynte uker, fakturering basert på utførte aktiviteter og bonusfakturering basert på milepæler.',
+                    'Faktureringsgrunnlaget må beregnes per borger og per sak.',
+                    'Alle faktureringsdata må kunne eksporteres til e-conomic.',
+                    'Modulen skal kun være synlig i sysselsettingssektoren.',
+                    'Gjenbruk: invoices + invoice_details-tabeller eksisterer allerede; carts-tabellen kan støtte faktureringslinjer; add_on_deals håndterer sannsynligvis bonusfaktureringsmønstre.',
+                    'Merk: Bekreft e-conomic-importformat før bygging (CSV / API / XML).',
+                ],
+            },
+            {
+                title: 'F-06 — Visitasjonsmodul',
+                description: [
+                    'Modul: Visitasjon · Type: Nyr',
+                    'Opprett en visitasjonsmodul der visitasjoner kan opprettes av eksterne saksbehandlere eller interne konsulenter.',
+                    'Visitasjonsopprettelse tillater: valg av datointerval eller antall uker (sluttdato beregnes automatisk).',
+                    'Borgerprofiler må opprettes automatisk via folkeregisteroppslag.',
+                    'Systemet må støtte: logging av periodeendringer og konsulenttillatelser til å opprette og redigere visitasjoner.',
+                    'Gjenbruk: applications-tabellen kan delvis dekke visitasjonsinntak; citizen_departments støtter tildeling; activity_log håndterer logging.',
+                    'Merk: Krever integrasjon med folkeregister-API.',
+                ],
+            },
+            {
+                title: 'F-07 — Rapportmodul med maler',
+                description: [
+                    'Modul: Rapporter · Type: Utvidelser',
+                    'Bygg en rapportmodul med maler per avtaletype.',
+                    'Maler må automatisk sette inn: borgerdata, saksbehandlerdata og konsulentdata.',
+                    'Når en rapport ferdigstilles: ekstern lesetilgang aktiveres, saksbehandleren varsles og rapporteringsoppgaven markeres som fullført.',
+                    'Rapporteringskrav må være synlige på borgerprofilen og kunne avkrysses.',
+                    'Gjenbruk: protocols + citizen_protocols kan lagre rapporter; media-tabellen håndterer vedlegg; schedules kan administrere oppgaveferdigstillelsessporing.',
+                    'Merk: Avklar om ekstern tilgang skal bruke påloggingsbasert tilgang eller tokenbaserte offentlige lenker.',
+                ],
+            },
+            {
+                title: 'F-08 — Automatiske påminnelser og rapporteringsoppgaver',
+                description: [
+                    'Modul: Påminnelser · Type: Utvidelser',
+                    'Når en sak krever rapportering (f.eks. hver 4. uke), skal systemet automatisk opprette tilbakevendende oppgaver og generere påminnelser for konsulenter.',
+                    'Påminnelser må vises i konsulentens kalender.',
+                    'Hvis saksperioden endres, må alle påminnelser oppdateres automatisk.',
+                    'Systemet må støtte Outlook-synkronisering.',
+                    'Gjenbruk: reminders-tabellen eksisterer allerede; my_calendars, calendar_users og schedules håndterer kalenderfunksjonalitet; queues-mappen indikerer asynkron jobbehandling; AzureToken.php eksisterer for Microsoft Graph.',
+                    'Merk: Verifiser om Microsoft Graph-autentisering allerede er konfigurert.',
+                ],
+            },
+            {
+                title: 'F-09 — SMS-varsler til borgere',
+                description: [
+                    'Modul: SMS · Type: Utvidelser',
+                    'Borgere skal motta SMS-varsler ved: opprettelse av ny avtale, påminnelse 24 timer før en avtale og påminnelse på selve dagen.',
+                    'Alle SMS-varsler skal sendes via en SMS-gateway-integrasjon med "CitizenOne" som avsendernavn.',
+                    'Gjenbruk: eksisterende queues-infrastruktur støtter asynkron utsending; journal-notifications indikerer at varslingsmønstre allerede eksisterer.',
+                    'Merk: Sjekk om Azure Communication Services allerede er i bruk.',
+                ],
+            },
+            {
+                title: 'F-10 — Aktivitets- og oppmøteregistreringsmodul',
+                description: [
+                    'Modul: Aktiviteter · Type: Utvidelser',
+                    'Utvid aktivitetsfunksjonaliteten til å støtte oppmøteregistrering.',
+                    'Funksjoner inkluderer: innsjekking / utsjekking via iPad eller mobilapp, utskrivbare deltakerlister per aktivitet, oppmøteregistrering per deltaker, fraværsregistrering per deltaker og fraværsårsaksregistrering.',
+                    'Systemet må generere ukentlige og månedlige oppmøtelister per borger, inkludert oppmøte, fravær og fraværsårsaker.',
+                    'Gjenbruk: protocols + citizen_protocols logger allerede aktivitetsdeltakelse; Absence.php-modellen eksisterer allerede; activity_log støtter batchoperasjoner.',
+                    'Merk: Verifiser om fraværsårsaker allerede er delvis modellert.',
+                ],
+            },
+            {
+                title: 'F-11 — Nye aktørtyper: Visitør og Bedrift',
+                description: [
+                    'Modul: Roller · Type: Utvidelser',
+                    'Legg til to nye aktørtyper.',
+                    'Visitør: typisk en saksbehandler ved et NAV-kontor. Tillatelser inkluderer: opprette visitasjoner, se visitasjoner, motta rapportvarsler og lese eksternt delte rapporter.',
+                    'Bedrift: representerer en arbeidsgiver eller praksisplass. Må støtte: kobling til borger, et periodebasert forhold og lagring av arbeidsgiverinfo.',
+                    'Eksisterende systemroller må utvides med sysselsettingsspesifikke tillatelser.',
+                    'Gjenbruk: companies + company_addresses-tabeller eksisterer allerede; permissions_table støtter allerede rolletillatelser; client- og relative-rutegrupper indikerer eksisterende ekstern tilgangsarkitektur.',
+                    'Merk: Krever sannsynligvis bare å legge til borgerrelasjon og tidsperiode.',
+                ],
+            },
+            {
+                title: 'F-12 — Sysselsettings- og utdanningsresultater',
+                description: [
+                    'Modul: Resultater · Type: Nyr',
+                    'Konsulenter må kunne registrere borgerresultater, inkludert: sysselsetting, utdanning og arbeidspraksis.',
+                    'Hvert resultat må inkludere: arbeidsgiver eller institusjon og tidsperiode.',
+                    'Resultatdata må lagres på borgerprofilen og må også inngå i bonusfaktureringsmodellen.',
+                    'Gjenbruk: citizen_goals + citizen_subgoals støtter allerede målsporing; plans-goals-subgoals-completions-siden kan allerede håndtere ferdigstillelse.',
+                    'Merk: Gå gjennom eksisterende ferdigstillelsessporing før implementering.',
+                ],
+            },
+            {
+                title: 'F-13 — Automatisk GDPR-datalagring og -sletting',
+                description: [
+                    'Modul: GDPR · Type: Utvidelser',
+                    'Implementer automatisk datalagring og -sletting for borgerdata.',
+                    'Borgerdata må kunne gjenopprettes hvis de ved et uhell slettes.',
+                    'Automatisk sletting utløses etter et konfigurerbart antall måneder etter saksavslutning.',
+                    'Lagringsperioden må kunne konfigureres per kontrakt: 3, 6 eller 9 måneder.',
+                    'Alle slettinger må logges med tidsstempel og bruker- eller systemutløser.',
+                    'Gjenbruk: activity_log håndterer slettelogging; queues-infrastruktur kan kjøre planlagte jobber; time_logs kan spore saksavslutningsdatoer.',
+                    'Merk: Bekreft backup- og gjenopprettingsstrategi for GDPR-datagjenoppretting.',
+                ],
+            },
+            {
+                title: '💼 Saks-/programstyring – Fakturerings- og inntektslogikk',
+                description: [
+                    'Systemet må støtte tre prismodeller: ukentlig prising, timepris og bonusbasert prising.',
+                    'Det må være mulig å definere: en fast ukepris per borger, bonusbetalinger per borger og betingede bonuser (f.eks. en bonus utløst når en borger har vært i arbeid i 3 eller 6 måneder).',
+                    'Det må være mulig å beregne og hente ut inntekt per konsulent, basert på antall håndterte borgere og tilknyttet fakturering (ukentlig, timebasis, bonus).',
+                    'Det må være mulig å utelate spesifikke uker fra fakturering — f.eks. hvis en borger var syk eller inaktiv i en periode.',
+                    'Borgere må ha konfigurerbare statuser (administrert via katalog), som: Aktiv, Deaktivert, On hold og I praksis. Disse statusene må påvirke hva som kan faktureres.',
+                    'Faktureringsdata kan hentes ut ved å velge et fra/til-datointerval. Utdataene må tydelig vise hva som skal faktureres og hvilke poster som allerede er fakturert.',
+                    'Hver faktureringsenhet må ha en status: Fakturert eller Ikke fakturert. Når fakturering behandles, markeres de relevante ukene automatisk som "Fakturert".',
+                    'Følgende datafelter må støttes for fakturagenerering: fødselsnummer, borgernavn, faktureringsperiode, pris per uke/time, kundenummer og produktnummer.',
+                ],
+            },
+            {
+                title: '🔐 Saksbehandlertilgang og kommunikasjon',
+                description: [
+                    'Saksbehandlere må kunne få tilgang til rapporter via delt lenkebasert tilgang, uten å kreve fullt systeminnlogging.',
+                    'Tilgang må være tillatelsesbasert: spesifikke mapper kan velges, og det må være tilstrekkelig å gi tilgang til én mappe per borger.',
+                    'Det må være mulig å definere hvilke mapper en saksbehandler har tilgang til, og sikre at saksbehandlere kun kan se tildelte mapper.',
+                    'Saksbehandlere må også kunne chatte med organisasjonen direkte via systemet.',
+                ],
+            },
+            {
+                title: '📊 Borgerkort – Utviklingsgraf',
+                description: [
+                    'Utviklingsgrafen på borgerkortet er definert av oppmøtedata: tilstedeværelse og fravær.',
+                ],
+            },
+            {
+                title: '📋 Protokoll – Planlegging og borgertilgang',
+                description: [
+                    'Det må være mulig å opprette egendefinerte protokollplaner — for eksempel annenhver tirsdag.',
+                    'Systemet må støtte fleksible gjentakelsesregler, ikke bare standard mønstre som daglig/ukentlig.',
+                    'Borgere må kunne logge inn i systemet og sjekke inn / sjekke ut.',
+                ],
+            },
+            {
+                title: '🏢 Praksis – Bedriftsfelt',
+                description: [
+                    'Det må være mulig å legge til et "Bedrift"-felt for å angi hvor en borger er i praksis.',
+                    'Feltet skal være tilgjengelig på borgerprofilen (eller relevant modul, f.eks. praksis/protokoll) og tillate input av bedriftsnavn og eventuelt ytterligere detaljer.',
+                ],
+            },
+            {
+                title: '📄 Utvidede forhåndsdefinerte hendelser for rapporter (skjemaer)',
+                description: [
+                    'Utvid funksjonaliteten for forhåndsdefinerte hendelser ved opprettelse av rapporter (skjemaer).',
+                    'Det må være mulig å opprette tilbakevendende hendelser med en definert sluttdato eller uten sluttdato (løpende).',
+                    'Systemet må automatisk opprette en hendelse/aktivitet i kalenderen når et skjema opprettes.',
+                    'Formål: automatiser planlegging basert på rapportopprettelse og reduser manuell kalenderadministrasjon.',
+                ],
+            },
+        ],
         '2026-05-15': [
             {
                 title: '🔁 Forbedringer av maler og kopiering',
@@ -4529,6 +5145,211 @@ const allUpdates: Record<string, Record<string, { title: string, description: st
         ],
     },
     sv: {
+        '2026-06-26': [
+            {
+                title: 'F-01 — Konfiguration av sysselsättningssektor',
+                description: [
+                    'Modul: Sektorkonfiguration · Typ: Ny',
+                    'Lägg till "Sysselsättningstjänster" som en ny sektorkategori i systemet.',
+                    'Bygg en sektorkonfigurationsmodell per kontrakt där sektorspecifika inställningar kan definieras.',
+                    'Konfigurationen måste inkludera: aktiva statustyper, ärendetyper (avtal) och faktureringsregler.',
+                    'Sektorspecifika komponenter får bara vara synliga inom sysselsättningssektorn och får inte visas i andra sektorer.',
+                    'Återanvändning: befintlig sektor-/behörighetsarkitektur i permissions_table kan utökas; avdelningsstrukturen (citizen_departments, user_departments) kan återanvändas.',
+                    'OBS: Grundmodul — måste byggas först.',
+                ],
+            },
+            {
+                title: 'F-02 — Utökad medborgarprofil (sysselsättning)',
+                description: [
+                    'Modul: Medborgarprofil · Typ: Utökning',
+                    'Utöka den befintliga medborgarprofilen med sysselsättningsrelaterade fält som krävs för sysselsättningsprogram.',
+                    'Nya fält inkluderar: ärendetyp (kopplad till arbetsförmedlingsavtal), status (ca 30 konfigurerbara typer per kontrakt), försörjningsgrundval, språk, primär och sekundär konsult, remissinformation och kontaktuppgifter, remissdatum, ärendeperiod med ändringslogg, totala veckor vs. använda veckor, rapporteringskrav, aktiveringsdeadline, remissorsak, kandidatmål, interna anteckningar och utvecklingshistorik.',
+                    'Återanvändning: citizens-tabellen finns redan; citizen_goals + citizen_subgoals kan lagra kandidatmål; citizen_journals kan lagra interna anteckningar; citizen_departments hanterar avdelningstiilldelning; activity_log hanterar ändringsloggning.',
+                    'OBS: Statusfältet driver faktureringslogiken och måste modelleras noggrant.',
+                ],
+            },
+            {
+                title: 'F-03 — Ärende- och avtalsmodell',
+                description: [
+                    'Modul: Ärendehantering · Typ: Utökning',
+                    'Bygg en ärende- och avtalsstruktur.',
+                    'Avtal: definierar ärendetypen kopplad till ett specifikt arbetsförmedlingskontrakt.',
+                    'Ärende: representerar den konkreta instansen av ett avtal för en specifik medborgare. En medborgare kan ha flera ärenden samtidigt.',
+                    'Ärendekonfiguration: definiera period via datumintervall eller antal veckor; slutdatum beräknas automatiskt; alla periodändringar loggas; använda veckor beräknas löpande.',
+                    'Återanvändning: deals-tabellen kan representera avtal; citizen_plans kan representera ärendeinstanser; time_logs kan spåra använda veckor.',
+                    'OBS: Bekräfta mappning innan bygge — Deals → Avtal, Citizen plans → Ärenden.',
+                ],
+            },
+            {
+                title: 'F-04 — Konfigurerbar statusmodell',
+                description: [
+                    'Modul: Statusmodell · Typ: Ny',
+                    'Skapa ett flexibelt statussystem där ca 30 statustyper kan konfigureras per kontrakt.',
+                    'Statusar måste stödja: aktiva/inaktiva tillstånd, kontraktsspecifik konfiguration och statushistorik per medborgare.',
+                    'Statusändringar måste loggas automatiskt.',
+                    'Statusuppdateringar måste också utlösa uppdateringar av faktureringsunderlag.',
+                    'Återanvändning: activity_log stöder redan ändringshistorik; konfigurationsmönstret i permissions_table kan inspirera statuskonfigurationen.',
+                    'OBS: Måste byggas innan faktureringsmodulen.',
+                ],
+            },
+            {
+                title: 'F-05 — Faktureringsmodul med e-conomic-export',
+                description: [
+                    'Modul: Fakturering · Typ: Utökning',
+                    'Skapa en faktureringsmodul som stöder tre faktureringsmodeller per avtalstyp: fakturering baserad på påbörjade veckor, fakturering baserad på utförda aktiviteter och bonusfakturering baserad på milstolpar.',
+                    'Faktureringsunderlag måste beräknas per medborgare och per ärende.',
+                    'All faktureringsdata måste kunna exporteras till e-conomic.',
+                    'Modulen ska bara vara synlig i sysselsättningssektorn.',
+                    'Återanvändning: invoices + invoice_details-tabeller finns redan; carts-tabellen kan stödja faktureringsrader; add_on_deals hanterar troligtvis bonusfaktureringsmönster.',
+                    'OBS: Bekräfta e-conomic-importformat innan bygge (CSV / API / XML).',
+                ],
+            },
+            {
+                title: 'F-06 — Remissmodul',
+                description: [
+                    'Modul: Remiss · Typ: Ny',
+                    'Skapa en remissmodul där remisser kan skapas av externa handläggare eller interna konsulter.',
+                    'Remissskapande tillåter: val av datumintervall eller antal veckor (slutdatum beräknas automatiskt).',
+                    'Medborgarprofiler måste skapas automatiskt via folkbokföringsslagning.',
+                    'Systemet måste stödja: loggning av periodändringar och konsulttillstånd att skapa och redigera remisser.',
+                    'Återanvändning: applications-tabellen kan delvis täcka remissintag; citizen_departments stöder tilldelning; activity_log hanterar loggning.',
+                    'OBS: Kräver integration med folkbokförings-API.',
+                ],
+            },
+            {
+                title: 'F-07 — Rapportmodul med mallar',
+                description: [
+                    'Modul: Rapporter · Typ: Utökning',
+                    'Bygg en rapportmodul med mallar per avtalstyp.',
+                    'Mallar måste automatiskt infoga: medborgardata, handläggardata och konsultdata.',
+                    'När en rapport färdigställs: extern läsåtkomst aktiveras, handläggaren meddelas och rapporteringsuppgiften markeras som slutförd.',
+                    'Rapporteringskrav måste vara synliga på medborgarprofilen och kunna bockas av.',
+                    'Återanvändning: protocols + citizen_protocols kan lagra rapporter; media-tabellen hanterar bilagor; schedules kan hantera uppgiftsslutförandespårning.',
+                    'OBS: Klargör om extern åtkomst ska använda inloggningsbaserad åtkomst eller tokenbaserade publika länkar.',
+                ],
+            },
+            {
+                title: 'F-08 — Automatiska påminnelser och rapporteringsuppgifter',
+                description: [
+                    'Modul: Påminnelser · Typ: Utökning',
+                    'När ett ärende kräver rapportering (t.ex. var 4:e vecka) ska systemet automatiskt skapa återkommande uppgifter och generera påminnelser för konsulter.',
+                    'Påminnelser måste visas i konsultens kalender.',
+                    'Om ärendeperioden ändras måste alla påminnelser uppdateras automatiskt.',
+                    'Systemet måste stödja Outlook-synkronisering.',
+                    'Återanvändning: reminders-tabellen finns redan; my_calendars, calendar_users och schedules hanterar kalenderfunktionalitet; queues-mappen indikerar asynkron jobbhantering; AzureToken.php finns för Microsoft Graph.',
+                    'OBS: Verifiera om Microsoft Graph-autentisering redan är konfigurerad.',
+                ],
+            },
+            {
+                title: 'F-09 — SMS-notifieringar till medborgare',
+                description: [
+                    'Modul: SMS · Typ: Utökning',
+                    'Medborgare ska ta emot SMS-notifieringar vid: skapande av ny bokning, påminnelse 24 timmar före en bokning och påminnelse samma dag.',
+                    'Alla SMS-notifieringar ska skickas via en SMS-gateway-integration med "CitizenOne" som avsändarnamn.',
+                    'Återanvändning: befintlig queues-infrastruktur stöder asynkron utsändning; journal-notifications indikerar att notifieringsmönster redan finns.',
+                    'OBS: Kontrollera om Azure Communication Services redan används.',
+                ],
+            },
+            {
+                title: 'F-10 — Aktivitets- och närvarodregistreringsmodul',
+                description: [
+                    'Modul: Aktiviteter · Typ: Utökning',
+                    'Utöka aktivitetsfunktionaliteten för att stödja närvarodregistrering.',
+                    'Funktioner inkluderar: incheckning / utcheckning via iPad eller mobilapp, utskrivbara deltagarlistor per aktivitet, närvarodregistrering per deltagare, frånvaroregistrering per deltagare och frånvaroorsaksregistrering.',
+                    'Systemet ska generera veckovisa och månadsvis närvarodlistor per medborgare, inklusive närvaro, frånvaro och frånvarorsaker.',
+                    'Återanvändning: protocols + citizen_protocols loggar redan aktivitetsdeltagande; Absence.php-modellen finns redan; activity_log stöder batchoperationer.',
+                    'OBS: Verifiera om frånvarorsaker redan är delvis modellerade.',
+                ],
+            },
+            {
+                title: 'F-11 — Nya aktörstyper: Remitterare och Företag',
+                description: [
+                    'Modul: Roller · Typ: Utökning',
+                    'Lägg till två nya aktörstyper.',
+                    'Remitterare: typiskt en handläggare på en arbetsförmedling. Behörigheter inkluderar: skapa remisser, visa remisser, ta emot rapportnotifieringar och läsa externt delade rapporter.',
+                    'Företag: representerar en arbetsgivare eller praktikplats. Måste stödja: koppling till medborgare, ett periodbaserat förhållande och lagring av arbetsgivarinformation.',
+                    'Befintliga systemroller måste utökas med sysselsättningsspecifika behörigheter.',
+                    'Återanvändning: companies + company_addresses-tabeller finns redan; permissions_table stöder redan rollbehörigheter; client- och relative-rutegrupper indikerar befintlig extern åtkomstarkitektur.',
+                    'OBS: Kräver troligtvis bara att lägga till medborgarrelation och tidsperiod.',
+                ],
+            },
+            {
+                title: 'F-12 — Sysselsättnings- och utbildningsresultat',
+                description: [
+                    'Modul: Resultat · Typ: Ny',
+                    'Konsulter måste kunna registrera medborgarresultat, inklusive: sysselsättning, utbildning och praktik.',
+                    'Varje resultat måste inkludera: arbetsgivare eller institution och tidsperiod.',
+                    'Resultatdata måste lagras på medborgarprofilen och måste också ingå i bonusfaktureringsmodellen.',
+                    'Återanvändning: citizen_goals + citizen_subgoals stöder redan målspårning; plans-goals-subgoals-completions-sidan kan redan hantera slutförandespårning.',
+                    'OBS: Granska befintlig slutförandespårningssida innan implementering.',
+                ],
+            },
+            {
+                title: 'F-13 — Automatiserad GDPR-datalagring och -radering',
+                description: [
+                    'Modul: GDPR · Typ: Utökning',
+                    'Implementera automatiserad datalagring och -radering för medborgardata.',
+                    'Medborgardata måste kunna återställas om de av misstag raderas.',
+                    'Automatisk radering utlöses efter ett konfigurerbart antal månader efter ärendeavslutning.',
+                    'Lagringsperioden måste vara konfigurerbar per kontrakt: 3, 6 eller 9 månader.',
+                    'Alla raderingar måste loggas med tidsstämpel och användar- eller systemutlösare.',
+                    'Återanvändning: activity_log hanterar raderingsloggning; queues-infrastruktur kan köra schemalagda jobb; time_logs kan spåra ärendeavslutningsdatum.',
+                    'OBS: Bekräfta backup- och återställningsstrategi för GDPR-dataåterställning.',
+                ],
+            },
+            {
+                title: '💼 Ärende-/programhantering – Fakturerings- och intäktslogik',
+                description: [
+                    'Systemet måste stödja tre prismodeller: veckopris, timpris och bonusbaserat pris.',
+                    'Det måste vara möjligt att definiera: ett fast veckopris per medborgare, bonusbetalningar per medborgare och villkorliga bonusar (t.ex. en bonus utlöst när en medborgare har varit anställd i 3 eller 6 månader).',
+                    'Det måste vara möjligt att beräkna och extrahera intäkt per konsult, baserat på antal hanterade medborgare och tillhörande fakturering (veckovis, timbaserad, bonus).',
+                    'Det måste vara möjligt att utesluta specifika veckor från fakturering — t.ex. om en medborgare var sjuk eller inaktiv under en period.',
+                    'Medborgare måste ha konfigurerbara statusar (administrerade via katalog), som: Aktiv, Deaktiverad, On hold och I praktik. Dessa statusar måste påverka vad som kan faktureras.',
+                    'Faktureringsdata kan extraheras genom att välja ett från/till-datumintervall. Utdata måste tydligt visa vad som ska faktureras och vilka poster som redan är fakturerade.',
+                    'Varje faktureringsenhet måste ha en status: Fakturerad eller Ej fakturerad. När fakturering behandlas markeras de relevanta veckorna automatiskt som "Fakturerad".',
+                    'Följande datafält måste stödjas för fakturagenerering: personnummer, medborgarnamn, faktureringsperiod, pris per vecka/timme, kundnummer och produktnummer.',
+                ],
+            },
+            {
+                title: '🔐 Handläggaråtkomst och kommunikation',
+                description: [
+                    'Handläggare måste kunna komma åt rapporter via delad länkbaserad åtkomst, utan att kräva fullständig systeminloggning.',
+                    'Åtkomst måste vara behörighetsbaserad: specifika mappar kan väljas och det ska räcka att ge åtkomst till en mapp per medborgare.',
+                    'Det måste vara möjligt att definiera vilka mappar en handläggare har åtkomst till och säkerställa att handläggare bara kan se tilldelade mappar.',
+                    'Handläggare måste också kunna chatta med organisationen direkt via systemet.',
+                ],
+            },
+            {
+                title: '📊 Medborgarkort – Utvecklingsgraf',
+                description: [
+                    'Utvecklingsgrafen på medborgarkortet definieras av närvarodata: närvaro och frånvaro.',
+                ],
+            },
+            {
+                title: '📋 Protokoll – Schemaläggning och medborgaråtkomst',
+                description: [
+                    'Det måste vara möjligt att skapa anpassade protokollscheman — till exempel varannan tisdag.',
+                    'Systemet måste stödja flexibla upprepningsregler, inte bara standardmönster som dagligen/veckovis.',
+                    'Medborgare måste kunna logga in i systemet och checka in / checka ut.',
+                ],
+            },
+            {
+                title: '🏢 Praktik – Företagsfält',
+                description: [
+                    'Det måste vara möjligt att lägga till ett "Företag"-fält för att ange var en medborgare är placerad för praktik.',
+                    'Fältet ska vara tillgängligt på medborgarprofilen (eller relevant modul, t.ex. praktik/protokoll) och tillåta inmatning av företagsnamn och eventuellt ytterligare detaljer.',
+                ],
+            },
+            {
+                title: '📄 Utökade fördefinierade händelser för rapporter (formulär)',
+                description: [
+                    'Utöka funktionaliteten för fördefinierade händelser vid skapande av rapporter (formulär).',
+                    'Det måste vara möjligt att skapa återkommande händelser med ett definierat slutdatum eller utan slutdatum (löpande).',
+                    'Systemet måste automatiskt skapa en händelse/aktivitet i kalendern när ett formulär skapas.',
+                    'Syfte: automatisera schemaläggning baserat på rapportskapande och minska manuell kalenderhantering.',
+                ],
+            },
+        ],
         '2026-05-15': [
             {
                 title: '🔁 Mall- och kopieringsförbättringar',

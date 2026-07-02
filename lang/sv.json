@@ -1,4 +1,47 @@
 {
+    "inquiryPipeline": {
+        "board": "Förfrågningspipeline",
+        "enableLabel": "Förfrågningspipeline (kanban)",
+        "enableHint": "Visa förfrågningar som en kanban-tavla",
+        "moved": "Förfrågan flyttad",
+        "stages": {
+            "new": "Ny",
+            "clarification": "Utredning",
+            "offer": "Erbjudande",
+            "won": "Vunnen",
+            "lost": "Förlorad"
+        }
+    },
+    "managementEconomy": {
+        "title": "Ledning & ekonomi",
+        "fromDate": "Från datum",
+        "toDate": "Till datum",
+        "generate": "Generera",
+        "selectPeriod": "Välj en period för att se ekonomin",
+        "noData": "Ingen data för perioden",
+        "allocatedRevenue": "Fördelad intäkt",
+        "interventions": "Insatser",
+        "coordinators": "Koordinatorer",
+        "coordinatorSplit": "Intäkt per koordinator",
+        "primary": "Primär",
+        "secondary": "Sekundär",
+        "exportCsv": "Exportera CSV"
+    },
+    "citizenRelations": {
+        "addFirst": "Lägg till första relation",
+        "tab": "Relationer",
+        "title": "Relationer",
+        "new": "Lägg till relation",
+        "relatedCitizen": "Relaterad medborgare",
+        "relationshipType": "Relationstyp",
+        "selectCitizen": "Välj medborgare",
+        "name": "Namn",
+        "action": "Åtgärd",
+        "empty": "Inga relationer än",
+        "deleteConfirmation": "Ta bort denna relation",
+        "added": "Relation tillagd",
+        "deleted": "Relation borttagen"
+    },
     "companyModules": {
         "Economy": "Ekonomi",
         "Journals": "Journaler",
@@ -657,7 +700,9 @@
             "disconnectConfirmation": "Är du säker på att du vill afbryde forbindelsen till din Zenegy-konto? Detta vill ta bort forbindelsen mellan dina CitizenOne- och Zenegy-konton.",
             "disconnectTitle": "Avbryt Zenegy",
             "disconnected": "Zenegy-konto är afbrudt"
-        }
+        },
+        "setupFee": "uppstart",
+        "goToSetup": "Gå till inställningar"
     },
     "archived": {
         "alert": {
@@ -740,7 +785,16 @@
             "minutesAgo": "{count} min. sedan",
             "yesterday": "Igår"
         },
-        "title": "Notiser"
+        "title": "Notiser",
+        "planReminder": {
+            "title": "Planer & mål förfallna",
+            "description": "{count} planer, mål eller delmål har nått sitt slutdatum. Klicka för att uppdatera eller slutföra.",
+            "action": "Visa planer"
+        },
+        "checkInReminder": {
+            "title": "Kom ihåg att checka in",
+            "description": "Du har inte checkat in idag."
+        }
     },
     "bookingSettings": {
         "alert": {
@@ -1776,7 +1830,9 @@
                 "parentCollaboration": "Föräldrasamarbete",
                 "personalGuardianship": "Personförmyndare",
                 "photo": "Foto",
-                "studentCollaboration": "Elevsamarbejde"
+                "studentCollaboration": "Elevsamarbejde",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primär koordinator andel (%)"
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -1808,7 +1864,8 @@
                 "yellow": "Gul"
             },
             "transportation": "Transportere",
-            "useThisLocation": "Använd denna placering"
+            "useThisLocation": "Använd denna placering",
+            "secondaryCaseworker": "Sekundär handläggare"
         },
         "importCitizens": {
             "alert": {
@@ -8582,7 +8639,8 @@
             "company": "Företag",
             "billing": "Fakturering",
             "data": "Data",
-            "logs": "Loggar"
+            "logs": "Loggar",
+            "integrations": "Integrationer"
         },
         "tabs": {
             "absences": "Frånvaro",
@@ -8642,7 +8700,9 @@
             "employmentJobcenters": "Arbetsförmedlingar",
             "employmentAgreements": "Avtal",
             "gdprRetention": "GDPR Lagring",
-            "smsNotifications": "SMS"
+            "smsNotifications": "SMS",
+            "powerBi": "Power BI",
+            "economic": "e-conomic"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -8658,6 +8718,53 @@
                 "sendCitizenWalletTransactions": "Skicka klient tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
+        },
+        "powerBi": {
+            "title": "Power BI-export",
+            "subtitle": "Anslut Power BI till realtidsdata via ett säkert feed-token.",
+            "tabLabel": "Power BI",
+            "status": "Status",
+            "active": "Aktiv",
+            "inactive": "Inte aktiverad",
+            "generate": "Generera token",
+            "regenerate": "Generera nytt token",
+            "revoke": "Återkalla",
+            "tokenOnce": "Kopiera tokenet nu. Det visas bara denna enda gång.",
+            "copy": "Kopiera",
+            "copied": "Kopierat!",
+            "feeds": "Feed-URL:er",
+            "feedEconomy": "Koordinatorekonomi",
+            "feedInquiries": "Förfrågningar",
+            "feedCases": "Medborgare / ärenden",
+            "createdAt": "Skapad",
+            "tokenEnds": "Token slutar på",
+            "howTitle": "Så ansluter du Power BI",
+            "how1": "Öppna Power BI Desktop → Hämta data → Webb.",
+            "how2": "Klistra in en feed-URL ovan (tokenet är redan inkluderat).",
+            "how3": "Välj JSON som format och läs in. Uppdatera enligt schema vid behov.",
+            "revokeWarning": "Återkallande gör alla feed-URL:er ogiltiga omedelbart. Power BI-rapporter kan inte längre uppdateras förrän ett nytt token genereras.",
+            "confirmRevoke": "Återkalla Power BI-token?",
+            "adminOnly": "Endast administratörer kan hantera Power BI-token.",
+            "notPurchased": "Power BI-appen är inte aktiverad ännu. Aktivera den under Appar för att få åtkomst till realtids-dataflöden.",
+            "goToApps": "Gå till Appar"
+        },
+        "economic": {
+            "title": "e-conomic",
+            "subtitle": "Skicka kunder och utkastfakturor från CitizenOne till e-conomic.",
+            "adminOnly": "Endast administratörer kan hantera e-conomic-anslutningen.",
+            "notPurchased": "e-conomic-appen är inte aktiverad ännu. Aktivera den under Appar för att ansluta.",
+            "goToApps": "Gå till Appar",
+            "connection": "Anslutning",
+            "connected": "Ansluten",
+            "notConnected": "Inte ansluten",
+            "connect": "Anslut till e-conomic",
+            "reconnect": "Anslut igen",
+            "disconnect": "Koppla från",
+            "confirmDisconnect": "Koppla från e-conomic?",
+            "howTitle": "Så här ansluter du",
+            "how1": "Klicka “Anslut till e-conomic”.",
+            "how2": "Godkänn åtkomsten i e-conomic (App Connect).",
+            "how3": "Du skickas tillbaka hit. Därefter kan fakturor skickas till e-conomic."
         }
     },
     "setupPassword": {
@@ -10722,6 +10829,13 @@
         "title": "Din ChatGPT-integration"
     },
     "employment": {
+        "economy": {
+            "coordinatorSplit": "Intäkt per koordinator",
+            "allocatedRevenue": "Fördelad intäkt",
+            "interventions": "Insatser",
+            "primary": "Primär",
+            "secondary": "Sekundär"
+        },
         "statusTypes": {
             "statusTypes": "Statustyper",
             "newStatusType": "Ny statustyp",
@@ -10882,6 +10996,8 @@
                 "reminderEnabled": "Automatiska rapporteringspåminnelser",
                 "reminderEnabledHint": "Skapa automatiskt påminnelser för varje rapporteringsdatum under ärendeperioden",
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
+                "contractPrice": "Kontraktpris",
+                "primarySplitPercentage": "Primär koordinator andel (%)",
                 "reportingFrequencyOptions": {
                     "every2weeks": "Var 2:a vecka",
                     "every4weeks": "Var 4:e vecka",
