@@ -107,6 +107,15 @@ export default defineNuxtConfig({
     },
   },
 
+  routeRules: {
+    '/.well-known/apple-app-site-association': {
+      headers: { 'content-type': 'application/json' },
+    },
+    '/.well-known/assetlinks.json': {
+      headers: { 'content-type': 'application/json' },
+    },
+  },
+
   ssr: false,
   sourcemap: false,
 

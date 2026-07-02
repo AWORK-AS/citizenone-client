@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "WFW245H5KW.com.aworkAS.CitizenOne",
+        "paths": ["/citizens/*"]
+      }
+    ]
+  }
+}
