@@ -193,7 +193,7 @@
                                     </div>
                                 </div>
                                 <div v-for="(day, dayIndex) in weekDays" :key="day.date"
-                                    :class="['group relative cursor-pointer hover:bg-blue-50/50 flex flex-col items-center justify-center py-2 sm:py-3 border-0.5 transition-colors', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
+                                    :class="['relative cursor-pointer hover:bg-blue-50/50 flex flex-col items-center justify-center py-2 sm:py-3 border-0.5 transition-colors', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     @click="openManageScheduleSlotModal(day)" v-if="hasScheduleManageAccess">
                                     <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
                                         :position="dayIndex === 0 ? 'right' : 'left'">
@@ -225,9 +225,9 @@
                                         </span>
                                     </Tooltip>
                                     <Tooltip :text="$t('dutySchedules.viewActivityLogForDay')" position="right"
-                                        class="!absolute top-1 left-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        class="!absolute top-1 left-1">
                                         <button type="button"
-                                            class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center"
+                                            class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center transition-colors"
                                             @click.stop="emit('openDayActivityLog', day.fullDate.format('YYYY-MM-DD'))">
                                             <Icon name="ph:clock-counter-clockwise" class="h-3 w-3" aria-hidden="true" />
                                         </button>
@@ -243,7 +243,7 @@
                                             style="color:#b45309">{{ getHolidayForDay(day.longName) }}</span>
                                     </span>
                                 </div>
-                                <div class="group" v-for="day in weekDays"
+                                <div v-for="day in weekDays"
                                     :key="day.date"
                                     :class="['relative flex flex-col items-center justify-center py-2 sm:py-3 pb-5 sm:pb-6 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     v-if="!hasScheduleManageAccess">
@@ -274,9 +274,9 @@
                                         </span>
                                     </span>
                                     <Tooltip :text="$t('dutySchedules.viewActivityLogForDay')" position="right"
-                                        class="!absolute top-1 left-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        class="!absolute top-1 left-1">
                                         <button type="button"
-                                            class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center"
+                                            class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center transition-colors"
                                             @click.stop="emit('openDayActivityLog', day.fullDate.format('YYYY-MM-DD'))">
                                             <Icon name="ph:clock-counter-clockwise" class="h-3 w-3" aria-hidden="true" />
                                         </button>
