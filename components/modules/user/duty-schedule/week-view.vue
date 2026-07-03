@@ -192,37 +192,46 @@
                                         </button>
                                     </div>
                                 </div>
-                                <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
-                                    :position="dayIndex === 0 ? 'right' : 'left'" v-for="(day, dayIndex) in weekDays"
-                                    :key="day.date"
+                                <div v-for="(day, dayIndex) in weekDays" :key="day.date"
                                     :class="['relative cursor-pointer hover:bg-blue-50/50 flex flex-col items-center justify-center py-2 sm:py-3 border-0.5 transition-colors', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     @click="openManageScheduleSlotModal(day)" v-if="hasScheduleManageAccess">
-                                    <span class="flex gap-x-1 text-sm">
-                                        <span v-if="day.longName === 'Mon'">
-                                            {{ $t('calendar.week.short.Monday') }}
+                                    <Tooltip :text="$t('dutySchedules.scheduleSlots.scheduleSlots')"
+                                        :position="dayIndex === 0 ? 'right' : 'left'">
+                                        <span class="flex gap-x-1 text-sm">
+                                            <span v-if="day.longName === 'Mon'">
+                                                {{ $t('calendar.week.short.Monday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Tue'">
+                                                {{ $t('calendar.week.short.Tuesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Wed'">
+                                                {{ $t('calendar.week.short.Wednesday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Thu'">
+                                                {{ $t('calendar.week.short.Thursday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Fri'">
+                                                {{ $t('calendar.week.short.Friday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sat'">
+                                                {{ $t('calendar.week.short.Saturday') }}
+                                            </span>
+                                            <span v-if="day.longName === 'Sun'">
+                                                {{ $t('calendar.week.short.Sunday') }}
+                                            </span>
+                                            <span class="items-center justify-center font-semibold text-gray-900">
+                                                {{ day.date }}
+                                            </span>
                                         </span>
-                                        <span v-if="day.longName === 'Tue'">
-                                            {{ $t('calendar.week.short.Tuesday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Wed'">
-                                            {{ $t('calendar.week.short.Wednesday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Thu'">
-                                            {{ $t('calendar.week.short.Thursday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Fri'">
-                                            {{ $t('calendar.week.short.Friday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Sat'">
-                                            {{ $t('calendar.week.short.Saturday') }}
-                                        </span>
-                                        <span v-if="day.longName === 'Sun'">
-                                            {{ $t('calendar.week.short.Sunday') }}
-                                        </span>
-                                        <span class="items-center justify-center font-semibold text-gray-900">
-                                            {{ day.date }}
-                                        </span>
-                                    </span>
+                                    </Tooltip>
+                                    <Tooltip :text="$t('dutySchedules.viewActivityLogForDay')" position="right"
+                                        class="!absolute top-1 left-1">
+                                        <button type="button"
+                                            class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center transition-colors"
+                                            @click.stop="emit('openDayActivityLog', day.fullDate.format('YYYY-MM-DD'))">
+                                            <Icon name="ph:clock-counter-clockwise" class="h-3 w-3" aria-hidden="true" />
+                                        </button>
+                                    </Tooltip>
                                     <div v-if="getSlotCount(day.longName) > 0"
                                         class="slot-badge absolute top-2 right-2 bg-primary font-bold shadow-sm">
                                         {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName) }}
@@ -233,8 +242,8 @@
                                             class="capitalize inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
                                             style="color:#b45309">{{ getHolidayForDay(day.longName) }}</span>
                                     </span>
-                                </Tooltip>
-                                <div :text="$t('dutySchedules.scheduleSlots.scheduleSlots')" v-for="day in weekDays"
+                                </div>
+                                <div v-for="day in weekDays"
                                     :key="day.date"
                                     :class="['relative flex flex-col items-center justify-center py-2 sm:py-3 pb-5 sm:pb-6 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     v-if="!hasScheduleManageAccess">
@@ -264,6 +273,14 @@
                                             {{ day.date }}
                                         </span>
                                     </span>
+                                    <Tooltip :text="$t('dutySchedules.viewActivityLogForDay')" position="right"
+                                        class="!absolute top-1 left-1">
+                                        <button type="button"
+                                            class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center transition-colors"
+                                            @click.stop="emit('openDayActivityLog', day.fullDate.format('YYYY-MM-DD'))">
+                                            <Icon name="ph:clock-counter-clockwise" class="h-3 w-3" aria-hidden="true" />
+                                        </button>
+                                    </Tooltip>
                                     <span v-if="getHolidayForDay(day.longName)"
                                         class="absolute bottom-1 left-0 right-0 text-center px-0.5">
                                         <span
@@ -1274,7 +1291,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
-const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter'])
+const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter', 'openDayActivityLog'])
 const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
