@@ -545,8 +545,10 @@
         },
         "table": {
             "actionTypes": {
+                "copied": "Kopierad",
                 "created": "Skapad",
                 "deleted": "Raderad",
+                "moved": "Flyttad",
                 "published": "Publicerad",
                 "updated": "Uppdaterad"
             },
@@ -3521,6 +3523,8 @@
     },
     "dutySchedules": {
         "activityLogs": "Aktivitetslogs",
+        "activityLogsForDate": "Aktivitetslogg för {date}",
+        "viewActivityLogForDay": "Visa aktivitetslogg för denna dag",
         "alert": {
             "newScheduleSuccessfullyAdded": "Ny tjänsteschema tillagd",
             "scheduleSuccessfullyCopied": "Tjänsteschema kopierad",
