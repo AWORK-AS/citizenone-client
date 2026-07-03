@@ -275,12 +275,12 @@
                                     {{ employee?.average_weekly_work_time?.average_weekly_hours }}
                                 </p>
                                 <p
-                                    :class="[parseFloat(String(employee?.log_data?.total_time_account_earned_hours || 0).replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
+                                    :class="[parseFloat(String(employee?.log_data?.total_time_account_earned_hours || 0).replace(/\./g, '').replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
                                     {{ $t('dutySchedules.monthView.earnedHours') }}:
                                     {{ employee?.log_data?.total_time_account_earned_hours }}
                                 </p>
                                 <p
-                                    :class="[parseFloat(String(employee?.extra_hours || 0).replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
+                                    :class="[parseFloat(String(employee?.extra_hours || 0).replace(/\./g, '').replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
                                     {{ $t('dutySchedules.monthView.extraHours') }}:
                                     {{ employee?.extra_hours }}
                                 </p>
@@ -319,7 +319,7 @@
                                             </span>
 
                                             <template
-                                                v-if="parseFloat(String(employee?.holiday_hours?.compensation_yearly ?? '0').replace(',', '.')) > 0">
+                                                v-if="parseFloat(String(employee?.holiday_hours?.compensation_yearly ?? '0').replace(/\./g, '').replace(',', '.')) > 0">
                                                 <span>
                                                     {{ $t('dutySchedules.holidayCompensation') }}
                                                 </span>
@@ -409,16 +409,16 @@
                                         {{ $t('dutySchedules.total') }}:
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{(employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + (parseFloat(t?.monthly_hours ||
-                                                t?.weekly_hours) ||
-                                                0), 0)).toFixed(2)
+                                        {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                            .reduce((sum: any, t: any) => sum + (parseFloat(String(t?.monthly_hours ||
+                                                t?.weekly_hours || '0').replace(/\./g, '').replace(',', '.')) ||
+                                                0), 0))
                                         }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{(employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + (parseFloat(t?.yearly_hours) || 0),
-                                                0)).toFixed(2)
+                                        {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                            .reduce((sum: any, t: any) => sum + (parseFloat(String(t?.yearly_hours ?? '0').replace(/\./g, '').replace(',', '.')) || 0),
+                                                0))
                                         }}
                                     </div>
                                 </div>

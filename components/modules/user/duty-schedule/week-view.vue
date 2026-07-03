@@ -472,7 +472,7 @@
                                                             }}
                                                         </p>
                                                         <p :class="[
-                                                            parseFloat(empStats(employee)?.log_data?.total_time_account_earned_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                            parseFloat(empStats(employee)?.log_data?.total_time_account_earned_hours?.replace(/\./g, '')?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.earnedWorkHours') }}:
@@ -481,7 +481,7 @@
                                                             }}
                                                         </p>
                                                         <p :class="[
-                                                            parseFloat(empStats(employee)?.extra_hours?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                            parseFloat(empStats(employee)?.extra_hours?.replace(/\./g, '')?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.extraHours.extraHours') }}:
@@ -520,7 +520,7 @@
                                                                         }}</span>
 
                                                                     <template
-                                                                        v-if="parseFloat(String(empStats(employee)?.holiday_hours?.compensation_yearly ?? '0').replace(',', '.')) > 0">
+                                                                        v-if="parseFloat(String(empStats(employee)?.holiday_hours?.compensation_yearly ?? '0').replace(/\./g, '').replace(',', '.')) > 0">
                                                                         <span>{{ $t('dutySchedules.holidayCompensation')
                                                                             }}</span>
                                                                         <span class="text-right tabular-nums">{{
@@ -1832,7 +1832,7 @@ function empStats(employee: any) {
 // Worked holiday hours (e.g. 9h × 1.5 = 13.5) are already in the shift-type rows;
 // the Holidays box just mirrors them, so adding them again would double-count.
 function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): number {
-    const toNum = (v: any) => parseFloat(String(v ?? '0').replace(',', '.')) || 0
+    const toNum = (v: any) => parseFloat(String(v ?? '0').replace(/\./g, '').replace(',', '.')) || 0
     const stats = empStats(employee)
     let sum = (stats?.hours ?? [])
         .filter((t: any) => t?.shift?.system_name !== 'time-filter')
