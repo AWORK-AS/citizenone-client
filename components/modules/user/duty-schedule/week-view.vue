@@ -511,34 +511,34 @@
                                                                             $t('dutySchedules.currentYear') }}</span>
 
                                                                     <span>{{ $t('dutySchedules.holidayWorkedShort')
-                                                                        }}</span>
+                                                                    }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.worked_weekly
-                                                                        }}</span>
+                                                                    }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.worked_yearly
-                                                                        }}</span>
+                                                                    }}</span>
 
                                                                     <template
                                                                         v-if="parseFloat(String(empStats(employee)?.holiday_hours?.compensation_yearly ?? '0').replace(',', '.')) > 0">
                                                                         <span>{{ $t('dutySchedules.holidayCompensation')
-                                                                            }}</span>
+                                                                        }}</span>
                                                                         <span class="text-right tabular-nums">{{
                                                                             empStats(employee)?.holiday_hours?.compensation_weekly
-                                                                            }}</span>
+                                                                        }}</span>
                                                                         <span class="text-right tabular-nums">{{
                                                                             empStats(employee)?.holiday_hours?.compensation_yearly
-                                                                            }}</span>
+                                                                        }}</span>
                                                                     </template>
 
                                                                     <span>{{ $t('dutySchedules.holidayNonWorkedShort')
-                                                                        }}</span>
+                                                                    }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.nonworked_weekly
-                                                                        }}</span>
+                                                                    }}</span>
                                                                     <span class="text-right tabular-nums">{{
                                                                         empStats(employee)?.holiday_hours?.nonworked_yearly
-                                                                        }}</span>
+                                                                    }}</span>
                                                                 </div>
                                                             </div>
                                                         </Tooltip>
@@ -791,7 +791,7 @@
                                                 @dragleave="isAtLeast('Admin') && onDragLeave($event)"
                                                 @drop.prevent="isAtLeast('Admin') && onDrop($event, employee, weekIndex)">
                                             </div>
-                                            <div class="space-y-2"
+                                            <div class="space-y-3"
                                                 v-if="!isDailyScheduleCopied(employeeIndex as number, weekIndex as number, weekNumber)">
                                                 <div class="flex justify-end gap-1 sm:gap-2"
                                                     v-if="hasCreatePermission || isAtLeast('Admin')">
