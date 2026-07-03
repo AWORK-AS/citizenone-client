@@ -6813,6 +6813,11 @@
             "selectAMessage": "Välj ett meddelande",
             "to": "Till"
         },
+        "filter": {
+            "all": "Alla",
+            "noUnread": "Inga olästa meddelanden",
+            "unread": "Olästa"
+        },
         "download": "Ladda ner",
         "downloadFile": {
             "alert": {

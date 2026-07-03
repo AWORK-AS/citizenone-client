@@ -6813,6 +6813,11 @@
             "selectAMessage": "Velg en melding",
             "to": "Til"
         },
+        "filter": {
+            "all": "Alle",
+            "noUnread": "Ingen uleste meldinger",
+            "unread": "Uleste"
+        },
         "download": "Last ned",
         "downloadFile": {
             "alert": {

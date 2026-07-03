@@ -6813,6 +6813,11 @@
             "selectAMessage": "Select a message",
             "to": "To"
         },
+        "filter": {
+            "all": "All",
+            "noUnread": "No unread messages",
+            "unread": "Unread"
+        },
         "download": "Download",
         "downloadFile": {
             "alert": {
