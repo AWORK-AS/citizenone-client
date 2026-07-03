@@ -126,7 +126,7 @@
 
                 <div class="grow overflow-y-auto px-6 py-5">
                     <div class="mail-body" :key="state.selectedEmail?.id"
-                        v-html="(state.selectedEmail?.body?.content || '').replace(/\n/g, '<br>')" />
+                        v-html="sanitizeEmailHtml((state.selectedEmail?.body?.content || '').replace(/\n/g, '<br>'))" />
 
                     <div class="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-dashed border-gray-300"
                         v-if="state.selectedEmail?.attachments?.length">
@@ -187,6 +187,7 @@ import type { Error } from '@/types'
 const emit = defineEmits(['setUnreadEmailsCount'])
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { isImage, isExcel, isPdf, isPpt, isWord } = fileHelper()
+const { sanitizeEmailHtml } = useSanitizeHtml()
 
 const activeFilter = ref<'all' | 'unread'>('all')
 
