@@ -319,17 +319,23 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="text-sm text-gray-700" :class="state.showExpandedNote ? '' : 'line-clamp-2'"
-                                v-if="hasNoteAccess()">
+                            <div ref="noteContentRef" class="text-sm text-gray-700"
+                                :class="state.showExpandedNote ? '' : 'line-clamp-1'"
+                                v-if="hasNoteAccess() && state.selectedCitizen?.data?.note">
                                 <div v-html="state.selectedCitizen?.data?.note" class="content" />
                             </div>
                             <button @click="state.showExpandedNote = !state.showExpandedNote"
-                                class="text-primary text-xs hover:text-primary-700" v-if="hasNoteAccess()">
+                                class="text-primary text-xs hover:text-primary-700"
+                                v-if="hasNoteAccess() && state.noteOverflows">
                                 {{ state.showExpandedNote ? $t('showLess') : $t('showMore') }}
                             </button>
                             <div class="space-y-1">
-                                <button @click="toggleTimeline" class="text-primary text-xs hover:text-primary-700">
-                                    {{ state.showTimeline ? $t('showLess') : $t('showMore') }} {{ $t('citizens.tabs.timeline') }}
+                                <button @click="toggleTimeline" class="text-primary text-xs hover:text-primary-700"
+                                    v-if="state.timelineEntries.length > 0">
+                                    {{
+                                        state.showTimeline ? $t('showLess') : $t('showMore') }} {{
+                                        $t('citizens.tabs.timeline')
+                                    }}
                                 </button>
                                 <div v-if="state.showTimeline">
                                     <LoadingSpinner :isActive="state.isTimelineLoading">
@@ -441,6 +447,8 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
 const locationTracking = useLocationTracking()
 const workTimeTracking = useWorkTimeTracking()
 
+const noteContentRef = ref<HTMLElement | null>(null)
+
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
@@ -461,6 +469,7 @@ const state = reactive({
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,
+    noteOverflows: false,
     showTimeline: false,
     timelineEntries: [] as any[],
     isTimelineLoading: false,
@@ -503,6 +512,7 @@ function celebrateBirthdayIfToday(birthday?: string | null) {
 onMounted(() => {
     fetchCitizen()
     fetchFollowUpReminderCount()
+    fetchTimeline()
 
     if (isTransportRegistrationEnabled.value) {
         const savedLocationState = locationTracking.getSavedTrackingState()
@@ -674,6 +684,10 @@ async function fetchCitizen() {
             citizenStore.setSelectedCitizen(response?.data)
             recordVisit(response?.data)
             celebrateBirthdayIfToday(response?.data?.birthday)
+            await nextTick()
+            state.noteOverflows = noteContentRef.value
+                ? noteContentRef.value.scrollHeight > noteContentRef.value.clientHeight + 2
+                : false
         }
     } catch (error: any) {
         state.error = error
@@ -683,9 +697,6 @@ async function fetchCitizen() {
 
 function toggleTimeline() {
     state.showTimeline = !state.showTimeline
-    if (state.showTimeline && state.timelineEntries.length === 0) {
-        fetchTimeline()
-    }
 }
 
 async function fetchTimeline() {
