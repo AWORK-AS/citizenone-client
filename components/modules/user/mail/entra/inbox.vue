@@ -2,12 +2,25 @@
     <div class="grow flex h-[80vh] min-w-0">
         <!-- ===================== LIST COLUMN ===================== -->
         <div class="w-[384px] shrink-0 flex flex-col bg-white border-r-0.5 border-gray-300 min-w-0">
-            <div class="px-4 pt-4 pb-3 border-b-0.5 border-gray-300">
+            <div class="px-4 pt-4 pb-3 border-b-0.5 border-gray-300 flex flex-col gap-3">
                 <div class="flex items-baseline gap-2">
                     <h2 class="text-base font-bold text-gray-900">{{ $t('mail.inbox') }}</h2>
                     <span class="text-xs font-semibold text-gray-400 tabular-nums" v-if="state.emails.length">
                         {{ state.emails.length }}
                     </span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button type="button" @click="activeFilter = 'all'"
+                        class="h-[30px] px-3 rounded-full text-[12.5px] font-semibold border transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                        :class="activeFilter === 'all' ? 'bg-primary border-primary text-white' : 'bg-white border-gray-300 text-gray-500 hover:border-primary hover:text-primary'">
+                        {{ $te('mail.filter.all') ? $t('mail.filter.all') : 'Alle' }}
+                    </button>
+                    <button type="button" @click="activeFilter = 'unread'"
+                        class="h-[30px] px-3 rounded-full text-[12.5px] font-semibold border transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                        :class="activeFilter === 'unread' ? 'bg-primary border-primary text-white' : 'bg-white border-gray-300 text-gray-500 hover:border-primary hover:text-primary'">
+                        {{ $te('mail.filter.unread') ? $t('mail.filter.unread') : 'Ulæste' }}
+                        <span class="tabular-nums opacity-85" v-if="unreadCount"> {{ unreadCount }}</span>
+                    </button>
                 </div>
             </div>
 
@@ -21,16 +34,20 @@
                 <Alert type="danger" :text="state?.error?.message" class="m-3"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <div v-if="!state.emails.length"
+                <div v-if="!visibleEmails.length"
                     class="grow flex flex-col items-center justify-center text-center text-gray-400 gap-2 px-6">
                     <Icon name="ph:tray" class="h-9 w-9" aria-hidden="true" />
-                    <p class="text-sm font-medium text-gray-500">{{ $t('mail.inbox') }}</p>
+                    <p class="text-sm font-medium text-gray-500">
+                        {{ activeFilter === 'unread'
+                            ? ($te('mail.filter.noUnread') ? $t('mail.filter.noUnread') : 'Ingen ulæste beskeder')
+                            : $t('mail.inbox') }}
+                    </p>
                 </div>
 
                 <div v-else class="grow overflow-y-auto scroll-smooth">
-                    <button v-for="(email, emailIndex) in state.emails" :key="email?.id ?? emailIndex"
+                    <button v-for="(email, emailIndex) in visibleEmails" :key="email?.id ?? emailIndex"
                         :data-uid="email?.id" :style="{ animationDelay: (emailIndex * 40) + 'ms' }"
-                        @click="setSelectedEmail(emailIndex, email)"
+                        @click="setSelectedEmail(email)"
                         class="mail-row relative w-full text-left grid grid-cols-[38px_1fr] gap-3 px-4 py-3 border-b-0.5 border-gray-300 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
                         :class="isSelected(email) ? 'bg-primary/5' : 'hover:bg-gray-50'">
                         <span class="absolute left-0 top-0 bottom-0 w-[3px] transition-colors duration-150" aria-hidden="true"
@@ -65,7 +82,7 @@
                         <span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span><span
                             class="dot4">.</span><span class="dot5">.</span>
                     </div>
-                    <div class="text-center py-3" v-else-if="state.nextPageLink">
+                    <div class="text-center py-3" v-else-if="activeFilter === 'all' && state.nextPageLink">
                         <button
                             class="text-sm font-semibold text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded px-2 py-1"
                             @click="fetchEmails(state.nextPageLink)">
@@ -171,6 +188,8 @@ const emit = defineEmits(['setUnreadEmailsCount'])
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { isImage, isExcel, isPdf, isPpt, isWord } = fileHelper()
 
+const activeFilter = ref<'all' | 'unread'>('all')
+
 const state = reactive({
     error: {} as Error,
     emails: [] as any,
@@ -185,7 +204,6 @@ const state = reactive({
     selectedAttachment: '' as any,
     selectedEmail: null as any,
     showForwardForm: false,
-    showOnFirstLoad: false,
     showReplyForm: false,
     unreadEmails: 0,
     unreadSecuredMessage: 0,
@@ -200,6 +218,13 @@ function isUnread(email: any): boolean {
 function isSelected(email: any): boolean {
     return !!state.selectedEmail && state.selectedEmail?.id === email?.id
 }
+
+const unreadCount = computed(() => state.emails.filter((e: any) => isUnread(e)).length)
+
+const visibleEmails = computed(() => {
+    if (activeFilter.value !== 'unread') return state.emails
+    return state.emails.filter((e: any) => isUnread(e) || isSelected(e))
+})
 
 function senderName(email: any): string {
     const addr = email?.sender?.emailAddress
@@ -239,9 +264,9 @@ function attachmentColor(url: string): string {
     return 'bg-primary'
 }
 
-// Keyboard navigation: ArrowUp/ArrowDown move between messages, Enter opens a reply.
+// Keyboard navigation over the currently visible list.
 function moveSelection(delta: number) {
-    const list = state.emails
+    const list = visibleEmails.value
     if (!list.length) return
     let idx = state.selectedEmail
         ? list.findIndex((e: any) => e?.id === state.selectedEmail?.id)
@@ -249,7 +274,7 @@ function moveSelection(delta: number) {
     idx = Math.min(list.length - 1, Math.max(0, idx + delta))
     const email = list[idx]
     if (!email) return
-    setSelectedEmail(idx, email)
+    setSelectedEmail(email)
     nextTick(() => {
         document.querySelector(`.mail-row[data-uid="${email?.id}"]`)?.scrollIntoView({ block: 'nearest' })
     })
@@ -304,17 +329,15 @@ async function fetchEmails(page: any) {
     }
 }
 
-async function setSelectedEmail(emailIndex: any, email: any) {
+async function setSelectedEmail(email: any) {
     state.selectedEmail = email
-    state.showOnFirstLoad = true
     state.showReplyForm = false
     state.showForwardForm = false
     if (!email?.isRead) {
         state.error = {}
-        state.emails[emailIndex].isRead = true
+        email.isRead = true
         try {
-            const emailId = email?.id
-            const response = await mailEntraService.readMail(emailId)
+            const response = await mailEntraService.readMail(email?.id)
             if (response) {
                 if (state.unreadEmails > 0) {
                     state.unreadEmails--
@@ -334,7 +357,6 @@ async function setSelectedEmail(emailIndex: any, email: any) {
 
 function closeSelectedEmail() {
     state.selectedEmail = null
-    state.showOnFirstLoad = false
     state.showReplyForm = false
     state.showForwardForm = false
 }
