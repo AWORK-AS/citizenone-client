@@ -292,9 +292,6 @@
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours"
                             :placeholder="$t('employees.form.employment.annualNormHours')" @input="onYearlyInput"
                             v-model="state.formEmployee.employment.annual_norm_hours" />
-                        <p class="text-sm text-primary" v-if="state.info.showAnnualNormHoursCalculation">
-                            {{ annualNormHoursCalculation }}
-                        </p>
                         <FormError
                             :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
@@ -310,9 +307,6 @@
                         <FormTextField id="weekly_norm_hours" name="weekly_norm_hours"
                             :placeholder="$t('employees.form.employment.weeklyNormHours')" @input="onWeeklyInput"
                             v-model="state.formEmployee.employment.weekly_norm_hours" />
-                        <p class="text-sm text-primary" v-if="state.info.showWeeklyNormHoursCalculation">
-                            {{ weeklyNormHoursCalculation }}
-                        </p>
                         <FormError
                             :error="v$?.formEmployee?.employment?.weekly_norm_hours?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.weekly_norm_hours?.[0]" />
@@ -681,10 +675,6 @@ const state = reactive({
         isAnnualNormHoursInfoOpen: false,
         isAddNewNormPeriod: false,
     },
-    info: {
-        showAnnualNormHoursCalculation: false,
-        showWeeklyNormHoursCalculation: false,
-    },
     permissions: {
         read: false,
         create: false,
@@ -711,8 +701,13 @@ const state = reactive({
             { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
         ],
         normPeriods: [] as any[],
-    }
+    },
+    normPeriodDetailsByUuid: {} as Record<string, { calculated_annual_standard_hours: number }>,
 })
+
+const isPopulatingEmployee = ref(false)
+
+const DEFAULT_ANNUAL_STANDARD_HOURS = '1924'
 
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
@@ -730,6 +725,7 @@ watch(() => language.locale.value, (newValue: any) => {
 
 watch(() => props.selectedEmployee, (newValue: any) => {
     if (newValue != null) {
+        isPopulatingEmployee.value = true
         if (newValue.employment.job_title_uuid) {
             fetchJobSpecialties(newValue.employment.job_title_uuid)
         }
@@ -795,6 +791,26 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 state.formEmployee.permissions.push("delete")
             }
         })
+        nextTick(() => {
+            isPopulatingEmployee.value = false
+        })
+    }
+})
+
+watch(() => state.formEmployee.employment.norm_period_uuid, (newUuid: any, oldUuid: any) => {
+    if (!newUuid || newUuid === oldUuid) {
+        return
+    }
+    if (isPopulatingEmployee.value && state.formEmployee.employment.annual_norm_hours) {
+        return
+    }
+    if (newUuid === 'default') {
+        state.formEmployee.employment.annual_norm_hours = DEFAULT_ANNUAL_STANDARD_HOURS
+        return
+    }
+    const calculatedAnnualHours = state.normPeriodDetailsByUuid[newUuid]?.calculated_annual_standard_hours
+    if (calculatedAnnualHours != null) {
+        state.formEmployee.employment.annual_norm_hours = String(calculatedAnnualHours)
     }
 })
 
@@ -822,20 +838,6 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
-
-const weeklyNormHoursCalculation = computed(() => {
-    if (state.formEmployee.employment.annual_norm_hours) {
-        return `${state.formEmployee.employment.annual_norm_hours} ${t('employees.form.employment.hoursPerYear')} / 52 ${t('employees.form.employment.weeks')} = ${Math.round((Number(state.formEmployee.employment.annual_norm_hours) / 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.weeklyNormHours')}`
-    }
-    return ''
-})
-
-const annualNormHoursCalculation = computed(() => {
-    if (state.formEmployee.employment.weekly_norm_hours) {
-        return `${state.formEmployee.employment.weekly_norm_hours} ${t('employees.form.employment.hoursPerWeek')} * 52 ${t('employees.form.employment.weeks')} = ${Math.round((Number(state.formEmployee.employment.weekly_norm_hours) * 52 + Number.EPSILON) * 100) / 100} ${t('employees.form.employment.annualNormHours')}`
-    }
-    return ''
-})
 
 onMounted(() => {
     fetchMediaRisks()
@@ -1205,15 +1207,10 @@ function onWeeklyInput(event: any) {
 
     if (value === '') {
         state.formEmployee.employment.weekly_norm_hours = ''
-        state.info.showAnnualNormHoursCalculation = false
-        state.info.showWeeklyNormHoursCalculation = false
         delete state?.error?.errors?.weekly_norm_hours
         return
     }
     if (isNaN(weeklyHours) || weeklyHours < 0 || /^\d*\.?\d*$/.test(value) === false) {
-        state.info.showWeeklyNormHoursCalculation = false
-        state.info.showAnnualNormHoursCalculation = false
-
         state.error.errors = {
             ...state.error.errors,
             weekly_norm_hours: [t('validation.invalidNumber')]
@@ -1222,22 +1219,7 @@ function onWeeklyInput(event: any) {
     }
 
     delete state?.error?.errors?.weekly_norm_hours
-    delete state?.error?.errors?.annual_norm_hours
     state.formEmployee.employment.weekly_norm_hours = value
-    state.info.showAnnualNormHoursCalculation = true
-    state.info.showWeeklyNormHoursCalculation = false
-
-    if (!isNaN(weeklyHours) && weeklyHours >= 0) {
-        const calculatedAnnualHours = Math.round(weeklyHours * 52)
-
-        const currentAnnual = state.formEmployee.employment.annual_norm_hours
-            ? parseFloat(state.formEmployee.employment.annual_norm_hours)
-            : NaN
-
-        if (!Number.isFinite(currentAnnual) || calculatedAnnualHours !== currentAnnual) {
-            state.formEmployee.employment.annual_norm_hours = String(calculatedAnnualHours)
-        }
-    }
 }
 
 function onYearlyInput(event: any) {
@@ -1246,15 +1228,10 @@ function onYearlyInput(event: any) {
 
     if (value === '') {
         state.formEmployee.employment.annual_norm_hours = ''
-        state.info.showAnnualNormHoursCalculation = false
-        state.info.showWeeklyNormHoursCalculation = false
         delete state?.error?.errors?.annual_norm_hours
         return
     }
     if (isNaN(annualHours) || annualHours < 0 || /^\d*\.?\d*$/.test(value) === false) {
-        state.info.showWeeklyNormHoursCalculation = false
-        state.info.showAnnualNormHoursCalculation = false
-
         state.error.errors = {
             ...state.error.errors,
             annual_norm_hours: [t('validation.invalidNumber')]
@@ -1263,22 +1240,7 @@ function onYearlyInput(event: any) {
     }
 
     delete state?.error?.errors?.annual_norm_hours
-    delete state?.error?.errors?.weekly_norm_hours
     state.formEmployee.employment.annual_norm_hours = value
-    state.info.showWeeklyNormHoursCalculation = true
-    state.info.showAnnualNormHoursCalculation = false
-
-    if (!isNaN(annualHours) && annualHours >= 0) {
-        const calculatedWeeklyHours = Math.round(annualHours / 52)
-
-        const currentWeekly = state.formEmployee.employment.weekly_norm_hours
-            ? parseFloat(state.formEmployee.employment.weekly_norm_hours)
-            : NaN
-
-        if (!Number.isFinite(currentWeekly) || calculatedWeeklyHours !== currentWeekly) {
-            state.formEmployee.employment.weekly_norm_hours = String(calculatedWeeklyHours)
-        }
-    }
 }
 
 async function fetchNormPeriods() {
@@ -1292,6 +1254,12 @@ async function fetchNormPeriods() {
                     label: normPeriod.display_label,
                 }))
             ]
+            state.normPeriodDetailsByUuid = Object.fromEntries(
+                response.data.map((normPeriod: any) => [
+                    normPeriod.uuid,
+                    { calculated_annual_standard_hours: normPeriod.calculated_annual_standard_hours },
+                ])
+            )
         }
     } catch (error: any) {
         state.error = error
