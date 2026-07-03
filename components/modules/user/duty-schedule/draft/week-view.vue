@@ -322,7 +322,7 @@
                         <div class="min-w-[700px]">
                             <div>
                                 <div class="relative mt-0.5"
-                                    @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && pasteWeeklySchedule(weekNumber)"
+                                    @click="!isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && !state.isPasting && pasteWeeklySchedule(weekNumber)"
                                     :class="[
                                         isWeeklyScheduleCopied(weekNumber) && 'border-1.5 border-dashed border-gray-700',
                                         !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && 'cursor-copy relative group',
@@ -347,7 +347,7 @@
                                             isEmployeeWeeklyScheduleCopied() && 'cursor-copy relative group',
                                             'col-span-9 grid grid-cols-9'
                                         ]" v-if="!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)"
-                                            @click="isEmployeeWeeklyScheduleCopied() && (!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)) && pasteEmployeeWeeklySchedule(employee)">
+                                            @click="isEmployeeWeeklyScheduleCopied() && (!isCopiedWeek() || !isEmployeeSelectedAsWeeklyScheduleSource(employee)) && !state.isPasting && pasteEmployeeWeeklySchedule(employee)">
                                             <div class="col-span-2 border-0.5">
                                                 <div class="px-3 pt-3 pb-1 relative">
                                                     <div class="flex justify-between">
@@ -654,7 +654,7 @@
                                                     !isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && 'cursor-copy relative group',
                                                     hasConflict(week) && 'border-1.5 border-red-500 rounded-md',
                                                 ]"
-                                                @click="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && pasteEmployeeDailySchedule(employeeIndex, weekIndex)">
+                                                @click="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber) && !isDailyScheduleCopiedEmpty() && !state.isPasting && pasteEmployeeDailySchedule(employeeIndex, weekIndex)">
                                                 <!-- Drop-zone overlay - præcis som udgivet vagtplan -->
                                                 <div :class="['absolute inset-0 z-10', state.isDragging ? 'pointer-events-auto' : 'pointer-events-none']"
                                                     @dragover.prevent="onDragOver($event)"
@@ -1003,6 +1003,7 @@ const state = reactive({
     errorUpdateShift: {} as Error,
     isPageLoading: false,
     isModalLoading: false,
+    isPasting: false,
     manageExtraHours: {
         selectedEmployee: {},
     },
@@ -1657,6 +1658,8 @@ async function pasteEmployeeDailySchedule(employeeIndex: number, weekIndex: numb
 }
 
 async function copyDutySchedule(params: object) {
+    if (state.isPasting) return
+    state.isPasting = true
     state.copyShiftError = {}
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
@@ -1675,6 +1678,8 @@ async function copyDutySchedule(params: object) {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    } finally {
+        state.isPasting = false
     }
 }
 
@@ -1696,6 +1701,8 @@ function copyEmployeeWeeklySchedule(weeklySchedule: any) {
 }
 
 async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
+    if (state.isPasting) return
+    state.isPasting = true
     state.copyShiftError = {}
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
@@ -1719,6 +1726,8 @@ async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    } finally {
+        state.isPasting = false
     }
 }
 
@@ -1738,7 +1747,6 @@ function copyWeeklySchedule(weekNumber: number) {
 }
 
 function pasteWeeklySchedule(weekNumber: number) {
-    state.weeklySchedules = state.copy.allEmployeeSchedules.weeklySchedules
     const params = {
         department: departmentStore.getSelectedDepartmentName,
         week_source: state.copy.allEmployeeSchedules.weekNumber,
@@ -1748,6 +1756,8 @@ function pasteWeeklySchedule(weekNumber: number) {
 }
 
 async function saveCopiedWeeklyDutySchedule(params: object) {
+    if (state.isPasting) return
+    state.isPasting = true
     try {
         state.progress.totalRequests = state.progress.totalRequests + 1
         state.progress.pendingRequests = state.progress.pendingRequests + 1
@@ -1764,6 +1774,8 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+    } finally {
+        state.isPasting = false
     }
 }
 
@@ -1898,7 +1910,6 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         state.editShiftError = errorUpdateShift
         state.errorUpdateShift = errorUpdateShift
         state.isUpdateShift = false
-        fetchDraftDutySchedule()
         setTimeout(() => {
             state.isModalLoading = false
         }, 300)
