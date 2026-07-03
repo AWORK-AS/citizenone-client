@@ -563,6 +563,7 @@
                 "typeOfShift": "Type av vakt"
             },
             "description": "Beskrivelse",
+            "employee": "Medarbeider",
             "ipAddress": "IP-adresse",
             "newData": "Nye data",
             "previousData": "Tidligere data",

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="3xl" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="xl" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div>
                     <div class="space-y-5">
@@ -11,12 +11,12 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.logs?.data?.length === 0))">
                                     <tr v-for="(log, index) in state.logs?.data" :key="log?.uuid ?? log?.id ?? index">
-                                        <td width="25%" class="align-top">
+                                        <td width="200" class="align-top">
                                             <span class="text-sm text-gray-600">
                                                 {{ formatDateTimeToReadable(log?.created_at) }}
                                             </span>
                                         </td>
-                                        <td width="75%" class="align-top">
+                                        <td class="align-top">
                                             <div class="space-y-2">
                                                 <div class="flex items-center gap-2 flex-wrap">
                                                     <Badge type="primary" class="w-fit shrink-0">
@@ -28,6 +28,9 @@
                                                         {{ log?.title }}
                                                     </p>
                                                 </div>
+                                                <p class="text-xs text-gray-500" v-if="log?.employee">
+                                                    {{ $t('activityLogs.table.employee') }}: {{ log.employee }}
+                                                </p>
                                                 <ul class="space-y-1" v-if="log?.changes && log.changes.length > 0">
                                                     <li class="text-sm text-gray-600 flex flex-wrap items-center gap-x-1"
                                                         v-for="(change, changeIndex) in log.changes"

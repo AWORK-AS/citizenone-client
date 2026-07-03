@@ -563,6 +563,7 @@
                 "typeOfShift": "Typ av pass"
             },
             "description": "Beskrivning",
+            "employee": "Medarbetare",
             "ipAddress": "IP-adress",
             "newData": "Nya data",
             "previousData": "Tidigare data",
