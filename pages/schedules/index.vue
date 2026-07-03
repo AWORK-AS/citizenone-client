@@ -159,7 +159,8 @@
             <div class="mt-1 space-y-5">
                 <ModulesUserDutyScheduleWeekView ref="weekViewRef" v-if="state.calendarView === 'week'"
                     @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
-                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
+                    @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter"
+                    @openDayActivityLog="openDutySchedulesActivityLogs" />
                 <ModulesUserDutyScheduleMonthView v-if="state.calendarView === 'month'"
                     @setDutyScheduleCurrentDate="setDutyScheduleCurrentDate"
                     @setDutyScheduleCurrentFilter="setDutyScheduleCurrentFilter" />
@@ -178,7 +179,8 @@
             <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen" :dutySchedule="true"
                 @close="state.modal.isSubscribeOpen = false" />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
-                @close="state.modal.isActivityLogsOpen = false" />
+                :date="state.activityLogDate"
+                @close="state.modal.isActivityLogsOpen = false; state.activityLogDate = null" />
             <ModulesUserDutyScheduleShareModalView :isModalOpen="state.modal.isViewSharedDutyScheduleOpen"
                 @close="state.modal.isViewSharedDutyScheduleOpen = false" />
             <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
@@ -691,6 +693,7 @@ const state = reactive({
         isSubscribeOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),
+    activityLogDate: null as string | null,
     syncStep: 'configure' as 'configure' | 'assign-rates' | 'review' | 'result',
     syncDateRange: [] as any,
     scheduleEmployees: [] as Array<{
@@ -888,7 +891,8 @@ function setCalendarView(view: any) {
     state.calendarView = view
 }
 
-function openDutySchedulesActivityLogs() {
+function openDutySchedulesActivityLogs(date: string | null = null) {
+    state.activityLogDate = date
     state.modal.isActivityLogsOpen = true
 }
 

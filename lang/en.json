@@ -545,8 +545,10 @@
         },
         "table": {
             "actionTypes": {
+                "copied": "Copied",
                 "created": "Created",
                 "deleted": "Deleted",
+                "moved": "Moved",
                 "published": "Published",
                 "updated": "Updated"
             },
@@ -3521,6 +3523,8 @@
     },
     "dutySchedules": {
         "activityLogs": "Activity logs",
+        "activityLogsForDate": "Activity log for {date}",
+        "viewActivityLogForDay": "View activity log for this day",
         "alert": {
             "newScheduleSuccessfullyAdded": "New schedule successfully added",
             "scheduleSuccessfullyCopied": "Schedule successfully copied",
