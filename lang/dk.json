@@ -545,8 +545,10 @@
         },
         "table": {
             "actionTypes": {
+                "copied": "Kopieret",
                 "created": "Oprettet",
                 "deleted": "Slettet",
+                "moved": "Flyttet",
                 "published": "Publiceret",
                 "updated": "Opdateret"
             },
@@ -3521,6 +3523,8 @@
     },
     "dutySchedules": {
         "activityLogs": "Aktivitetslogs",
+        "activityLogsForDate": "Aktivitetslog for {date}",
+        "viewActivityLogForDay": "Se aktivitetslog for denne dag",
         "alert": {
             "newScheduleSuccessfullyAdded": "Ny vagtplan tilføjet med succes",
             "scheduleSuccessfullyCopied": "Vagtplan kopieret med succes",
