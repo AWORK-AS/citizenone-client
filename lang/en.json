@@ -563,6 +563,7 @@
                 "typeOfShift": "Type of shift"
             },
             "description": "Description",
+            "employee": "Employee",
             "ipAddress": "Ip address",
             "newData": "New data",
             "previousData": "Previous data",

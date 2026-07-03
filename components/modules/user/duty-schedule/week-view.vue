@@ -453,7 +453,7 @@
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.annualNormHours') }}:
-                                                                {{ empStats(employee)?.annual_norm_hours ?? 0 }}
+                                                                {{ formatNumber(language.locale.value, empStats(employee)?.annual_norm_hours ?? 0) }}
                                                             </p>
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />

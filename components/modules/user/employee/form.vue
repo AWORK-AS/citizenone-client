@@ -709,6 +709,17 @@ const isPopulatingEmployee = ref(false)
 
 const DEFAULT_ANNUAL_STANDARD_HOURS = '1924'
 
+// Danish (and other non-English) number conventions use a comma as the decimal
+// separator. Annual Standard Hours can carry a fraction (e.g. 1122.31 for a
+// custom norm period), so the raw API/JS value needs converting before it's
+// shown in this locale-aware editable field.
+function localizeDecimalSeparator(value: number | string | null | undefined) {
+    if (value === null || value === undefined || value === '') {
+        return value
+    }
+    return language.locale.value !== 'en' ? String(value).replace('.', ',') : String(value)
+}
+
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
         state.options.employment_status = [
@@ -763,7 +774,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
-                annual_norm_hours: newValue.employment.annual_norm_hours,
+                annual_norm_hours: localizeDecimalSeparator(newValue.employment.annual_norm_hours),
                 weekly_norm_hours: newValue.employment.annual_norm_hours
                     ? Math.round(Number(newValue.employment.annual_norm_hours) / 52)
                     : '',
@@ -810,7 +821,7 @@ watch(() => state.formEmployee.employment.norm_period_uuid, (newUuid: any, oldUu
     }
     const calculatedAnnualHours = state.normPeriodDetailsByUuid[newUuid]?.calculated_annual_standard_hours
     if (calculatedAnnualHours != null) {
-        state.formEmployee.employment.annual_norm_hours = String(calculatedAnnualHours)
+        state.formEmployee.employment.annual_norm_hours = localizeDecimalSeparator(calculatedAnnualHours)
     }
 })
 
@@ -1224,14 +1235,14 @@ function onWeeklyInput(event: any) {
 
 function onYearlyInput(event: any) {
     const value = event.target.value
-    const annualHours = parseFloat(value)
+    const annualHours = parseFloat(String(value).replace(',', '.'))
 
     if (value === '') {
         state.formEmployee.employment.annual_norm_hours = ''
         delete state?.error?.errors?.annual_norm_hours
         return
     }
-    if (isNaN(annualHours) || annualHours < 0 || /^\d*\.?\d*$/.test(value) === false) {
+    if (isNaN(annualHours) || annualHours < 0 || /^\d*[.,]?\d*$/.test(value) === false) {
         state.error.errors = {
             ...state.error.errors,
             annual_norm_hours: [t('validation.invalidNumber')]

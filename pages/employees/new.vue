@@ -123,7 +123,7 @@ async function saveEmployee(employeeDetails: any) {
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
-        params.append('annual_norm_hours', employeeDetails.employment.annual_norm_hours)
+        params.append('annual_norm_hours', String(employeeDetails.employment.annual_norm_hours ?? '').replace(',', '.'))
         params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))
         params.append('trustees', JSON.stringify(employeeDetails.emergencyInfo.trustees))

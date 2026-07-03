@@ -184,7 +184,7 @@
                                         </span><span v-else>.</span>
                                     </span>
                                 </p>
-                                <p>{{ $t('dutySchedules.annualNormHours') }}: {{ employee?.annual_norm_hours ?? 0 }}</p>
+                                <p>{{ $t('dutySchedules.annualNormHours') }}: {{ formatNumber(language.locale.value, employee?.annual_norm_hours ?? 0) }}</p>
                                 <p>{{ $t('dutySchedules.weeklyNormHours') }}: {{
                                     (Math.round(Number(employee?.annual_norm_hours) / 52)) ?? 0 }}</p>
                                 <p>{{ $t('dutySchedules.totalHours') }}: {{ employee?.total_hours ?? 0 }}</p>
