@@ -241,7 +241,7 @@
                             </transition>
                         </Menu>
                         <!-- Primary call-to-action -->
-                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen')" buttonStyle="success"
+                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen')" buttonStyle="primary"
                             @click="navigateTo('/citizens/new')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.newCitizen') }}

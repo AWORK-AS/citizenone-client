@@ -92,12 +92,12 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <FormButton buttonStyle="action" class="w-full md:w-fit shadow-sm"
+                    <FormButton buttonStyle="primary" class="w-full md:w-fit shadow-sm"
                         @click="state.modal.isCreateJournalOpen = true">
                         <Icon name="ph:note-pencil" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('journalNotes.newNote') }}
                     </FormButton>
-                    <FormButton buttonStyle="primary" class="w-full md:w-fit shadow-sm"
+                    <FormButton buttonStyle="action" class="w-full md:w-fit shadow-sm"
                         @click="navigateTo('/overview/view')">
                         {{ $t('overview.viewAll') }}
                     </FormButton>
