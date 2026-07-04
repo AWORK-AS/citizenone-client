@@ -25,10 +25,13 @@
                                 </div>
                             </TransitionChild>
                             <div
-                                class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4 ring-1 ring-white/10">
+                                class="flex grow flex-col gap-y-5 overflow-y-auto bg-gradient-to-b from-sidebar to-sidebar-dark px-6 pb-4">
                                 <div class="mt-5">
                                     <span @click="navigateTo('/citizen/overview')">
-                                        <LogoWhite />
+                                        <span class="flex items-center gap-x-2.5">
+                                            <img src="/img/icons/asset-app.png" alt="CitizenOne" class="h-7 w-7 object-contain" />
+                                            <span class="text-primary font-semibold text-lg">CitizenOne™</span>
+                                        </span>
                                     </span>
                                 </div>
                                 <nav class="flex flex-1 flex-col mt-3">
@@ -37,9 +40,8 @@
                                             <ul role="list" class="-mx-2 space-y-1">
                                                 <li v-for="item in navigation" :key="item.name">
                                                     <div v-if="!item.children" @click="navigateTo(item.href)"
-                                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                                                        :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group flex gap-x-3 p-2 text-sm leading-6 font-semibold cursor-pointer']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
-                                                            :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100']"
                                                             aria-hidden="true" />
                                                         <span v-if="item.name === 'Overview'">
                                                             {{ $t('sidebar.overview') }}
@@ -86,14 +88,12 @@
 
         <!-- Static sidebar for desktop -->
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-            <div class="overflow-clip relative flex grow flex-col gap-y-5 bg-primary px-6 pb-4 shadow-right">
-
-                <img src="/img/icons/asset-02.svg" alt="Image failed to load"
-                    class="z-10 w-screen absolute -bottom-32 -left-32 opacity-25">
+            <div class="overflow-clip relative flex grow flex-col gap-y-5 bg-gradient-to-b from-sidebar to-sidebar-dark px-6 pb-4">
 
                 <div class="z-20 mt-5">
-                    <span @click="navigateTo('/citizen/overview')">
-                        <LogoWhite />
+                    <span @click="navigateTo('/citizen/overview')" class="cursor-pointer flex items-center gap-x-2.5">
+                        <img src="/img/icons/asset-app.png" alt="CitizenOne" class="h-7 w-7 object-contain" />
+                        <span class="text-primary font-semibold text-lg">CitizenOne™</span>
                     </span>
                 </div>
                 <nav class="z-20 flex flex-1 flex-col mt-3">
@@ -102,7 +102,7 @@
                             <ul role="list" class="-mx-2 space-y-1">
                                 <li v-for="item in navigation" :key="item.name">
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
-                                        :class="[item.activeRouteNames.includes($route.name) ? 'text-secondary-25' : 'text-secondary-100 hover:text-secondary-25', 'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold cursor-pointer']">
+                                        :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group flex gap-x-3 p-3 text-sm leading-6 font-semibold cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
                                         <span v-if="item.name === 'Overview'">
                                             {{ $t('sidebar.overview') }}
