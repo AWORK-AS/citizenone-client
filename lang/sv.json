@@ -5259,6 +5259,20 @@
                 "successDeletedBody": "Licenstyp '{name}' har raderats.",
                 "deleteConfirm": "Ta bort licenstyp '{name}'?"
             }
+        },
+        "history": {
+            "title": "Skifthistorik",
+            "loading": "Hämtar historik...",
+            "empty": "Ingen historik än.",
+            "by": "Av",
+            "system": "System",
+            "viewHistory": "Visa historik",
+            "actions": {
+                "created": "Skapad",
+                "published": "Publicerad",
+                "updated": "Uppdaterad",
+                "deleted": "Raderad"
+            }
         }
     },
     "dutyShiftRuleNotifications": {

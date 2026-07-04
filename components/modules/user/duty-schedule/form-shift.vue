@@ -352,7 +352,15 @@
                         $t('update') }}
                 </FormButton>
             </div>
+            <div v-if="props.formType === 'update' && props.selectedShift?.uuid" class="mt-3 text-center">
+                <FormButton type="button" buttonStyle="link" @click="state.modal.isShiftHistoryOpen = true">
+                    <Icon name="ph:clock-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
+                    {{ $t('dutySchedules.history.viewHistory') }}
+                </FormButton>
+            </div>
         </div>
+        <ModulesUserDutyScheduleModalShiftHistory :isModalOpen="state.modal.isShiftHistoryOpen"
+            :scheduleUuid="props.selectedShift?.uuid" @close="state.modal.isShiftHistoryOpen = false" />
         <ModulesUserScheduleTagModalNew :isModalOpen="state.modal.isAddNewScheduleTagOpen"
             @close="state.modal.isAddNewScheduleTagOpen = false" @refreshScheduleTags="fetchAllScheduleTags" />
         <ModulesUserDepartmentModalNew :isModalOpen="state.modal.isAddDepartmentOpen"
@@ -442,6 +450,7 @@ const state = reactive({
     modal: {
         isAddDepartmentOpen: false,
         isAddNewScheduleTagOpen: false,
+        isShiftHistoryOpen: false,
     },
     showChildProtectionCertificateWarning: false,
     options: {
