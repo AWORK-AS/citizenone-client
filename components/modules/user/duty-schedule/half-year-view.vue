@@ -184,7 +184,8 @@
                                         </span><span v-else>.</span>
                                     </span>
                                 </p>
-                                <p>{{ $t('dutySchedules.annualNormHours') }}: {{ formatNumber(language.locale.value, employee?.annual_norm_hours ?? 0) }}</p>
+                                <p>{{ $t('dutySchedules.annualNormHours') }}: {{ formatNumber(language.locale.value,
+                                    employee?.annual_norm_hours ?? 0) }}</p>
                                 <p>{{ $t('dutySchedules.weeklyNormHours') }}: {{
                                     (Math.round(Number(employee?.annual_norm_hours) / 52)) ?? 0 }}</p>
                                 <p>{{ $t('dutySchedules.totalHours') }}: {{ employee?.total_hours ?? 0 }}</p>
@@ -297,13 +298,20 @@
                                 <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
                                     <div class="col-span-3 pl-1 font-bold">{{ $t('dutySchedules.total') }}:</div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t: any) => sum +
-                                            (parseFloat(String(t?.monthly_hours || t?.weekly_hours || '0').replace(/\./g, '').replace(',', '.')) || 0), 0))
+                                        {{
+                                            formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
+                                                any) => sum +
+                                                (parseFloat(String(t?.monthly_hours || t?.weekly_hours || '0').replace(/\./g,
+                                                    '').replace(',', '.')) || 0),
+                                                0))
                                         }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t: any) => sum +
-                                            (parseFloat(String(t?.yearly_hours ?? '0').replace(/\./g, '').replace(',', '.')) || 0), 0))
+                                        {{
+                                            formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
+                                                any) => sum +
+                                                (parseFloat(String(t?.yearly_hours ?? '0').replace(/\./g, '').replace(',', '.'))
+                                                    || 0), 0))
                                         }}
                                     </div>
                                 </div>
@@ -313,21 +321,31 @@
                                 <div class="text-primary flex items-center gap-1 cursor-pointer text-xxs"
                                     @click="openGraphModal(employee)">
                                     <Icon name="ph:chart-bar-bold" class="h-3 w-3" />
-                                    {{ $t('dutySchedules.normHours.compensatoryHoursGraph') }}
+                                    {{
+                                        $t('dutySchedules.normHours.compensatoryHoursGraph')
+                                    }}
                                 </div>
                                 <div :class="[employee?.total_norm_hours?.compensatory_hours > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
                                     @click="viewCompensatoryHours(employee)">
                                     <Icon name="ph:clock" class="h-3 w-3" />
-                                    {{ $t('dutySchedules.normHours.compensatoryHours') }}:
-                                    {{ formatNumber(language.locale.value,
-                                        employee?.total_norm_hours?.compensatory_hours) ?? 0 }}
+                                    {{
+                                        $t('dutySchedules.normHours.compensatoryHours')
+                                    }}:
+                                    {{
+                                        formatNumber(language.locale.value,
+                                            employee?.total_norm_hours?.compensatory_hours) ?? 0
+                                    }}
                                 </div>
                                 <div :class="[employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
                                     @click="viewAvailableVacationHours(employee)">
                                     <Icon name="ph:clock" class="h-3 w-3" />
-                                    {{ $t('dutySchedules.normHours.availableVacationHours') }}:
-                                    {{ formatNumber(language.locale.value,
-                                        employee?.total_norm_hours?.available_vacation_hours || 0) }}
+                                    {{
+                                        $t('dutySchedules.normHours.availableVacationHours')
+                                    }}:
+                                    {{
+                                        formatNumber(language.locale.value,
+                                            employee?.total_norm_hours?.available_vacation_hours || 0)
+                                    }}
                                 </div>
                             </div>
                         </div>

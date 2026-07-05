@@ -259,7 +259,8 @@
                                         <span v-else>.</span></span>
                                 </p>
                                 <p>
-                                    {{ $t('dutySchedules.annualNormHours') }}: {{ formatNumber(language.locale.value, employee?.annual_norm_hours ?? 0) }}
+                                    {{ $t('dutySchedules.annualNormHours') }}: {{ formatNumber(language.locale.value,
+                                        employee?.annual_norm_hours ?? 0) }}
                                 </p>
                                 <p>
                                     {{ $t('dutySchedules.weeklyNormHours') }}: {{
@@ -383,9 +384,11 @@
                                     <div class="col-span-3 pl-1 flex items-center gap-1 text-gray-500 italic">
                                         <Icon name="ph:clock" class="w-2 h-2 flex-shrink-0" />
                                         <span class="truncate">
-                                            {{ state.filter.time_from && state.filter.time_to
-                                                ? state.filter.time_from + '–' + state.filter.time_to
-                                                : $t('dutySchedules.timeRange') }}
+                                            {{
+                                                state.filter.time_from && state.filter.time_to
+                                                    ? state.filter.time_from + '–' + state.filter.time_to
+                                                    : $t('dutySchedules.timeRange')
+                                            }}
                                         </span>
                                     </div>
                                     <div class="col-span-2 text-right pr-2 text-gray-500">
@@ -409,16 +412,24 @@
                                         {{ $t('dutySchedules.total') }}:
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + (parseFloat(String(t?.monthly_hours ||
-                                                t?.weekly_hours || '0').replace(/\./g, '').replace(',', '.')) ||
-                                                0), 0))
+                                        {{
+                                            formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
+                                                t?.shift?.system_name !==
+                                                'time-filter')
+                                                .reduce((sum: any, t: any) => sum + (parseFloat(String(t?.monthly_hours ||
+                                                    t?.weekly_hours || '0').replace(/\./g, '').replace(',', '.')) ||
+                                                    0), 0))
                                         }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + (parseFloat(String(t?.yearly_hours ?? '0').replace(/\./g, '').replace(',', '.')) || 0),
-                                                0))
+                                        {{
+                                            formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
+                                                t?.shift?.system_name !==
+                                                'time-filter')
+                                                .reduce((sum: any, t: any) => sum + (parseFloat(String(t?.yearly_hours ??
+                                                    '0').replace(/\./g,
+                                                        '').replace(',', '.')) || 0),
+                                                    0))
                                         }}
                                     </div>
                                 </div>
