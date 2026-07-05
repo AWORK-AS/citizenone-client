@@ -298,6 +298,13 @@
                                                     <Icon name="ph:clock-clockwise" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('recordHistory.viewHistory')">
+                                                <FormButton buttonStyle="action" buttonSize="xs"
+                                                    data-testid="journal-history"
+                                                    @click="viewRecordHistory(journal)">
+                                                    <Icon name="ph:clock-counter-clockwise" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.delete')">
                                                 <FormButton buttonStyle="danger" buttonSize="xs"
                                                     @click="confirmJournalDeletion(journal)"
@@ -344,6 +351,9 @@
                 @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalIndividualLogs :isModalOpen="state.modal.isViewLogsOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isViewLogsOpen = false" />
+            <ModulesUserHistoryModalRecordHistory :isModalOpen="state.modal.isRecordHistoryOpen" type="journal"
+                :uuid="state.selectedJournal?.uuid" :title="$t('recordHistory.title')"
+                @close="state.modal.isRecordHistoryOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
                 :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
                 @close="state.modal.isDeleteJournalOpen = false" @confirm="deleteJournal" />
@@ -401,6 +411,7 @@ const state = reactive({
         isFilterJournalOpen: false,
         isMoveJournalOpen: false,
         isViewLogsOpen: false,
+        isRecordHistoryOpen: false,
     },
     selectedJournal: [] as any,
     sortData: {
@@ -604,6 +615,11 @@ async function pinUnpinJournal(journalUuid: any) {
 function viewJournalLogs(journal: any) {
     state.selectedJournal = journal
     state.modal.isViewLogsOpen = true
+}
+
+function viewRecordHistory(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isRecordHistoryOpen = true
 }
 
 function confirmJournalDeletion(journal: any) {
