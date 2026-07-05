@@ -594,16 +594,18 @@
                                     <div class="flex justify-end gap-1 mb-1" v-if="isDailyScheduleCopiedEmpty()">
                                         <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                             <button
-                                                class="bg-gray-100 w-5 h-5 text-gray-500 rounded hover:bg-gray-300 flex items-center justify-center"
+                                                class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                 @click.stop="copyDayForAllEmployees(day)">
-                                                <Icon name="mdi:content-copy" class="h-2.5 w-2.5" />
+                                                <Icon name="mdi:content-copy" class="h-3 w-3" />
                                             </button>
                                         </Tooltip>
                                         <Tooltip position="left" :text="$t('dutySchedules.newSchedule')"
                                             v-if="hasCreatePermission || isAtLeast('Admin')">
                                             <button
-                                                class="bg-gray-100 w-5 h-5 text-gray-500 rounded hover:bg-gray-300 flex items-center justify-center font-bold"
-                                                @click.stop="openAddNewShiftModalForDay(day)">+</button>
+                                                class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-md border border-dashed border-primary/40 bg-primary/5 text-primary hover:bg-primary/15 hover:border-primary transition-colors"
+                                                @click.stop="openAddNewShiftModalForDay(day)">
+                                                <Icon name="ph:plus" class="h-3.5 w-3.5" aria-hidden="true" />
+                                            </button>
                                         </Tooltip>
                                     </div>
                                     <div v-if="!isDailyScheduleCopiedEmpty() && isCopiedDay(day)"
