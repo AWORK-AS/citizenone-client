@@ -235,6 +235,9 @@
                         <Icon name="ph:paperclip" class="w-5 h-5 text-gray-500" aria-hidden="true" />
                     </button>
 
+                    <!-- Emoji Picker -->
+                    <ModulesUserMessagesEmojiPicker @select="appendEmoji" />
+
                     <!-- Text Input -->
                     <textarea rows="1"
                         class="flex-1 h-10 px-4 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-10"
@@ -392,6 +395,10 @@ function memberAvatar(member: any) {
         return user.profile_image ?? user.logo ?? '/img/avatars/user.svg'
     }
     return user.profile_image ?? '/img/avatars/user.svg'
+}
+
+function appendEmoji(emoji: string) {
+    state.message = (state.message ?? '') + emoji
 }
 
 function senderDisplayName(message: any) {

@@ -7127,7 +7127,8 @@
         "subjectOptional": "Emne (valgfritt)",
         "subjectPlaceholder": "Hva handler det om?",
         "messagePlaceholder": "Skriv meldingen din...",
-        "sendHint": "⌘ + Enter for å sende"
+        "sendHint": "⌘ + Enter for å sende",
+        "emoji": "Emoji"
     },
     "months": {
         "april": "April",

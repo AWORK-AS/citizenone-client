@@ -7127,7 +7127,8 @@
         "subjectOptional": "Subject (optional)",
         "subjectPlaceholder": "What's it about?",
         "messagePlaceholder": "Write your message...",
-        "sendHint": "⌘ + Enter to send"
+        "sendHint": "⌘ + Enter to send",
+        "emoji": "Emoji"
     },
     "months": {
         "april": "April",
