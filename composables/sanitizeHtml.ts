@@ -9,7 +9,7 @@ let hookRegistered = false
  */
 export function useSanitizeHtml() {
     if (!hookRegistered && typeof (DOMPurify as any).addHook === 'function') {
-        ;(DOMPurify as any).addHook('afterSanitizeAttributes', (node: any) => {
+        ; (DOMPurify as any).addHook('afterSanitizeAttributes', (node: any) => {
             // Open any surviving links safely in a new tab.
             if (node.tagName === 'A' && node.getAttribute('href')) {
                 node.setAttribute('target', '_blank')

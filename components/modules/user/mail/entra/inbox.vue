@@ -4,7 +4,9 @@
         <div class="w-[384px] shrink-0 flex flex-col bg-white border-r-0.5 border-gray-300 min-w-0">
             <div class="px-4 pt-4 pb-3 border-b-0.5 border-gray-300 flex flex-col gap-3">
                 <div class="flex items-baseline gap-2">
-                    <h2 class="text-base font-bold text-gray-900">{{ $t('mail.inbox') }}</h2>
+                    <h2 class="text-base font-bold text-gray-900">
+                        {{ $t('mail.inbox') }}
+                    </h2>
                     <span class="text-xs font-semibold text-gray-400 tabular-nums" v-if="state.emails.length">
                         {{ state.emails.length }}
                     </span>
@@ -38,7 +40,8 @@
                 </div>
             </div>
 
-            <div v-if="state.loading.isEmailsLoading" class="grow flex items-center justify-center text-gray-500 text-sm">
+            <div v-if="state.loading.isEmailsLoading"
+                class="grow flex items-center justify-center text-gray-500 text-sm">
                 <span>{{ $t('mail.loading.loadingYourEmails') }}</span>
                 <span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span><span
                     class="dot4">.</span><span class="dot5">.</span>
@@ -52,11 +55,14 @@
                     class="grow flex flex-col items-center justify-center text-center text-gray-400 gap-2 px-6">
                     <Icon name="ph:tray" class="h-9 w-9" aria-hidden="true" />
                     <p class="text-sm font-medium text-gray-500">
-                        {{ searchTerm
-                            ? ($te('mail.search.noResults') ? $t('mail.search.noResults') : 'Ingen beskeder matcher din søgning')
-                            : (activeFilter === 'unread'
-                                ? ($te('mail.filter.noUnread') ? $t('mail.filter.noUnread') : 'Ingen ulæste beskeder')
-                                : $t('mail.inbox')) }}
+                        {{
+                            searchTerm
+                                ? ($te('mail.search.noResults') ?
+                                    $t('mail.search.noResults') : 'Ingen beskeder matcher dinsøgning')
+                                : (activeFilter === 'unread'
+                                    ? ($te('mail.filter.noUnread') ?
+                                        $t('mail.filter.noUnread') : 'Ingen ulæste beskeder') :
+                                    $t('mail.inbox')) }}
                     </p>
                 </div>
 
@@ -66,15 +72,15 @@
                         @click="setSelectedEmail(email)"
                         class="mail-row relative w-full text-left grid grid-cols-[38px_1fr] gap-3 px-4 py-3 border-b-0.5 border-gray-300 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40"
                         :class="isSelected(email) ? 'bg-primary/5' : 'hover:bg-gray-50'">
-                        <span class="absolute left-0 top-0 bottom-0 w-[3px] transition-colors duration-150" aria-hidden="true"
+                        <span class="absolute left-0 top-0 bottom-0 w-[3px] transition-colors duration-150"
+                            aria-hidden="true"
                             :class="isSelected(email) ? 'bg-primary' : (isUnread(email) ? 'bg-primary/50' : 'bg-transparent')"></span>
-                        <img
-                            :src="`https://ui-avatars.com/api/?background=205E77&color=fff&bold=true&name=${encodeURIComponent(senderName(email))}`"
+                        <img :src="`https://ui-avatars.com/api/?background=205E77&color=fff&bold=true&name=${encodeURIComponent(senderName(email))}`"
                             class="rounded-full w-[38px] h-[38px] object-cover" alt="" />
                         <div class="min-w-0">
                             <div class="flex items-center gap-2">
-                                <span class="unread-dot w-1.5 h-1.5 rounded-full bg-primary shrink-0" v-if="isUnread(email)"
-                                    aria-hidden="true"></span>
+                                <span class="unread-dot w-1.5 h-1.5 rounded-full bg-primary shrink-0"
+                                    v-if="isUnread(email)" aria-hidden="true"></span>
                                 <span class="grow truncate text-[13.5px]"
                                     :class="isUnread(email) ? 'font-bold text-gray-900' : 'font-medium text-gray-700'">
                                     {{ senderName(email) }}
@@ -123,8 +129,7 @@
                         {{ state.selectedEmail?.subject }}
                     </h1>
                     <div class="flex items-center gap-3">
-                        <img
-                            :src="`https://ui-avatars.com/api/?background=205E77&color=fff&bold=true&name=${encodeURIComponent(senderName(state.selectedEmail))}`"
+                        <img :src="`https://ui-avatars.com/api/?background=205E77&color=fff&bold=true&name=${encodeURIComponent(senderName(state.selectedEmail))}`"
                             class="rounded-full w-10 h-10 object-cover" alt="" />
                         <div class="min-w-0 grow">
                             <p class="text-sm font-semibold text-gray-900 truncate">
@@ -416,33 +421,136 @@ function downloadAttachment(attachment: any) {
 
 <style scoped>
 @keyframes blink {
-    0% { opacity: 0; }
-    33% { opacity: 1; }
-    66% { opacity: 0; }
-    100% { opacity: 0; }
+    0% {
+        opacity: 0;
+    }
+
+    33% {
+        opacity: 1;
+    }
+
+    66% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
-.dot1 { animation: blink 1.4s infinite both; }
-.dot2 { animation: blink 1.4s infinite both; animation-delay: 0.2s; }
-.dot3 { animation: blink 1.4s infinite both; animation-delay: 0.4s; }
-.dot4 { animation: blink 1.4s infinite both; animation-delay: 0.6s; }
-.dot5 { animation: blink 1.4s infinite both; animation-delay: 0.8s; }
 
-@keyframes rowIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-.mail-row { opacity: 0; animation: rowIn 0.4s cubic-bezier(.22,.61,.36,1) forwards; }
+.dot1 {
+    animation: blink 1.4s infinite both;
+}
 
-@keyframes unreadPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(32,94,119,.4); } 50% { box-shadow: 0 0 0 4px rgba(32,94,119,0); } }
-.unread-dot { animation: unreadPulse 2.4s cubic-bezier(.22,.61,.36,1) infinite; }
+.dot2 {
+    animation: blink 1.4s infinite both;
+    animation-delay: 0.2s;
+}
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.mail-body { font-size: 14px; line-height: 1.6; color: #2a3948; max-width: 68ch; overflow-wrap: break-word; animation: fadeUp 0.3s cubic-bezier(.22,.61,.36,1); }
-.mail-body :deep(img) { max-width: 100%; height: auto; }
-.mail-body :deep(a) { color: #205E77; text-decoration: underline; }
-.mail-body :deep(table) { max-width: 100%; display: block; overflow-x: auto; }
-.mail-body :deep(p) { margin: 0 0 12px; }
+.dot3 {
+    animation: blink 1.4s infinite both;
+    animation-delay: 0.4s;
+}
+
+.dot4 {
+    animation: blink 1.4s infinite both;
+    animation-delay: 0.6s;
+}
+
+.dot5 {
+    animation: blink 1.4s infinite both;
+    animation-delay: 0.8s;
+}
+
+@keyframes rowIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.mail-row {
+    opacity: 0;
+    animation: rowIn 0.4s cubic-bezier(.22, .61, .36, 1) forwards;
+}
+
+@keyframes unreadPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(32, 94, 119, .4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px rgba(32, 94, 119, 0);
+    }
+}
+
+.unread-dot {
+    animation: unreadPulse 2.4s cubic-bezier(.22, .61, .36, 1) infinite;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.mail-body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #2a3948;
+    max-width: 68ch;
+    overflow-wrap: break-word;
+    animation: fadeUp 0.3s cubic-bezier(.22, .61, .36, 1);
+}
+
+.mail-body :deep(img) {
+    max-width: 100%;
+    height: auto;
+}
+
+.mail-body :deep(a) {
+    color: #205E77;
+    text-decoration: underline;
+}
+
+.mail-body :deep(table) {
+    max-width: 100%;
+    display: block;
+    overflow-x: auto;
+}
+
+.mail-body :deep(p) {
+    margin: 0 0 12px;
+}
 
 @media (prefers-reduced-motion: reduce) {
-    .dot1, .dot2, .dot3, .dot4, .dot5,
-    .unread-dot, .mail-body { animation: none; }
-    .mail-row { opacity: 1; animation: none; }
+
+    .dot1,
+    .dot2,
+    .dot3,
+    .dot4,
+    .dot5,
+    .unread-dot,
+    .mail-body {
+        animation: none;
+    }
+
+    .mail-row {
+        opacity: 1;
+        animation: none;
+    }
 }
 </style>
