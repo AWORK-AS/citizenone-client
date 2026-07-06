@@ -72,7 +72,7 @@
         "promoCta": "Hent appen",
         "appInfoMessage": "App Store- og Google Play-lenker kommer her i den ekte versjonen.",
         "appScanHint": "Skann QR-koden med telefonkameraet for å laste ned appen.",
-        "modalIntro": "Velg delene dere bruker — så viser vi bare de relevante trinnene.",
+        "modalIntro": "Velg delene dere bruker - så viser vi bare de relevante trinnene.",
         "modules": {
             "vagtplan": "Vaktplan",
             "medicin": "Medisin",
@@ -2154,15 +2154,15 @@
                 "treatmentReasonPlaceholder": "Hva er årsagen til, at brukeren får denne medisin",
                 "unit": "Enhed",
                 "advancedSchedule": "Avanceret skemaindstilling",
-                "advancedScheduleDesc": "Bruk disse innstillinger hvis brukeren skal ha medisinen i bestemte perioder eller på specifikke enkeltdage — ut over den faste hyppighed ovenfor.",
+                "advancedScheduleDesc": "Bruk disse innstillinger hvis brukeren skal ha medisinen i bestemte perioder eller på specifikke enkeltdage - ut over den faste hyppighed ovenfor.",
                 "treatmentPeriods": "Behandlingsperioder",
-                "treatmentPeriodsDesc": "Angiv perioder hvor medisinen aktivt skal gives — f.eks. behandling i uke 1-3, pause i uke 4, behandling i uke 5-6.",
+                "treatmentPeriodsDesc": "Angiv perioder hvor medisinen aktivt skal gives - f.eks. behandling i uke 1-3, pause i uke 4, behandling i uke 5-6.",
                 "addPeriod": "+ Legg til periode",
                 "from": "Fra",
                 "to": "til",
-                "noPeriodsAdded": "Ingen perioder lagt til — medisinen følger hyppighedsindstillingen hele veien",
+                "noPeriodsAdded": "Ingen perioder lagt til - medisinen følger hyppighedsindstillingen hele veien",
                 "extraIndividualDates": "Ekstra individuelle dager",
-                "extraIndividualDatesDesc": "Legg til specifikke enkeltdage hvor brukeren skal ha medisinen — selvom det ikke passer med den faste hyppighed. Klikk på en dato i kalenderen for at legge til den.",
+                "extraIndividualDatesDesc": "Legg til specifikke enkeltdage hvor brukeren skal ha medisinen - selvom det ikke passer med den faste hyppighed. Klikk på en dato i kalenderen for at legge til den.",
                 "noExtraDaysSelected": "Ingen ekstra dager valgt"
             },
             "history": {
@@ -2303,7 +2303,7 @@
                 "dueInMinutes": "Forfaller om {minutes} minutter. Husk at gi til tiden.",
                 "expired": "Utløpt",
                 "selfAdministration": "Selvadministrerende",
-                "expiredCheckDate": "Utløpt — sjekk åpning dato",
+                "expiredCheckDate": "Utløpt - sjekk åpning dato",
                 "lowStock": "Lavt lager",
                 "lowStockOnly": "Lavt lager: kun {n} tilbake",
                 "pnMedicineAsNeeded": "PN-medisin (etter behov)",
@@ -2327,9 +2327,9 @@
                 "slotDeviation": "Afvigelse",
                 "slotInMinutes": "Om {minutes} min",
                 "slotAt": "Kl. {time}",
-                "slotOverdue": "Forsinket — planlagt kl. {time}. Klikk for at gi.",
-                "slotDueSoon": "Forfaller om {minutes} min — kl. {time}",
-                "slotClickToGive": "Klikk for at gi — planlagt kl. {time}",
+                "slotOverdue": "Forsinket - planlagt kl. {time}. Klikk for at gi.",
+                "slotDueSoon": "Forfaller om {minutes} min - kl. {time}",
+                "slotClickToGive": "Klikk for at gi - planlagt kl. {time}",
                 "overdueCountText": "{n} forsinket",
                 "givenCountText": "{n} gitt",
                 "pendingCountText": "{n} venter",
@@ -3471,7 +3471,7 @@
         "drive-google": {
             "info-drive-1": "Du ser akkurat nå Google Drive-filer, fordi du har linket din Google-konto.",
             "info-drive-2": "Hvis du også vil bruke det lokale system så trykk 'CitizenOne Documents'-knappen i toppen.",
-            "info-drive-3": "Bytt mellem systemerne uten at miste filer — last opp til det ønskede system via last opp-knappen.."
+            "info-drive-3": "Bytt mellem systemerne uten at miste filer - last opp til det ønskede system via last opp-knappen.."
         },
         "drive-local": {
             "info-drive-1": "Du ser akkurat nå CitizenOne Documents-filer",
@@ -3481,7 +3481,7 @@
         "drive-onedrive": {
             "info-drive-1": "Du ser akkurat nå dine OneDrive-filer, fordi du har linket din Microsoft-konto.",
             "info-drive-2": "Hvis du vil tilbake til CitizenOne Documents, så trykk 'Virksomhetsdokumenter'-knappen i toppen.",
-            "info-drive-3": "Bytt mellem systemerne uten at miste filer — last opp til det ønskede system via last opp-knappen."
+            "info-drive-3": "Bytt mellem systemerne uten at miste filer - last opp til det ønskede system via last opp-knappen."
         },
         "editDocument": "Rediger dokument",
         "expenses": "Utgifter",
@@ -3555,7 +3555,7 @@
         "copyPaste": {
             "clickHereToPasteTheSchedule": "Klikk her for at lime inn vaktplanen, eller trykk på Escape-tasten på dit tastatur for at kansellere",
             "clickHereToStopCopyingTheSchedule": "Klikk her for at stoppe med at kopiere",
-            "copyingActive": "Kopiering aktiv — Klikk for at stoppe",
+            "copyingActive": "Kopiering aktiv - Klikk for at stoppe",
             "stopCopying": "Stop kopiering"
         },
         "custom": "Brugerdefineret",
@@ -3639,7 +3639,7 @@
                 "viewPresets": "Se forhåndsinnstillinger",
                 "infoBox": {
                     "title": "Hva er forhåndsinnstillinger?",
-                    "description": "En forhåndsinnstilling er en lagret version av din vaktplankladd, som du kan gjenbruke. Velg en forhåndsinnstilling nedenfor og klikk Bruk for at laste den i kladden — du kan deretter redigere og publisere den."
+                    "description": "En forhåndsinnstilling er en lagret version av din vaktplankladd, som du kan gjenbruke. Velg en forhåndsinnstilling nedenfor og klikk Bruk for at laste den i kladden - du kan deretter redigere og publisere den."
                 },
                 "saveInfoBox": {
                     "title": "Lagre din nåværende kladde som forhåndsinnstilling",
@@ -3700,7 +3700,7 @@
                 "oneTimeDescription": "En fast ukentlig vaktplan du anvender én gang ad gangen.",
                 "recurring": "Gjentakende:",
                 "recurringDescription": "En rullende vaktplan der gentages over flere uker (f.eks. 4-ugers rotation). Kan sættes til at køre frem til en given dato.",
-                "tip": "Tip: Opprett malen, klikk deretter Bruk for at laste den i din vaktplankladd — du kan redigere den bagefter."
+                "tip": "Tip: Opprett malen, klikk deretter Bruk for at laste den i din vaktplankladd - du kan redigere den bagefter."
             },
             "form": {
                 "adminsOnly": "Kun administratorer",
@@ -3723,7 +3723,7 @@
                 "isRecurringDescription": "En gjentakende mal roterer automatisk over flere uker (f.eks. 4-ugers vagtrullering). En ikke-gjentakende mal er en fast enkelt ugeplan.",
                 "recurringInfoBox": {
                     "title": "Gjentakende mal",
-                    "description": "Angiv hvor mange uker malen roterer over (f.eks. 4 = 4-ugers rulning). Du kan valgfrit sætte en sluttdato — hvis du ikke sætter en dato, kan malen alltid anvendes."
+                    "description": "Angiv hvor mange uker malen roterer over (f.eks. 4 = 4-ugers rulning). Du kan valgfrit sætte en sluttdato - hvis du ikke sætter en dato, kan malen alltid anvendes."
                 }
             },
             "newDraft": "Ny mal",
@@ -3946,7 +3946,7 @@
             "insertHere": "Lim inn her",
             "insertMonthHere": "Lim inn måned her",
             "insertWeekHere": "Lim inn uke her",
-            "monthCopied": "Måned kopieret — naviger til annen måned og klikk Lim inn",
+            "monthCopied": "Måned kopieret - naviger til annen måned og klikk Lim inn",
             "seeCalendar": "Se kalender"
         },
         "halfYearView": {
@@ -5133,7 +5133,7 @@
                 "churnIssues": "Churn, betalingsproblemer og advarsler",
                 "healthyLevel": "Sunt nivå",
                 "requiresAttention": "Krever oppmerksomhet",
-                "critical": "Kritisk — handle nå",
+                "critical": "Kritisk - handle nå",
                 "goalUnder2": "Mål: under 2%/md.",
                 "churnedRevenue": "Churnet inntekt",
                 "companiesLost": "selskaper tapt",
@@ -5206,13 +5206,13 @@
                 "subtitle": "Definer priser og lisensstrukturer per app",
                 "newLicense": "Ny lisens",
                 "licenseModelLabel": "Lisensmodell",
-                "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruker/lisens med fleksible faktureringsintervaller — månedlig, årlig eller spesifikk avtale (f.eks. offentlig sektor med stort volum).",
+                "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruker/lisens med fleksible faktureringsintervaller - månedlig, årlig eller spesifikk avtale (f.eks. offentlig sektor med stort volum).",
                 "noAppsFound": "Ingen apper funnet",
                 "noAppsFoundSub": "Legg til apper fra Apps-siden først",
                 "licenseTypes": "lisenstyper",
                 "activeCompanies": "aktive bedrifter",
                 "addLicense": "Legg til lisens",
-                "noLicenseTypes": "Ingen lisenstyper ennå — legg til den første",
+                "noLicenseTypes": "Ingen lisenstyper ennå - legg til den første",
                 "volume": "Volum",
                 "inactive": "Inaktiv",
                 "free": "Gratis",
@@ -5301,7 +5301,7 @@
             "periodDaysBackInfo1": "Dette angiver, hvor mange dager tilbake i tid reglen skal se for at evaluere betingelserne.",
             "periodDaysBackInfo2": "For eksempel, hvis du indstiller det til 30, vil reglen evaluere medarbeiderens vakter i de sidste 30 dager for at afgøre, om betingelserne er opfyldt.",
             "periodFilter": "Periodefilter",
-            "periodInfoAnchorDesc": "Slutpunktet for periodefilteret. Lad feltet stå tomt for at bruke dags dato — denne er dynamisk og oppdateres automatisk hver dag, så periodefilteret rykker sig fremad dag for dag. Hvis det er sat, beregnes perioden tilbake fra den faste dato i stedet.",
+            "periodInfoAnchorDesc": "Slutpunktet for periodefilteret. Lad feltet stå tomt for at bruke dags dato - denne er dynamisk og oppdateres automatisk hver dag, så periodefilteret rykker sig fremad dag for dag. Hvis det er sat, beregnes perioden tilbake fra den faste dato i stedet.",
             "periodInfoFormula": "periodefilter start = ankerdato − periode (dager)",
             "periodInfoHowDesc": "Reglen evaluerer vakter inden for et periodefilter, der starter ved (ankerdato − periode i dager) og slutter ved ankerdatoen.",
             "periodInfoHowTitle": "Sådan fungerer de sammen",
@@ -5863,9 +5863,9 @@
     "more": "Mer",
     "commandPalette": {
         "placeholder": "Søk etter handlinger eller seksjoner…",
-        "hint": "Søk og hopp rundt — ⌘K. Trykk ? for alle snarveier.",
+        "hint": "Søk og hopp rundt - ⌘K. Trykk ? for alle snarveier.",
         "didYouKnowTitle": "Visste du?",
-        "didYouKnowBody": "Du kan søke og hoppe overalt med ⌘K — trykk ? for alle snarveier.",
+        "didYouKnowBody": "Du kan søke og hoppe overalt med ⌘K - trykk ? for alle snarveier.",
         "didYouKnowDismiss": "Forstått",
         "empty": "Ingen resultater",
         "actions": "Handlinger",
@@ -6339,7 +6339,7 @@
     },
     "guidedTour": "Guidet tur",
     "helpGuide": {
-        "scheduleTitle": "Hjelp & Guide — Vaktplan",
+        "scheduleTitle": "Hjelp & Guide - Vaktplan",
         "title": "Hjelp & Guide"
     },
     "hideAll": "Skjul alle",
@@ -6743,7 +6743,7 @@
     },
     "login": {
         "activeUsers": "Aktive brukere",
-        "description": "Alt fra journalnotater og handleplaner til vaktplanleggning og rapportering — samlet i én platform, bygget til dem der arbeider med mennesker.",
+        "description": "Alt fra journalnotater og handleplaner til vaktplanleggning og rapportering - samlet i én platform, bygget til dem der arbeider med mennesker.",
         "doYouNeedHelp": "Har du bruk for hjelp",
         "form": {
             "createHere": "Opprett her",
@@ -6790,12 +6790,12 @@
             "microsoftGuide": {
                 "title": "Slik kobler du til Microsoft-kontoen din",
                 "intro": "Følg disse trinnene for å koble til Microsoft-arbeidskontoen din slik at du kan sende og motta e-post i CitizenOne.",
-                "step1": "Klikk på Logg inn via Microsoft ovenfor — du blir videresendt til Microsofts påloggingsside.",
+                "step1": "Klikk på Logg inn via Microsoft ovenfor - du blir videresendt til Microsofts påloggingsside.",
                 "step2": "Skriv inn arbeids-e-postadressen din (f.eks. dittnavnt(at)dinbedrift.no) og passord.",
                 "step3": "Fullfør multifaktorautentisering (MFA) hvis organisasjonen din krever det.",
                 "step4": "På tillatelsessiden ber CitizenOne om tilgang til å lese og sende e-post på dine vegne. Velg ett av følgende:",
-                "step4Accept": "Godta — gir tilgang kun for din egen konto. Du kan starte umiddelbart.",
-                "step4Request": "Be om godkjenning — hvis IT-administratoren din har begrenset apptilgang, klikk her for å sende dem en godkjenningsforespørsel. Returner for å koble til når de har godkjent det i Azure Portal.",
+                "step4Accept": "Godta - gir tilgang kun for din egen konto. Du kan starte umiddelbart.",
+                "step4Request": "Be om godkjenning - hvis IT-administratoren din har begrenset apptilgang, klikk her for å sende dem en godkjenningsforespørsel. Returner for å koble til når de har godkjent det i Azure Portal.",
                 "step4Hint": "Hvis du er usikker, klikk Godta. Hvis det mislykkes med en tillatelsefeil, kontakt IT-administratoren din og be dem gi administratorsamtykke til CitizenOne i organisasjonens Azure Active Directory.",
                 "step5": "Du blir automatisk videresendt tilbake til CitizenOne og en suksessmelding bekrefter tilkoblingen.",
                 "step6": "Innboksen din er nå koblet til. Du kan lese, svare, videresende og sende e-post fra CitizenOne.",
@@ -9998,7 +9998,7 @@
             "churnIssues": "Frafall, betalingsproblemer og varsler",
             "healthyLevel": "Sunt nivå",
             "requiresAttention": "krever oppmerksomhet",
-            "critical": "Kritisk — handle nå",
+            "critical": "Kritisk - handle nå",
             "goalUnder2": "Mål: under 2%/mnd.",
             "churnedRevenue": "Avgangsinntekt",
             "companiesLost": "tapte bedrifter",
@@ -10079,13 +10079,13 @@
             "subtitle": "Definer priser og lisensstrukturer per app",
             "newLicense": "Ny lisens",
             "licenseModelLabel": "Lisensmodell",
-            "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruker/lisens med fleksible faktureringsintervaller — månedlig, årlig eller spesifikk avtale (f.eks. offentlig sektor med stort volum).",
+            "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruker/lisens med fleksible faktureringsintervaller - månedlig, årlig eller spesifikk avtale (f.eks. offentlig sektor med stort volum).",
             "noAppsFound": "Ingen apper funnet",
             "noAppsFoundSub": "Legg til apper fra Apps-siden først",
             "licenseTypes": "lisenstyper",
             "activeCompanies": "aktive bedrifter",
             "addLicense": "Legg til lisens",
-            "noLicenseTypes": "Ingen lisenstyper ennå — legg til den første",
+            "noLicenseTypes": "Ingen lisenstyper ennå - legg til den første",
             "volume": "Volum",
             "inactive": "Inaktiv",
             "free": "Gratis",
@@ -10135,7 +10135,7 @@
         "products": {
             "title": "Produkter",
             "productCatalog": "Produktkatalog",
-            "subtitle": "Pakker, tillegg og apper — administrer alle priser på ett sted",
+            "subtitle": "Pakker, tillegg og apper - administrer alle priser på ett sted",
             "newPackage": "Ny pakke",
             "newApp": "Ny app",
             "included": "Inkludert",
@@ -10178,7 +10178,7 @@
             "storageGb": "Lagerplass (GB)",
             "featuresAndBenefits": "Funksjoner & fordeler",
             "add": "Legg til",
-            "noFeaturesYet": "Ingen funksjoner ennå — klikk \"Legg til\" for å starte",
+            "noFeaturesYet": "Ingen funksjoner ennå - klikk \"Legg til\" for å starte",
             "specialFeatures": "Spesielle funksjoner",
             "cancel": "Avbryt",
             "saving": "Lagrer...",
@@ -10305,7 +10305,7 @@
         },
         "cancellations": {
             "pageTitle": "Oppsigelser",
-            "pageSubtitle": "Manuell registrering av oppsagte lisenser — brukes til churn-sporing",
+            "pageSubtitle": "Manuell registrering av oppsagte lisenser - brukes til churn-sporing",
             "registerBtn": "Registrer oppsigelse",
             "statTotal": "Totale oppsigelser",
             "statSinceLaunch": "Siden oppstart",
@@ -10464,7 +10464,7 @@
             "expiryDateTitle": "Udløbsdato",
             "grantAmountDesc": "Antallet av timer, der tildeles, hver gang regelbetingelserne er opfyldt.",
             "grantAmountTitle": "Tildelt antall timer",
-            "grantFrequencyDesc": "Angiver, hvor ofte timer tildeles, når betingelserne er opfyldt — ugentligt, månedligt eller årligt — i forhold til kontoens startdato.",
+            "grantFrequencyDesc": "Angiver, hvor ofte timer tildeles, når betingelserne er opfyldt - ugentligt, månedligt eller årligt - i forhold til kontoens startdato.",
             "grantFrequencyTitle": "Tildelingsfrekvens",
             "initialHoursDesc": "Den oprindelige saldo av timer tildelt kontoen, når den først opprettes eller aktiveres. Disse timer vil automatisk bli tildelt de tildelte medarbeidere ved aktivering.",
             "initialHoursTitle": "Initialtimer",
@@ -11278,7 +11278,7 @@
             },
             "map": {
                 "columnsFound": "{headers} kolonner funnet, {rows} rader",
-                "yourColumns": "Dine kolonner — dra dem over",
+                "yourColumns": "Dine kolonner - dra dem over",
                 "noName": "(uten navn)",
                 "noColumnName": "(kolonne)",
                 "citizenOneFields": "CitizenOne-felter",
@@ -11287,14 +11287,14 @@
                 "requiredFieldsHint": "Obligatoriske felter (*) må kobles før import."
             },
             "dryRun": {
-                "title": "Gjennomgang før import — ingenting er lagret ennå.",
+                "title": "Gjennomgang før import - ingenting er lagret ennå.",
                 "readyToImport": "klar til import",
                 "skipped": "hoppes over",
                 "whySkipped": "Hvorfor rader hoppes over",
                 "journalHint": "Rader uten treff i CitizenOne (ukjent CPR) sorteres automatisk ut under importen og vises i oppsummeringen.",
                 "scheduleHint": "Rader uten treff i CitizenOne (ukjent e-post eller vakttype) sorteres automatisk ut under importen og vises i oppsummeringen.",
                 "citizensHint": "Innbyggere som allerede finnes (samme CPR eller navn) hoppes over.",
-                "employeesHint": "Ansatte som allerede finnes (samme e-post eller navn) hoppes over. Hver ny ansatt bruker én brukerlisens — går dere tomme, opprettes resten ikke.",
+                "employeesHint": "Ansatte som allerede finnes (samme e-post eller navn) hoppes over. Hver ny ansatt bruker én brukerlisens - går dere tomme, opprettes resten ikke.",
                 "noValidRows": "Ingen gyldige rader å importere. Gå tilbake og sjekk mapping og data."
             },
             "importing": {
@@ -11305,13 +11305,13 @@
                 "rowsSkipped": "{count} rad(er) kunne ikke matches og ble hoppet over.",
                 "allImported": "Alle rader ble importert.",
                 "alreadyExisted": "{count} fantes allerede og ble hoppet over.",
-                "licenseBlocked": "{count} ansatte kunne ikke opprettes — dere mangler brukerlisenser.",
-                "licenseHint": "Legg til minst {count} lisens(er) og kjør importen igjen — allerede opprettede hoppes over.",
+                "licenseBlocked": "{count} ansatte kunne ikke opprettes - dere mangler brukerlisenser.",
+                "licenseHint": "Legg til minst {count} lisens(er) og kjør importen igjen - allerede opprettede hoppes over.",
                 "addLicenses": "Legg til lisenser",
                 "invitesSent": "Innloggings-e-poster er sendt til de opprettede ansatte.",
                 "sendInvites": "Send innloggings-e-poster til {count} ansatte",
                 "inviteHint": "De opprettede ansatte får en e-post med innlogging og kom-i-gang-info. Importen sender ikke e-poster automatisk.",
-                "undone": "Importen er angret — radene er slettet igjen.",
+                "undone": "Importen er angret - radene er slettet igjen.",
                 "undo": "Angre import ({count} opprettet)",
                 "unmatchedCpr": "Umatchede CPR-numre:",
                 "unmatchedEmails": "Umatchede e-poster:",
