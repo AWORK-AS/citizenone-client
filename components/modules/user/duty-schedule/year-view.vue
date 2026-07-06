@@ -160,20 +160,24 @@
                                     </p>
                                 </div>
                                 <div class="ml-auto flex gap-1">
-                                    <button
-                                        class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center"
-                                        @click="viewExtraHours(employee)"
+                                    <Tooltip position="left" :text="$t('dutySchedules.extraHours.extraHours')"
                                         v-if="hasScheduleManageAccess || userStore.getUser?.uuid === employee?.uuid">
-                                        <Icon name="mdi:clock-outline" class="h-3 w-3" />
-                                    </button>
-                                    <button
-                                        class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center relative"
-                                        @click="viewLeaveRequests(employee)"
+                                        <button
+                                            class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center"
+                                            @click="viewExtraHours(employee)">
+                                            <Icon name="mdi:clock-outline" class="h-3 w-3" />
+                                        </button>
+                                    </Tooltip>
+                                    <Tooltip position="left" :text="$t('dutySchedules.leaveRequests.leaveRequests')"
                                         v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
-                                        <Icon name="mdi:wallet-travel" class="h-3 w-3" />
-                                        <div v-if="employee?.pending_leave_requests > 0"
-                                            class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
-                                    </button>
+                                        <button
+                                            class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center relative"
+                                            @click="viewLeaveRequests(employee)">
+                                            <Icon name="mdi:wallet-travel" class="h-3 w-3" />
+                                            <div v-if="employee?.pending_leave_requests > 0"
+                                                class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
+                                        </button>
+                                    </Tooltip>
                                 </div>
                             </div>
                             <div class="text-xxs space-y-0.5 mb-2">
@@ -481,7 +485,7 @@
                                     @click="!isDailyScheduleCopiedEmpty() && !isCopiedDay(day) && day !== null ? pasteDayAllEmployees(day) : null">
                                     <template v-if="day !== null">
                                         <!-- Day actions: copy + new shift -->
-                                        <div class="flex justify-end gap-1 mb-1" v-if="isDailyScheduleCopiedEmpty()">
+                                        <div class="flex justify-end gap-1 mb-3" v-if="isDailyScheduleCopiedEmpty()">
                                             <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
                                                 <button
                                                     class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
@@ -530,9 +534,9 @@
                                                 <Tooltip
                                                     v-if="isNonWorkedHolidayCell(day, monthMeta.key, employee.uuid)"
                                                     :text="$t('dutySchedules.holidayNonWorkedTooltip')" position="top"
-                                                    :wrap="true" class="w-full mt-2">
+                                                    :wrap="true" class="w-full">
                                                     <div
-                                                        class="rounded-lg border border-amber-300 bg-amber-50 px-2 py-1.5 flex items-start gap-1.5 w-full">
+                                                        class="rounded-xl border border-amber-300 bg-amber-50 px-2 py-1.5 flex items-start gap-1.5 w-full">
                                                         <Icon name="ph:calendar-check"
                                                             class="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5"
                                                             aria-hidden="true" />
@@ -588,7 +592,7 @@
                                                 </div>
                                                 <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(getShiftsForEmployeeDay(monthMeta.key, employee.uuid, moment(day).format('YYYY-MM-DD')))"
                                                     :key="'s-' + monthMeta.key + '-' + employeeIndex + '-' + shiftIndex"
-                                                    :class="['rounded-lg relative cursor-pointer mt-2 overflow-visible', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
+                                                    :class="['rounded-xl relative cursor-pointer !mt-4 overflow-visible shadow-sm hover:shadow-md transition-all', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
                                                     :style="{ backgroundColor: shift?.type?.color }"
                                                     @click.stop="editSchedule(employee, employeeIndex as number, shift)">
 
@@ -616,17 +620,18 @@
                                                         v-if="shift?.type?.system_name === 'vacation-leave'">
                                                         🏖️
                                                     </div>
-                                                    <Tooltip v-if="isWorkedHolidayShift(shift)"
-                                                        :text="$t('dutySchedules.holidayWorkedTooltip')" position="top"
-                                                        class="absolute left-5 -top-2 sm:-right-3 sm:-top-3 z-10"
-                                                        :wrap="true">
-                                                        <div
-                                                            class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help">
-                                                            <Icon name="ph:calendar-check"
-                                                                class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500"
-                                                                aria-hidden="true" />
-                                                        </div>
-                                                    </Tooltip>
+                                                    <div v-if="isWorkedHolidayShift(shift)"
+                                                        class="absolute left-5 -top-2 sm:-right-3 sm:-top-3 z-10">
+                                                        <Tooltip :text="$t('dutySchedules.holidayWorkedTooltip')"
+                                                            position="top" :wrap="true">
+                                                            <div
+                                                                class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help">
+                                                                <Icon name="ph:calendar-check"
+                                                                    class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500"
+                                                                    aria-hidden="true" />
+                                                            </div>
+                                                        </Tooltip>
+                                                    </div>
 
                                                     <!-- Delete button -->
                                                     <button
@@ -640,28 +645,33 @@
                                                         </Tooltip>
                                                     </button>
 
+                                                    <!-- Spacer for delete button / holiday badge overlap -->
+                                                    <div v-if="hasDeletePermission || isAdmin(userStore.getUser?.role) || isWorkedHolidayShift(shift)"
+                                                        class="h-2" />
+
                                                     <!-- Time row -->
                                                     <div class="flex items-center justify-between px-2 pt-2 pb-1">
-                                                        <span class="text-sm font-bold" style="color:white">
+                                                        <span
+                                                            class="text-sm font-bold text-white tracking-tight leading-none">
                                                             {{ moment(shift?.date_time_start).format('HH:mm') }}
                                                         </span>
-                                                        <Icon name="ph:arrow-right" class="w-3 h-3 flex-shrink-0"
-                                                            style="color:rgba(255,255,255,0.7)" />
-                                                        <span class="text-sm font-bold" style="color:white">
+                                                        <Icon name="ph:arrow-right"
+                                                            class="w-3 h-3 flex-shrink-0 text-white/70" />
+                                                        <span
+                                                            class="text-sm font-bold text-white tracking-tight leading-none">
                                                             {{ moment(shift?.date_time_end).format('HH:mm') }}
                                                         </span>
                                                     </div>
 
                                                     <!-- Divider -->
-                                                    <div class="mx-2 border-t mb-1"
-                                                        style="border-color:rgba(255,255,255,0.25)"></div>
+                                                    <div class="mx-2 border-t border-white/20 mb-1"></div>
 
                                                     <!-- Employee avatar + name -->
                                                     <div class="flex items-center gap-2 px-2 pb-1.5">
                                                         <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=ffffff&color=0f4c75&name=${employee?.firstname}+${employee?.lastname}&size=32`"
                                                             class="w-6 h-6 rounded-full object-cover flex-shrink-0"
                                                             style="border:2px solid rgba(255,255,255,0.8)" />
-                                                        <span class="text-xs font-bold truncate" style="color:white">
+                                                        <span class="text-xs font-bold text-white truncate">
                                                             {{ employee?.firstname }} {{ employee?.lastname }}
                                                         </span>
                                                     </div>
@@ -669,9 +679,9 @@
                                                     <!-- Department -->
                                                     <div class="flex items-center gap-1 px-2 pb-1"
                                                         v-if="shift?.departments?.length > 0">
-                                                        <Icon name="ph:house" class="w-3 h-3 flex-shrink-0"
-                                                            style="color:white" />
-                                                        <span class="text-xxs truncate" style="color:white">
+                                                        <Icon name="ph:house"
+                                                            class="w-3 h-3 flex-shrink-0 text-white" />
+                                                        <span class="text-xxs text-white truncate">
                                                             {{shift?.departments?.map((d: any) => d.name).join(', ')}}
                                                         </span>
                                                     </div>
@@ -679,9 +689,9 @@
                                                     <!-- Multi-day span label -->
                                                     <div v-if="shift?.shift_span_position && shift?.shift_span_position !== 'single'"
                                                         class="px-2 pb-1.5">
-                                                        <div class="flex items-center gap-1 rounded-full px-1.5 py-0.5 w-fit"
-                                                            style="background:rgba(255,255,255,0.2)">
-                                                            <span class="text-xxs font-medium" style="color:white">
+                                                        <div
+                                                            class="flex items-center gap-1 rounded-full px-1.5 py-0.5 w-fit bg-white/20">
+                                                            <span class="text-xxs font-medium text-white">
                                                                 <span v-if="shift.shift_span_position === 'start'">→ {{
                                                                     $t('dutySchedules.shiftSpan.start') }}</span>
                                                                 <span v-if="shift.shift_span_position === 'middle'">↔ {{
@@ -715,8 +725,8 @@
                                                         :text="`${$t('dutySchedules.shiftNote')}: ${shift.note}`"
                                                         position="left" :wrap="true">
                                                         <div class="flex items-center gap-1 px-2 pb-1.5 cursor-help">
-                                                            <Icon name="ph:note" class="w-3 h-3 flex-shrink-0"
-                                                                style="color:white" />
+                                                            <Icon name="ph:note"
+                                                                class="w-3 h-3 flex-shrink-0 text-white" />
                                                             <span
                                                                 class="text-white max-w-32 text-[10px] font-medium truncate">{{
                                                                     shift.note }}</span>

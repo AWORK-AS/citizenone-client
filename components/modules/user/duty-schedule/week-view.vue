@@ -960,18 +960,19 @@
                                                             v-if="shift?.type?.system_name === 'vacation-leave'">
                                                             🏖️
                                                         </div>
-                                                        <Tooltip v-if="isWorkedHolidayShift(shift)"
-                                                            :text="$t('dutySchedules.holidayWorkedTooltip')"
-                                                            position="top"
-                                                            class="absolute left-4 -top-2 sm:-right-3 sm:-top-3 z-10"
-                                                            :wrap="true">
-                                                            <div
-                                                                class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help">
-                                                                <Icon name="ph:calendar-check"
-                                                                    class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500"
-                                                                    aria-hidden="true" />
-                                                            </div>
-                                                        </Tooltip>
+                                                        <div v-if="isWorkedHolidayShift(shift)"
+                                                            class="absolute left-4 -top-2 sm:-right-3 sm:-top-3 z-10">
+                                                            <Tooltip :text="$t('dutySchedules.holidayWorkedTooltip')"
+                                                                position="top" :wrap="true">
+                                                                <div
+                                                                    class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help">
+                                                                    <Icon name="ph:calendar-check"
+                                                                        class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500"
+                                                                        aria-hidden="true" />
+                                                                </div>
+                                                            </Tooltip>
+                                                        </div>
+                                                        <div v-if="isWorkedHolidayShift(shift)" class="h-2" />
                                                         <div class="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
                                                             @click="(hasUpdatePermission || isAtLeast('Admin')) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                             <!-- Start time -->
