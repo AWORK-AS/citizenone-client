@@ -6818,6 +6818,11 @@
             "noUnread": "Inga olästa meddelanden",
             "unread": "Olästa"
         },
+        "search": {
+            "clear": "Rensa sökning",
+            "noResults": "Inga meddelanden matchar din sökning",
+            "placeholder": "Sök i e-post"
+        },
         "download": "Ladda ner",
         "downloadFile": {
             "alert": {

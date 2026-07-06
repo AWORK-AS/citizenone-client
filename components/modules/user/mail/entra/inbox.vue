@@ -22,6 +22,20 @@
                         <span class="tabular-nums opacity-85" v-if="unreadCount"> {{ unreadCount }}</span>
                     </button>
                 </div>
+                <div class="relative">
+                    <Icon name="ph:magnifying-glass"
+                        class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+                        aria-hidden="true" />
+                    <input v-model="searchInput" type="search"
+                        :placeholder="$te('mail.search.placeholder') ? $t('mail.search.placeholder') : 'Søg i mail'"
+                        class="w-full h-[34px] pl-8 pr-8 rounded-md border border-gray-300 bg-white text-[13px] text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/30 transition"
+                        @keydown.enter.prevent="runSearch" />
+                    <button v-if="searchInput" type="button" @click="clearSearch"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded"
+                        :aria-label="$te('mail.search.clear') ? $t('mail.search.clear') : 'Ryd søgning'">
+                        <Icon name="ph:x" class="h-3.5 w-3.5" aria-hidden="true" />
+                    </button>
+                </div>
             </div>
 
             <div v-if="state.loading.isEmailsLoading" class="grow flex items-center justify-center text-gray-500 text-sm">
@@ -38,9 +52,11 @@
                     class="grow flex flex-col items-center justify-center text-center text-gray-400 gap-2 px-6">
                     <Icon name="ph:tray" class="h-9 w-9" aria-hidden="true" />
                     <p class="text-sm font-medium text-gray-500">
-                        {{ activeFilter === 'unread'
-                            ? ($te('mail.filter.noUnread') ? $t('mail.filter.noUnread') : 'Ingen ulæste beskeder')
-                            : $t('mail.inbox') }}
+                        {{ searchTerm
+                            ? ($te('mail.search.noResults') ? $t('mail.search.noResults') : 'Ingen beskeder matcher din søgning')
+                            : (activeFilter === 'unread'
+                                ? ($te('mail.filter.noUnread') ? $t('mail.filter.noUnread') : 'Ingen ulæste beskeder')
+                                : $t('mail.inbox')) }}
                     </p>
                 </div>
 
@@ -191,6 +207,10 @@ const { sanitizeEmailHtml } = useSanitizeHtml()
 
 const activeFilter = ref<'all' | 'unread'>('all')
 
+const searchInput = ref('')
+const searchTerm = ref('')
+let searchTimer: ReturnType<typeof setTimeout> | null = null
+
 const state = reactive({
     error: {} as Error,
     emails: [] as any,
@@ -290,6 +310,28 @@ function onKeydown(ev: KeyboardEvent) {
     else if (ev.key === 'Enter' && state.selectedEmail) { ev.preventDefault(); state.showReplyForm = true; state.showForwardForm = false }
 }
 
+function runSearch() {
+    if (searchTimer) { clearTimeout(searchTimer); searchTimer = null }
+    const term = searchInput.value.trim()
+    if (term === searchTerm.value) return
+    searchTerm.value = term
+    fetchEmails(null)
+}
+
+function clearSearch() {
+    searchInput.value = ''
+    if (searchTerm.value !== '') {
+        searchTerm.value = ''
+        fetchEmails(null)
+    }
+}
+
+// Debounce typing before hitting the mailbox search.
+watch(searchInput, () => {
+    if (searchTimer) clearTimeout(searchTimer)
+    searchTimer = setTimeout(runSearch, 350)
+})
+
 onMounted(() => {
     fetchEmails(null)
     document.addEventListener('keydown', onKeydown)
@@ -297,6 +339,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     document.removeEventListener('keydown', onKeydown)
+    if (searchTimer) clearTimeout(searchTimer)
 })
 
 async function fetchEmails(page: any) {
@@ -304,13 +347,16 @@ async function fetchEmails(page: any) {
     state.nextPageLink = ''
     if (page === null) {
         state.loading.isEmailsLoading = true
+        state.emails = []
+        state.selectedEmail = null
     } else {
         state.loading.isEmailsLoadingMore = true
     }
     try {
-        const params = {
+        const params: any = {
             page: page,
         }
+        if (page === null && searchTerm.value) params.search = searchTerm.value
         const response = await mailEntraService.getMails(params)
         if (response?.value) {
             state.emails.push(...response?.value)

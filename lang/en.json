@@ -6818,6 +6818,11 @@
             "noUnread": "No unread messages",
             "unread": "Unread"
         },
+        "search": {
+            "clear": "Clear search",
+            "noResults": "No messages match your search",
+            "placeholder": "Search mail"
+        },
         "download": "Download",
         "downloadFile": {
             "alert": {
