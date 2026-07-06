@@ -295,18 +295,20 @@
                                 <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
                                     <div class="col-span-3 pl-1 font-bold">{{ $t('dutySchedules.total') }}:</div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
-                                            any) => sum +
-                                            (parseFloat(String(t?.monthly_hours || t?.weekly_hours || '0').replace(/\./g,
-                                        '').replace(',', '.')) || 0),
-                                        0))
+                                        {{
+                                            formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
+                                                any) => sum +
+                                                (parseFloat(String(t?.monthly_hours || t?.weekly_hours || '0').replace(/\./g,
+                                                    '').replace(',', '.')) || 0),
+                                                0))
                                         }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
-                                            any) => sum +
-                                            (parseFloat(String(t?.yearly_hours ?? '0').replace(/\./g, '').replace(',', '.'))
-                                        || 0), 0))
+                                        {{
+                                            formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
+                                                any) => sum +
+                                                (parseFloat(String(t?.yearly_hours ?? '0').replace(/\./g, '').replace(',', '.'))
+                                                    || 0), 0))
                                         }}
                                     </div>
                                 </div>
@@ -546,6 +548,42 @@
                                             <template
                                                 v-for="(employee, employeeIndex) in getMonthEmployees(monthMeta.key)"
                                                 :key="'emp-' + monthMeta.key + '-' + employeeIndex">
+                                                <!-- Change time / swap schedule request badge -->
+                                                <div v-if="(isAtLeast('Admin') || hasCreatePermission) && (employee?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests > 0 || employee?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests > 0)"
+                                                    class="flex justify-end" @click.stop>
+                                                    <Tooltip :position="dayIndex === 0 ? 'right' : 'left'"
+                                                        :text="`${employee?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests} ${employee?.days?.[moment(day).format('YYYY-MM-DD')]?.additional_hour_requests <= 1 ? $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequest') : $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')} | ${employee?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests} ${employee?.days?.[moment(day).format('YYYY-MM-DD')]?.swap_requests === 1 ? $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequest') : $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')}`"
+                                                        class="relative">
+                                                        <button
+                                                            class="bg-gray-100 w-5 h-5 text-gray-500 rounded hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
+                                                            @click.stop="openRequestMenu(`${monthMeta.key}-${employeeIndex}-${moment(day).format('YYYY-MM-DD')}`, $event)">
+                                                            <Icon name="mdi:calendar-question-outline" class="h-3 w-3"
+                                                                aria-hidden="true" />
+                                                            <div
+                                                                class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
+                                                        </button>
+                                                    </Tooltip>
+                                                    <Teleport to="body">
+                                                        <div v-if="requestMenuState.openKey === `${monthMeta.key}-${employeeIndex}-${moment(day).format('YYYY-MM-DD')}`"
+                                                            class="fixed z-[9999] w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 py-1"
+                                                            :style="{ top: requestMenuState.top + 'px', left: requestMenuState.left + 'px' }">
+                                                            <button
+                                                                class="text-gray-700 block px-4 py-2 text-xs cursor-pointer hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+                                                                @click.stop="viewChangeTimeRequests(employee, day); requestMenuState.openKey = null">
+                                                                {{
+                                                                    $t('dutySchedules.scheduleRequests.changeTime.changeTimeRequests')
+                                                                }}
+                                                            </button>
+                                                            <button
+                                                                class="text-gray-700 block px-4 py-2 text-xs cursor-pointer hover:bg-gray-100 hover:text-gray-900 w-full text-left"
+                                                                @click.stop="viewSwapScheduleRequests(employee, day); requestMenuState.openKey = null">
+                                                                {{
+                                                                    $t('dutySchedules.scheduleRequests.swapSchedule.swapScheduleRequests')
+                                                                }}
+                                                            </button>
+                                                        </div>
+                                                    </Teleport>
+                                                </div>
                                                 <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(getShiftsForEmployeeDay(monthMeta.key, employee.uuid, moment(day).format('YYYY-MM-DD')))"
                                                     :key="'s-' + monthMeta.key + '-' + employeeIndex + '-' + shiftIndex"
                                                     :class="['rounded-lg relative cursor-pointer mt-2 overflow-visible', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
@@ -712,6 +750,14 @@
         <!-- Modals -->
         <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
             @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
+        <ModulesUserDutyScheduleTimeRequestsModalRequests :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
+            :selectedDate="state.manageTimeRequest.selectedDate"
+            :selectedEmployee="state.manageTimeRequest.selectedEmployee"
+            @close="state.modal.isManageTimeAdjustmentRequestsOpen = false" @refreshDutySchedules="fetchAllMonths()" />
+        <ModulesUserDutyScheduleSwapScheduleModalRequests :isModalOpen="state.modal.isManageSwapScheduleRequestsOpen"
+            :selectedDate="state.manageSwapScheduleRequest.selectedDate"
+            :selectedEmployee="state.manageSwapScheduleRequest.selectedEmployee"
+            @close="state.modal.isManageSwapScheduleRequestsOpen = false" @refreshDutySchedules="fetchAllMonths()" />
         <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
             :selectedEmployee="state.normHours.selectedEmployeeSchedule"
             @close="state.modal.isCompensatoryHoursOpen = false" />
@@ -779,6 +825,27 @@ import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 let _hoverTimer: ReturnType<typeof setTimeout> | null = null
+
+const requestMenuState = reactive({
+    openKey: null as string | null,
+    top: 0,
+    left: 0,
+})
+
+function openRequestMenu(key: string, event: MouseEvent) {
+    if (requestMenuState.openKey === key) {
+        requestMenuState.openKey = null
+        return
+    }
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect()
+    requestMenuState.top = rect.bottom + 4
+    requestMenuState.left = Math.max(4, rect.right - 192)
+    requestMenuState.openKey = key
+}
+
+function closeRequestMenu() {
+    requestMenuState.openKey = null
+}
 
 const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
@@ -864,6 +931,16 @@ const state = reactive({
     manageScheduleSlot: {
         selectedDay: {} as any,
     },
+    manageTimeRequest: {
+        selectedDate: '',
+        selectedEmployee: {} as any,
+        selectedSchedule: {} as any,
+    },
+    manageSwapScheduleRequest: {
+        selectedDate: '',
+        selectedEmployee: {} as any,
+        selectedSchedule: {} as any,
+    },
     modal: {
         isAddShiftOpen: false,
         isCompensatoryHoursOpen: false,
@@ -873,6 +950,8 @@ const state = reactive({
         isManageExtraHoursOpen: false,
         isManageLeaveRequestsOpen: false,
         isManageScheduleSlotOpen: false,
+        isManageTimeAdjustmentRequestsOpen: false,
+        isManageSwapScheduleRequestsOpen: false,
         isRemoveShiftConfirmationOpen: false,
         isRemoveShiftSpanConfirmationOpen: false,
         isVacationHoursOpen: false,
@@ -1579,6 +1658,21 @@ watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, () => {
 })
 
 // ============================================================
+// Schedule request actions
+// ============================================================
+function viewChangeTimeRequests(employee: any, day: any) {
+    state.manageTimeRequest.selectedEmployee = employee
+    state.manageTimeRequest.selectedDate = moment(day).format('YYYY-MM-DD')
+    state.modal.isManageTimeAdjustmentRequestsOpen = true
+}
+
+function viewSwapScheduleRequests(employee: any, day: any) {
+    state.manageSwapScheduleRequest.selectedEmployee = employee
+    state.manageSwapScheduleRequest.selectedDate = moment(day).format('YYYY-MM-DD')
+    state.modal.isManageSwapScheduleRequestsOpen = true
+}
+
+// ============================================================
 // Lifecycle
 // ============================================================
 onMounted(() => {
@@ -1586,5 +1680,10 @@ onMounted(() => {
         teleportReady.value = document.getElementById('schedule-date-picker-target') ? true : false
     })
     fetchAllMonths()
+    document.addEventListener('click', closeRequestMenu)
+})
+
+onUnmounted(() => {
+    document.removeEventListener('click', closeRequestMenu)
 })
 </script>

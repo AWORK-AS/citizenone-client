@@ -3,6 +3,10 @@
         <Modal size="md" :title="$t('dutySchedules.history.title')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <div class="min-h-[8rem]">
+
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+
                     <div v-if="state.isLoading" class="py-10 text-center text-sm text-gray-500">
                         {{ $t('dutySchedules.history.loading') }}
                     </div>
@@ -54,6 +58,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
 import { dutyScheduleService } from "@/components/api/user/DutyScheduleService"
+import type { Error } from '@/types'
 
 const props = defineProps({
     isModalOpen: {
@@ -70,7 +75,8 @@ const props = defineProps({
 const emit = defineEmits(["close"])
 const { t, locale } = useI18n()
 
-const state = reactive<{ isLoading: boolean; history: any[] }>({
+const state = reactive({
+    error: {} as Error,
     isLoading: false,
     history: [],
 })
@@ -82,12 +88,14 @@ watch(() => props.isModalOpen, async (open) => {
 })
 
 async function fetchHistory() {
+    state.error = {}
     state.isLoading = true
     try {
         const response = await dutyScheduleService.getDutyScheduleHistory(props.scheduleUuid)
         state.history = response?.data ?? response ?? []
     } catch (error) {
         state.history = []
+        state.error = error
     }
     state.isLoading = false
 }

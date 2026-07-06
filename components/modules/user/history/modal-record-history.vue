@@ -1,8 +1,13 @@
 <template>
     <div>
-        <Modal size="md" :title="props.title || $t('recordHistory.title')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="props.title || $t('recordHistory.title')" :show="props.isModalOpen"
+            @close="closeModal">
             <template #modal-body>
                 <div class="min-h-[8rem]">
+
+                    <Alert type="danger" :text="state?.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+
                     <div v-if="state.isLoading" class="py-10 text-center text-sm text-gray-500">
                         {{ $t('recordHistory.loading') }}
                     </div>
@@ -44,9 +49,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from "vue"
 import { useI18n } from "vue-i18n"
 import { historyService } from "@/components/api/user/HistoryService"
+import type { Error } from '@/types'
 
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
@@ -58,22 +63,27 @@ const props = defineProps({
 const emit = defineEmits(["close"])
 const { t, locale } = useI18n()
 
-const state = reactive<{ isLoading: boolean; history: any[] }>({ isLoading: false, history: [] })
+const state = reactive({
+    error: {} as Error,
+    isLoading: false,
+    history: []
+})
 
-watch(
-    () => props.isModalOpen,
-    async (open) => {
-        if (open && props.type && props.uuid) await fetchHistory()
+watch(() => props.isModalOpen, async (open) => {
+    if (open && props.type && props.uuid) {
+        await fetchHistory()
     }
-)
+})
 
 async function fetchHistory() {
+    state.error = {}
     state.isLoading = true
     try {
         const response = await historyService.getRecordHistory(props.type, props.uuid)
         state.history = response?.data ?? response ?? []
-    } catch (error) {
+    } catch (error: any) {
         state.history = []
+        state.error = error
     }
     state.isLoading = false
 }
