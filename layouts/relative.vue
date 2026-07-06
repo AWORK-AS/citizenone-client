@@ -29,7 +29,8 @@
                                 <div class="mt-5">
                                     <span @click="navigateTo('/relative/citizens')">
                                         <span class="flex items-center gap-x-2.5">
-                                            <img src="/img/icons/asset-app.png" alt="CitizenOne" class="h-7 w-7 object-contain" />
+                                            <img src="/img/icons/asset-app.png" alt="CitizenOne"
+                                                class="h-7 w-7 object-contain" />
                                             <span class="text-primary font-semibold text-lg">CitizenOne™</span>
                                         </span>
                                     </span>
@@ -82,7 +83,8 @@
 
         <!-- Static sidebar for desktop -->
         <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-            <div class="overflow-clip relative flex grow flex-col gap-y-5 bg-gradient-to-b from-sidebar to-sidebar-dark px-6 pb-4">
+            <div
+                class="overflow-clip relative flex grow flex-col gap-y-5 bg-gradient-to-b from-sidebar to-sidebar-dark px-6 pb-4">
 
                 <div class="z-20 mt-5">
                     <span @click="navigateTo('/relative/citizens')" class="cursor-pointer flex items-center gap-x-2.5">
