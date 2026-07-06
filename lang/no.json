@@ -648,6 +648,7 @@
         "apps": "Apper",
         "authorizationDenied": "Autorisation ble avvist",
         "categories": {
+            "all": "Alle apper",
             "citizenone": "CitizenOne",
             "fst": "FindSocialeTilbud.dk",
             "marketing": "Marketing",
@@ -705,7 +706,21 @@
             "disconnected": "Zenegy-konto er vellykket afbrudt"
         },
         "setupFee": "oppstart",
-        "goToSetup": "Gå til oppsett"
+        "goToSetup": "Gå til oppsett",
+        "badge": {
+            "popular": "Populær",
+            "recommended": "Anbefalt",
+            "news": "Nyhet",
+            "discount": "-{percent}%"
+        },
+        "recommendedForYou": "Anbefalt for dere",
+        "otherIn": "Andre apper i {category}",
+        "usedBy": "Brukt av {count} organisasjoner",
+        "noBinding": "Ingen binding",
+        "setupFeeSuffix": "oppstartsgebyr",
+        "offerEndsInDays": "Tilbudet slutter om {count} dager",
+        "offerEndsToday": "Tilbudet slutter i dag",
+        "save": "Spar {percent}%"
     },
     "archived": {
         "alert": {
@@ -9121,6 +9136,9 @@
                 "monthlyPrice": "Månedspris",
                 "yearlyPrice": "Årspris",
                 "type": "Type",
+                "category": "Kategori",
+                "setupFee": "Oppstartsgebyr",
+                "sortOrder": "Sorteringsrekkefølge",
                 "link": "Lenke",
                 "quantifiable": "Kvantifiserbar",
                 "thirdPartyApp": "Tredjeparts-app",
@@ -9133,9 +9151,45 @@
                     "marketing": "Markedsføring",
                     "visual": "Visuell",
                     "other": "Annen"
-                }
+                },
+                "discountPercent": "Rabatt (%)",
+                "discountEndsAt": "Tilbudet slutter"
             },
             "colName": "Navn"
+        },
+        "appCategories": {
+            "pageTitle": "App-kategorier",
+            "newCategory": "Ny kategori",
+            "searchPlaceholder": "Søk kategorier...",
+            "noCategoriesFound": "Ingen kategorier funnet",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "edit": "Rediger",
+            "colName": "Navn",
+            "colSlug": "Slug",
+            "colIcon": "Ikon",
+            "colSortOrder": "Sorteringsrekkefølge",
+            "colStatus": "Status",
+            "colApps": "Apper",
+            "sliderNewTitle": "Ny kategori",
+            "sliderEditTitle": "Rediger kategori",
+            "sliderNewSubtitle": "Fyll ut detaljene for å opprette en ny kategori",
+            "sliderEditSubtitle": "Oppdater kategoriens detaljer nedenfor",
+            "deleteConfirm": "Er du sikker på at du vil slette {name}?",
+            "errorNameRequired": "Navn er påkrevd",
+            "successCreated": "Opprettet",
+            "successCreatedBody": "{name} er opprettet",
+            "successSaved": "Lagret",
+            "successUpdatedBody": "{name} er oppdatert",
+            "successDeleted": "Slettet",
+            "successDeletedBody": "{name} er slettet",
+            "form": {
+                "name": "Navn",
+                "icon": "Ikon",
+                "iconHint": "En emoji eller et ikonnavn (f.eks. ic:baseline-category)",
+                "sortOrder": "Sorteringsrekkefølge",
+                "isActive": "Aktiv"
+            }
         },
         "companies": {
             "companies": "Virksomheter",
@@ -9817,6 +9871,7 @@
         },
         "sidebar": {
             "apps": "Apper",
+            "appCategories": "App-kategorier",
             "companies": "Virksomheter",
             "coupons": "Kuponer",
             "dashboard": "Dashboard",

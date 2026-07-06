@@ -1180,3 +1180,8 @@ input.appearance-none.border-primary {
     border-radius: 50% !important;
     pointer-events: none !important;
 }
+
+/* CitizenONE brand gradient tile for app-store native-app icons (card + modal). */
+.brand-tile {
+    background: linear-gradient(135deg, #3BA4BE 0%, #29829B 50%, #1A637A 100%);
+}
