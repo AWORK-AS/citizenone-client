@@ -6818,6 +6818,16 @@
             "selectAMessage": "Vælg en besked",
             "to": "Til"
         },
+        "filter": {
+            "all": "Alle",
+            "noUnread": "Ingen ulæste beskeder",
+            "unread": "Ulæste"
+        },
+        "search": {
+            "clear": "Ryd søgning",
+            "noResults": "Ingen beskeder matcher din søgning",
+            "placeholder": "Søg i mail"
+        },
         "download": "Download",
         "downloadFile": {
             "alert": {
