@@ -191,7 +191,7 @@
                             class="flex items-center justify-between gap-x-2 text-xs font-semibold text-primary">
                             <span class="truncate">{{ birthday.name }}</span>
                             <span class="shrink-0 text-[11px]">{{ $t('overview.birthdays.turns', { age: birthday.age })
-                                }}</span>
+                            }}</span>
                         </li>
                     </ul>
                     <!-- No birthdays this week: surface the next one in line -->
@@ -438,9 +438,9 @@
                                 :class="birthday.days_until === 0 ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600'">
                                 <Icon v-if="birthday.days_until === 0" name="ph:cake-fill" class="h-3.5 w-3.5" />
                                 <template v-if="birthday.days_until === 0">{{ $t('overview.birthdays.today')
-                                    }}</template>
+                                }}</template>
                                 <template v-else>{{ $t('overview.birthdays.inDays', { days: birthday.days_until })
-                                    }}</template>
+                                }}</template>
                             </span>
                         </li>
                     </ul>
