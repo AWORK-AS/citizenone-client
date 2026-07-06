@@ -11415,5 +11415,18 @@
             "sendSmsNotification": "Send SMS-varsel",
             "sendSmsNotificationHint": "Innbyggeren mottar en SMS med avtaleinformasjon."
         }
+    },
+    "recordHistory": {
+        "title": "Historikk",
+        "loading": "Henter historikk...",
+        "empty": "Ingen historikk ennå.",
+        "by": "Av",
+        "system": "System",
+        "viewHistory": "Se historikk",
+        "events": {
+            "created": "Opprettet",
+            "updated": "Oppdatert",
+            "deleted": "Slettet"
+        }
     }
 }

@@ -11415,5 +11415,18 @@
             "sendSmsNotification": "Send SMS notification",
             "sendSmsNotificationHint": "The citizen will receive an SMS with appointment details."
         }
+    },
+    "recordHistory": {
+        "title": "History",
+        "loading": "Loading history...",
+        "empty": "No history yet.",
+        "by": "By",
+        "system": "System",
+        "viewHistory": "View history",
+        "events": {
+            "created": "Created",
+            "updated": "Updated",
+            "deleted": "Deleted"
+        }
     }
 }

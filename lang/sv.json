@@ -11415,5 +11415,18 @@
             "sendSmsNotification": "Skicka SMS-notifikation",
             "sendSmsNotificationHint": "Medborgaren får ett SMS med bokningsinformation."
         }
+    },
+    "recordHistory": {
+        "title": "Historik",
+        "loading": "Hämtar historik...",
+        "empty": "Ingen historik än.",
+        "by": "Av",
+        "system": "System",
+        "viewHistory": "Visa historik",
+        "events": {
+            "created": "Skapad",
+            "updated": "Uppdaterad",
+            "deleted": "Raderad"
+        }
     }
 }

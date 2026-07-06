@@ -11415,5 +11415,18 @@
             "sendSmsNotification": "Send SMS-notifikation",
             "sendSmsNotificationHint": "Borgeren modtager en SMS med oplysninger om aftalen."
         }
+    },
+    "recordHistory": {
+        "title": "Historik",
+        "loading": "Henter historik...",
+        "empty": "Ingen historik endnu.",
+        "by": "Af",
+        "system": "System",
+        "viewHistory": "Se historik",
+        "events": {
+            "created": "Oprettet",
+            "updated": "Opdateret",
+            "deleted": "Slettet"
+        }
     }
 }
