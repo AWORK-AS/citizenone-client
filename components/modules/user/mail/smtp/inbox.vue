@@ -111,7 +111,7 @@
 
                 <div class="grow overflow-y-auto px-6 py-5">
                     <div class="mail-body" :key="state.selectedEmail?.header?.uid"
-                        v-html="state.selectedEmail?.bodies?.html" />
+                        v-safe-html="state.selectedEmail?.bodies?.html" />
 
                     <div class="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-dashed border-gray-300"
                         v-if="state.selectedEmail?.attachments?.length">

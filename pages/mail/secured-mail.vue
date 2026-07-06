@@ -203,7 +203,7 @@
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <div v-html="state.selectedEmail?.message" />
+                                                    <div v-safe-html="state.selectedEmail?.message" />
                                                     <p class="flex items-center gap-x-1 text-xs">
                                                         <span>
                                                             {{ $t('mail.secured.sent.sentWith') }}
@@ -251,7 +251,7 @@
                                                     v-if="history?.subject && history?.subject?.length > 0">
                                                     {{ history?.subject }}
                                                 </p>
-                                                <div v-html="history?.message"></div>
+                                                <div v-safe-html="history?.message"></div>
                                                 <div class="flex flex-wrap items-center gap-2">
                                                     <div v-for="(attachment, attachmentIndex) in history?.attachments"
                                                         :index="attachmentIndex"

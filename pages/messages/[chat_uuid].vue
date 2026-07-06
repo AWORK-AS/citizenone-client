@@ -163,7 +163,7 @@
                                     </div>
                                     <!-- Text -->
                                     <p v-else class="text-sm leading-relaxed"
-                                        v-html="message?.message?.replace(/\n/g, '<br>')" />
+                                        v-safe-html="message?.message?.replace(/\n/g, '<br>')" />
                                 </div>
                             </div>
                             <!-- Seen indicator -->
@@ -217,7 +217,7 @@
                                 </div>
                                 <!-- Text -->
                                 <p v-else class="text-sm leading-relaxed"
-                                    v-html="message?.message?.replace(/\n/g, '<br>')" />
+                                    v-safe-html="message?.message?.replace(/\n/g, '<br>')" />
                             </div>
                         </div>
                     </div>

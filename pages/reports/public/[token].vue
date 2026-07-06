@@ -40,7 +40,7 @@
                     <!-- Body -->
                     <div>
                         <p class="text-sm font-medium text-gray-700 mb-2">{{ $t('citizenReports.form.body') }}</p>
-                        <div class="prose prose-sm max-w-none" v-html="state.report.body" />
+                        <div class="prose prose-sm max-w-none" v-safe-html="state.report.body" />
                     </div>
 
                     <!-- Footer -->

@@ -97,7 +97,7 @@
                             }}
                         </p>
                     </div>
-                    <div v-html="state.selectedEmail?.body?.content?.replace(/\n/g, '<br>')" class="py-6" />
+                    <div v-safe-html="state.selectedEmail?.body?.content?.replace(/\n/g, '<br>')" class="py-6" />
                     <div class="flex flex-wrap items-center gap-2">
                         <div v-for="(attachment, attachmentIndex) in state.selectedEmail?.attachments"
                             :index="attachmentIndex" class="border border-gray-200 rounded-sm">
