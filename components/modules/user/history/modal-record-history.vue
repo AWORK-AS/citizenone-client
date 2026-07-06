@@ -22,18 +22,37 @@
                                 :class="dotClass(entry.event)" />
                             <div class="flex items-center justify-between gap-2">
                                 <span class="text-sm font-semibold text-gray-900">{{ eventLabel(entry.event) }}</span>
-                                <time class="text-xs text-gray-400">{{ formatDate(entry.created_at) }}</time>
+                                <time class="text-xs text-gray-400">
+                                    {{ formatDateTimeToReadable(entry.created_at) }}
+                                </time>
                             </div>
                             <p class="mt-0.5 text-xs text-gray-500">
                                 {{ $t('recordHistory.by') }}
                                 <span class="font-medium text-gray-700">{{ causerName(entry.causer) }}</span>
                             </p>
-                            <ul v-if="Array.isArray(entry.changes) && entry.changes.length" class="mt-1 space-y-0.5">
+                            <ul v-if="Array.isArray(entry.changes) && entry.changes.length" class="mt-1 space-y-1">
                                 <li v-for="(change, i) in entry.changes" :key="i" class="text-xs text-gray-500">
                                     <span class="font-medium text-gray-600">{{ humanField(change.field) }}:</span>
-                                    <span class="text-gray-400">{{ display(change.old) }}</span>
-                                    <span class="text-gray-300"> → </span>
-                                    <span class="text-gray-700">{{ display(change.new) }}</span>
+                                    <template v-if="isHtmlValue(change.old) || isHtmlValue(change.new)">
+                                        <div class="mt-1 space-y-1 pl-2 border-l-2 border-gray-100">
+                                            <div v-if="change.old !== null && change.old !== undefined && change.old !== ''"
+                                                class="text-gray-400 text-xs [&_*]:text-gray-400 [&_p]:m-0 [&_p]:leading-snug line-through opacity-70"
+                                                v-html="change.old" />
+                                            <div v-if="change.old !== null && change.old !== undefined && change.old !== '' && change.new !== null && change.new !== undefined && change.new !== ''"
+                                                class="text-gray-300 text-xs select-none">↓</div>
+                                            <div v-if="change.new !== null && change.new !== undefined && change.new !== ''"
+                                                class="text-gray-700 text-xs [&_*]:text-gray-700 [&_p]:m-0 [&_p]:leading-snug"
+                                                v-html="change.new" />
+                                            <span
+                                                v-if="change.new === null || change.new === undefined || change.new === ''"
+                                                class="text-gray-700">-</span>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <span class="text-gray-400">{{ display(change.old) }}</span>
+                                        <span class="text-gray-300"> → </span>
+                                        <span class="text-gray-700">{{ display(change.new) }}</span>
+                                    </template>
                                 </li>
                             </ul>
                         </li>
@@ -51,7 +70,9 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
 import { historyService } from "@/components/api/user/HistoryService"
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
+
 
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
@@ -62,6 +83,7 @@ const props = defineProps({
 
 const emit = defineEmits(["close"])
 const { t, locale } = useI18n()
+const { formatDateTimeToReadable, formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
     error: {} as Error,
@@ -116,16 +138,14 @@ function humanField(field: string) {
 function display(value: any) {
     if (value === null || value === undefined || value === "") return "-"
     if (typeof value === "boolean") return value ? "✓" : "✗"
-    return String(value)
+    const str = String(value)
+    if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return formatDateToReadable(str)
+    return str
 }
 
-function formatDate(value: string) {
-    if (!value) return ""
-    try {
-        return new Date(value).toLocaleString(locale.value === "en" ? "en-GB" : "da-DK")
-    } catch {
-        return value
-    }
+function isHtmlValue(value: any): boolean {
+    if (value === null || value === undefined || value === "") return false
+    return /<[a-z][\s\S]*>/i.test(String(value))
 }
 
 function closeModal() {
