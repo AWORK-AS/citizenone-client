@@ -7,29 +7,32 @@
                         {{ $t('dutySchedules.history.loading') }}
                     </div>
 
-                    <div v-else-if="!state.history.length"
-                        class="py-10 text-center text-sm text-gray-500">
+                    <div v-else-if="!state.history.length" class="py-10 text-center text-sm text-gray-500">
                         {{ $t('dutySchedules.history.empty') }}
                     </div>
 
                     <ol v-else class="relative border-s border-gray-200 ms-2">
                         <li v-for="entry in state.history" :key="entry.id" class="mb-5 ms-4">
-                            <span
-                                class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full ring-4 ring-white"
+                            <span class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full ring-4 ring-white"
                                 :class="dotClass(entry.action_type)" />
                             <div class="flex items-center justify-between gap-2">
                                 <span class="text-sm font-semibold text-gray-900">
                                     {{ actionLabel(entry.action_type) }}
                                 </span>
-                                <time class="text-xs text-gray-400">{{ formatDate(entry.created_at) }}</time>
+                                <time class="text-xs text-gray-400">
+                                    {{ formatDate(entry.created_at) }}
+                                </time>
                             </div>
                             <p class="mt-0.5 text-xs text-gray-500">
                                 {{ $t('dutySchedules.history.by') }}
-                                <span class="font-medium text-gray-700">{{ causerName(entry.causer) }}</span>
+                                <span class="font-medium text-gray-700">
+                                    {{ causerName(entry.causer) }}
+                                </span>
                             </p>
-                            <p v-if="entry.title" class="mt-0.5 text-xs text-gray-600">{{ entry.title }}</p>
-                            <ul v-if="Array.isArray(entry.changes) && entry.changes.length"
-                                class="mt-1 space-y-0.5">
+                            <p v-if="entry.title" class="mt-0.5 text-xs text-gray-600">
+                                {{ entry.title }}
+                            </p>
+                            <ul v-if="Array.isArray(entry.changes) && entry.changes.length" class="mt-1 space-y-0.5">
                                 <li v-for="(change, i) in entry.changes" :key="i" class="text-xs text-gray-500">
                                     {{ changeText(change) }}
                                 </li>
@@ -49,7 +52,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from "vue"
 import { useI18n } from "vue-i18n"
 import { dutyScheduleService } from "@/components/api/user/DutyScheduleService"
 
@@ -73,14 +75,11 @@ const state = reactive<{ isLoading: boolean; history: any[] }>({
     history: [],
 })
 
-watch(
-    () => props.isModalOpen,
-    async (open) => {
-        if (open && props.scheduleUuid) {
-            await fetchHistory()
-        }
+watch(() => props.isModalOpen, async (open) => {
+    if (open && props.scheduleUuid) {
+        await fetchHistory()
     }
-)
+})
 
 async function fetchHistory() {
     state.isLoading = true

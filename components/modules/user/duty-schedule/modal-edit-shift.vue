@@ -3,11 +3,12 @@
         <Modal size="sm" :title="$t('dutySchedules.editSchedule')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <!-- Inline shift warnings -->
-                <div v-if="props.shiftWarnings && props.shiftWarnings.length > 0" 
+                <div v-if="props.shiftWarnings && props.shiftWarnings.length > 0"
                     class="mb-4 rounded-md bg-yellow-50 border border-yellow-200 p-4">
                     <div class="flex">
                         <div class="flex-shrink-0">
-                            <Icon name="heroicons:exclamation-triangle" class="h-5 w-5 text-yellow-400" aria-hidden="true" />
+                            <Icon name="heroicons:exclamation-triangle" class="h-5 w-5 text-yellow-400"
+                                aria-hidden="true" />
                         </div>
                         <div class="ml-3">
                             <h3 class="text-sm font-medium text-yellow-800">
@@ -27,9 +28,9 @@
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="update" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
-                        :isModalLoading="props.isModalLoading || state.isPageLoading"
-                        @dateTimeChange="dateTimeChange" @close="closeModal()"
-                        @isPageLoading="(value: boolean) => state.isPageLoading = value" @saveShift="updateShift" />
+                        :isModalLoading="props.isModalLoading || state.isPageLoading" @dateTimeChange="dateTimeChange"
+                        @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @saveShift="updateShift" />
                 </LoadingSpinner>
             </template>
         </Modal>
