@@ -115,6 +115,7 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
 
 watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
     if (selectedEmployeeSchedule) {
+        state.formShift.uuid = selectedEmployeeSchedule?.scheduleUuid
         state.formShift.shift_type = selectedEmployeeSchedule?.shift_type?.uuid
         state.formShift.is_sleeping_sick_leave = selectedEmployeeSchedule?.is_sleeping_sick_leave ? true : false
         state.formShift.do_not_count_weekends = selectedEmployeeSchedule?.do_not_count_weekends ? true : false

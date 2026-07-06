@@ -5259,6 +5259,20 @@
                 "successDeletedBody": "Licenstype '{name}' er slettet.",
                 "deleteConfirm": "Slet licenstype '{name}'?"
             }
+        },
+        "history": {
+            "title": "Vagthistorik",
+            "loading": "Henter historik...",
+            "empty": "Ingen historik endnu.",
+            "by": "Af",
+            "system": "System",
+            "viewHistory": "Se historik",
+            "actions": {
+                "created": "Oprettet",
+                "published": "Publiceret",
+                "updated": "Opdateret",
+                "deleted": "Slettet"
+            }
         }
     },
     "dutyShiftRuleNotifications": {

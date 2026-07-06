@@ -5259,6 +5259,20 @@
                 "successDeletedBody": "License type '{name}' has been deleted.",
                 "deleteConfirm": "Delete license type '{name}'?"
             }
+        },
+        "history": {
+            "title": "Shift history",
+            "loading": "Loading history...",
+            "empty": "No history yet.",
+            "by": "By",
+            "system": "System",
+            "viewHistory": "View history",
+            "actions": {
+                "created": "Created",
+                "published": "Published",
+                "updated": "Updated",
+                "deleted": "Deleted"
+            }
         }
     },
     "dutyShiftRuleNotifications": {
