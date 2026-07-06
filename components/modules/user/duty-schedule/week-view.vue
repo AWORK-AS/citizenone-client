@@ -926,7 +926,7 @@
                                                     <!-- Non-worked public holiday: employee is free but is assigned 7.4h -->
                                                     <Tooltip v-if="isNonWorkedHolidayCell(week)"
                                                         :text="$t('dutySchedules.holidayNonWorkedTooltip')"
-                                                        position="top" :wrap="true" class="w-full mb-2.5">
+                                                        position="top" :wrap="true" class="w-full mb-4">
                                                         <div
                                                             class="rounded-xl border border-amber-300 bg-amber-50 px-2 py-1.5 flex items-start gap-1.5 w-full">
                                                             <Icon name="ph:calendar-check"
@@ -944,7 +944,7 @@
                                                     </Tooltip>
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                         :key="shiftIndex" :class="[
-                                                            'rounded-xl overflow-hidden relative mb-2.5 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20'
+                                                            'rounded-xl relative mb-4 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20'
                                                         ]" :style="{
                                                             backgroundColor: `${shift?.type?.color}`,
                                                             width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
@@ -2561,7 +2561,7 @@ function isNonWorkedHolidayCell(week: any): boolean {
     if (!holidaysEnabled.value || !week?.date) return false
     if (!getHolidayNameByDate(week.date)) return false
     if (moment(week.date).day() === 0) return false // Sundays excluded (matches backend)
-    return !(week?.shifts?.length > 0)
+    return true
 }
 
 // A shift that falls on a public holiday → counts as both holiday hours + the shift.
