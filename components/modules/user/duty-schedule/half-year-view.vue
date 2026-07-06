@@ -167,10 +167,12 @@
                                         <Icon name="mdi:clock-outline" class="h-3 w-3" />
                                     </button>
                                     <button
-                                        class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center"
+                                        class="bg-gray-100 w-7 h-7 text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center relative"
                                         @click="viewLeaveRequests(employee)"
                                         v-if="isAdmin(userStore.getUser?.role) || userStore.getUser?.uuid === employee?.uuid">
                                         <Icon name="mdi:wallet-travel" class="h-3 w-3" />
+                                        <div v-if="employee?.pending_leave_requests > 0"
+                                            class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
                                     </button>
                                 </div>
                             </div>

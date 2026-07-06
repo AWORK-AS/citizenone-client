@@ -417,10 +417,12 @@
                                                             :text="$t('dutySchedules.leaveRequests.leaveRequests')"
                                                             v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.uuid === employee?.uuid)">
                                                             <button
-                                                                class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
+                                                                class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
                                                                 @click="viewLeaveRequests(employee)">
                                                                 <Icon name="mdi:wallet-travel" class="h-3 w-3"
                                                                     aria-hidden="true" />
+                                                                <div v-if="employee?.pending_leave_requests > 0"
+                                                                    class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
                                                             </button>
                                                         </Tooltip>
                                                     </div>
@@ -453,7 +455,8 @@
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.annualNormHours') }}:
-                                                                {{ formatNumber(language.locale.value, empStats(employee)?.annual_norm_hours ?? 0) }}
+                                                                {{ formatNumber(language.locale.value,
+                                                                    empStats(employee)?.annual_norm_hours ?? 0) }}
                                                             </p>
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
