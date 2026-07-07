@@ -61,7 +61,8 @@
                                 <td class="co-td text-[13px] text-[#5C6478]">{{ category.icon || '—' }}</td>
                                 <td class="co-td text-[13px] text-[#5C6478]">{{ category.sort_order }}</td>
                                 <td class="co-td">
-                                    <span v-if="category.is_active !== false" class="co-badge co-badge-green text-[10px]">
+                                    <span v-if="category.is_active !== false"
+                                        class="co-badge co-badge-green text-[10px]">
                                         <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
                                         {{ $t('superadmin.appCategories.active') }}
                                     </span>

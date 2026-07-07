@@ -9,8 +9,11 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
 
                 <p class="text-[12px] text-[#8891A4] -mt-2">
-                    {{ props.category ? $t('superadmin.appCategories.sliderEditSubtitle') :
-                        $t('superadmin.appCategories.sliderNewSubtitle') }}
+                    {{
+                        props.category ?
+                            $t('superadmin.appCategories.sliderEditSubtitle') :
+                            $t('superadmin.appCategories.sliderNewSubtitle')
+                    }}
                 </p>
 
                 <!-- Name -->

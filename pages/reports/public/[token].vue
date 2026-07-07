@@ -1,4 +1,5 @@
 <template>
+
     <Head>
         <Title>{{ state.report?.title ?? $t('citizenReports.reports') }} - {{ runtimeConfig?.public?.appName }}</Title>
     </Head>
@@ -25,15 +26,18 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                         <div v-if="state.report.citizen">
                             <p class="font-medium text-gray-700">{{ $t('citizenReports.form.citizen') }}</p>
-                            <p class="text-gray-900">{{ state.report.citizen.firstname }} {{ state.report.citizen.lastname }}</p>
+                            <p class="text-gray-900">{{ state.report.citizen.firstname }} {{
+                                state.report.citizen.lastname }}</p>
                         </div>
                         <div v-if="state.report.caseworker">
                             <p class="font-medium text-gray-700">{{ $t('citizenReports.form.caseworker') }}</p>
-                            <p class="text-gray-900">{{ state.report.caseworker.firstname }} {{ state.report.caseworker.lastname }}</p>
+                            <p class="text-gray-900">{{ state.report.caseworker.firstname }} {{
+                                state.report.caseworker.lastname }}</p>
                         </div>
                         <div v-if="state.report.consultant">
                             <p class="font-medium text-gray-700">{{ $t('citizenReports.form.consultant') }}</p>
-                            <p class="text-gray-900">{{ state.report.consultant.firstname }} {{ state.report.consultant.lastname }}</p>
+                            <p class="text-gray-900">{{ state.report.consultant.firstname }} {{
+                                state.report.consultant.lastname }}</p>
                         </div>
                     </div>
 

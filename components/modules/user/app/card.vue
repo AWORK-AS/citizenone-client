@@ -3,8 +3,7 @@
         :class="props.app?.user_activated ? 'border-[#02c18e]/40' : 'border-gray-200'">
 
         <!-- Badge row -->
-        <div v-if="hasAnyBadge"
-            class="flex flex-wrap items-center gap-1.5 mb-4">
+        <div v-if="hasAnyBadge" class="flex flex-wrap items-center gap-1.5 mb-4">
             <span v-if="props.app?.user_activated"
                 class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xxs font-semibold bg-[#02c18e] text-white">
                 <Icon name="ph:check-bold" class="w-3 h-3" />
@@ -103,8 +102,8 @@
                 @click="emit('goToPartner', props.app?.url_field)" v-if="props.app?.url_field">
                 {{ $t('apps.goToPartner') }}
             </FormButton>
-            <FormButton type="button"
-                :buttonStyle="props.app?.user_activated ? 'app-activated' : 'app-order-now'" :class="[
+            <FormButton type="button" :buttonStyle="props.app?.user_activated ? 'app-activated' : 'app-order-now'"
+                :class="[
                     props.app?.user_activated && 'cursor-not-allowed',
                     'w-full'
                 ]" color="primary" @click="!props.app?.user_activated && emit('activate', props.app)" v-else>

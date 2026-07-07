@@ -11,7 +11,8 @@
                     class="brand-tile w-9 h-9 rounded-lg flex items-center justify-center text-white flex-shrink-0">
                     <Icon :name="appIconFor(app).icon" class="w-5 h-5" />
                 </div>
-                <img v-else-if="app?.logo" :src="app.logo" alt="" class="w-9 h-9 object-contain rounded flex-shrink-0" />
+                <img v-else-if="app?.logo" :src="app.logo" alt=""
+                    class="w-9 h-9 object-contain rounded flex-shrink-0" />
                 <div v-else
                     class="w-9 h-9 rounded bg-primary/10 text-primary flex items-center justify-center text-sm font-semibold flex-shrink-0">
                     {{ (app?.name || '?').charAt(0).toUpperCase() }}

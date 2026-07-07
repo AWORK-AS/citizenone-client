@@ -55,8 +55,7 @@
         <!-- Description -->
         <div>
             <SuperadminFormLabel :label="$t('superadmin.apps.form.description')" />
-            <textarea v-model="state.form.description" rows="3"
-                :placeholder="$t('superadmin.apps.form.description')"
+            <textarea v-model="state.form.description" rows="3" :placeholder="$t('superadmin.apps.form.description')"
                 class="co-input resize-none"></textarea>
             <SuperadminFormError :error="props.error?.errors?.description?.[0]" />
         </div>
@@ -75,8 +74,7 @@
         <div v-if="state.form.is_one_time_fee">
             <SuperadminFormLabel :label="$t('superadmin.apps.form.price')" />
             <div class="relative">
-                <SuperadminFormTextField v-model.number="state.form.price" type="number" placeholder="0"
-                    class="pr-8" />
+                <SuperadminFormTextField v-model.number="state.form.price" type="number" placeholder="0" class="pr-8" />
                 <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">kr</span>
             </div>
             <SuperadminFormError :error="props.error?.errors?.price?.[0]" />
@@ -161,8 +159,7 @@
 
         <!-- Checkboxes -->
         <div class="space-y-2">
-            <div v-for="flag in boolFlags" :key="flag.key"
-                class="flex items-center gap-2 cursor-pointer select-none"
+            <div v-for="flag in boolFlags" :key="flag.key" class="flex items-center gap-2 cursor-pointer select-none"
                 @click="(state.form as any)[flag.key] = !(state.form as any)[flag.key]">
                 <div class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors"
                     :style="(state.form as any)[flag.key] ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2;background:white'">
@@ -194,8 +191,7 @@
                 <Icon name="ph:magnifying-glass"
                     class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
                 <SuperadminFormTextField v-model="state.companySearch"
-                    :placeholder="$t('superadmin.apps.searchCompany')" class="!pl-9"
-                    @input="searchCompanies" />
+                    :placeholder="$t('superadmin.apps.searchCompany')" class="!pl-9" @input="searchCompanies" />
             </div>
             <div v-if="state.companyResults.length"
                 class="mt-1 border border-[#EAECF0] rounded-lg bg-white shadow max-h-36 overflow-y-auto">
