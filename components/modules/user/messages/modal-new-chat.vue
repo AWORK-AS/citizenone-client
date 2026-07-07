@@ -1,42 +1,63 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('messages.message')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('messages.newConversation')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="sendMessage">
-                        <div class="space-y-3">
-                            <h3 class="text-base font-semibold text-primary">
-                                {{ $t('messages.startTheConversation') }}
-                            </h3>
+                        <div class="flex items-start gap-3 mb-5">
+                            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary">
+                                <Icon name="ph:chats-circle" class="h-5 w-5" aria-hidden="true" />
+                            </span>
+                            <div class="min-w-0">
+                                <h3 class="text-sm font-semibold text-gray-900">{{ $t('messages.startTheConversation') }}</h3>
+                                <p class="text-xs text-gray-500">{{ $t('messages.recipientsHint') }}</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
                             <div class="space-y-1">
-                                <FormLabel for="receivers" :label="$t('messages.users')" />
+                                <FormLabel for="receivers" :label="$t('messages.recipients')" />
                                 <FormSelectMultiple id="receivers" :options="state.options.receivers"
+                                    :placeholder="$t('messages.selectRecipients')"
                                     v-model="state.formChat.receivers"
                                     v-if="userStore.getUser?.company?.group_chat_enabled" />
                                 <FormSelect id="receivers" :options="state.options.receivers"
+                                    :placeholder="$t('messages.selectRecipients')"
                                     v-model="state.formChat.receivers" v-else />
                                 <FormError :error="v$?.formChat?.receivers?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.receiver_uuid?.[0]" />
                             </div>
+
                             <div class="space-y-1">
-                                <FormLabel for="subject" :label="$t('messages.subject')" />
-                                <FormTextField id="subject" name="subject" :placeholder="$t('messages.subject')"
-                                    v-model="state.formChat.subject" />
-                                <FormError :error="v$?.formChat?.subject?.$errors[0]?.$message.toString()" />
+                                <FormLabel for="subject" :label="$t('messages.subjectOptional')" />
+                                <FormTextField id="subject" name="subject"
+                                    :placeholder="$t('messages.subjectPlaceholder')" v-model="state.formChat.subject" />
                                 <FormError :error="state?.error?.errors?.subject?.[0]" />
                             </div>
+
                             <div class="space-y-1">
                                 <FormLabel for="message" :label="$t('messages.message')" />
-                                <FormTextArea id="message" name="message" :placeholder="$t('messages.message')"
-                                    v-model="state.formChat.message" />
-                                <FormError :error="v$?.formChat?.message?.$errors[0]?.$message.toString()" />
+                                <FormTextArea id="message" name="message" :placeholder="$t('messages.messagePlaceholder')"
+                                    v-model="state.formChat.message" @keydown="handleKeydown" />
+                                <div class="flex items-center justify-between">
+                                    <FormError :error="v$?.formChat?.message?.$errors[0]?.$message.toString()" />
+                                    <span class="ml-auto text-[11px] text-gray-400">{{ $t('messages.sendHint') }}</span>
+                                </div>
                                 <FormError :error="state?.error?.errors?.message?.[0]" />
                             </div>
                         </div>
-                        <div class="mt-6 mb-2">
-                            <FormButton type="submit" buttonStyle="primary" class="w-full">
+
+                        <div class="mt-6 flex items-center justify-end gap-2">
+                            <button type="button" @click="closeModal"
+                                class="px-4 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors">
+                                {{ $t('cancel') }}
+                            </button>
+                            <button type="submit" :disabled="!canSend"
+                                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white bg-primary hover:bg-primary-600 shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                <Icon v-if="!state.isSending" name="ph:paper-plane-tilt" class="h-4 w-4" aria-hidden="true" />
+                                <Icon v-else name="ph:circle-notch" class="h-4 w-4 animate-spin" aria-hidden="true" />
                                 {{ $t('messages.send') }}
-                            </FormButton>
+                            </button>
                         </div>
                     </form>
                 </LoadingSpinner>
@@ -76,9 +97,17 @@ const state = reactive({
         subject: '',
     },
     isPageLoading: false,
+    isSending: false,
     options: {
         receivers: []
     }
+})
+
+const canSend = computed(() => {
+    const hasRecipients = Array.isArray(state.formChat.receivers)
+        ? state.formChat.receivers.length > 0
+        : !!state.formChat.receivers
+    return hasRecipients && state.formChat.message.trim().length > 0 && !state.isSending
 })
 
 onMounted(() => {
@@ -102,6 +131,13 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+function handleKeydown(event: KeyboardEvent) {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+        event.preventDefault()
+        sendMessage()
+    }
+}
 
 function closeModal() {
     emit('close')
@@ -134,7 +170,7 @@ async function fetchAllAvailableChatUsers() {
 async function sendMessage() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        state.isPageLoading = true
+        state.isSending = true
         try {
             const params = {
                 subject: state.formChat.subject,
@@ -157,7 +193,7 @@ async function sendMessage() {
         } catch (error: any) {
             state.error = error
         }
-        state.isPageLoading = false
+        state.isSending = false
     }
 }
 </script>

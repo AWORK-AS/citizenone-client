@@ -144,7 +144,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-secondary text-white px-4 py-2.5 rounded-2xl rounded-br-sm shadow-sm">
+                                <div class="bg-primary text-white px-4 py-2.5 rounded-2xl rounded-br-sm shadow-sm">
                                     <!-- Attachments -->
                                     <div v-if="message?.chat_message_attachments?.length > 0" class="space-y-2">
                                         <div v-for="(attachment, aIndex) in message?.chat_message_attachments"
@@ -189,8 +189,8 @@
                         <div class="flex items-center gap-2 mb-1">
                             <img :src="senderAvatar(message)" alt="User"
                                 class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
-                            <p class="text-xs text-gray-500 font-medium">
-                                {{ senderDisplayName(message) }}
+                            <p class="text-xs font-medium">
+                                <span :class="senderColor(message)">{{ senderDisplayName(message) }}</span>
                                 <span class="text-gray-400 font-normal">{{
                                     formatMessageTime(message?.created_at) }}</span>
                             </p>
@@ -235,6 +235,9 @@
                         <Icon name="ph:paperclip" class="w-5 h-5 text-gray-500" aria-hidden="true" />
                     </button>
 
+                    <!-- Emoji Picker -->
+                    <ModulesUserMessagesEmojiPicker @select="appendEmoji" />
+
                     <!-- Text Input -->
                     <textarea rows="1"
                         class="flex-1 h-10 px-4 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-10"
@@ -243,7 +246,7 @@
 
                     <!-- Send Button -->
                     <button type="button"
-                        class="w-10 h-10 rounded-lg bg-secondary hover:bg-secondary-600 flex items-center justify-center transition-colors flex-shrink-0 disabled:opacity-50"
+                        class="w-10 h-10 rounded-lg bg-primary hover:bg-primary-600 flex items-center justify-center transition-colors flex-shrink-0 disabled:opacity-50"
                         @click="sendMessage" :disabled="state.isPageLoading || !state.message.trim()">
                         <Icon name="ph:paper-plane-tilt" class="w-4 h-4 text-white" aria-hidden="true" />
                     </button>
@@ -393,6 +396,29 @@ function memberAvatar(member: any) {
     }
     return user.profile_image ?? '/img/avatars/user.svg'
 }
+
+function appendEmoji(emoji: string) {
+    state.message = (state.message ?? '') + emoji
+}
+
+const SENDER_COLORS = [
+    'text-rose-600', 'text-amber-600', 'text-emerald-600', 'text-sky-600',
+    'text-violet-600', 'text-fuchsia-600', 'text-teal-600', 'text-indigo-600',
+]
+
+function senderColor(message: any) {
+    const key = String(message?.sender?.id ?? message?.sender_id ?? senderDisplayName(message) ?? '')
+    let hash = 0
+    for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0
+    return SENDER_COLORS[hash % SENDER_COLORS.length]
+}
+
+watch(() => state.message, (value: string) => {
+    const replaced = replaceEmojiShortcodes(value)
+    if (replaced !== value) {
+        state.message = replaced
+    }
+})
 
 function senderDisplayName(message: any) {
     if (!message) return ''

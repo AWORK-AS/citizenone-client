@@ -72,7 +72,7 @@
         "promoCta": "Get the app",
         "appInfoMessage": "App Store and Google Play links will appear here in the real version.",
         "appScanHint": "Scan the QR code with your phone camera to download the app.",
-        "modalIntro": "Pick the parts you use — we'll only show the relevant steps.",
+        "modalIntro": "Pick the parts you use - we'll only show the relevant steps.",
         "modules": {
             "vagtplan": "Duty schedule",
             "medicin": "Medicine",
@@ -2154,15 +2154,15 @@
                 "treatmentReasonPlaceholder": "What is the reason the citizen is receiving this medication",
                 "unit": "Unit",
                 "advancedSchedule": "Advanced schedule setting",
-                "advancedScheduleDesc": "Use these settings if the citizen needs to take medicine during specific periods or on specific individual dates — in addition to the fixed frequency above.",
+                "advancedScheduleDesc": "Use these settings if the citizen needs to take medicine during specific periods or on specific individual dates - in addition to the fixed frequency above.",
                 "treatmentPeriods": "Treatment periods",
-                "treatmentPeriodsDesc": "Enter periods when the medicine should be actively given — e.g. treatment in week 1-3, pause in week 4, treatment in week 5-6.",
+                "treatmentPeriodsDesc": "Enter periods when the medicine should be actively given - e.g. treatment in week 1-3, pause in week 4, treatment in week 5-6.",
                 "addPeriod": "+ Add period",
                 "from": "From",
                 "to": "to",
-                "noPeriodsAdded": "No periods added — medicine follows the frequency setting throughout",
+                "noPeriodsAdded": "No periods added - medicine follows the frequency setting throughout",
                 "extraIndividualDates": "Extra individual dates",
-                "extraIndividualDatesDesc": "Add specific individual dates when the citizen should receive the medicine — even if it doesn't align with the fixed frequency. Click on a date in the calendar to add it.",
+                "extraIndividualDatesDesc": "Add specific individual dates when the citizen should receive the medicine - even if it doesn't align with the fixed frequency. Click on a date in the calendar to add it.",
                 "noExtraDaysSelected": "No extra days selected"
             },
             "history": {
@@ -2303,7 +2303,7 @@
                 "dueInMinutes": "Due in {minutes} minutes. Remember to give on time.",
                 "expired": "Expired",
                 "selfAdministration": "Self-administration",
-                "expiredCheckDate": "Expired — check package date",
+                "expiredCheckDate": "Expired - check package date",
                 "lowStock": "Low stock",
                 "lowStockOnly": "Low stock: only {n} remaining",
                 "pnMedicineAsNeeded": "PN medicine (as needed)",
@@ -2327,9 +2327,9 @@
                 "slotDeviation": "Deviation",
                 "slotInMinutes": "In {minutes} min",
                 "slotAt": "At {time}",
-                "slotOverdue": "Overdue — scheduled at {time}. Click to give.",
-                "slotDueSoon": "Due in {minutes} min — at {time}",
-                "slotClickToGive": "Click to give — scheduled at {time}",
+                "slotOverdue": "Overdue - scheduled at {time}. Click to give.",
+                "slotDueSoon": "Due in {minutes} min - at {time}",
+                "slotClickToGive": "Click to give - scheduled at {time}",
                 "overdueCountText": "{n} overdue",
                 "givenCountText": "{n} given",
                 "pendingCountText": "{n} pending",
@@ -3481,7 +3481,7 @@
         "drive-onedrive": {
             "info-drive-1": "You are currently viewing your OneDrive files because you have linked your Microsoft account.",
             "info-drive-2": "If you want to go back to CitizenOne Documents, press the 'Company Documents' button at the top.",
-            "info-drive-3": "Switch between systems without losing files — upload to the desired system via the upload button."
+            "info-drive-3": "Switch between systems without losing files - upload to the desired system via the upload button."
         },
         "editDocument": "Edit document",
         "expenses": "Expenses",
@@ -3555,7 +3555,7 @@
         "copyPaste": {
             "clickHereToPasteTheSchedule": "Click here to paste the schedule, or press the Escape key on your keyboard to cancel",
             "clickHereToStopCopyingTheSchedule": "Click here to stop copying the schedule",
-            "copyingActive": "Copying active — Click to stop",
+            "copyingActive": "Copying active - Click to stop",
             "stopCopying": "Stop copying"
         },
         "custom": "Custom",
@@ -3639,7 +3639,7 @@
                 "viewPresets": "View presets",
                 "infoBox": {
                     "title": "What are presets?",
-                    "description": "A preset is a saved version of your draft schedule that you can reuse. Select a preset below and click Apply to load it into the draft — you can then edit and publish it."
+                    "description": "A preset is a saved version of your draft schedule that you can reuse. Select a preset below and click Apply to load it into the draft - you can then edit and publish it."
                 },
                 "saveInfoBox": {
                     "title": "Save your current draft as a preset",
@@ -3700,7 +3700,7 @@
                 "oneTimeDescription": "A fixed weekly schedule you apply one at a time.",
                 "recurring": "Recurring:",
                 "recurringDescription": "A rolling schedule that repeats over multiple weeks (e.g., 4-week rotation). Can be set to run until a specific date.",
-                "tip": "Tip: Create the template, then click Apply to load it into your draft schedule — you can edit it afterwards."
+                "tip": "Tip: Create the template, then click Apply to load it into your draft schedule - you can edit it afterwards."
             },
             "form": {
                 "adminsOnly": "Administrators only",
@@ -3723,7 +3723,7 @@
                 "isRecurringDescription": "A recurring template automatically rotates over multiple weeks (e.g., 4-week rotation). A non-recurring template is a fixed single week plan.",
                 "recurringInfoBox": {
                     "title": "Recurring template",
-                    "description": "Specify how many weeks the template rotates over (e.g., 4 = 4-week rotation). You can optionally set an end date — if you don't set a date, the template can always be used."
+                    "description": "Specify how many weeks the template rotates over (e.g., 4 = 4-week rotation). You can optionally set an end date - if you don't set a date, the template can always be used."
                 }
             },
             "newDraft": "New Template",
@@ -3946,7 +3946,7 @@
             "insertHere": "Insert here",
             "insertMonthHere": "Insert month here",
             "insertWeekHere": "Insert week here",
-            "monthCopied": "Month copied — navigate to another month and click Insert",
+            "monthCopied": "Month copied - navigate to another month and click Insert",
             "seeCalendar": "See calendar"
         },
         "halfYearView": {
@@ -5133,7 +5133,7 @@
                 "churnIssues": "Churn, payment issues and alerts",
                 "healthyLevel": "Healthy level",
                 "requiresAttention": "Requires attention",
-                "critical": "Critical — act now",
+                "critical": "Critical - act now",
                 "goalUnder2": "Goal: under 2%/mo.",
                 "churnedRevenue": "Churned revenue",
                 "companiesLost": "companies lost",
@@ -5206,13 +5206,13 @@
                 "subtitle": "Define prices and license structures per app",
                 "newLicense": "New license",
                 "licenseModelLabel": "License model",
-                "licenseModelDesc": "Companies pay per app they activate, not a single plan. The price is per user/license with flexible billing intervals — monthly, yearly, or a specific agreement (e.g. public sector with large volume).",
+                "licenseModelDesc": "Companies pay per app they activate, not a single plan. The price is per user/license with flexible billing intervals - monthly, yearly, or a specific agreement (e.g. public sector with large volume).",
                 "noAppsFound": "No apps found",
                 "noAppsFoundSub": "Add apps from the Apps page first",
                 "licenseTypes": "license types",
                 "activeCompanies": "active companies",
                 "addLicense": "Add license",
-                "noLicenseTypes": "No license types yet — add the first",
+                "noLicenseTypes": "No license types yet - add the first",
                 "volume": "Volume",
                 "inactive": "Inactive",
                 "free": "Free",
@@ -5259,6 +5259,20 @@
                 "successDeletedBody": "License type '{name}' has been deleted.",
                 "deleteConfirm": "Delete license type '{name}'?"
             }
+        },
+        "history": {
+            "title": "Shift history",
+            "loading": "Loading history...",
+            "empty": "No history yet.",
+            "by": "By",
+            "system": "System",
+            "viewHistory": "View history",
+            "actions": {
+                "created": "Created",
+                "published": "Published",
+                "updated": "Updated",
+                "deleted": "Deleted"
+            }
         }
     },
     "dutyShiftRuleNotifications": {
@@ -5301,7 +5315,7 @@
             "periodDaysBackInfo1": "The number of days back to consider when applying the duty shift rule",
             "periodDaysBackInfo2": "(e.g., if set to 30, the rule will consider shifts from the past 30 days).",
             "periodFilter": "Period filter",
-            "periodInfoAnchorDesc": "The end point of the period filter. Leave empty to use today's date — this is dynamic and updates automatically every day, so the period filter shifts forward each day. If set, the period is counted backwards from that fixed date instead.",
+            "periodInfoAnchorDesc": "The end point of the period filter. Leave empty to use today's date - this is dynamic and updates automatically every day, so the period filter shifts forward each day. If set, the period is counted backwards from that fixed date instead.",
             "periodInfoFormula": "period filter start = anchor date − period (days)",
             "periodInfoHowDesc": "The rule evaluates shifts within a period filter that starts at (anchor date − period days) and ends at the anchor date.",
             "periodInfoHowTitle": "How they work together",
@@ -5864,9 +5878,9 @@
     "commandPalette": {
         "actions": "Actions",
         "placeholder": "Search actions or sections…",
-        "hint": "Search and jump around — ⌘K. Press ? for all shortcuts.",
+        "hint": "Search and jump around - ⌘K. Press ? for all shortcuts.",
         "didYouKnowTitle": "Did you know?",
-        "didYouKnowBody": "You can search and jump anywhere with ⌘K — press ? for all shortcuts.",
+        "didYouKnowBody": "You can search and jump anywhere with ⌘K - press ? for all shortcuts.",
         "didYouKnowDismiss": "Got it",
         "empty": "No results",
         "navigate": "Go to",
@@ -6339,7 +6353,7 @@
     },
     "guidedTour": "Guided tour",
     "helpGuide": {
-        "scheduleTitle": "Help & Guide — Schedule",
+        "scheduleTitle": "Help & Guide - Schedule",
         "title": "Help & Guide"
     },
     "hideAll": "Hide all",
@@ -6743,7 +6757,7 @@
     },
     "login": {
         "activeUsers": "Active users",
-        "description": "From journal notes and care plans to shift scheduling and reporting — all gathered in one platform, built for those who work with people.",
+        "description": "From journal notes and care plans to shift scheduling and reporting - all gathered in one platform, built for those who work with people.",
         "doYouNeedHelp": "Do you need help",
         "form": {
             "createHere": "Create here",
@@ -6790,12 +6804,12 @@
             "microsoftGuide": {
                 "title": "How to connect your Microsoft account",
                 "intro": "Follow these steps to link your work Microsoft account so you can send and receive emails within CitizenOne.",
-                "step1": "Click Login via Microsoft above — you will be redirected to the Microsoft sign-in page.",
+                "step1": "Click Login via Microsoft above - you will be redirected to the Microsoft sign-in page.",
                 "step2": "Enter your work email address (e.g. yourname(at)yourcompany.com) and password.",
                 "step3": "Complete multi-factor authentication (MFA) if your organisation requires it.",
                 "step4": "On the permissions screen, CitizenOne is requesting access to read and send emails on your behalf. Choose one of the following:",
-                "step4Accept": "Accept — grants access for your own account only. You can start immediately.",
-                "step4Request": "Request approval — if your IT admin has restricted app access, click this to send them an approval request. Return to connect once they have approved it in the Azure Portal.",
+                "step4Accept": "Accept - grants access for your own account only. You can start immediately.",
+                "step4Request": "Request approval - if your IT admin has restricted app access, click this to send them an approval request. Return to connect once they have approved it in the Azure Portal.",
                 "step4Hint": "If you are unsure, click Accept. If it fails with a permissions error, contact your IT administrator and ask them to grant admin consent for CitizenOne in your organisation's Azure Active Directory.",
                 "step5": "You will be redirected back to CitizenOne automatically and a success message will confirm the connection.",
                 "step6": "Your inbox is now connected. You can read, reply, forward, and send emails from within CitizenOne.",
@@ -6817,6 +6831,16 @@
             "on": "On",
             "selectAMessage": "Select a message",
             "to": "To"
+        },
+        "filter": {
+            "all": "All",
+            "noUnread": "No unread messages",
+            "unread": "Unread"
+        },
+        "search": {
+            "clear": "Clear search",
+            "noResults": "No messages match your search",
+            "placeholder": "Search mail"
         },
         "download": "Download",
         "downloadFile": {
@@ -7120,7 +7144,15 @@
         "welcomeDescription": "Select a conversation from the sidebar or create a new one to get started.",
         "welcomeToChat": "Welcome to Chat",
         "yesterday": "Yesterday",
-        "you": "You"
+        "you": "You",
+        "recipients": "Recipients",
+        "recipientsHint": "Choose who to message and write your note.",
+        "selectRecipients": "Search colleagues...",
+        "subjectOptional": "Subject (optional)",
+        "subjectPlaceholder": "What's it about?",
+        "messagePlaceholder": "Write your message...",
+        "sendHint": "⌘ + Enter to send",
+        "emoji": "Emoji"
     },
     "months": {
         "april": "April",
@@ -9988,7 +10020,7 @@
             "churnIssues": "Churn, payment issues and alerts",
             "healthyLevel": "Healthy level",
             "requiresAttention": "Requires attention",
-            "critical": "Critical — act now",
+            "critical": "Critical - act now",
             "goalUnder2": "Goal: under 2%/mo.",
             "churnedRevenue": "Churned revenue",
             "companiesLost": "companies lost",
@@ -10069,13 +10101,13 @@
             "subtitle": "Define prices and license structures per app",
             "newLicense": "New license",
             "licenseModelLabel": "License model",
-            "licenseModelDesc": "Companies pay per app they activate, not a single plan. The price is per user/license with flexible billing intervals — monthly, yearly, or a specific agreement (e.g. public sector with large volume).",
+            "licenseModelDesc": "Companies pay per app they activate, not a single plan. The price is per user/license with flexible billing intervals - monthly, yearly, or a specific agreement (e.g. public sector with large volume).",
             "noAppsFound": "No apps found",
             "noAppsFoundSub": "Add apps from the Apps page first",
             "licenseTypes": "license types",
             "activeCompanies": "active companies",
             "addLicense": "Add license",
-            "noLicenseTypes": "No license types yet — add the first",
+            "noLicenseTypes": "No license types yet - add the first",
             "volume": "Volume",
             "inactive": "Inactive",
             "free": "Free",
@@ -10125,7 +10157,7 @@
         "products": {
             "title": "Products",
             "productCatalog": "Product Catalog",
-            "subtitle": "Packages, add-ons and apps — manage all prices in one place",
+            "subtitle": "Packages, add-ons and apps - manage all prices in one place",
             "newPackage": "New package",
             "newApp": "New app",
             "included": "Included",
@@ -10168,7 +10200,7 @@
             "storageGb": "Storage (GB)",
             "featuresAndBenefits": "Features & benefits",
             "add": "Add",
-            "noFeaturesYet": "No features yet — click \"Add\" to start",
+            "noFeaturesYet": "No features yet - click \"Add\" to start",
             "specialFeatures": "Special features",
             "cancel": "Cancel",
             "saving": "Saving...",
@@ -10295,7 +10327,7 @@
         },
         "cancellations": {
             "pageTitle": "Cancellations",
-            "pageSubtitle": "Manual registration of cancelled licenses — used for churn tracking",
+            "pageSubtitle": "Manual registration of cancelled licenses - used for churn tracking",
             "registerBtn": "Register cancellation",
             "statTotal": "Total cancellations",
             "statSinceLaunch": "Since launch",
@@ -10454,7 +10486,7 @@
             "expiryDateTitle": "Expiry Date",
             "grantAmountDesc": "The number of hours to grant each time the rule conditions are met.",
             "grantAmountTitle": "Grant Amount",
-            "grantFrequencyDesc": "Specifies how frequently hours are granted when conditions are met—weekly, monthly, or yearly relative to the account's start date.",
+            "grantFrequencyDesc": "Specifies how frequently hours are granted when conditions are met-weekly, monthly, or yearly relative to the account's start date.",
             "grantFrequencyTitle": "Grant Frequency",
             "initialHoursDesc": "The initial balance of hours assigned to the account when it is first created or activated. These hours will be automatically granted to the assigned employees upon activation.",
             "initialHoursTitle": "Initial Hours",
@@ -11268,7 +11300,7 @@
             },
             "map": {
                 "columnsFound": "{headers} columns found, {rows} rows",
-                "yourColumns": "Your columns — drag them over",
+                "yourColumns": "Your columns - drag them over",
                 "noName": "(no name)",
                 "noColumnName": "(column)",
                 "citizenOneFields": "CitizenOne fields",
@@ -11277,14 +11309,14 @@
                 "requiredFieldsHint": "Required fields (*) must be mapped before importing."
             },
             "dryRun": {
-                "title": "Review before import — nothing is saved yet.",
+                "title": "Review before import - nothing is saved yet.",
                 "readyToImport": "ready to import",
                 "skipped": "skipped",
                 "whySkipped": "Why rows are skipped",
                 "journalHint": "Rows without a match in CitizenOne (unknown CPR) are automatically excluded during import and shown in the summary.",
                 "scheduleHint": "Rows without a match in CitizenOne (unknown email or shift type) are automatically excluded during import and shown in the summary.",
                 "citizensHint": "Citizens that already exist (same CPR or name) will be skipped.",
-                "employeesHint": "Employees that already exist (same email or name) will be skipped. Each new employee uses one user license — if you run out, the rest will not be created.",
+                "employeesHint": "Employees that already exist (same email or name) will be skipped. Each new employee uses one user license - if you run out, the rest will not be created.",
                 "noValidRows": "No valid rows to import. Go back and check mapping and data."
             },
             "importing": {
@@ -11295,13 +11327,13 @@
                 "rowsSkipped": "{count} row(s) could not be matched and were skipped.",
                 "allImported": "All rows were imported.",
                 "alreadyExisted": "{count} already existed and were skipped.",
-                "licenseBlocked": "{count} employees could not be created — you are out of user licenses.",
-                "licenseHint": "Add at least {count} license(s) and run the import again — already created will be skipped.",
+                "licenseBlocked": "{count} employees could not be created - you are out of user licenses.",
+                "licenseHint": "Add at least {count} license(s) and run the import again - already created will be skipped.",
                 "addLicenses": "Add licenses",
                 "invitesSent": "Login emails have been sent to the created employees.",
                 "sendInvites": "Send login emails to {count} employees",
                 "inviteHint": "The created employees will receive an email with login and getting-started info. The import does not send emails automatically.",
-                "undone": "The import has been undone — the rows have been deleted again.",
+                "undone": "The import has been undone - the rows have been deleted again.",
                 "undo": "Undo import ({count} created)",
                 "unmatchedCpr": "Unmatched CPR numbers:",
                 "unmatchedEmails": "Unmatched emails:",
@@ -11390,6 +11422,19 @@
         "form": {
             "sendSmsNotification": "Send SMS notification",
             "sendSmsNotificationHint": "The citizen will receive an SMS with appointment details."
+        }
+    },
+    "recordHistory": {
+        "title": "History",
+        "loading": "Loading history...",
+        "empty": "No history yet.",
+        "by": "By",
+        "system": "System",
+        "viewHistory": "View history",
+        "events": {
+            "created": "Created",
+            "updated": "Updated",
+            "deleted": "Deleted"
         }
     }
 }
