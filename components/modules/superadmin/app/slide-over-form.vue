@@ -104,14 +104,52 @@
             </div>
         </div>
 
-        <!-- Type -->
+        <!-- Setup fee -->
         <div>
-            <SuperadminFormLabel :label="$t('superadmin.apps.form.type')" />
-            <SuperadminFormSelectField v-model="state.form.type">
-                <option value="">— {{ $t('superadmin.apps.form.type') }} —</option>
-                <option v-for="opt in typeOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.setupFee')" />
+            <div class="relative">
+                <SuperadminFormTextField v-model.number="state.form.setup_fee" type="number" placeholder="0"
+                    class="pr-8" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">kr</span>
+            </div>
+            <SuperadminFormError :error="props.error?.errors?.setup_fee?.[0]" />
+        </div>
+
+        <!-- Discount (%) -->
+        <div>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.discountPercent')" />
+            <div class="relative">
+                <SuperadminFormTextField v-model.number="state.form.discount_percent" type="number" placeholder="0"
+                    class="pr-8" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">%</span>
+            </div>
+            <SuperadminFormError :error="props.error?.errors?.discount_percent?.[0]" />
+        </div>
+
+        <!-- Discount ends at -->
+        <div>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.discountEndsAt')" />
+            <SuperadminFormTextField v-model="state.form.discount_ends_at" type="date" />
+            <SuperadminFormError :error="props.error?.errors?.discount_ends_at?.[0]" />
+        </div>
+
+        <!-- Sort order -->
+        <div>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.sortOrder')" />
+            <SuperadminFormTextField v-model.number="state.form.sort_order" type="number" placeholder="0" />
+            <SuperadminFormError :error="props.error?.errors?.sort_order?.[0]" />
+        </div>
+
+        <!-- Category -->
+        <div>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.category')" :required="true" />
+            <SuperadminFormSelectField v-model="state.form.category_id">
+                <option value="">— {{ $t('superadmin.apps.form.category') }} —</option>
+                <option v-for="category in state.categories" :key="category.id" :value="category.id">
+                    {{ category.name }}
+                </option>
             </SuperadminFormSelectField>
-            <SuperadminFormError :error="props.error?.errors?.type?.[0]" />
+            <SuperadminFormError :error="props.error?.errors?.category_id?.[0]" />
         </div>
 
         <!-- Link -->
@@ -199,6 +237,7 @@
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { appService } from '@/components/api/superadmin/AppService'
+import { appCategoryService } from '@/components/api/superadmin/AppCategoryService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -240,14 +279,6 @@ const logoInputRef = ref<HTMLInputElement | null>(null)
 const imageInputRef = ref<HTMLInputElement | null>(null)
 const bgInputRef = ref<HTMLInputElement | null>(null)
 
-const typeOptions = computed(() => [
-    { value: 'citizenone', label: t('superadmin.apps.form.types.citizenone') },
-    { value: 'fst', label: t('superadmin.apps.form.types.fst') },
-    { value: 'marketing', label: t('superadmin.apps.form.types.marketing') },
-    { value: 'visual', label: t('superadmin.apps.form.types.visual') },
-    { value: 'other', label: t('superadmin.apps.form.types.other') },
-])
-
 const boolFlags = [
     { key: 'is_quantifiable', label: 'superadmin.apps.form.quantifiable' },
     { key: 'is_thirdparty', label: 'superadmin.apps.form.thirdPartyApp' },
@@ -260,11 +291,15 @@ const state = reactive({
     assignedCompanies: [] as any[],
     bgFile: null as File | null,
     bgPreview: '' as string,
+    categories: [] as any[],
     companyResults: [] as any[],
     companySearch: '',
     errors: { name: '' },
     form: {
+        category_id: '' as any,
         description: '',
+        discount_ends_at: '' as any,
+        discount_percent: 0,
         is_active: true,
         is_news: false,
         is_one_time_fee: false,
@@ -275,6 +310,8 @@ const state = reactive({
         monthly_price: 0,
         name: '',
         price: 0,
+        setup_fee: 0,
+        sort_order: 0,
         type: '',
         url_field: '',
         yearly_price: 0,
@@ -288,7 +325,10 @@ const state = reactive({
 watch(() => props.selectedApp, (app: any) => {
     if (app) {
         state.form = {
+            category_id: app.category_id ?? '',
             description: app.description ?? '',
+            discount_ends_at: app.discount_ends_at ? String(app.discount_ends_at).slice(0, 10) : '',
+            discount_percent: app.discount_percent ?? 0,
             is_active: app.is_active !== false,
             is_news: app.is_news ?? false,
             is_one_time_fee: app.is_one_time_fee ?? false,
@@ -299,6 +339,8 @@ watch(() => props.selectedApp, (app: any) => {
             monthly_price: app.monthly_price ?? 0,
             name: app.name ?? '',
             price: app.price ?? 0,
+            setup_fee: app.setup_fee ?? 0,
+            sort_order: app.sort_order ?? 0,
             type: app.type ?? '',
             url_field: app.url_field ?? '',
             yearly_price: app.yearly_price ?? 0,
@@ -314,6 +356,19 @@ watch(() => props.selectedApp, (app: any) => {
         state.companyResults = []
     }
 })
+
+onMounted(() => {
+    fetchCategories()
+})
+
+async function fetchCategories() {
+    try {
+        const response = await appCategoryService.getCategories({ page: 1 })
+        state.categories = response?.data ?? []
+    } catch (_) {
+        state.categories = []
+    }
+}
 
 function onLogoChange(event: any) {
     const file = event.target.files[0]
@@ -344,7 +399,10 @@ function onBgChange(event: any) {
 
 function reset() {
     state.form = {
+        category_id: '',
         description: '',
+        discount_ends_at: '',
+        discount_percent: 0,
         is_active: true,
         is_news: false,
         is_one_time_fee: false,
@@ -355,6 +413,8 @@ function reset() {
         monthly_price: 0,
         name: '',
         price: 0,
+        setup_fee: 0,
+        sort_order: 0,
         type: '',
         url_field: '',
         yearly_price: 0,

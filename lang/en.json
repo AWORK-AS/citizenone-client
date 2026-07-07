@@ -648,6 +648,7 @@
         "apps": "Apps",
         "authorizationDenied": "Authorization was denied",
         "categories": {
+            "all": "All apps",
             "citizenone": "CitizenOne",
             "fst": "FindSocialeTilbud.dk",
             "marketing": "Marketing",
@@ -705,7 +706,21 @@
             "disconnected": "Zenegy account successfully disconnected"
         },
         "setupFee": "setup",
-        "goToSetup": "Go to setup"
+        "goToSetup": "Go to setup",
+        "badge": {
+            "popular": "Popular",
+            "recommended": "Recommended",
+            "news": "New",
+            "discount": "-{percent}%"
+        },
+        "recommendedForYou": "Recommended for you",
+        "otherIn": "Other apps in {category}",
+        "usedBy": "Used by {count} organisations",
+        "noBinding": "No commitment",
+        "setupFeeSuffix": "setup fee",
+        "offerEndsInDays": "Offer ends in {count} days",
+        "offerEndsToday": "Offer ends today",
+        "save": "Save {percent}%"
     },
     "archived": {
         "alert": {
@@ -9153,6 +9168,9 @@
                 "monthlyPrice": "Monthly price",
                 "yearlyPrice": "Yearly price",
                 "type": "Type",
+                "category": "Category",
+                "setupFee": "Setup fee",
+                "sortOrder": "Sort order",
                 "link": "Link",
                 "quantifiable": "Quantifiable",
                 "thirdPartyApp": "Third party app",
@@ -9165,9 +9183,45 @@
                     "marketing": "Marketing",
                     "visual": "Visual",
                     "other": "Other"
-                }
+                },
+                "discountPercent": "Discount (%)",
+                "discountEndsAt": "Offer ends"
             },
             "colName": "Name"
+        },
+        "appCategories": {
+            "pageTitle": "App categories",
+            "newCategory": "New category",
+            "searchPlaceholder": "Search categories...",
+            "noCategoriesFound": "No categories found",
+            "active": "Active",
+            "inactive": "Inactive",
+            "edit": "Edit",
+            "colName": "Name",
+            "colSlug": "Slug",
+            "colIcon": "Icon",
+            "colSortOrder": "Sort order",
+            "colStatus": "Status",
+            "colApps": "Apps",
+            "sliderNewTitle": "New category",
+            "sliderEditTitle": "Edit category",
+            "sliderNewSubtitle": "Fill in the details to create a new category",
+            "sliderEditSubtitle": "Update the category details below",
+            "deleteConfirm": "Are you sure you want to delete {name}?",
+            "errorNameRequired": "Name is required",
+            "successCreated": "Created",
+            "successCreatedBody": "{name} has been created",
+            "successSaved": "Saved",
+            "successUpdatedBody": "{name} has been updated",
+            "successDeleted": "Deleted",
+            "successDeletedBody": "{name} has been deleted",
+            "form": {
+                "name": "Name",
+                "icon": "Icon",
+                "iconHint": "An emoji or icon name (e.g. ic:baseline-category)",
+                "sortOrder": "Sort order",
+                "isActive": "Active"
+            }
         },
         "companies": {
             "companies": "Companies",
@@ -9849,6 +9903,7 @@
         },
         "sidebar": {
             "apps": "Apps",
+            "appCategories": "App categories",
             "companies": "Companies",
             "coupons": "Coupons",
             "dashboard": "Dashboard",

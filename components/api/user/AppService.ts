@@ -16,6 +16,10 @@ class AppService extends BaseAPIService {
     async validatePurchase(paymentId: any): Promise<any> {
         return await this.request(`/user/apps/${paymentId}/verify-payment`, 'POST')
     }
+
+    async getCategories(): Promise<any> {
+        return await this.request(`/user/app-categories`, 'GET')
+    }
 }
 
 export const appService = new AppService()
