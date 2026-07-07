@@ -135,7 +135,7 @@
                         <div>
                             <p class="text-sm font-medium text-gray-700 mb-2">{{ $t('citizenReports.form.body') }}</p>
                             <div class="prose prose-sm max-w-none rounded-lg border border-gray-200 bg-gray-50 p-4"
-                                v-html="state.viewReport.body" />
+                                v-safe-html="state.viewReport.body" />
                         </div>
 
                         <div v-if="state.viewReport.status === 'finalized' && state.viewReport.access_token"

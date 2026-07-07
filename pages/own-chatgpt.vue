@@ -120,7 +120,7 @@
                                     </div>
                                 </div>
                                 <p v-if="msg.role === 'user'" style="white-space: pre-wrap">{{ msg.content }}</p>
-                                <p v-else v-html="msg.content" />
+                                <p v-else v-safe-html="msg.content" />
                             </div>
                         </div>
 

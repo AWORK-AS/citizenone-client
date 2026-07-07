@@ -147,7 +147,7 @@
 
                 <div class="grow overflow-y-auto px-6 py-5">
                     <div class="mail-body" :key="state.selectedEmail?.id"
-                        v-html="sanitizeEmailHtml((state.selectedEmail?.body?.content || '').replace(/\n/g, '<br>'))" />
+                        v-safe-html="(state.selectedEmail?.body?.content || '').replace(/\n/g, '<br>')" />
 
                     <div class="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-dashed border-gray-300"
                         v-if="state.selectedEmail?.attachments?.length">

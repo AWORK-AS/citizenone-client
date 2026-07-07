@@ -12,6 +12,7 @@
   "dependencies": {
     "@vue-leaflet/vue-leaflet": "^0.10.1",
     "docx-preview": "^0.3.7",
+    "dompurify": "^3.4.11",
     "flatpickr": "^4.6.13",
     "isomorphic-dompurify": "^3.18.0",
     "leaflet": "^1.9.4",

@@ -14,6 +14,9 @@ importers:
       docx-preview:
         specifier: ^0.3.7
         version: 0.3.7
+      dompurify:
+        specifier: ^3.4.11
+        version: 3.4.11
       flatpickr:
         specifier: ^4.6.13
         version: 4.6.13
@@ -5680,7 +5683,7 @@ snapshots:
   '@jridgewell/gen-mapping@0.3.5':
     dependencies:
       '@jridgewell/set-array': 1.2.1
-      '@jridgewell/sourcemap-codec': 1.4.15
+      '@jridgewell/sourcemap-codec': 1.5.0
       '@jridgewell/trace-mapping': 0.3.25
 
   '@jridgewell/resolve-uri@3.1.2': {}

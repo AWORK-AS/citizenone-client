@@ -119,7 +119,7 @@
                                 <p
                                     v-if="message?.message"
                                     class="text-sm leading-relaxed"
-                                    v-html="
+                                    v-safe-html="
                                         message.message.replace(/\n/g, '<br>')
                                     "
                                 ></p>
@@ -186,7 +186,7 @@
                                 <p
                                     v-if="message?.message"
                                     class="text-sm leading-relaxed"
-                                    v-html="
+                                    v-safe-html="
                                         message.message.replace(/\n/g, '<br>')
                                     "
                                 ></p>
