@@ -86,7 +86,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div v-html="state.secured_mail?.message"></div>
+                            <div v-safe-html="state.secured_mail?.message"></div>
                             <div class="flex flex-wrap items-center gap-2">
                                 <div v-for="(attachment, attachmentIndex) in state.secured_mail?.attachments"
                                     :index="attachmentIndex" class="border border-gray-200 rounded-sm">
@@ -156,7 +156,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div v-html="history?.message"></div>
+                            <div v-safe-html="history?.message"></div>
                             <p class="flex items-center gap-x-1 text-xs">
                                 <span>
                                     {{ $t('mail.secured.sent.sentWith') }}

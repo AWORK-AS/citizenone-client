@@ -11,7 +11,7 @@
                 </p>
             </div>
             <button
-                class="px-6 py-2.5 bg-secondary text-white rounded-lg text-sm font-medium hover:bg-secondary-600 transition-colors shadow-sm"
+                class="px-6 py-2.5 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-600 transition-colors shadow-sm"
                 @click="state.isNewChatOpen = true">
                 {{ $t('messages.newConversation') }}
             </button>

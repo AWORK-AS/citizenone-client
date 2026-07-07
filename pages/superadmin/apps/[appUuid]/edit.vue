@@ -65,7 +65,7 @@ async function fetchApp() {
     state.isPageLoading = true
     state.error = {}
     try {
-        const response = await appService.getApp(appUuid)
+        const response = await appService.getApplication(appUuid)
         if (response) {
             state.formApp = {
                 background_image: response?.data?.background_image ?? '',

@@ -13,9 +13,11 @@
                 <div class="flex flex-col flex-1 overflow-hidden h-full">
 
                     <!-- Header -->
-                    <div class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 bg-white gap-2 flex-shrink-0">
+                    <div
+                        class="flex items-center justify-between px-5 py-3.5 border-b border-gray-100 bg-white gap-2 flex-shrink-0">
                         <div class="flex items-center gap-3 flex-1">
-                            <div class="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center flex-shrink-0">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-900 flex items-center justify-center flex-shrink-0">
                                 <Icon name="simple-icons:openai" class="w-4 h-4 text-white" aria-hidden="true" />
                             </div>
                             <div>
@@ -44,11 +46,9 @@
                             <Tooltip :text="$t('ownChatGpt.sync')" position="left">
                                 <button type="button"
                                     class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors disabled:opacity-40"
-                                    :disabled="syncStore.isSyncing"
-                                    @click="syncStore.startSync()">
+                                    :disabled="syncStore.isSyncing" @click="syncStore.startSync()">
                                     <Icon :name="syncStore.isSyncing ? 'ph:spinner' : 'ph:arrows-clockwise'"
-                                        class="h-4 w-4 text-gray-500"
-                                        :class="syncStore.isSyncing ? 'animate-spin' : ''"
+                                        class="h-4 w-4 text-gray-500" :class="syncStore.isSyncing ? 'animate-spin' : ''"
                                         aria-hidden="true" />
                                 </button>
                             </Tooltip>
@@ -87,16 +87,17 @@
                                 <h3 class="text-base font-semibold text-gray-800">{{ $t('ownChatGpt.emptyTitle') }}</h3>
                                 <p class="text-sm text-gray-400 mt-1">{{ $t('ownChatGpt.emptySubtitle') }}</p>
                             </div>
-                            <div class="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 max-w-sm text-left">
-                                <Icon name="ph:info" class="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                            <div
+                                class="flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 max-w-sm text-left">
+                                <Icon name="ph:info" class="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0"
+                                    aria-hidden="true" />
                                 <div class="flex-1 text-xs text-blue-700">
                                     <p class="font-medium">{{ $t('ownChatGpt.syncReminderTitle') }}</p>
                                     <p class="mt-0.5 text-blue-500">{{ $t('ownChatGpt.syncReminderBody') }}</p>
                                 </div>
                                 <button type="button"
                                     class="text-xs font-medium text-blue-600 hover:text-blue-800 underline flex-shrink-0 disabled:opacity-40"
-                                    :disabled="syncStore.isSyncing"
-                                    @click="syncStore.startSync()">
+                                    :disabled="syncStore.isSyncing" @click="syncStore.startSync()">
                                     {{ syncStore.isSyncing ? $t('ownChatGpt.syncing') : $t('ownChatGpt.sync') }}
                                 </button>
                             </div>
@@ -111,8 +112,7 @@
                                     ? 'bg-secondary text-white rounded-br-sm'
                                     : 'bg-gray-100 text-gray-800 rounded-bl-sm'
                             ]">
-                                <div v-if="msg.files && msg.files.length > 0"
-                                    class="flex flex-wrap gap-1.5 mb-2">
+                                <div v-if="msg.files && msg.files.length > 0" class="flex flex-wrap gap-1.5 mb-2">
                                     <div v-for="(file, fi) in msg.files" :key="fi"
                                         class="flex items-center gap-1.5 text-xs bg-white/20 text-white px-2 py-1 rounded-md">
                                         <Icon name="ph:file" class="h-3 w-3 shrink-0" aria-hidden="true" />
@@ -120,16 +120,19 @@
                                     </div>
                                 </div>
                                 <p v-if="msg.role === 'user'" style="white-space: pre-wrap">{{ msg.content }}</p>
-                                <p v-else v-html="msg.content" />
+                                <p v-else v-safe-html="msg.content" />
                             </div>
                         </div>
 
                         <!-- Thinking indicator -->
                         <div v-if="state.isThinking" class="flex justify-start">
                             <div class="bg-gray-100 px-4 py-3 rounded-2xl rounded-bl-sm flex items-center gap-1.5">
-                                <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:0ms" />
-                                <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:150ms" />
-                                <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay:300ms" />
+                                <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                                    style="animation-delay:0ms" />
+                                <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                                    style="animation-delay:150ms" />
+                                <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"
+                                    style="animation-delay:300ms" />
                             </div>
                         </div>
                     </div>
@@ -149,8 +152,8 @@
                             </div>
                         </div>
                         <input ref="fileInput" type="file" multiple
-                            accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png"
-                            class="hidden" @change="onFilesSelected" />
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
+                            @change="onFilesSelected" />
                         <div class="flex items-stretch gap-2">
                             <Tooltip :text="$t('ownChatGpt.attachFile')" position="top">
                                 <button type="button"
@@ -161,8 +164,7 @@
                             </Tooltip>
                             <textarea rows="1"
                                 class="flex-1 h-10 px-4 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-10"
-                                :placeholder="$t('ownChatGpt.placeholder')"
-                                v-model="state.input"
+                                :placeholder="$t('ownChatGpt.placeholder')" v-model="state.input"
                                 @keydown.enter.exact.prevent="send" />
                             <button type="button"
                                 class="w-10 h-10 rounded-lg bg-secondary hover:bg-secondary-600 flex items-center justify-center transition-colors flex-shrink-0 disabled:opacity-50"
@@ -175,14 +177,11 @@
                 </div>
             </div>
 
-            <ModulesUserOwnChatgptModalSettings
-                :isModalOpen="state.isSettingsOpen"
+            <ModulesUserOwnChatgptModalSettings :isModalOpen="state.isSettingsOpen"
                 @close="state.isSettingsOpen = false" />
 
-            <DialogConfirmation
-                :isModalOpen="state.isConfirmClearOpen"
-                :message="$t('ownChatGpt.clearChatConfirmation')"
-                @close="state.isConfirmClearOpen = false"
+            <DialogConfirmation :isModalOpen="state.isConfirmClearOpen"
+                :message="$t('ownChatGpt.clearChatConfirmation')" @close="state.isConfirmClearOpen = false"
                 @confirm="clearChat" />
 
         </NuxtLayout>

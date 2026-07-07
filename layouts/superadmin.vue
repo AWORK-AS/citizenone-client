@@ -339,6 +339,7 @@ const groupedNav = {
         // { name: 'Licenses', label: 'superadmin.sidebar.licenses', href: '/superadmin/licenses', icon: 'ph:key', routes: ['superadmin-licenses'] },
         // { name: 'Products', label: 'superadmin.sidebar.products', href: '/superadmin/products', icon: 'ph:storefront', routes: ['superadmin-products'] },
         { name: 'Apps', label: 'superadmin.sidebar.apps', href: '/superadmin/apps', icon: 'ic:baseline-apps', routes: ['superadmin-apps', 'superadmin-apps-new', 'superadmin-apps-appUuid-edit'] },
+        { name: 'App categories', label: 'superadmin.sidebar.appCategories', href: '/superadmin/app-categories', icon: 'ic:baseline-category', routes: ['superadmin-app-categories'] },
         // { name: 'ClientRoles', label: 'superadmin.sidebar.clientRoles', href: '/superadmin/client-roles', icon: 'ph:shield-check', routes: ['superadmin-client-roles'] },
         { name: 'Sales Campaign', label: 'superadmin.sidebar.salesCampaign', href: '/superadmin/sales-campaign', icon: 'ph:megaphone-simple', routes: ['superadmin-sales-campaign', 'superadmin-sales-campaign-new', 'superadmin-sales-campaign-edit-uuid'] },
         // { name: 'Cancellations', label: 'superadmin.sidebar.cancellations', href: '/superadmin/compliance/cancellations', icon: 'ph:x-circle', routes: ['superadmin-compliance-cancellations'] },

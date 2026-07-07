@@ -118,6 +118,7 @@ async function updateApp(formData: any) {
     state.isPageLoading = true
     try {
         const params = new FormData()
+        if (formData.category_id) params.append('category_id', String(formData.category_id))
         params.append('description', formData.description ?? '')
         params.append('is_active', formData.is_active ? '1' : '0')
         params.append('is_news', formData.is_news ? '1' : '0')
@@ -129,6 +130,10 @@ async function updateApp(formData: any) {
         params.append('monthly_price', String(formData.monthly_price ?? 0))
         params.append('name', formData.name)
         params.append('price', String(formData.price ?? 0))
+        params.append('setup_fee', String(formData.setup_fee ?? 0))
+        params.append('sort_order', String(formData.sort_order ?? 0))
+        if (formData.discount_percent) params.append('discount_percent', String(formData.discount_percent))
+        if (formData.discount_ends_at) params.append('discount_ends_at', String(formData.discount_ends_at))
         params.append('type', formData.type ?? '')
         params.append('url_field', formData.url_field ?? '')
         params.append('yearly_price', String(formData.yearly_price ?? 0))

@@ -34,7 +34,7 @@
                                         <div class="text-xs font-medium text-gray-400 mb-1">{{ $t('assistants.askAI') }}
                                         </div>
                                         <div class="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap"
-                                            v-html="formatMessage(message?.text)" />
+                                            v-safe-html="formatMessage(message?.text)" />
                                     </div>
                                 </div>
                             </div>
