@@ -7144,7 +7144,15 @@
         "welcomeDescription": "Velg en samtale fra sidebjælken, eller opprett en ny for at komme i gang.",
         "welcomeToChat": "Velkommen til chat",
         "yesterday": "I går",
-        "you": "Dig"
+        "you": "Dig",
+        "recipients": "Mottakere",
+        "recipientsHint": "Velg hvem du vil skrive til, og skriv meldingen.",
+        "selectRecipients": "Søk kolleger...",
+        "subjectOptional": "Emne (valgfritt)",
+        "subjectPlaceholder": "Hva handler det om?",
+        "messagePlaceholder": "Skriv meldingen din...",
+        "sendHint": "⌘ + Enter for å sende",
+        "emoji": "Emoji"
     },
     "months": {
         "april": "April",

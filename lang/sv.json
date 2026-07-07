@@ -7144,7 +7144,15 @@
         "welcomeDescription": "Välj en samtal från sidebjälken, eller skapa en ny för att komme pågår.",
         "welcomeToChat": "Välkommen till chatt",
         "yesterday": "Igår",
-        "you": "Dig"
+        "you": "Dig",
+        "recipients": "Mottagare",
+        "recipientsHint": "Välj vem du vill skriva till och skriv ditt meddelande.",
+        "selectRecipients": "Sök kollegor...",
+        "subjectOptional": "Ämne (valfritt)",
+        "subjectPlaceholder": "Vad handlar det om?",
+        "messagePlaceholder": "Skriv ditt meddelande...",
+        "sendHint": "⌘ + Enter för att skicka",
+        "emoji": "Emoji"
     },
     "months": {
         "april": "April",

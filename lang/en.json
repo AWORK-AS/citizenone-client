@@ -7144,7 +7144,15 @@
         "welcomeDescription": "Select a conversation from the sidebar or create a new one to get started.",
         "welcomeToChat": "Welcome to Chat",
         "yesterday": "Yesterday",
-        "you": "You"
+        "you": "You",
+        "recipients": "Recipients",
+        "recipientsHint": "Choose who to message and write your note.",
+        "selectRecipients": "Search colleagues...",
+        "subjectOptional": "Subject (optional)",
+        "subjectPlaceholder": "What's it about?",
+        "messagePlaceholder": "Write your message...",
+        "sendHint": "⌘ + Enter to send",
+        "emoji": "Emoji"
     },
     "months": {
         "april": "April",
