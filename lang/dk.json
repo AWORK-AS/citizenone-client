@@ -2178,7 +2178,19 @@
                 "noPeriodsAdded": "Ingen perioder tilføjet - medicinen følger hyppighedsindstillingen hele vejen",
                 "extraIndividualDates": "Ekstra individuelle dage",
                 "extraIndividualDatesDesc": "Tilføj specifikke enkeltdage hvor borgeren skal have medicinen - selvom det ikke passer med den faste hyppighed. Klik på en dato i kalenderen for at tilføje den.",
-                "noExtraDaysSelected": "Ingen ekstra dage valgt"
+                "noExtraDaysSelected": "Ingen ekstra dage valgt",
+                "weeklyRotation": {
+                    "label": "Ugentlig rotation",
+                    "startWeekday": "Skema starter på",
+                    "weekTemplates": "Ugeskabeloner",
+                    "weekTemplatesDesc": "Definer hvilke dage medicinen gives hver uge. Uger roterer i rækkefølge (A → B → C → A ...).",
+                    "addWeek": "+ Tilføj uge",
+                    "weekLabel": "Uge",
+                    "noDaysSelected": "Ingen dage valgt — denne uge er en hvileuge",
+                    "repeatMode": "Gentag",
+                    "repeatIndefinitely": "Ubestemt tid",
+                    "repeatUntilDate": "Indtil dato"
+                }
             },
             "history": {
                 "alert": {
@@ -2422,7 +2434,11 @@
                 "to": "til",
                 "extraIndividualDates": "Ekstra individuelle dage",
                 "expired": "Udløbet",
-                "expiredTooltip": "Denne medicin er udløbet"
+                "expiredTooltip": "Denne medicin er udløbet",
+                "weeklyRotation": "Ugentligt rotationsskema",
+                "startWeekday": "Starter på",
+                "repeatsUntil": "Gentages til",
+                "indefinitely": "Ubestemt tid"
             }
         },
         "newCitizen": "Ny borger",

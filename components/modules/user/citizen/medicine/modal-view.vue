@@ -122,6 +122,45 @@
                             </p>
                         </div>
 
+                        <!-- Weekly rotation schedule -->
+                        <div v-if="state.selectedMedicine?.schedule_frequency?.frequency === 'weekly_rotation' && state.selectedMedicine?.schedule_frequency?.week_templates?.length > 0"
+                            class="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-2">
+                            <p class="text-xs font-semibold text-primary flex items-center gap-1.5">
+                                <Icon name="ph:calendar-dots" class="size-4" />
+                                {{ $t('citizens.medicineJournals.viewModal.weeklyRotation') }}
+                            </p>
+                            <p class="text-xs text-gray-500">
+                                <span class="font-medium">
+                                    {{ $t('citizens.medicineJournals.viewModal.startWeekday') }}:
+                                </span>
+                                {{ $t(`recurring.days.${state.selectedMedicine.schedule_frequency.start_weekday}`) }}
+                            </p>
+                            <div class="space-y-2">
+                                <div v-for="(tpl, tIdx) in state.selectedMedicine.schedule_frequency.week_templates"
+                                    :key="tIdx" class="bg-white rounded-lg border border-gray-200 px-3 py-2">
+                                    <p class="text-xs font-semibold text-gray-700 mb-1">
+                                        {{
+                                            $t('citizens.medicineJournals.form.weeklyRotation.weekLabel') }} {{
+                                            String.fromCharCode(65 + tIdx)
+                                        }}
+                                    </p>
+                                    <p class="text-xs text-gray-600">
+                                        {{tpl.days.map((d: string) => $t(`recurring.days.${d}`)).join(', ') || '-'}}
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500">
+                                <span class="font-medium">
+                                    {{ $t('citizens.medicineJournals.viewModal.repeatsUntil') }}:
+                                </span>
+                                {{
+                                    state.selectedMedicine.schedule_frequency.recurring_until ?
+                                        formatDateToReadable(state.selectedMedicine.schedule_frequency.recurring_until) :
+                                        $t('citizens.medicineJournals.viewModal.indefinitely')
+                                }}
+                            </p>
+                        </div>
+
                         <!-- Treatment periods #545 -->
                         <div v-if="state.selectedMedicine?.treatment_periods?.length > 0"
                             class="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-2">
@@ -188,7 +227,8 @@
                             </span>
                             {{ state.selectedMedicine?.has_consent ? $t('yes') : $t('no') }}
                         </p>
-                        <p class="break-words" v-if="state.selectedMedicine?.has_consent && state.selectedMedicine?.prescribed_by">
+                        <p class="break-words"
+                            v-if="state.selectedMedicine?.has_consent && state.selectedMedicine?.prescribed_by">
                             <span class="font-semibold">
                                 {{ $t('citizens.medicineJournals.form.whoPrescribed') }}:
                             </span>

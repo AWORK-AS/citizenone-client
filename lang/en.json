@@ -2178,7 +2178,19 @@
                 "noPeriodsAdded": "No periods added - medicine follows the frequency setting throughout",
                 "extraIndividualDates": "Extra individual dates",
                 "extraIndividualDatesDesc": "Add specific individual dates when the citizen should receive the medicine - even if it doesn't align with the fixed frequency. Click on a date in the calendar to add it.",
-                "noExtraDaysSelected": "No extra days selected"
+                "noExtraDaysSelected": "No extra days selected",
+                "weeklyRotation": {
+                    "label": "Weekly rotation",
+                    "startWeekday": "Schedule starts on",
+                    "weekTemplates": "Week templates",
+                    "weekTemplatesDesc": "Define which days medication is given each week. Weeks rotate in sequence (A → B → C → A ...).",
+                    "addWeek": "+ Add week",
+                    "weekLabel": "Week",
+                    "noDaysSelected": "No days selected — this week will be a rest week",
+                    "repeatMode": "Repeat",
+                    "repeatIndefinitely": "Indefinitely",
+                    "repeatUntilDate": "Until date"
+                }
             },
             "history": {
                 "alert": {
@@ -2421,6 +2433,10 @@
                 "from": "From",
                 "to": "to",
                 "extraIndividualDates": "Extra individual dates",
+                "weeklyRotation": "Weekly rotation schedule",
+                "startWeekday": "Starts on",
+                "repeatsUntil": "Repeats until",
+                "indefinitely": "Indefinitely",
                 "expired": "Expired",
                 "expiredTooltip": "This medication has expired"
             }
