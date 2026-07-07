@@ -275,12 +275,12 @@
                                     {{ employee?.average_weekly_work_time?.average_weekly_hours }}
                                 </p>
                                 <p
-                                    :class="[parseFloat(String(employee?.log_data?.total_time_account_earned_hours || 0).replace(/\./g, '').replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
+                                    :class="[parseLocaleNumber(language.locale.value, employee?.log_data?.total_time_account_earned_hours) > 0 ? 'text-green-700' : 'text-red-700']">
                                     {{ $t('dutySchedules.monthView.earnedHours') }}:
                                     {{ employee?.log_data?.total_time_account_earned_hours }}
                                 </p>
                                 <p
-                                    :class="[parseFloat(String(employee?.extra_hours || 0).replace(/\./g, '').replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700']">
+                                    :class="[parseLocaleNumber(language.locale.value, employee?.extra_hours) > 0 ? 'text-green-700' : 'text-red-700']">
                                     {{ $t('dutySchedules.monthView.extraHours') }}:
                                     {{ employee?.extra_hours }}
                                 </p>
@@ -319,7 +319,7 @@
                                             </span>
 
                                             <template
-                                                v-if="parseFloat(String(employee?.holiday_hours?.compensation_yearly ?? '0').replace(/\./g, '').replace(',', '.')) > 0">
+                                                v-if="parseLocaleNumber(language.locale.value, employee?.holiday_hours?.compensation_yearly) > 0">
                                                 <span>
                                                     {{ $t('dutySchedules.holidayCompensation') }}
                                                 </span>
@@ -410,15 +410,13 @@
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
                                         {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + (parseFloat(String(t?.monthly_hours ||
-                                                t?.weekly_hours || '0').replace(/\./g, '').replace(',', '.')) ||
-                                                0), 0))
+                                            .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
+                                                t?.monthly_hours || t?.weekly_hours || '0'), 0))
                                         }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
                                         {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + (parseFloat(String(t?.yearly_hours ?? '0').replace(/\./g, '').replace(',', '.')) || 0),
-                                                0))
+                                            .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value, t?.yearly_hours ?? '0'), 0))
                                         }}
                                     </div>
                                 </div>
@@ -1004,7 +1002,7 @@ const filteredEmployeesForModal = computed(() => {
     )
 })
 
-const { formatNumber } = useNumberFormatter()
+const { formatNumber, parseLocaleNumber } = useNumberFormatter()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
 const year = computed(() => currentDate.value.format('YYYY'))
@@ -2037,6 +2035,16 @@ watch(() => state.progress.percentage, (newPercentage: any) => {
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     dutyScheduleStore.setCurrentPageNumber(1)
+    fetchDutySchedule()
+})
+
+// The API pre-formats hour figures (comma/period placement) according to the user's
+// language at request time, so cached data becomes mis-formatted after a language
+// switch — refetch so weekly_hours/yearly_hours/etc. match the new locale's format.
+watch(() => language.locale.value, () => {
+    // Clear synchronously so the old locale's cached numbers don't flash
+    // re-parsed under the new locale's rules while the refetch is in flight.
+    state.monthlySchedules = null
     fetchDutySchedule()
 })
 
