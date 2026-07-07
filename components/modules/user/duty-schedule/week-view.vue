@@ -1580,13 +1580,6 @@ watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) =>
     fetchDutySchedule()
 })
 
-watch(() => state.weeklySchedules, (newSchedules) => {
-    // Update the expanded records only if the number of records changes.
-    if (newSchedules && newSchedules.data.length !== expandedRecords.length) {
-        expandedRecords.splice(0, expandedRecords.length, ...newSchedules.data.map(() => true))
-    }
-})
-
 onMounted(async () => {
     teleportReady.value = true
     await fetchDutySchedule()
@@ -1748,6 +1741,9 @@ async function fetchDutySchedule() {
             state.weeklySchedules = response
             state.employeeHoursStats = {}
             state.employeeHoursStatsLoading = {}
+            if (response.data && response.data.length !== expandedRecords.length) {
+                expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
+            }
             response.data?.forEach((employee: any, index: number) => {
                 if (!expandedRecords[index]) fetchEmployeeHoursStats(employee)
             })
