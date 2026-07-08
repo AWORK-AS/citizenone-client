@@ -665,7 +665,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Mail') return t('sidebar.mail')
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
-    if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
+    if (item.name === 'Journal Notes') return term('journalNotes', t('sidebar.journalNotes'))
     if (item.name === 'Billing') return language.t('employment.billing.billing')
     if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     if (item.name === 'Management & Economy') return language.t('managementEconomy.title')
