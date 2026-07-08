@@ -3,7 +3,9 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.tabs.journals') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>
+                    {{ term('journals', $t('citizens.tabs.journals')) }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
 
             <template #breadcrumb>
@@ -21,7 +23,7 @@
                 </Breadcrumb>
             </template>
 
-            <template #header>{{ $t('citizens.tabs.journals') }}</template>
+            <template #header>{{ term('journals', $t('citizens.tabs.journals')) }}</template>
 
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
@@ -68,7 +70,7 @@
                         <div>
                             <div class="flex flex-col md:flex-row md:items-center gap-2">
                                 <FormTextField id="filter_journal" name="filter_journal"
-                                    :placeholder="$t('citizens.citizenJournals.filter.searchJournal')"
+                                    :placeholder="`${$t('search')} ${term('journal', $t('citizens.citizenJournals.filter.searchJournal'))}`"
                                     v-model="state.filter.journal" class="flex-1" @blur="filterJournal"
                                     @keyup.enter="filterJournal" />
                                 <FormDateRangeField id="date_range" name="date_range"
@@ -369,6 +371,7 @@ import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { usePermissions } from '@/composables/usePermissions'
+import { useTerminology } from '@/composables/useTerminology'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
@@ -377,18 +380,19 @@ const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const { term } = useTerminology()
 const router = useRouter()
 const citizenJournalStore = useCitizenJournalStore()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
 
-const breadcrumbLinks = [
+const breadcrumbLinks = computed(() => [
     {
-        name: 'citizens.tabs.journals',
-        translate: true,
+        name: term('journals', t('citizens.tabs.journals')),
+        translate: false,
         href: `/citizens/${citizenUuid}/journals`,
     },
-]
+])
 
 const state = reactive({
     dataFilter: [] as any,
