@@ -5,12 +5,14 @@
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
+import { useTerminology } from '@/composables/useTerminology'
 import { useI18n } from "vue-i18n"
 
 const route = useRoute()
 const citizenUuid = route?.params?.uuid
 const userStore = useUserStore()
 const { t } = useI18n()
+const { term } = useTerminology()
 const { errorAlert } = useAlert()
 
 const state = reactive({
@@ -29,7 +31,7 @@ watch(() => userStore.getUser, (newValue: any) => {
 
     if (can('Journals')) {
         tabs.push({
-            name: 'citizens.tabs.journals', icon: 'ph:notebook', isTranslateName: true,
+            name: term('journals', t('citizens.tabs.journals')), icon: 'ph:notebook', isTranslateName: false,
             category: 'documentation', primary: true,
             href: `/citizens/${citizenUuid}/journals`,
             routeNames: ['citizens-uuid-journals'],

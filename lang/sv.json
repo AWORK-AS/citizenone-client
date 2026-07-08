@@ -4482,8 +4482,10 @@
                 "companies": "Företag",
                 "company": "Företag",
                 "createFirstClient": "Skapa din första klient",
+                "export": "Exportera",
                 "import": "Importera",
                 "noCompaniesFound": "Inga företag hittades",
+                "payingClientsOnly": "Endast betalande kunder",
                 "searchPlaceholder": "Sök på namn, e-post eller domän...",
                 "showing": "Visar {from}–{to} av {total}",
                 "sort": {

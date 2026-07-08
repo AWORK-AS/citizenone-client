@@ -4482,8 +4482,10 @@
                 "companies": "Virksomheter",
                 "company": "Virksomhet",
                 "createFirstClient": "Opprett din første klient",
+                "export": "Eksporter",
                 "import": "Importer",
                 "noCompaniesFound": "Ingen virksomheter funnet",
+                "payingClientsOnly": "Kun betalende kunder",
                 "searchPlaceholder": "Søk på navn, e-post eller domene...",
                 "showing": "Viser {from}–{to} av {total}",
                 "sort": {

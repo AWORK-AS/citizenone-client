@@ -1117,9 +1117,10 @@
                                                             </div>
                                                         </Tooltip>
                                                         <button
-                                                            class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2"
+                                                            class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                             style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
-                                                            @click="removeShiftConfirmation(shift)"
+                                                            draggable="false" @pointerdown.stop
+                                                            @click.stop="removeShiftConfirmation(shift)"
                                                             v-if="hasDeletePermission || isAtLeast('Admin')">
                                                             <Tooltip position="left"
                                                                 :text="$t('dutySchedules.removeSchedule.removeSchedule')">
@@ -2560,6 +2561,7 @@ function isNonWorkedHolidayCell(week: any): boolean {
     if (!holidaysEnabled.value || !week?.date) return false
     if (!getHolidayNameByDate(week.date)) return false
     if (moment(week.date).day() === 0) return false // Sundays excluded (matches backend)
+    if (week.shifts && week.shifts.length > 0) return false // shift present → not a free holiday
     return true
 }
 

@@ -269,9 +269,11 @@
                                         employee?.annual_norm_hours ?? 0) }}
                                 </p>
                                 <p>
-                                    {{ $t('dutySchedules.weeklyNormHours') }}: {{
+                                    {{
+                                        $t('dutySchedules.weeklyNormHours') }}: {{
                                         (Math.round(Number(employee?.annual_norm_hours) / 52)) ??
-                                        0 }}
+                                        0
+                                    }}
                                 </p>
                                 <p>
                                     {{ $t('dutySchedules.totalHours') }}: {{ employee?.total_hours ?? 0 }}
@@ -398,19 +400,23 @@
                                         </span>
                                     </div>
                                     <div class="col-span-2 text-right pr-2 text-gray-500">
-                                        {{state.filter.time_from && state.filter.time_to
-                                            ? (employee?.hours?.find((t: any) => t?.shift?.system_name ===
-                                                'time-filter')?.monthly_hours
-                                                || employee?.hours?.find((t: any) => t?.shift?.system_name ===
-                                                    'time-filter')?.weekly_hours
-                                                || '--')
-                                            : '--'}}
+                                        {{
+                                            state.filter.time_from && state.filter.time_to
+                                                ? (employee?.hours?.find((t: any) => t?.shift?.system_name ===
+                                                    'time-filter')?.monthly_hours
+                                                    || employee?.hours?.find((t: any) => t?.shift?.system_name ===
+                                                        'time-filter')?.weekly_hours
+                                                    || '--')
+                                                : '--'
+                                        }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 text-gray-500 border-l border-gray-100">
-                                        {{state.filter.time_from && state.filter.time_to
-                                            ? employee?.hours?.find((t: any) => t?.shift?.system_name ===
-                                                'time-filter')?.yearly_hours ?? '--'
-                                            : '--'}}
+                                        {{
+                                            state.filter.time_from && state.filter.time_to
+                                                ? employee?.hours?.find((t: any) => t?.shift?.system_name ===
+                                                    'time-filter')?.yearly_hours ?? '--'
+                                                : '--'
+                                        }}
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
@@ -418,14 +424,21 @@
                                         {{ $t('dutySchedules.total') }}:
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
-                                                t?.monthly_hours || t?.weekly_hours || '0'), 0))
+                                        {{
+                                            formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
+                                                t?.shift?.system_name !==
+                                                'time-filter')
+                                                .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
+                                                    t?.monthly_hours || t?.weekly_hours || '0'), 0))
                                         }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value, t?.yearly_hours ?? '0'), 0))
+                                        {{
+                                            formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
+                                                t?.shift?.system_name !==
+                                                'time-filter')
+                                                .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
+                                                    t?.yearly_hours ?? '0'), 0))
                                         }}
                                     </div>
                                 </div>
@@ -710,7 +723,7 @@
                                                 <div v-if="hasDeletePermission || isAtLeast('Admin') || isWorkedHolidayShift(shift)"
                                                     class="h-2" />
                                                 <button
-                                                    class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2"
+                                                    class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                     style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
                                                     @click.stop="removeShiftConfirmation(shift)"
                                                     v-if="hasDeletePermission || isAtLeast('Admin')">
@@ -869,10 +882,12 @@
                                                         class="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5"
                                                         aria-hidden="true" />
                                                     <div class="leading-tight">
-                                                        <p class="text-xxs font-semibold text-amber-800">{{
-                                                            $t('dutySchedules.holidayFreeBadge') }}</p>
-                                                        <p class="text-xxs text-amber-700">{{
-                                                            $t('dutySchedules.holidayNonWorkedAssigned') }}</p>
+                                                        <p class="text-xxs font-semibold text-amber-800">
+                                                            {{ $t('dutySchedules.holidayFreeBadge') }}
+                                                        </p>
+                                                        <p class="text-xxs text-amber-700">
+                                                            {{ $t('dutySchedules.holidayNonWorkedAssigned') }}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </Tooltip>
@@ -1286,8 +1301,10 @@ function isNonWorkedHolidayCell(day: any, employeeIndex: number) {
     if (!getHoliday(day)) return false
     if (moment(day).day() === 0) return false // Sundays excluded (matches backend)
     const dateKey = moment(day).format('YYYY-MM-DD')
-    const shifts = state.monthlySchedules?.data?.[employeeIndex]?.days?.[dateKey]?.shifts
-    return !(shifts && shifts.length > 0)
+    const anyShift = (state.monthlySchedules?.data ?? []).some(
+        (emp: any) => emp?.days?.[dateKey]?.shifts?.length > 0
+    )
+    return !anyShift
 }
 
 // ============================================================

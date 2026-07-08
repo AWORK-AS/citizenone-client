@@ -37,6 +37,10 @@ class CompanyService extends BaseAPIService {
         return await this.request(`/superadmin/imports/download/template`, 'GET')
     }
 
+    async downloadCompanies(params: object): Promise<any> {
+        return await this.request(`/superadmin/companies/download/report`, 'GET', params)
+    }
+
     // Impersonate: log in as this company's admin account
     async impersonateCompany(companyUuid: any): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/impersonate`, 'POST')

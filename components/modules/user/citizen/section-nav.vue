@@ -6,7 +6,7 @@
                 @change="changeTab(($event.target as HTMLSelectElement).value)">
                 <optgroup v-for="group in mobileGroups" :key="group.key" :label="$t(group.label)">
                     <option v-for="tab in group.tabs" :key="tab.name" :value="tab.href" :selected="isActive(tab)">
-                        {{ $t(tab.name) }}
+                        {{ tabLabel(tab) }}
                     </option>
                 </optgroup>
             </select>
@@ -24,7 +24,7 @@
                         'inline-flex items-center gap-1.5 px-4 py-4 border-b-2 font-medium text-sm cursor-pointer whitespace-nowrap'
                     ]" @click="navigate(tab.href)">
                         <Icon v-if="tab.icon" :name="tab.icon" class="size-4 shrink-0" aria-hidden="true" />
-                        {{ $t(tab.name) }}
+                        {{ tabLabel(tab) }}
                     </a>
 
                     <Menu v-if="hasOverflow" as="div" class="relative">
@@ -56,7 +56,7 @@
                                     ]">
                                         <Icon v-if="tab.icon" :name="tab.icon" class="size-4 shrink-0"
                                             aria-hidden="true" />
-                                        {{ $t(tab.name) }}
+                                        {{ tabLabel(tab) }}
                                     </a>
                                     </MenuItem>
                                 </div>
@@ -71,6 +71,7 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { useI18n } from 'vue-i18n'
 
 // Renders a citizen section navigation: `primary` sections show as inline tabs,
 // the rest collapse into a categorised "More" dropdown. Tabs are provided by the
@@ -89,6 +90,13 @@ const props = defineProps<{
 }>()
 
 const route = useRoute()
+const { t } = useI18n()
+
+// Most tabs carry an i18n key, but a tab may pass isTranslateName: false with
+// an already-resolved label (e.g. a company's custom terminology override).
+function tabLabel(tab: { name: string; isTranslateName?: boolean }): string {
+    return tab.isTranslateName === false ? tab.name : t(tab.name)
+}
 
 const CATEGORY_LABELS: Record<string, string> = {
     care: 'citizens.tabs.categories.care',
