@@ -276,7 +276,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
-                                                :text="journal?.is_locked ? $t('citizens.citizenJournals.actions.unlock') : $t('citizens.citizenJournals.actions.lock')">
+                                                :text="journal?.is_locked ? `Unlock ${term('journal', 'Journal')}` : `Lock ${term('journal', 'Journal')}`">
                                                 <FormButton buttonSize="xs" :class="[
                                                     journal?.is_locked && 'border-secondary bg-secondary text-white',
                                                     'w-full md:w-fit']" @click="lockUnlockJournal(journal.uuid)">
@@ -285,7 +285,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
-                                                :text="journal?.is_pinned ? $t('citizens.citizenJournals.actions.unpin') : $t('citizens.citizenJournals.actions.pin')">
+                                                :text="journal?.is_pinned ? `Unpin ${term('journal', 'Journal')}` : `Pin ${term('journal', 'Journal')}`">
                                                 <FormButton buttonSize="xs" :class="[
                                                     journal?.is_pinned && 'border-primary bg-primary text-white',
                                                     'w-full md:w-fit']" @click="pinUnpinJournal(journal.uuid)">
@@ -294,7 +294,7 @@
                                                     <Icon name="ph:push-pin" class="size-4" v-else />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.journalLogs')">
+                                            <Tooltip :text="`${term('journal', 'Journal')} logs`">
                                                 <FormButton buttonStyle="primary" buttonSize="xs"
                                                     @click="viewJournalLogs(journal)">
                                                     <Icon name="ph:clock-clockwise" class="size-4" />
