@@ -203,9 +203,9 @@ const state = reactive({
 
 const tabs = computed(() => [
     { key: 'all', label: t('superadmin.companies.tabs.all'), count: state.allCount },
+    { key: 'paying', label: t('superadmin.companies.tabs.paying'), count: state.payingCount },
     { key: 'active', label: t('superadmin.companies.tabs.active'), count: state.activeCount },
     { key: 'inactive', label: t('superadmin.companies.tabs.inactive'), count: state.inactiveCount },
-    { key: 'paying', label: t('superadmin.companies.tabs.paying'), count: state.payingCount },
 ])
 
 // Avatar colours based on name
