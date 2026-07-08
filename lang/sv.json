@@ -2178,7 +2178,19 @@
                 "noPeriodsAdded": "Inga perioder tillagd - medicinen fölger hyppighedsindstillingen hele vejen",
                 "extraIndividualDates": "Extra individuelle dagar",
                 "extraIndividualDatesDesc": "Lägg till specifika enkeltdage var klienten ska have medicinen - selvom det inte passer med den fasta hyppighed. Klicka på en datum i kalendern för att lägga till den.",
-                "noExtraDaysSelected": "Inga extra dagar vald"
+                "noExtraDaysSelected": "Inga extra dagar vald",
+                "weeklyRotation": {
+                    "label": "Veckorotation",
+                    "startWeekday": "Schema börjar på",
+                    "weekTemplates": "Veckmallar",
+                    "weekTemplatesDesc": "Definiera vilka dagar medicinen ges varje vecka. Veckor roterar i ordning (A → B → C → A ...).",
+                    "addWeek": "+ Lägg till vecka",
+                    "weekLabel": "Vecka",
+                    "noDaysSelected": "Inga dagar valda — denna vecka är en vilovecka",
+                    "repeatMode": "Upprepa",
+                    "repeatIndefinitely": "På obestämd tid",
+                    "repeatUntilDate": "Till datum"
+                }
             },
             "history": {
                 "alert": {
@@ -2422,7 +2434,11 @@
                 "to": "till",
                 "extraIndividualDates": "Extra individuelle dagar",
                 "expired": "Utgången",
-                "expiredTooltip": "Detta läkemedel har gått ut"
+                "expiredTooltip": "Detta läkemedel har gått ut",
+                "weeklyRotation": "Veckorotationsschema",
+                "startWeekday": "Börjar på",
+                "repeatsUntil": "Upprepas till",
+                "indefinitely": "På obestämd tid"
             }
         },
         "newCitizen": "Ny klient",
