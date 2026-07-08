@@ -153,6 +153,9 @@
                             <p class="text-xs text-gray-500 mt-1" v-if="myCalendarEvent?.employee">
                                 {{ myCalendarEvent?.employee }}
                             </p>
+                            <p class="text-xs text-gray-500" v-if="myCalendarEvent?.citizens?.length">
+                                {{ myCalendarEvent.citizens.map((c) => c.name).join(', ') }}
+                            </p>
                             <dl class="text-gray-500">
                                 <div class="flex items-center space-x-3 text-xs">
                                     <dt class="flex items-center">

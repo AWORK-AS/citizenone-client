@@ -168,6 +168,9 @@
                                             <p class="text-xxs text-gray-600" v-if="myCalendarEvent?.employee">
                                                 {{ myCalendarEvent?.employee }}
                                             </p>
+                                            <p class="text-xxs text-gray-600 truncate" v-if="myCalendarEvent?.citizens?.length">
+                                                {{ myCalendarEvent.citizens.map((c) => c.name).join(', ') }}
+                                            </p>
                                         </div>
                                         <div v-else
                                             class="relative bg-gray-200 p-2 rounded-md cursor-pointer" :class="[
@@ -361,6 +364,9 @@
                             </span>
                         </div>
                         <p class="text-xs text-gray-500 mt-1" v-if="event?.employee">{{ event?.employee }}</p>
+                        <p class="text-xs text-gray-500" v-if="event?.citizens?.length">
+                            {{ event.citizens.map((c) => c.name).join(', ') }}
+                        </p>
                         <dl class="text-gray-500">
                             <div class="flex items-center space-x-3 text-xs">
                                 <dt class="flex items-center">
