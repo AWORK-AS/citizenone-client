@@ -177,7 +177,8 @@ const state = reactive({
     companies: [] as any,
     dataFilter: {
         search: '',
-        status: ''
+        status: '',
+        paying: ''
     } as any,
     error: {} as Error,
     inactiveCount: 0,
@@ -201,10 +202,12 @@ const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 
 onMounted(() => {
-    // Pick up ?paying= from URL
+    // Pick up ?paying= from URL. "Paying" means the company has at least one invoice,
+    // the same definition as the dashboard "Betalende" count, so the box and this list
+    // show the same population. Pass it straight to the API filter rather than
+    // translating it into a status tab (which showed active companies, not paying ones).
     const paying = router.currentRoute.value.query?.paying
-    if (paying === 'true') { state.activeTab = 'active'; state.dataFilter.status = 'active' }
-    if (paying === 'false') { state.activeTab = 'inactive'; state.dataFilter.status = 'inactive' }
+    if (paying === 'true' || paying === 'false') state.dataFilter.paying = paying
     fetchCompanies()
 })
 
@@ -220,6 +223,7 @@ async function fetchCompanies() {
         if (state.dataFilter.search) params.search = state.dataFilter.search
         if (state.activeTab === 'active') params.is_active = true
         if (state.activeTab === 'inactive') params.is_active = false
+        if (state.dataFilter.paying) params.paying = state.dataFilter.paying
 
         const response = await companyService.getCompanies(params)
         if (response) {
