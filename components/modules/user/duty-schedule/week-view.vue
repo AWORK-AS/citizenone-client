@@ -493,7 +493,7 @@
                                                             }}
                                                         </p>
                                                         <p :class="[
-                                                            parseFloat(empStats(employee)?.log_data?.total_time_account_earned_hours?.replace(/\./g, '')?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                            parseLocaleNumber(language.locale.value, empStats(employee)?.log_data?.total_time_account_earned_hours) > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.earnedWorkHours') }}:
@@ -502,7 +502,7 @@
                                                             }}
                                                         </p>
                                                         <p :class="[
-                                                            parseFloat(empStats(employee)?.extra_hours?.replace(/\./g, '')?.replace(',', '.')) > 0 ? 'text-green-700' : 'text-red-700',
+                                                            parseLocaleNumber(language.locale.value, empStats(employee)?.extra_hours) > 0 ? 'text-green-700' : 'text-red-700',
                                                             'text-xxs'
                                                         ]">
                                                             {{ $t('dutySchedules.extraHours.extraHours') }}:
@@ -552,22 +552,15 @@
                                                                     </span>
 
                                                                     <template
-                                                                        v-if="parseFloat(String(empStats(employee)?.holiday_hours?.compensation_yearly ?? '0').replace(/\./g, '').replace(',', '.')) > 0">
-                                                                        <span>
-                                                                            {{
-                                                                                $t('dutySchedules.holidayCompensation')
-                                                                            }}
-                                                                        </span>
-                                                                        <span class="text-right tabular-nums">
-                                                                            {{
-                                                                                empStats(employee)?.holiday_hours?.compensation_weekly
-                                                                            }}
-                                                                        </span>
-                                                                        <span class="text-right tabular-nums">
-                                                                            {{
-                                                                                empStats(employee)?.holiday_hours?.compensation_yearly
-                                                                            }}
-                                                                        </span>
+                                                                        v-if="parseLocaleNumber(language.locale.value, empStats(employee)?.holiday_hours?.compensation_yearly) > 0">
+                                                                        <span>{{ $t('dutySchedules.holidayCompensation')
+                                                                            }}</span>
+                                                                        <span class="text-right tabular-nums">{{
+                                                                            empStats(employee)?.holiday_hours?.compensation_weekly
+                                                                            }}</span>
+                                                                        <span class="text-right tabular-nums">{{
+                                                                            empStats(employee)?.holiday_hours?.compensation_yearly
+                                                                            }}</span>
                                                                     </template>
 
                                                                     <span>
@@ -1342,7 +1335,7 @@ const { isAtLeast, can } = usePermissions()
 // Holiday markers only show for companies that opted in to holiday hours.
 const holidaysEnabled = computed(() => !!userStore.getUser?.company?.holiday_non_sunday_hours_enabled)
 const departmentStore = useDepartmentStore()
-const { formatNumber } = useNumberFormatter()
+const { formatNumber, parseLocaleNumber } = useNumberFormatter()
 const { errorAlert } = useAlert()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
@@ -1565,6 +1558,17 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
         dutyScheduleStore.setCurrentPageNumber(1)
         fetchDutySchedule()
     }
+})
+
+// The API pre-formats hour figures (comma/period placement) according to the user's
+// language at request time, so cached data becomes mis-formatted after a language
+// switch — refetch so weekly_hours/yearly_hours/etc. match the new locale's format.
+watch(() => language.locale.value, () => {
+    // Clear synchronously so the old locale's cached numbers don't flash
+    // re-parsed under the new locale's rules while the refetch is in flight.
+    state.employeeHoursStats = {}
+    state.employeeHoursStatsLoading = {}
+    fetchDutySchedule()
 })
 
 watch(() => state.selectedDate, (newSelectedDate: any) => {
@@ -1887,11 +1891,10 @@ function empStats(employee: any) {
 // Worked holiday hours (e.g. 9h × 1.5 = 13.5) are already in the shift-type rows;
 // the Holidays box just mirrors them, so adding them again would double-count.
 function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): number {
-    const toNum = (v: any) => parseFloat(String(v ?? '0').replace(/\./g, '').replace(',', '.')) || 0
     const stats = empStats(employee)
     let sum = (stats?.hours ?? [])
         .filter((t: any) => t?.shift?.system_name !== 'time-filter')
-        .reduce((s: number, t: any) => s + toNum(t?.[key]), 0)
+        .reduce((s: number, t: any) => s + parseLocaleNumber(language.locale.value, t?.[key]), 0)
     return sum
 }
 
