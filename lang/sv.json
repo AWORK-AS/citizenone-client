@@ -1350,17 +1350,17 @@
                 "unpin": "Ta bort fästning"
             },
             "alert": {
-                "addedToFavorites": "Journal tillagd till favoriter",
+                "addedToFavorites": "{journal} tillagd till favoriter",
                 "deletedSuccessfully": "Journal raderad",
-                "lockJournal": "Journal låst",
-                "pinJournal": "Journal fäst",
-                "removedToFavorites": "Journal borttagen från favoriter",
+                "lockJournal": "{journal} låst",
+                "pinJournal": "{journal} fäst",
+                "removedToFavorites": "{journal} borttagen från favoriter",
                 "successfullyAdded": "Ny journal sparad",
-                "successfullyCopied": "Journalen har kopierats",
-                "successfullyMoved": "Journalen har flyttats",
+                "successfullyCopied": "{journal} har kopierats",
+                "successfullyMoved": "{journal} har flyttats",
                 "successfullyUpdated": "Journal uppdaterad",
-                "unlockJournal": "Journal låst upp",
-                "unpinJournal": "Fästning borttagen"
+                "unlockJournal": "{journal} låst upp",
+                "unpinJournal": "{journal} fästning borttagen"
             },
             "confirmation": {
                 "copyConfirmation": "Är du säker på att du vill kopiere denna journal till den valda klient",
@@ -1489,7 +1489,7 @@
                     "confirmPassword": "Bekräfta lösenord",
                     "password": "Lösenord",
                     "unlock": "Lås upp",
-                    "unlockJournal": "Lås upp för journal"
+                    "unlockJournal": "{journal} låst upp"
                 },
                 "shareJournals": "Dela journaler",
                 "sharedJournals": "Delade journaler",
@@ -3305,6 +3305,7 @@
     "customPages": {
         "customPages": "Ordliste",
         "editCustomPage": "Redigera brugerdefineret sida",
+        "wordListSuccessfullySaved": "Ordlistan sparades",
         "form": {
             "alert": {
                 "customPageSuccessfullyUpdated": "Brugerdefineret sida har uppdaterats"

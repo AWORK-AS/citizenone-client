@@ -269,7 +269,7 @@
                                             <Tooltip
                                                 :text="journal?.is_favorite ? $t('citizens.citizenJournals.actions.removeFromFavorite') : $t('citizens.citizenJournals.actions.addToFavorite')">
                                                 <FormButton buttonSize="xs" :class="[
-                                                    journal?.is_favorite && 'border-secondary bg-secondary text-white',
+                                                    journal?.is_favorite && 'border-primary bg-primary text-white',
                                                     'w-full md:w-fit']"
                                                     @click="addRemoveJournalToFavorite(journal.uuid)">
                                                     <Icon name="ph:star" class="size-4" />
@@ -278,7 +278,7 @@
                                             <Tooltip
                                                 :text="journal?.is_locked ? `Unlock ${term('journal', 'Journal')}` : `Lock ${term('journal', 'Journal')}`">
                                                 <FormButton buttonSize="xs" :class="[
-                                                    journal?.is_locked && 'border-secondary bg-secondary text-white',
+                                                    journal?.is_locked && 'border-primary bg-primary text-white',
                                                     'w-full md:w-fit']" @click="lockUnlockJournal(journal.uuid)">
                                                     <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
                                                     <Icon name="ph:lock-open" class="size-4" v-else />
@@ -577,7 +577,7 @@ async function addRemoveJournalToFavorite(journalUuid: any) {
         const response = await journalService.updateJournalFavorite(journalUuid)
         if (response?.data) {
             fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_favorite ? `${t('citizens.citizenJournals.alert.addedToFavorites')}.` : `${t('citizens.citizenJournals.alert.removedToFavorites')}.`)
+            successAlert(`${t('alert.success')}!`, response?.data?.is_favorite ? t('citizens.citizenJournals.alert.addedToFavorites', { journal: term('journal', 'Journal') }) : t('citizens.citizenJournals.alert.removedToFavorites', { journal: term('journal', 'Journal') }))
         }
     } catch (error: any) {
         state.error = error
@@ -592,7 +592,7 @@ async function lockUnlockJournal(journalUuid: any) {
         const response = await journalService.updateJournalLock(journalUuid)
         if (response?.data) {
             fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_locked ? `${t('citizens.citizenJournals.alert.lockJournal')}.` : `${t('citizens.citizenJournals.alert.unlockJournal')}.`)
+            successAlert(`${t('alert.success')}!`, response?.data?.is_locked ? t('citizens.citizenJournals.alert.lockJournal', { journal: term('journal', 'Journal') }) : t('citizens.citizenJournals.alert.unlockJournal', { journal: term('journal', 'Journal') }))
         }
     } catch (error: any) {
         state.error = error
@@ -607,7 +607,7 @@ async function pinUnpinJournal(journalUuid: any) {
         const response = await journalService.updateJournalPin(journalUuid)
         if (response?.data) {
             fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_pinned ? `${t('citizens.citizenJournals.alert.pinJournal')}.` : `${t('citizens.citizenJournals.alert.unpinJournal')}.`)
+            successAlert(`${t('alert.success')}!`, response?.data?.is_pinned ? t('citizens.citizenJournals.alert.pinJournal', { journal: term('journal', 'Journal') }) : t('citizens.citizenJournals.alert.unpinJournal', { journal: term('journal', 'Journal') }))
         }
     } catch (error: any) {
         state.error = error

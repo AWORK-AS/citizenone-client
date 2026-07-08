@@ -1350,17 +1350,17 @@
                 "unpin": "Fjern fastgørelse"
             },
             "alert": {
-                "addedToFavorites": "Journal lagt til til favoritter vellykket",
+                "addedToFavorites": "{journal} lagt til i favoritter vellykket",
                 "deletedSuccessfully": "Journal slettet vellykket",
-                "lockJournal": "Journal låst vellykket",
-                "pinJournal": "Journal festet vellykket",
-                "removedToFavorites": "Journal fjernet fra favoritter vellykket",
+                "lockJournal": "{journal} låst vellykket",
+                "pinJournal": "{journal} festet vellykket",
+                "removedToFavorites": "{journal} fjernet fra favoritter vellykket",
                 "successfullyAdded": "Ny journal lagret vellykket",
-                "successfullyCopied": "Journalen ble kopieret vellykket",
-                "successfullyMoved": "Journalen ble flyttet vellykket",
+                "successfullyCopied": "{journal} kopiert vellykket",
+                "successfullyMoved": "{journal} flyttet vellykket",
                 "successfullyUpdated": "Journal oppdatert vellykket",
-                "unlockJournal": "Journal låst opp vellykket",
-                "unpinJournal": "Fastgørelse fjernet vellykket"
+                "unlockJournal": "{journal} låst opp vellykket",
+                "unpinJournal": "{journal} festet fjernet vellykket"
             },
             "confirmation": {
                 "copyConfirmation": "Er du sikker på at du vil kopiere denne journal til den valgte bruker",
@@ -1489,7 +1489,7 @@
                     "confirmPassword": "Bekreft passord",
                     "password": "Passord",
                     "unlock": "Lås opp",
-                    "unlockJournal": "Lås opp for journal"
+                    "unlockJournal": "{journal} låst opp vellykket"
                 },
                 "shareJournals": "Del journaler",
                 "sharedJournals": "Delte journaler",
@@ -3305,6 +3305,7 @@
     "customPages": {
         "customPages": "Ordliste",
         "editCustomPage": "Rediger brugerdefineret side",
+        "wordListSuccessfullySaved": "Ordlisten ble lagret",
         "form": {
             "alert": {
                 "customPageSuccessfullyUpdated": "Brugerdefineret side ble oppdatert vellykket"

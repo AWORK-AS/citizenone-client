@@ -21,7 +21,7 @@
                                                         {{ $t('citizens.citizenJournals.filter.standardView') }}
                                                     </span>
                                                     <span v-if="viewFilter.title === 'Journal note view'">
-                                                        {{ $t('citizens.citizenJournals.filter.journalNoteView') }}
+                                                        {{ term('journalNoteTag', $t('citizens.citizenJournals.filter.journalNoteView')) }}
                                                     </span>
                                                     <span v-if="viewFilter.title === 'Risk assessment view'">
                                                         {{ customPagesStore.getCustomPagesName?.riskAssessment }}
@@ -41,7 +41,7 @@
                         </fieldset>
                         <div class="space-y-1">
                             <p class="text-sm text-gray-600">
-                                {{ $t('journalNoteTags.journalNoteTags') }}
+                                {{ term('journalNoteTag', $t('journalNoteTags.journalNoteTags')) }}
                             </p>
                             <FormSelectMultiple id="tags" :options="state.options.tags" v-model="state.filter.tags" />
                         </div>
@@ -76,11 +76,13 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore() as any
 const citizenJournalStore = useCitizenJournalStore()
+const { term } = useTerminology()
 
 const props = defineProps({
     isModalOpen: {

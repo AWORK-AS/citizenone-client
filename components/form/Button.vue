@@ -25,7 +25,7 @@
             props.buttonStyle === 'app-white' && 'bg-white text-primary',
             props.buttonStyle === 'app-order-now' && 'bg-primary text-white',
             props.buttonStyle === 'app-activated' && 'bg-[#02c18e] text-white',
-            !props.buttonStyle && 'text-tertiary border border-tertiary hover:bg-tertiary hover:text-white',
+            !props.buttonStyle && 'text-tertiary border border-primary hover:bg-primary hover:text-white',
             props.buttonSize === 'sm' && 'p-3',
             props.buttonSize === 'xs' && 'p-2',
             !props.buttonSize && 'px-4 py-2.5',
