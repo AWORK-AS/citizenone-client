@@ -554,13 +554,13 @@
                                                                     <template
                                                                         v-if="parseLocaleNumber(language.locale.value, empStats(employee)?.holiday_hours?.compensation_yearly) > 0">
                                                                         <span>{{ $t('dutySchedules.holidayCompensation')
-                                                                            }}</span>
+                                                                        }}</span>
                                                                         <span class="text-right tabular-nums">{{
                                                                             empStats(employee)?.holiday_hours?.compensation_weekly
-                                                                            }}</span>
+                                                                        }}</span>
                                                                         <span class="text-right tabular-nums">{{
                                                                             empStats(employee)?.holiday_hours?.compensation_yearly
-                                                                            }}</span>
+                                                                        }}</span>
                                                                     </template>
 
                                                                     <span>
@@ -1117,9 +1117,10 @@
                                                             </div>
                                                         </Tooltip>
                                                         <button
-                                                            class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2"
+                                                            class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                             style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
-                                                            @click="removeShiftConfirmation(shift)"
+                                                            draggable="false" @pointerdown.stop
+                                                            @click.stop="removeShiftConfirmation(shift)"
                                                             v-if="hasDeletePermission || isAtLeast('Admin')">
                                                             <Tooltip position="left"
                                                                 :text="$t('dutySchedules.removeSchedule.removeSchedule')">

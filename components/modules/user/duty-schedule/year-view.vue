@@ -301,12 +301,15 @@
                                 <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
                                     <div class="col-span-3 pl-1 font-bold">{{ $t('dutySchedules.total') }}:</div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t: any) => sum +
-                                            parseLocaleNumber(language.locale.value, t?.monthly_hours || t?.weekly_hours || '0'), 0))
+                                        {{formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
+                                            any) => sum +
+                                            parseLocaleNumber(language.locale.value, t?.monthly_hours || t?.weekly_hours ||
+                                                '0'), 0))
                                         }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t: any) => sum +
+                                        {{formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
+                                            any) => sum +
                                             parseLocaleNumber(language.locale.value, t?.yearly_hours ?? '0'), 0))
                                         }}
                                     </div>
@@ -628,7 +631,7 @@
 
                                                     <!-- Delete button -->
                                                     <button
-                                                        class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2"
+                                                        class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                         style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
                                                         @click.stop="removeShiftConfirmation(shift)"
                                                         v-if="hasDeletePermission || isAdmin(userStore.getUser?.role)">

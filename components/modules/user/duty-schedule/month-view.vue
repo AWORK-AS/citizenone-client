@@ -418,14 +418,19 @@
                                         {{ $t('dutySchedules.total') }}:
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
+                                        {{formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
+                                            t?.shift?.system_name !==
+                                            'time-filter')
                                             .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
                                                 t?.monthly_hours || t?.weekly_hours || '0'), 0))
                                         }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{ formatNumber(language.locale.value, employee?.hours?.filter((t: any) => t?.shift?.system_name !== 'time-filter')
-                                            .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value, t?.yearly_hours ?? '0'), 0))
+                                        {{formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
+                                            t?.shift?.system_name !==
+                                            'time-filter')
+                                            .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
+                                        t?.yearly_hours ?? '0'), 0))
                                         }}
                                     </div>
                                 </div>
@@ -710,7 +715,7 @@
                                                 <div v-if="hasDeletePermission || isAtLeast('Admin') || isWorkedHolidayShift(shift)"
                                                     class="h-2" />
                                                 <button
-                                                    class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2"
+                                                    class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                     style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
                                                     @click.stop="removeShiftConfirmation(shift)"
                                                     v-if="hasDeletePermission || isAtLeast('Admin')">
