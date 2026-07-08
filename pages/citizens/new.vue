@@ -43,6 +43,7 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -50,6 +51,7 @@ const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
+const { parseLocaleNumber } = useNumberFormatter()
 const breadcrumbLinks = [
     {
         name: 'citizens.newCitizen',
@@ -204,14 +206,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('section', citizenDetails.section)
 
         if (citizenDetails.pricing) {
-            if (language.locale.value === 'en') {
-                // Remove thousand separators (','), already has '.' as decimal
-                pricingStr = pricingStr.replace(/,/g, '')
-            } else if (language.locale.value === 'dk') {
-                // Remove thousand separators ('.'), and replace decimal separator (',') with '.'
-                pricingStr = pricingStr.replace(/\./g, '').replace(',', '.')
-            }
-            const normalizedPricing = parseFloat(pricingStr) as any
+            const normalizedPricing = parseLocaleNumber(language.locale.value, pricingStr) as any
             params.append('pricing', normalizedPricing)
         }
 
