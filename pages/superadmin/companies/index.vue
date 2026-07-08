@@ -26,6 +26,11 @@
                         </p>
                     </div>
                     <div class="flex items-center gap-2">
+                        <button @click="exportCompanies" :disabled="state.isExporting"
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors disabled:opacity-50">
+                            <Icon name="ph:download-simple" class="w-4 h-4" />
+                            {{ $t('superadmin.companies.export') }}
+                        </button>
                         <button @click="state.modal.isImportCompanyOpen = true"
                             class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
                             <Icon name="ph:upload-simple" class="w-4 h-4" />
@@ -38,6 +43,16 @@
                             {{ $t('superadmin.companies.newCompany') }}
                         </button>
                     </div>
+                </div>
+
+                <div v-if="state.payingOnly" class="mb-4">
+                    <span
+                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-medium bg-[#EDF7EE] text-[#2E9E33]">
+                        {{ $t('superadmin.companies.payingClientsOnly') }}
+                        <button @click="clearPayingFilter" class="hover:opacity-70">
+                            <Icon name="ph:x" class="w-3 h-3" />
+                        </button>
+                    </span>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
@@ -150,6 +165,7 @@
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -177,12 +193,13 @@ const state = reactive({
     companies: [] as any,
     dataFilter: {
         search: '',
-        status: ''
     } as any,
     error: {} as Error,
     inactiveCount: 0,
     isTableLoading: false,
+    isExporting: false,
     modal: { isImportCompanyOpen: false },
+    payingOnly: false,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend'
@@ -201,12 +218,27 @@ const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 
 onMounted(() => {
-    // Pick up ?paying= from URL
-    const paying = router.currentRoute.value.query?.paying
-    if (paying === 'true') { state.activeTab = 'active'; state.dataFilter.status = 'active' }
-    if (paying === 'false') { state.activeTab = 'inactive'; state.dataFilter.status = 'inactive' }
+    // Pick up ?paying= from URL (e.g. from the superadmin dashboard's
+    // "Betalende" card) - shows only companies with a currently active
+    // subscription, independent of the Active/Inactive tabs above.
+    state.payingOnly = router.currentRoute.value.query?.paying === 'true'
     fetchCompanies()
 })
+
+function clearPayingFilter() {
+    state.payingOnly = false
+    router.replace({ query: {} })
+    fetchCompanies()
+}
+
+function buildFilterParams() {
+    const params: any = {}
+    if (state.dataFilter.search) params.search = state.dataFilter.search
+    if (state.activeTab === 'active') params.is_active = true
+    if (state.activeTab === 'inactive') params.is_active = false
+    if (state.payingOnly) params.paying = true
+    return params
+}
 
 async function fetchCompanies() {
     state.error = {}
@@ -216,10 +248,8 @@ async function fetchCompanies() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            ...buildFilterParams(),
         }
-        if (state.dataFilter.search) params.search = state.dataFilter.search
-        if (state.activeTab === 'active') params.is_active = true
-        if (state.activeTab === 'inactive') params.is_active = false
 
         const response = await companyService.getCompanies(params)
         if (response) {
@@ -273,6 +303,17 @@ function previous() {
 function next() {
     currentTablePage++
     fetchCompanies()
+}
+
+async function exportCompanies() {
+    state.isExporting = true
+    try {
+        const response = await companyService.downloadCompanies(buildFilterParams())
+        if (response) saveAs(response, `${t('superadmin.companies.companies')}.xlsx`)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isExporting = false
 }
 
 async function activateDeactivateCompany(index: number, company: any) {

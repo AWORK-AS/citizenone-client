@@ -4482,8 +4482,10 @@
                 "companies": "Companies",
                 "company": "Company",
                 "createFirstClient": "Create your first client",
+                "export": "Export",
                 "import": "Import",
                 "noCompaniesFound": "No companies found",
+                "payingClientsOnly": "Paying clients only",
                 "searchPlaceholder": "Search by name, email or domain...",
                 "showing": "Showing {from}–{to} of {total}",
                 "sort": {
