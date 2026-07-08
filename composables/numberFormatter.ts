@@ -1,18 +1,20 @@
 export function useNumberFormatter() {
+    // Only 'en' uses comma-thousands/period-decimal; dk/no/sv (and anything else)
+    // use the European period-thousands/comma-decimal convention.
     function formatNumber(language: string, amount: any) {
         if (amount === null || amount === undefined || isNaN(Number(amount))) {
-            return language === "dk" ? "0,00" : "0.00";
+            return language === "en" ? "0.00" : "0,00";
         }
 
         const numberStr = Number(amount).toFixed(2);
         const [integerPart, decimalPart] = numberStr.split(".");
 
-        if (language === "dk") {
-            const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            return `${formattedIntegerPart},${decimalPart}`; // always 2 decimals
-        } else {
+        if (language === "en") {
             const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             return `${formattedIntegerPart}.${decimalPart}`; // always 2 decimals
+        } else {
+            const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return `${formattedIntegerPart},${decimalPart}`; // always 2 decimals
         }
     }
 
@@ -27,14 +29,22 @@ export function useNumberFormatter() {
             // English: thousands separator as ',' and decimal as '.'
             const formattedWhole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             return `${formattedWhole}.${fraction}`
-        } else if (locale === 'dk') {
-            // Danish: thousands separator as '.' and decimal as ','
+        } else {
+            // dk/no/sv: thousands separator as '.' and decimal as ','
             const formattedWhole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
             return `${formattedWhole},${fraction}`
-        } else {
-            return `${whole}.${fraction}`
         }
     }
 
-    return { formatNumber, formatPrice }
+    // Inverse of formatNumber: parses a locale-formatted amount string back into a number.
+    // Only 'en' treats '.' as the decimal separator; dk/no/sv (and anything else) treat ',' as decimal.
+    function parseLocaleNumber(language: string, v: any): number {
+        const str = String(v ?? '0');
+        if (language === "en") {
+            return parseFloat(str.replace(/,/g, '')) || 0;
+        }
+        return parseFloat(str.replace(/\./g, '').replace(',', '.')) || 0;
+    }
+
+    return { formatNumber, formatPrice, parseLocaleNumber }
 }

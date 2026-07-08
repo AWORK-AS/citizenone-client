@@ -1325,13 +1325,9 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
     }
 })
 
-watch(() => language.locale.value, (language: any) => {
-    if (language != null) {
-        if (language === 'en') {
-            state.formCitizen.pricing = formatPrice(props.selectedCitizen.pricing, 'en')
-        } else if (language === 'dk') {
-            state.formCitizen.pricing = formatPrice(props.selectedCitizen.pricing, 'dk')
-        }
+watch(() => language.locale.value, (newLocale: any) => {
+    if (newLocale != null) {
+        state.formCitizen.pricing = formatPrice(props.selectedCitizen.pricing, newLocale)
     }
 })
 

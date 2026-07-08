@@ -52,12 +52,15 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useNumberFormatter } from '@/composables/numberFormatter'
 import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const language = useI18n()
+const { parseLocaleNumber } = useNumberFormatter()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const breadcrumbLinks = [
@@ -298,7 +301,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('date_discharged', citizenDetails.date_discharged != 'Invalid date' ? citizenDetails.date_discharged : '')
         params.append('is_discharge_reminded', citizenDetails.is_discharge_reminded)
         params.append('section', citizenDetails.section)
-        params.append('pricing', citizenDetails.pricing)
+        params.append('pricing', citizenDetails.pricing ? parseLocaleNumber(language.locale.value, citizenDetails.pricing) : citizenDetails.pricing)
         params.append('pricing_start_date', citizenDetails.pricing_start_date)
         params.append('primary_case_worker_uuid', citizenDetails.primary_case_worker_uuid)
         params.append('paying_municipality', citizenDetails.paying_municipality)
