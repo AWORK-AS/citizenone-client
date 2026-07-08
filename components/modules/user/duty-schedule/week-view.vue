@@ -554,13 +554,13 @@
                                                                     <template
                                                                         v-if="parseLocaleNumber(language.locale.value, empStats(employee)?.holiday_hours?.compensation_yearly) > 0">
                                                                         <span>{{ $t('dutySchedules.holidayCompensation')
-                                                                        }}</span>
+                                                                            }}</span>
                                                                         <span class="text-right tabular-nums">{{
                                                                             empStats(employee)?.holiday_hours?.compensation_weekly
-                                                                        }}</span>
+                                                                            }}</span>
                                                                         <span class="text-right tabular-nums">{{
                                                                             empStats(employee)?.holiday_hours?.compensation_yearly
-                                                                        }}</span>
+                                                                            }}</span>
                                                                     </template>
 
                                                                     <span>
@@ -2561,6 +2561,7 @@ function isNonWorkedHolidayCell(week: any): boolean {
     if (!holidaysEnabled.value || !week?.date) return false
     if (!getHolidayNameByDate(week.date)) return false
     if (moment(week.date).day() === 0) return false // Sundays excluded (matches backend)
+    if (week.shifts && week.shifts.length > 0) return false // shift present → not a free holiday
     return true
 }
 

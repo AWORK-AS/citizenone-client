@@ -307,7 +307,7 @@
                                         {{formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
                                             any) => sum +
                                             parseLocaleNumber(language.locale.value, t?.monthly_hours || t?.weekly_hours ||
-                                        '0'), 0))
+                                                '0'), 0))
                                         }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
@@ -1217,8 +1217,10 @@ function isNonWorkedHolidayCell(day: any, monthKey: string, employeeUuid: string
     if (!holidaysEnabled.value || !day) return false
     if (!getHoliday(day)) return false
     if (moment(day).day() === 0) return false // Sundays excluded (matches backend)
-    const shifts = getShiftsForEmployeeDay(monthKey, employeeUuid, moment(day).format('YYYY-MM-DD'))
-    return !(shifts && shifts.length > 0)
+    const dateKey = moment(day).format('YYYY-MM-DD')
+    const employees = state.monthDataMap[monthKey]?.data ?? []
+    const anyShift = employees.some((e: any) => e?.days?.[dateKey]?.shifts?.length > 0)
+    return !anyShift
 }
 
 // ============================================================
