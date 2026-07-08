@@ -19,10 +19,12 @@
                             {{ $t('superadmin.companies.companies') }}
                         </h1>
                         <p class="text-sm text-[#5C6478] mt-0.5">
-                            {{ $t('superadmin.companies.totalClients', {
-                                count:
-                                    state.companies?.meta?.total ?? 0
-                            }) }}
+                            {{
+                                $t('superadmin.companies.totalClients', {
+                                    count:
+                                        state.companies?.meta?.total ?? 0
+                                })
+                            }}
                         </p>
                     </div>
                     <div class="flex items-center gap-2">
@@ -43,16 +45,6 @@
                             {{ $t('superadmin.companies.newCompany') }}
                         </button>
                     </div>
-                </div>
-
-                <div v-if="state.payingOnly" class="mb-4">
-                    <span
-                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] font-medium bg-[#EDF7EE] text-[#2E9E33]">
-                        {{ $t('superadmin.companies.payingClientsOnly') }}
-                        <button @click="clearPayingFilter" class="hover:opacity-70">
-                            <Icon name="ph:x" class="w-3 h-3" />
-                        </button>
-                    </span>
                 </div>
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
@@ -100,9 +92,12 @@
                                         {{ initials(company?.name) }}
                                     </div>
                                     <div>
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">{{ company?.name || '—' }}
+                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                            {{ company?.name || '—' }}
                                         </p>
-                                        <p class="text-[11px] text-[#8891A4]">{{ company?.email || '' }}</p>
+                                        <p class="text-[11px] text-[#8891A4]">
+                                            {{ company?.email || '' }}
+                                        </p>
                                     </div>
                                 </div>
                             </td>
@@ -182,6 +177,7 @@ const state = reactive({
     activeCount: 0,
     activeTab: 'all',
     allCount: 0,
+    payingCount: 0,
     columnHeaders: computed(() => [
         { key: 'name', name: t('superadmin.companies.company'), sorter: true },
         { key: 'status', name: t('superadmin.companies.table.status') },
@@ -199,7 +195,6 @@ const state = reactive({
     isTableLoading: false,
     isExporting: false,
     modal: { isImportCompanyOpen: false },
-    payingOnly: false,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend'
@@ -210,6 +205,7 @@ const tabs = computed(() => [
     { key: 'all', label: t('superadmin.companies.tabs.all'), count: state.allCount },
     { key: 'active', label: t('superadmin.companies.tabs.active'), count: state.activeCount },
     { key: 'inactive', label: t('superadmin.companies.tabs.inactive'), count: state.inactiveCount },
+    { key: 'paying', label: t('superadmin.companies.tabs.paying'), count: state.payingCount },
 ])
 
 // Avatar colours based on name
@@ -218,25 +214,18 @@ const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 
 onMounted(() => {
-    // Pick up ?paying= from URL (e.g. from the superadmin dashboard's
-    // "Betalende" card) - shows only companies with a currently active
-    // subscription, independent of the Active/Inactive tabs above.
-    state.payingOnly = router.currentRoute.value.query?.paying === 'true'
+    if (router.currentRoute.value.query?.paying === 'true') {
+        state.activeTab = 'paying'
+    }
     fetchCompanies()
 })
-
-function clearPayingFilter() {
-    state.payingOnly = false
-    router.replace({ query: {} })
-    fetchCompanies()
-}
 
 function buildFilterParams() {
     const params: any = {}
     if (state.dataFilter.search) params.search = state.dataFilter.search
     if (state.activeTab === 'active') params.is_active = true
     if (state.activeTab === 'inactive') params.is_active = false
-    if (state.payingOnly) params.paying = true
+    if (state.activeTab === 'paying') params.paying = true
     return params
 }
 
@@ -259,6 +248,7 @@ async function fetchCompanies() {
             state.allCount = (response?.active_count + response?.inactive_count) || 0
             state.activeCount = response?.active_count || 0
             state.inactiveCount = response?.inactive_count || 0
+            state.payingCount = response?.paying_count || 0
         }
     } catch (error: any) { state.error = error }
     state.isTableLoading = false
@@ -277,6 +267,7 @@ function debouncedSearch() {
 function setTab(tab: string) {
     state.activeTab = tab
     currentTablePage = 1
+    router.replace({ query: tab === 'paying' ? { paying: 'true' } : {} })
     fetchCompanies()
 }
 

@@ -9396,10 +9396,13 @@
                 "licenses": "Licenser",
                 "all": "Alla",
                 "active": "Aktiva",
-                "inactive": "Inaktiva"
+                "inactive": "Inaktiva",
+                "paying": "Betalande"
             },
             "totalClients": "klienter totalt",
+            "export": "Exportera",
             "import": "Importera",
+            "payingClientsOnly": "Endast betalande kunder",
             "searchPlaceholder": "Sök företag...",
             "sort": {
                 "nameAsc": "Namn A-Ö",

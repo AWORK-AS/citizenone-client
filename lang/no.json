@@ -9396,10 +9396,13 @@
                 "licenses": "Lisenser",
                 "all": "Alle",
                 "active": "Aktive",
-                "inactive": "Inaktive"
+                "inactive": "Inaktive",
+                "paying": "Betalende"
             },
             "totalClients": "klienter totalt",
+            "export": "Eksporter",
             "import": "Importer",
+            "payingClientsOnly": "Kun betalende kunder",
             "searchPlaceholder": "Søk bedrift...",
             "sort": {
                 "nameAsc": "Navn A-Z",

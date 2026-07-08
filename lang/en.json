@@ -9396,10 +9396,13 @@
                 "licenses": "Licenses",
                 "all": "All",
                 "active": "Active",
-                "inactive": "Inactive"
+                "inactive": "Inactive",
+                "paying": "Paying"
             },
             "totalClients": "{count} clients in total",
+            "export": "Export",
             "import": "Import",
+            "payingClientsOnly": "Paying clients only",
             "searchPlaceholder": "Search by name, email or domain...",
             "sort": {
                 "nameAsc": "Name A–Z",

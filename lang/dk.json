@@ -9396,10 +9396,13 @@
                 "licenses": "Licenser",
                 "all": "Alle",
                 "active": "Aktive",
-                "inactive": "Inaktive"
+                "inactive": "Inaktive",
+                "paying": "Betalende"
             },
             "totalClients": "{count} klienter i alt",
+            "export": "Eksporter",
             "import": "Importer",
+            "payingClientsOnly": "Kun betalende klienter",
             "searchPlaceholder": "Søg på navn, email eller domæne...",
             "sort": {
                 "nameAsc": "Navn A–Z",
