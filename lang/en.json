@@ -1350,17 +1350,17 @@
                 "unpin": "Unpin journal"
             },
             "alert": {
-                "addedToFavorites": "Journal successfully added to favorites",
+                "addedToFavorites": "{journal} successfully added to favorites",
                 "deletedSuccessfully": "Journal successfully deleted",
-                "lockJournal": "Journal successfully locked",
-                "pinJournal": "Journal successfully pinned",
-                "removedToFavorites": "Journal successfully removed from favorites",
+                "lockJournal": "{journal} successfully locked",
+                "pinJournal": "{journal} successfully pinned",
+                "removedToFavorites": "{journal} successfully removed from favorites",
                 "successfullyAdded": "New journal successfully saved",
-                "successfullyCopied": "Journal successfully copied",
-                "successfullyMoved": "Journal successfully moved",
+                "successfullyCopied": "{journal} successfully copied",
+                "successfullyMoved": "{journal} successfully moved",
                 "successfullyUpdated": "Journal successfully updated",
-                "unlockJournal": "Journal successfully unlocked",
-                "unpinJournal": "Journal successfully unpinned"
+                "unlockJournal": "{journal} successfully unlocked",
+                "unpinJournal": "{journal} successfully unpinned"
             },
             "confirmation": {
                 "copyConfirmation": "Are you sure you want to copy this journal to the selected citizen",
@@ -1489,7 +1489,7 @@
                     "confirmPassword": "Confirm password",
                     "password": "Password",
                     "unlock": "Unlock",
-                    "unlockJournal": "Unlock journal"
+                    "unlockJournal": "{journal} successfully unlocked"
                 },
                 "shareJournals": "Share journals",
                 "sharedJournals": "Shared journals",
@@ -3305,6 +3305,7 @@
     "customPages": {
         "customPages": "Glossary",
         "editCustomPage": "Edit custom page",
+        "wordListSuccessfullySaved": "Word list was successfully saved",
         "form": {
             "alert": {
                 "customPageSuccessfullyUpdated": "Custom page successfully updated"
@@ -9396,10 +9397,13 @@
                 "licenses": "Licenses",
                 "all": "All",
                 "active": "Active",
-                "inactive": "Inactive"
+                "inactive": "Inactive",
+                "paying": "Paying"
             },
             "totalClients": "{count} clients in total",
+            "export": "Export",
             "import": "Import",
+            "payingClientsOnly": "Paying clients only",
             "searchPlaceholder": "Search by name, email or domain...",
             "sort": {
                 "nameAsc": "Name A–Z",

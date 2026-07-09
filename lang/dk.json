@@ -1350,17 +1350,17 @@
                 "unpin": "Fjern fastgørelse"
             },
             "alert": {
-                "addedToFavorites": "Journal tilføjet til favoritter med succes",
+                "addedToFavorites": "{journal} tilføjet til favoritter med succes",
                 "deletedSuccessfully": "Journal slettet med succes",
-                "lockJournal": "Journal låst med succes",
-                "pinJournal": "Journal fastgjort med succes",
-                "removedToFavorites": "Journal fjernet fra favoritter med succes",
+                "lockJournal": "{journal} låst med succes",
+                "pinJournal": "{journal} fastgjort med succes",
+                "removedToFavorites": "{journal} fjernet fra favoritter med succes",
                 "successfullyAdded": "Ny journal gemt med succes",
-                "successfullyCopied": "Journalen blev kopieret succesfuldt",
-                "successfullyMoved": "Journalen blev flyttet succesfuldt",
+                "successfullyCopied": "{journal} kopieret succesfuldt",
+                "successfullyMoved": "{journal} flyttet succesfuldt",
                 "successfullyUpdated": "Journal opdateret med succes",
-                "unlockJournal": "Journal låst op med succes",
-                "unpinJournal": "Fastgørelse fjernet med succes"
+                "unlockJournal": "{journal} låst op med succes",
+                "unpinJournal": "{journal} fastgørelse fjernet med succes"
             },
             "confirmation": {
                 "copyConfirmation": "Er du sikker på, at du vil kopiere denne journal til den valgte borger",
@@ -1489,7 +1489,7 @@
                     "confirmPassword": "Bekræft adgangskode",
                     "password": "Adgangskode",
                     "unlock": "Lås op",
-                    "unlockJournal": "Lås op for journal"
+                    "unlockJournal": "{journal} låst op med succes"
                 },
                 "shareJournals": "Del journaler",
                 "sharedJournals": "Delte journaler",
@@ -3305,6 +3305,7 @@
     "customPages": {
         "customPages": "Ordliste",
         "editCustomPage": "Rediger brugerdefineret side",
+        "wordListSuccessfullySaved": "Ordlisten blev gemt",
         "form": {
             "alert": {
                 "customPageSuccessfullyUpdated": "Brugerdefineret side blev opdateret med succes"
@@ -9396,10 +9397,13 @@
                 "licenses": "Licenser",
                 "all": "Alle",
                 "active": "Aktive",
-                "inactive": "Inaktive"
+                "inactive": "Inaktive",
+                "paying": "Betalende"
             },
             "totalClients": "{count} klienter i alt",
+            "export": "Eksporter",
             "import": "Importer",
+            "payingClientsOnly": "Kun betalende klienter",
             "searchPlaceholder": "Søg på navn, email eller domæne...",
             "sort": {
                 "nameAsc": "Navn A–Z",

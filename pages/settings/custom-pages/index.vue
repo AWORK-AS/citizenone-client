@@ -144,7 +144,7 @@ async function saveTerms() {
                 userStore.setUser(current)
             }
             loadTerms()
-            successAlert(`${t('alert.success')}!`, '')
+            successAlert(`${t('alert.success')}!`, `${t('customPages.wordListSuccessfullySaved')}.`)
         }
     } catch (error: any) {
         state.error = error
