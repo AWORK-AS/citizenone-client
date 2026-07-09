@@ -1713,6 +1713,8 @@
                 "manager": "Manager",
                 "user": "Användare"
             },
+            "saveAttachmentsToDocuments": "Spara även bilagor i Dokument",
+            "savePdfToDocuments": "Spara även som PDF i Dokument",
             "selectCitizen": "Välj klient",
             "selectVisibility": "Vem kan se detta e-postmeddelande",
             "table": {

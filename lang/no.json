@@ -1713,6 +1713,8 @@
                 "manager": "Manager",
                 "user": "Bruker"
             },
+            "saveAttachmentsToDocuments": "Lagre også vedlegg i Dokumenter",
+            "savePdfToDocuments": "Lagre også som PDF i Dokumenter",
             "selectCitizen": "Velg bruker",
             "selectVisibility": "Hvem kan se denne e-posten",
             "table": {

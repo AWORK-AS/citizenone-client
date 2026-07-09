@@ -1713,6 +1713,8 @@
                 "manager": "Manager",
                 "user": "Bruger"
             },
+            "saveAttachmentsToDocuments": "Gem også vedhæftede filer i Dokumenter",
+            "savePdfToDocuments": "Gem også som PDF i Dokumenter",
             "selectCitizen": "Vælg borger",
             "selectVisibility": "Hvem kan se denne e-mail",
             "table": {

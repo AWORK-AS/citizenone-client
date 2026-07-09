@@ -21,6 +21,18 @@
                                     v-model="state.form.visible_to_role" />
                                 <FormError :error="state.error?.errors?.visible_to_role?.[0]" />
                             </div>
+
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.form.save_pdf_to_documents = !state.form.save_pdf_to_documents">
+                                <FormCheckbox :value="state.form.save_pdf_to_documents" />
+                                {{ $t('citizens.emails.savePdfToDocuments') }}
+                            </div>
+                            <div class="w-fit flex items-center cursor-pointer"
+                                v-if="props.selectedEmail?.attachments?.length"
+                                @click="state.form.save_attachments_to_documents = !state.form.save_attachments_to_documents">
+                                <FormCheckbox :value="state.form.save_attachments_to_documents" />
+                                {{ $t('citizens.emails.saveAttachmentsToDocuments') }}
+                            </div>
                         </div>
 
                         <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -72,6 +84,8 @@ const state = reactive({
     form: {
         citizen_uuid: '',
         visible_to_role: 'User',
+        save_pdf_to_documents: false,
+        save_attachments_to_documents: false,
     },
     options: {
         citizens: [] as any[],
@@ -110,6 +124,8 @@ function resetForm() {
     state.form = {
         citizen_uuid: '',
         visible_to_role: 'User',
+        save_pdf_to_documents: false,
+        save_attachments_to_documents: false,
     }
 }
 
@@ -163,6 +179,8 @@ async function submitForm() {
             attachments: (props.selectedEmail?.attachments ?? []).map((attachment: any) => ({
                 filename: attachment.filename,
             })),
+            save_pdf_to_documents: state.form.save_pdf_to_documents,
+            save_attachments_to_documents: state.form.save_attachments_to_documents,
         }
 
         const response = await citizenEmailService.tagEmailToCitizen(params)
