@@ -770,7 +770,16 @@
         "fileSizeExceeds": "Den samlade filstörrelse får inte overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vänligen",
         "helloHowCanIAssistYouToday": "Hej, hur kan jag hjälpa dig idag",
-        "send": "Skicka"
+        "send": "Skicka",
+        "history": {
+            "newChat": "Ny chatt",
+            "viewHistory": "Visa historik",
+            "backToChat": "Tillbaka till chatt",
+            "noConversations": "Inga konversationer än",
+            "untitled": "Namnlös konversation",
+            "deleteConfirmation": "Är du säker på att du vill ta bort denna konversation? Detta kan inte ångras.",
+            "searchPlaceholder": "Sök i konversationer..."
+        }
     },
     "back": "Tillbaka",
     "bellNotification": {
@@ -10978,7 +10987,14 @@
         "synced": "Synkroniserad",
         "syncReminderTitle": "Synkronisera AI:n med företagets AI innan du chattar.",
         "syncing": "Synkroniserar...",
-        "title": "Din ChatGPT-integration"
+        "title": "Din ChatGPT-integration",
+        "history": {
+            "newChat": "Ny chatt",
+            "noConversations": "Inga konversationer än",
+            "untitled": "Namnlös konversation",
+            "deleteConfirmation": "Är du säker på att du vill ta bort denna konversation? Detta kan inte ångras.",
+            "searchPlaceholder": "Sök i konversationer..."
+        }
     },
     "employment": {
         "economy": {

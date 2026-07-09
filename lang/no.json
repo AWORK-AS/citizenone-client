@@ -770,7 +770,16 @@
         "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vennligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjelpe dig i dag",
-        "send": "Send"
+        "send": "Send",
+        "history": {
+            "newChat": "Ny chat",
+            "viewHistory": "Se historikk",
+            "backToChat": "Tilbake til chat",
+            "noConversations": "Ingen samtaler ennå",
+            "untitled": "Navnløs samtale",
+            "deleteConfirmation": "Er du sikker på at du vil slette denne samtalen? Dette kan ikke angres.",
+            "searchPlaceholder": "Søk i samtaler..."
+        }
     },
     "back": "Tilbake",
     "bellNotification": {
@@ -10978,7 +10987,14 @@
         "synced": "Synkronisert",
         "syncReminderTitle": "Synkroniser AI-en med bedriftens AI før du chatter.",
         "syncing": "Synkroniserer...",
-        "title": "Din ChatGPT-integrasjon"
+        "title": "Din ChatGPT-integrasjon",
+        "history": {
+            "newChat": "Ny chat",
+            "noConversations": "Ingen samtaler ennå",
+            "untitled": "Navnløs samtale",
+            "deleteConfirmation": "Er du sikker på at du vil slette denne samtalen? Dette kan ikke angres.",
+            "searchPlaceholder": "Søk i samtaler..."
+        }
     },
     "employment": {
         "economy": {
