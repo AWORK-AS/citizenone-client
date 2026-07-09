@@ -11,7 +11,7 @@
             </template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <div class="isolate mx-auto mt-10 grid max-w-lg">
+                <div class="mx-auto mt-10 w-full max-w-xl">
                     <div class="ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                         <div class="mx-auto max-w-fit bg-green-600 rounded-full p-4 flex items-center justify-center">
                             <Icon name="ph:check-bold" class="h-7 w-7 text-white" aria-hidden="true" />
@@ -43,6 +43,9 @@
                                 </FormButton>
                             </div>
                         </div>
+
+                        <!-- Post-purchase cross-sell: related apps in the same category -->
+                        <ModulesUserAppCrossSell :categorySlug="category" :excludeUuid="exclude" />
                     </div>
                 </div>
             </LoadingSpinner>
@@ -57,6 +60,8 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const paymentId = router?.currentRoute?.value?.query?.paymentId
+const category = (router?.currentRoute?.value?.query?.category as string) || ''
+const exclude = (router?.currentRoute?.value?.query?.exclude as string) || ''
 const breadcrumbLinks = [
     {
         name: 'apps.apps',

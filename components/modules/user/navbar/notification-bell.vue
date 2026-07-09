@@ -34,15 +34,22 @@
                     <!-- Check-in -->
                     <div v-if="showCheckInReminder" @click="checkIn" role="button"
                         class="group relative overflow-hidden rounded-xl border border-secondary/20 bg-gradient-to-br from-[#f0faf9] to-white p-3 cursor-pointer transition-all hover:shadow-card hover:border-secondary/40">
-                        <div class="absolute -right-4 -top-6 size-16 rounded-full bg-secondary/10 transition-transform group-hover:scale-110" />
+                        <div
+                            class="absolute -right-4 -top-6 size-16 rounded-full bg-secondary/10 transition-transform group-hover:scale-110" />
                         <div class="relative flex items-start gap-3">
-                            <div class="flex-shrink-0 grid place-items-center size-9 rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-white shadow-sm">
+                            <div
+                                class="flex-shrink-0 grid place-items-center size-9 rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-white shadow-sm">
                                 <Icon name="ph:fingerprint" class="h-5 w-5" />
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-xs font-bold text-slate-800">{{ $t('bellNotification.checkInReminder.title') }}</p>
-                                <p class="text-[11px] text-slate-500 mt-0.5 leading-snug">{{ $t('bellNotification.checkInReminder.description') }}</p>
-                                <span class="mt-2 inline-flex items-center gap-1 rounded-lg bg-secondary px-2.5 py-1 text-[11px] font-semibold text-white transition-colors group-hover:bg-secondary-700">
+                                <p class="text-xs font-bold text-slate-800">
+                                    {{ $t('bellNotification.checkInReminder.title') }}
+                                </p>
+                                <p class="text-[11px] text-slate-500 mt-0.5 leading-snug">
+                                    {{ $t('bellNotification.checkInReminder.description') }}
+                                </p>
+                                <span
+                                    class="mt-2 inline-flex items-center gap-1 rounded-lg bg-secondary px-2.5 py-1 text-[11px] font-semibold text-white transition-colors group-hover:bg-secondary-700">
                                     <Icon name="ph:sign-in" class="h-3.5 w-3.5" /> {{ $t('reminders.checkIn') }}
                                 </span>
                             </div>
@@ -52,17 +59,22 @@
                     <!-- Plan/goal completion -->
                     <div v-if="showPlanReminder" @click="goToPlanCompletions" role="button"
                         class="group relative overflow-hidden rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-3 cursor-pointer transition-all hover:shadow-card hover:border-amber-300">
-                        <div class="absolute -right-4 -top-6 size-16 rounded-full bg-amber-100/70 transition-transform group-hover:scale-110" />
+                        <div
+                            class="absolute -right-4 -top-6 size-16 rounded-full bg-amber-100/70 transition-transform group-hover:scale-110" />
                         <div class="relative flex items-start gap-3">
-                            <div class="flex-shrink-0 grid place-items-center size-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-500 text-white shadow-sm">
+                            <div
+                                class="flex-shrink-0 grid place-items-center size-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-500 text-white shadow-sm">
                                 <Icon name="ph:calendar-check" class="h-5 w-5" />
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-xs font-bold text-slate-800">{{ $t('bellNotification.planReminder.title') }}</p>
+                                <p class="text-xs font-bold text-slate-800">
+                                    {{ $t('bellNotification.planReminder.title') }}
+                                </p>
                                 <p class="text-[11px] text-slate-500 mt-0.5 leading-snug line-clamp-2">
                                     {{ $t('bellNotification.planReminder.description', { count: overduePlansCount }) }}
                                 </p>
-                                <span class="mt-2 inline-flex items-center gap-1 rounded-lg bg-amber-500 px-2.5 py-1 text-[11px] font-semibold text-white transition-colors group-hover:bg-amber-600">
+                                <span
+                                    class="mt-2 inline-flex items-center gap-1 rounded-lg bg-amber-500 px-2.5 py-1 text-[11px] font-semibold text-white transition-colors group-hover:bg-amber-600">
                                     {{ $t('bellNotification.planReminder.action') }}
                                     <Icon name="ph:arrow-right" class="h-3.5 w-3.5" />
                                 </span>
@@ -83,8 +95,12 @@
                 <template v-else-if="filteredNotifications.length === 0 && !showPlanReminder && !showCheckInReminder">
                     <div class="flex flex-col items-center justify-center py-10 px-4 text-center">
                         <Icon name="ph:bell-slash" class="h-10 w-10 text-gray-300 mb-2" />
-                        <p class="text-sm text-gray-500 font-medium">{{ $t('bellNotification.empty.title') }}</p>
-                        <p class="text-xs text-gray-400 mt-0.5">{{ $t('bellNotification.empty.subtitle') }}</p>
+                        <p class="text-sm text-gray-500 font-medium">
+                            {{ $t('bellNotification.empty.title') }}
+                        </p>
+                        <p class="text-xs text-gray-400 mt-0.5">
+                            {{ $t('bellNotification.empty.subtitle') }}
+                        </p>
                     </div>
                 </template>
                 <template v-else>
@@ -117,8 +133,12 @@
                         <button @click="loadMore" :disabled="state.isLoadingMore"
                             class="text-xs text-primary hover:text-primary-700 font-medium disabled:opacity-50"
                             type="button">
-                            <span v-if="state.isLoadingMore">{{ $t('bellNotification.loadingMore') }}</span>
-                            <span v-else>{{ $t('bellNotification.loadMore') }}</span>
+                            <span v-if="state.isLoadingMore">
+                                {{ $t('bellNotification.loadingMore') }}
+                            </span>
+                            <span v-else>
+                                {{ $t('bellNotification.loadMore') }}
+                            </span>
                         </button>
                     </div>
                 </template>

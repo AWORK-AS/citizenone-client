@@ -23,34 +23,18 @@
                     <div class="border-b-1.5 border-gray-200">
                         <ul class="flex item-center gap-x-5 overflow-x-auto touch-auto">
                             <li :class="[
-                                state.filter.type === 'citizenone' && 'text-secondary border-b-2 border-secondary',
-                                'text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary'
-                            ]" @click="changeCategory('citizenone')">
-                                {{ $t('apps.categories.citizenone') }}
+                                state.filter.type === '' && 'text-secondary border-b-2 border-secondary',
+                                'flex items-center gap-1.5 text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary whitespace-nowrap'
+                            ]" @click="changeCategory('')">
+                                <Icon name="ic:baseline-grid-view" class="w-4 h-4" />
+                                {{ $t('apps.categories.all') }}
                             </li>
-                            <li :class="[
-                                state.filter.type === 'fst' && 'text-secondary border-b-2 border-secondary',
-                                'text-gray-700 text-base px-2 pb-3 cursor-pointer hover:text-primary'
-                            ]" @click="changeCategory('fst')">
-                                {{ $t('apps.categories.fst') }}
-                            </li>
-                            <li :class="[
-                                state.filter.type === 'marketing' && 'text-secondary border-b-2 border-secondary',
-                                'text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary'
-                            ]" @click="changeCategory('marketing')">
-                                {{ $t('apps.categories.marketing') }}
-                            </li>
-                            <li :class="[
-                                state.filter.type === 'visual' && 'text-secondary border-b-2 border-secondary',
-                                'text-gray-700 text-base px-2 pb-3 cursor-pointer hover:text-primary'
-                            ]" @click="changeCategory('visual')">
-                                {{ $t('apps.categories.visual') }}
-                            </li>
-                            <li :class="[
-                                state.filter.type === 'other' && 'text-secondary border-b-2 border-secondary',
-                                'text-gray-700 text-base px-2 pb-3 cursor-pointer hover:text-primary'
-                            ]" @click="changeCategory('other')">
-                                {{ $t('apps.categories.other') }}
+                            <li v-for="category in state.categories" :key="category.id" :class="[
+                                state.filter.type === category.slug && 'text-secondary border-b-2 border-secondary',
+                                'flex items-center gap-1.5 text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary whitespace-nowrap'
+                            ]" @click="changeCategory(category.slug)">
+                                <Icon v-if="category?.icon" :name="category.icon" class="w-4 h-4" />
+                                {{ category.name }}
                             </li>
                         </ul>
                     </div>
@@ -77,21 +61,7 @@
                                         </span>
                                     </div>
                                     <p class="text-white text-sm">
-                                        <span v-if="state.filter.type === 'citizenone'">
-                                            {{ $t('apps.categories.citizenone') }}
-                                        </span>
-                                        <span v-if="state.filter.type === 'fst'">
-                                            {{ $t('apps.categories.fst') }}
-                                        </span>
-                                        <span v-if="state.filter.type === 'marketing'">
-                                            {{ $t('apps.categories.marketing') }}
-                                        </span>
-                                        <span v-if="state.filter.type === 'visual'">
-                                            {{ $t('apps.categories.visual') }}
-                                        </span>
-                                        <span v-if="state.filter.type === 'other'">
-                                            {{ $t('apps.categories.other') }}
-                                        </span>
+                                        {{ activeCategoryName }}
                                     </p>
                                     <h3 class="text-white text-xl font-semibold">
                                         {{ getPopularApp()?.name }}
@@ -133,133 +103,42 @@
                         </div>
                     </div>
 
+                    <!-- Recommended for you (only on the "All apps" view) -->
+                    <div class="mt-8 rounded-xl bg-secondary/5 border border-secondary/20 p-6"
+                        v-if="state.filter.type === '' && recommendedApps.length">
+                        <div class="flex items-center gap-x-2 mb-5">
+                            <Icon name="ic:round-star" class="w-5 h-5 text-secondary" />
+                            <h3 class="text-lg font-semibold">
+                                {{ $t('apps.recommendedForYou') }}
+                            </h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <ModulesUserAppCard v-for="(app, index) in recommendedApps" :key="`rec-${index}`"
+                                :app="app" @readMore="readMore" @goToPartner="navigateToExternalLink"
+                                @activate="confirmTACAcceptance" />
+                        </div>
+                    </div>
+
                     <div class="mt-8 max-w-3xl">
-                        <div class="space-y-3" v-if="state.filter.type === 'citizenone'">
+                        <div class="space-y-3" v-if="activeCategoryName">
                             <h3 class="text-lg font-semibold">
-                                {{ $t('apps.categories.citizenone') }}
+                                {{ activeCategoryName }}
                             </h3>
-                            <p class="text-gray-600">
-                                {{ $t('apps.description.citizenone') }}.
-                            </p>
-                        </div>
-                        <div class="space-y-3" v-if="state.filter.type === 'fst'">
-                            <h3 class="text-lg font-semibold">
-                                {{ $t('apps.categories.fst') }}
-                            </h3>
-                            <p class="text-gray-600">
-                                {{ $t('apps.description.fst') }}.
-                            </p>
-                        </div>
-                        <div class="space-y-3" v-if="state.filter.type === 'marketing'">
-                            <h3 class="text-lg font-semibold">
-                                {{ $t('apps.categories.marketing') }}
-                            </h3>
-                            <p class="text-gray-600">
-                                {{ $t('apps.description.marketing') }}.
-                            </p>
-                        </div>
-                        <div class="space-y-3" v-if="state.filter.type === 'visual'">
-                            <h3 class="text-lg font-semibold">
-                                {{ $t('apps.categories.visual') }}
-                            </h3>
-                            <p class="text-gray-600">
-                                {{ $t('apps.description.visual') }}.
-                            </p>
-                        </div>
-                        <div class="space-y-3" v-if="state.filter.type === 'other'">
-                            <h3 class="text-lg font-semibold">
-                                {{ $t('apps.categories.other') }}
-                            </h3>
-                            <p class="text-gray-600">
-                                {{ $t('apps.description.other') }}.
-                            </p>
                         </div>
                     </div>
 
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div v-for="(app, index) in state.apps?.data" :key="index"
-                            class="relative bg-white px-7 py-6 border rounded-xl">
-                            <div v-if="app?.is_news">
-                                <img src="/img/icons/ribbon.svg" class="absolute -right-1.5 -top-0" />
-                                <p :class="[
-                                    language.locale.value === 'en' ? 'right-1.5 top-5' : 'right-1 top-5',
-                                    'text-white font-semibold text-xs absolute'
-                                ]">
-                                    {{ $t('apps.news') }}
-                                </p>
-                            </div>
-                            <div class="mb-3 flex justify-between">
-                                <div class="flex items-center gap-3">
-                                    <img :src="app.logo" alt="App logo" class="w-14" />
-                                    <div class="leading-none">
-                                        <div class="flex flex-wrap items-center gap-x-1">
-                                            <h4 class="text-muted-800 text-lg font-semibold pr-10">
-                                                {{ app.name }}
-                                            </h4>
-                                            <Badge type="primary" class="text-xxs truncate w-fit h-fit"
-                                                v-if="app?.is_thirdparty">
-                                                {{ $t('apps.thirdPartyApp') }}
-                                            </Badge>
-                                        </div>
-                                        <p class="mt-1 text-muted-800 text-sm">
-                                            <span v-if="app?.is_one_time_fee">
-                                                {{ formatAmount(app?.price) }}
-                                            </span>
-                                            <span v-else-if="['yearly', 'custom_yearly'].includes(userStore.getUser?.user_subscription?.type)">
-                                                {{ formatAmount(app?.yearly_price) }}
-                                                <span class="lowercase">/{{ $t('apps.year') }}</span>
-                                            </span>
-                                            <span v-else>
-                                                {{ formatAmount(app?.monthly_price) }}
-                                                <span class="lowercase">/{{ $t('apps.month') }}</span>
-                                            </span>
-                                            <span v-if="app?.setup_fee > 0" class="text-muted-500">
-                                                + {{ formatAmount(app?.setup_fee) }} {{ $t('apps.setupFee') }}
-                                            </span>
-                                            {{ $t('excludeVat') }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="my-6 space-y-3">
-                                <p class="text-gray-600 font-sans text-base line-clamp-2">
-                                    {{ app?.description }}
-                                </p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <FormButton type="button" buttonStyle="action" class="w-full" @click="readMore(app)">
-                                    {{ $t('apps.readMore') }}
-                                </FormButton>
-                                <FormButton type="button" buttonStyle="action" class="w-full"
-                                    @click="navigateToExternalLink(app?.url_field)" v-if="app?.url_field">
-                                    {{ $t('apps.goToPartner') }}
-                                </FormButton>
-                                <FormButton type="button"
-                                    :buttonStyle="app?.user_activated ? 'app-activated' : 'app-order-now'" :class="[
-                                        app?.user_activated && 'cursor-not-allowed',
-                                        'w-full'
-                                    ]" color="primary" @click="!app?.user_activated && confirmTACAcceptance(app)"
-                                    v-else>
-                                    <span v-if="app?.user_activated">
-                                        {{ $t('apps.activated') }}
-                                    </span>
-                                    <span v-if="!app?.user_activated && app?.is_one_time_fee">
-                                        {{ $t('apps.orderNow') }}
-                                    </span>
-                                    <span v-if="!app?.user_activated && !app?.is_one_time_fee">
-                                        {{ $t('apps.activate') }}
-                                    </span>
-                                </FormButton>
-                            </div>
-                        </div>
+                        <ModulesUserAppCard v-for="(app, index) in state.apps?.data" :key="index" :app="app"
+                            @readMore="readMore" @goToPartner="navigateToExternalLink"
+                            @activate="confirmTACAcceptance" />
                     </div>
                     <div class="mt-6">
                         <Pagination :data="state.apps" @previous="previous" @next="next" />
                     </div>
                 </div>
                 <ModulesUserAppModalAppDetails :isModalOpen="state.modal.showAppDetails"
-                    :selectedApp="state.selectedApp" @close="state.modal.showAppDetails = false"
-                    @confirmAppActivation="activateApp" />
+                    :selectedApp="state.selectedApp" :apps="state.apps?.data" @close="state.modal.showAppDetails = false"
+                    @confirmAppActivation="activateApp" @selectApp="readMore" />
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirmAppActivation="activateApp" />
@@ -301,9 +180,10 @@ const breadcrumbLinks = [
 
 const state = reactive({
     apps: [] as any,
+    categories: [] as any[],
     error: {} as Error,
     filter: {
-        type: 'citizenone',
+        type: '',
     },
     isAppsHidden: false,
     isPageLoading: false,
@@ -313,6 +193,14 @@ const state = reactive({
     },
     selectedApp: [] as any,
 })
+
+const activeCategoryName = computed(() =>
+    state.categories.find((category: any) => category.slug === state.filter.type)?.name ?? ''
+)
+
+const recommendedApps = computed(() =>
+    (state.apps?.data ?? []).filter((app: any) => app?.is_recommended === true)
+)
 
 onMounted(async () => {
     // Set up message listener for Google Drive popup callback
@@ -342,16 +230,33 @@ onMounted(async () => {
         successAlert(`${t('alert.success')}!`, 'OneDrive forbindelse opdateret.')
     }
 
+    await fetchCategories()
     fetchApps()
 })
+
+async function fetchCategories() {
+    try {
+        const response = await appService.getCategories()
+        state.categories = response?.data ?? []
+        // Keep the "All apps" default ('' ) valid; only reset a stale category slug.
+        if (state.filter.type && !state.categories.some((category: any) => category.slug === state.filter.type)) {
+            state.filter.type = ''
+        }
+    } catch (error: any) {
+        state.categories = []
+    }
+}
 
 async function fetchApps() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const params = {
-            type: state.filter.type,
+        const params: any = {
             page: currentTablePage,
+        }
+        // Empty type = the "All apps" tab: send no filter so the whole catalog shows.
+        if (state.filter.type) {
+            params.type = state.filter.type
         }
         const response = await appService.getApps(params)
         if (response) {
@@ -437,7 +342,8 @@ async function activateApp(formApp: any) {
             }
             const response = await appService.activateFreeApp(params)
             if (response) {
-                navigateTo(`/apps/activated-successfully`)
+                const cat = state.selectedApp?.category?.slug ?? ''
+                navigateTo(`/apps/activated-successfully?category=${cat}&exclude=${state.selectedApp?.uuid ?? ''}`)
             }
         } else {
             const params = {} as any
@@ -461,7 +367,8 @@ async function activateApp(formApp: any) {
                 checkout.on('payment-completed', function (response: any) {
                     checkout.cleanup()
                     const paymentId = response['paymentId']
-                    navigateTo(`/apps/purchased-successfully?paymentId=${paymentId}`)
+                    const cat = state.selectedApp?.category?.slug ?? ''
+                    navigateTo(`/apps/purchased-successfully?paymentId=${paymentId}&category=${cat}&exclude=${state.selectedApp?.uuid ?? ''}`)
                 })
                 state.isAppsHidden = true
             }

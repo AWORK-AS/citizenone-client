@@ -168,7 +168,8 @@
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
-                    <FormLabel for="journal_note_tags" :label="$t('citizens.citizenJournals.form.journalNoteTags')" />
+                    <FormLabel for="journal_note_tags"
+                        :label="term('journalNoteTag', $t('citizens.citizenJournals.form.journalNoteTags'))" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                         @click="state.modal.isAddJournalNoteTagsOpen = true">
                         {{ $t('journalNoteTags.addNewTag') }}
@@ -391,6 +392,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -414,6 +416,7 @@ const userStore = useUserStore() as any
 const language = useI18n()
 
 const { t } = useI18n()
+const { term } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid

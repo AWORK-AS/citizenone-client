@@ -120,6 +120,12 @@ function loadTerms() {
     terms.term_journal_notes = company?.term_journal_notes ?? ''
 }
 
+// The layout's own fetchUser() (GET /user) runs unawaited on mount, so on a
+// hard reload userStore.getUser can still hold the stale, localStorage-
+// persisted value when loadTerms() first runs below. Re-sync whenever the
+// store actually updates, instead of only reading it once at mount.
+watch(() => userStore.getUser, loadTerms)
+
 async function saveTerms() {
     terms.saving = true
     try {
@@ -131,13 +137,14 @@ async function saveTerms() {
             term_journal_notes: terms.term_journal_notes,
         }
         const response = await userService.updateCompany(params)
-        if (response) {
+        if (response?.data) {
             const current: any = { ...userStore.getUser }
             if (current?.company) {
-                current.company = { ...current.company, ...params }
+                current.company = { ...current.company, ...response.data }
                 userStore.setUser(current)
             }
-            successAlert(`${t('alert.success')}!`, '')
+            loadTerms()
+            successAlert(`${t('alert.success')}!`, `${t('customPages.wordListSuccessfullySaved')}.`)
         }
     } catch (error: any) {
         state.error = error

@@ -110,13 +110,21 @@ watch(() => props.isModalOpen, (isModalOpen) => {
             ingredients: props.selectedMedicine?.ingredients,
             description: props.selectedMedicine?.description,
             recurring_until: props.selectedMedicine?.recurring_until || '',
+            has_consent: props.selectedMedicine?.has_consent ? true : false,
+            prescribed_by: props.selectedMedicine?.prescribed_by ?? '',
+            date_opened: props.selectedMedicine?.date_opened ?? '',
+            shelf_life_days: props.selectedMedicine?.shelf_life_days ?? '',
+            extra_dates: props.selectedMedicine?.extra_dates ?? [],
+            treatment_periods: props.selectedMedicine?.treatment_periods ?? [],
             schedule_frequency: {
                 is_recurring: true,
                 recurring: props.selectedMedicine?.schedule_frequency,
-                recurring_until: props.selectedMedicine?.recurring_until,
+                recurring_until: props.selectedMedicine?.recurring_until ?? '',
                 frequency: props.selectedMedicine?.recurring_rules?.frequency,
                 every: props.selectedMedicine?.recurring_rules?.every,
                 weekly_on: props.selectedMedicine?.recurring_rules?.weekly_on || [],
+                start_weekday: props.selectedMedicine?.recurring_rules?.start_weekday ?? 'monday',
+                week_templates: props.selectedMedicine?.recurring_rules?.week_templates ?? [{ days: [] }],
                 monthly_on_the_enabled: props.selectedMedicine?.recurring_rules?.monthly_on_the_enabled || false,
                 monthly_each: props.selectedMedicine?.recurring_rules?.monthly_each || [],
                 monthly_on_the_sequence: props.selectedMedicine?.recurring_rules?.monthly_on_the_sequence || '',
@@ -148,22 +156,27 @@ async function updateMedicine(medicineDetails: any) {
 
             if (medicineDetails.schedule_frequency.recurring === 'custom') {
                 params.append('frequency', medicineDetails.schedule_frequency.frequency)
-                params.append('every', medicineDetails.schedule_frequency.every)
-                if (medicineDetails.schedule_frequency.frequency === 'weekly') {
-                    params.append('weekly_on', JSON.stringify(medicineDetails.schedule_frequency.weekly_on))
-                } else if (medicineDetails.schedule_frequency.frequency === 'monthly') {
-                    params.append('monthly_on_the_enabled', medicineDetails.schedule_frequency.monthly_on_the_enabled)
-                    if (!medicineDetails.schedule_frequency.monthly_on_the_enabled) {
-                        params.append('monthly_each', JSON.stringify(medicineDetails.schedule_frequency.monthly_each))
-                    } else {
-                        params.append('monthly_on_the_sequence', medicineDetails.schedule_frequency.monthly_on_the_sequence)
-                        params.append('monthly_on_the_day', medicineDetails.schedule_frequency.monthly_on_the_day)
-                    }
-                } else if (medicineDetails.schedule_frequency.frequency === 'yearly') {
-                    params.append('yearly_in_months', JSON.stringify(medicineDetails.schedule_frequency.yearly_in_months))
-                    if (medicineDetails.schedule_frequency.yearly_on_the_enabled) {
-                        params.append('yearly_on_the_sequence', medicineDetails.schedule_frequency.yearly_on_the_sequence)
-                        params.append('yearly_on_the_day', medicineDetails.schedule_frequency.yearly_on_the_day)
+                if (medicineDetails.schedule_frequency.frequency === 'weekly_rotation') {
+                    params.append('start_weekday', medicineDetails.schedule_frequency.start_weekday ?? 'monday')
+                    params.append('week_templates', JSON.stringify(medicineDetails.schedule_frequency.week_templates ?? []))
+                } else {
+                    params.append('every', medicineDetails.schedule_frequency.every)
+                    if (medicineDetails.schedule_frequency.frequency === 'weekly') {
+                        params.append('weekly_on', JSON.stringify(medicineDetails.schedule_frequency.weekly_on))
+                    } else if (medicineDetails.schedule_frequency.frequency === 'monthly') {
+                        params.append('monthly_on_the_enabled', medicineDetails.schedule_frequency.monthly_on_the_enabled)
+                        if (!medicineDetails.schedule_frequency.monthly_on_the_enabled) {
+                            params.append('monthly_each', JSON.stringify(medicineDetails.schedule_frequency.monthly_each))
+                        } else {
+                            params.append('monthly_on_the_sequence', medicineDetails.schedule_frequency.monthly_on_the_sequence)
+                            params.append('monthly_on_the_day', medicineDetails.schedule_frequency.monthly_on_the_day)
+                        }
+                    } else if (medicineDetails.schedule_frequency.frequency === 'yearly') {
+                        params.append('yearly_in_months', JSON.stringify(medicineDetails.schedule_frequency.yearly_in_months))
+                        if (medicineDetails.schedule_frequency.yearly_on_the_enabled) {
+                            params.append('yearly_on_the_sequence', medicineDetails.schedule_frequency.yearly_on_the_sequence)
+                            params.append('yearly_on_the_day', medicineDetails.schedule_frequency.yearly_on_the_day)
+                        }
                     }
                 }
             }

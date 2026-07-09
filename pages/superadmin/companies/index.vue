@@ -19,13 +19,20 @@
                             {{ $t('superadmin.companies.companies') }}
                         </h1>
                         <p class="text-sm text-[#5C6478] mt-0.5">
-                            {{ $t('superadmin.companies.totalClients', {
-                                count:
-                                    state.companies?.meta?.total ?? 0
-                            }) }}
+                            {{
+                                $t('superadmin.companies.totalClients', {
+                                    count:
+                                        state.companies?.meta?.total ?? 0
+                                })
+                            }}
                         </p>
                     </div>
                     <div class="flex items-center gap-2">
+                        <button @click="exportCompanies" :disabled="state.isExporting"
+                            class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors disabled:opacity-50">
+                            <Icon name="ph:download-simple" class="w-4 h-4" />
+                            {{ $t('superadmin.companies.export') }}
+                        </button>
                         <button @click="state.modal.isImportCompanyOpen = true"
                             class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
                             <Icon name="ph:upload-simple" class="w-4 h-4" />
@@ -85,9 +92,12 @@
                                         {{ initials(company?.name) }}
                                     </div>
                                     <div>
-                                        <p class="text-[13px] font-semibold text-[#1F2533]">{{ company?.name || '—' }}
+                                        <p class="text-[13px] font-semibold text-[#1F2533]">
+                                            {{ company?.name || '—' }}
                                         </p>
-                                        <p class="text-[11px] text-[#8891A4]">{{ company?.email || '' }}</p>
+                                        <p class="text-[11px] text-[#8891A4]">
+                                            {{ company?.email || '' }}
+                                        </p>
                                     </div>
                                 </div>
                             </td>
@@ -150,6 +160,7 @@
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -166,6 +177,7 @@ const state = reactive({
     activeCount: 0,
     activeTab: 'all',
     allCount: 0,
+    payingCount: 0,
     columnHeaders: computed(() => [
         { key: 'name', name: t('superadmin.companies.company'), sorter: true },
         { key: 'status', name: t('superadmin.companies.table.status') },
@@ -177,11 +189,11 @@ const state = reactive({
     companies: [] as any,
     dataFilter: {
         search: '',
-        status: ''
     } as any,
     error: {} as Error,
     inactiveCount: 0,
     isTableLoading: false,
+    isExporting: false,
     modal: { isImportCompanyOpen: false },
     sortData: {
         sortField: 'id',
@@ -191,6 +203,7 @@ const state = reactive({
 
 const tabs = computed(() => [
     { key: 'all', label: t('superadmin.companies.tabs.all'), count: state.allCount },
+    { key: 'paying', label: t('superadmin.companies.tabs.paying'), count: state.payingCount },
     { key: 'active', label: t('superadmin.companies.tabs.active'), count: state.activeCount },
     { key: 'inactive', label: t('superadmin.companies.tabs.inactive'), count: state.inactiveCount },
 ])
@@ -201,12 +214,20 @@ const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
 
 onMounted(() => {
-    // Pick up ?paying= from URL
-    const paying = router.currentRoute.value.query?.paying
-    if (paying === 'true') { state.activeTab = 'active'; state.dataFilter.status = 'active' }
-    if (paying === 'false') { state.activeTab = 'inactive'; state.dataFilter.status = 'inactive' }
+    if (router.currentRoute.value.query?.paying === 'true') {
+        state.activeTab = 'paying'
+    }
     fetchCompanies()
 })
+
+function buildFilterParams() {
+    const params: any = {}
+    if (state.dataFilter.search) params.search = state.dataFilter.search
+    if (state.activeTab === 'active') params.is_active = true
+    if (state.activeTab === 'inactive') params.is_active = false
+    if (state.activeTab === 'paying') params.paying = true
+    return params
+}
 
 async function fetchCompanies() {
     state.error = {}
@@ -216,10 +237,8 @@ async function fetchCompanies() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            ...buildFilterParams(),
         }
-        if (state.dataFilter.search) params.search = state.dataFilter.search
-        if (state.activeTab === 'active') params.is_active = true
-        if (state.activeTab === 'inactive') params.is_active = false
 
         const response = await companyService.getCompanies(params)
         if (response) {
@@ -229,6 +248,7 @@ async function fetchCompanies() {
             state.allCount = (response?.active_count + response?.inactive_count) || 0
             state.activeCount = response?.active_count || 0
             state.inactiveCount = response?.inactive_count || 0
+            state.payingCount = response?.paying_count || 0
         }
     } catch (error: any) { state.error = error }
     state.isTableLoading = false
@@ -247,6 +267,7 @@ function debouncedSearch() {
 function setTab(tab: string) {
     state.activeTab = tab
     currentTablePage = 1
+    router.replace({ query: tab === 'paying' ? { paying: 'true' } : {} })
     fetchCompanies()
 }
 
@@ -273,6 +294,17 @@ function previous() {
 function next() {
     currentTablePage++
     fetchCompanies()
+}
+
+async function exportCompanies() {
+    state.isExporting = true
+    try {
+        const response = await companyService.downloadCompanies(buildFilterParams())
+        if (response) saveAs(response, `${t('superadmin.companies.companies')}.xlsx`)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isExporting = false
 }
 
 async function activateDeactivateCompany(index: number, company: any) {

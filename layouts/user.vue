@@ -240,7 +240,7 @@
                             <Icon name="ph:megaphone" class="h-5 w-5" aria-hidden="true" />
                             <Badge type="notification"
                                 class="w-4.5 h-4.5 flex items-center justify-center absolute -top-0.5 -right-0.5 text-[10px]"
-                                v-if="!userStore.getUser?.is_read_news">
+                                v-if="!userStore.getUser?.is_read_news && userStore?.getUnreadNewsCount > 0">
                                 {{ userStore?.getUnreadNewsCount }}
                             </Badge>
                         </button>
@@ -665,7 +665,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Mail') return t('sidebar.mail')
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
-    if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
+    if (item.name === 'Journal Notes') return term('journalNotes', t('sidebar.journalNotes'))
     if (item.name === 'Billing') return language.t('employment.billing.billing')
     if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     if (item.name === 'Management & Economy') return language.t('managementEconomy.title')

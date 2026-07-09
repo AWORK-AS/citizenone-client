@@ -53,6 +53,10 @@ class DutyScheduleService extends BaseAPIService {
         return await this.request(`/user/duty-schedules-activity-logs`, 'GET', params)
     }
 
+    async getDutyScheduleHistory(scheduleUuid: any): Promise<any> {
+        return await this.request(`/user/duty-schedules/${scheduleUuid}/history`, 'GET')
+    }
+
     async pinSelfToTopOfSchedule(): Promise<any> {
         return await this.request(`/user/duty-schedules/employee/pin`, 'POST')
     }

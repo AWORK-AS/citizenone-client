@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xs" :title="$t('citizens.citizenJournals.copy.copyJournal')" :show="props.isModalOpen"
+        <Modal size="xs" :title="term('journal', '') ? `${$t('citizens.citizenJournals.copy.copy')} ${term('journal', '')}` : $t('citizens.citizenJournals.copy.copyJournal')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
@@ -40,6 +40,7 @@ import { journalService } from '@/components/api/user/JournalService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import { useI18n } from "vue-i18n"
 
@@ -57,6 +58,7 @@ const emit = defineEmits(['close', 'refreshJournal'])
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
+const { term } = useTerminology()
 
 const state = reactive({
     formCopy: {
@@ -133,7 +135,7 @@ async function copyJournal() {
             if (response?.data) {
                 refreshJournal()
                 closeModal()
-                successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.successfullyCopied')}.`)
+                successAlert(`${t('alert.success')}!`, t('citizens.citizenJournals.alert.successfullyCopied', { journal: term('journal', 'Journal') }))
             }
         } catch (error: any) {
             state.error = error

@@ -2,7 +2,8 @@
     <button type="button"
         class="flex items-center justify-center gap-x-2 outline-none text-xs rounded-lg font-semibold whitespace-nowrap transition-all duration-150 ease-out active:scale-[0.97] disabled:active:scale-100"
         :class="[
-            props.buttonStyle === 'primary' && 'outline-none rounded-lg bg-[#eff6ff] text-[#1d4ed8] border-1.5 border-[#bfdbfe] shadow-none hover:border-[#1d4ed8] hover:bg-[#eff6ff] hover:shadow-none hover:transform-none',
+            props.buttonStyle === 'primary' && 'bg-primary text-white border-1.5 border-primary shadow-sm hover:bg-primary-600 hover:border-primary-600',
+            props.buttonStyle === 'secondary' && 'outline-none bg-blue-50 text-blue-700 border-1.5 border-blue-200 shadow-none hover:border-blue-700 hover:bg-blue-50 hover:shadow-none hover:transform-none',
             props.buttonStyle === 'action' && 'outline-none bg-blue-50 text-blue-700 border-1.5 border-blue-200 shadow-none hover:border-blue-700 hover:bg-blue-50 hover:shadow-none hover:transform-none',
             props.buttonStyle === 'success' && 'bg-green-800 text-white hover:bg-green-900',
             props.buttonStyle === 'warning' && 'bg-orange-400 text-white hover:bg-orange-500',
@@ -24,7 +25,7 @@
             props.buttonStyle === 'app-white' && 'bg-white text-primary',
             props.buttonStyle === 'app-order-now' && 'bg-primary text-white',
             props.buttonStyle === 'app-activated' && 'bg-[#02c18e] text-white',
-            !props.buttonStyle && 'text-tertiary border border-tertiary hover:bg-tertiary hover:text-white',
+            !props.buttonStyle && 'text-tertiary border border-primary hover:bg-primary hover:text-white',
             props.buttonSize === 'sm' && 'p-3',
             props.buttonSize === 'xs' && 'p-2',
             !props.buttonSize && 'px-4 py-2.5',

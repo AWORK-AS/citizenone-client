@@ -21,7 +21,9 @@
                                                 <div class="flex items-center gap-2 flex-wrap">
                                                     <Badge type="primary" class="w-fit shrink-0">
                                                         <p class="text-xxs">
-                                                            {{ $t(`activityLogs.table.actionTypes.${log?.action_type}`) }}
+                                                            {{
+                                                                $t(`activityLogs.table.actionTypes.${log?.action_type}`)
+                                                            }}
                                                         </p>
                                                     </Badge>
                                                     <p class="text-sm font-semibold text-gray-900">
@@ -33,9 +35,10 @@
                                                 </p>
                                                 <ul class="space-y-1" v-if="log?.changes && log.changes.length > 0">
                                                     <li class="text-sm text-gray-600 flex flex-wrap items-center gap-x-1"
-                                                        v-for="(change, changeIndex) in log.changes"
-                                                        :key="changeIndex">
-                                                        <span class="font-medium text-gray-700">{{ change.label }}:</span>
+                                                        v-for="(change, changeIndex) in log.changes" :key="changeIndex">
+                                                        <span class="font-medium text-gray-700">
+                                                            {{ change.label }}:
+                                                        </span>
                                                         <span>{{ change.old ?? '-' }}</span>
                                                         <Icon name="heroicons:arrow-right" class="h-3 w-3 text-gray-400"
                                                             aria-hidden="true" />

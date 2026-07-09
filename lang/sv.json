@@ -72,7 +72,7 @@
         "promoCta": "Hämta appen",
         "appInfoMessage": "App Store- och Google Play-länkar visas här i den riktiga versionen.",
         "appScanHint": "Skanna QR-koden med din telefonkamera för att ladda ner appen.",
-        "modalIntro": "Välj de delar ni använder — så visar vi bara relevanta steg.",
+        "modalIntro": "Välj de delar ni använder - så visar vi bara relevanta steg.",
         "modules": {
             "vagtplan": "Schema",
             "medicin": "Medicin",
@@ -648,6 +648,7 @@
         "apps": "Apps",
         "authorizationDenied": "Auktorisation har avvisats",
         "categories": {
+            "all": "Alla appar",
             "citizenone": "CitizenOne",
             "fst": "FindSocialeTilbud.dk",
             "marketing": "Marketing",
@@ -705,7 +706,21 @@
             "disconnected": "Zenegy-konto är afbrudt"
         },
         "setupFee": "uppstart",
-        "goToSetup": "Gå till inställningar"
+        "goToSetup": "Gå till inställningar",
+        "badge": {
+            "popular": "Populär",
+            "recommended": "Rekommenderad",
+            "news": "Nyhet",
+            "discount": "-{percent}%"
+        },
+        "recommendedForYou": "Rekommenderat för er",
+        "otherIn": "Andra appar i {category}",
+        "usedBy": "Används av {count} organisationer",
+        "noBinding": "Ingen bindningstid",
+        "setupFeeSuffix": "uppstartsavgift",
+        "offerEndsInDays": "Erbjudandet slutar om {count} dagar",
+        "offerEndsToday": "Erbjudandet slutar idag",
+        "save": "Spara {percent}%"
     },
     "archived": {
         "alert": {
@@ -1335,17 +1350,17 @@
                 "unpin": "Ta bort fästning"
             },
             "alert": {
-                "addedToFavorites": "Journal tillagd till favoriter",
+                "addedToFavorites": "{journal} tillagd till favoriter",
                 "deletedSuccessfully": "Journal raderad",
-                "lockJournal": "Journal låst",
-                "pinJournal": "Journal fäst",
-                "removedToFavorites": "Journal borttagen från favoriter",
+                "lockJournal": "{journal} låst",
+                "pinJournal": "{journal} fäst",
+                "removedToFavorites": "{journal} borttagen från favoriter",
                 "successfullyAdded": "Ny journal sparad",
-                "successfullyCopied": "Journalen har kopierats",
-                "successfullyMoved": "Journalen har flyttats",
+                "successfullyCopied": "{journal} har kopierats",
+                "successfullyMoved": "{journal} har flyttats",
                 "successfullyUpdated": "Journal uppdaterad",
-                "unlockJournal": "Journal låst upp",
-                "unpinJournal": "Fästning borttagen"
+                "unlockJournal": "{journal} låst upp",
+                "unpinJournal": "{journal} fästning borttagen"
             },
             "confirmation": {
                 "copyConfirmation": "Är du säker på att du vill kopiere denna journal till den valda klient",
@@ -1474,7 +1489,7 @@
                     "confirmPassword": "Bekräfta lösenord",
                     "password": "Lösenord",
                     "unlock": "Lås upp",
-                    "unlockJournal": "Lås upp för journal"
+                    "unlockJournal": "{journal} låst upp"
                 },
                 "shareJournals": "Dela journaler",
                 "sharedJournals": "Delade journaler",
@@ -2154,16 +2169,28 @@
                 "treatmentReasonPlaceholder": "Vad är årsagen till, att klienten får denna medicin",
                 "unit": "Enhet",
                 "advancedSchedule": "Avanceret skemaindstilling",
-                "advancedScheduleDesc": "Använd dessa inställningar om klienten ska have medicinen i bestemte perioder eller på specifika enkeltdage — ut över den fasta hyppighed ovenfor.",
+                "advancedScheduleDesc": "Använd dessa inställningar om klienten ska have medicinen i bestemte perioder eller på specifika enkeltdage - ut över den fasta hyppighed ovenfor.",
                 "treatmentPeriods": "Behandlingsperioder",
-                "treatmentPeriodsDesc": "Angiv perioder var medicinen aktivt ska gives — fx behandling i vecka 1-3, paus i vecka 4, behandling i vecka 5-6.",
+                "treatmentPeriodsDesc": "Angiv perioder var medicinen aktivt ska gives - fx behandling i vecka 1-3, paus i vecka 4, behandling i vecka 5-6.",
                 "addPeriod": "+ Lägg till period",
                 "from": "Från",
                 "to": "till",
-                "noPeriodsAdded": "Inga perioder tillagd — medicinen fölger hyppighedsindstillingen hele vejen",
+                "noPeriodsAdded": "Inga perioder tillagd - medicinen fölger hyppighedsindstillingen hele vejen",
                 "extraIndividualDates": "Extra individuelle dagar",
-                "extraIndividualDatesDesc": "Lägg till specifika enkeltdage var klienten ska have medicinen — selvom det inte passer med den fasta hyppighed. Klicka på en datum i kalendern för att lägga till den.",
-                "noExtraDaysSelected": "Inga extra dagar vald"
+                "extraIndividualDatesDesc": "Lägg till specifika enkeltdage var klienten ska have medicinen - selvom det inte passer med den fasta hyppighed. Klicka på en datum i kalendern för att lägga till den.",
+                "noExtraDaysSelected": "Inga extra dagar vald",
+                "weeklyRotation": {
+                    "label": "Veckorotation",
+                    "startWeekday": "Schema börjar på",
+                    "weekTemplates": "Veckmallar",
+                    "weekTemplatesDesc": "Definiera vilka dagar medicinen ges varje vecka. Veckor roterar i ordning (A → B → C → A ...).",
+                    "addWeek": "+ Lägg till vecka",
+                    "weekLabel": "Vecka",
+                    "noDaysSelected": "Inga dagar valda — denna vecka är en vilovecka",
+                    "repeatMode": "Upprepa",
+                    "repeatIndefinitely": "På obestämd tid",
+                    "repeatUntilDate": "Till datum"
+                }
             },
             "history": {
                 "alert": {
@@ -2303,7 +2330,7 @@
                 "dueInMinutes": "Forfaldner om {minutes} minuter. Husk att ge till tiden.",
                 "expired": "Utgången",
                 "selfAdministration": "Självadministrerande",
-                "expiredCheckDate": "Utgången — kontrollera anbrud datum",
+                "expiredCheckDate": "Utgången - kontrollera anbrud datum",
                 "lowStock": "Lågt lager",
                 "lowStockOnly": "Lågt lager: endast {n} tillbaka",
                 "pnMedicineAsNeeded": "PN-medicin (efter behov)",
@@ -2327,9 +2354,9 @@
                 "slotDeviation": "Avvikelse",
                 "slotInMinutes": "Om {minutes} min",
                 "slotAt": "Kl. {timme}",
-                "slotOverdue": "Försenad — planlagt kl. {timme}. Klicka för att ge.",
-                "slotDueSoon": "Forfaldner om {minutes} min — kl. {timme}",
-                "slotClickToGive": "Klicka för att ge — planlagt kl. {timme}",
+                "slotOverdue": "Försenad - planlagt kl. {timme}. Klicka för att ge.",
+                "slotDueSoon": "Forfaldner om {minutes} min - kl. {timme}",
+                "slotClickToGive": "Klicka för att ge - planlagt kl. {timme}",
                 "overdueCountText": "{n} försenad",
                 "givenCountText": "{n} given",
                 "pendingCountText": "{n} väntar",
@@ -2407,7 +2434,11 @@
                 "to": "till",
                 "extraIndividualDates": "Extra individuelle dagar",
                 "expired": "Utgången",
-                "expiredTooltip": "Detta läkemedel har gått ut"
+                "expiredTooltip": "Detta läkemedel har gått ut",
+                "weeklyRotation": "Veckorotationsschema",
+                "startWeekday": "Börjar på",
+                "repeatsUntil": "Upprepas till",
+                "indefinitely": "På obestämd tid"
             }
         },
         "newCitizen": "Ny klient",
@@ -3274,6 +3305,7 @@
     "customPages": {
         "customPages": "Ordliste",
         "editCustomPage": "Redigera brugerdefineret sida",
+        "wordListSuccessfullySaved": "Ordlistan sparades",
         "form": {
             "alert": {
                 "customPageSuccessfullyUpdated": "Brugerdefineret sida har uppdaterats"
@@ -3471,7 +3503,7 @@
         "drive-google": {
             "info-drive-1": "Du ser just nu Google Drive-filer, eftersom du har linket din Google-konto.",
             "info-drive-2": "Om du också vill bruge det lokal system så tryck 'CitizenOne Documents'-knappen i toppen.",
-            "info-drive-3": "Byt mellan systemerne utan att miste filer — upload till det önskade system via upload-knappen.."
+            "info-drive-3": "Byt mellan systemerne utan att miste filer - upload till det önskade system via upload-knappen.."
         },
         "drive-local": {
             "info-drive-1": "Du ser just nu CitizenOne Documents-filer",
@@ -3481,7 +3513,7 @@
         "drive-onedrive": {
             "info-drive-1": "Du ser just nu dina OneDrive-filer, eftersom du har linket din Microsoft-konto.",
             "info-drive-2": "Om du vill tillbaka till CitizenOne Documents, så tryck 'Virksomhedsdokumenter'-knappen i toppen.",
-            "info-drive-3": "Byt mellan systemerne utan att miste filer — upload till det önskade system via upload-knappen."
+            "info-drive-3": "Byt mellan systemerne utan att miste filer - upload till det önskade system via upload-knappen."
         },
         "editDocument": "Redigera dokument",
         "expenses": "Utgifter",
@@ -3555,7 +3587,7 @@
         "copyPaste": {
             "clickHereToPasteTheSchedule": "Klicka här för att indsätte vagtplanen, eller tryck på Escape-tasten på ditt tastatur för att annullere",
             "clickHereToStopCopyingTheSchedule": "Klicka här för att stoppa med att kopiere",
-            "copyingActive": "Kopiering aktiv — Klicka för att stoppa",
+            "copyingActive": "Kopiering aktiv - Klicka för att stoppa",
             "stopCopying": "Stopp kopiering"
         },
         "custom": "Brugerdefineret",
@@ -3639,7 +3671,7 @@
                 "viewPresets": "Se förinställningar",
                 "infoBox": {
                     "title": "Vad är förinställningar?",
-                    "description": "En förinställning är en sparad version av din vagtplanskladde, som du kan genbruge. Välj en förinställning nedenfor och klicka Använd för att ladda den i kladden — du kan derefter redigere och publicera den."
+                    "description": "En förinställning är en sparad version av din vagtplanskladde, som du kan genbruge. Välj en förinställning nedenfor och klicka Använd för att ladda den i kladden - du kan derefter redigere och publicera den."
                 },
                 "saveInfoBox": {
                     "title": "Spara din nuvarande utkast som förinställning",
@@ -3700,7 +3732,7 @@
                 "oneTimeDescription": "En fast veckovis tjänsteschema du anvender én gang ad gangen.",
                 "recurring": "Gentagende:",
                 "recurringDescription": "En rullande tjänsteschema där gentages över fler veckor (fx 4-ugers rotation). Kan sättes till att köre frem till en given datum.",
-                "tip": "Tips: Skapa skabelonen, klicka derefter Använd för att ladda den i din vagtplanskladde — du kan redigere den bagefter."
+                "tip": "Tips: Skapa skabelonen, klicka derefter Använd för att ladda den i din vagtplanskladde - du kan redigere den bagefter."
             },
             "form": {
                 "adminsOnly": "Endast administratörer",
@@ -3723,7 +3755,7 @@
                 "isRecurringDescription": "En gentagende mall roterer automatiskt över fler veckor (fx 4-ugers vagtrullering). En inte-gentagende mall är en fast enkelt ugeplan.",
                 "recurringInfoBox": {
                     "title": "Gentagende mall",
-                    "description": "Angiv var många veckor skabelonen roterer över (fx 4 = 4-ugers rulning). Du kan valfritt sätta en slutdatum — om du inte sätter en datum, kan skabelonen alltid anvendes."
+                    "description": "Angiv var många veckor skabelonen roterer över (fx 4 = 4-ugers rulning). Du kan valfritt sätta en slutdatum - om du inte sätter en datum, kan skabelonen alltid anvendes."
                 }
             },
             "newDraft": "Ny mall",
@@ -3946,7 +3978,7 @@
             "insertHere": "Infoga här",
             "insertMonthHere": "Infoga månad här",
             "insertWeekHere": "Infoga vecka här",
-            "monthCopied": "Månad kopierad — naviger till annan månad och klicka Infoga",
+            "monthCopied": "Månad kopierad - naviger till annan månad och klicka Infoga",
             "seeCalendar": "Se kalender"
         },
         "halfYearView": {
@@ -4451,8 +4483,10 @@
                 "companies": "Företag",
                 "company": "Företag",
                 "createFirstClient": "Skapa din första klient",
+                "export": "Exportera",
                 "import": "Importera",
                 "noCompaniesFound": "Inga företag hittades",
+                "payingClientsOnly": "Endast betalande kunder",
                 "searchPlaceholder": "Sök på namn, e-post eller domän...",
                 "showing": "Visar {from}–{to} av {total}",
                 "sort": {
@@ -5133,7 +5167,7 @@
                 "churnIssues": "Churn, betalningsproblem och varningar",
                 "healthyLevel": "Hälsosam nivå",
                 "requiresAttention": "Kräver uppmärksamhet",
-                "critical": "Kritisk — agera nu",
+                "critical": "Kritisk - agera nu",
                 "goalUnder2": "Mål: under 2%/mån.",
                 "churnedRevenue": "Förlorad intäkt (churn)",
                 "companiesLost": "företag förlorade",
@@ -5206,13 +5240,13 @@
                 "subtitle": "Definiera priser och licensstrukturer per app",
                 "newLicense": "Ny licens",
                 "licenseModelLabel": "Licensmodell",
-                "licenseModelDesc": "Företag betalar per app de aktiverar, inte en samlad plan. Priset är per användare/licens med flexibla faktureringsintervall — månadsvis, årsvis eller specifikt avtal (t.ex. offentlig sektor med stor volym).",
+                "licenseModelDesc": "Företag betalar per app de aktiverar, inte en samlad plan. Priset är per användare/licens med flexibla faktureringsintervall - månadsvis, årsvis eller specifikt avtal (t.ex. offentlig sektor med stor volym).",
                 "noAppsFound": "Inga appar hittades",
                 "noAppsFoundSub": "Lägg till appar från Apps-sidan först",
                 "licenseTypes": "licenstyper",
                 "activeCompanies": "aktiva företag",
                 "addLicense": "Lägg till licens",
-                "noLicenseTypes": "Inga licenstyper ännu — lägg till den första",
+                "noLicenseTypes": "Inga licenstyper ännu - lägg till den första",
                 "volume": "Volym",
                 "inactive": "Inaktiv",
                 "free": "Gratis",
@@ -5259,6 +5293,20 @@
                 "successDeletedBody": "Licenstyp '{name}' har raderats.",
                 "deleteConfirm": "Ta bort licenstyp '{name}'?"
             }
+        },
+        "history": {
+            "title": "Skifthistorik",
+            "loading": "Hämtar historik...",
+            "empty": "Ingen historik än.",
+            "by": "Av",
+            "system": "System",
+            "viewHistory": "Visa historik",
+            "actions": {
+                "created": "Skapad",
+                "published": "Publicerad",
+                "updated": "Uppdaterad",
+                "deleted": "Raderad"
+            }
         }
     },
     "dutyShiftRuleNotifications": {
@@ -5301,7 +5349,7 @@
             "periodDaysBackInfo1": "Detta angiver, var många dagar tillbaka i tiden reglen ska se för att evaluere betingelserne.",
             "periodDaysBackInfo2": "För eksempel, om du indstiller det till 30, vill reglen evaluere medarbejderens pass i de sidste 30 dagar för att afgöre, om betingelserne är opfyldt.",
             "periodFilter": "Periodefilter",
-            "periodInfoAnchorDesc": "Slutpunktet för periodefilteret. Lad feltet stå tomt för att bruge dags datum — denna är dynamisk och opdateres automatiskt varje dag, så periodefilteret rykker sig framåt dag för dag. Om det är satt, beregnes perioden tillbaka från den fasta datum i stedet.",
+            "periodInfoAnchorDesc": "Slutpunktet för periodefilteret. Lad feltet stå tomt för att bruge dags datum - denna är dynamisk och opdateres automatiskt varje dag, så periodefilteret rykker sig framåt dag för dag. Om det är satt, beregnes perioden tillbaka från den fasta datum i stedet.",
             "periodInfoFormula": "periodefilter start = ankerdato − period (dagar)",
             "periodInfoHowDesc": "Reglen evaluerer pass innan för ett periodefilter, där starter vet (ankerdato − period i dagar) och slutter vet ankerdatoen.",
             "periodInfoHowTitle": "Sådan fungerer de tillsammans",
@@ -5863,9 +5911,9 @@
     "more": "Mer",
     "commandPalette": {
         "placeholder": "Sök efter åtgärder eller sektioner…",
-        "hint": "Sök och hoppa runt — ⌘K. Tryck ? för alla genvägar.",
+        "hint": "Sök och hoppa runt - ⌘K. Tryck ? för alla genvägar.",
         "didYouKnowTitle": "Visste du?",
-        "didYouKnowBody": "Du kan söka och hoppa var som helst med ⌘K — tryck ? för alla genvägar.",
+        "didYouKnowBody": "Du kan söka och hoppa var som helst med ⌘K - tryck ? för alla genvägar.",
         "didYouKnowDismiss": "Förstått",
         "empty": "Inga resultat",
         "actions": "Åtgärder",
@@ -6339,7 +6387,7 @@
     },
     "guidedTour": "Guidet tur",
     "helpGuide": {
-        "scheduleTitle": "Hjälp & Guide — Tjänsteschema",
+        "scheduleTitle": "Hjälp & Guide - Tjänsteschema",
         "title": "Hjälp & Guide"
     },
     "hideAll": "Dölj alla",
@@ -6743,7 +6791,7 @@
     },
     "login": {
         "activeUsers": "Aktiva användare",
-        "description": "Allt från journalnotater och handleplaner till vagtplanlägning och rapportering — totalt i én platform, bygget till dem där arbetar med mennesker.",
+        "description": "Allt från journalnotater och handleplaner till vagtplanlägning och rapportering - totalt i én platform, bygget till dem där arbetar med mennesker.",
         "doYouNeedHelp": "Har du använd för hjälp",
         "form": {
             "createHere": "Skapa här",
@@ -6790,12 +6838,12 @@
             "microsoftGuide": {
                 "title": "Så här ansluter du ditt Microsoft-konto",
                 "intro": "Följ dessa steg för att länka ditt Microsoft-arbetskonto så att du kan skicka och ta emot e-post i CitizenOne.",
-                "step1": "Klicka på Logga in via Microsoft ovan — du omdirigeras till Microsofts inloggningssida.",
+                "step1": "Klicka på Logga in via Microsoft ovan - du omdirigeras till Microsofts inloggningssida.",
                 "step2": "Ange din arbets-e-postadress (t.ex. dittnamn(at)dittforetag.se) och lösenord.",
                 "step3": "Slutför multifaktorautentisering (MFA) om din organisation kräver det.",
                 "step4": "På behörighetsskärmen begär CitizenOne åtkomst för att läsa och skicka e-post åt dig. Välj något av följande:",
-                "step4Accept": "Acceptera — ger åtkomst enbart för ditt eget konto. Du kan börja direkt.",
-                "step4Request": "Begär godkännande — om din IT-administratör har begränsat appåtkomst, klicka här för att skicka en godkännandebegäran till dem. Återvänd för att ansluta när de har godkänt det i Azure Portal.",
+                "step4Accept": "Acceptera - ger åtkomst enbart för ditt eget konto. Du kan börja direkt.",
+                "step4Request": "Begär godkännande - om din IT-administratör har begränsat appåtkomst, klicka här för att skicka en godkännandebegäran till dem. Återvänd för att ansluta när de har godkänt det i Azure Portal.",
                 "step4Hint": "Om du är osäker, klicka på Acceptera. Om det misslyckas med ett behörighetsfel, kontakta din IT-administratör och be dem bevilja administratörsmedgivande för CitizenOne i din organisations Azure Active Directory.",
                 "step5": "Du omdirigeras automatiskt tillbaka till CitizenOne och ett bekräftelsemeddelande visas.",
                 "step6": "Din inkorg är nu ansluten. Du kan läsa, svara, vidarebefordra och skicka e-post från CitizenOne.",
@@ -6817,6 +6865,16 @@
             "on": "Den",
             "selectAMessage": "Välj ett meddelande",
             "to": "Till"
+        },
+        "filter": {
+            "all": "Alla",
+            "noUnread": "Inga olästa meddelanden",
+            "unread": "Olästa"
+        },
+        "search": {
+            "clear": "Rensa sökning",
+            "noResults": "Inga meddelanden matchar din sökning",
+            "placeholder": "Sök i e-post"
         },
         "download": "Ladda ner",
         "downloadFile": {
@@ -7120,7 +7178,15 @@
         "welcomeDescription": "Välj en samtal från sidebjälken, eller skapa en ny för att komme pågår.",
         "welcomeToChat": "Välkommen till chatt",
         "yesterday": "Igår",
-        "you": "Dig"
+        "you": "Dig",
+        "recipients": "Mottagare",
+        "recipientsHint": "Välj vem du vill skriva till och skriv ditt meddelande.",
+        "selectRecipients": "Sök kollegor...",
+        "subjectOptional": "Ämne (valfritt)",
+        "subjectPlaceholder": "Vad handlar det om?",
+        "messagePlaceholder": "Skriv ditt meddelande...",
+        "sendHint": "⌘ + Enter för att skicka",
+        "emoji": "Emoji"
     },
     "months": {
         "april": "April",
@@ -9121,6 +9187,9 @@
                 "monthlyPrice": "Månadspris",
                 "yearlyPrice": "Årspris",
                 "type": "Typ",
+                "category": "Kategori",
+                "setupFee": "Startavgift",
+                "sortOrder": "Sorteringsordning",
                 "link": "Länk",
                 "quantifiable": "Kvantifierbar",
                 "thirdPartyApp": "Tredjepartsapp",
@@ -9133,9 +9202,45 @@
                     "marketing": "Marknadsföring",
                     "visual": "Visuell",
                     "other": "Annan"
-                }
+                },
+                "discountPercent": "Rabatt (%)",
+                "discountEndsAt": "Erbjudandet slutar"
             },
             "colName": "Namn"
+        },
+        "appCategories": {
+            "pageTitle": "App-kategorier",
+            "newCategory": "Ny kategori",
+            "searchPlaceholder": "Sök kategorier...",
+            "noCategoriesFound": "Inga kategorier hittades",
+            "active": "Aktiv",
+            "inactive": "Inaktiv",
+            "edit": "Redigera",
+            "colName": "Namn",
+            "colSlug": "Slug",
+            "colIcon": "Ikon",
+            "colSortOrder": "Sorteringsordning",
+            "colStatus": "Status",
+            "colApps": "Appar",
+            "sliderNewTitle": "Ny kategori",
+            "sliderEditTitle": "Redigera kategori",
+            "sliderNewSubtitle": "Fyll i uppgifterna för att skapa en ny kategori",
+            "sliderEditSubtitle": "Uppdatera kategorins uppgifter nedan",
+            "deleteConfirm": "Är du säker på att du vill ta bort {name}?",
+            "errorNameRequired": "Namn krävs",
+            "successCreated": "Skapad",
+            "successCreatedBody": "{name} har skapats",
+            "successSaved": "Sparad",
+            "successUpdatedBody": "{name} har uppdaterats",
+            "successDeleted": "Borttagen",
+            "successDeletedBody": "{name} har tagits bort",
+            "form": {
+                "name": "Namn",
+                "icon": "Ikon",
+                "iconHint": "En emoji eller ett ikonnamn (t.ex. ic:baseline-category)",
+                "sortOrder": "Sorteringsordning",
+                "isActive": "Aktiv"
+            }
         },
         "companies": {
             "companies": "Företag",
@@ -9292,10 +9397,13 @@
                 "licenses": "Licenser",
                 "all": "Alla",
                 "active": "Aktiva",
-                "inactive": "Inaktiva"
+                "inactive": "Inaktiva",
+                "paying": "Betalande"
             },
             "totalClients": "klienter totalt",
+            "export": "Exportera",
             "import": "Importera",
+            "payingClientsOnly": "Endast betalande kunder",
             "searchPlaceholder": "Sök företag...",
             "sort": {
                 "nameAsc": "Namn A-Ö",
@@ -9817,6 +9925,7 @@
         },
         "sidebar": {
             "apps": "Apps",
+            "appCategories": "App-kategorier",
             "companies": "Företag",
             "coupons": "Kuponer",
             "dashboard": "Dashboard",
@@ -9988,7 +10097,7 @@
             "churnIssues": "Bortfall, betalningsproblem och varningar",
             "healthyLevel": "Hälsosam nivå",
             "requiresAttention": "kräver uppmärksamhet",
-            "critical": "Kritiskt — agera nu",
+            "critical": "Kritiskt - agera nu",
             "goalUnder2": "Mål: under 2%/mån.",
             "churnedRevenue": "Avhoppsintäkt",
             "companiesLost": "förlorade företag",
@@ -10069,13 +10178,13 @@
             "subtitle": "Definiera priser och licensstrukturer per app",
             "newLicense": "Ny licens",
             "licenseModelLabel": "Licensmodell",
-            "licenseModelDesc": "Företag betalar per app de aktiverar, inte en samlad plan. Priset är per användare/licens med flexibla faktureringsintervall — månadsvis, årsvis eller specifikt avtal (t.ex. offentlig sektor med stor volym).",
+            "licenseModelDesc": "Företag betalar per app de aktiverar, inte en samlad plan. Priset är per användare/licens med flexibla faktureringsintervall - månadsvis, årsvis eller specifikt avtal (t.ex. offentlig sektor med stor volym).",
             "noAppsFound": "Inga appar hittades",
             "noAppsFoundSub": "Lägg till appar från Apps-sidan först",
             "licenseTypes": "licenstyper",
             "activeCompanies": "aktiva företag",
             "addLicense": "Lägg till licens",
-            "noLicenseTypes": "Inga licenstyper ännu — lägg till den första",
+            "noLicenseTypes": "Inga licenstyper ännu - lägg till den första",
             "volume": "Volym",
             "inactive": "Inaktiv",
             "free": "Gratis",
@@ -10125,7 +10234,7 @@
         "products": {
             "title": "Produkter",
             "productCatalog": "Produktkatalog",
-            "subtitle": "Paket, tillägg och appar — hantera alla priser på ett ställe",
+            "subtitle": "Paket, tillägg och appar - hantera alla priser på ett ställe",
             "newPackage": "Nytt paket",
             "newApp": "Ny app",
             "included": "Inkluderat",
@@ -10168,7 +10277,7 @@
             "storageGb": "Lagringsutrymme (GB)",
             "featuresAndBenefits": "Funktioner & fördelar",
             "add": "Lägg till",
-            "noFeaturesYet": "Inga funktioner ännu — klicka på \"Lägg till\" för att börja",
+            "noFeaturesYet": "Inga funktioner ännu - klicka på \"Lägg till\" för att börja",
             "specialFeatures": "Specialfunktioner",
             "cancel": "Avbryt",
             "saving": "Sparar...",
@@ -10295,7 +10404,7 @@
         },
         "cancellations": {
             "pageTitle": "Uppsägningar",
-            "pageSubtitle": "Manuell registrering av uppsagda licenser — används för churn-spårning",
+            "pageSubtitle": "Manuell registrering av uppsagda licenser - används för churn-spårning",
             "registerBtn": "Registrera uppsägning",
             "statTotal": "Totala uppsägningar",
             "statSinceLaunch": "Sedan start",
@@ -10454,7 +10563,7 @@
             "expiryDateTitle": "Utgångsdatum",
             "grantAmountDesc": "Antallet av timmar, där tildeles, varje gang regelbetingelserne är opfyldt.",
             "grantAmountTitle": "Tilldelad antal timmar",
-            "grantFrequencyDesc": "Angiver, var ofta timmar tildeles, när betingelserne är opfyldt — veckovis, månadsvis eller årligen — i förhållande till kontoens startdatum.",
+            "grantFrequencyDesc": "Angiver, var ofta timmar tildeles, när betingelserne är opfyldt - veckovis, månadsvis eller årligen - i förhållande till kontoens startdatum.",
             "grantFrequencyTitle": "Tildelingsfrekvens",
             "initialHoursDesc": "Den oprindelige saldo av timmar tilldelad kontoen, när den först oprettes eller aktiveres. Dessa timmar vill automatiskt blive tilldelad de tilldelade anställda vet aktivering.",
             "initialHoursTitle": "Initialtimer",
@@ -11268,7 +11377,7 @@
             },
             "map": {
                 "columnsFound": "{headers} kolumner hittades, {rows} rader",
-                "yourColumns": "Dina kolumner — dra dem hit",
+                "yourColumns": "Dina kolumner - dra dem hit",
                 "noName": "(inget namn)",
                 "noColumnName": "(kolumn)",
                 "citizenOneFields": "CitizenOne-fält",
@@ -11277,14 +11386,14 @@
                 "requiredFieldsHint": "Obligatoriska fält (*) måste mappas innan import."
             },
             "dryRun": {
-                "title": "Genomgång innan import — inget är sparat ännu.",
+                "title": "Genomgång innan import - inget är sparat ännu.",
                 "readyToImport": "redo att importera",
                 "skipped": "hoppas över",
                 "whySkipped": "Varför rader hoppas över",
                 "journalHint": "Rader utan matchning i CitizenOne (okänt CPR) sorteras automatiskt bort under importen och visas i sammanfattningen.",
                 "scheduleHint": "Rader utan matchning i CitizenOne (okänd e-post eller skifttyp) sorteras automatiskt bort under importen och visas i sammanfattningen.",
                 "citizensHint": "Medborgare som redan finns (samma CPR eller namn) hoppas över.",
-                "employeesHint": "Anställda som redan finns (samma e-post eller namn) hoppas över. Varje ny anställd använder en användarlicens — om du tar slut skapas resten inte.",
+                "employeesHint": "Anställda som redan finns (samma e-post eller namn) hoppas över. Varje ny anställd använder en användarlicens - om du tar slut skapas resten inte.",
                 "noValidRows": "Inga giltiga rader att importera. Gå tillbaka och kontrollera mappning och data."
             },
             "importing": {
@@ -11295,13 +11404,13 @@
                 "rowsSkipped": "{count} rad(er) kunde inte matchas och hoppades över.",
                 "allImported": "Alla rader importerades.",
                 "alreadyExisted": "{count} fanns redan och hoppades över.",
-                "licenseBlocked": "{count} anställda kunde inte skapas — ni saknar användarlicenser.",
-                "licenseHint": "Lägg till minst {count} licens(er) och kör importen igen — redan skapade hoppas över.",
+                "licenseBlocked": "{count} anställda kunde inte skapas - ni saknar användarlicenser.",
+                "licenseHint": "Lägg till minst {count} licens(er) och kör importen igen - redan skapade hoppas över.",
                 "addLicenses": "Lägg till licenser",
                 "invitesSent": "Inloggningsmail har skickats till de skapade anställda.",
                 "sendInvites": "Skicka inloggningsmail till {count} anställda",
                 "inviteHint": "De skapade anställda får ett e-postmeddelande med inloggning och kom-igång-info. Importen skickar inte mail automatiskt.",
-                "undone": "Importen har ångrats — raderna har tagits bort igen.",
+                "undone": "Importen har ångrats - raderna har tagits bort igen.",
                 "undo": "Ångra import ({count} skapade)",
                 "unmatchedCpr": "Omatchade CPR-nummer:",
                 "unmatchedEmails": "Omatchade e-postadresser:",
@@ -11390,6 +11499,19 @@
         "form": {
             "sendSmsNotification": "Skicka SMS-notifikation",
             "sendSmsNotificationHint": "Medborgaren får ett SMS med bokningsinformation."
+        }
+    },
+    "recordHistory": {
+        "title": "Historik",
+        "loading": "Hämtar historik...",
+        "empty": "Ingen historik än.",
+        "by": "Av",
+        "system": "System",
+        "viewHistory": "Visa historik",
+        "events": {
+            "created": "Skapad",
+            "updated": "Uppdaterad",
+            "deleted": "Raderad"
         }
     }
 }

@@ -5,19 +5,21 @@
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
+import { useTerminology } from '@/composables/useTerminology'
 import { useI18n } from "vue-i18n"
 
 const route = useRoute()
 const citizenUuid = route?.params?.uuid
 const userStore = useUserStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const { term } = useTerminology()
 const { errorAlert } = useAlert()
 
 const state = reactive({
     tabs: [] as any[],
 })
 
-watch(() => userStore.getUser, (newValue: any) => {
+watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     if (!newValue) return
 
     const pages = newValue.pages || []
@@ -29,7 +31,7 @@ watch(() => userStore.getUser, (newValue: any) => {
 
     if (can('Journals')) {
         tabs.push({
-            name: 'citizens.tabs.journals', icon: 'ph:notebook', isTranslateName: true,
+            name: term('journals', t('citizens.tabs.journals')), icon: 'ph:notebook', isTranslateName: false,
             category: 'documentation', primary: true,
             href: `/citizens/${citizenUuid}/journals`,
             routeNames: ['citizens-uuid-journals'],
@@ -176,5 +178,5 @@ watch(() => userStore.getUser, (newValue: any) => {
             errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('youDontHaveAccessToThisPage')}.`)
         }
     }
-})
+}, { immediate: true })
 </script>

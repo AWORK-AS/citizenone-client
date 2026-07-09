@@ -229,7 +229,8 @@
                                         <button type="button"
                                             class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center transition-colors"
                                             @click.stop="emit('openDayActivityLog', day.fullDate.format('YYYY-MM-DD'))">
-                                            <Icon name="ph:clock-counter-clockwise" class="h-3 w-3" aria-hidden="true" />
+                                            <Icon name="ph:clock-counter-clockwise" class="h-3 w-3"
+                                                aria-hidden="true" />
                                         </button>
                                     </Tooltip>
                                     <div v-if="getSlotCount(day.longName) > 0"
@@ -243,8 +244,7 @@
                                             style="color:#b45309">{{ getHolidayForDay(day.longName) }}</span>
                                     </span>
                                 </div>
-                                <div v-for="day in weekDays"
-                                    :key="day.date"
+                                <div v-for="day in weekDays" :key="day.date"
                                     :class="['relative flex flex-col items-center justify-center py-2 sm:py-3 pb-5 sm:pb-6 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     v-if="!hasScheduleManageAccess">
                                     <span class="flex gap-x-1 text-sm">
@@ -278,7 +278,8 @@
                                         <button type="button"
                                             class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center transition-colors"
                                             @click.stop="emit('openDayActivityLog', day.fullDate.format('YYYY-MM-DD'))">
-                                            <Icon name="ph:clock-counter-clockwise" class="h-3 w-3" aria-hidden="true" />
+                                            <Icon name="ph:clock-counter-clockwise" class="h-3 w-3"
+                                                aria-hidden="true" />
                                         </button>
                                     </Tooltip>
                                     <span v-if="getHolidayForDay(day.longName)"
@@ -416,10 +417,12 @@
                                                             :text="$t('dutySchedules.leaveRequests.leaveRequests')"
                                                             v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.uuid === employee?.uuid)">
                                                             <button
-                                                                class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
+                                                                class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
                                                                 @click="viewLeaveRequests(employee)">
                                                                 <Icon name="mdi:wallet-travel" class="h-3 w-3"
                                                                     aria-hidden="true" />
+                                                                <div v-if="employee?.pending_leave_requests > 0"
+                                                                    class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
                                                             </button>
                                                         </Tooltip>
                                                     </div>
@@ -452,7 +455,8 @@
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.annualNormHours') }}:
-                                                                {{ formatNumber(language.locale.value, empStats(employee)?.annual_norm_hours ?? 0) }}
+                                                                {{ formatNumber(language.locale.value,
+                                                                    empStats(employee)?.annual_norm_hours ?? 0) }}
                                                             </p>
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
@@ -520,21 +524,32 @@
                                                                 <div
                                                                     class="grid grid-cols-[1fr_auto_auto] gap-x-2.5 gap-y-0.5 text-xxs text-amber-800">
                                                                     <span></span>
-                                                                    <span
-                                                                        class="text-right font-medium text-amber-600">{{
-                                                                            $t('dutySchedules.week') }}</span>
-                                                                    <span
-                                                                        class="text-right font-medium text-amber-600">{{
-                                                                            $t('dutySchedules.currentYear') }}</span>
+                                                                    <span class="text-right font-medium text-amber-600">
+                                                                        {{
+                                                                            $t('dutySchedules.week')
+                                                                        }}
+                                                                    </span>
+                                                                    <span class="text-right font-medium text-amber-600">
+                                                                        {{
+                                                                            $t('dutySchedules.currentYear')
+                                                                        }}
+                                                                    </span>
 
-                                                                    <span>{{ $t('dutySchedules.holidayWorkedShort')
-                                                                        }}</span>
-                                                                    <span class="text-right tabular-nums">{{
-                                                                        empStats(employee)?.holiday_hours?.worked_weekly
-                                                                        }}</span>
-                                                                    <span class="text-right tabular-nums">{{
-                                                                        empStats(employee)?.holiday_hours?.worked_yearly
-                                                                        }}</span>
+                                                                    <span>
+                                                                        {{
+                                                                            $t('dutySchedules.holidayWorkedShort')
+                                                                        }}
+                                                                    </span>
+                                                                    <span class="text-right tabular-nums">
+                                                                        {{
+                                                                            empStats(employee)?.holiday_hours?.worked_weekly
+                                                                        }}
+                                                                    </span>
+                                                                    <span class="text-right tabular-nums">
+                                                                        {{
+                                                                            empStats(employee)?.holiday_hours?.worked_yearly
+                                                                        }}
+                                                                    </span>
 
                                                                     <template
                                                                         v-if="parseLocaleNumber(language.locale.value, empStats(employee)?.holiday_hours?.compensation_yearly) > 0">
@@ -548,14 +563,21 @@
                                                                             }}</span>
                                                                     </template>
 
-                                                                    <span>{{ $t('dutySchedules.holidayNonWorkedShort')
-                                                                        }}</span>
-                                                                    <span class="text-right tabular-nums">{{
-                                                                        empStats(employee)?.holiday_hours?.nonworked_weekly
-                                                                        }}</span>
-                                                                    <span class="text-right tabular-nums">{{
-                                                                        empStats(employee)?.holiday_hours?.nonworked_yearly
-                                                                        }}</span>
+                                                                    <span>
+                                                                        {{
+                                                                            $t('dutySchedules.holidayNonWorkedShort')
+                                                                        }}
+                                                                    </span>
+                                                                    <span class="text-right tabular-nums">
+                                                                        {{
+                                                                            empStats(employee)?.holiday_hours?.nonworked_weekly
+                                                                        }}
+                                                                    </span>
+                                                                    <span class="text-right tabular-nums">
+                                                                        {{
+                                                                            empStats(employee)?.holiday_hours?.nonworked_yearly
+                                                                        }}
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </Tooltip>
@@ -659,47 +681,59 @@
                                                             class="py-1 pl-1.5 sm:pl-3 flex items-center gap-1 text-gray-500 italic">
                                                             <Icon name="ph:clock" class="w-2 h-2 flex-shrink-0" />
                                                             <span class="truncate">
-                                                                {{ state.filter.time_from && state.filter.time_to
-                                                                    ? state.filter.time_from + '–' + state.filter.time_to
-                                                                    : $t('dutySchedules.timeRange') }}
+                                                                {{
+                                                                    state.filter.time_from && state.filter.time_to
+                                                                        ? state.filter.time_from + '–' + state.filter.time_to
+                                                                        : $t('dutySchedules.timeRange')
+                                                                }}
                                                             </span>
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2">
                                                         <div class="text-right py-1 pr-2 text-gray-500">
-                                                            {{state.filter.time_from && state.filter.time_to
-                                                                ? empStats(employee)?.hours?.find((t: any) =>
-                                                                    t?.shift?.system_name
-                                                                    === 'time-filter')?.weekly_hours ?? '--'
-                                                                : '--'}}
+                                                            {{
+                                                                state.filter.time_from && state.filter.time_to
+                                                                    ? empStats(employee)?.hours?.find((t: any) =>
+                                                                        t?.shift?.system_name
+                                                                        === 'time-filter')?.weekly_hours ?? '--'
+                                                                    : '--'
+                                                            }}
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2 border-l-0.5 border-gray-200">
                                                         <div class="text-right py-1 pr-2 text-gray-500">
-                                                            {{state.filter.time_from && state.filter.time_to
-                                                                ? empStats(employee)?.hours?.find((t: any) =>
-                                                                    t?.shift?.system_name
-                                                                    === 'time-filter')?.yearly_hours ?? '--'
-                                                                : '--'}}
+                                                            {{
+                                                                state.filter.time_from && state.filter.time_to
+                                                                    ? empStats(employee)?.hours?.find((t: any) =>
+                                                                        t?.shift?.system_name
+                                                                        === 'time-filter')?.yearly_hours ?? '--'
+                                                                    : '--'
+                                                            }}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="text-xs grid grid-cols-7 border-t-0.5 border-gray-200">
                                                     <div class="col-span-3 min-w-0">
                                                         <div class="py-1 pl-1.5 sm:pl-3 font-bold">
-                                                            {{ $t('dutySchedules.total') }}:
+                                                            {{
+                                                                $t('dutySchedules.total')
+                                                            }}:
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2">
                                                         <div class="text-right py-1 pr-2 font-bold">
-                                                            {{ formatNumber(language.locale.value,
-                                                                shiftTypeTotal(employee, 'weekly_hours')) }}
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    shiftTypeTotal(employee, 'weekly_hours'))
+                                                            }}
                                                         </div>
                                                     </div>
                                                     <div class="col-span-2 border-l-0.5 border-gray-200">
                                                         <div class="text-right py-1 pr-2 font-bold">
-                                                            {{ formatNumber(language.locale.value,
-                                                                shiftTypeTotal(employee, 'yearly_hours')) }}
+                                                            {{
+                                                                formatNumber(language.locale.value,
+                                                                    shiftTypeTotal(employee, 'yearly_hours'))
+                                                            }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -808,7 +842,7 @@
                                                 @dragleave="isAtLeast('Admin') && onDragLeave($event)"
                                                 @drop.prevent="isAtLeast('Admin') && onDrop($event, employee, weekIndex)">
                                             </div>
-                                            <div class="space-y-2"
+                                            <div class="space-y-3"
                                                 v-if="!isDailyScheduleCopied(employeeIndex as number, weekIndex as number, weekNumber)">
                                                 <div class="flex justify-end gap-1 sm:gap-2"
                                                     v-if="hasCreatePermission || isAtLeast('Admin')">
@@ -885,7 +919,7 @@
                                                     <!-- Non-worked public holiday: employee is free but is assigned 7.4h -->
                                                     <Tooltip v-if="isNonWorkedHolidayCell(week)"
                                                         :text="$t('dutySchedules.holidayNonWorkedTooltip')"
-                                                        position="top" :wrap="true" class="w-full mb-2.5">
+                                                        position="top" :wrap="true" class="w-full mb-4">
                                                         <div
                                                             class="rounded-xl border border-amber-300 bg-amber-50 px-2 py-1.5 flex items-start gap-1.5 w-full">
                                                             <Icon name="ph:calendar-check"
@@ -903,7 +937,7 @@
                                                     </Tooltip>
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                         :key="shiftIndex" :class="[
-                                                            'rounded-xl overflow-hidden relative mb-2.5 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20'
+                                                            'rounded-xl relative mb-4 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20'
                                                         ]" :style="{
                                                             backgroundColor: `${shift?.type?.color}`,
                                                             width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
@@ -919,18 +953,19 @@
                                                             v-if="shift?.type?.system_name === 'vacation-leave'">
                                                             🏖️
                                                         </div>
-                                                        <Tooltip v-if="isWorkedHolidayShift(shift)"
-                                                            :text="$t('dutySchedules.holidayWorkedTooltip')"
-                                                            position="top"
-                                                            class="absolute left-4 -top-2 sm:-right-3 sm:-top-3 z-10"
-                                                            :wrap="true">
-                                                            <div
-                                                                class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help">
-                                                                <Icon name="ph:calendar-check"
-                                                                    class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500"
-                                                                    aria-hidden="true" />
-                                                            </div>
-                                                        </Tooltip>
+                                                        <div v-if="isWorkedHolidayShift(shift)"
+                                                            class="absolute left-4 -top-2 sm:-right-3 sm:-top-3 z-10">
+                                                            <Tooltip :text="$t('dutySchedules.holidayWorkedTooltip')"
+                                                                position="top" :wrap="true">
+                                                                <div
+                                                                    class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-amber-300 flex items-center justify-center cursor-help">
+                                                                    <Icon name="ph:calendar-check"
+                                                                        class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-500"
+                                                                        aria-hidden="true" />
+                                                                </div>
+                                                            </Tooltip>
+                                                        </div>
+                                                        <div v-if="isWorkedHolidayShift(shift)" class="h-2" />
                                                         <div class="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
                                                             @click="(hasUpdatePermission || isAtLeast('Admin')) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                             <!-- Start time -->
@@ -1082,9 +1117,10 @@
                                                             </div>
                                                         </Tooltip>
                                                         <button
-                                                            class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2"
+                                                            class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                             style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
-                                                            @click="removeShiftConfirmation(shift)"
+                                                            draggable="false" @pointerdown.stop
+                                                            @click.stop="removeShiftConfirmation(shift)"
                                                             v-if="hasDeletePermission || isAtLeast('Admin')">
                                                             <Tooltip position="left"
                                                                 :text="$t('dutySchedules.removeSchedule.removeSchedule')">
@@ -2525,7 +2561,8 @@ function isNonWorkedHolidayCell(week: any): boolean {
     if (!holidaysEnabled.value || !week?.date) return false
     if (!getHolidayNameByDate(week.date)) return false
     if (moment(week.date).day() === 0) return false // Sundays excluded (matches backend)
-    return !(week?.shifts?.length > 0)
+    if (week.shifts && week.shifts.length > 0) return false // shift present → not a free holiday
+    return true
 }
 
 // A shift that falls on a public holiday → counts as both holiday hours + the shift.

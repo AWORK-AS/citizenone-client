@@ -2,6 +2,34 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'url'
 import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite'
 
+// Audit C-07: baseline security response headers applied to every route.
+// These are safe to enforce (no known breakage). The CSP is shipped as
+// Report-Only for now because several allowed hosts are env-driven (checkout
+// script, API/Azure/OneDrive endpoints) and must be validated in staging before
+// flipping to an enforcing `Content-Security-Policy`.
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data:",
+  "connect-src 'self' https:",
+  "frame-src 'self' https://www.googletagmanager.com https://login.microsoftonline.com",
+  "frame-ancestors 'none'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ')
+
+const securityHeaders = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'SAMEORIGIN',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(self)',
+  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+  'Content-Security-Policy-Report-Only': contentSecurityPolicy,
+}
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -108,6 +136,10 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    // Audit C-07: security headers on every route.
+    '/**': {
+      headers: securityHeaders,
+    },
     '/.well-known/apple-app-site-association': {
       headers: { 'content-type': 'application/json' },
     },

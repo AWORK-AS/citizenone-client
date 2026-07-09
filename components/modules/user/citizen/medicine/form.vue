@@ -56,7 +56,8 @@
                                 :error="v$?.formMedicine?.schedule_frequency?.frequency?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.frequency?.[0]" />
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1"
+                            v-if="state.formMedicine.schedule_frequency?.frequency !== 'weekly_rotation'">
                             <FormLabel for="daily_every" :label="`${$t('recurring.every')} (${state.formMedicine.schedule_frequency?.frequency === 'daily' ? $t('recurring.frequency.daily.days') :
                                 state.formMedicine.schedule_frequency?.frequency === 'weekly' ? $t('recurring.frequency.weekly.weeks') :
                                     state.formMedicine.schedule_frequency?.frequency === 'monthly' ? $t('recurring.frequency.monthly.months') :
@@ -80,6 +81,98 @@
                             <FormError
                                 :error="v$?.formMedicine?.schedule_frequency?.weekly_on?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.weekly_on?.[0]" />
+                        </div>
+
+                        <!-- Weekly rotation -->
+                        <div class="space-y-3"
+                            v-if="state.formMedicine.schedule_frequency?.frequency === 'weekly_rotation'">
+                            <div class="space-y-1">
+                                <FormLabel for="start_weekday"
+                                    :label="$t('citizens.medicineJournals.form.weeklyRotation.startWeekday')" />
+                                <FormSelect id="start_weekday" :options="state.options.schedule_frequencies?.weekOn"
+                                    v-model="state.formMedicine.schedule_frequency.start_weekday" />
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-xs font-semibold text-gray-700">{{
+                                            $t('citizens.medicineJournals.form.weeklyRotation.weekTemplates') }}</p>
+                                        <p class="text-xs text-gray-400">{{
+                                            $t('citizens.medicineJournals.form.weeklyRotation.weekTemplatesDesc') }}</p>
+                                    </div>
+                                    <button type="button" @click="addWeekTemplate"
+                                        class="shrink-0 text-xs text-primary border border-primary/30 bg-white rounded-lg px-2.5 py-1 hover:bg-primary/5">
+                                        {{ $t('citizens.medicineJournals.form.weeklyRotation.addWeek') }}
+                                    </button>
+                                </div>
+
+                                <div v-for="(tpl, tIdx) in state.formMedicine.schedule_frequency.week_templates"
+                                    :key="tIdx" class="rounded-xl border border-gray-200 bg-white p-3 space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-xs font-semibold text-gray-700">
+                                            {{ $t('citizens.medicineJournals.form.weeklyRotation.weekLabel') }} {{
+                                                String.fromCharCode(65 + tIdx) }}
+                                        </p>
+                                        <button v-if="state.formMedicine.schedule_frequency.week_templates.length > 1"
+                                            type="button" @click="removeWeekTemplate(tIdx)"
+                                            class="text-red-400 hover:text-red-600">
+                                            <Icon name="ph:x" class="size-4" />
+                                        </button>
+                                    </div>
+                                    <div class="flex gap-1 flex-wrap">
+                                        <button v-for="day in state.options.schedule_frequencies.weekOn"
+                                            :key="day.value" type="button"
+                                            @click="toggleWeekTemplateDay(tIdx, day.value)" :class="[
+                                                'h-8 min-w-[2.5rem] px-2 rounded-lg text-xs font-semibold border transition-all',
+                                                tpl.days.includes(day.value)
+                                                    ? 'bg-primary text-white border-primary'
+                                                    : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
+                                            ]">
+                                            {{ day.label.substring(0, 2) }}
+                                        </button>
+                                    </div>
+                                    <p v-if="tpl.days.length === 0" class="text-xs text-gray-400 italic">
+                                        {{ $t('citizens.medicineJournals.form.weeklyRotation.noDaysSelected') }}
+                                    </p>
+                                    <p v-else class="text-xs text-gray-500">
+                                        {{
+                                            tpl.days.map(d => state.options.schedule_frequencies.weekOn.find(w => w.value
+                                                === d)?.label).filter(Boolean).join(', ')
+                                        }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Repeat mode -->
+                            <div class="space-y-2">
+                                <p class="text-xs font-semibold text-gray-700">{{
+                                    $t('citizens.medicineJournals.form.weeklyRotation.repeatMode') }}</p>
+                                <div class="flex gap-2">
+                                    <button type="button"
+                                        @click="state.formMedicine.schedule_frequency.recurring_until = ''" :class="['flex-1 py-2 rounded-lg text-xs font-semibold border transition-all',
+                                            state.formMedicine.schedule_frequency.recurring_until === ''
+                                                ? 'bg-primary text-white border-primary'
+                                                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100']">
+                                        {{ $t('citizens.medicineJournals.form.weeklyRotation.repeatIndefinitely') }}
+                                    </button>
+                                    <button type="button"
+                                        @click="state.formMedicine.schedule_frequency.recurring_until = state.formMedicine.schedule_frequency.recurring_until || todayDateString"
+                                        :class="['flex-1 py-2 rounded-lg text-xs font-semibold border transition-all',
+                                            state.formMedicine.schedule_frequency.recurring_until !== ''
+                                                ? 'bg-primary text-white border-primary'
+                                                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100']">
+                                        {{ $t('citizens.medicineJournals.form.weeklyRotation.repeatUntilDate') }}
+                                    </button>
+                                </div>
+                                <div v-if="state.formMedicine.schedule_frequency.recurring_until !== ''"
+                                    class="space-y-1">
+                                    <FormDateField id="recurring_until_rotation" name="recurring_until_rotation"
+                                        :placeholder="$t('citizens.medicineJournals.form.scheduleUntil')"
+                                        v-model="state.formMedicine.schedule_frequency.recurring_until" />
+                                    <FormError :error="state?.error?.errors?.recurring_until?.[0]" />
+                                </div>
+                            </div>
                         </div>
                         <div class="space-y-1" v-if="state.formMedicine.schedule_frequency?.frequency === 'monthly'">
                             <div class="flex items-center gap-x-2">
@@ -174,10 +267,12 @@
                     <div class="flex items-start gap-2">
                         <Icon name="ph:calendar-dots" class="size-5 text-primary shrink-0 mt-0.5" />
                         <div>
-                            <p class="text-sm font-semibold text-primary">{{
-                                $t('citizens.medicineJournals.form.advancedSchedule') }}</p>
-                            <p class="text-xs text-gray-500 mt-0.5">{{
-                                $t('citizens.medicineJournals.form.advancedScheduleDesc') }}</p>
+                            <p class="text-sm font-semibold text-primary">
+                                {{ $t('citizens.medicineJournals.form.advancedSchedule') }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-0.5">
+                                {{ $t('citizens.medicineJournals.form.advancedScheduleDesc') }}
+                            </p>
                         </div>
                     </div>
 
@@ -185,10 +280,12 @@
                     <div class="space-y-2">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-semibold text-gray-700">{{
-                                    $t('citizens.medicineJournals.form.treatmentPeriods') }}</p>
-                                <p class="text-xs text-gray-400">{{
-                                    $t('citizens.medicineJournals.form.treatmentPeriodsDesc') }}</p>
+                                <p class="text-xs font-semibold text-gray-700">
+                                    {{ $t('citizens.medicineJournals.form.treatmentPeriods') }}
+                                </p>
+                                <p class="text-xs text-gray-400">
+                                    {{ $t('citizens.medicineJournals.form.treatmentPeriodsDesc') }}
+                                </p>
                             </div>
                             <button type="button" @click="addTreatmentPeriod"
                                 class="shrink-0 text-xs text-primary border border-primary/30 bg-white rounded-lg px-2.5 py-1 hover:bg-primary/5">
@@ -199,12 +296,14 @@
                             <div v-for="(period, idx) in state.formMedicine.treatment_periods" :key="idx"
                                 class="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-gray-200">
                                 <Icon name="ph:calendar-blank" class="size-4 text-gray-400 shrink-0" />
-                                <span class="text-xs text-gray-500 shrink-0">{{
-                                    $t('citizens.medicineJournals.form.from') }}</span>
+                                <span class="text-xs text-gray-500 shrink-0">
+                                    {{ $t('citizens.medicineJournals.form.from') }}
+                                </span>
                                 <input type="date" v-model="period.start"
                                     class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
-                                <span class="text-xs text-gray-500 shrink-0">{{ $t('citizens.medicineJournals.form.to')
-                                }}</span>
+                                <span class="text-xs text-gray-500 shrink-0">
+                                    {{ $t('citizens.medicineJournals.form.to') }}
+                                </span>
                                 <input type="date" v-model="period.end"
                                     class="text-xs border border-gray-200 rounded px-2 py-1.5 flex-1 focus:outline-none focus:border-primary bg-gray-50" />
                                 <button type="button" @click="removeTreatmentPeriod(idx)"
@@ -233,8 +332,9 @@
                                     class="p-1 rounded hover:bg-gray-100 text-gray-500">
                                     <Icon name="ph:caret-left" class="size-4" />
                                 </button>
-                                <span class="text-xs font-semibold text-gray-700 capitalize">{{ extraDatesMonthLabel
-                                }}</span>
+                                <span class="text-xs font-semibold text-gray-700 capitalize">
+                                    {{ extraDatesMonthLabel }}
+                                </span>
                                 <button type="button" @click="extraDatesNextMonth"
                                     class="p-1 rounded hover:bg-gray-100 text-gray-500">
                                     <Icon name="ph:caret-right" class="size-4" />
@@ -264,13 +364,15 @@
                                     class="hover:text-red-500 ml-0.5">×</button>
                             </span>
                         </div>
-                        <div v-else class="text-xs text-gray-400 text-center py-1">{{
-                            $t('citizens.medicineJournals.form.noExtraDaysSelected') }}</div>
+                        <div v-else class="text-xs text-gray-400 text-center py-1">
+                            {{ $t('citizens.medicineJournals.form.noExtraDaysSelected') }}
+                        </div>
                     </div>
                 </div>
 
 
-                <div class="space-y-1" v-if="!state.formMedicine.is_pn_medicine">
+                <div class="space-y-1"
+                    v-if="!state.formMedicine.is_pn_medicine && state.formMedicine.schedule_frequency?.frequency !== 'weekly_rotation'">
                     <FormLabel for="recurring_until" :label="$t('citizens.medicineJournals.form.scheduleUntil')" />
                     <FormDateField id="recurring_until" name="recurring_until"
                         :placeholder="`${$t('citizens.medicineJournals.form.scheduleUntil')}`"
@@ -485,8 +587,7 @@
                         </div>
                     </div>
                     <div class="space-y-1" v-if="computedExpirationDate">
-                        <FormLabel for="expiration_date"
-                            :label="$t('citizens.medicineJournals.form.expirationDate')" />
+                        <FormLabel for="expiration_date" :label="$t('citizens.medicineJournals.form.expirationDate')" />
                         <p class="text-sm text-gray-800">{{ computedExpirationDate }}</p>
                     </div>
                 </div>
@@ -610,6 +711,9 @@ const state = reactive({
             yearly_on_the_sequence: '',
             yearly_on_the_day: '',
             is_apply_to_all: false,
+            // weekly_rotation
+            start_weekday: 'monday',
+            week_templates: [{ days: [] as string[] }] as { days: string[] }[],
         },
     } as any,
     modal: {
@@ -628,6 +732,7 @@ const state = reactive({
                 { value: 'weekly', label: `${t('recurring.frequency.weekly.weekly')}` },
                 { value: 'monthly', label: `${t('recurring.frequency.monthly.monthly')}` },
                 { value: 'yearly', label: `${t('recurring.frequency.yearly.yearly')}` },
+                { value: 'weekly_rotation', label: `${t('citizens.medicineJournals.form.weeklyRotation.label')}` },
             ],
             monthlyEach: generateMonthlyDaysOptions() as any,
             monthlyOnTheDays: [
@@ -750,7 +855,11 @@ onMounted(() => {
         ingredients: props.selectedMedicine.ingredients,
         description: props.selectedMedicine.description,
         current_stocks: props.selectedMedicine.current_stocks?.toString(),
-        schedule_frequency: props.selectedMedicine?.schedule_frequency,
+        schedule_frequency: {
+            ...props.selectedMedicine?.schedule_frequency,
+            start_weekday: props.selectedMedicine?.schedule_frequency?.start_weekday ?? 'monday',
+            week_templates: props.selectedMedicine?.schedule_frequency?.week_templates ?? [{ days: [] }],
+        },
         recurring_dates: props.selectedMedicine?.extra_dates ?? [],
         treatment_periods: props.selectedMedicine?.treatment_periods ?? [],
     }
@@ -997,6 +1106,27 @@ function formatExtraDate(dateStr: string): string {
     const date = new Date(y, m - 1, d)
     return date.toLocaleDateString(extraDatesLocale.value, { day: 'numeric', month: 'short' })
 }
+
+// Weekly rotation helpers
+function addWeekTemplate() {
+    state.formMedicine.schedule_frequency.week_templates.push({ days: [] })
+}
+
+function removeWeekTemplate(idx: number) {
+    state.formMedicine.schedule_frequency.week_templates.splice(idx, 1)
+}
+
+function toggleWeekTemplateDay(templateIdx: number, day: string) {
+    const tpl = state.formMedicine.schedule_frequency.week_templates[templateIdx]
+    const i = tpl.days.indexOf(day)
+    if (i === -1) tpl.days.push(day)
+    else tpl.days.splice(i, 1)
+}
+
+const todayDateString = (() => {
+    const d = new Date()
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+})()
 
 function addTreatmentPeriod() {
     state.formMedicine.treatment_periods.push({ start: '', end: '' });

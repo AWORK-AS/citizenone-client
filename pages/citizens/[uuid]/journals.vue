@@ -3,7 +3,9 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.tabs.journals') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>
+                    {{ term('journals', $t('citizens.tabs.journals')) }} - {{ runtimeConfig?.public?.appName }}
+                </Title>
             </Head>
 
             <template #breadcrumb>
@@ -21,7 +23,7 @@
                 </Breadcrumb>
             </template>
 
-            <template #header>{{ $t('citizens.tabs.journals') }}</template>
+            <template #header>{{ term('journals', $t('citizens.tabs.journals')) }}</template>
 
             <div class="space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
@@ -68,46 +70,46 @@
                         <div>
                             <div class="flex flex-col md:flex-row md:items-center gap-2">
                                 <FormTextField id="filter_journal" name="filter_journal"
-                                    :placeholder="$t('citizens.citizenJournals.filter.searchJournal')"
+                                    :placeholder="`${$t('search')} ${term('journal', $t('citizens.citizenJournals.filter.searchJournal'))}`"
                                     v-model="state.filter.journal" class="flex-1" @blur="filterJournal"
                                     @keyup.enter="filterJournal" />
                                 <FormDateRangeField id="date_range" name="date_range"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
                                     v-model="state.filter.date_range" class="w-full md:w-72 h-11" />
                                 <div class="flex items-center gap-1.5 shrink-0">
-                                <Tooltip :text="$t('citizens.citizenJournals.filter.oldestFirst')">
-                                    <FormButton buttonSize="sm" :class="[
-                                        ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                        'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
-                                        <Icon name="mdi:sort-ascending" class="size-4" />
-                                    </FormButton>
-                                </Tooltip>
-                                <Tooltip :text="$t('citizens.citizenJournals.filter.newestFirst')">
-                                    <FormButton buttonSize="sm" :class="[
-                                        ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                        'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
-                                        <Icon name="mdi:sort-descending" class="size-4" />
-                                    </FormButton>
-                                </Tooltip>
-                                <Tooltip :text="$t('citizens.citizenJournals.filter.showLockedOnly')">
-                                    <FormButton buttonSize="sm" :class="[
-                                        citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
-                                        'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
-                                        <Icon name="ph:lock" class="size-4" />
-                                    </FormButton>
-                                </Tooltip>
-                                <Tooltip :text="$t('citizens.citizenJournals.filter.showFavoritesOnly')">
-                                    <FormButton buttonSize="sm" :class="[
-                                        citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
-                                        'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
-                                        <Icon name="ph:star" class="size-4" />
-                                    </FormButton>
-                                </Tooltip>
-                                <Tooltip :text="$t('citizens.citizenJournals.filter.resetFilters')">
-                                    <FormButton class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
-                                        <Icon name="mdi:refresh" class="size-4" />
-                                    </FormButton>
-                                </Tooltip>
+                                    <Tooltip :text="$t('citizens.citizenJournals.filter.oldestFirst')">
+                                        <FormButton buttonSize="sm" :class="[
+                                            ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                            'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
+                                            <Icon name="mdi:sort-ascending" class="size-4" />
+                                        </FormButton>
+                                    </Tooltip>
+                                    <Tooltip :text="$t('citizens.citizenJournals.filter.newestFirst')">
+                                        <FormButton buttonSize="sm" :class="[
+                                            ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
+                                            'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
+                                            <Icon name="mdi:sort-descending" class="size-4" />
+                                        </FormButton>
+                                    </Tooltip>
+                                    <Tooltip :text="$t('citizens.citizenJournals.filter.showLockedOnly')">
+                                        <FormButton buttonSize="sm" :class="[
+                                            citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
+                                            'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
+                                            <Icon name="ph:lock" class="size-4" />
+                                        </FormButton>
+                                    </Tooltip>
+                                    <Tooltip :text="$t('citizens.citizenJournals.filter.showFavoritesOnly')">
+                                        <FormButton buttonSize="sm" :class="[
+                                            citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
+                                            'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
+                                            <Icon name="ph:star" class="size-4" />
+                                        </FormButton>
+                                    </Tooltip>
+                                    <Tooltip :text="$t('citizens.citizenJournals.filter.resetFilters')">
+                                        <FormButton class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
+                                            <Icon name="mdi:refresh" class="size-4" />
+                                        </FormButton>
+                                    </Tooltip>
                                 </div>
                             </div>
                         </div>
@@ -267,23 +269,23 @@
                                             <Tooltip
                                                 :text="journal?.is_favorite ? $t('citizens.citizenJournals.actions.removeFromFavorite') : $t('citizens.citizenJournals.actions.addToFavorite')">
                                                 <FormButton buttonSize="xs" :class="[
-                                                    journal?.is_favorite && 'border-secondary bg-secondary text-white',
+                                                    journal?.is_favorite && 'border-primary bg-primary text-white',
                                                     'w-full md:w-fit']"
                                                     @click="addRemoveJournalToFavorite(journal.uuid)">
                                                     <Icon name="ph:star" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
-                                                :text="journal?.is_locked ? $t('citizens.citizenJournals.actions.unlock') : $t('citizens.citizenJournals.actions.lock')">
+                                                :text="journal?.is_locked ? `Unlock ${term('journal', 'Journal')}` : `Lock ${term('journal', 'Journal')}`">
                                                 <FormButton buttonSize="xs" :class="[
-                                                    journal?.is_locked && 'border-secondary bg-secondary text-white',
+                                                    journal?.is_locked && 'border-primary bg-primary text-white',
                                                     'w-full md:w-fit']" @click="lockUnlockJournal(journal.uuid)">
                                                     <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
                                                     <Icon name="ph:lock-open" class="size-4" v-else />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
-                                                :text="journal?.is_pinned ? $t('citizens.citizenJournals.actions.unpin') : $t('citizens.citizenJournals.actions.pin')">
+                                                :text="journal?.is_pinned ? `Unpin ${term('journal', 'Journal')}` : `Pin ${term('journal', 'Journal')}`">
                                                 <FormButton buttonSize="xs" :class="[
                                                     journal?.is_pinned && 'border-primary bg-primary text-white',
                                                     'w-full md:w-fit']" @click="pinUnpinJournal(journal.uuid)">
@@ -292,10 +294,16 @@
                                                     <Icon name="ph:push-pin" class="size-4" v-else />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.journalLogs')">
+                                            <Tooltip :text="`${term('journal', 'Journal')} logs`">
                                                 <FormButton buttonStyle="primary" buttonSize="xs"
                                                     @click="viewJournalLogs(journal)">
                                                     <Icon name="ph:clock-clockwise" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('recordHistory.viewHistory')">
+                                                <FormButton buttonStyle="action" buttonSize="xs"
+                                                    data-testid="journal-history" @click="viewRecordHistory(journal)">
+                                                    <Icon name="ph:clock-counter-clockwise" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.delete')">
@@ -344,6 +352,9 @@
                 @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalIndividualLogs :isModalOpen="state.modal.isViewLogsOpen"
                 :selectedJournal="state.selectedJournal" @close="state.modal.isViewLogsOpen = false" />
+            <ModulesUserHistoryModalRecordHistory :isModalOpen="state.modal.isRecordHistoryOpen" type="journal"
+                :uuid="state.selectedJournal?.uuid" :title="$t('recordHistory.title')"
+                @close="state.modal.isRecordHistoryOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteJournalOpen"
                 :message="$t('citizens.citizenJournals.confirmation.deleteConfirmation') + '?'"
                 @close="state.modal.isDeleteJournalOpen = false" @confirm="deleteJournal" />
@@ -360,6 +371,7 @@ import { useCitizenJournalStore } from '@/store/citizen-journal'
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { usePermissions } from '@/composables/usePermissions'
+import { useTerminology } from '@/composables/useTerminology'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
@@ -368,18 +380,19 @@ const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const { term } = useTerminology()
 const router = useRouter()
 const citizenJournalStore = useCitizenJournalStore()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 let currentTablePage = 1
 
-const breadcrumbLinks = [
+const breadcrumbLinks = computed(() => [
     {
-        name: 'citizens.tabs.journals',
-        translate: true,
+        name: term('journals', t('citizens.tabs.journals')),
+        translate: false,
         href: `/citizens/${citizenUuid}/journals`,
     },
-]
+])
 
 const state = reactive({
     dataFilter: [] as any,
@@ -401,6 +414,7 @@ const state = reactive({
         isFilterJournalOpen: false,
         isMoveJournalOpen: false,
         isViewLogsOpen: false,
+        isRecordHistoryOpen: false,
     },
     selectedJournal: [] as any,
     sortData: {
@@ -563,7 +577,7 @@ async function addRemoveJournalToFavorite(journalUuid: any) {
         const response = await journalService.updateJournalFavorite(journalUuid)
         if (response?.data) {
             fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_favorite ? `${t('citizens.citizenJournals.alert.addedToFavorites')}.` : `${t('citizens.citizenJournals.alert.removedToFavorites')}.`)
+            successAlert(`${t('alert.success')}!`, response?.data?.is_favorite ? t('citizens.citizenJournals.alert.addedToFavorites', { journal: term('journal', 'Journal') }) : t('citizens.citizenJournals.alert.removedToFavorites', { journal: term('journal', 'Journal') }))
         }
     } catch (error: any) {
         state.error = error
@@ -578,7 +592,7 @@ async function lockUnlockJournal(journalUuid: any) {
         const response = await journalService.updateJournalLock(journalUuid)
         if (response?.data) {
             fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_locked ? `${t('citizens.citizenJournals.alert.lockJournal')}.` : `${t('citizens.citizenJournals.alert.unlockJournal')}.`)
+            successAlert(`${t('alert.success')}!`, response?.data?.is_locked ? t('citizens.citizenJournals.alert.lockJournal', { journal: term('journal', 'Journal') }) : t('citizens.citizenJournals.alert.unlockJournal', { journal: term('journal', 'Journal') }))
         }
     } catch (error: any) {
         state.error = error
@@ -593,7 +607,7 @@ async function pinUnpinJournal(journalUuid: any) {
         const response = await journalService.updateJournalPin(journalUuid)
         if (response?.data) {
             fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_pinned ? `${t('citizens.citizenJournals.alert.pinJournal')}.` : `${t('citizens.citizenJournals.alert.unpinJournal')}.`)
+            successAlert(`${t('alert.success')}!`, response?.data?.is_pinned ? t('citizens.citizenJournals.alert.pinJournal', { journal: term('journal', 'Journal') }) : t('citizens.citizenJournals.alert.unpinJournal', { journal: term('journal', 'Journal') }))
         }
     } catch (error: any) {
         state.error = error
@@ -604,6 +618,11 @@ async function pinUnpinJournal(journalUuid: any) {
 function viewJournalLogs(journal: any) {
     state.selectedJournal = journal
     state.modal.isViewLogsOpen = true
+}
+
+function viewRecordHistory(journal: any) {
+    state.selectedJournal = journal
+    state.modal.isRecordHistoryOpen = true
 }
 
 function confirmJournalDeletion(journal: any) {

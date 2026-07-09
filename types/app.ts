@@ -10,4 +10,26 @@ export interface AppForm {
     image: string,
     is_thirdparty: boolean,
     url_field: string,
+    uuid?: string,
+    category_id?: number,
+    setup_fee?: string,
+    sort_order?: number,
+    generic_name?: string,
+    is_popular?: boolean,
+    is_recommended?: boolean,
+    is_news?: boolean,
+    is_quantifiable?: boolean,
+    is_active?: boolean,
+    background_image?: string,
+}
+
+export interface AppCategory {
+    id: number,
+    uuid: string,
+    name: string,
+    slug: string,
+    icon?: string,
+    sort_order: number,
+    is_active: boolean,
+    applications_count?: number,
 }
