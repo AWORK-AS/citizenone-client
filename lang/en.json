@@ -1700,6 +1700,28 @@
         },
         "editCitizen": "Edit citizen",
         "editCitizenForm": "Edit citizen form",
+        "emails": {
+            "attachments": "Attachments",
+            "confirmation": {
+                "untagConfirmation": "Are you sure you want to remove this email from the citizen's profile"
+            },
+            "linkToCitizen": "Link to citizen",
+            "linkedSuccessfully": "Email successfully linked to citizen",
+            "noEmailsFound": "No emails found",
+            "roles": {
+                "admin": "Admin",
+                "manager": "Manager",
+                "user": "User"
+            },
+            "selectCitizen": "Select citizen",
+            "selectVisibility": "Who can view this email",
+            "table": {
+                "date": "Date",
+                "from": "From",
+                "subject": "Subject",
+                "visibleTo": "Visible to"
+            }
+        },
         "employeeGroups": {
             "alert": {
                 "groupSuccessfullyAssigned": "Employee group successfully assigned",
@@ -2743,6 +2765,7 @@
             "contacts": "Contacts",
             "documents": "Documents",
             "economy": "Economy",
+            "emails": "Emails",
             "employeeGroups": "Employee groups",
             "employmentCases": "Employment cases",
             "health": "Health",

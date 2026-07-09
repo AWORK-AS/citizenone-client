@@ -1700,6 +1700,28 @@
         },
         "editCitizen": "Redigera Klient",
         "editCitizenForm": "Redigera borgerformular",
+        "emails": {
+            "attachments": "Bilagor",
+            "confirmation": {
+                "untagConfirmation": "Är du säker på att du vill ta bort detta e-postmeddelande från klientens profil"
+            },
+            "linkToCitizen": "Länka till klient",
+            "linkedSuccessfully": "E-post länkad till klient",
+            "noEmailsFound": "Inga e-postmeddelanden hittades",
+            "roles": {
+                "admin": "Admin",
+                "manager": "Manager",
+                "user": "Användare"
+            },
+            "selectCitizen": "Välj klient",
+            "selectVisibility": "Vem kan se detta e-postmeddelande",
+            "table": {
+                "date": "Datum",
+                "from": "Från",
+                "subject": "Ämne",
+                "visibleTo": "Synlig för"
+            }
+        },
         "employeeGroups": {
             "alert": {
                 "groupSuccessfullyAssigned": "Anställdgrupp tilldelad",
@@ -2743,6 +2765,7 @@
             "contacts": "Kontakter",
             "documents": "Dokument",
             "economy": "Ekonomi",
+            "emails": "E-post",
             "employeeGroups": "Anställdgrupper",
             "employmentCases": "Sysselsättningsärenden",
             "health": "Hälsa",

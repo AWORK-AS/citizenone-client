@@ -1700,6 +1700,28 @@
         },
         "editCitizen": "Rediger Bruker",
         "editCitizenForm": "Rediger brukerskjema",
+        "emails": {
+            "attachments": "Vedlegg",
+            "confirmation": {
+                "untagConfirmation": "Er du sikker på at du vil fjerne denne e-posten fra brukerens profil"
+            },
+            "linkToCitizen": "Koble til bruker",
+            "linkedSuccessfully": "E-post koblet til bruker",
+            "noEmailsFound": "Ingen e-poster funnet",
+            "roles": {
+                "admin": "Admin",
+                "manager": "Manager",
+                "user": "Bruker"
+            },
+            "selectCitizen": "Velg bruker",
+            "selectVisibility": "Hvem kan se denne e-posten",
+            "table": {
+                "date": "Dato",
+                "from": "Fra",
+                "subject": "Emne",
+                "visibleTo": "Synlig for"
+            }
+        },
         "employeeGroups": {
             "alert": {
                 "groupSuccessfullyAssigned": "Medarbeidergruppe tildelt vellykket",
@@ -2743,6 +2765,7 @@
             "contacts": "Kontakter",
             "documents": "Dokumenter",
             "economy": "Økonomi",
+            "emails": "E-poster",
             "employeeGroups": "Medarbeidergrupper",
             "employmentCases": "Sysselsettingssaker",
             "health": "Helse",
