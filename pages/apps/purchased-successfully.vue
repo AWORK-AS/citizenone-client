@@ -36,9 +36,13 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="mt-6">
-                                <FormButton type="submit" buttonStyle="primary" class="w-full"
-                                    @click="navigateTo('/overview')">
+                            <div class="mt-6 space-y-3">
+                                <FormButton v-if="setupRoute" type="button" buttonStyle="primary" class="w-full"
+                                    @click="navigateTo(setupRoute)">
+                                    {{ $t('apps.activation.goToSetup') }}
+                                </FormButton>
+                                <FormButton type="submit" :buttonStyle="setupRoute ? 'cancel' : 'primary'"
+                                    class="w-full" @click="navigateTo('/overview')">
                                     {{ $t('subscription.subscribed.goHome') }}
                                 </FormButton>
                             </div>
@@ -80,9 +84,30 @@ const state = reactive({
     isPageLoading: false,
 })
 
+// Apps with an in-product setup page the user can jump to after purchase
+const appSetupRoutes: Record<string, string> = {
+    'surveys': '/forms',
+}
+
+const setupRoute = ref('')
+
 onMounted(() => {
     validateSubscription()
+    resolveSetupRoute()
 })
+
+async function resolveSetupRoute() {
+    if (!exclude) return
+    try {
+        const response = await appService.getApp(exclude)
+        const genericName = response?.data?.generic_name
+        if (genericName && appSetupRoutes[genericName]) {
+            setupRoute.value = appSetupRoutes[genericName]
+        }
+    } catch {
+        // No setup shortcut; the home button still works
+    }
+}
 
 async function validateSubscription() {
     state.error = {}

@@ -638,7 +638,8 @@
         "activation": {
             "activationSuccessful": "Activation successful",
             "activatedSuccessfully": "Activated successfully",
-            "activationSuccessMessage": "Your app has been successfully activated"
+            "activationSuccessMessage": "Your app has been successfully activated",
+            "goToSetup": "Go to setup"
         },
         "agreetoTAC": "You must agree to the terms and conditions",
         "alert": {

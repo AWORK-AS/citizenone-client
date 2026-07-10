@@ -638,7 +638,8 @@
         "activation": {
             "activationSuccessful": "Aktivering gennemført",
             "activatedSuccessfully": "Aktivert vellykket",
-            "activationSuccessMessage": "Din app er blitt aktivert"
+            "activationSuccessMessage": "Din app er blitt aktivert",
+            "goToSetup": "Gå til oppsett"
         },
         "agreetoTAC": "Du skal acceptere vilkårene og betingelserne",
         "alert": {

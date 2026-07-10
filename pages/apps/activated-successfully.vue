@@ -24,8 +24,12 @@
                         </p>
                     </div>
                     <div class="mt-8">
-                        <div class="mt-6">
-                            <FormButton type="submit" buttonStyle="primary" class="w-full"
+                        <div class="mt-6 space-y-3">
+                            <FormButton v-if="setupRoute" type="button" buttonStyle="primary" class="w-full"
+                                @click="navigateTo(setupRoute)">
+                                {{ $t('apps.activation.goToSetup') }}
+                            </FormButton>
+                            <FormButton type="submit" :buttonStyle="setupRoute ? 'cancel' : 'primary'" class="w-full"
                                 @click="navigateTo('/overview')">
                                 {{ $t('subscription.subscribed.goHome') }}
                             </FormButton>
@@ -41,10 +45,32 @@
 </template>
 
 <script setup lang="ts">
+import { appService } from '@/components/api/user/AppService'
+
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const category = (route.query.category as string) || ''
 const exclude = (route.query.exclude as string) || ''
+
+// Apps with an in-product setup page the user can jump to after activation
+const appSetupRoutes: Record<string, string> = {
+    'surveys': '/forms',
+}
+
+const setupRoute = ref('')
+
+onMounted(async () => {
+    if (!exclude) return
+    try {
+        const response = await appService.getApp(exclude)
+        const genericName = response?.data?.generic_name
+        if (genericName && appSetupRoutes[genericName]) {
+            setupRoute.value = appSetupRoutes[genericName]
+        }
+    } catch {
+        // No setup shortcut; the home button still works
+    }
+})
 
 const breadcrumbLinks = [
     {
