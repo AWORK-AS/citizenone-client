@@ -89,6 +89,12 @@
                                 {{ activeFilterCount }}
                             </span>
                         </button>
+                        <button v-if="hasManageFavoritesAccess"
+                            class="flex items-center gap-1.5 outline-none rounded-lg text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
+                            @click="state.modal.isManageFavoritesOpen = true">
+                            <Icon name="mdi:star-outline" class="h-4 w-4" />
+                            {{ $t('dutySchedules.favorites.manageFavorites') }}
+                        </button>
                         <Tooltip
                             :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                             position="left">
@@ -421,8 +427,21 @@
                                                                 @click="viewLeaveRequests(employee)">
                                                                 <Icon name="mdi:wallet-travel" class="h-3 w-3"
                                                                     aria-hidden="true" />
-                                                                <div v-if="employee?.pending_leave_requests > 0"
+                                                <div v-if="employee?.pending_leave_requests > 0"
                                                                     class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
+                                                            </button>
+                                                        </Tooltip>
+                                                        <Tooltip position="right"
+                                                            :text="isFavorited(employee) ? $t('dutySchedules.favorites.removeFromFavorites') : $t('dutySchedules.favorites.addToFavorites')"
+                                                            v-if="hasManageFavoritesAccess && userStore.getUser?.uuid !== employee?.uuid">
+                                                            <button
+                                                                :class="[
+                                                                    isFavorited(employee) ? 'text-yellow-500' : 'text-gray-500',
+                                                                    'bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm rounded-lg hover:bg-yellow-50 flex items-center justify-center transition-colors'
+                                                                ]"
+                                                                @click="toggleFavoriteEmployee(employee)">
+                                                                <Icon :name="isFavorited(employee) ? 'mdi:star' : 'mdi:star-outline'"
+                                                                    class="h-3 w-3" aria-hidden="true" />
                                                             </button>
                                                         </Tooltip>
                                                     </div>
@@ -1234,6 +1253,8 @@
         </div>
         <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
             @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
+        <ModulesUserDutyScheduleModalManageFavorites :isModalOpen="state.modal.isManageFavoritesOpen"
+            @close="state.modal.isManageFavoritesOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
         <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
             :selectedEmployee="state.normHours.selectedEmployeeSchedule"
             @close="state.modal.isCompensatoryHoursOpen = false" />
@@ -1318,6 +1339,8 @@
 import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { dutyScheduleFavoriteEmployeeService } from '@/components/api/user/DutyScheduleFavoriteEmployeeService'
+import { useFavoriteEmployees } from '@/composables/useFavoriteEmployees'
 import { useDepartmentStore } from '@/store/department'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
@@ -1332,6 +1355,7 @@ const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+const favoriteEmployees = useFavoriteEmployees()
 
 // Holiday markers only show for companies that opted in to holiday hours.
 const holidaysEnabled = computed(() => !!userStore.getUser?.company?.holiday_non_sunday_hours_enabled)
@@ -1454,6 +1478,7 @@ const state = reactive({
         isEditShiftOpen: false,
         isFilterDutyScheduleOpen: false,
         isManageExtraHoursOpen: false,
+        isManageFavoritesOpen: false,
         isManageLeaveRequestsOpen: false,
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
@@ -1542,6 +1567,7 @@ const hasDeletePermission = computed(() => {
 })
 
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || hasUpdatePermission.value)
+const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || hasCreatePermission.value)
 
 watch(() => state.progress.percentage, (newPercentage: any) => {
     if (newPercentage < 100) {
@@ -1588,9 +1614,30 @@ watch(() => dutyScheduleStore.getShowEmployeesWorkingToday, (status: boolean) =>
 onMounted(async () => {
     teleportReady.value = true
     await fetchDutySchedule()
+    favoriteEmployees.ensureLoaded()
     handleSwapRequestDeepLink()
     window.addEventListener('keydown', handleKeyDown)
 })
+
+function isFavorited(employee: any) {
+    return employee?.is_favorited_by_viewer || favoriteEmployees.isFavorited(employee?.uuid)
+}
+
+async function toggleFavoriteEmployee(employee: any) {
+    if (!employee?.uuid || employee.uuid === userStore.getUser?.uuid) return
+    try {
+        if (isFavorited(employee)) {
+            await dutyScheduleFavoriteEmployeeService.removeFavoriteEmployee(employee.uuid)
+            favoriteEmployees.remove(employee.uuid)
+        } else {
+            await dutyScheduleFavoriteEmployeeService.addFavoriteEmployee(employee.uuid)
+            favoriteEmployees.add(employee.uuid)
+        }
+        fetchDutySchedule()
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 // Open the relevant request panel for an employee when arriving from an e-mail link.
 function openRequestFromDeepLink(reqType: string, employeeUuid: string, date: string) {

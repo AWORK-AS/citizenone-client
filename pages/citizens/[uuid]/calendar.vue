@@ -49,7 +49,7 @@
                             </FormButton>
                         </div>
                         <div class="flex justify-end">
-                            <FormButton buttonStyle="action" @click="state.modal.isAddEventForCitizenOpen = true"
+                            <FormButton buttonStyle="action" @click="openCreateEventModal('')"
                                 v-if="isAtLeast('Admin') || can('create_citizen_calendar')">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('events.newEvent') }}
@@ -66,21 +66,25 @@
                             @changeMonthYear="changeMonthYear" @deleteMyCalendarEvent="deleteMyCalendarEvent"
                             @markEventAsStatus="handleMarkEventAsStatus"
                             @createJournalFromEvent="handleCreateJournalFromEvent"
+                            @createEvent="openCreateEventModal"
                             v-if="state.calendarView === 'default'" />
                         <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                             @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'"
                             @viewMyCalendarEvent="viewMyCalendarEvent"
                             @markEventAsStatus="handleMarkEventAsStatus"
-                            @createJournalFromEvent="handleCreateJournalFromEvent" />
+                            @createJournalFromEvent="handleCreateJournalFromEvent"
+                            @createEvent="openCreateEventModal" />
                         <ModulesUserCitizenCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
                             @changeMonthYear="changeMonthYear" v-if="state.calendarView === 'month'"
                             @viewMyCalendarEvent="viewMyCalendarEvent"
                             @markEventAsStatus="handleMarkEventAsStatus"
-                            @createJournalFromEvent="handleCreateJournalFromEvent" />
+                            @createJournalFromEvent="handleCreateJournalFromEvent"
+                            @createEvent="openCreateEventModal" />
                     </LoadingSpinner>
                 </div>
 
                 <ModulesUserCitizenCalendarModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
+                    :presetDate="state.newEventPresetDate"
                     @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
                 <ModulesUserCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
                     :selectedSchedule="state.selectedSchedule" @close="state.modal.isViewEventOpen = false"
@@ -141,6 +145,7 @@ const state = reactive({
     },
     selectedYear: '',
     selectedMonth: '',
+    newEventPresetDate: '',
 })
 
 onMounted(() => {
@@ -227,6 +232,11 @@ function changeMonthYear(year: any, month: any) {
     state.selectedYear = year
     state.selectedMonth = month
     fetchMyCalendarEvents()
+}
+
+function openCreateEventModal(date: string) {
+    state.newEventPresetDate = date
+    state.modal.isAddEventForCitizenOpen = true
 }
 
 function viewMyCalendarEvent(selectedCalendarEvent: any) {

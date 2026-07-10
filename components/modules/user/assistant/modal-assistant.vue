@@ -5,7 +5,69 @@
             <template #modal-body>
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
-                <div class="flex flex-col h-[68vh] bg-transparent -mx-4 -mb-4 sm:-mx-6 sm:-mb-6">
+
+                <div class="flex items-center justify-end gap-1 -mt-2 mb-1">
+                    <Tooltip :text="$t('assistants.history.newChat')">
+                        <button type="button" @click="startNewChat"
+                            class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+                            <Icon name="ph:plus" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                        </button>
+                    </Tooltip>
+                    <Tooltip :text="state.view === 'chat' ? $t('assistants.history.viewHistory') : $t('assistants.history.backToChat')">
+                        <button type="button" @click="toggleView"
+                            class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+                            <Icon :name="state.view === 'chat' ? 'ph:clock-counter-clockwise' : 'ph:arrow-left'"
+                                class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                        </button>
+                    </Tooltip>
+                </div>
+
+                <!-- History list -->
+                <div v-if="state.view === 'history'" class="h-[68vh] overflow-y-auto -mx-4 -mb-4 sm:-mx-6 sm:-mb-6 px-4 sm:px-6 py-2">
+                    <div class="relative mb-2">
+                        <Icon name="ph:magnifying-glass"
+                            class="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400"
+                            aria-hidden="true" />
+                        <input v-model="state.searchQuery" type="text"
+                            :placeholder="$t('assistants.history.searchPlaceholder')"
+                            class="w-full text-sm bg-gray-50 border border-gray-200 rounded-lg pl-8 pr-2 py-1.5 outline-none focus:border-primary/40 transition-colors" />
+                    </div>
+                    <p v-if="filteredConversations.length === 0" class="text-sm text-gray-400 text-center py-8">
+                        {{ $t('assistants.history.noConversations') }}
+                    </p>
+                    <div v-for="conversation in filteredConversations" :key="conversation.uuid"
+                        class="group flex items-center gap-2 rounded-lg px-3 py-2.5 cursor-pointer transition-colors"
+                        :class="conversation.uuid === state.activeConversationUuid ? 'bg-primary/10' : 'hover:bg-gray-50'"
+                        @click="conversation.uuid !== state.editingUuid && selectConversation(conversation)">
+                        <Icon name="ph:chat-circle-text" class="h-4 w-4 text-gray-400 shrink-0" aria-hidden="true" />
+                        <input v-if="conversation.uuid === state.editingUuid" ref="editInputRef"
+                            v-model="state.editingTitle" @click.stop
+                            @keydown.enter="saveTitle(conversation)" @keydown.esc="cancelEditing"
+                            @blur="saveTitle(conversation)"
+                            class="flex-1 min-w-0 text-sm bg-white border border-primary/40 rounded px-1.5 py-0.5 outline-none" />
+                        <span v-else class="flex-1 min-w-0 text-sm truncate"
+                            :class="conversation.uuid === state.activeConversationUuid ? 'text-primary font-medium' : 'text-gray-700'">
+                            {{ conversation.title || $t('assistants.history.untitled') }}
+                        </span>
+                        <span v-if="conversation.uuid !== state.editingUuid" class="shrink-0 flex items-center gap-1.5">
+                            <span class="text-xs text-gray-400 group-hover:hidden">
+                                {{ formatCompactRelativeTime(conversation.updated_at) }}
+                            </span>
+                            <span class="hidden group-hover:flex items-center gap-1.5">
+                                <button type="button" class="text-gray-300 hover:text-primary"
+                                    @click.stop="startEditing(conversation)">
+                                    <Icon name="ph:pencil-simple" class="h-3.5 w-3.5" aria-hidden="true" />
+                                </button>
+                                <button type="button" class="text-gray-300 hover:text-red-500"
+                                    @click.stop="confirmDeleteConversation(conversation)">
+                                    <Icon name="ph:trash" class="h-3.5 w-3.5" aria-hidden="true" />
+                                </button>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+                <div v-else class="flex flex-col h-[68vh] bg-transparent -mx-4 -mb-4 sm:-mx-6 sm:-mb-6">
                     <!-- Chat container -->
                     <div class="flex-1 overflow-y-auto scroll-smooth">
                         <div class="px-4 sm:px-6 py-6 space-y-6">
@@ -96,11 +158,17 @@
                 </div>
             </template>
         </Modal>
+
+        <DialogConfirmation :isModalOpen="state.isConfirmDeleteOpen"
+            :message="$t('assistants.history.deleteConfirmation')" @close="state.isConfirmDeleteOpen = false"
+            @confirm="deleteConversation" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
+import { aiConversationService } from '@/components/api/user/AiConversationService'
+import { useCompactRelativeTime } from '@/composables/compactRelativeTime'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -115,8 +183,11 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 const { t } = useI18n()
 const { errorAlert } = useAlert()
+const { formatCompactRelativeTime } = useCompactRelativeTime()
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024
+
+const editInputRef = ref<HTMLInputElement | null>(null)
 
 function closeModal() {
     emit('close')
@@ -128,6 +199,14 @@ const state = reactive({
     messages: [] as any,
     newMessage: '',
     files: [] as File[],
+    view: 'chat' as 'chat' | 'history',
+    conversations: [] as any[],
+    activeConversationUuid: null as string | null,
+    isConfirmDeleteOpen: false,
+    pendingDeleteUuid: null as string | null,
+    searchQuery: '',
+    editingUuid: null as string | null,
+    editingTitle: '',
     aiElements: {
         conversationId: null as string | null,
         vectorStoreId: null as string | null,
@@ -135,19 +214,112 @@ const state = reactive({
     }
 })
 
+const filteredConversations = computed(() => {
+    const query = state.searchQuery.trim().toLowerCase()
+    if (!query) return state.conversations
+    return state.conversations.filter((c: any) => (c.title || '').toLowerCase().includes(query))
+})
+
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
+        state.view = 'chat'
         state.messages = []
         state.files = []
+        state.searchQuery = ''
+        state.activeConversationUuid = null
         state.messages.push({ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` })
-    } else {
         clearAiElements()
+        fetchConversations()
     }
 })
 
-onUnmounted(() => {
+function toggleView() {
+    state.view = state.view === 'chat' ? 'history' : 'chat'
+}
+
+async function fetchConversations() {
+    try {
+        const res = await aiConversationService.getConversations({ source: 'ask_ai' })
+        state.conversations = res?.data ?? []
+        const active = state.conversations.find((c: any) => c.openai_conversation_id === state.aiElements.conversationId)
+        state.activeConversationUuid = active?.uuid ?? state.activeConversationUuid
+    } catch {
+        // History is a nice-to-have - failing to load it shouldn't block chatting.
+    }
+}
+
+function startEditing(conversation: any) {
+    state.editingUuid = conversation.uuid
+    state.editingTitle = conversation.title || ''
+    nextTick(() => editInputRef.value?.focus())
+}
+
+function cancelEditing() {
+    state.editingUuid = null
+    state.editingTitle = ''
+}
+
+async function saveTitle(conversation: any) {
+    if (state.editingUuid !== conversation.uuid) return
+
+    const title = state.editingTitle.trim()
+    cancelEditing()
+    if (!title || title === conversation.title) return
+
+    try {
+        await aiConversationService.updateConversationTitle(conversation.uuid, { title })
+        conversation.title = title
+    } catch (e: any) {
+        state.error = e
+    }
+}
+
+/**
+ * Restores the conversation id too (not just the messages), so continuing
+ * to type after opening a past conversation appends to that same OpenAI
+ * thread - matching Own ChatGPT. The thread is no longer deleted on close
+ * (see clearAiElements()), so it's still there to resume.
+ */
+async function selectConversation(conversation: any) {
+    state.error = {}
+    try {
+        const res = await aiConversationService.getConversationMessages(conversation.uuid)
+        const messages = res?.data?.messages ?? []
+        state.messages = messages.map((m: any) => ({ type: m.role === 'user' ? 'user' : 'bot', text: m.content }))
+        state.aiElements.conversationId = conversation.openai_conversation_id
+        state.activeConversationUuid = conversation.uuid
+        state.view = 'chat'
+    } catch (e: any) {
+        state.error = e
+    }
+}
+
+function startNewChat() {
     clearAiElements()
-})
+    state.messages = [{ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` }]
+    state.activeConversationUuid = null
+    state.view = 'chat'
+}
+
+function confirmDeleteConversation(conversation: any) {
+    state.pendingDeleteUuid = conversation.uuid
+    state.isConfirmDeleteOpen = true
+}
+
+async function deleteConversation() {
+    const uuid = state.pendingDeleteUuid
+    state.isConfirmDeleteOpen = false
+    if (!uuid) return
+
+    try {
+        await aiConversationService.deleteConversation(uuid)
+        state.conversations = state.conversations.filter((c: any) => c.uuid !== uuid)
+        if (state.activeConversationUuid === uuid) state.activeConversationUuid = null
+    } catch (e: any) {
+        state.error = e
+    }
+    state.pendingDeleteUuid = null
+}
 
 async function sendMessage() {
     if (!state.newMessage.trim() && state.files.length === 0) return
@@ -179,6 +351,8 @@ async function sendMessage() {
             if (response.file_ids) {
                 state.aiElements.fileIds.push(...response.file_ids)
             }
+
+            fetchConversations()
         }
     } catch (error: any) {
         state.error = error
@@ -222,14 +396,11 @@ function removeFile(index: number) {
     state.files.splice(index, 1)
 }
 
+// Resets the local pointer to the active OpenAI thread. Used to start a
+// fresh conversation (new chat / modal reopened) - does NOT delete the
+// thread server-side, so a conversation can always be resumed later from
+// history via selectConversation().
 function clearAiElements() {
-    if (state.aiElements.conversationId) {
-        const payload = {
-            vector_store_id: state.aiElements.vectorStoreId,
-            file_ids: state.aiElements.fileIds,
-        }
-        aIAssistantService.deleteThread(state.aiElements.conversationId, payload)
-    }
     state.aiElements.conversationId = null
     state.aiElements.vectorStoreId = null
     state.aiElements.fileIds = []

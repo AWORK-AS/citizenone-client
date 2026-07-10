@@ -299,11 +299,12 @@
                         </div>
 
                         <div class="mt-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="grid grid-cols-1 gap-3" :class="[canSaveAndDownload && 'md:grid-cols-2']">
                                 <FormButton type="button" buttonStyle="primary" @click="submitResponse">
                                     {{ $t('save') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="primary" @click="submitResponseAndDownloadPDF">
+                                <FormButton type="button" buttonStyle="primary" @click="submitResponseAndDownloadPDF"
+                                    v-if="canSaveAndDownload">
                                     {{ $t('plansandgoals.createStatusTemplate.form.saveAndDownload') }}
                                 </FormButton>
                             </div>
@@ -333,11 +334,14 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
 const emit = defineEmits(['close', 'refreshData',])
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
+const canSaveAndDownload = computed(() => isAtLeast('Admin') || can('save_and_download_citizen_plan'))
 const { successAlert } = useAlert()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid

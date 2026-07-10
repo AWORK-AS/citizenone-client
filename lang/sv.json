@@ -770,7 +770,16 @@
         "fileSizeExceeds": "Den samlade filstörrelse får inte overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vänligen",
         "helloHowCanIAssistYouToday": "Hej, hur kan jag hjälpa dig idag",
-        "send": "Skicka"
+        "send": "Skicka",
+        "history": {
+            "newChat": "Ny chatt",
+            "viewHistory": "Visa historik",
+            "backToChat": "Tillbaka till chatt",
+            "noConversations": "Inga konversationer än",
+            "untitled": "Namnlös konversation",
+            "deleteConfirmation": "Är du säker på att du vill ta bort denna konversation? Detta kan inte ångras.",
+            "searchPlaceholder": "Sök i konversationer..."
+        }
     },
     "back": "Tillbaka",
     "bellNotification": {
@@ -1700,6 +1709,31 @@
         },
         "editCitizen": "Redigera Klient",
         "editCitizenForm": "Redigera borgerformular",
+        "editMedicineForm": "Redigera medicinformulär",
+        "emails": {
+            "attachments": "Bilagor",
+            "confirmation": {
+                "untagConfirmation": "Är du säker på att du vill ta bort detta e-postmeddelande från klientens profil"
+            },
+            "linkToCitizen": "Länka till klient",
+            "linkedSuccessfully": "E-post länkad till klient",
+            "noEmailsFound": "Inga e-postmeddelanden hittades",
+            "roles": {
+                "admin": "Admin",
+                "manager": "Manager",
+                "user": "Användare"
+            },
+            "saveAttachmentsToDocuments": "Spara även bilagor i Dokument",
+            "savePdfToDocuments": "Spara även som PDF i Dokument",
+            "selectCitizen": "Välj klient",
+            "selectVisibility": "Vem kan se detta e-postmeddelande",
+            "table": {
+                "date": "Datum",
+                "from": "Från",
+                "subject": "Ämne",
+                "visibleTo": "Synlig för"
+            }
+        },
         "employeeGroups": {
             "alert": {
                 "groupSuccessfullyAssigned": "Anställdgrupp tilldelad",
@@ -2743,6 +2777,7 @@
             "contacts": "Kontakter",
             "documents": "Dokument",
             "economy": "Ekonomi",
+            "emails": "E-post",
             "employeeGroups": "Anställdgrupper",
             "employmentCases": "Sysselsättningsärenden",
             "health": "Hälsa",
@@ -3859,6 +3894,12 @@
                     "type": "Typ"
                 }
             }
+        },
+        "favorites": {
+            "addToFavorites": "Lägg till favoriter",
+            "removeFromFavorites": "Ta bort från favoriter",
+            "manageFavorites": "Hantera favoriter",
+            "noFavoritesYet": "Du har inte lagt till några kollegor som favoriter än"
         },
         "filter": {
             "dateTimeEnd": "Datum och tid slut",
@@ -6188,6 +6229,8 @@
             "trafficLights": "Trafikljus",
             "transportation": "Transport"
         },
+        "medicineSubtitle": "Konfigurera vilka fält som är synliga i medicinens skapa- och redigeringsformulär.",
+        "medicineTitle": "Formulärfältkonfiguration för medicin",
         "subtitle": "Konfigurera hvilke fält där är synliga i klientens oprettelses- och redigeringsformularer.",
         "title": "Formularfeltkonfiguration"
     },
@@ -6199,6 +6242,15 @@
             "formSuccessfullyUpdated": "Formulär uppdaterad",
             "responseSuccessfullySaved": "Svar sparad"
         },
+        "citizenProfileFields": {
+            "citizenBirthday": "Födelsedatum",
+            "citizenCpr": "Personnummer",
+            "citizenEmail": "E-post",
+            "citizenName": "Namn",
+            "citizenPhone": "Telefon",
+            "payingMunicipality": "Betalande kommun",
+            "primaryCaseWorker": "Handläggare"
+        },
         "confirmation": {
             "deleteFormConfirmation": "Är du säker på att du vill radera denna formulär"
         },
@@ -6207,6 +6259,15 @@
         "editForm": "Redigera formulär",
         "enableFollowUp": "Aktiver opfölgning",
         "fields": {
+            "autoFill": {
+                "label": "Automatisk ifyllning från medborgardata",
+                "none": "Ingen",
+                "citizenName": "Medborgarens namn",
+                "citizenCpr": "Medborgarens personnummer",
+                "citizenBirthday": "Medborgarens födelsedag",
+                "citizenAdmissionDate": "Medborgarens inflyttningsdatum",
+                "citizenDischargeDate": "Medborgarens utflyttningsdatum"
+            },
             "checkbox": "Afkrydsningsfelt",
             "choice": "Val",
             "date": "Datum",
@@ -6236,6 +6297,7 @@
                 "responses": "Svar"
             }
         },
+        "showCitizenProfileData": "Visa medborgarens profildata vid rapportgenerering",
         "table": {
             "actions": {
                 "createResponse": "Skapa svar",
@@ -6659,6 +6721,16 @@
                 "delete": "Radera"
             }
         }
+    },
+    "journalFormConfig": {
+        "alert": {
+            "successfullyUpdated": "Journalformulärets konfiguration har uppdaterats"
+        },
+        "navLabel": "Redigera journalformulär",
+        "riskAssessmentDescription": "När den är avstängd döljs riskbedömningssektionen (bedömningsnivå, anteckning, taggar och mållänkning) i journalens skapa- och redigeringsformulär för alla användare.",
+        "riskAssessmentToggle": "Visa riskbedömningssektion i journalformulär",
+        "subtitle": "Konfigurera om riskbedömningssektionen är synlig i medborgarens journal skapa- och redigeringsformulär.",
+        "title": "Journalformulärets konfiguration"
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -7993,6 +8065,7 @@
         },
         "form": {
             "agreementType": "Ärendetyp",
+            "availablePlaceholders": "Tillgängliga platshållare",
             "body": "Innehåll",
             "isActive": "Aktiv",
             "name": "Namn"
@@ -10953,7 +11026,14 @@
         "synced": "Synkroniserad",
         "syncReminderTitle": "Synkronisera AI:n med företagets AI innan du chattar.",
         "syncing": "Synkroniserar...",
-        "title": "Din ChatGPT-integration"
+        "title": "Din ChatGPT-integration",
+        "history": {
+            "newChat": "Ny chatt",
+            "noConversations": "Inga konversationer än",
+            "untitled": "Namnlös konversation",
+            "deleteConfirmation": "Är du säker på att du vill ta bort denna konversation? Detta kan inte ångras.",
+            "searchPlaceholder": "Sök i konversationer..."
+        }
     },
     "employment": {
         "economy": {
