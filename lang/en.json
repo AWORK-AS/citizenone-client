@@ -2793,7 +2793,8 @@
                 "documentation": "Documentation",
                 "time": "Time & attendance",
                 "admin": "Administration"
-            }
+            },
+            "surveys": "Surveys"
         },
         "timeline": {
             "newEvent": "New event",
@@ -6393,7 +6394,8 @@
                 "source": "Source",
                 "sent": "Sent",
                 "completed": "Completed",
-                "score": "Score"
+                "score": "Score",
+                "form": "Survey"
             },
             "confirmation": {
                 "deleteAssignment": "Are you sure you want to delete this survey"
@@ -6402,7 +6404,8 @@
                 "surveySent": "Survey successfully sent to citizen",
                 "assignmentDeleted": "Survey successfully deleted",
                 "answerRequiredFields": "Please answer all required questions"
-            }
+            },
+            "selectForm": "Select survey"
         }
     },
     "gender": {

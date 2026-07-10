@@ -16,6 +16,10 @@ class FormAssignmentService extends BaseAPIService {
     async deleteAssignment(formUuid: any, assignmentUuid: any): Promise<any> {
         return await this.request(`/user/forms/${formUuid}/assignments/${assignmentUuid}`, 'DELETE')
     }
+
+    async getCitizenAssignments(citizenUuid: any): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/form-assignments`, 'GET')
+    }
 }
 
 export const formAssignmentService = new FormAssignmentService()

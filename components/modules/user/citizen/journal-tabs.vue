@@ -93,6 +93,14 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-emails'],
         })
     }
+    if (newValue?.is_surveys_active) {
+        tabs.push({
+            name: 'citizens.tabs.surveys', icon: 'ph:clipboard-text', isTranslateName: true,
+            category: 'documentation', primary: false,
+            href: `/citizens/${citizenUuid}/surveys`,
+            routeNames: ['citizens-uuid-surveys'],
+        })
+    }
     if (can('Attendance')) {
         tabs.push({
             name: 'citizens.tabs.attendance', icon: 'ph:clock', isTranslateName: true,

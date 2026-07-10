@@ -2793,7 +2793,8 @@
                 "documentation": "Dokumentasjon",
                 "time": "Tid & oppmøte",
                 "admin": "Administrasjon"
-            }
+            },
+            "surveys": "Spørreskjemaer"
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -6393,7 +6394,8 @@
                 "source": "Kilde",
                 "sent": "Sendt",
                 "completed": "Utfylt",
-                "score": "Poeng"
+                "score": "Poeng",
+                "form": "Spørreskjema"
             },
             "confirmation": {
                 "deleteAssignment": "Er du sikker på at du vil slette dette spørreskjemaet"
@@ -6402,7 +6404,8 @@
                 "surveySent": "Spørreskjemaet er sendt til innbyggeren",
                 "assignmentDeleted": "Spørreskjemaet er slettet",
                 "answerRequiredFields": "Vennligst svar på alle obligatoriske spørsmål"
-            }
+            },
+            "selectForm": "Velg spørreskjema"
         }
     },
     "gender": {

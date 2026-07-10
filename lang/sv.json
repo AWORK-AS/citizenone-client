@@ -2793,7 +2793,8 @@
                 "documentation": "Dokumentation",
                 "time": "Tid & närvaro",
                 "admin": "Administration"
-            }
+            },
+            "surveys": "Enkäter"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -6393,7 +6394,8 @@
                 "source": "Källa",
                 "sent": "Skickad",
                 "completed": "Ifylld",
-                "score": "Poäng"
+                "score": "Poäng",
+                "form": "Enkät"
             },
             "confirmation": {
                 "deleteAssignment": "Är du säker på att du vill ta bort denna enkät"
@@ -6402,7 +6404,8 @@
                 "surveySent": "Enkäten har skickats till medborgaren",
                 "assignmentDeleted": "Enkäten har tagits bort",
                 "answerRequiredFields": "Vänligen besvara alla obligatoriska frågor"
-            }
+            },
+            "selectForm": "Välj enkät"
         }
     },
     "gender": {
