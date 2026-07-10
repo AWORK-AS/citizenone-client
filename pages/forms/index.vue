@@ -18,7 +18,7 @@
             </template>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <ModulesUserFormAdminView class="mt-8" v-if="!state.isPageLoading && state.isAdmin" />
+                <ModulesUserFormAdminView class="mt-8" v-if="!state.isPageLoading && state.canManageForms" />
                 <ModulesUserFormUserView class="mt-8" v-else />
             </LoadingSpinner>
         </NuxtLayout>
@@ -31,7 +31,7 @@ import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 const breadcrumbLinks = [
     {
         name: 'forms.forms',
@@ -42,12 +42,12 @@ const breadcrumbLinks = [
 
 const state = reactive({
     isPageLoading: true,
-    isAdmin: false,
+    canManageForms: false,
 })
 
 watch(() => userStore.getUser, (newValue: any) => {
     if (newValue != null) {
-        state.isAdmin = isAtLeast('Admin')
+        state.canManageForms = isAtLeast('Admin') || can('manage_status_reports')
     }
     state.isPageLoading = false
 })

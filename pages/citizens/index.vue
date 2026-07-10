@@ -152,6 +152,15 @@
                                                 {{ $t('citizens.editCitizenForm') }}
                                             </button>
                                         </MenuItem>
+                                        <MenuItem v-slot="{ active }"
+                                            v-if="isAtLeast('Admin') || can('update_form_field_config')">
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="navigateTo('/citizens/journal-form-config')">
+                                                <Icon name="ph:gear" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                                {{ $t('journalFormConfig.navLabel') }}
+                                            </button>
+                                        </MenuItem>
                                     </div>
                                 </MenuItems>
                             </transition>

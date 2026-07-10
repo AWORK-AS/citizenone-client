@@ -1709,6 +1709,7 @@
         },
         "editCitizen": "Redigera Klient",
         "editCitizenForm": "Redigera borgerformular",
+        "editMedicineForm": "Redigera medicinformulär",
         "emails": {
             "attachments": "Bilagor",
             "confirmation": {
@@ -6228,6 +6229,8 @@
             "trafficLights": "Trafikljus",
             "transportation": "Transport"
         },
+        "medicineSubtitle": "Konfigurera vilka fält som är synliga i medicinens skapa- och redigeringsformulär.",
+        "medicineTitle": "Formulärfältkonfiguration för medicin",
         "subtitle": "Konfigurera hvilke fält där är synliga i klientens oprettelses- och redigeringsformularer.",
         "title": "Formularfeltkonfiguration"
     },
@@ -6239,6 +6242,15 @@
             "formSuccessfullyUpdated": "Formulär uppdaterad",
             "responseSuccessfullySaved": "Svar sparad"
         },
+        "citizenProfileFields": {
+            "citizenBirthday": "Födelsedatum",
+            "citizenCpr": "Personnummer",
+            "citizenEmail": "E-post",
+            "citizenName": "Namn",
+            "citizenPhone": "Telefon",
+            "payingMunicipality": "Betalande kommun",
+            "primaryCaseWorker": "Handläggare"
+        },
         "confirmation": {
             "deleteFormConfirmation": "Är du säker på att du vill radera denna formulär"
         },
@@ -6247,6 +6259,15 @@
         "editForm": "Redigera formulär",
         "enableFollowUp": "Aktiver opfölgning",
         "fields": {
+            "autoFill": {
+                "label": "Automatisk ifyllning från medborgardata",
+                "none": "Ingen",
+                "citizenName": "Medborgarens namn",
+                "citizenCpr": "Medborgarens personnummer",
+                "citizenBirthday": "Medborgarens födelsedag",
+                "citizenAdmissionDate": "Medborgarens inflyttningsdatum",
+                "citizenDischargeDate": "Medborgarens utflyttningsdatum"
+            },
             "checkbox": "Afkrydsningsfelt",
             "choice": "Val",
             "date": "Datum",
@@ -6276,6 +6297,7 @@
                 "responses": "Svar"
             }
         },
+        "showCitizenProfileData": "Visa medborgarens profildata vid rapportgenerering",
         "table": {
             "actions": {
                 "createResponse": "Skapa svar",
@@ -6699,6 +6721,16 @@
                 "delete": "Radera"
             }
         }
+    },
+    "journalFormConfig": {
+        "alert": {
+            "successfullyUpdated": "Journalformulärets konfiguration har uppdaterats"
+        },
+        "navLabel": "Redigera journalformulär",
+        "riskAssessmentDescription": "När den är avstängd döljs riskbedömningssektionen (bedömningsnivå, anteckning, taggar och mållänkning) i journalens skapa- och redigeringsformulär för alla användare.",
+        "riskAssessmentToggle": "Visa riskbedömningssektion i journalformulär",
+        "subtitle": "Konfigurera om riskbedömningssektionen är synlig i medborgarens journal skapa- och redigeringsformulär.",
+        "title": "Journalformulärets konfiguration"
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -8033,6 +8065,7 @@
         },
         "form": {
             "agreementType": "Ärendetyp",
+            "availablePlaceholders": "Tillgängliga platshållare",
             "body": "Innehåll",
             "isActive": "Aktiv",
             "name": "Namn"

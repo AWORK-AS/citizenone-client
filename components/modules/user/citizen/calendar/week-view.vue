@@ -73,7 +73,9 @@
                     <div
                         class="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
                         <div class="col-end-1 w-14" />
-                        <div v-for="day in weekDays" :key="day.date" class="flex items-center justify-center py-3">
+                        <div v-for="day in weekDays" :key="day.date"
+                            class="flex items-center justify-center py-3 cursor-pointer hover:bg-gray-50"
+                            @click="setSelectedDay(day)">
                             <span class="flex gap-x-1">
                                 <span v-if="day.longName === 'Mon'">
                                     {{ $t('calendar.week.short.Monday') }}
@@ -387,7 +389,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeDatePerWeek', 'viewMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeDatePerWeek', 'viewMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 
 const currentDate = ref(moment())
 const selectedDay = ref(moment())
@@ -458,6 +460,7 @@ function setSelectedDay(day: any) {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
+    emit('createEvent', moment(day.fullDate).format('YYYY-MM-DD'))
 }
 
 function isWithinRange(eventStart: moment.Moment, eventEnd: moment.Moment, dayStart: moment.Moment, dayEnd: moment.Moment) {

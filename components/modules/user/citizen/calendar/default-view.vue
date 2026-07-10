@@ -245,7 +245,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 
 const currentMonth = ref(moment().startOf('month'))
 const month = ref(currentMonth.value.format('MMMM'))
@@ -318,6 +318,7 @@ function selectDay(selectedDay: any) {
     }))
     state.selectedDate = selectedDay.date
     filterBasedOnSelectedDate()
+    emit('createEvent', selectedDay.date)
 }
 
 function hasSchedule(day: any) {

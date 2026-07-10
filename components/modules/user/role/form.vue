@@ -269,7 +269,7 @@ const citizenLevel = new Set(['create_citizen', 'update_citizen', 'link_citizen'
 
 function permGroup(name: string): string {
     if (/citizen_journal|citizen_document/.test(name)) return 'journal'
-    if (/citizen_health|citizen_medicine/.test(name)) return 'health'
+    if (/citizen_health|citizen_medicine|nursing_professional_record_template|treatment_template/.test(name)) return 'health'
     if (/citizen_plan/.test(name)) return 'plan'
     if (/citizen_calendar|schedule/.test(name) || name === 'delete_calendar') return 'calendar'
     if (/citizen_economy/.test(name)) return 'economy'

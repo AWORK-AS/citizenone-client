@@ -1709,6 +1709,7 @@
         },
         "editCitizen": "Rediger Bruker",
         "editCitizenForm": "Rediger brukerskjema",
+        "editMedicineForm": "Rediger medisinskjema",
         "emails": {
             "attachments": "Vedlegg",
             "confirmation": {
@@ -6228,6 +6229,8 @@
             "trafficLights": "Trafiklys",
             "transportation": "Transport"
         },
+        "medicineSubtitle": "Konfigurer hvilke felter som er synlige i medisinens opprettelses- og redigeringsskjemaer.",
+        "medicineTitle": "Skjemafeltkonfigurasjon for medisin",
         "subtitle": "Konfigurer hvilke felter der er synlige i brukerens opprettelses- og redigeringsskjemaer.",
         "title": "Skjemafeltkonfigurasjon"
     },
@@ -6239,6 +6242,15 @@
             "formSuccessfullyUpdated": "Skjema oppdatert vellykket",
             "responseSuccessfullySaved": "Svar lagret vellykket"
         },
+        "citizenProfileFields": {
+            "citizenBirthday": "Fødselsdato",
+            "citizenCpr": "Personnummer",
+            "citizenEmail": "E-post",
+            "citizenName": "Navn",
+            "citizenPhone": "Telefon",
+            "payingMunicipality": "Betalende kommune",
+            "primaryCaseWorker": "Saksbehandler"
+        },
         "confirmation": {
             "deleteFormConfirmation": "Er du sikker på at du vil slette denne skjema"
         },
@@ -6247,6 +6259,15 @@
         "editForm": "Rediger skjema",
         "enableFollowUp": "Aktiver opfølgning",
         "fields": {
+            "autoFill": {
+                "label": "Automatisk utfylling fra borgerdata",
+                "none": "Ingen",
+                "citizenName": "Borgerens navn",
+                "citizenCpr": "Borgerens personnummer",
+                "citizenBirthday": "Borgerens fødselsdag",
+                "citizenAdmissionDate": "Borgerens innflyttingsdato",
+                "citizenDischargeDate": "Borgerens utflyttingsdato"
+            },
             "checkbox": "Avkrysningsboks",
             "choice": "Valg",
             "date": "Dato",
@@ -6276,6 +6297,7 @@
                 "responses": "Svar"
             }
         },
+        "showCitizenProfileData": "Vis borgerens profildata ved rapportgenerering",
         "table": {
             "actions": {
                 "createResponse": "Opprett svar",
@@ -6699,6 +6721,16 @@
                 "delete": "Slett"
             }
         }
+    },
+    "journalFormConfig": {
+        "alert": {
+            "successfullyUpdated": "Journalskjema konfigurasjon ble oppdatert"
+        },
+        "navLabel": "Rediger journalskjema",
+        "riskAssessmentDescription": "Når den er slått av, vil risikovurderingsdelen (vurderingsnivå, notat, tagger og mål-tilknytning) bli skjult i journalens opprett- og redigeringsskjemaer for alle brukere.",
+        "riskAssessmentToggle": "Vis risikovurderingsdel i journalskjema",
+        "subtitle": "Konfigurer om risikovurderingsdelen er synlig i brukerens journal opprett- og redigeringsskjemaer.",
+        "title": "Journalskjema konfigurasjon"
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -8033,6 +8065,7 @@
         },
         "form": {
             "agreementType": "Sakstype",
+            "availablePlaceholders": "Tilgjengelige plassholdere",
             "body": "Innhold",
             "isActive": "Aktiv",
             "name": "Navn"
