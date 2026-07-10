@@ -89,7 +89,8 @@
             <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
                 <div class="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-5 lg:gap-px">
                     <div v-for="(day, index) in state.days" :key="index"
-                        :class="[day.isCurrentMonth ? 'bg-white' : 'min-h-20 bg-gray-50 text-gray-500', 'relative px-3 py-2']">
+                        :class="[day.isCurrentMonth ? 'bg-white' : 'min-h-20 bg-gray-50 text-gray-500', 'relative px-3 py-2 cursor-pointer']"
+                        @click="setSelectedDay(day)">
                         <time :datetime="day.date"
                             :class="day.isToday ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : undefined">
                             {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
@@ -98,7 +99,7 @@
                             <li class="space-y-3">
                                 <div v-for="myCalendarEvent in day.events" :key="myCalendarEvent.id"
                                     class="relative bg-gray-200 p-2 rounded-md cursor-pointer"
-                                    @click="viewMyCalendarEvent(myCalendarEvent)">
+                                    @click.stop="viewMyCalendarEvent(myCalendarEvent)">
                                     <div class="flex items-start justify-between gap-x-1">
                                         <div>
                                             <p class="text-xxs font-semibold">
@@ -390,7 +391,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['changeMonthYear', 'viewMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeMonthYear', 'viewMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 
 const today = moment()
 
@@ -410,6 +411,7 @@ watch(() => props.myCalendarEvents, (newValue: any) => {
 function setSelectedDay(day: any) {
     state.selectedDay = day
     state.days.forEach(d => d.isSelected = d.date === day.date)
+    emit('createEvent', day.date)
 }
 
 function previousMonth() {
