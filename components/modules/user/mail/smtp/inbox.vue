@@ -184,6 +184,10 @@
                             <Icon name="ph:arrow-bend-up-right" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('mail.forward') }}
                         </FormButton>
+                        <FormButton buttonStyle="white" class="w-fit rounded-md" @click="state.modal.isLinkToCitizen = true">
+                            <Icon name="ph:link" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.emails.linkToCitizen') }}
+                        </FormButton>
                     </div>
                 </div>
             </template>
@@ -201,6 +205,8 @@
 
         <ModulesUserMailSmtpModalDownloadFile :isModalOpen="state.modal.isDownloadAttachment"
             :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadAttachment = false" />
+        <ModulesUserMailModalLinkToCitizen :isModalOpen="state.modal.isLinkToCitizen"
+            :selectedEmail="state.selectedEmail" sourceFolder="INBOX" @close="state.modal.isLinkToCitizen = false" />
     </div>
 </template>
 
@@ -230,6 +236,7 @@ const state = reactive({
     },
     modal: {
         isDownloadAttachment: false,
+        isLinkToCitizen: false,
     },
     pagination: {} as any,
     selectedAttachment: '' as any,

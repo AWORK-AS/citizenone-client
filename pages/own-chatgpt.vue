@@ -9,6 +9,60 @@
             <div class="flex bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden"
                 style="height: 82vh;">
 
+                <!-- History sidebar -->
+                <div class="w-64 flex-shrink-0 border-r border-gray-100 flex flex-col h-full overflow-hidden">
+                    <div class="p-3 pb-2 flex-shrink-0 space-y-2">
+                        <button type="button"
+                            class="w-full flex items-center justify-center gap-1.5 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg px-3 py-2 transition-colors"
+                            @click="startNewChat">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('ownChatGpt.history.newChat') }}
+                        </button>
+                        <div class="relative">
+                            <Icon name="ph:magnifying-glass"
+                                class="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400"
+                                aria-hidden="true" />
+                            <input v-model="state.searchQuery" type="text"
+                                :placeholder="$t('ownChatGpt.history.searchPlaceholder')"
+                                class="w-full text-sm bg-gray-50 border border-gray-200 rounded-lg pl-8 pr-2 py-1.5 outline-none focus:border-primary/40 transition-colors" />
+                        </div>
+                    </div>
+                    <div class="flex-1 overflow-y-auto px-2 pb-2 space-y-1">
+                        <p v-if="filteredConversations.length === 0" class="text-xs text-gray-400 text-center px-2 py-4">
+                            {{ $t('ownChatGpt.history.noConversations') }}
+                        </p>
+                        <div v-for="conversation in filteredConversations" :key="conversation.uuid"
+                            class="group flex items-center gap-1 rounded-lg px-2.5 py-2 cursor-pointer transition-colors"
+                            :class="conversation.uuid === state.activeConversationUuid ? 'bg-primary/10' : 'hover:bg-gray-50'"
+                            @click="conversation.uuid !== state.editingUuid && selectConversation(conversation)">
+                            <input v-if="conversation.uuid === state.editingUuid" ref="editInputRef"
+                                v-model="state.editingTitle" @click.stop
+                                @keydown.enter="saveTitle(conversation)" @keydown.esc="cancelEditing"
+                                @blur="saveTitle(conversation)"
+                                class="flex-1 min-w-0 text-sm bg-white border border-primary/40 rounded px-1.5 py-0.5 outline-none" />
+                            <span v-else class="flex-1 min-w-0 text-sm truncate"
+                                :class="conversation.uuid === state.activeConversationUuid ? 'text-primary font-medium' : 'text-gray-700'">
+                                {{ conversation.title || $t('ownChatGpt.history.untitled') }}
+                            </span>
+                            <span v-if="conversation.uuid !== state.editingUuid" class="flex-shrink-0 flex items-center gap-1">
+                                <span class="text-xs text-gray-400 group-hover:hidden">
+                                    {{ formatCompactRelativeTime(conversation.updated_at) }}
+                                </span>
+                                <span class="hidden group-hover:flex items-center gap-1">
+                                    <button type="button" class="text-gray-300 hover:text-primary"
+                                        @click.stop="startEditing(conversation)">
+                                        <Icon name="ph:pencil-simple" class="h-3.5 w-3.5" aria-hidden="true" />
+                                    </button>
+                                    <button type="button" class="text-gray-300 hover:text-red-500"
+                                        @click.stop="confirmDeleteConversation(conversation)">
+                                        <Icon name="ph:trash" class="h-3.5 w-3.5" aria-hidden="true" />
+                                    </button>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Chat Area -->
                 <div class="flex flex-col flex-1 overflow-hidden h-full">
 
@@ -184,15 +238,21 @@
                 :message="$t('ownChatGpt.clearChatConfirmation')" @close="state.isConfirmClearOpen = false"
                 @confirm="clearChat" />
 
+            <DialogConfirmation :isModalOpen="state.isConfirmDeleteOpen"
+                :message="$t('ownChatGpt.history.deleteConfirmation')" @close="state.isConfirmDeleteOpen = false"
+                @confirm="deleteConversation" />
+
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ownChatGptService } from '@/components/api/user/OwnChatGptService'
+import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { useOwnChatGptSyncStore } from '@/store/own-chatgpt-sync'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
+import { useCompactRelativeTime } from '@/composables/compactRelativeTime'
 import { useI18n } from 'vue-i18n'
 import { ref, watch, onMounted } from 'vue'
 
@@ -205,11 +265,12 @@ const syncStore = useOwnChatGptSyncStore()
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const { errorAlert } = useAlert()
-
+const { formatCompactRelativeTime } = useCompactRelativeTime()
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024
 
 const messagesContainer = ref<HTMLElement | null>(null)
+const editInputRef = ref<HTMLInputElement | null>(null)
 const syncStatus = ref<boolean | null>(null)
 
 async function fetchSyncStatus() {
@@ -222,6 +283,7 @@ async function fetchSyncStatus() {
 }
 
 onMounted(fetchSyncStatus)
+onMounted(fetchConversations)
 
 watch(() => syncStore.isComplete, (val) => {
     if (val) fetchSyncStatus()
@@ -235,12 +297,104 @@ const state = reactive({
     error: '',
     isSettingsOpen: false,
     isConfirmClearOpen: false,
+    conversations: [] as any[],
+    activeConversationUuid: null as string | null,
+    isConfirmDeleteOpen: false,
+    pendingDeleteUuid: null as string | null,
+    searchQuery: '',
+    editingUuid: null as string | null,
+    editingTitle: '',
     aiElements: {
         conversationId: null as string | null,
         vectorStoreId: null as string | null,
         fileIds: [] as string[],
     },
 })
+
+const filteredConversations = computed(() => {
+    const query = state.searchQuery.trim().toLowerCase()
+    if (!query) return state.conversations
+    return state.conversations.filter((c: any) => (c.title || '').toLowerCase().includes(query))
+})
+
+async function fetchConversations() {
+    try {
+        const res = await aiConversationService.getConversations({ source: 'own_chatgpt' })
+        state.conversations = res?.data ?? []
+        const active = state.conversations.find((c: any) => c.openai_conversation_id === state.aiElements.conversationId)
+        state.activeConversationUuid = active?.uuid ?? state.activeConversationUuid
+    } catch {
+        // History sidebar is a nice-to-have - failing to load it shouldn't block chatting.
+    }
+}
+
+function startEditing(conversation: any) {
+    state.editingUuid = conversation.uuid
+    state.editingTitle = conversation.title || ''
+    nextTick(() => editInputRef.value?.focus())
+}
+
+function cancelEditing() {
+    state.editingUuid = null
+    state.editingTitle = ''
+}
+
+async function saveTitle(conversation: any) {
+    if (state.editingUuid !== conversation.uuid) return
+
+    const title = state.editingTitle.trim()
+    cancelEditing()
+    if (!title || title === conversation.title) return
+
+    try {
+        await aiConversationService.updateConversationTitle(conversation.uuid, { title })
+        conversation.title = title
+    } catch (e: any) {
+        state.error = e?.message ?? 'Something went wrong'
+    }
+}
+
+async function selectConversation(conversation: any) {
+    if (state.isThinking || conversation.uuid === state.activeConversationUuid) return
+
+    state.error = ''
+    try {
+        const res = await aiConversationService.getConversationMessages(conversation.uuid)
+        state.messages = (res?.data?.messages ?? []).map((m: any) => ({ role: m.role, content: m.content }))
+        state.activeConversationUuid = conversation.uuid
+        state.aiElements.conversationId = conversation.openai_conversation_id
+        state.aiElements.vectorStoreId = null
+        state.aiElements.fileIds = []
+        await nextTick()
+        scrollToBottom()
+    } catch (e: any) {
+        state.error = e?.message ?? 'Something went wrong'
+    }
+}
+
+function startNewChat() {
+    clearChat()
+}
+
+function confirmDeleteConversation(conversation: any) {
+    state.pendingDeleteUuid = conversation.uuid
+    state.isConfirmDeleteOpen = true
+}
+
+async function deleteConversation() {
+    const uuid = state.pendingDeleteUuid
+    state.isConfirmDeleteOpen = false
+    if (!uuid) return
+
+    try {
+        await aiConversationService.deleteConversation(uuid)
+        state.conversations = state.conversations.filter((c: any) => c.uuid !== uuid)
+        if (state.activeConversationUuid === uuid) clearChat()
+    } catch (e: any) {
+        state.error = e?.message ?? 'Something went wrong'
+    }
+    state.pendingDeleteUuid = null
+}
 
 async function send() {
     const content = state.input.trim()
@@ -263,6 +417,8 @@ async function send() {
         if (res?.conversation_id) state.aiElements.conversationId = res.conversation_id
         if (res?.tools?.[0]?.vector_store_ids) state.aiElements.vectorStoreId = res.tools[0].vector_store_ids[0]
         if (res?.file_ids?.length) state.aiElements.fileIds.push(...res.file_ids)
+
+        fetchConversations()
     } catch (e: any) {
         state.error = e?.message ?? 'Something went wrong'
         state.messages.pop()
@@ -309,6 +465,7 @@ function clearChat() {
     state.messages = []
     state.error = ''
     state.files = []
+    state.activeConversationUuid = null
     state.aiElements.conversationId = null
     state.aiElements.vectorStoreId = null
     state.aiElements.fileIds = []

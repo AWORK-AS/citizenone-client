@@ -83,6 +83,8 @@ const state = reactive({
         document_title: '',
         is_follow_up_enabled: false,
         follow_up_duration: '',
+        show_citizen_profile_data: true,
+        citizen_profile_fields: ['citizen_name'] as string[],
     },
     isPageLoading: false,
 })
@@ -103,6 +105,8 @@ async function fetchForm() {
                 document_title: response.data?.document_title ?? '',
                 is_follow_up_enabled: Boolean(response.data?.is_follow_up_enabled),
                 follow_up_duration: response.data?.follow_up_duration ?? '',
+                show_citizen_profile_data: response.data?.show_citizen_profile_data ?? true,
+                citizen_profile_fields: response.data?.citizen_profile_fields ?? ['citizen_name'],
                 fields: [],
             }
             response?.data?.form_fields?.forEach((field: any) => {
@@ -130,6 +134,8 @@ async function updateForm(formDetails: any) {
             fields: formDetails.fields,
             is_follow_up_enabled: formDetails.is_follow_up_enabled,
             follow_up_duration: formDetails.follow_up_duration,
+            show_citizen_profile_data: formDetails.show_citizen_profile_data,
+            citizen_profile_fields: formDetails.citizen_profile_fields,
             is_active: true,
         }
         const response = await formService.updateForm(formUuid, params)

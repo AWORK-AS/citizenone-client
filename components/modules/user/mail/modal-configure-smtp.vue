@@ -293,8 +293,3 @@ async function saveEmailConfiguration() {
 }
 </script>
 
-<style>
-#formConfigureSMTP .multiselect-dropdown {
-    max-height: 5rem !important;
-}
-</style>

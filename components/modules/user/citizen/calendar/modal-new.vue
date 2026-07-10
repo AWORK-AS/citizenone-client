@@ -30,6 +30,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    presetDate: {
+        type: String,
+        default: '',
+    },
 })
 const emit = defineEmits(['close', 'refreshSchedules'])
 
@@ -41,6 +45,8 @@ const state = reactive({
         uuid: '',
         title: '',
         description: '',
+        start: props.presetDate ? `${props.presetDate}T00:00:00` : '',
+        end: props.presetDate ? `${props.presetDate}T00:00:00` : '',
         date_time_start: '',
         date_time_end: '',
         unit_uuid: '',
@@ -64,6 +70,16 @@ const state = reactive({
             is_apply_to_all: false,
         },
     },
+})
+
+watch(() => props.isModalOpen, (isOpen) => {
+    if (isOpen) {
+        // Append an explicit local time so `new Date(...)` in the form doesn't
+        // interpret a bare YYYY-MM-DD string as UTC midnight (which shifts the
+        // displayed date/time in timezones ahead of UTC, e.g. Europe/Copenhagen).
+        state.formSchedule.start = props.presetDate ? `${props.presetDate}T00:00:00` : ''
+        state.formSchedule.end = props.presetDate ? `${props.presetDate}T00:00:00` : ''
+    }
 })
 
 function closeModal() {

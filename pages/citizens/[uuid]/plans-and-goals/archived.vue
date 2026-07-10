@@ -96,7 +96,8 @@
                                         </MenuItems>
                                     </transition>
                                 </Menu>
-                                <FormButton buttonStyle="action" @click="state.modal.isCreateStatusTemplateOpen = true">
+                                <FormButton buttonStyle="action" @click="state.modal.isCreateStatusTemplateOpen = true"
+                                    v-if="isAtLeast('Admin') || can('save_and_download_citizen_plan')">
                                     <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('plansandgoals.createStatusTemplate.createReport') }}
                                 </FormButton>

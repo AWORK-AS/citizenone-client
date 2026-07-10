@@ -11,14 +11,14 @@
                         <p>{{ $t('citizens.medicineJournals.form.activateMedicine') }}</p>
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('is_self_administered')">
                     <div class="w-fit flex cursor-pointer"
                         @click="state.formMedicine.is_self_administered = !state.formMedicine.is_self_administered">
                         <FormCheckbox :value="state.formMedicine.is_self_administered" />
                         <p>{{ $t('citizens.medicineJournals.form.selfAdminister') }}</p>
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('is_pn_medicine')">
                     <div class="w-fit flex cursor-pointer"
                         @click="state.formMedicine.is_pn_medicine = !state.formMedicine.is_pn_medicine">
                         <FormCheckbox :value="state.formMedicine.is_pn_medicine" />
@@ -385,7 +385,7 @@
                 <div class="grid grid-cols-1 gap-3" :class="[
                     !state.formMedicine.is_pn_medicine && 'md:grid-cols-2'
                 ]">
-                    <div class="space-y-1">
+                    <div class="space-y-1" v-if="isFieldVisible('dosage')">
                         <!-- <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" /> -->
                         <div class="flex justify-between items-center py-0.5">
                             <FormLabel for="dosage" :label="$t('citizens.medicineJournals.form.dosageForm')" />
@@ -399,7 +399,7 @@
                         <FormError :error="v$?.formMedicine?.dosage?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.dosage_uuid?.[0]" />
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" v-if="isFieldVisible('current_stocks')">
                         <FormLabel for="current_stocks" :label="$t('citizens.medicineJournals.form.currentStocks')" />
                         <FormTextField id="current_stocks" name="current_stocks"
                             :placeholder="$t('citizens.medicineJournals.form.currentStocks')"
@@ -408,7 +408,7 @@
                         <FormError :error="props?.error?.errors?.current_stocks?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1" v-if="state.formMedicine.is_pn_medicine">
+                <div class="space-y-1" v-if="state.formMedicine.is_pn_medicine && isFieldVisible('max_dose_per_administration')">
                     <FormLabel for="max_dose_per_administration"
                         :label="$t('citizens.medicineJournals.form.maximumDosePerAdministration')" />
                     <FormTextField id="max_dose_per_administration" name="max_dose_per_administration"
@@ -428,7 +428,7 @@
                     <FormError :error="props?.error?.errors?.max_daily_dose?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div class="space-y-1">
+                    <div class="space-y-1" v-if="isFieldVisible('strength')">
                         <FormLabel for="strength" :label="$t('citizens.medicineJournals.form.strength')" />
                         <FormTextField id="strength" name="strength"
                             :placeholder="$t('citizens.medicineJournals.form.strength')"
@@ -436,7 +436,7 @@
                         <FormError :error="v$?.formMedicine?.strength?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.strength?.[0]" />
                     </div>
-                    <div class="space-y-1">
+                    <div class="space-y-1" v-if="isFieldVisible('mass_unit')">
                         <div class="flex justify-between items-center py-0.5">
                             <FormLabel for="unit" :label="$t('citizens.medicineJournals.form.unit')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -491,7 +491,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('package_leaflet_link')">
                     <div class="flex items-center justify-between">
                         <FormLabel for="package_leaflet_link"
                             :label="$t('citizens.medicineJournals.form.packageLeafletLink')" />
@@ -524,7 +524,7 @@
                     <FormError :error="props?.error?.errors?.end_date?.[0]" />
                 </div>
 
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('doctor')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="doctor" :label="$t('citizens.medicineJournals.form.doctor')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -536,7 +536,7 @@
                     <FormError :error="v$?.formMedicine?.doctor?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.doctor_uuid?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('treatment_reason')">
                     <FormLabel for="treatment_reason" :label="$t('citizens.medicineJournals.form.treatmentReason')" />
                     <FormTextArea id="treatment_reason" name="treatment_reason"
                         :placeholder="`${$t('citizens.medicineJournals.form.treatmentReasonPlaceholder')}?`"
@@ -544,21 +544,21 @@
                     <FormError :error="v$?.formMedicine?.treatment_reason?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.treatment_reason?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('has_consent')">
                     <div class="w-fit flex cursor-pointer"
                         @click="state.formMedicine.has_consent = !state.formMedicine.has_consent">
                         <FormCheckbox :value="state.formMedicine.has_consent" />
                         <p>{{ $t('citizens.medicineJournals.form.consentToPrescribe') }}</p>
                     </div>
                 </div>
-                <div class="space-y-1" v-if="state.formMedicine.has_consent">
+                <div class="space-y-1" v-if="state.formMedicine.has_consent && isFieldVisible('prescribed_by')">
                     <FormLabel for="prescribed_by" :label="$t('citizens.medicineJournals.form.whoPrescribed')" />
                     <FormTextField id="prescribed_by" name="prescribed_by"
                         :placeholder="`${$t('citizens.medicineJournals.form.whoPrescribedPlaceholder')}?`"
                         v-model="state.formMedicine.prescribed_by" />
                     <FormError :error="props?.error?.errors?.prescribed_by?.[0]" />
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('medication_storage')">
                     <FormLabel for="medication_storage" :label="$t('citizens.medicineJournals.form.medicineStorage')" />
                     <FormTextField id="medication_storage" name="medication_storage"
                         :placeholder="`${$t('citizens.medicineJournals.form.medicineStoragePlaceholder')}?`"
@@ -566,18 +566,19 @@
                     <FormError :error="v$?.formMedicine?.medication_storage?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medication_storage?.[0]" />
                 </div>
-                <div class="space-y-3 rounded-lg border border-gray-200 p-3">
+                <div class="space-y-3 rounded-lg border border-gray-200 p-3"
+                    v-if="isFieldVisible('date_opened') || isFieldVisible('shelf_life_days')">
                     <p class="text-sm font-semibold text-gray-700">
                         {{ $t('citizens.medicineJournals.form.shelfLife') }}
                     </p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="isFieldVisible('date_opened')">
                             <FormLabel for="date_opened" :label="$t('citizens.medicineJournals.form.dateOpened')" />
                             <FormDateField id="date_opened" name="date_opened"
                                 v-model="state.formMedicine.date_opened" />
                             <FormError :error="props?.error?.errors?.date_opened?.[0]" />
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="isFieldVisible('shelf_life_days')">
                             <FormLabel for="shelf_life_days"
                                 :label="$t('citizens.medicineJournals.form.shelfLifeDays')" />
                             <FormTextField id="shelf_life_days" name="shelf_life_days" type="number"
@@ -591,7 +592,7 @@
                         <p class="text-sm text-gray-800">{{ computedExpirationDate }}</p>
                     </div>
                 </div>
-                <div class="space-y-1">
+                <div class="space-y-1" v-if="isFieldVisible('ingredients')">
                     <FormLabel for="ingredients" :label="$t('citizens.medicineJournals.form.ingredients')" />
                     <FormTextArea id="ingredients" name="ingredients"
                         :placeholder="`${$t('citizens.medicineJournals.form.ingredientsLabel')}?`"
@@ -639,8 +640,9 @@ import { dosageFormService } from '@/components/api/user/DosageFormService'
 import { massUnitService } from '@/components/api/user/MassUnitService'
 import { medicineService } from '@/components/api/user/MedicineService'
 import { timeIntervalService } from '@/components/api/user/TimeIntervalService'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { euDecimalValidation } from "@/composables/euDecimalValidation"
 import type { Error } from '@/types'
@@ -665,6 +667,13 @@ const { validateEuropeanDecimal } = euDecimalValidation()
 const language = useI18n()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+
+const formConfig = ref<Record<string, boolean>>({})
+
+function isFieldVisible(fieldKey: string): boolean {
+    if (Object.keys(formConfig.value).length === 0) return true
+    return formConfig.value[fieldKey] !== false
+}
 
 const state = reactive({
     error: {} as Error,
@@ -823,7 +832,20 @@ const state = reactive({
     }
 })
 
-onMounted(() => {
+onMounted(async () => {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_medicine' })
+        if (response?.data) {
+            // formType 'create' / 'update' — map 'update' to the 'edit' config so the
+            // Edit-form settings also apply to existing medicines (not just new ones).
+            const configType = props.formType === 'create' ? 'create' : 'edit'
+            const config = response.data.find((c: any) => c.form_type === configType)
+            if (config?.form_fields) {
+                formConfig.value = config.form_fields
+            }
+        }
+    } catch (e) { /* silent — all fields visible on error */ }
+
     state.formMedicine = {
         uuid: props.selectedMedicine.uuid,
         is_active: props.selectedMedicine?.is_active ? true : false,
@@ -893,22 +915,22 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('strength'))),
                     },
                     dosage: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('dosage'))),
                     },
                     max_dosage_per_time: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dose_per_administration: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('max_dose_per_administration'))),
                     },
                     max_daily_dose: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     ingredients: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('ingredients'))),
                     },
                     description: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -923,10 +945,10 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('strength'))),
                     },
                     dosage: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('dosage'))),
                     },
                     max_dosage_per_time: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -935,7 +957,7 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     ingredients: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('ingredients'))),
                     },
                     description: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -959,22 +981,22 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('strength'))),
                     },
                     dosage: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('dosage'))),
                     },
                     max_dosage_per_time: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dose_per_administration: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('max_dose_per_administration'))),
                     },
                     max_daily_dose: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     ingredients: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('ingredients'))),
                     },
                     description: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -989,10 +1011,10 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('strength'))),
                     },
                     dosage: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('dosage'))),
                     },
                     max_dosage_per_time: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -1001,7 +1023,7 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     ingredients: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('ingredients'))),
                     },
                     description: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
