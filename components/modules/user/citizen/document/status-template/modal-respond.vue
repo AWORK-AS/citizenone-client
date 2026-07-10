@@ -233,12 +233,12 @@
                         </div>
 
                         <div class="mt-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="grid grid-cols-1 gap-3" :class="[canSaveAndDownload && 'md:grid-cols-2']">
                                 <FormButton type="button" buttonStyle="primary" @click="submitResponse">
                                     {{ $t('save') }}
                                 </FormButton>
                                 <FormButton type="button" buttonStyle="primary" @click="submitResponseAndDownloadPDF"
-                                    v-if="isAtLeast('Admin')">
+                                    v-if="canSaveAndDownload">
                                     {{ $t('citizens.documents.createTemplate.form.saveAndDownload') }}
                                 </FormButton>
                             </div>
@@ -264,6 +264,8 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
+import { useCitizenAutoFill } from '@/composables/citizenAutoFill'
+import { useCitizenStore } from '@/store/citizen'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -290,7 +292,10 @@ const state = reactive({
 })
 
 const { formatDateToReadable } = useDatetimeFormatter()
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
+const canSaveAndDownload = computed(() => isAtLeast('Admin') || can('save_and_download_citizen_document'))
+const { getCitizenAutoFillValue } = useCitizenAutoFill()
+const citizenStore = useCitizenStore()
 
 const followUpDate = computed(() => {
     const duration = state.form?.data?.follow_up_duration
@@ -337,10 +342,17 @@ async function fetchForm() {
         const response = await formService.getForm(formUuid)
         if (response) {
             if (response.data?.form_fields) {
-                response.data.form_fields = response.data.form_fields.map((field: any) => ({
-                    ...field,
-                    responses: JSON.parse(field?.field)?.type === 'checkbox' ? [] : ""
-                }))
+                const citizen = citizenStore.getSelectedCitizen
+                response.data.form_fields = response.data.form_fields.map((field: any) => {
+                    const parsedField = JSON.parse(field?.field)
+                    if (parsedField?.type === 'checkbox') {
+                        return { ...field, responses: [] }
+                    }
+                    return {
+                        ...field,
+                        responses: getCitizenAutoFillValue(parsedField?.autoFillSource, citizen) || ""
+                    }
+                })
             }
             state.form = response
         }

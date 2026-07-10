@@ -18,6 +18,7 @@
             </div>
             <div class="space-y-1">
                 <FormLabel for="body" :label="$t('reportTemplates.form.body')" />
+                <p class="text-xs text-gray-500">{{ $t('reportTemplates.form.availablePlaceholders') }}: {{ availablePlaceholders }}</p>
                 <ckeditor :editor="editor" v-model="state.form.body" :config="editorConfig" />
                 <FormError :error="props?.error?.errors?.body?.[0]" />
             </div>
@@ -70,6 +71,13 @@ const emit = defineEmits(['submitForm'])
 const { t } = useI18n()
 const editor = ref(ClassicEditor)
 const editorConfig = ref({ height: 400 })
+const availablePlaceholders = [
+    '{{citizen_name}}',
+    '{{citizen_cpr}}',
+    '{{agreement_type}}',
+    '{{citizen_admission_date}}',
+    '{{citizen_discharge_date}}',
+].join(', ')
 
 const state = reactive({
     options: {

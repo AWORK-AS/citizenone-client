@@ -236,11 +236,12 @@
                         </div>
 
                         <div class="mt-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="grid grid-cols-1 gap-3" :class="[canSaveAndDownload && 'md:grid-cols-2']">
                                 <FormButton type="button" buttonStyle="primary" @click="submitResponse">
                                     {{ $t('save') }}
                                 </FormButton>
-                                <FormButton type="button" buttonStyle="primary" @click="submitResponseAndDownloadPDF">
+                                <FormButton type="button" buttonStyle="primary" @click="submitResponseAndDownloadPDF"
+                                    v-if="canSaveAndDownload">
                                     {{ $t('citizens.documents.createTemplate.form.saveAndDownload') }}
                                 </FormButton>
                             </div>
@@ -266,6 +267,7 @@ import { citizenDocumentStatusService } from '@/components/api/user/CitizenDocum
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -287,6 +289,8 @@ const props = defineProps<{
 const emit = defineEmits(['close', 'closeModalNew', 'refreshDocuments'])
 const { t } = useI18n()
 const { successAlert } = useAlert()
+const { isAtLeast, can } = usePermissions()
+const canSaveAndDownload = computed(() => isAtLeast('Admin') || can('save_and_download_citizen_document'))
 
 const state = reactive({
     error: {} as Error,
