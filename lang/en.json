@@ -6236,6 +6236,15 @@
             "formSuccessfullyUpdated": "Form successfully updated",
             "responseSuccessfullySaved": "Response successfully saved"
         },
+        "citizenProfileFields": {
+            "citizenBirthday": "Date of birth",
+            "citizenCpr": "CPR number",
+            "citizenEmail": "Email",
+            "citizenName": "Citizen name",
+            "citizenPhone": "Phone",
+            "payingMunicipality": "Paying municipality",
+            "primaryCaseWorker": "Case worker"
+        },
         "confirmation": {
             "deleteFormConfirmation": "Are you sure you want to delete this form"
         },
@@ -6282,6 +6291,7 @@
                 "responses": "Responses"
             }
         },
+        "showCitizenProfileData": "Show citizen's profile data upon report generation",
         "table": {
             "actions": {
                 "createResponse": "Create response",

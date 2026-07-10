@@ -6236,6 +6236,15 @@
             "formSuccessfullyUpdated": "Formular opdateret med succes",
             "responseSuccessfullySaved": "Svar gemt med succes"
         },
+        "citizenProfileFields": {
+            "citizenBirthday": "Fødselsdato",
+            "citizenCpr": "CPR-nummer",
+            "citizenEmail": "E-mail",
+            "citizenName": "Borgerens navn",
+            "citizenPhone": "Telefon",
+            "payingMunicipality": "Betalingskommune",
+            "primaryCaseWorker": "Sagsbehandler"
+        },
         "confirmation": {
             "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular"
         },
@@ -6282,6 +6291,7 @@
                 "responses": "Svar"
             }
         },
+        "showCitizenProfileData": "Vis borgerens profildata ved rapportgenerering",
         "table": {
             "actions": {
                 "createResponse": "Opret svar",

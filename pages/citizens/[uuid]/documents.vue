@@ -62,7 +62,8 @@
                             <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('folderStructure.folderStructure') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isCreateTemplateOpen = true">
+                        <FormButton buttonStyle="action" @click="state.modal.isCreateTemplateOpen = true"
+                            v-if="isAtLeast('Admin') || can('save_and_download_citizen_document')">
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.documents.createTemplate.createReport') }}
                         </FormButton>

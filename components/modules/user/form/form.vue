@@ -45,6 +45,22 @@
                     </div>
                 </div>
             </div>
+            <div v-if="isAdmin" class="flex items-center gap-x-3 pt-2">
+                <FormSwitch :value="state.form.show_citizen_profile_data"
+                    @toggleSwitch="state.form.show_citizen_profile_data = !state.form.show_citizen_profile_data" />
+                <label class="text-sm font-medium text-gray-700 cursor-pointer"
+                    @click="state.form.show_citizen_profile_data = !state.form.show_citizen_profile_data">
+                    {{ $t('forms.showCitizenProfileData') }}
+                </label>
+            </div>
+            <div v-if="isAdmin && state.form.show_citizen_profile_data" class="space-y-2 ml-12">
+                <div v-for="option in citizenProfileFieldOptions" :key="option.key"
+                    class="flex items-center gap-x-3 cursor-pointer w-fit"
+                    @click="toggleCitizenProfileField(option.key)">
+                    <FormCheckbox :value="isCitizenProfileFieldSelected(option.key)" />
+                    <span class="text-sm text-gray-700">{{ option.label }}</span>
+                </div>
+            </div>
         </div>
 
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
@@ -485,6 +501,8 @@ const state = reactive({
         document_title: '',
         is_follow_up_enabled: false,
         follow_up_duration: '',
+        show_citizen_profile_data: true,
+        citizen_profile_fields: ['citizen_name'] as string[],
     },
     showFieldsAdder: true,
     followUpNumber: '1',
@@ -511,6 +529,29 @@ const citizenAutoFillDateOptions = citizenAutoFillOptions.filter((option) =>
     ['', 'citizen_birthday', 'citizen_admission_date', 'citizen_discharge_date'].includes(option.value)
 )
 
+const citizenProfileFieldOptions = computed(() => [
+    { key: 'citizen_name', label: t('forms.citizenProfileFields.citizenName') },
+    { key: 'citizen_cpr', label: t('forms.citizenProfileFields.citizenCpr') },
+    { key: 'citizen_email', label: t('forms.citizenProfileFields.citizenEmail') },
+    { key: 'citizen_phone', label: t('forms.citizenProfileFields.citizenPhone') },
+    { key: 'citizen_birthday', label: t('forms.citizenProfileFields.citizenBirthday') },
+    { key: 'primary_case_worker', label: t('forms.citizenProfileFields.primaryCaseWorker') },
+    { key: 'paying_municipality', label: t('forms.citizenProfileFields.payingMunicipality') },
+])
+
+function isCitizenProfileFieldSelected(key: string): boolean {
+    return state.form.citizen_profile_fields.includes(key)
+}
+
+function toggleCitizenProfileField(key: string) {
+    const index = state.form.citizen_profile_fields.indexOf(key)
+    if (index === -1) {
+        state.form.citizen_profile_fields.push(key)
+    } else {
+        state.form.citizen_profile_fields.splice(index, 1)
+    }
+}
+
 function formatFollowUpDuration() {
     return `${state.followUpNumber} ${state.followUpUnit}`
 }
@@ -536,6 +577,12 @@ watch(() => props.selectedForm, (selectedForm: any) => {
                     state.followUpUnit = parts[1]
                 }
             }
+        }
+        if (selectedForm.show_citizen_profile_data !== undefined) {
+            state.form.show_citizen_profile_data = selectedForm.show_citizen_profile_data
+        }
+        if (selectedForm.citizen_profile_fields) {
+            state.form.citizen_profile_fields = selectedForm.citizen_profile_fields
         }
     }
 }, { immediate: true })
