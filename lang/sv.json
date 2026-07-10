@@ -3894,6 +3894,12 @@
                 }
             }
         },
+        "favorites": {
+            "addToFavorites": "Lägg till favoriter",
+            "removeFromFavorites": "Ta bort från favoriter",
+            "manageFavorites": "Hantera favoriter",
+            "noFavoritesYet": "Du har inte lagt till några kollegor som favoriter än"
+        },
         "filter": {
             "dateTimeEnd": "Datum och tid slut",
             "dateTimeStart": "Datum och tid start",

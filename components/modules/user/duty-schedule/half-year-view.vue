@@ -52,6 +52,11 @@
                     <!-- Right: Filter / Sort / Entries / Search -->
                     <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
                         <!-- Filter -->
+                        <button v-if="hasManageFavoritesAccess" class="flex items-center gap-x-1 text-sm text-primary group"
+                            @click="state.modal.isManageFavoritesOpen = true">
+                            <Icon name="mdi:star-outline" class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                            <span class="group-hover:text-primary-700">{{ $t('dutySchedules.favorites.manageFavorites') }}</span>
+                        </button>
                         <button class="flex items-center gap-x-1 text-sm text-primary group"
                             @click="state.modal.isFilterDutyScheduleOpen = true">
                             <Icon name="ic:outline-filter-list"
@@ -176,6 +181,19 @@
                                             <Icon name="mdi:wallet-travel" class="h-3 w-3" />
                                             <div v-if="employee?.pending_leave_requests > 0"
                                                 class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
+                                        </button>
+                                    </Tooltip>
+                                    <Tooltip position="left"
+                                        :text="isFavorited(employee) ? $t('dutySchedules.favorites.removeFromFavorites') : $t('dutySchedules.favorites.addToFavorites')"
+                                        v-if="hasManageFavoritesAccess && userStore.getUser?.uuid !== employee?.uuid">
+                                        <button
+                                            :class="[
+                                                isFavorited(employee) ? 'text-yellow-500' : 'text-gray-500',
+                                                'bg-gray-100 w-7 h-7 rounded-lg hover:bg-yellow-50 flex items-center justify-center'
+                                            ]"
+                                            @click="toggleFavoriteEmployee(employee)">
+                                            <Icon :name="isFavorited(employee) ? 'mdi:star' : 'mdi:star-outline'"
+                                                class="h-3 w-3" />
                                         </button>
                                     </Tooltip>
                                 </div>
@@ -807,6 +825,8 @@
 
         <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
             @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
+        <ModulesUserDutyScheduleModalManageFavorites :isModalOpen="state.modal.isManageFavoritesOpen"
+            @close="state.modal.isManageFavoritesOpen = false" @refreshDutySchedules="fetchHalfYear()" />
         <ModulesUserDutyScheduleTimeRequestsModalRequests :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
             :selectedDate="state.manageTimeRequest.selectedDate"
             :selectedEmployee="state.manageTimeRequest.selectedEmployee"
@@ -832,6 +852,8 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { dutyScheduleFavoriteEmployeeService } from '@/components/api/user/DutyScheduleFavoriteEmployeeService'
+import { useFavoriteEmployees } from '@/composables/useFavoriteEmployees'
 import { useDepartmentStore } from '@/store/department'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
@@ -869,7 +891,9 @@ const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore()
 const { formatNumber, parseLocaleNumber } = useNumberFormatter()
 const { isAtLeast, can } = usePermissions()
+const favoriteEmployees = useFavoriteEmployees()
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || can('update_schedule'))
+const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || can('create_schedule'))
 
 // Period anchor: start of the half-year (Jan or Jul of some year)
 const periodStart = ref(getHalfYearStart(moment()))
@@ -983,6 +1007,7 @@ const state = reactive({
         isFilterDutyScheduleOpen: false,
         isGraphOpen: false,
         isManageExtraHoursOpen: false,
+        isManageFavoritesOpen: false,
         isManageLeaveRequestsOpen: false,
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
@@ -1729,10 +1754,31 @@ onMounted(() => {
         teleportReady.value = document.getElementById('schedule-date-picker-target') ? true : false
     })
     fetchHalfYear()
+    favoriteEmployees.ensureLoaded()
     document.addEventListener('click', closeRequestMenu)
 })
 
 onUnmounted(() => {
     document.removeEventListener('click', closeRequestMenu)
 })
+
+function isFavorited(employee: any) {
+    return employee?.is_favorited_by_viewer || favoriteEmployees.isFavorited(employee?.uuid)
+}
+
+async function toggleFavoriteEmployee(employee: any) {
+    if (!employee?.uuid || employee.uuid === userStore.getUser?.uuid) return
+    try {
+        if (isFavorited(employee)) {
+            await dutyScheduleFavoriteEmployeeService.removeFavoriteEmployee(employee.uuid)
+            favoriteEmployees.remove(employee.uuid)
+        } else {
+            await dutyScheduleFavoriteEmployeeService.addFavoriteEmployee(employee.uuid)
+            favoriteEmployees.add(employee.uuid)
+        }
+        fetchHalfYear()
+    } catch (error: any) {
+        state.error = error
+    }
+}
 </script>
