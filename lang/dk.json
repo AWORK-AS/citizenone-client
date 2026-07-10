@@ -3895,6 +3895,12 @@
                 }
             }
         },
+        "favorites": {
+            "addToFavorites": "Tilføj til favoritter",
+            "removeFromFavorites": "Fjern fra favoritter",
+            "manageFavorites": "Administrer favoritter",
+            "noFavoritesYet": "Du har ikke tilføjet nogen kolleger til favoritter endnu"
+        },
         "filter": {
             "dateTimeEnd": "Dato og tid slut",
             "dateTimeStart": "Dato og tid start",

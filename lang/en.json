@@ -3895,6 +3895,12 @@
                 }
             }
         },
+        "favorites": {
+            "addToFavorites": "Add to favorites",
+            "removeFromFavorites": "Remove from favorites",
+            "manageFavorites": "Manage favorites",
+            "noFavoritesYet": "You haven't favorited any colleagues yet"
+        },
         "filter": {
             "dateTimeEnd": "Date and time end",
             "dateTimeStart": "Date and time start",

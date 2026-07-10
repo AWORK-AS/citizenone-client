@@ -80,6 +80,12 @@
                                 <Icon name="ic:outline-filter-list" class="h-4 w-4" />
                                 {{ $t('filter') }}
                             </button>
+                            <button v-if="hasManageFavoritesAccess"
+                                class="flex items-center gap-1.5 outline-none rounded-md text-xs font-semibold bg-white border border-gray-200 hover:bg-gray-50 px-3 py-2 text-gray-600"
+                                @click="state.modal.isManageFavoritesOpen = true">
+                                <Icon name="mdi:star-outline" class="h-4 w-4" />
+                                {{ $t('dutySchedules.favorites.manageFavorites') }}
+                            </button>
                             <Tooltip
                                 :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                                 position="left">
@@ -382,6 +388,19 @@
                                                                     @click="copyEmployeeWeeklySchedule(employee)">
                                                                     <Icon name="mdi:content-copy" class="h-3 w-3"
                                                                         aria-hidden="true" />
+                                                                </button>
+                                                            </Tooltip>
+                                                            <Tooltip position="right"
+                                                                :text="isFavorited(employee) ? $t('dutySchedules.favorites.removeFromFavorites') : $t('dutySchedules.favorites.addToFavorites')"
+                                                                v-if="hasManageFavoritesAccess && userStore.getUser?.uuid !== employee?.uuid">
+                                                                <button
+                                                                    :class="[
+                                                                        isFavorited(employee) ? 'text-yellow-500' : 'text-gray-600',
+                                                                        'bg-gray-200 w-6 h-6 text-sm rounded-sm hover:bg-yellow-100 flex items-center justify-center'
+                                                                    ]"
+                                                                    @click="toggleFavoriteEmployee(employee)">
+                                                                    <Icon :name="isFavorited(employee) ? 'mdi:star' : 'mdi:star-outline'"
+                                                                        class="h-3 w-3" aria-hidden="true" />
                                                                 </button>
                                                             </Tooltip>
                                                         </div>
@@ -874,6 +893,8 @@
             </div>
             <ModulesUserDutyScheduleModalFilter :isModalOpen="state.modal.isFilterDutyScheduleOpen"
                 @close="state.modal.isFilterDutyScheduleOpen = false" @setFilter="setFilter" />
+            <ModulesUserDutyScheduleModalManageFavorites :isModalOpen="state.modal.isManageFavoritesOpen"
+                @close="state.modal.isManageFavoritesOpen = false" @refreshDutySchedules="fetchDraftDutySchedule()" />
             <ModulesUserDutyScheduleNormHoursModalCompensatoryHours :isModalOpen="state.modal.isCompensatoryHoursOpen"
                 :selectedEmployee="state.normHours.selectedEmployeeSchedule"
                 @close="state.modal.isCompensatoryHoursOpen = false" />
@@ -933,6 +954,8 @@
 const emit = defineEmits(['openPresets', 'openSavePreset', 'bannerClosed'])
 import moment from 'moment'
 import { draftScheduleService } from '@/components/api/user/DraftScheduleService'
+import { dutyScheduleFavoriteEmployeeService } from '@/components/api/user/DutyScheduleFavoriteEmployeeService'
+import { useFavoriteEmployees } from '@/composables/useFavoriteEmployees'
 import { useDepartmentStore } from '@/store/department'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
@@ -944,6 +967,8 @@ import type { Error } from '@/types'
 const language = useI18n()
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+const favoriteEmployees = useFavoriteEmployees()
+const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || can('create_schedule'))
 const departmentStore = useDepartmentStore()
 const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 const { formatNumber } = useNumberFormatter()
@@ -1019,6 +1044,7 @@ const state = reactive({
         isEditShiftOpen: false,
         isGraphOpen: false,
         isManageExtraHoursOpen: false,
+        isManageFavoritesOpen: false,
         isManageScheduleSlotOpen: false,
         isPublishDraftOpen: false,
         isVacationHoursOpen: false,
@@ -1102,12 +1128,33 @@ watch(() => draftDutyScheduleStore.getShowEmployeesWorkingToday, (status: boolea
 
 onMounted(() => {
     fetchDraftDutySchedule()
+    favoriteEmployees.ensureLoaded()
     window.addEventListener('keydown', handleKeyDown)
 })
 
 onBeforeUnmount(() => {
     window.removeEventListener('keydown', handleKeyDown)
 })
+
+function isFavorited(employee: any) {
+    return employee?.is_favorited_by_viewer || favoriteEmployees.isFavorited(employee?.uuid)
+}
+
+async function toggleFavoriteEmployee(employee: any) {
+    if (!employee?.uuid || employee.uuid === userStore.getUser?.uuid) return
+    try {
+        if (isFavorited(employee)) {
+            await dutyScheduleFavoriteEmployeeService.removeFavoriteEmployee(employee.uuid)
+            favoriteEmployees.remove(employee.uuid)
+        } else {
+            await dutyScheduleFavoriteEmployeeService.addFavoriteEmployee(employee.uuid)
+            favoriteEmployees.add(employee.uuid)
+        }
+        fetchDraftDutySchedule()
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 function handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
