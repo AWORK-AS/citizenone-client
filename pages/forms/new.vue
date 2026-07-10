@@ -57,6 +57,17 @@ const state = reactive({
     isPageLoading: false,
 })
 
+function normalizeFieldScores(fields: any[]) {
+    return (fields ?? []).map((field: any) => {
+        if (!Array.isArray(field.scores)) return field
+        const scores = field.scores.map((score: any) => {
+            const value = String(score ?? '').trim().replace(',', '.')
+            return value !== '' && !isNaN(Number(value)) ? value : ''
+        })
+        return { ...field, scores }
+    })
+}
+
 function cleanScoreRanges(ranges: any[]) {
     return (ranges ?? [])
         .filter((range: any) => range.label && range.from !== '' && range.to !== '' && !isNaN(Number(range.from)) && !isNaN(Number(range.to)))
@@ -71,7 +82,7 @@ async function saveForm(formDetails: any) {
             title: formDetails.title,
             description: formDetails.description,
             document_title: formDetails.document_title,
-            fields: formDetails.fields,
+            fields: normalizeFieldScores(formDetails.fields),
             is_follow_up_enabled: formDetails.is_follow_up_enabled,
             follow_up_duration: formDetails.follow_up_duration,
             show_citizen_profile_data: formDetails.show_citizen_profile_data,

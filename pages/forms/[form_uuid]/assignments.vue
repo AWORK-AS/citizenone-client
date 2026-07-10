@@ -187,7 +187,7 @@ const userStore = useUserStore() as any
 const router = useRouter()
 
 watch(() => userStore.getUser, (user: any) => {
-    if (user?.uuid && !user?.is_surveys_active) {
+    if (user?.uuid && user?.is_surveys_active === false) {
         navigateTo('/apps')
     }
 }, { immediate: true })
@@ -256,11 +256,11 @@ const hasUploadFields = computed(() =>
 )
 
 const chartOption = computed(() => {
-    const byCitizen: Record<string, any[]> = {}
+    const byCitizen: Record<string, { label: string, data: any[] }> = {}
     completedWithScore.value.forEach((a: any) => {
-        const name = `${a.citizen?.firstname ?? ''} ${a.citizen?.lastname ?? ''}`.trim()
-        if (!byCitizen[name]) byCitizen[name] = []
-        byCitizen[name].push([moment(a.completed_at).format('YYYY-MM-DD HH:mm'), a.score])
+        const key = a.citizen?.uuid ?? '-'
+        if (!byCitizen[key]) byCitizen[key] = { label: `${a.citizen?.firstname ?? ''} ${a.citizen?.lastname ?? ''}`.trim(), data: [] }
+        byCitizen[key].data.push([moment(a.completed_at).format('YYYY-MM-DD HH:mm'), a.score])
     })
     return {
         tooltip: { trigger: 'axis' },
@@ -271,10 +271,10 @@ const chartOption = computed(() => {
             splitLine: { lineStyle: { type: 'dashed' } },
         },
         grid: { left: 50, right: 30, top: 30, bottom: 60, containLabel: true },
-        series: Object.entries(byCitizen).map(([name, data]) => ({
+        series: Object.values(byCitizen).map((series) => ({
             type: 'line',
-            name,
-            data: data.sort((x: any, y: any) => x[0].localeCompare(y[0])),
+            name: series.label,
+            data: series.data.sort((x: any, y: any) => x[0].localeCompare(y[0])),
             smooth: true,
             symbolSize: 8,
             lineStyle: { width: 3 },

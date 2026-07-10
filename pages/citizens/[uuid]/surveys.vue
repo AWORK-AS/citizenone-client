@@ -193,7 +193,7 @@ const route = useRoute()
 const citizenUuid = route?.params?.uuid as string
 
 watch(() => userStore.getUser, (user: any) => {
-    if (user?.uuid && !user?.is_surveys_active) {
+    if (user?.uuid && user?.is_surveys_active === false) {
         navigateTo('/apps')
     }
 }, { immediate: true })
@@ -246,11 +246,11 @@ const completedWithScore = computed(() =>
 )
 
 const chartOption = computed(() => {
-    const byForm: Record<string, any[]> = {}
+    const byForm: Record<string, { label: string, data: any[] }> = {}
     completedWithScore.value.forEach((a: any) => {
-        const name = a.form?.title ?? '-'
-        if (!byForm[name]) byForm[name] = []
-        byForm[name].push([moment(a.completed_at).format('YYYY-MM-DD HH:mm'), a.score])
+        const key = a.form?.uuid ?? '-'
+        if (!byForm[key]) byForm[key] = { label: a.form?.title ?? '-', data: [] }
+        byForm[key].data.push([moment(a.completed_at).format('YYYY-MM-DD HH:mm'), a.score])
     })
     return {
         tooltip: { trigger: 'axis' },
@@ -261,10 +261,10 @@ const chartOption = computed(() => {
             splitLine: { lineStyle: { type: 'dashed' } },
         },
         grid: { left: 50, right: 30, top: 30, bottom: 60, containLabel: true },
-        series: Object.entries(byForm).map(([name, data]) => ({
+        series: Object.values(byForm).map((series) => ({
             type: 'line',
-            name,
-            data: data.sort((x: any, y: any) => x[0].localeCompare(y[0])),
+            name: series.label,
+            data: series.data.sort((x: any, y: any) => x[0].localeCompare(y[0])),
             smooth: true,
             symbolSize: 8,
             lineStyle: { width: 3 },
@@ -364,6 +364,7 @@ watch(() => state.formModal.formUuid, async (formUuid: any) => {
     if (!formUuid) return
     try {
         const response = await formService.getForm(formUuid)
+        if (state.formModal.formUuid !== formUuid) return
         state.formModal.hasUploadFields = (response?.data?.form_fields ?? []).some((formField: any) => {
             try {
                 return JSON.parse(formField.field)?.type === 'uploadfile'
@@ -378,7 +379,7 @@ watch(() => state.formModal.formUuid, async (formUuid: any) => {
 
 async function confirmFormModal() {
     if (state.formModal.mode === 'fill') {
-        navigateTo(`/forms/${state.formModal.formUuid}/fill?citizen_uuid=${citizenUuid}`)
+        navigateTo(`/forms/${state.formModal.formUuid}/fill?citizen_uuid=${citizenUuid}&from=citizen`)
         return
     }
     state.error = {}

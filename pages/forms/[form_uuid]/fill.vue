@@ -12,8 +12,7 @@
 
             <template #header>{{ $t('forms.assignments.fillInternally') }}</template>
 
-            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                :to="`/forms/${formUuid}/assignments`">
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" :to="returnRoute">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
@@ -40,8 +39,7 @@
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="cancel"
-                                @click="navigateTo(`/forms/${formUuid}/assignments`)">
+                            <FormButton type="button" buttonStyle="cancel" @click="navigateTo(returnRoute)">
                                 {{ $t('cancel') }}
                             </FormButton>
                             <FormButton type="button" buttonStyle="primary" @click="submitAnswers">
@@ -71,12 +69,14 @@ const userStore = useUserStore() as any
 const router = useRouter()
 
 watch(() => userStore.getUser, (user: any) => {
-    if (user?.uuid && !user?.is_surveys_active) {
+    if (user?.uuid && user?.is_surveys_active === false) {
         navigateTo('/apps')
     }
 }, { immediate: true })
 const formUuid = router?.currentRoute?.value?.params?.form_uuid
 const citizenUuid = router?.currentRoute?.value?.query?.citizen_uuid as string
+const fromCitizen = router?.currentRoute?.value?.query?.from === 'citizen'
+const returnRoute = fromCitizen ? `/citizens/${citizenUuid}/surveys` : `/forms/${formUuid}/assignments`
 const surveyFill = ref()
 const breadcrumbLinks = [
     {
@@ -153,7 +153,7 @@ async function submitAnswers() {
         })
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('forms.alert.responseSuccessfullySaved')}.`)
-            navigateTo(`/forms/${formUuid}/assignments`)
+            navigateTo(returnRoute)
         }
     } catch (error: any) {
         state.error = error
