@@ -172,6 +172,11 @@
                                                         <FormTextField :name="`text_field_${fieldIndex}_${radioIndex}`"
                                                             :placeholder="`Option ${radioIndex + 1}`"
                                                             v-model="state.form.fields[fieldIndex].options[radioIndex]" />
+                                                        <div class="w-24 shrink-0" :title="$t('forms.fields.score')">
+                                                            <FormTextField :name="`score_field_${fieldIndex}_${radioIndex}`"
+                                                                :placeholder="$t('forms.fields.score')"
+                                                                v-model="state.form.fields[fieldIndex].scores[radioIndex]" />
+                                                        </div>
                                                         <button class="flex items-center"
                                                             @click="removeRadioButton(fieldIndex, radioIndex)"
                                                             v-if="state.form.fields[fieldIndex].options.length > 2">
@@ -219,6 +224,12 @@
                                                             :name="`text_field_${fieldIndex}_${checkboxIndex}`"
                                                             :placeholder="`Option ${checkboxIndex + 1}`"
                                                             v-model="state.form.fields[fieldIndex].options[checkboxIndex]" />
+                                                        <div class="w-24 shrink-0" :title="$t('forms.fields.score')">
+                                                            <FormTextField
+                                                                :name="`score_field_${fieldIndex}_${checkboxIndex}`"
+                                                                :placeholder="$t('forms.fields.score')"
+                                                                v-model="state.form.fields[fieldIndex].scores[checkboxIndex]" />
+                                                        </div>
                                                         <button class="flex items-center"
                                                             @click="removeCheckboxOption(fieldIndex, checkboxIndex)"
                                                             v-if="state.form.fields[fieldIndex].options.length > 1">
@@ -565,6 +576,11 @@ watch(() => props.selectedForm, (selectedForm: any) => {
         state.form.title = selectedForm.title
         state.form.description = selectedForm.description
         state.form.fields = selectedForm.fields
+        state.form.fields?.forEach((field: any) => {
+            if ((field.type === 'choice' || field.type === 'checkbox') && !Array.isArray(field.scores)) {
+                field.scores = field.options?.map(() => '') ?? []
+            }
+        })
         if (selectedForm.document_title) {
             state.form.document_title = selectedForm.document_title
         }
@@ -618,12 +634,12 @@ function addDateField() {
 }
 
 function addChoiceField() {
-    state.form.fields.push({ type: 'choice', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`] })
+    state.form.fields.push({ type: 'choice', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`], scores: ['', ''] })
     state.showFieldsAdder = false
 }
 
 function addCheckbox() {
-    state.form.fields.push({ type: 'checkbox', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`] })
+    state.form.fields.push({ type: 'checkbox', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`], scores: ['', ''] })
     state.showFieldsAdder = false
 }
 
@@ -640,24 +656,28 @@ function addUploadFile() {
 function addRadioOption(fieldIndex: number) {
     if (state.form.fields[fieldIndex].type === 'choice') {
         state.form.fields[fieldIndex].options?.push(`${t('forms.option')} ${state.form.fields[fieldIndex].options!.length + 1}`)
+        state.form.fields[fieldIndex].scores?.push('')
     }
 }
 
 function removeRadioButton(fieldIndex: number, radioIndex: number) {
     if (state.form.fields[fieldIndex].type === 'choice') {
         state.form.fields[fieldIndex].options.splice(radioIndex, 1)
+        state.form.fields[fieldIndex].scores?.splice(radioIndex, 1)
     }
 }
 
 function addCheckboxOption(fieldIndex: number) {
     if (state.form.fields[fieldIndex].type === 'checkbox') {
         state.form.fields[fieldIndex].options?.push(`${t('forms.option')} ${state.form.fields[fieldIndex].options!.length + 1}`)
+        state.form.fields[fieldIndex].scores?.push('')
     }
 }
 
 function removeCheckboxOption(fieldIndex: number, radioIndex: number) {
     if (state.form.fields[fieldIndex].type === 'checkbox') {
         state.form.fields[fieldIndex].options.splice(radioIndex, 1)
+        state.form.fields[fieldIndex].scores?.splice(radioIndex, 1)
     }
 }
 

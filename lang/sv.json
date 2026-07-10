@@ -6279,7 +6279,8 @@
             "required": "Obligatorisk",
             "text": "Text",
             "textarea": "Tekstområde",
-            "uploadFile": "Upload fil"
+            "uploadFile": "Upload fil",
+            "score": "Poäng"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6303,7 +6304,8 @@
                 "createResponse": "Skapa svar",
                 "delete": "Radera",
                 "edit": "Redigera",
-                "viewResponses": "Se svar"
+                "viewResponses": "Se svar",
+                "assignments": "Enkäter"
             },
             "alert": {
                 "formSuccessfullyDeleted": "Formulär raderad"
@@ -6362,6 +6364,43 @@
             },
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Är du säker på att du vill radera denna fördefinierade händelse"
+            }
+        },
+        "assignments": {
+            "title": "Enkäter",
+            "sendToCitizen": "Skicka till medborgare",
+            "fillInternally": "Fyll i internt",
+            "fillingForCitizen": "Fylls i för",
+            "selectCitizen": "Välj medborgare",
+            "send": "Skicka",
+            "startFilling": "Börja fylla i",
+            "scoreOverTime": "Poäng över tid",
+            "score": "Poäng",
+            "viewAnswers": "Visa svar",
+            "answers": "Svar",
+            "status": {
+                "completed": "Ifylld",
+                "pending": "Väntar på medborgare"
+            },
+            "source": {
+                "internal": "Ifylld internt",
+                "citizen": "Ifylld av medborgare"
+            },
+            "table": {
+                "citizen": "Medborgare",
+                "status": "Status",
+                "source": "Källa",
+                "sent": "Skickad",
+                "completed": "Ifylld",
+                "score": "Poäng"
+            },
+            "confirmation": {
+                "deleteAssignment": "Är du säker på att du vill ta bort denna enkät"
+            },
+            "alert": {
+                "surveySent": "Enkäten har skickats till medborgaren",
+                "assignmentDeleted": "Enkäten har tagits bort",
+                "answerRequiredFields": "Vänligen besvara alla obligatoriska frågor"
             }
         }
     },
@@ -9035,7 +9074,8 @@
         "reportTemplates": "Rapportmallar",
         "journalNotes": "Journal notes",
         "pinSidebar": "Fäst sidebar",
-        "unpinSidebar": "Lossa sidebar"
+        "unpinSidebar": "Lossa sidebar",
+        "surveys": "Enkäter"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -11593,5 +11633,19 @@
             "updated": "Uppdaterad",
             "deleted": "Raderad"
         }
+    },
+    "surveys": {
+        "mySurveys": "Mina enkäter",
+        "pending": "Väntar på dig",
+        "completed": "Ifyllda",
+        "noPendingSurveys": "Inga enkäter väntar på dig",
+        "received": "Mottagen",
+        "fillOut": "Fyll i",
+        "completedAt": "Ifylld",
+        "returned": "Returnerad",
+        "return": "Returnera enkät",
+        "alreadyCompleted": "Denna enkät har redan returnerats",
+        "answerRequiredFields": "Vänligen besvara alla obligatoriska frågor",
+        "surveyReturned": "Enkäten har returnerats"
     }
 }

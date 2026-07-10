@@ -53,6 +53,9 @@
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Surveys'">
+                                                            {{ $t('sidebar.surveys') }}
+                                                        </span>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
                                                         <DisclosureButton
@@ -114,6 +117,9 @@
                                         </span>
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
+                                        </span>
+                                        <span v-if="item.name === 'Surveys'">
+                                            {{ $t('sidebar.surveys') }}
                                         </span>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -305,6 +311,15 @@ const navigation = ref([
         icon: 'ph:calendar-dots',
         activeRouteNames: [
             'citizen-schedules'
+        ]
+    },
+    {
+        name: 'Surveys',
+        href: '/citizen/surveys',
+        icon: 'ph:clipboard-text',
+        activeRouteNames: [
+            'citizen-surveys',
+            'citizen-surveys-assignment_uuid',
         ]
     },
 ] as any[])

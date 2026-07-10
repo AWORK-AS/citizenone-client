@@ -6279,7 +6279,8 @@
             "required": "Påkrævet",
             "text": "Tekst",
             "textarea": "Tekstområde",
-            "uploadFile": "Upload fil"
+            "uploadFile": "Upload fil",
+            "score": "Point"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6303,7 +6304,8 @@
                 "createResponse": "Opret svar",
                 "delete": "Slet",
                 "edit": "Rediger",
-                "viewResponses": "Se svar"
+                "viewResponses": "Se svar",
+                "assignments": "Spørgeskemaer"
             },
             "alert": {
                 "formSuccessfullyDeleted": "Formular slettet med succes"
@@ -6362,6 +6364,43 @@
             },
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Er du sikker på, at du vil slette denne foruddefinerede hændelse"
+            }
+        },
+        "assignments": {
+            "title": "Spørgeskemaer",
+            "sendToCitizen": "Send til borger",
+            "fillInternally": "Udfyld internt",
+            "fillingForCitizen": "Udfyldes for",
+            "selectCitizen": "Vælg borger",
+            "send": "Send",
+            "startFilling": "Start udfyldelse",
+            "scoreOverTime": "Score over tid",
+            "score": "Score",
+            "viewAnswers": "Se svar",
+            "answers": "Svar",
+            "status": {
+                "completed": "Udfyldt",
+                "pending": "Afventer borger"
+            },
+            "source": {
+                "internal": "Udfyldt internt",
+                "citizen": "Udfyldt af borger"
+            },
+            "table": {
+                "citizen": "Borger",
+                "status": "Status",
+                "source": "Kilde",
+                "sent": "Sendt",
+                "completed": "Udfyldt",
+                "score": "Score"
+            },
+            "confirmation": {
+                "deleteAssignment": "Er du sikker på, at du vil slette dette spørgeskema"
+            },
+            "alert": {
+                "surveySent": "Spørgeskemaet er sendt til borgeren",
+                "assignmentDeleted": "Spørgeskemaet er slettet",
+                "answerRequiredFields": "Udfyld venligst alle obligatoriske spørgsmål"
             }
         }
     },
@@ -9035,7 +9074,8 @@
         "reportTemplates": "Rapportskabeloner",
         "journalNotes": "Journalnotater",
         "pinSidebar": "Fastgør sidebar",
-        "unpinSidebar": "Frigør sidebar"
+        "unpinSidebar": "Frigør sidebar",
+        "surveys": "Spørgeskemaer"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -11593,5 +11633,19 @@
             "updated": "Opdateret",
             "deleted": "Slettet"
         }
+    },
+    "surveys": {
+        "mySurveys": "Mine spørgeskemaer",
+        "pending": "Venter på dig",
+        "completed": "Udfyldt",
+        "noPendingSurveys": "Ingen spørgeskemaer venter på dig",
+        "received": "Modtaget",
+        "fillOut": "Udfyld",
+        "completedAt": "Udfyldt",
+        "returned": "Returneret",
+        "return": "Returnér spørgeskema",
+        "alreadyCompleted": "Dette spørgeskema er allerede returneret",
+        "answerRequiredFields": "Udfyld venligst alle obligatoriske spørgsmål",
+        "surveyReturned": "Spørgeskemaet er returneret"
     }
 }

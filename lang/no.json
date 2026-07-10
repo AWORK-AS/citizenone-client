@@ -6279,7 +6279,8 @@
             "required": "Påkrevd",
             "text": "Tekst",
             "textarea": "Tekstområde",
-            "uploadFile": "Last opp fil"
+            "uploadFile": "Last opp fil",
+            "score": "Poeng"
         },
         "formDescription": "Skjemabeskrivelse",
         "formTitle": "Skjematitel",
@@ -6303,7 +6304,8 @@
                 "createResponse": "Opprett svar",
                 "delete": "Slett",
                 "edit": "Rediger",
-                "viewResponses": "Se svar"
+                "viewResponses": "Se svar",
+                "assignments": "Spørreskjemaer"
             },
             "alert": {
                 "formSuccessfullyDeleted": "Skjema slettet vellykket"
@@ -6362,6 +6364,43 @@
             },
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Er du sikker på at du vil slette denne forhåndsdefinerte hendelsen"
+            }
+        },
+        "assignments": {
+            "title": "Spørreskjemaer",
+            "sendToCitizen": "Send til innbygger",
+            "fillInternally": "Fyll ut internt",
+            "fillingForCitizen": "Fylles ut for",
+            "selectCitizen": "Velg innbygger",
+            "send": "Send",
+            "startFilling": "Start utfylling",
+            "scoreOverTime": "Poeng over tid",
+            "score": "Poeng",
+            "viewAnswers": "Se svar",
+            "answers": "Svar",
+            "status": {
+                "completed": "Utfylt",
+                "pending": "Venter på innbygger"
+            },
+            "source": {
+                "internal": "Utfylt internt",
+                "citizen": "Utfylt av innbygger"
+            },
+            "table": {
+                "citizen": "Innbygger",
+                "status": "Status",
+                "source": "Kilde",
+                "sent": "Sendt",
+                "completed": "Utfylt",
+                "score": "Poeng"
+            },
+            "confirmation": {
+                "deleteAssignment": "Er du sikker på at du vil slette dette spørreskjemaet"
+            },
+            "alert": {
+                "surveySent": "Spørreskjemaet er sendt til innbyggeren",
+                "assignmentDeleted": "Spørreskjemaet er slettet",
+                "answerRequiredFields": "Vennligst svar på alle obligatoriske spørsmål"
             }
         }
     },
@@ -9035,7 +9074,8 @@
         "reportTemplates": "Rapportmaler",
         "journalNotes": "Journal notes",
         "pinSidebar": "Fest sidefelt",
-        "unpinSidebar": "Løsne sidefelt"
+        "unpinSidebar": "Løsne sidefelt",
+        "surveys": "Spørreskjemaer"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -11593,5 +11633,19 @@
             "updated": "Oppdatert",
             "deleted": "Slettet"
         }
+    },
+    "surveys": {
+        "mySurveys": "Mine spørreskjemaer",
+        "pending": "Venter på deg",
+        "completed": "Utfylt",
+        "noPendingSurveys": "Ingen spørreskjemaer venter på deg",
+        "received": "Mottatt",
+        "fillOut": "Fyll ut",
+        "completedAt": "Utfylt",
+        "returned": "Returnert",
+        "return": "Returner spørreskjema",
+        "alreadyCompleted": "Dette spørreskjemaet er allerede returnert",
+        "answerRequiredFields": "Vennligst svar på alle obligatoriske spørsmål",
+        "surveyReturned": "Spørreskjemaet er returnert"
     }
 }

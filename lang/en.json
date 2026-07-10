@@ -6279,7 +6279,8 @@
             "required": "Required",
             "text": "Text",
             "textarea": "Textarea",
-            "uploadFile": "Upload file"
+            "uploadFile": "Upload file",
+            "score": "Score"
         },
         "formDescription": "Form description",
         "formTitle": "Form title",
@@ -6303,7 +6304,8 @@
                 "createResponse": "Create response",
                 "delete": "Delete",
                 "edit": "Edit",
-                "viewResponses": "View responses"
+                "viewResponses": "View responses",
+                "assignments": "Surveys"
             },
             "alert": {
                 "formSuccessfullyDeleted": "Form successfully deleted"
@@ -6362,6 +6364,43 @@
             },
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Are you sure you want to delete this predefined event"
+            }
+        },
+        "assignments": {
+            "title": "Surveys",
+            "sendToCitizen": "Send to citizen",
+            "fillInternally": "Fill out internally",
+            "fillingForCitizen": "Filling out for",
+            "selectCitizen": "Select citizen",
+            "send": "Send",
+            "startFilling": "Start filling out",
+            "scoreOverTime": "Score over time",
+            "score": "Score",
+            "viewAnswers": "View answers",
+            "answers": "Answers",
+            "status": {
+                "completed": "Completed",
+                "pending": "Awaiting citizen"
+            },
+            "source": {
+                "internal": "Filled out internally",
+                "citizen": "Filled out by citizen"
+            },
+            "table": {
+                "citizen": "Citizen",
+                "status": "Status",
+                "source": "Source",
+                "sent": "Sent",
+                "completed": "Completed",
+                "score": "Score"
+            },
+            "confirmation": {
+                "deleteAssignment": "Are you sure you want to delete this survey"
+            },
+            "alert": {
+                "surveySent": "Survey successfully sent to citizen",
+                "assignmentDeleted": "Survey successfully deleted",
+                "answerRequiredFields": "Please answer all required questions"
             }
         }
     },
@@ -9035,7 +9074,8 @@
         "reportTemplates": "Report templates",
         "journalNotes": "Journal notes",
         "pinSidebar": "Pin sidebar",
-        "unpinSidebar": "Unpin sidebar"
+        "unpinSidebar": "Unpin sidebar",
+        "surveys": "Surveys"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -11593,5 +11633,19 @@
             "updated": "Updated",
             "deleted": "Deleted"
         }
+    },
+    "surveys": {
+        "mySurveys": "My surveys",
+        "pending": "Waiting for you",
+        "completed": "Completed",
+        "noPendingSurveys": "No surveys are waiting for you",
+        "received": "Received",
+        "fillOut": "Fill out",
+        "completedAt": "Completed",
+        "returned": "Returned",
+        "return": "Return survey",
+        "alreadyCompleted": "This survey has already been returned",
+        "answerRequiredFields": "Please answer all required questions",
+        "surveyReturned": "Survey successfully returned"
     }
 }

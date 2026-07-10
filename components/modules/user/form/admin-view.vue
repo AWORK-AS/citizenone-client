@@ -24,6 +24,11 @@
                             <td width="20%">
                                 <div class="flex items-end justify-end gap-2">
                                     <FormButton type="button" buttonStyle="action"
+                                        @click="navigateTo(`/forms/${form.uuid}/assignments`)">
+                                        <Icon name="ph:chart-line" class="size-4" />
+                                        {{ $t('forms.table.actions.assignments') }}
+                                    </FormButton>
+                                    <FormButton type="button" buttonStyle="action"
                                         @click="navigateTo(`/forms/${form.uuid}/edit`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                         {{ $t('forms.table.actions.edit') }}
