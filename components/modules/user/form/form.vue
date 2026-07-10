@@ -73,7 +73,18 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <div class="px-5 py-3">
+                                    <div class="px-5 py-3 space-y-3">
+                                        <div class="flex items-center justify-end gap-x-2">
+                                            <p>
+                                                {{ $t('forms.fields.autoFill.label') }}
+                                            </p>
+                                            <div class="w-56">
+                                                <FormSelect :id="'text_field_autofill_' + fieldIndex"
+                                                    :options="citizenAutoFillOptions" :canClear="false"
+                                                    :searchable="false"
+                                                    v-model="state.form.fields[fieldIndex].autoFillSource" />
+                                            </div>
+                                        </div>
                                         <div class="flex items-center justify-end gap-x-2">
                                             <FormSwitch :value="state.form.fields[fieldIndex].required"
                                                 @toggleSwitch="state.form.fields[fieldIndex].required = !state.form.fields[fieldIndex].required" />
@@ -103,7 +114,18 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <div class="px-5 py-3">
+                                    <div class="px-5 py-3 space-y-3">
+                                        <div class="flex items-center justify-end gap-x-2">
+                                            <p>
+                                                {{ $t('forms.fields.autoFill.label') }}
+                                            </p>
+                                            <div class="w-56">
+                                                <FormSelect :id="'textarea_autofill_' + fieldIndex"
+                                                    :options="citizenAutoFillOptions" :canClear="false"
+                                                    :searchable="false"
+                                                    v-model="state.form.fields[fieldIndex].autoFillSource" />
+                                            </div>
+                                        </div>
                                         <div class="flex items-center justify-end gap-x-2">
                                             <FormSwitch :value="state.form.fields[fieldIndex].required"
                                                 @toggleSwitch="state.form.fields[fieldIndex].required = !state.form.fields[fieldIndex].required" />
@@ -280,7 +302,18 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <div class="px-5 py-3">
+                                    <div class="px-5 py-3 space-y-3">
+                                        <div class="flex items-center justify-end gap-x-2">
+                                            <p>
+                                                {{ $t('forms.fields.autoFill.label') }}
+                                            </p>
+                                            <div class="w-56">
+                                                <FormSelect :id="'date_field_autofill_' + fieldIndex"
+                                                    :options="citizenAutoFillDateOptions" :canClear="false"
+                                                    :searchable="false"
+                                                    v-model="state.form.fields[fieldIndex].autoFillSource" />
+                                            </div>
+                                        </div>
                                         <div class="flex items-center justify-end gap-x-2">
                                             <FormSwitch :value="state.form.fields[fieldIndex].required"
                                                 @toggleSwitch="state.form.fields[fieldIndex].required = !state.form.fields[fieldIndex].required" />
@@ -465,6 +498,19 @@ const followUpUnits = [
     { value: 'Years', label: t('plansandgoals.createStatusTemplate.form.years') },
 ]
 
+const citizenAutoFillOptions = [
+    { value: '', label: t('forms.fields.autoFill.none') },
+    { value: 'citizen_name', label: t('forms.fields.autoFill.citizenName') },
+    { value: 'citizen_cpr', label: t('forms.fields.autoFill.citizenCpr') },
+    { value: 'citizen_birthday', label: t('forms.fields.autoFill.citizenBirthday') },
+    { value: 'citizen_admission_date', label: t('forms.fields.autoFill.citizenAdmissionDate') },
+    { value: 'citizen_discharge_date', label: t('forms.fields.autoFill.citizenDischargeDate') },
+]
+
+const citizenAutoFillDateOptions = citizenAutoFillOptions.filter((option) =>
+    ['', 'citizen_birthday', 'citizen_admission_date', 'citizen_discharge_date'].includes(option.value)
+)
+
 function formatFollowUpDuration() {
     return `${state.followUpNumber} ${state.followUpUnit}`
 }
@@ -510,17 +556,17 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function addTextField() {
-    state.form.fields.push({ type: 'textfield', value: `${t('forms.question')}`, required: false })
+    state.form.fields.push({ type: 'textfield', value: `${t('forms.question')}`, required: false, autoFillSource: '' })
     state.showFieldsAdder = false
 }
 
 function addTextarea() {
-    state.form.fields.push({ type: 'textarea', value: `${t('forms.question')}`, required: false })
+    state.form.fields.push({ type: 'textarea', value: `${t('forms.question')}`, required: false, autoFillSource: '' })
     state.showFieldsAdder = false
 }
 
 function addDateField() {
-    state.form.fields.push({ type: 'datefield', value: `${t('forms.question')}`, required: false })
+    state.form.fields.push({ type: 'datefield', value: `${t('forms.question')}`, required: false, autoFillSource: '' })
     state.showFieldsAdder = false
 }
 

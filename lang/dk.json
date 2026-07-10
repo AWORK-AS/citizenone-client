@@ -1709,6 +1709,7 @@
         },
         "editCitizen": "Rediger Borger",
         "editCitizenForm": "Rediger borgerformular",
+        "editMedicineForm": "Rediger medicinformular",
         "emails": {
             "attachments": "Vedhæftede filer",
             "confirmation": {
@@ -6222,6 +6223,8 @@
             "trafficLights": "Trafiklys",
             "transportation": "Transport"
         },
+        "medicineSubtitle": "Konfigurer hvilke felter der er synlige i medicinens oprettelses- og redigeringsformularer.",
+        "medicineTitle": "Formularfeltkonfiguration for medicin",
         "subtitle": "Konfigurer hvilke felter der er synlige i borgerens oprettelses- og redigeringsformularer.",
         "title": "Formularfeltkonfiguration"
     },
@@ -6241,6 +6244,15 @@
         "editForm": "Rediger formular",
         "enableFollowUp": "Aktiver opfølgning",
         "fields": {
+            "autoFill": {
+                "label": "Automatisk udfyldning fra borgerdata",
+                "none": "Ingen",
+                "citizenName": "Borgerens navn",
+                "citizenCpr": "Borgerens CPR-nummer",
+                "citizenBirthday": "Borgerens fødselsdag",
+                "citizenAdmissionDate": "Borgerens indflytningsdato",
+                "citizenDischargeDate": "Borgerens udflytningsdato"
+            },
             "checkbox": "Afkrydsningsfelt",
             "choice": "Valg",
             "date": "Dato",
@@ -6693,6 +6705,16 @@
                 "delete": "Slet"
             }
         }
+    },
+    "journalFormConfig": {
+        "alert": {
+            "successfullyUpdated": "Journalformular konfiguration blev opdateret"
+        },
+        "navLabel": "Rediger journalformular",
+        "riskAssessmentDescription": "Når den er slået fra, vil risikovurderingssektionen (vurderingsniveau, note, tags og målforbindelse) blive skjult i journalens opret- og redigeringsformularer for alle brugere.",
+        "riskAssessmentToggle": "Vis risikovurderingssektion i journalformular",
+        "subtitle": "Konfigurer om risikovurderingssektionen er synlig i borgerens journal opret- og redigeringsformularer.",
+        "title": "Journalformular konfiguration"
     },
     "journalNotes": {
         "title": "Journalnotater",
@@ -8027,6 +8049,7 @@
         },
         "form": {
             "agreementType": "Sagstype",
+            "availablePlaceholders": "Tilgængelige pladsholdere",
             "body": "Indhold",
             "isActive": "Aktiv",
             "name": "Navn"

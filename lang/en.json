@@ -1709,6 +1709,7 @@
         },
         "editCitizen": "Edit citizen",
         "editCitizenForm": "Edit citizen form",
+        "editMedicineForm": "Edit medication form",
         "emails": {
             "attachments": "Attachments",
             "confirmation": {
@@ -6222,6 +6223,8 @@
             "trafficLights": "Traffic Lights",
             "transportation": "Transportation"
         },
+        "medicineSubtitle": "Configure which fields are visible in the medication create and edit forms.",
+        "medicineTitle": "Medication Form Field Configuration",
         "subtitle": "Configure which fields are visible in the citizen create and edit forms.",
         "title": "Form Field Configuration"
     },
@@ -6241,6 +6244,15 @@
         "editForm": "Edit form",
         "enableFollowUp": "Enable Follow up",
         "fields": {
+            "autoFill": {
+                "label": "Auto-fill from citizen data",
+                "none": "None",
+                "citizenName": "Citizen name",
+                "citizenCpr": "Citizen CPR / social security number",
+                "citizenBirthday": "Citizen birthday",
+                "citizenAdmissionDate": "Citizen admission date",
+                "citizenDischargeDate": "Citizen discharge date"
+            },
             "checkbox": "Checkbox",
             "choice": "Choice",
             "date": "Date",
@@ -6693,6 +6705,16 @@
                 "delete": "Delete"
             }
         }
+    },
+    "journalFormConfig": {
+        "alert": {
+            "successfullyUpdated": "Journal form configuration successfully updated"
+        },
+        "navLabel": "Edit journal form",
+        "riskAssessmentDescription": "When turned off, the risk assessment section (assessment level, note, tags and goal linking) will be hidden from the journal create and edit forms for all users.",
+        "riskAssessmentToggle": "Show risk assessment section in journal form",
+        "subtitle": "Configure whether the risk assessment section is visible in the citizen journal create and edit forms.",
+        "title": "Journal Form Configuration"
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -8027,6 +8049,7 @@
         },
         "form": {
             "agreementType": "Case type",
+            "availablePlaceholders": "Available placeholders",
             "body": "Body",
             "isActive": "Is active",
             "name": "Name"

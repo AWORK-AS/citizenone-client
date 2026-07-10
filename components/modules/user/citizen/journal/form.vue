@@ -180,6 +180,7 @@
                 <FormError :error="v$?.formJournal?.journal_note_tags?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.journal_note_tags_uuid?.[0]" />
             </div>
+            <div v-if="isFieldVisible('risk_assessment')">
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
                     {{ customPagesStore.getCustomPagesName?.riskAssessment }}
@@ -325,6 +326,7 @@
                     <FormError :error="props?.error?.errors?.risk_assessment_subgoals?.[0]" />
                 </div>
             </div>
+            </div>
             <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.is_draft = !state.formJournal.is_draft">
@@ -376,6 +378,7 @@
 
 <script setup lang="ts">
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { journalService } from '@/components/api/user/JournalService'
 import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
 import { journalTitleService } from '@/components/api/user/JournalTitleService'
@@ -532,11 +535,38 @@ const state = reactive({
     },
     usePredefinedJournalTitle: false,
     userPredefinedContents: false,
+    formFieldConfig: {
+        create: { risk_assessment: true } as Record<string, boolean>,
+        edit: { risk_assessment: true } as Record<string, boolean>,
+    },
 })
+
+function isFieldVisible(fieldKey: string): boolean {
+    const formTypeKey = props.formType === 'create' ? 'create' : 'edit'
+    return state.formFieldConfig[formTypeKey]?.[fieldKey] !== false
+}
+
+async function fetchFormFieldConfig() {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_journal' })
+        if (response?.data) {
+            response.data.forEach((config: any) => {
+                if (config.form_type === 'create' || config.form_type === 'edit') {
+                    state.formFieldConfig[config.form_type as 'create' | 'edit'] = {
+                        risk_assessment: config.form_fields?.risk_assessment !== false,
+                    }
+                }
+            })
+        }
+    } catch (error: any) {
+        // silently ignore — default to visible when config can't be loaded
+    }
+}
 
 onMounted(() => {
     suppressChangeTracking = true
 
+    fetchFormFieldConfig()
     fetchAllPlans()
     fetchAllGoalsForJournalNote()
     fetchAllGoalsForRiskAssessment()

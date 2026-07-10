@@ -198,7 +198,7 @@
                         </FormButton>
                         <!-- Secondary actions overflow -->
                         <Menu as="div" class="relative inline-block text-left shrink-0"
-                            v-if="isAtLeast('Admin') || can('update_citizen_medicine') || can('create_citizen_medicine')">
+                            v-if="isAtLeast('Admin') || can('update_citizen_medicine') || can('create_citizen_medicine') || can('update_form_field_config')">
                             <MenuButton
                                 class="flex items-center justify-center p-2 rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors">
                                 <Icon name="ph:dots-three-bold" class="size-5" />
@@ -227,6 +227,14 @@
                                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
                                             <Icon name="ph:download" class="size-4" />
                                             {{ $t('citizens.medicineJournals.downloadOverview') }}
+                                        </button>
+                                        </MenuItem>
+                                        <MenuItem v-if="isAtLeast('Admin') || can('update_form_field_config')"
+                                            v-slot="{ active }">
+                                        <button type="button" @click="navigateTo('/citizens/medicine-form-config')"
+                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
+                                            <Icon name="ph:gear" class="size-4" />
+                                            {{ $t('citizens.editMedicineForm') }}
                                         </button>
                                         </MenuItem>
                                     </div>
