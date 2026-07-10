@@ -6406,6 +6406,18 @@
                 "answerRequiredFields": "Vänligen besvara alla obligatoriska frågor"
             },
             "selectForm": "Välj enkät"
+        },
+        "scoreRanges": {
+            "title": "Poängtolkning",
+            "subtitle": "Ge poängintervall en beteckning, t.ex. 0-4 Minimal ångest. Visas med resultatet.",
+            "from": "Från",
+            "to": "Till",
+            "label": "Tolkning",
+            "addRange": "Lägg till intervall"
+        },
+        "templates": {
+            "title": "Standardenkäter",
+            "orBuildYourOwn": "Eller bygg din egen"
         }
     },
     "gender": {

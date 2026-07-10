@@ -6406,6 +6406,18 @@
                 "answerRequiredFields": "Please answer all required questions"
             },
             "selectForm": "Select survey"
+        },
+        "scoreRanges": {
+            "title": "Score interpretation",
+            "subtitle": "Give score intervals a label, e.g. 0-4 Minimal anxiety. Shown with the result.",
+            "from": "From",
+            "to": "To",
+            "label": "Interpretation",
+            "addRange": "Add interval"
+        },
+        "templates": {
+            "title": "Standard surveys",
+            "orBuildYourOwn": "Or build your own"
         }
     },
     "gender": {

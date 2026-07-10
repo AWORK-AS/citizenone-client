@@ -6406,6 +6406,18 @@
                 "answerRequiredFields": "Udfyld venligst alle obligatoriske spørgsmål"
             },
             "selectForm": "Vælg spørgeskema"
+        },
+        "scoreRanges": {
+            "title": "Score-fortolkning",
+            "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",
+            "from": "Fra",
+            "to": "Til",
+            "label": "Fortolkning",
+            "addRange": "Tilføj interval"
+        },
+        "templates": {
+            "title": "Standardskemaer",
+            "orBuildYourOwn": "Eller byg dit eget"
         }
     },
     "gender": {

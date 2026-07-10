@@ -107,6 +107,7 @@ async function fetchForm() {
                 follow_up_duration: response.data?.follow_up_duration ?? '',
                 show_citizen_profile_data: response.data?.show_citizen_profile_data ?? true,
                 citizen_profile_fields: response.data?.citizen_profile_fields ?? ['citizen_name'],
+                score_ranges: response.data?.score_ranges ?? [],
                 fields: [],
             }
             response?.data?.form_fields?.forEach((field: any) => {
@@ -123,6 +124,12 @@ async function fetchForm() {
     state.isPageLoading = false
 }
 
+function cleanScoreRanges(ranges: any[]) {
+    return (ranges ?? [])
+        .filter((range: any) => range.label && range.from !== '' && range.to !== '' && !isNaN(Number(range.from)) && !isNaN(Number(range.to)))
+        .map((range: any) => ({ from: Number(range.from), to: Number(range.to), label: range.label }))
+}
+
 async function updateForm(formDetails: any) {
     state.error = {}
     state.isPageLoading = true
@@ -136,6 +143,7 @@ async function updateForm(formDetails: any) {
             follow_up_duration: formDetails.follow_up_duration,
             show_citizen_profile_data: formDetails.show_citizen_profile_data,
             citizen_profile_fields: formDetails.citizen_profile_fields,
+            score_ranges: cleanScoreRanges(formDetails.score_ranges),
             is_active: true,
         }
         const response = await formService.updateForm(formUuid, params)

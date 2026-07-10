@@ -6406,6 +6406,18 @@
                 "answerRequiredFields": "Vennligst svar på alle obligatoriske spørsmål"
             },
             "selectForm": "Velg spørreskjema"
+        },
+        "scoreRanges": {
+            "title": "Poengtolkning",
+            "subtitle": "Gi poengintervaller en betegnelse, f.eks. 0-4 Minimal angst. Vises sammen med resultatet.",
+            "from": "Fra",
+            "to": "Til",
+            "label": "Tolkning",
+            "addRange": "Legg til intervall"
+        },
+        "templates": {
+            "title": "Standardskjemaer",
+            "orBuildYourOwn": "Eller bygg ditt eget"
         }
     },
     "gender": {

@@ -84,7 +84,13 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <p class="font-semibold">{{ assignment?.score ?? '-' }}</p>
+                                        <p class="font-semibold">
+                                            {{ assignment?.score ?? '-' }}
+                                            <span class="block text-xs font-normal text-gray-500"
+                                                v-if="scoreLabel(assignment?.score, assignment?.form?.score_ranges)">
+                                                {{ scoreLabel(assignment?.score, assignment?.form?.score_ranges) }}
+                                            </span>
+                                        </p>
                                     </td>
                                     <td>
                                         <div class="flex items-center justify-end gap-2">
@@ -145,6 +151,9 @@
                                 v-if="state.answersModal.assignment?.score !== null && state.answersModal.assignment?.score !== undefined">
                                 {{ $t('forms.assignments.score') }}:
                                 <span class="font-bold">{{ state.answersModal.assignment?.score }}</span>
+                                <span v-if="scoreLabel(state.answersModal.assignment?.score, state.answersModal.assignment?.form?.score_ranges)">
+                                    · {{ scoreLabel(state.answersModal.assignment?.score, state.answersModal.assignment?.form?.score_ranges) }}
+                                </span>
                             </span>
                         </div>
                         <div v-for="(entry, index) in answerEntries" :key="index"
@@ -290,6 +299,13 @@ function resolveAnswer(field: any, answer: any) {
         return answer.map((index: any) => field?.options?.[index]).filter(Boolean).join(', ') || '-'
     }
     return String(answer)
+}
+
+function scoreLabel(score: any, ranges: any) {
+    if (score === null || score === undefined || !Array.isArray(ranges)) return ''
+    const hit = ranges.find((range: any) =>
+        Number(score) >= Number(range.from) && Number(score) <= Number(range.to) && range.label)
+    return hit?.label ?? ''
 }
 
 function formatDate(date: any) {

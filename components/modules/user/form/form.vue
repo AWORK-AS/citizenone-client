@@ -61,6 +61,38 @@
                     <span class="text-sm text-gray-700">{{ option.label }}</span>
                 </div>
             </div>
+
+            <!-- Score interpretation ranges (Surveys app) -->
+            <div v-if="userStore.getUser?.is_surveys_active" class="pt-2 space-y-3">
+                <div>
+                    <p class="text-sm font-medium text-gray-700">{{ $t('forms.scoreRanges.title') }}</p>
+                    <p class="text-xs text-gray-500">{{ $t('forms.scoreRanges.subtitle') }}</p>
+                </div>
+                <div v-for="(range, rangeIndex) in state.form.score_ranges" :key="rangeIndex"
+                    class="flex items-center gap-x-2">
+                    <div class="w-24">
+                        <FormTextField :name="`range_from_${rangeIndex}`" :placeholder="$t('forms.scoreRanges.from')"
+                            v-model="state.form.score_ranges[rangeIndex].from" />
+                    </div>
+                    <span class="text-gray-400">-</span>
+                    <div class="w-24">
+                        <FormTextField :name="`range_to_${rangeIndex}`" :placeholder="$t('forms.scoreRanges.to')"
+                            v-model="state.form.score_ranges[rangeIndex].to" />
+                    </div>
+                    <div class="grow">
+                        <FormTextField :name="`range_label_${rangeIndex}`"
+                            :placeholder="$t('forms.scoreRanges.label')"
+                            v-model="state.form.score_ranges[rangeIndex].label" />
+                    </div>
+                    <button type="button" class="flex items-center" @click="removeScoreRange(rangeIndex)">
+                        <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
+                    </button>
+                </div>
+                <button type="button" class="text-primary-500 text-sm hover:text-primary-700" @click="addScoreRange">
+                    {{ $t('forms.scoreRanges.addRange') }}
+                </button>
+>>>>>>> a405c110 (feat: survey templates and score interpretation in builder and results)
+            </div>
         </div>
 
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
@@ -403,6 +435,27 @@
                             <p v-else>{{ $t('forms.addNewQuestion') }}</p>
                         </div>
                     </div>
+                    <div class="space-y-2"
+                        v-if="state.showFieldsAdder && state.form.fields?.length === 0 && userStore.getUser?.is_surveys_active">
+                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                            {{ $t('forms.templates.title') }}
+                        </p>
+                        <div class="grid grid-cols-3 gap-x-3 gap-y-3">
+                            <button v-for="template in surveyTemplates" :key="template.key" type="button"
+                                class="px-5 py-4 border border-primary rounded-md bg-primary/5 hover:bg-primary/10 text-left"
+                                @click="applyTemplate(template)">
+                                <div class="flex items-center gap-x-2 text-sm font-semibold">
+                                    <Icon name="ph:clipboard-text" class="w-5 h-5 text-primary shrink-0"
+                                        aria-hidden="true" />
+                                    {{ template.name }}
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500">{{ template.title }}</p>
+                            </button>
+                        </div>
+                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide pt-2">
+                            {{ $t('forms.templates.orBuildYourOwn') }}
+                        </p>
+                    </div>
                     <div class="grid grid-cols-3 gap-x-3 gap-y-5" v-if="state.showFieldsAdder">
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                             @click="addTextField">
@@ -480,6 +533,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { surveyTemplates, type SurveyTemplate } from '@/components/modules/user/form/survey-templates'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -516,6 +570,7 @@ const state = reactive({
         follow_up_duration: '',
         show_citizen_profile_data: true,
         citizen_profile_fields: ['citizen_name'] as string[],
+        score_ranges: [] as any[],
     },
     showFieldsAdder: true,
     followUpNumber: '1',
@@ -583,6 +638,9 @@ watch(() => props.selectedForm, (selectedForm: any) => {
                 field.scores = field.options?.map(() => '') ?? []
             }
         })
+        state.form.score_ranges = Array.isArray(selectedForm.score_ranges)
+            ? selectedForm.score_ranges.map((range: any) => ({ ...range }))
+            : []
         if (selectedForm.document_title) {
             state.form.document_title = selectedForm.document_title
         }
@@ -688,6 +746,30 @@ function removeField(fieldIndex: number) {
     if (state.form.fields?.length === 0) {
         state.showFieldsAdder = true
     }
+}
+
+function addScoreRange() {
+    state.form.score_ranges.push({ from: '', to: '', label: '' })
+}
+
+function removeScoreRange(rangeIndex: number) {
+    state.form.score_ranges.splice(rangeIndex, 1)
+}
+
+function applyTemplate(template: SurveyTemplate) {
+    if (!state.form.title) {
+        state.form.title = template.title
+    }
+    if (!state.form.description) {
+        state.form.description = template.description
+    }
+    state.form.fields = template.fields.map((field: any) => ({
+        ...field,
+        options: field.options ? [...field.options] : undefined,
+        scores: field.scores ? [...field.scores] : undefined,
+    }))
+    state.form.score_ranges = template.score_ranges.map((range) => ({ ...range }))
+    state.showFieldsAdder = false
 }
 
 function submitForm() {
