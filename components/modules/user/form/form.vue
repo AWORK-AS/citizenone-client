@@ -172,7 +172,8 @@
                                                         <FormTextField :name="`text_field_${fieldIndex}_${radioIndex}`"
                                                             :placeholder="`Option ${radioIndex + 1}`"
                                                             v-model="state.form.fields[fieldIndex].options[radioIndex]" />
-                                                        <div class="w-24 shrink-0" :title="$t('forms.fields.score')">
+                                                        <div class="w-24 shrink-0" :title="$t('forms.fields.score')"
+                                                            v-if="userStore.getUser?.is_surveys_active">
                                                             <FormTextField :name="`score_field_${fieldIndex}_${radioIndex}`"
                                                                 :placeholder="$t('forms.fields.score')"
                                                                 v-model="state.form.fields[fieldIndex].scores[radioIndex]" />
@@ -224,7 +225,8 @@
                                                             :name="`text_field_${fieldIndex}_${checkboxIndex}`"
                                                             :placeholder="`Option ${checkboxIndex + 1}`"
                                                             v-model="state.form.fields[fieldIndex].options[checkboxIndex]" />
-                                                        <div class="w-24 shrink-0" :title="$t('forms.fields.score')">
+                                                        <div class="w-24 shrink-0" :title="$t('forms.fields.score')"
+                                                            v-if="userStore.getUser?.is_surveys_active">
                                                             <FormTextField
                                                                 :name="`score_field_${fieldIndex}_${checkboxIndex}`"
                                                                 :placeholder="$t('forms.fields.score')"

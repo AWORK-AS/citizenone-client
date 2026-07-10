@@ -313,15 +313,6 @@ const navigation = ref([
             'citizen-schedules'
         ]
     },
-    {
-        name: 'Surveys',
-        href: '/citizen/surveys',
-        icon: 'ph:clipboard-text',
-        activeRouteNames: [
-            'citizen-surveys',
-            'citizen-surveys-assignment_uuid',
-        ]
-    },
 ] as any[])
 
 const sidebarOpen = ref(false)
@@ -406,6 +397,21 @@ async function fetchUser() {
                         href: '/citizen/protocols',
                         icon: 'ic:outline-shield',
                         activeRouteNames: ['citizen-protocols'],
+                    })
+                }
+            }
+
+            if (response.data?.is_surveys_active) {
+                const surveysAdded = navigation.value.some((n: any) => n.name === 'Surveys')
+                if (!surveysAdded) {
+                    navigation.value.push({
+                        name: 'Surveys',
+                        href: '/citizen/surveys',
+                        icon: 'ph:clipboard-text',
+                        activeRouteNames: [
+                            'citizen-surveys',
+                            'citizen-surveys-assignment_uuid',
+                        ],
                     })
                 }
             }

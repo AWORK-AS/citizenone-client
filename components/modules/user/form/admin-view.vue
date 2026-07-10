@@ -23,8 +23,8 @@
                             </td>
                             <td width="20%">
                                 <div class="flex items-end justify-end gap-2">
-                                    <FormButton type="button" buttonStyle="action"
-                                        @click="navigateTo(`/forms/${form.uuid}/assignments`)">
+                                    <FormButton v-if="userStore.getUser?.is_surveys_active" type="button"
+                                        buttonStyle="action" @click="navigateTo(`/forms/${form.uuid}/assignments`)">
                                         <Icon name="ph:chart-line" class="size-4" />
                                         {{ $t('forms.table.actions.assignments') }}
                                     </FormButton>
@@ -65,10 +65,12 @@
 import { formService } from '@/components/api/user/FormService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
 let currentTablePage = 1
 
 const state = reactive({

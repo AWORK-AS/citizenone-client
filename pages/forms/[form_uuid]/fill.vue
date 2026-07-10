@@ -61,12 +61,20 @@ import { formAssignmentService } from '@/components/api/user/FormAssignmentServi
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
 const router = useRouter()
+
+watch(() => userStore.getUser, (user: any) => {
+    if (user?.uuid && !user?.is_surveys_active) {
+        navigateTo('/apps')
+    }
+}, { immediate: true })
 const formUuid = router?.currentRoute?.value?.params?.form_uuid
 const citizenUuid = router?.currentRoute?.value?.query?.citizen_uuid as string
 const surveyFill = ref()
