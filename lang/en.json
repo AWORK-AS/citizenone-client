@@ -6405,7 +6405,8 @@
                 "assignmentDeleted": "Survey successfully deleted",
                 "answerRequiredFields": "Please answer all required questions"
             },
-            "selectForm": "Select survey"
+            "selectForm": "Select survey",
+            "uploadFieldWarning": "This survey contains file upload questions, which citizens cannot answer. Those questions will be hidden for the citizen"
         },
         "scoreRanges": {
             "title": "Score interpretation",

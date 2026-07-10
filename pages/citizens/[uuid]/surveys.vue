@@ -119,6 +119,8 @@
                 :show="state.formModal.isOpen" @close="state.formModal.isOpen = false">
                 <template #modal-body>
                     <div class="space-y-5">
+                        <Alert type="warning" :text="$t('forms.assignments.uploadFieldWarning')"
+                            v-if="state.formModal.hasUploadFields" />
                         <div>
                             <FormLabel :label="$t('forms.assignments.selectForm')" />
                             <FormSelect id="assignment_form" v-model="state.formModal.formUuid"
@@ -223,6 +225,7 @@ const state = reactive({
         isOpen: false,
         mode: 'send' as 'send' | 'fill',
         formUuid: null as any,
+        hasUploadFields: false,
     },
     answersModal: {
         isOpen: false,
@@ -351,8 +354,27 @@ async function fetchForms() {
 function openFormModal(mode: 'send' | 'fill') {
     state.formModal.mode = mode
     state.formModal.formUuid = null
+    state.formModal.hasUploadFields = false
     state.formModal.isOpen = true
 }
+
+// Citizens cannot answer upload fields in surveys, so warn before sending
+watch(() => state.formModal.formUuid, async (formUuid: any) => {
+    state.formModal.hasUploadFields = false
+    if (!formUuid) return
+    try {
+        const response = await formService.getForm(formUuid)
+        state.formModal.hasUploadFields = (response?.data?.form_fields ?? []).some((formField: any) => {
+            try {
+                return JSON.parse(formField.field)?.type === 'uploadfile'
+            } catch {
+                return false
+            }
+        })
+    } catch {
+        // Warning only; sending still works
+    }
+})
 
 async function confirmFormModal() {
     if (state.formModal.mode === 'fill') {

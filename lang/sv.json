@@ -6405,7 +6405,8 @@
                 "assignmentDeleted": "Enkäten har tagits bort",
                 "answerRequiredFields": "Vänligen besvara alla obligatoriska frågor"
             },
-            "selectForm": "Välj enkät"
+            "selectForm": "Välj enkät",
+            "uploadFieldWarning": "Denna enkät innehåller filuppladdningsfrågor, som medborgare inte kan besvara. De frågorna döljs för medborgaren"
         },
         "scoreRanges": {
             "title": "Poängtolkning",

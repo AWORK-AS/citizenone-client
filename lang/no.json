@@ -6405,7 +6405,8 @@
                 "assignmentDeleted": "Spørreskjemaet er slettet",
                 "answerRequiredFields": "Vennligst svar på alle obligatoriske spørsmål"
             },
-            "selectForm": "Velg spørreskjema"
+            "selectForm": "Velg spørreskjema",
+            "uploadFieldWarning": "Dette spørreskjemaet inneholder filopplastingsspørsmål, som innbyggere ikke kan besvare. De spørsmålene skjules for innbyggeren"
         },
         "scoreRanges": {
             "title": "Poengtolkning",

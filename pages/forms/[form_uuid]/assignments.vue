@@ -111,6 +111,8 @@
                 :show="state.citizenModal.isOpen" @close="state.citizenModal.isOpen = false">
                 <template #modal-body>
                     <div class="space-y-5">
+                        <Alert type="warning" :text="$t('forms.assignments.uploadFieldWarning')"
+                            v-if="hasUploadFields" />
                         <div>
                             <FormLabel :label="$t('forms.assignments.selectCitizen')" />
                             <FormSelect id="assignment_citizen" v-model="state.citizenModal.citizenUuid"
@@ -240,6 +242,17 @@ const state = reactive({
 
 const completedWithScore = computed(() =>
     state.assignments.filter((a: any) => a.status === 'completed' && a.score !== null && a.completed_at)
+)
+
+// Citizens cannot answer upload fields in surveys, so warn before sending
+const hasUploadFields = computed(() =>
+    (state.form?.data?.form_fields ?? []).some((formField: any) => {
+        try {
+            return JSON.parse(formField.field)?.type === 'uploadfile'
+        } catch {
+            return false
+        }
+    })
 )
 
 const chartOption = computed(() => {

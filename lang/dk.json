@@ -6405,7 +6405,8 @@
                 "assignmentDeleted": "Spørgeskemaet er slettet",
                 "answerRequiredFields": "Udfyld venligst alle obligatoriske spørgsmål"
             },
-            "selectForm": "Vælg spørgeskema"
+            "selectForm": "Vælg spørgeskema",
+            "uploadFieldWarning": "Dette spørgeskema indeholder filupload-spørgsmål, som borgere ikke kan besvare. De spørgsmål skjules for borgeren"
         },
         "scoreRanges": {
             "title": "Score-fortolkning",
