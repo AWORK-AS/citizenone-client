@@ -6418,6 +6418,10 @@
         "templates": {
             "title": "Standardenkäter",
             "orBuildYourOwn": "Eller bygg din egen"
+        },
+        "editWarning": {
+            "hasAnswers": "Denna enkät har {count} svar. Ändringar av frågor eller svarsalternativ kan ändra innebörden av befintliga svar och poäng",
+            "confirmUpdate": "Denna enkät har {count} svar. Är du säker på att du vill spara ändringarna"
         }
     },
     "gender": {

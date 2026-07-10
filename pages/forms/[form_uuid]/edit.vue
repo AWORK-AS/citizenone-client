@@ -21,10 +21,18 @@
 
             <div :class="isEmploymentServices ? 'mt-6' : ''">
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <div class="max-w-5xl mx-auto mb-5" v-if="state.assignmentsCount > 0">
+                        <Alert type="warning"
+                            :text="$t('forms.editWarning.hasAnswers', { count: state.assignmentsCount })" />
+                    </div>
                     <ModulesUserForm formType="update" :selectedForm="state.formForm" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @submitForm="updateForm" />
                 </LoadingSpinner>
             </div>
+
+            <DialogConfirmation :isModalOpen="state.isConfirmEditOpen"
+                :message="$t('forms.editWarning.confirmUpdate', { count: state.assignmentsCount }) + '?'"
+                @close="state.isConfirmEditOpen = false" @confirm="confirmUpdate" />
         </NuxtLayout>
     </div>
 </template>
@@ -87,6 +95,9 @@ const state = reactive({
         citizen_profile_fields: ['citizen_name'] as string[],
     },
     isPageLoading: false,
+    assignmentsCount: 0,
+    isConfirmEditOpen: false,
+    pendingFormDetails: null as any,
 })
 
 onMounted(() => {
@@ -117,6 +128,7 @@ async function fetchForm() {
                     uuid: field?.uuid,
                 })
             })
+            state.assignmentsCount = response.data?.assignments_count ?? 0
         }
     } catch (error: any) {
         state.error = error
@@ -130,7 +142,23 @@ function cleanScoreRanges(ranges: any[]) {
         .map((range: any) => ({ from: Number(range.from), to: Number(range.to), label: range.label }))
 }
 
-async function updateForm(formDetails: any) {
+function updateForm(formDetails: any) {
+    if (state.assignmentsCount > 0) {
+        state.pendingFormDetails = formDetails
+        state.isConfirmEditOpen = true
+        return
+    }
+    submitUpdate(formDetails)
+}
+
+function confirmUpdate() {
+    state.isConfirmEditOpen = false
+    if (state.pendingFormDetails) {
+        submitUpdate(state.pendingFormDetails)
+    }
+}
+
+async function submitUpdate(formDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {

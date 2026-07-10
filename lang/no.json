@@ -6418,6 +6418,10 @@
         "templates": {
             "title": "Standardskjemaer",
             "orBuildYourOwn": "Eller bygg ditt eget"
+        },
+        "editWarning": {
+            "hasAnswers": "Dette spørreskjemaet har {count} besvarelse(r). Endringer i spørsmål eller svaralternativer kan endre betydningen av eksisterende svar og poeng",
+            "confirmUpdate": "Dette spørreskjemaet har {count} besvarelse(r). Er du sikker på at du vil lagre endringene"
         }
     },
     "gender": {

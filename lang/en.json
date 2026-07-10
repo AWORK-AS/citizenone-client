@@ -6418,6 +6418,10 @@
         "templates": {
             "title": "Standard surveys",
             "orBuildYourOwn": "Or build your own"
+        },
+        "editWarning": {
+            "hasAnswers": "This survey has {count} response(s). Changing questions or options can alter the meaning of existing answers and scores",
+            "confirmUpdate": "This survey has {count} response(s). Are you sure you want to save changes"
         }
     },
     "gender": {

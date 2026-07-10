@@ -6418,6 +6418,10 @@
         "templates": {
             "title": "Standardskemaer",
             "orBuildYourOwn": "Eller byg dit eget"
+        },
+        "editWarning": {
+            "hasAnswers": "Dette spørgeskema har {count} besvarelse(r). Ændringer i spørgsmål eller svarmuligheder kan ændre betydningen af eksisterende svar og scores",
+            "confirmUpdate": "Dette spørgeskema har {count} besvarelse(r). Er du sikker på, at du vil gemme ændringerne"
         }
     },
     "gender": {
