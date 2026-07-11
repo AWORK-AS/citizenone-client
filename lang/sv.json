@@ -11677,19 +11677,19 @@
         "getStarted": "Kom igång",
         "surveys": {
             "step1": {
-                "title": "Bygg din enkät",
-                "text": "Skapa en enkät under Formulär - eller kom igång på en minut med ett färdigt instrument som GAD-7, PHQ-9 eller WHO-5, komplett med poäng och poängtolkning."
+                "title": "Bygg din enkät här",
+                "text": "Knappen Nytt formulär öppnar byggaren - eller kom igång på en minut med ett färdigt instrument som GAD-7, PHQ-9 eller WHO-5, komplett med poäng och poängtolkning."
             },
             "step2": {
-                "title": "Skicka den eller fyll i tillsammans",
-                "text": "Skicka enkäten till medborgaren, som fyller i och returnerar den från medborgarportalen - eller fyll i den internt under ett besök."
+                "title": "Skicka och se resultat här",
+                "text": "Knappen Enkäter på varje formulär öppnar utskick och resultat: skicka enkäten till en medborgare eller fyll i den internt under ett besök."
             },
             "step3": {
-                "title": "Följ resultaten",
-                "text": "På medborgarens profil finns fliken Enkäter med alla svar: poäng, tolkning och en graf över utvecklingen över tid."
+                "title": "Allt samlat på medborgaren",
+                "text": "Under Medborgare har varje medborgare en Enkäter-flik med alla svar: poäng, tolkning och en graf över utvecklingen över tid."
             },
             "step4": {
-                "title": "Få besked vid svar",
+                "title": "Få besked här uppe",
                 "text": "Notisklockan meddelar dig i samma ögonblick en medborgare returnerar en enkät - ett klick tar dig direkt till resultatet."
             }
         }

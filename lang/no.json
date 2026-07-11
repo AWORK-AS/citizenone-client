@@ -11677,19 +11677,19 @@
         "getStarted": "Kom i gang",
         "surveys": {
             "step1": {
-                "title": "Bygg spørreskjemaet ditt",
-                "text": "Opprett et skjema under Skjemaer - eller kom i gang på ett minutt med et ferdig instrument som GAD-7, PHQ-9 eller WHO-5, komplett med poeng og poengtolkning."
+                "title": "Bygg spørreskjemaet ditt her",
+                "text": "Knappen Nytt skjema åpner byggeren - eller kom i gang på ett minutt med et ferdig instrument som GAD-7, PHQ-9 eller WHO-5, komplett med poeng og poengtolkning."
             },
             "step2": {
-                "title": "Send det eller fyll ut sammen",
-                "text": "Send skjemaet til innbyggeren, som fyller ut og returnerer det fra innbyggerportalen - eller fyll det ut internt under en konsultasjon."
+                "title": "Send og se resultater her",
+                "text": "Knappen Spørreskjemaer på hvert skjema åpner utsendelse og resultater: send skjemaet til en innbygger, eller fyll det ut internt under en konsultasjon."
             },
             "step3": {
-                "title": "Følg resultatene",
-                "text": "På innbyggerens profil finner du fanen Spørreskjemaer med alle besvarelser: poeng, tolkning og en graf over utviklingen over tid."
+                "title": "Alt samlet på innbyggeren",
+                "text": "Under Innbyggere har hver innbygger en Spørreskjemaer-fane med alle besvarelser: poeng, tolkning og en graf over utviklingen over tid."
             },
             "step4": {
-                "title": "Få beskjed ved svar",
+                "title": "Få beskjed her oppe",
                 "text": "Varslingsklokken gir deg beskjed i samme øyeblikk en innbygger returnerer et skjema - ett klikk tar deg rett til resultatet."
             }
         }

@@ -11677,19 +11677,19 @@
         "getStarted": "Kom i gang",
         "surveys": {
             "step1": {
-                "title": "Byg dit spørgeskema",
-                "text": "Opret et skema under Formularer - eller kom i gang på ét minut med et færdigt instrument som GAD-7, PHQ-9 eller WHO-5, komplet med point og score-fortolkning."
+                "title": "Byg dit spørgeskema her",
+                "text": "Knappen Ny formular åbner byggeren - eller kom i gang på ét minut med et færdigt instrument som GAD-7, PHQ-9 eller WHO-5, komplet med point og score-fortolkning."
             },
             "step2": {
-                "title": "Send det eller udfyld sammen",
-                "text": "Send skemaet til borgeren, der udfylder og returnerer det fra borgerportalen - eller udfyld det internt under en konsultation."
+                "title": "Send og se resultater her",
+                "text": "Knappen Spørgeskemaer på hvert skema åbner afsendelse og resultater: send skemaet til en borger, eller udfyld det internt under en konsultation."
             },
             "step3": {
-                "title": "Følg resultaterne",
-                "text": "På borgerens profil finder du fanen Spørgeskemaer med alle besvarelser: score, fortolkning og en graf over udviklingen over tid."
+                "title": "Alt samlet på borgeren",
+                "text": "Under Borgere har hver borger en Spørgeskemaer-fane med alle besvarelser: score, fortolkning og en graf over udviklingen over tid."
             },
             "step4": {
-                "title": "Få besked ved svar",
+                "title": "Få besked heroppe",
                 "text": "Notifikationsklokken giver dig besked, i samme øjeblik en borger returnerer et skema - ét klik sender dig direkte til resultatet."
             }
         }

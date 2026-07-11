@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex justify-end items-center mb-5">
-            <FormButton buttonStyle="action" @click="navigateTo('/forms/new')">
+            <FormButton buttonStyle="action" data-tour="forms-new" @click="navigateTo('/forms/new')">
                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                 {{ $t('forms.newForm') }}
             </FormButton>
@@ -24,7 +24,8 @@
                             <td width="20%">
                                 <div class="flex items-end justify-end gap-2">
                                     <FormButton v-if="userStore.getUser?.is_surveys_active" type="button"
-                                        buttonStyle="action" @click="navigateTo(`/forms/${form.uuid}/assignments`)">
+                                        buttonStyle="action" data-tour="form-surveys"
+                                        @click="navigateTo(`/forms/${form.uuid}/assignments`)">
                                         <Icon name="ph:chart-line" class="size-4" />
                                         {{ $t('forms.table.actions.assignments') }}
                                     </FormButton>

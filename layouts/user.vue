@@ -93,6 +93,7 @@
                                 <li v-for="item in navigation" :key="item.name">
                                     <div @click="navigateTo(item.href)"
                                         :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
+                                        :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null"
                                         :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                                         <span
@@ -248,7 +249,9 @@
                         <ModulesUserNavbarNewUpdates @fetchUser="fetchUser" />
 
                         <!-- Notification Bell -->
-                        <ModulesUserNavbarNotificationBell />
+                        <div data-tour="notification-area" class="flex items-center">
+                            <ModulesUserNavbarNotificationBell />
+                        </div>
 
                         <!-- Journal Notifications -->
                         <button type="button"
