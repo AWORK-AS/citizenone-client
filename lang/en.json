@@ -11701,6 +11701,9 @@
             "returned": "Returned",
             "return": "Return survey",
             "alreadyCompleted": "This survey has already been returned"
+        },
+        "fill": {
+            "enterAnswer": "Enter your answer"
         }
     },
     "appTours": {

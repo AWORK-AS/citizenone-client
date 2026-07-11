@@ -214,6 +214,7 @@ watch(() => props.selectedSurvey, (survey: any) => {
     state.survey.questions = (survey.questions ?? []).map((q: any) => {
         const def = q.question ?? q
         return {
+            uuid: q.uuid,
             type: def.type,
             value: def.value ?? '',
             required: !!def.required,
@@ -283,6 +284,7 @@ function cleanScoreRanges(ranges: any[]) {
 function normalizeQuestions(questions: any[]) {
     return questions.map((q: any) => {
         const out: any = { type: q.type, value: q.value, required: !!q.required }
+        if (q.uuid) out.uuid = q.uuid
         if (['choice', 'checkbox'].includes(q.type)) {
             out.options = q.options
             out.scores = (q.scores ?? []).map((s: any) => {

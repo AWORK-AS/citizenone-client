@@ -39,7 +39,7 @@
                             <div class="mt-6 space-y-3">
                                 <FormButton v-if="setupRoute" type="button" buttonStyle="primary" class="w-full"
                                     @click="navigateTo(setupRoute)">
-                                    {{ $t('apps.activation.goToSetup') }}
+                                    {{ $t('apps.goToSetup') }}
                                 </FormButton>
                                 <FormButton type="submit" :buttonStyle="setupRoute ? 'cancel' : 'primary'"
                                     class="w-full" @click="navigateTo('/overview')">

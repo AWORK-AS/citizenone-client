@@ -11701,6 +11701,9 @@
             "returned": "Returneret",
             "return": "Returnér spørgeskema",
             "alreadyCompleted": "Dette spørgeskema er allerede returneret"
+        },
+        "fill": {
+            "enterAnswer": "Skriv dit svar"
         }
     },
     "appTours": {
