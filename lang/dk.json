@@ -6406,7 +6406,11 @@
                 "answerRequiredFields": "Udfyld venligst alle obligatoriske spørgsmål"
             },
             "selectForm": "Vælg spørgeskema",
-            "uploadFieldWarning": "Dette spørgeskema indeholder filupload-spørgsmål, som borgere ikke kan besvare. De spørgsmål skjules for borgeren"
+            "uploadFieldWarning": "Dette spørgeskema indeholder filupload-spørgsmål, som borgere ikke kan besvare. De spørgsmål skjules for borgeren",
+            "empty": {
+                "title": "Ingen spørgeskemaer endnu",
+                "text": "Send skemaet til en borger, eller udfyld det internt sammen med borgeren. Udfyldte besvarelser vises her med score og fortolkning."
+            }
         },
         "scoreRanges": {
             "title": "Score-fortolkning",
@@ -11668,5 +11672,26 @@
         "alreadyCompleted": "Dette spørgeskema er allerede returneret",
         "answerRequiredFields": "Udfyld venligst alle obligatoriske spørgsmål",
         "surveyReturned": "Spørgeskemaet er returneret"
+    },
+    "appTours": {
+        "getStarted": "Kom i gang",
+        "surveys": {
+            "step1": {
+                "title": "Byg dit spørgeskema",
+                "text": "Opret et skema under Formularer - eller kom i gang på ét minut med et færdigt instrument som GAD-7, PHQ-9 eller WHO-5, komplet med point og score-fortolkning."
+            },
+            "step2": {
+                "title": "Send det eller udfyld sammen",
+                "text": "Send skemaet til borgeren, der udfylder og returnerer det fra borgerportalen - eller udfyld det internt under en konsultation."
+            },
+            "step3": {
+                "title": "Følg resultaterne",
+                "text": "På borgerens profil finder du fanen Spørgeskemaer med alle besvarelser: score, fortolkning og en graf over udviklingen over tid."
+            },
+            "step4": {
+                "title": "Få besked ved svar",
+                "text": "Notifikationsklokken giver dig besked, i samme øjeblik en borger returnerer et skema - ét klik sender dig direkte til resultatet."
+            }
+        }
     }
 }

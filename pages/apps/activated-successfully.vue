@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import { appService } from '@/components/api/user/AppService'
+import { useAppTours } from '@/composables/useAppTours'
 
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
@@ -57,6 +58,8 @@ const appSetupRoutes: Record<string, string> = {
     'surveys': '/forms',
 }
 
+const { getTour } = useAppTours()
+
 const setupRoute = ref('')
 
 onMounted(async () => {
@@ -65,7 +68,10 @@ onMounted(async () => {
         const response = await appService.getApp(exclude)
         const genericName = response?.data?.generic_name
         if (genericName && appSetupRoutes[genericName]) {
-            setupRoute.value = appSetupRoutes[genericName]
+            const route = appSetupRoutes[genericName]
+            setupRoute.value = getTour(genericName)
+                ? `${route}${route.includes('?') ? '&' : '?'}tour=${genericName}`
+                : route
         }
     } catch {
         // No setup shortcut; the home button still works

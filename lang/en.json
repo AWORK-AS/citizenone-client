@@ -6406,7 +6406,11 @@
                 "answerRequiredFields": "Please answer all required questions"
             },
             "selectForm": "Select survey",
-            "uploadFieldWarning": "This survey contains file upload questions, which citizens cannot answer. Those questions will be hidden for the citizen"
+            "uploadFieldWarning": "This survey contains file upload questions, which citizens cannot answer. Those questions will be hidden for the citizen",
+            "empty": {
+                "title": "No surveys yet",
+                "text": "Send the survey to a citizen, or fill it out internally together with the citizen. Completed responses appear here with score and interpretation."
+            }
         },
         "scoreRanges": {
             "title": "Score interpretation",
@@ -11668,5 +11672,26 @@
         "alreadyCompleted": "This survey has already been returned",
         "answerRequiredFields": "Please answer all required questions",
         "surveyReturned": "Survey successfully returned"
+    },
+    "appTours": {
+        "getStarted": "Get started",
+        "surveys": {
+            "step1": {
+                "title": "Build your survey",
+                "text": "Create a survey under Forms - or start in one minute with a ready-made instrument like GAD-7, PHQ-9 or WHO-5, complete with points and score interpretation."
+            },
+            "step2": {
+                "title": "Send it or fill it out together",
+                "text": "Send the survey to the citizen, who completes and returns it from the citizen portal - or fill it out internally during a consultation."
+            },
+            "step3": {
+                "title": "Follow the results",
+                "text": "On the citizen profile you will find a Surveys tab with every response: score, interpretation and a graph of the development over time."
+            },
+            "step4": {
+                "title": "Get notified on return",
+                "text": "The notification bell tells you the moment a citizen returns a survey - one click takes you straight to the result."
+            }
+        }
     }
 }

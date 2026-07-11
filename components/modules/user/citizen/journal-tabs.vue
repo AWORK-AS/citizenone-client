@@ -96,7 +96,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     if (newValue?.is_surveys_active) {
         tabs.push({
             name: 'citizens.tabs.surveys', icon: 'ph:clipboard-text', isTranslateName: true,
-            category: 'documentation', primary: false,
+            category: 'documentation', primary: true,
             href: `/citizens/${citizenUuid}/surveys`,
             routeNames: ['citizens-uuid-surveys'],
         })

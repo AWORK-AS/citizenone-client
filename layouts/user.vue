@@ -432,6 +432,8 @@
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
+        <ModulesUserAppTourGuide v-if="state.activeAppTour" :appKey="state.activeAppTour"
+            @close="closeAppTour" />
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -535,6 +537,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { usePermissions } from '@/composables/usePermissions'
+import { useAppTours } from '@/composables/useAppTours'
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
@@ -630,6 +633,7 @@ const state = reactive({
         isPlanGoalSubgoalCompletionReminderOpen: false,
     },
     showSubscribeButton: false,
+    activeAppTour: '' as string,
     slideOver: { isLanguageSwitcherOpen: false, isSupportOpen: false },
 })
 
@@ -652,6 +656,7 @@ watch(() => language.locale.value, (newLanguage: any) => {
 function getNavItemLabel(item: any) {
     const t = language.t
     if (item.name === 'Overview') return t('sidebar.overview')
+    if (item.name === 'Apps') return t('navbar.apps')
     if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
@@ -836,6 +841,17 @@ function generateSidebarLinks(user: any) {
         nav.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', activeRouteNames: ['management-economy'] })
     }
 
+    // The app store lives behind the profile dropdown too, but only admins can
+    // buy apps, so give them a visible entry point.
+    if (isAtLeast('Admin')) {
+        nav.push({
+            name: 'Apps',
+            href: '/apps',
+            icon: 'ic:baseline-apps',
+            activeRouteNames: ['apps', 'apps-activated-successfully', 'apps-purchased-successfully'],
+        })
+    }
+
     navigation.value = nav
     state.isSidebarLoading = false
 }
@@ -902,6 +918,21 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
 }
 
 function guidedUserTourModalVisibility() { if (userStore.getUser?.is_first_login) state.modal.isGuidedTourWelcomeOpen = true }
+
+// Post-purchase app tours: the app store's success pages link to the app's
+// setup route with ?tour=<generic_name>; any registered tour opens here.
+const { getTour } = useAppTours()
+
+watch(() => router.currentRoute.value.query?.tour, (tourKey: any) => {
+    state.activeAppTour = tourKey && getTour(String(tourKey)) ? String(tourKey) : ''
+}, { immediate: true })
+
+function closeAppTour() {
+    state.activeAppTour = ''
+    const query = { ...router.currentRoute.value.query }
+    delete query.tour
+    router.replace({ query })
+}
 
 function checkInReminderModalVisibility(response: any) {
     const lastHidden = localStorage.getItem('checkInReminderHidden'); const today = moment().format('YYYY-MM-DD')

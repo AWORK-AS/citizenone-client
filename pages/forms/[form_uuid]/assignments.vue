@@ -46,8 +46,28 @@
                         <VChart :option="chartOption" style="height: 400px; width: 100%;" />
                     </div>
 
+                    <!-- Empty state: no surveys yet -->
+                    <div v-if="!state.isTableLoading && state.assignments.length === 0"
+                        class="px-6 py-14 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg text-center">
+                        <div class="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
+                            <Icon name="ph:clipboard-text" class="h-7 w-7 text-primary" aria-hidden="true" />
+                        </div>
+                        <h3 class="mt-4 text-lg font-semibold text-gray-900">{{ $t('forms.assignments.empty.title') }}</h3>
+                        <p class="mt-1 text-sm text-gray-500 max-w-md mx-auto">{{ $t('forms.assignments.empty.text') }}</p>
+                        <div class="mt-5 flex items-center justify-center gap-2">
+                            <FormButton type="button" buttonStyle="primary" @click="openCitizenModal('send')">
+                                <Icon name="ph:paper-plane-tilt" class="size-4" />
+                                {{ $t('forms.assignments.sendToCitizen') }}
+                            </FormButton>
+                            <FormButton type="button" buttonStyle="action" @click="openCitizenModal('fill')">
+                                <Icon name="ph:pencil-simple" class="size-4" />
+                                {{ $t('forms.assignments.fillInternally') }}
+                            </FormButton>
+                        </div>
+                    </div>
+
                     <!-- Assignments table -->
-                    <div class="table-responsive">
+                    <div class="table-responsive" v-else>
                         <Table :columnHeaders="state.columnHeaders" :data="{ data: state.assignments }"
                             :isLoading="state.isTableLoading" :sortData="state.sortData">
                             <template #body v-if="!(state.isTableLoading || state.assignments.length === 0)">
