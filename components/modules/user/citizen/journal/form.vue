@@ -428,6 +428,9 @@ const riskAssessmentFileInput = ref(null) as any
 let autoSaveInterval = null as any
 let isInitialized = true
 let suppressChangeTracking = true
+// Tracks the template text last auto-inserted from a selected title, so
+// switching titles swaps templates but never clobbers text the user typed.
+let lastAppliedTitleTemplate = ''
 
 const editor = ref(ClassicEditor)
 const editorContentConfig = ref({
@@ -663,6 +666,20 @@ watch([() => state.formJournal.title, () => state.usePredefinedJournalTitle], ()
         journal_title_field_uuid: f.uuid,
         response: f.field_type === 'checkbox' ? [] : '',
     }))
+
+    // Auto-populate the content field from the title's template. Only when the
+    // content is empty or still holds a previously auto-inserted template, so a
+    // user's own edits are never overwritten when they switch titles.
+    const template = match?.content ?? ''
+    const currentContent = state.formJournal.content ?? ''
+    if (template && (currentContent.trim() === '' || currentContent === lastAppliedTitleTemplate)) {
+        state.formJournal.content = template
+        lastAppliedTitleTemplate = template
+    } else if (!template && currentContent === lastAppliedTitleTemplate) {
+        // Switched to a title with no template: clear the prior auto-insert
+        state.formJournal.content = ''
+        lastAppliedTitleTemplate = ''
+    }
 })
 
 function toggleCheckboxAnswer(fieldIndex: number, option: string) {
@@ -1046,7 +1063,7 @@ async function fetchAllJournalTitles() {
             response.data.forEach(
                 (item: any) => {
                     options.push({ value: item?.title, label: item?.title })
-                    raw.push({ value: item?.title, label: item?.title, uuid: item?.uuid, fields: item?.journal_fields ?? [] })
+                    raw.push({ value: item?.title, label: item?.title, uuid: item?.uuid, content: item?.content ?? '', fields: item?.journal_fields ?? [] })
                 }
             )
             state.options.journal_titles = options

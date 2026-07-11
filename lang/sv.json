@@ -6830,7 +6830,9 @@
             "addOption": "Lägg till alternativ",
             "optionPlaceholder": "Ange alternativ",
             "optionsRequired": "Lägg till minst ett alternativ",
-            "required": "Required"
+            "required": "Required",
+            "contentTemplate": "Innehållsmall",
+            "contentTemplateHint": "Denna text infogas automatiskt i journalanteckningen när denna titel väljs."
         },
         "journalTitles": "Journal titlar",
         "newJournalTitle": "Ny journal titel",
