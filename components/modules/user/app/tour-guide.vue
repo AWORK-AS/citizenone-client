@@ -1,17 +1,14 @@
 <template>
     <Teleport to="body">
-        <div v-if="isOpen" class="fixed inset-0 z-[100]">
+        <div v-if="isOpen" class="fixed inset-0 z-[130]" @wheel.prevent @touchmove.prevent>
             <!-- Spotlight cutout around the target; the huge shadow dims the rest -->
-            <div v-if="state.targetRect" class="absolute rounded-lg pointer-events-none transition-all duration-300"
+            <div v-if="state.targetRect" class="absolute rounded-lg pointer-events-none transition-all duration-200"
                 :style="spotlightStyle"></div>
             <!-- No target: plain dim overlay -->
             <div v-else class="absolute inset-0 bg-slate-900/60"></div>
 
-            <!-- Click blocker so the page cannot be used mid-tour -->
-            <div class="absolute inset-0" @click.self="close"></div>
-
             <!-- Popover anchored to the target (or centered without one) -->
-            <div class="absolute w-[380px] max-w-[calc(100vw-2rem)] bg-white rounded-xl shadow-2xl p-6 transition-all duration-300"
+            <div class="absolute w-[380px] max-w-[calc(100vw-2rem)] bg-white rounded-xl shadow-2xl p-6 transition-all duration-200"
                 :style="popoverStyle" v-if="currentStep">
                 <div class="flex items-start gap-x-3">
                     <div class="w-10 h-10 shrink-0 rounded-full bg-primary/10 flex items-center justify-center">
@@ -34,11 +31,11 @@
                     </div>
                     <div class="flex gap-x-2">
                         <FormButton v-if="state.stepIndex > 0" buttonStyle="cancel" class="w-fit px-4"
-                            @click="state.stepIndex--">
+                            @click="goTo(state.stepIndex - 1)">
                             {{ $t('back') }}
                         </FormButton>
                         <FormButton v-if="state.stepIndex < steps.length - 1" buttonStyle="primary" class="w-fit px-4"
-                            @click="state.stepIndex++">
+                            @click="goTo(state.stepIndex + 1)">
                             {{ $t('next') }}
                         </FormButton>
                         <FormButton v-else buttonStyle="primary" class="w-fit px-4" @click="close">
@@ -68,11 +65,17 @@ const { getTour } = useAppTours()
 const POPOVER_WIDTH = 380
 const POPOVER_HEIGHT_ESTIMATE = 190
 const SPOTLIGHT_PADDING = 8
+const EDGE_MARGIN = 16
 
 const state = reactive({
     stepIndex: 0,
     targetRect: null as { top: number, left: number, width: number, height: number } | null,
 })
+
+// Retry timers for a target that renders after the page settles, plus the
+// live scroll/resize reposition handler - all tracked so we can clean up.
+let retryTimers: ReturnType<typeof setTimeout>[] = []
+let stopped = false
 
 const steps = computed(() => getTour(props.appKey)?.steps ?? [])
 const currentStep = computed(() => steps.value[state.stepIndex])
@@ -93,12 +96,14 @@ const spotlightStyle = computed(() => {
 
 const popoverStyle = computed(() => {
     const rect = state.targetRect
-    if (!rect) {
+    if (!rect || typeof window === 'undefined') {
         return { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
     }
     const viewportWidth = window.innerWidth
     const viewportHeight = window.innerHeight
-    const left = Math.min(Math.max(rect.left + rect.width / 2 - POPOVER_WIDTH / 2, 16), viewportWidth - POPOVER_WIDTH - 16)
+    // Guard the inverted range on very narrow viewports (upper < lower).
+    const maxLeft = Math.max(EDGE_MARGIN, viewportWidth - POPOVER_WIDTH - EDGE_MARGIN)
+    const left = Math.max(EDGE_MARGIN, Math.min(rect.left + rect.width / 2 - POPOVER_WIDTH / 2, maxLeft))
     const spaceBelow = viewportHeight - (rect.top + rect.height)
     if (spaceBelow > POPOVER_HEIGHT_ESTIMATE + 32) {
         return { top: `${rect.top + rect.height + 20}px`, left: `${left}px` }
@@ -106,39 +111,74 @@ const popoverStyle = computed(() => {
     return { bottom: `${viewportHeight - rect.top + 20}px`, left: `${left}px` }
 })
 
-async function measure() {
-    state.targetRect = null
+// Reposition against the current target without scrolling the page. Keeps the
+// previous rect if the element is briefly gone so the spotlight never flickers.
+function reposition() {
+    if (stopped) return
     const selector = currentStep.value?.selector
-    if (!selector) return
+    if (!selector) {
+        state.targetRect = null
+        return
+    }
     const element = document.querySelector(selector) as HTMLElement | null
     if (!element) return
-    element.scrollIntoView({ block: 'center' })
-    await nextTick()
-    // Wait a beat for scroll/layout to settle before measuring
-    await new Promise((resolve) => setTimeout(resolve, 150))
     const rect = element.getBoundingClientRect()
     if (rect.width > 0 && rect.height > 0) {
         state.targetRect = { top: rect.top, left: rect.left, width: rect.width, height: rect.height }
     }
 }
 
-watch([() => state.stepIndex, () => props.appKey, isOpen], () => {
-    state.stepIndex = Math.min(state.stepIndex, Math.max(steps.value.length - 1, 0))
-    // The target may render after the page settles (tables, async data)
-    setTimeout(measure, 100)
-    setTimeout(measure, 800)
-}, { immediate: true })
+// Called on step change: scroll the target into view once, then reposition and
+// keep retrying for a while in case it renders after an API round-trip.
+function focusStep() {
+    clearRetries()
+    state.targetRect = null
+    const selector = currentStep.value?.selector
+    if (!selector) return
 
-function handleResize() {
-    measure()
+    const tryFocus = (doScroll: boolean) => {
+        if (stopped) return
+        const element = document.querySelector(selector) as HTMLElement | null
+        if (element) {
+            if (doScroll) element.scrollIntoView({ block: 'center', behavior: 'smooth' })
+            reposition()
+        }
+    }
+
+    tryFocus(true)
+    // Retry for targets that mount late (cold page load right after purchase).
+    ;[150, 400, 800, 1500, 2500].forEach((delay) => {
+        retryTimers.push(setTimeout(() => tryFocus(!state.targetRect), delay))
+    })
 }
 
+function clearRetries() {
+    retryTimers.forEach(clearTimeout)
+    retryTimers = []
+}
+
+function goTo(index: number) {
+    state.stepIndex = index
+    focusStep()
+}
+
+watch([() => props.appKey, isOpen], () => {
+    if (!isOpen.value) return
+    state.stepIndex = 0
+    nextTick(focusStep)
+}, { immediate: true })
+
 onMounted(() => {
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', reposition)
+    window.addEventListener('scroll', reposition, true)
+    nextTick(focusStep)
 })
 
 onUnmounted(() => {
-    window.removeEventListener('resize', handleResize)
+    stopped = true
+    clearRetries()
+    window.removeEventListener('resize', reposition)
+    window.removeEventListener('scroll', reposition, true)
 })
 
 function close() {
