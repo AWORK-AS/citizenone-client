@@ -1,5 +1,5 @@
 <template>
-    <div class="animate-fade-in">
+    <div class="motion-safe:animate-fade-in">
         <div class="lg:grid lg:grid-cols-12 lg:gap-x-12">
             <!-- Mini month picker -->
             <div class="py-4 lg:col-start-9 lg:col-end-13 lg:row-start-1">
@@ -150,7 +150,7 @@
                                 </h4>
                                 <span v-if="isNow(myCalendarEvent)"
                                     class="inline-flex flex-none items-center gap-x-1 rounded-full bg-red-500 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
-                                    <span class="h-1.5 w-1.5 rounded-full bg-white animate-pulse"></span>{{ $t('calendar.view.now') }}
+                                    <span class="h-1.5 w-1.5 rounded-full bg-white motion-safe:animate-pulse"></span>{{ $t('calendar.view.now') }}
                                 </span>
                                 <span v-if="myCalendarEvent?.is_shift"
                                     class="inline-flex items-center gap-x-1 rounded-full bg-indigo-100 px-2 py-0.5 text-[11px] font-medium text-indigo-700">

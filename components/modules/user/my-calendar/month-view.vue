@@ -1,5 +1,5 @@
 <template>
-    <div class="animate-fade-in">
+    <div class="motion-safe:animate-fade-in">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-gray-500">
             <div class="flex items-center gap-x-1.5">
                 <span class="h-2 w-2 rounded-full bg-primary"></span>
@@ -146,16 +146,21 @@
                                         </span>
                                     </div>
                                     <div v-else class="group/event relative">
-                                        <div class="flex cursor-pointer items-center gap-x-1.5 rounded-md px-1.5 py-1 transition hover:bg-gray-100 active:scale-[0.98]"
+                                        <div role="button" tabindex="0"
+                                            class="flex cursor-pointer items-center gap-x-1.5 rounded-md px-1.5 py-1 transition hover:bg-gray-100 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                                             :class="[
                                                 myCalendarEvent?.completion_status === 'completed' && 'opacity-70',
                                                 isNow(myCalendarEvent) && 'bg-red-50 ring-1 ring-inset ring-red-300',
                                                 isOverdue(myCalendarEvent) && 'ring-1 ring-inset ring-amber-300',
                                             ]"
+                                            :aria-label="`${myCalendarEvent?.title}, ${myCalendarEvent.time_start}`"
                                             @mouseenter="showPreview($event, myCalendarEvent)" @mouseleave="hidePreview"
+                                            @focus="showPreviewEl($event, myCalendarEvent)" @blur="hidePreview"
+                                            @keydown.enter.prevent="editMyCalendarEvent(myCalendarEvent)"
+                                            @keydown.space.prevent="editMyCalendarEvent(myCalendarEvent)"
                                             @click="editMyCalendarEvent(myCalendarEvent)">
                                             <span class="h-1.5 w-1.5 flex-none rounded-full" :class="[
-                                                isNow(myCalendarEvent) ? 'bg-red-500 animate-pulse' : [
+                                                isNow(myCalendarEvent) ? 'bg-red-500 motion-safe:animate-pulse' : [
                                                     myCalendarEvent?.type === 'citizens' && 'bg-amber-500',
                                                     myCalendarEvent?.type === 'employees' && 'bg-green-600',
                                                     myCalendarEvent?.type === 'my_self' && 'bg-primary',
@@ -500,7 +505,7 @@
 
         <Teleport to="body">
             <div v-if="state.preview.event"
-                class="pointer-events-none fixed z-[60] w-64 rounded-xl bg-white p-3 shadow-dropdown ring-1 ring-gray-200 animate-fade-in"
+                class="pointer-events-none fixed z-[60] w-64 rounded-xl bg-white p-3 shadow-dropdown ring-1 ring-gray-200 motion-safe:animate-fade-in"
                 :style="{ left: state.preview.x + 'px', top: state.preview.y + 'px' }">
                 <div class="flex items-center gap-x-1.5">
                     <span class="h-2 w-2 flex-none rounded-full" :class="[
@@ -681,12 +686,25 @@ function ownersLabel(event: any) {
         .filter(Boolean).join(', ')
 }
 
-function showPreview(e: MouseEvent, event: any) {
+function placePreview(anchorX: number, anchorY: number, event: any) {
     const margin = 12
     const width = 256
-    let x = e.clientX + margin
-    if (x + width > window.innerWidth) x = e.clientX - width - margin
-    state.preview = { event, x, y: e.clientY + margin }
+    const height = 180
+    let x = anchorX + margin
+    if (x + width > window.innerWidth) x = anchorX - width - margin
+    if (x < margin) x = margin
+    let y = anchorY + margin
+    if (y + height > window.innerHeight) y = Math.max(margin, window.innerHeight - height - margin)
+    state.preview = { event, x, y }
+}
+
+function showPreview(e: MouseEvent, event: any) {
+    placePreview(e.clientX, e.clientY, event)
+}
+
+function showPreviewEl(e: FocusEvent, event: any) {
+    const r = (e.target as HTMLElement).getBoundingClientRect()
+    placePreview(r.left, r.bottom, event)
 }
 
 function hidePreview() {

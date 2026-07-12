@@ -1,5 +1,5 @@
 <template>
-    <div class="animate-fade-in flex h-full flex-col">
+    <div class="motion-safe:animate-fade-in flex h-full flex-col">
         <header class="flex flex-none items-center justify-between py-4">
             <div class="flex items-baseline gap-x-2">
             <h3 class="text-2xl font-semibold tracking-tight text-gray-900">
@@ -70,17 +70,21 @@
                     class="min-h-[26rem] space-y-1.5 p-2"
                     :class="isToday(weekDays[di]?.fullDate) && 'bg-tertiary/[0.04]'">
                     <div v-for="myCalendarEvent in events" :key="myCalendarEvent.id"
-                        class="group/event relative cursor-pointer rounded-md border-l-2 px-2 py-1.5 transition hover:-translate-y-px active:scale-[0.98]"
+                        role="button" tabindex="0" :aria-label="myCalendarEvent?.title"
+                        class="group/event relative cursor-pointer rounded-md border-l-2 px-2 py-1.5 transition hover:-translate-y-px active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                         :class="[
                             myCalendarEvent?.type === 'employees' && 'border-green-600 bg-green-600/10 hover:bg-green-600/[0.18]',
                             myCalendarEvent?.type === 'my_self' && 'border-primary bg-primary/10 hover:bg-primary/[0.18]',
                             myCalendarEvent?.type !== 'employees' && myCalendarEvent?.type !== 'my_self' && 'border-amber-500 bg-amber-500/10 hover:bg-amber-500/[0.18]',
                             myCalendarEvent?.completion_status === 'completed' && 'opacity-70',
                             isNow(myCalendarEvent) && 'ring-1 ring-inset ring-red-400',
-                        ]" @click="viewMyCalendarEvent(myCalendarEvent)">
+                        ]"
+                        @keydown.enter.prevent="viewMyCalendarEvent(myCalendarEvent)"
+                        @keydown.space.prevent="viewMyCalendarEvent(myCalendarEvent)"
+                        @click="viewMyCalendarEvent(myCalendarEvent)">
                         <span v-if="isNow(myCalendarEvent)"
                             class="mb-1 inline-flex items-center gap-x-1 rounded-full bg-red-500 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white">
-                            <span class="h-1.5 w-1.5 rounded-full bg-white animate-pulse"></span>{{ $t('calendar.view.now') }}
+                            <span class="h-1.5 w-1.5 rounded-full bg-white motion-safe:animate-pulse"></span>{{ $t('calendar.view.now') }}
                         </span>
                         <span v-else-if="isOverdue(myCalendarEvent)"
                             class="mb-1 inline-flex items-center gap-x-1 rounded bg-amber-100 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-amber-700">

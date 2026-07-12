@@ -90,12 +90,12 @@
                                 state.calendarView === opt.value
                                     ? 'bg-white text-gray-900 shadow-sm'
                                     : 'text-gray-500 hover:text-gray-800',
-                                'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95'
+                                'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
                             ]">
                             {{ $t(opt.label) }}
                         </button>
                     </div>
-                    <button class="flex items-center gap-x-1 text-sm text-primary group"
+                    <button v-if="state.options.calendarTags.length" class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterCalendarOpen = true">
                         <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
                         <span class="group-hover:text-primary-700">
@@ -231,6 +231,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { employeeGroupService } from '~/components/api/user/EmployeeGroupService'
+import { calendarTagService } from '@/components/api/user/CalendarTagService'
 // import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
@@ -321,6 +322,7 @@ const state = reactive({
         citizens: [] as any,
         users: [] as any,
         employeeGroups: [] as any,
+        calendarTags: [] as any,
     }
 })
 
@@ -328,6 +330,7 @@ onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
     fetchAllEmployeeGroups()
+    fetchCalendarTags()
     if (calendarStore.getCalendarView === 'default') {
         state.calendarView = 'default'
         const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
@@ -449,6 +452,17 @@ async function fetchAllEmployeeGroups() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function fetchCalendarTags() {
+    try {
+        const response = await calendarTagService.getAllCalendarTags({
+            department: departmentStore.getSelectedDepartmentName,
+        })
+        state.options.calendarTags = response?.data ?? []
+    } catch (error) {
+        state.options.calendarTags = []
+    }
 }
 
 function changeCitizensUuid(citizensUuid: any) {

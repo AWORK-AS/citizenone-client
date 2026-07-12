@@ -1,5 +1,5 @@
 <template>
-    <div class="animate-fade-in">
+    <div class="motion-safe:animate-fade-in">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-gray-500">
             <div class="flex items-center gap-x-1.5">
                 <span class="h-2 w-2 rounded-full bg-primary"></span>
@@ -110,17 +110,22 @@
                                     {{ moment(myCalendarEvent.date_time_end).format('HH:mm') }}
                                 </p>
                             </div>
-                            <div v-else class="group/event relative cursor-pointer rounded-md border-l-2 px-2 py-1.5 transition hover:-translate-y-px active:scale-[0.98]"
+                            <div v-else role="button" tabindex="0"
+                                :aria-label="myCalendarEvent?.title"
+                                class="group/event relative cursor-pointer rounded-md border-l-2 px-2 py-1.5 transition hover:-translate-y-px active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                                 :class="[
                                     myCalendarEvent?.type === 'citizens' && 'border-amber-500 bg-amber-500/10 hover:bg-amber-500/[0.18]',
                                     myCalendarEvent?.type === 'employees' && 'border-green-600 bg-green-600/10 hover:bg-green-600/[0.18]',
                                     myCalendarEvent?.type === 'my_self' && 'border-primary bg-primary/10 hover:bg-primary/[0.18]',
                                     myCalendarEvent?.completion_status === 'completed' && 'opacity-70',
                                     isNow(myCalendarEvent) && 'ring-1 ring-inset ring-red-400',
-                                ]" @click="editMyCalendarEvent(myCalendarEvent)">
+                                ]"
+                                @keydown.enter.prevent="editMyCalendarEvent(myCalendarEvent)"
+                                @keydown.space.prevent="editMyCalendarEvent(myCalendarEvent)"
+                                @click="editMyCalendarEvent(myCalendarEvent)">
                                 <span v-if="isNow(myCalendarEvent)"
                                     class="mb-1 inline-flex items-center gap-x-1 rounded-full bg-red-500 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white">
-                                    <span class="h-1.5 w-1.5 rounded-full bg-white animate-pulse"></span>{{ $t('calendar.view.now') }}
+                                    <span class="h-1.5 w-1.5 rounded-full bg-white motion-safe:animate-pulse"></span>{{ $t('calendar.view.now') }}
                                 </span>
                                 <span v-else-if="isOverdue(myCalendarEvent)"
                                     class="mb-1 inline-flex items-center gap-x-1 rounded bg-amber-100 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-amber-700">

@@ -40,7 +40,7 @@
                                     state.calendarView === opt.value
                                         ? 'bg-white text-gray-900 shadow-sm'
                                         : 'text-gray-500 hover:text-gray-800',
-                                    'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95'
+                                    'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
                                 ]">
                                 {{ $t(opt.label) }}
                             </button>
