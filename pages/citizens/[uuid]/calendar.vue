@@ -34,19 +34,16 @@
 
                 <div>
                     <div class="mt-8 flex flex-col-reverse md:flex-row md:justify-between gap-3">
-                        <div class="flex items-center gap-x-3">
-                            <FormButton :buttonStyle="state.calendarView === 'default' ? 'primary' : ''"
-                                @click="setCalendarView('default')">
-                                {{ $t('calendar.view.defaultView') }}
-                            </FormButton>
-                            <FormButton :buttonStyle="state.calendarView === 'week' ? 'primary' : ''"
-                                @click="setCalendarView('week')">
-                                {{ $t('calendar.view.weekView') }}
-                            </FormButton>
-                            <FormButton :buttonStyle="state.calendarView === 'month' ? 'primary' : ''"
-                                @click="setCalendarView('month')">
-                                {{ $t('calendar.view.monthView') }}
-                            </FormButton>
+                        <div class="inline-flex items-center gap-x-0.5 rounded-lg bg-gray-100 p-0.5">
+                            <button type="button" v-for="opt in viewOptions" :key="opt.value"
+                                @click="setCalendarView(opt.value)" :class="[
+                                    state.calendarView === opt.value
+                                        ? 'bg-white text-gray-900 shadow-sm'
+                                        : 'text-gray-500 hover:text-gray-800',
+                                    'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95'
+                                ]">
+                                {{ $t(opt.label) }}
+                            </button>
                         </div>
                         <div class="flex justify-end">
                             <FormButton buttonStyle="action" @click="openCreateEventModal('')"
@@ -160,7 +157,7 @@ async function fetchMyCalendarEvents() {
             citizen_uuid: citizenUuid
         }
         if (state.selectedDate.start_date && state.selectedDate.end_date) {
-            params.date = state.selectedDate
+            params.date = JSON.stringify(state.selectedDate)
         }
         if (state.selectedYear) {
             params.year = state.selectedYear
@@ -178,6 +175,23 @@ async function fetchMyCalendarEvents() {
     }
     state.isPageLoading = false
 }
+
+const viewOptions = [
+    { value: 'default', label: 'calendar.view.day' },
+    { value: 'week', label: 'calendar.view.week' },
+    { value: 'month', label: 'calendar.view.month' },
+]
+
+function onViewKey(e: KeyboardEvent) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return
+    const t = e.target as HTMLElement
+    if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return
+    if (e.key === 'd' || e.key === 'D') setCalendarView('default')
+    else if (e.key === 'u' || e.key === 'U' || e.key === 'w' || e.key === 'W') setCalendarView('week')
+    else if (e.key === 'm' || e.key === 'M') setCalendarView('month')
+}
+onMounted(() => window.addEventListener('keydown', onViewKey))
+onUnmounted(() => window.removeEventListener('keydown', onViewKey))
 
 function setCalendarView(viewStyle: any) {
     if (state.calendarView !== viewStyle) {

@@ -1171,7 +1171,14 @@
             "halfYearView": "Halvår",
             "monthView": "Månedsvisning",
             "weekView": "Ugevisning",
-            "yearView": "Årsvisning"
+            "yearView": "Årsvisning",
+            "day": "Dag",
+            "week": "Uge",
+            "month": "Måned",
+            "now": "Nu",
+            "overdue": "Mangler",
+            "eventsCount": "{count} aftaler",
+            "oneEvent": "1 aftale"
         },
         "week": {
             "oneLetter": {

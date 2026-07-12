@@ -84,6 +84,17 @@
 
             <div class="grid lg:grid-cols-6 gap-3">
                 <div class="flex items-center gap-x-4 lg:col-span-3">
+                    <div class="inline-flex items-center gap-x-0.5 rounded-lg bg-gray-100 p-0.5">
+                        <button type="button" v-for="opt in viewOptions" :key="opt.value"
+                            @click="selectView(opt.value)" :class="[
+                                state.calendarView === opt.value
+                                    ? 'bg-white text-gray-900 shadow-sm'
+                                    : 'text-gray-500 hover:text-gray-800',
+                                'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95'
+                            ]">
+                            {{ $t(opt.label) }}
+                        </button>
+                    </div>
                     <button class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterCalendarOpen = true">
                         <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
@@ -474,12 +485,12 @@ async function fetchMyCalendarEvents() {
         const params = {} as any
         params.department = departmentStore.getSelectedDepartmentName
         if (state.selectedDate.start_date && state.selectedDate.end_date) {
-            params.date = state.selectedDate
+            params.date = JSON.stringify(state.selectedDate)
         } else {
-            params.date = {
+            params.date = JSON.stringify({
                 start_date: moment().format('Y-M-D'),
                 end_date: moment().format('Y-M-D'),
-            }
+            })
         }
         if (state.selectedYear) {
             params.year = state.selectedYear
@@ -524,6 +535,29 @@ async function fetchMyCalendarEvents() {
     }
     state.isPageLoading = false
 }
+
+const viewOptions = [
+    { value: 'default', label: 'calendar.view.day' },
+    { value: 'week', label: 'calendar.view.week' },
+    { value: 'month', label: 'calendar.view.month' },
+]
+
+function selectView(viewStyle: any) {
+    if (state.calendarView === viewStyle) return
+    setCalendarView(viewStyle)
+    fetchMyCalendarEvents()
+}
+
+function onViewKey(e: KeyboardEvent) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return
+    const t = e.target as HTMLElement
+    if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return
+    if (e.key === 'd' || e.key === 'D') selectView('default')
+    else if (e.key === 'u' || e.key === 'U' || e.key === 'w' || e.key === 'W') selectView('week')
+    else if (e.key === 'm' || e.key === 'M') selectView('month')
+}
+onMounted(() => window.addEventListener('keydown', onViewKey))
+onUnmounted(() => window.removeEventListener('keydown', onViewKey))
 
 function setCalendarView(viewStyle: any) {
     if (state.calendarView !== viewStyle) {

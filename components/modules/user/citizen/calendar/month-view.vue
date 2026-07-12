@@ -1,7 +1,8 @@
 <template>
-    <div class="lg:flex lg:h-full lg:flex-col">
-        <header class="flex items-center justify-between border-b border-gray-200 py-4 lg:flex-none">
-            <h3 class="text-base font-semibold leading-6 text-gray-900">
+    <div class="animate-fade-in lg:flex lg:h-full lg:flex-col">
+        <header class="flex items-center justify-between py-4 lg:flex-none">
+            <div class="flex items-baseline gap-x-2">
+            <h3 class="text-2xl font-semibold tracking-tight text-gray-900">
                 <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
                 <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
                 <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
@@ -16,110 +17,101 @@
                 <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
                 {{ year }}
             </h3>
-            <div class="flex items-center">
-                <div class="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+            <span v-if="monthCount" class="text-sm text-gray-400">
+                {{ monthCount === 1 ? $t('calendar.view.oneEvent') : $t('calendar.view.eventsCount', { count: monthCount }) }}
+            </span>
+            </div>
+            <div class="flex items-center gap-x-2">
+                <button type="button" @click="setToday"
+                    class="rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-medium text-gray-600 shadow-sm hover:bg-gray-50 transition-colors">
+                    {{ $t('calendar.today') }}
+                </button>
+                <div class="inline-flex items-center rounded-full border border-gray-200 bg-white shadow-sm">
                     <button type="button" @click="previousMonth"
-                        class="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+                        class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-l-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
                         <span class="sr-only">Previous month</span>
-                        <Icon name="heroicons:chevron-left" class="h-5 w-5" aria-hidden="true" />
+                        <Icon name="heroicons:chevron-left" class="h-4 w-4" aria-hidden="true" />
                     </button>
-                    <button type="button" @click="setToday"
-                        class="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
-                        {{ $t('calendar.today') }}
-                    </button>
-                    <span class="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
+                    <span class="h-4 w-px bg-gray-200"></span>
                     <button type="button" @click="nextMonth"
-                        class="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+                        class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-r-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
                         <span class="sr-only">Next month</span>
-                        <Icon name="heroicons:chevron-right" class="h-5 w-5" aria-hidden="true" />
+                        <Icon name="heroicons:chevron-right" class="h-4 w-4" aria-hidden="true" />
                     </button>
                 </div>
             </div>
         </header>
-        <div class="shadow ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
+        <div class="overflow-hidden rounded-2xl bg-white ring-1 ring-gray-200 shadow-sm lg:flex lg:flex-auto lg:flex-col">
             <div
-                class="md:hidden grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.oneLetter.Monday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.oneLetter.Tuesday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.oneLetter.Wednesday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.oneLetter.Thursday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.oneLetter.Friday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.oneLetter.Saturday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.oneLetter.Sunday') }}
-                </div>
+                class="md:hidden grid grid-cols-7 border-b border-gray-200 bg-white text-center text-[11px] font-semibold uppercase tracking-wider leading-6 text-gray-400 lg:flex-none">
+                <div class="py-2.5">{{ $t('calendar.week.oneLetter.Monday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.oneLetter.Tuesday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.oneLetter.Wednesday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.oneLetter.Thursday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.oneLetter.Friday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.oneLetter.Saturday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.oneLetter.Sunday') }}</div>
             </div>
             <div
-                class="hidden md:grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
-
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.short.Monday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.short.Tuesday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.short.Wednesday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.short.Thursday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.short.Friday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.short.Saturday') }}
-                </div>
-                <div class="bg-white py-2">
-                    {{ $t('calendar.week.short.Sunday') }}
-                </div>
+                class="hidden md:grid grid-cols-7 border-b border-gray-200 bg-white text-center text-[11px] font-semibold uppercase tracking-wider leading-6 text-gray-400 lg:flex-none">
+                <div class="py-2.5">{{ $t('calendar.week.short.Monday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.short.Tuesday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.short.Wednesday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.short.Thursday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.short.Friday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.short.Saturday') }}</div>
+                <div class="py-2.5">{{ $t('calendar.week.short.Sunday') }}</div>
             </div>
-            <div class="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
-                <div class="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-5 lg:gap-px">
+            <div class="flex bg-gray-100 text-xs leading-6 text-gray-700 lg:flex-auto">
+                <div class="hidden w-full lg:grid lg:grid-cols-7 lg:auto-rows-fr lg:gap-px">
                     <div v-for="(day, index) in state.days" :key="index"
-                        :class="[day.isCurrentMonth ? 'bg-white' : 'min-h-20 bg-gray-50 text-gray-500', 'relative px-3 py-2 cursor-pointer']"
+                        :class="[day.isToday ? 'bg-tertiary/[0.05]' : (day.isCurrentMonth ? 'bg-white' : 'bg-gray-50/70'), 'group/day relative flex min-h-[7rem] cursor-pointer flex-col gap-y-1 px-2 py-2']"
                         @click="setSelectedDay(day)">
-                        <time :datetime="day.date"
-                            :class="day.isToday ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary font-semibold text-white' : undefined">
-                            {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
-                        </time>
-                        <ol v-if="day.events.length > 0" class="mt-2">
-                            <li class="space-y-3">
-                                <div v-for="myCalendarEvent in day.events" :key="myCalendarEvent.id"
-                                    class="relative bg-gray-200 p-2 rounded-md cursor-pointer"
-                                    @click.stop="viewMyCalendarEvent(myCalendarEvent)">
-                                    <div class="flex items-start justify-between gap-x-1">
-                                        <div>
-                                            <p class="text-xxs font-semibold">
-                                                {{ myCalendarEvent?.title }}
-                                            </p>
-                                            <span v-if="myCalendarEvent?.completion_status === 'completed'"
-                                                class="inline-flex items-center gap-x-0.5 rounded-full bg-green-100 px-1.5 py-0.5 text-xxs font-medium text-green-700">
-                                                <Icon name="ph:check-circle" class="h-3 w-3" />
-                                                {{ $t('events.completionStatistics.completed') }}
-                                            </span>
-                                            <span v-else-if="myCalendarEvent?.completion_status === 'not_completed'"
-                                                class="inline-flex items-center gap-x-0.5 rounded-full bg-red-100 px-1.5 py-0.5 text-xxs font-medium text-red-700">
-                                                <Icon name="ph:x-circle" class="h-3 w-3" />
-                                                {{ $t('events.completionStatistics.notCompleted') }}
-                                            </span>
-                                        </div>
-                                        <Menu as="div" class="relative flex-none">
-                                            <MenuButton class="flex items-center rounded-full text-gray-500 hover:text-gray-600"
-                                                @click.stop>
-                                                <Icon name="heroicons:ellipsis-vertical" class="h-4 w-4" aria-hidden="true" />
+                        <div class="flex items-center justify-between">
+                            <time :datetime="day.date"
+                                :class="day.isToday
+                                    ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary text-[13px] font-semibold text-white'
+                                    : ['text-[13px] font-medium', day.isCurrentMonth ? (isWeekend(day.date) ? 'text-gray-400' : 'text-gray-700') : 'text-gray-300']">
+                                {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
+                            </time>
+                            <Icon name="ph:plus"
+                                class="h-3.5 w-3.5 text-gray-300 opacity-0 transition-opacity group-hover/day:opacity-100" />
+                        </div>
+                        <ol v-if="day.events.length > 0" class="space-y-1">
+                            <li v-for="myCalendarEvent in visibleEvents(day)" :key="myCalendarEvent.id">
+                                <div class="group/event relative">
+                                    <div class="flex cursor-pointer items-center gap-x-1.5 rounded-md px-1.5 py-1 transition hover:bg-gray-100 active:scale-[0.98]"
+                                        :class="[
+                                            myCalendarEvent?.completion_status === 'completed' && 'opacity-70',
+                                            isNow(myCalendarEvent) && 'bg-red-50 ring-1 ring-inset ring-red-300',
+                                            isOverdue(myCalendarEvent) && 'ring-1 ring-inset ring-amber-300',
+                                        ]"
+                                        @mouseenter.stop="showPreview($event, myCalendarEvent)" @mouseleave="hidePreview"
+                                        @click.stop="viewMyCalendarEvent(myCalendarEvent)">
+                                        <span class="h-1.5 w-1.5 flex-none rounded-full" :class="[
+                                            isNow(myCalendarEvent) ? 'bg-red-500 animate-pulse' : [
+                                                myCalendarEvent?.type === 'citizens' && 'bg-amber-500',
+                                                myCalendarEvent?.type === 'employees' && 'bg-green-600',
+                                                myCalendarEvent?.type === 'my_self' && 'bg-primary',
+                                                !['citizens', 'employees', 'my_self'].includes(myCalendarEvent?.type) && 'bg-tertiary',
+                                            ],
+                                        ]"></span>
+                                        <span class="min-w-0 flex-1 truncate text-[11px] font-medium"
+                                            :class="myCalendarEvent?.completion_status === 'completed' ? 'text-gray-400 line-through' : 'text-gray-800 group-hover/event:text-gray-900'">
+                                            {{ myCalendarEvent?.title }}
+                                        </span>
+                                        <Icon v-if="myCalendarEvent?.completion_status === 'completed'"
+                                            name="ph:check-circle-fill" class="h-3 w-3 flex-none text-green-500" />
+                                        <Icon v-else-if="isOverdue(myCalendarEvent)"
+                                            name="ph:warning-circle-fill" class="h-3 w-3 flex-none text-amber-500" />
+                                        <span class="hidden flex-none text-[10px] tabular-nums text-gray-400 group-hover/event:opacity-0 xl:block">
+                                            {{ myCalendarEvent.time_start }}
+                                        </span>
+                                        <Menu as="div"
+                                            class="absolute right-1 flex-none opacity-0 group-hover/event:opacity-100"
+                                            @click.stop>
+                                            <MenuButton class="flex items-center rounded bg-white/90 p-0.5 text-gray-400 shadow-sm ring-1 ring-gray-200 hover:text-gray-700">
+                                                <Icon name="heroicons:ellipsis-horizontal" class="h-3.5 w-3.5" />
                                             </MenuButton>
                                             <transition enter-active-class="transition ease-out duration-100"
                                                 enter-from-class="transform opacity-0 scale-95"
@@ -127,9 +119,15 @@
                                                 leave-active-class="transition ease-in duration-75"
                                                 leave-from-class="transform opacity-100 scale-100"
                                                 leave-to-class="transform opacity-0 scale-95">
-                                                <MenuItems
-                                                    class="absolute right-0 z-10 mt-1 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <MenuItems class="absolute right-0 z-20 mt-1 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <div class="py-1">
+                                                        <MenuItem v-slot="{ active }">
+                                                        <a href="#" :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                            @click.stop="viewMyCalendarEvent(myCalendarEvent)">
+                                                            <Icon name="ph:eye" class="h-4 w-4" />
+                                                            {{ $t('citizens.calendar.viewSchedule') }}
+                                                        </a>
+                                                        </MenuItem>
                                                         <template v-if="myCalendarEvent?.completion_status !== 'completed'">
                                                             <MenuItem v-slot="{ active }">
                                                             <a href="#" :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -160,54 +158,13 @@
                                             </transition>
                                         </Menu>
                                     </div>
-                                    <p class="text-xxs">
-                                        {{ moment(myCalendarEvent.date_time_start).format('HH:mm') }} -
-                                        {{ moment(myCalendarEvent.date_time_end).format('HH:mm') }}
-                                    </p>
-                                    <div class="flex gap-x-2 text-xxs" v-if="myCalendarEvent?.unit?.name">
-                                        <p>
-                                            {{ $t('units.unit') }}:
-                                        </p>
-                                        <p>
-                                            {{ myCalendarEvent?.unit?.name }}
-                                        </p>
-                                    </div>
-                                    <div class="text-xxs flex flex-wrap gap-1 mt-1"
-                                        v-if="myCalendarEvent.calendar_tags?.length > 0">
-                                        <span v-for="(calendarTag, index) in myCalendarEvent.calendar_tags" :key=index
-                                            class="p-1 text-white rounded-md"
-                                            :style="{ backgroundColor: calendarTag?.color }">
-                                            {{ calendarTag?.tag }}
-                                        </span>
-                                    </div>
-                                    <div class="text-gray-500 text-xxs mt-1">
-                                        <p>{{ $t('events.eventOwner') }}:</p>
-                                        <div class="flex flex-wrap gap-1 mt-1">
-                                            <div v-for="(owner, index) in myCalendarEvent.calendar_owners" :key="index"
-                                                class="bg-secondary text-xxs p-1 text-white rounded-md">
-                                                {{ owner?.owner?.firstname }} {{ owner?.owner?.lastname }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-gray-500 text-xxs mt-1"
-                                        v-if="myCalendarEvent.calendar_users?.length > 0">
-                                        <p>{{ $t('events.invitees') }}:</p>
-                                        <div class="flex flex-wrap gap-1 mt-1">
-                                            <div v-for="(invitee, index) in myCalendarEvent.calendar_users" :key="index"
-                                                class="bg-secondary text-xxs p-1 text-white rounded-md">
-                                                {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-gray-500 text-xxs mt-1">
-                                        <p>{{ $t('events.createdBy') }}:</p>
-                                        <div class="flex flex-wrap gap-1 mt-1">
-                                            <div class="bg-secondary text-xxs p-1 text-white rounded-md">
-                                                {{ myCalendarEvent.creator?.firstname }} {{ myCalendarEvent.creator?.lastname }}
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
+                            </li>
+                            <li v-if="day.events.length > 3 && !state.expandedDays.includes(day.date)">
+                                <button type="button" @click.stop="state.expandedDays.push(day.date)"
+                                    class="w-full rounded-md px-1.5 py-0.5 text-left text-[11px] font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                                    +{{ day.events.length - 3 }} {{ $t('showMore') }}
+                                </button>
                             </li>
                         </ol>
                     </div>
@@ -223,9 +180,7 @@
                         'flex h-14 flex-col px-3 py-2 hover:bg-gray-100 focus:z-10'
                     ]" @click="setSelectedDay(day)">
                         <time :datetime="day.date" :class="[
-                            day.isSelected && 'flex h-6 w-6 items-center justify-center rounded-full',
-                            day.isSelected && day.isToday && 'bg-tertiary',
-                            day.isSelected && !day.isToday && 'bg-tertiary',
+                            day.isSelected && 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary',
                             'ml-auto'
                         ]">
                             {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
@@ -239,93 +194,52 @@
                 </div>
             </div>
         </div>
-        <ol class="lg:hidden mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8"
-            v-if=state.selectedDay>
+        <ol class="lg:hidden mt-4 divide-y divide-gray-100 text-sm leading-6"
+            v-if="state.selectedDay">
             <li v-for="(myCalendarEvent, index) in state.days.find(day => day.date === state.selectedDay?.date)?.events || []"
-                :key="index" class="relative flex space-x-6 py-6 xl:static">
-                <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.user?.firstname + ' ' + myCalendarEvent?.user?.lastname}`"
-                    alt="Image" class="h-14 w-14 flex-none rounded-full" />
-                <div class="flex-auto">
-                    <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">
-                        {{ myCalendarEvent?.user?.firstname }}
-                        {{ myCalendarEvent?.user?.lastname }}
-                    </h3>
+                :key="index" class="group/event flex gap-x-3 py-4">
+                <div class="w-14 flex-none pt-0.5 text-right">
+                    <p class="text-[13px] font-semibold tabular-nums text-gray-900">{{ myCalendarEvent.time_start }}</p>
+                    <p class="text-[11px] tabular-nums text-gray-400">{{ myCalendarEvent.time_end }}</p>
+                </div>
+                <span class="w-1 flex-none self-stretch rounded-full" :class="[
+                    myCalendarEvent?.type === 'employees' && 'bg-green-600',
+                    myCalendarEvent?.type === 'my_self' && 'bg-primary',
+                    myCalendarEvent?.type !== 'employees' && myCalendarEvent?.type !== 'my_self' && 'bg-amber-500',
+                ]"></span>
+                <div class="min-w-0 flex-1">
                     <div class="flex items-center gap-x-2">
-                        <dt class="flex items-center">
-                            <span class="sr-only">Title</span>
-                            <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                        </dt>
-                        <dd class="font-semibold text-gray-900 xl:pr-0">
+                        <h4 class="truncate font-semibold text-gray-900"
+                            :class="myCalendarEvent?.completion_status === 'completed' && 'text-gray-400 line-through'">
                             {{ myCalendarEvent?.title }}
-                        </dd>
+                        </h4>
                         <span v-if="myCalendarEvent?.completion_status === 'completed'"
-                            class="inline-flex items-center gap-x-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
-                            <Icon name="ph:check-circle" class="h-3 w-3" />
+                            class="inline-flex items-center gap-x-1 rounded-full bg-green-100 px-2 py-0.5 text-[11px] font-medium text-green-700">
+                            <Icon name="ph:check-circle" class="h-3.5 w-3.5" />
                             {{ $t('events.completionStatistics.completed') }}
                         </span>
                         <span v-else-if="myCalendarEvent?.completion_status === 'not_completed'"
-                            class="inline-flex items-center gap-x-1 rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
-                            <Icon name="ph:x-circle" class="h-3 w-3" />
+                            class="inline-flex items-center gap-x-1 rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-medium text-red-700">
+                            <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
                             {{ $t('events.completionStatistics.notCompleted') }}
                         </span>
                     </div>
-                    <div class="flex gap-x-2">
-                        <dt class="flex mt-1">
-                            <span class="sr-only">Description</span>
-                            <Icon name="heroicons:bars-3-bottom-left" class="h-4 w-4 text-gray-400"
-                                aria-hidden="true" />
-                        </dt>
-                        <dd class="text-gray-900 xl:pr-0">
-                            {{ myCalendarEvent?.description }}
-                        </dd>
-                    </div>
-                    <dl class="text-gray-500">
-                        <div class="flex items-center space-x-3 text-xs">
-                            <dt class="flex items-center">
-                                <span class="sr-only">Date</span>
-                                <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                            </dt>
-                            <dd>
-                                <time :datetime="myCalendarEvent.datetime">
-                                    {{ formatDateTimeToReadable(myCalendarEvent.date_time_start) }}
-                                    -
-                                    {{ formatDateTimeToReadable(myCalendarEvent.date_time_end) }}
-                                </time>
-                            </dd>
-                        </div>
-                    </dl>
-                    <div class="text-xxs flex flex-wrap gap-1 mt-1" v-if="myCalendarEvent.calendar_tags?.length > 0">
-                        <span v-for="(calendarTag, index) in myCalendarEvent.calendar_tags" :key=index
-                            class="p-1 text-white rounded-md" :style="{ backgroundColor: calendarTag?.color }">
+                    <p v-if="myCalendarEvent?.description" class="mt-0.5 truncate text-sm text-gray-600">
+                        {{ myCalendarEvent?.description }}
+                    </p>
+                    <div v-if="myCalendarEvent.calendar_tags?.length > 0" class="mt-1 flex flex-wrap gap-1">
+                        <span v-for="(calendarTag, ti) in myCalendarEvent.calendar_tags" :key="ti"
+                            class="rounded-md px-1.5 py-0.5 text-[10px] font-medium text-white"
+                            :style="{ backgroundColor: calendarTag?.color }">
                             {{ calendarTag?.tag }}
                         </span>
                     </div>
-                    <div class="text-gray-500 text-xxs mt-1">
-                        <p>{{ $t('events.eventOwner') }}:</p>
-                        <div class="flex flex-wrap gap-1 mt-1">
-                            <div v-for="(owner, index) in myCalendarEvent.calendar_owners" :key="index"
-                                class="bg-secondary text-xxs p-1 text-white rounded-md">
-                                {{ owner?.owner?.firstname }} {{ owner?.owner?.lastname }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-gray-500 text-xxs mt-1" v-if="myCalendarEvent.calendar_users?.length > 0">
-                        <p>{{ $t('events.invitees') }}:</p>
-                        <div class="flex flex-wrap gap-1 mt-1">
-                            <div v-for="(invitee, index) in myCalendarEvent.calendar_users" :key="index"
-                                class="bg-secondary text-xxs p-1 text-white rounded-md">
-                                {{ invitee?.user?.firstname }} {{ invitee?.user?.lastname }}
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <Menu as="div" class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
-                    <div>
-                        <MenuButton class="-m-2 flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600">
-                            <span class="sr-only">Open options</span>
-                            <Icon name="heroicons:ellipsis-horizontal" class="h-5 w-5" aria-hidden="true" />
-                        </MenuButton>
-                    </div>
+                <Menu as="div" class="relative flex-none self-start">
+                    <MenuButton class="-m-1 flex items-center rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
+                        <span class="sr-only">Open options</span>
+                        <Icon name="heroicons:ellipsis-horizontal" class="h-5 w-5" aria-hidden="true" />
+                    </MenuButton>
                     <transition enter-active-class="transition ease-out duration-100"
                         enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
                         leave-active-class="transition ease-in duration-75"
@@ -338,6 +252,7 @@
                                 <a href="#"
                                     :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                     @click="viewMyCalendarEvent(myCalendarEvent)">
+                                    <Icon name="ph:eye" class="h-4 w-4" />
                                     {{ $t('citizens.calendar.viewSchedule') }}
                                 </a>
                                 </MenuItem>
@@ -375,6 +290,30 @@
                 </Menu>
             </li>
         </ol>
+
+        <Teleport to="body">
+            <div v-if="state.preview.event"
+                class="pointer-events-none fixed z-[60] w-64 rounded-xl bg-white p-3 shadow-dropdown ring-1 ring-gray-200 animate-fade-in"
+                :style="{ left: state.preview.x + 'px', top: state.preview.y + 'px' }">
+                <div class="flex items-center gap-x-1.5">
+                    <span class="h-2 w-2 flex-none rounded-full" :class="[
+                        state.preview.event?.type === 'employees' && 'bg-green-600',
+                        state.preview.event?.type === 'my_self' && 'bg-primary',
+                        state.preview.event?.type !== 'employees' && state.preview.event?.type !== 'my_self' && 'bg-amber-500',
+                    ]"></span>
+                    <p class="truncate text-sm font-semibold text-gray-900">{{ state.preview.event?.title }}</p>
+                </div>
+                <p class="mt-1 text-xs tabular-nums text-gray-500">
+                    {{ state.preview.event?.time_start }} – {{ state.preview.event?.time_end }}
+                </p>
+                <p v-if="state.preview.event?.unit?.name" class="mt-1 flex items-center gap-x-1 text-xs text-gray-500">
+                    <Icon name="ph:map-pin" class="h-3.5 w-3.5 text-gray-400" />{{ state.preview.event?.unit?.name }}
+                </p>
+                <p v-if="state.preview.event?.description" class="mt-1 line-clamp-3 text-xs text-gray-600">
+                    {{ state.preview.event?.description }}
+                </p>
+            </div>
+        </Teleport>
     </div>
 </template>
 
@@ -399,6 +338,8 @@ const state = reactive({
     currentMonth: today.month(),
     currentYear: today.year(),
     days: generateDays(today.year(), today.month(), props.myCalendarEvents),
+    expandedDays: [] as string[],
+    preview: { event: null as any, x: 0, y: 0 },
     selectedDay: null as any,
 })
 
@@ -472,6 +413,55 @@ function generateDays(year: any, month: any, myCalendarEvents: any) {
 function isToday(day: any) {
     return moment().isSame(day, 'day')
 }
+
+function isWeekend(dateStr: string) {
+    return moment(dateStr).isoWeekday() >= 6
+}
+
+function isNow(event: any) {
+    if (!event?.date_time_start || !event?.date_time_end) return false
+    return moment().isBetween(moment(event.date_time_start), moment(event.date_time_end), null, '[)')
+}
+
+function visibleEvents(day: any) {
+    if (state.expandedDays.includes(day.date)) return day.events
+    return day.events.slice(0, 3)
+}
+
+function isOverdue(event: any) {
+    if (!event || event.completion_status === 'completed') return false
+    return !isNow(event) && moment(event.date_time_end).isBefore(moment())
+}
+
+const monthCount = computed(() => {
+    if (!props.myCalendarEvents?.data) return 0
+    return props.myCalendarEvents.data.filter((e: any) =>
+        moment(e.date_time_start).month() === state.currentMonth
+        && moment(e.date_time_start).year() === state.currentYear).length
+})
+
+function showPreview(e: MouseEvent, event: any) {
+    const margin = 12
+    const width = 256
+    let x = e.clientX + margin
+    if (x + width > window.innerWidth) x = e.clientX - width - margin
+    state.preview = { event, x, y: e.clientY + margin }
+}
+
+function hidePreview() {
+    state.preview.event = null
+}
+
+function onCalKey(e: KeyboardEvent) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return
+    const t = e.target as HTMLElement
+    if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return
+    if (e.key === 'ArrowLeft') { e.preventDefault(); previousMonth() }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); nextMonth() }
+    else if (e.key === 't' || e.key === 'T') { setToday() }
+}
+onMounted(() => window.addEventListener('keydown', onCalKey))
+onUnmounted(() => window.removeEventListener('keydown', onCalKey))
 
 function isWithinRange(dateStr: string, start: string, end: string) {
     const date = moment(dateStr)
