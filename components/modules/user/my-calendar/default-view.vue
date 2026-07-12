@@ -94,11 +94,6 @@
                             {{ state.filteredCalendarEvents.length === 1 ? $t('calendar.view.oneEvent') : $t('calendar.view.eventsCount', { count: state.filteredCalendarEvents.length }) }}
                         </span>
                     </div>
-                    <button type="button" @click="createEventForSelectedDate"
-                        class="inline-flex items-center gap-x-1 rounded-full bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors">
-                        <Icon name="ph:plus" class="h-4 w-4" />
-                        {{ $t('events.newEvent') }}
-                    </button>
                 </div>
 
                 <p v-if="state.filteredCalendarEvents?.length < 1 && state.filteredCalendarHolidays?.length < 1"
@@ -325,7 +320,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEventForDate'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
 const userStore = useUserStore() as any
 
 const currentMonth = ref(moment().startOf('month'))
@@ -413,10 +408,6 @@ function selectDay(selectedDay: any) {
     }))
     state.selectedDate = selectedDay.date
     filterBasedOnSelectedDate()
-}
-
-function createEventForSelectedDate() {
-    emit('createEventForDate', state.selectedDate)
 }
 
 function isNow(event: any) {
