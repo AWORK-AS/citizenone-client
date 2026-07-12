@@ -17,10 +17,8 @@
 
 <script setup lang="ts">
 import { releaseNoteService } from '@/components/api/user/ReleaseNoteService'
-import type { Error } from '@/types'
 
 const state = reactive({
-    error: {} as Error,
     unseenCount: 0,
     modal: {
         isNewUpdatesOpen: false,
@@ -45,7 +43,7 @@ async function openUpdatesModal() {
         await releaseNoteService.markSeen()
         state.unseenCount = 0
     } catch (error: any) {
-        state.error = error
+        // keep the badge as-is if marking seen fails
     }
 }
 

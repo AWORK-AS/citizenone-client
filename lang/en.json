@@ -11611,6 +11611,7 @@
         "deleteConfirm": "Delete this release note?",
         "titleField": "Title",
         "publishedTo": "Visible to all customers",
-        "gate": "Only the CTO can approve & publish."
+        "gate": "Only the CTO can approve & publish.",
+        "noNotes": "No release notes yet."
     }
 }

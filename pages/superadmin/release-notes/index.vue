@@ -45,8 +45,10 @@
                 </div>
 
                 <LoadingSpinner :isActive="state.isLoading">
-                    <div v-if="!state.isLoading && !state.notes.length" class="py-10 text-center text-sm text-[#6B7280]">
-                        {{ $t('releaseNotes.title') }} –
+                    <div v-if="!state.isLoading && !state.notes.length"
+                        class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-[#6B7280]">
+                        <Icon name="ph:sparkle" class="h-8 w-8 text-gray-300" />
+                        {{ $t('releaseNotes.noNotes') }}
                     </div>
                     <ul class="space-y-3">
                         <li v-for="note in state.notes" :key="note.uuid"
@@ -94,7 +96,6 @@ import { releaseNoteService } from '@/components/api/superadmin/ReleaseNoteServi
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
-definePageMeta({ layout: false })
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()

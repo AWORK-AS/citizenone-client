@@ -11611,6 +11611,7 @@
         "deleteConfirm": "Radera denna release note?",
         "titleField": "Titel",
         "publishedTo": "Synlig för alla kunder",
-        "gate": "Endast CTO kan godkänna & publicera."
+        "gate": "Endast CTO kan godkänna & publicera.",
+        "noNotes": "Inga release notes än."
     }
 }

@@ -11611,6 +11611,7 @@
         "deleteConfirm": "Slett denne release note?",
         "titleField": "Tittel",
         "publishedTo": "Synlig for alle kunder",
-        "gate": "Bare CTO kan godkjenne & publisere."
+        "gate": "Bare CTO kan godkjenne & publisere.",
+        "noNotes": "Ingen release notes ennå."
     }
 }

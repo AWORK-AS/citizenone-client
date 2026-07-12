@@ -79,7 +79,7 @@ const state = reactive({
 })
 
 watch(() => props.isModalOpen, (open: boolean) => {
-    if (open && state.notes.length === 0) fetchNotes()
+    if (open) fetchNotes()
 })
 
 async function fetchNotes() {
