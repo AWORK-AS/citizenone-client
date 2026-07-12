@@ -10846,7 +10846,9 @@
         "newUpdates": "Nye opdateringer",
         "newUpdatesFrom": "Nye opdateringer fra",
         "showUpdate": "Vis opdatering",
-        "updates": "Opdateringer"
+        "updates": "Opdateringer",
+        "noUpdates": "Ingen opdateringer endnu.",
+        "tagline": "Se hvad der er nyt i CitizenONE"
     },
     "validation": {
         "invalidNumber": "Ugyldigt nummer",
@@ -11593,5 +11595,22 @@
             "updated": "Opdateret",
             "deleted": "Slettet"
         }
+    },
+    "releaseNotes": {
+        "title": "Release notes",
+        "newNote": "Ny release note",
+        "version": "Version",
+        "content": "Indhold",
+        "audience": "Målgruppe",
+        "status": "Status",
+        "draft": "Kladde",
+        "published": "Udgivet",
+        "save": "Gem kladde",
+        "publish": "Godkend & udgiv",
+        "delete": "Slet",
+        "deleteConfirm": "Slet denne release note?",
+        "titleField": "Titel",
+        "publishedTo": "Synlig for alle kunder",
+        "gate": "Kun CTO kan godkende & udgive."
     }
 }

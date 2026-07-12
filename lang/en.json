@@ -10846,7 +10846,9 @@
         "newUpdates": "New updates",
         "newUpdatesFrom": "New updates from",
         "showUpdate": "Show update",
-        "updates": "Updates"
+        "updates": "Updates",
+        "noUpdates": "No updates yet.",
+        "tagline": "See what's new in CitizenONE"
     },
     "validation": {
         "invalidNumber": "Invalid number",
@@ -11593,5 +11595,22 @@
             "updated": "Updated",
             "deleted": "Deleted"
         }
+    },
+    "releaseNotes": {
+        "title": "Release notes",
+        "newNote": "New release note",
+        "version": "Version",
+        "content": "Content",
+        "audience": "Audience",
+        "status": "Status",
+        "draft": "Draft",
+        "published": "Published",
+        "save": "Save draft",
+        "publish": "Approve & publish",
+        "delete": "Delete",
+        "deleteConfirm": "Delete this release note?",
+        "titleField": "Title",
+        "publishedTo": "Visible to all customers",
+        "gate": "Only the CTO can approve & publish."
     }
 }
