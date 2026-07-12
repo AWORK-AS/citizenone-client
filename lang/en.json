@@ -1171,7 +1171,14 @@
             "halfYearView": "Half year",
             "monthView": "Month view",
             "weekView": "Week view",
-            "yearView": "Year"
+            "yearView": "Year",
+            "day": "Day",
+            "week": "Week",
+            "month": "Month",
+            "now": "Now",
+            "overdue": "Overdue",
+            "eventsCount": "{count} events",
+            "oneEvent": "1 event"
         },
         "week": {
             "oneLetter": {

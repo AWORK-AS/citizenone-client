@@ -1171,7 +1171,14 @@
             "halfYearView": "Halvår",
             "monthView": "Månedsvisning",
             "weekView": "Ugevisning",
-            "yearView": "Årsvisning"
+            "yearView": "Årsvisning",
+            "day": "Dag",
+            "week": "Vecka",
+            "month": "Månad",
+            "now": "Nu",
+            "overdue": "Försenad",
+            "eventsCount": "{count} bokningar",
+            "oneEvent": "1 bokning"
         },
         "week": {
             "oneLetter": {
