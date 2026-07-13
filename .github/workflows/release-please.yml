@@ -1,0 +1,26 @@
+# Automates versioning + GitHub Releases from Conventional Commits.
+# On push to main, release-please maintains a "release PR" (version bump + CHANGELOG).
+# Merging that PR publishes a GitHub Release, which triggers release-notes-ingest.yml
+# -> posts the release to the backend as a DRAFT -> CTO approves & publishes.
+#
+# Requires Conventional Commits on main: feat: (minor), fix: (patch),
+# feat!: / BREAKING CHANGE (major). Other prefixes (chore/docs/refactor) don't release.
+name: release-please
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
