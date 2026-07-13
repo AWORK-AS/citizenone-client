@@ -71,6 +71,9 @@
                             :emptyMessage="$t('children.table.empty')">
                             <template #body v-if="!(state.isTableLoading || (state.children?.data?.length === 0))">
                                 <tr v-for="(child, index) in state.children?.data" :key="index">
+                                    <td width="20%">
+                                        <span>{{ child?.firstname }} {{ child?.lastname }}</span>
+                                    </td>
                                     <td width="25%">
                                         <CitizenHoverCard v-if="child?.citizen?.uuid" :uuid="child.citizen.uuid"
                                             :preset="child.citizen">
@@ -79,9 +82,6 @@
                                                 {{ child?.citizen?.firstname }} {{ child?.citizen?.lastname }}
                                             </NuxtLink>
                                         </CitizenHoverCard>
-                                    </td>
-                                    <td width="20%">
-                                        <span>{{ child?.firstname }} {{ child?.lastname }}</span>
                                     </td>
                                     <td width="20%">
                                         <p v-if="child?.email">{{ child?.email }}</p>
@@ -127,8 +127,8 @@ const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
     columnHeaders: [
-        { name: 'children.table.parent', isTranslateName: true, sorter: true, key: 'parent_name' },
         { name: 'children.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
+        { name: 'children.table.parent', isTranslateName: true, sorter: true, key: 'parent_name' },
         { name: 'children.table.emailAddress', isTranslateName: true, sorter: true, key: 'email' },
         { name: 'children.table.ssn', isTranslateName: true, sorter: true, key: 'social_security_number' },
         { name: 'children.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
