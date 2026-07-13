@@ -8728,6 +8728,7 @@
                 "phone": "Phone",
                 "postCode": "Post code",
                 "quickRiskAssessment": "Quick risk assessment",
+                "receiveVacantShiftNotificationsRegardless": "Receive vacant shift notifications regardless of my other notification settings",
                 "region": "Region",
                 "registerTransport": "Register transport",
                 "sundayShiftCalculation": "Enable Sunday shift calculation",
