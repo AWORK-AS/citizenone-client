@@ -78,141 +78,7 @@
                     </div>
                 </div>
 
-                <p v-if="state.filteredSchedules?.length < 1"
-                    class="flex flex-col items-center gap-y-2 py-24 text-center text-sm text-gray-400">
-                    <Icon name="ph:calendar-blank" class="h-8 w-8 text-gray-300" />
-                    {{ $t('events.noEventFound') }}
-                </p>
-
-                <ol class="mt-2 divide-y divide-gray-100">
-                    <li v-for="(myCalendarEvent, index) in state.filteredSchedules" :key="index"
-                        :data-uuid="myCalendarEvent.uuid"
-                        class="group/event -mx-2 flex gap-x-3 rounded-lg px-2 py-3 transition-colors"
-                        :class="isNow(myCalendarEvent) && 'bg-red-50/60'">
-                        <div class="w-14 flex-none pt-0.5 text-right">
-                            <p class="text-[13px] font-semibold tabular-nums text-gray-900">
-                                {{ moment(myCalendarEvent.date_time_start).format('HH:mm') }}
-                            </p>
-                            <p class="text-[11px] tabular-nums text-gray-400">
-                                {{ moment(myCalendarEvent.date_time_end).format('HH:mm') }}
-                            </p>
-                        </div>
-                        <span class="w-1 flex-none self-stretch rounded-full" :class="[
-                            isNow(myCalendarEvent) ? 'bg-red-500' : [
-                                myCalendarEvent?.type === 'employees' && 'bg-green-600',
-                                myCalendarEvent?.type === 'my_self' && 'bg-primary',
-                                myCalendarEvent?.type !== 'employees' && myCalendarEvent?.type !== 'my_self' && 'bg-amber-500',
-                            ],
-                        ]"></span>
-                        <div class="min-w-0 flex-1">
-                            <div class="flex items-center gap-x-2">
-                                <h4 class="truncate font-semibold text-gray-900"
-                                    :class="myCalendarEvent?.completion_status === 'completed' && 'text-gray-400 line-through'">
-                                    {{ myCalendarEvent?.title }}
-                                </h4>
-                                <span v-if="isNow(myCalendarEvent)"
-                                    class="inline-flex flex-none items-center gap-x-1 rounded-full bg-red-500 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
-                                    <span class="h-1.5 w-1.5 rounded-full bg-white motion-safe:animate-pulse"></span>{{ $t('calendar.view.now') }}
-                                </span>
-                                <span v-if="myCalendarEvent?.completion_status === 'completed'"
-                                    class="inline-flex items-center gap-x-1 rounded-full bg-green-100 px-2 py-0.5 text-[11px] font-medium text-green-700">
-                                    <Icon name="ph:check-circle" class="h-3.5 w-3.5" />
-                                    {{ $t('events.completionStatistics.completed') }}
-                                </span>
-                                <span v-else-if="isOverdue(myCalendarEvent)"
-                                    class="inline-flex items-center gap-x-1 rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-medium text-amber-700">
-                                    <Icon name="ph:warning-circle" class="h-3.5 w-3.5" />
-                                    {{ $t('calendar.view.overdue') }}
-                                </span>
-                                <span v-else-if="myCalendarEvent?.completion_status === 'not_completed'"
-                                    class="inline-flex items-center gap-x-1 rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-medium text-red-700">
-                                    <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
-                                    {{ $t('events.completionStatistics.notCompleted') }}
-                                </span>
-                            </div>
-
-                            <p v-if="myCalendarEvent?.description" class="mt-0.5 truncate text-sm text-gray-600">
-                                {{ myCalendarEvent?.description }}
-                            </p>
-
-                            <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-gray-500">
-                                <span v-if="myCalendarEvent?.unit?.name" class="inline-flex items-center gap-x-1">
-                                    <Icon name="ph:map-pin" class="h-3.5 w-3.5 text-gray-400" />
-                                    {{ myCalendarEvent?.unit?.name }}
-                                </span>
-                                <span v-if="myCalendarEvent?.calendar_owners?.length"
-                                    class="inline-flex items-center gap-x-1">
-                                    <Icon name="ph:user-circle" class="h-3.5 w-3.5 text-gray-400" />
-                                    {{ myCalendarEvent.calendar_owners.map((o) => `${o?.owner?.firstname ?? ''} ${o?.owner?.lastname ?? ''}`.trim()).filter(Boolean).join(', ') }}
-                                </span>
-                            </div>
-
-                            <div v-if="myCalendarEvent.calendar_tags?.length > 0" class="mt-1.5 flex flex-wrap gap-1">
-                                <span v-for="(calendarTag, ti) in myCalendarEvent.calendar_tags" :key="ti"
-                                    class="rounded-md px-1.5 py-0.5 text-[10px] font-medium text-white"
-                                    :style="{ backgroundColor: calendarTag?.color }">
-                                    {{ calendarTag?.tag }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <Menu as="div" class="relative flex-none self-start">
-                            <MenuButton
-                                class="-m-1 flex items-center rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600">
-                                <span class="sr-only">Open options</span>
-                                <Icon name="heroicons:ellipsis-horizontal" class="h-5 w-5" aria-hidden="true" />
-                            </MenuButton>
-                            <transition enter-active-class="transition ease-out duration-100"
-                                enter-from-class="transform opacity-0 scale-95"
-                                enter-to-class="transform opacity-100 scale-100"
-                                leave-active-class="transition ease-in duration-75"
-                                leave-from-class="transform opacity-100 scale-100"
-                                leave-to-class="transform opacity-0 scale-95">
-                                <MenuItems
-                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <div class="py-1">
-                                        <MenuItem v-slot="{ active }">
-                                        <a href="#"
-                                            :class="[active && 'bg-gray-100', 'text-red-600', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
-                                            @click="deleteEventConfirmation(myCalendarEvent)">
-                                            <Icon name="ph:trash" class="h-4 w-4" />
-                                            {{ $t('calendar.delete') }}
-                                        </a>
-                                        </MenuItem>
-                                        <template v-if="myCalendarEvent?.completion_status !== 'completed'">
-                                            <MenuItem v-slot="{ active }">
-                                            <a href="#"
-                                                :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
-                                                @click="markEventAsStatus(myCalendarEvent, 'completed')">
-                                                <Icon name="ph:check-circle" class="h-4 w-4" />
-                                                {{ $t('events.markAsCompleted') }}
-                                            </a>
-                                            </MenuItem>
-                                        </template>
-                                        <template v-if="myCalendarEvent?.completion_status !== 'not_completed'">
-                                            <MenuItem v-slot="{ active }">
-                                            <a href="#"
-                                                :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
-                                                @click="markEventAsStatus(myCalendarEvent, 'not_completed')">
-                                                <Icon name="ph:x-circle" class="h-4 w-4" />
-                                                {{ $t('events.markAsNotCompleted') }}
-                                            </a>
-                                            </MenuItem>
-                                        </template>
-                                        <MenuItem v-slot="{ active }">
-                                        <a href="#"
-                                            :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
-                                            @click="openCreateJournal(myCalendarEvent)">
-                                            <Icon name="ph:notebook" class="h-4 w-4" />
-                                            {{ $t('events.createJournalNote') }}
-                                        </a>
-                                        </MenuItem>
-                                    </div>
-                                </MenuItems>
-                            </transition>
-                        </Menu>
-                    </li>
-                </ol>
+                <TimeGrid :days="dayGridDays" :showHeader="false" @eventClick="viewMyCalendarEvent" />
             </div>
         </div>
         <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
@@ -225,6 +91,7 @@
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import TimeGrid from '@/components/modules/user/calendar/time-grid.vue'
 
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const props = defineProps({
@@ -233,7 +100,20 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent', 'viewMyCalendarEvent'])
+
+function viewMyCalendarEvent(event: any) {
+    emit('viewMyCalendarEvent', event)
+}
+
+const dayGridDays = computed(() => [{
+    date: moment(state.selectedDate).format('YYYY-MM-DD'),
+    fullDate: moment(state.selectedDate),
+    isToday: moment().isSame(moment(state.selectedDate), 'day'),
+    weekdayLabel: '',
+    dayNumber: moment(state.selectedDate).date(),
+    events: state.filteredSchedules || [],
+}])
 
 const currentMonth = ref(moment().startOf('month'))
 const month = ref(currentMonth.value.format('MMMM'))

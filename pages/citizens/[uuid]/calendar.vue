@@ -63,6 +63,7 @@
                             @changeMonthYear="changeMonthYear" @deleteMyCalendarEvent="deleteMyCalendarEvent"
                             @markEventAsStatus="handleMarkEventAsStatus"
                             @createJournalFromEvent="handleCreateJournalFromEvent"
+                            @viewMyCalendarEvent="viewMyCalendarEvent"
                             @createEvent="openCreateEventModal"
                             v-if="state.calendarView === 'default'" />
                         <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
