@@ -1567,16 +1567,23 @@
                 "phone": "Telefonnummer",
                 "postCode": "Postnummer",
                 "region": "Region",
+                "note": "Anteckning",
+                "notePlaceholder": "Skriv en anteckning om kontaktpersonen",
                 "relationship": "Förhållande",
                 "street": "Gata",
                 "title": "Titel"
             },
             "newContact": "Ny kontakt",
+            "view": {
+                "noNote": "Ingen anteckning tillagd ännu.",
+                "title": "Visa kontaktperson"
+            },
             "table": {
                 "action": {
                     "delete": "Radera",
                     "edit": "Redigera",
-                    "sendEmail": "Skicka e-post"
+                    "sendEmail": "Skicka e-post",
+                    "view": "Visa"
                 },
                 "address": "Adress",
                 "allowSystemAccess": "Tillåt systemadgang",

@@ -1567,16 +1567,23 @@
                 "phone": "Telefonnummer",
                 "postCode": "Postnummer",
                 "region": "Region",
+                "note": "Bemærkning",
+                "notePlaceholder": "Skriv en bemærkning om kontaktpersonen",
                 "relationship": "Forhold",
                 "street": "Gade",
                 "title": "Titel"
             },
             "newContact": "Ny kontakt",
+            "view": {
+                "noNote": "Ingen bemærkning tilføjet endnu.",
+                "title": "Vis kontaktperson"
+            },
             "table": {
                 "action": {
                     "delete": "Slet",
                     "edit": "Rediger",
-                    "sendEmail": "Send e-mail"
+                    "sendEmail": "Send e-mail",
+                    "view": "Vis"
                 },
                 "address": "Adresse",
                 "allowSystemAccess": "Tillad systemadgang",

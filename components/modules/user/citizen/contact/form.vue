@@ -131,6 +131,12 @@
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
                     </div>
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="note" :label="$t('citizens.contacts.form.note')" />
+                    <FormTextArea id="note" name="note" :placeholder="$t('citizens.contacts.form.notePlaceholder')"
+                        v-model="state.formContact.note" :rows="3" />
+                    <FormError :error="props?.error?.errors?.note?.[0]" />
+                </div>
                 <div class="space-y-1" v-if="state.formContact.title !== 'our_contact_person'">
                     <FormLabel for="street" :label="$t('citizens.contacts.form.street')" />
                     <FormTextField id="street" name="street" :placeholder="$t('citizens.contacts.form.street')"
@@ -252,6 +258,7 @@ const state = reactive({
         lastname: '',
         email: '',
         phone: '',
+        note: '',
         street: '',
         region: '',
         municipality: '',
@@ -305,6 +312,7 @@ onMounted(async () => {
         lastname: contact?.lastname ?? '',
         email: contact?.email ?? '',
         phone: contact?.phone ?? '',
+        note: contact?.note ?? '',
         street: contact?.street ?? '',
         region: regionUuid,
         municipality: '',
@@ -354,6 +362,7 @@ watch(() => props.selectedContact, async (newValue: any) => {
         lastname: newValue?.lastname ?? '',
         email: newValue?.email ?? '',
         phone: newValue?.phone ?? '',
+        note: newValue?.note ?? '',
         street: newValue?.street ?? '',
         region: regionUuid,
         municipality: '',
