@@ -277,6 +277,17 @@
                                 <tr v-for="(citizen, index) in state.citizens?.data" :key="index">
                                     <td width="30%">
                                         <div class="flex items-center gap-x-2">
+                                            <Tooltip
+                                                :text="isPinned(citizen.uuid) ? $t('citizens.table.actions.unpin') : $t('citizens.table.actions.pin')">
+                                                <button type="button" @click="togglePin(citizen)"
+                                                    class="shrink-0 flex items-center justify-center rounded-full p-0.5 transition-colors"
+                                                    :aria-pressed="isPinned(citizen.uuid)"
+                                                    :aria-label="isPinned(citizen.uuid) ? $t('citizens.table.actions.unpin') : $t('citizens.table.actions.pin')">
+                                                    <Icon
+                                                        :name="isPinned(citizen.uuid) ? 'heroicons:star-solid' : 'heroicons:star'"
+                                                        :class="['size-5', isPinned(citizen.uuid) ? 'text-tertiary' : 'text-gray-300 hover:text-tertiary']" />
+                                                </button>
+                                            </Tooltip>
                                             <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
                                                 :class="[
                                                     citizen.latest_risk_assessment === null && 'border-secondary',
@@ -442,6 +453,7 @@ const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
+const { isPinned, add: addPinned, remove: removePinned, ensureLoaded: ensurePinnedLoaded } = usePinnedCitizens()
 
 const locationTracking = useLocationTracking()
 const workTimeTracking = useWorkTimeTracking()
@@ -523,6 +535,7 @@ const isDokumentationEnabled = computed(() => {
 
 onMounted(() => {
     fetchCitizens()
+    ensurePinnedLoaded()
     fetchExportDepartments()
 
     if (isTransportRegistrationEnabled.value) {
@@ -724,6 +737,24 @@ async function fetchCitizens() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+async function togglePin(citizen: any) {
+    const uuid = citizen?.uuid
+    if (!uuid) return
+    const wasPinned = isPinned(uuid)
+    // Optimistic UI: flip the star immediately, then persist and re-sort.
+    wasPinned ? removePinned(uuid) : addPinned(uuid)
+    try {
+        wasPinned
+            ? await citizenService.unpinCitizen(uuid)
+            : await citizenService.pinCitizen(uuid)
+        await fetchCitizens()
+    } catch (error: any) {
+        // Roll back the optimistic change on failure.
+        wasPinned ? addPinned(uuid) : removePinned(uuid)
+        state.error = error
+    }
 }
 
 function previous() {
