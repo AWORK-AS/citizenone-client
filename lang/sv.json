@@ -10848,7 +10848,8 @@
         "showUpdate": "Visa uppdatering",
         "updates": "Opdateringer",
         "noUpdates": "Inga uppdateringar än.",
-        "tagline": "Se vad som är nytt i CitizenONE"
+        "tagline": "Se vad som är nytt i CitizenONE",
+        "readMore": "Läs mer"
     },
     "validation": {
         "invalidNumber": "Ogiltigt nummer",
@@ -11612,6 +11613,7 @@
         "titleField": "Titel",
         "publishedTo": "Synlig för alla kunder",
         "gate": "Endast CTO kan godkänna & publicera.",
-        "noNotes": "Inga release notes än."
+        "noNotes": "Inga release notes än.",
+        "linkUrl": "Läs mer-länk (valfri)"
     }
 }

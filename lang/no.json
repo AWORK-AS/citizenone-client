@@ -10848,7 +10848,8 @@
         "showUpdate": "Vis oppdatering",
         "updates": "Oppdateringer",
         "noUpdates": "Ingen oppdateringer ennå.",
-        "tagline": "Se hva som er nytt i CitizenONE"
+        "tagline": "Se hva som er nytt i CitizenONE",
+        "readMore": "Les mer"
     },
     "validation": {
         "invalidNumber": "Ugyldig nummer",
@@ -11612,6 +11613,7 @@
         "titleField": "Tittel",
         "publishedTo": "Synlig for alle kunder",
         "gate": "Bare CTO kan godkjenne & publisere.",
-        "noNotes": "Ingen release notes ennå."
+        "noNotes": "Ingen release notes ennå.",
+        "linkUrl": "Les mer-lenke (valgfri)"
     }
 }

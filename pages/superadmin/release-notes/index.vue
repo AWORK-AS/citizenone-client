@@ -38,6 +38,11 @@
                         <textarea v-model="state.form.content" rows="6"
                             class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"></textarea>
                     </div>
+                    <div class="space-y-1">
+                        <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.linkUrl') }}</label>
+                        <input v-model="state.form.link_url" type="url" placeholder="https://citizenone.dk/..."
+                            class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                    </div>
                     <div class="flex justify-end gap-x-2">
                         <FormButton buttonStyle="cancel" @click="closeForm">{{ $t('cancel') }}</FormButton>
                         <FormButton buttonStyle="primary" @click="saveDraft">{{ $t('releaseNotes.save') }}</FormButton>
@@ -105,7 +110,7 @@ const state = reactive({
     error: '',
     notes: [] as any[],
     showForm: false,
-    form: { uuid: '', title: '', version: '', content: '' },
+    form: { uuid: '', title: '', version: '', content: '', link_url: '' },
     deleteOpen: false,
     deleteTarget: null as any,
 })
@@ -126,8 +131,8 @@ async function fetchNotes() {
 
 function openForm(note: any = null) {
     state.form = note
-        ? { uuid: note.uuid, title: note.title, version: note.version ?? '', content: note.content ?? '' }
-        : { uuid: '', title: '', version: '', content: '' }
+        ? { uuid: note.uuid, title: note.title, version: note.version ?? '', content: note.content ?? '', link_url: note.link_url ?? '' }
+        : { uuid: '', title: '', version: '', content: '', link_url: '' }
     state.showForm = true
 }
 
@@ -138,7 +143,7 @@ function closeForm() {
 async function saveDraft() {
     state.error = ''
     try {
-        const payload = { title: state.form.title, version: state.form.version, content: state.form.content }
+        const payload = { title: state.form.title, version: state.form.version, content: state.form.content, link_url: state.form.link_url }
         if (state.form.uuid) {
             await releaseNoteService.updateReleaseNote(state.form.uuid, payload)
         } else {

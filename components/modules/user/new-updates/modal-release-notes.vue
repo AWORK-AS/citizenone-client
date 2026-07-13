@@ -45,6 +45,11 @@
                                 <p v-if="note.content" class="mt-2 whitespace-pre-line text-sm leading-relaxed text-gray-600">
                                     {{ note.content }}
                                 </p>
+                                <a v-if="note.link_url" :href="note.link_url" target="_blank" rel="noopener noreferrer"
+                                    class="mt-2 inline-flex items-center gap-x-1 text-sm font-medium text-tertiary hover:text-tertiary-800">
+                                    {{ $t('updates.readMore') }}
+                                    <Icon name="ph:arrow-up-right" class="h-3.5 w-3.5" />
+                                </a>
                             </li>
                         </ol>
 

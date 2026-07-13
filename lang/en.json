@@ -10848,7 +10848,8 @@
         "showUpdate": "Show update",
         "updates": "Updates",
         "noUpdates": "No updates yet.",
-        "tagline": "See what's new in CitizenONE"
+        "tagline": "See what's new in CitizenONE",
+        "readMore": "Read more"
     },
     "validation": {
         "invalidNumber": "Invalid number",
@@ -11612,6 +11613,7 @@
         "titleField": "Title",
         "publishedTo": "Visible to all customers",
         "gate": "Only the CTO can approve & publish.",
-        "noNotes": "No release notes yet."
+        "noNotes": "No release notes yet.",
+        "linkUrl": "Read more link (optional)"
     }
 }
