@@ -2799,7 +2799,8 @@
                 "documentation": "Dokumentation",
                 "time": "Tid & närvaro",
                 "admin": "Administration"
-            }
+            },
+            "surveys": "Enkäter"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -7294,7 +7295,8 @@
         "subscription": "Prenumeration",
         "switchLanguage": "Byt språk",
         "impersonating": "Inloggad som klient",
-        "stopImpersonation": "Logga ut som klient"
+        "stopImpersonation": "Logga ut som klient",
+        "surveys": "Enkäter"
     },
     "news": {
         "confirmation": {
@@ -9042,7 +9044,8 @@
         "reportTemplates": "Rapportmallar",
         "journalNotes": "Journal notes",
         "pinSidebar": "Fäst sidebar",
-        "unpinSidebar": "Lossa sidebar"
+        "unpinSidebar": "Lossa sidebar",
+        "surveys": "Enkäter"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -11599,6 +11602,136 @@
             "created": "Skapad",
             "updated": "Uppdaterad",
             "deleted": "Raderad"
+        }
+    },
+    "surveys": {
+        "title": "Enkäter",
+        "newSurvey": "Ny enkät",
+        "editSurvey": "Redigera enkät",
+        "results": "Resultat",
+        "newSurveyShort": "Enkäter",
+        "sendToCitizen": "Skicka till medborgare",
+        "fillInternally": "Fyll i internt",
+        "scoreOverTime": "Poäng över tid",
+        "selectCitizen": "Välj medborgare",
+        "selectSurvey": "Välj enkät",
+        "send": "Send",
+        "startFilling": "Börja fylla i",
+        "answers": "Svar",
+        "viewAnswers": "Se svar",
+        "score": "Poäng",
+        "fillingForCitizen": "Udfyldes for",
+        "answerRequired": "Udfyld venligst alle obligatoriske spørgsmål",
+        "table": {
+            "title": "Titel",
+            "description": "Beskrivelse",
+            "survey": "Enkät",
+            "citizen": "Medborgare",
+            "status": "Status",
+            "source": "Källa",
+            "sent": "Skickad",
+            "completed": "Ifylld",
+            "score": "Poäng",
+            "edit": "Redigér",
+            "delete": "Slet"
+        },
+        "status": {
+            "completed": "Ifylld",
+            "pending": "Väntar på medborgare"
+        },
+        "source": {
+            "internal": "Ifylld internt",
+            "citizen": "Ifylld av medborgare"
+        },
+        "empty": {
+            "title": "Ingen besvarelser endnu",
+            "text": "Send skemaet til en borger, eller udfyld det internt sammen med borgeren. Udfyldte besvarelser vises her med score og fortolkning."
+        },
+        "confirmation": {
+            "deleteSurvey": "Er du sikker på, at du vil slette dette spørgeskema",
+            "deleteAssignment": "Er du sikker på, at du vil slette denne besvarelse"
+        },
+        "alert": {
+            "created": "Spørgeskema oprettet",
+            "updated": "Spørgeskema opdateret",
+            "deleted": "Spørgeskema slettet",
+            "sent": "Spørgeskema sendt til borgeren",
+            "assignmentDeleted": "Besvarelse slettet",
+            "responseSaved": "Besvarelse gemt"
+        },
+        "editWarning": {
+            "hasResponses": "Dette spørgeskema har {count} besvarelse(r). Ændringer i spørgsmål eller svarmuligheder kan ændre betydningen af eksisterende svar og scores",
+            "confirmUpdate": "Dette spørgeskema har {count} besvarelse(r). Er du sikker på, at du vil gemme ændringerne"
+        },
+        "builder": {
+            "title": "Titel",
+            "titlePlaceholder": "Spørgeskemaets titel",
+            "description": "Introduktion",
+            "descriptionPlaceholder": "Vises til borgeren før spørgsmålene",
+            "question": "Spørgsmål",
+            "questionPlaceholder": "Skriv dit spørgsmål her",
+            "option": "Svarmulighed",
+            "addOption": "Tilføj svarmulighed",
+            "score": "Poäng",
+            "levels": "Trin",
+            "required": "Obligatorisk",
+            "answerPreview": "Svar",
+            "getStarted": "Kom i gang med et spørgsmål",
+            "addQuestion": "Tilføj nyt spørgsmål",
+            "templates": "Standardenkäter",
+            "orBuildYourOwn": "Eller byg dit eget",
+            "scoreRanges": {
+                "title": "Poängtolkning",
+                "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",
+                "from": "Fra",
+                "to": "Til",
+                "label": "Fortolkning",
+                "addRange": "Tilføj interval"
+            },
+            "types": {
+                "textfield": "Tekst",
+                "textarea": "Tekstområde",
+                "datefield": "Dato",
+                "choice": "Enkeltvalg",
+                "checkbox": "Flervalg",
+                "rating": "Betyg"
+            }
+        },
+        "citizen": {
+            "mySurveys": "Mina enkäter",
+            "pending": "Venter på dig",
+            "completed": "Udfyldt",
+            "noPending": "Ingen spørgeskemaer venter på dig",
+            "received": "Modtaget",
+            "fillOut": "Udfyld",
+            "completedAt": "Udfyldt",
+            "returned": "Returnerad",
+            "return": "Returnera enkät",
+            "alreadyCompleted": "Dette spørgeskema er allerede returneret"
+        },
+        "fill": {
+            "enterAnswer": "Skriv ditt svar"
+        }
+    },
+    "appTours": {
+        "getStarted": "Kom i gang",
+        "surveys": {
+            "step1": {
+                "title": "Byg dit spørgeskema her",
+                "text": "Knappen Nyt spørgeskema åbner byggeren - eller kom i gang på ét minut med et færdigt instrument som GAD-7, PHQ-9 eller WHO-5, komplet med point og score-fortolkning."
+            },
+            "step2": {
+                "title": "Send og se resultater her",
+                "text": "Knappen Resultater på hvert skema åbner afsendelse og resultater: send det til en borger, eller udfyld det internt under en konsultation."
+            },
+            "step3": {
+                "title": "Alt samlet på borgeren",
+                "text": "Under Borgere har hver borger en Spørgeskemaer-fane med alle besvarelser: score, fortolkning og en graf over udviklingen over tid."
+            },
+            "step4": {
+                "title": "Få besked heroppe",
+                "text": "Notifikationsklokken giver dig besked, i samme øjeblik en borger returnerer et skema - ét klik sender dig direkte til resultatet."
+            }
         }
     }
 }

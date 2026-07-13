@@ -2799,7 +2799,8 @@
                 "documentation": "Documentation",
                 "time": "Time & attendance",
                 "admin": "Administration"
-            }
+            },
+            "surveys": "Surveys"
         },
         "timeline": {
             "newEvent": "New event",
@@ -7294,7 +7295,8 @@
         "subscription": "Subscription",
         "switchLanguage": "Switch language",
         "impersonating": "Logged in as client",
-        "stopImpersonation": "Log out as client"
+        "stopImpersonation": "Log out as client",
+        "surveys": "Surveys"
     },
     "news": {
         "confirmation": {
@@ -9042,7 +9044,8 @@
         "reportTemplates": "Report templates",
         "journalNotes": "Journal notes",
         "pinSidebar": "Pin sidebar",
-        "unpinSidebar": "Unpin sidebar"
+        "unpinSidebar": "Unpin sidebar",
+        "surveys": "Surveys"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -11599,6 +11602,136 @@
             "created": "Created",
             "updated": "Updated",
             "deleted": "Deleted"
+        }
+    },
+    "surveys": {
+        "title": "Surveys",
+        "newSurvey": "New survey",
+        "editSurvey": "Edit survey",
+        "results": "Results",
+        "newSurveyShort": "Surveys",
+        "sendToCitizen": "Send to citizen",
+        "fillInternally": "Fill out internally",
+        "scoreOverTime": "Score over time",
+        "selectCitizen": "Select citizen",
+        "selectSurvey": "Select survey",
+        "send": "Send",
+        "startFilling": "Start filling out",
+        "answers": "Answers",
+        "viewAnswers": "View answers",
+        "score": "Score",
+        "fillingForCitizen": "Filling out for",
+        "answerRequired": "Please answer all required questions",
+        "table": {
+            "title": "Title",
+            "description": "Description",
+            "survey": "Survey",
+            "citizen": "Citizen",
+            "status": "Status",
+            "source": "Source",
+            "sent": "Sent",
+            "completed": "Completed",
+            "score": "Score",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "status": {
+            "completed": "Completed",
+            "pending": "Awaiting citizen"
+        },
+        "source": {
+            "internal": "Filled out internally",
+            "citizen": "Filled out by citizen"
+        },
+        "empty": {
+            "title": "No responses yet",
+            "text": "Send the survey to a citizen, or fill it out internally together with the citizen. Completed responses appear here with score and interpretation."
+        },
+        "confirmation": {
+            "deleteSurvey": "Are you sure you want to delete this survey",
+            "deleteAssignment": "Are you sure you want to delete this response"
+        },
+        "alert": {
+            "created": "Survey created",
+            "updated": "Survey updated",
+            "deleted": "Survey deleted",
+            "sent": "Survey sent to citizen",
+            "assignmentDeleted": "Response deleted",
+            "responseSaved": "Response saved"
+        },
+        "editWarning": {
+            "hasResponses": "This survey has {count} response(s). Changing questions or options can alter the meaning of existing answers and scores",
+            "confirmUpdate": "This survey has {count} response(s). Are you sure you want to save changes"
+        },
+        "builder": {
+            "title": "Title",
+            "titlePlaceholder": "Survey title",
+            "description": "Introduction",
+            "descriptionPlaceholder": "Shown to the citizen before the questions",
+            "question": "Question",
+            "questionPlaceholder": "Enter your question here",
+            "option": "Option",
+            "addOption": "Add option",
+            "score": "Score",
+            "levels": "Levels",
+            "required": "Required",
+            "answerPreview": "Answer",
+            "getStarted": "Get started with a question",
+            "addQuestion": "Add new question",
+            "templates": "Standard surveys",
+            "orBuildYourOwn": "Or build your own",
+            "scoreRanges": {
+                "title": "Score interpretation",
+                "subtitle": "Give score intervals a label, e.g. 0-4 Minimal anxiety. Shown with the result.",
+                "from": "From",
+                "to": "To",
+                "label": "Interpretation",
+                "addRange": "Add interval"
+            },
+            "types": {
+                "textfield": "Text",
+                "textarea": "Text area",
+                "datefield": "Date",
+                "choice": "Single choice",
+                "checkbox": "Multiple choice",
+                "rating": "Rating"
+            }
+        },
+        "citizen": {
+            "mySurveys": "My surveys",
+            "pending": "Waiting for you",
+            "completed": "Completed",
+            "noPending": "No surveys are waiting for you",
+            "received": "Received",
+            "fillOut": "Fill out",
+            "completedAt": "Completed",
+            "returned": "Returned",
+            "return": "Return survey",
+            "alreadyCompleted": "This survey has already been returned"
+        },
+        "fill": {
+            "enterAnswer": "Enter your answer"
+        }
+    },
+    "appTours": {
+        "getStarted": "Get started",
+        "surveys": {
+            "step1": {
+                "title": "Build your survey here",
+                "text": "The New survey button opens the builder - or start in one minute with a ready-made instrument like GAD-7, PHQ-9 or WHO-5, complete with points and score interpretation."
+            },
+            "step2": {
+                "title": "Send and see results here",
+                "text": "The Results button on each survey opens sending and results: send it to a citizen or fill it out internally during a consultation."
+            },
+            "step3": {
+                "title": "Everything gathered on the citizen",
+                "text": "Under Citizens, every citizen has a Surveys tab with all responses: score, interpretation and a graph of the development over time."
+            },
+            "step4": {
+                "title": "Get notified up here",
+                "text": "The notification bell tells you the moment a citizen returns a survey - one click takes you straight to the result."
+            }
         }
     }
 }

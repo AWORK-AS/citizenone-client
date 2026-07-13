@@ -5,6 +5,10 @@ class AppService extends BaseAPIService {
         return await this.request(`/user/apps`, 'GET', params)
     }
 
+    async getApp(appUuid: any): Promise<any> {
+        return await this.request(`/user/apps/${appUuid}`, 'GET')
+    }
+
     async activateApp(appUuid: object, params: object): Promise<any> {
         return await this.request(`/user/apps/${appUuid}/purchase`, 'POST', params)
     }
