@@ -8866,7 +8866,8 @@
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
-            "economic": "e-conomic"
+            "economic": "e-conomic",
+            "customLinks": "Custom links"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -11599,6 +11600,40 @@
             "created": "Created",
             "updated": "Updated",
             "deleted": "Deleted"
+        }
+    },
+    "customSidebarLinks": {
+        "title": "Custom links",
+        "addNew": "Add custom link",
+        "edit": "Edit custom link",
+        "deleteConfirmation": "Delete this link",
+        "form": {
+            "label": "Label",
+            "labelPlaceholder": "e.g. Intranet",
+            "url": "URL",
+            "visibility": "Visibility",
+            "icon": "Icon",
+            "iconHint": "Optional Iconify name, e.g. ph:link",
+            "sortOrder": "Sort order"
+        },
+        "visibility": {
+            "both": "Everyone",
+            "admin": "Admins only",
+            "user": "Users only"
+        },
+        "table": {
+            "label": "Label",
+            "url": "URL",
+            "visibility": "Visibility",
+            "actions": {
+                "edit": "Edit",
+                "delete": "Delete"
+            }
+        },
+        "alert": {
+            "saved": "Custom link saved",
+            "updated": "Custom link updated",
+            "deleted": "Custom link deleted"
         }
     }
 }

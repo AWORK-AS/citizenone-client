@@ -8866,7 +8866,8 @@
             "gdprRetention": "GDPR Oppbevaring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
-            "economic": "e-conomic"
+            "economic": "e-conomic",
+            "customLinks": "Egne lenker"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -11599,6 +11600,40 @@
             "created": "Opprettet",
             "updated": "Oppdatert",
             "deleted": "Slettet"
+        }
+    },
+    "customSidebarLinks": {
+        "title": "Egne lenker",
+        "addNew": "Legg til egen lenke",
+        "edit": "Rediger egen lenke",
+        "deleteConfirmation": "Slett denne lenken",
+        "form": {
+            "label": "Etikett",
+            "labelPlaceholder": "f.eks. Intranett",
+            "url": "URL",
+            "visibility": "Synlighet",
+            "icon": "Ikon",
+            "iconHint": "Valgfritt Iconify-navn, f.eks. ph:link",
+            "sortOrder": "Sorteringsrekkefølge"
+        },
+        "visibility": {
+            "both": "Alle",
+            "admin": "Kun administratorer",
+            "user": "Kun brukere"
+        },
+        "table": {
+            "label": "Etikett",
+            "url": "URL",
+            "visibility": "Synlighet",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slett"
+            }
+        },
+        "alert": {
+            "saved": "Egen lenke lagret",
+            "updated": "Egen lenke oppdatert",
+            "deleted": "Egen lenke slettet"
         }
     }
 }
