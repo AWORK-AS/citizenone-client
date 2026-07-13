@@ -1350,7 +1350,7 @@
             "newCaseWorker": "Ny handläggare"
         },
         "citizenJournals": {
-            "aiUsed": "CitizenOne AI blev brugt",
+            "aiUsed": "CitizenOne AI användes",
             "actions": {
                 "addToFavorite": "Föj till favoriter",
                 "copy": "Kopiér",
