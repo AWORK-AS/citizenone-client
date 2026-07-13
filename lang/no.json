@@ -8728,6 +8728,7 @@
                 "phone": "Telefon",
                 "postCode": "Postnummer",
                 "quickRiskAssessment": "Rask risikovurdering",
+                "receiveVacantShiftNotificationsRegardless": "Motta varsler om ledige vakter, uansett mine andre varslingsinnstillinger",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
                 "sundayShiftCalculation": "Aktiver søndagsvagtberegning",

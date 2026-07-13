@@ -8728,6 +8728,7 @@
                 "phone": "Telefon",
                 "postCode": "Postnummer",
                 "quickRiskAssessment": "Snabb riskbedömning",
+                "receiveVacantShiftNotificationsRegardless": "Ta emot aviseringar om lediga pass, oavsett mina andra aviseringsinställningar",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
                 "sundayShiftCalculation": "Aktivera söndagsvagtberegning",
