@@ -613,6 +613,7 @@
             "calendarEventNotFound": "Calendar event not found"
         },
         "jobTitleRequired": "Job title is required",
+        "noPreviousStatusFound": "No previous status found",
         "required": "Required",
         "resetPassword": {
             "confirmPasswordNotTheSame": "Confirm password is not the same as new password",
@@ -1985,6 +1986,7 @@
                 "editStatus": "Edit status",
                 "form": {
                     "currentLevel": "Current level",
+                    "getFromPreviousStatus": "Get data from previous status",
                     "status": "Status",
                     "title": "Title"
                 },
@@ -2606,6 +2608,7 @@
                         "verySubstantialChallenges": "Very substantial challenges"
                     },
                     "date": "Date",
+                    "getFromPreviousStatus": "Get data from previous status",
                     "status": "Status",
                     "problemStatus": "Status selection"
                 },
@@ -2959,6 +2962,7 @@
                         "verySubstantialChallenges": "Very substantial challenges"
                     },
                     "date": "Date",
+                    "getFromPreviousStatus": "Get data from previous status",
                     "status": "Status"
                 },
                 "newStatus": "New status",
@@ -3074,6 +3078,7 @@
                 "editStatus": "Edit status",
                 "form": {
                     "currentLevel": "Current level",
+                    "getFromPreviousStatus": "Get data from previous status",
                     "status": "Status",
                     "title": "Title"
                 },
@@ -7856,6 +7861,7 @@
                 "verySubstantialChallenges": "Very substantial challenges"
             },
             "form": "Form",
+            "getFromPreviousStatus": "Get data from previous status",
             "goalCompletionDate": "Goal completion date",
             "goalName": "Goal name",
             "notes": "Notes",

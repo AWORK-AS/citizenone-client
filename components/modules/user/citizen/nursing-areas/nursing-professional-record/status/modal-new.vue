@@ -8,7 +8,7 @@
                     <ModulesUserCitizenNursingAreasNursingProfessionalRecordStatusForm formType="create"
                         :selectedStatus="state.formStatus" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveStatus" />
+                        @submitForm="saveStatus" @fetchPreviousStatus="fetchPreviousStatus" />
                 </LoadingSpinner>
             </template>
             <template #modal-right>
@@ -48,11 +48,13 @@
 import { statusService } from '@/components/api/user/StatusService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
+import { useStatusPrefill } from '@/composables/statusPrefill'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { fetchLastStatusFields } = useStatusPrefill()
 const { t } = useI18n()
 
 const props = defineProps({
@@ -100,6 +102,17 @@ const hasAnyAreaContent = computed(() =>
         props.selectedRecord?.[area.field] || props.selectedRecord?.[area.field + '_note']
     )
 )
+
+async function fetchPreviousStatus() {
+    state.isPageLoading = true
+    const prefill = await fetchLastStatusFields(props.selectedRecord?.uuid, ['date', 'area_type', 'problem_status', 'score', 'status'])
+    if (prefill) {
+        state.formStatus = { ...state.formStatus, ...prefill }
+    } else {
+        warningAlert(t('alert.warning'), t('alert.noPreviousStatusFound'))
+    }
+    state.isPageLoading = false
+}
 
 function closeModal() {
     emit('close')
