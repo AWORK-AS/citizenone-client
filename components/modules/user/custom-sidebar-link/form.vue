@@ -21,19 +21,34 @@
                 <FormSelect id="visibility" :options="visibilityOptions" v-model="state.formLink.visibility" />
                 <FormError :error="props?.error?.errors?.visibility?.[0]" />
             </div>
-            <div class="grid md:grid-cols-2 gap-x-3">
-                <div class="space-y-1">
-                    <FormLabel for="icon" :label="$t('customSidebarLinks.form.icon')" />
-                    <FormTextField id="icon" name="icon" placeholder="ph:link" v-model="state.formLink.icon" />
-                    <p class="text-xxs text-gray-500">{{ $t('customSidebarLinks.form.iconHint') }}</p>
-                    <FormError :error="props?.error?.errors?.icon?.[0]" />
+            <div class="space-y-1">
+                <FormLabel for="icon" :label="$t('customSidebarLinks.form.icon')" />
+                <div class="grid grid-cols-6 sm:grid-cols-9 gap-2">
+                    <button v-for="ic in iconOptions" :key="ic" type="button"
+                        :aria-label="ic" :aria-pressed="state.formLink.icon === ic"
+                        @click="state.formLink.icon = ic"
+                        :class="['flex items-center justify-center rounded-lg border p-2 transition-colors',
+                            state.formLink.icon === ic
+                                ? 'border-primary bg-primary-25 text-primary ring-1 ring-primary'
+                                : 'border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700']">
+                        <Icon :name="ic" class="size-5" />
+                    </button>
                 </div>
-                <div class="space-y-1">
-                    <FormLabel for="sort_order" :label="$t('customSidebarLinks.form.sortOrder')" />
-                    <FormTextField id="sort_order" name="sort_order" type="number" placeholder="0"
-                        v-model="state.formLink.sort_order" />
-                    <FormError :error="props?.error?.errors?.sort_order?.[0]" />
+                <div class="flex items-center gap-2 pt-1">
+                    <FormTextField id="icon" name="icon" placeholder="ph:link" v-model="state.formLink.icon"
+                        class="flex-1" />
+                    <div class="flex size-9 shrink-0 items-center justify-center rounded-lg border border-gray-200 text-gray-500">
+                        <Icon :name="state.formLink.icon || 'ph:link'" class="size-5" />
+                    </div>
                 </div>
+                <p class="text-xxs text-gray-500">{{ $t('customSidebarLinks.form.iconHint') }}</p>
+                <FormError :error="props?.error?.errors?.icon?.[0]" />
+            </div>
+            <div class="space-y-1 max-w-[12rem]">
+                <FormLabel for="sort_order" :label="$t('customSidebarLinks.form.sortOrder')" />
+                <FormTextField id="sort_order" name="sort_order" type="number" placeholder="0"
+                    v-model="state.formLink.sort_order" />
+                <FormError :error="props?.error?.errors?.sort_order?.[0]" />
             </div>
         </div>
         <div class="mt-6">
@@ -73,6 +88,17 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
+
+// Curated Iconify (Phosphor) set for the visual picker; the text field below
+// still accepts any Iconify name for power users.
+const iconOptions = [
+    'ph:link', 'ph:globe', 'ph:house', 'ph:folder', 'ph:file-text', 'ph:calendar-blank',
+    'ph:book-open', 'ph:chat-circle', 'ph:phone', 'ph:envelope', 'ph:users-three', 'ph:briefcase',
+    'ph:chart-bar', 'ph:gear', 'ph:wrench', 'ph:database', 'ph:cloud', 'ph:lock',
+    'ph:heart', 'ph:star', 'ph:bookmark-simple', 'ph:map-pin', 'ph:first-aid', 'ph:pill',
+    'ph:graduation-cap', 'ph:megaphone', 'ph:info', 'ph:lightbulb', 'ph:shopping-cart', 'ph:credit-card',
+    'ph:clipboard-text', 'ph:shield-check', 'ph:handshake', 'ph:currency-circle-dollar', 'ph:list-checks', 'ph:paperclip',
+]
 
 const visibilityOptions = computed(() => [
     { value: 'both', label: t('customSidebarLinks.visibility.both') },
