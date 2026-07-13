@@ -2764,6 +2764,8 @@
             "actions": {
                 "checkIn": "Sjekk inn",
                 "checkOut": "Sjekk ut",
+                "pin": "Fest borger",
+                "unpin": "Fjern festing",
                 "edit": "Rediger",
                 "latestJournalEntry": "Seneste journalnotat",
                 "latestRiskAssessment": "Seneste risikovurdering",

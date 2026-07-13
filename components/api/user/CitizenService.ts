@@ -84,6 +84,18 @@ class CitizenService extends BaseAPIService {
     async getDevelopmentGraph(citizenUuid: string, params?: any): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/development-graph`, 'GET', params)
     }
+
+    async getPinnedCitizens(): Promise<any> {
+        return await this.request(`/user/citizen-pins`, 'GET')
+    }
+
+    async pinCitizen(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/citizen-pins`, 'POST', { citizen_uuid: citizenUuid })
+    }
+
+    async unpinCitizen(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/citizen-pins/${citizenUuid}`, 'DELETE')
+    }
 }
 
 

@@ -2764,6 +2764,8 @@
             "actions": {
                 "checkIn": "Checka in",
                 "checkOut": "Checka ut",
+                "pin": "Fäst medborgare",
+                "unpin": "Ta bort fästning",
                 "edit": "Redigera",
                 "latestJournalEntry": "Seneste journalnotat",
                 "latestRiskAssessment": "Seneste riskbedömning",

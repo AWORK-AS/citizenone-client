@@ -2764,6 +2764,8 @@
             "actions": {
                 "checkIn": "Check in",
                 "checkOut": "Check out",
+                "pin": "Pin citizen",
+                "unpin": "Unpin citizen",
                 "edit": "Edit",
                 "latestJournalEntry": "Latest journal entry",
                 "latestRiskAssessment": "Latest risk assessment",
