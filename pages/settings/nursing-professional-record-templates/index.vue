@@ -23,7 +23,8 @@
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action"
-                        @click="navigateTo('/settings/nursing-professional-record-templates/new')">
+                        @click="navigateTo('/settings/nursing-professional-record-templates/new')"
+                        v-if="isAtLeast('Admin') || can('manage_nursing_professional_record_templates')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('nursingProfessionalRecordTemplates.newTemplate') }}
                     </FormButton>
@@ -55,12 +56,14 @@
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
-                                                @click="navigateTo(`/settings/nursing-professional-record-templates/${template.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/nursing-professional-record-templates/${template.uuid}/edit`)"
+                                                v-if="isAtLeast('Admin') || can('manage_nursing_professional_record_templates')">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('nursingProfessionalRecordTemplates.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger"
-                                                @click="deleteTemplateConfirmation(template)">
+                                                @click="deleteTemplateConfirmation(template)"
+                                                v-if="isAtLeast('Admin') || can('manage_nursing_professional_record_templates')">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('nursingProfessionalRecordTemplates.table.actions.delete') }}
                                             </FormButton>
@@ -84,10 +87,12 @@
 import { nursingProfessionalRecordTemplateService } from '@/components/api/user/NursingProfessionalRecordTemplateService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
+const { isAtLeast, can } = usePermissions()
 const { t } = useI18n()
 let currentTablePage = 1
 

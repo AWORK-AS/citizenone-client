@@ -392,6 +392,11 @@
                                 <p>
                                     {{ $t('settings.company.form.quickRiskAssessment') }}
                                 </p>
+                                <NuxtLink to="/citizens/journal-form-config"
+                                    class="text-xs text-tertiary hover:text-tertiary-800"
+                                    v-if="isAtLeast('Admin') || can('update_form_field_config')">
+                                    ({{ $t('journalFormConfig.navLabel') }})
+                                </NuxtLink>
                             </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.register_transport_enabled"
@@ -520,7 +525,7 @@ const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 
 // --- Company modules (admin enable/disable whole modules) ---
 const moduleState = reactive<{ pages: any[]; enabled: string[] }>({ pages: [], enabled: [] })

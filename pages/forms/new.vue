@@ -68,6 +68,8 @@ async function saveForm(formDetails: any) {
             fields: formDetails.fields,
             is_follow_up_enabled: formDetails.is_follow_up_enabled,
             follow_up_duration: formDetails.follow_up_duration,
+            show_citizen_profile_data: formDetails.show_citizen_profile_data,
+            citizen_profile_fields: formDetails.citizen_profile_fields,
             is_active: true,
         }
         const response = await formService.saveForm(params)

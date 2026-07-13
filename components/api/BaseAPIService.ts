@@ -28,9 +28,7 @@ class BaseAPIService {
                     Accept: 'application/json',
                 },
                 signal,
-                async onRequest({ request, options }: { request: any, options: any }) {
-                    options.params = params
-                },
+                params,
             }
         } else {
             config = {

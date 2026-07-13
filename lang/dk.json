@@ -770,7 +770,16 @@
         "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB",
         "generatingResponse": "Genererer svar. Vent venligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjælpe dig i dag",
-        "send": "Send"
+        "send": "Send",
+        "history": {
+            "newChat": "Ny chat",
+            "viewHistory": "Se historik",
+            "backToChat": "Tilbage til chat",
+            "noConversations": "Ingen samtaler endnu",
+            "untitled": "Unavngiven samtale",
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne samtale? Dette kan ikke fortrydes.",
+            "searchPlaceholder": "Søg i samtaler..."
+        }
     },
     "back": "Tilbage",
     "bellNotification": {
@@ -1162,7 +1171,14 @@
             "halfYearView": "Halvår",
             "monthView": "Månedsvisning",
             "weekView": "Ugevisning",
-            "yearView": "Årsvisning"
+            "yearView": "Årsvisning",
+            "day": "Dag",
+            "week": "Uge",
+            "month": "Måned",
+            "now": "Nu",
+            "overdue": "Mangler",
+            "eventsCount": "{count} aftaler",
+            "oneEvent": "1 aftale"
         },
         "week": {
             "oneLetter": {
@@ -1700,6 +1716,31 @@
         },
         "editCitizen": "Rediger Borger",
         "editCitizenForm": "Rediger borgerformular",
+        "editMedicineForm": "Rediger medicinformular",
+        "emails": {
+            "attachments": "Vedhæftede filer",
+            "confirmation": {
+                "untagConfirmation": "Er du sikker på, at du vil fjerne denne e-mail fra borgerens profil"
+            },
+            "linkToCitizen": "Tilknyt til borger",
+            "linkedSuccessfully": "E-mail tilknyttet borger",
+            "noEmailsFound": "Ingen e-mails fundet",
+            "roles": {
+                "admin": "Admin",
+                "manager": "Manager",
+                "user": "Bruger"
+            },
+            "saveAttachmentsToDocuments": "Gem også vedhæftede filer i Dokumenter",
+            "savePdfToDocuments": "Gem også som PDF i Dokumenter",
+            "selectCitizen": "Vælg borger",
+            "selectVisibility": "Hvem kan se denne e-mail",
+            "table": {
+                "date": "Dato",
+                "from": "Fra",
+                "subject": "Emne",
+                "visibleTo": "Synlig for"
+            }
+        },
         "employeeGroups": {
             "alert": {
                 "groupSuccessfullyAssigned": "Medarbejdergruppe tildelt med succes",
@@ -2743,6 +2784,7 @@
             "contacts": "Kontakter",
             "documents": "Dokumenter",
             "economy": "Økonomi",
+            "emails": "E-mails",
             "employeeGroups": "Medarbejdergrupper",
             "employmentCases": "Beskæftigelsessager",
             "health": "Sundhed",
@@ -3859,6 +3901,12 @@
                     "type": "Type"
                 }
             }
+        },
+        "favorites": {
+            "addToFavorites": "Tilføj til favoritter",
+            "removeFromFavorites": "Fjern fra favoritter",
+            "manageFavorites": "Administrer favoritter",
+            "noFavoritesYet": "Du har ikke tilføjet nogen kolleger til favoritter endnu"
         },
         "filter": {
             "dateTimeEnd": "Dato og tid slut",
@@ -6188,6 +6236,8 @@
             "trafficLights": "Trafiklys",
             "transportation": "Transport"
         },
+        "medicineSubtitle": "Konfigurer hvilke felter der er synlige i medicinens oprettelses- og redigeringsformularer.",
+        "medicineTitle": "Formularfeltkonfiguration for medicin",
         "subtitle": "Konfigurer hvilke felter der er synlige i borgerens oprettelses- og redigeringsformularer.",
         "title": "Formularfeltkonfiguration"
     },
@@ -6199,6 +6249,15 @@
             "formSuccessfullyUpdated": "Formular opdateret med succes",
             "responseSuccessfullySaved": "Svar gemt med succes"
         },
+        "citizenProfileFields": {
+            "citizenBirthday": "Fødselsdato",
+            "citizenCpr": "CPR-nummer",
+            "citizenEmail": "E-mail",
+            "citizenName": "Borgerens navn",
+            "citizenPhone": "Telefon",
+            "payingMunicipality": "Betalingskommune",
+            "primaryCaseWorker": "Sagsbehandler"
+        },
         "confirmation": {
             "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular"
         },
@@ -6207,6 +6266,15 @@
         "editForm": "Rediger formular",
         "enableFollowUp": "Aktiver opfølgning",
         "fields": {
+            "autoFill": {
+                "label": "Automatisk udfyldning fra borgerdata",
+                "none": "Ingen",
+                "citizenName": "Borgerens navn",
+                "citizenCpr": "Borgerens CPR-nummer",
+                "citizenBirthday": "Borgerens fødselsdag",
+                "citizenAdmissionDate": "Borgerens indflytningsdato",
+                "citizenDischargeDate": "Borgerens udflytningsdato"
+            },
             "checkbox": "Afkrydsningsfelt",
             "choice": "Valg",
             "date": "Dato",
@@ -6236,6 +6304,7 @@
                 "responses": "Svar"
             }
         },
+        "showCitizenProfileData": "Vis borgerens profildata ved rapportgenerering",
         "table": {
             "actions": {
                 "createResponse": "Opret svar",
@@ -6659,6 +6728,16 @@
                 "delete": "Slet"
             }
         }
+    },
+    "journalFormConfig": {
+        "alert": {
+            "successfullyUpdated": "Journalformular konfiguration blev opdateret"
+        },
+        "navLabel": "Rediger journalformular",
+        "riskAssessmentDescription": "Når den er slået fra, vil risikovurderingssektionen (vurderingsniveau, note, tags og målforbindelse) blive skjult i journalens opret- og redigeringsformularer for alle brugere.",
+        "riskAssessmentToggle": "Vis risikovurderingssektion i journalformular",
+        "subtitle": "Konfigurer om risikovurderingssektionen er synlig i borgerens journal opret- og redigeringsformularer.",
+        "title": "Journalformular konfiguration"
     },
     "journalNotes": {
         "title": "Journalnotater",
@@ -7993,6 +8072,7 @@
         },
         "form": {
             "agreementType": "Sagstype",
+            "availablePlaceholders": "Tilgængelige pladsholdere",
             "body": "Indhold",
             "isActive": "Aktiv",
             "name": "Navn"
@@ -10953,7 +11033,14 @@
         "synced": "Synkroniseret",
         "syncReminderTitle": "Synkroniser din AI med virksomhedens AI, inden du chatter.",
         "syncing": "Synkroniserer...",
-        "title": "Din ChatGPT Integration"
+        "title": "Din ChatGPT Integration",
+        "history": {
+            "newChat": "Ny chat",
+            "noConversations": "Ingen samtaler endnu",
+            "untitled": "Unavngiven samtale",
+            "deleteConfirmation": "Er du sikker på, at du vil slette denne samtale? Dette kan ikke fortrydes.",
+            "searchPlaceholder": "Søg i samtaler..."
+        }
     },
     "employment": {
         "economy": {

@@ -84,7 +84,18 @@
 
             <div class="grid lg:grid-cols-6 gap-3">
                 <div class="flex items-center gap-x-4 lg:col-span-3">
-                    <button class="flex items-center gap-x-1 text-sm text-primary group"
+                    <div class="inline-flex items-center gap-x-0.5 rounded-lg bg-gray-100 p-0.5">
+                        <button type="button" v-for="opt in viewOptions" :key="opt.value"
+                            @click="selectView(opt.value)" :class="[
+                                state.calendarView === opt.value
+                                    ? 'bg-white text-gray-900 shadow-sm'
+                                    : 'text-gray-500 hover:text-gray-800',
+                                'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
+                            ]">
+                            {{ $t(opt.label) }}
+                        </button>
+                    </div>
+                    <button v-if="state.options.calendarTags.length" class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterCalendarOpen = true">
                         <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
                         <span class="group-hover:text-primary-700">
@@ -130,7 +141,6 @@
                         @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
-                        @createEventForDate="openCreateEventChooser"
                         v-if="state.calendarView === 'default'" />
                     <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                         @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
@@ -148,38 +158,12 @@
             <ModulesUserCitizenCalendarModalFilter :isModalOpen="state.modal.isFilterCalendarOpen"
                 @close="state.modal.isFilterCalendarOpen = false" @setFilter="setFilter" />
             <ModulesUserMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
-                :selectedDate="state.selectedEventDate"
                 @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
-                :selectedDate="state.selectedEventDate"
                 @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen"
-                :selectedDate="state.selectedEventDate"
                 @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
 
-            <Modal size="xs" :title="$t('events.newEvent')" :show="state.modal.isCreateEventChooserOpen"
-                @close="state.modal.isCreateEventChooserOpen = false">
-                <template #modal-body>
-                    <p class="text-sm text-slate-600">{{ $t('events.chooseEventType') }}</p>
-                    <div class="mt-3 space-y-2">
-                        <button type="button" @click="openCreateModal('myself')"
-                            class="flex w-full items-center gap-x-2 rounded-md border border-gray-200 px-3 py-2.5 text-sm hover:bg-gray-50">
-                            <Icon name="ph:user" class="h-5 w-5 text-primary" />
-                            {{ $t('events.myself') }}
-                        </button>
-                        <button type="button" @click="openCreateModal('employee')"
-                            class="flex w-full items-center gap-x-2 rounded-md border border-gray-200 px-3 py-2.5 text-sm hover:bg-gray-50">
-                            <Icon name="ph:users-three" class="h-5 w-5 text-primary" />
-                            {{ $t('events.employees') }}
-                        </button>
-                        <button type="button" @click="openCreateModal('citizen')"
-                            class="flex w-full items-center gap-x-2 rounded-md border border-gray-200 px-3 py-2.5 text-sm hover:bg-gray-50">
-                            <Icon name="heroicons:user-group" class="h-5 w-5 text-primary" />
-                            {{ $t('events.citizens') }}
-                        </button>
-                    </div>
-                </template>
-            </Modal>
             <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
@@ -220,6 +204,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { employeeGroupService } from '~/components/api/user/EmployeeGroupService'
+import { calendarTagService } from '@/components/api/user/CalendarTagService'
 // import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
@@ -264,9 +249,7 @@ const state = reactive({
         isEventJournalPromptOpen: false,
         isCreateEventJournalOpen: false,
         isCompletionStatisticsOpen: false,
-        isCreateEventChooserOpen: false,
     },
-    selectedEventDate: '',
     pendingEventStatus: '' as 'completed' | 'not_completed' | '',
     myCalendarEvents: [] as any,
     selectedDate: {
@@ -310,6 +293,7 @@ const state = reactive({
         citizens: [] as any,
         users: [] as any,
         employeeGroups: [] as any,
+        calendarTags: [] as any,
     }
 })
 
@@ -317,6 +301,7 @@ onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
     fetchAllEmployeeGroups()
+    fetchCalendarTags()
     if (calendarStore.getCalendarView === 'default') {
         state.calendarView = 'default'
         const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
@@ -440,6 +425,17 @@ async function fetchAllEmployeeGroups() {
     state.isPageLoading = false
 }
 
+async function fetchCalendarTags() {
+    try {
+        const response = await calendarTagService.getAllCalendarTags({
+            department: departmentStore.getSelectedDepartmentName,
+        })
+        state.options.calendarTags = response?.data ?? []
+    } catch (error) {
+        state.options.calendarTags = []
+    }
+}
+
 function changeCitizensUuid(citizensUuid: any) {
     if (citizensUuid) {
         state.formCalendar.citizens_uuid = citizensUuid
@@ -474,12 +470,12 @@ async function fetchMyCalendarEvents() {
         const params = {} as any
         params.department = departmentStore.getSelectedDepartmentName
         if (state.selectedDate.start_date && state.selectedDate.end_date) {
-            params.date = state.selectedDate
+            params.date = JSON.stringify(state.selectedDate)
         } else {
-            params.date = {
+            params.date = JSON.stringify({
                 start_date: moment().format('Y-M-D'),
                 end_date: moment().format('Y-M-D'),
-            }
+            })
         }
         if (state.selectedYear) {
             params.year = state.selectedYear
@@ -524,6 +520,29 @@ async function fetchMyCalendarEvents() {
     }
     state.isPageLoading = false
 }
+
+const viewOptions = [
+    { value: 'default', label: 'calendar.view.day' },
+    { value: 'week', label: 'calendar.view.week' },
+    { value: 'month', label: 'calendar.view.month' },
+]
+
+function selectView(viewStyle: any) {
+    if (state.calendarView === viewStyle) return
+    setCalendarView(viewStyle)
+    fetchMyCalendarEvents()
+}
+
+function onViewKey(e: KeyboardEvent) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return
+    const t = e.target as HTMLElement
+    if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return
+    if (e.key === 'd' || e.key === 'D') selectView('default')
+    else if (e.key === 'u' || e.key === 'U' || e.key === 'w' || e.key === 'W') selectView('week')
+    else if (e.key === 'm' || e.key === 'M') selectView('month')
+}
+onMounted(() => window.addEventListener('keydown', onViewKey))
+onUnmounted(() => window.removeEventListener('keydown', onViewKey))
 
 function setCalendarView(viewStyle: any) {
     if (state.calendarView !== viewStyle) {
@@ -641,22 +660,6 @@ function setFilter(filter: any) {
     setCalendarView(filter.selectedView.title)
     state.filter.tags_uuid = filter.tags
     fetchMyCalendarEvents()
-}
-
-function openCreateEventChooser(date: string) {
-    state.selectedEventDate = date
-    state.modal.isCreateEventChooserOpen = true
-}
-
-function openCreateModal(type: 'myself' | 'employee' | 'citizen') {
-    state.modal.isCreateEventChooserOpen = false
-    if (type === 'myself') {
-        state.modal.isAddEventForMyselfOpen = true
-    } else if (type === 'employee') {
-        state.modal.isAddEventForEmployeeOpen = true
-    } else {
-        state.modal.isAddEventForCitizenOpen = true
-    }
 }
 
 // Contribute commands to the global palette (⌘K).

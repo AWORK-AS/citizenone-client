@@ -36,3 +36,4 @@ logs
 .gitignore
 
 .pnpm-store/
+pnpm-workspace.yaml
