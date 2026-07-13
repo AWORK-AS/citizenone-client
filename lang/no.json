@@ -6838,7 +6838,9 @@
             "addOption": "Legg til alternativ",
             "optionPlaceholder": "Skriv inn alternativ",
             "optionsRequired": "Legg til minst ett alternativ",
-            "required": "Required"
+            "required": "Required",
+            "contentTemplate": "Innholdsmal",
+            "contentTemplateHint": "Denne teksten settes automatisk inn i journalnotatet når denne tittelen velges."
         },
         "journalTitles": "Journal titler",
         "newJournalTitle": "Ny journal tittel",

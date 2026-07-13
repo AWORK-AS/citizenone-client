@@ -6838,7 +6838,9 @@
             "addOption": "Tilføj mulighed",
             "optionPlaceholder": "Indtast mulighed",
             "optionsRequired": "Tilføj mindst én mulighed",
-            "required": "Påkrævet"
+            "required": "Påkrævet",
+            "contentTemplate": "Indholdsskabelon",
+            "contentTemplateHint": "Denne tekst indsættes automatisk i journalnotatet, når denne titel vælges."
         },
         "journalTitles": "Journal titler",
         "newJournalTitle": "Ny journal titel",

@@ -6838,7 +6838,9 @@
             "addOption": "Add option",
             "optionPlaceholder": "Enter option",
             "optionsRequired": "Add at least one option",
-            "required": "Required"
+            "required": "Required",
+            "contentTemplate": "Content template",
+            "contentTemplateHint": "This text is inserted into the journal note automatically when this title is selected."
         },
         "journalTitles": "Journal titles",
         "newJournalTitle": "New journal title",
