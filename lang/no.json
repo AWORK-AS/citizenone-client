@@ -1570,16 +1570,23 @@
                 "phone": "Telefonnummer",
                 "postCode": "Postnummer",
                 "region": "Region",
+                "note": "Notat",
+                "notePlaceholder": "Skriv et notat om kontaktpersonen",
                 "relationship": "Forhold",
                 "street": "Gade",
                 "title": "Tittel"
             },
             "newContact": "Ny kontakt",
+            "view": {
+                "noNote": "Ingen notat lagt til ennå.",
+                "title": "Vis kontaktperson"
+            },
             "table": {
                 "action": {
                     "delete": "Slett",
                     "edit": "Rediger",
-                    "sendEmail": "Send e-post"
+                    "sendEmail": "Send e-post",
+                    "view": "Vis"
                 },
                 "address": "Adresse",
                 "allowSystemAccess": "Tillat systemadgang",

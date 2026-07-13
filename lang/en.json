@@ -1570,16 +1570,23 @@
                 "phone": "Phone number",
                 "postCode": "Post Code",
                 "region": "Region",
+                "note": "Note",
+                "notePlaceholder": "Write a note about this contact person",
                 "relationship": "Relationship",
                 "street": "Street",
                 "title": "Title"
             },
             "newContact": "New contact",
+            "view": {
+                "noNote": "No note added yet.",
+                "title": "View contact person"
+            },
             "table": {
                 "action": {
                     "delete": "Delete",
                     "edit": "Edit",
-                    "sendEmail": "Send email"
+                    "sendEmail": "Send email",
+                    "view": "View"
                 },
                 "address": "Address",
                 "allowSystemAccess": "Allow system access",

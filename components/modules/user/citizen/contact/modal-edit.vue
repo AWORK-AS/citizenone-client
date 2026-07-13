@@ -68,6 +68,7 @@ async function updateContact(contactDetails: any) {
                 lastname: contactDetails.lastname,
                 email: contactDetails.email,
                 phone: contactDetails.phone,
+                note: contactDetails.note,
                 street: contactDetails.street,
                 region_uuid: contactDetails.region,
                 municipality_uuid: contactDetails.municipality,
