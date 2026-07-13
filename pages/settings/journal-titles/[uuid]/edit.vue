@@ -56,6 +56,7 @@ const state = reactive({
     error: {} as Error,
     formJournalTitle: {
         title: '',
+        content: '',
         journal_fields: [] as any[],
     },
     isPageLoading: false,
@@ -73,6 +74,7 @@ async function fetchJournalTitle() {
         if (response) {
             state.formJournalTitle = {
                 title: response?.data?.title ?? '',
+                content: response?.data?.content ?? '',
                 journal_fields: response?.data?.journal_fields ?? [],
             }
         }
@@ -88,6 +90,7 @@ async function updateJournalTitle(journalTitleDetails: any) {
     try {
         const params = {
             title: journalTitleDetails.title,
+            content: journalTitleDetails.content ?? '',
             journal_fields: journalTitleDetails.journal_fields ?? [],
         }
         const response = await journalTitleService.updateJournalTitle(journalTitleUuid, params)

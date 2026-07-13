@@ -10,6 +10,14 @@
             <FormError :error="props?.error?.errors?.title?.[0]" />
         </div>
 
+        <div class="mt-6 space-y-1">
+            <FormLabel for="content" :label="$t('journalTitles.form.contentTemplate')" />
+            <p class="text-xs text-gray-500">{{ $t('journalTitles.form.contentTemplateHint') }}</p>
+            <div class="mt-1">
+                <ckeditor :editor="editor" v-model="state.formJournalTitle.content" :config="editorConfig"></ckeditor>
+            </div>
+        </div>
+
         <div class="mt-6 space-y-3">
             <div class="flex items-center justify-between">
                 <FormLabel :label="$t('journalTitles.form.fields')" />
@@ -94,6 +102,7 @@
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -122,10 +131,24 @@ const fieldTypeOptions = [
     { value: 'date', label: t('journalTitles.form.fieldTypeDate') },
 ]
 
+const editor = ref(ClassicEditor)
+const editorConfig = ref({
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+        ],
+    },
+}) as any
+
 const state = reactive({
     error: {} as Error,
     formJournalTitle: {
         title: '',
+        content: '',
         journal_fields: [] as Array<{ uuid: string | null, label: string, field_type: string, options: string[], is_required: boolean }>,
     },
     optionErrors: [] as number[],
@@ -135,6 +158,7 @@ watch(() => props.selectedJournalTitle, (newValue: any) => {
     if (newValue != null) {
         state.formJournalTitle = {
             title: newValue.title,
+            content: newValue.content ?? '',
             journal_fields: (newValue.journal_fields ?? []).map((f: any) => ({
                 uuid: f.uuid ?? null,
                 label: f.label ?? '',
@@ -190,6 +214,7 @@ function submitForm() {
     if (!v$.value.$error && state.optionErrors.length === 0) {
         const payload = {
             title: state.formJournalTitle.title,
+            content: state.formJournalTitle.content,
             journal_fields: state.formJournalTitle.journal_fields.map((f, i) => ({
                 uuid: f.uuid,
                 label: f.label,

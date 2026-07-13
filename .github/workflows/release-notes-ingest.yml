@@ -1,0 +1,42 @@
+# Sends a published GitHub Release to CitizenONE as a DRAFT release note.
+# A superadmin (CTO) must still approve & publish it before customers see it.
+#
+# Required repository secrets:
+#   RELEASE_NOTE_API_URL        e.g. https://api.citizenone.dk   (no trailing slash)
+#   RELEASE_NOTE_INGEST_TOKEN   same value as backend env RELEASE_NOTE_INGEST_TOKEN
+name: Release notes → CitizenONE
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post release note draft
+        env:
+          API_URL: ${{ secrets.RELEASE_NOTE_API_URL }}
+          INGEST_TOKEN: ${{ secrets.RELEASE_NOTE_INGEST_TOKEN }}
+          # Passed via env (not inline ${{ }}) so the release body can't break the shell.
+          RELEASE_TITLE: ${{ github.event.release.name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+        run: |
+          set -euo pipefail
+          if [ -z "${API_URL:-}" ] || [ -z "${INGEST_TOKEN:-}" ]; then
+            echo "Missing RELEASE_NOTE_API_URL or RELEASE_NOTE_INGEST_TOKEN secret." >&2
+            exit 1
+          fi
+          payload=$(jq -n \
+            --arg title "${RELEASE_TITLE:-$RELEASE_TAG}" \
+            --arg version "$RELEASE_TAG" \
+            --arg content "$RELEASE_BODY" \
+            --arg ref "$RELEASE_TAG" \
+            '{title: (if $title == "" then $version else $title end), version: $version, content: $content, external_ref: $ref}')
+          curl -sS -X POST "$API_URL/api/internal/release-notes" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/json" \
+            -H "X-Release-Token: $INGEST_TOKEN" \
+            --fail-with-body \
+            --data "$payload"
