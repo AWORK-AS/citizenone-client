@@ -17,6 +17,13 @@
             <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
 
             <div class="mt-8">
+                <div class="mb-5 flex items-start gap-3 rounded-xl border border-primary-100 bg-primary-25 p-4">
+                    <Icon name="ph:lightbulb" class="size-5 shrink-0 text-primary mt-0.5" aria-hidden="true" />
+                    <div class="text-sm text-gray-600">
+                        <p class="font-semibold text-gray-800">{{ $t('customSidebarLinks.tip.title') }}</p>
+                        <p>{{ $t('customSidebarLinks.tip.body') }}</p>
+                    </div>
+                </div>
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" @click="navigateTo('/settings/custom-links/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />

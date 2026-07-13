@@ -11634,6 +11634,10 @@
             "saved": "Egen länk sparad",
             "updated": "Egen länk uppdaterad",
             "deleted": "Egen länk raderad"
+        },
+        "tip": {
+            "title": "Vad är egna länkar?",
+            "body": "Lägg till genvägar i vänstermenyn - t.ex. ert intranät, en delad enhet, ett bokningssystem eller ett annat externt verktyg teamet använder. Välj om varje länk visas för administratörer, användare eller alla."
         }
     }
 }

@@ -11634,6 +11634,10 @@
             "saved": "Eget link gemt",
             "updated": "Eget link opdateret",
             "deleted": "Eget link slettet"
+        },
+        "tip": {
+            "title": "Hvad er egne links?",
+            "body": "Tilføj genveje til venstre sidebar - fx jeres intranet, et fælles drev, et bookingsystem eller et andet eksternt værktøj teamet bruger. Vælg om hvert link vises for administratorer, brugere eller alle."
         }
     }
 }

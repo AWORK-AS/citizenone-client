@@ -11634,6 +11634,10 @@
             "saved": "Custom link saved",
             "updated": "Custom link updated",
             "deleted": "Custom link deleted"
+        },
+        "tip": {
+            "title": "What are custom links?",
+            "body": "Add shortcuts to the left sidebar - like your intranet, a shared drive, a booking system or any external tool your team uses. Choose whether each link is shown to admins, users or everyone."
         }
     }
 }
