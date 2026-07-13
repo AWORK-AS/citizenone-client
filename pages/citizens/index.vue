@@ -109,6 +109,14 @@
                                         <MenuItem v-slot="{ active }">
                                             <button
                                                 :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
+                                                @click="navigateTo('/children')">
+                                                <Icon name="ph:baby" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                                {{ $t('children.children') }}
+                                            </button>
+                                        </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                            <button
+                                                :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
                                                 @click="state.modal.isSharedJournalsOpen = true">
                                                 <Icon name="ph:share-fat" class="h-4 w-4 text-gray-500"
                                                     aria-hidden="true" />
