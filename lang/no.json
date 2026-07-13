@@ -613,6 +613,7 @@
             "calendarEventNotFound": "Kalenderarrangement ikke funnet"
         },
         "jobTitleRequired": "Jobbtittel er påkrevd",
+        "noPreviousStatusFound": "Ingen tidligere status funnet",
         "required": "Påkrevd",
         "resetPassword": {
             "confirmPasswordNotTheSame": "Bekreft passord er ikke den samme som ny passord",
@@ -1985,6 +1986,7 @@
                 "editStatus": "Rediger status",
                 "form": {
                     "currentLevel": "Nåværende nivå",
+                    "getFromPreviousStatus": "Hent data fra forrige status",
                     "status": "Status",
                     "title": "Tittel"
                 },
@@ -2606,6 +2608,7 @@
                         "verySubstantialChallenges": "Meget store utfordringer"
                     },
                     "date": "Dato",
+                    "getFromPreviousStatus": "Hent data fra forrige status",
                     "status": "Status",
                     "problemStatus": "Statusvalg"
                 },
@@ -2799,7 +2802,8 @@
                 "documentation": "Dokumentasjon",
                 "time": "Tid & oppmøte",
                 "admin": "Administrasjon"
-            }
+            },
+            "surveys": "Spørreskjemaer"
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -2958,6 +2962,7 @@
                         "verySubstantialChallenges": "Meget store utfordringer"
                     },
                     "date": "Dato",
+                    "getFromPreviousStatus": "Hent data fra forrige status",
                     "status": "Status"
                 },
                 "newStatus": "Ny status",
@@ -3073,6 +3078,7 @@
                 "editStatus": "Rediger status",
                 "form": {
                     "currentLevel": "Nåværende nivå",
+                    "getFromPreviousStatus": "Hent data fra forrige status",
                     "status": "Status",
                     "title": "Tittel"
                 },
@@ -6837,7 +6843,9 @@
             "addOption": "Legg til alternativ",
             "optionPlaceholder": "Skriv inn alternativ",
             "optionsRequired": "Legg til minst ett alternativ",
-            "required": "Required"
+            "required": "Required",
+            "contentTemplate": "Innholdsmal",
+            "contentTemplateHint": "Denne teksten settes automatisk inn i journalnotatet når denne tittelen velges."
         },
         "journalTitles": "Journal titler",
         "newJournalTitle": "Ny journal tittel",
@@ -7294,7 +7302,8 @@
         "subscription": "Abonnement",
         "switchLanguage": "Bytt språk",
         "impersonating": "Innlogget som klient",
-        "stopImpersonation": "Logg ut som klient"
+        "stopImpersonation": "Logg ut som klient",
+        "surveys": "Spørreskjemaer"
     },
     "news": {
         "confirmation": {
@@ -7852,6 +7861,7 @@
                 "verySubstantialChallenges": "Meget store utfordringer"
             },
             "form": "Skjema",
+            "getFromPreviousStatus": "Hent data fra forrige status",
             "goalCompletionDate": "Mål avslutningsdato",
             "goalName": "Målnavn",
             "notes": "Noter",
@@ -9042,7 +9052,8 @@
         "reportTemplates": "Rapportmaler",
         "journalNotes": "Journal notes",
         "pinSidebar": "Fest sidefelt",
-        "unpinSidebar": "Løsne sidefelt"
+        "unpinSidebar": "Løsne sidefelt",
+        "surveys": "Spørreskjemaer"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -10853,7 +10864,9 @@
         "newUpdates": "Nye oppdateringer",
         "newUpdatesFrom": "Nye oppdateringer fra",
         "showUpdate": "Vis oppdatering",
-        "updates": "Oppdateringer"
+        "updates": "Oppdateringer",
+        "noUpdates": "Ingen oppdateringer ennå.",
+        "tagline": "Se hva som er nytt i CitizenONE"
     },
     "validation": {
         "invalidNumber": "Ugyldig nummer",
@@ -11600,5 +11613,153 @@
             "updated": "Oppdatert",
             "deleted": "Slettet"
         }
+    },
+    "surveys": {
+        "title": "Spørreskjemaer",
+        "newSurvey": "Nytt spørreskjema",
+        "editSurvey": "Rediger spørreskjema",
+        "results": "Resultater",
+        "newSurveyShort": "Spørreskjemaer",
+        "sendToCitizen": "Send til innbygger",
+        "fillInternally": "Fyll ut internt",
+        "scoreOverTime": "Score over tid",
+        "selectCitizen": "Velg innbygger",
+        "selectSurvey": "Velg spørreskjema",
+        "send": "Send",
+        "startFilling": "Start udfyldelse",
+        "answers": "Svar",
+        "viewAnswers": "Se svar",
+        "score": "Score",
+        "fillingForCitizen": "Udfyldes for",
+        "answerRequired": "Udfyld venligst alle obligatoriske spørgsmål",
+        "table": {
+            "title": "Titel",
+            "description": "Beskrivelse",
+            "survey": "Spørgeskema",
+            "citizen": "Innbygger",
+            "status": "Status",
+            "source": "Kilde",
+            "sent": "Sendt",
+            "completed": "Udfyldt",
+            "score": "Score",
+            "edit": "Redigér",
+            "delete": "Slet"
+        },
+        "status": {
+            "completed": "Udfyldt",
+            "pending": "Venter på innbygger"
+        },
+        "source": {
+            "internal": "Udfyldt internt",
+            "citizen": "Utfylt av innbygger"
+        },
+        "empty": {
+            "title": "Ingen besvarelser endnu",
+            "text": "Send skemaet til en borger, eller udfyld det internt sammen med borgeren. Udfyldte besvarelser vises her med score og fortolkning."
+        },
+        "confirmation": {
+            "deleteSurvey": "Er du sikker på, at du vil slette dette spørgeskema",
+            "deleteAssignment": "Er du sikker på, at du vil slette denne besvarelse"
+        },
+        "alert": {
+            "created": "Spørgeskema oprettet",
+            "updated": "Spørgeskema opdateret",
+            "deleted": "Spørgeskema slettet",
+            "sent": "Spørgeskema sendt til borgeren",
+            "assignmentDeleted": "Besvarelse slettet",
+            "responseSaved": "Besvarelse gemt"
+        },
+        "editWarning": {
+            "hasResponses": "Dette spørgeskema har {count} besvarelse(r). Ændringer i spørgsmål eller svarmuligheder kan ændre betydningen af eksisterende svar og scores",
+            "confirmUpdate": "Dette spørgeskema har {count} besvarelse(r). Er du sikker på, at du vil gemme ændringerne"
+        },
+        "builder": {
+            "title": "Titel",
+            "titlePlaceholder": "Spørgeskemaets titel",
+            "description": "Introduktion",
+            "descriptionPlaceholder": "Vises til borgeren før spørgsmålene",
+            "question": "Spørgsmål",
+            "questionPlaceholder": "Skriv dit spørgsmål her",
+            "option": "Svarmulighed",
+            "addOption": "Tilføj svarmulighed",
+            "score": "Point",
+            "levels": "Trin",
+            "required": "Obligatorisk",
+            "answerPreview": "Svar",
+            "getStarted": "Kom i gang med et spørgsmål",
+            "addQuestion": "Tilføj nyt spørgsmål",
+            "templates": "Standardskjemaer",
+            "orBuildYourOwn": "Eller byg dit eget",
+            "scoreRanges": {
+                "title": "Score-fortolkning",
+                "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",
+                "from": "Fra",
+                "to": "Til",
+                "label": "Fortolkning",
+                "addRange": "Tilføj interval"
+            },
+            "types": {
+                "textfield": "Tekst",
+                "textarea": "Tekstområde",
+                "datefield": "Dato",
+                "choice": "Enkeltvalg",
+                "checkbox": "Flervalg",
+                "rating": "Vurdering"
+            }
+        },
+        "citizen": {
+            "mySurveys": "Mine spørreskjemaer",
+            "pending": "Venter på dig",
+            "completed": "Udfyldt",
+            "noPending": "Ingen spørgeskemaer venter på dig",
+            "received": "Modtaget",
+            "fillOut": "Udfyld",
+            "completedAt": "Udfyldt",
+            "returned": "Returneret",
+            "return": "Returner spørreskjema",
+            "alreadyCompleted": "Dette spørgeskema er allerede returneret"
+        },
+        "fill": {
+            "enterAnswer": "Skriv svaret ditt"
+        }
+    },
+    "appTours": {
+        "getStarted": "Kom i gang",
+        "surveys": {
+            "step1": {
+                "title": "Byg dit spørgeskema her",
+                "text": "Knappen Nyt spørgeskema åbner byggeren - eller kom i gang på ét minut med et færdigt instrument som GAD-7, PHQ-9 eller WHO-5, komplet med point og score-fortolkning."
+            },
+            "step2": {
+                "title": "Send og se resultater her",
+                "text": "Knappen Resultater på hvert skema åbner afsendelse og resultater: send det til en borger, eller udfyld det internt under en konsultation."
+            },
+            "step3": {
+                "title": "Alt samlet på borgeren",
+                "text": "Under Borgere har hver borger en Spørgeskemaer-fane med alle besvarelser: score, fortolkning og en graf over udviklingen over tid."
+            },
+            "step4": {
+                "title": "Få besked heroppe",
+                "text": "Notifikationsklokken giver dig besked, i samme øjeblik en borger returnerer et skema - ét klik sender dig direkte til resultatet."
+            }
+        }
+    },
+    "releaseNotes": {
+        "title": "Release notes",
+        "newNote": "Ny release note",
+        "version": "Versjon",
+        "content": "Innhold",
+        "audience": "Målgruppe",
+        "status": "Status",
+        "draft": "Utkast",
+        "published": "Publisert",
+        "save": "Lagre utkast",
+        "publish": "Godkjenn & publiser",
+        "delete": "Slett",
+        "deleteConfirm": "Slett denne release note?",
+        "titleField": "Tittel",
+        "publishedTo": "Synlig for alle kunder",
+        "gate": "Bare CTO kan godkjenne & publisere.",
+        "noNotes": "Ingen release notes ennå."
     }
 }

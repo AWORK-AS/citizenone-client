@@ -6,7 +6,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenTreatmentStatusForm formType="create" :selectedStatus="state.formStatus"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveStatus" />
+                        @closeModal="closeModal" @submitForm="saveStatus" @fetchPreviousStatus="fetchPreviousStatus" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -16,10 +16,12 @@
 <script setup lang="ts">
 import { statusService } from '@/components/api/user/StatusService'
 import { useAlert } from '@/composables/alert'
+import { useStatusPrefill } from '@/composables/statusPrefill'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
+const { fetchLastStatusFields } = useStatusPrefill()
 const { t } = useI18n()
 
 const props = defineProps({
@@ -45,6 +47,17 @@ const state = reactive({
         status: '',
     },
 })
+
+async function fetchPreviousStatus() {
+    state.isPageLoading = true
+    const prefill = await fetchLastStatusFields(props.selectedTreatment?.uuid, ['date', 'area_type', 'score', 'status'])
+    if (prefill) {
+        state.formStatus = { ...state.formStatus, ...prefill }
+    } else {
+        warningAlert(t('alert.warning'), t('alert.noPreviousStatusFound'))
+    }
+    state.isPageLoading = false
+}
 
 function closeModal() {
     emit('close')
