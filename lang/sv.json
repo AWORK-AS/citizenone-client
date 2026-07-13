@@ -613,6 +613,7 @@
             "calendarEventNotFound": "Kalenderbegivenhed inte hittad"
         },
         "jobTitleRequired": "Jobbtitel är obligatorisk",
+        "noPreviousStatusFound": "Ingen tidigare status hittades",
         "required": "Obligatorisk",
         "resetPassword": {
             "confirmPasswordNotTheSame": "Bekräfta lösenord är inte den samma som ny lösenord",
@@ -1985,6 +1986,7 @@
                 "editStatus": "Redigera status",
                 "form": {
                     "currentLevel": "Nuvarande nivå",
+                    "getFromPreviousStatus": "Hämta data från föregående status",
                     "status": "Status",
                     "title": "Titel"
                 },
@@ -2606,6 +2608,7 @@
                         "verySubstantialChallenges": "Mycket stora utmaningar"
                     },
                     "date": "Datum",
+                    "getFromPreviousStatus": "Hämta data från föregående status",
                     "status": "Status",
                     "problemStatus": "Statusvalg"
                 },
@@ -2959,6 +2962,7 @@
                         "verySubstantialChallenges": "Mycket stora utmaningar"
                     },
                     "date": "Datum",
+                    "getFromPreviousStatus": "Hämta data från föregående status",
                     "status": "Status"
                 },
                 "newStatus": "Ny status",
@@ -3074,6 +3078,7 @@
                 "editStatus": "Redigera status",
                 "form": {
                     "currentLevel": "Nuvarande nivå",
+                    "getFromPreviousStatus": "Hämta data från föregående status",
                     "status": "Status",
                     "title": "Titel"
                 },
@@ -7856,6 +7861,7 @@
                 "verySubstantialChallenges": "Mycket stora utmaningar"
             },
             "form": "Formulär",
+            "getFromPreviousStatus": "Hämta data från föregående status",
             "goalCompletionDate": "Mål avslutsdatum",
             "goalName": "Målnavn",
             "notes": "Anteckningar",

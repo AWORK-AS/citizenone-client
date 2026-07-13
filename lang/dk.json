@@ -613,6 +613,7 @@
             "calendarEventNotFound": "Kalenderbegivenhed ikke fundet"
         },
         "jobTitleRequired": "Jobtitel er påkrævet",
+        "noPreviousStatusFound": "Ingen tidligere status fundet",
         "required": "Påkrævet",
         "resetPassword": {
             "confirmPasswordNotTheSame": "Bekræft adgangskode er ikke den samme som ny adgangskode",
@@ -1985,6 +1986,7 @@
                 "editStatus": "Rediger status",
                 "form": {
                     "currentLevel": "Nuværende niveau",
+                    "getFromPreviousStatus": "Hent data fra forrige status",
                     "status": "Status",
                     "title": "Titel"
                 },
@@ -2606,6 +2608,7 @@
                         "verySubstantialChallenges": "Meget store udfordringer"
                     },
                     "date": "Dato",
+                    "getFromPreviousStatus": "Hent data fra forrige status",
                     "status": "Status",
                     "problemStatus": "Statusvalg"
                 },
@@ -2959,6 +2962,7 @@
                         "verySubstantialChallenges": "Meget store udfordringer"
                     },
                     "date": "Dato",
+                    "getFromPreviousStatus": "Hent data fra forrige status",
                     "status": "Status"
                 },
                 "newStatus": "Ny status",
@@ -3074,6 +3078,7 @@
                 "editStatus": "Rediger status",
                 "form": {
                     "currentLevel": "Nuværende niveau",
+                    "getFromPreviousStatus": "Hent data fra forrige status",
                     "status": "Status",
                     "title": "Titel"
                 },
@@ -7856,6 +7861,7 @@
                 "verySubstantialChallenges": "Meget store udfordringer"
             },
             "form": "Formular",
+            "getFromPreviousStatus": "Hent data fra forrige status",
             "goalCompletionDate": "Mål afslutningsdato",
             "goalName": "Målnavn",
             "notes": "Noter",
