@@ -10858,7 +10858,9 @@
         "newUpdates": "Nye oppdateringer",
         "newUpdatesFrom": "Nye oppdateringer fra",
         "showUpdate": "Vis oppdatering",
-        "updates": "Oppdateringer"
+        "updates": "Oppdateringer",
+        "noUpdates": "Ingen oppdateringer ennå.",
+        "tagline": "Se hva som er nytt i CitizenONE"
     },
     "validation": {
         "invalidNumber": "Ugyldig nummer",
@@ -11735,5 +11737,23 @@
                 "text": "Notifikationsklokken giver dig besked, i samme øjeblik en borger returnerer et skema - ét klik sender dig direkte til resultatet."
             }
         }
+    },
+    "releaseNotes": {
+        "title": "Release notes",
+        "newNote": "Ny release note",
+        "version": "Versjon",
+        "content": "Innhold",
+        "audience": "Målgruppe",
+        "status": "Status",
+        "draft": "Utkast",
+        "published": "Publisert",
+        "save": "Lagre utkast",
+        "publish": "Godkjenn & publiser",
+        "delete": "Slett",
+        "deleteConfirm": "Slett denne release note?",
+        "titleField": "Tittel",
+        "publishedTo": "Synlig for alle kunder",
+        "gate": "Bare CTO kan godkjenne & publisere.",
+        "noNotes": "Ingen release notes ennå."
     }
 }
