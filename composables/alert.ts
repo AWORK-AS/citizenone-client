@@ -19,5 +19,14 @@ export function useAlert() {
         })
     }
 
-    return { errorAlert, successAlert }
+    function warningAlert(title: string, message: string) {
+        notify({
+            title: title,
+            text: message,
+            type: 'warn',
+            duration: 5000, // 5 seconds
+        })
+    }
+
+    return { errorAlert, successAlert, warningAlert }
 }

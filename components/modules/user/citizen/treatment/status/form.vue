@@ -2,6 +2,11 @@
     <form @submit.prevent="submitForm()">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error?.message && props.error.message.length > 0" />
+        <div v-if="props.formType === 'create'" class="mb-3">
+            <FormButton type="button" buttonStyle="secondary" buttonSize="xs" @click="emit('fetchPreviousStatus')">
+                {{ $t('citizens.treatments.statuses.form.getFromPreviousStatus') }}
+            </FormButton>
+        </div>
         <div class="space-y-3">
             <div class="space-y-1">
                 <FormLabel for="date" :label="$t('citizens.treatments.statuses.form.date')" />
@@ -65,7 +70,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['closeModal', 'submitForm'])
+const emit = defineEmits(['closeModal', 'submitForm', 'fetchPreviousStatus'])
 const { t } = useI18n()
 const editor = ref(ClassicEditor)
 const editorStatusConfig = ref({

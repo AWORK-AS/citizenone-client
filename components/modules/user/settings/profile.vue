@@ -125,6 +125,15 @@
                         <FormError :error="state?.error?.errors?.department_uuid?.[0]" />
                     </div>
                 </div>
+                <div class="md:col-span-8 grid md:grid-cols-1">
+                    <div class="space-y-1 flex items-center gap-x-2">
+                        <FormSwitch :value="state.formProfile.vacant_shift_notifications_enabled"
+                            @toggleSwitch="state.formProfile.vacant_shift_notifications_enabled = !state.formProfile.vacant_shift_notifications_enabled" />
+                        <p>
+                            {{ $t('settings.company.form.receiveVacantShiftNotificationsRegardless') }}
+                        </p>
+                    </div>
+                </div>
             </div>
             <div class="mt-6">
                 <FormButton type="submit" buttonStyle="primary" class="w-full">
@@ -175,6 +184,7 @@ const state = reactive({
         email_notifications_enabled: false,
         shift_based_notifications_enabled: false,
         system_notifications_enabled: false,
+        vacant_shift_notifications_enabled: false,
         department_uuid: [],
     } as any,
     isChangePassword: false,
@@ -263,6 +273,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             email_notifications_enabled: newValue?.email_notifications_enabled ?? false,
             shift_based_notifications_enabled: newValue?.shift_based_notifications_enabled ?? false,
             system_notifications_enabled: newValue?.system_notifications_enabled ?? false,
+            vacant_shift_notifications_enabled: newValue?.vacant_shift_notifications_enabled ?? false,
             department_uuid: [],
         }
         newValue?.notification_departments?.forEach((department: any) => {
@@ -289,6 +300,7 @@ function setUser() {
         email_notifications_enabled: user?.email_notifications_enabled ?? false,
         shift_based_notifications_enabled: user?.shift_based_notifications_enabled ?? false,
         system_notifications_enabled: user?.system_notifications_enabled ?? false,
+        vacant_shift_notifications_enabled: user?.vacant_shift_notifications_enabled ?? false,
     }
     user?.notification_departments?.forEach((department: any) => {
         state.formProfile.department_uuid?.push(department?.uuid)
@@ -379,6 +391,7 @@ async function submitForm() {
             params.append('email_notifications_enabled', state.formProfile.email_notifications_enabled)
             params.append('shift_based_notifications_enabled', state.formProfile.shift_based_notifications_enabled)
             params.append('system_notifications_enabled', state.formProfile.system_notifications_enabled)
+            params.append('vacant_shift_notifications_enabled', state.formProfile.vacant_shift_notifications_enabled)
             params.append('department_uuid', JSON.stringify(state.formProfile.department_uuid))
             const response = await userService.updateUser(params)
             if (response.data) {

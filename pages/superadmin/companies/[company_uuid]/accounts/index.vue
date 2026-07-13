@@ -68,13 +68,13 @@
                                             </span>
 
                                             <!-- Payment method -->
-                                            <span v-if="state.company?.data?.subscription?.payment_method === 'card'"
+                                            <span v-if="state.subscription?.data?.payment_method === 'card'"
                                                 class="co-badge co-badge-blue">
                                                 <Icon name="ph:credit-card" class="w-3 h-3" />
                                                 {{ $t('superadmin.companies.accounts.paymentCard') }}
                                             </span>
                                             <span
-                                                v-else-if="state.company?.data?.subscription?.payment_method === 'invoice'"
+                                                v-else-if="state.subscription?.data?.payment_method === 'invoice'"
                                                 class="co-badge co-badge-gray">
                                                 <Icon name="ph:file-text" class="w-3 h-3" />
                                                 {{ $t('superadmin.companies.accounts.manualInvoice') }}
@@ -85,13 +85,13 @@
 
                                 <!-- Action buttons -->
                                 <div class="flex flex-wrap gap-2">
-                                    <!-- <button @click="impersonateCompany"
+                                    <button @click="impersonateCompany"
                                         class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border transition-colors"
                                         style="background:#F3F0FF;color:#7C3AED;border-color:#DDD6FE">
                                         <Icon name="ph:user-switch" class="w-4 h-4" />
                                         {{ $t('superadmin.companies.accounts.loginAs') }}
-                                    </button> -->
-                                    <button v-if="state.company?.data?.subscription?.payment_method === 'card'"
+                                    </button>
+                                    <button v-if="state.subscription?.data?.payment_method === 'card'"
                                         @click="sendCardUpdateLink"
                                         class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-[#5C6478] border border-[#EAECF0] hover:bg-[#F5F6F8] transition-colors">
                                         <Icon name="ph:envelope" class="w-4 h-4" />
@@ -589,8 +589,10 @@ async function impersonateCompany() {
     state.isPageLoading = true
     try {
         const response = await companyService.impersonateCompany(companyUuid)
-        if (response?.data?.token) {
-            window.open(`${useRuntimeConfig().public.appUserUrl || '/'}?impersonate_token=${response.data.token}`, '_blank')
+        if (response?.impersonation_token) {
+            localStorage.setItem('_original_token', localStorage.getItem('_token') ?? '')
+            localStorage.setItem('_token', response.impersonation_token)
+            navigateTo('/overview')
         }
     } catch (error: any) {
         state.error = error
