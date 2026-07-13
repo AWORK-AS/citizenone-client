@@ -505,7 +505,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="contract_price" :label="$t('citizens.form.stayData.contractPrice')" />
-                        <FormNumberField id="contract_price" name="contract_price" :min="0"
+                        <FormTextField id="contract_price" name="contract_price"
+                            :placeholder="$t('citizens.form.stayData.contractPrice')"
                             v-model="state.formCitizen.stayData.contract_price" />
                         <FormError :error="props?.error?.errors?.contract_price?.[0]" />
                     </div>
@@ -1288,7 +1289,9 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 accommodation_end_date: selectedCitizen.stayData?.accommodation_end_date || '',
                 accommodation_start_date: selectedCitizen.stayData?.accommodation_start_date || '',
                 journal_number: selectedCitizen.stayData?.journal_number || '',
-                contract_price: selectedCitizen.stayData?.contract_price || '',
+                contract_price: selectedCitizen.stayData?.contract_price
+                    ? formatPrice(selectedCitizen.stayData.contract_price, language.locale.value)
+                    : '',
                 primary_split_percentage: selectedCitizen.stayData?.primary_split_percentage || '',
                 accompanying_children: selectedCitizen.stayData?.accompanying_children ?? [],
                 residence_before_uuid: selectedCitizen.stayData?.residence_before_uuid || '',
@@ -1328,6 +1331,9 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
 watch(() => language.locale.value, (newLocale: any) => {
     if (newLocale != null) {
         state.formCitizen.pricing = formatPrice(props.selectedCitizen.pricing, newLocale)
+        if (props.selectedCitizen?.stayData?.contract_price) {
+            state.formCitizen.stayData.contract_price = formatPrice(props.selectedCitizen.stayData.contract_price, newLocale)
+        }
     }
 })
 

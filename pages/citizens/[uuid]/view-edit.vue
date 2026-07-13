@@ -329,6 +329,8 @@ async function updateCitizen(citizenDetails: any) {
         params.append('end_date', citizenDetails.stayData.accommodation_end_date)
         params.append('start_date', citizenDetails.stayData.accommodation_start_date)
         params.append('journal_number', citizenDetails.stayData.journal_number)
+        params.append('contract_price', citizenDetails.stayData.contract_price ? parseLocaleNumber(language.locale.value, citizenDetails.stayData.contract_price) : citizenDetails.stayData.contract_price)
+        params.append('primary_split_percentage', citizenDetails.stayData.primary_split_percentage)
         params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
         if (citizenDetails.stayData.residence_before_uuid) {
             params.append('residence_before_uuid', citizenDetails.stayData.residence_before_uuid)
