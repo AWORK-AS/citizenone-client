@@ -11528,7 +11528,9 @@
                 "undo": "Ångra import ({count} skapade)",
                 "unmatchedCpr": "Omatchade CPR-nummer:",
                 "unmatchedEmails": "Omatchade e-postadresser:",
-                "unknownShifts": "Okända skifttyper:"
+                "unknownShifts": "Okända skifttyper:",
+                "rowsFailed": "{count} rad(er) kunde inte importeras på grund av ett oväntat fel.",
+                "failedRows": "Misslyckade rader:"
             }
         },
         "footer": {

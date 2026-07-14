@@ -11528,7 +11528,9 @@
                 "undo": "Angre import ({count} opprettet)",
                 "unmatchedCpr": "Umatchede CPR-numre:",
                 "unmatchedEmails": "Umatchede e-poster:",
-                "unknownShifts": "Ukjente vakttyper:"
+                "unknownShifts": "Ukjente vakttyper:",
+                "rowsFailed": "{count} rad(er) kunne ikke importeres på grunn av en uventet feil.",
+                "failedRows": "Mislykkede rader:"
             }
         },
         "footer": {

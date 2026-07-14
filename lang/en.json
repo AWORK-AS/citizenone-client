@@ -11528,7 +11528,9 @@
                 "undo": "Undo import ({count} created)",
                 "unmatchedCpr": "Unmatched CPR numbers:",
                 "unmatchedEmails": "Unmatched emails:",
-                "unknownShifts": "Unknown shift types:"
+                "unknownShifts": "Unknown shift types:",
+                "rowsFailed": "{count} row(s) could not be imported due to an unexpected error.",
+                "failedRows": "Failed rows:"
             }
         },
         "footer": {

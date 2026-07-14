@@ -11528,7 +11528,9 @@
                 "undo": "Fortryd import ({count} oprettet)",
                 "unmatchedCpr": "Ikke-matchede CPR:",
                 "unmatchedEmails": "Ikke-matchede e-mails:",
-                "unknownShifts": "Ukendte vagttyper:"
+                "unknownShifts": "Ukendte vagttyper:",
+                "rowsFailed": "{count} række(r) kunne ikke importeres på grund af en uventet fejl.",
+                "failedRows": "Fejlede rækker:"
             }
         },
         "footer": {
