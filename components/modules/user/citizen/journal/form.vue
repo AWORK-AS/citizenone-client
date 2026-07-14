@@ -20,8 +20,11 @@
             </div>
             <div class="grid md:grid-cols-2 gap-x-3">
                 <div class="md:col-span-2">
-                    <button type="button" class="text-sm text-primary hover:text-primary-700"
+                    <button type="button"
+                        class="inline-flex items-center gap-1.5 rounded-full bg-primary-25 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary-50 transition-colors"
                         @click="state.usePredefinedJournalTitle = !state.usePredefinedJournalTitle">
+                        <Icon :name="state.usePredefinedJournalTitle ? 'ph:pencil-simple' : 'ph:list-bullets'"
+                            class="size-4" aria-hidden="true" />
                         <span v-if="state.usePredefinedJournalTitle">
                             {{ $t('citizens.citizenJournals.form.enterJournalTitleManually') }}
                         </span>
@@ -131,28 +134,24 @@
             </div>
             <div class="space-y-1">
                 <!-- task 523-->
-                <div class="flex items-center">
-                    <p class="text-sm text-gray-600">
+                <div class="flex flex-wrap items-center gap-2">
+                    <p class="text-sm font-medium text-gray-700">
                         {{ $t('citizens.citizenJournals.form.content') }}
                     </p>
-                    <div class="flex-1 flex items-center gap-x-4 justify-end">
-                        <button type="button" class="text-sm text-primary hover:text-primary-700"
+                    <div class="flex-1 flex flex-wrap items-center gap-2 justify-end">
+                        <button type="button"
+                            class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-200 transition-colors"
                             @click="state.modal.isSelectJournalContent = true">
-                            <span>
-                                {{ $t('citizens.citizenJournals.form.usePredefinedcontent') }}
-                            </span>
+                            <Icon name="ph:list-bullets" class="size-4" aria-hidden="true" />
+                            {{ $t('citizens.citizenJournals.form.usePredefinedcontent') }}
                         </button>
-                        <div>
-                            <input ref="contentFileInput" type="file" @change="handleContentFileChange"
-                                class="hidden" />
-                            <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
-                                @click="triggerContentFileInput">
-                                <div class="flex items-center">
-                                    <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
-                                </div>
-                                {{ $t('citizens.citizenJournals.form.attachFile') }}
-                            </div>
-                        </div>
+                        <input ref="contentFileInput" type="file" @change="handleContentFileChange" class="hidden" />
+                        <button type="button"
+                            class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-200 transition-colors"
+                            @click="triggerContentFileInput">
+                            <Icon name="ph:paperclip" class="size-4" aria-hidden="true" />
+                            {{ $t('citizens.citizenJournals.form.attachFile') }}
+                        </button>
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                             v-if="userStore.getUser?.has_ai_access" @click="generateNoteForJournalContent">
                             <div class="flex items-center">
@@ -162,7 +161,9 @@
                         </FormButton>
                     </div>
                 </div>
-                <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
+                <div class="co-editor">
+                    <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
+                </div>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
@@ -181,8 +182,8 @@
                 <FormError :error="props?.error?.errors?.journal_note_tags_uuid?.[0]" />
             </div>
             <div v-if="isFieldVisible('risk_assessment')">
-            <div class="space-y-1">
-                <p class="text-sm text-gray-600">
+            <div class="space-y-2">
+                <p class="text-sm font-medium text-gray-700">
                     {{ customPagesStore.getCustomPagesName?.riskAssessment }}
                 </p>
                 <div>
@@ -205,7 +206,7 @@
                                 !active && !checked && assessment.title === 'Increased risk' && 'border border-yellow-500 ring-inset',
                                 !active && !checked && assessment.title === 'Acute increased risk' && 'border border-red-600 ring-inset',
                                 active && checked ? 'text-white ring-1' : '',
-                                'cursor-pointer flex items-center justify-center rounded-full px-2 py-2 text-xs']">
+                                'cursor-pointer select-none flex items-center justify-center gap-1.5 rounded-full px-3 py-2.5 text-xs font-medium transition-all']">
                                 <span v-if="assessment.title === 'None'">
                                     {{ $t('citizens.citizenJournals.form.risk.none') }}
                                 </span>
@@ -250,20 +251,19 @@
                 </div>
             </div>
             <div class="space-y-1" v-if="state.formJournal.assessment !== null">
-                <div class="flex items-center">
-                    <p class="text-sm text-gray-600">
+                <div class="flex flex-wrap items-center gap-2">
+                    <p class="text-sm font-medium text-gray-700">
                         {{ $t('citizens.citizenJournals.form.note') }}
                     </p>
-                    <div class="flex-1 flex items-center gap-x-4 justify-end">
+                    <div class="flex-1 flex flex-wrap items-center gap-2 justify-end">
                         <input ref="riskAssessmentFileInput" type="file" @change="handleRiskAssessmentFileChange"
                             class="hidden" />
-                        <div class="w-fit flex gap-2 item-center text-end text-sm cursor-pointer text-primary hover:text-primary-700"
+                        <button type="button"
+                            class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-200 transition-colors"
                             @click="triggerRiskAssessmentFileInput">
-                            <div class="flex items-center">
-                                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
-                            </div>
+                            <Icon name="ph:paperclip" class="size-4" aria-hidden="true" />
                             {{ $t('citizens.citizenJournals.form.attachFile') }}
-                        </div>
+                        </button>
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                             v-if="userStore.getUser?.has_ai_access" @click="generateNoteForRiskAssessmentNote">
                             <div class="flex items-center">
@@ -273,7 +273,9 @@
                         </FormButton>
                     </div>
                 </div>
-                <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
+                <div class="co-editor">
+                    <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
+                </div>
                 <FormError :error="v$?.formJournal?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
             </div>
@@ -353,7 +355,7 @@
                 </div>
             </div>
         </div>
-        <div class="mt-6">
+        <div class="mt-6 border-t border-gray-100 pt-5">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
@@ -428,6 +430,9 @@ const riskAssessmentFileInput = ref(null) as any
 let autoSaveInterval = null as any
 let isInitialized = true
 let suppressChangeTracking = true
+// Tracks the template text last auto-inserted from a selected title, so
+// switching titles swaps templates but never clobbers text the user typed.
+let lastAppliedTitleTemplate = ''
 
 const editor = ref(ClassicEditor)
 const editorContentConfig = ref({
@@ -663,6 +668,20 @@ watch([() => state.formJournal.title, () => state.usePredefinedJournalTitle], ()
         journal_title_field_uuid: f.uuid,
         response: f.field_type === 'checkbox' ? [] : '',
     }))
+
+    // Auto-populate the content field from the title's template. Only when the
+    // content is empty or still holds a previously auto-inserted template, so a
+    // user's own edits are never overwritten when they switch titles.
+    const template = match?.content ?? ''
+    const currentContent = state.formJournal.content ?? ''
+    if (template && (currentContent.trim() === '' || currentContent === lastAppliedTitleTemplate)) {
+        state.formJournal.content = template
+        lastAppliedTitleTemplate = template
+    } else if (!template && currentContent === lastAppliedTitleTemplate) {
+        // Switched to a title with no template: clear the prior auto-insert
+        state.formJournal.content = ''
+        lastAppliedTitleTemplate = ''
+    }
 })
 
 function toggleCheckboxAnswer(fieldIndex: number, option: string) {
@@ -1046,7 +1065,7 @@ async function fetchAllJournalTitles() {
             response.data.forEach(
                 (item: any) => {
                     options.push({ value: item?.title, label: item?.title })
-                    raw.push({ value: item?.title, label: item?.title, uuid: item?.uuid, fields: item?.journal_fields ?? [] })
+                    raw.push({ value: item?.title, label: item?.title, uuid: item?.uuid, content: item?.content ?? '', fields: item?.journal_fields ?? [] })
                 }
             )
             state.options.journal_titles = options
@@ -1238,5 +1257,22 @@ async function fetchAllSubgoalsForRiskAssessment(goalUuid: any) {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* Polish the CKEditor chrome to match the form: rounded, soft border, tinted toolbar. */
+.co-editor :deep(.ck) {
+    --ck-border-radius: 10px;
+    --ck-color-base-border: #e5e7eb;
+    --ck-color-toolbar-border: #e5e7eb;
+    --ck-color-toolbar-background: #f9fafb;
+    --ck-color-focus-border: #0f4c75;
+}
+
+.co-editor :deep(.ck.ck-editor__main > .ck-editor__editable) {
+    min-height: 170px;
+}
+
+.co-editor :deep(.ck.ck-editor__editable.ck-focused) {
+    box-shadow: 0 0 0 3px rgba(15, 76, 117, 0.12);
 }
 </style>

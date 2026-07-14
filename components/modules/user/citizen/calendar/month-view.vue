@@ -65,7 +65,11 @@
             <div class="flex bg-gray-100 text-xs leading-6 text-gray-700 lg:flex-auto">
                 <div class="hidden w-full lg:grid lg:grid-cols-7 lg:auto-rows-fr lg:gap-px">
                     <div v-for="(day, index) in state.days" :key="index"
-                        :class="[day.isToday ? 'bg-tertiary/[0.05]' : (day.isCurrentMonth ? 'bg-white' : 'bg-gray-50/70'), 'group/day relative flex min-h-[7rem] cursor-pointer flex-col gap-y-1 px-2 py-2']"
+                        :class="[
+                            day.isToday ? 'bg-tertiary/[0.05]' : (day.isCurrentMonth ? 'bg-white' : 'bg-gray-50/70'),
+                            day.isToday && state.flashToday && 'ring-2 ring-inset ring-tertiary motion-safe:animate-pulse',
+                            'group/day relative flex min-h-[7rem] cursor-pointer flex-col gap-y-1 px-2 py-2',
+                        ]"
                         @click="setSelectedDay(day)">
                         <div class="flex items-center justify-between">
                             <time :datetime="day.date"
@@ -344,6 +348,7 @@ const state = reactive({
     currentYear: today.year(),
     days: generateDays(today.year(), today.month(), props.myCalendarEvents),
     expandedDays: [] as string[],
+    flashToday: false,
     preview: { event: null as any, x: 0, y: 0 },
     selectedDay: null as any,
 })
@@ -373,6 +378,8 @@ function setToday() {
     state.currentYear = today.year()
     updateDays()
     emit('changeMonthYear', state.currentYear, state.currentMonth)
+    state.flashToday = true
+    setTimeout(() => { state.flashToday = false }, 1200)
 }
 
 function nextMonth() {

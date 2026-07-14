@@ -180,12 +180,14 @@ function getCategory(type: string): string {
     if (!type) return 'other'
     if (type.toLowerCase().includes('dutyshiftrule')) return 'duty_shift'
     if (type.toLowerCase().includes('birthday')) return 'birthday'
+    if (type.toLowerCase().includes('surveyreturned')) return 'survey'
     return 'other'
 }
 
 const categoryStyles: Record<string, { bg: string; icon: string; color: string }> = {
     duty_shift: { bg: 'bg-primary/10', icon: 'ph:shield-check', color: 'text-primary' },
     birthday: { bg: 'bg-accent-orange/10', icon: 'ph:cake', color: 'text-accent-orange' },
+    survey: { bg: 'bg-primary/10', icon: 'ph:clipboard-text', color: 'text-primary' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -361,6 +363,26 @@ async function handleNotifClick(notif: any) {
     if (getCategory(notif.type) === 'duty_shift') {
         state.isOpen = false
         navigateTo('/notifications/duty-shift-rule-notifications')
+        return
+    }
+    if (getCategory(notif.type) === 'survey') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        const citizenUuid = notif.data?.content?.citizen_uuid
+        if (citizenUuid) {
+            navigateTo(`/citizens/${citizenUuid}/surveys`)
+        }
         return
     }
     if (getCategory(notif.type) === 'birthday') {

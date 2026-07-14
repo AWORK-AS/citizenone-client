@@ -38,7 +38,7 @@
                                         <li>
                                             <ul role="list" class="space-y-0.5">
                                                 <li v-for="item in navigation" :key="item.name">
-                                                    <div @click="navigateTo(item.href); sidebarOpen = false"
+                                                    <div @click="openNavItem(item); sidebarOpen = false"
                                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             aria-hidden="true" />
@@ -91,8 +91,9 @@
                         <li>
                             <ul role="list" class="space-y-0.5">
                                 <li v-for="item in navigation" :key="item.name">
-                                    <div @click="navigateTo(item.href)"
+                                    <div @click="openNavItem(item)"
                                         :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
+                                        :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null"
                                         :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                                         <span
@@ -248,7 +249,9 @@
                         <ModulesUserNavbarNewUpdates @fetchUser="fetchUser" />
 
                         <!-- Notification Bell -->
-                        <ModulesUserNavbarNotificationBell />
+                        <div data-tour="notification-area" class="flex items-center">
+                            <ModulesUserNavbarNotificationBell />
+                        </div>
 
                         <!-- Journal Notifications -->
                         <button type="button"
@@ -373,6 +376,13 @@
                                                 $t('navbar.forms') }}
                                         </div>
                                     </MenuItem>
+                                    <MenuItem v-if="userStore.getUser?.is_surveys_active">
+                                        <div @click="navigateTo('/surveys')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:clipboard-text" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.surveys') }}
+                                        </div>
+                                    </MenuItem>
                                     <MenuItem>
                                         <div @click="navigateTo('/procedures')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
@@ -432,6 +442,7 @@
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
+        <ModulesUserAppTourGuide v-if="state.activeAppTour" :appKey="state.activeAppTour" @close="closeAppTour" />
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -530,11 +541,13 @@ import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
+import { customSidebarLinkService } from '@/components/api/user/CustomSidebarLinkService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { usePermissions } from '@/composables/usePermissions'
+import { useAppTours } from '@/composables/useAppTours'
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
@@ -549,6 +562,7 @@ const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
 const routeName = router?.currentRoute?.value?.name
 
 const navigation = shallowRef<any[]>([])
+const customSidebarLinks = ref<any[]>([])
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
@@ -605,6 +619,7 @@ function toggleSidebarPin() { sidebarPinned.value = !sidebarPinned.value; localS
 
 onMounted(() => {
     fetchUser()
+    fetchCustomSidebarLinks()
     animateAssets()
     // Show the ⌘K discovery tip once, shortly after the app settles.
     if (typeof localStorage !== 'undefined' && !localStorage.getItem(CMDK_TIP_KEY)) {
@@ -630,6 +645,7 @@ const state = reactive({
         isPlanGoalSubgoalCompletionReminderOpen: false,
     },
     showSubscribeButton: false,
+    activeAppTour: '' as string,
     slideOver: { isLanguageSwitcherOpen: false, isSupportOpen: false },
 })
 
@@ -651,7 +667,9 @@ watch(() => language.locale.value, (newLanguage: any) => {
 
 function getNavItemLabel(item: any) {
     const t = language.t
+    if (item.rawLabel) return item.name
     if (item.name === 'Overview') return t('sidebar.overview')
+    if (item.name === 'Apps') return t('navbar.apps')
     if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
@@ -706,6 +724,24 @@ onMounted(() => {
     }, 2500)
 })
 onUnmounted(() => clearTimeout(cmdkHintTimer))
+
+async function fetchCustomSidebarLinks() {
+    try {
+        const response = await customSidebarLinkService.getSidebarList()
+        customSidebarLinks.value = response?.data ?? []
+        if (userStore.getUser) generateSidebarLinks(userStore.getUser)
+    } catch (error) {
+        // Non-fatal: the sidebar still renders the standard links.
+    }
+}
+
+function openNavItem(item: any) {
+    if (item?.external) {
+        window.open(item.href, '_blank', 'noopener')
+        return
+    }
+    navigateTo(item.href)
+}
 
 function generateSidebarLinks(user: any) {
     const nav: any[] = []
@@ -836,6 +872,23 @@ function generateSidebarLinks(user: any) {
         nav.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', activeRouteNames: ['management-economy'] })
     }
 
+    // The app store lives behind the profile dropdown too, but only admins can
+    // buy apps, so give them a visible entry point.
+    if (isAtLeast('Admin')) {
+        nav.push({ name: 'Apps', href: '/apps', icon: 'ic:baseline-apps', activeRouteNames: ['apps', 'apps-activated-successfully', 'apps-purchased-successfully'] })
+    }
+
+    customSidebarLinks.value.forEach((link: any) => {
+        nav.push({
+            name: link.label,
+            href: link.url,
+            icon: link.icon || 'ph:link',
+            activeRouteNames: [],
+            external: true,
+            rawLabel: true,
+        })
+    })
+
     navigation.value = nav
     state.isSidebarLoading = false
 }
@@ -902,6 +955,21 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
 }
 
 function guidedUserTourModalVisibility() { if (userStore.getUser?.is_first_login) state.modal.isGuidedTourWelcomeOpen = true }
+
+// Post-purchase app tours: the app store's success pages link to the app's
+// setup route with ?tour=<generic_name>; any registered tour opens here.
+const { getTour } = useAppTours()
+
+watch(() => router.currentRoute.value.query?.tour, (tourKey: any) => {
+    state.activeAppTour = tourKey && getTour(String(tourKey)) ? String(tourKey) : ''
+}, { immediate: true })
+
+function closeAppTour() {
+    state.activeAppTour = ''
+    const query = { ...router.currentRoute.value.query }
+    delete query.tour
+    router.replace({ query })
+}
 
 function checkInReminderModalVisibility(response: any) {
     const lastHidden = localStorage.getItem('checkInReminderHidden'); const today = moment().format('YYYY-MM-DD')

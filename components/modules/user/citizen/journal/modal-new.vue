@@ -7,9 +7,12 @@
             <template #modal-left>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex justify-end">
-                        <button class="text-sm text-primary hover:text-primary-700"
+                        <button
+                            class="inline-flex items-center gap-1.5 rounded-full bg-primary-25 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary-50 transition-colors"
                             @click="state.modal.showCurrentPlansAndGoals = !state.modal.showCurrentPlansAndGoals"
                             v-if="state.plans?.data?.length > 0">
+                            <Icon :name="state.modal.showCurrentPlansAndGoals ? 'ph:eye-slash' : 'ph:eye'"
+                                class="size-4" aria-hidden="true" />
                             <span v-if="state.modal.showCurrentPlansAndGoals">
                                 {{ $t('citizens.citizenJournals.form.hideCurrentPlansGoalsAndSubgoals') }}
                             </span>
@@ -25,63 +28,67 @@
             </template>
             <template #modal-right>
                 <div class="space-y-5">
-                    <div class="overflow-auto space-y-5" :style="computedRightModalMaxHeight">
-                        <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
+                    <div class="overflow-auto space-y-4 pr-1" :style="computedRightModalMaxHeight">
+                        <div class="group bg-white ring-1 ring-gray-200 rounded-xl p-5 transition-all hover:ring-secondary/40 hover:shadow-sm"
                             v-for="(plan, index) in state.plans?.data" :key="index">
-                            <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
-                                <div class="grow space-y-1">
-                                    <Badge type="plans-and-goals" class="w-fit" v-if="plan?.is_plans_with_goals">
-                                        <p class="text-xxs truncate">
-                                            {{ $t('plansandgoals.categories.plansAndGoals') }}
-                                        </p>
-                                    </Badge>
-                                    <Badge type="single-goal" class="w-fit" v-if="plan?.is_single_goal">
-                                        <p class="text-xxs truncate">
-                                            {{ $t('plansandgoals.categories.singleGoal') }}
-                                        </p>
-                                    </Badge>
-                                    <div>
-                                        <Badge :type="plan?.is_completed ? 'active' : 'primary'" class="w-fit">
-                                            <p class="text-xxs truncate">
-                                                {{ plan?.is_completed ? $t('plansandgoals.completed') :
-                                                    $t('plansandgoals.inProgress') }}
-                                            </p>
-                                        </Badge>
+                            <div class="flex flex-col gap-4">
+                                <div class="flex items-start gap-3">
+                                    <div class="grow space-y-2 min-w-0">
+                                        <div class="flex flex-wrap items-center gap-1.5">
+                                            <Badge :type="plan?.is_completed ? 'active' : 'primary'" class="w-fit">
+                                                <p class="text-xxs truncate">
+                                                    {{ plan?.is_completed ? $t('plansandgoals.completed') :
+                                                        $t('plansandgoals.inProgress') }}
+                                                </p>
+                                            </Badge>
+                                            <Badge type="plans-and-goals" class="w-fit" v-if="plan?.is_plans_with_goals">
+                                                <p class="text-xxs truncate">
+                                                    {{ $t('plansandgoals.categories.plansAndGoals') }}
+                                                </p>
+                                            </Badge>
+                                            <Badge type="single-goal" class="w-fit" v-if="plan?.is_single_goal">
+                                                <p class="text-xxs truncate">
+                                                    {{ $t('plansandgoals.categories.singleGoal') }}
+                                                </p>
+                                            </Badge>
+                                        </div>
+                                        <h3 class="text-base font-semibold text-gray-900 leading-snug">
+                                            {{ plan?.name }}
+                                        </h3>
+                                        <div class="text-sm text-gray-600 line-clamp-3">
+                                            <div v-html="plan?.description" class="content" />
+                                        </div>
                                     </div>
-                                    <h3 class="text-lg font-semibold">
-                                        {{ plan?.name }}
-                                    </h3>
-                                    <div class="text-sm">
-                                        <div v-html="plan?.description" class="content" />
-                                    </div>
-                                    <p class="text-sm">
-                                        {{ $t('plansandgoals.dateCreated') }}: {{
-                                            formatDateToReadable(plan?.created_at) }}
-                                    </p>
-                                    <p class="text-sm">
-                                        <span v-if="plan?.is_completed">
-                                            {{ $t('plansandgoals.dateCompleted') }}: {{
-                                                formatDateToReadable(plan?.date_completed) }}
-                                        </span>
-                                        <span v-else>
-                                            {{ $t('plansandgoals.completionDate') }}: {{
-                                                formatDateToReadable(plan?.completion_date) }}
-                                        </span>
-                                    </p>
+                                    <FormButton class="rounded-full shrink-0" buttonSize="sm" @click="viewPlan(plan)">
+                                        <Icon name="ph:eye" class="size-4" />
+                                        {{ $t('plansandgoals.table.actions.seeGoals') }}
+                                    </FormButton>
                                 </div>
-                                <div>
-                                    <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                        <FormButton class="rounded-full" buttonSize="sm" @click="viewPlan(plan)">
-                                            <Icon name="ph:eye" class="size-4" />
-                                            {{ $t('plansandgoals.table.actions.seeGoals') }}
-                                        </FormButton>
-                                    </div>
+                                <div class="flex flex-wrap items-center gap-2 border-t border-gray-100 pt-3">
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-gray-50 px-2.5 py-1 text-xxs font-medium text-gray-600">
+                                        <Icon name="ph:calendar-blank" class="size-3.5 text-gray-400" aria-hidden="true" />
+                                        {{ $t('plansandgoals.dateCreated') }}: {{ formatDateToReadable(plan?.created_at) }}
+                                    </span>
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-gray-50 px-2.5 py-1 text-xxs font-medium text-gray-600">
+                                        <Icon :name="plan?.is_completed ? 'ph:flag-checkered' : 'ph:flag'"
+                                            class="size-3.5 text-gray-400" aria-hidden="true" />
+                                        <template v-if="plan?.is_completed">
+                                            {{ $t('plansandgoals.dateCompleted') }}: {{ formatDateToReadable(plan?.date_completed) }}
+                                        </template>
+                                        <template v-else>
+                                            {{ $t('plansandgoals.completionDate') }}: {{ formatDateToReadable(plan?.completion_date) }}
+                                        </template>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div v-if="state.plans?.data?.length === 0">
-                        <p class="text-center">
+                    <div v-if="state.plans?.data?.length === 0"
+                        class="flex flex-col items-center justify-center gap-3 py-12 text-center">
+                        <div class="flex size-12 items-center justify-center rounded-full bg-primary-25">
+                            <Icon name="ph:target" class="size-6 text-primary/70" aria-hidden="true" />
+                        </div>
+                        <p class="text-sm text-gray-500">
                             {{ $t('theresNoDataAvailableToDisplay') }}.
                         </p>
                     </div>

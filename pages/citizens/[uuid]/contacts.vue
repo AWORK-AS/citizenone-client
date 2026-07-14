@@ -106,6 +106,11 @@
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
+                                                @click="viewContact(contact)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('citizens.contacts.table.action.view') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action"
                                                 @click="editContact(contact)"
                                                 v-if="isAtLeast('Admin') || can('update_citizen_contact')">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
@@ -133,6 +138,9 @@
 
                 <ModulesUserCitizenContactModalNew :isModalOpen="state.modal.isAddContactOpen"
                     @close="closeNewContactModal" @refreshContacts="fetchContacts" />
+                <ModulesUserCitizenContactModalView :isModalOpen="state.modal.isViewContactOpen"
+                    :selectedContact="state.selectedContact" @close="state.modal.isViewContactOpen = false"
+                    @edit="editFromView" />
                 <ModulesUserCitizenContactModalEdit :isModalOpen="state.modal.isEditContactOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isEditContactOpen = false"
                     @refreshContacts="fetchContacts" />
@@ -194,6 +202,7 @@ const state = reactive({
         isAddContactOpen: false,
         isDeleteContactOpen: false,
         isEditContactOpen: false,
+        isViewContactOpen: false,
         isSendEmailOpen: false,
         isAssignFromAddressBookOpen: false,
     },
@@ -259,6 +268,17 @@ function editContact(contact: any) {
     state.modal.isEditContactOpen = true
 }
 
+function viewContact(contact: any) {
+    state.selectedContact = contact
+    state.modal.isViewContactOpen = true
+}
+
+function editFromView(contact: any) {
+    state.modal.isViewContactOpen = false
+    state.selectedContact = contact
+    state.modal.isEditContactOpen = true
+}
+
 function deleteContactConfirmation(contact: any) {
     state.selectedContact = contact
     state.modal.isDeleteContactOpen = true
@@ -270,7 +290,7 @@ async function deleteContact() {
     try {
         const response = await citizenContactService.deleteContact(state.selectedContact.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchContacts()
+            await fetchContacts()
             successAlert(`${t('alert.success')}!`, `${t('citizens.contacts.alert.contactSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {

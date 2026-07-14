@@ -36,9 +36,13 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="mt-6">
-                                <FormButton type="submit" buttonStyle="primary" class="w-full"
-                                    @click="navigateTo('/overview')">
+                            <div class="mt-6 space-y-3">
+                                <FormButton v-if="setupRoute" type="button" buttonStyle="primary" class="w-full"
+                                    @click="navigateTo(setupRoute)">
+                                    {{ $t('apps.goToSetup') }}
+                                </FormButton>
+                                <FormButton type="submit" :buttonStyle="setupRoute ? 'cancel' : 'primary'"
+                                    class="w-full" @click="navigateTo('/overview')">
                                     {{ $t('subscription.subscribed.goHome') }}
                                 </FormButton>
                             </div>
@@ -55,6 +59,7 @@
 
 <script setup lang="ts">
 import { appService } from '@/components/api/user/AppService'
+import { useAppTours } from '@/composables/useAppTours'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -80,9 +85,35 @@ const state = reactive({
     isPageLoading: false,
 })
 
+// Apps with an in-product setup page the user can jump to after purchase
+const appSetupRoutes: Record<string, string> = {
+    'surveys': '/surveys',
+}
+
+const { getTour } = useAppTours()
+
+const setupRoute = ref('')
+
 onMounted(() => {
     validateSubscription()
+    resolveSetupRoute()
 })
+
+async function resolveSetupRoute() {
+    if (!exclude) return
+    try {
+        const response = await appService.getApp(exclude)
+        const genericName = response?.data?.generic_name
+        if (genericName && appSetupRoutes[genericName]) {
+            const route = appSetupRoutes[genericName]
+            setupRoute.value = getTour(genericName)
+                ? `${route}${route.includes('?') ? '&' : '?'}tour=${genericName}`
+                : route
+        }
+    } catch {
+        // No setup shortcut; the home button still works
+    }
+}
 
 async function validateSubscription() {
     state.error = {}

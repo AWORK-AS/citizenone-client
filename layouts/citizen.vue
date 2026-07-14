@@ -53,6 +53,9 @@
                                                         <span v-if="item.name === 'Protocols'">
                                                             {{ $t('sidebar.protocols') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Surveys'">
+                                                            {{ $t('sidebar.surveys') }}
+                                                        </span>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
                                                         <DisclosureButton
@@ -114,6 +117,9 @@
                                         </span>
                                         <span v-if="item.name === 'Protocols'">
                                             {{ $t('sidebar.protocols') }}
+                                        </span>
+                                        <span v-if="item.name === 'Surveys'">
+                                            {{ $t('sidebar.surveys') }}
                                         </span>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -391,6 +397,18 @@ async function fetchUser() {
                         href: '/citizen/protocols',
                         icon: 'ic:outline-shield',
                         activeRouteNames: ['citizen-protocols'],
+                    })
+                }
+            }
+
+            if (response.data?.is_surveys_active) {
+                const surveysAdded = navigation.value.some((n: any) => n.name === 'Surveys')
+                if (!surveysAdded) {
+                    navigation.value.push({
+                        name: 'Surveys',
+                        href: '/citizen/surveys',
+                        icon: 'ph:clipboard-text',
+                        activeRouteNames: ['citizen-surveys', 'citizen-surveys-assignment_uuid'],
                     })
                 }
             }
