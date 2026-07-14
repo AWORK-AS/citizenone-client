@@ -41,7 +41,7 @@ const breadcrumbLinks = [
 
 const state = reactive({
     error: {} as Error,
-    formJobcenter: { name: '', municipality: '', email: '', phone: '', contact_person: '', sort_order: 0, is_active: true },
+    formJobcenter: { name: '', municipality: '', email: '', phone: '', contact_person: '', ean_number: '', sort_order: 0, is_active: true },
     isPageLoading: false,
 })
 

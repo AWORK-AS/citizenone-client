@@ -11349,6 +11349,7 @@
                     "newJobcenterSuccessfullySaved": "Jobcenter gemt"
                 },
                 "contactPerson": "Kontaktperson",
+                "eanNumber": "EAN-nummer",
                 "email": "E-mail",
                 "isActive": "Aktiv",
                 "municipality": "Kommune",
@@ -11395,6 +11396,7 @@
             "total": "Total",
             "customerNumber": "Kundenummer",
             "productNumber": "Produktnummer",
+            "eanNumber": "EAN-nummer",
             "agreement": "Aftale",
             "consultant": "Konsulent",
             "excludeWeek": "Ekskludér uge",

@@ -11349,6 +11349,7 @@
                     "newJobcenterSuccessfullySaved": "Jobbsenter lagret"
                 },
                 "contactPerson": "Kontaktperson",
+                "eanNumber": "EAN-nummer",
                 "email": "E-post",
                 "isActive": "Aktiv",
                 "municipality": "Kommune",
@@ -11395,6 +11396,7 @@
             "total": "Total",
             "customerNumber": "Kundenummer",
             "productNumber": "Produktnummer",
+            "eanNumber": "EAN-nummer",
             "agreement": "Avtale",
             "consultant": "Konsulent",
             "excludeWeek": "Ekskluder uke",

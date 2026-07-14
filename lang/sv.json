@@ -11349,6 +11349,7 @@
                     "newJobcenterSuccessfullySaved": "Jobbcenter sparat"
                 },
                 "contactPerson": "Kontaktperson",
+                "eanNumber": "EAN-nummer",
                 "email": "E-post",
                 "isActive": "Aktiv",
                 "municipality": "Kommun",
@@ -11395,6 +11396,7 @@
             "total": "Totalt",
             "customerNumber": "Kundnummer",
             "productNumber": "Produktnummer",
+            "eanNumber": "EAN-nummer",
             "agreement": "Avtal",
             "consultant": "Konsult",
             "excludeWeek": "Exkludera vecka",

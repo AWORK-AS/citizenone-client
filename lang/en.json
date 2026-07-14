@@ -11349,6 +11349,7 @@
                     "newJobcenterSuccessfullySaved": "Job center successfully saved"
                 },
                 "contactPerson": "Contact person",
+                "eanNumber": "EAN number",
                 "email": "Email",
                 "isActive": "Active",
                 "municipality": "Municipality",
@@ -11395,6 +11396,7 @@
             "total": "Total",
             "customerNumber": "Customer number",
             "productNumber": "Product number",
+            "eanNumber": "EAN number",
             "agreement": "Agreement",
             "consultant": "Consultant",
             "excludeWeek": "Exclude week",

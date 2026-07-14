@@ -89,6 +89,7 @@
                                     <th class="co-th">{{ $t('employment.billing.total') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.customerNumber') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.productNumber') }}</th>
+                                    <th class="co-th">{{ $t('employment.billing.eanNumber') }}</th>
                                     <th class="co-th">{{ $t('employment.billing.invoiced') }}</th>
                                 </tr>
                             </thead>
@@ -137,6 +138,9 @@
                                     </td>
                                     <td class="co-td text-[13px] text-[#5C6478] font-mono">
                                         {{ row.product_number ?? '—' }}
+                                    </td>
+                                    <td class="co-td text-[13px] text-[#5C6478] font-mono" :title="row.jobcenter_name ?? ''">
+                                        {{ row.ean_number ?? '—' }}
                                     </td>
                                     <td class="co-td">
                                         <span v-if="row.is_invoiced" class="co-badge co-badge-green text-[11px]">
@@ -241,6 +245,7 @@ function exportToCsv() {
         t('employment.billing.total'),
         t('employment.billing.customerNumber'),
         t('employment.billing.productNumber'),
+        t('employment.billing.eanNumber'),
         t('employment.billing.invoiced'),
     ].map(escape).join(',')
 
@@ -266,6 +271,7 @@ function exportToCsv() {
             r.total != null ? escape(formatAmount(r.total)) : '',
             escape(r.customer_number ?? ''),
             escape(r.product_number ?? ''),
+            escape(r.ean_number ?? ''),
             r.is_invoiced ? t('employment.billing.invoiced') : t('employment.billing.notInvoiced'),
         ].join(',')
     })
