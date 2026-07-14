@@ -183,7 +183,7 @@ async function deleteLink() {
     try {
         await customSidebarLinkService.deleteCustomSidebarLink(state.selectedLink.uuid)
         state.modal.isDeleteLinkOpen = false
-        fetchLinks()
+        await fetchLinks()
         successAlert(`${t('alert.success')}!`, `${t('customSidebarLinks.alert.deleted')}.`)
     } catch (error: any) {
         state.error = error

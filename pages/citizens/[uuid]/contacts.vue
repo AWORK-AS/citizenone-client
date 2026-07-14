@@ -290,7 +290,7 @@ async function deleteContact() {
     try {
         const response = await citizenContactService.deleteContact(state.selectedContact.uuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            fetchContacts()
+            await fetchContacts()
             successAlert(`${t('alert.success')}!`, `${t('citizens.contacts.alert.contactSuccessfullyDeleted')}.`)
         }
     } catch (error: any) {
