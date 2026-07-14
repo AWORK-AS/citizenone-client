@@ -38,7 +38,7 @@
                                         <li>
                                             <ul role="list" class="space-y-0.5">
                                                 <li v-for="item in navigation" :key="item.name">
-                                                    <div @click="navigateTo(item.href); sidebarOpen = false"
+                                                    <div @click="openNavItem(item); sidebarOpen = false"
                                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             aria-hidden="true" />
@@ -91,7 +91,7 @@
                         <li>
                             <ul role="list" class="space-y-0.5">
                                 <li v-for="item in navigation" :key="item.name">
-                                    <div @click="navigateTo(item.href)"
+                                    <div @click="openNavItem(item)"
                                         :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
                                         :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null"
                                         :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
@@ -541,6 +541,7 @@ import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
+import { customSidebarLinkService } from '@/components/api/user/CustomSidebarLinkService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
@@ -561,6 +562,7 @@ const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
 const routeName = router?.currentRoute?.value?.name
 
 const navigation = shallowRef<any[]>([])
+const customSidebarLinks = ref<any[]>([])
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
@@ -617,6 +619,7 @@ function toggleSidebarPin() { sidebarPinned.value = !sidebarPinned.value; localS
 
 onMounted(() => {
     fetchUser()
+    fetchCustomSidebarLinks()
     animateAssets()
     // Show the ⌘K discovery tip once, shortly after the app settles.
     if (typeof localStorage !== 'undefined' && !localStorage.getItem(CMDK_TIP_KEY)) {
@@ -664,6 +667,7 @@ watch(() => language.locale.value, (newLanguage: any) => {
 
 function getNavItemLabel(item: any) {
     const t = language.t
+    if (item.rawLabel) return item.name
     if (item.name === 'Overview') return t('sidebar.overview')
     if (item.name === 'Apps') return t('navbar.apps')
     if (item.name === 'Discover') return t('sidebar.discover')
@@ -720,6 +724,24 @@ onMounted(() => {
     }, 2500)
 })
 onUnmounted(() => clearTimeout(cmdkHintTimer))
+
+async function fetchCustomSidebarLinks() {
+    try {
+        const response = await customSidebarLinkService.getSidebarList()
+        customSidebarLinks.value = response?.data ?? []
+        if (userStore.getUser) generateSidebarLinks(userStore.getUser)
+    } catch (error) {
+        // Non-fatal: the sidebar still renders the standard links.
+    }
+}
+
+function openNavItem(item: any) {
+    if (item?.external) {
+        window.open(item.href, '_blank', 'noopener')
+        return
+    }
+    navigateTo(item.href)
+}
 
 function generateSidebarLinks(user: any) {
     const nav: any[] = []
@@ -855,6 +877,17 @@ function generateSidebarLinks(user: any) {
     if (isAtLeast('Admin')) {
         nav.push({ name: 'Apps', href: '/apps', icon: 'ic:baseline-apps', activeRouteNames: ['apps', 'apps-activated-successfully', 'apps-purchased-successfully'] })
     }
+
+    customSidebarLinks.value.forEach((link: any) => {
+        nav.push({
+            name: link.label,
+            href: link.url,
+            icon: link.icon || 'ph:link',
+            activeRouteNames: [],
+            external: true,
+            rawLabel: true,
+        })
+    })
 
     navigation.value = nav
     state.isSidebarLoading = false

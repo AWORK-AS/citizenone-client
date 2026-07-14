@@ -1285,12 +1285,14 @@
             },
             "cprNumber": "CPR-nummer",
             "emailAddress": "E-mailadresse",
+            "empty": "Ingen børn fundet endnu",
             "firstname": "Fornavn",
             "gender": "Køn",
             "lastname": "Efternavn",
             "municipality": "Kommune",
             "name": "Navn",
             "origin": "Oprindelse",
+            "parent": "Forælder",
             "phone": "Telefon",
             "postCode": "Postnummer",
             "region": "Region",
@@ -1568,16 +1570,23 @@
                 "phone": "Telefonnummer",
                 "postCode": "Postnummer",
                 "region": "Region",
+                "note": "Bemærkning",
+                "notePlaceholder": "Skriv en bemærkning om kontaktpersonen",
                 "relationship": "Forhold",
                 "street": "Gade",
                 "title": "Titel"
             },
             "newContact": "Ny kontakt",
+            "view": {
+                "noNote": "Ingen bemærkning tilføjet endnu.",
+                "title": "Vis kontaktperson"
+            },
             "table": {
                 "action": {
                     "delete": "Slet",
                     "edit": "Rediger",
-                    "sendEmail": "Send e-mail"
+                    "sendEmail": "Send e-mail",
+                    "view": "Vis"
                 },
                 "address": "Adresse",
                 "allowSystemAccess": "Tillad systemadgang",
@@ -2762,6 +2771,8 @@
             "actions": {
                 "checkIn": "Tjek ind",
                 "checkOut": "Tjek ud",
+                "pin": "Fastgør borger",
+                "unpin": "Fjern fastgørelse",
                 "edit": "Rediger",
                 "latestJournalEntry": "Seneste journalnotat",
                 "latestRiskAssessment": "Seneste risikovurdering",
@@ -8728,6 +8739,7 @@
                 "phone": "Telefon",
                 "postCode": "Postnummer",
                 "quickRiskAssessment": "Hurtig risikovurdering",
+                "receiveVacantShiftNotificationsRegardless": "Modtag notifikationer om ledige vagter, uanset mine andre notifikationsindstillinger",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
                 "sundayShiftCalculation": "Aktivér søndagsvagtberegning",
@@ -8876,7 +8888,8 @@
             "gdprRetention": "GDPR Opbevaring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
-            "economic": "e-conomic"
+            "economic": "e-conomic",
+            "customLinks": "Egne links"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -11761,5 +11774,43 @@
         "publishedTo": "Synlig for alle kunder",
         "gate": "Kun CTO kan godkende & udgive.",
         "noNotes": "Ingen release notes endnu."
+    },
+    "customSidebarLinks": {
+        "title": "Egne links",
+        "addNew": "Tilføj eget link",
+        "edit": "Rediger eget link",
+        "deleteConfirmation": "Slet dette link",
+        "form": {
+            "label": "Etiket",
+            "labelPlaceholder": "fx Intranet",
+            "url": "URL",
+            "visibility": "Synlighed",
+            "icon": "Ikon",
+            "iconHint": "Valgfrit Iconify-navn, fx ph:link",
+            "sortOrder": "Sorteringsrækkefølge"
+        },
+        "visibility": {
+            "both": "Alle",
+            "admin": "Kun administratorer",
+            "user": "Kun brugere"
+        },
+        "table": {
+            "label": "Etiket",
+            "url": "URL",
+            "visibility": "Synlighed",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            }
+        },
+        "alert": {
+            "saved": "Eget link gemt",
+            "updated": "Eget link opdateret",
+            "deleted": "Eget link slettet"
+        },
+        "tip": {
+            "title": "Hvad er egne links?",
+            "body": "Tilføj genveje til venstre sidebar - fx jeres intranet, et fælles drev, et bookingsystem eller et andet eksternt værktøj teamet bruger. Vælg om hvert link vises for administratorer, brugere eller alle."
+        }
     }
 }

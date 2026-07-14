@@ -1304,7 +1304,9 @@ function sortMultiDayShiftsFirst(shifts: any) {
     return [...shifts].sort((a: any, b: any) => {
         const aMulti = a.shift_span_position !== 'single' ? 0 : 1
         const bMulti = b.shift_span_position !== 'single' ? 0 : 1
-        return aMulti - bMulti
+        if (aMulti !== bMulti) return aMulti - bMulti
+        // Same type: earliest start time first (task 232)
+        return moment(a.date_time_start).valueOf() - moment(b.date_time_start).valueOf()
     })
 }
 
