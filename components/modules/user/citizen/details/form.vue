@@ -284,7 +284,7 @@
                 </div>
                 <div class="space-y-1" v-if="isFieldVisible('primary_case_worker')">
                     <div class="flex justify-between items-center py-0.5">
-                        <FormLabel for="primary_case_worker_uuid" :label="$t('citizens.form.primaryCaseworker')" />
+                        <FormLabel for="primary_case_worker_uuid" :label="term('caseworker', $t('citizens.form.primaryCaseworker'))" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="state.modal.isAddCaseworkerOpen = true">
                             {{ $t('citizens.caseWorker.addNewCaseworker') }}
@@ -989,6 +989,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
@@ -999,6 +1000,7 @@ import { journalService } from '@/components/api/user/JournalService'
 
 const userStore = useUserStore() as any
 const { t } = useI18n()
+const { term } = useTerminology()
 const { formatPrice } = useNumberFormatter()
 const language = useI18n()
 const citizenImage = ref<HTMLInputElement | null>(null)

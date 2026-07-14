@@ -140,14 +140,14 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
-                                        v-if="state.selectedCitizen?.data?.caseworker_name">
-                                        <Tooltip :text="$t('citizens.form.primaryCaseworker')"
+                                        v-if="primaryCaseworkerName">
+                                        <Tooltip :text="term('caseworker', $t('citizens.form.primaryCaseworker'))"
                                             class="flex items-center">
                                             <Icon name="ph:user" class="h-4 w-4" aria-hidden="true" />
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
-                                            {{ $t('citizens.form.primaryCaseworker') }}:
-                                            {{ state.selectedCitizen?.data?.caseworker_name }}
+                                            {{ term('caseworker', $t('citizens.form.primaryCaseworker')) }}:
+                                            {{ primaryCaseworkerName }}
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
@@ -430,6 +430,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useConfetti } from '@/composables/useConfetti'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useTerminology } from '@/composables/useTerminology'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -438,6 +439,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const { t } = useI18n()
+const { term } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
@@ -492,6 +494,12 @@ const isTransportRegistrationEnabled = computed(() => {
 
 const isInterventionCheckinEnabled = computed(() => {
     return userStore.getUser?.company?.intervention_checkin_enabled === true
+})
+
+const primaryCaseworkerName = computed(() => {
+    const caseworker = state.selectedCitizen?.data?.primary_case_worker
+    if (!caseworker?.firstname && !caseworker?.lastname) return null
+    return [caseworker?.firstname, caseworker?.lastname].filter(Boolean).join(' ')
 })
 
 const { celebrate } = useConfetti()

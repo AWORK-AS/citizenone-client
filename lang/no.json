@@ -8769,6 +8769,7 @@
                 "termJournal": "Journal",
                 "termJournalNoteTag": "Journalnotetagg",
                 "termJournalNotes": "Journalnotater",
+                "termCaseworker": "Saksbehandler",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
                 "enableIpRestriction": "Aktiver IP-begrænsning",

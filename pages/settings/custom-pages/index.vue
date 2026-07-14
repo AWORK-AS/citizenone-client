@@ -41,6 +41,11 @@
                         <FormTextField id="term_journal_notes" name="term_journal_notes" placeholder="Journalnotater"
                             v-model="terms.term_journal_notes" />
                     </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_caseworker" :label="$t('settings.company.form.termCaseworker')" />
+                        <FormTextField id="term_caseworker" name="term_caseworker" placeholder="Sagsbehandler"
+                            v-model="terms.term_caseworker" />
+                    </div>
                 </div>
                 <div class="flex justify-end">
                     <FormButton type="button" buttonStyle="primary" :disabled="terms.saving" @click="saveTerms">
@@ -109,6 +114,7 @@ const terms = reactive({
     term_journal: '',
     term_journal_note_tag: '',
     term_journal_notes: '',
+    term_caseworker: '',
     saving: false,
 })
 
@@ -118,6 +124,7 @@ function loadTerms() {
     terms.term_journal = company?.term_journal ?? ''
     terms.term_journal_note_tag = company?.term_journal_note_tag ?? ''
     terms.term_journal_notes = company?.term_journal_notes ?? ''
+    terms.term_caseworker = company?.term_caseworker ?? ''
 }
 
 // The layout's own fetchUser() (GET /user) runs unawaited on mount, so on a
@@ -135,6 +142,7 @@ async function saveTerms() {
             term_journal: terms.term_journal,
             term_journal_note_tag: terms.term_journal_note_tag,
             term_journal_notes: terms.term_journal_notes,
+            term_caseworker: terms.term_caseworker,
         }
         const response = await userService.updateCompany(params)
         if (response?.data) {
