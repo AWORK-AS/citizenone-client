@@ -8888,7 +8888,8 @@
             "gdprRetention": "GDPR Opbevaring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
-            "economic": "e-conomic"
+            "economic": "e-conomic",
+            "customLinks": "Egne links"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -11773,5 +11774,43 @@
         "publishedTo": "Synlig for alle kunder",
         "gate": "Kun CTO kan godkende & udgive.",
         "noNotes": "Ingen release notes endnu."
+    },
+    "customSidebarLinks": {
+        "title": "Egne links",
+        "addNew": "Tilføj eget link",
+        "edit": "Rediger eget link",
+        "deleteConfirmation": "Slet dette link",
+        "form": {
+            "label": "Etiket",
+            "labelPlaceholder": "fx Intranet",
+            "url": "URL",
+            "visibility": "Synlighed",
+            "icon": "Ikon",
+            "iconHint": "Valgfrit Iconify-navn, fx ph:link",
+            "sortOrder": "Sorteringsrækkefølge"
+        },
+        "visibility": {
+            "both": "Alle",
+            "admin": "Kun administratorer",
+            "user": "Kun brugere"
+        },
+        "table": {
+            "label": "Etiket",
+            "url": "URL",
+            "visibility": "Synlighed",
+            "actions": {
+                "edit": "Rediger",
+                "delete": "Slet"
+            }
+        },
+        "alert": {
+            "saved": "Eget link gemt",
+            "updated": "Eget link opdateret",
+            "deleted": "Eget link slettet"
+        },
+        "tip": {
+            "title": "Hvad er egne links?",
+            "body": "Tilføj genveje til venstre sidebar - fx jeres intranet, et fælles drev, et bookingsystem eller et andet eksternt værktøj teamet bruger. Vælg om hvert link vises for administratorer, brugere eller alle."
+        }
     }
 }

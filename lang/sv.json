@@ -8888,7 +8888,8 @@
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
-            "economic": "e-conomic"
+            "economic": "e-conomic",
+            "customLinks": "Egna länkar"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -11773,5 +11774,43 @@
         "publishedTo": "Synlig för alla kunder",
         "gate": "Endast CTO kan godkänna & publicera.",
         "noNotes": "Inga release notes än."
+    },
+    "customSidebarLinks": {
+        "title": "Egna länkar",
+        "addNew": "Lägg till egen länk",
+        "edit": "Redigera egen länk",
+        "deleteConfirmation": "Radera denna länk",
+        "form": {
+            "label": "Etikett",
+            "labelPlaceholder": "t.ex. Intranät",
+            "url": "URL",
+            "visibility": "Synlighet",
+            "icon": "Ikon",
+            "iconHint": "Valfritt Iconify-namn, t.ex. ph:link",
+            "sortOrder": "Sorteringsordning"
+        },
+        "visibility": {
+            "both": "Alla",
+            "admin": "Endast administratörer",
+            "user": "Endast användare"
+        },
+        "table": {
+            "label": "Etikett",
+            "url": "URL",
+            "visibility": "Synlighet",
+            "actions": {
+                "edit": "Redigera",
+                "delete": "Radera"
+            }
+        },
+        "alert": {
+            "saved": "Egen länk sparad",
+            "updated": "Egen länk uppdaterad",
+            "deleted": "Egen länk raderad"
+        },
+        "tip": {
+            "title": "Vad är egna länkar?",
+            "body": "Lägg till genvägar i vänstermenyn - t.ex. ert intranät, en delad enhet, ett bokningssystem eller ett annat externt verktyg teamet använder. Välj om varje länk visas för administratörer, användare eller alla."
+        }
     }
 }
