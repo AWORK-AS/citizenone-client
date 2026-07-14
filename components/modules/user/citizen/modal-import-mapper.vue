@@ -563,8 +563,17 @@ const FIELD_FORMAT: Record<string, 'cpr' | 'email' | 'date' | 'time'> = {
 function formatOk(kind: string, v: string): boolean {
     if (kind === 'cpr') return v.replace(/\D/g, '').length === 10
     if (kind === 'email') return /.+@.+\..+/.test(v)
-    if (kind === 'date') return /^\d{4}[-/.]\d{1,2}[-/.]\d{1,2}$/.test(v) || /^\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}$/.test(v)
-    if (kind === 'time') return /^\d{1,2}:\d{2}$/.test(v)
+    if (kind === 'date') {
+        // Excel/CSV exports often append a time component (e.g. "2026-07-14 00:00:00"
+        // or "2026-07-14T00:00:00") - the backend (Carbon::parse) accepts these fine,
+        // so strip it before checking the date portion instead of rejecting the row.
+        const datePart = v.split(/[ T]/)[0]
+        if (/^\d{4}[-/.]\d{1,2}[-/.]\d{1,2}$/.test(datePart) || /^\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}$/.test(datePart)) return true
+        // Fall back to native parsing for anything else the backend's lenient
+        // Carbon::parse() fallback would also accept (e.g. "14 Jul 2026").
+        return !isNaN(Date.parse(v))
+    }
+    if (kind === 'time') return /^\d{1,2}:\d{2}(:\d{2})?$/.test(v)
     return true
 }
 function cleanLabel(label: string) { return label.replace(/\s*\(.*\)/, '').trim() }
