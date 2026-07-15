@@ -184,16 +184,20 @@
                                             <Menu as="div"
                                                 class="absolute right-1 flex-none opacity-0 group-hover/event:opacity-100"
                                                 @click.stop>
-                                                <MenuButton class="flex items-center rounded bg-white/90 p-0.5 text-gray-400 shadow-sm ring-1 ring-gray-200 hover:text-gray-700">
+                                                <MenuButton class="flex items-center rounded bg-white/90 p-0.5 text-gray-400 shadow-sm ring-1 ring-gray-200 hover:text-gray-700"
+                                                    @click="openDropdownMenu($event)">
                                                     <Icon name="heroicons:ellipsis-horizontal" class="h-3.5 w-3.5" />
                                                 </MenuButton>
+                                                <Teleport to="body">
                                                 <transition enter-active-class="transition ease-out duration-100"
                                                     enter-from-class="transform opacity-0 scale-95"
                                                     enter-to-class="transform opacity-100 scale-100"
                                                     leave-active-class="transition ease-in duration-75"
                                                     leave-from-class="transform opacity-100 scale-100"
                                                     leave-to-class="transform opacity-0 scale-95">
-                                                    <MenuItems class="absolute right-0 z-20 mt-1 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                    <MenuItems @mouseenter="hidePreview"
+                                                        :style="{ left: state.menuPos.x + 'px', top: state.menuPos.y + 'px' }"
+                                                        class="fixed z-[60] w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                         <div class="py-1">
                                                             <MenuItem v-slot="{ active }">
                                                             <a href="#" :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -239,6 +243,7 @@
                                                         </div>
                                                     </MenuItems>
                                                 </transition>
+                                                </Teleport>
                                             </Menu>
                                         </div>
                                     </div>
@@ -558,6 +563,7 @@ const state = reactive({
     expandedDays: [] as string[],
     flashToday: false,
     preview: { event: null as any, x: 0, y: 0 },
+    menuPos: { x: 0, y: 0 },
     modal: {
         isDeleteScheduleOpen: false,
         isShowAllInviteesOpen: false,
@@ -716,6 +722,19 @@ function showPreviewEl(e: FocusEvent, event: any) {
 
 function hidePreview() {
     state.preview.event = null
+}
+
+// The dropdown is teleported to <body> (fixed position) so it can never be
+// overpainted by a later sibling day-cell in the grid when it extends past
+// its own cell's boundary (e.g. events near the bottom of a row) - matches
+// the same approach already used for the hover preview above.
+function openDropdownMenu(e: MouseEvent) {
+    hidePreview()
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    const width = 192 // w-48
+    let x = rect.right - width
+    if (x < 8) x = 8
+    state.menuPos = { x, y: rect.bottom + 4 }
 }
 
 function onCalKey(e: KeyboardEvent) {
