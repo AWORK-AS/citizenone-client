@@ -8732,6 +8732,8 @@
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Sjekk inn/ut for innsats",
                 "interventionNotificationHours": "Varslingstimer for innsats",
+                "employmentWeeklyHours": "Ukentlige arbeidstimer (fakturering for sysselsettingsinnsats)",
+                "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",
                 "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
                 "lockPastSchedules": "Lås tidligere vaktplaner",
                 "municipality": "Kommune",
@@ -10566,12 +10568,9 @@
         "courseDetails": "Hvis du og dine kollegaer har bruk for et kurs i CitizenOne, så klikk på knappen nedenfor for at se, hva vi kan tilbyde, så I blir godt klædt på",
         "findGuidesHere": "Finn veiledninger her",
         "getAGuidedTour": "Få en guided video-tour",
-        "latestNewFeatures": "Seneste nye funksjoner",
-        "latestNewFeaturesDetails": "Følg med i de nyeste forbedringer og funksjoner i CitizenOne. Vi oppdaterer løbende, så du alltid er oppdatert",
         "needACourse": "Bruk for et kurs",
         "newFeatureRequest": "Har du ønsker til nye funksjoner",
         "newFeatureRequestDetails": "CitizenOne udvikles i tæt samarbeide med vores brukere. Har du forslag eller idéer til nye funksjoner? Så del dem med os - vi lytter og prioriterer løbende",
-        "seeTheNewFeatures": "Se de nye funksjoner",
         "sendUsYourRequests": "Send os dine ønsker",
         "support": "Support",
         "viewCourses": "Se kurs",
@@ -11173,10 +11172,7 @@
                     "hourly": "Timebasert prising",
                     "bonus": "Bonusbasert prising"
                 },
-                "bonusMonthOptions": {
-                    "three": "3 måneder",
-                    "six": "6 måneder"
-                },
+                "bonusConditionMonthsUnit": "måneder",
                 "frequencyOptions": {
                     "hourly": "Per time",
                     "daily": "Per dag",

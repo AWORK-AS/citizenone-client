@@ -8732,6 +8732,8 @@
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Check in/ut för insats",
                 "interventionNotificationHours": "Varslingstimer för insats",
+                "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
+                "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
                 "municipality": "Kommun",
@@ -10566,12 +10568,9 @@
         "courseDetails": "Om du och dina kollegaer har använd för ett kurs i CitizenOne, så klicka på knappen nedenfor för att se, vad vi kan tilbyde, så I blir bra klädt på",
         "findGuidesHere": "Hitta vejledninger här",
         "getAGuidedTour": "Få en guided video-tour",
-        "latestNewFeatures": "Seneste nya funktioner",
-        "latestNewFeaturesDetails": "Fölg med i de nyeste forbedringer och funktioner i CitizenOne. Vi uppdaterar löbende, så du alltid är uppdaterad",
         "needACourse": "Använd för ett kurs",
         "newFeatureRequest": "Har du vill till nya funktioner",
         "newFeatureRequestDetails": "CitizenOne udvikles i tät samarbete med vår användare. Har du forslag eller idéär till nya funktioner? Så dela dem med oss - vi lytter och prioriterer löbende",
-        "seeTheNewFeatures": "Se de nya funktioner",
         "sendUsYourRequests": "Skicka oss dina vill",
         "support": "Support",
         "viewCourses": "Se kurser",
@@ -11173,10 +11172,7 @@
                     "hourly": "Timbaserad prissättning",
                     "bonus": "Bonusbaserad prissättning"
                 },
-                "bonusMonthOptions": {
-                    "three": "3 månader",
-                    "six": "6 månader"
-                },
+                "bonusConditionMonthsUnit": "månader",
                 "frequencyOptions": {
                     "hourly": "Per timme",
                     "daily": "Per dag",

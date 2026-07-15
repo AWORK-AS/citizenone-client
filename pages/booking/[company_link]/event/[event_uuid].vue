@@ -366,9 +366,9 @@
                                             {{ state.bookingSettings?.company?.company_address?.post_code }}
                                         </p>
                                     </div>
-                                    <p class="text-sm text-muted-400">
+                                    <div class="text-sm text-muted-400">
                                         <div v-html="state.bookingSettings?.description" class="content" />
-                                    </p>
+                                    </div>
                                 </div>
                                 <div
                                     class="pointer-events-none absolute inset-px rounded-lg shadow ring-1 ring-black/5">

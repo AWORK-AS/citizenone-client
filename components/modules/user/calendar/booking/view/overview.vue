@@ -8,9 +8,9 @@
                         <h3 class="font-semibold text-lg">
                             {{ props.selectedCourseEvent?.name }}
                         </h3>
-                        <p class="text-sm text-muted-400">
+                        <div class="text-sm text-muted-400">
                             <div v-html="props.selectedCourseEvent?.description" class="content" />
-                        </p>
+                        </div>
                     </div>
                     <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1">
                         <div v-for="(tag, tagIndex) in props.selectedCourseEvent?.booking_setting?.tags" :key="tagIndex"

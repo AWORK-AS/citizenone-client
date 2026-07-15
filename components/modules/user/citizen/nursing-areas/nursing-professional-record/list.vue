@@ -60,14 +60,14 @@
                                 <p class="text-sm">
                                     {{ record?.functional_level }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.functional_level_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -76,14 +76,14 @@
                                 <p class="text-sm">
                                     {{ record?.musculoskeletal_system }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.musculoskeletal_system_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -92,14 +92,14 @@
                                 <p class="text-sm">
                                     {{ record?.nutrition }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.nutrition_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -109,14 +109,14 @@
                                 <p class="text-sm">
                                     {{ record?.skin_and_mucous_membranes }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.skin_and_mucous_membranes_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -125,14 +125,14 @@
                                 <p class="text-sm">
                                     {{ record?.communication }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.communication_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -142,14 +142,14 @@
                                 <p class="text-sm">
                                     {{ record?.psychosocial_conditions }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.psychosocial_conditions_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -160,14 +160,14 @@
                                 <p class="text-sm">
                                     {{ record?.respiration_and_circulation }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.respiration_and_circulation_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -176,14 +176,14 @@
                                 <p class="text-sm">
                                     {{ record?.sexuality }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.sexuality_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -194,14 +194,14 @@
                                 <p class="text-sm">
                                     {{ record?.pain_and_sensory_impressions }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.pain_and_sensory_impressions_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -210,14 +210,14 @@
                                 <p class="text-sm">
                                     {{ record?.sleep_and_rest }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.sleep_and_rest_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -227,14 +227,14 @@
                                 <p class="text-sm">
                                     {{ record?.knowledge_and_development }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.knowledge_and_development_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                             <div>
                                 <p class="font-bold">
@@ -243,14 +243,14 @@
                                 <p class="text-sm">
                                     {{ record?.excretion_of_waste }}
                                 </p>
-                                <p class="text-sm mt-4">
+                                <div class="text-sm mt-4">
                                     <span class="font-bold">
                                         {{
                                             $t('citizens.nursingAreas.table.healthProfessionalDocumentation')
                                         }}:
                                     </span>
                                     <div v-html="record?.excretion_of_waste_note" class="content" />
-                                </p>
+                                </div>
                             </div>
                         </div>
                         <button @click="toggleExpanded(index as number)"
