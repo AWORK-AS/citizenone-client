@@ -10882,8 +10882,9 @@
         "newUpdatesFrom": "Nye oppdateringer fra",
         "showUpdate": "Vis oppdatering",
         "updates": "Oppdateringer",
+        "newBadge": "Ny",
         "noUpdates": "Ingen oppdateringer ennå.",
-        "tagline": "Se hva som er nytt i CitizenONE"
+        "tagline": "Se hva som er nytt i CitizenOne"
     },
     "validation": {
         "invalidNumber": "Ugyldig nummer",

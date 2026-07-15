@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('updates.newUpdates')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="$t('updates.updates')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isLoading">
                     <div class="min-h-[8rem]">
@@ -22,27 +22,30 @@
                             {{ $t('updates.noUpdates') }}
                         </p>
 
-                        <!-- Timeline -->
+                        <!-- Timeline: everything published, newest first. Unseen notes stay highlighted; seen ones just mute in place - nothing is ever hidden or moved. -->
                         <ol v-else class="relative ml-1.5 space-y-6 border-l border-gray-200 pl-6">
-                            <li v-for="(note, i) in state.notes" :key="note.uuid" class="relative">
+                            <li v-for="note in state.notes" :key="note.uuid" class="relative">
                                 <span class="absolute -left-[31px] top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full ring-4 ring-white"
-                                    :class="i === 0 ? 'bg-tertiary' : 'bg-gray-300'"></span>
+                                    :class="note.is_new ? 'bg-tertiary' : 'bg-gray-300'"></span>
                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                    <h4 class="text-[15px] font-semibold text-gray-900">{{ note.title }}</h4>
+                                    <h4 class="text-[15px] font-semibold" :class="note.is_new ? 'text-gray-900' : 'text-gray-500'">
+                                        {{ note.title }}
+                                    </h4>
                                     <span v-if="note.version"
                                         class="rounded-full bg-tertiary/10 px-2 py-0.5 text-[11px] font-semibold text-tertiary">
                                         {{ note.version }}
                                     </span>
-                                    <span v-if="i === 0"
+                                    <span v-if="note.is_new"
                                         class="rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
-                                        {{ $t('releaseNotes.published') }}
+                                        {{ $t('updates.newBadge') }}
                                     </span>
                                 </div>
                                 <p v-if="note.published_at" class="mt-0.5 flex items-center gap-x-1 text-xs text-gray-400">
                                     <Icon name="ph:calendar-blank" class="h-3.5 w-3.5" />
                                     {{ formatDateToReadable(note.published_at) }}
                                 </p>
-                                <p v-if="note.content" class="mt-2 whitespace-pre-line text-sm leading-relaxed text-gray-600">
+                                <p v-if="note.content" class="mt-2 whitespace-pre-line text-sm leading-relaxed"
+                                    :class="note.is_new ? 'text-gray-600' : 'text-gray-400'">
                                     {{ note.content }}
                                 </p>
                             </li>
@@ -70,7 +73,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'marked-seen'])
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
@@ -91,6 +94,16 @@ async function fetchNotes() {
         state.notes = []
     }
     state.isLoading = false
+
+    // Mark as seen only after this view's is_new flags are captured, so the highlighting
+    // shown right now reflects what was actually new when the user opened the panel -
+    // the badge clears immediately, but this session's items stay highlighted until next open.
+    try {
+        await releaseNoteService.markSeen()
+        emit('marked-seen')
+    } catch (error: any) {
+        // keep the badge as-is if marking seen fails
+    }
 }
 
 function closeModal() {

@@ -10882,8 +10882,9 @@
         "newUpdatesFrom": "New updates from",
         "showUpdate": "Show update",
         "updates": "Updates",
+        "newBadge": "New",
         "noUpdates": "No updates yet.",
-        "tagline": "See what's new in CitizenONE"
+        "tagline": "See what's new in CitizenOne"
     },
     "validation": {
         "invalidNumber": "Invalid number",
