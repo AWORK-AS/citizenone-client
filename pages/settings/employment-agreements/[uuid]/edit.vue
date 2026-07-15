@@ -2,12 +2,12 @@
     <div>
         <NuxtLayout name="user">
             <Head>
-                <Title>{{ $t('employment.agreements.editAgreement') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('employment.agreements.editAgreement', { term: agreementTerm }) }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
-            <template #header>{{ $t('employment.agreements.editAgreement') }}</template>
+            <template #header>{{ $t('employment.agreements.editAgreement', { term: agreementTerm }) }}</template>
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                     to="/settings/employment-agreements">
@@ -31,18 +31,21 @@
 import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { term } = useTerminology()
+const agreementTerm = computed(() => term('agreement', t('settings.company.form.termAgreement')))
 const router = useRouter()
 const agreementUuid = router?.currentRoute?.value?.params?.uuid
 
-const breadcrumbLinks = [
+const breadcrumbLinks = computed(() => [
     { name: 'employment.agreements.agreements', translate: true, href: '/settings/employment-agreements' },
-    { name: 'employment.agreements.editAgreement', translate: true, href: `/settings/employment-agreements/${agreementUuid}/edit` },
-]
+    { name: t('employment.agreements.editAgreement', { term: agreementTerm.value }), translate: false, href: `/settings/employment-agreements/${agreementUuid}/edit` },
+])
 
 const state = reactive({
     error: {} as Error,

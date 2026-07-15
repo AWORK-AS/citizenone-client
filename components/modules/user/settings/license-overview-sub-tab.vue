@@ -6,8 +6,12 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
+import { useI18n } from 'vue-i18n'
+import { useTerminology } from '@/composables/useTerminology'
 
 const userStore = useUserStore() as any
+const { t } = useI18n()
+const { term } = useTerminology()
 
 const state = reactive({
     tabs: [
@@ -47,8 +51,8 @@ watchEffect(() => {
         || userStore.getUser?.company?.industry?.en_name === 'Employment Services'
     ) {
         nextTabs.splice(1, 0, {
-            name: 'settings.licenseOverview.caseworkerLicenses',
-            isTranslateName: true,
+            name: t('settings.licenseOverview.caseworkerLicenses', { term: term('caseworker', t('settings.company.form.termCaseworker')) }),
+            isTranslateName: false,
             href: '/settings/license-overview/caseworker',
             routeNames: ['settings-license-overview-caseworker'],
         })

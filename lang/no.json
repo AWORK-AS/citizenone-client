@@ -1346,11 +1346,11 @@
             "viewSchedule": "Se tidsplan"
         },
         "caseWorker": {
-            "addNewCaseworker": "Legg til ny sagsbehandler",
+            "addNewCaseworker": "Legg til ny {term}",
             "alert": {
-                "newCaseWorkerSuccessfullyAdded": "Ny sagsbehandler lagt til vellykket"
+                "newCaseWorkerSuccessfullyAdded": "Ny {term} lagt til vellykket"
             },
-            "newCaseWorker": "Ny sagsbehandler"
+            "newCaseWorker": "Ny {term}"
         },
         "citizenJournals": {
             "aiUsed": "CitizenOne AI ble brukt",
@@ -1939,7 +1939,7 @@
             },
             "transportation": "Transportere",
             "useThisLocation": "Bruk denne plassering",
-            "secondaryCaseworker": "Sekundær saksbehandler"
+            "secondaryCaseworker": "Sekundær {term}"
         },
         "importCitizens": {
             "alert": {
@@ -6244,7 +6244,7 @@
             "note": "Note",
             "payingMunicipality": "Betalingskommune",
             "pricing": "Prising",
-            "primaryCaseWorker": "Primær sagsbehandler",
+            "primaryCaseWorker": "Primær {term}",
             "responsibleMunicipality": "Ansvarlig kommune",
             "section": "Paragraf",
             "employmentData": "Sysselsettingsforløp",
@@ -8496,9 +8496,9 @@
         "citizen": "Bruker",
         "department": "Avdeling",
         "municipality": "Kommune",
-        "caseworkerName": "Saksbehandlers navn",
-        "caseworkerEmail": "Saksbehandlers e-post",
-        "caseworkerPhone": "Saksbehandlers telefon",
+        "caseworkerName": "{term}s navn",
+        "caseworkerEmail": "{term}s e-post",
+        "caseworkerPhone": "{term}s telefon",
         "startDate": "Startdato",
         "endDate": "Sluttdato",
         "weeks": "Uker",
@@ -8770,6 +8770,9 @@
                 "termJournalNoteTag": "Journalnotetagg",
                 "termJournalNotes": "Journalnotater",
                 "termCaseworker": "Saksbehandler",
+                "termCase": "Sak",
+                "termAgreement": "Avtale",
+                "termJobcenter": "Jobbsenter",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
                 "enableIpRestriction": "Aktiver IP-begrænsning",
@@ -8795,7 +8798,7 @@
             "unusedLicense": "Ubrugt lisens",
             "usedLicense": "Brukt lisens",
             "userLicenses": "Brugerlicenser",
-            "caseworkerLicenses": "Saksbehandlerlisenser",
+            "caseworkerLicenses": "{term}lisenser",
             "departmentLicenses": "Afdelingslicenser",
             "usedDepartmentLicense": "Brukt afdelingslicens",
             "unusedDepartmentLicense": "Ubrugt afdelingslicens",
@@ -11207,10 +11210,10 @@
             }
         },
         "cases": {
-            "addNewCase": "Legg til ny sak",
+            "addNewCase": "Legg til ny {term}",
             "cases": "Sysselsettingssaker",
-            "editCase": "Rediger sak",
-            "newCase": "Ny sak",
+            "editCase": "Rediger {term}",
+            "newCase": "Ny {term}",
             "form": {
                 "agreement": "Avtale",
                 "alert": {
@@ -11239,12 +11242,6 @@
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
                 "contractPrice": "Kontraktpris",
                 "primarySplitPercentage": "Primær koordinator andel (%)",
-                "reportingFrequencyOptions": {
-                    "every2weeks": "Hver 2. uke",
-                    "every4weeks": "Hver 4. uke",
-                    "every6weeks": "Hver 6. uke",
-                    "every8weeks": "Hver 8. uke"
-                },
                 "reportingReminderTitle": "Rapporteringspåminnelse",
                 "reportingReminderNote": "Automatisk rapporteringspåminnelse for sysselsettingssak"
             },
@@ -11293,10 +11290,10 @@
             }
         },
         "agreements": {
-            "addNewAgreement": "Legg til ny avtale",
+            "addNewAgreement": "Legg til ny {term}",
             "agreements": "Avtaler",
-            "editAgreement": "Rediger avtale",
-            "newAgreement": "Ny avtale",
+            "editAgreement": "Rediger {term}",
+            "newAgreement": "Ny {term}",
             "form": {
                 "alert": {
                     "agreementSuccessfullyUpdated": "Avtale oppdatert",
@@ -11339,10 +11336,10 @@
             }
         },
         "jobcenters": {
-            "addNewJobcenter": "Legg til nytt jobbsenter",
-            "editJobcenter": "Rediger jobbsenter",
+            "addNewJobcenter": "Legg til nytt {term}",
+            "editJobcenter": "Rediger {term}",
             "jobcenters": "Jobbsentre",
-            "newJobcenter": "Nytt jobbsenter",
+            "newJobcenter": "Nytt {term}",
             "form": {
                 "alert": {
                     "jobcenterSuccessfullyUpdated": "Jobbsenter oppdatert",

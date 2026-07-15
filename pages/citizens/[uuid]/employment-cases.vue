@@ -45,7 +45,7 @@
                             <FormButton buttonStyle="action" @click="state.modal.isNewCaseOpen = true"
                                 v-if="isAtLeast('Admin') || can('manage_citizen_period')">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('employment.cases.addNewCase') }}
+                                {{ $t('employment.cases.addNewCase', { term: caseTerm }) }}
                             </FormButton>
                         </div>
                         <div class="table-responsive">
@@ -151,11 +151,14 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { term } = useTerminology()
+const caseTerm = computed(() => term('case', t('settings.company.form.termCase')))
 const { formatDateToReadable } = useDatetimeFormatter()
 const { isAtLeast, can } = usePermissions()
 const userStore = useUserStore()

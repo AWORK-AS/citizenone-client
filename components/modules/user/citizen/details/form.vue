@@ -287,7 +287,7 @@
                         <FormLabel for="primary_case_worker_uuid" :label="term('caseworker', $t('citizens.form.primaryCaseworker'))" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                             @click="state.modal.isAddCaseworkerOpen = true">
-                            {{ $t('citizens.caseWorker.addNewCaseworker') }}
+                            {{ $t('citizens.caseWorker.addNewCaseworker', { term: term('caseworker', $t('settings.company.form.termCaseworker')) }) }}
                         </span>
                     </div>
                     <FormSelect id="primary_case_worker_uuid" :options="state.options.caseworkers"
@@ -296,7 +296,7 @@
                     <FormError :error="props?.error?.errors?.primary_case_worker_uuid?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="isFieldVisible('primary_case_worker')">
-                    <FormLabel for="secondary_case_worker_uuid" :label="$t('citizens.form.secondaryCaseworker')" />
+                    <FormLabel for="secondary_case_worker_uuid" :label="$t('citizens.form.secondaryCaseworker', { term: term('caseworker', $t('settings.company.form.termCaseworker')) })" />
                     <FormSelect id="secondary_case_worker_uuid" :options="state.options.caseworkers"
                         v-model="state.formCitizen.secondary_case_worker_uuid" />
                     <FormError :error="props?.error?.errors?.secondary_case_worker_uuid?.[0]" />

@@ -62,7 +62,11 @@
                                         :key="field.key">
                                         <FormSwitch :value="state.citizenFormConfig[state.activeFormType][field.key]"
                                             @toggleSwitch="state.citizenFormConfig[state.activeFormType][field.key] = !state.citizenFormConfig[state.activeFormType][field.key]" />
-                                        <p class="text-sm text-gray-700">{{ $t(field.label) }}</p>
+                                        <p class="text-sm text-gray-700">
+                                            {{ field.key === 'primary_case_worker'
+                                                ? $t(field.label, { term: term('caseworker', $t('settings.company.form.termCaseworker')) })
+                                                : $t(field.label) }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="mt-6">

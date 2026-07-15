@@ -1346,11 +1346,11 @@
             "viewSchedule": "View schedule"
         },
         "caseWorker": {
-            "addNewCaseworker": "Add new case worker",
+            "addNewCaseworker": "Add new {term}",
             "alert": {
-                "newCaseWorkerSuccessfullyAdded": "New case worker successfully added"
+                "newCaseWorkerSuccessfullyAdded": "New {term} successfully added"
             },
-            "newCaseWorker": "New case worker"
+            "newCaseWorker": "New {term}"
         },
         "citizenJournals": {
             "aiUsed": "CitizenOne AI was used",
@@ -1939,7 +1939,7 @@
             },
             "transportation": "Transportation",
             "useThisLocation": "Use This Location",
-            "secondaryCaseworker": "Secondary caseworker"
+            "secondaryCaseworker": "Secondary {term}"
         },
         "importCitizens": {
             "alert": {
@@ -6244,7 +6244,7 @@
             "note": "Note",
             "payingMunicipality": "Paying Municipality",
             "pricing": "Pricing",
-            "primaryCaseWorker": "Primary Caseworker",
+            "primaryCaseWorker": "Primary {term}",
             "responsibleMunicipality": "Responsible Municipality",
             "section": "Section",
             "employmentData": "Employment program",
@@ -8496,9 +8496,9 @@
         "citizen": "Citizen",
         "department": "Department",
         "municipality": "Municipality",
-        "caseworkerName": "Caseworker name",
-        "caseworkerEmail": "Caseworker email",
-        "caseworkerPhone": "Caseworker phone",
+        "caseworkerName": "{term} name",
+        "caseworkerEmail": "{term} email",
+        "caseworkerPhone": "{term} phone",
         "startDate": "Start date",
         "endDate": "End date",
         "weeks": "Weeks",
@@ -8770,6 +8770,9 @@
                 "termJournalNoteTag": "Journal note tag",
                 "termJournalNotes": "Journal notes",
                 "termCaseworker": "Caseworker",
+                "termCase": "Case",
+                "termAgreement": "Agreement",
+                "termJobcenter": "Job center",
                 "website": "Website",
                 "ipRestriction": "IP restriction",
                 "enableIpRestriction": "Enable IP restriction",
@@ -8795,7 +8798,7 @@
             "unusedLicense": "Unused license",
             "usedLicense": "Used license",
             "userLicenses": "User licenses",
-            "caseworkerLicenses": "Caseworker licenses",
+            "caseworkerLicenses": "{term} licenses",
             "departmentLicenses": "Department licenses",
             "usedDepartmentLicense": "Used department license",
             "unusedDepartmentLicense": "Unused department license",
@@ -11207,10 +11210,10 @@
             }
         },
         "cases": {
-            "addNewCase": "Add new case",
+            "addNewCase": "Add new {term}",
             "cases": "Employment cases",
-            "editCase": "Edit case",
-            "newCase": "New case",
+            "editCase": "Edit {term}",
+            "newCase": "New {term}",
             "form": {
                 "agreement": "Agreement",
                 "alert": {
@@ -11239,12 +11242,6 @@
                 "reportingFrequencyWeeks": "Reporting frequency",
                 "contractPrice": "Contract price",
                 "primarySplitPercentage": "Primary coordinator share (%)",
-                "reportingFrequencyOptions": {
-                    "every2weeks": "Every 2 weeks",
-                    "every4weeks": "Every 4 weeks",
-                    "every6weeks": "Every 6 weeks",
-                    "every8weeks": "Every 8 weeks"
-                },
                 "reportingReminderTitle": "Reporting reminder",
                 "reportingReminderNote": "Automatic reporting reminder for employment case"
             },
@@ -11293,10 +11290,10 @@
             }
         },
         "agreements": {
-            "addNewAgreement": "Add new agreement",
+            "addNewAgreement": "Add new {term}",
             "agreements": "Agreements",
-            "editAgreement": "Edit agreement",
-            "newAgreement": "New agreement",
+            "editAgreement": "Edit {term}",
+            "newAgreement": "New {term}",
             "form": {
                 "alert": {
                     "agreementSuccessfullyUpdated": "Agreement successfully updated",
@@ -11339,10 +11336,10 @@
             }
         },
         "jobcenters": {
-            "addNewJobcenter": "Add new job center",
-            "editJobcenter": "Edit job center",
+            "addNewJobcenter": "Add new {term}",
+            "editJobcenter": "Edit {term}",
             "jobcenters": "Job centers",
-            "newJobcenter": "New job center",
+            "newJobcenter": "New {term}",
             "form": {
                 "alert": {
                     "jobcenterSuccessfullyUpdated": "Job center successfully updated",
