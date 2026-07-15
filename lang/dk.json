@@ -9042,7 +9042,8 @@
         "reportTemplates": "Rapportskabeloner",
         "journalNotes": "Journalnotater",
         "pinSidebar": "Fastgør sidebar",
-        "unpinSidebar": "Frigør sidebar"
+        "unpinSidebar": "Frigør sidebar",
+        "myDay": "Min dag"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -11600,5 +11601,25 @@
             "updated": "Opdateret",
             "deleted": "Slettet"
         }
+    },
+    "myDay": {
+        "title": "Min dag",
+        "greeting": {
+            "morning": "Godmorgen",
+            "day": "Goddag",
+            "evening": "Godaften"
+        },
+        "shifts": "Mine vagter",
+        "noShifts": "Ingen vagter i dag",
+        "events": "Mine aftaler",
+        "noEvents": "Ingen aftaler i dag",
+        "medsDue": "Medicin i dag",
+        "medsDeptNote": "afdeling",
+        "noMeds": "Ingen medicin afventer",
+        "drafts": "Noter at skrive",
+        "noDrafts": "Ingen kladder",
+        "untitledNote": "Note uden titel",
+        "reminders": "Mine påmindelser",
+        "noReminders": "Ingen påmindelser i dag"
     }
 }

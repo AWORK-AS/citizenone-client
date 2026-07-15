@@ -9042,7 +9042,8 @@
         "reportTemplates": "Report templates",
         "journalNotes": "Journal notes",
         "pinSidebar": "Pin sidebar",
-        "unpinSidebar": "Unpin sidebar"
+        "unpinSidebar": "Unpin sidebar",
+        "myDay": "My day"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -11600,5 +11601,25 @@
             "updated": "Updated",
             "deleted": "Deleted"
         }
+    },
+    "myDay": {
+        "title": "My day",
+        "greeting": {
+            "morning": "Good morning",
+            "day": "Hello",
+            "evening": "Good evening"
+        },
+        "shifts": "My shifts",
+        "noShifts": "No shifts today",
+        "events": "My events",
+        "noEvents": "No events today",
+        "medsDue": "Medication due",
+        "medsDeptNote": "department",
+        "noMeds": "No pending medication",
+        "drafts": "Notes to write",
+        "noDrafts": "No draft notes",
+        "untitledNote": "Untitled note",
+        "reminders": "My reminders",
+        "noReminders": "No reminders today"
     }
 }

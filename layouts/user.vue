@@ -652,6 +652,7 @@ watch(() => language.locale.value, (newLanguage: any) => {
 function getNavItemLabel(item: any) {
     const t = language.t
     if (item.name === 'Overview') return t('sidebar.overview')
+    if (item.name === 'My day') return t('sidebar.myDay')
     if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
@@ -721,6 +722,14 @@ function generateSidebarLinks(user: any) {
         icon: 'material-symbols:dashboard',
         activeRouteNames: [
             'overview',
+        ]
+    })
+    nav.push({
+        name: 'My day',
+        href: '/my-day',
+        icon: 'ph:sun',
+        activeRouteNames: [
+            'my-day',
         ]
     })
     if (isAtLeast('Admin')) {

@@ -9042,7 +9042,8 @@
         "reportTemplates": "Rapportmallar",
         "journalNotes": "Journal notes",
         "pinSidebar": "Fäst sidebar",
-        "unpinSidebar": "Lossa sidebar"
+        "unpinSidebar": "Lossa sidebar",
+        "myDay": "Min dag"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -11600,5 +11601,25 @@
             "updated": "Uppdaterad",
             "deleted": "Raderad"
         }
+    },
+    "myDay": {
+        "title": "Min dag",
+        "greeting": {
+            "morning": "God morgon",
+            "day": "Goddag",
+            "evening": "God kväll"
+        },
+        "shifts": "Mina pass",
+        "noShifts": "Inga pass idag",
+        "events": "Mina händelser",
+        "noEvents": "Inga händelser idag",
+        "medsDue": "Medicin idag",
+        "medsDeptNote": "avdelning",
+        "noMeds": "Ingen väntande medicin",
+        "drafts": "Anteckningar att skriva",
+        "noDrafts": "Inga utkast",
+        "untitledNote": "Anteckning utan titel",
+        "reminders": "Mina påminnelser",
+        "noReminders": "Inga påminnelser idag"
     }
 }
