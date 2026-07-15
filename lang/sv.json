@@ -767,7 +767,8 @@
     },
     "assistants": {
         "askAI": "Fråga AI",
-        "askAnything": "Fråga om vad som helst",
+        "askAnything": "Fråga om vad som helst, eller skriv {'@'} för att nämna någon",
+        "mentionSomeone": "Nämn en brukare eller medarbetare",
         "fileSizeExceeds": "Den samlade filstörrelse får inte overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vänligen",
         "helloHowCanIAssistYouToday": "Hej, hur kan jag hjälpa dig idag",

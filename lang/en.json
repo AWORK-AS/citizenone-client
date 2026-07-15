@@ -767,7 +767,8 @@
     },
     "assistants": {
         "askAI": "Ask AI",
-        "askAnything": "Ask anything",
+        "askAnything": "Ask anything, or type {'@'} to mention someone",
+        "mentionSomeone": "Mention a citizen or employee",
         "fileSizeExceeds": "Total file size must not exceed 10MB",
         "generatingResponse": "Generating response. Please wait",
         "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
