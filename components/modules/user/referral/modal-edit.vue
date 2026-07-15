@@ -81,25 +81,25 @@
                             </div>
 
                             <div class="space-y-1">
-                                <FormLabel for="caseworker_name" :label="$t('referrals.caseworkerName')" />
+                                <FormLabel for="caseworker_name" :label="$t('referrals.caseworkerName', { term: caseworkerTerm })" />
                                 <FormTextField id="caseworker_name" name="caseworker_name"
-                                    :placeholder="$t('referrals.caseworkerName')"
+                                    :placeholder="$t('referrals.caseworkerName', { term: caseworkerTerm })"
                                     v-model="state.formReferral.caseworker_name" />
                                 <FormError :error="state.error?.errors?.caseworker_name?.[0]" />
                             </div>
 
                             <div class="space-y-1">
-                                <FormLabel for="caseworker_email" :label="$t('referrals.caseworkerEmail')" />
+                                <FormLabel for="caseworker_email" :label="$t('referrals.caseworkerEmail', { term: caseworkerTerm })" />
                                 <FormTextField id="caseworker_email" name="caseworker_email" type="email"
-                                    :placeholder="$t('referrals.caseworkerEmail')"
+                                    :placeholder="$t('referrals.caseworkerEmail', { term: caseworkerTerm })"
                                     v-model="state.formReferral.caseworker_email" />
                                 <FormError :error="state.error?.errors?.caseworker_email?.[0]" />
                             </div>
 
                             <div class="space-y-1">
-                                <FormLabel for="caseworker_phone" :label="$t('referrals.caseworkerPhone')" />
+                                <FormLabel for="caseworker_phone" :label="$t('referrals.caseworkerPhone', { term: caseworkerTerm })" />
                                 <FormTextField id="caseworker_phone" name="caseworker_phone"
-                                    :placeholder="$t('referrals.caseworkerPhone')"
+                                    :placeholder="$t('referrals.caseworkerPhone', { term: caseworkerTerm })"
                                     v-model="state.formReferral.caseworker_phone" />
                                 <FormError :error="state.error?.errors?.caseworker_phone?.[0]" />
                             </div>
@@ -167,6 +167,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { useTerminology } from '@/composables/useTerminology'
 import moment from 'moment'
 import type { Error } from '@/types'
 
@@ -184,6 +185,8 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refreshReferrals'])
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { term } = useTerminology()
+const caseworkerTerm = computed(() => term('caseworker', t('settings.company.form.termCaseworker')))
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({

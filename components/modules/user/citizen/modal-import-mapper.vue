@@ -224,6 +224,9 @@
                         <p v-if="(state.summary?.duplicate_count ?? 0) > 0" class="mt-1 text-sm text-slate-500">
                             {{ $t('import.steps.done.alreadyExisted', { count: state.summary.duplicate_count }) }}
                         </p>
+                        <p v-if="(state.summary?.failed_count ?? 0) > 0" class="mt-1 text-sm text-red-600">
+                            {{ $t('import.steps.done.rowsFailed', { count: state.summary.failed_count }) }}
+                        </p>
                         <div v-if="(state.summary?.license_blocked_count ?? 0) > 0"
                             class="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-left">
                             <p class="text-sm font-medium text-amber-800">
@@ -276,6 +279,13 @@
                             <p v-if="state.summary?.unmatched_shift?.length">
                                 <strong>{{ $t('import.steps.done.unknownShifts') }}</strong>
                                 {{ state.summary.unmatched_shift.join(', ') }}
+                            </p>
+                        </div>
+                        <div v-if="state.summary?.failed?.length"
+                            class="mt-3 text-left text-xs text-red-700 max-h-40 overflow-y-auto rounded-lg bg-red-50 p-3">
+                            <p>
+                                <strong>{{ $t('import.steps.done.failedRows') }}</strong>
+                                {{ state.summary.failed.join(', ') }}
                             </p>
                         </div>
                     </div>
@@ -563,8 +573,17 @@ const FIELD_FORMAT: Record<string, 'cpr' | 'email' | 'date' | 'time'> = {
 function formatOk(kind: string, v: string): boolean {
     if (kind === 'cpr') return v.replace(/\D/g, '').length === 10
     if (kind === 'email') return /.+@.+\..+/.test(v)
-    if (kind === 'date') return /^\d{4}[-/.]\d{1,2}[-/.]\d{1,2}$/.test(v) || /^\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}$/.test(v)
-    if (kind === 'time') return /^\d{1,2}:\d{2}$/.test(v)
+    if (kind === 'date') {
+        // Excel/CSV exports often append a time component (e.g. "2026-07-14 00:00:00"
+        // or "2026-07-14T00:00:00") - the backend (Carbon::parse) accepts these fine,
+        // so strip it before checking the date portion instead of rejecting the row.
+        const datePart = v.split(/[ T]/)[0]
+        if (/^\d{4}[-/.]\d{1,2}[-/.]\d{1,2}$/.test(datePart) || /^\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}$/.test(datePart)) return true
+        // Fall back to native parsing for anything else the backend's lenient
+        // Carbon::parse() fallback would also accept (e.g. "14 Jul 2026").
+        return !isNaN(Date.parse(v))
+    }
+    if (kind === 'time') return /^\d{1,2}:\d{2}(:\d{2})?$/.test(v)
     return true
 }
 function cleanLabel(label: string) { return label.replace(/\s*\(.*\)/, '').trim() }
@@ -607,7 +626,7 @@ async function runImport() {
             const allRows = rowsToImport.map(row => mapRowToObj(row))
             const CHUNK = 300
             const batchRef = (globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${state.entityKey}`)
-            const acc: any = { created: 0, duplicate_count: 0, unmatched_count: 0, unmatched_employee_count: 0, unmatched_shift_count: 0, unmatched: [], unmatched_employee: [], unmatched_shift: [], batch_ref: batchRef, undone: false }
+            const acc: any = { created: 0, duplicate_count: 0, unmatched_count: 0, unmatched_employee_count: 0, unmatched_shift_count: 0, failed_count: 0, unmatched: [], unmatched_employee: [], unmatched_shift: [], failed: [], batch_ref: batchRef, undone: false }
             const pushCapped = (arr: string[], add: any) => { if (Array.isArray(add)) for (const v of add) if (arr.length < 100) arr.push(v) }
 
             state.progress = { done: 0, total: allRows.length }
@@ -621,9 +640,11 @@ async function runImport() {
                 acc.unmatched_count += res?.unmatched_count ?? 0
                 acc.unmatched_employee_count += res?.unmatched_employee_count ?? 0
                 acc.unmatched_shift_count += res?.unmatched_shift_count ?? 0
+                acc.failed_count += res?.failed_count ?? 0
                 pushCapped(acc.unmatched, res?.unmatched)
                 pushCapped(acc.unmatched_employee, res?.unmatched_employee)
                 pushCapped(acc.unmatched_shift, res?.unmatched_shift)
+                pushCapped(acc.failed, res?.failed)
                 state.progress.done = Math.min(i + CHUNK, allRows.length)
             }
             state.summary = acc

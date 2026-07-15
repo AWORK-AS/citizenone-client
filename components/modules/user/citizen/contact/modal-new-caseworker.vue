@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.caseWorker.newCaseWorker')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="$t('citizens.caseWorker.newCaseWorker', { term: caseworkerTerm })" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="submitForm()" id="formContact">
@@ -129,10 +129,13 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { term } = useTerminology()
+const caseworkerTerm = computed(() => term('caseworker', t('settings.company.form.termCaseworker')))
 
 const props = defineProps({
     isModalOpen: {
@@ -303,7 +306,7 @@ async function saveContact() {
         if (response?.data) {
             refreshCaseworkers()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.caseWorker.alert.newCaseWorkerSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.caseWorker.alert.newCaseWorkerSuccessfullyAdded', { term: caseworkerTerm })}.`)
         }
     } catch (error: any) {
         state.error = error

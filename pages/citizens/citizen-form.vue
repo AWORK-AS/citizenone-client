@@ -62,7 +62,11 @@
                                         :key="field.key">
                                         <FormSwitch :value="state.citizenFormConfig[state.activeFormType][field.key]"
                                             @toggleSwitch="state.citizenFormConfig[state.activeFormType][field.key] = !state.citizenFormConfig[state.activeFormType][field.key]" />
-                                        <p class="text-sm text-gray-700">{{ $t(field.label) }}</p>
+                                        <p class="text-sm text-gray-700">
+                                            {{ field.key === 'primary_case_worker'
+                                                ? $t(field.label, { term: term('caseworker', $t('settings.company.form.termCaseworker')) })
+                                                : $t(field.label) }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="mt-6">
@@ -266,11 +270,11 @@
                                         </div>
                                         <!-- Primary Caseworker -->
                                         <div class="space-y-1" v-if="isFieldVisible('primary_case_worker')">
-                                            <FormLabel :label="$t('citizens.form.primaryCaseworker')" />
+                                            <FormLabel :label="term('caseworker', $t('citizens.form.primaryCaseworker'))" />
                                             <div
                                                 class="w-full px-4 h-11 border border-gray-300 rounded-md bg-gray-50 flex items-center">
                                                 <span class="text-gray-400 text-sm">{{
-                                                    $t('citizens.form.primaryCaseworker') }}</span>
+                                                    term('caseworker', $t('citizens.form.primaryCaseworker')) }}</span>
                                             </div>
                                         </div>
                                         <!-- Paying Municipality -->
@@ -518,12 +522,14 @@ import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { term } = useTerminology()
 const { isAtLeast, can } = usePermissions()
 
 const breadcrumbLinks = [

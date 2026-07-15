@@ -57,7 +57,7 @@
                         <!-- Caseworker -->
                         <div v-if="state.referral.caseworker_name || state.referral.caseworker_email || state.referral.caseworker_phone"
                             class="border-t border-gray-100 pt-4 space-y-1">
-                            <p class="text-xs text-gray-400 mb-2">{{ $t('referrals.caseworkerName') }}</p>
+                            <p class="text-xs text-gray-400 mb-2">{{ $t('referrals.caseworkerName', { term: caseworkerTerm }) }}</p>
                             <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
                                 <div v-if="state.referral.caseworker_name" class="flex items-center gap-1.5">
                                     <Icon name="ph:user" class="h-4 w-4 text-gray-400" />
@@ -132,9 +132,14 @@
 <script setup lang="ts">
 import { referralService } from '@/components/api/user/ReferralService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useTerminology } from '@/composables/useTerminology'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const { formatDateToReadable } = useDatetimeFormatter()
+const { t } = useI18n()
+const { term } = useTerminology()
+const caseworkerTerm = computed(() => term('caseworker', t('settings.company.form.termCaseworker')))
 
 const props = defineProps({
     isModalOpen: {

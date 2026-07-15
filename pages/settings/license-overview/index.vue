@@ -197,11 +197,13 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { t } = useI18n()
+const { term } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 let currentTablePage = 1
@@ -212,7 +214,7 @@ const isEmployeeServicesCompany = computed(() => {
 })
 const licenseTypeLabel = computed(() => {
     return isEmployeeServicesCompany.value
-    ? t('settings.licenseOverview.caseworkerLicenses')
+    ? t('settings.licenseOverview.caseworkerLicenses', { term: term('caseworker', t('settings.company.form.termCaseworker')) })
     : t('settings.licenseOverview.userLicenses')
 })
 const breadcrumbLinks = [

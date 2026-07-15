@@ -16,7 +16,7 @@
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" @click="navigateTo('/settings/employment-agreements/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('employment.agreements.addNewAgreement') }}
+                        {{ $t('employment.agreements.addNewAgreement', { term: agreementTerm }) }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -68,11 +68,14 @@ import { employmentService } from '@/components/api/user/EmploymentService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { term } = useTerminology()
+const agreementTerm = computed(() => term('agreement', t('settings.company.form.termAgreement')))
 const userStore = useUserStore()
 let currentTablePage = 1
 const breadcrumbLinks = [

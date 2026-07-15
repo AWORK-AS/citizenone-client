@@ -2,12 +2,12 @@
     <div>
         <NuxtLayout name="user">
             <Head>
-                <Title>{{ $t('employment.jobcenters.newJobcenter') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('employment.jobcenters.newJobcenter', { term: jobcenterTerm }) }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
-            <template #header>{{ $t('employment.jobcenters.newJobcenter') }}</template>
+            <template #header>{{ $t('employment.jobcenters.newJobcenter', { term: jobcenterTerm }) }}</template>
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                     to="/settings/employment-jobcenters">
@@ -29,19 +29,22 @@
 import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const breadcrumbLinks = [
+const { term } = useTerminology()
+const jobcenterTerm = computed(() => term('jobcenter', t('settings.company.form.termJobcenter')))
+const breadcrumbLinks = computed(() => [
     { name: 'employment.jobcenters.jobcenters', translate: true, href: '/settings/employment-jobcenters' },
-    { name: 'employment.jobcenters.newJobcenter', translate: true, href: '/settings/employment-jobcenters/new' },
-]
+    { name: t('employment.jobcenters.newJobcenter', { term: jobcenterTerm.value }), translate: false, href: '/settings/employment-jobcenters/new' },
+])
 
 const state = reactive({
     error: {} as Error,
-    formJobcenter: { name: '', municipality: '', email: '', phone: '', contact_person: '', sort_order: 0, is_active: true },
+    formJobcenter: { name: '', municipality: '', email: '', phone: '', contact_person: '', ean_number: '', sort_order: 0, is_active: true },
     isPageLoading: false,
 })
 
