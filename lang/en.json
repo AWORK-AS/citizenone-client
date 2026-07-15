@@ -11620,6 +11620,7 @@
         "noDrafts": "No draft notes",
         "untitledNote": "Untitled note",
         "reminders": "My reminders",
-        "noReminders": "No reminders today"
+        "noReminders": "No reminders today",
+        "newTask": "New task"
     }
 }

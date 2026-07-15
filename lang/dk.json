@@ -11620,6 +11620,7 @@
         "noDrafts": "Ingen kladder",
         "untitledNote": "Note uden titel",
         "reminders": "Mine påmindelser",
-        "noReminders": "Ingen påmindelser i dag"
+        "noReminders": "Ingen påmindelser i dag",
+        "newTask": "Ny opgave"
     }
 }

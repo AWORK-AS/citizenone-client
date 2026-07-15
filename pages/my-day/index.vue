@@ -103,6 +103,12 @@
                             <div class="flex items-center gap-2 mb-3">
                                 <Icon name="ph:check-square" class="size-5 text-tertiary" />
                                 <h3 class="font-semibold text-gray-900">{{ $t('myDay.reminders') }}</h3>
+                                <button type="button" @click="state.newTaskOpen = true"
+                                    v-if="isAtLeast('Manager') || can('create')"
+                                    class="ml-auto inline-flex items-center gap-1.5 rounded-full bg-primary-25 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary-50 transition-colors">
+                                    <Icon name="ph:plus" class="size-4" aria-hidden="true" />
+                                    {{ $t('myDay.newTask') }}
+                                </button>
                             </div>
                             <ul v-if="state.reminders.length" class="space-y-2">
                                 <li v-for="r in state.reminders" :key="r.id"
@@ -123,6 +129,9 @@
                         </section>
                     </div>
                 </LoadingSpinner>
+
+                <ModulesUserRemindersModalNew :isModalOpen="state.newTaskOpen"
+                    @close="state.newTaskOpen = false" @refreshReminders="onTaskCreated" />
             </div>
         </NuxtLayout>
     </div>
@@ -136,11 +145,13 @@ import { useDepartmentStore } from '@/store/department'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { reminderService } from '@/components/api/user/ReminderService'
+import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore() as any
+const { isAtLeast, can } = usePermissions()
 
 const breadcrumbLinks = [{ name: 'myDay.title', translate: true, href: '/my-day' }]
 const today = moment().format('YYYY-MM-DD')
@@ -152,7 +163,13 @@ const state = reactive({
     meds: [] as any[],
     reminders: [] as any[],
     togglingId: null as number | null,
+    newTaskOpen: false,
 })
+
+function onTaskCreated() {
+    state.newTaskOpen = false
+    fetchAll()
+}
 
 const firstName = computed(() => userStore.getUser?.firstname ?? '')
 const todayLabel = computed(() => moment().format('dddd D. MMMM YYYY'))

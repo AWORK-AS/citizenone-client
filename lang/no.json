@@ -11620,6 +11620,7 @@
         "noDrafts": "Ingen utkast",
         "untitledNote": "Notat uten tittel",
         "reminders": "Mine påminnelser",
-        "noReminders": "Ingen påminnelser i dag"
+        "noReminders": "Ingen påminnelser i dag",
+        "newTask": "Ny oppgave"
     }
 }
