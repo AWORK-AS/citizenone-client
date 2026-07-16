@@ -37,8 +37,10 @@
                                     class="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500">
                                     <Icon name="ph:caret-left" class="size-4" />
                                 </button>
-                                <span class="text-sm font-semibold text-gray-800 capitalize">
+                                <span class="text-sm font-semibold text-gray-800 capitalize flex items-center gap-1.5">
                                     {{ currentMonthLabel }}
+                                    <Icon v-if="state.isLoadingMonthStatus" name="ph:circle-notch"
+                                        class="size-3.5 animate-spin text-gray-400" />
                                 </span>
                                 <button type="button" @click="nextMonth"
                                     class="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500">
@@ -321,6 +323,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
     selectedMedicine: { type: Object, required: true },
+    citizenUuid: { type: String, default: null },
     preselectedDate: { type: String, default: null },
     preselectedTime: { type: String, default: null },
 })
@@ -349,6 +352,8 @@ const state = reactive({
     multiType: '' as string, // given/delivered/deviated for all dates
     multiComment: '' as string,
     multiStep: 1 as number, // 1=select dates, 2=confirm
+    monthDosageStatusByDate: {} as Record<string, any[]>,
+    isLoadingMonthStatus: false,
 })
 
 const typeOptions = computed(() => [
@@ -421,19 +426,28 @@ const calendarDays = computed(() => {
         const dots: string[] = []
         let hasOverdue = false
 
-        if (isCurrentMonth && dosages.length > 0) {
-            if (isPast) {
+        if (isCurrentMonth && dosages.length > 0 && state.isLoadingMonthStatus) {
+            dots.push('bg-gray-300 animate-pulse')
+        } else if (isCurrentMonth && dosages.length > 0) {
+            const dayEntries: any[] = state.monthDosageStatusByDate[ds] ?? []
+            const anyGiven = dayEntries.some((e: any) => e.status === 'given' || e.status === 'delivered')
+            const anyDeviated = dayEntries.some((e: any) => e.status === 'deviated')
+
+            if (anyGiven) {
                 dots.push('bg-green-500')
             } else if (isToday) {
                 const now = new Date()
                 const anyOverdue = dosages.some((d: any) => {
-                    if (d.status) return false
                     const [h, m] = (d.time ?? '').split(':').map(Number)
                     const sched = new Date(); sched.setHours(h, m, 0, 0)
                     return now > sched
                 })
-                if (anyOverdue) { dots.push('bg-red-500'); hasOverdue = true }
+                if (anyOverdue || anyDeviated) { dots.push('bg-red-500'); hasOverdue = true }
                 else dots.push('bg-amber-400')
+            } else if (isPast) {
+                // Past date with no logged 'given'/'delivered' dose - genuinely missed
+                dots.push('bg-red-500')
+                hasOverdue = true
             } else {
                 dots.push('bg-amber-400')
             }
@@ -445,8 +459,37 @@ const calendarDays = computed(() => {
     return days
 })
 
-function prevMonth() { state.calendarMonth = state.calendarMonth.clone().subtract(1, 'month') }
-function nextMonth() { state.calendarMonth = state.calendarMonth.clone().add(1, 'month') }
+async function fetchMonthDosageStatus() {
+    if (!props.citizenUuid || !props.selectedMedicine?.uuid) {
+        state.monthDosageStatusByDate = {}
+        return
+    }
+    state.isLoadingMonthStatus = true
+    const startDate = state.calendarMonth.clone().startOf('month').format('YYYY-MM-DD')
+    const endDate = state.calendarMonth.clone().endOf('month').format('YYYY-MM-DD')
+    try {
+        const response = await medicineHistoryService.getMedicineHistoriesByCitizen(props.citizenUuid, {
+            date_start: startDate,
+            date_end: endDate,
+            page_length: 100,
+        })
+        const medicine = response?.data?.find((m: any) => m.uuid === props.selectedMedicine?.uuid)
+        state.monthDosageStatusByDate = medicine?.dosage_status_by_date ?? {}
+    } catch (e) {
+        state.monthDosageStatusByDate = {}
+    } finally {
+        state.isLoadingMonthStatus = false
+    }
+}
+
+function prevMonth() {
+    state.calendarMonth = state.calendarMonth.clone().subtract(1, 'month')
+    fetchMonthDosageStatus()
+}
+function nextMonth() {
+    state.calendarMonth = state.calendarMonth.clone().add(1, 'month')
+    fetchMonthDosageStatus()
+}
 
 function selectDate(day: any) {
     if (!day.isCurrentMonth) return
@@ -568,6 +611,7 @@ async function saveMultiDate() {
         state.multiComment = ''
         state.multiDateMode = false
         emit('refreshMedicines')
+        fetchMonthDosageStatus()
         setTimeout(() => closeModal(), 600)
     } catch (error: any) {
         state.error = { message: error?.data?.message ?? error?.message ?? t('citizens.medicineJournals.giveMedicineModal.anErrorOccurred') }
@@ -601,6 +645,7 @@ async function saveAll() {
             s.selectedType = ''
         })
         emit('refreshMedicines')
+        fetchMonthDosageStatus()
         // Short delay so parent can refresh before we close
         setTimeout(() => closeModal(), 800)
     } catch (error: any) {
@@ -617,6 +662,7 @@ watch(() => props.isModalOpen, (val) => {
         state.calendarMonth = moment(initDate).startOf('month')
         state.error = null
         buildSlots(initDate)
+        fetchMonthDosageStatus()
         // If a specific time was preselected, auto-select 'given' for that slot
         if (props.preselectedTime) {
             nextTick(() => {
