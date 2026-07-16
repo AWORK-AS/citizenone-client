@@ -25,7 +25,7 @@
                 </p>
                 <FormSelect id="repeat" :options="state.options.repeat" v-model="state.formReminder.repeat" />
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="isAtLeast('Manager')">
                 <p class="text-sm text-gray-600">
                     {{ $t('reminders.assignees') }}
                 </p>
@@ -66,6 +66,9 @@ import { userService } from '@/components/api/user/UserService'
 import type { Error } from '@/types'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     error: {
