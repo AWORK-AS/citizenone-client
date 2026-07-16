@@ -148,6 +148,15 @@ onMounted(() => {
     props.selectedReminder?.reminder_users?.forEach((reminderUser: any) => {
         state.formReminder.employee.push(reminderUser?.user?.uuid)
     })
+
+    // The assignee picker is only shown to Manager+ (see template) - for
+    // everyone else it's required by validation but never rendered, which
+    // silently blocked Save entirely. Default new reminders to the current
+    // user so non-managers (who can only ever assign themselves) can submit,
+    // matching what submitForm() already force-adds for everyone regardless.
+    if (props.formType === 'create' && state.formReminder.employee.length === 0 && userStore.getUser?.uuid) {
+        state.formReminder.employee.push(userStore.getUser.uuid)
+    }
 })
 
 async function fetchAllEmployees() {
