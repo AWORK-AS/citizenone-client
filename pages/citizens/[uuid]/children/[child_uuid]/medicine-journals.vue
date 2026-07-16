@@ -907,7 +907,8 @@
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isGivePNMedicineOpen = false"
                     @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineModalGiveMedicine :isModalOpen="state.modal.isGiveMedicineOpen"
-                    :selectedMedicine="state.selectedMedicine" :preselectedDate="state.preselectedDate ?? undefined"
+                    :selectedMedicine="state.selectedMedicine" :citizenUuid="citizenUuid"
+                    :preselectedDate="state.preselectedDate ?? undefined"
                     :preselectedTime="state.preselectedTime ?? undefined" @close="closeGiveMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines()" />
                 <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
