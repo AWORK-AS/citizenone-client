@@ -9089,7 +9089,8 @@
         "journalNotes": "Journal notes",
         "pinSidebar": "Fäst sidebar",
         "unpinSidebar": "Lossa sidebar",
-        "surveys": "Enkäter"
+        "surveys": "Enkäter",
+        "myDay": "Min dag"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -11828,5 +11829,26 @@
             "title": "Vad är egna länkar?",
             "body": "Lägg till genvägar i vänstermenyn - t.ex. ert intranät, en delad enhet, ett bokningssystem eller ett annat externt verktyg teamet använder. Välj om varje länk visas för administratörer, användare eller alla."
         }
+    },
+    "myDay": {
+        "title": "Min dag",
+        "greeting": {
+            "morning": "God morgon",
+            "day": "Goddag",
+            "evening": "God kväll"
+        },
+        "shifts": "Mina pass",
+        "noShifts": "Inga pass idag",
+        "events": "Mina händelser",
+        "noEvents": "Inga händelser idag",
+        "medsDue": "Medicin idag",
+        "medsDeptNote": "avdelning",
+        "noMeds": "Ingen väntande medicin",
+        "drafts": "Anteckningar att skriva",
+        "noDrafts": "Inga utkast",
+        "untitledNote": "Anteckning utan titel",
+        "reminders": "Mina påminnelser",
+        "noReminders": "Inga påminnelser idag",
+        "newTask": "Ny uppgift"
     }
 }

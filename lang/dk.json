@@ -9089,7 +9089,8 @@
         "journalNotes": "Journalnotater",
         "pinSidebar": "Fastgør sidebar",
         "unpinSidebar": "Frigør sidebar",
-        "surveys": "Spørgeskemaer"
+        "surveys": "Spørgeskemaer",
+        "myDay": "Min dag"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -11828,5 +11829,26 @@
             "title": "Hvad er egne links?",
             "body": "Tilføj genveje til venstre sidebar - fx jeres intranet, et fælles drev, et bookingsystem eller et andet eksternt værktøj teamet bruger. Vælg om hvert link vises for administratorer, brugere eller alle."
         }
+    },
+    "myDay": {
+        "title": "Min dag",
+        "greeting": {
+            "morning": "Godmorgen",
+            "day": "Goddag",
+            "evening": "Godaften"
+        },
+        "shifts": "Mine vagter",
+        "noShifts": "Ingen vagter i dag",
+        "events": "Mine aftaler",
+        "noEvents": "Ingen aftaler i dag",
+        "medsDue": "Medicin i dag",
+        "medsDeptNote": "afdeling",
+        "noMeds": "Ingen medicin afventer",
+        "drafts": "Noter at skrive",
+        "noDrafts": "Ingen kladder",
+        "untitledNote": "Note uden titel",
+        "reminders": "Mine påmindelser",
+        "noReminders": "Ingen påmindelser i dag",
+        "newTask": "Ny opgave"
     }
 }

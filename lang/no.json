@@ -9089,7 +9089,8 @@
         "journalNotes": "Journal notes",
         "pinSidebar": "Fest sidefelt",
         "unpinSidebar": "Løsne sidefelt",
-        "surveys": "Spørreskjemaer"
+        "surveys": "Spørreskjemaer",
+        "myDay": "Min dag"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -11828,5 +11829,26 @@
             "title": "Hva er egne lenker?",
             "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet bruker. Velg om hver lenke vises for administratorer, brukere eller alle."
         }
+    },
+    "myDay": {
+        "title": "Min dag",
+        "greeting": {
+            "morning": "God morgen",
+            "day": "God dag",
+            "evening": "God kveld"
+        },
+        "shifts": "Mine vakter",
+        "noShifts": "Ingen vakter i dag",
+        "events": "Mine avtaler",
+        "noEvents": "Ingen avtaler i dag",
+        "medsDue": "Medisin i dag",
+        "medsDeptNote": "avdeling",
+        "noMeds": "Ingen ventende medisin",
+        "drafts": "Notater å skrive",
+        "noDrafts": "Ingen utkast",
+        "untitledNote": "Notat uten tittel",
+        "reminders": "Mine påminnelser",
+        "noReminders": "Ingen påminnelser i dag",
+        "newTask": "Ny oppgave"
     }
 }

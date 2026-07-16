@@ -9089,7 +9089,8 @@
         "journalNotes": "Journal notes",
         "pinSidebar": "Pin sidebar",
         "unpinSidebar": "Unpin sidebar",
-        "surveys": "Surveys"
+        "surveys": "Surveys",
+        "myDay": "My day"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -11828,5 +11829,26 @@
             "title": "What are custom links?",
             "body": "Add shortcuts to the left sidebar - like your intranet, a shared drive, a booking system or any external tool your team uses. Choose whether each link is shown to admins, users or everyone."
         }
+    },
+    "myDay": {
+        "title": "My day",
+        "greeting": {
+            "morning": "Good morning",
+            "day": "Hello",
+            "evening": "Good evening"
+        },
+        "shifts": "My shifts",
+        "noShifts": "No shifts today",
+        "events": "My events",
+        "noEvents": "No events today",
+        "medsDue": "Medication due",
+        "medsDeptNote": "department",
+        "noMeds": "No pending medication",
+        "drafts": "Notes to write",
+        "noDrafts": "No draft notes",
+        "untitledNote": "Untitled note",
+        "reminders": "My reminders",
+        "noReminders": "No reminders today",
+        "newTask": "New task"
     }
 }
