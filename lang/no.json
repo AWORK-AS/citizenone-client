@@ -11600,5 +11600,20 @@
             "updated": "Oppdatert",
             "deleted": "Slettet"
         }
+    },
+    "handover": {
+        "button": "Vaktoverlevering",
+        "title": "Vaktoverlevering",
+        "subtitle": "AI-sammendrag av dagens vakt for avdelingen - les korrektur før du stoler på det.",
+        "regenerate": "Generer på nytt",
+        "empty": "Ingen sammendrag ennå.",
+        "aiNote": "Generert av CitizenOne AI ut fra dagens notater, medisin, hendelser og maktbruk.",
+        "counts": {
+            "journals": "Notater",
+            "medsGiven": "Medisin gitt",
+            "medsMissed": "Medisin glemt",
+            "incidents": "Hendelser",
+            "useOfForce": "Maktbruk"
+        }
     }
 }

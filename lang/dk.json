@@ -11600,5 +11600,20 @@
             "updated": "Opdateret",
             "deleted": "Slettet"
         }
+    },
+    "handover": {
+        "button": "Vagtoverdragelse",
+        "title": "Vagtoverdragelse",
+        "subtitle": "AI-resumé af dagens vagt for afdelingen - læs korrektur før du stoler på det.",
+        "regenerate": "Generér igen",
+        "empty": "Intet resumé endnu.",
+        "aiNote": "Genereret af CitizenOne AI ud fra dagens noter, medicin, hændelser og magtanvendelse.",
+        "counts": {
+            "journals": "Noter",
+            "medsGiven": "Medicin givet",
+            "medsMissed": "Medicin glemt",
+            "incidents": "Hændelser",
+            "useOfForce": "Magtanvendelse"
+        }
     }
 }

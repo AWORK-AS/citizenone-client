@@ -12,6 +12,10 @@ class AIAssistantService extends BaseAPIService {
     async deleteThread(conversationId: string, params: object): Promise<any> {
         return await this.request(`/user/chat-gpt/thread/${conversationId}`, 'DELETE', params)
     }
+
+    async generateHandover(params: object): Promise<any> {
+        return await this.request(`/user/handover/summary`, 'POST', params)
+    }
 }
 
 export const aIAssistantService = new AIAssistantService()
