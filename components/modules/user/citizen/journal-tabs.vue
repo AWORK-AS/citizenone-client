@@ -23,7 +23,13 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     if (!newValue) return
 
     const pages = newValue.pages || []
-    const can = (name: string) => pages.some((page: any) => page.name === name)
+    // Company-level module enablement: no list (empty) = every module on
+    // (default), matching the same opt-out convention used for the sidebar
+    // (layouts/user.vue). A tab needs BOTH the user's role to have page
+    // access AND the company to not have opted the module out.
+    const companyModulePages = newValue?.company?.module_pages
+    const companyHasModule = (name: string) => !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(name)
+    const can = (name: string) => companyHasModule(name) && pages.some((page: any) => page.name === name)
     const systemName = newValue?.company?.industry?.system_name
     const isEmploymentServices = systemName === 'employment_services'
 

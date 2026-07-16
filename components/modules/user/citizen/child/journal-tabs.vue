@@ -25,7 +25,10 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (!newValue) return
 
     const pages = newValue.pages || []
-    const can = (name: string) => pages.some((page: any) => page.name === name)
+    // Same opt-out company-module gate as journal-tabs.vue / layouts/user.vue.
+    const companyModulePages = newValue?.company?.module_pages
+    const companyHasModule = (name: string) => !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(name)
+    const can = (name: string) => companyHasModule(name) && pages.some((page: any) => page.name === name)
 
     const tabs: any[] = []
 

@@ -669,8 +669,6 @@ function getNavItemLabel(item: any) {
     const t = language.t
     if (item.rawLabel) return item.name
     if (item.name === 'Overview') return t('sidebar.overview')
-    if (item.name === 'Apps') return t('navbar.apps')
-    if (item.name === 'My day') return t('sidebar.myDay')
     if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
@@ -756,16 +754,13 @@ function generateSidebarLinks(user: any) {
         name: 'Overview',
         href: '/overview',
         icon: 'material-symbols:dashboard',
+        // My day and Statistics no longer have their own sidebar entries -
+        // they're reachable via the tab row on these pages - so Overview
+        // stays highlighted as active while on any of them.
         activeRouteNames: [
             'overview',
-        ]
-    })
-    nav.push({
-        name: 'My day',
-        href: '/my-day',
-        icon: 'ph:sun',
-        activeRouteNames: [
             'my-day',
+            'statistics',
         ]
     })
     if (isAtLeast('Admin')) {
@@ -868,24 +863,25 @@ function generateSidebarLinks(user: any) {
 
     nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
 
-    if (user?.company?.inquiry_pipeline_enabled && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
+    if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
         nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', activeRouteNames: ['inquiries'] })
     }
 
     if (user?.company?.industry?.system_name === 'employment_services') {
-        nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
-        nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+        if (companyHasModule('Billing')) {
+            nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
+        }
+        if (companyHasModule('Revenue report')) {
+            nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+        }
     }
 
     if (user?.company?.industry?.system_name === 'social_welfare' && user?.pages?.some((page: any) => page.name === 'Management & Economy')) {
         nav.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', activeRouteNames: ['management-economy'] })
     }
 
-    // The app store lives behind the profile dropdown too, but only admins can
-    // buy apps, so give them a visible entry point.
-    if (isAtLeast('Admin')) {
-        nav.push({ name: 'Apps', href: '/apps', icon: 'ic:baseline-apps', activeRouteNames: ['apps', 'apps-activated-successfully', 'apps-purchased-successfully'] })
-    }
+    // Removed from the sidebar (declutter, per stakeholder feedback) - the app
+    // store is still reachable for every role via the profile dropdown menu.
 
     customSidebarLinks.value.forEach((link: any) => {
         nav.push({
