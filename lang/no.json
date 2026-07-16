@@ -767,11 +767,20 @@
     },
     "assistants": {
         "askAI": "Spørg AI",
-        "askAnything": "Spørg om hva som helst",
+        "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
+        "mentionSomeone": "Nevn en bruker eller ansatt",
+        "searchScopeHint": "AI kan søke i alle bruker-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",
+        "reviewNotice": "AI-generert innhold kan inneholde feil — se alltid gjennom det før du stoler på det",
+        "previewBeforeSending": "Forhåndsvis før sending",
         "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vennligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjelpe dig i dag",
         "send": "Send",
+        "preview": {
+            "title": "Forhåndsvisning før sending",
+            "loading": "Laster forhåndsvisning...",
+            "taggedRecords": "Taggede poster"
+        },
         "history": {
             "newChat": "Ny chat",
             "viewHistory": "Se historikk",
@@ -1437,6 +1446,14 @@
                 "draft": "Udkast",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
                 "enterJournalTitleManually": "Skriv inn journal tittel manuelt",
+                "aiGenerate": {
+                    "title": "Utarbeid med AI",
+                    "description": "Se over hva som vil være tilgjengelig for AI-en før du genererer.",
+                    "loading": "Laster journaler og planer...",
+                    "journals": "Journaler",
+                    "plans": "Planer",
+                    "redactionNotice": "Personlige identifikatorer (navn, personnummer, adresse, telefon, e-post) fjernes alltid."
+                },
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nåværende planer, mål og delmål",
@@ -8732,6 +8749,8 @@
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Sjekk inn/ut for innsats",
                 "interventionNotificationHours": "Varslingstimer for innsats",
+                "employmentWeeklyHours": "Ukentlige arbeidstimer (fakturering for sysselsettingsinnsats)",
+                "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",
                 "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
                 "lockPastSchedules": "Lås tidligere vaktplaner",
                 "municipality": "Kommune",
@@ -10566,12 +10585,9 @@
         "courseDetails": "Hvis du og dine kollegaer har bruk for et kurs i CitizenOne, så klikk på knappen nedenfor for at se, hva vi kan tilbyde, så I blir godt klædt på",
         "findGuidesHere": "Finn veiledninger her",
         "getAGuidedTour": "Få en guided video-tour",
-        "latestNewFeatures": "Seneste nye funksjoner",
-        "latestNewFeaturesDetails": "Følg med i de nyeste forbedringer og funksjoner i CitizenOne. Vi oppdaterer løbende, så du alltid er oppdatert",
         "needACourse": "Bruk for et kurs",
         "newFeatureRequest": "Har du ønsker til nye funksjoner",
         "newFeatureRequestDetails": "CitizenOne udvikles i tæt samarbeide med vores brukere. Har du forslag eller idéer til nye funksjoner? Så del dem med os - vi lytter og prioriterer løbende",
-        "seeTheNewFeatures": "Se de nye funksjoner",
         "sendUsYourRequests": "Send os dine ønsker",
         "support": "Support",
         "viewCourses": "Se kurs",
@@ -11173,10 +11189,7 @@
                     "hourly": "Timebasert prising",
                     "bonus": "Bonusbasert prising"
                 },
-                "bonusMonthOptions": {
-                    "three": "3 måneder",
-                    "six": "6 måneder"
-                },
+                "bonusConditionMonthsUnit": "måneder",
                 "frequencyOptions": {
                     "hourly": "Per time",
                     "daily": "Per dag",

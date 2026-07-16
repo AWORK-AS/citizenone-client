@@ -767,11 +767,20 @@
     },
     "assistants": {
         "askAI": "Spørg AI",
-        "askAnything": "Spørg om hvad som helst",
+        "askAnything": "Spørg om hvad som helst, eller skriv {'@'} for at nævne nogen",
+        "mentionSomeone": "Nævn en borger eller medarbejder",
+        "searchScopeHint": "AI kan søge i alle borger-/medarbejderoplysninger, du har adgang til, medmindre du tagger en bestemt person med {'@'}",
+        "reviewNotice": "AI-genereret indhold kan indeholde fejl — gennemgå det altid, før du stoler på det",
+        "previewBeforeSending": "Se forhåndsvisning før afsendelse",
         "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB",
         "generatingResponse": "Genererer svar. Vent venligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjælpe dig i dag",
         "send": "Send",
+        "preview": {
+            "title": "Forhåndsvisning før afsendelse",
+            "loading": "Indlæser forhåndsvisning...",
+            "taggedRecords": "Taggede poster"
+        },
         "history": {
             "newChat": "Ny chat",
             "viewHistory": "Se historik",
@@ -1437,6 +1446,14 @@
                 "draft": "Udkast",
                 "enterJournalContent": "Indtast journalindhold manuelt",
                 "enterJournalTitleManually": "Indtast journal titel manuelt",
+                "aiGenerate": {
+                    "title": "Udarbejd med AI",
+                    "description": "Gennemgå, hvad der vil være tilgængeligt for AI'en, før du genererer.",
+                    "loading": "Indlæser journaler og planer...",
+                    "journals": "Journaler",
+                    "plans": "Planer",
+                    "redactionNotice": "Personlige identifikatorer (navn, CPR, adresse, telefon, e-mail) fjernes altid."
+                },
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
@@ -8732,6 +8749,8 @@
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Check ind/ud for indsats",
                 "interventionNotificationHours": "Varslingstimer for indsats",
+                "employmentWeeklyHours": "Ugentlige arbejdstimer (fakturering for beskæftigelsesindsats)",
+                "employmentWeeklyHoursHint": "Bruges til at omregne timepriser til en ugentlig pris. Lad stå tomt for at bruge standarden på 37 timer/uge.",
                 "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
                 "municipality": "Kommune",
@@ -10566,12 +10585,9 @@
         "courseDetails": "Hvis du og dine kollegaer har brug for et kursus i CitizenOne, så klik på knappen nedenfor for at se, hvad vi kan tilbyde, så I bliver godt klædt på",
         "findGuidesHere": "Find vejledninger her",
         "getAGuidedTour": "Få en guided video-tour",
-        "latestNewFeatures": "Seneste nye funktioner",
-        "latestNewFeaturesDetails": "Følg med i de nyeste forbedringer og funktioner i CitizenOne. Vi opdaterer løbende, så du altid er opdateret",
         "needACourse": "Brug for et kursus",
         "newFeatureRequest": "Har du ønsker til nye funktioner",
         "newFeatureRequestDetails": "CitizenOne udvikles i tæt samarbejde med vores brugere. Har du forslag eller idéer til nye funktioner? Så del dem med os - vi lytter og prioriterer løbende",
-        "seeTheNewFeatures": "Se de nye funktioner",
         "sendUsYourRequests": "Send os dine ønsker",
         "support": "Support",
         "viewCourses": "Se kurser",
@@ -11173,10 +11189,7 @@
                     "hourly": "Timebaseret prissætning",
                     "bonus": "Bonusbaseret prissætning"
                 },
-                "bonusMonthOptions": {
-                    "three": "3 måneder",
-                    "six": "6 måneder"
-                },
+                "bonusConditionMonthsUnit": "måneder",
                 "frequencyOptions": {
                     "hourly": "Pr. time",
                     "daily": "Pr. dag",

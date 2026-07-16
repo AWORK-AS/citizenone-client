@@ -53,7 +53,7 @@
                 <div class="space-y-1">
                     <FormLabel for="bonus_condition_months"
                         :label="$t('employment.billingRules.form.bonusConditionMonths')" />
-                    <FormSelect id="bonus_condition_months" :options="bonusMonthOptions"
+                    <FormNumberField id="bonus_condition_months" :min="1" :max="255"
                         v-model="state.formBillingRule.bonus_condition_months" />
                     <p class="text-xs text-[#8891A4]">
                         {{ $t('employment.billingRules.form.bonusConditionMonthsHint') }}
@@ -132,11 +132,6 @@ const pricingTypeOptions = computed(() => [
     { value: 'weekly', label: t('employment.billingRules.form.pricingTypeOptions.weekly') },
     { value: 'hourly', label: t('employment.billingRules.form.pricingTypeOptions.hourly') },
     { value: 'bonus', label: t('employment.billingRules.form.pricingTypeOptions.bonus') },
-])
-
-const bonusMonthOptions = computed(() => [
-    { value: 3, label: t('employment.billingRules.form.bonusMonthOptions.three') },
-    { value: 6, label: t('employment.billingRules.form.bonusMonthOptions.six') },
 ])
 
 const state = reactive({

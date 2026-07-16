@@ -327,9 +327,9 @@
                                                 </span>
                                             </p>
                                         </div>
-                                        <p class="text-sm text-muted-400 h-7">
+                                        <div class="text-sm text-muted-400 h-7">
                                             <div v-html="courseEvent?.description" class="content line-clamp-1" />
-                                        </p>
+                                        </div>
                                         <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1 h-6 line-clamp-1">
                                             <div v-for="(tag, tagIndex) in courseEvent?.booking_setting?.tags"
                                                 :key="tagIndex"

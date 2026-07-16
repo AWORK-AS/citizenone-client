@@ -62,9 +62,7 @@
                             <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                                 <div class="flex items-center gap-x-2">
                                     <h3 class="font-semibold text-sm">
-                                        <h3 class="font-semibold">
-                                            {{ $t('citizens.treatments.treatments') }}
-                                        </h3>
+                                        {{ $t('citizens.treatments.treatments') }}
                                     </h3>
                                 </div>
                                 <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"
@@ -81,11 +79,9 @@
                             <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                                 <div class="flex items-center gap-x-2">
                                     <h3 class="font-semibold text-sm">
-                                        <h3 class="font-semibold">
-                                            {{
-                                                $t('citizens.nursingAreas.consentCompetenceOrCapacity.consentCompetenceOrCapacity')
-                                            }}
-                                        </h3>
+                                        {{
+                                            $t('citizens.nursingAreas.consentCompetenceOrCapacity.consentCompetenceOrCapacity')
+                                        }}
                                     </h3>
                                 </div>
                                 <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"
@@ -102,11 +98,9 @@
                             <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                                 <div class="flex items-center gap-x-2">
                                     <h3 class="font-semibold text-sm">
-                                        <h3 class="font-semibold">
-                                            {{
-                                                $t('citizens.nursingAreas.illnessAndFunctionalImpairment.illnessAndFunctionalImpairment')
-                                            }}
-                                        </h3>
+                                        {{
+                                            $t('citizens.nursingAreas.illnessAndFunctionalImpairment.illnessAndFunctionalImpairment')
+                                        }}
                                     </h3>
                                 </div>
                                 <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"
@@ -123,11 +117,9 @@
                             <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                                 <div class="flex items-center gap-x-2">
                                     <h3 class="font-semibold text-sm">
-                                        <h3 class="font-semibold">
-                                            {{
-                                                $t('citizens.nursingAreas.vitals.vitals')
-                                            }}
-                                        </h3>
+                                        {{
+                                            $t('citizens.nursingAreas.vitals.vitals')
+                                        }}
                                     </h3>
                                 </div>
                                 <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"

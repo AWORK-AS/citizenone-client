@@ -109,11 +109,9 @@ function effectiveRate(rule: any): string {
     if (rule?.pricing_type === 'weekly' && rule?.rate != null) return formatAmount(rule.rate)
     if (rule?.pricing_type === 'hourly' && rule?.hourly_rate != null) return formatAmount(rule.hourly_rate)
     if (rule?.pricing_type === 'bonus' && rule?.bonus_amount != null) {
-        const monthsLabel = rule.bonus_condition_months === 3
-            ? t('employment.billingRules.form.bonusMonthOptions.three')
-            : rule.bonus_condition_months === 6
-                ? t('employment.billingRules.form.bonusMonthOptions.six')
-                : null
+        const monthsLabel = rule.bonus_condition_months != null
+            ? `${rule.bonus_condition_months} ${t('employment.billingRules.form.bonusConditionMonthsUnit')}`
+            : null
         return monthsLabel ? `${formatAmount(rule.bonus_amount)} (${monthsLabel})` : formatAmount(rule.bonus_amount)
     }
     return rule?.rate != null ? formatAmount(rule.rate) : '—'

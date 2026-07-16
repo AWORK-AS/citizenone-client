@@ -87,9 +87,9 @@
                                                     </p>
                                                 </Badge>
                                             </div>
-                                            <p class="text-sm text-muted-400">
+                                            <div class="text-sm text-muted-400">
                                                 <div v-html="log?.old_data?.content" class="content" />
-                                            </p>
+                                            </div>
                                             <div class="flex items-center gap-x-1">
                                                 <div class="px-2 py-1 rounded-full text-white text-xxs"
                                                     :style="`background:${journalTag?.color};`"
