@@ -769,10 +769,18 @@
         "askAI": "Ask AI",
         "askAnything": "Ask anything, or type {'@'} to mention someone",
         "mentionSomeone": "Mention a citizen or employee",
+        "searchScopeHint": "AI can search any citizen/employee record you have access to, unless you tag someone specific with {'@'}",
+        "reviewNotice": "AI-generated content may contain errors — always review before relying on it",
+        "previewBeforeSending": "Preview what will be sent",
         "fileSizeExceeds": "Total file size must not exceed 10MB",
         "generatingResponse": "Generating response. Please wait",
         "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
         "send": "Send",
+        "preview": {
+            "title": "Preview before sending",
+            "loading": "Loading preview...",
+            "taggedRecords": "Tagged records"
+        },
         "history": {
             "newChat": "New chat",
             "viewHistory": "View history",
@@ -1439,6 +1447,14 @@
                 "enterJournalContent": "Enter journal Content manually",
                 "enterJournalTitleManually": "Enter journal title manually",
                 "forTeeth": "For teeth",
+                "aiGenerate": {
+                    "title": "Prepare with AI",
+                    "description": "Review what will be available to the AI before generating.",
+                    "loading": "Loading journals and plans...",
+                    "journals": "Journals",
+                    "plans": "Plans",
+                    "redactionNotice": "Personal identifiers (name, CPR, address, phone, email) are always removed."
+                },
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",

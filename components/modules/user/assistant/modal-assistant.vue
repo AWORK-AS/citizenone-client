@@ -119,6 +119,20 @@
                     <!-- Input area -->
                     <div class="border-t border-gray-100 bg-white px-4 sm:px-6 py-5">
                         <div>
+                            <!-- Audit P2.1/P2.2/P2.4: transparency notices - search scope and the
+                            "always review AI output" reminder. Kept as plain small text rather
+                            than a colored Alert banner so they don't visually compete with the
+                            chat itself on every open. -->
+                            <div class="flex flex-col gap-1 mb-2 text-xs text-gray-400">
+                                <div class="flex items-start gap-1.5">
+                                    <Icon name="ph:info" class="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                                    <span>{{ $t('assistants.searchScopeHint') }}</span>
+                                </div>
+                                <div class="flex items-start gap-1.5">
+                                    <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                                    <span>{{ $t('assistants.reviewNotice') }}</span>
+                                </div>
+                            </div>
                             <div v-if="state.files.length > 0" class="flex flex-wrap gap-1.5 mb-2">
                                 <div v-for="(file, index) in state.files" :key="index"
                                     class="flex items-center gap-1.5 bg-gray-100 text-xs text-gray-600 pl-2.5 pr-1.5 py-1.5 rounded-md">
@@ -156,6 +170,11 @@
                                     class="shrink-0 px-1.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
                                     <Icon name="ph:at" class="h-5 w-5" />
                                 </button>
+                                <button type="button" @click="togglePreview" :title="$t('assistants.previewBeforeSending')"
+                                    :disabled="!state.newMessage.trim()"
+                                    class="shrink-0 px-1.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors disabled:opacity-30 disabled:hover:bg-transparent">
+                                    <Icon name="ph:eye" class="h-5 w-5" />
+                                </button>
                                 <div class="relative flex-1">
                                     <textarea ref="promptTextarea" v-model="state.newMessage"
                                         :placeholder="$t('assistants.askAnything')" rows="1"
@@ -172,6 +191,29 @@
                                                 class="h-3.5 w-3.5 text-gray-400 shrink-0" />
                                             <span class="truncate">{{ entity.label }}</span>
                                         </button>
+                                    </div>
+                                    <!-- Audit P2.3: on-demand preview of exactly what will be redacted
+                                    out of the typed prompt before it's sent, plus the currently
+                                    tagged records. Not a mandatory gate on every send - that would
+                                    be disruptive chat UX - just available if the user wants to check. -->
+                                    <div v-if="state.preview.isOpen" @mousedown.prevent
+                                        class="absolute bottom-full left-0 mb-1 w-80 max-h-64 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-10 p-3">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-xs font-medium text-gray-500">{{ $t('assistants.preview.title') }}</span>
+                                            <button type="button" @click="state.preview.isOpen = false" class="text-gray-300 hover:text-gray-500">
+                                                <Icon name="ph:x" class="h-3.5 w-3.5" />
+                                            </button>
+                                        </div>
+                                        <div v-if="state.preview.isLoading" class="text-xs text-gray-400 py-2">
+                                            {{ $t('assistants.preview.loading') }}
+                                        </div>
+                                        <template v-else>
+                                            <p class="text-xs text-gray-700 whitespace-pre-wrap bg-gray-50 rounded p-2 mb-2">{{ state.preview.redactedPrompt }}</p>
+                                            <p v-if="state.mentionedEntities.length > 0" class="text-xs text-gray-500">
+                                                {{ $t('assistants.preview.taggedRecords') }}:
+                                                {{ state.mentionedEntities.map(e => e.label).join(', ') }}
+                                            </p>
+                                        </template>
                                     </div>
                                 </div>
                                 <button type="button" @click="sendMessage"
@@ -256,6 +298,12 @@ const state = reactive({
         allEntities: [] as Array<{ uuid: string, label: string, type: 'citizen' | 'employee' }>,
         results: [] as Array<{ uuid: string, label: string, type: 'citizen' | 'employee' }>,
     },
+    // Audit P2.3: on-demand "what will be sent" preview.
+    preview: {
+        isOpen: false,
+        isLoading: false,
+        redactedPrompt: '',
+    },
 })
 
 const filteredConversations = computed(() => {
@@ -272,6 +320,7 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
         state.mentionedEntities = []
         state.searchQuery = ''
         state.activeConversationUuid = null
+        state.preview.isOpen = false
         state.messages.push({ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` })
         clearAiElements()
         fetchConversations()
@@ -477,6 +526,10 @@ watch(() => state.newMessage, (newVal) => {
     } else {
         state.mention.isOpen = false
     }
+
+    // The message changed since the preview was fetched - close it rather
+    // than show a stale redacted version of a different prompt.
+    state.preview.isOpen = false
 })
 
 function filterMentionResults() {
@@ -507,6 +560,27 @@ function insertMentionTrigger() {
     const needsSpace = state.newMessage.length > 0 && !/\s$/.test(state.newMessage)
     state.newMessage += `${needsSpace ? ' ' : ''}@`
     nextTick(() => promptTextarea.value?.focus())
+}
+
+// Audit P2.3: fetches the redacted version of the currently typed prompt
+// on demand, rather than gating every send behind a confirmation step.
+async function togglePreview() {
+    if (state.preview.isOpen) {
+        state.preview.isOpen = false
+        return
+    }
+
+    if (!state.newMessage.trim()) return
+
+    state.preview.isOpen = true
+    state.preview.isLoading = true
+    try {
+        const res = await aIAssistantService.previewPrompt({ prompt: state.newMessage })
+        state.preview.redactedPrompt = res?.redacted_prompt ?? state.newMessage
+    } catch {
+        state.preview.redactedPrompt = state.newMessage
+    }
+    state.preview.isLoading = false
 }
 
 function handleEnterKey() {

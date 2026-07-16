@@ -769,10 +769,18 @@
         "askAI": "Fråga AI",
         "askAnything": "Fråga om vad som helst, eller skriv {'@'} för att nämna någon",
         "mentionSomeone": "Nämn en brukare eller medarbetare",
+        "searchScopeHint": "AI kan söka i alla brukar-/medarbetaruppgifter du har åtkomst till, om du inte taggar en specifik person med {'@'}",
+        "reviewNotice": "AI-genererat innehåll kan innehålla fel — granska alltid innan du litar på det",
+        "previewBeforeSending": "Förhandsgranska innan du skickar",
         "fileSizeExceeds": "Den samlade filstörrelse får inte overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vänligen",
         "helloHowCanIAssistYouToday": "Hej, hur kan jag hjälpa dig idag",
         "send": "Skicka",
+        "preview": {
+            "title": "Förhandsgranskning innan sändning",
+            "loading": "Laddar förhandsgranskning...",
+            "taggedRecords": "Taggade poster"
+        },
         "history": {
             "newChat": "Ny chatt",
             "viewHistory": "Visa historik",
@@ -1438,6 +1446,14 @@
                 "draft": "Utkast",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "enterJournalTitleManually": "Ange journal titel manuelt",
+                "aiGenerate": {
+                    "title": "Förbered med AI",
+                    "description": "Granska vad som kommer att vara tillgängligt för AI:n innan du genererar.",
+                    "loading": "Laddar journaler och planer...",
+                    "journals": "Journaler",
+                    "plans": "Planer",
+                    "redactionNotice": "Personliga identifierare (namn, personnummer, adress, telefon, e-post) tas alltid bort."
+                },
                 "forTeeth": "Till tänder",
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Dölj nuvarande planer, mål och delmål",
