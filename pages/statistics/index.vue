@@ -11,20 +11,7 @@
             </template>
 
             <template #header>
-                <div class="flex items-center gap-x-6">
-                    <span v-if="!discoverCompleted"
-                        class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors mb-1.5"
-                        @click="navigateTo('/discover')">
-                        {{ $t('discover.title') }}
-                    </span>
-                    <span class="text-slate-400 hover:text-slate-600 cursor-pointer transition-colors mb-1.5"
-                        @click="navigateTo('/overview')">
-                        {{ $t('overview.overview') }}
-                    </span>
-                    <span class="text-primary border-b-2 border-primary pb-1 font-semibold cursor-default">
-                        {{ $t('overview.statisticsTab') }}
-                    </span>
-                </div>
+                <OverviewTabs active="statistics" />
             </template>
 
             <!-- Action bar -->
@@ -162,7 +149,6 @@ const breadcrumbLinks = [
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore() as any
-const { completed: discoverCompleted } = useDiscoverDone()
 
 const state = reactive({
     currentDate: moment(),

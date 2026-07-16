@@ -486,18 +486,20 @@
                     <div class="card-header">
                         <h3 class="text-sm font-semibold text-slate-900">Moduler</h3>
                     </div>
-                    <p class="text-sm text-slate-500 mt-1 mb-4">Vælg hvilke moduler virksomheden bruger. Slået fra skjuler modulet for alle i virksomheden.</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <div v-for="page in moduleState.pages" :key="page.uuid"
-                            class="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2.5">
-                            <span class="text-sm text-slate-800">{{ $t(`companyModules.${page.name}`) }}</span>
-                            <FormSwitch :value="moduleState.enabled.includes(page.uuid)" @toggleSwitch="toggleModule(page.uuid)" />
+                    <div class="card-body">
+                        <p class="text-sm text-slate-500 mb-4">Vælg hvilke moduler virksomheden bruger. Slået fra skjuler modulet for alle i virksomheden.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div v-for="page in moduleState.pages" :key="page.uuid"
+                                class="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2.5">
+                                <span class="text-sm text-slate-800">{{ $t(`companyModules.${page.name}`) }}</span>
+                                <FormSwitch :value="moduleState.enabled.includes(page.uuid)" @toggleSwitch="toggleModule(page.uuid)" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-5">
-                        <FormButton type="button" buttonStyle="primary" @click="saveModules">
-                            {{ $t('save') }}
-                        </FormButton>
+                        <div class="mt-5">
+                            <FormButton type="button" buttonStyle="primary" class="w-full" @click="saveModules">
+                                {{ $t('save') }}
+                            </FormButton>
+                        </div>
                     </div>
                 </div>
             </LoadingSpinner>

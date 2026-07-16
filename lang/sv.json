@@ -53,7 +53,13 @@
         "Calendar": "Kalender",
         "Contacts": "Kontakter",
         "Duty Schedule": "Schema",
-        "Employee Group": "Medarbetargrupp"
+        "Employee Group": "Medarbetargrupp",
+        "Emails": "Klienters e-post",
+        "Reports": "Rapporter",
+        "Inquiries": "Förfrågningar",
+        "Management & Economy": "Ledning & ekonomi",
+        "Billing": "Fakturering",
+        "Revenue report": "Intäktsrapport"
     },
     "discover": {
         "welcome": "Välkommen, {name}",

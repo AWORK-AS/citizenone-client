@@ -53,7 +53,13 @@
         "Calendar": "Calendar",
         "Contacts": "Contacts",
         "Duty Schedule": "Duty schedule",
-        "Employee Group": "Employee group"
+        "Employee Group": "Employee group",
+        "Emails": "Citizen emails",
+        "Reports": "Reports",
+        "Inquiries": "Inquiries",
+        "Management & Economy": "Management & economy",
+        "Billing": "Billing",
+        "Revenue report": "Revenue report"
     },
     "discover": {
         "welcome": "Welcome, {name}",
