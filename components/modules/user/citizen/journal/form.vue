@@ -154,6 +154,19 @@
                             </div>
                         </div>
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
+                            v-if="userStore.getUser?.has_ai_access" :disabled="isTranscribing"
+                            @click="toggleDictation">
+                            <div class="flex items-center">
+                                <Icon
+                                    :name="isRecording ? 'ph:stop-circle-fill' : (isTranscribing ? 'ph:spinner' : 'ph:microphone')"
+                                    :class="['h-4 w-4', isRecording && 'text-red-600 animate-pulse', isTranscribing && 'spin']"
+                                    aria-hidden="true" />
+                            </div>
+                            {{ isRecording ? $t('citizens.citizenJournals.form.stopDictation')
+                                : (isTranscribing ? $t('citizens.citizenJournals.form.transcribing')
+                                    : $t('citizens.citizenJournals.form.dictate')) }}
+                        </FormButton>
+                        <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                             v-if="userStore.getUser?.has_ai_access" @click="generateNoteForJournalContent">
                             <div class="flex items-center">
                                 <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
@@ -1056,6 +1069,58 @@ async function fetchAllJournalTitles() {
         state.error = error
     }
     emit('isPageLoading', false)
+}
+
+// --- Dictate to journal (audio -> Whisper transcript -> AI-structured note) ---
+const isRecording = ref(false)
+const isTranscribing = ref(false)
+let mediaRecorder: any = null
+let audioChunks: any[] = []
+
+async function toggleDictation() {
+    if (isRecording.value) {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop()
+        isRecording.value = false
+        return
+    }
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+        audioChunks = []
+        mediaRecorder = new MediaRecorder(stream)
+        mediaRecorder.ondataavailable = (e: any) => { if (e.data && e.data.size) audioChunks.push(e.data) }
+        mediaRecorder.onstop = async () => {
+            stream.getTracks().forEach((tr: any) => tr.stop())
+            await transcribeAndStructure()
+        }
+        mediaRecorder.start()
+        isRecording.value = true
+    } catch (error: any) {
+        state.error = { message: t('citizens.citizenJournals.form.micError') } as any
+    }
+}
+
+async function transcribeAndStructure() {
+    if (!audioChunks.length) return
+    isTranscribing.value = true
+    state.error = {} as any
+    try {
+        const blob = new Blob(audioChunks, { type: 'audio/webm' })
+        const formData = new FormData()
+        formData.append('audio', blob, 'dictation.webm')
+        const response = await aIAssistantService.transcribeAudio(formData)
+        const transcript = (response?.data?.text ?? '').trim()
+        if (transcript) {
+            // Drop the raw transcript into the editor, then let the existing AI pass
+            // structure it into a proper journal note.
+            state.formJournal.content = state.formJournal.content
+                ? `${state.formJournal.content}<p>${transcript}</p>`
+                : `<p>${transcript}</p>`
+            await generateNoteForJournalContent()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    isTranscribing.value = false
 }
 
 async function generateNoteForJournalContent() {

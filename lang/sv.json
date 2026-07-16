@@ -1466,7 +1466,11 @@
                 "title": "Titel",
                 "usePredefinedJournalTitle": "Använd foruddefineret journal titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
-                "createJournalTitle": "Create journal title"
+                "createJournalTitle": "Create journal title",
+                "dictate": "Diktera",
+                "stopDictation": "Stoppa",
+                "transcribing": "Transkriberar...",
+                "micError": "Kunde inte komma åt mikrofonen."
             },
             "journalLogs": {
                 "date": "Datum",
