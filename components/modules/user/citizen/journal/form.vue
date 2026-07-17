@@ -153,7 +153,7 @@
                             {{ $t('citizens.citizenJournals.form.attachFile') }}
                         </button>
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
-                            v-if="userStore.getUser?.has_ai_access" @click="generateNoteForJournalContent">
+                            v-if="userStore.getUser?.has_ai_access" @click="openAiGeneratePreview('content')">
                             <div class="flex items-center">
                                 <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                             </div>
@@ -265,7 +265,7 @@
                             {{ $t('citizens.citizenJournals.form.attachFile') }}
                         </button>
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
-                            v-if="userStore.getUser?.has_ai_access" @click="generateNoteForRiskAssessmentNote">
+                            v-if="userStore.getUser?.has_ai_access" @click="openAiGeneratePreview('note')">
                             <div class="flex items-center">
                                 <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                             </div>
@@ -375,6 +375,49 @@
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
             @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
+
+        <!-- Audit P2.1/P2.2/P2.3/P2.4: before generating with AI, show what will be
+        included, let the user deselect specific journals/plans, and remind them to
+        always review the result. -->
+        <DialogConfirmation :isModalOpen="state.modal.isAiGeneratePreviewOpen"
+            :title="$t('citizens.citizenJournals.form.aiGenerate.title')"
+            :message="$t('citizens.citizenJournals.form.aiGenerate.description')"
+            @close="state.modal.isAiGeneratePreviewOpen = false" @confirm="confirmAiGenerate">
+            <template #extra>
+                <div v-if="state.aiGenerate.isLoading" class="text-sm text-gray-400 py-3">
+                    {{ $t('citizens.citizenJournals.form.aiGenerate.loading') }}
+                </div>
+                <div v-else class="mt-3 space-y-3 max-h-56 overflow-y-auto">
+                    <div v-if="state.aiGenerate.journals.length > 0">
+                        <p class="text-xs font-medium text-gray-500 mb-1">
+                            {{ $t('citizens.citizenJournals.form.aiGenerate.journals') }}
+                        </p>
+                        <label v-for="journal in state.aiGenerate.journals" :key="journal.uuid"
+                            class="flex items-center gap-2 py-1 text-sm text-gray-700">
+                            <input type="checkbox" :value="journal.uuid" v-model="state.aiGenerate.includedJournalUuids" />
+                            <span class="truncate">{{ journal.title }} — {{ journal.date }}</span>
+                        </label>
+                    </div>
+                    <div v-if="state.aiGenerate.plans.length > 0">
+                        <p class="text-xs font-medium text-gray-500 mb-1">
+                            {{ $t('citizens.citizenJournals.form.aiGenerate.plans') }}
+                        </p>
+                        <label v-for="plan in state.aiGenerate.plans" :key="plan.uuid"
+                            class="flex items-center gap-2 py-1 text-sm text-gray-700">
+                            <input type="checkbox" :value="plan.uuid" v-model="state.aiGenerate.includedPlanUuids" />
+                            <span class="truncate">{{ plan.name }}</span>
+                        </label>
+                    </div>
+                    <p class="text-xs text-gray-400">
+                        {{ $t('citizens.citizenJournals.form.aiGenerate.redactionNotice') }}
+                    </p>
+                    <p class="text-xs text-gray-400 flex items-start gap-1.5">
+                        <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                        <span>{{ $t('assistants.reviewNotice') }}</span>
+                    </p>
+                </div>
+            </template>
+        </DialogConfirmation>
     </form>
 </template>
 
@@ -504,6 +547,18 @@ const state = reactive({
         isAddJournalNoteTagsOpen: false,
         isUpgradeStorageOpen: false,
         isSelectJournalContent: false,
+        isAiGeneratePreviewOpen: false,
+    },
+    // Audit P2.1/P2.2: lets the user see and deselect specific journals/plans
+    // before AI generation, rather than the AI silently having access to
+    // everything with no visibility or control.
+    aiGenerate: {
+        target: null as 'content' | 'note' | null,
+        isLoading: false,
+        journals: [] as Array<{ uuid: string, title: string, date: string }>,
+        plans: [] as Array<{ uuid: string, name: string }>,
+        includedJournalUuids: [] as string[],
+        includedPlanUuids: [] as string[],
     },
     options: {
         assessments: [
@@ -1077,13 +1132,56 @@ async function fetchAllJournalTitles() {
     emit('isPageLoading', false)
 }
 
-async function generateNoteForJournalContent() {
+// Audit P2.1/P2.2/P2.3/P2.4: opens the pre-generation preview/selection modal
+// instead of calling the AI immediately - fetches this citizen's journals and
+// plans (reusing the same endpoints already used elsewhere in this form) so
+// the user can see and deselect what will be available to the AI.
+async function openAiGeneratePreview(target: 'content' | 'note') {
+    state.aiGenerate.target = target
+    state.modal.isAiGeneratePreviewOpen = true
+    state.aiGenerate.isLoading = true
+    try {
+        const [journalsRes, plansRes] = await Promise.allSettled([
+            journalService.getJournals({ citizen_uuid: citizenUuid }),
+            planService.getAllPlans(citizenUuid),
+        ])
+        state.aiGenerate.journals = journalsRes.status === 'fulfilled' ? (journalsRes.value?.data ?? []) : []
+        state.aiGenerate.plans = plansRes.status === 'fulfilled' ? (plansRes.value?.data ?? []) : []
+    } catch {
+        state.aiGenerate.journals = []
+        state.aiGenerate.plans = []
+    }
+    // Default to everything included/checked - the user deselects what they
+    // don't want the AI to see, rather than opting in to each item.
+    state.aiGenerate.includedJournalUuids = state.aiGenerate.journals.map((j) => j.uuid)
+    state.aiGenerate.includedPlanUuids = state.aiGenerate.plans.map((p) => p.uuid)
+    state.aiGenerate.isLoading = false
+}
+
+function confirmAiGenerate() {
+    const excludedJournalUuids = state.aiGenerate.journals
+        .filter((j) => !state.aiGenerate.includedJournalUuids.includes(j.uuid))
+        .map((j) => j.uuid)
+    const excludedPlanUuids = state.aiGenerate.plans
+        .filter((p) => !state.aiGenerate.includedPlanUuids.includes(p.uuid))
+        .map((p) => p.uuid)
+
+    if (state.aiGenerate.target === 'content') {
+        generateNoteForJournalContent(excludedJournalUuids, excludedPlanUuids)
+    } else if (state.aiGenerate.target === 'note') {
+        generateNoteForRiskAssessmentNote(excludedJournalUuids, excludedPlanUuids)
+    }
+}
+
+async function generateNoteForJournalContent(excludedJournalUuids: string[] = [], excludedPlanUuids: string[] = []) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
             citizen_uuid: citizenUuid,
             prompt: state.formJournal.content,
+            excluded_journal_uuids: excludedJournalUuids,
+            excluded_plan_uuids: excludedPlanUuids,
         }
         const response = await aIAssistantService.generateNote(params)
         if (response?.data) {
@@ -1096,13 +1194,15 @@ async function generateNoteForJournalContent() {
     emit('isPageLoading', false)
 }
 
-async function generateNoteForRiskAssessmentNote() {
+async function generateNoteForRiskAssessmentNote(excludedJournalUuids: string[] = [], excludedPlanUuids: string[] = []) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
             citizen_uuid: citizenUuid,
             prompt: state.formJournal.note,
+            excluded_journal_uuids: excludedJournalUuids,
+            excluded_plan_uuids: excludedPlanUuids,
         }
         const response = await aIAssistantService.generateNote(params)
         if (response?.data) {

@@ -2,12 +2,12 @@
     <div>
         <NuxtLayout name="user">
             <Head>
-                <Title>{{ $t('employment.agreements.newAgreement') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('employment.agreements.newAgreement', { term: agreementTerm }) }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
-            <template #header>{{ $t('employment.agreements.newAgreement') }}</template>
+            <template #header>{{ $t('employment.agreements.newAgreement', { term: agreementTerm }) }}</template>
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                     to="/settings/employment-agreements">
@@ -29,15 +29,18 @@
 import { employmentService } from '@/components/api/user/EmploymentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const breadcrumbLinks = [
+const { term } = useTerminology()
+const agreementTerm = computed(() => term('agreement', t('settings.company.form.termAgreement')))
+const breadcrumbLinks = computed(() => [
     { name: 'employment.agreements.agreements', translate: true, href: '/settings/employment-agreements' },
-    { name: 'employment.agreements.newAgreement', translate: true, href: '/settings/employment-agreements/new' },
-]
+    { name: t('employment.agreements.newAgreement', { term: agreementTerm.value }), translate: false, href: '/settings/employment-agreements/new' },
+])
 
 const state = reactive({
     error: {} as Error,

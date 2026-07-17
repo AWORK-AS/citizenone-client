@@ -37,6 +37,13 @@
                 <FormError :error="props?.error?.errors?.contact_person?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="ean_number" :label="$t('employment.jobcenters.form.eanNumber')" />
+                <FormTextField id="ean_number" name="ean_number"
+                    :placeholder="$t('employment.jobcenters.form.eanNumber')"
+                    v-model="state.formJobcenter.ean_number" />
+                <FormError :error="props?.error?.errors?.ean_number?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="sort_order" :label="$t('employment.jobcenters.form.sortOrder')" />
                 <FormNumberField id="sort_order" name="sort_order" :min="0"
                     v-model="state.formJobcenter.sort_order" />
@@ -86,6 +93,7 @@ const state = reactive({
         email: '',
         phone: '',
         contact_person: '',
+        ean_number: '',
         sort_order: 0,
         is_active: true,
     },
@@ -99,6 +107,7 @@ watch(() => props.selectedJobcenter, (newValue: any) => {
             email: newValue.email ?? '',
             phone: newValue.phone ?? '',
             contact_person: newValue.contact_person ?? '',
+            ean_number: newValue.ean_number ?? '',
             sort_order: newValue.sort_order ?? 0,
             is_active: newValue.is_active ?? true,
         }

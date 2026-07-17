@@ -25,7 +25,7 @@
                 </p>
                 <FormSelect id="repeat" :options="state.options.repeat" v-model="state.formReminder.repeat" />
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="isAtLeast('Manager')">
                 <p class="text-sm text-gray-600">
                     {{ $t('reminders.assignees') }}
                 </p>
@@ -66,6 +66,9 @@ import { userService } from '@/components/api/user/UserService'
 import type { Error } from '@/types'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     error: {
@@ -145,6 +148,15 @@ onMounted(() => {
     props.selectedReminder?.reminder_users?.forEach((reminderUser: any) => {
         state.formReminder.employee.push(reminderUser?.user?.uuid)
     })
+
+    // The assignee picker is only shown to Manager+ (see template) - for
+    // everyone else it's required by validation but never rendered, which
+    // silently blocked Save entirely. Default new reminders to the current
+    // user so non-managers (who can only ever assign themselves) can submit,
+    // matching what submitForm() already force-adds for everyone regardless.
+    if (props.formType === 'create' && state.formReminder.employee.length === 0 && userStore.getUser?.uuid) {
+        state.formReminder.employee.push(userStore.getUser.uuid)
+    }
 })
 
 async function fetchAllEmployees() {

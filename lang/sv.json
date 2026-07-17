@@ -53,7 +53,13 @@
         "Calendar": "Kalender",
         "Contacts": "Kontakter",
         "Duty Schedule": "Schema",
-        "Employee Group": "Medarbetargrupp"
+        "Employee Group": "Medarbetargrupp",
+        "Emails": "Klienters e-post",
+        "Reports": "Rapporter",
+        "Inquiries": "Förfrågningar",
+        "Management & Economy": "Ledning & ekonomi",
+        "Billing": "Fakturering",
+        "Revenue report": "Intäktsrapport"
     },
     "discover": {
         "welcome": "Välkommen, {name}",
@@ -767,11 +773,20 @@
     },
     "assistants": {
         "askAI": "Fråga AI",
-        "askAnything": "Fråga om vad som helst",
+        "askAnything": "Fråga om vad som helst, eller skriv {'@'} för att nämna någon",
+        "mentionSomeone": "Nämn en brukare eller medarbetare",
+        "searchScopeHint": "AI kan söka i alla brukar-/medarbetaruppgifter du har åtkomst till, om du inte taggar en specifik person med {'@'}",
+        "reviewNotice": "AI-genererat innehåll kan innehålla fel — granska alltid innan du litar på det",
+        "previewBeforeSending": "Förhandsgranska innan du skickar",
         "fileSizeExceeds": "Den samlade filstörrelse får inte overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vänligen",
         "helloHowCanIAssistYouToday": "Hej, hur kan jag hjälpa dig idag",
         "send": "Skicka",
+        "preview": {
+            "title": "Förhandsgranskning innan sändning",
+            "loading": "Laddar förhandsgranskning...",
+            "taggedRecords": "Taggade poster"
+        },
         "history": {
             "newChat": "Ny chatt",
             "viewHistory": "Visa historik",
@@ -1346,11 +1361,11 @@
             "viewSchedule": "Se schema"
         },
         "caseWorker": {
-            "addNewCaseworker": "Lägg till ny handläggare",
+            "addNewCaseworker": "Lägg till ny {term}",
             "alert": {
-                "newCaseWorkerSuccessfullyAdded": "Ny handläggare tillagd"
+                "newCaseWorkerSuccessfullyAdded": "Ny {term} tillagd"
             },
-            "newCaseWorker": "Ny handläggare"
+            "newCaseWorker": "Ny {term}"
         },
         "citizenJournals": {
             "aiUsed": "CitizenOne AI användes",
@@ -1437,6 +1452,14 @@
                 "draft": "Utkast",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "enterJournalTitleManually": "Ange journal titel manuelt",
+                "aiGenerate": {
+                    "title": "Förbered med AI",
+                    "description": "Granska vad som kommer att vara tillgängligt för AI:n innan du genererar.",
+                    "loading": "Laddar journaler och planer...",
+                    "journals": "Journaler",
+                    "plans": "Planer",
+                    "redactionNotice": "Personliga identifierare (namn, personnummer, adress, telefon, e-post) tas alltid bort."
+                },
                 "forTeeth": "Till tänder",
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Dölj nuvarande planer, mål och delmål",
@@ -1939,7 +1962,7 @@
             },
             "transportation": "Transportere",
             "useThisLocation": "Använd denna placering",
-            "secondaryCaseworker": "Sekundär handläggare"
+            "secondaryCaseworker": "Sekundär {term}"
         },
         "importCitizens": {
             "alert": {
@@ -2278,6 +2301,7 @@
                 },
                 "giveAllMedicines": "Giv al medicin",
                 "giveMedicine": "Giv medicin",
+                "giveMedicineTo": "Ge medicin till {name}",
                 "medicineHistory": "Medicinhistorik",
                 "table": {
                     "actions": {
@@ -4234,6 +4258,7 @@
                 "dateTimeEnd": "Slutdatum och -tid",
                 "dateTimeStart": "Startdatum och -tid",
                 "department": "Avdelningar",
+                "forAllEmployees": "För alla medarbetare",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobbtitel",
                 "numberOfShifts": "Antal pass",
@@ -6244,7 +6269,7 @@
             "note": "Anteckning",
             "payingMunicipality": "Betalingskommune",
             "pricing": "Prissättning",
-            "primaryCaseWorker": "Primär handläggare",
+            "primaryCaseWorker": "Primär {term}",
             "responsibleMunicipality": "Ansvarig kommun",
             "section": "Paragraf",
             "employmentData": "Sysselsättningsförlopp",
@@ -8496,9 +8521,9 @@
         "citizen": "Invånare",
         "department": "Avdelning",
         "municipality": "Kommun",
-        "caseworkerName": "Handläggarens namn",
-        "caseworkerEmail": "Handläggarens e-post",
-        "caseworkerPhone": "Handläggarens telefon",
+        "caseworkerName": "{term}ns namn",
+        "caseworkerEmail": "{term}ns e-post",
+        "caseworkerPhone": "{term}ns telefon",
         "startDate": "Startdatum",
         "endDate": "Slutdatum",
         "weeks": "Veckor",
@@ -8732,6 +8757,8 @@
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Check in/ut för insats",
                 "interventionNotificationHours": "Varslingstimer för insats",
+                "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
+                "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
                 "municipality": "Kommun",
@@ -8769,6 +8796,10 @@
                 "termJournal": "Journal",
                 "termJournalNoteTag": "Journalanteckningstagg",
                 "termJournalNotes": "Journalanteckningar",
+                "termCaseworker": "Handläggare",
+                "termCase": "Ärende",
+                "termAgreement": "Avtal",
+                "termJobcenter": "Jobbcenter",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begränsning",
                 "enableIpRestriction": "Aktivera IP-begränsning",
@@ -8794,7 +8825,7 @@
             "unusedLicense": "Ubrugt licens",
             "usedLicense": "Brugt licens",
             "userLicenses": "Brugerlicenser",
-            "caseworkerLicenses": "Handläggarlicenser",
+            "caseworkerLicenses": "{term}licenser",
             "departmentLicenses": "Afdelingslicenser",
             "usedDepartmentLicense": "Brugt afdelingslicens",
             "unusedDepartmentLicense": "Ubrugt afdelingslicens",
@@ -9066,7 +9097,8 @@
         "journalNotes": "Journal notes",
         "pinSidebar": "Fäst sidebar",
         "unpinSidebar": "Lossa sidebar",
-        "surveys": "Enkäter"
+        "surveys": "Enkäter",
+        "myDay": "Min dag"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -10562,12 +10594,9 @@
         "courseDetails": "Om du och dina kollegaer har använd för ett kurs i CitizenOne, så klicka på knappen nedenfor för att se, vad vi kan tilbyde, så I blir bra klädt på",
         "findGuidesHere": "Hitta vejledninger här",
         "getAGuidedTour": "Få en guided video-tour",
-        "latestNewFeatures": "Seneste nya funktioner",
-        "latestNewFeaturesDetails": "Fölg med i de nyeste forbedringer och funktioner i CitizenOne. Vi uppdaterar löbende, så du alltid är uppdaterad",
         "needACourse": "Använd för ett kurs",
         "newFeatureRequest": "Har du vill till nya funktioner",
         "newFeatureRequestDetails": "CitizenOne udvikles i tät samarbete med vår användare. Har du forslag eller idéär till nya funktioner? Så dela dem med oss - vi lytter och prioriterer löbende",
-        "seeTheNewFeatures": "Se de nya funktioner",
         "sendUsYourRequests": "Skicka oss dina vill",
         "support": "Support",
         "viewCourses": "Se kurser",
@@ -10878,8 +10907,11 @@
         "newUpdatesFrom": "Nya opdateringer från",
         "showUpdate": "Visa uppdatering",
         "updates": "Opdateringer",
+        "newBadge": "Ny",
         "noUpdates": "Inga uppdateringar än.",
-        "tagline": "Se vad som är nytt i CitizenONE"
+        "noNewUpdates": "Inga nya uppdateringar.",
+        "history": "Historik",
+        "tagline": "Se vad som är nytt i CitizenOne"
     },
     "validation": {
         "invalidNumber": "Ogiltigt nummer",
@@ -11168,10 +11200,7 @@
                     "hourly": "Timbaserad prissättning",
                     "bonus": "Bonusbaserad prissättning"
                 },
-                "bonusMonthOptions": {
-                    "three": "3 månader",
-                    "six": "6 månader"
-                },
+                "bonusConditionMonthsUnit": "månader",
                 "frequencyOptions": {
                     "hourly": "Per timme",
                     "daily": "Per dag",
@@ -11206,10 +11235,10 @@
             }
         },
         "cases": {
-            "addNewCase": "Lägg till nytt ärende",
+            "addNewCase": "Lägg till nytt {term}",
             "cases": "Sysselsättningsärenden",
-            "editCase": "Redigera ärende",
-            "newCase": "Nytt ärende",
+            "editCase": "Redigera {term}",
+            "newCase": "Nytt {term}",
             "form": {
                 "agreement": "Avtal",
                 "alert": {
@@ -11238,12 +11267,6 @@
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
                 "contractPrice": "Kontraktpris",
                 "primarySplitPercentage": "Primär koordinator andel (%)",
-                "reportingFrequencyOptions": {
-                    "every2weeks": "Var 2:a vecka",
-                    "every4weeks": "Var 4:e vecka",
-                    "every6weeks": "Var 6:e vecka",
-                    "every8weeks": "Var 8:e vecka"
-                },
                 "reportingReminderTitle": "Rapporteringspåminnelse",
                 "reportingReminderNote": "Automatisk rapporteringspåminnelse för sysselsättningsärende"
             },
@@ -11292,10 +11315,10 @@
             }
         },
         "agreements": {
-            "addNewAgreement": "Lägg till nytt avtal",
+            "addNewAgreement": "Lägg till nytt {term}",
             "agreements": "Avtal",
-            "editAgreement": "Redigera avtal",
-            "newAgreement": "Nytt avtal",
+            "editAgreement": "Redigera {term}",
+            "newAgreement": "Nytt {term}",
             "form": {
                 "alert": {
                     "agreementSuccessfullyUpdated": "Avtal uppdaterat",
@@ -11338,16 +11361,17 @@
             }
         },
         "jobcenters": {
-            "addNewJobcenter": "Lägg till nytt jobbcenter",
-            "editJobcenter": "Redigera jobbcenter",
+            "addNewJobcenter": "Lägg till nytt {term}",
+            "editJobcenter": "Redigera {term}",
             "jobcenters": "Jobbcenter",
-            "newJobcenter": "Nytt jobbcenter",
+            "newJobcenter": "Nytt {term}",
             "form": {
                 "alert": {
                     "jobcenterSuccessfullyUpdated": "Jobbcenter uppdaterat",
                     "newJobcenterSuccessfullySaved": "Jobbcenter sparat"
                 },
                 "contactPerson": "Kontaktperson",
+                "eanNumber": "EAN-nummer",
                 "email": "E-post",
                 "isActive": "Aktiv",
                 "municipality": "Kommun",
@@ -11394,6 +11418,7 @@
             "total": "Totalt",
             "customerNumber": "Kundnummer",
             "productNumber": "Produktnummer",
+            "eanNumber": "EAN-nummer",
             "agreement": "Avtal",
             "consultant": "Konsult",
             "excludeWeek": "Exkludera vecka",
@@ -11527,7 +11552,9 @@
                 "undo": "Ångra import ({count} skapade)",
                 "unmatchedCpr": "Omatchade CPR-nummer:",
                 "unmatchedEmails": "Omatchade e-postadresser:",
-                "unknownShifts": "Okända skifttyper:"
+                "unknownShifts": "Okända skifttyper:",
+                "rowsFailed": "{count} rad(er) kunde inte importeras på grund av ett oväntat fel.",
+                "failedRows": "Misslyckade rader:"
             }
         },
         "footer": {
@@ -11583,14 +11610,14 @@
         "settings": {
             "title": "SMS-notifikationer",
             "enableSms": "Aktivera SMS",
-            "enableSmsHint": "Skicka SMS-notifikationer till medborgare via Azure Communication Services.",
+            "enableSmsHint": "Skicka SMS-notifikationer till medborgare via Twilio.",
             "balance": "Saldo",
             "notificationEvents": "Notifikationshändelser",
             "notifyNewAppointment": "Ny bokning skapad",
             "notifyReminder24h": "Påminnelse 24 timmar före bokning",
             "notifyReminderSameDay": "Påminnelse på bokningsdagen",
-            "azureTitle": "Azure Communication Services",
-            "azureDesc": "SMS-meddelanden skickas via Azure Communication Services med CitizenOne som avsändare.",
+            "azureTitle": "Twilio",
+            "azureDesc": "SMS-meddelanden skickas via Twilio med CitizenOne som avsändare.",
             "autoRecharge": "Automatisk påfyllning",
             "autoRechargeHint": "Fyll på automatiskt när saldot faller under gränsen.",
             "autoRechargeThreshold": "Fyll på när saldo faller under",
@@ -11812,5 +11839,26 @@
             "title": "Vad är egna länkar?",
             "body": "Lägg till genvägar i vänstermenyn - t.ex. ert intranät, en delad enhet, ett bokningssystem eller ett annat externt verktyg teamet använder. Välj om varje länk visas för administratörer, användare eller alla."
         }
+    },
+    "myDay": {
+        "title": "Min dag",
+        "greeting": {
+            "morning": "God morgon",
+            "day": "Goddag",
+            "evening": "God kväll"
+        },
+        "shifts": "Mina pass",
+        "noShifts": "Inga pass idag",
+        "events": "Mina händelser",
+        "noEvents": "Inga händelser idag",
+        "medsDue": "Medicin idag",
+        "medsDeptNote": "avdelning",
+        "noMeds": "Ingen väntande medicin",
+        "drafts": "Anteckningar att skriva",
+        "noDrafts": "Inga utkast",
+        "untitledNote": "Anteckning utan titel",
+        "reminders": "Mina påminnelser",
+        "noReminders": "Inga påminnelser idag",
+        "newTask": "Ny uppgift"
     }
 }

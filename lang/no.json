@@ -53,7 +53,13 @@
         "Calendar": "Kalender",
         "Contacts": "Kontakter",
         "Duty Schedule": "Vaktplan",
-        "Employee Group": "Medarbeidergruppe"
+        "Employee Group": "Medarbeidergruppe",
+        "Emails": "Brukeres e-poster",
+        "Reports": "Rapporter",
+        "Inquiries": "Henvendelser",
+        "Management & Economy": "Ledelse & økonomi",
+        "Billing": "Fakturering",
+        "Revenue report": "Inntektsrapport"
     },
     "discover": {
         "welcome": "Velkommen, {name}",
@@ -767,11 +773,20 @@
     },
     "assistants": {
         "askAI": "Spørg AI",
-        "askAnything": "Spørg om hva som helst",
+        "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
+        "mentionSomeone": "Nevn en bruker eller ansatt",
+        "searchScopeHint": "AI kan søke i alle bruker-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",
+        "reviewNotice": "AI-generert innhold kan inneholde feil — se alltid gjennom det før du stoler på det",
+        "previewBeforeSending": "Forhåndsvis før sending",
         "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vennligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjelpe dig i dag",
         "send": "Send",
+        "preview": {
+            "title": "Forhåndsvisning før sending",
+            "loading": "Laster forhåndsvisning...",
+            "taggedRecords": "Taggede poster"
+        },
         "history": {
             "newChat": "Ny chat",
             "viewHistory": "Se historikk",
@@ -1346,11 +1361,11 @@
             "viewSchedule": "Se tidsplan"
         },
         "caseWorker": {
-            "addNewCaseworker": "Legg til ny sagsbehandler",
+            "addNewCaseworker": "Legg til ny {term}",
             "alert": {
-                "newCaseWorkerSuccessfullyAdded": "Ny sagsbehandler lagt til vellykket"
+                "newCaseWorkerSuccessfullyAdded": "Ny {term} lagt til vellykket"
             },
-            "newCaseWorker": "Ny sagsbehandler"
+            "newCaseWorker": "Ny {term}"
         },
         "citizenJournals": {
             "aiUsed": "CitizenOne AI ble brukt",
@@ -1437,6 +1452,14 @@
                 "draft": "Udkast",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
                 "enterJournalTitleManually": "Skriv inn journal tittel manuelt",
+                "aiGenerate": {
+                    "title": "Utarbeid med AI",
+                    "description": "Se over hva som vil være tilgjengelig for AI-en før du genererer.",
+                    "loading": "Laster journaler og planer...",
+                    "journals": "Journaler",
+                    "plans": "Planer",
+                    "redactionNotice": "Personlige identifikatorer (navn, personnummer, adresse, telefon, e-post) fjernes alltid."
+                },
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nåværende planer, mål og delmål",
@@ -1939,7 +1962,7 @@
             },
             "transportation": "Transportere",
             "useThisLocation": "Bruk denne plassering",
-            "secondaryCaseworker": "Sekundær saksbehandler"
+            "secondaryCaseworker": "Sekundær {term}"
         },
         "importCitizens": {
             "alert": {
@@ -2278,6 +2301,7 @@
                 },
                 "giveAllMedicines": "Gi al medisin",
                 "giveMedicine": "Gi medisin",
+                "giveMedicineTo": "Gi medisin til {name}",
                 "medicineHistory": "Medicinhistorik",
                 "table": {
                     "actions": {
@@ -4234,6 +4258,7 @@
                 "dateTimeEnd": "Sluttdato og -tid",
                 "dateTimeStart": "Startdato og -tid",
                 "department": "Avdelinger",
+                "forAllEmployees": "For alle ansatte",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobbtittel",
                 "numberOfShifts": "Antall vakter",
@@ -6244,7 +6269,7 @@
             "note": "Note",
             "payingMunicipality": "Betalingskommune",
             "pricing": "Prising",
-            "primaryCaseWorker": "Primær sagsbehandler",
+            "primaryCaseWorker": "Primær {term}",
             "responsibleMunicipality": "Ansvarlig kommune",
             "section": "Paragraf",
             "employmentData": "Sysselsettingsforløp",
@@ -8496,9 +8521,9 @@
         "citizen": "Bruker",
         "department": "Avdeling",
         "municipality": "Kommune",
-        "caseworkerName": "Saksbehandlers navn",
-        "caseworkerEmail": "Saksbehandlers e-post",
-        "caseworkerPhone": "Saksbehandlers telefon",
+        "caseworkerName": "{term}s navn",
+        "caseworkerEmail": "{term}s e-post",
+        "caseworkerPhone": "{term}s telefon",
         "startDate": "Startdato",
         "endDate": "Sluttdato",
         "weeks": "Uker",
@@ -8732,6 +8757,8 @@
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Sjekk inn/ut for innsats",
                 "interventionNotificationHours": "Varslingstimer for innsats",
+                "employmentWeeklyHours": "Ukentlige arbeidstimer (fakturering for sysselsettingsinnsats)",
+                "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",
                 "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
                 "lockPastSchedules": "Lås tidligere vaktplaner",
                 "municipality": "Kommune",
@@ -8769,6 +8796,10 @@
                 "termJournal": "Journal",
                 "termJournalNoteTag": "Journalnotetagg",
                 "termJournalNotes": "Journalnotater",
+                "termCaseworker": "Saksbehandler",
+                "termCase": "Sak",
+                "termAgreement": "Avtale",
+                "termJobcenter": "Jobbsenter",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
                 "enableIpRestriction": "Aktiver IP-begrænsning",
@@ -8794,7 +8825,7 @@
             "unusedLicense": "Ubrugt lisens",
             "usedLicense": "Brukt lisens",
             "userLicenses": "Brugerlicenser",
-            "caseworkerLicenses": "Saksbehandlerlisenser",
+            "caseworkerLicenses": "{term}lisenser",
             "departmentLicenses": "Afdelingslicenser",
             "usedDepartmentLicense": "Brukt afdelingslicens",
             "unusedDepartmentLicense": "Ubrugt afdelingslicens",
@@ -9066,7 +9097,8 @@
         "journalNotes": "Journal notes",
         "pinSidebar": "Fest sidefelt",
         "unpinSidebar": "Løsne sidefelt",
-        "surveys": "Spørreskjemaer"
+        "surveys": "Spørreskjemaer",
+        "myDay": "Min dag"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -10562,12 +10594,9 @@
         "courseDetails": "Hvis du og dine kollegaer har bruk for et kurs i CitizenOne, så klikk på knappen nedenfor for at se, hva vi kan tilbyde, så I blir godt klædt på",
         "findGuidesHere": "Finn veiledninger her",
         "getAGuidedTour": "Få en guided video-tour",
-        "latestNewFeatures": "Seneste nye funksjoner",
-        "latestNewFeaturesDetails": "Følg med i de nyeste forbedringer og funksjoner i CitizenOne. Vi oppdaterer løbende, så du alltid er oppdatert",
         "needACourse": "Bruk for et kurs",
         "newFeatureRequest": "Har du ønsker til nye funksjoner",
         "newFeatureRequestDetails": "CitizenOne udvikles i tæt samarbeide med vores brukere. Har du forslag eller idéer til nye funksjoner? Så del dem med os - vi lytter og prioriterer løbende",
-        "seeTheNewFeatures": "Se de nye funksjoner",
         "sendUsYourRequests": "Send os dine ønsker",
         "support": "Support",
         "viewCourses": "Se kurs",
@@ -10878,8 +10907,11 @@
         "newUpdatesFrom": "Nye oppdateringer fra",
         "showUpdate": "Vis oppdatering",
         "updates": "Oppdateringer",
+        "newBadge": "Ny",
         "noUpdates": "Ingen oppdateringer ennå.",
-        "tagline": "Se hva som er nytt i CitizenONE"
+        "noNewUpdates": "Ingen nye oppdateringer.",
+        "history": "Historikk",
+        "tagline": "Se hva som er nytt i CitizenOne"
     },
     "validation": {
         "invalidNumber": "Ugyldig nummer",
@@ -11168,10 +11200,7 @@
                     "hourly": "Timebasert prising",
                     "bonus": "Bonusbasert prising"
                 },
-                "bonusMonthOptions": {
-                    "three": "3 måneder",
-                    "six": "6 måneder"
-                },
+                "bonusConditionMonthsUnit": "måneder",
                 "frequencyOptions": {
                     "hourly": "Per time",
                     "daily": "Per dag",
@@ -11206,10 +11235,10 @@
             }
         },
         "cases": {
-            "addNewCase": "Legg til ny sak",
+            "addNewCase": "Legg til ny {term}",
             "cases": "Sysselsettingssaker",
-            "editCase": "Rediger sak",
-            "newCase": "Ny sak",
+            "editCase": "Rediger {term}",
+            "newCase": "Ny {term}",
             "form": {
                 "agreement": "Avtale",
                 "alert": {
@@ -11238,12 +11267,6 @@
                 "reportingFrequencyWeeks": "Rapporteringsfrekvens",
                 "contractPrice": "Kontraktpris",
                 "primarySplitPercentage": "Primær koordinator andel (%)",
-                "reportingFrequencyOptions": {
-                    "every2weeks": "Hver 2. uke",
-                    "every4weeks": "Hver 4. uke",
-                    "every6weeks": "Hver 6. uke",
-                    "every8weeks": "Hver 8. uke"
-                },
                 "reportingReminderTitle": "Rapporteringspåminnelse",
                 "reportingReminderNote": "Automatisk rapporteringspåminnelse for sysselsettingssak"
             },
@@ -11292,10 +11315,10 @@
             }
         },
         "agreements": {
-            "addNewAgreement": "Legg til ny avtale",
+            "addNewAgreement": "Legg til ny {term}",
             "agreements": "Avtaler",
-            "editAgreement": "Rediger avtale",
-            "newAgreement": "Ny avtale",
+            "editAgreement": "Rediger {term}",
+            "newAgreement": "Ny {term}",
             "form": {
                 "alert": {
                     "agreementSuccessfullyUpdated": "Avtale oppdatert",
@@ -11338,16 +11361,17 @@
             }
         },
         "jobcenters": {
-            "addNewJobcenter": "Legg til nytt jobbsenter",
-            "editJobcenter": "Rediger jobbsenter",
+            "addNewJobcenter": "Legg til nytt {term}",
+            "editJobcenter": "Rediger {term}",
             "jobcenters": "Jobbsentre",
-            "newJobcenter": "Nytt jobbsenter",
+            "newJobcenter": "Nytt {term}",
             "form": {
                 "alert": {
                     "jobcenterSuccessfullyUpdated": "Jobbsenter oppdatert",
                     "newJobcenterSuccessfullySaved": "Jobbsenter lagret"
                 },
                 "contactPerson": "Kontaktperson",
+                "eanNumber": "EAN-nummer",
                 "email": "E-post",
                 "isActive": "Aktiv",
                 "municipality": "Kommune",
@@ -11394,6 +11418,7 @@
             "total": "Total",
             "customerNumber": "Kundenummer",
             "productNumber": "Produktnummer",
+            "eanNumber": "EAN-nummer",
             "agreement": "Avtale",
             "consultant": "Konsulent",
             "excludeWeek": "Ekskluder uke",
@@ -11527,7 +11552,9 @@
                 "undo": "Angre import ({count} opprettet)",
                 "unmatchedCpr": "Umatchede CPR-numre:",
                 "unmatchedEmails": "Umatchede e-poster:",
-                "unknownShifts": "Ukjente vakttyper:"
+                "unknownShifts": "Ukjente vakttyper:",
+                "rowsFailed": "{count} rad(er) kunne ikke importeres på grunn av en uventet feil.",
+                "failedRows": "Mislykkede rader:"
             }
         },
         "footer": {
@@ -11583,14 +11610,14 @@
         "settings": {
             "title": "SMS-varsler",
             "enableSms": "Aktiver SMS",
-            "enableSmsHint": "Send SMS-varsler til innbyggere via Azure Communication Services.",
+            "enableSmsHint": "Send SMS-varsler til innbyggere via Twilio.",
             "balance": "Saldo",
             "notificationEvents": "Varselhendelser",
             "notifyNewAppointment": "Ny avtale opprettet",
             "notifyReminder24h": "Påminnelse 24 timer før avtale",
             "notifyReminderSameDay": "Påminnelse på avtaledagen",
-            "azureTitle": "Azure Communication Services",
-            "azureDesc": "SMS-meldinger sendes via Azure Communication Services med CitizenOne som avsender.",
+            "azureTitle": "Twilio",
+            "azureDesc": "SMS-meldinger sendes via Twilio med CitizenOne som avsender.",
             "autoRecharge": "Automatisk påfylling",
             "autoRechargeHint": "Fyll automatisk på når saldoen faller under grensen.",
             "autoRechargeThreshold": "Fyll på når saldo faller under",
@@ -11812,5 +11839,26 @@
             "title": "Hva er egne lenker?",
             "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet bruker. Velg om hver lenke vises for administratorer, brukere eller alle."
         }
+    },
+    "myDay": {
+        "title": "Min dag",
+        "greeting": {
+            "morning": "God morgen",
+            "day": "God dag",
+            "evening": "God kveld"
+        },
+        "shifts": "Mine vakter",
+        "noShifts": "Ingen vakter i dag",
+        "events": "Mine avtaler",
+        "noEvents": "Ingen avtaler i dag",
+        "medsDue": "Medisin i dag",
+        "medsDeptNote": "avdeling",
+        "noMeds": "Ingen ventende medisin",
+        "drafts": "Notater å skrive",
+        "noDrafts": "Ingen utkast",
+        "untitledNote": "Notat uten tittel",
+        "reminders": "Mine påminnelser",
+        "noReminders": "Ingen påminnelser i dag",
+        "newTask": "Ny oppgave"
     }
 }

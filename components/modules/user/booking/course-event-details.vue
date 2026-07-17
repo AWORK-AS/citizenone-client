@@ -268,9 +268,9 @@
                             </span>
                         </p>
                     </div>
-                    <p class="text-sm text-muted-400">
+                    <div class="text-sm text-muted-400">
                         <div v-html="props.courseEventDetails?.description" class="content line-clamp-1" />
-                    </p>
+                    </div>
                     <div class="flex flex-wrap items-center gap-x-1.5 gap-y-1">
                         <div v-for="(tag, tagIndex) in props.courseEventDetails?.booking_setting?.tags" :key="tagIndex"
                             class="bg-primary text-white px-2 py-1 text-xxs rounded-full flex items-center justify-center">

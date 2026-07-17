@@ -133,7 +133,7 @@
                             <div class="flex items-center justify-between gap-3">
                                 <div>
                                     <h3 class="text-sm font-semibold text-tertiary">
-                                        {{ $t('settings.licenseOverview.caseworkerLicenses') }}
+                                        {{ $t('settings.licenseOverview.caseworkerLicenses', { term: caseworkerTerm }) }}
                                     </h3>
                                     <p class="mt-1 text-sm text-gray-600">
                                         {{ $t('subscription.addOnDeals.purchaseExtraLicenses') }}
@@ -157,11 +157,16 @@
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { useI18n } from 'vue-i18n'
+import { useTerminology } from '@/composables/useTerminology'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { t } = useI18n()
+const { term } = useTerminology()
+const caseworkerTerm = computed(() => term('caseworker', t('settings.company.form.termCaseworker')))
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 const isEmployeeServicesCompany = computed(() => {

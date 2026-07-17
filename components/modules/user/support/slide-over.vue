@@ -62,7 +62,7 @@
                                                     </FormButton>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <FormButton buttonStyle="primary" @click="toggleChatVisibility()"
+                                                    <FormButton buttonStyle="primary" @click="openChatWithSupport()"
                                                         class="w-full">
                                                         {{ $t('support.chatWithSupport') }}
                                                     </FormButton>
@@ -88,23 +88,6 @@
                                                         <FormButton buttonStyle="primary" @click="navigateToCourses()"
                                                             class="w-full">
                                                             {{ $t('support.viewCourses') }}
-                                                        </FormButton>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr class="mt-5 mb-4" />
-                                            <div class="space-y-5">
-                                                <div class="space-y-3">
-                                                    <p class="text-xl">
-                                                        {{ $t('support.latestNewFeatures') }}
-                                                    </p>
-                                                    <p class="text-sm">
-                                                        {{ $t('support.latestNewFeaturesDetails') }}.
-                                                    </p>
-                                                    <div>
-                                                        <FormButton buttonStyle="primary"
-                                                            @click="navigateToLatestFeatures()" class="w-full">
-                                                            {{ $t('support.seeTheNewFeatures') }}
                                                         </FormButton>
                                                     </div>
                                                 </div>
@@ -263,18 +246,6 @@ async function navigateToSupport() {
     })
 }
 
-function toggleChatVisibility() {
-    const chatElement = document.querySelector('.zsiq_floatmain') as any
-    if (chatElement) {
-        chatElement.style.setProperty('display', 'block', 'important')
-        chatElement.style.setProperty('height', '100px', 'important')
-
-        chatElement.click()
-        closeSlide()
-    }
-}
-
-
 async function navigateToCourses() {
     await navigateTo('https://citizenone.dk/priser/kurser', {
         external: true,
@@ -284,12 +255,8 @@ async function navigateToCourses() {
     })
 }
 
-async function navigateToLatestFeatures() {
-    await navigateTo('https://citizenone.dk/nye-funktioner', {
-        external: true,
-        open: {
-            target: '_blank',
-        }
-    })
+function openChatWithSupport() {
+    useObiyenChat().revealAndOpenChat()
+    closeSlide()
 }
 </script>

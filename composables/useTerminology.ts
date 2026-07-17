@@ -1,6 +1,6 @@
 import { useUserStore } from '@/store/user'
 
-type TermKey = 'journals' | 'journal' | 'journalNoteTag' | 'journalNotes'
+type TermKey = 'journals' | 'journal' | 'journalNoteTag' | 'journalNotes' | 'caseworker' | 'case' | 'agreement' | 'jobcenter'
 
 /**
  * Per-company terminology overrides for the journal word list.
@@ -17,6 +17,10 @@ export function useTerminology() {
             journal: company?.term_journal,
             journalNoteTag: company?.term_journal_note_tag,
             journalNotes: company?.term_journal_notes,
+            caseworker: company?.term_caseworker,
+            case: company?.term_case,
+            agreement: company?.term_agreement,
+            jobcenter: company?.term_jobcenter,
         }
         const custom = map[key]
         return custom && String(custom).trim() ? String(custom) : fallback

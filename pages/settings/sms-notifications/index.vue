@@ -13,7 +13,7 @@
             <div>
                 <ModulesUserSettingsTab />
 
-                <div id="sms-checkout" v-show="state.isCheckoutVisible"></div>
+                <div id="sms-checkout" v-show="state.isCheckoutVisible" class="mx-auto max-w-sm md:max-w-md"></div>
 
                 <div v-if="!state.isCheckoutVisible" class="mt-6 space-y-4">
                     <Alert type="danger" :text="state.error?.message"
@@ -98,7 +98,7 @@
                             </div>
                         </div>
 
-                        <!-- Azure Communication Services card -->
+                        <!-- Twilio card -->
                         <div class="mt-4 bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm max-w-2xl">
                             <div class="mb-2">
                                 <h2 class="text-[16px] font-semibold text-[#1F2533]">

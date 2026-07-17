@@ -120,14 +120,19 @@
                             :class="[
                                 day.isToday ? 'bg-tertiary/[0.05]' : (day.isCurrentMonth ? 'bg-white' : 'bg-gray-50/70'),
                                 day.isToday && state.flashToday && 'ring-2 ring-inset ring-tertiary motion-safe:animate-pulse',
-                                'relative flex min-h-[7rem] flex-col gap-y-1 px-2 py-2',
-                            ]">
-                            <time :datetime="day.date"
-                                :class="day.isToday
-                                    ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary text-[13px] font-semibold text-white'
-                                    : ['text-[13px] font-medium', day.isCurrentMonth ? (isWeekend(day.date) ? 'text-gray-400' : 'text-gray-700') : 'text-gray-300']">
-                                {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
-                            </time>
+                                'group/day relative flex min-h-[7rem] cursor-pointer flex-col gap-y-1 px-2 py-2',
+                            ]"
+                            @click="setSelectedDay(day)">
+                            <div class="flex items-center justify-between">
+                                <time :datetime="day.date"
+                                    :class="day.isToday
+                                        ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary text-[13px] font-semibold text-white'
+                                        : ['text-[13px] font-medium', day.isCurrentMonth ? (isWeekend(day.date) ? 'text-gray-400' : 'text-gray-700') : 'text-gray-300']">
+                                    {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
+                                </time>
+                                <Icon name="ph:plus"
+                                    class="h-3.5 w-3.5 text-gray-300 opacity-0 transition-opacity group-hover/day:opacity-100" />
+                            </div>
                             <ol v-if="day.holidays.length > 0" class="space-y-1">
                                 <li v-for="(holiday, holidayIndex) in day.holidays" :key="holidayIndex">
                                     <div class="flex items-center gap-x-1.5 rounded-md bg-secondary/10 px-1.5 py-1">
@@ -162,7 +167,7 @@
                                             @focus="showPreviewEl($event, myCalendarEvent)" @blur="hidePreview"
                                             @keydown.enter.prevent="editMyCalendarEvent(myCalendarEvent)"
                                             @keydown.space.prevent="editMyCalendarEvent(myCalendarEvent)"
-                                            @click="editMyCalendarEvent(myCalendarEvent)">
+                                            @click.stop="editMyCalendarEvent(myCalendarEvent)">
                                             <span class="h-1.5 w-1.5 flex-none rounded-full" :class="[
                                                 isNow(myCalendarEvent) ? 'bg-red-500 motion-safe:animate-pulse' : [
                                                     myCalendarEvent?.type === 'citizens' && 'bg-amber-500',
@@ -184,16 +189,20 @@
                                             <Menu as="div"
                                                 class="absolute right-1 flex-none opacity-0 group-hover/event:opacity-100"
                                                 @click.stop>
-                                                <MenuButton class="flex items-center rounded bg-white/90 p-0.5 text-gray-400 shadow-sm ring-1 ring-gray-200 hover:text-gray-700">
+                                                <MenuButton class="flex items-center rounded bg-white/90 p-0.5 text-gray-400 shadow-sm ring-1 ring-gray-200 hover:text-gray-700"
+                                                    @click="openDropdownMenu($event)">
                                                     <Icon name="heroicons:ellipsis-horizontal" class="h-3.5 w-3.5" />
                                                 </MenuButton>
+                                                <Teleport to="body">
                                                 <transition enter-active-class="transition ease-out duration-100"
                                                     enter-from-class="transform opacity-0 scale-95"
                                                     enter-to-class="transform opacity-100 scale-100"
                                                     leave-active-class="transition ease-in duration-75"
                                                     leave-from-class="transform opacity-100 scale-100"
                                                     leave-to-class="transform opacity-0 scale-95">
-                                                    <MenuItems class="absolute right-0 z-20 mt-1 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                    <MenuItems @mouseenter="hidePreview"
+                                                        :style="{ left: state.menuPos.x + 'px', top: state.menuPos.y + 'px' }"
+                                                        class="fixed z-[60] w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                         <div class="py-1">
                                                             <MenuItem v-slot="{ active }">
                                                             <a href="#" :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -239,12 +248,13 @@
                                                         </div>
                                                     </MenuItems>
                                                 </transition>
+                                                </Teleport>
                                             </Menu>
                                         </div>
                                     </div>
                                 </li>
                                 <li v-if="day.events.length > 3 && !state.expandedDays.includes(day.date)">
-                                    <button type="button" @click="state.expandedDays.push(day.date)"
+                                    <button type="button" @click.stop="state.expandedDays.push(day.date)"
                                         class="w-full rounded-md px-1.5 py-0.5 text-left text-[11px] font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                                         +{{ day.events.length - 3 }} {{ $t('showMore') }}
                                     </button>
@@ -548,7 +558,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 const today = moment()
 
 const state = reactive({
@@ -558,6 +568,7 @@ const state = reactive({
     expandedDays: [] as string[],
     flashToday: false,
     preview: { event: null as any, x: 0, y: 0 },
+    menuPos: { x: 0, y: 0 },
     modal: {
         isDeleteScheduleOpen: false,
         isShowAllInviteesOpen: false,
@@ -586,6 +597,7 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
 function setSelectedDay(day: any) {
     state.selectedDay = day
     state.days.forEach(d => d.isSelected = d.date === day.date)
+    emit('createEvent', day.date)
 }
 
 function previousMonth() {
@@ -716,6 +728,19 @@ function showPreviewEl(e: FocusEvent, event: any) {
 
 function hidePreview() {
     state.preview.event = null
+}
+
+// The dropdown is teleported to <body> (fixed position) so it can never be
+// overpainted by a later sibling day-cell in the grid when it extends past
+// its own cell's boundary (e.g. events near the bottom of a row) - matches
+// the same approach already used for the hover preview above.
+function openDropdownMenu(e: MouseEvent) {
+    hidePreview()
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    const width = 192 // w-48
+    let x = rect.right - width
+    if (x < 8) x = 8
+    state.menuPos = { x, y: rect.bottom + 4 }
 }
 
 function onCalKey(e: KeyboardEvent) {

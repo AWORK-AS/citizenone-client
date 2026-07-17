@@ -564,6 +564,17 @@ const routeName = router?.currentRoute?.value?.name
 const navigation = shallowRef<any[]>([])
 const customSidebarLinks = ref<any[]>([])
 
+// "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
+// per Allan's feedback, once onboarding is fully done it should disappear from
+// the sidebar too, not just the tab, so it doesn't look like something's still
+// outstanding. Re-generate the sidebar the moment this flips so it can vanish
+// immediately if the user finishes the last step while still on /discover,
+// without needing a full navigation/reload first.
+const { completed: discoverCompleted } = useDiscoverDone()
+watch(discoverCompleted, () => {
+    if (userStore.getUser) generateSidebarLinks(userStore.getUser)
+})
+
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
 
@@ -669,7 +680,6 @@ function getNavItemLabel(item: any) {
     const t = language.t
     if (item.rawLabel) return item.name
     if (item.name === 'Overview') return t('sidebar.overview')
-    if (item.name === 'Apps') return t('navbar.apps')
     if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
@@ -755,11 +765,16 @@ function generateSidebarLinks(user: any) {
         name: 'Overview',
         href: '/overview',
         icon: 'material-symbols:dashboard',
+        // My day and Statistics no longer have their own sidebar entries -
+        // they're reachable via the tab row on these pages - so Overview
+        // stays highlighted as active while on any of them.
         activeRouteNames: [
             'overview',
+            'my-day',
+            'statistics',
         ]
     })
-    if (isAtLeast('Admin')) {
+    if (isAtLeast('Admin') && !discoverCompleted.value) {
         nav.push({
             name: 'Discover',
             href: '/discover',
@@ -859,24 +874,25 @@ function generateSidebarLinks(user: any) {
 
     nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
 
-    if (user?.company?.inquiry_pipeline_enabled && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
+    if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
         nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', activeRouteNames: ['inquiries'] })
     }
 
     if (user?.company?.industry?.system_name === 'employment_services') {
-        nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
-        nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+        if (companyHasModule('Billing')) {
+            nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
+        }
+        if (companyHasModule('Revenue report')) {
+            nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+        }
     }
 
     if (user?.company?.industry?.system_name === 'social_welfare' && user?.pages?.some((page: any) => page.name === 'Management & Economy')) {
         nav.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', activeRouteNames: ['management-economy'] })
     }
 
-    // The app store lives behind the profile dropdown too, but only admins can
-    // buy apps, so give them a visible entry point.
-    if (isAtLeast('Admin')) {
-        nav.push({ name: 'Apps', href: '/apps', icon: 'ic:baseline-apps', activeRouteNames: ['apps', 'apps-activated-successfully', 'apps-purchased-successfully'] })
-    }
+    // Removed from the sidebar (declutter, per stakeholder feedback) - the app
+    // store is still reachable for every role via the profile dropdown menu.
 
     customSidebarLinks.value.forEach((link: any) => {
         nav.push({
@@ -1004,6 +1020,10 @@ async function logout() {
         if (response) {
             localStorage.removeItem("_token")
             localStorage.removeItem("rememberMe")
+            // So the Obiyen chat bubble starts hidden again on next login, even
+            // within the same tab (logout navigates client-side, so the plugin's
+            // one-time boot logic doesn't get a chance to re-run and hide it).
+            useObiyenChat().resetOnLogout()
             navigateTo('/')
         }
     } catch (error: any) {

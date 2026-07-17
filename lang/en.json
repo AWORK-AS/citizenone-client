@@ -53,7 +53,13 @@
         "Calendar": "Calendar",
         "Contacts": "Contacts",
         "Duty Schedule": "Duty schedule",
-        "Employee Group": "Employee group"
+        "Employee Group": "Employee group",
+        "Emails": "Citizen emails",
+        "Reports": "Reports",
+        "Inquiries": "Inquiries",
+        "Management & Economy": "Management & economy",
+        "Billing": "Billing",
+        "Revenue report": "Revenue report"
     },
     "discover": {
         "welcome": "Welcome, {name}",
@@ -767,11 +773,20 @@
     },
     "assistants": {
         "askAI": "Ask AI",
-        "askAnything": "Ask anything",
+        "askAnything": "Ask anything, or type {'@'} to mention someone",
+        "mentionSomeone": "Mention a citizen or employee",
+        "searchScopeHint": "AI can search any citizen/employee record you have access to, unless you tag someone specific with {'@'}",
+        "reviewNotice": "AI-generated content may contain errors — always review before relying on it",
+        "previewBeforeSending": "Preview what will be sent",
         "fileSizeExceeds": "Total file size must not exceed 10MB",
         "generatingResponse": "Generating response. Please wait",
         "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
         "send": "Send",
+        "preview": {
+            "title": "Preview before sending",
+            "loading": "Loading preview...",
+            "taggedRecords": "Tagged records"
+        },
         "history": {
             "newChat": "New chat",
             "viewHistory": "View history",
@@ -1346,11 +1361,11 @@
             "viewSchedule": "View schedule"
         },
         "caseWorker": {
-            "addNewCaseworker": "Add new case worker",
+            "addNewCaseworker": "Add new {term}",
             "alert": {
-                "newCaseWorkerSuccessfullyAdded": "New case worker successfully added"
+                "newCaseWorkerSuccessfullyAdded": "New {term} successfully added"
             },
-            "newCaseWorker": "New case worker"
+            "newCaseWorker": "New {term}"
         },
         "citizenJournals": {
             "aiUsed": "CitizenOne AI was used",
@@ -1438,6 +1453,14 @@
                 "enterJournalContent": "Enter journal Content manually",
                 "enterJournalTitleManually": "Enter journal title manually",
                 "forTeeth": "For teeth",
+                "aiGenerate": {
+                    "title": "Prepare with AI",
+                    "description": "Review what will be available to the AI before generating.",
+                    "loading": "Loading journals and plans...",
+                    "journals": "Journals",
+                    "plans": "Plans",
+                    "redactionNotice": "Personal identifiers (name, CPR, address, phone, email) are always removed."
+                },
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
@@ -1939,7 +1962,7 @@
             },
             "transportation": "Transportation",
             "useThisLocation": "Use This Location",
-            "secondaryCaseworker": "Secondary caseworker"
+            "secondaryCaseworker": "Secondary {term}"
         },
         "importCitizens": {
             "alert": {
@@ -2278,6 +2301,7 @@
                 },
                 "giveAllMedicines": "Give all medicines",
                 "giveMedicine": "Give medicine",
+                "giveMedicineTo": "Give medicine to {name}",
                 "medicineHistory": "Medicine history",
                 "table": {
                     "actions": {
@@ -4234,6 +4258,7 @@
                 "dateTimeEnd": "Date and time end",
                 "dateTimeStart": "Date and time start",
                 "department": "Department",
+                "forAllEmployees": "For all employees",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
                 "numberOfShifts": "Number of shifts",
@@ -6244,7 +6269,7 @@
             "note": "Note",
             "payingMunicipality": "Paying Municipality",
             "pricing": "Pricing",
-            "primaryCaseWorker": "Primary Caseworker",
+            "primaryCaseWorker": "Primary {term}",
             "responsibleMunicipality": "Responsible Municipality",
             "section": "Section",
             "employmentData": "Employment program",
@@ -8496,9 +8521,9 @@
         "citizen": "Citizen",
         "department": "Department",
         "municipality": "Municipality",
-        "caseworkerName": "Caseworker name",
-        "caseworkerEmail": "Caseworker email",
-        "caseworkerPhone": "Caseworker phone",
+        "caseworkerName": "{term} name",
+        "caseworkerEmail": "{term} email",
+        "caseworkerPhone": "{term} phone",
         "startDate": "Start date",
         "endDate": "End date",
         "weeks": "Weeks",
@@ -8732,6 +8757,8 @@
                 "groupChat": "Group chat",
                 "interventionCheckinOut": "Intervention check in/out",
                 "interventionNotificationHours": "Intervention notification hours",
+                "employmentWeeklyHours": "Weekly work hours (Employment Services billing)",
+                "employmentWeeklyHoursHint": "Used to convert hourly billing rates into a weekly price. Leave blank to use the default of 37 hours/week.",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "lockPastSchedules": "Lock past schedules",
                 "municipality": "Municipality",
@@ -8769,6 +8796,10 @@
                 "termJournal": "Journal",
                 "termJournalNoteTag": "Journal note tag",
                 "termJournalNotes": "Journal notes",
+                "termCaseworker": "Caseworker",
+                "termCase": "Case",
+                "termAgreement": "Agreement",
+                "termJobcenter": "Job center",
                 "website": "Website",
                 "ipRestriction": "IP restriction",
                 "enableIpRestriction": "Enable IP restriction",
@@ -8794,7 +8825,7 @@
             "unusedLicense": "Unused license",
             "usedLicense": "Used license",
             "userLicenses": "User licenses",
-            "caseworkerLicenses": "Caseworker licenses",
+            "caseworkerLicenses": "{term} licenses",
             "departmentLicenses": "Department licenses",
             "usedDepartmentLicense": "Used department license",
             "unusedDepartmentLicense": "Unused department license",
@@ -9066,7 +9097,8 @@
         "journalNotes": "Journal notes",
         "pinSidebar": "Pin sidebar",
         "unpinSidebar": "Unpin sidebar",
-        "surveys": "Surveys"
+        "surveys": "Surveys",
+        "myDay": "My day"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -10562,12 +10594,9 @@
         "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",
         "findGuidesHere": "Find guides here",
         "getAGuidedTour": "Get a guided video-tour",
-        "latestNewFeatures": "Latest New Features",
-        "latestNewFeaturesDetails": "Stay updated with the latest improvements and features in CitizenOne. We continuously update to keep you informed",
         "needACourse": "Need a course",
         "newFeatureRequest": "Do you have any requests for new features",
         "newFeatureRequestDetails": "CitizenOne is developed in close collaboration with our users. Do you have suggestions or ideas for new features? Share them with us - we listen and prioritize continuously",
-        "seeTheNewFeatures": "See the new features",
         "sendUsYourRequests": "Send us your requests",
         "support": "Support",
         "viewCourses": "View courses",
@@ -10878,8 +10907,11 @@
         "newUpdatesFrom": "New updates from",
         "showUpdate": "Show update",
         "updates": "Updates",
+        "newBadge": "New",
         "noUpdates": "No updates yet.",
-        "tagline": "See what's new in CitizenONE"
+        "noNewUpdates": "No new updates.",
+        "history": "History",
+        "tagline": "See what's new in CitizenOne"
     },
     "validation": {
         "invalidNumber": "Invalid number",
@@ -11168,10 +11200,7 @@
                     "hourly": "Hourly pricing",
                     "bonus": "Bonus-based pricing"
                 },
-                "bonusMonthOptions": {
-                    "three": "3 months",
-                    "six": "6 months"
-                },
+                "bonusConditionMonthsUnit": "months",
                 "frequencyOptions": {
                     "hourly": "Hourly",
                     "daily": "Daily",
@@ -11206,10 +11235,10 @@
             }
         },
         "cases": {
-            "addNewCase": "Add new case",
+            "addNewCase": "Add new {term}",
             "cases": "Employment cases",
-            "editCase": "Edit case",
-            "newCase": "New case",
+            "editCase": "Edit {term}",
+            "newCase": "New {term}",
             "form": {
                 "agreement": "Agreement",
                 "alert": {
@@ -11238,12 +11267,6 @@
                 "reportingFrequencyWeeks": "Reporting frequency",
                 "contractPrice": "Contract price",
                 "primarySplitPercentage": "Primary coordinator share (%)",
-                "reportingFrequencyOptions": {
-                    "every2weeks": "Every 2 weeks",
-                    "every4weeks": "Every 4 weeks",
-                    "every6weeks": "Every 6 weeks",
-                    "every8weeks": "Every 8 weeks"
-                },
                 "reportingReminderTitle": "Reporting reminder",
                 "reportingReminderNote": "Automatic reporting reminder for employment case"
             },
@@ -11292,10 +11315,10 @@
             }
         },
         "agreements": {
-            "addNewAgreement": "Add new agreement",
+            "addNewAgreement": "Add new {term}",
             "agreements": "Agreements",
-            "editAgreement": "Edit agreement",
-            "newAgreement": "New agreement",
+            "editAgreement": "Edit {term}",
+            "newAgreement": "New {term}",
             "form": {
                 "alert": {
                     "agreementSuccessfullyUpdated": "Agreement successfully updated",
@@ -11338,16 +11361,17 @@
             }
         },
         "jobcenters": {
-            "addNewJobcenter": "Add new job center",
-            "editJobcenter": "Edit job center",
+            "addNewJobcenter": "Add new {term}",
+            "editJobcenter": "Edit {term}",
             "jobcenters": "Job centers",
-            "newJobcenter": "New job center",
+            "newJobcenter": "New {term}",
             "form": {
                 "alert": {
                     "jobcenterSuccessfullyUpdated": "Job center successfully updated",
                     "newJobcenterSuccessfullySaved": "Job center successfully saved"
                 },
                 "contactPerson": "Contact person",
+                "eanNumber": "EAN number",
                 "email": "Email",
                 "isActive": "Active",
                 "municipality": "Municipality",
@@ -11394,6 +11418,7 @@
             "total": "Total",
             "customerNumber": "Customer number",
             "productNumber": "Product number",
+            "eanNumber": "EAN number",
             "agreement": "Agreement",
             "consultant": "Consultant",
             "excludeWeek": "Exclude week",
@@ -11527,7 +11552,9 @@
                 "undo": "Undo import ({count} created)",
                 "unmatchedCpr": "Unmatched CPR numbers:",
                 "unmatchedEmails": "Unmatched emails:",
-                "unknownShifts": "Unknown shift types:"
+                "unknownShifts": "Unknown shift types:",
+                "rowsFailed": "{count} row(s) could not be imported due to an unexpected error.",
+                "failedRows": "Failed rows:"
             }
         },
         "footer": {
@@ -11583,14 +11610,14 @@
         "settings": {
             "title": "SMS Notifications",
             "enableSms": "Enable SMS",
-            "enableSmsHint": "Send SMS notifications to citizens via Azure Communication Services.",
+            "enableSmsHint": "Send SMS notifications to citizens via Twilio.",
             "balance": "Balance",
             "notificationEvents": "Notification events",
             "notifyNewAppointment": "New appointment created",
             "notifyReminder24h": "Reminder 24 hours before appointment",
             "notifyReminderSameDay": "Reminder on the day of appointment",
-            "azureTitle": "Azure Communication Services",
-            "azureDesc": "SMS messages are sent through Azure Communication Services with CitizenOne as sender.",
+            "azureTitle": "Twilio",
+            "azureDesc": "SMS messages are sent through Twilio with CitizenOne as sender.",
             "autoRecharge": "Auto-recharge",
             "autoRechargeHint": "Automatically top up your balance when it falls below the threshold.",
             "autoRechargeThreshold": "Top up when balance falls below",
@@ -11812,5 +11839,26 @@
             "title": "What are custom links?",
             "body": "Add shortcuts to the left sidebar - like your intranet, a shared drive, a booking system or any external tool your team uses. Choose whether each link is shown to admins, users or everyone."
         }
+    },
+    "myDay": {
+        "title": "My day",
+        "greeting": {
+            "morning": "Good morning",
+            "day": "Hello",
+            "evening": "Good evening"
+        },
+        "shifts": "My shifts",
+        "noShifts": "No shifts today",
+        "events": "My events",
+        "noEvents": "No events today",
+        "medsDue": "Medication due",
+        "medsDeptNote": "department",
+        "noMeds": "No pending medication",
+        "drafts": "Notes to write",
+        "noDrafts": "No draft notes",
+        "untitledNote": "Untitled note",
+        "reminders": "My reminders",
+        "noReminders": "No reminders today",
+        "newTask": "New task"
     }
 }

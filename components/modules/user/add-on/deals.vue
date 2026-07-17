@@ -2,7 +2,7 @@
     <LoadingSpinner :isActive="state.isPageLoading">
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <div id="cart-checkout"></div>
+        <div id="cart-checkout" class="mx-auto max-w-sm md:max-w-md"></div>
         <div v-if="!state.isDealsHidden">
             <h3 class="py-3 text-sm font-semibold">
                 {{ $t('subscription.addOnDeals.addOnDeals') }}

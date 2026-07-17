@@ -14,7 +14,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
-                <div id="update-subscription-checkout"></div>
+                <div id="update-subscription-checkout" class="mx-auto max-w-sm md:max-w-md"></div>
             </LoadingSpinner>
         </NuxtLayout>
     </div>

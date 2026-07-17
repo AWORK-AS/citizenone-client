@@ -41,6 +41,26 @@
                         <FormTextField id="term_journal_notes" name="term_journal_notes" placeholder="Journalnotater"
                             v-model="terms.term_journal_notes" />
                     </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_caseworker" :label="$t('settings.company.form.termCaseworker')" />
+                        <FormTextField id="term_caseworker" name="term_caseworker" placeholder="Sagsbehandler"
+                            v-model="terms.term_caseworker" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_case" :label="$t('settings.company.form.termCase')" />
+                        <FormTextField id="term_case" name="term_case" placeholder="Sag"
+                            v-model="terms.term_case" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_agreement" :label="$t('settings.company.form.termAgreement')" />
+                        <FormTextField id="term_agreement" name="term_agreement" placeholder="Aftale"
+                            v-model="terms.term_agreement" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_jobcenter" :label="$t('settings.company.form.termJobcenter')" />
+                        <FormTextField id="term_jobcenter" name="term_jobcenter" placeholder="Jobcenter"
+                            v-model="terms.term_jobcenter" />
+                    </div>
                 </div>
                 <div class="flex justify-end">
                     <FormButton type="button" buttonStyle="primary" :disabled="terms.saving" @click="saveTerms">
@@ -109,6 +129,10 @@ const terms = reactive({
     term_journal: '',
     term_journal_note_tag: '',
     term_journal_notes: '',
+    term_caseworker: '',
+    term_case: '',
+    term_agreement: '',
+    term_jobcenter: '',
     saving: false,
 })
 
@@ -118,6 +142,10 @@ function loadTerms() {
     terms.term_journal = company?.term_journal ?? ''
     terms.term_journal_note_tag = company?.term_journal_note_tag ?? ''
     terms.term_journal_notes = company?.term_journal_notes ?? ''
+    terms.term_caseworker = company?.term_caseworker ?? ''
+    terms.term_case = company?.term_case ?? ''
+    terms.term_agreement = company?.term_agreement ?? ''
+    terms.term_jobcenter = company?.term_jobcenter ?? ''
 }
 
 // The layout's own fetchUser() (GET /user) runs unawaited on mount, so on a
@@ -135,6 +163,10 @@ async function saveTerms() {
             term_journal: terms.term_journal,
             term_journal_note_tag: terms.term_journal_note_tag,
             term_journal_notes: terms.term_journal_notes,
+            term_caseworker: terms.term_caseworker,
+            term_case: terms.term_case,
+            term_agreement: terms.term_agreement,
+            term_jobcenter: terms.term_jobcenter,
         }
         const response = await userService.updateCompany(params)
         if (response?.data) {

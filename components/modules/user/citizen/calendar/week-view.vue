@@ -44,7 +44,7 @@
 
         <!-- Desktop: 7-day week grid -->
         <div class="hidden lg:block">
-            <TimeGrid :days="timeGridDays" @eventClick="viewMyCalendarEvent" />
+            <TimeGrid :days="timeGridDays" @eventClick="viewMyCalendarEvent" @dayClick="setSelectedDay" />
         </div>
 
         <!-- Mobile: agenda list -->

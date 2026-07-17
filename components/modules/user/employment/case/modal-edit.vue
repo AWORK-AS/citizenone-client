@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('employment.cases.editCase')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="md" :title="$t('employment.cases.editCase', { term: caseTerm })" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserEmploymentCaseModalForm formType="update" :selectedCase="state.formCase"
@@ -19,10 +19,13 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { useDepartmentStore } from '@/store/department'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { term } = useTerminology()
+const caseTerm = computed(() => term('case', t('settings.company.form.termCase')))
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore() as any
 

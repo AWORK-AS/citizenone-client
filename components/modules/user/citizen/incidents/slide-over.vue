@@ -91,10 +91,10 @@
                                                                         </span>
                                                                     </p>
                                                                 </div>
-                                                                <p class="text-sm text-muted-400">
+                                                                <div class="text-sm text-muted-400">
                                                                     <div v-html="incident.description"
                                                                         class="content" />
-                                                                </p>
+                                                                </div>
                                                                 <p class="text-sm">
                                                                     {{
                                                                         $t('citizens.incidents.table.reportedBy')

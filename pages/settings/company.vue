@@ -146,6 +146,17 @@
                                 :error="v$?.formCompany?.intervention_notification_hours?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.intervention_notification_hours?.[0]" />
                         </div>
+                        <div class="space-y-1" v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services'">
+                            <FormLabel for="employment_weekly_hours"
+                                :label="$t('settings.company.form.employmentWeeklyHours')" />
+                            <FormNumberField id="employment_weekly_hours" :min="1" :max="255"
+                                :placeholder="$t('settings.company.form.employmentWeeklyHours')"
+                                v-model="state.formCompany.employment_weekly_hours" />
+                            <p class="text-xs text-[#8891A4]">
+                                {{ $t('settings.company.form.employmentWeeklyHoursHint') }}
+                            </p>
+                            <FormError :error="state?.error?.errors?.employment_weekly_hours?.[0]" />
+                        </div>
                         <div class="space-y-3 mt-6">
                         <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
                         <button type="button" @click="openSections.access = !openSections.access"
@@ -475,18 +486,20 @@
                     <div class="card-header">
                         <h3 class="text-sm font-semibold text-slate-900">Moduler</h3>
                     </div>
-                    <p class="text-sm text-slate-500 mt-1 mb-4">Vælg hvilke moduler virksomheden bruger. Slået fra skjuler modulet for alle i virksomheden.</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        <div v-for="page in moduleState.pages" :key="page.uuid"
-                            class="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2.5">
-                            <span class="text-sm text-slate-800">{{ $t(`companyModules.${page.name}`) }}</span>
-                            <FormSwitch :value="moduleState.enabled.includes(page.uuid)" @toggleSwitch="toggleModule(page.uuid)" />
+                    <div class="card-body">
+                        <p class="text-sm text-slate-500 mb-4">Vælg hvilke moduler virksomheden bruger. Slået fra skjuler modulet for alle i virksomheden.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div v-for="page in moduleState.pages" :key="page.uuid"
+                                class="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2.5">
+                                <span class="text-sm text-slate-800">{{ $t(`companyModules.${page.name}`) }}</span>
+                                <FormSwitch :value="moduleState.enabled.includes(page.uuid)" @toggleSwitch="toggleModule(page.uuid)" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-5">
-                        <FormButton type="button" buttonStyle="primary" @click="saveModules">
-                            {{ $t('save') }}
-                        </FormButton>
+                        <div class="mt-5">
+                            <FormButton type="button" buttonStyle="primary" class="w-full" @click="saveModules">
+                                {{ $t('save') }}
+                            </FormButton>
+                        </div>
                     </div>
                 </div>
             </LoadingSpinner>
@@ -583,6 +596,7 @@ const state = reactive({
         post_code: '',
         citizen_display_uuid: [] as any,
         intervention_notification_hours: '',
+        employment_weekly_hours: '',
         is_2fa_enabled: false,
         group_chat_enabled: false,
         checkin_enabled: false,
@@ -690,6 +704,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             post_code: address?.post_code ?? '',
             citizen_display_uuid: [],
             intervention_notification_hours: newValue?.company?.intervention_notification_hours?.toString(),
+            employment_weekly_hours: newValue?.company?.employment_weekly_hours?.toString() ?? '',
             is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
             group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
@@ -888,6 +903,7 @@ async function submitForm() {
                 post_code: state.formCompany.post_code,
                 citizen_display_uuid: state.formCompany.citizen_display_uuid,
                 intervention_notification_hours: state.formCompany.intervention_notification_hours,
+                employment_weekly_hours: state.formCompany.employment_weekly_hours || null,
                 is_2fa_enabled: state.formCompany.is_2fa_enabled,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,

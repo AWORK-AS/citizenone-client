@@ -467,6 +467,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -486,6 +487,7 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const { t } = useI18n()
+const { term } = useTerminology()
 const userStore = useUserStore() as any
 
 const isAdmin = computed(() => {
@@ -535,7 +537,7 @@ const citizenProfileFieldOptions = computed(() => [
     { key: 'citizen_email', label: t('forms.citizenProfileFields.citizenEmail') },
     { key: 'citizen_phone', label: t('forms.citizenProfileFields.citizenPhone') },
     { key: 'citizen_birthday', label: t('forms.citizenProfileFields.citizenBirthday') },
-    { key: 'primary_case_worker', label: t('forms.citizenProfileFields.primaryCaseWorker') },
+    { key: 'primary_case_worker', label: term('caseworker', t('forms.citizenProfileFields.primaryCaseWorker')) },
     { key: 'paying_municipality', label: t('forms.citizenProfileFields.payingMunicipality') },
 ])
 

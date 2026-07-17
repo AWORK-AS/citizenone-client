@@ -115,8 +115,9 @@
                     <div v-if="state.form.reminder_enabled" class="space-y-1">
                         <FormLabel for="reporting_frequency_weeks"
                             :label="$t('employment.cases.form.reportingFrequencyWeeks')" />
-                        <FormSelect id="reporting_frequency_weeks" :options="reportingFrequencyOptions"
+                        <FormNumberField id="reporting_frequency_weeks" :min="1" :max="52"
                             v-model="state.form.reporting_frequency_weeks" />
+                        <FormError :error="props?.error?.errors?.reporting_frequency_weeks?.[0]" />
                     </div>
                 </template>
             </div>
@@ -165,13 +166,6 @@ const statusOptions = computed(() => [
     { value: 'completed', label: t('employment.cases.form.statusOptions.completed') },
     { value: 'on_hold', label: t('employment.cases.form.statusOptions.on_hold') },
     { value: 'paused', label: t('employment.cases.form.statusOptions.paused') },
-])
-
-const reportingFrequencyOptions = computed(() => [
-    { value: 2, label: t('employment.cases.form.reportingFrequencyOptions.every2weeks') },
-    { value: 4, label: t('employment.cases.form.reportingFrequencyOptions.every4weeks') },
-    { value: 6, label: t('employment.cases.form.reportingFrequencyOptions.every6weeks') },
-    { value: 8, label: t('employment.cases.form.reportingFrequencyOptions.every8weeks') },
 ])
 
 const state = reactive({

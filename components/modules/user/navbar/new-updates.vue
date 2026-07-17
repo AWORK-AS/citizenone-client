@@ -11,7 +11,10 @@
                 </Badge>
             </button>
         </Tooltip>
-        <ModulesUserNewUpdatesModalReleaseNotes :isModalOpen="state.modal.isNewUpdatesOpen" @close="closeUpdatesModal" />
+        <ModulesUserNewUpdatesModalReleaseNotes
+            :isModalOpen="state.modal.isNewUpdatesOpen"
+            @close="closeUpdatesModal"
+            @marked-seen="state.unseenCount = 0" />
     </div>
 </template>
 
@@ -36,15 +39,8 @@ async function fetchUnseenCount() {
     }
 }
 
-async function openUpdatesModal() {
+function openUpdatesModal() {
     state.modal.isNewUpdatesOpen = true
-    // Mark everything published-so-far as seen, then clear the badge.
-    try {
-        await releaseNoteService.markSeen()
-        state.unseenCount = 0
-    } catch (error: any) {
-        // keep the badge as-is if marking seen fails
-    }
 }
 
 function closeUpdatesModal() {

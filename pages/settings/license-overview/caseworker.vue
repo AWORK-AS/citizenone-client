@@ -4,7 +4,7 @@
 
             <Head>
                 <Title>
-                    {{ $t('settings.licenseOverview.caseworkerLicenses') }} - {{ runtimeConfig?.public?.appName }}
+                    {{ $t('settings.licenseOverview.caseworkerLicenses', { term: caseworkerTerm }) }} - {{ runtimeConfig?.public?.appName }}
                 </Title>
             </Head>
 
@@ -12,7 +12,7 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('settings.licenseOverview.caseworkerLicenses') }}</template>
+            <template #header>{{ $t('settings.licenseOverview.caseworkerLicenses', { term: caseworkerTerm }) }}</template>
 
             <ModulesUserSettingsTab />
 
@@ -135,7 +135,7 @@
                                 v-if="state.error?.message && state.error.message.length > 0" />
                             <div>
                                 <h3 class="py-3 text-sm font-semibold">
-                                    {{ $t('settings.licenseOverview.caseworkerLicenses') }}
+                                    {{ $t('settings.licenseOverview.caseworkerLicenses', { term: caseworkerTerm }) }}
                                 </h3>
                                 <ModulesUserSettingsLicenseOverviewSubTab />
                                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 mt-4">
@@ -220,20 +220,25 @@ import { licenseService } from '@/components/api/user/LicenseService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useI18n } from 'vue-i18n'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { t } = useI18n()
+const { term } = useTerminology()
+const caseworkerTerm = computed(() => term('caseworker', t('settings.company.form.termCaseworker')))
 let currentTablePage = 1
-const breadcrumbLinks = [
+const breadcrumbLinks = computed(() => [
     {
-        name: 'settings.licenseOverview.caseworkerLicenses',
-        translate: true,
+        name: t('settings.licenseOverview.caseworkerLicenses', { term: caseworkerTerm.value }),
+        translate: false,
         href: '/settings/license-overview/caseworker',
     },
-]
+])
 
 const state = reactive({
     columnHeaders: [
