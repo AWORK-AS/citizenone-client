@@ -1,6 +1,14 @@
 <template>
     <div>
         <Modal size="lg" :title="$t('updates.updates')" :show="props.isModalOpen" @close="closeModal">
+            <template #header-actions>
+                <button type="button" @click="state.showHistory = !state.showHistory"
+                    class="flex items-center gap-x-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors"
+                    :class="state.showHistory ? 'bg-tertiary/10 text-tertiary' : 'text-gray-500 hover:bg-gray-100'">
+                    <Icon name="ph:clock-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
+                    {{ state.showHistory ? $t('updates.newUpdates') : $t('updates.history') }}
+                </button>
+            </template>
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isLoading">
                     <div class="min-h-[8rem]">
@@ -16,15 +24,17 @@
                         </div>
 
                         <!-- Empty state -->
-                        <p v-if="!state.isLoading && state.notes.length === 0"
+                        <p v-if="!state.isLoading && visibleNotes.length === 0"
                             class="flex flex-col items-center gap-y-2 py-10 text-center text-sm text-gray-400">
                             <Icon name="ph:confetti" class="h-8 w-8 text-gray-300" />
-                            {{ $t('updates.noUpdates') }}
+                            {{ state.showHistory ? $t('updates.noUpdates') : $t('updates.noNewUpdates') }}
                         </p>
 
-                        <!-- Timeline: everything published, newest first. Unseen notes stay highlighted; seen ones just mute in place - nothing is ever hidden or moved. -->
+                        <!-- Default view: only unseen notes. "History" (header-actions slot above)
+                        switches to everything ever published, newest first - nothing is ever hidden
+                        or moved, seen notes just mute in place there. -->
                         <ol v-else class="relative ml-1.5 space-y-6 border-l border-gray-200 pl-6">
-                            <li v-for="note in state.notes" :key="note.uuid" class="relative">
+                            <li v-for="note in visibleNotes" :key="note.uuid" class="relative">
                                 <span class="absolute -left-[31px] top-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full ring-4 ring-white"
                                     :class="note.is_new ? 'bg-tertiary' : 'bg-gray-300'"></span>
                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -79,10 +89,16 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const state = reactive({
     isLoading: false,
     notes: [] as any[],
+    showHistory: false,
 })
 
+const visibleNotes = computed(() => state.showHistory ? state.notes : state.notes.filter((n: any) => n.is_new))
+
 watch(() => props.isModalOpen, (open: boolean) => {
-    if (open) fetchNotes()
+    if (open) {
+        state.showHistory = false
+        fetchNotes()
+    }
 })
 
 async function fetchNotes() {

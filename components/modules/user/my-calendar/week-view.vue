@@ -67,7 +67,7 @@
 
             <!-- Desktop: 7-day week grid -->
             <div class="hidden lg:block">
-                <TimeGrid :days="timeGridDays" @eventClick="editMyCalendarEvent" />
+                <TimeGrid :days="timeGridDays" @eventClick="editMyCalendarEvent" @dayClick="setSelectedDay" />
             </div>
 
             <!-- Mobile: agenda list -->
@@ -262,7 +262,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 const userStore = useUserStore() as any
 
 const currentDate = ref(moment())
@@ -383,6 +383,7 @@ function setSelectedDay(day: any) {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
+    emit('createEvent', moment(day.fullDate).format('YYYY-MM-DD'))
 }
 
 function isWithinRange(eventStart: moment.Moment, eventEnd: moment.Moment, dayStart: moment.Moment, dayEnd: moment.Moment) {

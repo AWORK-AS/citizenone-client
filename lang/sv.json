@@ -2301,6 +2301,7 @@
                 },
                 "giveAllMedicines": "Giv al medicin",
                 "giveMedicine": "Giv medicin",
+                "giveMedicineTo": "Ge medicin till {name}",
                 "medicineHistory": "Medicinhistorik",
                 "table": {
                     "actions": {
@@ -10908,6 +10909,8 @@
         "updates": "Opdateringer",
         "newBadge": "Ny",
         "noUpdates": "Inga uppdateringar än.",
+        "noNewUpdates": "Inga nya uppdateringar.",
+        "history": "Historik",
         "tagline": "Se vad som är nytt i CitizenOne"
     },
     "validation": {
@@ -11607,14 +11610,14 @@
         "settings": {
             "title": "SMS-notifikationer",
             "enableSms": "Aktivera SMS",
-            "enableSmsHint": "Skicka SMS-notifikationer till medborgare via Azure Communication Services.",
+            "enableSmsHint": "Skicka SMS-notifikationer till medborgare via Twilio.",
             "balance": "Saldo",
             "notificationEvents": "Notifikationshändelser",
             "notifyNewAppointment": "Ny bokning skapad",
             "notifyReminder24h": "Påminnelse 24 timmar före bokning",
             "notifyReminderSameDay": "Påminnelse på bokningsdagen",
-            "azureTitle": "Azure Communication Services",
-            "azureDesc": "SMS-meddelanden skickas via Azure Communication Services med CitizenOne som avsändare.",
+            "azureTitle": "Twilio",
+            "azureDesc": "SMS-meddelanden skickas via Twilio med CitizenOne som avsändare.",
             "autoRecharge": "Automatisk påfyllning",
             "autoRechargeHint": "Fyll på automatiskt när saldot faller under gränsen.",
             "autoRechargeThreshold": "Fyll på när saldo faller under",

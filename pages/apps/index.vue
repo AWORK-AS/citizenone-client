@@ -18,7 +18,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
-                <div id="apps-checkout"></div>
+                <div id="apps-checkout" class="mx-auto max-w-sm md:max-w-md"></div>
                 <div v-if="!state.isAppsHidden">
                     <div class="border-b-1.5 border-gray-200">
                         <ul class="flex item-center gap-x-5 overflow-x-auto touch-auto">

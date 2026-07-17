@@ -45,7 +45,7 @@
                         <MenuItems
                             class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                             <div class="px-1 py-1">
-                                <MenuItem v-slot="{ active }" @click="state.modal.isAddEventForMyselfOpen = true">
+                                <MenuItem v-slot="{ active }" @click="state.newEventPresetDate = ''; state.modal.isAddEventForMyselfOpen = true">
                                 <button :class="[
                                     active && 'bg-gray-100',
                                     'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
@@ -54,7 +54,7 @@
                                     {{ $t('events.myself') }}
                                 </button>
                                 </MenuItem>
-                                <MenuItem v-slot="{ active }" @click="state.modal.isAddEventForEmployeeOpen = true">
+                                <MenuItem v-slot="{ active }" @click="state.newEventPresetDate = ''; state.modal.isAddEventForEmployeeOpen = true">
                                 <button :class="[
                                     active && 'bg-gray-100',
                                     'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
@@ -63,7 +63,7 @@
                                     {{ $t('events.employees') }}
                                 </button>
                                 </MenuItem>
-                                <MenuItem v-slot="{ active }" @click="state.modal.isAddEventForCitizenOpen = true">
+                                <MenuItem v-slot="{ active }" @click="state.newEventPresetDate = ''; state.modal.isAddEventForCitizenOpen = true">
                                 <button :class="[
                                     active && 'bg-gray-100',
                                     'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
@@ -147,12 +147,14 @@
                         @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
+                        @createEvent="openCreateEventModal"
                         v-if="state.calendarView === 'week'" />
                     <ModulesUserMyCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
                         @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
                         @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
+                        @createEvent="openCreateEventModal"
                         v-if="state.calendarView === 'month'" />
                 </LoadingSpinner>
             </div>
@@ -160,6 +162,7 @@
             <ModulesUserCitizenCalendarModalFilter :isModalOpen="state.modal.isFilterCalendarOpen"
                 @close="state.modal.isFilterCalendarOpen = false" @setFilter="setFilter" />
             <ModulesUserMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
+                :selectedDate="state.newEventPresetDate"
                 @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
                 @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
@@ -253,6 +256,7 @@ const state = reactive({
         isCompletionStatisticsOpen: false,
     },
     pendingEventStatus: '' as 'completed' | 'not_completed' | '',
+    newEventPresetDate: '',
     myCalendarEvents: [] as any,
     selectedDate: {
         end_date: '',
@@ -602,6 +606,11 @@ function changeMonthYear(year: any, month: any) {
     state.selectedYear = year
     state.selectedMonth = month
     fetchMyCalendarEvents()
+}
+
+function openCreateEventModal(date: string) {
+    state.newEventPresetDate = date
+    state.modal.isAddEventForMyselfOpen = true
 }
 
 function editMyCalendarEvent(selectedCalendarEvent: any) {

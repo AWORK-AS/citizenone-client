@@ -14,5 +14,18 @@ export default defineNuxtPlugin(() => {
         } else {
             console.error("Failed to insert Obiyen chat widget script: parent node not found.")
         }
+
+        // The widget mounts itself asynchronously into a Shadow DOM host, so
+        // poll for the bubble rather than assuming it's ready after the script tag loads.
+        const { isRevealedThisSession, hideBubble } = useObiyenChat()
+        const revealedAlready = isRevealedThisSession()
+        const interval = setInterval(() => {
+            const bubble = d.getElementById('obiyen-chat-widget')?.shadowRoot?.querySelector('.cw-bubble')
+            if (bubble) {
+                if (!revealedAlready) hideBubble()
+                clearInterval(interval)
+            }
+        }, 250)
+        setTimeout(() => clearInterval(interval), 30000)
     }
 })

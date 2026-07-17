@@ -426,6 +426,10 @@ async function logout() {
         if (response) {
             localStorage.removeItem("_token")
             userStore.resetUser()
+            // So the Obiyen chat bubble starts hidden again on next login, even
+            // within the same tab (logout navigates client-side, so the plugin's
+            // one-time boot logic doesn't get a chance to re-run and hide it).
+            useObiyenChat().resetOnLogout()
             navigateTo('/')
         }
     } catch (error: any) {

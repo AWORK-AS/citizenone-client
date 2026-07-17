@@ -256,13 +256,7 @@ async function navigateToCourses() {
 }
 
 function openChatWithSupport() {
-    // The Obiyen widget renders inside a Shadow DOM (#obiyen-chat-widget), so a plain
-    // document.querySelector can't see its bubble/panel - it has to reach through shadowRoot.
-    const widgetHost = document.getElementById('obiyen-chat-widget')
-    const bubble = widgetHost?.shadowRoot?.querySelector('.cw-bubble') as HTMLElement | null | undefined
-    if (bubble) {
-        bubble.click()
-    }
+    useObiyenChat().revealAndOpenChat()
     closeSlide()
 }
 </script>

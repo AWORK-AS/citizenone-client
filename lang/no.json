@@ -2301,6 +2301,7 @@
                 },
                 "giveAllMedicines": "Gi al medisin",
                 "giveMedicine": "Gi medisin",
+                "giveMedicineTo": "Gi medisin til {name}",
                 "medicineHistory": "Medicinhistorik",
                 "table": {
                     "actions": {
@@ -10908,6 +10909,8 @@
         "updates": "Oppdateringer",
         "newBadge": "Ny",
         "noUpdates": "Ingen oppdateringer ennå.",
+        "noNewUpdates": "Ingen nye oppdateringer.",
+        "history": "Historikk",
         "tagline": "Se hva som er nytt i CitizenOne"
     },
     "validation": {
@@ -11607,14 +11610,14 @@
         "settings": {
             "title": "SMS-varsler",
             "enableSms": "Aktiver SMS",
-            "enableSmsHint": "Send SMS-varsler til innbyggere via Azure Communication Services.",
+            "enableSmsHint": "Send SMS-varsler til innbyggere via Twilio.",
             "balance": "Saldo",
             "notificationEvents": "Varselhendelser",
             "notifyNewAppointment": "Ny avtale opprettet",
             "notifyReminder24h": "Påminnelse 24 timer før avtale",
             "notifyReminderSameDay": "Påminnelse på avtaledagen",
-            "azureTitle": "Azure Communication Services",
-            "azureDesc": "SMS-meldinger sendes via Azure Communication Services med CitizenOne som avsender.",
+            "azureTitle": "Twilio",
+            "azureDesc": "SMS-meldinger sendes via Twilio med CitizenOne som avsender.",
             "autoRecharge": "Automatisk påfylling",
             "autoRechargeHint": "Fyll automatisk på når saldoen faller under grensen.",
             "autoRechargeThreshold": "Fyll på når saldo faller under",

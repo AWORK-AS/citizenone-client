@@ -21,7 +21,7 @@
                                 v-if="state.error?.message && state.error.message.length > 0" />
                         </div>
                     </div>
-                    <div id="upgrade-checkout"></div>
+                    <div id="upgrade-checkout" class="mx-auto max-w-sm md:max-w-md"></div>
                     <div class="max-w-3xl" v-if="!state.isDealsHidden">
                         <div class="space-y-5">
                             <div class="space-y-2">

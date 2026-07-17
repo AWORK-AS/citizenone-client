@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.medicineJournals.history.giveMedicine')" :show="props.isModalOpen"
+        <Modal size="lg" :title="modalTitle" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div class="space-y-5">
@@ -381,6 +381,18 @@ const medicineName = computed(() =>
     language.locale.value === 'en'
         ? props.selectedMedicine?.medicine?.en_name
         : props.selectedMedicine?.medicine?.dk_name
+)
+
+const citizenName = computed(() => {
+    const citizen = props.selectedMedicine?.citizen
+    if (!citizen) return ''
+    return [citizen.firstname, citizen.lastname].filter(Boolean).join(' ')
+})
+
+const modalTitle = computed(() =>
+    citizenName.value
+        ? t('citizens.medicineJournals.history.giveMedicineTo', { name: citizenName.value })
+        : t('citizens.medicineJournals.history.giveMedicine')
 )
 
 const currentMonthLabel = computed(() =>
