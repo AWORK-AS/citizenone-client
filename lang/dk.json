@@ -8866,7 +8866,8 @@
             "gdprRetention": "GDPR Opbevaring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
-            "economic": "e-conomic"
+            "economic": "e-conomic",
+            "messageTemplates": "Beskedskabeloner"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -11599,6 +11600,26 @@
             "created": "Oprettet",
             "updated": "Opdateret",
             "deleted": "Slettet"
+        }
+    },
+    "messageTemplates": {
+        "messageTemplates": "Beskedskabeloner",
+        "description": "Genbrugelige standardsvar som personalet kan indsætte i beskeder.",
+        "addNew": "Ny skabelon",
+        "edit": "Rediger skabelon",
+        "saved": "Skabelon gemt",
+        "saveFailed": "Kunne ikke gemme skabelonen",
+        "deleted": "Skabelon slettet",
+        "noTemplates": "Ingen skabeloner endnu",
+        "deleteTitle": "Slet skabelon",
+        "deleteConfirm": "Er du sikker på, at du vil slette denne skabelon?",
+        "deleteAction": "Slet",
+        "insertTemplate": "Indsæt skabelon",
+        "quickReplies": "Hurtige svar",
+        "form": {
+            "title": "Titel",
+            "body": "Besked",
+            "bodyPlaceholder": "Skriv standardsvaret …"
         }
     }
 }

@@ -8866,7 +8866,8 @@
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
-            "economic": "e-conomic"
+            "economic": "e-conomic",
+            "messageTemplates": "Meddelandemallar"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -11599,6 +11600,26 @@
             "created": "Skapad",
             "updated": "Uppdaterad",
             "deleted": "Raderad"
+        }
+    },
+    "messageTemplates": {
+        "messageTemplates": "Meddelandemallar",
+        "description": "Återanvändbara standardsvar som personalen kan infoga i meddelanden.",
+        "addNew": "Ny mall",
+        "edit": "Redigera mall",
+        "saved": "Mall sparad",
+        "saveFailed": "Kunde inte spara mallen",
+        "deleted": "Mall borttagen",
+        "noTemplates": "Inga mallar ännu",
+        "deleteTitle": "Ta bort mall",
+        "deleteConfirm": "Är du säker på att du vill ta bort den här mallen?",
+        "deleteAction": "Ta bort",
+        "insertTemplate": "Infoga mall",
+        "quickReplies": "Snabbsvar",
+        "form": {
+            "title": "Titel",
+            "body": "Meddelande",
+            "bodyPlaceholder": "Skriv standardsvaret …"
         }
     }
 }
