@@ -4257,6 +4257,7 @@
                 "dateTimeEnd": "Date and time end",
                 "dateTimeStart": "Date and time start",
                 "department": "Department",
+                "forAllEmployees": "For all employees",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
                 "numberOfShifts": "Number of shifts",
