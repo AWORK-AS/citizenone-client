@@ -18,7 +18,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                 </div>
-                <div id="subscribe-checkout"></div>
+                <div id="subscribe-checkout" class="mx-auto max-w-sm md:max-w-md"></div>
                 <div class="mx-auto max-w-sm md:max-w-md mt-16 relative"
                     v-if="!state.isDealsHidden && userStore.getUser?.user_subscription?.type !== 'yearly'">
                     <div class="flex justify-center">

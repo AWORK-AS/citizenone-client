@@ -564,6 +564,17 @@ const routeName = router?.currentRoute?.value?.name
 const navigation = shallowRef<any[]>([])
 const customSidebarLinks = ref<any[]>([])
 
+// "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
+// per Allan's feedback, once onboarding is fully done it should disappear from
+// the sidebar too, not just the tab, so it doesn't look like something's still
+// outstanding. Re-generate the sidebar the moment this flips so it can vanish
+// immediately if the user finishes the last step while still on /discover,
+// without needing a full navigation/reload first.
+const { completed: discoverCompleted } = useDiscoverDone()
+watch(discoverCompleted, () => {
+    if (userStore.getUser) generateSidebarLinks(userStore.getUser)
+})
+
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
 
@@ -763,7 +774,7 @@ function generateSidebarLinks(user: any) {
             'statistics',
         ]
     })
-    if (isAtLeast('Admin')) {
+    if (isAtLeast('Admin') && !discoverCompleted.value) {
         nav.push({
             name: 'Discover',
             href: '/discover',
@@ -1009,6 +1020,10 @@ async function logout() {
         if (response) {
             localStorage.removeItem("_token")
             localStorage.removeItem("rememberMe")
+            // So the Obiyen chat bubble starts hidden again on next login, even
+            // within the same tab (logout navigates client-side, so the plugin's
+            // one-time boot logic doesn't get a chance to re-run and hide it).
+            useObiyenChat().resetOnLogout()
             navigateTo('/')
         }
     } catch (error: any) {

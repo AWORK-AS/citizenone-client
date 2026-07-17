@@ -120,14 +120,19 @@
                             :class="[
                                 day.isToday ? 'bg-tertiary/[0.05]' : (day.isCurrentMonth ? 'bg-white' : 'bg-gray-50/70'),
                                 day.isToday && state.flashToday && 'ring-2 ring-inset ring-tertiary motion-safe:animate-pulse',
-                                'relative flex min-h-[7rem] flex-col gap-y-1 px-2 py-2',
-                            ]">
-                            <time :datetime="day.date"
-                                :class="day.isToday
-                                    ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary text-[13px] font-semibold text-white'
-                                    : ['text-[13px] font-medium', day.isCurrentMonth ? (isWeekend(day.date) ? 'text-gray-400' : 'text-gray-700') : 'text-gray-300']">
-                                {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
-                            </time>
+                                'group/day relative flex min-h-[7rem] cursor-pointer flex-col gap-y-1 px-2 py-2',
+                            ]"
+                            @click="setSelectedDay(day)">
+                            <div class="flex items-center justify-between">
+                                <time :datetime="day.date"
+                                    :class="day.isToday
+                                        ? 'flex h-6 w-6 items-center justify-center rounded-full bg-tertiary text-[13px] font-semibold text-white'
+                                        : ['text-[13px] font-medium', day.isCurrentMonth ? (isWeekend(day.date) ? 'text-gray-400' : 'text-gray-700') : 'text-gray-300']">
+                                    {{ day.date?.split('-').pop()?.replace(/^0/, '') }}
+                                </time>
+                                <Icon name="ph:plus"
+                                    class="h-3.5 w-3.5 text-gray-300 opacity-0 transition-opacity group-hover/day:opacity-100" />
+                            </div>
                             <ol v-if="day.holidays.length > 0" class="space-y-1">
                                 <li v-for="(holiday, holidayIndex) in day.holidays" :key="holidayIndex">
                                     <div class="flex items-center gap-x-1.5 rounded-md bg-secondary/10 px-1.5 py-1">
@@ -162,7 +167,7 @@
                                             @focus="showPreviewEl($event, myCalendarEvent)" @blur="hidePreview"
                                             @keydown.enter.prevent="editMyCalendarEvent(myCalendarEvent)"
                                             @keydown.space.prevent="editMyCalendarEvent(myCalendarEvent)"
-                                            @click="editMyCalendarEvent(myCalendarEvent)">
+                                            @click.stop="editMyCalendarEvent(myCalendarEvent)">
                                             <span class="h-1.5 w-1.5 flex-none rounded-full" :class="[
                                                 isNow(myCalendarEvent) ? 'bg-red-500 motion-safe:animate-pulse' : [
                                                     myCalendarEvent?.type === 'citizens' && 'bg-amber-500',
@@ -249,7 +254,7 @@
                                     </div>
                                 </li>
                                 <li v-if="day.events.length > 3 && !state.expandedDays.includes(day.date)">
-                                    <button type="button" @click="state.expandedDays.push(day.date)"
+                                    <button type="button" @click.stop="state.expandedDays.push(day.date)"
                                         class="w-full rounded-md px-1.5 py-0.5 text-left text-[11px] font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                                         +{{ day.events.length - 3 }} {{ $t('showMore') }}
                                     </button>
@@ -553,7 +558,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 const today = moment()
 
 const state = reactive({
@@ -592,6 +597,7 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
 function setSelectedDay(day: any) {
     state.selectedDay = day
     state.days.forEach(d => d.isSelected = d.date === day.date)
+    emit('createEvent', day.date)
 }
 
 function previousMonth() {

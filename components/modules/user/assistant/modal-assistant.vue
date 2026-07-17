@@ -157,7 +157,7 @@
                                 </div>
                             </div>
                             <div
-                                class="flex items-end gap-2 bg-gray-50 border border-gray-200 rounded-md
+                                class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-md
                                 focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all px-3 py-1.5">
                                 <input ref="fileInput" type="file" multiple
                                     accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
@@ -218,7 +218,7 @@
                                 </div>
                                 <button type="button" @click="sendMessage"
                                     :disabled="!state.newMessage.trim() && state.files.length === 0"
-                                    class="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed mb-0.5"
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed"
                                     :class="state.newMessage.trim() || state.files.length > 0
                                         ? 'bg-primary text-white hover:bg-primary/90 shadow-sm'
                                         : 'bg-gray-200 text-gray-400'">

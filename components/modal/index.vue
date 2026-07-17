@@ -26,7 +26,8 @@
                                             {{ props.title }}
                                         </div>
                                     </DialogTitle>
-                                    <div class="grow flex justify-end">
+                                    <div class="grow flex justify-end items-center gap-x-2">
+                                        <slot name="header-actions"></slot>
                                         <button type="button" @click="$emit('close')"
                                             class="flex items-center justify-center rounded-full p-1.5 -mr-1.5 outline-none text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
                                             <Icon name="heroicons:x-mark" class="h-5 w-5 cursor-pointer"
@@ -71,5 +72,6 @@ const props = defineProps({
 
 defineSlots<{
     'modal-body'?: () => any
+    'header-actions'?: () => any
 }>()
 </script>

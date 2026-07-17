@@ -30,9 +30,10 @@
                 <!-- day columns -->
                 <div class="grid flex-1" :style="{ gridTemplateColumns: `repeat(${days.length}, minmax(0, 1fr))` }">
                     <div v-for="(day, di) in laidOut" :key="di"
-                        class="relative border-l border-gray-100"
+                        class="relative border-l border-gray-100 cursor-pointer transition-colors hover:bg-gray-50/60"
                         :class="day.isToday && 'bg-tertiary/[0.03]'"
-                        :style="{ height: gridHeight + 'px' }">
+                        :style="{ height: gridHeight + 'px' }"
+                        @click="$emit('dayClick', days[di])">
                         <!-- hour lines -->
                         <div v-for="h in hours" :key="h" class="border-b border-gray-100"
                             :style="{ height: hourHeight + 'px' }" />
@@ -49,7 +50,7 @@
                             class="group/ev absolute overflow-hidden rounded-md border-l-2 px-1.5 py-0.5 text-left transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                             :class="[ev.colorClass, ev.completed && 'opacity-70', ev.isNow && 'ring-1 ring-inset ring-red-400']"
                             :style="{ top: ev.top + 'px', height: ev.height + 'px', left: ev.left, width: ev.width }"
-                            @click="$emit('eventClick', ev.raw)">
+                            @click.stop="$emit('eventClick', ev.raw)">
                             <span class="flex items-center gap-x-1">
                                 <span v-if="ev.isNow" class="h-1.5 w-1.5 flex-none rounded-full bg-red-500 motion-safe:animate-pulse"></span>
                                 <span class="truncate text-[11px] font-semibold" :class="ev.completed && 'line-through'">{{ ev.title }}</span>

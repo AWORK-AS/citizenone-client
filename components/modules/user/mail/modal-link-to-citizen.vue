@@ -164,16 +164,21 @@ async function submitForm() {
 
     state.isPageLoading = true
     try {
-        const header = props.selectedEmail?.header ?? {}
+        // The inbox is polymorphic: SMTP emails carry a `header`/`bodies` shape,
+        // while Entra (Microsoft 365) emails are flat Graph API message objects
+        // with no `header` at all - fall back to the Graph fields so this modal
+        // works from either inbox instead of silently sending an empty source_uid.
+        const header = props.selectedEmail?.header
+        const email = props.selectedEmail ?? {}
         const params = {
             citizen_uuid: state.form.citizen_uuid,
-            subject: header.subject ?? null,
-            from_name: header.from ?? null,
-            from_email: header.from_email ?? null,
-            to_email: header.to_email ?? null,
-            email_date: header.date ?? null,
-            body_html: props.selectedEmail?.bodies?.html ?? null,
-            source_uid: String(header.uid ?? ''),
+            subject: header?.subject ?? email.subject ?? null,
+            from_name: header?.from ?? email.sender?.emailAddress?.name ?? null,
+            from_email: header?.from_email ?? email.sender?.emailAddress?.address ?? null,
+            to_email: header?.to_email ?? email.toRecipients?.[0]?.emailAddress?.address ?? null,
+            email_date: header?.date ?? email.createdDateTime ?? null,
+            body_html: email.bodies?.html ?? email.body?.content ?? null,
+            source_uid: String(header?.uid ?? email.id ?? ''),
             source_folder: props.sourceFolder,
             visible_to_role: state.form.visible_to_role,
             attachments: (props.selectedEmail?.attachments ?? []).map((attachment: any) => ({

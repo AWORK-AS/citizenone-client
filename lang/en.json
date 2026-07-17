@@ -2301,6 +2301,7 @@
                 },
                 "giveAllMedicines": "Give all medicines",
                 "giveMedicine": "Give medicine",
+                "giveMedicineTo": "Give medicine to {name}",
                 "medicineHistory": "Medicine history",
                 "table": {
                     "actions": {
@@ -10908,6 +10909,8 @@
         "updates": "Updates",
         "newBadge": "New",
         "noUpdates": "No updates yet.",
+        "noNewUpdates": "No new updates.",
+        "history": "History",
         "tagline": "See what's new in CitizenOne"
     },
     "validation": {
@@ -11607,14 +11610,14 @@
         "settings": {
             "title": "SMS Notifications",
             "enableSms": "Enable SMS",
-            "enableSmsHint": "Send SMS notifications to citizens via Azure Communication Services.",
+            "enableSmsHint": "Send SMS notifications to citizens via Twilio.",
             "balance": "Balance",
             "notificationEvents": "Notification events",
             "notifyNewAppointment": "New appointment created",
             "notifyReminder24h": "Reminder 24 hours before appointment",
             "notifyReminderSameDay": "Reminder on the day of appointment",
-            "azureTitle": "Azure Communication Services",
-            "azureDesc": "SMS messages are sent through Azure Communication Services with CitizenOne as sender.",
+            "azureTitle": "Twilio",
+            "azureDesc": "SMS messages are sent through Twilio with CitizenOne as sender.",
             "autoRecharge": "Auto-recharge",
             "autoRechargeHint": "Automatically top up your balance when it falls below the threshold.",
             "autoRechargeThreshold": "Top up when balance falls below",
