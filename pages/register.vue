@@ -17,7 +17,7 @@
                 <div class="mt-5 flex items-center gap-x-2">
                     <div class="h-2.5 w-full rounded-full bg-gray-200">
                         <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
-                            :style="{ width: `${Math.round((state.progress.currentStep1Progress / 4) * 100)}%` }"></div>
+                            :style="{ width: `${Math.round((state.progress.currentStep1Progress / 5) * 100)}%` }"></div>
                     </div>
                     <div class="h-2.5 w-full rounded-full bg-gray-200">
                         <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
@@ -111,7 +111,7 @@
                             <div class="space-y-1">
                                 <FormLabel for="firstname" :label="$t('register.form.firstname')" />
                                 <FormTextField id="firstname" name="firstname"
-                                    :placeholder="$t('register.form.firstname')"
+                                    :placeholder="$t('register.form.firstnamePlaceholder')"
                                     v-model="state.formRegister.firstname" />
                                 <FormError
                                     :error="vRules1$?.formRegister?.firstname?.$errors[0]?.$message.toString()" />
@@ -119,22 +119,33 @@
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="lastname" :label="$t('register.form.lastname')" />
-                                <FormTextField id="lastname" name="lastname" :placeholder="$t('register.form.lastname')"
+                                <FormTextField id="lastname" name="lastname"
+                                    :placeholder="$t('register.form.lastnamePlaceholder')"
                                     v-model="state.formRegister.lastname" />
                                 <FormError :error="vRules1$?.formRegister?.lastname?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.lastname?.[0]" />
                             </div>
                         </div>
                         <div class="space-y-1 py-1">
+                            <FormLabel for="company_name" :label="$t('register.form.companyLabel')" />
+                            <FormTextField id="company_name" name="company_name"
+                                :placeholder="$t('register.form.companyPlaceholder')"
+                                v-model="state.formRegister.company_name" />
+                            <FormError
+                                :error="vRules1$?.formRegister?.company_name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.name?.[0]" />
+                        </div>
+                        <div class="space-y-1 py-1">
                             <FormLabel for="email" :label="$t('register.form.emailAddress')" />
-                            <FormTextField id="email" name="email" :placeholder="$t('register.form.emailAddress')"
+                            <FormTextField id="email" name="email"
+                                :placeholder="$t('register.form.emailAddressPlaceholder')"
                                 v-model="state.formRegister.email" />
                             <FormError :error="vRules1$?.formRegister?.email?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.email?.[0]" />
                         </div>
                         <div class="space-y-1 py-1">
                             <FormLabel for="phone" :label="$t('register.form.phone')" />
-                            <FormTextField id="phone" name="phone" :placeholder="$t('register.form.phone')"
+                            <FormTextField id="phone" name="phone" :placeholder="$t('register.form.phonePlaceholder')"
                                 v-model="state.formRegister.phone" />
                             <FormError :error="vRules1$?.formRegister?.phone?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.phone?.[0]" />
@@ -286,6 +297,7 @@ const state = reactive({
         facility_type_uuid: '',
         firstname: '',
         lastname: '',
+        company_name: '',
         phone: '',
         email: '',
         oauthProvider: '' as string,
@@ -314,6 +326,9 @@ const rules1 = computed(() => {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             lastname: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            company_name: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             email: {
@@ -447,15 +462,17 @@ watch(() => language.locale.value, (newValue: any) => {
 watch(() => ({
     firstname: state.formRegister.firstname,
     lastname: state.formRegister.lastname,
+    company_name: state.formRegister.company_name,
     email: state.formRegister.email,
     phone: state.formRegister.phone,
-}), ({ firstname, lastname, email, phone }) => {
+}), ({ firstname, lastname, company_name, email, phone }) => {
     const isFilled = (value: unknown) => {
         return String(value ?? "").trim().length > 0
     }
     let progress = 0
     if (isFilled(firstname)) progress += 1
     if (isFilled(lastname)) progress += 1
+    if (isFilled(company_name)) progress += 1
     if (isFilled(email)) progress += 1
     if (isFilled(phone)) progress += 1
     state.progress.currentStep1Progress = progress
@@ -556,6 +573,7 @@ async function register() {
                     facility_type_uuid: state.formRegister.facility_type_uuid,
                     firstname: state.formRegister.firstname,
                     lastname: state.formRegister.lastname,
+                    name: state.formRegister.company_name,
                     phone: state.formRegister.phone,
                     email: state.formRegister.email,
                 }
@@ -573,6 +591,7 @@ async function register() {
                 const hasStep1Error =
                     !!errors?.firstname?.length ||
                     !!errors?.lastname?.length ||
+                    !!errors?.name?.length ||
                     !!errors?.email?.length ||
                     !!errors?.phone?.length
 
