@@ -117,6 +117,7 @@
                 <div class="flex bg-gray-100 text-xs leading-6 text-gray-700 lg:flex-auto">
                     <div class="hidden w-full lg:grid lg:grid-cols-7 lg:auto-rows-fr lg:gap-px">
                         <div v-for="(day, index) in state.days" :key="index"
+                            @dblclick="$emit('createEventForDate', day.date)"
                             :class="[
                                 day.isToday ? 'bg-tertiary/[0.05]' : (day.isCurrentMonth ? 'bg-white' : 'bg-gray-50/70'),
                                 day.isToday && state.flashToday && 'ring-2 ring-inset ring-tertiary motion-safe:animate-pulse',
@@ -548,7 +549,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEventForDate'])
 const today = moment()
 
 const state = reactive({

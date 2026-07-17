@@ -147,11 +147,13 @@
                         @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
+                        @createEventForDate="openCreateEventChooser"
                         v-if="state.calendarView === 'week'" />
                     <ModulesUserMyCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
                         @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
+                        @createEventForDate="openCreateEventChooser"
                         v-if="state.calendarView === 'month'" />
                 </LoadingSpinner>
             </div>

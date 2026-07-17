@@ -67,7 +67,8 @@
 
             <!-- Desktop: 7-day week grid -->
             <div class="hidden lg:block">
-                <TimeGrid :days="timeGridDays" @eventClick="editMyCalendarEvent" />
+                <TimeGrid :days="timeGridDays" @eventClick="editMyCalendarEvent"
+                    @slotDblClick="(date) => $emit('createEventForDate', date)" />
             </div>
 
             <!-- Mobile: agenda list -->
@@ -262,7 +263,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEventForDate'])
 const userStore = useUserStore() as any
 
 const currentDate = ref(moment())

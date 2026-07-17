@@ -32,7 +32,8 @@
                     <div v-for="(day, di) in laidOut" :key="di"
                         class="relative border-l border-gray-100"
                         :class="day.isToday && 'bg-tertiary/[0.03]'"
-                        :style="{ height: gridHeight + 'px' }">
+                        :style="{ height: gridHeight + 'px' }"
+                        @dblclick="$emit('slotDblClick', days[di]?.date)">
                         <!-- hour lines -->
                         <div v-for="h in hours" :key="h" class="border-b border-gray-100"
                             :style="{ height: hourHeight + 'px' }" />
@@ -73,7 +74,7 @@ const props = defineProps({
     days: { type: Array as any, required: true },
     showHeader: { type: Boolean, default: true },
 })
-defineEmits(['eventClick', 'dayClick'])
+defineEmits(['eventClick', 'dayClick', 'slotDblClick'])
 
 const hourHeight = 48
 const hours = Array.from({ length: 24 }, (_, i) => i)
