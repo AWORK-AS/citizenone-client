@@ -180,12 +180,14 @@ function getCategory(type: string): string {
     if (!type) return 'other'
     if (type.toLowerCase().includes('dutyshiftrule')) return 'duty_shift'
     if (type.toLowerCase().includes('birthday')) return 'birthday'
+    if (type.toLowerCase().includes('journalmention')) return 'journal_mention'
     return 'other'
 }
 
 const categoryStyles: Record<string, { bg: string; icon: string; color: string }> = {
     duty_shift: { bg: 'bg-primary/10', icon: 'ph:shield-check', color: 'text-primary' },
     birthday: { bg: 'bg-accent-orange/10', icon: 'ph:cake', color: 'text-accent-orange' },
+    journal_mention: { bg: 'bg-secondary/10', icon: 'ph:at', color: 'text-secondary' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -250,6 +252,11 @@ function getNotifDescription(notif: any): string {
     const data = notif.data ?? {}
     if (getCategory(notif.type) === 'birthday') {
         return `${data.content?.name ?? ''} · ${t('overview.birthdays.turns', { age: data.content?.age })}`.trim()
+    }
+    if (getCategory(notif.type) === 'journal_mention') {
+        return data.content?.citizen_name
+            ? t('bellNotification.journalMention.description', { citizen: data.content.citizen_name })
+            : t('bellNotification.journalMention.title')
     }
     if (data.content?.triggered_employee) {
         const emp = data.content.triggered_employee
@@ -395,6 +402,13 @@ async function handleNotifClick(notif: any) {
             }
         } catch (error: any) {
             state.error = error
+        }
+    }
+    if (getCategory(notif.type) === 'journal_mention') {
+        const citizenUuid = notif.data?.content?.uuid
+        if (citizenUuid) {
+            state.isOpen = false
+            navigateTo(`/citizens/${citizenUuid}/journals`)
         }
     }
 }

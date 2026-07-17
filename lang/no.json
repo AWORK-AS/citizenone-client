@@ -821,6 +821,10 @@
         "checkInReminder": {
             "title": "Husk å sjekke inn",
             "description": "Du har ikke sjekket inn i dag."
+        },
+        "journalMention": {
+            "title": "nevnte deg i et journalnotat",
+            "description": "nevnte deg i {citizen}s journal"
         }
     },
     "bookingSettings": {
@@ -1466,7 +1470,10 @@
                 "title": "Tittel",
                 "usePredefinedJournalTitle": "Bruk foruddefineret journal tittel",
                 "usePredefinedcontent": "Bruk foruddefineret innhold",
-                "createJournalTitle": "Create journal title"
+                "createJournalTitle": "Create journal title",
+                "notifyColleagues": "Varsle kolleger",
+                "notifyColleaguesPlaceholder": "Velg kolleger som skal varsles",
+                "notifyColleaguesHint": "Valgte kolleger får et varsel om dette notatet."
             },
             "journalLogs": {
                 "date": "Dato",

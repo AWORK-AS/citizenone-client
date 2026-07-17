@@ -180,6 +180,13 @@
                 <FormError :error="v$?.formJournal?.journal_note_tags?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.journal_note_tags_uuid?.[0]" />
             </div>
+            <div class="space-y-1">
+                <FormLabel :label="$t('citizens.citizenJournals.form.notifyColleagues')" />
+                <FormSelectMultiple id="mentioned_colleagues" :options="state.options.colleagues"
+                    :placeholder="$t('citizens.citizenJournals.form.notifyColleaguesPlaceholder')"
+                    v-model="state.formJournal.mentioned_user_uuids" />
+                <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.form.notifyColleaguesHint') }}</p>
+            </div>
             <div v-if="isFieldVisible('risk_assessment')">
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
@@ -386,6 +393,7 @@ import { teethService } from '@/components/api/user/TeethService'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
+import { userService } from '@/components/api/user/UserService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
@@ -491,6 +499,7 @@ const state = reactive({
         score: '',
         teeth: [],
         is_for_teeth: false,
+        mentioned_user_uuids: [],
         field_answers: [] as Array<{ journal_title_field_uuid: string, response: string | string[] }>,
     } as any,
     selectedJournalTitleFields: [] as Array<{ uuid: string, label: string, field_type: string, options: string[] }>,
@@ -524,6 +533,7 @@ const state = reactive({
         risk_assessment_subgoals: [],
         journal_note_tags: [],
         risk_assessment_tags: [],
+        colleagues: [],
         score: [
             { value: 1, label: 1 },
             { value: 2, label: 2 },
@@ -573,6 +583,7 @@ onMounted(() => {
     fetchAllJournalNoteTags()
     fetchAllJournalTitles()
     fetchAllTeeth()
+    fetchColleagues()
     // setFormJournalFromSelected(props.selectedJournal)
     // state.formJournal = {
     //     id: props.selectedJournal.id,
@@ -730,6 +741,7 @@ function setFormJournalFromSelected(journal: any) {
         score: journal.score,
         is_for_teeth: journal.is_for_teeth,
         teeth: [],
+        mentioned_user_uuids: [],
     }
     journal.journal_tags?.forEach((journalTag: any) => {
         state.formJournal.journal_note_tags.push(journalTag?.uuid)
@@ -1116,6 +1128,22 @@ async function fetchAllTeeth() {
         state.error = error
     }
     emit('isPageLoading', false)
+}
+
+async function fetchColleagues() {
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        const list = Array.isArray(response) ? response : (response?.data ?? [])
+        const currentUuid = userStore.getUser?.uuid
+        state.options.colleagues = list
+            .filter((item: any) => item?.uuid && item.uuid !== currentUuid)
+            .map((item: any) => ({
+                value: item.uuid,
+                label: `${item.firstname} ${item.lastname ?? ''}`.trim(),
+            }))
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function fetchAllGoalsForJournalNote(planUuid: any = null) {

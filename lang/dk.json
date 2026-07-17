@@ -821,6 +821,10 @@
         "checkInReminder": {
             "title": "Husk at tjekke ind",
             "description": "Du har ikke tjekket ind i dag."
+        },
+        "journalMention": {
+            "title": "nævnte dig i en journalnote",
+            "description": "nævnte dig i {citizen}s journal"
         }
     },
     "bookingSettings": {
@@ -1466,7 +1470,10 @@
                 "title": "Titel",
                 "usePredefinedJournalTitle": "Brug foruddefineret journal titel",
                 "usePredefinedcontent": "Brug foruddefineret indhold",
-                "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt"
+                "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
+                "notifyColleagues": "Underret kolleger",
+                "notifyColleaguesPlaceholder": "Vælg kolleger der skal underrettes",
+                "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note."
             },
             "journalLogs": {
                 "date": "Dato",

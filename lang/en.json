@@ -821,6 +821,10 @@
         "checkInReminder": {
             "title": "Remember to check in",
             "description": "You haven't checked in today."
+        },
+        "journalMention": {
+            "title": "mentioned you in a journal note",
+            "description": "mentioned you in {citizen}’s journal"
         }
     },
     "bookingSettings": {
@@ -1466,7 +1470,10 @@
                 "title": "Title",
                 "usePredefinedJournalTitle": "Use predefined journal title",
                 "usePredefinedcontent": "Use predefined content",
-                "createJournalTitle": "Create journal title"
+                "createJournalTitle": "Create journal title",
+                "notifyColleagues": "Notify colleagues",
+                "notifyColleaguesPlaceholder": "Select colleagues to notify",
+                "notifyColleaguesHint": "Selected colleagues get a notification about this note."
             },
             "journalLogs": {
                 "date": "Date",
