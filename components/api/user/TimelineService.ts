@@ -20,6 +20,14 @@ class TimelineService extends BaseAPIService {
     async createEventType(params: object): Promise<any> {
         return await this.request(`/user/timeline/event-types`, 'POST', params)
     }
+
+    async deleteEventType(uuid: any): Promise<any> {
+        return await this.request(`/user/timeline/event-types/${uuid}`, 'DELETE')
+    }
+
+    async getStatistics(): Promise<any> {
+        return await this.request(`/user/timeline/statistics`, 'GET')
+    }
 }
 
 export const timelineService = new TimelineService()

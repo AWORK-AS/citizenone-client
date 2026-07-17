@@ -8926,7 +8926,8 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
-            "customLinks": "Egne links"
+            "customLinks": "Egne links",
+            "timelineEventTypes": "Tidslinje-typer"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -11866,5 +11867,24 @@
         "reminders": "Mine påmindelser",
         "noReminders": "Ingen påmindelser i dag",
         "newTask": "Ny opgave"
+    },
+    "timelineEventTypes": {
+        "timelineEventTypes": "Tidslinje-hændelsestyper",
+        "description": "Definér hændelsestyper til borgernes tidslinje (fx \"Efterværn\"). Statistik tælles pr. type.",
+        "addNew": "Ny type",
+        "noTypes": "Ingen typer endnu",
+        "saved": "Type gemt",
+        "saveFailed": "Kunne ikke gemme",
+        "deleted": "Type slettet",
+        "deleteTitle": "Slet type",
+        "deleteConfirm": "Er du sikker på, at du vil slette denne type?",
+        "deleteAction": "Slet",
+        "statistics": "Statistik",
+        "noStatistics": "Ingen data endnu",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "fx Efterværn",
+            "color": "Farve"
+        }
     }
 }

@@ -8926,7 +8926,8 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
-            "customLinks": "Egna länkar"
+            "customLinks": "Egna länkar",
+            "timelineEventTypes": "Tidslinjetyper"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -11866,5 +11867,24 @@
         "reminders": "Mina påminnelser",
         "noReminders": "Inga påminnelser idag",
         "newTask": "Ny uppgift"
+    },
+    "timelineEventTypes": {
+        "timelineEventTypes": "Tidslinjehändelsetyper",
+        "description": "Definiera händelsetyper för medborgarens tidslinje (t.ex. \"Eftervård\"). Statistik räknas per typ.",
+        "addNew": "Ny typ",
+        "noTypes": "Inga typer ännu",
+        "saved": "Typ sparad",
+        "saveFailed": "Kunde inte spara",
+        "deleted": "Typ borttagen",
+        "deleteTitle": "Ta bort typ",
+        "deleteConfirm": "Är du säker på att du vill ta bort den här typen?",
+        "deleteAction": "Ta bort",
+        "statistics": "Statistik",
+        "noStatistics": "Ingen data ännu",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "t.ex. Eftervård",
+            "color": "Färg"
+        }
     }
 }
