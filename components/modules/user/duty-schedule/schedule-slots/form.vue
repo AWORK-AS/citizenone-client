@@ -41,6 +41,11 @@
                     <FormError :error="v$?.formScheduleSlot?.shift_type?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.shift_uuid?.[0]" />
                 </div>
+                <div class="space-y-1 flex items-center gap-x-2">
+                    <FormSwitch :value="state.formScheduleSlot.is_free_for_all"
+                        @toggleSwitch="state.formScheduleSlot.is_free_for_all = !state.formScheduleSlot.is_free_for_all" />
+                    <p>{{ $t('dutySchedules.scheduleSlots.form.forAllEmployees') }}</p>
+                </div>
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="job_title_uuid" :label="$t('dutySchedules.scheduleSlots.form.jobTitle')" />
@@ -174,6 +179,7 @@ const state = reactive({
     formScheduleSlot: {
         date_time_start: props.selectedScheduleSlot?.date_time_start,
         date_time_end: props.selectedScheduleSlot?.date_time_end,
+        is_free_for_all: props.selectedScheduleSlot?.is_free_for_all ?? true,
         department_uuid: [],
         job_title_uuid: props.selectedScheduleSlot?.job?.uuid || [],
         job_specialty_uuid: [],

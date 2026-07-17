@@ -4257,6 +4257,7 @@
                 "dateTimeEnd": "Slutdatum och -tid",
                 "dateTimeStart": "Startdatum och -tid",
                 "department": "Avdelningar",
+                "forAllEmployees": "För alla medarbetare",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobbtitel",
                 "numberOfShifts": "Antal pass",
