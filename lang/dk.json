@@ -11793,6 +11793,7 @@
     "releaseNotes": {
         "title": "Release notes",
         "newNote": "Ny release note",
+        "editNote": "Rediger release note",
         "version": "Version",
         "content": "Indhold",
         "audience": "Målgruppe",

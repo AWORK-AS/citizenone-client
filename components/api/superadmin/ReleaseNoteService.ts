@@ -1,8 +1,8 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class ReleaseNoteService extends BaseAPIService {
-    async getReleaseNotes(): Promise<any> {
-        return await this.request(`/superadmin/release-notes`, 'GET')
+    async getReleaseNotes(params: object = {}): Promise<any> {
+        return await this.request(`/superadmin/release-notes`, 'GET', params)
     }
 
     async getReleaseNote(uuid: string): Promise<any> {
