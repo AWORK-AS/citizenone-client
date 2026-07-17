@@ -8793,7 +8793,12 @@
                 "password": "Adgangskode",
                 "phone": "Telefon"
             },
-            "profile": "Profil"
+            "profile": "Profil",
+            "shiftSubscription": {
+                "title": "Kalenderabonnement",
+                "description": "Abonnér på dine vagter i din egen kalender-app (Google Kalender, Apple Kalender, Outlook). Vagtplanen opdateres automatisk.",
+                "button": "Abonnér på mine vagter"
+            }
         },
         "settings": "Indstillinger",
         "subscription": {

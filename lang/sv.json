@@ -8793,7 +8793,12 @@
                 "password": "Lösenord",
                 "phone": "Telefon"
             },
-            "profile": "Profil"
+            "profile": "Profil",
+            "shiftSubscription": {
+                "title": "Kalenderprenumeration",
+                "description": "Prenumerera på dina pass i din egen kalenderapp (Google Kalender, Apple Kalender, Outlook). Schemat uppdateras automatiskt.",
+                "button": "Prenumerera på mina pass"
+            }
         },
         "settings": "Inställningar",
         "subscription": {
