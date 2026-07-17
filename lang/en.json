@@ -11793,6 +11793,7 @@
     "releaseNotes": {
         "title": "Release notes",
         "newNote": "New release note",
+        "editNote": "Edit release note",
         "version": "Version",
         "content": "Content",
         "audience": "Audience",

@@ -19,39 +19,14 @@
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 
-                <!-- Editor -->
-                <div v-if="state.showForm" class="mb-6 rounded-lg border border-gray-200 bg-white p-5 space-y-4">
-                    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-                        <div class="md:col-span-2 space-y-1">
-                            <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.titleField') }}</label>
-                            <input v-model="state.form.title" type="text"
-                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none" />
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.version') }}</label>
-                            <input v-model="state.form.version" type="text" placeholder="1.4.0"
-                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none" />
-                        </div>
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.content') }}</label>
-                        <textarea v-model="state.form.content" rows="6"
-                            class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"></textarea>
-                    </div>
-                    <div class="flex justify-end gap-x-2">
-                        <FormButton buttonStyle="cancel" @click="closeForm">{{ $t('cancel') }}</FormButton>
-                        <FormButton buttonStyle="primary" @click="saveDraft">{{ $t('releaseNotes.save') }}</FormButton>
-                    </div>
-                </div>
-
                 <LoadingSpinner :isActive="state.isLoading">
-                    <div v-if="!state.isLoading && !state.notes.length"
+                    <div v-if="!state.isLoading && !state.notes.data?.length"
                         class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-[#6B7280]">
                         <Icon name="ph:sparkle" class="h-8 w-8 text-gray-300" />
                         {{ $t('releaseNotes.noNotes') }}
                     </div>
                     <ul class="space-y-3">
-                        <li v-for="note in state.notes" :key="note.uuid"
+                        <li v-for="note in state.notes.data" :key="note.uuid"
                             class="flex items-start justify-between gap-x-4 rounded-lg border border-gray-200 bg-white p-4">
                             <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -82,8 +57,38 @@
                             </div>
                         </li>
                     </ul>
+                    <Pagination :data="state.notes" @previous="previousPage" @next="nextPage" />
                 </LoadingSpinner>
             </div>
+
+            <Modal size="md" :title="state.form.uuid ? $t('releaseNotes.editNote') : $t('releaseNotes.newNote')"
+                :show="state.showForm" @close="closeForm">
+                <template #modal-body>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                            <div class="md:col-span-2 space-y-1 text-left">
+                                <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.titleField') }}</label>
+                                <input v-model="state.form.title" type="text"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                            </div>
+                            <div class="space-y-1 text-left">
+                                <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.version') }}</label>
+                                <input v-model="state.form.version" type="text" placeholder="1.4.0"
+                                    class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                            </div>
+                        </div>
+                        <div class="space-y-1 text-left">
+                            <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.content') }}</label>
+                            <textarea v-model="state.form.content" rows="6"
+                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"></textarea>
+                        </div>
+                        <div class="flex justify-end gap-x-2 pb-6">
+                            <FormButton buttonStyle="cancel" @click="closeForm">{{ $t('cancel') }}</FormButton>
+                            <FormButton buttonStyle="primary" @click="saveDraft">{{ $t('releaseNotes.save') }}</FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
 
             <DialogConfirmation :isModalOpen="state.deleteOpen" :message="$t('releaseNotes.deleteConfirm')"
                 @close="state.deleteOpen = false" @confirm="doDelete" />
@@ -100,10 +105,12 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
+let currentPage = 1
+
 const state = reactive({
     isLoading: false,
     error: '',
-    notes: [] as any[],
+    notes: {} as any,
     showForm: false,
     form: { uuid: '', title: '', version: '', content: '' },
     deleteOpen: false,
@@ -116,12 +123,22 @@ async function fetchNotes() {
     state.isLoading = true
     state.error = ''
     try {
-        const response = await releaseNoteService.getReleaseNotes()
-        state.notes = response?.data ?? []
+        const response = await releaseNoteService.getReleaseNotes({ page: currentPage })
+        if (response) state.notes = response
     } catch (error: any) {
         state.error = error?.message ?? 'Error'
     }
     state.isLoading = false
+}
+
+function previousPage() {
+    currentPage--
+    fetchNotes()
+}
+
+function nextPage() {
+    currentPage++
+    fetchNotes()
 }
 
 function openForm(note: any = null) {
@@ -143,6 +160,7 @@ async function saveDraft() {
             await releaseNoteService.updateReleaseNote(state.form.uuid, payload)
         } else {
             await releaseNoteService.createReleaseNote(payload)
+            currentPage = 1
         }
         state.showForm = false
         successAlert(`${t('alert.success')}!`, '')
