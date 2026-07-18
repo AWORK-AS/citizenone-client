@@ -9471,7 +9471,14 @@
                 "userLicenses": "Brugerlicenser",
                 "departmentLicenses": "Afdelingslicenser",
                 "usedDepartmentLicense": "Brugt afdelingslicens",
-                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+                "grant": {
+                    "addLicenses": "Tilføj licenser",
+                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje. Der opkræves ikke i systemet - faktureres separat i e-conomic.",
+                    "quantity": "Antal licenser",
+                    "granted": "Licenser tilføjet",
+                    "failed": "Kunne ikke tilføje licenser"
+                }
             },
             "newCompany": "Ny virksomhed",
             "saveCompany": "Gem virksomhed",
