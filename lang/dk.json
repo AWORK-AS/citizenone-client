@@ -10174,7 +10174,9 @@
                 "searchCompany": "Søg virksomhed...",
                 "searchToAttach": "Søg for at tilknytte en eksisterende virksomhed",
                 "userCanLogin": "Brugeren kan logge ind",
-                "userInfo": "Brugeroplysninger"
+                "userInfo": "Brugeroplysninger",
+                "financialAccess": "Kan se økonomi",
+                "financialAccessHint": "Adgang til omsætning, fakturaer, ordrer og priser"
             }
         },
         "finance": {

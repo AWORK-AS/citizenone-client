@@ -10174,7 +10174,9 @@
                 "searchCompany": "Sök företag...",
                 "searchToAttach": "Sök för att koppla till ett befintligt företag",
                 "userCanLogin": "Användaren kan logga in",
-                "userInfo": "Användarinformation"
+                "userInfo": "Användarinformation",
+                "financialAccess": "Kan se ekonomi",
+                "financialAccessHint": "Åtkomst till omsättning, fakturor, ordrar och priser"
             }
         },
         "finance": {

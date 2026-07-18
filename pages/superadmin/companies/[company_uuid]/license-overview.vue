@@ -81,7 +81,7 @@
                                                 }} 🤝
                                             </span>
                                         </p>
-                                        <p class="mt-4 flex items-baseline gap-x-2">
+                                        <p class="mt-4 flex items-baseline gap-x-2" v-if="canViewFinancials">
                                             <span class="text-3xl font-bold tracking-tight text-gray-900">
                                                 {{ state?.subscriptions?.data?.type === 'monthly' ?
                                                     formatAmount(state?.subscriptions?.data?.deal?.monthly_price ?? 0)
@@ -253,6 +253,7 @@ const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 
 const canManageLicenses = computed(() => can('manage_licenses'))
+const canViewFinancials = computed(() => can('view_financials'))
 
 const detailTabs = computed(() => [
     { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },

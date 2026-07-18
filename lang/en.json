@@ -10174,7 +10174,9 @@
                 "searchCompany": "Search company...",
                 "searchToAttach": "Search to attach an existing company",
                 "userCanLogin": "The user can log in",
-                "userInfo": "User information"
+                "userInfo": "User information",
+                "financialAccess": "Can view financials",
+                "financialAccessHint": "Access to revenue, invoices, orders and prices"
             }
         },
         "finance": {
