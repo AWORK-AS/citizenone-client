@@ -837,6 +837,10 @@
         "checkInReminder": {
             "title": "Remember to check in",
             "description": "You haven't checked in today."
+        },
+        "journalMention": {
+            "title": "mentioned you in a journal note",
+            "description": "mentioned you in {citizen}’s journal"
         }
     },
     "bookingSettings": {
@@ -1496,7 +1500,10 @@
                 "dictate": "Dictate",
                 "stopDictation": "Stop",
                 "transcribing": "Transcribing...",
-                "micError": "Could not access the microphone."
+                "micError": "Could not access the microphone.",
+                "notifyColleagues": "Notify colleagues",
+                "notifyColleaguesPlaceholder": "Select colleagues to notify",
+                "notifyColleaguesHint": "Selected colleagues get a notification about this note."
             },
             "journalLogs": {
                 "date": "Date",

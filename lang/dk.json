@@ -837,6 +837,10 @@
         "checkInReminder": {
             "title": "Husk at tjekke ind",
             "description": "Du har ikke tjekket ind i dag."
+        },
+        "journalMention": {
+            "title": "nævnte dig i en journalnote",
+            "description": "nævnte dig i {citizen}s journal"
         }
     },
     "bookingSettings": {
@@ -1496,7 +1500,10 @@
                 "dictate": "Diktér",
                 "stopDictation": "Stop",
                 "transcribing": "Transskriberer...",
-                "micError": "Kunne ikke få adgang til mikrofonen."
+                "micError": "Kunne ikke få adgang til mikrofonen.",
+                "notifyColleagues": "Underret kolleger",
+                "notifyColleaguesPlaceholder": "Vælg kolleger der skal underrettes",
+                "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note."
             },
             "journalLogs": {
                 "date": "Dato",

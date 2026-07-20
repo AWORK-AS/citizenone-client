@@ -837,6 +837,10 @@
         "checkInReminder": {
             "title": "Kom ihåg att checka in",
             "description": "Du har inte checkat in idag."
+        },
+        "journalMention": {
+            "title": "nämnde dig i en journalanteckning",
+            "description": "nämnde dig i {citizen}s journal"
         }
     },
     "bookingSettings": {
@@ -1496,7 +1500,10 @@
                 "dictate": "Diktera",
                 "stopDictation": "Stoppa",
                 "transcribing": "Transkriberar...",
-                "micError": "Kunde inte komma åt mikrofonen."
+                "micError": "Kunde inte komma åt mikrofonen.",
+                "notifyColleagues": "Meddela kollegor",
+                "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
+                "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning."
             },
             "journalLogs": {
                 "date": "Datum",
