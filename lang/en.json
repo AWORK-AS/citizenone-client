@@ -1492,7 +1492,11 @@
                 "title": "Title",
                 "usePredefinedJournalTitle": "Use predefined journal title",
                 "usePredefinedcontent": "Use predefined content",
-                "createJournalTitle": "Create journal title"
+                "createJournalTitle": "Create journal title",
+                "dictate": "Dictate",
+                "stopDictation": "Stop",
+                "transcribing": "Transcribing...",
+                "micError": "Could not access the microphone."
             },
             "journalLogs": {
                 "date": "Date",
