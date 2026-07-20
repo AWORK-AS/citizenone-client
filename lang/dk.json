@@ -1492,7 +1492,11 @@
                 "title": "Titel",
                 "usePredefinedJournalTitle": "Brug foruddefineret journal titel",
                 "usePredefinedcontent": "Brug foruddefineret indhold",
-                "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt"
+                "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
+                "dictate": "Diktér",
+                "stopDictation": "Stop",
+                "transcribing": "Transskriberer...",
+                "micError": "Kunne ikke få adgang til mikrofonen."
             },
             "journalLogs": {
                 "date": "Dato",
