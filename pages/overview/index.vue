@@ -16,6 +16,11 @@
 
             <template #guided-tour>
                 <div class="flex items-center gap-x-2">
+                    <button type="button" v-if="userStore.getUser?.has_ai_access" @click="handoverOpen = true"
+                        class="inline-flex items-center gap-1.5 rounded-full bg-violet-100 px-3 py-1.5 text-xs font-medium text-violet-700 hover:bg-violet-200 transition-colors">
+                        <Icon name="ph:sparkle-fill" class="size-4" aria-hidden="true" />
+                        {{ $t('handover.button') }}
+                    </button>
                     <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
                         <Icon name="ph:question"
                             class="size-5 cursor-pointer text-slate-400 hover:text-slate-600 transition-colors"
@@ -436,6 +441,8 @@
             <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
                 :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDailyOverviewOpen = false" />
+            <ModulesUserHandoverModalSummary :isModalOpen="handoverOpen"
+                :department="departmentStore.getSelectedDepartmentName" @close="handoverOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -475,6 +482,7 @@ const showStatisticsSection = computed(() => {
         || f.showUseOfForceStatistics
 })
 const userStore = useUserStore() as any
+const handoverOpen = ref(false)
 const { celebrate } = useConfetti()
 const { successAlert } = useAlert()
 const { t } = useI18n()
