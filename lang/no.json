@@ -8937,7 +8937,8 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
-            "customLinks": "Egne lenker"
+            "customLinks": "Egne lenker",
+            "messageTemplates": "Meldingsmaler"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -11892,6 +11893,26 @@
             "medsMissed": "Medisin glemt",
             "incidents": "Hendelser",
             "useOfForce": "Maktbruk"
+        }
+    },
+    "messageTemplates": {
+        "messageTemplates": "Meldingsmaler",
+        "description": "Gjenbrukbare standardsvar som ansatte kan sette inn i meldinger.",
+        "addNew": "Ny mal",
+        "edit": "Rediger mal",
+        "saved": "Mal lagret",
+        "saveFailed": "Kunne ikke lagre malen",
+        "deleted": "Mal slettet",
+        "noTemplates": "Ingen maler ennå",
+        "deleteTitle": "Slett mal",
+        "deleteConfirm": "Er du sikker på at du vil slette denne malen?",
+        "deleteAction": "Slett",
+        "insertTemplate": "Sett inn mal",
+        "quickReplies": "Hurtigsvar",
+        "form": {
+            "title": "Tittel",
+            "body": "Melding",
+            "bodyPlaceholder": "Skriv standardsvaret …"
         }
     }
 }

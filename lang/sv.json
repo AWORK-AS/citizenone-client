@@ -8937,7 +8937,8 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
-            "customLinks": "Egna länkar"
+            "customLinks": "Egna länkar",
+            "messageTemplates": "Meddelandemallar"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -11892,6 +11893,26 @@
             "medsMissed": "Medicin missad",
             "incidents": "Händelser",
             "useOfForce": "Tvång"
+        }
+    },
+    "messageTemplates": {
+        "messageTemplates": "Meddelandemallar",
+        "description": "Återanvändbara standardsvar som personalen kan infoga i meddelanden.",
+        "addNew": "Ny mall",
+        "edit": "Redigera mall",
+        "saved": "Mall sparad",
+        "saveFailed": "Kunde inte spara mallen",
+        "deleted": "Mall borttagen",
+        "noTemplates": "Inga mallar ännu",
+        "deleteTitle": "Ta bort mall",
+        "deleteConfirm": "Är du säker på att du vill ta bort den här mallen?",
+        "deleteAction": "Ta bort",
+        "insertTemplate": "Infoga mall",
+        "quickReplies": "Snabbsvar",
+        "form": {
+            "title": "Titel",
+            "body": "Meddelande",
+            "bodyPlaceholder": "Skriv standardsvaret …"
         }
     }
 }

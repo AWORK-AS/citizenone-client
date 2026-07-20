@@ -8937,7 +8937,8 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
-            "customLinks": "Custom links"
+            "customLinks": "Custom links",
+            "messageTemplates": "Message templates"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -11892,6 +11893,26 @@
             "medsMissed": "Meds missed",
             "incidents": "Incidents",
             "useOfForce": "Use of force"
+        }
+    },
+    "messageTemplates": {
+        "messageTemplates": "Message templates",
+        "description": "Reusable canned replies that staff can insert into messages.",
+        "addNew": "New template",
+        "edit": "Edit template",
+        "saved": "Template saved",
+        "saveFailed": "Could not save the template",
+        "deleted": "Template deleted",
+        "noTemplates": "No templates yet",
+        "deleteTitle": "Delete template",
+        "deleteConfirm": "Are you sure you want to delete this template?",
+        "deleteAction": "Delete",
+        "insertTemplate": "Insert template",
+        "quickReplies": "Quick replies",
+        "form": {
+            "title": "Title",
+            "body": "Message",
+            "bodyPlaceholder": "Write the canned reply …"
         }
     }
 }
