@@ -44,7 +44,8 @@
                         <div class="text-center">{{ $t('calendar.week.oneLetter.Sunday') }}</div>
                     </div>
                     <div class="mt-1 grid grid-cols-7 text-sm">
-                        <div v-for="(day, dayIdx) in days" :key="day.date" class="py-0.5" @click="selectDay(day)">
+                        <div v-for="(day, dayIdx) in days" :key="day.date" class="py-0.5" @click="selectDay(day)"
+                            @dblclick="$emit('createEventForDate', day.date)">
                             <button type="button" :class="[
                                 day.isSelected && day.isToday && 'bg-tertiary text-white',
                                 day.isSelected && !day.isToday && 'bg-primary text-white',
@@ -130,7 +131,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEventForDate'])
 const userStore = useUserStore() as any
 
 const currentMonth = ref(moment().startOf('month'))
