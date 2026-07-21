@@ -8943,7 +8943,8 @@
             "powerBi": "Power BI",
             "economic": "e-conomic",
             "customLinks": "Custom links",
-            "messageTemplates": "Message templates"
+            "messageTemplates": "Message templates",
+            "timelineEventTypes": "Timeline types"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -11927,6 +11928,25 @@
             "title": "Title",
             "body": "Message",
             "bodyPlaceholder": "Write the canned reply …"
+        }
+    },
+    "timelineEventTypes": {
+        "timelineEventTypes": "Timeline event types",
+        "description": "Define event types for the citizen timeline (e.g. \"Aftercare\"). Statistics are counted per type.",
+        "addNew": "New type",
+        "noTypes": "No types yet",
+        "saved": "Type saved",
+        "saveFailed": "Could not save",
+        "deleted": "Type deleted",
+        "deleteTitle": "Delete type",
+        "deleteConfirm": "Are you sure you want to delete this type?",
+        "deleteAction": "Delete",
+        "statistics": "Statistics",
+        "noStatistics": "No data yet",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "e.g. Aftercare",
+            "color": "Colour"
         }
     }
 }

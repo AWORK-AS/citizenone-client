@@ -8943,7 +8943,8 @@
             "powerBi": "Power BI",
             "economic": "e-conomic",
             "customLinks": "Egna länkar",
-            "messageTemplates": "Meddelandemallar"
+            "messageTemplates": "Meddelandemallar",
+            "timelineEventTypes": "Tidslinjetyper"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -11927,6 +11928,25 @@
             "title": "Titel",
             "body": "Meddelande",
             "bodyPlaceholder": "Skriv standardsvaret …"
+        }
+    },
+    "timelineEventTypes": {
+        "timelineEventTypes": "Tidslinjehändelsetyper",
+        "description": "Definiera händelsetyper för medborgarens tidslinje (t.ex. \"Eftervård\"). Statistik räknas per typ.",
+        "addNew": "Ny typ",
+        "noTypes": "Inga typer ännu",
+        "saved": "Typ sparad",
+        "saveFailed": "Kunde inte spara",
+        "deleted": "Typ borttagen",
+        "deleteTitle": "Ta bort typ",
+        "deleteConfirm": "Är du säker på att du vill ta bort den här typen?",
+        "deleteAction": "Ta bort",
+        "statistics": "Statistik",
+        "noStatistics": "Ingen data ännu",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "t.ex. Eftervård",
+            "color": "Färg"
         }
     }
 }
