@@ -49,7 +49,33 @@
                         <ModulesUserSettings2faGoogle />
                     </DisclosurePanel>
                 </Disclosure>
+
+                <Disclosure as="div" v-slot="{ open }"
+                    class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary">
+                    <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
+                        <div class="flex items-center gap-x-2">
+                            <h3 class="font-semibold text-sm">
+                                {{ $t('settings.profile.shiftSubscription.title') }}
+                            </h3>
+                        </div>
+                        <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"
+                            class="w-5 h-5" />
+                    </DisclosureButton>
+
+                    <DisclosurePanel as="dd" class="px-5 pb-5">
+                        <p class="text-sm text-gray-500 mb-4">
+                            {{ $t('settings.profile.shiftSubscription.description') }}
+                        </p>
+                        <FormButton buttonStyle="secondary" @click="state.isSubscribeOpen = true">
+                            <Icon name="ph:calendar-plus" class="h-4 w-4 mr-1.5" aria-hidden="true" />
+                            {{ $t('settings.profile.shiftSubscription.button') }}
+                        </FormButton>
+                    </DisclosurePanel>
+                </Disclosure>
             </div>
+
+            <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.isSubscribeOpen" :dutySchedule="true"
+                @close="state.isSubscribeOpen = false" />
 
         </NuxtLayout>
     </div>
@@ -68,7 +94,8 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    isProfileFirstLoad: true
+    isProfileFirstLoad: true,
+    isSubscribeOpen: false
 })
 
 function handleProfileToggle(open: boolean) {

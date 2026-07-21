@@ -8863,7 +8863,12 @@
                 "password": "Password",
                 "phone": "Phone"
             },
-            "profile": "Profile"
+            "profile": "Profile",
+            "shiftSubscription": {
+                "title": "Calendar subscription",
+                "description": "Subscribe to your shifts in your own calendar app (Google Calendar, Apple Calendar, Outlook). Your schedule updates automatically.",
+                "button": "Subscribe to my shifts"
+            }
         },
         "settings": "Settings",
         "subscription": {
