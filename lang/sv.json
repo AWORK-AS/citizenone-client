@@ -9483,7 +9483,14 @@
                 "userLicenses": "Brugerlicenser",
                 "departmentLicenses": "Afdelingslicenser",
                 "usedDepartmentLicense": "Brugt afdelingslicens",
-                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+                "grant": {
+                    "addLicenses": "Lägg till licenser",
+                    "description": "Lägger till extra användarlicenser i företagets pool. Ingen debitering i systemet - faktureras separat i e-conomic.",
+                    "quantity": "Antal licenser",
+                    "granted": "Licenser tillagda",
+                    "failed": "Kunde inte lägga till licenser"
+                }
             },
             "newCompany": "Ny företag",
             "saveCompany": "Spara företag",
@@ -10179,7 +10186,9 @@
                 "searchCompany": "Sök företag...",
                 "searchToAttach": "Sök för att koppla till ett befintligt företag",
                 "userCanLogin": "Användaren kan logga in",
-                "userInfo": "Användarinformation"
+                "userInfo": "Användarinformation",
+                "financialAccess": "Kan se ekonomi",
+                "financialAccessHint": "Åtkomst till omsättning, fakturor, ordrar och priser"
             }
         },
         "finance": {

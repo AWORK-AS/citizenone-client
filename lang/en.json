@@ -9483,7 +9483,14 @@
                 "userLicenses": "User licenses",
                 "departmentLicenses": "Department licenses",
                 "usedDepartmentLicense": "Used department license",
-                "unusedDepartmentLicense": "Unused department license"
+                "unusedDepartmentLicense": "Unused department license",
+                "grant": {
+                    "addLicenses": "Add licenses",
+                    "description": "Adds extra user licenses to the company pool. No in-app charge - invoiced separately in e-conomic.",
+                    "quantity": "Number of licenses",
+                    "granted": "Licenses added",
+                    "failed": "Could not add licenses"
+                }
             },
             "newCompany": "New company",
             "saveCompany": "Save company",
@@ -10179,7 +10186,9 @@
                 "searchCompany": "Search company...",
                 "searchToAttach": "Search to attach an existing company",
                 "userCanLogin": "The user can log in",
-                "userInfo": "User information"
+                "userInfo": "User information",
+                "financialAccess": "Can view financials",
+                "financialAccessHint": "Access to revenue, invoices, orders and prices"
             }
         },
         "finance": {

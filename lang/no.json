@@ -9483,7 +9483,14 @@
                 "userLicenses": "Brugerlicenser",
                 "departmentLicenses": "Afdelingslicenser",
                 "usedDepartmentLicense": "Brukt afdelingslicens",
-                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+                "grant": {
+                    "addLicenses": "Legg til lisenser",
+                    "description": "Legger til ekstra brukerlisenser i firmaets pool. Ingen betaling i systemet - faktureres separat i e-conomic.",
+                    "quantity": "Antall lisenser",
+                    "granted": "Lisenser lagt til",
+                    "failed": "Kunne ikke legge til lisenser"
+                }
             },
             "newCompany": "Ny virksomhet",
             "saveCompany": "Lagre virksomhet",
@@ -10179,7 +10186,9 @@
                 "searchCompany": "Søk bedrift...",
                 "searchToAttach": "Søk for å knytte til en eksisterende bedrift",
                 "userCanLogin": "Brukeren kan logge inn",
-                "userInfo": "Brukerinformasjon"
+                "userInfo": "Brukerinformasjon",
+                "financialAccess": "Kan se økonomi",
+                "financialAccessHint": "Tilgang til omsetning, fakturaer, ordrer og priser"
             }
         },
         "finance": {
