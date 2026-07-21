@@ -110,6 +110,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             ...(isEmploymentServices ? [{ group: 'employment', name: 'settings.tabs.employmentCaseTypes', isTranslateName: true, href: `/settings/employment-case-types`, routeNames: ['settings-employment-case-types'] }] : []),
             { group: 'journal', name: 'settings.tabs.consentDeclarationTypes', isTranslateName: true, href: `/settings/consent-declaration-types`, routeNames: ['settings-consent-declaration-types'] },
             { group: 'access', name: 'settings.tabs.contactJobTitles', isTranslateName: true, href: `/settings/contact-job-titles`, routeNames: ['settings-contact-job-titles'] },
+            { group: 'citizens', name: 'settings.tabs.timelineEventTypes', isTranslateName: true, href: `/settings/timeline-event-types`, routeNames: ['settings-timeline-event-types'] },
             { group: 'access', name: 'settings.tabs.customLinks', isTranslateName: true, href: `/settings/custom-links`, routeNames: ['settings-custom-links', 'settings-custom-links-new', 'settings-custom-links-uuid-edit'] },
             { group: 'communication', name: 'settings.tabs.messageTemplates', isTranslateName: true, href: `/settings/message-templates`, routeNames: ['settings-message-templates'] },
             { group: 'access', name: 'settings.tabs.departments', isTranslateName: true, href: `/settings/departments`, routeNames: ['settings-departments'] },

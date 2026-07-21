@@ -8943,7 +8943,8 @@
             "powerBi": "Power BI",
             "economic": "e-conomic",
             "customLinks": "Egne lenker",
-            "messageTemplates": "Meldingsmaler"
+            "messageTemplates": "Meldingsmaler",
+            "timelineEventTypes": "Tidslinjetyper"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -11927,6 +11928,25 @@
             "title": "Tittel",
             "body": "Melding",
             "bodyPlaceholder": "Skriv standardsvaret …"
+        }
+    },
+    "timelineEventTypes": {
+        "timelineEventTypes": "Tidslinjehendelsestyper",
+        "description": "Definer hendelsestyper for borgerens tidslinje (f.eks. \"Ettervern\"). Statistikk telles per type.",
+        "addNew": "Ny type",
+        "noTypes": "Ingen typer ennå",
+        "saved": "Type lagret",
+        "saveFailed": "Kunne ikke lagre",
+        "deleted": "Type slettet",
+        "deleteTitle": "Slett type",
+        "deleteConfirm": "Er du sikker på at du vil slette denne typen?",
+        "deleteAction": "Slett",
+        "statistics": "Statistikk",
+        "noStatistics": "Ingen data ennå",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "f.eks. Ettervern",
+            "color": "Farge"
         }
     }
 }
