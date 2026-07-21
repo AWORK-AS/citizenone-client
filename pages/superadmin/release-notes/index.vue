@@ -39,11 +39,15 @@
                                     </span>
                                 </div>
                                 <p v-if="note.content" class="mt-1 line-clamp-2 whitespace-pre-line text-sm text-gray-600">{{ note.content }}</p>
+                                <p class="mt-1 text-xs text-gray-400">{{ formatNoteDate(note) }}</p>
                                 <p v-if="note.status === 'published'" class="mt-1 text-xs text-gray-400">
                                     {{ $t('releaseNotes.publishedTo') }}
                                 </p>
                             </div>
                             <div class="flex flex-none items-center gap-x-2">
+                                <FormButton buttonStyle="action" buttonSize="sm" @click="openRead(note)">
+                                    <Icon name="ph:eye" class="h-4 w-4" />
+                                </FormButton>
                                 <FormButton buttonStyle="action" buttonSize="sm" @click="openForm(note)">
                                     <Icon name="ph:pencil-simple" class="h-4 w-4" />
                                 </FormButton>
@@ -90,6 +94,19 @@
                 </template>
             </Modal>
 
+            <Modal size="md" :title="state.readNote?.title" :show="state.readOpen" @close="state.readOpen = false">
+                <template #modal-body>
+                    <div class="space-y-3">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span v-if="state.readNote?.version"
+                                class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">{{ state.readNote.version }}</span>
+                            <span class="text-xs text-gray-400">{{ formatNoteDate(state.readNote) }}</span>
+                        </div>
+                        <div class="whitespace-pre-line text-sm text-gray-700">{{ state.readNote?.content }}</div>
+                    </div>
+                </template>
+            </Modal>
+
             <DialogConfirmation :isModalOpen="state.deleteOpen" :message="$t('releaseNotes.deleteConfirm')"
                 @close="state.deleteOpen = false" @confirm="doDelete" />
         </NuxtLayout>
@@ -115,6 +132,8 @@ const state = reactive({
     form: { uuid: '', title: '', version: '', content: '' },
     deleteOpen: false,
     deleteTarget: null as any,
+    readOpen: false,
+    readNote: null as any,
 })
 
 onMounted(() => fetchNotes())
@@ -150,6 +169,17 @@ function openForm(note: any = null) {
 
 function closeForm() {
     state.showForm = false
+}
+
+function openRead(note: any) {
+    state.readNote = note
+    state.readOpen = true
+}
+
+function formatNoteDate(note: any): string {
+    const d = note?.published_at ?? note?.created_at
+    if (!d) return ''
+    return new Date(d).toLocaleDateString('da-DK', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 async function saveDraft() {
