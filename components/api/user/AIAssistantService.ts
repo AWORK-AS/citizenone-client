@@ -16,6 +16,14 @@ class AIAssistantService extends BaseAPIService {
     async previewPrompt(params: object): Promise<any> {
         return await this.request(`/user/chat-gpt/preview-prompt`, 'POST', params)
     }
+
+    async generateHandover(params: object): Promise<any> {
+        return await this.request(`/user/handover/summary`, 'POST', params)
+    }
+
+    async transcribeAudio(params: object): Promise<any> {
+        return await this.request(`/user/chat-gpt/transcribe`, 'POST', params)
+    }
 }
 
 export const aIAssistantService = new AIAssistantService()

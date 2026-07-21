@@ -42,7 +42,7 @@
                             <div class="flex items-center gap-2">
                                 <Icon name="ph:arrows-clockwise" class="h-4 w-4 text-gray-400 flex-shrink-0" />
                                 <span class="text-gray-500">{{ $t('reminders.form.repeat.repeat') }}:</span>
-                                <span class="font-medium text-gray-700 capitalize">{{ state.reminder.repeat }}</span>
+                                <span class="font-medium text-gray-700">{{ repeatLabel(state.reminder.repeat) }}</span>
                             </div>
                         </div>
 
@@ -137,6 +137,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { repeatLabel } = useReminderRepeat()
 
 const props = defineProps({
     isModalOpen: {

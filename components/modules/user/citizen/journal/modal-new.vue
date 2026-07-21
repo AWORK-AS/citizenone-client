@@ -261,6 +261,7 @@ async function saveJournal(journalDetails: any) {
             score: journalDetails.formJournal.score,
             teeth_uuid: journalDetails.formJournal.teeth,
             field_answers: journalDetails.formJournal.field_answers ?? [],
+            mentioned_user_uuids: journalDetails.formJournal.mentioned_user_uuids ?? [],
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {

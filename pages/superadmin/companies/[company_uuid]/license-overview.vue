@@ -29,6 +29,13 @@
                     </button>
                 </div>
 
+                <div v-if="canManageLicenses" class="flex justify-end mb-4">
+                    <FormButton buttonStyle="action" @click="openGrantModal">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('superadmin.companies.licenseOverview.grant.addLicenses') }}
+                    </FormButton>
+                </div>
+
                 <div class="w-full">
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <Alert type="danger" :text="state?.error?.message"
@@ -74,7 +81,7 @@
                                                 }} 🤝
                                             </span>
                                         </p>
-                                        <p class="mt-4 flex items-baseline gap-x-2">
+                                        <p class="mt-4 flex items-baseline gap-x-2" v-if="canViewFinancials">
                                             <span class="text-3xl font-bold tracking-tight text-gray-900">
                                                 {{ state?.subscriptions?.data?.type === 'monthly' ?
                                                     formatAmount(state?.subscriptions?.data?.deal?.monthly_price ?? 0)
@@ -199,6 +206,33 @@
                     </LoadingSpinner>
                 </div>
             </div>
+
+            <Modal size="sm" :title="$t('superadmin.companies.licenseOverview.grant.addLicenses')"
+                :show="state.grant.isOpen" @close="state.grant.isOpen = false">
+                <template #modal-body>
+                    <div class="space-y-4">
+                        <p class="text-sm text-gray-600">
+                            {{ $t('superadmin.companies.licenseOverview.grant.description') }}
+                        </p>
+                        <div class="space-y-1">
+                            <FormLabel for="grant_quantity"
+                                :label="$t('superadmin.companies.licenseOverview.grant.quantity')" />
+                            <input id="grant_quantity" type="number" min="1" max="1000" v-model.number="state.grant.quantity"
+                                class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
+                        </div>
+                        <div class="flex justify-end gap-3 pt-2">
+                            <FormButton buttonStyle="secondary" @click="state.grant.isOpen = false">
+                                {{ $t('cancel') }}
+                            </FormButton>
+                            <FormButton buttonStyle="primary"
+                                :disabled="state.grant.isSaving || !state.grant.quantity || state.grant.quantity < 1"
+                                @click="submitGrant">
+                                {{ $t('save') }}
+                            </FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
         </NuxtLayout>
     </div>
 </template>
@@ -206,14 +240,20 @@
 <script setup lang="ts">
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const { can } = usePermissions()
+const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
+
+const canManageLicenses = computed(() => can('manage_licenses'))
+const canViewFinancials = computed(() => can('view_financials'))
 
 const detailTabs = computed(() => [
     { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },
@@ -242,7 +282,32 @@ const state = reactive({
         sortOrder: 'descend',
     },
     subscriptions: [] as any,
+    grant: {
+        isOpen: false,
+        isSaving: false,
+        quantity: 1 as number,
+    },
 })
+
+function openGrantModal() {
+    state.grant.quantity = 1
+    state.grant.isOpen = true
+}
+
+async function submitGrant() {
+    if (!state.grant.quantity || state.grant.quantity < 1) return
+    state.grant.isSaving = true
+    try {
+        await licenseService.grantLicenses(companyUuid as string, { quantity: state.grant.quantity })
+        state.grant.isOpen = false
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.grant.granted')}.`)
+        fetchLicenses()
+        fetchLicensesCount()
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.grant.failed'))
+    }
+    state.grant.isSaving = false
+}
 
 onMounted(() => {
     fetchSubscription()

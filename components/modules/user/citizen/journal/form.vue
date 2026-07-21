@@ -153,6 +153,19 @@
                             {{ $t('citizens.citizenJournals.form.attachFile') }}
                         </button>
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
+                            v-if="userStore.getUser?.has_ai_access" :disabled="isTranscribing"
+                            @click="toggleDictation">
+                            <div class="flex items-center">
+                                <Icon
+                                    :name="isRecording ? 'ph:stop-circle-fill' : (isTranscribing ? 'ph:spinner' : 'ph:microphone')"
+                                    :class="['h-4 w-4', isRecording && 'text-red-600 animate-pulse', isTranscribing && 'spin']"
+                                    aria-hidden="true" />
+                            </div>
+                            {{ isRecording ? $t('citizens.citizenJournals.form.stopDictation')
+                                : (isTranscribing ? $t('citizens.citizenJournals.form.transcribing')
+                                    : $t('citizens.citizenJournals.form.dictate')) }}
+                        </FormButton>
+                        <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                             v-if="userStore.getUser?.has_ai_access" @click="openAiGeneratePreview('content')">
                             <div class="flex items-center">
                                 <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
@@ -180,6 +193,13 @@
                     v-model="state.formJournal.journal_note_tags" />
                 <FormError :error="v$?.formJournal?.journal_note_tags?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.journal_note_tags_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <FormLabel :label="$t('citizens.citizenJournals.form.notifyColleagues')" />
+                <FormSelectMultiple id="mentioned_colleagues" :options="state.options.colleagues"
+                    :placeholder="$t('citizens.citizenJournals.form.notifyColleaguesPlaceholder')"
+                    v-model="state.formJournal.mentioned_user_uuids" />
+                <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.form.notifyColleaguesHint') }}</p>
             </div>
             <div v-if="isFieldVisible('risk_assessment')">
             <div class="space-y-2">
@@ -431,6 +451,7 @@ import { teethService } from '@/components/api/user/TeethService'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
+import { userService } from '@/components/api/user/UserService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
@@ -539,6 +560,7 @@ const state = reactive({
         score: '',
         teeth: [],
         is_for_teeth: false,
+        mentioned_user_uuids: [],
         field_answers: [] as Array<{ journal_title_field_uuid: string, response: string | string[] }>,
     } as any,
     selectedJournalTitleFields: [] as Array<{ uuid: string, label: string, field_type: string, options: string[] }>,
@@ -584,6 +606,7 @@ const state = reactive({
         risk_assessment_subgoals: [],
         journal_note_tags: [],
         risk_assessment_tags: [],
+        colleagues: [],
         score: [
             { value: 1, label: 1 },
             { value: 2, label: 2 },
@@ -633,6 +656,7 @@ onMounted(() => {
     fetchAllJournalNoteTags()
     fetchAllJournalTitles()
     fetchAllTeeth()
+    fetchColleagues()
     // setFormJournalFromSelected(props.selectedJournal)
     // state.formJournal = {
     //     id: props.selectedJournal.id,
@@ -804,6 +828,7 @@ function setFormJournalFromSelected(journal: any) {
         score: journal.score,
         is_for_teeth: journal.is_for_teeth,
         teeth: [],
+        mentioned_user_uuids: [],
     }
     journal.journal_tags?.forEach((journalTag: any) => {
         state.formJournal.journal_note_tags.push(journalTag?.uuid)
@@ -1173,6 +1198,59 @@ function confirmAiGenerate() {
     }
 }
 
+// --- Dictate to journal (audio -> Whisper transcript -> AI-structured note) ---
+const isRecording = ref(false)
+const isTranscribing = ref(false)
+let mediaRecorder: any = null
+let audioChunks: any[] = []
+
+async function toggleDictation() {
+    if (isRecording.value) {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop()
+        isRecording.value = false
+        return
+    }
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+        audioChunks = []
+        mediaRecorder = new MediaRecorder(stream)
+        mediaRecorder.ondataavailable = (e: any) => { if (e.data && e.data.size) audioChunks.push(e.data) }
+        mediaRecorder.onstop = async () => {
+            stream.getTracks().forEach((tr: any) => tr.stop())
+            await transcribeAndStructure()
+        }
+        mediaRecorder.start()
+        isRecording.value = true
+    } catch (error: any) {
+        state.error = { message: t('citizens.citizenJournals.form.micError') } as any
+    }
+}
+
+async function transcribeAndStructure() {
+    if (!audioChunks.length) return
+    isTranscribing.value = true
+    state.error = {} as any
+    try {
+        const blob = new Blob(audioChunks, { type: 'audio/webm' })
+        const formData = new FormData()
+        formData.append('audio', blob, 'dictation.webm')
+        const response = await aIAssistantService.transcribeAudio(formData)
+        const transcript = (response?.data?.text ?? '').trim()
+        if (transcript) {
+            // Drop the raw transcript into the editor, then let the existing AI pass
+            // structure it into a proper journal note. No exclusions here - dictation
+            // is a direct action, not routed through the preview/selection modal.
+            state.formJournal.content = state.formJournal.content
+                ? `${state.formJournal.content}<p>${transcript}</p>`
+                : `<p>${transcript}</p>`
+            await generateNoteForJournalContent()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    isTranscribing.value = false
+}
+
 async function generateNoteForJournalContent(excludedJournalUuids: string[] = [], excludedPlanUuids: string[] = []) {
     state.error = {}
     emit('isPageLoading', true)
@@ -1235,6 +1313,22 @@ async function fetchAllTeeth() {
         state.error = error
     }
     emit('isPageLoading', false)
+}
+
+async function fetchColleagues() {
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        const list = Array.isArray(response) ? response : (response?.data ?? [])
+        const currentUuid = userStore.getUser?.uuid
+        state.options.colleagues = list
+            .filter((item: any) => item?.uuid && item.uuid !== currentUuid)
+            .map((item: any) => ({
+                value: item.uuid,
+                label: `${item.firstname} ${item.lastname ?? ''}`.trim(),
+            }))
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function fetchAllGoalsForJournalNote(planUuid: any = null) {

@@ -220,7 +220,7 @@
                     <!-- Right column: revenue + storage -->
                     <div class="space-y-4">
                         <!-- Revenue -->
-                        <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
+                        <div v-if="canViewFinancials" class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
                             <div class="flex items-center justify-between mb-3">
                                 <h2 class="text-[13px] font-semibold text-[#1F2533]">
                                     {{ $t('superadmin.dashboard.revenue.revenue') }}
@@ -282,11 +282,14 @@ import moment from 'moment'
 import { dashboardService } from '@/components/api/superadmin/DashboardService'
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const { can } = usePermissions()
+const canViewFinancials = computed(() => can('view_financials'))
 const userStore = useUserStore() as any
 
 const localeMap: Record<string, string> = {

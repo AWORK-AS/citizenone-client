@@ -46,7 +46,7 @@
                                         <Icon name="ph:clock" class="h-3 w-3" />
                                         {{ formatTimeToReadable(reminder?.date_time) }}
                                         <template v-if="reminder?.repeat && reminder.repeat !== 'never'">
-                                            · {{ reminder.repeat }}
+                                            · {{ repeatLabel(reminder.repeat) }}
                                         </template>
                                     </span>
                                 </div>
@@ -156,6 +156,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { repeatLabel } = useReminderRepeat()
 
 const state = reactive({
     error: {} as Error,

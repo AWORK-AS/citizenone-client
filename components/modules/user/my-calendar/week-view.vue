@@ -67,7 +67,8 @@
 
             <!-- Desktop: 7-day week grid -->
             <div class="hidden lg:block">
-                <TimeGrid :days="timeGridDays" @eventClick="editMyCalendarEvent" @dayClick="setSelectedDay" />
+                <TimeGrid :days="timeGridDays" @eventClick="editMyCalendarEvent" @dayClick="setSelectedDay"
+                    @slotDblClick="(date) => $emit('createEvent', date)" />
             </div>
 
             <!-- Mobile: agenda list -->

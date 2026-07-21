@@ -238,6 +238,9 @@
                     <!-- Emoji Picker -->
                     <ModulesUserMessagesEmojiPicker @select="appendEmoji" />
 
+                    <!-- Template quick-replies -->
+                    <ModulesUserMessagesTemplatePicker @select="appendTemplate" />
+
                     <!-- Text Input -->
                     <textarea rows="1"
                         class="flex-1 h-10 px-4 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-10"
@@ -399,6 +402,11 @@ function memberAvatar(member: any) {
 
 function appendEmoji(emoji: string) {
     state.message = (state.message ?? '') + emoji
+}
+
+function appendTemplate(body: string) {
+    const current = state.message ?? ''
+    state.message = current && current.trim() ? `${current}\n${body}` : body
 }
 
 const SENDER_COLORS = [

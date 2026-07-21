@@ -58,9 +58,10 @@ const state = reactive({
 const search = ref('')
 
 // Category headers — keeps the long catalog scannable instead of one flat strip.
-const groupOrder = ['access', 'journal', 'health', 'schedule', 'booking', 'citizens', 'employment']
+const groupOrder = ['access', 'communication', 'journal', 'health', 'schedule', 'booking', 'citizens', 'employment']
 const groupLabels: Record<string, Record<string, string>> = {
     access: { dk: 'Adgang & organisation', en: 'Access & organisation', no: 'Tilgang & organisasjon', sv: 'Åtkomst & organisation' },
+    communication: { dk: 'Kommunikation', en: 'Communication', no: 'Kommunikasjon', sv: 'Kommunikation' },
     journal: { dk: 'Journal & samtykke', en: 'Journals & consent', no: 'Journal & samtykke', sv: 'Journal & samtycke' },
     health: { dk: 'Medicin & helbred', en: 'Medicine & health', no: 'Medisin & helse', sv: 'Medicin & hälsa' },
     schedule: { dk: 'Vagtplan & tid', en: 'Scheduling & time', no: 'Vaktplan & tid', sv: 'Schema & tid' },
@@ -109,7 +110,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             ...(isEmploymentServices ? [{ group: 'employment', name: 'settings.tabs.employmentCaseTypes', isTranslateName: true, href: `/settings/employment-case-types`, routeNames: ['settings-employment-case-types'] }] : []),
             { group: 'journal', name: 'settings.tabs.consentDeclarationTypes', isTranslateName: true, href: `/settings/consent-declaration-types`, routeNames: ['settings-consent-declaration-types'] },
             { group: 'access', name: 'settings.tabs.contactJobTitles', isTranslateName: true, href: `/settings/contact-job-titles`, routeNames: ['settings-contact-job-titles'] },
+            { group: 'citizens', name: 'settings.tabs.timelineEventTypes', isTranslateName: true, href: `/settings/timeline-event-types`, routeNames: ['settings-timeline-event-types'] },
             { group: 'access', name: 'settings.tabs.customLinks', isTranslateName: true, href: `/settings/custom-links`, routeNames: ['settings-custom-links', 'settings-custom-links-new', 'settings-custom-links-uuid-edit'] },
+            { group: 'communication', name: 'settings.tabs.messageTemplates', isTranslateName: true, href: `/settings/message-templates`, routeNames: ['settings-message-templates'] },
             { group: 'access', name: 'settings.tabs.departments', isTranslateName: true, href: `/settings/departments`, routeNames: ['settings-departments'] },
             { group: 'health', name: 'settings.tabs.diagnoses', isTranslateName: true, href: `/settings/diagnoses`, routeNames: ['settings-diagnoses'] },
             { group: 'health', name: 'settings.tabs.dosageForms', isTranslateName: true, href: `/settings/dosage-forms`, routeNames: ['settings-dosage-forms'] },

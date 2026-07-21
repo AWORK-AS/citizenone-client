@@ -837,6 +837,10 @@
         "checkInReminder": {
             "title": "Husk å sjekke inn",
             "description": "Du har ikke sjekket inn i dag."
+        },
+        "journalMention": {
+            "title": "nevnte deg i et journalnotat",
+            "description": "nevnte deg i {citizen}s journal"
         }
     },
     "bookingSettings": {
@@ -1492,7 +1496,14 @@
                 "title": "Tittel",
                 "usePredefinedJournalTitle": "Bruk foruddefineret journal tittel",
                 "usePredefinedcontent": "Bruk foruddefineret innhold",
-                "createJournalTitle": "Create journal title"
+                "createJournalTitle": "Create journal title",
+                "dictate": "Dikter",
+                "stopDictation": "Stopp",
+                "transcribing": "Transkriberer...",
+                "micError": "Fikk ikke tilgang til mikrofonen.",
+                "notifyColleagues": "Varsle kolleger",
+                "notifyColleaguesPlaceholder": "Velg kolleger som skal varsles",
+                "notifyColleaguesHint": "Valgte kolleger får et varsel om dette notatet."
             },
             "journalLogs": {
                 "date": "Dato",
@@ -8852,7 +8863,12 @@
                 "password": "Passord",
                 "phone": "Telefon"
             },
-            "profile": "Profil"
+            "profile": "Profil",
+            "shiftSubscription": {
+                "title": "Kalenderabonnement",
+                "description": "Abonner på vaktene dine i din egen kalender-app (Google Kalender, Apple Kalender, Outlook). Vaktplanen oppdateres automatisk.",
+                "button": "Abonner på vaktene mine"
+            }
         },
         "settings": "Innstillinger",
         "subscription": {
@@ -8926,7 +8942,9 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
-            "customLinks": "Egne lenker"
+            "customLinks": "Egne lenker",
+            "messageTemplates": "Meldingsmaler",
+            "timelineEventTypes": "Tidslinjetyper"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -9471,7 +9489,14 @@
                 "userLicenses": "Brugerlicenser",
                 "departmentLicenses": "Afdelingslicenser",
                 "usedDepartmentLicense": "Brukt afdelingslicens",
-                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+                "grant": {
+                    "addLicenses": "Legg til lisenser",
+                    "description": "Legger til ekstra brukerlisenser i firmaets pool. Ingen betaling i systemet - faktureres separat i e-conomic.",
+                    "quantity": "Antall lisenser",
+                    "granted": "Lisenser lagt til",
+                    "failed": "Kunne ikke legge til lisenser"
+                }
             },
             "newCompany": "Ny virksomhet",
             "saveCompany": "Lagre virksomhet",
@@ -10167,7 +10192,9 @@
                 "searchCompany": "Søk bedrift...",
                 "searchToAttach": "Søk for å knytte til en eksisterende bedrift",
                 "userCanLogin": "Brukeren kan logge inn",
-                "userInfo": "Brukerinformasjon"
+                "userInfo": "Brukerinformasjon",
+                "financialAccess": "Kan se økonomi",
+                "financialAccessHint": "Tilgang til omsetning, fakturaer, ordrer og priser"
             }
         },
         "finance": {
@@ -11867,5 +11894,59 @@
         "reminders": "Mine påminnelser",
         "noReminders": "Ingen påminnelser i dag",
         "newTask": "Ny oppgave"
+    },
+    "handover": {
+        "button": "Vaktoverlevering",
+        "title": "Vaktoverlevering",
+        "subtitle": "AI-sammendrag av dagens vakt for avdelingen - les korrektur før du stoler på det.",
+        "regenerate": "Generer på nytt",
+        "empty": "Ingen sammendrag ennå.",
+        "aiNote": "Generert av CitizenOne AI ut fra dagens notater, medisin, hendelser og maktbruk.",
+        "counts": {
+            "journals": "Notater",
+            "medsGiven": "Medisin gitt",
+            "medsMissed": "Medisin glemt",
+            "incidents": "Hendelser",
+            "useOfForce": "Maktbruk"
+        }
+    },
+    "messageTemplates": {
+        "messageTemplates": "Meldingsmaler",
+        "description": "Gjenbrukbare standardsvar som ansatte kan sette inn i meldinger.",
+        "addNew": "Ny mal",
+        "edit": "Rediger mal",
+        "saved": "Mal lagret",
+        "saveFailed": "Kunne ikke lagre malen",
+        "deleted": "Mal slettet",
+        "noTemplates": "Ingen maler ennå",
+        "deleteTitle": "Slett mal",
+        "deleteConfirm": "Er du sikker på at du vil slette denne malen?",
+        "deleteAction": "Slett",
+        "insertTemplate": "Sett inn mal",
+        "quickReplies": "Hurtigsvar",
+        "form": {
+            "title": "Tittel",
+            "body": "Melding",
+            "bodyPlaceholder": "Skriv standardsvaret …"
+        }
+    },
+    "timelineEventTypes": {
+        "timelineEventTypes": "Tidslinjehendelsestyper",
+        "description": "Definer hendelsestyper for borgerens tidslinje (f.eks. \"Ettervern\"). Statistikk telles per type.",
+        "addNew": "Ny type",
+        "noTypes": "Ingen typer ennå",
+        "saved": "Type lagret",
+        "saveFailed": "Kunne ikke lagre",
+        "deleted": "Type slettet",
+        "deleteTitle": "Slett type",
+        "deleteConfirm": "Er du sikker på at du vil slette denne typen?",
+        "deleteAction": "Slett",
+        "statistics": "Statistikk",
+        "noStatistics": "Ingen data ennå",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "f.eks. Ettervern",
+            "color": "Farge"
+        }
     }
 }

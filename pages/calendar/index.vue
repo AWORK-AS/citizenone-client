@@ -141,6 +141,7 @@
                         @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @markEventAsStatus="handleMarkEventAsStatus"
                         @createJournalFromEvent="handleCreateJournalFromEvent"
+                        @createEventForDate="openCreateEventModal"
                         v-if="state.calendarView === 'default'" />
                     <ModulesUserMyCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                         @changeDatePerWeek="changeDatePerWeek" @editMyCalendarEvent="editMyCalendarEvent"
