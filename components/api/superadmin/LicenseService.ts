@@ -30,6 +30,11 @@ class LicenseService extends BaseAPIService {
     async assignLicenseToCompany(companyUuid: string, params: object): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/licenses`, 'POST', params)
     }
+
+    // Grant N extra-user licenses to a company's pool (no in-app charge; requires manage_licenses)
+    async grantLicenses(companyUuid: string, params: object): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/licenses/grant`, 'POST', params)
+    }
 }
 
 export const licenseService = new LicenseService()

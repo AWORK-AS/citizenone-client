@@ -123,6 +123,23 @@
             </button>
         </div>
 
+        <!-- Financial access toggle -->
+        <div v-if="showExtendedFields"
+            class="flex items-center justify-between py-3 border border-[#EAECF0] rounded-xl px-4">
+            <div>
+                <p class="text-[13px] font-medium text-[#1F2533]">
+                    {{ $t('superadmin.users.slider.financialAccess') }}
+                </p>
+                <p class="text-[11px] text-[#8891A4]">{{ $t('superadmin.users.slider.financialAccessHint') }}</p>
+            </div>
+            <button type="button" @click="state.formUser.can_view_financials = !state.formUser.can_view_financials"
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
+                :style="state.formUser.can_view_financials ? 'background:#42AED9' : 'background:#D5D9E2'">
+                <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
+                    :class="state.formUser.can_view_financials ? 'translate-x-6' : 'translate-x-1'"></span>
+            </button>
+        </div>
+
         <!-- Action buttons (page context) -->
         <div v-if="showActions" class="flex items-center justify-end gap-3 pt-2">
             <button type="button" @click="navigateTo('/superadmin/users')"
@@ -187,6 +204,7 @@ const state = reactive({
         password: '',
         phone: '',
         role: 'superadmin',
+        can_view_financials: false,
     },
     selectedCompany: null as any,
 })
@@ -202,6 +220,7 @@ watch(() => props.selectedUser, (newValue: any) => {
             lastname: newValue.lastname ?? '',
             password: '',
             phone: newValue.phone ?? '',
+            can_view_financials: (newValue.permissions ?? []).some((p: any) => p.name === 'view_financials'),
         }
     }
 })
@@ -257,6 +276,7 @@ async function submit() {
         if (props.showExtendedFields) {
             payload.is_active = state.formUser.is_active
             payload.role = state.formUser.role
+            payload.can_view_financials = state.formUser.can_view_financials
             if (state.formUser.password) payload.password = state.formUser.password
             if (state.selectedCompany) payload.company_uuid = state.selectedCompany.uuid
         }

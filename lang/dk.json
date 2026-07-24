@@ -837,6 +837,10 @@
         "checkInReminder": {
             "title": "Husk at tjekke ind",
             "description": "Du har ikke tjekket ind i dag."
+        },
+        "journalMention": {
+            "title": "nævnte dig i en journalnote",
+            "description": "nævnte dig i {citizen}s journal"
         }
     },
     "bookingSettings": {
@@ -1492,7 +1496,14 @@
                 "title": "Titel",
                 "usePredefinedJournalTitle": "Brug foruddefineret journal titel",
                 "usePredefinedcontent": "Brug foruddefineret indhold",
-                "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt"
+                "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
+                "dictate": "Diktér",
+                "stopDictation": "Stop",
+                "transcribing": "Transskriberer...",
+                "micError": "Kunne ikke få adgang til mikrofonen.",
+                "notifyColleagues": "Underret kolleger",
+                "notifyColleaguesPlaceholder": "Vælg kolleger der skal underrettes",
+                "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note."
             },
             "journalLogs": {
                 "date": "Dato",
@@ -8852,7 +8863,12 @@
                 "password": "Adgangskode",
                 "phone": "Telefon"
             },
-            "profile": "Profil"
+            "profile": "Profil",
+            "shiftSubscription": {
+                "title": "Kalenderabonnement",
+                "description": "Abonnér på dine vagter i din egen kalender-app (Google Kalender, Apple Kalender, Outlook). Vagtplanen opdateres automatisk.",
+                "button": "Abonnér på mine vagter"
+            }
         },
         "settings": "Indstillinger",
         "subscription": {
@@ -8926,7 +8942,9 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
-            "customLinks": "Egne links"
+            "customLinks": "Egne links",
+            "messageTemplates": "Beskedskabeloner",
+            "timelineEventTypes": "Tidslinje-typer"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -9471,7 +9489,14 @@
                 "userLicenses": "Brugerlicenser",
                 "departmentLicenses": "Afdelingslicenser",
                 "usedDepartmentLicense": "Brugt afdelingslicens",
-                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+                "grant": {
+                    "addLicenses": "Tilføj licenser",
+                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje. Der opkræves ikke i systemet - faktureres separat i e-conomic.",
+                    "quantity": "Antal licenser",
+                    "granted": "Licenser tilføjet",
+                    "failed": "Kunne ikke tilføje licenser"
+                }
             },
             "newCompany": "Ny virksomhed",
             "saveCompany": "Gem virksomhed",
@@ -10167,7 +10192,9 @@
                 "searchCompany": "Søg virksomhed...",
                 "searchToAttach": "Søg for at tilknytte en eksisterende virksomhed",
                 "userCanLogin": "Brugeren kan logge ind",
-                "userInfo": "Brugeroplysninger"
+                "userInfo": "Brugeroplysninger",
+                "financialAccess": "Kan se økonomi",
+                "financialAccessHint": "Adgang til omsætning, fakturaer, ordrer og priser"
             }
         },
         "finance": {
@@ -11867,5 +11894,59 @@
         "reminders": "Mine påmindelser",
         "noReminders": "Ingen påmindelser i dag",
         "newTask": "Ny opgave"
+    },
+    "handover": {
+        "button": "Vagtoverdragelse",
+        "title": "Vagtoverdragelse",
+        "subtitle": "AI-resumé af dagens vagt for afdelingen - læs korrektur før du stoler på det.",
+        "regenerate": "Generér igen",
+        "empty": "Intet resumé endnu.",
+        "aiNote": "Genereret af CitizenOne AI ud fra dagens noter, medicin, hændelser og magtanvendelse.",
+        "counts": {
+            "journals": "Noter",
+            "medsGiven": "Medicin givet",
+            "medsMissed": "Medicin glemt",
+            "incidents": "Hændelser",
+            "useOfForce": "Magtanvendelse"
+        }
+    },
+    "messageTemplates": {
+        "messageTemplates": "Beskedskabeloner",
+        "description": "Genbrugelige standardsvar som personalet kan indsætte i beskeder.",
+        "addNew": "Ny skabelon",
+        "edit": "Rediger skabelon",
+        "saved": "Skabelon gemt",
+        "saveFailed": "Kunne ikke gemme skabelonen",
+        "deleted": "Skabelon slettet",
+        "noTemplates": "Ingen skabeloner endnu",
+        "deleteTitle": "Slet skabelon",
+        "deleteConfirm": "Er du sikker på, at du vil slette denne skabelon?",
+        "deleteAction": "Slet",
+        "insertTemplate": "Indsæt skabelon",
+        "quickReplies": "Hurtige svar",
+        "form": {
+            "title": "Titel",
+            "body": "Besked",
+            "bodyPlaceholder": "Skriv standardsvaret …"
+        }
+    },
+    "timelineEventTypes": {
+        "timelineEventTypes": "Tidslinje-hændelsestyper",
+        "description": "Definér hændelsestyper til borgernes tidslinje (fx \"Efterværn\"). Statistik tælles pr. type.",
+        "addNew": "Ny type",
+        "noTypes": "Ingen typer endnu",
+        "saved": "Type gemt",
+        "saveFailed": "Kunne ikke gemme",
+        "deleted": "Type slettet",
+        "deleteTitle": "Slet type",
+        "deleteConfirm": "Er du sikker på, at du vil slette denne type?",
+        "deleteAction": "Slet",
+        "statistics": "Statistik",
+        "noStatistics": "Ingen data endnu",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "fx Efterværn",
+            "color": "Farve"
+        }
     }
 }

@@ -41,7 +41,7 @@
                                     </div>
 
                                     <!-- ØKONOMI -->
-                                    <div class="mb-1">
+                                    <div class="mb-1" v-if="canViewFinancials">
                                         <p class="co-nav-group-label">
                                             {{ $t('superadmin.sidebar.groups.finance') }}
                                         </p>
@@ -152,7 +152,7 @@
                     </div>
 
                     <!-- ØKONOMI -->
-                    <div class="mb-1">
+                    <div class="mb-1" v-if="canViewFinancials">
                         <p class="co-nav-group-label">
                             {{ $t('superadmin.sidebar.groups.finance') }}
                         </p>
@@ -309,10 +309,13 @@ import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionC
 import { authService } from '@/components/api/superadmin/AuthService'
 import { userService } from '@/components/api/superadmin/UserService'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
+const { can } = usePermissions()
+const canViewFinancials = computed(() => can('view_financials'))
 const language = useI18n()
 const route = useRoute()
 

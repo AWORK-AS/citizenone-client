@@ -837,6 +837,10 @@
         "checkInReminder": {
             "title": "Kom ihåg att checka in",
             "description": "Du har inte checkat in idag."
+        },
+        "journalMention": {
+            "title": "nämnde dig i en journalanteckning",
+            "description": "nämnde dig i {citizen}s journal"
         }
     },
     "bookingSettings": {
@@ -1492,7 +1496,14 @@
                 "title": "Titel",
                 "usePredefinedJournalTitle": "Använd foruddefineret journal titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
-                "createJournalTitle": "Create journal title"
+                "createJournalTitle": "Create journal title",
+                "dictate": "Diktera",
+                "stopDictation": "Stoppa",
+                "transcribing": "Transkriberar...",
+                "micError": "Kunde inte komma åt mikrofonen.",
+                "notifyColleagues": "Meddela kollegor",
+                "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
+                "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning."
             },
             "journalLogs": {
                 "date": "Datum",
@@ -8852,7 +8863,12 @@
                 "password": "Lösenord",
                 "phone": "Telefon"
             },
-            "profile": "Profil"
+            "profile": "Profil",
+            "shiftSubscription": {
+                "title": "Kalenderprenumeration",
+                "description": "Prenumerera på dina pass i din egen kalenderapp (Google Kalender, Apple Kalender, Outlook). Schemat uppdateras automatiskt.",
+                "button": "Prenumerera på mina pass"
+            }
         },
         "settings": "Inställningar",
         "subscription": {
@@ -8926,7 +8942,9 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
-            "customLinks": "Egna länkar"
+            "customLinks": "Egna länkar",
+            "messageTemplates": "Meddelandemallar",
+            "timelineEventTypes": "Tidslinjetyper"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -9471,7 +9489,14 @@
                 "userLicenses": "Brugerlicenser",
                 "departmentLicenses": "Afdelingslicenser",
                 "usedDepartmentLicense": "Brugt afdelingslicens",
-                "unusedDepartmentLicense": "Ubrugt afdelingslicens"
+                "unusedDepartmentLicense": "Ubrugt afdelingslicens",
+                "grant": {
+                    "addLicenses": "Lägg till licenser",
+                    "description": "Lägger till extra användarlicenser i företagets pool. Ingen debitering i systemet - faktureras separat i e-conomic.",
+                    "quantity": "Antal licenser",
+                    "granted": "Licenser tillagda",
+                    "failed": "Kunde inte lägga till licenser"
+                }
             },
             "newCompany": "Ny företag",
             "saveCompany": "Spara företag",
@@ -10167,7 +10192,9 @@
                 "searchCompany": "Sök företag...",
                 "searchToAttach": "Sök för att koppla till ett befintligt företag",
                 "userCanLogin": "Användaren kan logga in",
-                "userInfo": "Användarinformation"
+                "userInfo": "Användarinformation",
+                "financialAccess": "Kan se ekonomi",
+                "financialAccessHint": "Åtkomst till omsättning, fakturor, ordrar och priser"
             }
         },
         "finance": {
@@ -11867,5 +11894,59 @@
         "reminders": "Mina påminnelser",
         "noReminders": "Inga påminnelser idag",
         "newTask": "Ny uppgift"
+    },
+    "handover": {
+        "button": "Skiftöverlämning",
+        "title": "Skiftöverlämning",
+        "subtitle": "AI-sammanfattning av dagens skift för avdelningen - granska innan du förlitar dig på den.",
+        "regenerate": "Generera igen",
+        "empty": "Ingen sammanfattning ännu.",
+        "aiNote": "Genererad av CitizenOne AI utifrån dagens anteckningar, medicin, händelser och tvång.",
+        "counts": {
+            "journals": "Anteckningar",
+            "medsGiven": "Medicin given",
+            "medsMissed": "Medicin missad",
+            "incidents": "Händelser",
+            "useOfForce": "Tvång"
+        }
+    },
+    "messageTemplates": {
+        "messageTemplates": "Meddelandemallar",
+        "description": "Återanvändbara standardsvar som personalen kan infoga i meddelanden.",
+        "addNew": "Ny mall",
+        "edit": "Redigera mall",
+        "saved": "Mall sparad",
+        "saveFailed": "Kunde inte spara mallen",
+        "deleted": "Mall borttagen",
+        "noTemplates": "Inga mallar ännu",
+        "deleteTitle": "Ta bort mall",
+        "deleteConfirm": "Är du säker på att du vill ta bort den här mallen?",
+        "deleteAction": "Ta bort",
+        "insertTemplate": "Infoga mall",
+        "quickReplies": "Snabbsvar",
+        "form": {
+            "title": "Titel",
+            "body": "Meddelande",
+            "bodyPlaceholder": "Skriv standardsvaret …"
+        }
+    },
+    "timelineEventTypes": {
+        "timelineEventTypes": "Tidslinjehändelsetyper",
+        "description": "Definiera händelsetyper för medborgarens tidslinje (t.ex. \"Eftervård\"). Statistik räknas per typ.",
+        "addNew": "Ny typ",
+        "noTypes": "Inga typer ännu",
+        "saved": "Typ sparad",
+        "saveFailed": "Kunde inte spara",
+        "deleted": "Typ borttagen",
+        "deleteTitle": "Ta bort typ",
+        "deleteConfirm": "Är du säker på att du vill ta bort den här typen?",
+        "deleteAction": "Ta bort",
+        "statistics": "Statistik",
+        "noStatistics": "Ingen data ännu",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "t.ex. Eftervård",
+            "color": "Färg"
+        }
     }
 }

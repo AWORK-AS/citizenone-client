@@ -100,6 +100,7 @@ async function saveUser(formData: any) {
     try {
         const params: any = {
             birthday: formData.birthday || null,
+            can_view_financials: formData.can_view_financials,
             email: formData.email,
             firstname: formData.firstname,
             is_active: formData.is_active,
