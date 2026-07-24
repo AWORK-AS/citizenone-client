@@ -3337,6 +3337,12 @@
             "price": "Pris",
             "quantity": "Mängd",
             "tax": "Moms"
+        },
+        "economic": {
+            "send": "Skicka till e-conomic",
+            "sending": "Skickar...",
+            "sent": "Utkastfaktura skapad i e-conomic (nr. {number}).",
+            "failed": "Kunde inte skicka till e-conomic. Kontrollera anslutningen under Integrationer."
         }
     },
     "close": "Stäng",
