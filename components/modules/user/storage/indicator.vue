@@ -17,13 +17,25 @@
                     </span>
                 </div>
             </h2>
+            <div v-if="localQuotaPercent >= 80" class="rounded-md p-3 text-xs flex items-start gap-2"
+                :class="localQuotaPercent >= 100 ? 'bg-red-50 text-red-700' : 'bg-amber-50 text-amber-700'">
+                <Icon name="ph:warning-circle" class="h-4 w-4 shrink-0 mt-0.5" aria-hidden="true" />
+                <div>
+                    <p class="font-medium">
+                        {{ localQuotaPercent >= 100 ? $t('storage.fullWarning') : $t('storage.almostFullWarning') }}
+                    </p>
+                    <button class="underline mt-1" @click="navigateTo('/storage/upgrade')">
+                        {{ $t('storage.upgrade') }}
+                    </button>
+                </div>
+            </div>
             <div class="space-y-2 text-xs text-primary">
                 <div class="w-full bg-gray-200 rounded-full overflow-hidden flex">
-                    <div class="h-4 bg-yellow-500" :style="{ width: `${localUsedPercent}%` }"></div>
+                    <div class="h-4" :class="usageBarColor" :style="{ width: `${localUsedPercent}%` }"></div>
                     <div class="h-4 bg-blue-500" :style="{ width: `${oneDriveUsedPercent}%` }"></div>
                 </div>
                 <div class="flex items-center">
-                    <span class="inline-block w-3 h-3 bg-yellow-500 mr-2"></span>
+                    <span class="inline-block w-3 h-3 mr-2" :class="usageBarColor"></span>
                     {{ $t('storage.documents') }} {{ state.usage?.used_storage }}
                 </div>
                 <div v-if="state.oneDriveConnected && state.oneDriveQuota" class="flex items-center">
@@ -93,6 +105,21 @@ const totalCombinedBytes = computed(() => {
 const localUsedPercent = computed(() => {
     if (!totalCombinedBytes.value) return 0
     return Math.min(100, (localUsedBytes.value / totalCombinedBytes.value) * 100)
+})
+
+// Local documents usage measured against the LOCAL quota only (OneDrive excluded),
+// used for the 80%/100% warning states.
+const localQuotaPercent = computed(() => {
+    const totalGB = parseFloat(state.usage?.total_storage?.replace(/[^0-9.]/g, '') ?? '0')
+    if (!totalGB) return 0
+    const availableGB = parseFloat(state.usage?.available_storage?.replace(/[^0-9.]/g, '') ?? '0')
+    return ((totalGB - availableGB) / totalGB) * 100
+})
+
+const usageBarColor = computed(() => {
+    if (localQuotaPercent.value >= 100) return 'bg-red-600'
+    if (localQuotaPercent.value >= 80) return 'bg-amber-500'
+    return 'bg-yellow-500'
 })
 
 const oneDriveUsedPercent = computed(() => {
