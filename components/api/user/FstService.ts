@@ -6,9 +6,16 @@ import type { FstConnectionStatusResponse, FstInquiry, FstAnalyticsSnapshot, Fst
 // condition 1). This service covers conditions 2-5 and the resulting data.
 class FstService extends BaseAPIService {
     async getStatus(): Promise<FstConnectionStatusResponse> {
-        return await this.request('/user/fst/status', 'GET')
+        const res = await this.request('/user/fst/status', 'GET')
+        return res.data
     }
 
+    // activate/deactivate/reactivate/disconnect return the status resource's
+    // ->resolve()'d array directly (no `data` envelope) — unlike getStatus()/
+    // refreshRemoteStatus() below, which return the Resource itself and so get
+    // Laravel's automatic `data`-wrapping. Both shapes are real, tested backend
+    // behavior (tests/Feature/Fst) — match each one exactly rather than "fixing"
+    // the inconsistency here, which would require a backend + test change too.
     async activate(cvr: string): Promise<FstConnectionStatusResponse> {
         return await this.request('/user/fst/activate', 'POST', { cvr })
     }
@@ -32,7 +39,8 @@ class FstService extends BaseAPIService {
     }
 
     async refreshRemoteStatus(): Promise<FstConnectionStatusResponse> {
-        return await this.request('/user/fst/refresh-status', 'POST')
+        const res = await this.request('/user/fst/refresh-status', 'POST')
+        return res.data
     }
 
     async getInquiries(): Promise<{ data: FstInquiry[]; reason?: string }> {
