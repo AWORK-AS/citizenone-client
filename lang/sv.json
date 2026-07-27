@@ -8944,7 +8944,8 @@
             "economic": "e-conomic",
             "customLinks": "Egna länkar",
             "messageTemplates": "Meddelandemallar",
-            "timelineEventTypes": "Tidslinjetyper"
+            "timelineEventTypes": "Tidslinjetyper",
+            "fst": "FST"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -9007,6 +9008,42 @@
             "how1": "Klicka “Anslut till e-conomic”.",
             "how2": "Godkänn åtkomsten i e-conomic (App Connect).",
             "how3": "Du skickas tillbaka hit. Därefter kan fakturor skickas till e-conomic."
+        },
+        "fst": {
+            "title": "FindSocialeTilbud.dk-integration",
+            "tabLabel": "FST",
+            "subtitle": "Modtag henvendelser og statistik fra FindSocialeTilbud.dk, og del udvalgte profilfelter tilbage, når I vælger det.",
+            "adminOnly": "Kun administratorer kan administrere FST-forbindelsen.",
+            "notInstalled": "FST-integrationen er ikke installeret endnu. Installer den under Apps for at komme i gang.",
+            "goToApps": "Gå til Apps",
+            "configureTitle": "Forbind jeres FindSocialeTilbud.dk-organisation",
+            "cvrLabel": "FST CVR-nummer",
+            "cvrPlaceholder": "12345678",
+            "activate": "Forbind",
+            "status": "Status",
+            "statusInstalledNotConfigured": "Installeret — ikke konfigureret endnu",
+            "statusPending": "Venter på, at FindSocialeTilbud.dk aktiverer forbindelsen",
+            "statusRejected": "FindSocialeTilbud.dk afviste denne forbindelsesanmodning",
+            "statusActive": "Aktiv",
+            "statusSuspended": "Sat på pause",
+            "statusDisconnected": "Afbrudt",
+            "syncEligible": "Synkroniserer",
+            "syncNotEligible": "Synkroniserer endnu ikke",
+            "unmetConditions": "Venter på",
+            "syncNow": "Synkroniser nu",
+            "deactivate": "Sæt på pause",
+            "disconnect": "Afbryd",
+            "reconnect": "Forbind igen",
+            "rotateSecret": "Roter forbindelsesnøgle",
+            "confirmDisconnect": "Afbryd FST-integrationen? Dette rydder forbindelsen og stopper al synkronisering.",
+            "confirmDeactivate": "Sæt synkronisering med FindSocialeTilbud.dk på pause?",
+            "syncHistory": "Synkroniseringshistorik",
+            "inquiries": "Henvendelser",
+            "analytics": "Statistik",
+            "noInquiriesYet": "Ingen henvendelser synkroniseret endnu.",
+            "noAnalyticsYet": "Ingen statistik synkroniseret endnu.",
+            "sharedFieldsTitle": "Delte felter (kommer snart)",
+            "sharedFieldsSubtitle": "Kapacitet, ledighed og certificeringsmærker vises her, når det er aktiveret for jeres organisation."
         }
     },
     "setupPassword": {
