@@ -8944,7 +8944,8 @@
             "economic": "e-conomic",
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
-            "timelineEventTypes": "Timeline types"
+            "timelineEventTypes": "Timeline types",
+            "fst": "FST"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -9007,6 +9008,42 @@
             "how1": "Click “Connect to e-conomic”.",
             "how2": "Approve access in e-conomic (App Connect).",
             "how3": "You are returned here. Invoices can then be sent to e-conomic."
+        },
+        "fst": {
+            "title": "FindSocialeTilbud.dk integration",
+            "tabLabel": "FST",
+            "subtitle": "Receive inquiries and analytics from FindSocialeTilbud.dk, and share selected profile fields back once you choose to.",
+            "adminOnly": "Only administrators can manage the FST connection.",
+            "notInstalled": "The FST integration is not installed yet. Install it from Apps to get started.",
+            "goToApps": "Go to Apps",
+            "configureTitle": "Connect your FindSocialeTilbud.dk organisation",
+            "cvrLabel": "FST CVR number",
+            "cvrPlaceholder": "12345678",
+            "activate": "Connect",
+            "status": "Status",
+            "statusInstalledNotConfigured": "Installed — not yet configured",
+            "statusPending": "Waiting for FindSocialeTilbud.dk to activate the connection",
+            "statusRejected": "FindSocialeTilbud.dk rejected this connection request",
+            "statusActive": "Active",
+            "statusSuspended": "Suspended",
+            "statusDisconnected": "Disconnected",
+            "syncEligible": "Synchronising",
+            "syncNotEligible": "Not synchronising yet",
+            "unmetConditions": "Waiting on",
+            "syncNow": "Sync now",
+            "deactivate": "Pause",
+            "disconnect": "Disconnect",
+            "reconnect": "Reconnect",
+            "rotateSecret": "Rotate connection secret",
+            "confirmDisconnect": "Disconnect the FST integration? This clears the connection and stops all synchronisation.",
+            "confirmDeactivate": "Pause synchronisation with FindSocialeTilbud.dk?",
+            "syncHistory": "Sync history",
+            "inquiries": "Inquiries",
+            "analytics": "Analytics",
+            "noInquiriesYet": "No inquiries synced yet.",
+            "noAnalyticsYet": "No analytics synced yet.",
+            "sharedFieldsTitle": "Shared fields (coming soon)",
+            "sharedFieldsSubtitle": "Capacity, availability and certification badges will appear here once enabled for your organisation."
         }
     },
     "setupPassword": {
