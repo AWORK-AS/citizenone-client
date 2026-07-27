@@ -21,6 +21,14 @@
                         <span>{{ $t('back') }}</span>
                     </NuxtLink>
                     <div class="flex items-center gap-x-2 justify-end">
+                        <!-- Send this invoice to e-conomic. Only shown when the company has
+                             connected e-conomic, so the customer stays in control of what is sent. -->
+                        <FormButton v-if="state.economicConnected" buttonStyle="primary"
+                            :class="state.isPushingToEconomic && 'opacity-60 pointer-events-none'"
+                            @click="sendToEconomic">
+                            <Icon name="ph:paper-plane-tilt" class="h-4 w-4" aria-hidden="true" />
+                            {{ state.isPushingToEconomic ? $t('clientInvoices.economic.sending') : $t('clientInvoices.economic.send') }}
+                        </FormButton>
                         <FormButton buttonStyle="action"  @click="downloadInvoiceDetails">
                             <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('clientInvoices.table.actions.download') }}
@@ -100,12 +108,17 @@
 
 <script setup lang="ts">
 import { clientInvoiceService } from '@/components/api/user/ClientInvoiceService'
+import { economicService } from '@/components/api/user/EconomicService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 
 const runtimeConfig = useRuntimeConfig()
+const { successAlert } = useAlert()
+const { t } = useI18n()
 const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const router = useRouter()
@@ -134,11 +147,41 @@ const state = reactive({
     error: {} as Error,
     invoice: [] as any,
     isPageLoading: false,
+    economicConnected: false,
+    isPushingToEconomic: false,
 })
 
 onMounted(() => {
     fetchClientInvoice()
+    fetchEconomicStatus()
 })
+
+async function fetchEconomicStatus() {
+    try {
+        const response = await economicService.getStatus()
+        state.economicConnected = !!response?.data?.connected
+    } catch {
+        // e-conomic not available / not admin — just hide the button
+        state.economicConnected = false
+    }
+}
+
+async function sendToEconomic() {
+    state.error = {}
+    state.isPushingToEconomic = true
+    try {
+        const response = await economicService.pushInvoice(invoiceUuid as string)
+        const result = response?.data
+        if (result?.success) {
+            successAlert(`${t('alert.success')}!`, t('clientInvoices.economic.sent', { number: result.draft_invoice_number }))
+        } else {
+            state.error = { message: t('clientInvoices.economic.failed') } as Error
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPushingToEconomic = false
+}
 
 async function fetchClientInvoice() {
     state.error = {}
