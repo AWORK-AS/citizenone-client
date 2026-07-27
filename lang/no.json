@@ -3348,6 +3348,12 @@
             "price": "Pris",
             "quantity": "Mengde",
             "tax": "Mva"
+        },
+        "economic": {
+            "send": "Send til e-conomic",
+            "sending": "Sender...",
+            "sent": "Utkastfaktura opprettet i e-conomic (nr. {number}).",
+            "failed": "Kunne ikke sende til e-conomic. Sjekk tilkoblingen under Integrasjoner."
         }
     },
     "close": "Lukk",

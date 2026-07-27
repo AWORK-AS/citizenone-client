@@ -3348,6 +3348,12 @@
             "price": "Price",
             "quantity": "Quantity",
             "tax": "Tax"
+        },
+        "economic": {
+            "send": "Send to e-conomic",
+            "sending": "Sending...",
+            "sent": "Draft invoice created in e-conomic (no. {number}).",
+            "failed": "Could not send to e-conomic. Check the connection under Integrations."
         }
     },
     "close": "Close",
