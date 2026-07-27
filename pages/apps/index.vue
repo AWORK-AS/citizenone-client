@@ -342,6 +342,16 @@ async function activateApp(formApp: any) {
             }
             const response = await appService.activateFreeApp(params)
             if (response) {
+                // FST is installed via the same generic free-app flow as any other
+                // integration (plan §9/§14) — installing it only makes the manage/
+                // configure screen reachable, it does not activate anything by
+                // itself, so send the admin straight there instead of the generic
+                // "activated successfully" page.
+                if (state.selectedApp?.generic_name === 'fst') {
+                    navigateTo('/settings/fst')
+                    state.isPageLoading = false
+                    return
+                }
                 const cat = state.selectedApp?.category?.slug ?? ''
                 navigateTo(`/apps/activated-successfully?category=${cat}&exclude=${state.selectedApp?.uuid ?? ''}`)
             }
