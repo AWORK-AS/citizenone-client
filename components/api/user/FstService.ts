@@ -5,17 +5,15 @@ import type { FstConnectionStatusResponse, FstInquiry, FstAnalyticsSnapshot, Fst
 // activateFreeApp(), which only handles marketplace installation (plan §9
 // condition 1). This service covers conditions 2-5 and the resulting data.
 class FstService extends BaseAPIService {
+    // getStatus/activate/deactivate/reactivate/disconnect all return the status
+    // resource's ->resolve()'d array directly (no `data` envelope) — only
+    // refreshRemoteStatus() below returns the Resource itself and gets Laravel's
+    // automatic `data`-wrapping. Match each shape exactly rather than "fixing"
+    // the inconsistency here, which would require a backend + test change too.
     async getStatus(): Promise<FstConnectionStatusResponse> {
-        const res = await this.request('/user/fst/status', 'GET')
-        return res.data
+        return await this.request('/user/fst/status', 'GET')
     }
 
-    // activate/deactivate/reactivate/disconnect return the status resource's
-    // ->resolve()'d array directly (no `data` envelope) — unlike getStatus()/
-    // refreshRemoteStatus() below, which return the Resource itself and so get
-    // Laravel's automatic `data`-wrapping. Both shapes are real, tested backend
-    // behavior (tests/Feature/Fst) — match each one exactly rather than "fixing"
-    // the inconsistency here, which would require a backend + test change too.
     async activate(cvr: string): Promise<FstConnectionStatusResponse> {
         return await this.request('/user/fst/activate', 'POST', { cvr })
     }
