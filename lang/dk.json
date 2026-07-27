@@ -3348,12 +3348,6 @@
             "price": "Pris",
             "quantity": "Mængde",
             "tax": "Moms"
-        },
-        "economic": {
-            "send": "Send til e-conomic",
-            "sending": "Sender...",
-            "sent": "Kladde-faktura oprettet i e-conomic (nr. {number}).",
-            "failed": "Kunne ikke sende til e-conomic. Tjek forbindelsen under Integrationer."
         }
     },
     "close": "Luk",
