@@ -10629,6 +10629,7 @@
             "colName": "Navn",
             "colSize": "Størrelse",
             "colYearlyPrice": "Pris pr. år",
+            "delete": "Slet",
             "deleteConfirm": "Er du sikker på, at du vil slette pakken {name}?",
             "description": "Administrér de lagerpakker kunderne kan købe, når de opgraderer deres lagerplads.",
             "edit": "Rediger",

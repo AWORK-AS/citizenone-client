@@ -10629,6 +10629,7 @@
             "colName": "Namn",
             "colSize": "Storlek",
             "colYearlyPrice": "Pris per år",
+            "delete": "Radera",
             "deleteConfirm": "Är du säker på att du vill radera paketet {name}?",
             "description": "Hantera de lagringspaket kunderna kan köpa när de uppgraderar sitt lagringsutrymme.",
             "edit": "Redigera",

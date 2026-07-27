@@ -10629,6 +10629,7 @@
             "colName": "Navn",
             "colSize": "Størrelse",
             "colYearlyPrice": "Pris per år",
+            "delete": "Slett",
             "deleteConfirm": "Er du sikker på at du vil slette pakken {name}?",
             "description": "Administrer lagringspakkene kundene kan kjøpe når de oppgraderer lagringsplassen sin.",
             "edit": "Rediger",

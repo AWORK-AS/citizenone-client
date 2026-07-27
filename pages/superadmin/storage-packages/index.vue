@@ -64,7 +64,7 @@
                                         </button>
                                         <button class="co-action-btn-danger" @click="confirmDelete(pkg)">
                                             <Icon name="ph:trash" class="w-3.5 h-3.5" />
-                                            {{ $t('delete') }}
+                                            {{ $t('superadmin.storagePackages.delete') }}
                                         </button>
                                     </div>
                                 </td>

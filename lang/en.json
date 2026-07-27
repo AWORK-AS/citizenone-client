@@ -10629,6 +10629,7 @@
             "colName": "Name",
             "colSize": "Size",
             "colYearlyPrice": "Price per year",
+            "delete": "Delete",
             "deleteConfirm": "Are you sure you want to delete the package {name}?",
             "description": "Manage the storage packages customers can buy when upgrading their storage.",
             "edit": "Edit",

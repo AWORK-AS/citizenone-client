@@ -91,7 +91,7 @@ const state = reactive({
 
 const localUsedBytes = computed(() => {
     const totalGB = parseFloat(state.usage?.total_storage?.replace(/[^0-9.]/g, '') ?? '0')
-    const availableGB = parseFloat(state.usage?.available_storage?.replace(/[^0-9.]/g, '') ?? '0')
+    const availableGB = parseFloat(state.usage?.available_storage?.replace(/[^0-9.-]/g, '') ?? '0')
     return (totalGB - availableGB) * 1024 * 1024 * 1024
 })
 
@@ -112,7 +112,7 @@ const localUsedPercent = computed(() => {
 const localQuotaPercent = computed(() => {
     const totalGB = parseFloat(state.usage?.total_storage?.replace(/[^0-9.]/g, '') ?? '0')
     if (!totalGB) return 0
-    const availableGB = parseFloat(state.usage?.available_storage?.replace(/[^0-9.]/g, '') ?? '0')
+    const availableGB = parseFloat(state.usage?.available_storage?.replace(/[^0-9.-]/g, '') ?? '0')
     return ((totalGB - availableGB) / totalGB) * 100
 })
 
