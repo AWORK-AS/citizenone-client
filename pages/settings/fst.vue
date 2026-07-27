@@ -91,11 +91,18 @@
                                         <Icon name="ph:arrow-clockwise" class="h-4 w-4" />
                                         {{ $t('settings.fst.reconnect') }}
                                     </FormButton>
-                                    <FormButton v-if="state.status.connection_status === 'rejected'"
-                                        buttonStyle="primary" @click="activate">
-                                        <Icon name="ph:arrow-clockwise" class="h-4 w-4" />
-                                        {{ $t('settings.fst.reconnect') }}
-                                    </FormButton>
+                                    <template v-if="state.status.connection_status === 'rejected'">
+                                        <!-- The activate() handler submits state.cvr, but the CVR input above
+                                             is gated on !co_activated_at, which is already true by the time a
+                                             connection has been rejected -- without this input here, "reconnect"
+                                             submitted an empty/stale CVR and the backend correctly 422'd it. -->
+                                        <input v-model="state.cvr" type="text" :placeholder="$t('settings.fst.cvrPlaceholder')"
+                                            class="rounded-md border border-surface-200 px-3 py-2 text-sm" />
+                                        <FormButton buttonStyle="primary" @click="activate">
+                                            <Icon name="ph:arrow-clockwise" class="h-4 w-4" />
+                                            {{ $t('settings.fst.reconnect') }}
+                                        </FormButton>
+                                    </template>
                                     <FormButton v-if="state.status.connection_status && state.status.connection_status !== 'disconnected'"
                                         buttonStyle="danger" @click="state.modal.confirmDisconnect = true">
                                         <Icon name="ph:plug" class="h-4 w-4" />
