@@ -8948,7 +8948,8 @@
             "billing": "Fakturering",
             "data": "Data",
             "logs": "Logs",
-            "integrations": "Integrationer"
+            "integrations": "Integrationer",
+            "apps": "Apps"
         },
         "tabs": {
             "absences": "Fravær",

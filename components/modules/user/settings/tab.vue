@@ -91,14 +91,14 @@ watch(() => userStore.getUser, (newValue: any) => {
             fst: { name: 'settings.tabs.fst', isTranslateName: true, href: '/settings/fst', routeNames: ['settings-fst'] },
         }
         const isEmploymentServices = newValue?.company?.industry?.system_name === 'employment_services'
-        const companyItems = [T.company, T.portalAccess, T.catalog, T.import]
+        const companyItems = [T.company, T.catalog, T.import]
         if (isEmploymentServices) companyItems.push(T.gdprRetention, T.smsNotifications)
         state.groups = [
             { labelKey: 'settings.tabs.profile', items: [T.profile] },
             { labelKey: 'settings.groups.company', items: companyItems },
             { labelKey: 'settings.groups.billing', items: [T.subscription, T.invoices, T.licenses, T.storage] },
             { labelKey: 'settings.groups.data', items: [T.archived, T.other] },
-            { labelKey: 'settings.groups.integrations', items: [T.powerBi, T.economic, T.fst] },
+            { labelKey: 'settings.groups.apps', items: [T.portalAccess, T.powerBi, T.economic, T.fst] },
             { labelKey: 'settings.groups.logs', items: [T.activityLogs, T.timeLogs] },
         ]
         state.tabs = Object.values(T)

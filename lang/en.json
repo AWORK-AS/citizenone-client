@@ -8948,7 +8948,8 @@
             "billing": "Billing",
             "data": "Data",
             "logs": "Logs",
-            "integrations": "Integrations"
+            "integrations": "Integrations",
+            "apps": "Apps"
         },
         "tabs": {
             "absences": "Absences",
