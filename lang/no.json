@@ -4050,6 +4050,16 @@
                     "leaveRequestsSuccessfullyRejected": "Ferieanmodning ble avvist"
                 },
                 "confirmation": {
+                    "approveAudience": {
+                        "title": "Godkjenn permisjonsforespørsel",
+                        "audienceLabel": "Hvem skal det frigitte skiftet tilbys til?",
+                        "everyone": "Alle",
+                        "jobTitleSpecialty": "En bestemt stillingstittel & spesialitet",
+                        "employee": "En bestemt ansatt",
+                        "employeeLabel": "Ansatt",
+                        "jobTitleRequired": "Velg minst én stillingstittel",
+                        "employeeRequired": "Velg en ansatt"
+                    },
                     "approveLeaveRequestConfirmation": "Er du sikker på at du vil godkjenne denne ferie?",
                     "deleteLeaveRequestConfirmation": "Er du sikker på at du vil slette denne ferie?",
                     "rejectLeaveRequestConfirmation": "Er du sikker på at du vil avvise denne ferie?",
