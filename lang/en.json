@@ -725,6 +725,7 @@
         "usedBy": "Used by {count} organisations",
         "noBinding": "No commitment",
         "setupFeeSuffix": "setup fee",
+        "perUserSuffix": "per third party/month",
         "offerEndsInDays": "Offer ends in {count} days",
         "offerEndsToday": "Offer ends today",
         "save": "Save {percent}%"

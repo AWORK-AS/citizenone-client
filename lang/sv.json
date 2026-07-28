@@ -725,6 +725,7 @@
         "usedBy": "Används av {count} organisationer",
         "noBinding": "Ingen bindningstid",
         "setupFeeSuffix": "uppstartsavgift",
+        "perUserSuffix": "per tredjepart/mån.",
         "offerEndsInDays": "Erbjudandet slutar om {count} dagar",
         "offerEndsToday": "Erbjudandet slutar idag",
         "save": "Spara {percent}%"

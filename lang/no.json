@@ -725,6 +725,7 @@
         "usedBy": "Brukt av {count} organisasjoner",
         "noBinding": "Ingen binding",
         "setupFeeSuffix": "oppstartsgebyr",
+        "perUserSuffix": "per tredjepart/md.",
         "offerEndsInDays": "Tilbudet slutter om {count} dager",
         "offerEndsToday": "Tilbudet slutter i dag",
         "save": "Spar {percent}%"
