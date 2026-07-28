@@ -263,7 +263,7 @@ function formatBytes(bytes: number): string {
 
 const localUsedBytes = computed(() => {
     const totalGB = parseFloat(state.usage?.total_storage?.replace(/[^0-9.]/g, '') ?? '0')
-    const availableGB = parseFloat(state.usage?.available_storage?.replace(/[^0-9.]/g, '') ?? '0')
+    const availableGB = parseFloat(state.usage?.available_storage?.replace(/[^0-9.-]/g, '') ?? '0')
     return (totalGB - availableGB) * 1024 * 1024 * 1024
 })
 

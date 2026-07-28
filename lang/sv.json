@@ -9172,7 +9172,9 @@
         "alert": {
             "messageSuccessfullySent": "Meddelande skickad"
         },
+        "almostFullWarning": "Ditt lagringsutrymme är nästan fullt. Uppgradera för att undvika att uppladdningar nekas.",
         "available": "Tillgänglig",
+        "fullWarning": "Ditt lagringsutrymme är fullt. Nya filer kan inte laddas upp förrän du frigör utrymme eller uppgraderar.",
         "contactUs": "Kontakt oss",
         "currentPlan": "Nuvarande plan",
         "doYouNeedMoreStorage": "Har du använd för mer plats",
@@ -10157,7 +10159,8 @@
             "licenses": "Licenser",
             "products": "Produkter",
             "clientRoles": "Klientroller",
-            "cancellations": "Avslutningar"
+            "cancellations": "Avslutningar",
+            "storagePackages": "Lagringspaket"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -10663,6 +10666,26 @@
             "saving": "Sparar...",
             "saveChanges": "Spara ändringar",
             "register": "Registrera"
+        },
+        "storagePackages": {
+            "colMonthlyPrice": "Pris per månad",
+            "colName": "Namn",
+            "colSize": "Storlek",
+            "colYearlyPrice": "Pris per år",
+            "delete": "Radera",
+            "deleteConfirm": "Är du säker på att du vill radera paketet {name}?",
+            "description": "Hantera de lagringspaket kunderna kan köpa när de uppgraderar sitt lagringsutrymme.",
+            "edit": "Redigera",
+            "editPackage": "Redigera lagringspaket",
+            "namePlaceholder": "T.ex. 5GB",
+            "newPackage": "Nytt lagringspaket",
+            "noPackagesFound": "Inga lagringspaket hittades",
+            "optional": "Valfri",
+            "pageTitle": "Lagringspaket",
+            "save": "Spara",
+            "successCreated": "Lagringspaket skapat",
+            "successDeleted": "Lagringspaket raderat",
+            "successUpdated": "Lagringspaket uppdaterat"
         }
     },
     "support": {

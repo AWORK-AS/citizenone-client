@@ -9172,7 +9172,9 @@
         "alert": {
             "messageSuccessfullySent": "Besked sendt succesfuldt"
         },
+        "almostFullWarning": "Din lagerplads er næsten fuld. Opgradér for at undgå at uploads afvises.",
         "available": "Tilgængelig",
+        "fullWarning": "Din lagerplads er fuld. Nye filer kan ikke uploades, før du frigør plads eller opgraderer.",
         "contactUs": "Kontakt os",
         "currentPlan": "Nuværende plan",
         "doYouNeedMoreStorage": "Har du brug for mere plads",
@@ -10157,7 +10159,8 @@
             "licenses": "Licenser",
             "products": "Produkter",
             "clientRoles": "Roller & Rettigheder",
-            "cancellations": "Opsigelser"
+            "cancellations": "Opsigelser",
+            "storagePackages": "Lagerpakker"
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
@@ -10663,6 +10666,26 @@
             "saving": "Gemmer...",
             "saveChanges": "Gem ændringer",
             "register": "Registrer"
+        },
+        "storagePackages": {
+            "colMonthlyPrice": "Pris pr. måned",
+            "colName": "Navn",
+            "colSize": "Størrelse",
+            "colYearlyPrice": "Pris pr. år",
+            "delete": "Slet",
+            "deleteConfirm": "Er du sikker på, at du vil slette pakken {name}?",
+            "description": "Administrér de lagerpakker kunderne kan købe, når de opgraderer deres lagerplads.",
+            "edit": "Rediger",
+            "editPackage": "Rediger lagerpakke",
+            "namePlaceholder": "F.eks. 5GB",
+            "newPackage": "Ny lagerpakke",
+            "noPackagesFound": "Ingen lagerpakker fundet",
+            "optional": "Valgfri",
+            "pageTitle": "Lagerpakker",
+            "save": "Gem",
+            "successCreated": "Lagerpakke oprettet",
+            "successDeleted": "Lagerpakke slettet",
+            "successUpdated": "Lagerpakke opdateret"
         }
     },
     "support": {

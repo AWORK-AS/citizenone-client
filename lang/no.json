@@ -9172,7 +9172,9 @@
         "alert": {
             "messageSuccessfullySent": "Melding sendt vellykket"
         },
+        "almostFullWarning": "Lagringsplassen din er nesten full. Oppgrader for å unngå at opplastinger avvises.",
         "available": "Tilgjengelig",
+        "fullWarning": "Lagringsplassen din er full. Nye filer kan ikke lastes opp før du frigjør plass eller oppgraderer.",
         "contactUs": "Kontakt oss",
         "currentPlan": "Nåværende plan",
         "doYouNeedMoreStorage": "Har du bruk for mer plads",
@@ -10157,7 +10159,8 @@
             "licenses": "Lisenser",
             "products": "Produkter",
             "clientRoles": "Klientroller",
-            "cancellations": "Oppsigelser"
+            "cancellations": "Oppsigelser",
+            "storagePackages": "Lagringspakker"
         },
         "emailTemplates": {
             "title": "E-postmaler",
@@ -10663,6 +10666,26 @@
             "saving": "Lagrer...",
             "saveChanges": "Lagre endringer",
             "register": "Registrer"
+        },
+        "storagePackages": {
+            "colMonthlyPrice": "Pris per måned",
+            "colName": "Navn",
+            "colSize": "Størrelse",
+            "colYearlyPrice": "Pris per år",
+            "delete": "Slett",
+            "deleteConfirm": "Er du sikker på at du vil slette pakken {name}?",
+            "description": "Administrer lagringspakkene kundene kan kjøpe når de oppgraderer lagringsplassen sin.",
+            "edit": "Rediger",
+            "editPackage": "Rediger lagringspakke",
+            "namePlaceholder": "F.eks. 5GB",
+            "newPackage": "Ny lagringspakke",
+            "noPackagesFound": "Ingen lagringspakker funnet",
+            "optional": "Valgfri",
+            "pageTitle": "Lagringspakker",
+            "save": "Lagre",
+            "successCreated": "Lagringspakke opprettet",
+            "successDeleted": "Lagringspakke slettet",
+            "successUpdated": "Lagringspakke oppdatert"
         }
     },
     "support": {

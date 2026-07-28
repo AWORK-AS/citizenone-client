@@ -9172,7 +9172,9 @@
         "alert": {
             "messageSuccessfullySent": "Message successfully sent"
         },
+        "almostFullWarning": "Your storage is almost full. Upgrade to avoid rejected uploads.",
         "available": "Available",
+        "fullWarning": "Your storage is full. New files cannot be uploaded until you free up space or upgrade.",
         "contactUs": "Contact us",
         "currentPlan": "Current plan",
         "doYouNeedMoreStorage": "Do you need more storage",
@@ -10157,7 +10159,8 @@
             "licenses": "Licenses",
             "products": "Products",
             "clientRoles": "Roles & Rights",
-            "cancellations": "Cancellations"
+            "cancellations": "Cancellations",
+            "storagePackages": "Storage packages"
         },
         "emailTemplates": {
             "title": "Email templates",
@@ -10663,6 +10666,26 @@
             "saving": "Saving...",
             "saveChanges": "Save changes",
             "register": "Register"
+        },
+        "storagePackages": {
+            "colMonthlyPrice": "Price per month",
+            "colName": "Name",
+            "colSize": "Size",
+            "colYearlyPrice": "Price per year",
+            "delete": "Delete",
+            "deleteConfirm": "Are you sure you want to delete the package {name}?",
+            "description": "Manage the storage packages customers can buy when upgrading their storage.",
+            "edit": "Edit",
+            "editPackage": "Edit storage package",
+            "namePlaceholder": "E.g. 5GB",
+            "newPackage": "New storage package",
+            "noPackagesFound": "No storage packages found",
+            "optional": "Optional",
+            "pageTitle": "Storage packages",
+            "save": "Save",
+            "successCreated": "Storage package created",
+            "successDeleted": "Storage package deleted",
+            "successUpdated": "Storage package updated"
         }
     },
     "support": {
