@@ -1579,6 +1579,9 @@
                     "contactSuccessfullyUpdated": "Contact successfully updated"
                 },
                 "allowSystemAccess": "Allow system access",
+                "allowChatAccess": "Allow chat access (paid per third party)",
+                "mayChatWith": "May chat with",
+                "mayChatWithHint": "Pick the employees this third party is allowed to message",
                 "city": "City",
                 "companyName": "Company name",
                 "email": "Email address",
@@ -7319,6 +7322,8 @@
         "welcomeToChat": "Welcome to Chat",
         "contactPerson": "Contact person",
         "yourContactPersons": "Your contact persons",
+        "thirdPartyRecipientsHint": "You can write to the people the organization has assigned to you",
+        "noRecipientsConfigured": "The organization has not assigned anyone for you to write to yet",
         "managementAndAdministration": "Management & administration",
         "startConversationWithOrganization": "You can write directly to the people who care for your relative",
         "yesterday": "Yesterday",

@@ -360,6 +360,8 @@ async function login() {
 						navigateTo('/citizen/overview')
 					} else if (response.data.user?.role === 'Relative') {
 						navigateTo('/relative/citizens')
+					} else if (response.data.user?.role === 'ThirdParty') {
+						navigateTo('/third-party/messages')
 					} else {
 						navigateTo('/overview')
 					}

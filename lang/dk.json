@@ -1579,6 +1579,9 @@
                     "contactSuccessfullyUpdated": "Kontakt opdateret med succes"
                 },
                 "allowSystemAccess": "Tillad systemadgang",
+                "allowChatAccess": "Giv chatadgang (betales pr. tredjepart)",
+                "mayChatWith": "Må chatte med",
+                "mayChatWithHint": "Vælg de medarbejdere, denne tredjepart må skrive til",
                 "city": "By",
                 "companyName": "Virksomhedsnavn",
                 "email": "E-mailadresse",
@@ -7319,6 +7322,8 @@
         "welcomeToChat": "Velkommen til chat",
         "contactPerson": "Kontaktperson",
         "yourContactPersons": "Dine kontaktpersoner",
+        "thirdPartyRecipientsHint": "Du kan skrive til de personer, organisationen har tilknyttet dig",
+        "noRecipientsConfigured": "Organisationen har endnu ikke tilknyttet nogen, du kan skrive til",
         "managementAndAdministration": "Ledelse & administration",
         "startConversationWithOrganization": "Du kan skrive direkte til de medarbejdere, der er omkring din pårørende",
         "yesterday": "I går",
