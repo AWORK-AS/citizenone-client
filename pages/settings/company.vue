@@ -279,6 +279,24 @@
                             <p class="text-sm text-gray-500">
                                 {{ $t('settings.company.form.portalAccessHint') }}.
                             </p>
+                            <div :class="[
+                                visibleSectionCount > 0
+                                    ? 'border-amber-300 bg-amber-50 text-amber-900'
+                                    : 'border-gray-200 bg-gray-50 text-gray-600',
+                                'rounded-md border px-4 py-3 text-sm'
+                            ]">
+                                <p v-if="visibleSectionCount === 0">
+                                    {{ $t('settings.company.form.portalAccessNothingOpen') }}.
+                                </p>
+                                <template v-else>
+                                    <p class="font-semibold">
+                                        {{ $t('settings.company.form.portalAccessOpenNow') }}:
+                                    </p>
+                                    <ul class="mt-1 list-disc pl-5">
+                                        <li v-for="line in openSummary" :key="line">{{ line }}</li>
+                                    </ul>
+                                </template>
+                            </div>
                             <div v-for="audience in portalAudiences" :key="audience.key" class="space-y-2">
                                 <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
                                     {{ $t(audience.label) }}
@@ -292,6 +310,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <DialogConfirmation :isModalOpen="portalConfirm.isOpen"
+                                :title="$t('settings.company.form.portalAccessConfirmTitle')"
+                                :message="portalConfirmMessage" @close="portalConfirm.isOpen = false"
+                                @confirm="confirmOpenSection" />
                         </div>
                         </div>
 
@@ -627,12 +649,52 @@ function isSectionVisible(audience: string, section: string) {
     return state.formCompany.portal_visibility?.[audience]?.[section] !== false
 }
 
-function toggleSection(audience: string, section: string) {
+// Opening a section exposes records to people outside the organization, so it
+// takes an explicit confirmation. Closing one needs none.
+const portalConfirm = reactive({ isOpen: false, audience: '', section: '' })
+
+const portalConfirmMessage = computed(() => {
+    if (!portalConfirm.audience) return ''
+
+    const audience = portalAudiences.find((item) => item.key === portalConfirm.audience)
+    const section = audience?.sections.find((item) => item.key === portalConfirm.section)
+
+    return t('settings.company.form.portalAccessConfirmMessage', {
+        audience: audience ? t(audience.label) : '',
+        section: section ? t(section.label) : '',
+    })
+})
+
+function setSection(audience: string, section: string, isVisible: boolean) {
     if (!state.formCompany.portal_visibility[audience]) {
         state.formCompany.portal_visibility[audience] = {}
     }
-    state.formCompany.portal_visibility[audience][section] = !isSectionVisible(audience, section)
+    state.formCompany.portal_visibility[audience][section] = isVisible
 }
+
+function toggleSection(audience: string, section: string) {
+    if (isSectionVisible(audience, section)) {
+        setSection(audience, section, false)
+
+        return
+    }
+
+    portalConfirm.audience = audience
+    portalConfirm.section = section
+    portalConfirm.isOpen = true
+}
+
+function confirmOpenSection() {
+    setSection(portalConfirm.audience, portalConfirm.section, true)
+    portalConfirm.audience = ''
+    portalConfirm.section = ''
+}
+
+const openSummary = computed(() => portalAudiences.flatMap((audience) => {
+    const open = audience.sections.filter((section) => isSectionVisible(audience.key, section.key))
+
+    return open.length ? [`${t(audience.label)}: ${open.map((section) => t(section.label)).join(', ')}`] : []
+}))
 
 const visibleSectionCount = computed(() => portalAudiences.reduce((total, audience) =>
     total + audience.sections.filter((section) => isSectionVisible(audience.key, section.key)).length, 0))
