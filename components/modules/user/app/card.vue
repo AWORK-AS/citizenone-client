@@ -106,8 +106,8 @@
                 {{ $t('apps.goToPartner') }}
             </FormButton>
             <FormButton type="button" buttonStyle="primary" class="w-full"
-                v-else-if="props.app?.user_activated && setupLink" @click="navigateTo(setupLink)">
-                {{ $t('apps.goToSetup') }}
+                v-else-if="props.app?.user_activated && destination" @click="navigateTo(destination.path)">
+                {{ destination.open ? $t('apps.openApp') : $t('apps.goToSetup') }}
             </FormButton>
             <FormButton type="button" :buttonStyle="props.app?.user_activated ? 'app-activated' : 'app-order-now'"
                 :class="[
@@ -142,7 +142,7 @@ const props = defineProps({
 
 const emit = defineEmits(['readMore', 'goToPartner', 'activate'])
 
-const setupLink = computed(() => appSetupLinkFor(props.app))
+const destination = computed(() => appDestinationFor(props.app))
 const appIcon = computed(() => appIconFor(props.app).icon)
 const useIconTile = computed(() => appIconFor(props.app).useTile)
 

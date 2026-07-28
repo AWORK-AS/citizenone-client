@@ -728,7 +728,12 @@
         "perUserSuffix": "per third party/month",
         "offerEndsInDays": "Offer ends in {count} days",
         "offerEndsToday": "Offer ends today",
-        "save": "Save {percent}%"
+        "save": "Save {percent}%",
+        "myApps": "My apps",
+        "myAppsHint": "The apps you have bought. Open one to reach its setup",
+        "myAppsEmpty": "You have not activated any apps yet",
+        "myAppsBrowse": "Browse the app store",
+        "openApp": "Open app"
     },
     "archived": {
         "alert": {

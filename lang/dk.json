@@ -728,7 +728,12 @@
         "perUserSuffix": "pr. tredjepart/md.",
         "offerEndsInDays": "Tilbud slutter om {count} dage",
         "offerEndsToday": "Tilbud slutter i dag",
-        "save": "Spar {percent}%"
+        "save": "Spar {percent}%",
+        "myApps": "Mine apps",
+        "myAppsHint": "De apps I har købt. Åbn en app for at komme til dens opsætning",
+        "myAppsEmpty": "I har ikke aktiveret nogen apps endnu",
+        "myAppsBrowse": "Se app-butikken",
+        "openApp": "Åbn app"
     },
     "archived": {
         "alert": {

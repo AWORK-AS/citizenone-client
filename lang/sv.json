@@ -728,7 +728,12 @@
         "perUserSuffix": "per tredjepart/mån.",
         "offerEndsInDays": "Erbjudandet slutar om {count} dagar",
         "offerEndsToday": "Erbjudandet slutar idag",
-        "save": "Spara {percent}%"
+        "save": "Spara {percent}%",
+        "myApps": "Mina appar",
+        "myAppsHint": "Apparna ni har köpt. Öppna en app för att komma till dess inställningar",
+        "myAppsEmpty": "Ni har inte aktiverat några appar ännu",
+        "myAppsBrowse": "Se app-butiken",
+        "openApp": "Öppna app"
     },
     "archived": {
         "alert": {
