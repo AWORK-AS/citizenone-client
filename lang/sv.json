@@ -8864,7 +8864,28 @@
                 "manageApprovedDevices": "Administrér godkända enheter",
                 "actionBlock": "Blokér åtkomst",
                 "actionOtp": "Kräv OTP-bekräftelse",
-                "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den."
+                "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den.",
+                "portalPreviewOpen": "Se vad de ser",
+                "portalPreviewTitle": "Så här ser {audience} det",
+                "portalPreviewHint": "En förhandsvisning av portalen med era nuvarande val. Inga riktiga uppgifter hämtas här",
+                "portalPreviewEmptyNav": "Inga delar",
+                "portalPreviewNothing": "Med dessa val är portalen tom",
+                "portalPreviewNeverSees": "De ser aldrig",
+                "portalPreviewJournals": "Medborgarens journalanteckningar, utan utkast",
+                "portalPreviewDocuments": "Endast de filer ni har delat med dem",
+                "portalPreviewMessagesRelative": "Samtal med ledningen och medborgarens kontaktpersoner",
+                "portalPreviewMessagesThirdParty": "Samtal med de medarbetare ni har kopplat till dem",
+                "portalPreviewMessagesCitizen": "Samtal med personalen",
+                "portalPreviewOverview": "Daglig översikt med anslagstavlan",
+                "portalPreviewDutySchedules": "De skift som planerats för dem",
+                "portalPreviewSurveys": "Frågeformulär som tilldelats dem",
+                "portalPreviewProtocols": "Deras egen in- och utcheckning",
+                "portalNeverDrafts": "Journalanteckningar som är utkast",
+                "portalNeverUnsharedDocuments": "Dokument ni inte har delat",
+                "portalNeverOtherCitizens": "Något som helst om andra medborgare",
+                "portalNeverStaffNotes": "Interna anteckningar skrivna om dem",
+                "portalNeverJournalsAtAll": "Journaler och dokument, aldrig",
+                "portalNeverUnassignedStaff": "Medarbetare ni inte har kopplat till dem"
             }
         },
         "licenseOverview": {
@@ -12043,6 +12064,32 @@
             "name": "Namn",
             "namePlaceholder": "t.ex. Eftervård",
             "color": "Färg"
+        }
+    },
+    "portalAccess": {
+        "title": "Portalåtkomst",
+        "intro": "Vem som har inloggning till en portal nu, och hur många av era köpta platser som används",
+        "seatsInUse": "{used} av {total} platser används",
+        "seatsAvailable": "{count} lediga",
+        "noSeatsLeft": "Inga lediga platser",
+        "appNotBought": "Appen är inte köpt",
+        "buyMoreSeats": "Köp fler platser",
+        "getApp": "Hämta appen",
+        "nobodyHasAccess": "Ingen har åtkomst ännu",
+        "audience": {
+            "relative": "Anhöriga",
+            "third_party": "Tredjeparter"
+        },
+        "status": {
+            "active": "Inloggad",
+            "invited": "Inbjuden"
+        },
+        "table": {
+            "name": "Namn",
+            "email": "E-post",
+            "citizen": "Medborgare",
+            "status": "Status",
+            "grantedAt": "Åtkomst gavs"
         }
     }
 }

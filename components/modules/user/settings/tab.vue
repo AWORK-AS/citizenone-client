@@ -77,6 +77,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             invoices: { name: 'settings.tabs.invoices', isTranslateName: true, href: '/settings/invoices', routeNames: ['settings-invoices', 'settings-invoices-invoice_uuid-invoice-details'] },
             storage: { name: 'settings.tabs.storage', isTranslateName: true, href: '/settings/storage', routeNames: ['settings-storage'] },
             licenses: { name: 'settings.tabs.licenses', isTranslateName: true, href: '/settings/license-overview', routeNames: ['settings-license-overview'] },
+            portalAccess: { name: 'portalAccess.title', isTranslateName: true, href: '/settings/portal-access', routeNames: ['settings-portal-access'] },
             subscription: { name: 'settings.tabs.subscription', isTranslateName: true, href: '/settings/subscription', routeNames: ['settings-subscription'] },
             archived: { name: 'settings.tabs.archived', isTranslateName: true, href: '/settings/archived/citizens', routeNames: ['settings-archived-citizens', 'settings-archived-employees', 'settings-archived-documents'] },
             catalog: { name: 'settings.tabs.catalog', isTranslateName: true, href: '/settings/absences', routeNames: ['settings-absences', 'settings-addictions', 'settings-booking-tags', 'settings-calendar-tags', 'settings-departments', 'settings-diagnoses', 'settings-foreign-cities', 'settings-job-titles', 'settings-journal-note-tags', 'settings-medicines', 'settings-relationships', 'settings-schedule-tags', 'settings-sections', 'settings-shifts', 'settings-units'] },
@@ -90,7 +91,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             fst: { name: 'settings.tabs.fst', isTranslateName: true, href: '/settings/fst', routeNames: ['settings-fst'] },
         }
         const isEmploymentServices = newValue?.company?.industry?.system_name === 'employment_services'
-        const companyItems = [T.company, T.catalog, T.import]
+        const companyItems = [T.company, T.portalAccess, T.catalog, T.import]
         if (isEmploymentServices) companyItems.push(T.gdprRetention, T.smsNotifications)
         state.groups = [
             { labelKey: 'settings.tabs.profile', items: [T.profile] },

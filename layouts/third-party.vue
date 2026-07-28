@@ -153,6 +153,15 @@
                         </p>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
+                        <button v-if="hasMessagesAccess" type="button"
+                            class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
+                            @click="navigateTo('/third-party/messages')">
+                            <Icon name="ph:chat-circle" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
+                            <Badge type="notification" class="w-fit absolute -top-4 left-4">
+                                {{ userStore.getUser?.unread_messages_count ?? 0 }}
+                            </Badge>
+                        </button>
+
                         <button type="button"
                             class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
@@ -272,7 +281,7 @@ const router = useRouter()
 const navigation = computed(() => {
     const items = [] as any
 
-    if ((userStore.getUser?.portal_visibility ?? {}).messages !== false) {
+    if (hasMessagesAccess.value) {
         items.push({
             name: 'Messages',
             href: '/third-party/messages',
@@ -286,6 +295,8 @@ const navigation = computed(() => {
 
     return items
 })
+
+const hasMessagesAccess = computed(() => (userStore.getUser?.portal_visibility ?? {}).messages !== false)
 
 const sidebarOpen = ref(false)
 

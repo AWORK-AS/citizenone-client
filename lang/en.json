@@ -8864,7 +8864,28 @@
                 "manageApprovedDevices": "Manage approved devices",
                 "actionBlock": "Block access",
                 "actionOtp": "Require OTP verification",
-                "proFeatureHint": "This feature is part of the Pro plan. Upgrade to enable it."
+                "proFeatureHint": "This feature is part of the Pro plan. Upgrade to enable it.",
+                "portalPreviewOpen": "See what they see",
+                "portalPreviewTitle": "This is what {audience} see",
+                "portalPreviewHint": "A preview of the portal with your current choices. No real records are loaded here",
+                "portalPreviewEmptyNav": "No sections",
+                "portalPreviewNothing": "With these choices the portal is empty",
+                "portalPreviewNeverSees": "They never see",
+                "portalPreviewJournals": "The citizen's journal notes, without drafts",
+                "portalPreviewDocuments": "Only the files you have shared with them",
+                "portalPreviewMessagesRelative": "Conversations with management and the citizen's contact persons",
+                "portalPreviewMessagesThirdParty": "Conversations with the employees you assigned to them",
+                "portalPreviewMessagesCitizen": "Conversations with the staff",
+                "portalPreviewOverview": "Daily overview with the notice board",
+                "portalPreviewDutySchedules": "The shifts planned for them",
+                "portalPreviewSurveys": "Surveys assigned to them",
+                "portalPreviewProtocols": "Their own check-in and check-out",
+                "portalNeverDrafts": "Draft journal notes",
+                "portalNeverUnsharedDocuments": "Documents you have not shared",
+                "portalNeverOtherCitizens": "Anything about other citizens",
+                "portalNeverStaffNotes": "Internal notes written about them",
+                "portalNeverJournalsAtAll": "Journals and documents, ever",
+                "portalNeverUnassignedStaff": "Employees you did not assign to them"
             }
         },
         "licenseOverview": {
@@ -12043,6 +12064,32 @@
             "name": "Name",
             "namePlaceholder": "e.g. Aftercare",
             "color": "Colour"
+        }
+    },
+    "portalAccess": {
+        "title": "Portal access",
+        "intro": "Who currently has a login to a portal, and how many of your paid seats are in use",
+        "seatsInUse": "{used} of {total} seats in use",
+        "seatsAvailable": "{count} available",
+        "noSeatsLeft": "No seats left",
+        "appNotBought": "App not purchased",
+        "buyMoreSeats": "Buy more seats",
+        "getApp": "Get the app",
+        "nobodyHasAccess": "Nobody has access yet",
+        "audience": {
+            "relative": "Relatives",
+            "third_party": "Third parties"
+        },
+        "status": {
+            "active": "Signed in",
+            "invited": "Invited"
+        },
+        "table": {
+            "name": "Name",
+            "email": "Email",
+            "citizen": "Citizen",
+            "status": "Status",
+            "grantedAt": "Access given"
         }
     }
 }

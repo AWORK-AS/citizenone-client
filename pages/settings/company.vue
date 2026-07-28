@@ -298,9 +298,17 @@
                                 </template>
                             </div>
                             <div v-for="audience in portalAudiences" :key="audience.key" class="space-y-2">
-                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                                    {{ $t(audience.label) }}
-                                </p>
+                                <div class="flex items-center justify-between gap-x-3">
+                                    <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                                        {{ $t(audience.label) }}
+                                    </p>
+                                    <button type="button"
+                                        class="flex items-center gap-x-1 text-xs font-medium text-primary hover:underline"
+                                        @click="openPortalPreview(audience.key)">
+                                        <Icon name="ph:eye" class="w-4 h-4" aria-hidden="true" />
+                                        {{ $t('settings.company.form.portalPreviewOpen') }}
+                                    </button>
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
                                     <div v-for="section in audience.sections" :key="section.key"
                                         class="space-y-1 flex items-center gap-x-2">
@@ -310,6 +318,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <ModulesUserSettingsModalPortalPreview :isModalOpen="portalPreview.isOpen"
+                                :audience="portalPreview.audience"
+                                :audienceLabel="portalPreview.label"
+                                :visibility="portalPreview.visibility"
+                                @close="portalPreview.isOpen = false" />
                             <DialogConfirmation :isModalOpen="portalConfirm.isOpen"
                                 :title="$t('settings.company.form.portalAccessConfirmTitle')"
                                 :message="portalConfirmMessage" @close="portalConfirm.isOpen = false"
@@ -652,6 +665,20 @@ function isSectionVisible(audience: string, section: string) {
 // Opening a section exposes records to people outside the organization, so it
 // takes an explicit confirmation. Closing one needs none.
 const portalConfirm = reactive({ isOpen: false, audience: '', section: '' })
+
+const portalPreview = reactive({ isOpen: false, audience: '', label: '', visibility: {} as any })
+
+function openPortalPreview(audienceKey: string) {
+    const audience = portalAudiences.find((item) => item.key === audienceKey)
+
+    portalPreview.audience = audienceKey
+    portalPreview.label = audience ? t(audience.label) : ''
+    // Snapshot the switches as they look right now, including unsaved edits.
+    portalPreview.visibility = Object.fromEntries(
+        (audience?.sections ?? []).map((section) => [section.key, isSectionVisible(audienceKey, section.key)])
+    )
+    portalPreview.isOpen = true
+}
 
 const portalConfirmMessage = computed(() => {
     if (!portalConfirm.audience) return ''

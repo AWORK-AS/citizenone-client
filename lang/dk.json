@@ -8864,7 +8864,28 @@
                 "manageApprovedDevices": "Administrér godkendte enheder",
                 "actionBlock": "Blokér adgang",
                 "actionOtp": "Kræv OTP-bekræftelse",
-                "proFeatureHint": "Denne funktion er en del af Pro-abonnementet. Opgradér for at slå den til."
+                "proFeatureHint": "Denne funktion er en del af Pro-abonnementet. Opgradér for at slå den til.",
+                "portalPreviewOpen": "Se hvad de ser",
+                "portalPreviewTitle": "Sådan ser {audience} det",
+                "portalPreviewHint": "Et forhåndsblik på portalen med jeres nuværende valg. Der hentes ingen rigtige data her",
+                "portalPreviewEmptyNav": "Ingen dele",
+                "portalPreviewNothing": "Med disse valg er portalen tom",
+                "portalPreviewNeverSees": "De ser aldrig",
+                "portalPreviewJournals": "Borgerens journalnotater, uden kladder",
+                "portalPreviewDocuments": "Kun de filer I har delt med dem",
+                "portalPreviewMessagesRelative": "Samtaler med ledelsen og borgerens kontaktpersoner",
+                "portalPreviewMessagesThirdParty": "Samtaler med de medarbejdere I har tilknyttet dem",
+                "portalPreviewMessagesCitizen": "Samtaler med personalet",
+                "portalPreviewOverview": "Daglig oversigt med opslagstavlen",
+                "portalPreviewDutySchedules": "De vagter der er planlagt for dem",
+                "portalPreviewSurveys": "Spørgeskemaer der er tildelt dem",
+                "portalPreviewProtocols": "Deres eget check ind og check ud",
+                "portalNeverDrafts": "Journalnotater der er kladder",
+                "portalNeverUnsharedDocuments": "Dokumenter I ikke har delt",
+                "portalNeverOtherCitizens": "Noget som helst om andre borgere",
+                "portalNeverStaffNotes": "Interne bemærkninger skrevet om dem",
+                "portalNeverJournalsAtAll": "Journaler og dokumenter, aldrig",
+                "portalNeverUnassignedStaff": "Medarbejdere I ikke har tilknyttet dem"
             }
         },
         "licenseOverview": {
@@ -12043,6 +12064,32 @@
             "name": "Navn",
             "namePlaceholder": "fx Efterværn",
             "color": "Farve"
+        }
+    },
+    "portalAccess": {
+        "title": "Portaladgang",
+        "intro": "Hvem der har login til en portal lige nu, og hvor mange af jeres købte pladser der er i brug",
+        "seatsInUse": "{used} af {total} pladser i brug",
+        "seatsAvailable": "{count} ledige",
+        "noSeatsLeft": "Ingen ledige pladser",
+        "appNotBought": "App ikke købt",
+        "buyMoreSeats": "Køb flere pladser",
+        "getApp": "Hent appen",
+        "nobodyHasAccess": "Ingen har adgang endnu",
+        "audience": {
+            "relative": "Pårørende",
+            "third_party": "Tredjeparter"
+        },
+        "status": {
+            "active": "Logget ind",
+            "invited": "Inviteret"
+        },
+        "table": {
+            "name": "Navn",
+            "email": "E-mail",
+            "citizen": "Borger",
+            "status": "Status",
+            "grantedAt": "Adgang givet"
         }
     }
 }
