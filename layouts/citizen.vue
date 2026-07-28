@@ -39,7 +39,7 @@
                                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
                                         <li>
                                             <ul role="list" class="-mx-2 space-y-1">
-                                                <li v-for="item in navigation" :key="item.name">
+                                                <li v-for="item in visibleNavigation" :key="item.name">
                                                     <div v-if="!item.children" @click="navigateTo(item.href)"
                                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group flex gap-x-3 p-2 text-sm leading-6 font-semibold cursor-pointer']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
@@ -108,7 +108,7 @@
                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
                         <li>
                             <ul role="list" class="-mx-2 space-y-1">
-                                <li v-for="item in navigation" :key="item.name">
+                                <li v-for="item in visibleNavigation" :key="item.name">
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group flex gap-x-3 p-3 text-sm leading-6 font-semibold cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
@@ -329,6 +329,21 @@ const navigation = ref([
         ]
     },
 ] as any[])
+
+// Sections an admin switched off must not appear in the sidebar. The resolved
+// map comes from the citizen "me" endpoint.
+const visibleNavigation = computed(() => {
+    const visibility = (userStore.getUser as any)?.portal_visibility ?? {}
+    const sectionByName: Record<string, string> = {
+        Overview: 'overview',
+        Messages: 'messages',
+        'Duty schedules': 'duty_schedules',
+        Surveys: 'surveys',
+        Protocols: 'protocols',
+    }
+
+    return navigation.value.filter((item: any) => visibility[sectionByName[item.name]] !== false)
+})
 
 const sidebarOpen = ref(false)
 

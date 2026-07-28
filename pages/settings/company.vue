@@ -264,6 +264,38 @@
                         </div>
 
                         <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <button type="button" @click="openSections.portals = !openSections.portals"
+                            class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                                <Icon name="ph:eye" class="w-5 h-5" />
+                            </span>
+                            <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupPortalAccess') }}</span>
+                            <span class="ml-auto flex items-center gap-3">
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ visibleSectionCount }} / {{ totalSectionCount }}</span>
+                                <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.portals }" />
+                            </span>
+                        </button>
+                        <div v-show="openSections.portals" class="px-5 pb-5 pt-3 border-t border-gray-100 space-y-5">
+                            <p class="text-sm text-gray-500">
+                                {{ $t('settings.company.form.portalAccessHint') }}.
+                            </p>
+                            <div v-for="audience in portalAudiences" :key="audience.key" class="space-y-2">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                                    {{ $t(audience.label) }}
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                                    <div v-for="section in audience.sections" :key="section.key"
+                                        class="space-y-1 flex items-center gap-x-2">
+                                        <FormSwitch :value="isSectionVisible(audience.key, section.key)"
+                                            @toggleSwitch="toggleSection(audience.key, section.key)" />
+                                        <p>{{ $t(section.label) }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
                         <button type="button" @click="openSections.plans = !openSections.plans"
                             class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
                             <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
@@ -554,8 +586,57 @@ const userStore = useUserStore()
 // Counting absence toward norm hours is a Pro-plan feature.
 const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
 // Collapsible (accordion) open-state for the grouped toggle sections (default all open).
-const openSections = reactive({ access: true, communication: true, plans: true, schedule: true, other: true })
+const openSections = reactive({ access: true, communication: true, portals: true, plans: true, schedule: true, other: true })
 // Count of enabled toggles per group, for the header count chips (default-safe via filter(Boolean)).
+// Sections each external audience can open in its portal. Mirrors
+// PortalVisibilityService::SECTIONS on the backend.
+const portalAudiences = [
+    {
+        key: 'relative',
+        label: 'settings.company.form.portalAudienceRelative',
+        sections: [
+            { key: 'journals', label: 'settings.company.form.portalSectionJournals' },
+            { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
+            { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+        ],
+    },
+    {
+        key: 'third_party',
+        label: 'settings.company.form.portalAudienceThirdParty',
+        sections: [
+            { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+        ],
+    },
+    {
+        key: 'citizen',
+        label: 'settings.company.form.portalAudienceCitizen',
+        sections: [
+            { key: 'overview', label: 'settings.company.form.portalSectionOverview' },
+            { key: 'duty_schedules', label: 'settings.company.form.portalSectionDutySchedules' },
+            { key: 'surveys', label: 'settings.company.form.portalSectionSurveys' },
+            { key: 'protocols', label: 'settings.company.form.portalSectionProtocols' },
+            { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+        ],
+    },
+]
+
+const totalSectionCount = portalAudiences.reduce((total, audience) => total + audience.sections.length, 0)
+
+// An unset section means visible, matching the backend default.
+function isSectionVisible(audience: string, section: string) {
+    return state.formCompany.portal_visibility?.[audience]?.[section] !== false
+}
+
+function toggleSection(audience: string, section: string) {
+    if (!state.formCompany.portal_visibility[audience]) {
+        state.formCompany.portal_visibility[audience] = {}
+    }
+    state.formCompany.portal_visibility[audience][section] = !isSectionVisible(audience, section)
+}
+
+const visibleSectionCount = computed(() => portalAudiences.reduce((total, audience) =>
+    total + audience.sections.filter((section) => isSectionVisible(audience.key, section.key)).length, 0))
+
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
 const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled].filter(Boolean).length)
 const plansCount = computed(() => [state.formCompany.plans_enabled, state.formCompany.goals_enabled, state.formCompany.subgoals_enabled].filter(Boolean).length)
@@ -629,6 +710,7 @@ const state = reactive({
         relative_chat_enabled: false,
         relative_chat_management_enabled: true,
         relative_chat_contact_persons_enabled: true,
+        portal_visibility: {} as any,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
         intervention_checkin_enabled: false,
@@ -740,6 +822,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             relative_chat_enabled: newValue?.company?.relative_chat_enabled ? true : false,
             relative_chat_management_enabled: newValue?.company?.relative_chat_management_enabled ? true : false,
             relative_chat_contact_persons_enabled: newValue?.company?.relative_chat_contact_persons_enabled ? true : false,
+            portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
             intervention_checkin_enabled: newValue?.company?.intervention_checkin_enabled ? true : false,
@@ -942,6 +1025,7 @@ async function submitForm() {
                 relative_chat_enabled: state.formCompany.relative_chat_enabled,
                 relative_chat_management_enabled: state.formCompany.relative_chat_management_enabled,
                 relative_chat_contact_persons_enabled: state.formCompany.relative_chat_contact_persons_enabled,
+                portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,
                 intervention_checkin_enabled: state.formCompany.intervention_checkin_enabled,

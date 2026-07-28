@@ -289,7 +289,9 @@ const navigation = computed(() => {
         },
     ] as any
 
-    if (userStore.getUser?.company?.relative_chat_enabled) {
+    const visibility = userStore.getUser?.portal_visibility ?? {}
+
+    if (userStore.getUser?.company?.relative_chat_enabled && visibility.messages !== false) {
         items.push({
             name: 'Messages',
             href: '/relative/messages',

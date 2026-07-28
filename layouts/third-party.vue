@@ -270,8 +270,10 @@ const language = useI18n()
 const router = useRouter()
 
 const navigation = computed(() => {
-    return [
-        {
+    const items = [] as any
+
+    if ((userStore.getUser?.portal_visibility ?? {}).messages !== false) {
+        items.push({
             name: 'Messages',
             href: '/third-party/messages',
             icon: 'heroicons:chat-bubble-left-right',
@@ -279,8 +281,10 @@ const navigation = computed(() => {
                 'third-party-messages',
                 'third-party-messages-chat_uuid',
             ]
-        },
-    ] as any
+        })
+    }
+
+    return items
 })
 
 const sidebarOpen = ref(false)
