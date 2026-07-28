@@ -90,7 +90,7 @@
 </template>
 
 <script setup lang="ts">
-import { citizenService } from '@/components/api/user/CitizenService'
+import { citizenService } from '@/components/api/relative/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'

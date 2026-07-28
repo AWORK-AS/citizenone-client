@@ -207,7 +207,8 @@
                 </LoadingSpinner>
             </div>
             <ModulesUserCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
-                @close="state.modal.isFilterJournalOpen = false" @setFilter="setFilter" />
+                :hideStaffFilters="true" @close="state.modal.isFilterJournalOpen = false"
+                @setFilter="setFilter" />
         </NuxtLayout>
     </div>
 </template>
