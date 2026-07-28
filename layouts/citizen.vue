@@ -47,6 +47,9 @@
                                                         <span v-if="item.name === 'Overview'">
                                                             {{ $t('sidebar.overview') }}
                                                         </span>
+                                                        <span v-if="item.name === 'Messages'">
+                                                            {{ $t('sidebar.messages') }}
+                                                        </span>
                                                         <span v-if="item.name === 'Duty schedules'">
                                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
                                                         </span>
@@ -111,6 +114,9 @@
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
                                         <span v-if="item.name === 'Overview'">
                                             {{ $t('sidebar.overview') }}
+                                        </span>
+                                        <span v-if="item.name === 'Messages'">
+                                            {{ $t('sidebar.messages') }}
                                         </span>
                                         <span v-if="item.name === 'Duty schedules'">
                                             {{ customPagesStore.getCustomPagesName?.dutySchedules }}
@@ -303,6 +309,15 @@ const navigation = ref([
         icon: 'material-symbols:dashboard',
         activeRouteNames: [
             'citizen-daily-overview',
+        ]
+    },
+    {
+        name: 'Messages',
+        href: '/citizen/messages',
+        icon: 'heroicons:chat-bubble-left-right',
+        activeRouteNames: [
+            'citizen-messages',
+            'citizen-messages-chat_uuid',
         ]
     },
     {
