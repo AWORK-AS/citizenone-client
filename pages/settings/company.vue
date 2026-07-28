@@ -296,6 +296,12 @@
                                     {{ $t('settings.company.form.lockPastSchedules') }}
                                 </p>
                             </div>
+                            <div v-if="state.formCompany.is_lock_past_schedules" class="space-y-1">
+                                <FormLabel for="lock_shifts_before_date" :label="$t('settings.company.form.lockShiftsBeforeDate')" />
+                                <FormDateField id="lock_shifts_before_date" name="lock_shifts_before_date"
+                                    :placeholder="$t('settings.company.form.lockShiftsBeforeDate')"
+                                    v-model="state.formCompany.lock_shifts_before_date" />
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.warning_13_hour_shift_enabled"
                                     @toggleSwitch="state.formCompany.warning_13_hour_shift_enabled = !state.formCompany.warning_13_hour_shift_enabled" />
@@ -607,6 +613,7 @@ const state = reactive({
         goals_enabled: false,
         subgoals_enabled: false,
         is_lock_past_schedules: false,
+        lock_shifts_before_date: '' as string,
         transfer_norm_hours_enabled: false,
         is_sort_by_status: false,
         social_og_boligstyrelsen: false,
@@ -715,6 +722,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             goals_enabled: newValue?.company?.employee_create_goals_enabled ? true : false,
             subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ? true : false,
             is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ? true : false,
+            lock_shifts_before_date: newValue?.company?.lock_shifts_before_date ?? '',
             transfer_norm_hours_enabled: newValue?.company?.transfer_norm_hours_enabled ? true : false,
             is_sort_by_status: newValue?.company?.is_sort_by_status ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
@@ -914,6 +922,7 @@ async function submitForm() {
                 employee_create_goals_enabled: state.formCompany.goals_enabled,
                 employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
                 is_lock_past_schedules: state.formCompany.is_lock_past_schedules,
+                lock_shifts_before_date: state.formCompany.is_lock_past_schedules ? (state.formCompany.lock_shifts_before_date || null) : null,
                 transfer_norm_hours_enabled: state.formCompany.transfer_norm_hours_enabled,
                 is_sort_by_status: state.formCompany.is_sort_by_status,
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
