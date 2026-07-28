@@ -198,7 +198,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupCommunication') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ communicationCount }} / 3</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ communicationCount }} / 4</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.communication }" />
                             </span>
                         </button>
@@ -230,6 +230,33 @@
                                     @toggleSwitch="state.formCompany.inquiry_pipeline_enabled = !state.formCompany.inquiry_pipeline_enabled" />
                                 <p>
                                     {{ $t('inquiryPipeline.enableLabel') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.relative_chat_enabled"
+                                    @toggleSwitch="state.formCompany.relative_chat_enabled = !state.formCompany.relative_chat_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.relativeChat') }}
+                                </p>
+                            </div>
+                        </div>
+                        <div v-if="state.formCompany.relative_chat_enabled"
+                            class="mt-3 ml-6 pl-4 border-l-2 border-primary/20 space-y-3">
+                            <p class="text-xs text-gray-500">
+                                {{ $t('settings.company.form.relativeChatRecipientsHint') }}.
+                            </p>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.relative_chat_management_enabled"
+                                    @toggleSwitch="state.formCompany.relative_chat_management_enabled = !state.formCompany.relative_chat_management_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.relativeChatManagement') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.relative_chat_contact_persons_enabled"
+                                    @toggleSwitch="state.formCompany.relative_chat_contact_persons_enabled = !state.formCompany.relative_chat_contact_persons_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.relativeChatContactPersons') }}
                                 </p>
                             </div>
                         </div>
@@ -530,7 +557,7 @@ const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
 const openSections = reactive({ access: true, communication: true, plans: true, schedule: true, other: true })
 // Count of enabled toggles per group, for the header count chips (default-safe via filter(Boolean)).
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
-const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled].filter(Boolean).length)
+const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled].filter(Boolean).length)
 const plansCount = computed(() => [state.formCompany.plans_enabled, state.formCompany.goals_enabled, state.formCompany.subgoals_enabled].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled].filter(Boolean).length)
 const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen].filter(Boolean).length)
@@ -599,6 +626,9 @@ const state = reactive({
         employment_weekly_hours: '',
         is_2fa_enabled: false,
         group_chat_enabled: false,
+        relative_chat_enabled: false,
+        relative_chat_management_enabled: true,
+        relative_chat_contact_persons_enabled: true,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
         intervention_checkin_enabled: false,
@@ -707,6 +737,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             employment_weekly_hours: newValue?.company?.employment_weekly_hours?.toString() ?? '',
             is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
             group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
+            relative_chat_enabled: newValue?.company?.relative_chat_enabled ? true : false,
+            relative_chat_management_enabled: newValue?.company?.relative_chat_management_enabled ? true : false,
+            relative_chat_contact_persons_enabled: newValue?.company?.relative_chat_contact_persons_enabled ? true : false,
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
             intervention_checkin_enabled: newValue?.company?.intervention_checkin_enabled ? true : false,
@@ -906,6 +939,9 @@ async function submitForm() {
                 employment_weekly_hours: state.formCompany.employment_weekly_hours || null,
                 is_2fa_enabled: state.formCompany.is_2fa_enabled,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
+                relative_chat_enabled: state.formCompany.relative_chat_enabled,
+                relative_chat_management_enabled: state.formCompany.relative_chat_management_enabled,
+                relative_chat_contact_persons_enabled: state.formCompany.relative_chat_contact_persons_enabled,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,
                 intervention_checkin_enabled: state.formCompany.intervention_checkin_enabled,

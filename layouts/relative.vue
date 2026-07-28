@@ -47,6 +47,9 @@
                                                         <span v-if="item.name === 'Citizens'">
                                                             {{ customPagesStore.getCustomPagesName?.citizens }}
                                                         </span>
+                                                        <span v-else-if="item.name === 'Messages'">
+                                                            {{ $t('messages.messages') }}
+                                                        </span>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
                                                         <DisclosureButton
@@ -102,6 +105,9 @@
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
                                         <span v-if="item.name === 'Citizens'">
                                             {{ customPagesStore.getCustomPagesName?.citizens }}
+                                        </span>
+                                        <span v-else-if="item.name === 'Messages'">
+                                            {{ $t('messages.messages') }}
                                         </span>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
@@ -269,18 +275,34 @@ const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 const router = useRouter()
 
-const navigation = [
-    {
-        name: 'Citizens',
-        href: '/relative/citizens',
-        icon: 'heroicons:user-group',
-        activeRouteNames: [
-            'relative-citizens',
-            'relative-citizens-uuid-journals',
-            'relative-citizens-uuid-documents',
-        ]
-    },
-] as any
+const navigation = computed(() => {
+    const items = [
+        {
+            name: 'Citizens',
+            href: '/relative/citizens',
+            icon: 'heroicons:user-group',
+            activeRouteNames: [
+                'relative-citizens',
+                'relative-citizens-uuid-journals',
+                'relative-citizens-uuid-documents',
+            ]
+        },
+    ] as any
+
+    if (userStore.getUser?.company?.relative_chat_enabled) {
+        items.push({
+            name: 'Messages',
+            href: '/relative/messages',
+            icon: 'heroicons:chat-bubble-left-right',
+            activeRouteNames: [
+                'relative-messages',
+                'relative-messages-chat_uuid',
+            ]
+        })
+    }
+
+    return items
+})
 
 const sidebarOpen = ref(false)
 

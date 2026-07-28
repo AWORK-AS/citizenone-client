@@ -110,12 +110,19 @@ onMounted(() => {
     }
 })
 
+// The relative is a CitizenContact morph; compare members by type and id pair
+// so numeric id collisions with User rows never hide the counterpart.
+function isSelfMember(chatMember: any) {
+    return (chatMember?.user_type ?? '').includes('CitizenContact') &&
+        chatMember?.user_id === userStore.getUser?.id
+}
+
 function chatToSelf(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id === userStore.getUser?.id)
+    return chatMembers.filter((chatMember: any) => isSelfMember(chatMember))
 }
 
 function excludeCurrentUserFromChatMembers(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id !== userStore.getUser?.id)
+    return chatMembers.filter((chatMember: any) => !isSelfMember(chatMember))
 }
 
 function chatGroupMembers(chat: any) {
