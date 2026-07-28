@@ -7252,6 +7252,19 @@
             "nameSwedish": "Navn (svensk)"
         }
     },
+    "medicineMissedDoses": {
+        "pageTitle": "Glemt medisin",
+        "missed": "Glemt",
+        "wasDueOn": "Skulle vært gitt den",
+        "giveNow": "Gi nå",
+        "noneFound": "Ingen glemt medisin akkurat nå",
+        "toast": {
+            "title": "Glemt medisin",
+            "forCitizenAt": "til {citizen} skulle vært gitt kl. {time}",
+            "andMore": "og {count} til",
+            "viewAll": "Se alle"
+        }
+    },
     "messages": {
         "actions": {
             "delete": "Slett",

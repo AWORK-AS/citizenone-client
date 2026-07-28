@@ -7252,6 +7252,19 @@
             "nameSwedish": "Name (swedish)"
         }
     },
+    "medicineMissedDoses": {
+        "pageTitle": "Forgotten medicine",
+        "missed": "Missed",
+        "wasDueOn": "Was due on",
+        "giveNow": "Give now",
+        "noneFound": "No forgotten medicine right now",
+        "toast": {
+            "title": "Missed medication",
+            "forCitizenAt": "for {citizen} was due at {time}",
+            "andMore": "and {count} more",
+            "viewAll": "View all"
+        }
+    },
     "messages": {
         "actions": {
             "delete": "Delete",
