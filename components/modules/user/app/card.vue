@@ -105,6 +105,10 @@
                 @click="emit('goToPartner', props.app?.url_field)" v-if="props.app?.url_field">
                 {{ $t('apps.goToPartner') }}
             </FormButton>
+            <FormButton type="button" buttonStyle="primary" class="w-full"
+                v-else-if="props.app?.user_activated && setupLink" @click="navigateTo(setupLink)">
+                {{ $t('apps.goToSetup') }}
+            </FormButton>
             <FormButton type="button" :buttonStyle="props.app?.user_activated ? 'app-activated' : 'app-order-now'"
                 :class="[
                     props.app?.user_activated && 'cursor-not-allowed',
@@ -138,6 +142,7 @@ const props = defineProps({
 
 const emit = defineEmits(['readMore', 'goToPartner', 'activate'])
 
+const setupLink = computed(() => appSetupLinkFor(props.app))
 const appIcon = computed(() => appIconFor(props.app).icon)
 const useIconTile = computed(() => appIconFor(props.app).useTile)
 

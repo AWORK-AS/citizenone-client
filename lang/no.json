@@ -7336,7 +7336,13 @@
         "subjectPlaceholder": "Hva handler det om?",
         "messagePlaceholder": "Skriv meldingen din...",
         "sendHint": "⌘ + Enter for å sende",
-        "emoji": "Emoji"
+        "emoji": "Emoji",
+        "writeToUs": "Skriv til oss",
+        "writeToUsPlaceholder": "Skriv spørsmålet eller meldingen din her...",
+        "writeToUsContactPersons": "Går til {names}, som følger opp din pårørende",
+        "writeToUsManagement": "Går til ledelsen",
+        "seeAllConversations": "Se alle samtaler",
+        "sending": "Sender..."
     },
     "months": {
         "april": "April",
@@ -8885,7 +8891,8 @@
                 "portalNeverOtherCitizens": "Noe som helst om andre innbyggere",
                 "portalNeverStaffNotes": "Interne merknader skrevet om dem",
                 "portalNeverJournalsAtAll": "Journaler og dokumenter, aldri",
-                "portalNeverUnassignedStaff": "Ansatte I ikke har tilknyttet dem"
+                "portalNeverUnassignedStaff": "Ansatte I ikke har tilknyttet dem",
+                "portalAccessSeeWhoHasAccess": "Se hvem som har tilgang"
             }
         },
         "licenseOverview": {
@@ -12090,6 +12097,7 @@
             "citizen": "Innbygger",
             "status": "Status",
             "grantedAt": "Tilgang gitt"
-        }
+        },
+        "chooseWhatTheySee": "Velg hva de kan se"
     }
 }

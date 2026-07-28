@@ -7336,7 +7336,13 @@
         "subjectPlaceholder": "What's it about?",
         "messagePlaceholder": "Write your message...",
         "sendHint": "⌘ + Enter to send",
-        "emoji": "Emoji"
+        "emoji": "Emoji",
+        "writeToUs": "Write to us",
+        "writeToUsPlaceholder": "Write your question or update here...",
+        "writeToUsContactPersons": "Goes to {names}, who look after your relative",
+        "writeToUsManagement": "Goes to the management",
+        "seeAllConversations": "See all conversations",
+        "sending": "Sending..."
     },
     "months": {
         "april": "April",
@@ -8885,7 +8891,8 @@
                 "portalNeverOtherCitizens": "Anything about other citizens",
                 "portalNeverStaffNotes": "Internal notes written about them",
                 "portalNeverJournalsAtAll": "Journals and documents, ever",
-                "portalNeverUnassignedStaff": "Employees you did not assign to them"
+                "portalNeverUnassignedStaff": "Employees you did not assign to them",
+                "portalAccessSeeWhoHasAccess": "See who has access"
             }
         },
         "licenseOverview": {
@@ -12090,6 +12097,7 @@
             "citizen": "Citizen",
             "status": "Status",
             "grantedAt": "Access given"
-        }
+        },
+        "chooseWhatTheySee": "Choose what they see"
     }
 }

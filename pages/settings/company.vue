@@ -276,9 +276,17 @@
                             </span>
                         </button>
                         <div v-show="openSections.portals" class="px-5 pb-5 pt-3 border-t border-gray-100 space-y-5">
-                            <p class="text-sm text-gray-500">
-                                {{ $t('settings.company.form.portalAccessHint') }}.
-                            </p>
+                            <div class="flex flex-wrap items-center justify-between gap-3">
+                                <p class="text-sm text-gray-500">
+                                    {{ $t('settings.company.form.portalAccessHint') }}.
+                                </p>
+                                <button type="button"
+                                    class="flex items-center gap-x-1 text-xs font-medium text-primary hover:underline"
+                                    @click="navigateTo('/settings/portal-access')">
+                                    <Icon name="ph:users-three" class="w-4 h-4" aria-hidden="true" />
+                                    {{ $t('settings.company.form.portalAccessSeeWhoHasAccess') }}
+                                </button>
+                            </div>
                             <div :class="[
                                 visibleSectionCount > 0
                                     ? 'border-amber-300 bg-amber-50 text-amber-900'

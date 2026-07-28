@@ -7336,7 +7336,13 @@
         "subjectPlaceholder": "Vad handlar det om?",
         "messagePlaceholder": "Skriv ditt meddelande...",
         "sendHint": "⌘ + Enter för att skicka",
-        "emoji": "Emoji"
+        "emoji": "Emoji",
+        "writeToUs": "Skriv till oss",
+        "writeToUsPlaceholder": "Skriv din fråga eller ditt meddelande här...",
+        "writeToUsContactPersons": "Går till {names}, som finns runt din anhöriga",
+        "writeToUsManagement": "Går till ledningen",
+        "seeAllConversations": "Se alla samtal",
+        "sending": "Skickar..."
     },
     "months": {
         "april": "April",
@@ -8885,7 +8891,8 @@
                 "portalNeverOtherCitizens": "Något som helst om andra medborgare",
                 "portalNeverStaffNotes": "Interna anteckningar skrivna om dem",
                 "portalNeverJournalsAtAll": "Journaler och dokument, aldrig",
-                "portalNeverUnassignedStaff": "Medarbetare ni inte har kopplat till dem"
+                "portalNeverUnassignedStaff": "Medarbetare ni inte har kopplat till dem",
+                "portalAccessSeeWhoHasAccess": "Se vem som har åtkomst"
             }
         },
         "licenseOverview": {
@@ -12090,6 +12097,7 @@
             "citizen": "Medborgare",
             "status": "Status",
             "grantedAt": "Åtkomst gavs"
-        }
+        },
+        "chooseWhatTheySee": "Välj vad de ser"
     }
 }

@@ -18,9 +18,15 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <p class="text-sm text-gray-500">
-                    {{ $t('portalAccess.intro') }}.
-                </p>
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <p class="text-sm text-gray-500">
+                        {{ $t('portalAccess.intro') }}.
+                    </p>
+                    <FormButton type="button" buttonStyle="action" @click="navigateTo('/settings/company')">
+                        <Icon name="ph:eye" class="size-4" />
+                        {{ $t('portalAccess.chooseWhatTheySee') }}
+                    </FormButton>
+                </div>
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="space-y-6">
