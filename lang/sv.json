@@ -4050,6 +4050,16 @@
                     "leaveRequestsSuccessfullyRejected": "Ferieanmodning har avvisats"
                 },
                 "confirmation": {
+                    "approveAudience": {
+                        "title": "Godkänn ledighetsansökan",
+                        "audienceLabel": "Vem ska det frigivna passet erbjudas till?",
+                        "everyone": "Alla",
+                        "jobTitleSpecialty": "En specifik jobbtitel & specialitet",
+                        "employee": "En specifik anställd",
+                        "employeeLabel": "Anställd",
+                        "jobTitleRequired": "Välj minst en jobbtitel",
+                        "employeeRequired": "Välj en anställd"
+                    },
                     "approveLeaveRequestConfirmation": "Är du säker på att du vill godkänna denna semester?",
                     "deleteLeaveRequestConfirmation": "Är du säker på att du vill radera denna semester?",
                     "rejectLeaveRequestConfirmation": "Är du säker på att du vill afvise denna semester?",

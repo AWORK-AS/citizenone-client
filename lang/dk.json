@@ -4050,6 +4050,16 @@
                     "leaveRequestsSuccessfullyRejected": "Ferieanmodning blev afvist"
                 },
                 "confirmation": {
+                    "approveAudience": {
+                        "title": "Godkend orlovsanmodning",
+                        "audienceLabel": "Hvem skal den frigivne vagt tilbydes til?",
+                        "everyone": "Alle",
+                        "jobTitleSpecialty": "En bestemt jobtitel & speciale",
+                        "employee": "En bestemt medarbejder",
+                        "employeeLabel": "Medarbejder",
+                        "jobTitleRequired": "Vælg mindst én jobtitel",
+                        "employeeRequired": "Vælg en medarbejder"
+                    },
                     "approveLeaveRequestConfirmation": "Er du sikker på, at du vil godkende denne ferie?",
                     "deleteLeaveRequestConfirmation": "Er du sikker på, at du vil slette denne ferie?",
                     "rejectLeaveRequestConfirmation": "Er du sikker på, at du vil afvise denne ferie?",

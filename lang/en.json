@@ -4050,6 +4050,16 @@
                     "leaveRequestsSuccessfullyRejected": "Leave request successfully rejected"
                 },
                 "confirmation": {
+                    "approveAudience": {
+                        "title": "Approve leave request",
+                        "audienceLabel": "Who should this released shift be offered to?",
+                        "everyone": "Everyone",
+                        "jobTitleSpecialty": "A specific job title & speciality",
+                        "employee": "A specific employee",
+                        "employeeLabel": "Employee",
+                        "jobTitleRequired": "Select at least one job title",
+                        "employeeRequired": "Select an employee"
+                    },
                     "approveLeaveRequestConfirmation": "Are you sure you want to approve this leave",
                     "deleteLeaveRequestConfirmation": "Are you sure you want to delete this leave",
                     "rejectLeaveRequestConfirmation": "Are you sure you want to disapprove this leave",
