@@ -8802,6 +8802,8 @@
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Check ind/ud for indsats",
+                "relativeCanMessageAdmins": "Pårørende kan skrive til ledelse/administratorer",
+                "relativeCanMessageContactPersons": "Pårørende kan skrive til borgerens tildelte kontaktpersoner",
                 "interventionNotificationHours": "Varslingstimer for indsats",
                 "employmentWeeklyHours": "Ugentlige arbejdstimer (fakturering for beskæftigelsesindsats)",
                 "employmentWeeklyHoursHint": "Bruges til at omregne timepriser til en ugentlig pris. Lad stå tomt for at bruge standarden på 37 timer/uge.",

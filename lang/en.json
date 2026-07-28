@@ -8802,6 +8802,8 @@
                 "enableSystemNotifications": "Enable system notifications",
                 "groupChat": "Group chat",
                 "interventionCheckinOut": "Intervention check in/out",
+                "relativeCanMessageAdmins": "Relatives can message management/administrators",
+                "relativeCanMessageContactPersons": "Relatives can message the citizen's assigned contact persons",
                 "interventionNotificationHours": "Intervention notification hours",
                 "employmentWeeklyHours": "Weekly work hours (Employment Services billing)",
                 "employmentWeeklyHoursHint": "Used to convert hourly billing rates into a weekly price. Leave blank to use the default of 37 hours/week.",

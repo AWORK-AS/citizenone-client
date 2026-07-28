@@ -8802,6 +8802,8 @@
                 "enableSystemNotifications": "Aktiver systemnotifikationer",
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Sjekk inn/ut for innsats",
+                "relativeCanMessageAdmins": "Pårørende kan sende melding til ledelse/administratorer",
+                "relativeCanMessageContactPersons": "Pårørende kan sende melding til brukerens tildelte kontaktpersoner",
                 "interventionNotificationHours": "Varslingstimer for innsats",
                 "employmentWeeklyHours": "Ukentlige arbeidstimer (fakturering for sysselsettingsinnsats)",
                 "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",

@@ -12,64 +12,19 @@
                 chat?.unread_messages > 0 && 'bg-primary/5',
                 'border-b border-gray-100 px-5 py-3 cursor-pointer'
             ]">
-                <div v-if="chat?.type === 'direct'">
-                    <div>
-                        <div v-if="excludeCurrentUserFromChatMembers(chat?.chat_members)?.length > 0">
-                            <div v-for="(chatMember, index) in excludeCurrentUserFromChatMembers(chat?.chat_members)"
-                                :index="index" class="grid grid-cols-12 items-center">
-                                <div class="col-span-2">
-                                        <img :src="memberAvatar(chatMember)" alt="Item 1"
-                                        class="w-11 h-11 rounded-full object-cover">
-                                </div>
-                                <div class="col-span-10">
-                                    <Tooltip :text="memberDisplayName(chatMember)">
-                                        <h4 class="font-semibold text-sm">{{ memberDisplayName(chatMember) }}</h4>
-                                    </Tooltip>
-                                    <p class="text-xxs" v-if="chat?.unread_messages > 0">
-                                        {{ chat?.unread_messages }}
-                                        <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div v-else class="grid grid-cols-12 items-center">
-                            <div class="col-span-2">
-                                <img :src="memberAvatar(chatToSelf(chat?.chat_members)[0])"
-                                    alt="Item 1" class="w-11 h-11 rounded-full object-cover">
-                            </div>
-                            <div class="col-span-10">
-                                <Tooltip :text="memberDisplayName(chatToSelf(chat?.chat_members)[0])">
-                                    <h4 class="font-semibold text-sm">{{ memberDisplayName(chatToSelf(chat?.chat_members)[0]) }}</h4>
-                                </Tooltip>
-                                <p class="text-xxs" v-if="chat?.unread_messages > 0">
-                                    {{ chat?.unread_messages }}
-                                    <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
-                                </p>
-                            </div>
-                        </div>
+                <div class="grid grid-cols-12 items-center">
+                    <div class="col-span-2">
+                        <img :src="memberAvatar(otherMember(chat?.chat_members))" alt="Item 1"
+                            class="w-11 h-11 rounded-full object-cover">
                     </div>
-                </div>
-                <div v-if="chat?.type === 'group'">
-                    <div class="grid grid-cols-12 items-center">
-                        <div class="relative col-span-2">
-                            <img src="/img/avatars/user.svg" alt="Item 1"
-                                class="w-6 h-6 rounded-full object-cover relative top-1">
-                            <img src="/img/avatars/user.svg" alt="Item 1"
-                                class="w-6 h-6 rounded-full object-cover absolute -top-3.5 left-3">
-                            <img src="/img/avatars/user.svg" alt="Item 1"
-                                class="w-6 h-6 rounded-full object-cover absolute top-1.5 left-5">
-                        </div>
-                        <div class="col-span-10">
-                            <Tooltip :text="`${chatGroupMembers(chat)}.`">
-                                <h4 class="font-semibold text-sm line-clamp-1">
-                                    {{ chatGroupMembers(chat) }}.
-                                </h4>
-                            </Tooltip>
-                            <p class="text-xxs" v-if="chat?.unread_messages > 0">
-                                {{ chat?.unread_messages }}
-                                <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
-                            </p>
-                        </div>
+                    <div class="col-span-10">
+                        <Tooltip :text="memberDisplayName(otherMember(chat?.chat_members))">
+                            <h4 class="font-semibold text-sm">{{ memberDisplayName(otherMember(chat?.chat_members)) }}</h4>
+                        </Tooltip>
+                        <p class="text-xxs" v-if="chat?.unread_messages > 0">
+                            {{ chat?.unread_messages }}
+                            <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
+                        </p>
                     </div>
                 </div>
             </li>
@@ -81,9 +36,6 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
-
-const router = useRouter()
-const userUuid = router?.currentRoute?.value?.query?.user_uuid
 
 const props = defineProps({
     error: {
@@ -104,24 +56,8 @@ const state = reactive({
     }
 })
 
-onMounted(() => {
-    if (userUuid) {
-        state.modal.isNewChatOpen = true
-    }
-})
-
-function chatToSelf(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id === userStore.getUser?.id)
-}
-
-function excludeCurrentUserFromChatMembers(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id !== userStore.getUser?.id)
-}
-
-function chatGroupMembers(chat: any) {
-    return excludeCurrentUserFromChatMembers(chat?.chat_members)
-    ?.map((chatMember: any) => memberDisplayName(chatMember))
-        ?.join(', ')
+function otherMember(chatMembers: any) {
+    return chatMembers?.find((chatMember: any) => chatMember.user_id !== userStore.getUser?.id) ?? chatMembers?.[0]
 }
 
 function openChat(chat: any) {
@@ -131,20 +67,11 @@ function openChat(chat: any) {
 function memberDisplayName(member: any) {
     if (!member) return ''
     const user = member.user || {}
-    const userType = member.user_type || ''
-    if (userType.includes('CaseworkerLicenseConfig') || userType.toLowerCase().includes('caseworker')) {
-        return user.name || `${user.firstname ?? ''} ${user.lastname ?? ''}`.trim()
-    }
-    return `${user.firstname ?? ''} ${user.lastname ?? ''}`.trim() || user.name || ''
+
+    return `${user.firstname ?? ''} ${user.lastname ?? ''}`.trim()
 }
 
 function memberAvatar(member: any) {
-    if (!member) return '/img/avatars/user.svg'
-    const user = member.user || {}
-    const userType = member.user_type || ''
-    if (userType.includes('CaseworkerLicenseConfig') || userType.toLowerCase().includes('caseworker')) {
-        return user.profile_image ?? user.logo ?? '/img/avatars/user.svg'
-    }
-    return user.profile_image ?? '/img/avatars/user.svg'
+    return member?.user?.profile_image ?? '/img/avatars/user.svg'
 }
 </script>

@@ -8802,6 +8802,8 @@
                 "enableSystemNotifications": "Aktivera systemnotifikationer",
                 "groupChat": "Gruppechat",
                 "interventionCheckinOut": "Check in/ut för insats",
+                "relativeCanMessageAdmins": "Anhöriga kan skicka meddelanden till ledning/administratörer",
+                "relativeCanMessageContactPersons": "Anhöriga kan skicka meddelanden till brukarens tilldelade kontaktpersoner",
                 "interventionNotificationHours": "Varslingstimer för insats",
                 "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
                 "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",

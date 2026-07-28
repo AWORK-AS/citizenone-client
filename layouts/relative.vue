@@ -41,12 +41,19 @@
                                             <ul role="list" class="-mx-2 space-y-1">
                                                 <li v-for="item in navigation" :key="item.name">
                                                     <div v-if="!item.children" @click="navigateTo(item.href)"
-                                                        :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group flex gap-x-3 p-2 text-sm leading-6 font-semibold cursor-pointer']">
+                                                        :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group relative flex gap-x-3 p-2 text-sm leading-6 font-semibold cursor-pointer']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             aria-hidden="true" />
                                                         <span v-if="item.name === 'Citizens'">
                                                             {{ customPagesStore.getCustomPagesName?.citizens }}
                                                         </span>
+                                                        <span v-if="item.name === 'Messages'">
+                                                            {{ $t('messages.messages') }}
+                                                        </span>
+                                                        <Badge type="notification" v-if="item.name === 'Messages' && userStore.getUser?.unread_messages_count > 0"
+                                                            class="w-4.5 h-4.5 flex items-center justify-center absolute top-1 left-7 text-[10px]">
+                                                            {{ userStore.getUser?.unread_messages_count }}
+                                                        </Badge>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
                                                         <DisclosureButton
@@ -98,11 +105,18 @@
                             <ul role="list" class="-mx-2 space-y-1">
                                 <li v-for="item in navigation" :key="item.name">
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
-                                        :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group flex gap-x-3 p-3 text-sm leading-6 font-semibold cursor-pointer']">
+                                        :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group relative flex gap-x-3 p-3 text-sm leading-6 font-semibold cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
                                         <span v-if="item.name === 'Citizens'">
                                             {{ customPagesStore.getCustomPagesName?.citizens }}
                                         </span>
+                                        <span v-if="item.name === 'Messages'">
+                                            {{ $t('messages.messages') }}
+                                        </span>
+                                        <Badge type="notification" v-if="item.name === 'Messages' && userStore.getUser?.unread_messages_count > 0"
+                                            class="w-4.5 h-4.5 flex items-center justify-center absolute top-2 left-8 text-[10px]">
+                                            {{ userStore.getUser?.unread_messages_count }}
+                                        </Badge>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
                                         <DisclosureButton
@@ -278,6 +292,15 @@ const navigation = [
             'relative-citizens',
             'relative-citizens-uuid-journals',
             'relative-citizens-uuid-documents',
+        ]
+    },
+    {
+        name: 'Messages',
+        href: '/relative/messages',
+        icon: 'ph:chat-circle',
+        activeRouteNames: [
+            'relative-messages',
+            'relative-messages-chat_uuid',
         ]
     },
 ] as any
