@@ -3,19 +3,16 @@
         <Modal size="sm" :title="$t('messages.message')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <form @submit.prevent="sendMessage">
+                    <form @submit.prevent="sendMessage" v-if="state.options.receivers.length > 0">
                         <div class="space-y-3">
                             <h3 class="text-base font-semibold text-primary">
                                 {{ $t('messages.startTheConversation') }}
                             </h3>
                             <div class="space-y-1">
-                                <FormLabel for="receivers" :label="$t('messages.users')" />
-                                <FormSelectMultiple id="receivers" :options="state.options.receivers"
-                                    v-model="state.formChat.receivers"
-                                    v-if="userStore.getUser?.company?.group_chat_enabled" />
-                                <FormSelect id="receivers" :options="state.options.receivers"
-                                    v-model="state.formChat.receivers" v-else />
-                                <FormError :error="v$?.formChat?.receivers?.$errors[0]?.$message.toString()" />
+                                <FormLabel for="receiver" :label="$t('messages.users')" />
+                                <FormSelect id="receiver" :options="state.options.receivers"
+                                    v-model="state.formChat.receiver" />
+                                <FormError :error="v$?.formChat?.receiver?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.receiver_uuid?.[0]" />
                             </div>
                             <div class="space-y-1">
@@ -39,6 +36,9 @@
                             </FormButton>
                         </div>
                     </form>
+                    <p v-else class="text-sm text-gray-500 py-4">
+                        {{ $t('messages.noConversationsFound') }}
+                    </p>
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -46,11 +46,10 @@
 </template>
 
 <script setup lang="ts">
-import { messageService } from '@/components/api/relative/MessageService'
+import { chatService } from '@/components/api/relative/ChatService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
-import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -61,27 +60,23 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const { t } = useI18n()
-const userStore = useUserStore() as any
-const router = useRouter()
-const userUuid = router?.currentRoute?.value?.query?.user_uuid
 
 const state = reactive({
     error: {} as Error,
     formChat: {
         message: '',
-        receivers: [] as any,
+        receiver: null as string | null,
         subject: '',
     },
     isPageLoading: false,
     options: {
-        receivers: []
+        receivers: [] as any,
     }
 })
 
-onMounted(() => {
-    fetchAllAvailableChatUsers()
-    if (userUuid) {
-        state.formChat.receivers.push(userUuid)
+watch(() => props.isModalOpen, (isModalOpen: boolean) => {
+    if (isModalOpen) {
+        fetchRecipients()
     }
 })
 
@@ -91,7 +86,7 @@ const rules = computed(() => {
             message: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
-            receivers: {
+            receiver: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
         }
@@ -104,20 +99,16 @@ function closeModal() {
     emit('close')
 }
 
-async function fetchAllAvailableChatUsers() {
+async function fetchRecipients() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await messageService.getAllAvailableUsers()
+        const response = await chatService.fetchRecipients()
         if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname + " (" + user?.role + ")",
-                })
-            )
-            state.options.receivers = options
+            state.options.receivers = response.data.map((user: any) => ({
+                value: user.uuid,
+                label: `${user.firstname} ${user.lastname ?? ''}`,
+            }))
         }
     } catch (error: any) {
         state.error = error
@@ -133,16 +124,16 @@ async function sendMessage() {
             const params = {
                 subject: state.formChat.subject,
                 message: state.formChat.message,
-                receiver_uuid: userStore.getUser?.company?.group_chat_enabled ?
-                    state.formChat.receivers :
-                    [state.formChat.receivers]
+                receiver_uuid: [state.formChat.receiver],
             }
-            const response = await messageService.sendMessageViaReceiverUuid(params)
+            const response = await chatService.sendMessageViaReceiverUuid(params)
             if (response) {
                 const chatUuid = response?.data?.chat?.uuid
-                navigateTo(`/messages/${chatUuid}`)
+                navigateTo(`/relative/messages/${chatUuid}`)
                 closeModal()
-                state.formChat.receivers = []
+                state.formChat.receiver = null
+                state.formChat.subject = ''
+                state.formChat.message = ''
             }
         } catch (error: any) {
             state.error = error
