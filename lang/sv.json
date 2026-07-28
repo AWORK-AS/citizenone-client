@@ -7252,6 +7252,19 @@
             "nameSwedish": "Namn (svenska)"
         }
     },
+    "medicineMissedDoses": {
+        "pageTitle": "Glömd medicin",
+        "missed": "Missad",
+        "wasDueOn": "Skulle ha givits den",
+        "giveNow": "Ge nu",
+        "noneFound": "Ingen glömd medicin just nu",
+        "toast": {
+            "title": "Missad medicin",
+            "forCitizenAt": "till {citizen} skulle ha givits kl. {time}",
+            "andMore": "och {count} till",
+            "viewAll": "Visa alla"
+        }
+    },
     "messages": {
         "actions": {
             "delete": "Radera",
