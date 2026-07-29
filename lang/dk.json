@@ -7366,6 +7366,8 @@
         "mileageReport": "Kørselsrapport",
         "newTrip": "Ny tur",
         "summary": {
+            "allTime": "Al tid",
+            "byEmployee": "Pr. medarbejder",
             "period": "Periode",
             "totalKm": "Total km",
             "totalKmAllEmployees": "Total km (alle medarbejdere)",

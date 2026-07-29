@@ -7366,6 +7366,8 @@
         "mileageReport": "Mileage Report",
         "newTrip": "New trip",
         "summary": {
+            "allTime": "All time",
+            "byEmployee": "By employee",
             "period": "Period",
             "totalKm": "Total km",
             "totalKmAllEmployees": "Total km (all employees)",

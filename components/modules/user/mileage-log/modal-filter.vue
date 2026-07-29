@@ -23,7 +23,15 @@
                                     v-model="state.formFilter.citizen_link" />
                             </div>
                             <div class="space-y-1">
-                                <FormLabel for="date_range" :label="$t('mileageLog.filter.filterDate')" />
+                                <div class="flex items-center justify-between">
+                                    <FormLabel for="date_range" :label="$t('mileageLog.filter.filterDate')" />
+                                    <button type="button" v-if="state.formFilter.date_range?.length"
+                                        @click="state.formFilter.date_range = []"
+                                        class="flex items-center gap-1 text-xs text-red-500 hover:text-red-700">
+                                        <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
+                                        {{ $t('clear') }}
+                                    </button>
+                                </div>
                                 <FormDateRangeField name="date_range" :placeholder="t('mileageLog.filter.filterDate')"
                                     v-model="state.formFilter.date_range" />
                             </div>

@@ -37,11 +37,18 @@
                     </div>
 
                     <div class="flex flex-wrap items-center justify-between gap-3">
-                        <button class="flex items-center gap-x-1 text-sm text-primary group"
-                            @click="state.modal.isFilterOpen = true">
-                            <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
-                            <span class="group-hover:text-primary-700">{{ $t('filter') }}</span>
-                        </button>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button class="flex items-center gap-x-1 text-sm text-primary group"
+                                @click="state.modal.isFilterOpen = true">
+                                <Icon name="ic:outline-filter-list" class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                <span class="group-hover:text-primary-700">{{ $t('filter') }}</span>
+                            </button>
+                            <span class="text-sm text-gray-500">
+                                {{ state.filter.start_date && state.filter.end_date
+                                    ? `${formatDateToReadable(state.filter.start_date)} - ${formatDateToReadable(state.filter.end_date)}`
+                                    : $t('mileageLog.summary.allTime') }}
+                            </span>
+                        </div>
                         <FormButton buttonStyle="action" @click="state.modal.isDownloadOpen = true">
                             <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('mileageLog.download.download') }}
@@ -61,7 +68,7 @@
                                         </span>
                                     </td>
                                     <td width="35%">
-                                        <span class="truncate">{{ routeSummary(log) }}</span>
+                                        <span class="block truncate max-w-xs" :title="routeSummary(log)">{{ routeSummary(log) }}</span>
                                     </td>
                                     <td width="15%">
                                         {{ formatNumber(language.locale.value, log?.kilometers) }} km
@@ -109,7 +116,7 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateTimeToReadable, formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const router = useRouter()
@@ -140,6 +147,9 @@ const state = reactive({
     error: {} as Error,
     filter: {
         citizen_link: '' as any,
+        // Defaults to no date bound ("all time"). The table and summary
+        // tiles share this one filter, so whatever range is picked here
+        // (or left empty) applies to both.
         start_date: '',
         end_date: '',
     },
@@ -203,10 +213,10 @@ async function fetchMileageLogs() {
 async function fetchSummary() {
     state.isSummaryLoading = true
     try {
-        const params = {
-            user_uuids: Array(employeeUuid),
-            start_date: state.filter.start_date,
-            end_date: state.filter.end_date,
+        const params = { user_uuids: Array(employeeUuid) } as any
+        if (state.filter.start_date && state.filter.end_date) {
+            params.start_date = state.filter.start_date
+            params.end_date = state.filter.end_date
         }
         const response = await mileageLogService.getMileageSummary(params)
         if (response) {
@@ -239,8 +249,8 @@ function sort(sortingData: any) {
 
 function setFilter(filter: any) {
     state.filter.citizen_link = filter.citizen_link
-    state.filter.start_date = filter.date_range?.[0]
-    state.filter.end_date = filter.date_range?.[1]
+    state.filter.start_date = filter.date_range?.length === 2 ? filter.date_range[0] : ''
+    state.filter.end_date = filter.date_range?.length === 2 ? filter.date_range[1] : ''
     fetchMileageLogs()
     fetchSummary()
 }

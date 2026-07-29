@@ -7366,6 +7366,8 @@
         "mileageReport": "Körrapport",
         "newTrip": "Ny resa",
         "summary": {
+            "allTime": "All tid",
+            "byEmployee": "Per medarbetare",
             "period": "Period",
             "totalKm": "Totalt km",
             "totalKmAllEmployees": "Totalt km (alla medarbetare)",
