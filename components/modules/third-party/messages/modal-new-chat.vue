@@ -7,45 +7,13 @@
                         <div class="space-y-4">
                             <div class="space-y-1">
                                 <FormLabel for="receivers" :label="$t('messages.recipients')" />
-                                <p class="text-xs text-gray-500">{{ $t('messages.recipientsHint') }}.</p>
+                                <p class="text-xs text-gray-500">{{ $t('messages.thirdPartyRecipientsHint') }}.</p>
                                 <FormError :error="v$?.formChat?.receivers?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.receiver_uuid?.[0]" />
                             </div>
 
-                            <div v-if="contactPersons.length > 0" class="space-y-2">
-                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                                    {{ $t('messages.yourContactPersons') }}
-                                </p>
-                                <button v-for="recipient in contactPersons" :key="recipient.uuid" type="button"
-                                    class="w-full" @click="toggleRecipient(recipient.uuid)">
-                                    <span :class="[
-                                        isSelected(recipient.uuid)
-                                            ? 'border-primary ring-1 ring-primary bg-primary/5'
-                                            : 'border-gray-200 hover:border-primary/50',
-                                        'flex items-center gap-x-3 rounded-md border px-3 py-2 text-left transition-colors'
-                                    ]">
-                                        <img :src="recipientAvatar(recipient)" alt=""
-                                            class="w-9 h-9 rounded-full object-cover">
-                                        <span class="flex-1 min-w-0">
-                                            <span class="block text-sm font-semibold truncate">
-                                                {{ recipient.firstname }} {{ recipient.lastname }}
-                                            </span>
-                                            <span
-                                                class="inline-block text-xxs font-medium bg-green-100 text-green-800 rounded-full px-2 py-0.5">
-                                                {{ $t('messages.contactPerson') }}
-                                            </span>
-                                        </span>
-                                        <Icon v-if="isSelected(recipient.uuid)" name="heroicons:check-circle-solid"
-                                            class="w-5 h-5 text-primary shrink-0" aria-hidden="true" />
-                                    </span>
-                                </button>
-                            </div>
-
-                            <div v-if="managementRecipients.length > 0" class="space-y-2">
-                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                                    {{ $t('messages.managementAndAdministration') }}
-                                </p>
-                                <button v-for="recipient in managementRecipients" :key="recipient.uuid" type="button"
+                            <div v-if="state.recipients.length > 0" class="space-y-2">
+                                <button v-for="recipient in state.recipients" :key="recipient.uuid" type="button"
                                     class="w-full" @click="toggleRecipient(recipient.uuid)">
                                     <span :class="[
                                         isSelected(recipient.uuid)
@@ -66,6 +34,9 @@
                                     </span>
                                 </button>
                             </div>
+                            <p v-else class="text-sm text-gray-500">
+                                {{ $t('messages.noRecipientsConfigured') }}.
+                            </p>
 
                             <div class="space-y-1">
                                 <FormLabel for="subject" :label="$t('messages.subjectOptional')" />
@@ -96,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { messageService } from '@/components/api/relative/MessageService'
+import { messageService } from '@/components/api/third-party/MessageService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -123,9 +94,6 @@ const state = reactive({
     isPageLoading: false,
     recipients: [] as any[],
 })
-
-const contactPersons = computed(() => state.recipients.filter((recipient: any) => recipient.is_contact_person))
-const managementRecipients = computed(() => state.recipients.filter((recipient: any) => !recipient.is_contact_person))
 
 onMounted(() => {
     fetchRecipients()
@@ -203,7 +171,7 @@ async function sendMessage() {
                 state.formChat.receivers = []
                 state.formChat.subject = ''
                 state.formChat.message = ''
-                navigateTo(`/relative/messages/${chatUuid}`)
+                navigateTo(`/third-party/messages/${chatUuid}`)
             }
         } catch (error: any) {
             state.error = error

@@ -725,9 +725,15 @@
         "usedBy": "Used by {count} organisations",
         "noBinding": "No commitment",
         "setupFeeSuffix": "setup fee",
+        "perUserSuffix": "per third party/month",
         "offerEndsInDays": "Offer ends in {count} days",
         "offerEndsToday": "Offer ends today",
-        "save": "Save {percent}%"
+        "save": "Save {percent}%",
+        "myApps": "My apps",
+        "myAppsHint": "The apps you have bought. Open one to reach its setup",
+        "myAppsEmpty": "You have not activated any apps yet",
+        "myAppsBrowse": "Browse the app store",
+        "openApp": "Open app"
     },
     "archived": {
         "alert": {
@@ -1579,6 +1585,9 @@
                     "contactSuccessfullyUpdated": "Contact successfully updated"
                 },
                 "allowSystemAccess": "Allow system access",
+                "allowChatAccess": "Allow chat access (paid per third party)",
+                "mayChatWith": "May chat with",
+                "mayChatWithHint": "Pick the employees this third party is allowed to message",
                 "city": "City",
                 "companyName": "Company name",
                 "email": "Email address",
@@ -7359,6 +7368,12 @@
         "users": "Users",
         "welcomeDescription": "Select a conversation from the sidebar or create a new one to get started.",
         "welcomeToChat": "Welcome to Chat",
+        "contactPerson": "Contact person",
+        "yourContactPersons": "Your contact persons",
+        "thirdPartyRecipientsHint": "You can write to the people the organization has assigned to you",
+        "noRecipientsConfigured": "The organization has not assigned anyone for you to write to yet",
+        "managementAndAdministration": "Management & administration",
+        "startConversationWithOrganization": "You can write directly to the people who care for your relative",
         "yesterday": "Yesterday",
         "you": "You",
         "recipients": "Recipients",
@@ -7368,7 +7383,13 @@
         "subjectPlaceholder": "What's it about?",
         "messagePlaceholder": "Write your message...",
         "sendHint": "⌘ + Enter to send",
-        "emoji": "Emoji"
+        "emoji": "Emoji",
+        "writeToUs": "Write to us",
+        "writeToUsPlaceholder": "Write your question or update here...",
+        "writeToUsContactPersons": "Goes to {names}, who look after your relative",
+        "writeToUsManagement": "Goes to the management",
+        "seeAllConversations": "See all conversations",
+        "sending": "Sending..."
     },
     "months": {
         "april": "April",
@@ -8820,6 +8841,26 @@
                 "enableNursingAreaNotifications": "Enable nursing area notifications",
                 "enableSystemNotifications": "Enable system notifications",
                 "groupChat": "Group chat",
+                "relativeChat": "Chat with relatives",
+                "relativeChatManagement": "Relatives can write to management and administrators",
+                "relativeChatContactPersons": "Relatives can write to the citizen's assigned contact persons",
+                "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
+                "groupPortalAccess": "Portal access",
+                "portalAccessHint": "Choose what relatives, third parties and citizens can see in their own portal",
+                "portalAccessNothingOpen": "No section is open. Relatives, third parties and citizens cannot see anything in their portal",
+                "portalAccessOpenNow": "Open right now",
+                "portalAccessConfirmTitle": "Open access?",
+                "portalAccessConfirmMessage": "{audience} will be able to see {section} in their portal from now on. Everyone with an administrator role is notified by email about this change.",
+                "portalAudienceRelative": "Relatives",
+                "portalAudienceThirdParty": "Third parties",
+                "portalAudienceCitizen": "Citizens",
+                "portalSectionJournals": "Journals",
+                "portalSectionDocuments": "Documents",
+                "portalSectionMessages": "Messages",
+                "portalSectionOverview": "Daily overview",
+                "portalSectionDutySchedules": "Duty schedules",
+                "portalSectionSurveys": "Surveys",
+                "portalSectionProtocols": "Protocols",
                 "interventionCheckinOut": "Intervention check in/out",
                 "relativeCanMessageAdmins": "Relatives can message management/administrators",
                 "relativeCanMessageContactPersons": "Relatives can message the citizen's assigned contact persons",
@@ -8878,7 +8919,29 @@
                 "manageApprovedDevices": "Manage approved devices",
                 "actionBlock": "Block access",
                 "actionOtp": "Require OTP verification",
-                "proFeatureHint": "This feature is part of the Pro plan. Upgrade to enable it."
+                "proFeatureHint": "This feature is part of the Pro plan. Upgrade to enable it.",
+                "portalPreviewOpen": "See what they see",
+                "portalPreviewTitle": "This is what {audience} see",
+                "portalPreviewHint": "A preview of the portal with your current choices. No real records are loaded here",
+                "portalPreviewEmptyNav": "No sections",
+                "portalPreviewNothing": "With these choices the portal is empty",
+                "portalPreviewNeverSees": "They never see",
+                "portalPreviewJournals": "The citizen's journal notes, without drafts",
+                "portalPreviewDocuments": "Only the files you have shared with them",
+                "portalPreviewMessagesRelative": "Conversations with management and the citizen's contact persons",
+                "portalPreviewMessagesThirdParty": "Conversations with the employees you assigned to them",
+                "portalPreviewMessagesCitizen": "Conversations with the staff",
+                "portalPreviewOverview": "Daily overview with the notice board",
+                "portalPreviewDutySchedules": "The shifts planned for them",
+                "portalPreviewSurveys": "Surveys assigned to them",
+                "portalPreviewProtocols": "Their own check-in and check-out",
+                "portalNeverDrafts": "Draft journal notes",
+                "portalNeverUnsharedDocuments": "Documents you have not shared",
+                "portalNeverOtherCitizens": "Anything about other citizens",
+                "portalNeverStaffNotes": "Internal notes written about them",
+                "portalNeverJournalsAtAll": "Journals and documents, ever",
+                "portalNeverUnassignedStaff": "Employees you did not assign to them",
+                "portalAccessSeeWhoHasAccess": "See who has access"
             }
         },
         "licenseOverview": {
@@ -8929,7 +8992,8 @@
             "billing": "Billing",
             "data": "Data",
             "logs": "Logs",
-            "integrations": "Integrations"
+            "integrations": "Integrations",
+            "apps": "Apps"
         },
         "tabs": {
             "absences": "Absences",
@@ -12058,5 +12122,32 @@
             "namePlaceholder": "e.g. Aftercare",
             "color": "Colour"
         }
+    },
+    "portalAccess": {
+        "title": "Portal access",
+        "intro": "Who currently has a login to a portal, and how many of your paid seats are in use",
+        "seatsInUse": "{used} of {total} seats in use",
+        "seatsAvailable": "{count} available",
+        "noSeatsLeft": "No seats left",
+        "appNotBought": "App not purchased",
+        "buyMoreSeats": "Buy more seats",
+        "getApp": "Get the app",
+        "nobodyHasAccess": "Nobody has access yet",
+        "audience": {
+            "relative": "Relatives",
+            "third_party": "Third parties"
+        },
+        "status": {
+            "active": "Signed in",
+            "invited": "Invited"
+        },
+        "table": {
+            "name": "Name",
+            "email": "Email",
+            "citizen": "Citizen",
+            "status": "Status",
+            "grantedAt": "Access given"
+        },
+        "chooseWhatTheySee": "Choose what they see"
     }
 }

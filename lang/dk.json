@@ -725,9 +725,15 @@
         "usedBy": "Brugt af {count} organisationer",
         "noBinding": "Ingen binding",
         "setupFeeSuffix": "opstartsgebyr",
+        "perUserSuffix": "pr. tredjepart/md.",
         "offerEndsInDays": "Tilbud slutter om {count} dage",
         "offerEndsToday": "Tilbud slutter i dag",
-        "save": "Spar {percent}%"
+        "save": "Spar {percent}%",
+        "myApps": "Mine apps",
+        "myAppsHint": "De apps I har købt. Åbn en app for at komme til dens opsætning",
+        "myAppsEmpty": "I har ikke aktiveret nogen apps endnu",
+        "myAppsBrowse": "Se app-butikken",
+        "openApp": "Åbn app"
     },
     "archived": {
         "alert": {
@@ -1579,6 +1585,9 @@
                     "contactSuccessfullyUpdated": "Kontakt opdateret med succes"
                 },
                 "allowSystemAccess": "Tillad systemadgang",
+                "allowChatAccess": "Giv chatadgang (betales pr. tredjepart)",
+                "mayChatWith": "Må chatte med",
+                "mayChatWithHint": "Vælg de medarbejdere, denne tredjepart må skrive til",
                 "city": "By",
                 "companyName": "Virksomhedsnavn",
                 "email": "E-mailadresse",
@@ -7359,6 +7368,12 @@
         "users": "Brugere",
         "welcomeDescription": "Vælg en samtale fra sidebjælken, eller opret en ny for at komme i gang.",
         "welcomeToChat": "Velkommen til chat",
+        "contactPerson": "Kontaktperson",
+        "yourContactPersons": "Dine kontaktpersoner",
+        "thirdPartyRecipientsHint": "Du kan skrive til de personer, organisationen har tilknyttet dig",
+        "noRecipientsConfigured": "Organisationen har endnu ikke tilknyttet nogen, du kan skrive til",
+        "managementAndAdministration": "Ledelse & administration",
+        "startConversationWithOrganization": "Du kan skrive direkte til de medarbejdere, der er omkring din pårørende",
         "yesterday": "I går",
         "you": "Dig",
         "recipients": "Modtagere",
@@ -7368,7 +7383,13 @@
         "subjectPlaceholder": "Hvad handler det om?",
         "messagePlaceholder": "Skriv din besked...",
         "sendHint": "⌘ + Enter for at sende",
-        "emoji": "Emoji"
+        "emoji": "Emoji",
+        "writeToUs": "Skriv til os",
+        "writeToUsPlaceholder": "Skriv dit spørgsmål eller din besked her...",
+        "writeToUsContactPersons": "Går til {names}, der er omkring din pårørende",
+        "writeToUsManagement": "Går til ledelsen",
+        "seeAllConversations": "Se alle samtaler",
+        "sending": "Sender..."
     },
     "months": {
         "april": "April",
@@ -8820,6 +8841,26 @@
                 "enableNursingAreaNotifications": "Aktivér plejeområde-notifikationer",
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
                 "groupChat": "Gruppechat",
+                "relativeChat": "Chat med pårørende",
+                "relativeChatManagement": "Pårørende kan skrive til ledelse og administratorer",
+                "relativeChatContactPersons": "Pårørende kan skrive til borgerens tilknyttede kontaktpersoner",
+                "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
+                "groupPortalAccess": "Portaladgang",
+                "portalAccessHint": "Vælg hvad pårørende, tredjeparter og borgere kan se i deres egen portal",
+                "portalAccessNothingOpen": "Ingen dele er åbne. Pårørende, tredjeparter og borgere kan ikke se noget i deres portal",
+                "portalAccessOpenNow": "Åbent lige nu",
+                "portalAccessConfirmTitle": "Åbn adgang?",
+                "portalAccessConfirmMessage": "{audience} vil fra nu af kunne se {section} i deres portal. Alle med administrator-rolle får en mail om ændringen.",
+                "portalAudienceRelative": "Pårørende",
+                "portalAudienceThirdParty": "Tredjeparter",
+                "portalAudienceCitizen": "Borgere",
+                "portalSectionJournals": "Journaler",
+                "portalSectionDocuments": "Dokumenter",
+                "portalSectionMessages": "Beskeder",
+                "portalSectionOverview": "Daglig oversigt",
+                "portalSectionDutySchedules": "Vagtplaner",
+                "portalSectionSurveys": "Spørgeskemaer",
+                "portalSectionProtocols": "Protokoller",
                 "interventionCheckinOut": "Check ind/ud for indsats",
                 "relativeCanMessageAdmins": "Pårørende kan skrive til ledelse/administratorer",
                 "relativeCanMessageContactPersons": "Pårørende kan skrive til borgerens tildelte kontaktpersoner",
@@ -8878,7 +8919,29 @@
                 "manageApprovedDevices": "Administrér godkendte enheder",
                 "actionBlock": "Blokér adgang",
                 "actionOtp": "Kræv OTP-bekræftelse",
-                "proFeatureHint": "Denne funktion er en del af Pro-abonnementet. Opgradér for at slå den til."
+                "proFeatureHint": "Denne funktion er en del af Pro-abonnementet. Opgradér for at slå den til.",
+                "portalPreviewOpen": "Se hvad de ser",
+                "portalPreviewTitle": "Sådan ser {audience} det",
+                "portalPreviewHint": "Et forhåndsblik på portalen med jeres nuværende valg. Der hentes ingen rigtige data her",
+                "portalPreviewEmptyNav": "Ingen dele",
+                "portalPreviewNothing": "Med disse valg er portalen tom",
+                "portalPreviewNeverSees": "De ser aldrig",
+                "portalPreviewJournals": "Borgerens journalnotater, uden kladder",
+                "portalPreviewDocuments": "Kun de filer I har delt med dem",
+                "portalPreviewMessagesRelative": "Samtaler med ledelsen og borgerens kontaktpersoner",
+                "portalPreviewMessagesThirdParty": "Samtaler med de medarbejdere I har tilknyttet dem",
+                "portalPreviewMessagesCitizen": "Samtaler med personalet",
+                "portalPreviewOverview": "Daglig oversigt med opslagstavlen",
+                "portalPreviewDutySchedules": "De vagter der er planlagt for dem",
+                "portalPreviewSurveys": "Spørgeskemaer der er tildelt dem",
+                "portalPreviewProtocols": "Deres eget check ind og check ud",
+                "portalNeverDrafts": "Journalnotater der er kladder",
+                "portalNeverUnsharedDocuments": "Dokumenter I ikke har delt",
+                "portalNeverOtherCitizens": "Noget som helst om andre borgere",
+                "portalNeverStaffNotes": "Interne bemærkninger skrevet om dem",
+                "portalNeverJournalsAtAll": "Journaler og dokumenter, aldrig",
+                "portalNeverUnassignedStaff": "Medarbejdere I ikke har tilknyttet dem",
+                "portalAccessSeeWhoHasAccess": "Se hvem der har adgang"
             }
         },
         "licenseOverview": {
@@ -8929,7 +8992,8 @@
             "billing": "Fakturering",
             "data": "Data",
             "logs": "Logs",
-            "integrations": "Integrationer"
+            "integrations": "Integrationer",
+            "apps": "Apps"
         },
         "tabs": {
             "absences": "Fravær",
@@ -12058,5 +12122,32 @@
             "namePlaceholder": "fx Efterværn",
             "color": "Farve"
         }
+    },
+    "portalAccess": {
+        "title": "Portaladgang",
+        "intro": "Hvem der har login til en portal lige nu, og hvor mange af jeres købte pladser der er i brug",
+        "seatsInUse": "{used} af {total} pladser i brug",
+        "seatsAvailable": "{count} ledige",
+        "noSeatsLeft": "Ingen ledige pladser",
+        "appNotBought": "App ikke købt",
+        "buyMoreSeats": "Køb flere pladser",
+        "getApp": "Hent appen",
+        "nobodyHasAccess": "Ingen har adgang endnu",
+        "audience": {
+            "relative": "Pårørende",
+            "third_party": "Tredjeparter"
+        },
+        "status": {
+            "active": "Logget ind",
+            "invited": "Inviteret"
+        },
+        "table": {
+            "name": "Navn",
+            "email": "E-mail",
+            "citizen": "Borger",
+            "status": "Status",
+            "grantedAt": "Adgang givet"
+        },
+        "chooseWhatTheySee": "Vælg hvad de kan se"
     }
 }

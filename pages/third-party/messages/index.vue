@@ -1,24 +1,24 @@
 <template>
     <div>
-        <NuxtLayout name="relative">
+        <NuxtLayout name="third-party">
 
             <Head>
                 <Title>{{ $t('messages.messages') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
-                <BreadcrumbRelative>
+                <BreadcrumbThirdParty>
                     <template #custom-link>
                         <div class="flex items-center">
                             <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
                                 aria-hidden="true" />
-                            <button @click="navigateTo('/relative/messages')"
+                            <button @click="navigateTo('/third-party/messages')"
                                 class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
                                 {{ $t('messages.messages') }}
                             </button>
                         </div>
                     </template>
-                </BreadcrumbRelative>
+                </BreadcrumbThirdParty>
             </template>
 
             <template #header>{{ $t('messages.messages') }}</template>
@@ -30,7 +30,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4" v-if="state.chats?.data?.length > 0">
                         <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto"
                             style="height: 80vh;">
-                            <ModulesRelativeMessagesChats :chats="state.chats" />
+                            <ModulesThirdPartyMessagesChats :chats="state.chats" />
                         </div>
                         <div
                             class="hidden md:flex md:col-span-7 xl:col-span-8 bg-white rounded-md items-center justify-center">
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </LoadingSpinner>
-                <ModulesRelativeMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen"
+                <ModulesThirdPartyMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen"
                     @close="state.modal.isNewChatOpen = false" />
             </div>
         </NuxtLayout>
@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { messageService } from '@/components/api/relative/MessageService'
+import { messageService } from '@/components/api/third-party/MessageService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
