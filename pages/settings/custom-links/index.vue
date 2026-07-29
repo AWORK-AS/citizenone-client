@@ -84,11 +84,13 @@
 
 <script setup lang="ts">
 import { customSidebarLinkService } from '@/components/api/user/CustomSidebarLinkService'
+import { useCustomSidebarLinksStore } from '@/store/custom-sidebar-links'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const customSidebarLinksStore = useCustomSidebarLinksStore()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
@@ -183,7 +185,7 @@ async function deleteLink() {
     try {
         await customSidebarLinkService.deleteCustomSidebarLink(state.selectedLink.uuid)
         state.modal.isDeleteLinkOpen = false
-        await fetchLinks()
+        await Promise.all([fetchLinks(), customSidebarLinksStore.fetchLinks()])
         successAlert(`${t('alert.success')}!`, `${t('customSidebarLinks.alert.deleted')}.`)
     } catch (error: any) {
         state.error = error
