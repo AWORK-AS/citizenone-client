@@ -5810,6 +5810,7 @@
         "tabs": {
             "dutySchedule": "Vaktplan",
             "employeeInformations": "Medarbeiderinformationer",
+            "mileageLog": "Kjørebok",
             "timeLogs": "Tidslogfiler"
         },
         "timeLogs": "Tidslogfiler",
@@ -7390,6 +7391,78 @@
         "writeToUsManagement": "Går til ledelsen",
         "seeAllConversations": "Se alle samtaler",
         "sending": "Sender..."
+    },
+    "mileageLog": {
+        "download": {
+            "download": "Last ned",
+            "downloadMileageLog": "Last ned kjørebok",
+            "filterDate": "Filtrer dato"
+        },
+        "editTrip": "Rediger tur",
+        "filter": {
+            "allTrips": "Alle turer",
+            "citizenLink": "Brukertilknytning",
+            "departments": "Avdelinger",
+            "employees": "Medarbeidere",
+            "filterDate": "Filtrer dato",
+            "linkedToCitizen": "Tilknyttet bruker",
+            "notLinked": "Ikke tilknyttet"
+        },
+        "form": {
+            "addStop": "Legg til stopp",
+            "alert": {
+                "incompleteStopAddress": "Sørg for at hvert stopp har en gyldig valgt adresse",
+                "tripSuccessfullyAdded": "Turen ble lagt til",
+                "tripSuccessfullyUpdated": "Turen ble oppdatert"
+            },
+            "dateTimeStart": "Dato og tidspunkt",
+            "endAddress": "Sluttadresse",
+            "estimatedDistance": "Distanse (beregnes automatisk)",
+            "linkToCitizen": "Knytt denne turen til en bruker som en indsatstime",
+            "note": "Note",
+            "pickOnMap": "Velg lokasjon",
+            "selectCitizen": "Velg bruker",
+            "startAddress": "Startadresse",
+            "stopAddress": "Stoppadresse"
+        },
+        "mileageLog": "Kjørebok",
+        "mileageReport": "Kjørerapport",
+        "newTrip": "Ny tur",
+        "summary": {
+            "allTime": "All tid",
+            "byEmployee": "Per medarbeider",
+            "period": "Periode",
+            "totalKm": "Total km",
+            "totalKmAllEmployees": "Total km (alle medarbeidere)",
+            "totalTrips": "Antall turer"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slett",
+                "edit": "Rediger",
+                "view": "Vis"
+            },
+            "alert": {
+                "tripSuccessfullyDeleted": "Turen ble slettet"
+            },
+            "citizen": "Bruker",
+            "confirmation": {
+                "deleteTripConfirmation": "Er du sikker på at du vil slette denne turen"
+            },
+            "date": "Dato",
+            "distance": "Distanse",
+            "employee": "Medarbeider",
+            "route": "Rute"
+        },
+        "view": {
+            "createdBy": "Opprettet av",
+            "dateTimeStart": "Dato og tidspunkt",
+            "distance": "Distanse",
+            "linkedCitizen": "Tilknyttet bruker",
+            "note": "Note",
+            "route": "Rute",
+            "viewTrip": "Vis tur"
+        }
     },
     "months": {
         "april": "April",
@@ -9027,6 +9100,7 @@
             "massUnits": "Masseenheder",
             "medicationAllergies": "Medisinallergier (CAVE)",
             "medicines": "Medisin",
+            "mileageLog": "Kjørebok",
             "normPeriods": "Normperioder",
             "other": "Annet",
             "profile": "Profil",

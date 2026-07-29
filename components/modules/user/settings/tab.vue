@@ -85,6 +85,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             smsNotifications: { name: 'settings.tabs.smsNotifications', isTranslateName: true, href: '/settings/sms-notifications', routeNames: ['settings-sms-notifications'] },
             activityLogs: { name: 'settings.tabs.activityLogs', isTranslateName: true, href: '/settings/activity-logs', routeNames: ['settings-activity-logs'] },
             timeLogs: { name: 'settings.tabs.timeLogs', isTranslateName: true, href: '/settings/time-logs', routeNames: ['settings-time-logs'] },
+            mileageLog: { name: 'settings.tabs.mileageLog', isTranslateName: true, href: '/settings/mileage-log', routeNames: ['settings-mileage-log'] },
             other: { name: 'settings.tabs.other', isTranslateName: true, href: '/settings/custom-pages', routeNames: ['settings-custom-pages', 'settings-transactions'] },
             powerBi: { name: 'settings.tabs.powerBi', isTranslateName: true, href: '/settings/power-bi', routeNames: ['settings-power-bi'] },
             economic: { name: 'settings.tabs.economic', isTranslateName: true, href: '/settings/economic', routeNames: ['settings-economic'] },
@@ -99,17 +100,18 @@ watch(() => userStore.getUser, (newValue: any) => {
             { labelKey: 'settings.groups.billing', items: [T.subscription, T.invoices, T.licenses, T.storage] },
             { labelKey: 'settings.groups.data', items: [T.archived, T.other] },
             { labelKey: 'settings.groups.apps', items: [T.portalAccess, T.powerBi, T.economic, T.fst] },
-            { labelKey: 'settings.groups.logs', items: [T.activityLogs, T.timeLogs] },
+            { labelKey: 'settings.groups.logs', items: [T.activityLogs, T.timeLogs, T.mileageLog] },
         ]
         state.tabs = Object.values(T)
     } else {
         const r = router?.currentRoute?.value?.name as string
-        if (!['settings-profile', 'settings-time-logs'].includes(r)) {
+        if (!['settings-profile', 'settings-time-logs', 'settings-mileage-log'].includes(r)) {
             navigateTo('/settings/profile')
         }
         state.tabs = [
             { name: 'settings.tabs.profile', isTranslateName: true, href: '/settings/profile', routeNames: ['settings-profile'] },
             { name: 'settings.tabs.timeLogs', isTranslateName: true, href: '/settings/time-logs', routeNames: ['settings-time-logs'] },
+            { name: 'settings.tabs.mileageLog', isTranslateName: true, href: '/settings/mileage-log', routeNames: ['settings-mileage-log'] },
         ]
     }
 })

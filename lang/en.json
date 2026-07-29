@@ -5810,6 +5810,7 @@
         "tabs": {
             "dutySchedule": "Duty schedule",
             "employeeInformations": "Employee informations",
+            "mileageLog": "Mileage Log",
             "timeLogs": "Time Logs"
         },
         "timeLogs": "Time Logs",
@@ -7390,6 +7391,78 @@
         "writeToUsManagement": "Goes to the management",
         "seeAllConversations": "See all conversations",
         "sending": "Sending..."
+    },
+    "mileageLog": {
+        "download": {
+            "download": "Download",
+            "downloadMileageLog": "Download mileage log",
+            "filterDate": "Filter date"
+        },
+        "editTrip": "Edit trip",
+        "filter": {
+            "allTrips": "All trips",
+            "citizenLink": "Citizen link",
+            "departments": "Departments",
+            "employees": "Employees",
+            "filterDate": "Filter date",
+            "linkedToCitizen": "Linked to citizen",
+            "notLinked": "Not linked"
+        },
+        "form": {
+            "addStop": "Add stop",
+            "alert": {
+                "incompleteStopAddress": "Please make sure every stop has a valid address selected",
+                "tripSuccessfullyAdded": "Trip successfully added",
+                "tripSuccessfullyUpdated": "Trip successfully updated"
+            },
+            "dateTimeStart": "Date and time",
+            "endAddress": "End address",
+            "estimatedDistance": "Distance (calculated automatically)",
+            "linkToCitizen": "Link this trip to a citizen as an Intervention Hour",
+            "note": "Note",
+            "pickOnMap": "Select location",
+            "selectCitizen": "Select citizen",
+            "startAddress": "Start address",
+            "stopAddress": "Stop address"
+        },
+        "mileageLog": "Mileage Log",
+        "mileageReport": "Mileage Report",
+        "newTrip": "New trip",
+        "summary": {
+            "allTime": "All time",
+            "byEmployee": "By employee",
+            "period": "Period",
+            "totalKm": "Total km",
+            "totalKmAllEmployees": "Total km (all employees)",
+            "totalTrips": "Total trips"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "view": "View"
+            },
+            "alert": {
+                "tripSuccessfullyDeleted": "Trip successfully deleted"
+            },
+            "citizen": "Citizen",
+            "confirmation": {
+                "deleteTripConfirmation": "Are you sure you want to delete this trip"
+            },
+            "date": "Date",
+            "distance": "Distance",
+            "employee": "Employee",
+            "route": "Route"
+        },
+        "view": {
+            "createdBy": "Created by",
+            "dateTimeStart": "Date and time",
+            "distance": "Distance",
+            "linkedCitizen": "Linked citizen",
+            "note": "Note",
+            "route": "Route",
+            "viewTrip": "View trip"
+        }
     },
     "months": {
         "april": "April",
@@ -9027,6 +9100,7 @@
             "massUnits": "Mass units",
             "medicationAllergies": "Medication allergies (CAVE)",
             "medicines": "Medicines",
+            "mileageLog": "Mileage Log",
             "normPeriods": "Norm periods",
             "other": "Other",
             "profile": "Profile",
