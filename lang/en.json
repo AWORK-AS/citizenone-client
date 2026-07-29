@@ -1942,6 +1942,24 @@
                 "contractPrice": "Contract price",
                 "primarySplitPercentage": "Primary coordinator share (%)"
             },
+            "dental": {
+                "isMemberOfSygeforsikringDanmark": "Member of Sygeforsikringen \"danmark\"",
+                "sygesikringGroup": {
+                    "label": "Public health insurance group",
+                    "group1": "Group 1",
+                    "group2": "Group 2",
+                    "foreignInsurance": "Foreign insurance",
+                    "other": "Other"
+                },
+                "patientNumber": "Patient number",
+                "municipalSubsidy": "Municipal subsidy",
+                "lastCheckupDate": "Last check-up date",
+                "checkupInterval": {
+                    "label": "Recommended check-up interval",
+                    "everySixMonths": "Every 6 months",
+                    "everyTwelveMonths": "Every 12 months"
+                }
+            },
             "employmentProgram": {
                 "activationDeadline": "Activation deadline",
                 "caseEndDate": "Case end date",
@@ -2757,6 +2775,7 @@
         "rooms": "Rooms",
         "sections": {
             "citizenDetails": "Citizen details",
+            "dentalProfile": "Dental profile",
             "employmentProgram": "Employment program",
             "inquiryData": "Inquiry data",
             "stayData": "Stay data"
