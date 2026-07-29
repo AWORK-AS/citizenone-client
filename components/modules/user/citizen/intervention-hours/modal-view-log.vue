@@ -18,10 +18,10 @@
                         </div>
                     </div>
 
-                    <div class="space-y-1 my-1">
+                    <div class="space-y-1 my-1" v-if="props.selectedCareHour?.citizen">
                         <FormLabel :label="$t('citizens.interventionHours.view.citizen')" />
                         <div class="flex items-center gap-x-2 py-1">
-                            <img :src="props.selectedCareHour?.citizen?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${props.selectedCareHour?.citizen?.firstname + ' ' + props.selectedCareHour?.citizen?.lastname}`"
+                            <img :src="props.selectedCareHour?.citizen?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${props.selectedCareHour?.citizen?.firstname ?? ''} ${props.selectedCareHour?.citizen?.lastname ?? ''}`"
                                 :class="[
                                     'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
                                 ]" />

@@ -5772,6 +5772,7 @@
         "tabs": {
             "dutySchedule": "Tjänsteschema",
             "employeeInformations": "Medarbejderinformationer",
+            "mileageLog": "Körjournal",
             "timeLogs": "Tidslogfiler"
         },
         "timeLogs": "Tidslogfiler",
@@ -7327,6 +7328,76 @@
         "messagePlaceholder": "Skriv ditt meddelande...",
         "sendHint": "⌘ + Enter för att skicka",
         "emoji": "Emoji"
+    },
+    "mileageLog": {
+        "download": {
+            "download": "Ladda ner",
+            "downloadMileageLog": "Ladda ner körjournal",
+            "filterDate": "Filtrera datum"
+        },
+        "editTrip": "Redigera resa",
+        "filter": {
+            "allTrips": "Alla resor",
+            "citizenLink": "Brukarkoppling",
+            "departments": "Avdelningar",
+            "employees": "Medarbetare",
+            "filterDate": "Filtrera datum",
+            "linkedToCitizen": "Kopplad till brukare",
+            "notLinked": "Ej kopplad"
+        },
+        "form": {
+            "addStop": "Lägg till stopp",
+            "alert": {
+                "incompleteStopAddress": "Se till att varje stopp har en giltig vald adress",
+                "tripSuccessfullyAdded": "Resan har lagts till",
+                "tripSuccessfullyUpdated": "Resan har uppdaterats"
+            },
+            "dateTimeStart": "Datum och tid",
+            "endAddress": "Slutadress",
+            "estimatedDistance": "Avstånd (beräknas automatiskt)",
+            "linkToCitizen": "Koppla denna resa till en brukare som en insatstimme",
+            "note": "Anteckning",
+            "pickOnMap": "Välj plats",
+            "selectCitizen": "Välj brukare",
+            "startAddress": "Startadress",
+            "stopAddress": "Stoppadress"
+        },
+        "mileageLog": "Körjournal",
+        "mileageReport": "Körrapport",
+        "newTrip": "Ny resa",
+        "summary": {
+            "period": "Period",
+            "totalKm": "Totalt km",
+            "totalKmAllEmployees": "Totalt km (alla medarbetare)",
+            "totalTrips": "Antal resor"
+        },
+        "table": {
+            "actions": {
+                "delete": "Radera",
+                "edit": "Redigera",
+                "view": "Visa"
+            },
+            "alert": {
+                "tripSuccessfullyDeleted": "Resan har raderats"
+            },
+            "citizen": "Brukare",
+            "confirmation": {
+                "deleteTripConfirmation": "Är du säker på att du vill radera denna resa"
+            },
+            "date": "Datum",
+            "distance": "Avstånd",
+            "employee": "Medarbetare",
+            "route": "Rutt"
+        },
+        "view": {
+            "createdBy": "Skapad av",
+            "dateTimeStart": "Datum och tid",
+            "distance": "Avstånd",
+            "linkedCitizen": "Kopplad brukare",
+            "note": "Anteckning",
+            "route": "Rutt",
+            "viewTrip": "Visa resa"
+        }
     },
     "months": {
         "april": "April",
@@ -8919,6 +8990,7 @@
             "massUnits": "Masseenheder",
             "medicationAllergies": "Medicinallergier (CAVE)",
             "medicines": "Medicin",
+            "mileageLog": "Körjournal",
             "normPeriods": "Normperioder",
             "other": "Annat",
             "profile": "Profil",
