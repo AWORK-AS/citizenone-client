@@ -23,14 +23,25 @@
                     <div class="border-b-1.5 border-gray-200">
                         <ul class="flex item-center gap-x-5 overflow-x-auto touch-auto">
                             <li :class="[
-                                state.filter.type === '' && 'text-secondary border-b-2 border-secondary',
+                                !state.filter.onlyActivated && state.filter.type === '' && 'text-secondary border-b-2 border-secondary',
                                 'flex items-center gap-1.5 text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary whitespace-nowrap'
                             ]" @click="changeCategory('')">
                                 <Icon name="ic:baseline-grid-view" class="w-4 h-4" />
                                 {{ $t('apps.categories.all') }}
                             </li>
+                            <li :class="[
+                                state.filter.onlyActivated && 'text-secondary border-b-2 border-secondary',
+                                'flex items-center gap-1.5 text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary whitespace-nowrap'
+                            ]" @click="showMyApps()">
+                                <Icon name="ph:squares-four" class="w-4 h-4" />
+                                {{ $t('apps.myApps') }}
+                                <span v-if="activatedApps.length"
+                                    class="text-xxs font-medium rounded-full bg-primary/10 text-primary px-1.5">
+                                    {{ activatedApps.length }}
+                                </span>
+                            </li>
                             <li v-for="category in state.categories" :key="category.id" :class="[
-                                state.filter.type === category.slug && 'text-secondary border-b-2 border-secondary',
+                                !state.filter.onlyActivated && state.filter.type === category.slug && 'text-secondary border-b-2 border-secondary',
                                 'flex items-center gap-1.5 text-gray-700 text-base cursor-pointer px-2 pb-3 hover:text-primary whitespace-nowrap'
                             ]" @click="changeCategory(category.slug)">
                                 <Icon v-if="category?.icon" :name="category.icon" class="w-4 h-4" />
@@ -39,7 +50,7 @@
                         </ul>
                     </div>
 
-                    <div class="mt-8 space-y-5">
+                    <div class="mt-8 space-y-5" v-if="!state.filter.onlyActivated">
                         <div class="flex items-center gap-x-2">
                             <img src="/img/icons/featured-stars.svg" :alt="$t('imageFailedToLoad')">
                             <h3 class="text-lg font-semibold">
@@ -105,7 +116,7 @@
 
                     <!-- Recommended for you (only on the "All apps" view) -->
                     <div class="mt-8 rounded-xl bg-secondary/5 border border-secondary/20 p-6"
-                        v-if="state.filter.type === '' && recommendedApps.length">
+                        v-if="!state.filter.onlyActivated && state.filter.type === '' && recommendedApps.length">
                         <div class="flex items-center gap-x-2 mb-5">
                             <Icon name="ic:round-star" class="w-5 h-5 text-secondary" />
                             <h3 class="text-lg font-semibold">
@@ -127,12 +138,25 @@
                         </div>
                     </div>
 
+                    <div class="mt-8 space-y-3" v-if="state.filter.onlyActivated">
+                        <h3 class="text-lg font-semibold">{{ $t('apps.myApps') }}</h3>
+                        <p class="text-sm text-gray-500">{{ $t('apps.myAppsHint') }}.</p>
+                    </div>
+
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <ModulesUserAppCard v-for="(app, index) in state.apps?.data" :key="index" :app="app"
+                        <ModulesUserAppCard v-for="(app, index) in visibleApps" :key="index" :app="app"
                             @readMore="readMore" @goToPartner="navigateToExternalLink"
                             @activate="confirmTACAcceptance" />
                     </div>
-                    <div class="mt-6">
+                    <div class="mt-8 rounded-xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center"
+                        v-if="state.filter.onlyActivated && visibleApps.length === 0">
+                        <p class="text-sm text-gray-600">{{ $t('apps.myAppsEmpty') }}.</p>
+                        <FormButton type="button" buttonStyle="primary" class="mt-4"
+                            @click="changeCategory('')">
+                            {{ $t('apps.myAppsBrowse') }}
+                        </FormButton>
+                    </div>
+                    <div class="mt-6" v-if="!state.filter.onlyActivated">
                         <Pagination :data="state.apps" @previous="previous" @next="next" />
                     </div>
                 </div>
@@ -183,6 +207,7 @@ const state = reactive({
     categories: [] as any[],
     error: {} as Error,
     filter: {
+        onlyActivated: false,
         type: '',
     },
     isAppsHidden: false,
@@ -278,7 +303,22 @@ function next() {
     fetchApps()
 }
 
+// Apps the company has bought. The store list already carries user_activated,
+// so this needs no extra request.
+const activatedApps = computed(() =>
+    (state.apps?.data ?? []).filter((app: any) => app?.user_activated))
+
+const visibleApps = computed(() =>
+    state.filter.onlyActivated ? activatedApps.value : (state.apps?.data ?? []))
+
+function showMyApps() {
+    state.filter.onlyActivated = true
+    state.filter.type = ''
+    fetchApps()
+}
+
 function changeCategory(category: any) {
+    state.filter.onlyActivated = false
     state.filter.type = category
     fetchApps()
 }

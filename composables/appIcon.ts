@@ -14,6 +14,7 @@ const APP_ICONS: Record<string, string> = {
     'sms-notification': 'ph:chat-teardrop-text',
     'citizen-access': 'ph:user-circle',
     'relative-access': 'ph:users-three',
+    'third-party-access': 'ph:handshake',
     'caseworker-access': 'ph:briefcase',
     'send-invoices': 'ph:receipt',
     'secure-mail': 'ph:envelope-simple',

@@ -725,9 +725,15 @@
         "usedBy": "Används av {count} organisationer",
         "noBinding": "Ingen bindningstid",
         "setupFeeSuffix": "uppstartsavgift",
+        "perUserSuffix": "per tredjepart/mån.",
         "offerEndsInDays": "Erbjudandet slutar om {count} dagar",
         "offerEndsToday": "Erbjudandet slutar idag",
-        "save": "Spara {percent}%"
+        "save": "Spara {percent}%",
+        "myApps": "Mina appar",
+        "myAppsHint": "Apparna ni har köpt. Öppna en app för att komma till dess inställningar",
+        "myAppsEmpty": "Ni har inte aktiverat några appar ännu",
+        "myAppsBrowse": "Se app-butiken",
+        "openApp": "Öppna app"
     },
     "archived": {
         "alert": {
@@ -1579,6 +1585,9 @@
                     "contactSuccessfullyUpdated": "Kontakt uppdaterad"
                 },
                 "allowSystemAccess": "Tillåt systemadgang",
+                "allowChatAccess": "Ge chattåtkomst (betalas per tredjepart)",
+                "mayChatWith": "Får chatta med",
+                "mayChatWithHint": "Välj de medarbetare som denna tredjepart får skriva till",
                 "city": "Stad",
                 "companyName": "Virksomhedsnavn",
                 "email": "E-postadress",
@@ -7359,6 +7368,12 @@
         "users": "Användare",
         "welcomeDescription": "Välj en samtal från sidebjälken, eller skapa en ny för att komme pågår.",
         "welcomeToChat": "Välkommen till chatt",
+        "contactPerson": "Kontaktperson",
+        "yourContactPersons": "Dina kontaktpersoner",
+        "thirdPartyRecipientsHint": "Du kan skriva till de personer som organisationen har kopplat till dig",
+        "noRecipientsConfigured": "Organisationen har ännu inte kopplat någon som du kan skriva till",
+        "managementAndAdministration": "Ledning & administration",
+        "startConversationWithOrganization": "Du kan skriva direkt till de medarbetare som finns runt din anhöriga",
         "yesterday": "Igår",
         "you": "Dig",
         "recipients": "Mottagare",
@@ -7368,7 +7383,13 @@
         "subjectPlaceholder": "Vad handlar det om?",
         "messagePlaceholder": "Skriv ditt meddelande...",
         "sendHint": "⌘ + Enter för att skicka",
-        "emoji": "Emoji"
+        "emoji": "Emoji",
+        "writeToUs": "Skriv till oss",
+        "writeToUsPlaceholder": "Skriv din fråga eller ditt meddelande här...",
+        "writeToUsContactPersons": "Går till {names}, som finns runt din anhöriga",
+        "writeToUsManagement": "Går till ledningen",
+        "seeAllConversations": "Se alla samtal",
+        "sending": "Skickar..."
     },
     "months": {
         "april": "April",
@@ -8820,6 +8841,26 @@
                 "enableNursingAreaNotifications": "Aktivera omvårdnadsområde-notiser",
                 "enableSystemNotifications": "Aktivera systemnotifikationer",
                 "groupChat": "Gruppechat",
+                "relativeChat": "Chatt med anhöriga",
+                "relativeChatManagement": "Anhöriga kan skriva till ledning och administratörer",
+                "relativeChatContactPersons": "Anhöriga kan skriva till medborgarens tilldelade kontaktpersoner",
+                "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
+                "groupPortalAccess": "Portalåtkomst",
+                "portalAccessHint": "Välj vad anhöriga, tredjeparter och medborgare kan se i sin egen portal",
+                "portalAccessNothingOpen": "Ingen del är öppen. Anhöriga, tredjeparter och medborgare kan inte se något i sin portal",
+                "portalAccessOpenNow": "Öppet just nu",
+                "portalAccessConfirmTitle": "Öppna åtkomst?",
+                "portalAccessConfirmMessage": "{audience} kommer från nu att kunna se {section} i sin portal. Alla med administratörsroll får ett e-postmeddelande om ändringen.",
+                "portalAudienceRelative": "Anhöriga",
+                "portalAudienceThirdParty": "Tredjeparter",
+                "portalAudienceCitizen": "Medborgare",
+                "portalSectionJournals": "Journaler",
+                "portalSectionDocuments": "Dokument",
+                "portalSectionMessages": "Meddelanden",
+                "portalSectionOverview": "Daglig översikt",
+                "portalSectionDutySchedules": "Vaktplaner",
+                "portalSectionSurveys": "Frågeformulär",
+                "portalSectionProtocols": "Protokoll",
                 "interventionCheckinOut": "Check in/ut för insats",
                 "relativeCanMessageAdmins": "Anhöriga kan skicka meddelanden till ledning/administratörer",
                 "relativeCanMessageContactPersons": "Anhöriga kan skicka meddelanden till brukarens tilldelade kontaktpersoner",
@@ -8878,7 +8919,29 @@
                 "manageApprovedDevices": "Administrér godkända enheter",
                 "actionBlock": "Blokér åtkomst",
                 "actionOtp": "Kräv OTP-bekräftelse",
-                "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den."
+                "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den.",
+                "portalPreviewOpen": "Se vad de ser",
+                "portalPreviewTitle": "Så här ser {audience} det",
+                "portalPreviewHint": "En förhandsvisning av portalen med era nuvarande val. Inga riktiga uppgifter hämtas här",
+                "portalPreviewEmptyNav": "Inga delar",
+                "portalPreviewNothing": "Med dessa val är portalen tom",
+                "portalPreviewNeverSees": "De ser aldrig",
+                "portalPreviewJournals": "Medborgarens journalanteckningar, utan utkast",
+                "portalPreviewDocuments": "Endast de filer ni har delat med dem",
+                "portalPreviewMessagesRelative": "Samtal med ledningen och medborgarens kontaktpersoner",
+                "portalPreviewMessagesThirdParty": "Samtal med de medarbetare ni har kopplat till dem",
+                "portalPreviewMessagesCitizen": "Samtal med personalen",
+                "portalPreviewOverview": "Daglig översikt med anslagstavlan",
+                "portalPreviewDutySchedules": "De skift som planerats för dem",
+                "portalPreviewSurveys": "Frågeformulär som tilldelats dem",
+                "portalPreviewProtocols": "Deras egen in- och utcheckning",
+                "portalNeverDrafts": "Journalanteckningar som är utkast",
+                "portalNeverUnsharedDocuments": "Dokument ni inte har delat",
+                "portalNeverOtherCitizens": "Något som helst om andra medborgare",
+                "portalNeverStaffNotes": "Interna anteckningar skrivna om dem",
+                "portalNeverJournalsAtAll": "Journaler och dokument, aldrig",
+                "portalNeverUnassignedStaff": "Medarbetare ni inte har kopplat till dem",
+                "portalAccessSeeWhoHasAccess": "Se vem som har åtkomst"
             }
         },
         "licenseOverview": {
@@ -8929,7 +8992,8 @@
             "billing": "Fakturering",
             "data": "Data",
             "logs": "Loggar",
-            "integrations": "Integrationer"
+            "integrations": "Integrationer",
+            "apps": "Appar"
         },
         "tabs": {
             "absences": "Frånvaro",
@@ -12058,5 +12122,32 @@
             "namePlaceholder": "t.ex. Eftervård",
             "color": "Färg"
         }
+    },
+    "portalAccess": {
+        "title": "Portalåtkomst",
+        "intro": "Vem som har inloggning till en portal nu, och hur många av era köpta platser som används",
+        "seatsInUse": "{used} av {total} platser används",
+        "seatsAvailable": "{count} lediga",
+        "noSeatsLeft": "Inga lediga platser",
+        "appNotBought": "Appen är inte köpt",
+        "buyMoreSeats": "Köp fler platser",
+        "getApp": "Hämta appen",
+        "nobodyHasAccess": "Ingen har åtkomst ännu",
+        "audience": {
+            "relative": "Anhöriga",
+            "third_party": "Tredjeparter"
+        },
+        "status": {
+            "active": "Inloggad",
+            "invited": "Inbjuden"
+        },
+        "table": {
+            "name": "Namn",
+            "email": "E-post",
+            "citizen": "Medborgare",
+            "status": "Status",
+            "grantedAt": "Åtkomst gavs"
+        },
+        "chooseWhatTheySee": "Välj vad de ser"
     }
 }

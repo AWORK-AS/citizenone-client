@@ -90,7 +90,7 @@
                 </div>
             </li>
         </ul>
-        <ModulesRelativeMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen"
+        <ModulesThirdPartyMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen"
             @close="state.modal.isNewChatOpen = false" />
     </div>
 </template>
@@ -150,7 +150,7 @@ function chatGroupMembers(chat: any) {
 }
 
 function openChat(chat: any) {
-    navigateTo(`/relative/messages/${chat.uuid}`)
+    navigateTo(`/third-party/messages/${chat.uuid}`)
 }
 
 function memberDisplayName(member: any) {

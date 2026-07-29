@@ -27,7 +27,7 @@
                             <div
                                 class="flex grow flex-col gap-y-5 overflow-y-auto bg-gradient-to-b from-sidebar to-sidebar-dark px-6 pb-4">
                                 <div class="mt-5">
-                                    <span @click="navigateTo('/relative/citizens')">
+                                    <span @click="navigateTo('/third-party/messages')">
                                         <span class="flex items-center gap-x-2.5">
                                             <img src="/img/icons/asset-app.png" alt="CitizenOne"
                                                 class="h-7 w-7 object-contain" />
@@ -44,10 +44,7 @@
                                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group flex gap-x-3 p-2 text-sm leading-6 font-semibold cursor-pointer']">
                                                         <Icon :name="item.icon" class="h-5 w-5 shrink-0"
                                                             aria-hidden="true" />
-                                                        <span v-if="item.name === 'Citizens'">
-                                                            {{ customPagesStore.getCustomPagesName?.citizens }}
-                                                        </span>
-                                                        <span v-else-if="item.name === 'Messages'">
+                                                        <span v-if="item.name === 'Messages'">
                                                             {{ $t('messages.messages') }}
                                                         </span>
                                                     </div>
@@ -90,7 +87,7 @@
                 class="overflow-clip relative flex grow flex-col gap-y-5 bg-gradient-to-b from-sidebar to-sidebar-dark px-6 pb-4">
 
                 <div class="z-20 mt-5">
-                    <span @click="navigateTo('/relative/citizens')" class="cursor-pointer flex items-center gap-x-2.5">
+                    <span @click="navigateTo('/third-party/messages')" class="cursor-pointer flex items-center gap-x-2.5">
                         <img src="/img/icons/asset-app.png" alt="CitizenOne" class="h-7 w-7 object-contain" />
                         <span class="text-primary font-semibold text-lg">CitizenOne™</span>
                     </span>
@@ -103,10 +100,7 @@
                                     <div v-if="!item.children" @click="navigateTo(item.href)"
                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group flex gap-x-3 p-3 text-sm leading-6 font-semibold cursor-pointer']">
                                         <Icon :name="item.icon" class="h-6 w-6 shrink-0" aria-hidden="true" />
-                                        <span v-if="item.name === 'Citizens'">
-                                            {{ customPagesStore.getCustomPagesName?.citizens }}
-                                        </span>
-                                        <span v-else-if="item.name === 'Messages'">
+                                        <span v-if="item.name === 'Messages'">
                                             {{ $t('messages.messages') }}
                                         </span>
                                     </div>
@@ -161,7 +155,7 @@
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
                         <button v-if="hasMessagesAccess" type="button"
                             class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
-                            @click="navigateTo('/relative/messages')">
+                            @click="navigateTo('/third-party/messages')">
                             <Icon name="ph:chat-circle" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
                             <Badge type="notification" class="w-fit absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_messages_count ?? 0 }}
@@ -273,7 +267,7 @@ import {
     TransitionRoot,
 } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
-import { relativeService } from '@/components/api/relative/RelativeService'
+import { thirdPartyService } from '@/components/api/third-party/ThirdPartyService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -285,27 +279,16 @@ const language = useI18n()
 const router = useRouter()
 
 const navigation = computed(() => {
-    const items = [
-        {
-            name: 'Citizens',
-            href: '/relative/citizens',
-            icon: 'heroicons:user-group',
-            activeRouteNames: [
-                'relative-citizens',
-                'relative-citizens-uuid-journals',
-                'relative-citizens-uuid-documents',
-            ]
-        },
-    ] as any
+    const items = [] as any
 
     if (hasMessagesAccess.value) {
         items.push({
             name: 'Messages',
-            href: '/relative/messages',
+            href: '/third-party/messages',
             icon: 'heroicons:chat-bubble-left-right',
             activeRouteNames: [
-                'relative-messages',
-                'relative-messages-chat_uuid',
+                'third-party-messages',
+                'third-party-messages-chat_uuid',
             ]
         })
     }
@@ -313,7 +296,7 @@ const navigation = computed(() => {
     return items
 })
 
-const hasMessagesAccess = computed(() => userStore.getUser?.company?.relative_chat_enabled && (userStore.getUser?.portal_visibility ?? {}).messages !== false)
+const hasMessagesAccess = computed(() => (userStore.getUser?.portal_visibility ?? {}).messages !== false)
 
 const sidebarOpen = ref(false)
 
@@ -383,7 +366,7 @@ function customPage(page: String) {
 async function fetchUser() {
     state.error = {}
     try {
-        const response = await relativeService.getCurrentLoggedInRelative()
+        const response = await thirdPartyService.getCurrentLoggedInThirdParty()
         if (response?.data) {
             userStore.setUser(response?.data)
             userStore.setLanguage(response?.data?.language?.code)

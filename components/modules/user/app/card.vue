@@ -75,14 +75,17 @@
         <div class="mt-auto">
             <p class="text-muted-800 text-sm">
                 <template v-if="appHasDiscount">
-                    <span class="line-through text-muted-400 mr-1">{{ formatAmount(basePrice) }}</span>
+                    <span class="line-through text-muted-400 mr-1">{{ formatAmount(headlinePrice) }}</span>
                     <span class="font-semibold text-primary">{{ formatAmount(discountedPrice) }}</span>
                 </template>
                 <template v-else>
-                    <span>{{ formatAmount(basePrice) }}</span>
+                    <span>{{ formatAmount(headlinePrice) }}</span>
                 </template>
                 <span v-if="!props.app?.is_one_time_fee" class="lowercase">/{{ priceUnit }}</span>
                 {{ $t('excludeVat') }}
+            </p>
+            <p v-if="hasSubscriptionBaseFee" class="text-xs text-muted-500 mt-0.5">
+                + {{ formatAmount(basePrice) }} {{ $t('apps.perUserSuffix') }}
             </p>
             <p v-if="props.app?.setup_fee > 0" class="text-xs text-muted-500 mt-0.5">
                 + {{ formatAmount(props.app?.setup_fee) }} {{ $t('apps.setupFeeSuffix') }}
@@ -101,6 +104,10 @@
             <FormButton type="button" buttonStyle="action" class="w-full"
                 @click="emit('goToPartner', props.app?.url_field)" v-if="props.app?.url_field">
                 {{ $t('apps.goToPartner') }}
+            </FormButton>
+            <FormButton type="button" buttonStyle="primary" class="w-full"
+                v-else-if="props.app?.user_activated && destination" @click="navigateTo(destination.path)">
+                {{ destination.open ? $t('apps.openApp') : $t('apps.goToSetup') }}
             </FormButton>
             <FormButton type="button" :buttonStyle="props.app?.user_activated ? 'app-activated' : 'app-order-now'"
                 :class="[
@@ -135,6 +142,7 @@ const props = defineProps({
 
 const emit = defineEmits(['readMore', 'goToPartner', 'activate'])
 
+const destination = computed(() => appDestinationFor(props.app))
 const appIcon = computed(() => appIconFor(props.app).icon)
 const useIconTile = computed(() => appIconFor(props.app).useTile)
 
@@ -159,6 +167,18 @@ const basePrice = computed(() => {
 
 const priceUnit = computed(() => (isYearly.value ? t('apps.year') : t('apps.month')))
 
+// Apps sold as a base subscription plus a price per unit (third party access:
+// 129/mo plus 29 per third party) lead with the base and list the unit price.
+const subscriptionBasePrice = computed(() => {
+    if (props.app?.is_one_time_fee) return 0
+    if (isYearly.value) return Number(props.app?.base_yearly_price) || 0
+    return Number(props.app?.base_monthly_price) || 0
+})
+
+const hasSubscriptionBaseFee = computed(() => subscriptionBasePrice.value > 0)
+
+const headlinePrice = computed(() => (hasSubscriptionBaseFee.value ? subscriptionBasePrice.value : basePrice.value))
+
 const appHasDiscount = computed(() =>
     !!(props.app?.has_active_discount && Number(props.app?.discount_percent) > 0)
 )
@@ -166,8 +186,8 @@ const appHasDiscount = computed(() =>
 const discountPercent = computed(() => Math.round(Number(props.app?.discount_percent) || 0))
 
 const discountedPrice = computed(() => {
-    if (!appHasDiscount.value) return basePrice.value
-    return Math.round(basePrice.value * (1 - discountPercent.value / 100))
+    if (!appHasDiscount.value) return headlinePrice.value
+    return Math.round(headlinePrice.value * (1 - discountPercent.value / 100))
 })
 
 const daysLeft = computed(() => {
