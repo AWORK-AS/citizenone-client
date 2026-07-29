@@ -27,8 +27,9 @@
                                 v-if="!(state.isTableLoading || (state.interventionHours?.data?.length === 0))">
                                 <tr v-for="(inteventionHours, index) in state.interventionHours?.data" :key="index">
                                     <td width="15%">
-                                        {{ inteventionHours?.citizen?.firstname + ' ' +
-                                            inteventionHours?.citizen?.lastname }}
+                                        <span v-if="inteventionHours?.citizen">
+                                            {{ inteventionHours?.citizen?.firstname }} {{ inteventionHours?.citizen?.lastname }}
+                                        </span>
                                     </td>
                                     <td width="15%">
                                         {{ inteventionHours?.date_time_start ?

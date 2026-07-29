@@ -37,6 +37,14 @@ const state = reactive({
                 'employees-employee_uuid-time-logs',
             ]
         },
+        {
+            name: 'employees.tabs.mileageLog',
+            isTranslateName: true,
+            href: `/employees/${employeeUuid}/mileage-log`,
+            routeNames: [
+                'employees-employee_uuid-mileage-log',
+            ]
+        },
     ] as any
 })
 
@@ -66,6 +74,14 @@ watch(() => language.locale.value, (language: any) => {
                 'employees-employee_uuid-time-logs',
             ]
         },
+        {
+            name: 'employees.tabs.mileageLog',
+            isTranslateName: true,
+            href: `/employees/${employeeUuid}/mileage-log`,
+            routeNames: [
+                'employees-employee_uuid-mileage-log',
+            ]
+        },
     ]
 })
 
@@ -78,6 +94,9 @@ function changeTab(value: any) {
     }
     else if (value === `/employees/${employeeUuid}/time-logs`) {
         navigateTo(`/employees/${employeeUuid}/time-logs`)
+    }
+    else if (value === `/employees/${employeeUuid}/mileage-log`) {
+        navigateTo(`/employees/${employeeUuid}/mileage-log`)
     }
 }
 </script>

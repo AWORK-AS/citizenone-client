@@ -13,6 +13,9 @@ node_modules
 logs
 *.log
 
+# E2E test output (regenerated on every run)
+tests/e2e/screenshots/
+
 # Misc
 .DS_Store
 .fleet

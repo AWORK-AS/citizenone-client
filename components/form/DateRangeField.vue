@@ -69,9 +69,11 @@ watch(() => language.locale.value, (locale: any) => {
 })
 
 watch(() => props.modelValue, (newValue: string[]) => {
-    if (newValue.length === 2) {
+    if (newValue?.length === 2) {
         const [start, end] = newValue || []
         state.dateValue = [new Date(start), new Date(end)]
+    } else if (!newValue?.length) {
+        state.dateValue = []
     }
 })
 
