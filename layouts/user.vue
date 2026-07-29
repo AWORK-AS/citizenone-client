@@ -542,8 +542,8 @@ import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
-import { customSidebarLinkService } from '@/components/api/user/CustomSidebarLinkService'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useCustomSidebarLinksStore } from '@/store/custom-sidebar-links'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -554,6 +554,7 @@ import type { Error } from '@/types'
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
+const customSidebarLinksStore = useCustomSidebarLinksStore()
 const { isAtLeast } = usePermissions()
 const language = useI18n()
 const { term } = useTerminology()
@@ -563,7 +564,6 @@ const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
 const routeName = router?.currentRoute?.value?.name
 
 const navigation = shallowRef<any[]>([])
-const customSidebarLinks = ref<any[]>([])
 
 // "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
 // per Allan's feedback, once onboarding is fully done it should disappear from
@@ -737,14 +737,15 @@ onMounted(() => {
 onUnmounted(() => clearTimeout(cmdkHintTimer))
 
 async function fetchCustomSidebarLinks() {
-    try {
-        const response = await customSidebarLinkService.getSidebarList()
-        customSidebarLinks.value = response?.data ?? []
-        if (userStore.getUser) generateSidebarLinks(userStore.getUser)
-    } catch (error) {
-        // Non-fatal: the sidebar still renders the standard links.
-    }
+    await customSidebarLinksStore.fetchLinks()
 }
+
+// Custom links can be created/edited/deleted from the settings pages while this
+// layout stays mounted (SPA navigation) - re-render the sidebar whenever the
+// shared store changes, not just on this layout's own initial fetch.
+watch(() => customSidebarLinksStore.links, () => {
+    if (userStore.getUser) generateSidebarLinks(userStore.getUser)
+})
 
 function openNavItem(item: any) {
     if (item?.external) {
@@ -895,7 +896,7 @@ function generateSidebarLinks(user: any) {
     // Removed from the sidebar (declutter, per stakeholder feedback) - the app
     // store is still reachable for every role via the profile dropdown menu.
 
-    customSidebarLinks.value.forEach((link: any) => {
+    customSidebarLinksStore.links.forEach((link: any) => {
         nav.push({
             name: link.label,
             href: link.url,
