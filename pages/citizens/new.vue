@@ -160,6 +160,14 @@ const state = reactive({
             referral_reason: '',
             internship_company: '',
         },
+        dentalData: {
+            is_member_of_sygeforsikring_danmark: false,
+            sygesikring_group: '',
+            patient_number: '',
+            municipal_subsidy: '',
+            last_checkup_date: '',
+            checkup_interval_months: '',
+        },
     } as CitizenForm,
     isPageLoading: false,
 })
@@ -270,6 +278,14 @@ async function saveCitizen(citizenDetails: any) {
             params.append('activation_deadline', citizenDetails.employmentData.activation_deadline != 'Invalid date' ? citizenDetails.employmentData.activation_deadline : '')
             params.append('referral_reason', citizenDetails.employmentData.referral_reason)
             params.append('internship_company', citizenDetails.employmentData.internship_company)
+        }
+        if (citizenDetails.dentalData) {
+            params.append('is_member_of_sygeforsikring_danmark', citizenDetails.dentalData.is_member_of_sygeforsikring_danmark)
+            params.append('sygesikring_group', citizenDetails.dentalData.sygesikring_group)
+            params.append('patient_number', citizenDetails.dentalData.patient_number)
+            params.append('municipal_subsidy', citizenDetails.dentalData.municipal_subsidy)
+            params.append('last_checkup_date', citizenDetails.dentalData.last_checkup_date != 'Invalid date' ? citizenDetails.dentalData.last_checkup_date : '')
+            params.append('checkup_interval_months', citizenDetails.dentalData.checkup_interval_months)
         }
         const response = await citizenService.saveCitizen(params)
         if (response.data) {
