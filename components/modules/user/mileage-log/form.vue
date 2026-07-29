@@ -14,7 +14,7 @@
                 <FormError :error="props?.error?.errors?.date_time_start?.[0]" />
             </div>
 
-            <TripStopsInput v-model="state.stops" :min="2" />
+            <MapTripStopsInput v-model="state.stops" :min="2" />
             <FormError :error="props?.error?.errors?.stops?.[0]" />
 
             <div class="space-y-1">
@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { useVuelidate } from "@vuelidate/core"
 import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -93,7 +94,7 @@ const { formatNumber } = useNumberFormatter()
 const state = reactive({
     error: {} as Error,
     formMileageLog: {
-        date_time_start: '',
+        date_time_start: moment().format('YYYY-MM-DD H:mm'),
         note: '',
         linkToCitizen: false,
         citizen_uuid: null as string | null,
