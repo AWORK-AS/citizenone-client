@@ -1951,6 +1951,24 @@
                 "contractPrice": "Kontraktpris",
                 "primarySplitPercentage": "Primær koordinator andel (%)"
             },
+            "dental": {
+                "isMemberOfSygeforsikringDanmark": "Medlem av Sygeforsikringen \"danmark\"",
+                "sygesikringGroup": {
+                    "label": "Sykeforsikringsgruppe",
+                    "group1": "Gruppe 1",
+                    "group2": "Gruppe 2",
+                    "foreignInsurance": "Utenlandsk forsikring",
+                    "other": "Annet"
+                },
+                "patientNumber": "Pasientnummer",
+                "municipalSubsidy": "Kommunalt tilskudd",
+                "lastCheckupDate": "Siste kontroll",
+                "checkupInterval": {
+                    "label": "Anbefalt kontrollintervall",
+                    "everySixMonths": "Hver 6. måned",
+                    "everyTwelveMonths": "Hver 12. måned"
+                }
+            },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
                 "caseEndDate": "Saksslutt dato",
@@ -2766,6 +2784,7 @@
         "rooms": "Rom",
         "sections": {
             "citizenDetails": "Brukeroplysninger",
+            "dentalProfile": "Tannprofil",
             "employmentProgram": "Sysselsettingsforløp",
             "inquiryData": "Henvendelsesdata",
             "stayData": "Opholdsdata"
@@ -4059,6 +4078,16 @@
                     "leaveRequestsSuccessfullyRejected": "Ferieanmodning ble avvist"
                 },
                 "confirmation": {
+                    "approveAudience": {
+                        "title": "Godkjenn permisjonsforespørsel",
+                        "audienceLabel": "Hvem skal det frigitte skiftet tilbys til?",
+                        "everyone": "Alle",
+                        "jobTitleSpecialty": "En bestemt stillingstittel & spesialitet",
+                        "employee": "En bestemt ansatt",
+                        "employeeLabel": "Ansatt",
+                        "jobTitleRequired": "Velg minst én stillingstittel",
+                        "employeeRequired": "Velg en ansatt"
+                    },
                     "approveLeaveRequestConfirmation": "Er du sikker på at du vil godkjenne denne ferie?",
                     "deleteLeaveRequestConfirmation": "Er du sikker på at du vil slette denne ferie?",
                     "rejectLeaveRequestConfirmation": "Er du sikker på at du vil avvise denne ferie?",
@@ -7261,6 +7290,19 @@
             "nameSwedish": "Navn (svensk)"
         }
     },
+    "medicineMissedDoses": {
+        "pageTitle": "Glemt medisin",
+        "missed": "Glemt",
+        "wasDueOn": "Skulle vært gitt den",
+        "giveNow": "Gi nå",
+        "noneFound": "Ingen glemt medisin akkurat nå",
+        "toast": {
+            "title": "Glemt medisin",
+            "forCitizenAt": "til {citizen} skulle vært gitt kl. {time}",
+            "andMore": "og {count} til",
+            "viewAll": "Se alle"
+        }
+    },
     "messages": {
         "actions": {
             "delete": "Slett",
@@ -8820,6 +8862,8 @@
                 "portalSectionSurveys": "Spørreskjemaer",
                 "portalSectionProtocols": "Protokoller",
                 "interventionCheckinOut": "Sjekk inn/ut for innsats",
+                "relativeCanMessageAdmins": "Pårørende kan sende melding til ledelse/administratorer",
+                "relativeCanMessageContactPersons": "Pårørende kan sende melding til brukerens tildelte kontaktpersoner",
                 "interventionNotificationHours": "Varslingstimer for innsats",
                 "employmentWeeklyHours": "Ukentlige arbeidstimer (fakturering for sysselsettingsinnsats)",
                 "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",

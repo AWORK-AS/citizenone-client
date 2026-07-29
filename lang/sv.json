@@ -1951,6 +1951,24 @@
                 "contractPrice": "Kontraktpris",
                 "primarySplitPercentage": "Primär koordinator andel (%)"
             },
+            "dental": {
+                "isMemberOfSygeforsikringDanmark": "Medlem i Sygeforsikringen \"danmark\"",
+                "sygesikringGroup": {
+                    "label": "Sjukförsäkringsgrupp",
+                    "group1": "Grupp 1",
+                    "group2": "Grupp 2",
+                    "foreignInsurance": "Utländsk försäkring",
+                    "other": "Annat"
+                },
+                "patientNumber": "Patientnummer",
+                "municipalSubsidy": "Kommunalt bidrag",
+                "lastCheckupDate": "Senaste kontroll",
+                "checkupInterval": {
+                    "label": "Rekommenderat kontrollintervall",
+                    "everySixMonths": "Var 6:e månad",
+                    "everyTwelveMonths": "Var 12:e månad"
+                }
+            },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
                 "caseEndDate": "Ärendeslutdatum",
@@ -2766,6 +2784,7 @@
         "rooms": "Rum",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
+            "dentalProfile": "Tandprofil",
             "employmentProgram": "Sysselsättningsförlopp",
             "inquiryData": "Henvendelsesdata",
             "stayData": "Vistelsedata"
@@ -4059,6 +4078,16 @@
                     "leaveRequestsSuccessfullyRejected": "Ferieanmodning har avvisats"
                 },
                 "confirmation": {
+                    "approveAudience": {
+                        "title": "Godkänn ledighetsansökan",
+                        "audienceLabel": "Vem ska det frigivna passet erbjudas till?",
+                        "everyone": "Alla",
+                        "jobTitleSpecialty": "En specifik jobbtitel & specialitet",
+                        "employee": "En specifik anställd",
+                        "employeeLabel": "Anställd",
+                        "jobTitleRequired": "Välj minst en jobbtitel",
+                        "employeeRequired": "Välj en anställd"
+                    },
                     "approveLeaveRequestConfirmation": "Är du säker på att du vill godkänna denna semester?",
                     "deleteLeaveRequestConfirmation": "Är du säker på att du vill radera denna semester?",
                     "rejectLeaveRequestConfirmation": "Är du säker på att du vill afvise denna semester?",
@@ -7261,6 +7290,19 @@
             "nameSwedish": "Namn (svenska)"
         }
     },
+    "medicineMissedDoses": {
+        "pageTitle": "Glömd medicin",
+        "missed": "Missad",
+        "wasDueOn": "Skulle ha givits den",
+        "giveNow": "Ge nu",
+        "noneFound": "Ingen glömd medicin just nu",
+        "toast": {
+            "title": "Missad medicin",
+            "forCitizenAt": "till {citizen} skulle ha givits kl. {time}",
+            "andMore": "och {count} till",
+            "viewAll": "Visa alla"
+        }
+    },
     "messages": {
         "actions": {
             "delete": "Radera",
@@ -8820,6 +8862,8 @@
                 "portalSectionSurveys": "Frågeformulär",
                 "portalSectionProtocols": "Protokoll",
                 "interventionCheckinOut": "Check in/ut för insats",
+                "relativeCanMessageAdmins": "Anhöriga kan skicka meddelanden till ledning/administratörer",
+                "relativeCanMessageContactPersons": "Anhöriga kan skicka meddelanden till brukarens tilldelade kontaktpersoner",
                 "interventionNotificationHours": "Varslingstimer för insats",
                 "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
                 "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",

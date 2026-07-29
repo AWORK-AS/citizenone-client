@@ -26,11 +26,13 @@
 
 <script setup lang="ts">
 import { customSidebarLinkService } from '@/components/api/user/CustomSidebarLinkService'
+import { useCustomSidebarLinksStore } from '@/store/custom-sidebar-links'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const customSidebarLinksStore = useCustomSidebarLinksStore()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const breadcrumbLinks = [
@@ -63,6 +65,7 @@ async function saveLink(details: any) {
         }
         const response = await customSidebarLinkService.saveCustomSidebarLink(params)
         if (response?.data) {
+            await customSidebarLinksStore.fetchLinks()
             successAlert(`${t('alert.success')}!`, `${t('customSidebarLinks.alert.saved')}.`)
             navigateTo('/settings/custom-links')
         }

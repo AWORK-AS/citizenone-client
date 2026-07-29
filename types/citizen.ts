@@ -48,4 +48,5 @@ export interface CitizenForm {
     inquiryData: any,
     stayData: any,
     employmentData?: any,
+    dentalData?: any,
 }
