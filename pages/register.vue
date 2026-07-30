@@ -283,7 +283,7 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
 const { successAlert } = useAlert()
-const { gtagReportConversion } = useGtag()
+const { pushSignUpEvent } = useGtag()
 const { t } = useI18n()
 
 // Set language
@@ -579,7 +579,7 @@ async function register() {
                 }
                 const response = await authService.register(params)
                 if (response.data) {
-                    gtagReportConversion('https://app.citizenone.dk')
+                    pushSignUpEvent()
                     successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
                     navigateTo('/')
                 }
