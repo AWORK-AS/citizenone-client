@@ -4199,7 +4199,14 @@
             "confirmation": {
                 "removeScheduleConfirmation": "Er du sikker på, at du vil fjerne denne vagt?"
             },
-            "removeSchedule": "Fjern tidsplan"
+            "removeSchedule": "Fjern tidsplan",
+            "reason": {
+                "title": "Fjern vagt",
+                "question": "Er medarbejderen syg eller på ferie, eller skal vagten overdrages til en anden medarbejder?",
+                "sick": "Medarbejderen er syg",
+                "vacation": "Medarbejderen er på ferie",
+                "reassign": "Overdrag til en anden medarbejder"
+            }
         },
         "requesters": {
             "confirmation": {
