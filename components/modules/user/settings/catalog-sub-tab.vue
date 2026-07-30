@@ -138,6 +138,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             { group: 'schedule', name: 'settings.tabs.scheduleTags', isTranslateName: true, href: `/settings/schedule-tags`, routeNames: ['settings-schedule-tags'] },
             { group: 'access', name: 'settings.tabs.sections', isTranslateName: true, href: `/settings/sections`, routeNames: ['settings-sections'] },
             { group: 'schedule', name: 'settings.tabs.shifts', isTranslateName: true, href: `/settings/shifts`, routeNames: ['settings-shifts'] },
+            ...(newValue?.is_extended_duty_schedule_active ? [{ group: 'schedule', name: 'settings.tabs.wageSupplementRules', isTranslateName: true, href: `/settings/wage-supplement-rules`, routeNames: ['settings-wage-supplement-rules'] }] : []),
             ...(isEmploymentServices ? [{ group: 'employment', name: 'settings.tabs.employmentStatusTypes', isTranslateName: true, href: `/settings/employment-status-types`, routeNames: ['settings-employment-status-types'] }] : []),
             { group: 'schedule', name: 'settings.tabs.timeAccounts', isTranslateName: true, href: `/settings/time-accounts`, routeNames: ['settings-time-accounts'] },
             { group: 'health', name: 'settings.tabs.treatmentTemplates', isTranslateName: true, href: `/settings/treatment-templates`, routeNames: ['settings-treatment-templates'] },

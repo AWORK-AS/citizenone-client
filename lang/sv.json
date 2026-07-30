@@ -3471,7 +3471,9 @@
             },
             "color": "Färg",
             "name": "Namn",
-            "shiftTypes": "Passtyper"
+            "shiftTypes": "Passtyper",
+            "minimumStaffCount": "Minsta bemanning",
+            "minimumStaffCountHint": "Minsta antal medarbetare som krävs för att täcka denna avdelning en given dag. Lämna tomt för att inaktivera bemanningsvarningen."
         },
         "newDepartment": "Ny avdelning",
         "table": {
@@ -4019,6 +4021,7 @@
             "description": "Beskrivning",
             "doNotCountSickLeaveAsWorkingHours": "Täl inte sjukfrånvaro som arbejdstimer",
             "doNotCountWeekends": "Täl inte weekender med",
+            "estimatedPayrollCost": "Uppskattad lönekostnad",
             "forSleepingNightShift": "För sovende nattpass",
             "inMeeting": "I möte",
             "note": "Anmärkning",
@@ -4027,7 +4030,8 @@
             "tags": "Etiketter",
             "title": "Titel",
             "useCompensatoryTime": "Använd afspadseringstid",
-            "users": "Användare"
+            "users": "Användare",
+            "employeeMarkedUnavailable": "Denna medarbetare har markerat sig otillgänglig detta datum"
         },
         "holidays": "Helgdagar",
         "holidayWorked": "Helgdagstimmar (arbetade)",
@@ -5713,6 +5717,7 @@
                 "employmentStatus": "Anställningsstatus",
                 "hoursPerWeek": "Timmar per vecka",
                 "hoursPerYear": "Timmar per år",
+                "hourlyRate": "Timlön",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobbtitel",
                 "salaryID": "Lön-ID",
@@ -9140,7 +9145,8 @@
             "customLinks": "Egna länkar",
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
-            "fst": "FST"
+            "fst": "FST",
+            "wageSupplementRules": "Tilläggsregler för lön"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -9354,7 +9360,9 @@
         "pinSidebar": "Fäst sidebar",
         "unpinSidebar": "Lossa sidebar",
         "surveys": "Enkäter",
-        "myDay": "Min dag"
+        "myDay": "Min dag",
+        "myAvailability": "Min tillgänglighet",
+        "myShiftEvaluations": "Mina passutvärderingar"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -12235,5 +12243,64 @@
             "grantedAt": "Åtkomst gavs"
         },
         "chooseWhatTheySee": "Välj vad de ser"
+    },
+    "wageSupplementRules": {
+        "form": {
+            "explanation": "Konfigurera kvälls-/söndagstillägg för schemat. Regler utvärderas i prioritetsordning (lägst först), och den första helt matchande regeln vinner — regler läggs inte ihop.",
+            "addRule": "Lägg till regel",
+            "empty": "Inga tilläggsregler har konfigurerats ännu.",
+            "ruleTitle": "Regel",
+            "name": "Namn",
+            "namePlaceholder": "t.ex. Kvällstillägg",
+            "priority": "Prioritet",
+            "priorityHint": "Lägre nummer utvärderas först och vinner över högre nummer.",
+            "timeInterval": "Tidsintervall",
+            "timeFrom": "Från",
+            "timeTo": "Till",
+            "allDayHint": "Lämna båda tomma för att gälla alla timmar på de matchande dagarna.",
+            "daysOfWeek": "Veckodagar",
+            "daysOfWeekHint": "Lämna tomt för att gälla alla dagar.",
+            "appliesToHolidays": "Gäller på helgdagar",
+            "supplementPercentage": "Tillägg %",
+            "compTimePercentage": "Komptid %",
+            "paidPercentage": "Utbetalt %",
+            "isActive": "Aktiv",
+            "supplementExceededError": "Komptid % och utbetalt % tillsammans får inte överstiga tillägg %"
+        },
+        "alert": {
+            "ruleSuccessfullySaved": "Tilläggsregeln sparades",
+            "ruleSuccessfullyDeleted": "Tilläggsregeln togs bort"
+        }
+    },
+    "employeeAvailability": {
+        "title": "Min tillgänglighet",
+        "explanation": "Låt din chef veta om du kan eller inte kan schemaläggas en viss dag. Lägg gärna till en kommentar.",
+        "empty": "Du har inte markerat någon tillgänglighet ännu.",
+        "form": {
+            "date": "Datum",
+            "status": "Status",
+            "available": "Tillgänglig",
+            "notAvailable": "Inte tillgänglig",
+            "comment": "Kommentar",
+            "commentPlaceholder": "t.ex. Hämtar barn från skolan"
+        },
+        "alert": {
+            "savedSuccessfully": "Din tillgänglighet sparades",
+            "deletedSuccessfully": "Din tillgänglighet togs bort"
+        }
+    },
+    "shiftEvaluations": {
+        "title": "Mina passutvärderingar",
+        "explanation": "Låt din chef veta hur dina senaste pass gick. Betygsätt passet och lägg gärna till en kommentar.",
+        "pendingHeading": "Pass som väntar på din utvärdering",
+        "submittedHeading": "Dina utvärderingar",
+        "empty": "Du har inte utvärderat några pass ännu.",
+        "form": {
+            "commentPlaceholder": "t.ex. Hektiskt men hanterbart pass"
+        },
+        "alert": {
+            "savedSuccessfully": "Din utvärdering sparades",
+            "deletedSuccessfully": "Din utvärdering togs bort"
+        }
     }
 }

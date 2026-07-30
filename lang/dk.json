@@ -3471,7 +3471,9 @@
             },
             "color": "Farve",
             "name": "Navn",
-            "shiftTypes": "Vagttyper"
+            "shiftTypes": "Vagttyper",
+            "minimumStaffCount": "Minimumsbemanding",
+            "minimumStaffCountHint": "Minimumsantal medarbejdere, der kræves for at dække denne afdeling på en given dag. Lad stå tomt for at deaktivere bemandingsadvarslen."
         },
         "newDepartment": "Ny afdeling",
         "table": {
@@ -4019,6 +4021,7 @@
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
             "doNotCountWeekends": "Tæl ikke weekender med",
+            "estimatedPayrollCost": "Estimeret lønomkostning",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
             "note": "Bemærkning",
@@ -4027,7 +4030,8 @@
             "tags": "Etiketter",
             "title": "Titel",
             "useCompensatoryTime": "Brug afspadseringstid",
-            "users": "Brugere"
+            "users": "Brugere",
+            "employeeMarkedUnavailable": "Denne medarbejder har markeret sig utilgængelig på denne dato"
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbejdet)",
@@ -5713,6 +5717,7 @@
                 "employmentStatus": "Ansættelsesstatus",
                 "hoursPerWeek": "Timer per uge",
                 "hoursPerYear": "Timer per år",
+                "hourlyRate": "Timeløn",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
                 "salaryID": "Løn-ID",
@@ -9140,7 +9145,8 @@
             "customLinks": "Egne links",
             "messageTemplates": "Beskedskabeloner",
             "timelineEventTypes": "Tidslinje-typer",
-            "fst": "FST"
+            "fst": "FST",
+            "wageSupplementRules": "Tillægsregler for løn"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -9354,7 +9360,9 @@
         "pinSidebar": "Fastgør sidebar",
         "unpinSidebar": "Frigør sidebar",
         "surveys": "Spørgeskemaer",
-        "myDay": "Min dag"
+        "myDay": "Min dag",
+        "myAvailability": "Min tilgængelighed",
+        "myShiftEvaluations": "Mine vagtevalueringer"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -12235,5 +12243,64 @@
             "grantedAt": "Adgang givet"
         },
         "chooseWhatTheySee": "Vælg hvad de kan se"
+    },
+    "wageSupplementRules": {
+        "form": {
+            "explanation": "Konfigurer aften-/søndagstillæg for vagtplanen. Regler evalueres i prioriteret rækkefølge (laveste først), og den første fuldt matchende regel vinder — regler lægges ikke sammen.",
+            "addRule": "Tilføj regel",
+            "empty": "Der er endnu ikke konfigureret nogen tillægsregler.",
+            "ruleTitle": "Regel",
+            "name": "Navn",
+            "namePlaceholder": "f.eks. Aftentillæg",
+            "priority": "Prioritet",
+            "priorityHint": "Lavere tal evalueres først og vinder over højere tal.",
+            "timeInterval": "Tidsinterval",
+            "timeFrom": "Fra",
+            "timeTo": "Til",
+            "allDayHint": "Lad begge være tomme for at gælde alle timer på de matchende dage.",
+            "daysOfWeek": "Ugedage",
+            "daysOfWeekHint": "Lad stå tomt for at gælde alle dage.",
+            "appliesToHolidays": "Gælder på helligdage",
+            "supplementPercentage": "Tillæg %",
+            "compTimePercentage": "Afspadsering %",
+            "paidPercentage": "Udbetalt %",
+            "isActive": "Aktiv",
+            "supplementExceededError": "Afspadsering % og udbetalt % kan tilsammen ikke overstige tillæg %"
+        },
+        "alert": {
+            "ruleSuccessfullySaved": "Tillægsreglen blev gemt",
+            "ruleSuccessfullyDeleted": "Tillægsreglen blev slettet"
+        }
+    },
+    "employeeAvailability": {
+        "title": "Min tilgængelighed",
+        "explanation": "Lad din leder vide, om du kan eller ikke kan sættes på vagt en bestemt dag. Tilføj eventuelt en kommentar.",
+        "empty": "Du har endnu ikke markeret nogen tilgængelighed.",
+        "form": {
+            "date": "Dato",
+            "status": "Status",
+            "available": "Tilgængelig",
+            "notAvailable": "Ikke tilgængelig",
+            "comment": "Kommentar",
+            "commentPlaceholder": "f.eks. Henter børn fra skole"
+        },
+        "alert": {
+            "savedSuccessfully": "Din tilgængelighed blev gemt",
+            "deletedSuccessfully": "Din tilgængelighed blev fjernet"
+        }
+    },
+    "shiftEvaluations": {
+        "title": "Mine vagtevalueringer",
+        "explanation": "Lad din leder vide, hvordan dine seneste vagter gik. Bedøm vagten, og tilføj eventuelt en kommentar.",
+        "pendingHeading": "Vagter der afventer din evaluering",
+        "submittedHeading": "Dine evalueringer",
+        "empty": "Du har endnu ikke evalueret nogen vagter.",
+        "form": {
+            "commentPlaceholder": "f.eks. Travl, men overkommelig vagt"
+        },
+        "alert": {
+            "savedSuccessfully": "Din evaluering blev gemt",
+            "deletedSuccessfully": "Din evaluering blev fjernet"
+        }
     }
 }

@@ -154,6 +154,21 @@
                         <FormError :error="v$?.formShift.date_time_end?.$errors[0]?.$message.toString()" />
                     </div>
                 </div>
+                <div class="rounded-lg bg-gray-50 px-3 py-2 text-sm flex justify-between items-center"
+                    v-if="estimatedPayrollCost !== null">
+                    <span class="text-gray-600">{{ $t('dutySchedules.form.estimatedPayrollCost') }}</span>
+                    <span class="font-semibold">{{ estimatedPayrollCost }}</span>
+                </div>
+                <div class="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm flex items-start gap-2"
+                    v-if="state.selectedEmployeeUnavailability">
+                    <Icon name="ph:warning-circle" class="size-5 text-red-500 shrink-0 mt-0.5" aria-hidden="true" />
+                    <div>
+                        <p class="text-red-700 font-medium">{{ $t('dutySchedules.form.employeeMarkedUnavailable') }}</p>
+                        <p v-if="state.selectedEmployeeUnavailability.comment" class="text-red-600 mt-0.5">
+                            {{ state.selectedEmployeeUnavailability.comment }}
+                        </p>
+                    </div>
+                </div>
                 <div class="space-y-1" v-if="props.formType === 'create'">
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formShift.recurring.is_recurring = !state.formShift.recurring.is_recurring">
@@ -377,7 +392,9 @@ import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { shiftService } from '@/components/api/user/ShiftService'
+import { employeeAvailabilityService } from '@/components/api/user/EmployeeAvailabilityService'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -411,6 +428,7 @@ const { t } = useI18n()
 const emit = defineEmits(['close', 'isPageLoading', 'saveShift', 'dateTimeChange'])
 const language = useI18n()
 const departmentStore = useDepartmentStore() as any
+const userStore = useUserStore() as any
 
 const state = reactive({
     error: {} as Error,
@@ -453,6 +471,8 @@ const state = reactive({
         isShiftHistoryOpen: false,
     },
     showChildProtectionCertificateWarning: false,
+    employeeHourlyRates: {} as Record<string, number>,
+    selectedEmployeeUnavailability: null as any,
     options: {
         citizens: [],
         departments: [],
@@ -586,10 +606,15 @@ async function fetchAllUsersWithoutAllUsersOption() {
         if (response.data) {
             let options: any = []
             response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + (user?.lastname ?? ''),
-                })
+                (user: any) => {
+                    options.push({
+                        value: user?.uuid,
+                        label: user?.firstname + " " + (user?.lastname ?? ''),
+                    })
+                    if (user?.employee_detail?.hourly_rate) {
+                        state.employeeHourlyRates[user.uuid] = user.employee_detail.hourly_rate
+                    }
+                }
             )
             state.options.employees_without_all_users_option = options
         }
@@ -681,6 +706,57 @@ const selectedShiftOption = computed(() =>
 const isSleepingNightShift = computed(() =>
     selectedShiftOption.value?.system_name === 'sleeping-night-shift'
 )
+
+const selectedEmployeeHourlyRate = computed(() => {
+    const uuid = props.formType === 'create' ? state.formShift.user_uuid : props.selectedEmployee?.uuid
+    return (uuid && state.employeeHourlyRates[uuid]) || props.selectedEmployee?.employee_detail?.hourly_rate || null
+})
+
+const estimatedPayrollCost = computed(() => {
+    if (!userStore.getUser?.is_extended_duty_schedule_active) return null
+    if (!selectedEmployeeHourlyRate.value) return null
+    if (!state.formShift.date_time_start || !state.formShift.date_time_end) return null
+
+    const start = moment(state.formShift.date_time_start, 'YYYY-MM-DD H:mm')
+    const end = moment(state.formShift.date_time_end, 'YYYY-MM-DD H:mm')
+    if (!start.isValid() || !end.isValid()) return null
+
+    const hours = end.diff(start, 'minutes') / 60
+    if (hours <= 0) return null
+
+    return Math.round(hours * selectedEmployeeHourlyRate.value * 100) / 100
+})
+
+const selectedEmployeeUuidForAvailability = computed(() => {
+    return state.formShift.user_uuid || props.selectedEmployee?.uuid || null
+})
+
+let availabilityCheckToken = 0
+watchEffect(() => {
+    const uuid = selectedEmployeeUuidForAvailability.value
+    const dateTimeStart = state.formShift.date_time_start
+    const token = ++availabilityCheckToken
+
+    state.selectedEmployeeUnavailability = null
+    if (!userStore.getUser?.is_extended_duty_schedule_active) return
+    if (!uuid || !dateTimeStart) return
+
+    const date = moment(dateTimeStart, 'YYYY-MM-DD H:mm').format('YYYY-MM-DD')
+    if (!date || date === 'Invalid date') return
+
+    employeeAvailabilityService.getForCompany({
+        date_start: date,
+        date_end: date,
+        user_uuids: JSON.stringify([uuid]),
+    }).then((response: any) => {
+        if (token !== availabilityCheckToken) return
+        const match = (response?.data ?? []).find((a: any) => a.date === date && !a.is_available)
+        state.selectedEmployeeUnavailability = match ?? null
+    }).catch(() => {
+        if (token !== availabilityCheckToken) return
+        state.selectedEmployeeUnavailability = null
+    })
+})
 
 const rules = computed(() => {
     if (isVacationLeave.value) {

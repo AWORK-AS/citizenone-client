@@ -56,7 +56,8 @@ const state = reactive({
         name: '',
         shift_type_uuid: [],
         color: '#000000',
-    },
+        minimum_staff_count: '',
+    } as any,
     isPageLoading: false,
 })
 
@@ -68,6 +69,7 @@ async function saveDepartment(departmentDetails: any) {
             name: departmentDetails.name,
             shift_type_uuid: departmentDetails.shift_type_uuid,
             color: departmentDetails.color,
+            minimum_staff_count: departmentDetails.minimum_staff_count || null,
         }
         const response = await departmentService.saveDepartment(params)
         if (response.data) {
