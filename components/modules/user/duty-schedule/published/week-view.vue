@@ -609,7 +609,8 @@ function sortMultiDayShiftsFirst(shifts: any) {
 
         if (aMultiDay && !bMultiDay) return -1
         if (!aMultiDay && bMultiDay) return 1
-        return 0
+        // Same type: earliest start time first
+        return moment(a.date_time_start).valueOf() - moment(b.date_time_start).valueOf()
     })
     return sortedShifts
 }

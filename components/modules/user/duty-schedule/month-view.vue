@@ -745,7 +745,7 @@
                                                 <button
                                                     class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                     style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
-                                                    @click.stop="removeShiftConfirmation(shift)"
+                                                    @click.stop="removeShiftConfirmation(shift, employee)"
                                                     v-if="hasDeletePermission || isAtLeast('Admin')">
                                                     <Tooltip position="left"
                                                         :text="$t('dutySchedules.removeSchedule.removeSchedule')">
@@ -955,12 +955,14 @@
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
             @close="state.modal.isEditShiftOpen = false" @resetEditShiftError="state.editShiftError = {}"
             @updateShift="updateSelectedSchedule" />
-        <ModulesUserDutyScheduleModalRemoveShiftConfirmation :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
-            @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
+        <ModulesUserDutyScheduleModalRemoveShiftReason :isModalOpen="state.modal.isRemoveShiftReasonOpen"
+            :availableEmployees="filteredEmployeesForModal" :currentEmployeeUuid="state.removeShift.selectedEmployee?.uuid"
+            @close="state.modal.isRemoveShiftReasonOpen = false" @markAbsence="markShiftAbsence"
+            @reassign="reassignShift" />
         <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
             :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
-            @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift"
-            @confirm-entire="removeEntireShiftSpan" />
+            @close="state.modal.isRemoveShiftSpanConfirmationOpen = false"
+            @confirm-single="state.modal.isRemoveShiftReasonOpen = true" @confirm-entire="removeEntireShiftSpan" />
         <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
             :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
             @close="state.modal.isViewShiftOpen = false" />
@@ -1152,7 +1154,7 @@ const state = reactive({
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
-        isRemoveShiftConfirmationOpen: false,
+        isRemoveShiftReasonOpen: false,
         isRemoveShiftSpanConfirmationOpen: false,
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
@@ -1181,6 +1183,7 @@ const state = reactive({
     },
     removeShift: {
         selectedShift: {},
+        selectedEmployee: {},
     } as any,
     selectedDate: moment().format('YYYY-MM-DD'),
     hoveredEmployee: null as number | null,
@@ -1848,13 +1851,57 @@ function viewLeaveRequests(employee: any) {
     state.modal.isManageLeaveRequestsOpen = true
 }
 
-function removeShiftConfirmation(shift: any) {
+function removeShiftConfirmation(shift: any, employee: any) {
     state.removeShift.selectedShift = shift
+    state.removeShift.selectedEmployee = employee
     if (shift.shift_span_position !== 'single') {
         state.modal.isRemoveShiftSpanConfirmationOpen = true
         return
     }
-    state.modal.isRemoveShiftConfirmationOpen = true
+    state.modal.isRemoveShiftReasonOpen = true
+}
+
+async function markShiftAbsence(reason: string) {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.markScheduleAbsence(scheduleUuid, { reason })
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
+}
+
+async function reassignShift(employeeUuid: string) {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    const date = moment(state.removeShift.selectedShift.date_time_start).format('YYYY-MM-DD')
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.moveShift(scheduleUuid, { date, user_uuid: employeeUuid })
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
 }
 
 async function removeShift() {
