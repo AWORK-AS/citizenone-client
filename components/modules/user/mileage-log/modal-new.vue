@@ -70,8 +70,14 @@ async function saveMileageLog(tripDetails: any) {
     state.isPageLoading = true
     try {
         const { stops, ...routeFields } = splitStopsForApi(tripDetails.stops)
+        const startDateTime = moment(tripDetails.date_time_start).format('YYYY-MM-DD H:mm')
         const params = {
-            date_time_start: moment(tripDetails.date_time_start).format('YYYY-MM-DD H:mm'),
+            date_time_start: startDateTime,
+            // A mileage log entry always represents an already-completed trip,
+            // never a live/in-progress session — send the same value as the
+            // end time so a citizen-linked trip never looks like an open
+            // check-in (see Citizen::isCheckedInToCitizen() on the backend).
+            date_time_end: startDateTime,
             note: tripDetails.note,
             citizen_uuid: tripDetails.citizen_uuid,
             ...routeFields,

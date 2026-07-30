@@ -75,8 +75,12 @@ async function updateMileageLog(tripDetails: any) {
     state.isPageLoading = true
     try {
         const { stops, ...routeFields } = splitStopsForApi(tripDetails.stops)
+        const startDateTime = moment(tripDetails.date_time_start).format('YYYY-MM-DD H:mm')
         const params = {
-            date_time_start: moment(tripDetails.date_time_start).format('YYYY-MM-DD H:mm'),
+            date_time_start: startDateTime,
+            // See modal-new.vue: always keep this equal to the start time so
+            // a citizen-linked trip never looks like an open check-in.
+            date_time_end: startDateTime,
             note: tripDetails.note,
             citizen_uuid: tripDetails.citizen_uuid,
             ...routeFields,
