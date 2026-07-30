@@ -10985,6 +10985,7 @@
     },
     "validation": {
         "invalidNumber": "Invalid number",
+        "invalidEmailAddress": "Invalid email address",
         "thisFieldIsRequired": "This field is required"
     },
     "verifyEmail": {

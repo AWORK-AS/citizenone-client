@@ -10985,6 +10985,7 @@
     },
     "validation": {
         "invalidNumber": "Ugyldigt nummer",
+        "invalidEmailAddress": "Ugyldig e-mailadresse",
         "thisFieldIsRequired": "Dette felt er påkrævet"
     },
     "verifyEmail": {

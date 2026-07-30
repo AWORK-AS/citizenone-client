@@ -10985,6 +10985,7 @@
     },
     "validation": {
         "invalidNumber": "Ogiltigt nummer",
+        "invalidEmailAddress": "Ogiltig e-postadress",
         "thisFieldIsRequired": "Detta fält är obligatorisk"
     },
     "verifyEmail": {
