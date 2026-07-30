@@ -3471,7 +3471,9 @@
             },
             "color": "Color",
             "name": "Name",
-            "shiftTypes": "Shift types"
+            "shiftTypes": "Shift types",
+            "minimumStaffCount": "Minimum staff count",
+            "minimumStaffCountHint": "Minimum number of employees required to cover this department on any given day. Leave empty to disable the coverage warning."
         },
         "newDepartment": "New department",
         "table": {
@@ -4019,6 +4021,7 @@
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
             "doNotCountWeekends": "Do not count weekends",
+            "estimatedPayrollCost": "Estimated payroll cost",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
             "note": "Note",
@@ -4027,7 +4030,8 @@
             "tags": "Tags",
             "title": "Title",
             "useCompensatoryTime": "Use compensatory time",
-            "users": "Users"
+            "users": "Users",
+            "employeeMarkedUnavailable": "This employee has marked themselves unavailable for this date"
         },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
@@ -5706,6 +5710,7 @@
                 "employmentStatus": "Employment status",
                 "hoursPerWeek": "hours per week",
                 "hoursPerYear": "hours per year",
+                "hourlyRate": "Hourly rate",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
                 "salaryID": "Salary ID",
@@ -9133,7 +9138,8 @@
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
-            "fst": "FST"
+            "fst": "FST",
+            "wageSupplementRules": "Wage supplement rules"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -9347,7 +9353,9 @@
         "pinSidebar": "Pin sidebar",
         "unpinSidebar": "Unpin sidebar",
         "surveys": "Surveys",
-        "myDay": "My day"
+        "myDay": "My day",
+        "myAvailability": "My availability",
+        "myShiftEvaluations": "My shift evaluations"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -12227,5 +12235,64 @@
             "grantedAt": "Access given"
         },
         "chooseWhatTheySee": "Choose what they see"
+    },
+    "wageSupplementRules": {
+        "form": {
+            "explanation": "Configure evening/Sunday wage supplement rules for the duty schedule. Rules are evaluated in priority order (lowest first) and the first fully matching rule wins — rules do not stack.",
+            "addRule": "Add rule",
+            "empty": "No wage supplement rules configured yet.",
+            "ruleTitle": "Rule",
+            "name": "Name",
+            "namePlaceholder": "e.g. Evening supplement",
+            "priority": "Priority",
+            "priorityHint": "Lower numbers are evaluated first and win over higher ones.",
+            "timeInterval": "Time interval",
+            "timeFrom": "From",
+            "timeTo": "To",
+            "allDayHint": "Leave both empty to apply to all hours of the matching days.",
+            "daysOfWeek": "Days of week",
+            "daysOfWeekHint": "Leave empty to apply to every day.",
+            "appliesToHolidays": "Applies to public holidays",
+            "supplementPercentage": "Supplement %",
+            "compTimePercentage": "Comp time %",
+            "paidPercentage": "Paid %",
+            "isActive": "Active",
+            "supplementExceededError": "Comp time % and paid % combined cannot exceed the supplement %"
+        },
+        "alert": {
+            "ruleSuccessfullySaved": "The wage supplement rule was successfully saved",
+            "ruleSuccessfullyDeleted": "The wage supplement rule was successfully deleted"
+        }
+    },
+    "employeeAvailability": {
+        "title": "My availability",
+        "explanation": "Let your manager know if you can or can't be scheduled on a specific day. Add an optional comment for context.",
+        "empty": "You haven't marked any availability yet.",
+        "form": {
+            "date": "Date",
+            "status": "Status",
+            "available": "Available",
+            "notAvailable": "Not available",
+            "comment": "Comment",
+            "commentPlaceholder": "e.g. Picking up kids from school"
+        },
+        "alert": {
+            "savedSuccessfully": "Your availability was saved",
+            "deletedSuccessfully": "Your availability was removed"
+        }
+    },
+    "shiftEvaluations": {
+        "title": "My shift evaluations",
+        "explanation": "Let your manager know how your recent shifts went. Rate the shift and add an optional comment.",
+        "pendingHeading": "Shifts awaiting your evaluation",
+        "submittedHeading": "Your evaluations",
+        "empty": "You haven't evaluated any shifts yet.",
+        "form": {
+            "commentPlaceholder": "e.g. Busy but manageable shift"
+        },
+        "alert": {
+            "savedSuccessfully": "Your evaluation was saved",
+            "deletedSuccessfully": "Your evaluation was removed"
+        }
     }
 }

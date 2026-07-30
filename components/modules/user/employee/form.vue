@@ -336,6 +336,16 @@
                             :error="v$?.formEmployee?.employment?.vacation_days?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.vacation_days?.[0]" />
                     </div>
+                    <div class="space-y-1" ref="hourlyRateField"
+                        v-if="isAtLeast('Admin') && userStore.getUser?.is_extended_duty_schedule_active">
+                        <FormLabel for="hourly_rate" :label="$t('employees.form.employment.hourlyRate')" />
+                        <FormTextField id="hourly_rate" name="hourly_rate"
+                            :placeholder="$t('employees.form.employment.hourlyRate')"
+                            v-model="state.formEmployee.employment.hourly_rate" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.hourly_rate?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.hourly_rate?.[0]" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
@@ -656,6 +666,7 @@ const state = reactive({
             weekly_norm_hours: '',
             vacation_days: '',
             norm_period_uuid: '',
+            hourly_rate: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -780,6 +791,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                     : '',
                 vacation_days: newValue.employment.vacation_days,
                 norm_period_uuid: newValue.employment?.norm_period_uuid || 'default',
+                hourly_rate: newValue.employment.hourly_rate ?? '',
             },
             show_working_hours: newValue.show_working_hours,
             show_compensatory_hours: newValue.show_compensatory_hours ?? false,

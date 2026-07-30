@@ -685,6 +685,8 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
     if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
+    if (item.name === 'My availability') return t('sidebar.myAvailability')
+    if (item.name === 'My shift evaluations') return t('sidebar.myShiftEvaluations')
     if (item.name === 'Messages') return t('sidebar.messages')
     if (item.name === 'Procedures') return t('sidebar.procedures') || 'Procedurer'
     if (item.name === 'Protocols') return t('sidebar.protocols')
@@ -832,6 +834,24 @@ function generateSidebarLinks(user: any) {
                 'schedules-draft'
             ]
         })
+        if (user?.is_extended_duty_schedule_active) {
+            nav.push({
+                name: 'My availability',
+                href: '/my-availability',
+                icon: 'ph:calendar-check',
+                activeRouteNames: [
+                    'my-availability'
+                ]
+            })
+            nav.push({
+                name: 'My shift evaluations',
+                href: '/my-shift-evaluations',
+                icon: 'ph:star',
+                activeRouteNames: [
+                    'my-shift-evaluations'
+                ]
+            })
+        }
     }
     nav.push({
         name: 'Messages',
