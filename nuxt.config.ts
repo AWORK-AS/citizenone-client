@@ -140,6 +140,9 @@ export default defineNuxtConfig({
     '/**': {
       headers: securityHeaders,
     },
+    '/fst-register': {
+      redirect: { to: '/register', statusCode: 301 },
+    },
     '/.well-known/apple-app-site-association': {
       headers: { 'content-type': 'application/json' },
     },

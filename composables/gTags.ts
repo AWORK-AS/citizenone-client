@@ -1,31 +1,25 @@
+declare global {
+    interface Window {
+        dataLayer: any[]
+    }
+}
+
 export function useGtag() {
-    const gtagReportConversion = (url: any) => {
-        const callback = () => {
-            if (typeof url !== 'undefined') {
-                window.location = url
-            }
+    // Fires once, right after the backend confirms account creation succeeded.
+    // GTM picks this up from the dataLayer and fans it out to GA4, Google Ads,
+    // Meta Pixel, and LinkedIn Insight Tag — single source of truth for all of them.
+    const pushSignUpEvent = () => {
+        if (typeof window === 'undefined') {
+            return
         }
 
-        if (typeof window.gtag !== 'undefined') {
-            // window.gtag('event', 'conversion', {
-            //     send_to: 'AW-16858750370/fKRlCNrJ0J8aEKK78OY-',
-            //     value: 1.0,
-            //     currency: 'DKK',
-            //     event_callback: callback
-            // })
-            // window.gtag('event', 'conversion', {
-            //     send_to: 'AW-16858750370/H2tyCMiC-LAbEKK78OY-',
-            //     value: 1.0,
-            //     currency: 'DKK',
-            //     event_callback: callback
-            // })
-        } else {
-            console.warn("Google Tag Manager (gtag) not initialized.")
-            callback() // Fallback in case gtag is not available
-        }
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({
+            event: 'sign_up',
+            signup_method: 'email',
+            product: 'citizenone',
+        })
+    }
 
-        return false
-    };
-
-    return { gtagReportConversion }
+    return { pushSignUpEvent }
 }
