@@ -7397,9 +7397,12 @@
             "createdBy": "Skapad av",
             "dateTimeStart": "Datum och tid",
             "distance": "Avstånd",
+            "endAddress": "Slutadress",
             "linkedCitizen": "Kopplad brukare",
             "note": "Anteckning",
             "route": "Rutt",
+            "startAddress": "Startadress",
+            "stopAddress": "Stoppadress",
             "viewTrip": "Visa resa"
         }
     },

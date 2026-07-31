@@ -7397,9 +7397,12 @@
             "createdBy": "Opprettet av",
             "dateTimeStart": "Dato og tidspunkt",
             "distance": "Distanse",
+            "endAddress": "Sluttadresse",
             "linkedCitizen": "Tilknyttet bruker",
             "note": "Note",
             "route": "Rute",
+            "startAddress": "Startadresse",
+            "stopAddress": "Stoppadresse",
             "viewTrip": "Vis tur"
         }
     },
