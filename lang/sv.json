@@ -7580,7 +7580,8 @@
             "given": "Given",
             "medicationOverview": "Medicinoversigt",
             "not": "Inte",
-            "notGiven": "Inte given"
+            "notGiven": "Inte given",
+            "notManaged": "Inte hanterad än"
         },
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",

@@ -93,20 +93,40 @@
                                 <h3 class="font-semibold text-gray-900">{{ $t('myDay.medsDue') }}</h3>
                                 <span class="ml-auto text-xxs text-gray-400">{{ $t('myDay.medsDeptNote') }}</span>
                             </div>
-                            <ul v-if="pendingMeds.length" class="space-y-2">
-                                <li v-for="(m, i) in pendingMeds" :key="i">
-                                    <button type="button" @click="openGiveMedicine(m)"
+                            <ul v-if="medicineRows.length" class="space-y-2">
+                                <li v-for="(row, i) in medicineRows" :key="i">
+                                    <button v-if="row.status === null" type="button" @click="openGiveMedicine(row.medicine, row.time)"
                                         class="w-full flex items-center justify-between gap-3 rounded-lg bg-gray-50 px-3 py-2 text-left transition-colors hover:bg-primary-25">
                                         <div class="min-w-0">
                                             <p class="text-sm font-medium text-gray-800 truncate">
-                                                {{ (m.citizen?.firstname || '') + ' ' + (m.citizen?.lastname || '') }}
+                                                {{ (row.medicine.citizen?.firstname || '') + ' ' + (row.medicine.citizen?.lastname || '') }}
                                             </p>
-                                            <p class="text-xxs text-gray-500 truncate">{{ medName(m) }}</p>
+                                            <p class="text-xxs text-gray-500 truncate">{{ medName(row.medicine) }}</p>
                                         </div>
-                                        <span class="shrink-0 text-xxs font-medium text-white bg-secondary rounded-md px-2 py-1 tabular-nums">
-                                            {{ m._nextPending }}
-                                        </span>
+                                        <Tooltip :text="statusLabel(row.status)">
+                                            <span class="shrink-0 text-xxs font-medium text-white bg-secondary rounded-md px-2 py-1 tabular-nums">
+                                                {{ row.time }}
+                                            </span>
+                                        </Tooltip>
                                     </button>
+                                    <div v-else class="flex items-center justify-between gap-3 rounded-lg bg-gray-50 px-3 py-2">
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-medium text-gray-800 truncate">
+                                                {{ (row.medicine.citizen?.firstname || '') + ' ' + (row.medicine.citizen?.lastname || '') }}
+                                            </p>
+                                            <p class="text-xxs text-gray-500 truncate">{{ medName(row.medicine) }}</p>
+                                        </div>
+                                        <Tooltip :text="statusLabel(row.status)">
+                                            <span :class="[
+                                                row.status === 'delivered' && 'bg-primary',
+                                                row.status === 'deviated' && 'bg-red-600',
+                                                row.status === 'given' && 'bg-green-700',
+                                                'shrink-0 text-xxs font-medium text-white rounded-md px-2 py-1 tabular-nums'
+                                            ]">
+                                                {{ row.time }}
+                                            </span>
+                                        </Tooltip>
+                                    </div>
                                 </li>
                             </ul>
                             <p v-else class="text-sm text-gray-400">{{ $t('myDay.noMeds') }}</p>
@@ -176,6 +196,9 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import 'moment/locale/da'
+import 'moment/locale/nb'
+import 'moment/locale/sv'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 import { useDepartmentStore } from '@/store/department'
@@ -185,7 +208,11 @@ import { reminderService } from '@/components/api/user/ReminderService'
 import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+
+// vue-i18n locales are 'en'/'dk'/'no'/'sv'; moment's locale keys differ for
+// Danish and Norwegian ('da' and 'nb'), so they can't be used interchangeably.
+const momentLocales: Record<string, string> = { en: 'en', dk: 'da', no: 'nb', sv: 'sv' }
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore() as any
 const { isAtLeast, can } = usePermissions()
@@ -229,7 +256,7 @@ const showDutyScheduleLink = computed(() => {
 })
 
 const firstName = computed(() => userStore.getUser?.firstname ?? '')
-const todayLabel = computed(() => moment().format('dddd D. MMMM YYYY'))
+const todayLabel = computed(() => moment().locale(momentLocales[locale.value] ?? 'en').format('dddd D. MMMM YYYY'))
 const greeting = computed(() => {
     const h = moment().hour()
     if (h < 10) return t('myDay.greeting.morning')
@@ -244,15 +271,29 @@ function medName(m: any) {
     return m?.medicine?.en_name || m?.medicine?.dk_name || ''
 }
 
-// Meds with at least one still-pending (status null) due time today.
-const pendingMeds = computed(() =>
-    (state.meds || [])
-        .map((m: any) => {
-            const pending = (m?.due_dates || []).filter((d: any) => d?.status === null || d?.status === undefined)
-            return pending.length ? { ...m, _nextPending: pending[0]?.time || '' } : null
-        })
-        .filter(Boolean)
-)
+// One row per due-date occurrence today (not just still-pending ones), so the
+// widget can show the Given/Deviated/Delivered color scheme instead of
+// collapsing every medicine down to its next pending time.
+const medicineRows = computed(() => {
+    const rows: any[] = []
+    for (const m of state.meds || []) {
+        for (const d of m?.due_dates || []) {
+            rows.push({ medicine: m, status: d?.status ?? null, time: d?.time || '' })
+        }
+    }
+    return rows
+})
+
+const pendingMedsCount = computed(() => medicineRows.value.filter((r) => r.status === null).length)
+
+function statusLabel(status: string | null) {
+    switch (status) {
+        case 'delivered': return t('overview.medicationOverview.delivered')
+        case 'deviated': return t('overview.medicationOverview.deviated')
+        case 'given': return t('overview.medicationOverview.given')
+        default: return t('overview.medicationOverview.notManaged')
+    }
+}
 
 // due_dates holds every occurrence of a recurring reminder, not just today's -
 // [0] is the earliest one ever created, so a reminder completed months ago
@@ -281,11 +322,12 @@ function openViewReminder(r: any) {
     state.viewReminderOpen = true
 }
 
-function openGiveMedicine(m: any) {
+function openGiveMedicine(m: any, time: string) {
     // findOverview() returns raw dosage column names (name_dk/name_en); the
     // give-medicine modal expects dk_name/en_name like elsewhere in the app.
     state.selectedMedicine = {
         ...m,
+        _nextPending: time,
         dosage: m.dosage ? {
             ...m.dosage,
             dk_name: m.dosage.dk_name ?? m.dosage.name_dk,
@@ -303,7 +345,7 @@ function onMedicineGiven() {
 const stats = computed(() => [
     { key: 'shifts', icon: 'ph:clock', label: t('myDay.shifts'), value: state.shifts.length },
     { key: 'events', icon: 'ph:calendar-blank', label: t('myDay.events'), value: state.events.length },
-    { key: 'meds', icon: 'solar:jar-of-pills-2-linear', label: t('myDay.medsDue'), value: pendingMeds.value.length },
+    { key: 'meds', icon: 'solar:jar-of-pills-2-linear', label: t('myDay.medsDue'), value: pendingMedsCount.value },
     { key: 'reminders', icon: 'ph:check-square', label: t('myDay.reminders'), value: state.reminders.filter((r) => !isReminderDone(r)).length },
 ])
 

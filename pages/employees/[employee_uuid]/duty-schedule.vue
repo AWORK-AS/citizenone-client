@@ -524,7 +524,7 @@ async function fetchDutySchedule() {
             filter_date_start: moment(state.shiftDateRange.formDateRange.start_date).format('YYYY-MM-DD'),
             filter_date_end: moment(state.shiftDateRange.formDateRange.end_date).format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
-            employee_uuid: employeeUuid,
+            employee_uuids: JSON.stringify([employeeUuid]),
         }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
