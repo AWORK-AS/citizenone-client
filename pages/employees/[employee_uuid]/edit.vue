@@ -109,6 +109,7 @@ const state = reactive({
             annual_norm_hours: '',
             vacation_days: '',
             norm_period_uuid: '',
+            hourly_rate: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -165,6 +166,7 @@ async function fetchEmployee() {
                     annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours?.toString() ?? '',
                     vacation_days: response?.data?.employee_detail?.vacation_days?.toString() ?? '',
                     norm_period_uuid: response?.data?.employee_detail?.norm_period?.uuid ?? '',
+                    hourly_rate: response?.data?.employee_detail?.hourly_rate?.toString() ?? '',
                 },
                 emergencyInfo: {
                     emergency_contacts: [],
@@ -245,6 +247,7 @@ async function updateEmployee(employeeDetails: any) {
         params.append('annual_norm_hours', String(employeeDetails.employment.annual_norm_hours ?? '').replace(',', '.'))
         params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('norm_period_uuid', employeeDetails.employment.norm_period_uuid || 'default')
+        params.append('hourly_rate', String(employeeDetails.employment.hourly_rate ?? '').replace(',', '.'))
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))
         params.append('trustees', JSON.stringify(employeeDetails.emergencyInfo.trustees))
         const response = await employeeService.updateEmployee(employeeUuid, params)

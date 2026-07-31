@@ -21,13 +21,21 @@
                                         <img :src="memberAvatar(chatMember)" alt="Item 1"
                                         class="w-11 h-11 rounded-full object-cover">
                                 </div>
-                                <div class="col-span-10">
-                                    <Tooltip :text="memberDisplayName(chatMember)">
-                                        <h4 class="font-semibold text-sm">{{ memberDisplayName(chatMember) }}</h4>
-                                    </Tooltip>
-                                    <p class="text-xxs" v-if="chat?.unread_messages > 0">
+                                <div class="col-span-10 min-w-0">
+                                    <div class="flex items-baseline justify-between gap-x-2">
+                                        <Tooltip :text="memberDisplayName(chatMember)">
+                                            <h4 class="font-semibold text-sm truncate">{{ memberDisplayName(chatMember) }}</h4>
+                                        </Tooltip>
+                                        <span class="text-xxs text-gray-400 shrink-0" v-if="chat?.latest_message">
+                                            {{ shortTime(chat.latest_message.created_at) }}
+                                        </span>
+                                    </div>
+                                    <p class="text-xxs text-primary font-semibold" v-if="chat?.unread_messages > 0">
                                         {{ chat?.unread_messages }}
                                         <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
+                                    </p>
+                                    <p class="text-xs text-gray-500 truncate" v-else-if="chat?.latest_message?.body">
+                                        {{ chat.latest_message.body }}
                                     </p>
                                 </div>
                             </div>
@@ -37,13 +45,21 @@
                                 <img :src="memberAvatar(chatToSelf(chat?.chat_members)[0])"
                                     alt="Item 1" class="w-11 h-11 rounded-full object-cover">
                             </div>
-                            <div class="col-span-10">
-                                <Tooltip :text="memberDisplayName(chatToSelf(chat?.chat_members)[0])">
-                                    <h4 class="font-semibold text-sm">{{ memberDisplayName(chatToSelf(chat?.chat_members)[0]) }}</h4>
-                                </Tooltip>
-                                <p class="text-xxs" v-if="chat?.unread_messages > 0">
+                            <div class="col-span-10 min-w-0">
+                                <div class="flex items-baseline justify-between gap-x-2">
+                                    <Tooltip :text="memberDisplayName(chatToSelf(chat?.chat_members)[0])">
+                                        <h4 class="font-semibold text-sm truncate">{{ memberDisplayName(chatToSelf(chat?.chat_members)[0]) }}</h4>
+                                    </Tooltip>
+                                    <span class="text-xxs text-gray-400 shrink-0" v-if="chat?.latest_message">
+                                        {{ shortTime(chat.latest_message.created_at) }}
+                                    </span>
+                                </div>
+                                <p class="text-xxs text-primary font-semibold" v-if="chat?.unread_messages > 0">
                                     {{ chat?.unread_messages }}
                                     <span class="lowercase">{{ $t('messages.unreadMessages') }}</span>
+                                </p>
+                                <p class="text-xs text-gray-500 truncate" v-else-if="chat?.latest_message?.body">
+                                    {{ chat.latest_message.body }}
                                 </p>
                             </div>
                         </div>
@@ -80,9 +96,11 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 
 const router = useRouter()
+const { t } = useI18n()
 const userUuid = router?.currentRoute?.value?.query?.user_uuid
 
 const props = defineProps({
@@ -110,12 +128,19 @@ onMounted(() => {
     }
 })
 
+// The relative is a CitizenContact morph; compare members by type and id pair
+// so numeric id collisions with User rows never hide the counterpart.
+function isSelfMember(chatMember: any) {
+    return (chatMember?.user_type ?? '').includes('CitizenContact') &&
+        chatMember?.user_id === userStore.getUser?.id
+}
+
 function chatToSelf(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id === userStore.getUser?.id)
+    return chatMembers.filter((chatMember: any) => isSelfMember(chatMember))
 }
 
 function excludeCurrentUserFromChatMembers(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id !== userStore.getUser?.id)
+    return chatMembers.filter((chatMember: any) => !isSelfMember(chatMember))
 }
 
 function chatGroupMembers(chat: any) {
@@ -146,5 +171,27 @@ function memberAvatar(member: any) {
         return user.profile_image ?? user.logo ?? '/img/avatars/user.svg'
     }
     return user.profile_image ?? '/img/avatars/user.svg'
+}
+
+// Compact stamp for the conversation list: time today, "yesterday", else date.
+function shortTime(value: string) {
+    if (!value) return ''
+
+    const date = new Date(value)
+    const today = new Date()
+    const isSameDay = date.toDateString() === today.toDateString()
+
+    if (isSameDay) {
+        return date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })
+    }
+
+    const yesterday = new Date(today)
+    yesterday.setDate(today.getDate() - 1)
+
+    if (date.toDateString() === yesterday.toDateString()) {
+        return t('messages.yesterday')
+    }
+
+    return date.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit' })
 }
 </script>

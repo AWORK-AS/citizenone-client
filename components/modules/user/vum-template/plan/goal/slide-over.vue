@@ -77,6 +77,15 @@
                                                                         }}
                                                                     </span>
                                                                 </FormButton>
+                                                                <FormButton buttonStyle="action" buttonSize="sm"
+                                                                    @click="confirmGoalDeletion(goal)">
+                                                                    <Icon name="heroicons:trash" class="size-4" />
+                                                                    <span class="hidden md:block">
+                                                                        {{
+                                                                            $t('plansandgoals.VUMTemplates.table.actions.delete')
+                                                                        }}
+                                                                    </span>
+                                                                </FormButton>
                                                                 <DisclosureButton>
                                                                     <FormButton buttonStyle="action" buttonSize="sm">
                                                                         <Icon name="ic:round-keyboard-arrow-down"
@@ -127,6 +136,17 @@
                                                                                         }}
                                                                                     </span>
                                                                                 </FormButton>
+                                                                                <FormButton buttonStyle="action"
+                                                                                    buttonSize="sm"
+                                                                                    @click="confirmSubgoalDeletion(subgoal)">
+                                                                                    <Icon name="heroicons:trash"
+                                                                                        class="size-4" />
+                                                                                    <span class="hidden md:block">
+                                                                                        {{
+                                                                                            $t('plansandgoals.VUMTemplates.table.actions.delete')
+                                                                                        }}
+                                                                                    </span>
+                                                                                </FormButton>
                                                                             </div>
                                                                         </div>
                                                                         <div class="space-y-1">
@@ -165,6 +185,12 @@
             <ModulesUserVumTemplatePlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
                 :selectedGoal="state.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
                 @close="state.modal.isEditSubgoalOpen = false" @refreshTemplates="fetchGoals" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteGoalOpen"
+                :message="`${$t('plansandgoals.confirmation.deleteGoalConfirmation')}?`"
+                @close="state.modal.isDeleteGoalOpen = false" @confirm="deleteGoal" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteSubgoalOpen"
+                :message="`${$t('plansandgoals.confirmation.deleteSubgoalConfirmation')}?`"
+                @close="state.modal.isDeleteSubgoalOpen = false" @confirm="deleteSubgoal" />
         </Dialog>
     </TransitionRoot>
 </template>
@@ -174,7 +200,13 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { goalTemplateService } from '@/components/api/user/GoalTemplateService'
+import { subgoalTemplateService } from '@/components/api/user/SubgoalTemplateService'
+import { useI18n } from 'vue-i18n'
+import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+
+const { t } = useI18n()
+const { successAlert } = useAlert()
 
 const { formatDateToReadable } = useDatetimeFormatter()
 const props = defineProps({
@@ -197,6 +229,8 @@ const state = reactive({
         isAddSubgoalOpen: false,
         isEditGoalOpen: false,
         isEditSubgoalOpen: false,
+        isDeleteGoalOpen: false,
+        isDeleteSubgoalOpen: false,
     },
     selectedPlan: {
         id: '',
@@ -265,5 +299,47 @@ function editGoal(goal: any) {
 function editSubGoal(subgoal: any) {
     state.selectedSubgoal = subgoal
     state.modal.isEditSubgoalOpen = true
+}
+
+function confirmGoalDeletion(goal: any) {
+    state.selectedGoal = goal
+    state.modal.isDeleteGoalOpen = true
+}
+
+async function deleteGoal() {
+    state.modal.isDeleteGoalOpen = false
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await goalTemplateService.deleteTemplate(state.selectedGoal.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchGoals()
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.goalSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+function confirmSubgoalDeletion(subgoal: any) {
+    state.selectedSubgoal = subgoal
+    state.modal.isDeleteSubgoalOpen = true
+}
+
+async function deleteSubgoal() {
+    state.modal.isDeleteSubgoalOpen = false
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        const response = await subgoalTemplateService.deleteTemplate(state.selectedSubgoal.uuid)
+        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+            fetchGoals()
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.alert.subgoalSuccessfullyDeleted')}.`)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
 }
 </script>

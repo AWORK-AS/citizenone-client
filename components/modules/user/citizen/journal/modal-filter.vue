@@ -39,13 +39,13 @@
                                 </RadioGroupOption>
                             </RadioGroup>
                         </fieldset>
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="!props.hideStaffFilters">
                             <p class="text-sm text-gray-600">
                                 {{ term('journalNoteTag', $t('journalNoteTags.journalNoteTags')) }}
                             </p>
                             <FormSelectMultiple id="tags" :options="state.options.tags" v-model="state.filter.tags" />
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="!props.hideStaffFilters">
                             <p class="text-sm text-gray-600">
                                 {{ $t('journalNoteTags.createdBy') }}
                             </p>
@@ -89,6 +89,13 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // The tag and created-by lists come from staff-only endpoints. The relative
+    // portal reuses this modal, so those two filters are hidden there.
+    hideStaffFilters: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 })
 const emit = defineEmits(['close', 'setFilter'])
 
@@ -122,6 +129,8 @@ function closeModal() {
 }
 
 onMounted(() => {
+    if (props.hideStaffFilters) return
+
     fetchAllJournalNoteTags()
     fetchAllUsersWithoutAllUsersOption()
 })

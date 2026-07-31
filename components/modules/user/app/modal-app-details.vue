@@ -99,6 +99,7 @@
 
 
 <script setup lang="ts">
+import { appSetupLinkFor } from '@/composables/appSetupLink'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -158,11 +159,7 @@ const state = reactive({
 })
 
 // Apps that have their own in-app settings page to configure after activation.
-const setupLinks: Record<string, string> = {
-    'economic': '/settings/economic',
-    'power-bi': '/settings/power-bi',
-}
-const setupLink = computed(() => setupLinks[props.selectedApp?.generic_name] ?? null)
+const setupLink = computed(() => appSetupLinkFor(props.selectedApp))
 
 function goToSetup() {
     if (!setupLink.value) return

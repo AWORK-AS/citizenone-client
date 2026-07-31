@@ -725,9 +725,15 @@
         "usedBy": "Används av {count} organisationer",
         "noBinding": "Ingen bindningstid",
         "setupFeeSuffix": "uppstartsavgift",
+        "perUserSuffix": "per tredjepart/mån.",
         "offerEndsInDays": "Erbjudandet slutar om {count} dagar",
         "offerEndsToday": "Erbjudandet slutar idag",
-        "save": "Spara {percent}%"
+        "save": "Spara {percent}%",
+        "myApps": "Mina appar",
+        "myAppsHint": "Apparna ni har köpt. Öppna en app för att komma till dess inställningar",
+        "myAppsEmpty": "Ni har inte aktiverat några appar ännu",
+        "myAppsBrowse": "Se app-butiken",
+        "openApp": "Öppna app"
     },
     "archived": {
         "alert": {
@@ -1503,7 +1509,9 @@
                 "micError": "Kunde inte komma åt mikrofonen.",
                 "notifyColleagues": "Meddela kollegor",
                 "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
-                "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning."
+                "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning.",
+                "attachedSurveys": "Enkäter att besvara",
+                "linkedSurveys": "Kopplade enkäter"
             },
             "journalLogs": {
                 "date": "Datum",
@@ -1579,6 +1587,9 @@
                     "contactSuccessfullyUpdated": "Kontakt uppdaterad"
                 },
                 "allowSystemAccess": "Tillåt systemadgang",
+                "allowChatAccess": "Ge chattåtkomst (betalas per tredjepart)",
+                "mayChatWith": "Får chatta med",
+                "mayChatWithHint": "Välj de medarbetare som denna tredjepart får skriva till",
                 "city": "Stad",
                 "companyName": "Virksomhedsnavn",
                 "email": "E-postadress",
@@ -1941,6 +1952,24 @@
                 "studentCollaboration": "Elevsamarbejde",
                 "contractPrice": "Kontraktpris",
                 "primarySplitPercentage": "Primär koordinator andel (%)"
+            },
+            "dental": {
+                "isMemberOfSygeforsikringDanmark": "Medlem i Sygeforsikringen \"danmark\"",
+                "sygesikringGroup": {
+                    "label": "Sjukförsäkringsgrupp",
+                    "group1": "Grupp 1",
+                    "group2": "Grupp 2",
+                    "foreignInsurance": "Utländsk försäkring",
+                    "other": "Annat"
+                },
+                "patientNumber": "Patientnummer",
+                "municipalSubsidy": "Kommunalt bidrag",
+                "lastCheckupDate": "Senaste kontroll",
+                "checkupInterval": {
+                    "label": "Rekommenderat kontrollintervall",
+                    "everySixMonths": "Var 6:e månad",
+                    "everyTwelveMonths": "Var 12:e månad"
+                }
             },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
@@ -2758,6 +2787,7 @@
         "rooms": "Rum",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
+            "dentalProfile": "Tandprofil",
             "employmentProgram": "Sysselsättningsförlopp",
             "inquiryData": "Henvendelsesdata",
             "stayData": "Vistelsedata"
@@ -3444,7 +3474,9 @@
             },
             "color": "Färg",
             "name": "Namn",
-            "shiftTypes": "Passtyper"
+            "shiftTypes": "Passtyper",
+            "minimumStaffCount": "Minsta bemanning",
+            "minimumStaffCountHint": "Minsta antal medarbetare som krävs för att täcka denna avdelning en given dag. Lämna tomt för att inaktivera bemanningsvarningen."
         },
         "newDepartment": "Ny avdelning",
         "table": {
@@ -3992,6 +4024,7 @@
             "description": "Beskrivning",
             "doNotCountSickLeaveAsWorkingHours": "Täl inte sjukfrånvaro som arbejdstimer",
             "doNotCountWeekends": "Täl inte weekender med",
+            "estimatedPayrollCost": "Uppskattad lönekostnad",
             "forSleepingNightShift": "För sovende nattpass",
             "inMeeting": "I möte",
             "note": "Anmärkning",
@@ -4000,7 +4033,8 @@
             "tags": "Etiketter",
             "title": "Titel",
             "useCompensatoryTime": "Använd afspadseringstid",
-            "users": "Användare"
+            "users": "Användare",
+            "employeeMarkedUnavailable": "Denna medarbetare har markerat sig otillgänglig detta datum"
         },
         "holidays": "Helgdagar",
         "holidayWorked": "Helgdagstimmar (arbetade)",
@@ -4013,6 +4047,7 @@
         "holidayNonWorkedAssigned": "7,4 helgdagstimmar tilldelade",
         "holidayWorkedTooltip": "Du arbetar på en helgdag. Passets timmar multipliceras med organisationens helgdagsfaktor (t.ex. ×1,5) och visas både under passtypen och som helgdagstimmar.",
         "holidayNonWorkedTooltip": "Den här dagen är en helgdag. Du får helgdagstimmar även om inget pass är registrerat.",
+        "lockedShiftTooltip": "Detta pass är låst och kan endast redigeras av en administratör.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",
@@ -4051,6 +4086,16 @@
                     "leaveRequestsSuccessfullyRejected": "Ferieanmodning har avvisats"
                 },
                 "confirmation": {
+                    "approveAudience": {
+                        "title": "Godkänn ledighetsansökan",
+                        "audienceLabel": "Vem ska det frigivna passet erbjudas till?",
+                        "everyone": "Alla",
+                        "jobTitleSpecialty": "En specifik jobbtitel & specialitet",
+                        "employee": "En specifik anställd",
+                        "employeeLabel": "Anställd",
+                        "jobTitleRequired": "Välj minst en jobbtitel",
+                        "employeeRequired": "Välj en anställd"
+                    },
                     "approveLeaveRequestConfirmation": "Är du säker på att du vill godkänna denna semester?",
                     "deleteLeaveRequestConfirmation": "Är du säker på att du vill radera denna semester?",
                     "rejectLeaveRequestConfirmation": "Är du säker på att du vill afvise denna semester?",
@@ -4162,7 +4207,14 @@
             "confirmation": {
                 "removeScheduleConfirmation": "Är du säker på att du vill ta bort denna pass?"
             },
-            "removeSchedule": "Ta bort schema"
+            "removeSchedule": "Ta bort schema",
+            "reason": {
+                "title": "Ta bort pass",
+                "question": "Är den anställda sjuk eller på semester, eller ska passet omfördelas till en annan anställd?",
+                "sick": "Den anställda är sjuk",
+                "vacation": "Den anställda är på semester",
+                "reassign": "Omfördela till en annan anställd"
+            }
         },
         "requesters": {
             "confirmation": {
@@ -5669,6 +5721,7 @@
                 "employmentStatus": "Anställningsstatus",
                 "hoursPerWeek": "Timmar per vecka",
                 "hoursPerYear": "Timmar per år",
+                "hourlyRate": "Timlön",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobbtitel",
                 "salaryID": "Lön-ID",
@@ -7254,6 +7307,19 @@
             "nameSwedish": "Namn (svenska)"
         }
     },
+    "medicineMissedDoses": {
+        "pageTitle": "Glömd medicin",
+        "missed": "Missad",
+        "wasDueOn": "Skulle ha givits den",
+        "giveNow": "Ge nu",
+        "noneFound": "Ingen glömd medicin just nu",
+        "toast": {
+            "title": "Missad medicin",
+            "forCitizenAt": "till {citizen} skulle ha givits kl. {time}",
+            "andMore": "och {count} till",
+            "viewAll": "Visa alla"
+        }
+    },
     "messages": {
         "actions": {
             "delete": "Radera",
@@ -7319,6 +7385,12 @@
         "users": "Användare",
         "welcomeDescription": "Välj en samtal från sidebjälken, eller skapa en ny för att komme pågår.",
         "welcomeToChat": "Välkommen till chatt",
+        "contactPerson": "Kontaktperson",
+        "yourContactPersons": "Dina kontaktpersoner",
+        "thirdPartyRecipientsHint": "Du kan skriva till de personer som organisationen har kopplat till dig",
+        "noRecipientsConfigured": "Organisationen har ännu inte kopplat någon som du kan skriva till",
+        "managementAndAdministration": "Ledning & administration",
+        "startConversationWithOrganization": "Du kan skriva direkt till de medarbetare som finns runt din anhöriga",
         "yesterday": "Igår",
         "you": "Dig",
         "recipients": "Mottagare",
@@ -7328,7 +7400,13 @@
         "subjectPlaceholder": "Vad handlar det om?",
         "messagePlaceholder": "Skriv ditt meddelande...",
         "sendHint": "⌘ + Enter för att skicka",
-        "emoji": "Emoji"
+        "emoji": "Emoji",
+        "writeToUs": "Skriv till oss",
+        "writeToUsPlaceholder": "Skriv din fråga eller ditt meddelande här...",
+        "writeToUsContactPersons": "Går till {names}, som finns runt din anhöriga",
+        "writeToUsManagement": "Går till ledningen",
+        "seeAllConversations": "Se alla samtal",
+        "sending": "Skickar..."
     },
     "mileageLog": {
         "download": {
@@ -8857,12 +8935,36 @@
                 "enableNursingAreaNotifications": "Aktivera omvårdnadsområde-notiser",
                 "enableSystemNotifications": "Aktivera systemnotifikationer",
                 "groupChat": "Gruppechat",
+                "relativeChat": "Chatt med anhöriga",
+                "relativeChatManagement": "Anhöriga kan skriva till ledning och administratörer",
+                "relativeChatContactPersons": "Anhöriga kan skriva till medborgarens tilldelade kontaktpersoner",
+                "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
+                "groupPortalAccess": "Portalåtkomst",
+                "portalAccessHint": "Välj vad anhöriga, tredjeparter och medborgare kan se i sin egen portal",
+                "portalAccessNothingOpen": "Ingen del är öppen. Anhöriga, tredjeparter och medborgare kan inte se något i sin portal",
+                "portalAccessOpenNow": "Öppet just nu",
+                "portalAccessConfirmTitle": "Öppna åtkomst?",
+                "portalAccessConfirmMessage": "{audience} kommer från nu att kunna se {section} i sin portal. Alla med administratörsroll får ett e-postmeddelande om ändringen.",
+                "portalAudienceRelative": "Anhöriga",
+                "portalAudienceThirdParty": "Tredjeparter",
+                "portalAudienceCitizen": "Medborgare",
+                "portalSectionJournals": "Journaler",
+                "portalSectionDocuments": "Dokument",
+                "portalSectionMessages": "Meddelanden",
+                "portalSectionOverview": "Daglig översikt",
+                "portalSectionDutySchedules": "Vaktplaner",
+                "portalSectionSurveys": "Frågeformulär",
+                "portalSectionProtocols": "Protokoll",
                 "interventionCheckinOut": "Check in/ut för insats",
+                "relativeCanMessageAdmins": "Anhöriga kan skicka meddelanden till ledning/administratörer",
+                "relativeCanMessageContactPersons": "Anhöriga kan skicka meddelanden till brukarens tilldelade kontaktpersoner",
                 "interventionNotificationHours": "Varslingstimer för insats",
                 "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
                 "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
+                "lockShiftsBeforeDate": "Lås pass före datum",
+                "clearLockShiftsBeforeDate": "Rensa datum",
                 "municipality": "Kommun",
                 "onlySendItWhenIAmOnADutyShift": "Skicka endast, när jag är på en pass",
                 "phone": "Telefon",
@@ -8913,7 +9015,29 @@
                 "manageApprovedDevices": "Administrér godkända enheter",
                 "actionBlock": "Blokér åtkomst",
                 "actionOtp": "Kräv OTP-bekräftelse",
-                "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den."
+                "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den.",
+                "portalPreviewOpen": "Se vad de ser",
+                "portalPreviewTitle": "Så här ser {audience} det",
+                "portalPreviewHint": "En förhandsvisning av portalen med era nuvarande val. Inga riktiga uppgifter hämtas här",
+                "portalPreviewEmptyNav": "Inga delar",
+                "portalPreviewNothing": "Med dessa val är portalen tom",
+                "portalPreviewNeverSees": "De ser aldrig",
+                "portalPreviewJournals": "Medborgarens journalanteckningar, utan utkast",
+                "portalPreviewDocuments": "Endast de filer ni har delat med dem",
+                "portalPreviewMessagesRelative": "Samtal med ledningen och medborgarens kontaktpersoner",
+                "portalPreviewMessagesThirdParty": "Samtal med de medarbetare ni har kopplat till dem",
+                "portalPreviewMessagesCitizen": "Samtal med personalen",
+                "portalPreviewOverview": "Daglig översikt med anslagstavlan",
+                "portalPreviewDutySchedules": "De skift som planerats för dem",
+                "portalPreviewSurveys": "Frågeformulär som tilldelats dem",
+                "portalPreviewProtocols": "Deras egen in- och utcheckning",
+                "portalNeverDrafts": "Journalanteckningar som är utkast",
+                "portalNeverUnsharedDocuments": "Dokument ni inte har delat",
+                "portalNeverOtherCitizens": "Något som helst om andra medborgare",
+                "portalNeverStaffNotes": "Interna anteckningar skrivna om dem",
+                "portalNeverJournalsAtAll": "Journaler och dokument, aldrig",
+                "portalNeverUnassignedStaff": "Medarbetare ni inte har kopplat till dem",
+                "portalAccessSeeWhoHasAccess": "Se vem som har åtkomst"
             }
         },
         "licenseOverview": {
@@ -8964,7 +9088,8 @@
             "billing": "Fakturering",
             "data": "Data",
             "logs": "Loggar",
-            "integrations": "Integrationer"
+            "integrations": "Integrationer",
+            "apps": "Appar"
         },
         "tabs": {
             "absences": "Frånvaro",
@@ -8993,6 +9118,7 @@
             "journalContents": "Journal innehåll",
             "journalNoteTags": "Journalnotetag",
             "journalTitles": "Journal titlar",
+            "surveys": "Enkäter",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
             "massUnits": "Masseenheder",
@@ -9031,7 +9157,8 @@
             "customLinks": "Egna länkar",
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
-            "fst": "FST"
+            "fst": "FST",
+            "wageSupplementRules": "Tilläggsregler för lön"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -9245,7 +9372,9 @@
         "pinSidebar": "Fäst sidebar",
         "unpinSidebar": "Lossa sidebar",
         "surveys": "Enkäter",
-        "myDay": "Min dag"
+        "myDay": "Min dag",
+        "myAvailability": "Min tillgänglighet",
+        "myShiftEvaluations": "Mina passutvärderingar"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -11845,6 +11974,10 @@
         "scoreOverTime": "Poäng över tid",
         "selectCitizen": "Välj medborgare",
         "selectSurvey": "Välj enkät",
+        "assignSurvey": "Tilldela enkät",
+        "linkedTo": "Kopplad till",
+        "linkToPlanGoalSubgoal": "Koppla till plan, mål eller delmål (valfritt)",
+        "linkToPlanGoalSubgoalHint": "Följ utvecklingen för en specifik plan, mål eller delmål.",
         "send": "Send",
         "startFilling": "Börja fylla i",
         "answers": "Svar",
@@ -12094,6 +12227,92 @@
             "name": "Namn",
             "namePlaceholder": "t.ex. Eftervård",
             "color": "Färg"
+        }
+    },
+    "portalAccess": {
+        "title": "Portalåtkomst",
+        "intro": "Vem som har inloggning till en portal nu, och hur många av era köpta platser som används",
+        "seatsInUse": "{used} av {total} platser används",
+        "seatsAvailable": "{count} lediga",
+        "noSeatsLeft": "Inga lediga platser",
+        "appNotBought": "Appen är inte köpt",
+        "buyMoreSeats": "Köp fler platser",
+        "getApp": "Hämta appen",
+        "nobodyHasAccess": "Ingen har åtkomst ännu",
+        "audience": {
+            "relative": "Anhöriga",
+            "third_party": "Tredjeparter"
+        },
+        "status": {
+            "active": "Inloggad",
+            "invited": "Inbjuden"
+        },
+        "table": {
+            "name": "Namn",
+            "email": "E-post",
+            "citizen": "Medborgare",
+            "status": "Status",
+            "grantedAt": "Åtkomst gavs"
+        },
+        "chooseWhatTheySee": "Välj vad de ser"
+    },
+    "wageSupplementRules": {
+        "form": {
+            "explanation": "Konfigurera kvälls-/söndagstillägg för schemat. Regler utvärderas i prioritetsordning (lägst först), och den första helt matchande regeln vinner — regler läggs inte ihop.",
+            "addRule": "Lägg till regel",
+            "empty": "Inga tilläggsregler har konfigurerats ännu.",
+            "ruleTitle": "Regel",
+            "name": "Namn",
+            "namePlaceholder": "t.ex. Kvällstillägg",
+            "priority": "Prioritet",
+            "priorityHint": "Lägre nummer utvärderas först och vinner över högre nummer.",
+            "timeInterval": "Tidsintervall",
+            "timeFrom": "Från",
+            "timeTo": "Till",
+            "allDayHint": "Lämna båda tomma för att gälla alla timmar på de matchande dagarna.",
+            "daysOfWeek": "Veckodagar",
+            "daysOfWeekHint": "Lämna tomt för att gälla alla dagar.",
+            "appliesToHolidays": "Gäller på helgdagar",
+            "supplementPercentage": "Tillägg %",
+            "compTimePercentage": "Komptid %",
+            "paidPercentage": "Utbetalt %",
+            "isActive": "Aktiv",
+            "supplementExceededError": "Komptid % och utbetalt % tillsammans får inte överstiga tillägg %"
+        },
+        "alert": {
+            "ruleSuccessfullySaved": "Tilläggsregeln sparades",
+            "ruleSuccessfullyDeleted": "Tilläggsregeln togs bort"
+        }
+    },
+    "employeeAvailability": {
+        "title": "Min tillgänglighet",
+        "explanation": "Låt din chef veta om du kan eller inte kan schemaläggas en viss dag. Lägg gärna till en kommentar.",
+        "empty": "Du har inte markerat någon tillgänglighet ännu.",
+        "form": {
+            "date": "Datum",
+            "status": "Status",
+            "available": "Tillgänglig",
+            "notAvailable": "Inte tillgänglig",
+            "comment": "Kommentar",
+            "commentPlaceholder": "t.ex. Hämtar barn från skolan"
+        },
+        "alert": {
+            "savedSuccessfully": "Din tillgänglighet sparades",
+            "deletedSuccessfully": "Din tillgänglighet togs bort"
+        }
+    },
+    "shiftEvaluations": {
+        "title": "Mina passutvärderingar",
+        "explanation": "Låt din chef veta hur dina senaste pass gick. Betygsätt passet och lägg gärna till en kommentar.",
+        "pendingHeading": "Pass som väntar på din utvärdering",
+        "submittedHeading": "Dina utvärderingar",
+        "empty": "Du har inte utvärderat några pass ännu.",
+        "form": {
+            "commentPlaceholder": "t.ex. Hektiskt men hanterbart pass"
+        },
+        "alert": {
+            "savedSuccessfully": "Din utvärdering sparades",
+            "deletedSuccessfully": "Din utvärdering togs bort"
         }
     }
 }

@@ -929,6 +929,55 @@
                 </div>
             </div>
         </div>
+        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
+            v-if="userStore.getUser?.company?.industry?.en_name === 'Dentists and dental hygienists' && isFieldVisible('dental_profile')">
+            <div>
+                <h2 class="text-base font-semibold leading-7 text-gray-900">
+                    {{ $t('citizens.sections.dentalProfile') }}
+                </h2>
+            </div>
+            <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark = !state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark">
+                        <FormCheckbox id="is_member_of_sygeforsikring_danmark"
+                            :value="state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark" />
+                        {{ $t('citizens.form.dental.isMemberOfSygeforsikringDanmark') }}
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="sygesikring_group" :label="$t('citizens.form.dental.sygesikringGroup.label')" />
+                    <FormSelect id="sygesikring_group" :options="state.options.sygesikringGroups"
+                        v-model="state.formCitizen.dentalData.sygesikring_group" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="patient_number" :label="$t('citizens.form.dental.patientNumber')" />
+                    <FormTextField id="patient_number" name="patient_number"
+                        :placeholder="$t('citizens.form.dental.patientNumber')"
+                        v-model="state.formCitizen.dentalData.patient_number" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="municipal_subsidy" :label="$t('citizens.form.dental.municipalSubsidy')" />
+                    <FormTextField id="municipal_subsidy" name="municipal_subsidy"
+                        :placeholder="$t('citizens.form.dental.municipalSubsidy')"
+                        v-model="state.formCitizen.dentalData.municipal_subsidy" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="last_checkup_date" :label="$t('citizens.form.dental.lastCheckupDate')" />
+                        <FormDateField id="last_checkup_date" name="last_checkup_date"
+                            :placeholder="$t('citizens.form.dental.lastCheckupDate')"
+                            v-model="state.formCitizen.dentalData.last_checkup_date" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="checkup_interval_months"
+                            :label="$t('citizens.form.dental.checkupInterval.label')" />
+                        <FormSelect id="checkup_interval_months" :options="state.options.checkupIntervals"
+                            v-model="state.formCitizen.dentalData.checkup_interval_months" />
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/citizens')">
@@ -1149,6 +1198,14 @@ const state = reactive({
             activation_deadline: '',
             referral_reason: '',
         } as any,
+        dentalData: {
+            is_member_of_sygeforsikring_danmark: false,
+            sygesikring_group: '',
+            patient_number: '',
+            municipal_subsidy: '',
+            last_checkup_date: '',
+            checkup_interval_months: '',
+        } as any,
     },
     formattedSocialSecurityNumber: '',
     modal: {
@@ -1185,6 +1242,16 @@ const state = reactive({
         employmentCaseTypes: [] as any,
         employmentStatusTypes: [] as any,
         consultants: [] as any,
+        sygesikringGroups: [
+            { value: 'group_1', label: `${t('citizens.form.dental.sygesikringGroup.group1')}`, },
+            { value: 'group_2', label: `${t('citizens.form.dental.sygesikringGroup.group2')}`, },
+            { value: 'foreign_insurance', label: `${t('citizens.form.dental.sygesikringGroup.foreignInsurance')}`, },
+            { value: 'other', label: `${t('citizens.form.dental.sygesikringGroup.other')}`, },
+        ],
+        checkupIntervals: [
+            { value: 6, label: `${t('citizens.form.dental.checkupInterval.everySixMonths')}`, },
+            { value: 12, label: `${t('citizens.form.dental.checkupInterval.everyTwelveMonths')}`, },
+        ],
     },
     selectedCitizenLocation: null as { lat: number; lng: number } | null,
 })
@@ -1195,6 +1262,16 @@ watch(() => language.locale.value, () => {
         { value: 'female', label: `${t('gender.female')}`, },
         { value: 'non_binary', label: `${t('gender.nonbinary')}`, },
         { value: 'will_not_disclose', label: `${t('gender.willNotDisclose')}`, },
+    ]
+    state.options.sygesikringGroups = [
+        { value: 'group_1', label: `${t('citizens.form.dental.sygesikringGroup.group1')}`, },
+        { value: 'group_2', label: `${t('citizens.form.dental.sygesikringGroup.group2')}`, },
+        { value: 'foreign_insurance', label: `${t('citizens.form.dental.sygesikringGroup.foreignInsurance')}`, },
+        { value: 'other', label: `${t('citizens.form.dental.sygesikringGroup.other')}`, },
+    ]
+    state.options.checkupIntervals = [
+        { value: 6, label: `${t('citizens.form.dental.checkupInterval.everySixMonths')}`, },
+        { value: 12, label: `${t('citizens.form.dental.checkupInterval.everyTwelveMonths')}`, },
     ]
 })
 
@@ -1325,6 +1402,14 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 reporting_requirements: selectedCitizen.employmentData?.reporting_requirements || '',
                 activation_deadline: selectedCitizen.employmentData?.activation_deadline || '',
                 referral_reason: selectedCitizen.employmentData?.referral_reason || '',
+            } as any,
+            dentalData: {
+                is_member_of_sygeforsikring_danmark: selectedCitizen.dentalData?.is_member_of_sygeforsikring_danmark ?? false,
+                sygesikring_group: selectedCitizen.dentalData?.sygesikring_group || '',
+                patient_number: selectedCitizen.dentalData?.patient_number || '',
+                municipal_subsidy: selectedCitizen.dentalData?.municipal_subsidy || '',
+                last_checkup_date: selectedCitizen.dentalData?.last_checkup_date || '',
+                checkup_interval_months: selectedCitizen.dentalData?.checkup_interval_months || '',
             } as any,
         }
     }

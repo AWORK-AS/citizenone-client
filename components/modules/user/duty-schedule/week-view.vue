@@ -249,8 +249,16 @@
                                             class="capitalize inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
                                             style="color:#b45309">{{ getHolidayForDay(day.longName) }}</span>
                                     </span>
+                                    <Tooltip v-if="coverageWarningsByDay[dayIndex as number]?.length > 0"
+                                        :text="coverageWarningsByDay[dayIndex as number].map((d: any) => `${d.name}: ${d.assigned}/${d.minimum}`).join(', ')"
+                                        position="top" class="!absolute -top-1 -right-1">
+                                        <div data-testid="coverage-warning-badge"
+                                            class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-sm cursor-help">
+                                            <Icon name="ph:warning" class="w-3 h-3 text-white" />
+                                        </div>
+                                    </Tooltip>
                                 </div>
-                                <div v-for="day in weekDays" :key="day.date"
+                                <div v-for="(day, dayIndex) in weekDays" :key="day.date"
                                     :class="['relative flex flex-col items-center justify-center py-2 sm:py-3 pb-5 sm:pb-6 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     v-if="!hasScheduleManageAccess">
                                     <span class="flex gap-x-1 text-sm">
@@ -294,6 +302,14 @@
                                             class="capitalize inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
                                             style="color:#b45309">{{ getHolidayForDay(day.longName) }}</span>
                                     </span>
+                                    <Tooltip v-if="coverageWarningsByDay[dayIndex as number]?.length > 0"
+                                        :text="coverageWarningsByDay[dayIndex as number].map((d: any) => `${d.name}: ${d.assigned}/${d.minimum}`).join(', ')"
+                                        position="top" class="!absolute top-1 right-1">
+                                        <div data-testid="coverage-warning-badge"
+                                            class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-sm cursor-help">
+                                            <Icon name="ph:warning" class="w-3 h-3 text-white" />
+                                        </div>
+                                    </Tooltip>
                                 </div>
                             </div>
 
@@ -864,7 +880,7 @@
                                             <div class="space-y-3"
                                                 v-if="!isDailyScheduleCopied(employeeIndex as number, weekIndex as number, weekNumber)">
                                                 <div class="flex justify-end gap-1 sm:gap-2"
-                                                    v-if="hasCreatePermission || isAtLeast('Admin')">
+                                                    v-if="(hasCreatePermission || isAtLeast('Admin')) && !isShiftLocked(week?.date)">
                                                     <Menu as="div"
                                                         class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
                                                         <div>
@@ -956,13 +972,14 @@
                                                     </Tooltip>
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                         :key="shiftIndex" :class="[
-                                                            'rounded-xl relative mb-4 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20'
+                                                            'rounded-xl relative mb-4 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20',
+                                                            isShiftLocked(shift?.date_time_start) && 'opacity-60'
                                                         ]" :style="{
                                                             backgroundColor: `${shift?.type?.color}`,
                                                             width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                             marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex as number)}rem`
-                                                        }" :draggable="isAtLeast('Admin')"
-                                                        @dragstart="isAtLeast('Admin') && onDragStart($event, employee, weekIndex as number, shift)"
+                                                        }" :draggable="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start)"
+                                                        @dragstart="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start) && onDragStart($event, employee, weekIndex as number, shift)"
                                                         @dragend="isAtLeast('Admin') && onDragEnd($event)">
                                                         <div class="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xs sm:text-sm"
                                                             v-if="shift?.type?.system_name === 'sick-leave'">
@@ -972,6 +989,15 @@
                                                             v-if="shift?.type?.system_name === 'vacation-leave'">
                                                             🏖️
                                                         </div>
+                                                        <Tooltip v-if="isShiftLocked(shift?.date_time_start)"
+                                                            :text="$t('dutySchedules.lockedShiftTooltip')" position="top"
+                                                            :wrap="true" class="absolute -right-2 -top-2 sm:-right-3 sm:-top-3 z-10">
+                                                            <div
+                                                                class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center">
+                                                                <Icon name="ph:lock-simple" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-gray-500"
+                                                                    aria-hidden="true" />
+                                                            </div>
+                                                        </Tooltip>
                                                         <div v-if="isWorkedHolidayShift(shift)"
                                                             class="absolute left-4 -top-2 sm:-right-3 sm:-top-3 z-10">
                                                             <Tooltip :text="$t('dutySchedules.holidayWorkedTooltip')"
@@ -986,7 +1012,7 @@
                                                         </div>
                                                         <div v-if="isWorkedHolidayShift(shift)" class="h-2" />
                                                         <div class="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
-                                                            @click="(hasUpdatePermission || isAtLeast('Admin')) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
+                                                            @click="((hasUpdatePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                             <!-- Start time -->
                                                             <div class="flex items-center gap-0.5">
                                                                 <div v-if="shift?.is_from_lastweek"
@@ -1139,8 +1165,8 @@
                                                             class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                             style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
                                                             draggable="false" @pointerdown.stop
-                                                            @click.stop="removeShiftConfirmation(shift)"
-                                                            v-if="hasDeletePermission || isAtLeast('Admin')">
+                                                            @click.stop="removeShiftConfirmation(shift, employee)"
+                                                            v-if="(hasDeletePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)">
                                                             <Tooltip position="left"
                                                                 :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                                 <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -1281,12 +1307,14 @@
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
             @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []"
             @resetEditShiftError="state.editShiftError = {}" @updateShift="updateSelectedSchedule" />
-        <ModulesUserDutyScheduleModalRemoveShiftConfirmation :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
-            @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
+        <ModulesUserDutyScheduleModalRemoveShiftReason :isModalOpen="state.modal.isRemoveShiftReasonOpen"
+            :availableEmployees="state.weeklySchedules?.data" :currentEmployeeUuid="state.removeShift.selectedEmployee?.uuid"
+            @close="state.modal.isRemoveShiftReasonOpen = false" @markAbsence="markShiftAbsence"
+            @reassign="reassignShift" />
         <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
             :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
-            @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift"
-            @confirm-entire="removeEntireShiftSpan" />
+            @close="state.modal.isRemoveShiftSpanConfirmationOpen = false"
+            @confirm-single="state.modal.isRemoveShiftReasonOpen = true" @confirm-entire="removeEntireShiftSpan" />
         <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
             :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
             @close="state.modal.isViewShiftOpen = false" />
@@ -1339,6 +1367,7 @@
 import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { dutyScheduleFavoriteEmployeeService } from '@/components/api/user/DutyScheduleFavoriteEmployeeService'
 import { useFavoriteEmployees } from '@/composables/useFavoriteEmployees'
 import { useDepartmentStore } from '@/store/department'
@@ -1346,6 +1375,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useScheduleLock } from '@/composables/useScheduleLock'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -1355,6 +1385,7 @@ const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+const { isDateLocked, scheduleLockCutoff } = useScheduleLock()
 const favoriteEmployees = useFavoriteEmployees()
 
 // Holiday markers only show for companies that opted in to holiday hours.
@@ -1422,6 +1453,7 @@ const state = reactive({
     addShift: {
         selectedEmployeeSchedule: {}
     } as any,
+    departmentsWithMinimumStaff: [] as any[],
     copy: {
         allEmployeeSchedules: {},
         selectedEmployeeDailySchedule: {},
@@ -1483,7 +1515,7 @@ const state = reactive({
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
-        isRemoveShiftConfirmationOpen: false,
+        isRemoveShiftReasonOpen: false,
         isRemoveShiftSpanConfirmationOpen: false,
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
@@ -1510,7 +1542,8 @@ const state = reactive({
         totalRequests: 0,
     },
     removeShift: {
-        selectedShift: {}
+        selectedShift: {},
+        selectedEmployee: {},
     } as any,
     selectedDate: moment().format('YYYY-MM-DD'),
     shiftTypesDistribution: {
@@ -1569,6 +1602,11 @@ const hasDeletePermission = computed(() => {
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || hasUpdatePermission.value)
 const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || hasCreatePermission.value)
 
+function isShiftLocked(date: any): boolean {
+    if (!date) return false
+    return isDateLocked(date, hasScheduleManageAccess.value)
+}
+
 watch(() => state.progress.percentage, (newPercentage: any) => {
     if (newPercentage < 100) {
         state.progress.showProgressBar = true
@@ -1617,6 +1655,56 @@ onMounted(async () => {
     favoriteEmployees.ensureLoaded()
     handleSwapRequestDeepLink()
     window.addEventListener('keydown', handleKeyDown)
+    fetchDepartmentsWithMinimumStaff()
+})
+
+async function fetchDepartmentsWithMinimumStaff() {
+    try {
+        const response = await departmentService.getAllDepartments({})
+        state.departmentsWithMinimumStaff = (response?.data ?? []).filter((d: any) => d.minimum_staff_count)
+    } catch (error: any) {
+        state.departmentsWithMinimumStaff = []
+    }
+}
+
+// Coverage indicator (task #257): for each day of the visible week, flag departments
+// whose configured minimum_staff_count exceeds the number of distinct employees with a
+// shift covering that department that day.
+// `employee.weeks` is keyed by day name (monday..sunday), not a numeric-indexed array —
+// weekDays is Monday-first (isoWeek), so this maps dayIndex 0-6 to the matching key.
+const weekDayNameKeys = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
+const coverageWarningsByDay = computed(() => {
+    if (!userStore.getUser?.is_extended_duty_schedule_active) return []
+    if (state.departmentsWithMinimumStaff.length === 0) return []
+
+    const employees = state.weeklySchedules?.data ?? []
+
+    return weekDays.value.map((_day: any, dayIndex: number) => {
+        const staffedDepartmentUuids: Record<string, Set<string>> = {}
+
+        employees.forEach((employee: any) => {
+            const week = employee?.weeks?.[weekDayNameKeys[dayIndex]]
+            const shifts = week?.shifts ?? []
+            shifts.forEach((shift: any) => {
+                (shift?.departments ?? []).forEach((dept: any) => {
+                    if (!dept?.uuid) return
+                    if (!staffedDepartmentUuids[dept.uuid]) staffedDepartmentUuids[dept.uuid] = new Set()
+                    staffedDepartmentUuids[dept.uuid].add(employee.uuid)
+                })
+            })
+        })
+
+        const understaffed = state.departmentsWithMinimumStaff
+            .map((dept: any) => ({
+                name: dept.name,
+                minimum: dept.minimum_staff_count,
+                assigned: staffedDepartmentUuids[dept.uuid]?.size ?? 0,
+            }))
+            .filter((dept: any) => dept.assigned < dept.minimum)
+
+        return understaffed
+    })
 })
 
 function isFavorited(employee: any) {
@@ -1682,7 +1770,7 @@ function sortMultiDayShiftsFirst(shifts: any) {
 
         if (aMultiDay && !bMultiDay) return -1 // a comes first
         if (!aMultiDay && bMultiDay) return 1  // b comes first
-        // Same type: earliest start time first (task 232)
+        // Same type: earliest start time first
         return moment(a.date_time_start).valueOf() - moment(b.date_time_start).valueOf()
     })
     return sortedShifts
@@ -1814,18 +1902,15 @@ async function fetchDutySchedule() {
 }
 
 function isPreviousWeekDisabled() {
-    const today = moment().startOf('week') // Start of today's week (Monday)
-    const selectedDate = moment(state.selectedDate).startOf('week') // Start of the selected week (Monday)
+    if (isAtLeast('Admin')) return false // Admins can always go to the previous week
 
-    // For regular users, disable the previous week button only if we're in today's week
-    if (!isAtLeast('Admin')) {
-        // Disable the previous week button if we are in today's week (not in the future or past)
-        if (selectedDate.isSame(today, 'week') && userStore.getUser?.company?.is_lock_past_schedules) {
-            return true // Disable button if we are in today's week
-        }
-    }
+    const cutoff = scheduleLockCutoff()
+    if (!cutoff) return false
 
-    return false // Admins can always go to the previous week
+    const cutoffWeek = cutoff.clone().startOf('week')
+    const selectedWeek = moment(state.selectedDate).startOf('week')
+
+    return selectedWeek.isSame(cutoffWeek, 'week')
 }
 
 function setFilter(filter: any) {
@@ -2359,13 +2444,57 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
     }
 }
 
-function removeShiftConfirmation(shift: any) {
+function removeShiftConfirmation(shift: any, employee: any) {
     state.removeShift.selectedShift = shift
+    state.removeShift.selectedEmployee = employee
     if (shift.shift_span_position !== 'single') {
         state.modal.isRemoveShiftSpanConfirmationOpen = true
         return
     }
-    state.modal.isRemoveShiftConfirmationOpen = true
+    state.modal.isRemoveShiftReasonOpen = true
+}
+
+async function markShiftAbsence(reason: string) {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.markScheduleAbsence(scheduleUuid, { reason })
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
+}
+
+async function reassignShift(employeeUuid: string) {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    const date = moment(state.removeShift.selectedShift.date_time_start).format('YYYY-MM-DD')
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.moveShift(scheduleUuid, { date, user_uuid: employeeUuid })
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
 }
 
 async function removeShift() {
@@ -2629,7 +2758,7 @@ let _dragSourceEmployee: any = null
 let _dragSourceWeekIndex: any = null
 
 function onDragStart(e: DragEvent, emp: any, wi: any, sh: any) {
-    if (!(hasUpdatePermission || isAtLeast('Admin'))) { e.preventDefault(); return }
+    if (!(hasUpdatePermission || isAtLeast('Admin')) || isShiftLocked(sh?.date_time_start)) { e.preventDefault(); return }
     _dragShift = sh; _dragSourceEmployee = emp; _dragSourceWeekIndex = wi
     state.isDragging = true
     if (e.dataTransfer) { e.dataTransfer.effectAllowed = "move" }

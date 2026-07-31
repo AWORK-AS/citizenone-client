@@ -29,6 +29,10 @@ class DutyScheduleService extends BaseAPIService {
         return await this.request(`/user/duty-schedules/${scheduleUuid}/move-shift`, 'POST', params)
     }
 
+    async markScheduleAbsence(scheduleUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/duty-schedules/${scheduleUuid}/mark-absence`, 'POST', params)
+    }
+
     async downloadDutySchedules(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/download/report`, 'GET', params)
     }
