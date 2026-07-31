@@ -2178,6 +2178,7 @@
                 "kilometers": "Kilometers",
                 "note": "Note",
                 "startAddress": "Start address",
+                "stopAddress": "Stop address",
                 "transport": "Transport",
                 "type": "Type",
                 "viewInterventionHourLog": "View intervention hour log",

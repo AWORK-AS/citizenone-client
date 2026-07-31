@@ -2178,6 +2178,7 @@
                 "kilometers": "Kilometer",
                 "note": "Bemærkning",
                 "startAddress": "Startadresse",
+                "stopAddress": "Stoppadresse",
                 "transport": "Transportere",
                 "type": "Type",
                 "viewInterventionHourLog": "Vis logg over innsatstimer",
