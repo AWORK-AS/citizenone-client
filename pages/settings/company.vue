@@ -400,9 +400,17 @@
                             </div>
                             <div v-if="state.formCompany.is_lock_past_schedules" class="space-y-1">
                                 <FormLabel for="lock_shifts_before_date" :label="$t('settings.company.form.lockShiftsBeforeDate')" />
-                                <FormDateField id="lock_shifts_before_date" name="lock_shifts_before_date"
-                                    :placeholder="$t('settings.company.form.lockShiftsBeforeDate')"
-                                    v-model="state.formCompany.lock_shifts_before_date" />
+                                <div class="relative">
+                                    <FormDateField id="lock_shifts_before_date" name="lock_shifts_before_date"
+                                        :placeholder="$t('settings.company.form.lockShiftsBeforeDate')"
+                                        v-model="state.formCompany.lock_shifts_before_date" />
+                                    <button v-if="state.formCompany.lock_shifts_before_date" type="button"
+                                        :title="$t('settings.company.form.clearLockShiftsBeforeDate')"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        @click="state.formCompany.lock_shifts_before_date = ''">
+                                        <Icon name="ph:x" class="w-4 h-4" aria-hidden="true" />
+                                    </button>
+                                </div>
                             </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.warning_13_hour_shift_enabled"

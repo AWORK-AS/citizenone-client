@@ -8960,6 +8960,7 @@
                 "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
                 "lockPastSchedules": "Lås tidligere vaktplaner",
                 "lockShiftsBeforeDate": "Lås vakter før dato",
+                "clearLockShiftsBeforeDate": "Fjern dato",
                 "municipality": "Kommune",
                 "onlySendItWhenIAmOnADutyShift": "Send kun, når jeg er på en vakt",
                 "phone": "Telefon",

@@ -8960,6 +8960,7 @@
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
                 "lockShiftsBeforeDate": "Lås pass före datum",
+                "clearLockShiftsBeforeDate": "Rensa datum",
                 "municipality": "Kommun",
                 "onlySendItWhenIAmOnADutyShift": "Skicka endast, när jag är på en pass",
                 "phone": "Telefon",

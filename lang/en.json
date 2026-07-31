@@ -8960,6 +8960,7 @@
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "lockPastSchedules": "Lock past schedules",
                 "lockShiftsBeforeDate": "Lock shifts before date",
+                "clearLockShiftsBeforeDate": "Clear date",
                 "municipality": "Municipality",
                 "onlySendItWhenIAmOnADutyShift": "Only send it when I am on a duty shift",
                 "phone": "Phone",
