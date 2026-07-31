@@ -11934,8 +11934,8 @@
         "newTask": "Ny opgave"
     },
     "handover": {
-        "button": "Vagtoverdragelse",
-        "title": "Vagtoverdragelse",
+        "button": "Vagtoverblik",
+        "title": "Vagtoverblik",
         "subtitle": "AI-resumé af dagens vagt for afdelingen - læs korrektur før du stoler på det.",
         "regenerate": "Generér igen",
         "empty": "Intet resumé endnu.",
