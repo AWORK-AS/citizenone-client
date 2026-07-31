@@ -88,7 +88,7 @@ function updateValue(selectedDates: any) {
         ) {
             emit('update:modelValue', formattedDates)
         }
-    } else if (selectedDates.length === 0) {
+    } else if (selectedDates.length === 0 && props.modelValue?.length !== 0) {
         emit('update:modelValue', [])
     }
 }
