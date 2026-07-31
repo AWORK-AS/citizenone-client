@@ -725,9 +725,15 @@
         "usedBy": "Brugt af {count} organisationer",
         "noBinding": "Ingen binding",
         "setupFeeSuffix": "opstartsgebyr",
+        "perUserSuffix": "pr. tredjepart/md.",
         "offerEndsInDays": "Tilbud slutter om {count} dage",
         "offerEndsToday": "Tilbud slutter i dag",
-        "save": "Spar {percent}%"
+        "save": "Spar {percent}%",
+        "myApps": "Mine apps",
+        "myAppsHint": "De apps I har købt. Åbn en app for at komme til dens opsætning",
+        "myAppsEmpty": "I har ikke aktiveret nogen apps endnu",
+        "myAppsBrowse": "Se app-butikken",
+        "openApp": "Åbn app"
     },
     "archived": {
         "alert": {
@@ -1503,7 +1509,9 @@
                 "micError": "Kunne ikke få adgang til mikrofonen.",
                 "notifyColleagues": "Underret kolleger",
                 "notifyColleaguesPlaceholder": "Vælg kolleger der skal underrettes",
-                "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note."
+                "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note.",
+                "attachedSurveys": "Spørgeskemaer der skal besvares",
+                "linkedSurveys": "Tilknyttede spørgeskemaer"
             },
             "journalLogs": {
                 "date": "Dato",
@@ -1579,6 +1587,9 @@
                     "contactSuccessfullyUpdated": "Kontakt opdateret med succes"
                 },
                 "allowSystemAccess": "Tillad systemadgang",
+                "allowChatAccess": "Giv chatadgang (betales pr. tredjepart)",
+                "mayChatWith": "Må chatte med",
+                "mayChatWithHint": "Vælg de medarbejdere, denne tredjepart må skrive til",
                 "city": "By",
                 "companyName": "Virksomhedsnavn",
                 "email": "E-mailadresse",
@@ -1942,6 +1953,24 @@
                 "contractPrice": "Kontraktpris",
                 "primarySplitPercentage": "Primær-koordinator andel (%)"
             },
+            "dental": {
+                "isMemberOfSygeforsikringDanmark": "Medlem af Sygeforsikringen \"danmark\"",
+                "sygesikringGroup": {
+                    "label": "Sygesikringsgruppe",
+                    "group1": "Gruppe 1",
+                    "group2": "Gruppe 2",
+                    "foreignInsurance": "Udenlandsk forsikring",
+                    "other": "Andet"
+                },
+                "patientNumber": "Patientnummer",
+                "municipalSubsidy": "Kommunalt tilskud",
+                "lastCheckupDate": "Seneste eftersyn",
+                "checkupInterval": {
+                    "label": "Anbefalet eftersynsinterval",
+                    "everySixMonths": "Hver 6. måned",
+                    "everyTwelveMonths": "Hver 12. måned"
+                }
+            },
             "employmentProgram": {
                 "activationDeadline": "Aktiveringsfrist",
                 "caseEndDate": "Sagsslutt dato",
@@ -2178,6 +2207,7 @@
                 "kilometers": "Kilometer",
                 "note": "Bemærkning",
                 "startAddress": "Startadresse",
+                "stopAddress": "Stopadresse",
                 "transport": "Transportere",
                 "type": "Type",
                 "viewInterventionHourLog": "Vis log over indsatstimer",
@@ -2757,6 +2787,7 @@
         "rooms": "Værelser",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
+            "dentalProfile": "Tandprofil",
             "employmentProgram": "Beskæftigelsesforløb",
             "inquiryData": "Henvendelsesdata",
             "stayData": "Opholdsdata"
@@ -3443,7 +3474,9 @@
             },
             "color": "Farve",
             "name": "Navn",
-            "shiftTypes": "Vagttyper"
+            "shiftTypes": "Vagttyper",
+            "minimumStaffCount": "Minimumsbemanding",
+            "minimumStaffCountHint": "Minimumsantal medarbejdere, der kræves for at dække denne afdeling på en given dag. Lad stå tomt for at deaktivere bemandingsadvarslen."
         },
         "newDepartment": "Ny afdeling",
         "table": {
@@ -3991,6 +4024,7 @@
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
             "doNotCountWeekends": "Tæl ikke weekender med",
+            "estimatedPayrollCost": "Estimeret lønomkostning",
             "forSleepingNightShift": "For sovende nattevagt",
             "inMeeting": "I møde",
             "note": "Bemærkning",
@@ -3999,7 +4033,8 @@
             "tags": "Etiketter",
             "title": "Titel",
             "useCompensatoryTime": "Brug afspadseringstid",
-            "users": "Brugere"
+            "users": "Brugere",
+            "employeeMarkedUnavailable": "Denne medarbejder har markeret sig utilgængelig på denne dato"
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbejdet)",
@@ -4051,6 +4086,16 @@
                     "leaveRequestsSuccessfullyRejected": "Ferieanmodning blev afvist"
                 },
                 "confirmation": {
+                    "approveAudience": {
+                        "title": "Godkend orlovsanmodning",
+                        "audienceLabel": "Hvem skal den frigivne vagt tilbydes til?",
+                        "everyone": "Alle",
+                        "jobTitleSpecialty": "En bestemt jobtitel & speciale",
+                        "employee": "En bestemt medarbejder",
+                        "employeeLabel": "Medarbejder",
+                        "jobTitleRequired": "Vælg mindst én jobtitel",
+                        "employeeRequired": "Vælg en medarbejder"
+                    },
                     "approveLeaveRequestConfirmation": "Er du sikker på, at du vil godkende denne ferie?",
                     "deleteLeaveRequestConfirmation": "Er du sikker på, at du vil slette denne ferie?",
                     "rejectLeaveRequestConfirmation": "Er du sikker på, at du vil afvise denne ferie?",
@@ -4162,7 +4207,14 @@
             "confirmation": {
                 "removeScheduleConfirmation": "Er du sikker på, at du vil fjerne denne vagt?"
             },
-            "removeSchedule": "Fjern tidsplan"
+            "removeSchedule": "Fjern tidsplan",
+            "reason": {
+                "title": "Fjern vagt",
+                "question": "Er medarbejderen syg eller på ferie, eller skal vagten overdrages til en anden medarbejder?",
+                "sick": "Medarbejderen er syg",
+                "vacation": "Medarbejderen er på ferie",
+                "reassign": "Overdrag til en anden medarbejder"
+            }
         },
         "requesters": {
             "confirmation": {
@@ -5669,6 +5721,7 @@
                 "employmentStatus": "Ansættelsesstatus",
                 "hoursPerWeek": "Timer per uge",
                 "hoursPerYear": "Timer per år",
+                "hourlyRate": "Timeløn",
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitel",
                 "salaryID": "Løn-ID",
@@ -5773,6 +5826,7 @@
         "tabs": {
             "dutySchedule": "Vagtplan",
             "employeeInformations": "Medarbejderinformationer",
+            "mileageLog": "Kørselsregnskab",
             "timeLogs": "Tidslogfiler"
         },
         "timeLogs": "Tidslogfiler",
@@ -7253,6 +7307,19 @@
             "nameSwedish": "Navn (svensk)"
         }
     },
+    "medicineMissedDoses": {
+        "pageTitle": "Glemt medicin",
+        "missed": "Glemt",
+        "wasDueOn": "Skulle være givet den",
+        "giveNow": "Giv nu",
+        "noneFound": "Ingen glemt medicin lige nu",
+        "toast": {
+            "title": "Glemt medicin",
+            "forCitizenAt": "til {citizen} skulle være givet kl. {time}",
+            "andMore": "og {count} mere",
+            "viewAll": "Se alle"
+        }
+    },
     "messages": {
         "actions": {
             "delete": "Slet",
@@ -7318,6 +7385,12 @@
         "users": "Brugere",
         "welcomeDescription": "Vælg en samtale fra sidebjælken, eller opret en ny for at komme i gang.",
         "welcomeToChat": "Velkommen til chat",
+        "contactPerson": "Kontaktperson",
+        "yourContactPersons": "Dine kontaktpersoner",
+        "thirdPartyRecipientsHint": "Du kan skrive til de personer, organisationen har tilknyttet dig",
+        "noRecipientsConfigured": "Organisationen har endnu ikke tilknyttet nogen, du kan skrive til",
+        "managementAndAdministration": "Ledelse & administration",
+        "startConversationWithOrganization": "Du kan skrive direkte til de medarbejdere, der er omkring din pårørende",
         "yesterday": "I går",
         "you": "Dig",
         "recipients": "Modtagere",
@@ -7327,7 +7400,86 @@
         "subjectPlaceholder": "Hvad handler det om?",
         "messagePlaceholder": "Skriv din besked...",
         "sendHint": "⌘ + Enter for at sende",
-        "emoji": "Emoji"
+        "emoji": "Emoji",
+        "writeToUs": "Skriv til os",
+        "writeToUsPlaceholder": "Skriv dit spørgsmål eller din besked her...",
+        "writeToUsContactPersons": "Går til {names}, der er omkring din pårørende",
+        "writeToUsManagement": "Går til ledelsen",
+        "seeAllConversations": "Se alle samtaler",
+        "sending": "Sender..."
+    },
+    "mileageLog": {
+        "download": {
+            "download": "Download",
+            "downloadMileageLog": "Download kørselsregnskab",
+            "downloadType": "Filformat",
+            "filterDate": "Filtrer dato"
+        },
+        "editTrip": "Rediger tur",
+        "filter": {
+            "allTrips": "Alle ture",
+            "citizenLink": "Borgertilknytning",
+            "departments": "Afdelinger",
+            "employees": "Medarbejdere",
+            "filterDate": "Filtrer dato",
+            "linkedToCitizen": "Tilknyttet borger",
+            "notLinked": "Ikke tilknyttet"
+        },
+        "form": {
+            "addStop": "Tilføj stop",
+            "alert": {
+                "incompleteStopAddress": "Sørg for at hvert stop har en gyldig valgt adresse",
+                "tripSuccessfullyAdded": "Turen blev tilføjet",
+                "tripSuccessfullyUpdated": "Turen blev opdateret"
+            },
+            "dateTimeStart": "Dato og tidspunkt",
+            "endAddress": "Slutadresse",
+            "estimatedDistance": "Distance (beregnes automatisk)",
+            "linkToCitizen": "Knyt denne tur til en borger som en indsatstime",
+            "note": "Note",
+            "pickOnMap": "Vælg lokation",
+            "selectCitizen": "Vælg borger",
+            "startAddress": "Startadresse",
+            "stopAddress": "Stopadresse"
+        },
+        "mileageLog": "Kørselsregnskab",
+        "mileageReport": "Kørselsrapport",
+        "newTrip": "Ny tur",
+        "summary": {
+            "allTime": "Al tid",
+            "byEmployee": "Pr. medarbejder",
+            "period": "Periode",
+            "totalKm": "Total km",
+            "totalKmAllEmployees": "Total km (alle medarbejdere)",
+            "totalTrips": "Antal ture"
+        },
+        "table": {
+            "actions": {
+                "delete": "Slet",
+                "edit": "Rediger",
+                "view": "Vis"
+            },
+            "alert": {
+                "tripSuccessfullyDeleted": "Turen blev slettet"
+            },
+            "citizen": "Borger",
+            "confirmation": {
+                "deleteTripConfirmation": "Er du sikker på, at du vil slette denne tur"
+            },
+            "date": "Dato",
+            "distance": "Distance",
+            "employee": "Medarbejder",
+            "route": "Rute"
+        },
+        "view": {
+            "createdBy": "Oprettet af",
+            "dateTimeStart": "Dato og tidspunkt",
+            "distance": "Distance",
+            "linkedCitizen": "Tilknyttet borger",
+            "note": "Note",
+            "route": "Rute",
+            "viewTrip": "Vis tur"
+        }
     },
     "months": {
         "april": "April",
@@ -8779,7 +8931,29 @@
                 "enableNursingAreaNotifications": "Aktivér plejeområde-notifikationer",
                 "enableSystemNotifications": "Aktivér systemnotifikationer",
                 "groupChat": "Gruppechat",
+                "relativeChat": "Chat med pårørende",
+                "relativeChatManagement": "Pårørende kan skrive til ledelse og administratorer",
+                "relativeChatContactPersons": "Pårørende kan skrive til borgerens tilknyttede kontaktpersoner",
+                "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
+                "groupPortalAccess": "Portaladgang",
+                "portalAccessHint": "Vælg hvad pårørende, tredjeparter og borgere kan se i deres egen portal",
+                "portalAccessNothingOpen": "Ingen dele er åbne. Pårørende, tredjeparter og borgere kan ikke se noget i deres portal",
+                "portalAccessOpenNow": "Åbent lige nu",
+                "portalAccessConfirmTitle": "Åbn adgang?",
+                "portalAccessConfirmMessage": "{audience} vil fra nu af kunne se {section} i deres portal. Alle med administrator-rolle får en mail om ændringen.",
+                "portalAudienceRelative": "Pårørende",
+                "portalAudienceThirdParty": "Tredjeparter",
+                "portalAudienceCitizen": "Borgere",
+                "portalSectionJournals": "Journaler",
+                "portalSectionDocuments": "Dokumenter",
+                "portalSectionMessages": "Beskeder",
+                "portalSectionOverview": "Daglig oversigt",
+                "portalSectionDutySchedules": "Vagtplaner",
+                "portalSectionSurveys": "Spørgeskemaer",
+                "portalSectionProtocols": "Protokoller",
                 "interventionCheckinOut": "Check ind/ud for indsats",
+                "relativeCanMessageAdmins": "Pårørende kan skrive til ledelse/administratorer",
+                "relativeCanMessageContactPersons": "Pårørende kan skrive til borgerens tildelte kontaktpersoner",
                 "interventionNotificationHours": "Varslingstimer for indsats",
                 "employmentWeeklyHours": "Ugentlige arbejdstimer (fakturering for beskæftigelsesindsats)",
                 "employmentWeeklyHoursHint": "Bruges til at omregne timepriser til en ugentlig pris. Lad stå tomt for at bruge standarden på 37 timer/uge.",
@@ -8836,7 +9010,29 @@
                 "manageApprovedDevices": "Administrér godkendte enheder",
                 "actionBlock": "Blokér adgang",
                 "actionOtp": "Kræv OTP-bekræftelse",
-                "proFeatureHint": "Denne funktion er en del af Pro-abonnementet. Opgradér for at slå den til."
+                "proFeatureHint": "Denne funktion er en del af Pro-abonnementet. Opgradér for at slå den til.",
+                "portalPreviewOpen": "Se hvad de ser",
+                "portalPreviewTitle": "Sådan ser {audience} det",
+                "portalPreviewHint": "Et forhåndsblik på portalen med jeres nuværende valg. Der hentes ingen rigtige data her",
+                "portalPreviewEmptyNav": "Ingen dele",
+                "portalPreviewNothing": "Med disse valg er portalen tom",
+                "portalPreviewNeverSees": "De ser aldrig",
+                "portalPreviewJournals": "Borgerens journalnotater, uden kladder",
+                "portalPreviewDocuments": "Kun de filer I har delt med dem",
+                "portalPreviewMessagesRelative": "Samtaler med ledelsen og borgerens kontaktpersoner",
+                "portalPreviewMessagesThirdParty": "Samtaler med de medarbejdere I har tilknyttet dem",
+                "portalPreviewMessagesCitizen": "Samtaler med personalet",
+                "portalPreviewOverview": "Daglig oversigt med opslagstavlen",
+                "portalPreviewDutySchedules": "De vagter der er planlagt for dem",
+                "portalPreviewSurveys": "Spørgeskemaer der er tildelt dem",
+                "portalPreviewProtocols": "Deres eget check ind og check ud",
+                "portalNeverDrafts": "Journalnotater der er kladder",
+                "portalNeverUnsharedDocuments": "Dokumenter I ikke har delt",
+                "portalNeverOtherCitizens": "Noget som helst om andre borgere",
+                "portalNeverStaffNotes": "Interne bemærkninger skrevet om dem",
+                "portalNeverJournalsAtAll": "Journaler og dokumenter, aldrig",
+                "portalNeverUnassignedStaff": "Medarbejdere I ikke har tilknyttet dem",
+                "portalAccessSeeWhoHasAccess": "Se hvem der har adgang"
             }
         },
         "licenseOverview": {
@@ -8887,7 +9083,8 @@
             "billing": "Fakturering",
             "data": "Data",
             "logs": "Logs",
-            "integrations": "Integrationer"
+            "integrations": "Integrationer",
+            "apps": "Apps"
         },
         "tabs": {
             "absences": "Fravær",
@@ -8916,11 +9113,13 @@
             "journalContents": "Journal indhold",
             "journalNoteTags": "Journalnotetag",
             "journalTitles": "Journal titler",
+            "surveys": "Spørgeskemaer",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
             "massUnits": "Masseenheder",
             "medicationAllergies": "Medicinallergier (CAVE)",
             "medicines": "Medicin",
+            "mileageLog": "Kørselsregnskab",
             "normPeriods": "Normperioder",
             "other": "Andet",
             "profile": "Profil",
@@ -8953,7 +9152,8 @@
             "customLinks": "Egne links",
             "messageTemplates": "Beskedskabeloner",
             "timelineEventTypes": "Tidslinje-typer",
-            "fst": "FST"
+            "fst": "FST",
+            "wageSupplementRules": "Tillægsregler for løn"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -9167,7 +9367,9 @@
         "pinSidebar": "Fastgør sidebar",
         "unpinSidebar": "Frigør sidebar",
         "surveys": "Spørgeskemaer",
-        "myDay": "Min dag"
+        "myDay": "Min dag",
+        "myAvailability": "Min tilgængelighed",
+        "myShiftEvaluations": "Mine vagtevalueringer"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -11016,6 +11218,7 @@
     },
     "validation": {
         "invalidNumber": "Ugyldigt nummer",
+        "invalidEmailAddress": "Ugyldig e-mailadresse",
         "thisFieldIsRequired": "Dette felt er påkrævet"
     },
     "verifyEmail": {
@@ -11766,6 +11969,10 @@
         "scoreOverTime": "Score over tid",
         "selectCitizen": "Vælg borger",
         "selectSurvey": "Vælg spørgeskema",
+        "assignSurvey": "Tildel spørgeskema",
+        "linkedTo": "Knyttet til",
+        "linkToPlanGoalSubgoal": "Knyt til plan, mål eller delmål (valgfrit)",
+        "linkToPlanGoalSubgoalHint": "Følg udviklingen for en specifik plan, mål eller delmål.",
         "send": "Send",
         "startFilling": "Start udfyldelse",
         "answers": "Svar",
@@ -12015,6 +12222,92 @@
             "name": "Navn",
             "namePlaceholder": "fx Efterværn",
             "color": "Farve"
+        }
+    },
+    "portalAccess": {
+        "title": "Portaladgang",
+        "intro": "Hvem der har login til en portal lige nu, og hvor mange af jeres købte pladser der er i brug",
+        "seatsInUse": "{used} af {total} pladser i brug",
+        "seatsAvailable": "{count} ledige",
+        "noSeatsLeft": "Ingen ledige pladser",
+        "appNotBought": "App ikke købt",
+        "buyMoreSeats": "Køb flere pladser",
+        "getApp": "Hent appen",
+        "nobodyHasAccess": "Ingen har adgang endnu",
+        "audience": {
+            "relative": "Pårørende",
+            "third_party": "Tredjeparter"
+        },
+        "status": {
+            "active": "Logget ind",
+            "invited": "Inviteret"
+        },
+        "table": {
+            "name": "Navn",
+            "email": "E-mail",
+            "citizen": "Borger",
+            "status": "Status",
+            "grantedAt": "Adgang givet"
+        },
+        "chooseWhatTheySee": "Vælg hvad de kan se"
+    },
+    "wageSupplementRules": {
+        "form": {
+            "explanation": "Konfigurer aften-/søndagstillæg for vagtplanen. Regler evalueres i prioriteret rækkefølge (laveste først), og den første fuldt matchende regel vinder — regler lægges ikke sammen.",
+            "addRule": "Tilføj regel",
+            "empty": "Der er endnu ikke konfigureret nogen tillægsregler.",
+            "ruleTitle": "Regel",
+            "name": "Navn",
+            "namePlaceholder": "f.eks. Aftentillæg",
+            "priority": "Prioritet",
+            "priorityHint": "Lavere tal evalueres først og vinder over højere tal.",
+            "timeInterval": "Tidsinterval",
+            "timeFrom": "Fra",
+            "timeTo": "Til",
+            "allDayHint": "Lad begge være tomme for at gælde alle timer på de matchende dage.",
+            "daysOfWeek": "Ugedage",
+            "daysOfWeekHint": "Lad stå tomt for at gælde alle dage.",
+            "appliesToHolidays": "Gælder på helligdage",
+            "supplementPercentage": "Tillæg %",
+            "compTimePercentage": "Afspadsering %",
+            "paidPercentage": "Udbetalt %",
+            "isActive": "Aktiv",
+            "supplementExceededError": "Afspadsering % og udbetalt % kan tilsammen ikke overstige tillæg %"
+        },
+        "alert": {
+            "ruleSuccessfullySaved": "Tillægsreglen blev gemt",
+            "ruleSuccessfullyDeleted": "Tillægsreglen blev slettet"
+        }
+    },
+    "employeeAvailability": {
+        "title": "Min tilgængelighed",
+        "explanation": "Lad din leder vide, om du kan eller ikke kan sættes på vagt en bestemt dag. Tilføj eventuelt en kommentar.",
+        "empty": "Du har endnu ikke markeret nogen tilgængelighed.",
+        "form": {
+            "date": "Dato",
+            "status": "Status",
+            "available": "Tilgængelig",
+            "notAvailable": "Ikke tilgængelig",
+            "comment": "Kommentar",
+            "commentPlaceholder": "f.eks. Henter børn fra skole"
+        },
+        "alert": {
+            "savedSuccessfully": "Din tilgængelighed blev gemt",
+            "deletedSuccessfully": "Din tilgængelighed blev fjernet"
+        }
+    },
+    "shiftEvaluations": {
+        "title": "Mine vagtevalueringer",
+        "explanation": "Lad din leder vide, hvordan dine seneste vagter gik. Bedøm vagten, og tilføj eventuelt en kommentar.",
+        "pendingHeading": "Vagter der afventer din evaluering",
+        "submittedHeading": "Dine evalueringer",
+        "empty": "Du har endnu ikke evalueret nogen vagter.",
+        "form": {
+            "commentPlaceholder": "f.eks. Travl, men overkommelig vagt"
+        },
+        "alert": {
+            "savedSuccessfully": "Din evaluering blev gemt",
+            "deletedSuccessfully": "Din evaluering blev fjernet"
         }
     }
 }

@@ -1,33 +1,83 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('messages.message')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('messages.newMessage')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <form @submit.prevent="sendMessage">
-                        <div class="space-y-3">
-                            <h3 class="text-base font-semibold text-primary">
-                                {{ $t('messages.startTheConversation') }}
-                            </h3>
+                        <div class="space-y-4">
                             <div class="space-y-1">
-                                <FormLabel for="receivers" :label="$t('messages.users')" />
-                                <FormSelectMultiple id="receivers" :options="state.options.receivers"
-                                    v-model="state.formChat.receivers"
-                                    v-if="userStore.getUser?.company?.group_chat_enabled" />
-                                <FormSelect id="receivers" :options="state.options.receivers"
-                                    v-model="state.formChat.receivers" v-else />
+                                <FormLabel for="receivers" :label="$t('messages.recipients')" />
+                                <p class="text-xs text-gray-500">{{ $t('messages.recipientsHint') }}.</p>
                                 <FormError :error="v$?.formChat?.receivers?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.receiver_uuid?.[0]" />
                             </div>
+
+                            <div v-if="contactPersons.length > 0" class="space-y-2">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                                    {{ $t('messages.yourContactPersons') }}
+                                </p>
+                                <button v-for="recipient in contactPersons" :key="recipient.uuid" type="button"
+                                    class="w-full" @click="toggleRecipient(recipient.uuid)">
+                                    <span :class="[
+                                        isSelected(recipient.uuid)
+                                            ? 'border-primary ring-1 ring-primary bg-primary/5'
+                                            : 'border-gray-200 hover:border-primary/50',
+                                        'flex items-center gap-x-3 rounded-md border px-3 py-2 text-left transition-colors'
+                                    ]">
+                                        <img :src="recipientAvatar(recipient)" alt=""
+                                            class="w-9 h-9 rounded-full object-cover">
+                                        <span class="flex-1 min-w-0">
+                                            <span class="block text-sm font-semibold truncate">
+                                                {{ recipient.firstname }} {{ recipient.lastname }}
+                                            </span>
+                                            <span
+                                                class="inline-block text-xxs font-medium bg-green-100 text-green-800 rounded-full px-2 py-0.5">
+                                                {{ $t('messages.contactPerson') }}
+                                            </span>
+                                        </span>
+                                        <Icon v-if="isSelected(recipient.uuid)" name="heroicons:check-circle-solid"
+                                            class="w-5 h-5 text-primary shrink-0" aria-hidden="true" />
+                                    </span>
+                                </button>
+                            </div>
+
+                            <div v-if="managementRecipients.length > 0" class="space-y-2">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                                    {{ $t('messages.managementAndAdministration') }}
+                                </p>
+                                <button v-for="recipient in managementRecipients" :key="recipient.uuid" type="button"
+                                    class="w-full" @click="toggleRecipient(recipient.uuid)">
+                                    <span :class="[
+                                        isSelected(recipient.uuid)
+                                            ? 'border-primary ring-1 ring-primary bg-primary/5'
+                                            : 'border-gray-200 hover:border-primary/50',
+                                        'flex items-center gap-x-3 rounded-md border px-3 py-2 text-left transition-colors'
+                                    ]">
+                                        <img :src="recipientAvatar(recipient)" alt=""
+                                            class="w-9 h-9 rounded-full object-cover">
+                                        <span class="flex-1 min-w-0">
+                                            <span class="block text-sm font-semibold truncate">
+                                                {{ recipient.firstname }} {{ recipient.lastname }}
+                                            </span>
+                                            <span class="block text-xs text-gray-500">{{ recipient.role }}</span>
+                                        </span>
+                                        <Icon v-if="isSelected(recipient.uuid)" name="heroicons:check-circle-solid"
+                                            class="w-5 h-5 text-primary shrink-0" aria-hidden="true" />
+                                    </span>
+                                </button>
+                            </div>
+
                             <div class="space-y-1">
-                                <FormLabel for="subject" :label="$t('messages.subject')" />
-                                <FormTextField id="subject" name="subject" :placeholder="$t('messages.subject')"
+                                <FormLabel for="subject" :label="$t('messages.subjectOptional')" />
+                                <FormTextField id="subject" name="subject"
+                                    :placeholder="$t('messages.subjectPlaceholder')"
                                     v-model="state.formChat.subject" />
-                                <FormError :error="v$?.formChat?.subject?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.subject?.[0]" />
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="message" :label="$t('messages.message')" />
-                                <FormTextArea id="message" name="message" :placeholder="$t('messages.message')"
+                                <FormTextArea id="message" name="message"
+                                    :placeholder="$t('messages.messagePlaceholder')"
                                     v-model="state.formChat.message" />
                                 <FormError :error="v$?.formChat?.message?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.message?.[0]" />
@@ -62,27 +112,23 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 const { t } = useI18n()
 const userStore = useUserStore() as any
-const router = useRouter()
-const userUuid = router?.currentRoute?.value?.query?.user_uuid
 
 const state = reactive({
     error: {} as Error,
     formChat: {
         message: '',
-        receivers: [] as any,
+        receivers: [] as string[],
         subject: '',
     },
     isPageLoading: false,
-    options: {
-        receivers: []
-    }
+    recipients: [] as any[],
 })
 
+const contactPersons = computed(() => state.recipients.filter((recipient: any) => recipient.is_contact_person))
+const managementRecipients = computed(() => state.recipients.filter((recipient: any) => !recipient.is_contact_person))
+
 onMounted(() => {
-    fetchAllAvailableChatUsers()
-    if (userUuid) {
-        state.formChat.receivers.push(userUuid)
-    }
+    fetchRecipients()
 })
 
 const rules = computed(() => {
@@ -104,20 +150,35 @@ function closeModal() {
     emit('close')
 }
 
-async function fetchAllAvailableChatUsers() {
+function isSelected(uuid: string) {
+    return state.formChat.receivers.includes(uuid)
+}
+
+function toggleRecipient(uuid: string) {
+    if (isSelected(uuid)) {
+        state.formChat.receivers = state.formChat.receivers.filter((selected) => selected !== uuid)
+        return
+    }
+    if (userStore.getUser?.company?.group_chat_enabled) {
+        state.formChat.receivers.push(uuid)
+    } else {
+        // Single recipient when group chat is disabled: tapping replaces the selection.
+        state.formChat.receivers = [uuid]
+    }
+}
+
+function recipientAvatar(recipient: any) {
+    return recipient?.profile_image ??
+        `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${recipient?.firstname + ' ' + recipient?.lastname}`
+}
+
+async function fetchRecipients() {
     state.error = {}
     state.isPageLoading = true
     try {
         const response = await messageService.getAllAvailableUsers()
         if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname + " (" + user?.role + ")",
-                })
-            )
-            state.options.receivers = options
+            state.recipients = response.data
         }
     } catch (error: any) {
         state.error = error
@@ -133,16 +194,16 @@ async function sendMessage() {
             const params = {
                 subject: state.formChat.subject,
                 message: state.formChat.message,
-                receiver_uuid: userStore.getUser?.company?.group_chat_enabled ?
-                    state.formChat.receivers :
-                    [state.formChat.receivers]
+                receiver_uuid: state.formChat.receivers,
             }
             const response = await messageService.sendMessageViaReceiverUuid(params)
             if (response) {
                 const chatUuid = response?.data?.chat?.uuid
-                navigateTo(`/messages/${chatUuid}`)
                 closeModal()
                 state.formChat.receivers = []
+                state.formChat.subject = ''
+                state.formChat.message = ''
+                navigateTo(`/relative/messages/${chatUuid}`)
             }
         } catch (error: any) {
             state.error = error

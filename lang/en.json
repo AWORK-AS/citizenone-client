@@ -725,9 +725,15 @@
         "usedBy": "Used by {count} organisations",
         "noBinding": "No commitment",
         "setupFeeSuffix": "setup fee",
+        "perUserSuffix": "per third party/month",
         "offerEndsInDays": "Offer ends in {count} days",
         "offerEndsToday": "Offer ends today",
-        "save": "Save {percent}%"
+        "save": "Save {percent}%",
+        "myApps": "My apps",
+        "myAppsHint": "The apps you have bought. Open one to reach its setup",
+        "myAppsEmpty": "You have not activated any apps yet",
+        "myAppsBrowse": "Browse the app store",
+        "openApp": "Open app"
     },
     "archived": {
         "alert": {
@@ -1503,7 +1509,9 @@
                 "micError": "Could not access the microphone.",
                 "notifyColleagues": "Notify colleagues",
                 "notifyColleaguesPlaceholder": "Select colleagues to notify",
-                "notifyColleaguesHint": "Selected colleagues get a notification about this note."
+                "notifyColleaguesHint": "Selected colleagues get a notification about this note.",
+                "attachedSurveys": "Surveys to answer",
+                "linkedSurveys": "Linked surveys"
             },
             "journalLogs": {
                 "date": "Date",
@@ -1579,6 +1587,9 @@
                     "contactSuccessfullyUpdated": "Contact successfully updated"
                 },
                 "allowSystemAccess": "Allow system access",
+                "allowChatAccess": "Allow chat access (paid per third party)",
+                "mayChatWith": "May chat with",
+                "mayChatWithHint": "Pick the employees this third party is allowed to message",
                 "city": "City",
                 "companyName": "Company name",
                 "email": "Email address",
@@ -1942,6 +1953,24 @@
                 "contractPrice": "Contract price",
                 "primarySplitPercentage": "Primary coordinator share (%)"
             },
+            "dental": {
+                "isMemberOfSygeforsikringDanmark": "Member of Sygeforsikringen \"danmark\"",
+                "sygesikringGroup": {
+                    "label": "Public health insurance group",
+                    "group1": "Group 1",
+                    "group2": "Group 2",
+                    "foreignInsurance": "Foreign insurance",
+                    "other": "Other"
+                },
+                "patientNumber": "Patient number",
+                "municipalSubsidy": "Municipal subsidy",
+                "lastCheckupDate": "Last check-up date",
+                "checkupInterval": {
+                    "label": "Recommended check-up interval",
+                    "everySixMonths": "Every 6 months",
+                    "everyTwelveMonths": "Every 12 months"
+                }
+            },
             "employmentProgram": {
                 "activationDeadline": "Activation deadline",
                 "caseEndDate": "Case end date",
@@ -2178,6 +2207,7 @@
                 "kilometers": "Kilometers",
                 "note": "Note",
                 "startAddress": "Start address",
+                "stopAddress": "Stop address",
                 "transport": "Transport",
                 "type": "Type",
                 "viewInterventionHourLog": "View intervention hour log",
@@ -2757,6 +2787,7 @@
         "rooms": "Rooms",
         "sections": {
             "citizenDetails": "Citizen details",
+            "dentalProfile": "Dental profile",
             "employmentProgram": "Employment program",
             "inquiryData": "Inquiry data",
             "stayData": "Stay data"
@@ -3443,7 +3474,9 @@
             },
             "color": "Color",
             "name": "Name",
-            "shiftTypes": "Shift types"
+            "shiftTypes": "Shift types",
+            "minimumStaffCount": "Minimum staff count",
+            "minimumStaffCountHint": "Minimum number of employees required to cover this department on any given day. Leave empty to disable the coverage warning."
         },
         "newDepartment": "New department",
         "table": {
@@ -3991,6 +4024,7 @@
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
             "doNotCountWeekends": "Do not count weekends",
+            "estimatedPayrollCost": "Estimated payroll cost",
             "forSleepingNightShift": "For sleeping night shift",
             "inMeeting": "In Meeting",
             "note": "Note",
@@ -3999,7 +4033,8 @@
             "tags": "Tags",
             "title": "Title",
             "useCompensatoryTime": "Use compensatory time",
-            "users": "Users"
+            "users": "Users",
+            "employeeMarkedUnavailable": "This employee has marked themselves unavailable for this date"
         },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
@@ -4051,6 +4086,16 @@
                     "leaveRequestsSuccessfullyRejected": "Leave request successfully rejected"
                 },
                 "confirmation": {
+                    "approveAudience": {
+                        "title": "Approve leave request",
+                        "audienceLabel": "Who should this released shift be offered to?",
+                        "everyone": "Everyone",
+                        "jobTitleSpecialty": "A specific job title & speciality",
+                        "employee": "A specific employee",
+                        "employeeLabel": "Employee",
+                        "jobTitleRequired": "Select at least one job title",
+                        "employeeRequired": "Select an employee"
+                    },
                     "approveLeaveRequestConfirmation": "Are you sure you want to approve this leave",
                     "deleteLeaveRequestConfirmation": "Are you sure you want to delete this leave",
                     "rejectLeaveRequestConfirmation": "Are you sure you want to disapprove this leave",
@@ -4162,7 +4207,14 @@
             "confirmation": {
                 "removeScheduleConfirmation": "Are you sure you want to remove this schedule"
             },
-            "removeSchedule": "Remove schedule"
+            "removeSchedule": "Remove schedule",
+            "reason": {
+                "title": "Remove shift",
+                "question": "Is the employee sick or on vacation, or should this shift be reassigned to another employee?",
+                "sick": "Employee is sick",
+                "vacation": "Employee is on vacation",
+                "reassign": "Reassign to another employee"
+            }
         },
         "requesters": {
             "confirmation": {
@@ -5669,6 +5721,7 @@
                 "employmentStatus": "Employment status",
                 "hoursPerWeek": "hours per week",
                 "hoursPerYear": "hours per year",
+                "hourlyRate": "Hourly rate",
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job title",
                 "salaryID": "Salary ID",
@@ -5773,6 +5826,7 @@
         "tabs": {
             "dutySchedule": "Duty schedule",
             "employeeInformations": "Employee informations",
+            "mileageLog": "Mileage Log",
             "timeLogs": "Time Logs"
         },
         "timeLogs": "Time Logs",
@@ -7253,6 +7307,19 @@
             "nameSwedish": "Name (swedish)"
         }
     },
+    "medicineMissedDoses": {
+        "pageTitle": "Forgotten medicine",
+        "missed": "Missed",
+        "wasDueOn": "Was due on",
+        "giveNow": "Give now",
+        "noneFound": "No forgotten medicine right now",
+        "toast": {
+            "title": "Missed medication",
+            "forCitizenAt": "for {citizen} was due at {time}",
+            "andMore": "and {count} more",
+            "viewAll": "View all"
+        }
+    },
     "messages": {
         "actions": {
             "delete": "Delete",
@@ -7318,6 +7385,12 @@
         "users": "Users",
         "welcomeDescription": "Select a conversation from the sidebar or create a new one to get started.",
         "welcomeToChat": "Welcome to Chat",
+        "contactPerson": "Contact person",
+        "yourContactPersons": "Your contact persons",
+        "thirdPartyRecipientsHint": "You can write to the people the organization has assigned to you",
+        "noRecipientsConfigured": "The organization has not assigned anyone for you to write to yet",
+        "managementAndAdministration": "Management & administration",
+        "startConversationWithOrganization": "You can write directly to the people who care for your relative",
         "yesterday": "Yesterday",
         "you": "You",
         "recipients": "Recipients",
@@ -7327,7 +7400,86 @@
         "subjectPlaceholder": "What's it about?",
         "messagePlaceholder": "Write your message...",
         "sendHint": "⌘ + Enter to send",
-        "emoji": "Emoji"
+        "emoji": "Emoji",
+        "writeToUs": "Write to us",
+        "writeToUsPlaceholder": "Write your question or update here...",
+        "writeToUsContactPersons": "Goes to {names}, who look after your relative",
+        "writeToUsManagement": "Goes to the management",
+        "seeAllConversations": "See all conversations",
+        "sending": "Sending..."
+    },
+    "mileageLog": {
+        "download": {
+            "download": "Download",
+            "downloadMileageLog": "Download mileage log",
+            "downloadType": "File format",
+            "filterDate": "Filter date"
+        },
+        "editTrip": "Edit trip",
+        "filter": {
+            "allTrips": "All trips",
+            "citizenLink": "Citizen link",
+            "departments": "Departments",
+            "employees": "Employees",
+            "filterDate": "Filter date",
+            "linkedToCitizen": "Linked to citizen",
+            "notLinked": "Not linked"
+        },
+        "form": {
+            "addStop": "Add stop",
+            "alert": {
+                "incompleteStopAddress": "Please make sure every stop has a valid address selected",
+                "tripSuccessfullyAdded": "Trip successfully added",
+                "tripSuccessfullyUpdated": "Trip successfully updated"
+            },
+            "dateTimeStart": "Date and time",
+            "endAddress": "End address",
+            "estimatedDistance": "Distance (calculated automatically)",
+            "linkToCitizen": "Link this trip to a citizen as an Intervention Hour",
+            "note": "Note",
+            "pickOnMap": "Select location",
+            "selectCitizen": "Select citizen",
+            "startAddress": "Start address",
+            "stopAddress": "Stop address"
+        },
+        "mileageLog": "Mileage Log",
+        "mileageReport": "Mileage Report",
+        "newTrip": "New trip",
+        "summary": {
+            "allTime": "All time",
+            "byEmployee": "By employee",
+            "period": "Period",
+            "totalKm": "Total km",
+            "totalKmAllEmployees": "Total km (all employees)",
+            "totalTrips": "Total trips"
+        },
+        "table": {
+            "actions": {
+                "delete": "Delete",
+                "edit": "Edit",
+                "view": "View"
+            },
+            "alert": {
+                "tripSuccessfullyDeleted": "Trip successfully deleted"
+            },
+            "citizen": "Citizen",
+            "confirmation": {
+                "deleteTripConfirmation": "Are you sure you want to delete this trip"
+            },
+            "date": "Date",
+            "distance": "Distance",
+            "employee": "Employee",
+            "route": "Route"
+        },
+        "view": {
+            "createdBy": "Created by",
+            "dateTimeStart": "Date and time",
+            "distance": "Distance",
+            "linkedCitizen": "Linked citizen",
+            "note": "Note",
+            "route": "Route",
+            "viewTrip": "View trip"
+        }
     },
     "months": {
         "april": "April",
@@ -8779,7 +8931,29 @@
                 "enableNursingAreaNotifications": "Enable nursing area notifications",
                 "enableSystemNotifications": "Enable system notifications",
                 "groupChat": "Group chat",
+                "relativeChat": "Chat with relatives",
+                "relativeChatManagement": "Relatives can write to management and administrators",
+                "relativeChatContactPersons": "Relatives can write to the citizen's assigned contact persons",
+                "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
+                "groupPortalAccess": "Portal access",
+                "portalAccessHint": "Choose what relatives, third parties and citizens can see in their own portal",
+                "portalAccessNothingOpen": "No section is open. Relatives, third parties and citizens cannot see anything in their portal",
+                "portalAccessOpenNow": "Open right now",
+                "portalAccessConfirmTitle": "Open access?",
+                "portalAccessConfirmMessage": "{audience} will be able to see {section} in their portal from now on. Everyone with an administrator role is notified by email about this change.",
+                "portalAudienceRelative": "Relatives",
+                "portalAudienceThirdParty": "Third parties",
+                "portalAudienceCitizen": "Citizens",
+                "portalSectionJournals": "Journals",
+                "portalSectionDocuments": "Documents",
+                "portalSectionMessages": "Messages",
+                "portalSectionOverview": "Daily overview",
+                "portalSectionDutySchedules": "Duty schedules",
+                "portalSectionSurveys": "Surveys",
+                "portalSectionProtocols": "Protocols",
                 "interventionCheckinOut": "Intervention check in/out",
+                "relativeCanMessageAdmins": "Relatives can message management/administrators",
+                "relativeCanMessageContactPersons": "Relatives can message the citizen's assigned contact persons",
                 "interventionNotificationHours": "Intervention notification hours",
                 "employmentWeeklyHours": "Weekly work hours (Employment Services billing)",
                 "employmentWeeklyHoursHint": "Used to convert hourly billing rates into a weekly price. Leave blank to use the default of 37 hours/week.",
@@ -8836,7 +9010,29 @@
                 "manageApprovedDevices": "Manage approved devices",
                 "actionBlock": "Block access",
                 "actionOtp": "Require OTP verification",
-                "proFeatureHint": "This feature is part of the Pro plan. Upgrade to enable it."
+                "proFeatureHint": "This feature is part of the Pro plan. Upgrade to enable it.",
+                "portalPreviewOpen": "See what they see",
+                "portalPreviewTitle": "This is what {audience} see",
+                "portalPreviewHint": "A preview of the portal with your current choices. No real records are loaded here",
+                "portalPreviewEmptyNav": "No sections",
+                "portalPreviewNothing": "With these choices the portal is empty",
+                "portalPreviewNeverSees": "They never see",
+                "portalPreviewJournals": "The citizen's journal notes, without drafts",
+                "portalPreviewDocuments": "Only the files you have shared with them",
+                "portalPreviewMessagesRelative": "Conversations with management and the citizen's contact persons",
+                "portalPreviewMessagesThirdParty": "Conversations with the employees you assigned to them",
+                "portalPreviewMessagesCitizen": "Conversations with the staff",
+                "portalPreviewOverview": "Daily overview with the notice board",
+                "portalPreviewDutySchedules": "The shifts planned for them",
+                "portalPreviewSurveys": "Surveys assigned to them",
+                "portalPreviewProtocols": "Their own check-in and check-out",
+                "portalNeverDrafts": "Draft journal notes",
+                "portalNeverUnsharedDocuments": "Documents you have not shared",
+                "portalNeverOtherCitizens": "Anything about other citizens",
+                "portalNeverStaffNotes": "Internal notes written about them",
+                "portalNeverJournalsAtAll": "Journals and documents, ever",
+                "portalNeverUnassignedStaff": "Employees you did not assign to them",
+                "portalAccessSeeWhoHasAccess": "See who has access"
             }
         },
         "licenseOverview": {
@@ -8887,7 +9083,8 @@
             "billing": "Billing",
             "data": "Data",
             "logs": "Logs",
-            "integrations": "Integrations"
+            "integrations": "Integrations",
+            "apps": "Apps"
         },
         "tabs": {
             "absences": "Absences",
@@ -8916,11 +9113,13 @@
             "journalContents": "Journal contents",
             "journalNoteTags": "Journal note tags",
             "journalTitles": "Journal titles",
+            "surveys": "Surveys",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "massUnits": "Mass units",
             "medicationAllergies": "Medication allergies (CAVE)",
             "medicines": "Medicines",
+            "mileageLog": "Mileage Log",
             "normPeriods": "Norm periods",
             "other": "Other",
             "profile": "Profile",
@@ -8953,7 +9152,8 @@
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
-            "fst": "FST"
+            "fst": "FST",
+            "wageSupplementRules": "Wage supplement rules"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -9167,7 +9367,9 @@
         "pinSidebar": "Pin sidebar",
         "unpinSidebar": "Unpin sidebar",
         "surveys": "Surveys",
-        "myDay": "My day"
+        "myDay": "My day",
+        "myAvailability": "My availability",
+        "myShiftEvaluations": "My shift evaluations"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -11016,6 +11218,7 @@
     },
     "validation": {
         "invalidNumber": "Invalid number",
+        "invalidEmailAddress": "Invalid email address",
         "thisFieldIsRequired": "This field is required"
     },
     "verifyEmail": {
@@ -11766,6 +11969,10 @@
         "scoreOverTime": "Score over time",
         "selectCitizen": "Select citizen",
         "selectSurvey": "Select survey",
+        "assignSurvey": "Assign survey",
+        "linkedTo": "Linked to",
+        "linkToPlanGoalSubgoal": "Link to plan, goal, or subgoal (optional)",
+        "linkToPlanGoalSubgoalHint": "Track progress against a specific plan, goal, or subgoal.",
         "send": "Send",
         "startFilling": "Start filling out",
         "answers": "Answers",
@@ -12015,6 +12222,92 @@
             "name": "Name",
             "namePlaceholder": "e.g. Aftercare",
             "color": "Colour"
+        }
+    },
+    "portalAccess": {
+        "title": "Portal access",
+        "intro": "Who currently has a login to a portal, and how many of your paid seats are in use",
+        "seatsInUse": "{used} of {total} seats in use",
+        "seatsAvailable": "{count} available",
+        "noSeatsLeft": "No seats left",
+        "appNotBought": "App not purchased",
+        "buyMoreSeats": "Buy more seats",
+        "getApp": "Get the app",
+        "nobodyHasAccess": "Nobody has access yet",
+        "audience": {
+            "relative": "Relatives",
+            "third_party": "Third parties"
+        },
+        "status": {
+            "active": "Signed in",
+            "invited": "Invited"
+        },
+        "table": {
+            "name": "Name",
+            "email": "Email",
+            "citizen": "Citizen",
+            "status": "Status",
+            "grantedAt": "Access given"
+        },
+        "chooseWhatTheySee": "Choose what they see"
+    },
+    "wageSupplementRules": {
+        "form": {
+            "explanation": "Configure evening/Sunday wage supplement rules for the duty schedule. Rules are evaluated in priority order (lowest first) and the first fully matching rule wins — rules do not stack.",
+            "addRule": "Add rule",
+            "empty": "No wage supplement rules configured yet.",
+            "ruleTitle": "Rule",
+            "name": "Name",
+            "namePlaceholder": "e.g. Evening supplement",
+            "priority": "Priority",
+            "priorityHint": "Lower numbers are evaluated first and win over higher ones.",
+            "timeInterval": "Time interval",
+            "timeFrom": "From",
+            "timeTo": "To",
+            "allDayHint": "Leave both empty to apply to all hours of the matching days.",
+            "daysOfWeek": "Days of week",
+            "daysOfWeekHint": "Leave empty to apply to every day.",
+            "appliesToHolidays": "Applies to public holidays",
+            "supplementPercentage": "Supplement %",
+            "compTimePercentage": "Comp time %",
+            "paidPercentage": "Paid %",
+            "isActive": "Active",
+            "supplementExceededError": "Comp time % and paid % combined cannot exceed the supplement %"
+        },
+        "alert": {
+            "ruleSuccessfullySaved": "The wage supplement rule was successfully saved",
+            "ruleSuccessfullyDeleted": "The wage supplement rule was successfully deleted"
+        }
+    },
+    "employeeAvailability": {
+        "title": "My availability",
+        "explanation": "Let your manager know if you can or can't be scheduled on a specific day. Add an optional comment for context.",
+        "empty": "You haven't marked any availability yet.",
+        "form": {
+            "date": "Date",
+            "status": "Status",
+            "available": "Available",
+            "notAvailable": "Not available",
+            "comment": "Comment",
+            "commentPlaceholder": "e.g. Picking up kids from school"
+        },
+        "alert": {
+            "savedSuccessfully": "Your availability was saved",
+            "deletedSuccessfully": "Your availability was removed"
+        }
+    },
+    "shiftEvaluations": {
+        "title": "My shift evaluations",
+        "explanation": "Let your manager know how your recent shifts went. Rate the shift and add an optional comment.",
+        "pendingHeading": "Shifts awaiting your evaluation",
+        "submittedHeading": "Your evaluations",
+        "empty": "You haven't evaluated any shifts yet.",
+        "form": {
+            "commentPlaceholder": "e.g. Busy but manageable shift"
+        },
+        "alert": {
+            "savedSuccessfully": "Your evaluation was saved",
+            "deletedSuccessfully": "Your evaluation was removed"
         }
     }
 }

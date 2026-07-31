@@ -58,6 +58,7 @@ const state = reactive({
         name: '',
         shift_type_uuid: [],
         color: '#000000',
+        minimum_staff_count: '',
     } as any,
     isPageLoading: false,
 })
@@ -76,6 +77,7 @@ async function fetchDepartment() {
                 name: response?.data?.name ?? '',
                 shift_type_uuid: [],
                 color: response?.data?.color ?? '',
+                minimum_staff_count: response?.data?.minimum_staff_count ?? '',
             }
             response?.data?.shifts?.forEach((shift: any) => {
                 state.formDepartment.shift_type_uuid.push(shift.uuid)
@@ -95,6 +97,7 @@ async function updateDepartment(departmentDetails: any) {
             name: departmentDetails.name,
             shift_type_uuid: departmentDetails.shift_type_uuid,
             color: departmentDetails.color,
+            minimum_staff_count: departmentDetails.minimum_staff_count || null,
         }
         const response = await departmentService.updateDepartment(departmentUuid, params)
         if (response.data) {

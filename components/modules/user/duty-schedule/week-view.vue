@@ -249,8 +249,16 @@
                                             class="capitalize inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
                                             style="color:#b45309">{{ getHolidayForDay(day.longName) }}</span>
                                     </span>
+                                    <Tooltip v-if="coverageWarningsByDay[dayIndex as number]?.length > 0"
+                                        :text="coverageWarningsByDay[dayIndex as number].map((d: any) => `${d.name}: ${d.assigned}/${d.minimum}`).join(', ')"
+                                        position="top" class="!absolute -top-1 -right-1">
+                                        <div data-testid="coverage-warning-badge"
+                                            class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-sm cursor-help">
+                                            <Icon name="ph:warning" class="w-3 h-3 text-white" />
+                                        </div>
+                                    </Tooltip>
                                 </div>
-                                <div v-for="day in weekDays" :key="day.date"
+                                <div v-for="(day, dayIndex) in weekDays" :key="day.date"
                                     :class="['relative flex flex-col items-center justify-center py-2 sm:py-3 pb-5 sm:pb-6 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     v-if="!hasScheduleManageAccess">
                                     <span class="flex gap-x-1 text-sm">
@@ -294,6 +302,14 @@
                                             class="capitalize inline-flex items-center gap-0.5 bg-amber-100 ring-1 ring-amber-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none"
                                             style="color:#b45309">{{ getHolidayForDay(day.longName) }}</span>
                                     </span>
+                                    <Tooltip v-if="coverageWarningsByDay[dayIndex as number]?.length > 0"
+                                        :text="coverageWarningsByDay[dayIndex as number].map((d: any) => `${d.name}: ${d.assigned}/${d.minimum}`).join(', ')"
+                                        position="top" class="!absolute top-1 right-1">
+                                        <div data-testid="coverage-warning-badge"
+                                            class="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-sm cursor-help">
+                                            <Icon name="ph:warning" class="w-3 h-3 text-white" />
+                                        </div>
+                                    </Tooltip>
                                 </div>
                             </div>
 
@@ -1149,7 +1165,7 @@
                                                             class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                             style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
                                                             draggable="false" @pointerdown.stop
-                                                            @click.stop="removeShiftConfirmation(shift)"
+                                                            @click.stop="removeShiftConfirmation(shift, employee)"
                                                             v-if="(hasDeletePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)">
                                                             <Tooltip position="left"
                                                                 :text="$t('dutySchedules.removeSchedule.removeSchedule')">
@@ -1291,12 +1307,14 @@
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
             @close="state.modal.isEditShiftOpen = false; state.shiftWarnings = []"
             @resetEditShiftError="state.editShiftError = {}" @updateShift="updateSelectedSchedule" />
-        <ModulesUserDutyScheduleModalRemoveShiftConfirmation :isModalOpen="state.modal.isRemoveShiftConfirmationOpen"
-            @close="state.modal.isRemoveShiftConfirmationOpen = false" @confirm="removeShift" />
+        <ModulesUserDutyScheduleModalRemoveShiftReason :isModalOpen="state.modal.isRemoveShiftReasonOpen"
+            :availableEmployees="state.weeklySchedules?.data" :currentEmployeeUuid="state.removeShift.selectedEmployee?.uuid"
+            @close="state.modal.isRemoveShiftReasonOpen = false" @markAbsence="markShiftAbsence"
+            @reassign="reassignShift" />
         <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
             :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
-            @close="state.modal.isRemoveShiftSpanConfirmationOpen = false" @confirm-single="removeShift"
-            @confirm-entire="removeEntireShiftSpan" />
+            @close="state.modal.isRemoveShiftSpanConfirmationOpen = false"
+            @confirm-single="state.modal.isRemoveShiftReasonOpen = true" @confirm-entire="removeEntireShiftSpan" />
         <ModulesUserDutyScheduleModalViewShift :isModalOpen="state.modal.isViewShiftOpen"
             :selectedEmployeeSchedule="state.viewShift.selectedEmployeeSchedule"
             @close="state.modal.isViewShiftOpen = false" />
@@ -1349,6 +1367,7 @@
 import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { dutyScheduleFavoriteEmployeeService } from '@/components/api/user/DutyScheduleFavoriteEmployeeService'
 import { useFavoriteEmployees } from '@/composables/useFavoriteEmployees'
 import { useDepartmentStore } from '@/store/department'
@@ -1434,6 +1453,7 @@ const state = reactive({
     addShift: {
         selectedEmployeeSchedule: {}
     } as any,
+    departmentsWithMinimumStaff: [] as any[],
     copy: {
         allEmployeeSchedules: {},
         selectedEmployeeDailySchedule: {},
@@ -1495,7 +1515,7 @@ const state = reactive({
         isManageScheduleSlotOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
-        isRemoveShiftConfirmationOpen: false,
+        isRemoveShiftReasonOpen: false,
         isRemoveShiftSpanConfirmationOpen: false,
         isRequestTimeAdjustmentOpen: false,
         isRequestSwapScheduleOpen: false,
@@ -1522,7 +1542,8 @@ const state = reactive({
         totalRequests: 0,
     },
     removeShift: {
-        selectedShift: {}
+        selectedShift: {},
+        selectedEmployee: {},
     } as any,
     selectedDate: moment().format('YYYY-MM-DD'),
     shiftTypesDistribution: {
@@ -1634,6 +1655,56 @@ onMounted(async () => {
     favoriteEmployees.ensureLoaded()
     handleSwapRequestDeepLink()
     window.addEventListener('keydown', handleKeyDown)
+    fetchDepartmentsWithMinimumStaff()
+})
+
+async function fetchDepartmentsWithMinimumStaff() {
+    try {
+        const response = await departmentService.getAllDepartments({})
+        state.departmentsWithMinimumStaff = (response?.data ?? []).filter((d: any) => d.minimum_staff_count)
+    } catch (error: any) {
+        state.departmentsWithMinimumStaff = []
+    }
+}
+
+// Coverage indicator (task #257): for each day of the visible week, flag departments
+// whose configured minimum_staff_count exceeds the number of distinct employees with a
+// shift covering that department that day.
+// `employee.weeks` is keyed by day name (monday..sunday), not a numeric-indexed array —
+// weekDays is Monday-first (isoWeek), so this maps dayIndex 0-6 to the matching key.
+const weekDayNameKeys = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
+const coverageWarningsByDay = computed(() => {
+    if (!userStore.getUser?.is_extended_duty_schedule_active) return []
+    if (state.departmentsWithMinimumStaff.length === 0) return []
+
+    const employees = state.weeklySchedules?.data ?? []
+
+    return weekDays.value.map((_day: any, dayIndex: number) => {
+        const staffedDepartmentUuids: Record<string, Set<string>> = {}
+
+        employees.forEach((employee: any) => {
+            const week = employee?.weeks?.[weekDayNameKeys[dayIndex]]
+            const shifts = week?.shifts ?? []
+            shifts.forEach((shift: any) => {
+                (shift?.departments ?? []).forEach((dept: any) => {
+                    if (!dept?.uuid) return
+                    if (!staffedDepartmentUuids[dept.uuid]) staffedDepartmentUuids[dept.uuid] = new Set()
+                    staffedDepartmentUuids[dept.uuid].add(employee.uuid)
+                })
+            })
+        })
+
+        const understaffed = state.departmentsWithMinimumStaff
+            .map((dept: any) => ({
+                name: dept.name,
+                minimum: dept.minimum_staff_count,
+                assigned: staffedDepartmentUuids[dept.uuid]?.size ?? 0,
+            }))
+            .filter((dept: any) => dept.assigned < dept.minimum)
+
+        return understaffed
+    })
 })
 
 function isFavorited(employee: any) {
@@ -1699,7 +1770,7 @@ function sortMultiDayShiftsFirst(shifts: any) {
 
         if (aMultiDay && !bMultiDay) return -1 // a comes first
         if (!aMultiDay && bMultiDay) return 1  // b comes first
-        // Same type: earliest start time first (task 232)
+        // Same type: earliest start time first
         return moment(a.date_time_start).valueOf() - moment(b.date_time_start).valueOf()
     })
     return sortedShifts
@@ -2373,13 +2444,57 @@ async function saveCopiedWeeklyDutySchedule(params: object) {
     }
 }
 
-function removeShiftConfirmation(shift: any) {
+function removeShiftConfirmation(shift: any, employee: any) {
     state.removeShift.selectedShift = shift
+    state.removeShift.selectedEmployee = employee
     if (shift.shift_span_position !== 'single') {
         state.modal.isRemoveShiftSpanConfirmationOpen = true
         return
     }
-    state.modal.isRemoveShiftConfirmationOpen = true
+    state.modal.isRemoveShiftReasonOpen = true
+}
+
+async function markShiftAbsence(reason: string) {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.markScheduleAbsence(scheduleUuid, { reason })
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
+}
+
+async function reassignShift(employeeUuid: string) {
+    const scheduleUuid = state.removeShift.selectedShift.schedule_uuid
+    const date = moment(state.removeShift.selectedShift.date_time_start).format('YYYY-MM-DD')
+    try {
+        state.progress.totalRequests = state.progress.totalRequests + 1
+        state.progress.pendingRequests = state.progress.pendingRequests + 1
+        identifyTheProgressPercentage()
+        const response = await dutyScheduleService.moveShift(scheduleUuid, { date, user_uuid: employeeUuid })
+        if (response) {
+            state.progress.totalRequests = state.progress.totalRequests - 1
+            state.progress.pendingRequests = state.progress.pendingRequests - 1
+            identifyTheProgressPercentage()
+            fetchDutySchedule()
+        }
+    } catch (error: any) {
+        state.error = error
+        state.progress.totalRequests = state.progress.totalRequests - 1
+        state.progress.pendingRequests = state.progress.pendingRequests - 1
+        identifyTheProgressPercentage()
+    }
 }
 
 async function removeShift() {

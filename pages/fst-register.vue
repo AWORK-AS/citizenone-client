@@ -241,7 +241,6 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
-import { useGtag } from '@/composables/gTags'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -249,7 +248,6 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
 const { successAlert } = useAlert()
-const { gtagReportConversion } = useGtag()
 const { t } = language
 
 // Set language
@@ -520,7 +518,6 @@ async function register() {
                 }
                 const response = await authService.register(params)
                 if (response.data) {
-                    gtagReportConversion('https://app.citizenone.dk')
                     successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
                     navigateTo('/fst-login')
                 }

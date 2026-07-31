@@ -198,7 +198,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupCommunication') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ communicationCount }} / 3</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ communicationCount }} / 4</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.communication }" />
                             </span>
                         </button>
@@ -232,7 +232,109 @@
                                     {{ $t('inquiryPipeline.enableLabel') }}
                                 </p>
                             </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.relative_chat_enabled"
+                                    @toggleSwitch="state.formCompany.relative_chat_enabled = !state.formCompany.relative_chat_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.relativeChat') }}
+                                </p>
+                            </div>
                         </div>
+                        <div v-if="state.formCompany.relative_chat_enabled"
+                            class="mt-3 ml-6 pl-4 border-l-2 border-primary/20 space-y-3">
+                            <p class="text-xs text-gray-500">
+                                {{ $t('settings.company.form.relativeChatRecipientsHint') }}.
+                            </p>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.relative_chat_management_enabled"
+                                    @toggleSwitch="state.formCompany.relative_chat_management_enabled = !state.formCompany.relative_chat_management_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.relativeChatManagement') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.relative_chat_contact_persons_enabled"
+                                    @toggleSwitch="state.formCompany.relative_chat_contact_persons_enabled = !state.formCompany.relative_chat_contact_persons_enabled" />
+                                <p>
+                                    {{ $t('settings.company.form.relativeChatContactPersons') }}
+                                </p>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
+                        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <button type="button" @click="openSections.portals = !openSections.portals"
+                            class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                                <Icon name="ph:eye" class="w-5 h-5" />
+                            </span>
+                            <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupPortalAccess') }}</span>
+                            <span class="ml-auto flex items-center gap-3">
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ visibleSectionCount }} / {{ totalSectionCount }}</span>
+                                <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.portals }" />
+                            </span>
+                        </button>
+                        <div v-show="openSections.portals" class="px-5 pb-5 pt-3 border-t border-gray-100 space-y-5">
+                            <div class="flex flex-wrap items-center justify-between gap-3">
+                                <p class="text-sm text-gray-500">
+                                    {{ $t('settings.company.form.portalAccessHint') }}.
+                                </p>
+                                <button type="button"
+                                    class="flex items-center gap-x-1 text-xs font-medium text-primary hover:underline"
+                                    @click="navigateTo('/settings/portal-access')">
+                                    <Icon name="ph:users-three" class="w-4 h-4" aria-hidden="true" />
+                                    {{ $t('settings.company.form.portalAccessSeeWhoHasAccess') }}
+                                </button>
+                            </div>
+                            <div :class="[
+                                visibleSectionCount > 0
+                                    ? 'border-amber-300 bg-amber-50 text-amber-900'
+                                    : 'border-gray-200 bg-gray-50 text-gray-600',
+                                'rounded-md border px-4 py-3 text-sm'
+                            ]">
+                                <p v-if="visibleSectionCount === 0">
+                                    {{ $t('settings.company.form.portalAccessNothingOpen') }}.
+                                </p>
+                                <template v-else>
+                                    <p class="font-semibold">
+                                        {{ $t('settings.company.form.portalAccessOpenNow') }}:
+                                    </p>
+                                    <ul class="mt-1 list-disc pl-5">
+                                        <li v-for="line in openSummary" :key="line">{{ line }}</li>
+                                    </ul>
+                                </template>
+                            </div>
+                            <div v-for="audience in portalAudiences" :key="audience.key" class="space-y-2">
+                                <div class="flex items-center justify-between gap-x-3">
+                                    <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                                        {{ $t(audience.label) }}
+                                    </p>
+                                    <button type="button"
+                                        class="flex items-center gap-x-1 text-xs font-medium text-primary hover:underline"
+                                        @click="openPortalPreview(audience.key)">
+                                        <Icon name="ph:eye" class="w-4 h-4" aria-hidden="true" />
+                                        {{ $t('settings.company.form.portalPreviewOpen') }}
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                                    <div v-for="section in audience.sections" :key="section.key"
+                                        class="space-y-1 flex items-center gap-x-2">
+                                        <FormSwitch :value="isSectionVisible(audience.key, section.key)"
+                                            @toggleSwitch="toggleSection(audience.key, section.key)" />
+                                        <p>{{ $t(section.label) }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <ModulesUserSettingsModalPortalPreview :isModalOpen="portalPreview.isOpen"
+                                :audience="portalPreview.audience"
+                                :audienceLabel="portalPreview.label"
+                                :visibility="portalPreview.visibility"
+                                @close="portalPreview.isOpen = false" />
+                            <DialogConfirmation :isModalOpen="portalConfirm.isOpen"
+                                :title="$t('settings.company.form.portalAccessConfirmTitle')"
+                                :message="portalConfirmMessage" @close="portalConfirm.isOpen = false"
+                                @confirm="confirmOpenSection" />
                         </div>
                         </div>
 
@@ -533,10 +635,113 @@ const userStore = useUserStore()
 // Counting absence toward norm hours is a Pro-plan feature.
 const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
 // Collapsible (accordion) open-state for the grouped toggle sections (default all open).
-const openSections = reactive({ access: true, communication: true, plans: true, schedule: true, other: true })
+const openSections = reactive({ access: true, communication: true, portals: true, plans: true, schedule: true, other: true })
 // Count of enabled toggles per group, for the header count chips (default-safe via filter(Boolean)).
+// Sections each external audience can open in its portal. Mirrors
+// PortalVisibilityService::SECTIONS on the backend.
+const portalAudiences = [
+    {
+        key: 'relative',
+        label: 'settings.company.form.portalAudienceRelative',
+        sections: [
+            { key: 'journals', label: 'settings.company.form.portalSectionJournals' },
+            { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
+            { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+        ],
+    },
+    {
+        key: 'third_party',
+        label: 'settings.company.form.portalAudienceThirdParty',
+        sections: [
+            { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+        ],
+    },
+    {
+        key: 'citizen',
+        label: 'settings.company.form.portalAudienceCitizen',
+        sections: [
+            { key: 'overview', label: 'settings.company.form.portalSectionOverview' },
+            { key: 'duty_schedules', label: 'settings.company.form.portalSectionDutySchedules' },
+            { key: 'surveys', label: 'settings.company.form.portalSectionSurveys' },
+            { key: 'protocols', label: 'settings.company.form.portalSectionProtocols' },
+            { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+        ],
+    },
+]
+
+const totalSectionCount = portalAudiences.reduce((total, audience) => total + audience.sections.length, 0)
+
+// An unset section means visible, matching the backend default.
+function isSectionVisible(audience: string, section: string) {
+    return state.formCompany.portal_visibility?.[audience]?.[section] !== false
+}
+
+// Opening a section exposes records to people outside the organization, so it
+// takes an explicit confirmation. Closing one needs none.
+const portalConfirm = reactive({ isOpen: false, audience: '', section: '' })
+
+const portalPreview = reactive({ isOpen: false, audience: '', label: '', visibility: {} as any })
+
+function openPortalPreview(audienceKey: string) {
+    const audience = portalAudiences.find((item) => item.key === audienceKey)
+
+    portalPreview.audience = audienceKey
+    portalPreview.label = audience ? t(audience.label) : ''
+    // Snapshot the switches as they look right now, including unsaved edits.
+    portalPreview.visibility = Object.fromEntries(
+        (audience?.sections ?? []).map((section) => [section.key, isSectionVisible(audienceKey, section.key)])
+    )
+    portalPreview.isOpen = true
+}
+
+const portalConfirmMessage = computed(() => {
+    if (!portalConfirm.audience) return ''
+
+    const audience = portalAudiences.find((item) => item.key === portalConfirm.audience)
+    const section = audience?.sections.find((item) => item.key === portalConfirm.section)
+
+    return t('settings.company.form.portalAccessConfirmMessage', {
+        audience: audience ? t(audience.label) : '',
+        section: section ? t(section.label) : '',
+    })
+})
+
+function setSection(audience: string, section: string, isVisible: boolean) {
+    if (!state.formCompany.portal_visibility[audience]) {
+        state.formCompany.portal_visibility[audience] = {}
+    }
+    state.formCompany.portal_visibility[audience][section] = isVisible
+}
+
+function toggleSection(audience: string, section: string) {
+    if (isSectionVisible(audience, section)) {
+        setSection(audience, section, false)
+
+        return
+    }
+
+    portalConfirm.audience = audience
+    portalConfirm.section = section
+    portalConfirm.isOpen = true
+}
+
+function confirmOpenSection() {
+    setSection(portalConfirm.audience, portalConfirm.section, true)
+    portalConfirm.audience = ''
+    portalConfirm.section = ''
+}
+
+const openSummary = computed(() => portalAudiences.flatMap((audience) => {
+    const open = audience.sections.filter((section) => isSectionVisible(audience.key, section.key))
+
+    return open.length ? [`${t(audience.label)}: ${open.map((section) => t(section.label)).join(', ')}`] : []
+}))
+
+const visibleSectionCount = computed(() => portalAudiences.reduce((total, audience) =>
+    total + audience.sections.filter((section) => isSectionVisible(audience.key, section.key)).length, 0))
+
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
-const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled].filter(Boolean).length)
+const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled].filter(Boolean).length)
 const plansCount = computed(() => [state.formCompany.plans_enabled, state.formCompany.goals_enabled, state.formCompany.subgoals_enabled].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled].filter(Boolean).length)
 const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen].filter(Boolean).length)
@@ -605,6 +810,10 @@ const state = reactive({
         employment_weekly_hours: '',
         is_2fa_enabled: false,
         group_chat_enabled: false,
+        relative_chat_enabled: false,
+        relative_chat_management_enabled: true,
+        relative_chat_contact_persons_enabled: true,
+        portal_visibility: {} as any,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
         intervention_checkin_enabled: false,
@@ -714,6 +923,10 @@ watch(() => userStore.getUser, (newValue: any) => {
             employment_weekly_hours: newValue?.company?.employment_weekly_hours?.toString() ?? '',
             is_2fa_enabled: newValue?.company?.is_2fa_enabled ? true : false,
             group_chat_enabled: newValue?.company?.group_chat_enabled ? true : false,
+            relative_chat_enabled: newValue?.company?.relative_chat_enabled ? true : false,
+            relative_chat_management_enabled: newValue?.company?.relative_chat_management_enabled ? true : false,
+            relative_chat_contact_persons_enabled: newValue?.company?.relative_chat_contact_persons_enabled ? true : false,
+            portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
             intervention_checkin_enabled: newValue?.company?.intervention_checkin_enabled ? true : false,
@@ -914,6 +1127,10 @@ async function submitForm() {
                 employment_weekly_hours: state.formCompany.employment_weekly_hours || null,
                 is_2fa_enabled: state.formCompany.is_2fa_enabled,
                 group_chat_enabled: state.formCompany.group_chat_enabled,
+                relative_chat_enabled: state.formCompany.relative_chat_enabled,
+                relative_chat_management_enabled: state.formCompany.relative_chat_management_enabled,
+                relative_chat_contact_persons_enabled: state.formCompany.relative_chat_contact_persons_enabled,
+                portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,
                 intervention_checkin_enabled: state.formCompany.intervention_checkin_enabled,

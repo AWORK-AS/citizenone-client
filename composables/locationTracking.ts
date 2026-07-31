@@ -1,4 +1,5 @@
 import { citizenCareHourLocationLogService } from '@/components/api/user/CitizenCareHourLocationLogService'
+import { haversineDistanceMeters } from '@/composables/geo'
 
 const TRACKING_STATE_KEY = 'location_tracking_state'
 const ARRIVAL_PROMPT_KEY = 'arrival_prompt_shown'
@@ -70,22 +71,11 @@ export const useLocationTracking = () => {
         return false
     }
 
-    // Calculate distance between two points using Haversine formula
+    // Calculate distance between two points using the Haversine formula
     const calculateDistance = (
         point1: { lat: number; lng: number },
         point2: { lat: number; lng: number }
-    ): number => {
-        const R = 6371000 // Earth's radius in meters
-        const dLat = (point2.lat - point1.lat) * Math.PI / 180
-        const dLon = (point2.lng - point1.lng) * Math.PI / 180
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(point1.lat * Math.PI / 180) *
-            Math.cos(point2.lat * Math.PI / 180) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2)
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-        return R * c
-    }
+    ): number => haversineDistanceMeters(point1, point2)
 
     const calculateTotalDistance = (): number => {
         if (allLocations.value.length < 2) return 0

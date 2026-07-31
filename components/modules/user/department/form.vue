@@ -23,6 +23,14 @@
                 <FormError :error="v$?.formDepartment?.color?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.color?.[0]" />
             </div>
+            <div class="space-y-1" v-if="userStore.getUser?.is_extended_duty_schedule_active">
+                <FormLabel for="minimum_staff_count" :label="$t('departments.form.minimumStaffCount')" />
+                <FormNumberField id="minimum_staff_count" name="minimum_staff_count" :min="0"
+                    :placeholder="$t('departments.form.minimumStaffCount')"
+                    v-model="state.formDepartment.minimum_staff_count" />
+                <p class="text-xs text-gray-400">{{ $t('departments.form.minimumStaffCountHint') }}</p>
+                <FormError :error="props?.error?.errors?.minimum_staff_count?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -42,8 +50,11 @@
 import { shiftService } from '@/components/api/user/ShiftService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+const userStore = useUserStore() as any
 
 const props = defineProps({
     error: {
@@ -69,7 +80,8 @@ const state = reactive({
         name: '',
         shift_type_uuid: [],
         color: '#000000',
-    },
+        minimum_staff_count: '',
+    } as any,
     options: {
         shifts: [] as any,
     },
@@ -81,6 +93,7 @@ watch(() => props.selectedDepartment, (newValue: any) => {
             name: newValue.name,
             shift_type_uuid: newValue.shift_type_uuid,
             color: newValue.color,
+            minimum_staff_count: newValue.minimum_staff_count ?? '',
         }
     }
 })

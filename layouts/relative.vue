@@ -47,6 +47,9 @@
                                                         <span v-if="item.name === 'Citizens'">
                                                             {{ customPagesStore.getCustomPagesName?.citizens }}
                                                         </span>
+                                                        <span v-else-if="item.name === 'Messages'">
+                                                            {{ $t('messages.messages') }}
+                                                        </span>
                                                     </div>
                                                     <Disclosure as="div" v-else v-slot="{ open }">
                                                         <DisclosureButton
@@ -103,6 +106,9 @@
                                         <span v-if="item.name === 'Citizens'">
                                             {{ customPagesStore.getCustomPagesName?.citizens }}
                                         </span>
+                                        <span v-else-if="item.name === 'Messages'">
+                                            {{ $t('messages.messages') }}
+                                        </span>
                                     </div>
                                     <Disclosure as="div" v-else v-slot="{ open }">
                                         <DisclosureButton
@@ -153,6 +159,15 @@
                         </p>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
+                        <button v-if="hasMessagesAccess" type="button"
+                            class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
+                            @click="navigateTo('/relative/messages')">
+                            <Icon name="ph:chat-circle" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
+                            <Badge type="notification" class="w-fit absolute -top-4 left-4">
+                                {{ userStore.getUser?.unread_messages_count ?? 0 }}
+                            </Badge>
+                        </button>
+
                         <button type="button"
                             class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
                             @click="openSupport">
@@ -269,18 +284,36 @@ const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 const router = useRouter()
 
-const navigation = [
-    {
-        name: 'Citizens',
-        href: '/relative/citizens',
-        icon: 'heroicons:user-group',
-        activeRouteNames: [
-            'relative-citizens',
-            'relative-citizens-uuid-journals',
-            'relative-citizens-uuid-documents',
-        ]
-    },
-] as any
+const navigation = computed(() => {
+    const items = [
+        {
+            name: 'Citizens',
+            href: '/relative/citizens',
+            icon: 'heroicons:user-group',
+            activeRouteNames: [
+                'relative-citizens',
+                'relative-citizens-uuid-journals',
+                'relative-citizens-uuid-documents',
+            ]
+        },
+    ] as any
+
+    if (hasMessagesAccess.value) {
+        items.push({
+            name: 'Messages',
+            href: '/relative/messages',
+            icon: 'heroicons:chat-bubble-left-right',
+            activeRouteNames: [
+                'relative-messages',
+                'relative-messages-chat_uuid',
+            ]
+        })
+    }
+
+    return items
+})
+
+const hasMessagesAccess = computed(() => userStore.getUser?.company?.relative_chat_enabled && (userStore.getUser?.portal_visibility ?? {}).messages !== false)
 
 const sidebarOpen = ref(false)
 

@@ -107,6 +107,7 @@ import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/user/PlanService'
 import { journalService } from '@/components/api/user/JournalService'
+import { surveyService } from '@/components/api/user/SurveyService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -265,6 +266,7 @@ async function saveJournal(journalDetails: any) {
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {
+            await completeAnsweredSurveys(response.data.uuid, journalDetails.pending_survey_answers)
             refreshJournal()
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.successfullyAdded')}.`)
@@ -273,5 +275,19 @@ async function saveJournal(journalDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function completeAnsweredSurveys(journalUuid: string, pendingSurveyAnswers: any[]) {
+    if (!Array.isArray(pendingSurveyAnswers) || pendingSurveyAnswers.length === 0) return
+    for (const entry of pendingSurveyAnswers) {
+        try {
+            await surveyService.completeAssignment(entry.assignment_uuid, {
+                answers: entry.answers,
+                citizen_journal_uuid: journalUuid,
+            })
+        } catch (error: any) {
+            // one survey failing to complete must not block the journal note itself
+        }
+    }
 }
 </script>

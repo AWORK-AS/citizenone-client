@@ -336,6 +336,16 @@
                             :error="v$?.formEmployee?.employment?.vacation_days?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.vacation_days?.[0]" />
                     </div>
+                    <div class="space-y-1" ref="hourlyRateField"
+                        v-if="isAtLeast('Admin') && userStore.getUser?.is_extended_duty_schedule_active">
+                        <FormLabel for="hourly_rate" :label="$t('employees.form.employment.hourlyRate')" />
+                        <FormTextField id="hourly_rate" name="hourly_rate"
+                            :placeholder="$t('employees.form.employment.hourlyRate')"
+                            v-model="state.formEmployee.employment.hourly_rate" />
+                        <FormError
+                            :error="v$?.formEmployee?.employment?.hourly_rate?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.hourly_rate?.[0]" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
@@ -456,7 +466,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:col-span-2 gap-y-3 mt-5">
+                <div class="grid grid-cols-1 md:col-span-2 gap-y-3 mt-5" ref="emergencyContactsField">
                     <p class="text-sm text-gray-600 font-semibold leading-5">
                         {{ $t('employees.form.emergencyInfo.emergencyContacts') }}
                     </p>
@@ -481,6 +491,7 @@
                                             :placeholder="$t('employees.form.emergencyInfo.name')"
                                             :value="emergency_contact.name"
                                             @keyup="(event: any) => state.formEmployee.emergencyInfo.emergency_contacts[index].name = event.target.value" />
+                                        <FormError :error="emergencyContactError(index, 'name')" />
                                     </div>
                                     <div class="space-y-1">
                                         <FormLabel :for="`emergency_contact_phone_${index}`"
@@ -490,6 +501,7 @@
                                             :placeholder="$t('employees.form.emergencyInfo.phone')"
                                             :value="emergency_contact.phone"
                                             @keyup="(event: any) => state.formEmployee.emergencyInfo.emergency_contacts[index].phone = event.target.value" />
+                                        <FormError :error="emergencyContactError(index, 'phone')" />
                                     </div>
                                     <div class="space-y-1">
                                         <FormLabel :for="`emergency_contact_email_${index}`"
@@ -499,6 +511,7 @@
                                             :placeholder="$t('employees.form.emergencyInfo.email')"
                                             :value="emergency_contact.email"
                                             @keyup="(event: any) => state.formEmployee.emergencyInfo.emergency_contacts[index].email = event.target.value" />
+                                        <FormError :error="emergencyContactError(index, 'email')" />
                                     </div>
                                     <div class="space-y-1">
                                         <FormLabel :for="`emergency_contact_relation_${index}`"
@@ -508,6 +521,7 @@
                                             :placeholder="$t('employees.form.emergencyInfo.relation')"
                                             :value="emergency_contact.relation"
                                             @keyup="(event: any) => state.formEmployee.emergencyInfo.emergency_contacts[index].relation = event.target.value" />
+                                        <FormError :error="emergencyContactError(index, 'relation')" />
                                     </div>
                                 </div>
                                 <button type="button"
@@ -656,6 +670,7 @@ const state = reactive({
             weekly_norm_hours: '',
             vacation_days: '',
             norm_period_uuid: '',
+            hourly_rate: '',
         },
         emergencyInfo: {
             emergency_contacts: [],
@@ -780,6 +795,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                     : '',
                 vacation_days: newValue.employment.vacation_days,
                 norm_period_uuid: newValue.employment?.norm_period_uuid || 'default',
+                hourly_rate: newValue.employment.hourly_rate ?? '',
             },
             show_working_hours: newValue.show_working_hours,
             show_compensatory_hours: newValue.show_compensatory_hours ?? false,
@@ -849,6 +865,32 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const hasSubmittedEmergencyContacts = ref(false)
+const emergencyContactsField = ref<HTMLElement | null>(null)
+
+function emergencyContactError(index: number, field: 'name' | 'phone' | 'email' | 'relation') {
+    if (!hasSubmittedEmergencyContacts.value) {
+        return ''
+    }
+    const contact = state.formEmployee.emergencyInfo.emergency_contacts[index] as any
+    const value = contact?.[field]
+    if (!value) {
+        return `${t('validation.thisFieldIsRequired')}.`
+    }
+    if (field === 'email' && !EMAIL_REGEX.test(value)) {
+        return `${t('validation.invalidEmailAddress')}.`
+    }
+    return ''
+}
+
+function hasEmergencyContactErrors() {
+    return state.formEmployee.emergencyInfo.emergency_contacts.some((contact: any) =>
+        !contact?.name || !contact?.phone || !contact?.email || !contact?.relation || !EMAIL_REGEX.test(contact.email)
+    )
+}
 
 onMounted(() => {
     fetchMediaRisks()
@@ -1123,6 +1165,11 @@ function changeSelectedMunicipality(municipalityUuid: string) {
 
 function submitForm() {
     v$.value.$validate()
+    hasSubmittedEmergencyContacts.value = true
+    if (hasEmergencyContactErrors() && emergencyContactsField.value) {
+        emergencyContactsField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        return
+    }
     if (v$.value.$error) {
         // Check specific fields in the order you want
         if (v$.value.formEmployee.firstname?.$error && firstnameField.value) {

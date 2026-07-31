@@ -4,7 +4,9 @@
   "type": "module",
   "description": "Standalone browser E2E tests (Playwright + system Chrome). Isolated from the app's dependencies.",
   "scripts": {
-    "test:email-templates": "node email-templates.mjs"
+    "test:email-templates": "node email-templates.mjs",
+    "test:mileage-log": "node mileage-log.mjs",
+    "test:journal-note-survey": "node journal-note-survey.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"
