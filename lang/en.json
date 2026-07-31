@@ -12039,8 +12039,8 @@
         "newTask": "New task"
     },
     "handover": {
-        "button": "Shift handover",
-        "title": "Shift handover",
+        "button": "Shift overview",
+        "title": "Shift overview",
         "subtitle": "AI summary of today's shift for the department - review before relying on it.",
         "regenerate": "Regenerate",
         "empty": "No summary yet.",
