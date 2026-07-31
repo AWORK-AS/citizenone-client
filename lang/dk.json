@@ -7475,9 +7475,12 @@
             "createdBy": "Oprettet af",
             "dateTimeStart": "Dato og tidspunkt",
             "distance": "Distance",
+            "endAddress": "Slutadresse",
             "linkedCitizen": "Tilknyttet borger",
             "note": "Note",
             "route": "Rute",
+            "startAddress": "Startadresse",
+            "stopAddress": "Stopadresse",
             "viewTrip": "Vis tur"
         }
     },

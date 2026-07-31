@@ -7475,9 +7475,12 @@
             "createdBy": "Created by",
             "dateTimeStart": "Date and time",
             "distance": "Distance",
+            "endAddress": "End address",
             "linkedCitizen": "Linked citizen",
             "note": "Note",
             "route": "Route",
+            "startAddress": "Start address",
+            "stopAddress": "Stop address",
             "viewTrip": "View trip"
         }
     },
