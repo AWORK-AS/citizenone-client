@@ -183,9 +183,10 @@ const otherMarkers = computed(() => {
 
 async function onMarkerUpdate(coords: { lat: number; lng: number }) {
     if (state.activeIndex < 0) return
+    const index = state.activeIndex
     const stops = [...props.modelValue]
-    stops[state.activeIndex] = {
-        ...stops[state.activeIndex],
+    stops[index] = {
+        ...stops[index],
         lat: coords.lat,
         lng: coords.lng,
         address: t('citizens.timeRegistration.registerTransport.form.locating'),
@@ -194,8 +195,8 @@ async function onMarkerUpdate(coords: { lat: number; lng: number }) {
 
     const address = await reverseGeocode(coords.lat, coords.lng)
     const refreshed = [...props.modelValue]
-    refreshed[state.activeIndex] = {
-        ...refreshed[state.activeIndex],
+    refreshed[index] = {
+        ...refreshed[index],
         address: address || `${coords.lat.toFixed(6)}, ${coords.lng.toFixed(6)}`,
     }
     updateStops(refreshed)
