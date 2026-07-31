@@ -182,7 +182,7 @@
                                 <div class="relative flex-1">
                                     <textarea ref="promptTextarea" v-model="state.newMessage"
                                         :placeholder="$t('assistants.askAnything')" rows="1"
-                                        class="w-full bg-transparent border-none shadow-none ring-0 focus:ring-0 focus:outline-none resize-none py-1.5 px-0 text-sm text-gray-900 placeholder-gray-400"
+                                        class="block w-full bg-transparent border-none shadow-none ring-0 focus:ring-0 focus:outline-none resize-none py-1.5 px-0 text-sm text-gray-900 placeholder-gray-400"
                                         @keydown.enter.exact.prevent="handleEnterKey"
                                         @keydown.esc="state.mention.isOpen = false" />
                                     <div v-if="state.mention.isOpen && state.mention.results.length > 0"
