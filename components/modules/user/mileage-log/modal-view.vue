@@ -34,11 +34,9 @@
                         </p>
                     </div>
 
-                    <div class="space-y-1 my-1">
-                        <FormLabel :label="$t('mileageLog.view.route')" />
-                        <ol class="list-decimal list-inside text-sm font-semibold text-gray-700 space-y-0.5">
-                            <li v-for="(stop, index) in routeStops" :key="index">{{ stop.address }}</li>
-                        </ol>
+                    <div class="space-y-1 my-1" v-for="(stop, index) in routeStops" :key="index">
+                        <FormLabel :label="stopLabel(index)" />
+                        <p class="text-sm font-semibold text-gray-700">{{ stop.address }}</p>
                     </div>
 
                     <div class="space-y-1 my-1">
@@ -88,7 +86,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 
@@ -102,6 +100,20 @@ const mapInstance = ref<any>(null)
 
 function validCoord(lat: any, lng: any) {
     return lat !== null && lat !== undefined && lng !== null && lng !== undefined && !Number.isNaN(Number(lat)) && !Number.isNaN(Number(lng))
+}
+
+function letterFor(index: number) {
+    return index < 26 ? String.fromCharCode(65 + index) : `#${index + 1}`
+}
+
+// "A — Start address" / "B — Stop address" / "C — End address", matching the
+// citizen-scoped intervention hours view and the create/edit form.
+function stopLabel(index: number) {
+    const letter = letterFor(index)
+    if (index === 0) return `${letter} — ${t('mileageLog.view.startAddress')}`
+    if (index === routeStops.value.length - 1) return `${letter} — ${t('mileageLog.view.endAddress')}`
+
+    return `${letter} — ${t('mileageLog.view.stopAddress')}`
 }
 
 const routeStops = computed(() => {
@@ -120,9 +132,17 @@ const routeStops = computed(() => {
 })
 
 const extraMarkers = computed(() => {
+    // Keep the index tied to the position in routeStops (not to the filtered
+    // list) so a stop with no coordinates can't shift the marker letters out
+    // of sync with the route list above.
     return routeStops.value
-        .filter((s) => validCoord(s.lat, s.lng))
-        .map((s, index) => ({ lat: Number(s.lat), lng: Number(s.lng), popup: `${index + 1}. ${s.address ?? ''}` }))
+        .map((stop, index) => ({ stop, index }))
+        .filter(({ stop }) => validCoord(stop.lat, stop.lng))
+        .map(({ stop, index }) => ({
+            lat: Number(stop.lat),
+            lng: Number(stop.lng),
+            popup: `${letterFor(index)}. ${stop.address ?? ''}`,
+        }))
 })
 
 const polylinePoints = computed(() => {

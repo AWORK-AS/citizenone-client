@@ -7475,9 +7475,12 @@
             "createdBy": "Opprettet av",
             "dateTimeStart": "Dato og tidspunkt",
             "distance": "Distanse",
+            "endAddress": "Sluttadresse",
             "linkedCitizen": "Tilknyttet bruker",
             "note": "Note",
             "route": "Rute",
+            "startAddress": "Startadresse",
+            "stopAddress": "Stoppadresse",
             "viewTrip": "Vis tur"
         }
     },
@@ -7739,7 +7742,8 @@
             "given": "Gitt",
             "medicationOverview": "Medicinoversigt",
             "not": "Ikke",
-            "notGiven": "Ikke gitt"
+            "notGiven": "Ikke gitt",
+            "notManaged": "Ikke håndtert ennå"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
@@ -12172,8 +12176,8 @@
         "newTask": "Ny oppgave"
     },
     "handover": {
-        "button": "Vaktoverlevering",
-        "title": "Vaktoverlevering",
+        "button": "Vaktoversikt",
+        "title": "Vaktoversikt",
         "subtitle": "AI-sammendrag av dagens vakt for avdelingen - les korrektur før du stoler på det.",
         "regenerate": "Generer på nytt",
         "empty": "Ingen sammendrag ennå.",

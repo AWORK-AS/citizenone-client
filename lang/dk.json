@@ -7475,9 +7475,12 @@
             "createdBy": "Oprettet af",
             "dateTimeStart": "Dato og tidspunkt",
             "distance": "Distance",
+            "endAddress": "Slutadresse",
             "linkedCitizen": "Tilknyttet borger",
             "note": "Note",
             "route": "Rute",
+            "startAddress": "Startadresse",
+            "stopAddress": "Stopadresse",
             "viewTrip": "Vis tur"
         }
     },
@@ -7739,7 +7742,8 @@
             "given": "Givet",
             "medicationOverview": "Medicinoversigt",
             "not": "Ikke",
-            "notGiven": "Ikke givet"
+            "notGiven": "Ikke givet",
+            "notManaged": "Endnu ikke håndteret"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
@@ -12172,8 +12176,8 @@
         "newTask": "Ny opgave"
     },
     "handover": {
-        "button": "Vagtoverdragelse",
-        "title": "Vagtoverdragelse",
+        "button": "Vagtoverblik",
+        "title": "Vagtoverblik",
         "subtitle": "AI-resumé af dagens vagt for afdelingen - læs korrektur før du stoler på det.",
         "regenerate": "Generér igen",
         "empty": "Intet resumé endnu.",

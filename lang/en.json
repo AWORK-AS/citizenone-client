@@ -7475,9 +7475,12 @@
             "createdBy": "Created by",
             "dateTimeStart": "Date and time",
             "distance": "Distance",
+            "endAddress": "End address",
             "linkedCitizen": "Linked citizen",
             "note": "Note",
             "route": "Route",
+            "startAddress": "Start address",
+            "stopAddress": "Stop address",
             "viewTrip": "View trip"
         }
     },
@@ -7739,7 +7742,8 @@
             "given": "Given",
             "medicationOverview": "Medication overview",
             "not": "Not",
-            "notGiven": "Not given"
+            "notGiven": "Not given",
+            "notManaged": "Not managed yet"
         },
         "medicineDeviationStatistics": {
             "deviated": "Deviated",
@@ -12172,8 +12176,8 @@
         "newTask": "New task"
     },
     "handover": {
-        "button": "Shift handover",
-        "title": "Shift handover",
+        "button": "Shift overview",
+        "title": "Shift overview",
         "subtitle": "AI summary of today's shift for the department - review before relying on it.",
         "regenerate": "Regenerate",
         "empty": "No summary yet.",

@@ -7475,9 +7475,12 @@
             "createdBy": "Skapad av",
             "dateTimeStart": "Datum och tid",
             "distance": "Avstånd",
+            "endAddress": "Slutadress",
             "linkedCitizen": "Kopplad brukare",
             "note": "Anteckning",
             "route": "Rutt",
+            "startAddress": "Startadress",
+            "stopAddress": "Stoppadress",
             "viewTrip": "Visa resa"
         }
     },
@@ -7739,7 +7742,8 @@
             "given": "Given",
             "medicationOverview": "Medicinoversigt",
             "not": "Inte",
-            "notGiven": "Inte given"
+            "notGiven": "Inte given",
+            "notManaged": "Inte hanterad än"
         },
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",
@@ -12172,8 +12176,8 @@
         "newTask": "Ny uppgift"
     },
     "handover": {
-        "button": "Skiftöverlämning",
-        "title": "Skiftöverlämning",
+        "button": "Skiftöversikt",
+        "title": "Skiftöversikt",
         "subtitle": "AI-sammanfattning av dagens skift för avdelningen - granska innan du förlitar dig på den.",
         "regenerate": "Generera igen",
         "empty": "Ingen sammanfattning ännu.",
