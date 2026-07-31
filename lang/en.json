@@ -9684,7 +9684,8 @@
                 "all": "All",
                 "active": "Active",
                 "inactive": "Inactive",
-                "paying": "Paying"
+                "paying": "Paying",
+                "migration": "Data migration"
             },
             "totalClients": "{count} clients in total",
             "export": "Export",
@@ -9724,6 +9725,24 @@
                 "searchPlaceholder": "Search by name or email...",
                 "userAccounts": "User accounts",
                 "yearly": "yr."
+            },
+            "migration": {
+                "pageTitle": "Data migration",
+                "description": "Import data into the customer's account without using their login. The check shows what will happen before anything is saved, and every run can be undone.",
+                "startMigration": "Start migration",
+                "checkFirst": "Always run the check on a small extract first.",
+                "previousRuns": "Previous runs",
+                "noRuns": "No migrations run yet",
+                "colEntity": "Type",
+                "colRows": "Rows",
+                "colRunBy": "Run by",
+                "colWhen": "When",
+                "colStatus": "Status",
+                "undone": "Undone",
+                "active": "Active",
+                "undo": "Undo",
+                "undoneCount": "{count} rows deleted",
+                "refresh": "Refresh"
             }
         },
         "coupons": {
@@ -11706,7 +11725,18 @@
                 "scheduleHint": "Rows without a match in CitizenOne (unknown email or shift type) are automatically excluded during import and shown in the summary.",
                 "citizensHint": "Citizens that already exist (same CPR or name) will be skipped.",
                 "employeesHint": "Employees that already exist (same email or name) will be skipped. Each new employee uses one user license - if you run out, the rest will not be created.",
-                "noValidRows": "No valid rows to import. Go back and check mapping and data."
+                "noValidRows": "No valid rows to import. Go back and check mapping and data.",
+                "systemCheck": "System check",
+                "runCheck": "Run check",
+                "recheck": "Run again",
+                "checking": "Checking the rows against the system ...",
+                "checkHint": "The check shows duplicates, new departments and dates the system cannot read. Nothing is saved.",
+                "wouldCreate": "Will be created",
+                "alreadyExists": "Already exists",
+                "wontLand": "Will not land",
+                "newDepartments": "New departments ({count}):",
+                "rowsToLookAt": "Rows to look at",
+                "line": "Line {line}"
             },
             "importing": {
                 "label": "Importing…"
@@ -11771,13 +11801,27 @@
             "undoFailed": "Could not undo the import.",
             "invitesFailed": "Could not send login emails.",
             "missingField": "Missing {field}",
-            "invalidField": "Invalid {field}"
+            "invalidField": "Invalid {field}",
+            "checkFailed": "The check could not be completed"
         },
         "page": {
             "title": "Import from another system",
             "description": "Migrate citizens, employees, journals and shift plans from your current system via CSV or Excel. Upload the file, map the columns to CitizenOne, and import.",
             "startImport": "Start import",
             "adminOnly": "Only administrators can import data."
+        },
+        "results": {
+            "create": "will be created",
+            "created": "created",
+            "duplicate": "duplicate",
+            "skipped": "skipped",
+            "failed": "failed"
+        },
+        "warnings": {
+            "cpr_missing": "CPR missing - duplicates can then only be matched on name",
+            "cpr_malformed": "CPR is not 10 digits",
+            "invalid_date": "Date cannot be read: {field}",
+            "date_guessed": "Date was corrected by the system: {field}"
         }
     },
     "sms": {

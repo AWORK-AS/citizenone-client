@@ -9,7 +9,8 @@
                     <div v-if="state.step === 'type'">
                         <p class="text-sm text-slate-600">{{ $t('import.modal.question') }}</p>
                         <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <button v-for="ent in entityTypes" :key="ent.key" type="button" @click="selectType(ent.key)"
+                            <button v-for="ent in availableEntities" :key="ent.key" type="button"
+                                @click="selectType(ent.key)"
                                 class="flex items-center gap-x-3 rounded-xl border px-4 py-3 text-left transition-colors"
                                 :class="ent.available ? 'border-slate-200 hover:border-primary hover:bg-primary-25' : 'border-slate-100 opacity-50 cursor-not-allowed'">
                                 <Icon :name="ent.icon" class="h-6 w-6 text-primary shrink-0" />
@@ -178,6 +179,92 @@
                                 </li>
                             </ul>
                         </div>
+                        <!-- Server check: what the backend says without writing anything -->
+                        <div v-if="serverCheckSupported" class="mt-5 text-left border-t border-slate-100 pt-4">
+                            <div class="flex items-center justify-between gap-x-3">
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide">
+                                    {{ $t('import.steps.dryRun.systemCheck') }}
+                                </p>
+                                <button v-if="!state.isLoading" type="button" @click="runServerCheck"
+                                    class="text-xs font-medium text-primary hover:text-primary-700">
+                                    {{ state.serverCheck ? $t('import.steps.dryRun.recheck') :
+                                        $t('import.steps.dryRun.runCheck') }}
+                                </button>
+                            </div>
+
+                            <p v-if="state.serverCheckError" class="mt-2 text-sm text-red-600">
+                                {{ state.serverCheckError }}
+                            </p>
+                            <p v-else-if="state.isLoading" class="mt-2 text-xs text-slate-400">
+                                {{ $t('import.steps.dryRun.checking') }}
+                            </p>
+                            <p v-else-if="!state.serverCheck" class="mt-2 text-xs text-slate-400">
+                                {{ $t('import.steps.dryRun.checkHint') }}
+                            </p>
+                            <template v-else>
+                                <div class="mt-3 grid grid-cols-3 gap-2 text-center">
+                                    <div class="rounded-lg bg-slate-50 px-2 py-2">
+                                        <p class="text-lg font-semibold text-slate-800">{{ state.serverCheck.created }}
+                                        </p>
+                                        <p class="text-[11px] text-slate-500">{{ $t('import.steps.dryRun.wouldCreate')
+                                            }}</p>
+                                    </div>
+                                    <div class="rounded-lg bg-slate-50 px-2 py-2">
+                                        <p class="text-lg font-semibold text-slate-800">{{
+                                            state.serverCheck.duplicate_count }}</p>
+                                        <p class="text-[11px] text-slate-500">{{ $t('import.steps.dryRun.alreadyExists')
+                                            }}</p>
+                                    </div>
+                                    <div class="rounded-lg px-2 py-2"
+                                        :class="(state.serverCheck.skipped_count + state.serverCheck.failed_count) ? 'bg-amber-50' : 'bg-slate-50'">
+                                        <p class="text-lg font-semibold"
+                                            :class="(state.serverCheck.skipped_count + state.serverCheck.failed_count) ? 'text-amber-700' : 'text-slate-800'">
+                                            {{ state.serverCheck.skipped_count + state.serverCheck.failed_count }}
+                                        </p>
+                                        <p class="text-[11px]"
+                                            :class="(state.serverCheck.skipped_count + state.serverCheck.failed_count) ? 'text-amber-700' : 'text-slate-500'">
+                                            {{ $t('import.steps.dryRun.wontLand') }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <p v-if="state.serverCheck.new_departments.length" class="mt-3 text-xs text-slate-500">
+                                    <span class="font-medium text-slate-600">{{
+                                        $t('import.steps.dryRun.newDepartments', {
+                                            count:
+                                                state.serverCheck.new_departments.length
+                                        }) }}</span>
+                                    {{ state.serverCheck.new_departments.join(', ') }}
+                                </p>
+
+                                <ul v-if="warningList.length" class="mt-3 space-y-1">
+                                    <li v-for="warning in warningList" :key="warning.key"
+                                        class="flex justify-between gap-x-3 rounded-lg bg-amber-50 px-3 py-1.5 text-sm text-amber-800">
+                                        <span>{{ warning.label }}</span><span>{{ warning.count }}</span>
+                                    </li>
+                                </ul>
+
+                                <div v-if="state.serverCheck.rows.length" class="mt-3">
+                                    <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-1">
+                                        {{ $t('import.steps.dryRun.rowsToLookAt') }}
+                                    </p>
+                                    <div
+                                        class="max-h-40 overflow-y-auto rounded-lg bg-slate-50 divide-y divide-slate-100">
+                                        <p v-for="row in state.serverCheck.rows" :key="row.row"
+                                            class="flex items-center justify-between gap-x-3 px-3 py-1.5 text-xs text-slate-600">
+                                            <span class="truncate">
+                                                {{ $t('import.steps.dryRun.line', { line: row.row }) }} - {{ row.label }}
+                                            </span>
+                                            <span class="shrink-0 text-slate-400">
+                                                {{ $t(`import.results.${row.result}`) }}{{ row.matched_on ?
+                                                    ` (${row.matched_on})` : '' }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+
                         <p v-if="state.entityKey === 'journals'" class="mt-4 text-xs text-slate-400">
                             {{ $t('import.steps.dryRun.journalHint') }}
                         </p>
@@ -323,11 +410,15 @@ import { userService } from '@/components/api/user/UserService'
 import { journalService } from '@/components/api/user/JournalService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { importService } from '@/components/api/user/ImportService'
+import { companyImportService } from '@/components/api/superadmin/CompanyImportService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
+    // Set from Superadmin to import into another company. Empty means the
+    // wizard runs against the logged-in user's own company.
+    companyUuid: { type: String, default: '' },
 })
 const emit = defineEmits(['close', 'imported'])
 const { successAlert } = useAlert()
@@ -338,7 +429,10 @@ const fileInput = ref<HTMLInputElement | null>(null)
 const entityTypes = computed(() => [
     {
         key: 'citizens', label: t('import.entities.citizens'), icon: 'ph:users-three', available: true, mode: 'json',
-        importFn: (payload: object) => citizenService.importMappedCitizens(payload),
+        supportsServerCheck: true,
+        importFn: (payload: object) => props.companyUuid
+            ? companyImportService.importCitizens(props.companyUuid, payload)
+            : citizenService.importMappedCitizens(payload),
         fields: [
             { key: 'firstname', label: t('import.fields.firstname'), required: true },
             { key: 'lastname', label: t('import.fields.lastname'), required: true },
@@ -418,6 +512,8 @@ const state = reactive({
     rows: [] as string[][],
     mapping: {} as Record<string, number>,
     preview: null as any,
+    serverCheck: null as any,
+    serverCheckError: '',
     summary: null as any,
     dragOver: false,
     error: '',
@@ -428,8 +524,24 @@ const summaryUnmatched = computed(() => (state.summary?.unmatched_count ?? 0)
     + (state.summary?.unmatched_employee_count ?? 0) + (state.summary?.unmatched_shift_count ?? 0))
 const progressPct = computed(() => state.progress.total ? Math.round(state.progress.done / state.progress.total * 100) : 0)
 
+// Superadmin only has an endpoint for citizens, so the other entities stay with
+// the company's own wizard.
+const availableEntities = computed(() => props.companyUuid
+    ? entityTypes.value.filter(e => e.key === 'citizens')
+    : entityTypes.value)
+
 const entity = computed(() => entityTypes.value.find(e => e.key === state.entityKey) ?? entityTypes.value[0])
 const targetFields = computed(() => entity.value.fields as { key: string; label: string; required: boolean }[])
+const serverCheckSupported = computed(() => !!(entity.value as any).supportsServerCheck)
+const warningList = computed(() => Object.entries(state.serverCheck?.warnings ?? {})
+    .map(([key, count]) => {
+        const [base, field] = key.split(':')
+        const fieldLabel = field
+            ? (targetFields.value.find(f => f.key === field)?.label ?? field)
+            : ''
+        return { key, count: count as number, label: t(`import.warnings.${base}`, { field: cleanLabel(fieldLabel) }) }
+    })
+    .sort((a, b) => b.count - a.count))
 const requiredMapped = computed(() =>
     targetFields.value.filter(f => f.required).every(f => (state.mapping[f.key] ?? -1) >= 0))
 const mappedFields = computed(() => targetFields.value.filter(f => (state.mapping[f.key] ?? -1) >= 0))
@@ -599,22 +711,78 @@ function rowSkipReason(obj: Record<string, string>): string | null {
 }
 
 // Dry run: classify every row, keep only the valid ones for the actual import.
-function goToPreview() {
+async function goToPreview() {
     const valid: string[][] = []
+    const validIndexes: number[] = []
     const reasons: Record<string, number> = {}
-    for (const row of state.rows) {
+    state.rows.forEach((row, index) => {
         const reason = rowSkipReason(mapRowToObj(row))
         if (reason) reasons[reason] = (reasons[reason] ?? 0) + 1
-        else valid.push(row)
-    }
+        else { valid.push(row); validIndexes.push(index) }
+    })
     state.preview = {
         total: state.rows.length,
         valid,
+        validIndexes,
         validCount: valid.length,
         skipCount: state.rows.length - valid.length,
         reasons,
     }
+    state.serverCheck = null
+    state.serverCheckError = ''
     state.step = 'preview'
+    await runServerCheck()
+}
+
+// The checks above only look at the file. This asks the backend to evaluate the
+// same rows without writing anything, which is the only way to see duplicates
+// against existing data, departments that would be created, and values the
+// parser cannot read.
+async function runServerCheck() {
+    const ent = entity.value as any
+    if (!ent.supportsServerCheck || !state.preview?.validCount) return
+
+    state.isLoading = true
+    state.serverCheck = null
+    state.serverCheckError = ''
+    try {
+        const rows = state.preview.valid.map((row: string[]) => mapRowToObj(row))
+        const validIndexes: number[] = state.preview.validIndexes ?? []
+        const CHUNK = 300
+        const acc: any = {
+            created: 0, duplicate_count: 0, skipped_count: 0, failed_count: 0,
+            new_departments: [] as string[], warnings: {} as Record<string, number>, rows: [] as any[],
+        }
+
+        for (let i = 0; i < rows.length; i += CHUNK) {
+            const res: any = await ent.importFn({ rows: rows.slice(i, i + CHUNK), dry_run: true })
+            acc.created += res?.created ?? 0
+            acc.duplicate_count += res?.duplicate_count ?? 0
+            acc.skipped_count += res?.skipped_count ?? 0
+            acc.failed_count += res?.failed_count ?? 0
+            for (const name of res?.new_departments ?? []) {
+                if (!acc.new_departments.includes(name)) acc.new_departments.push(name)
+            }
+            for (const row of res?.rows ?? []) {
+                for (const warning of row?.warnings ?? []) {
+                    const key = warning.split(':').slice(0, 2).join(':')
+                    acc.warnings[key] = (acc.warnings[key] ?? 0) + 1
+                }
+                const needsAttention = row?.result !== 'create' || (row?.warnings?.length ?? 0) > 0
+                if (needsAttention && acc.rows.length < 100) {
+                    // Rows were filtered before sending, so translate the reported
+                    // position back to the line the user sees in their file.
+                    const filtered = i + (row?.row ?? 1) - 1
+                    const sourceLine = (validIndexes[filtered] ?? filtered) + 2
+                    acc.rows.push({ ...row, row: sourceLine })
+                }
+            }
+        }
+        state.serverCheck = acc
+    } catch (error: any) {
+        state.serverCheckError = error?.message || t('import.errors.checkFailed')
+    }
+    state.isLoading = false
 }
 
 async function runImport() {
@@ -672,7 +840,9 @@ async function undoImport() {
     if (!state.summary?.batch_ref || state.summary.undone) return
     state.isLoading = true
     try {
-        const res: any = await importService.undoImport({ batch_ref: state.summary.batch_ref })
+        const res: any = props.companyUuid
+            ? await companyImportService.undoImport(props.companyUuid, { batch_ref: state.summary.batch_ref })
+            : await importService.undoImport({ batch_ref: state.summary.batch_ref })
         state.summary.undone = true
         successAlert(`${t('alert.success')}!`, `${res?.deleted ?? 0} ${t('import.steps.done.rowsSkipped', { count: res?.deleted ?? 0 })}`)
         emit('imported', state.entityKey)
@@ -698,17 +868,32 @@ async function sendInvites() {
 function back() {
     if (state.step === 'preview') state.step = 'map'
     else if (state.step === 'map') { resetFile(); state.step = 'upload' }
-    else if (state.step === 'upload') { resetFile(); state.step = 'type' }
+    else if (state.step === 'upload') {
+        resetFile()
+        if (availableEntities.value.length > 1) state.step = 'type'
+        else closeModal()
+    }
     else closeModal()
 }
 
 function resetFile() {
     state.fileName = ''; state.headers = []; state.rows = []; state.mapping = {}; state.error = ''; state.preview = null
+    state.serverCheck = null; state.serverCheckError = ''
 }
 
 function closeModal() {
-    resetFile(); state.step = 'type'; state.entityKey = 'citizens'; state.summary = null
+    resetFile(); state.step = firstStep(); state.entityKey = 'citizens'; state.summary = null
     state.progress = { done: 0, total: 0 }
     emit('close')
 }
+
+// With a single entity to choose from there is nothing to pick, so skip the
+// entity step entirely.
+function firstStep(): 'type' | 'upload' {
+    return availableEntities.value.length > 1 ? 'type' : 'upload'
+}
+
+watch(() => props.isModalOpen, (isOpen) => {
+    if (isOpen && state.step === 'type') state.step = firstStep()
+})
 </script>

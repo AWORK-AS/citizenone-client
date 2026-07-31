@@ -9684,7 +9684,8 @@
                 "all": "Alle",
                 "active": "Aktive",
                 "inactive": "Inaktive",
-                "paying": "Betalende"
+                "paying": "Betalende",
+                "migration": "Datamigrering"
             },
             "totalClients": "{count} klienter i alt",
             "export": "Eksporter",
@@ -9724,6 +9725,24 @@
                 "searchPlaceholder": "Søg efter navn eller e-mail...",
                 "userAccounts": "Brugerkonti",
                 "yearly": "år"
+            },
+            "migration": {
+                "pageTitle": "Datamigrering",
+                "description": "Importér data til kundens konto uden at bruge deres login. Kontrollen viser hvad der sker, før noget bliver gemt, og hver kørsel kan fortrydes.",
+                "startMigration": "Start migrering",
+                "checkFirst": "Kør altid kontrollen på et lille udtræk først.",
+                "previousRuns": "Tidligere kørsler",
+                "noRuns": "Ingen migreringer kørt endnu",
+                "colEntity": "Type",
+                "colRows": "Rækker",
+                "colRunBy": "Kørt af",
+                "colWhen": "Tidspunkt",
+                "colStatus": "Status",
+                "undone": "Fortrudt",
+                "active": "Aktiv",
+                "undo": "Fortryd",
+                "undoneCount": "{count} rækker slettet",
+                "refresh": "Opdater"
             }
         },
         "coupons": {
@@ -11706,7 +11725,18 @@
                 "scheduleHint": "Rækker uden match i CitizenOne (ukendt e-mail eller vagttype) frasorteres automatisk under importen og vises i opsummeringen.",
                 "citizensHint": "Borgere der allerede findes (samme CPR eller navn) springes over.",
                 "employeesHint": "Ansatte der allerede findes (samme e-mail eller navn) springes over. Hver ny ansat bruger én bruger-licens - løber I tør, oprettes resten ikke.",
-                "noValidRows": "Ingen gyldige rækker at importere. Gå tilbage og tjek mapping og data."
+                "noValidRows": "Ingen gyldige rækker at importere. Gå tilbage og tjek mapping og data.",
+                "systemCheck": "Kontrol mod systemet",
+                "runCheck": "Kør kontrol",
+                "recheck": "Kør igen",
+                "checking": "Kontrollerer rækkerne mod systemet ...",
+                "checkHint": "Kontrollen viser dubletter, nye afdelinger og datoer systemet ikke kan læse. Der bliver ikke gemt noget.",
+                "wouldCreate": "Oprettes",
+                "alreadyExists": "Findes allerede",
+                "wontLand": "Kommer ikke ind",
+                "newDepartments": "Nye afdelinger ({count}):",
+                "rowsToLookAt": "Rækker du bør se på",
+                "line": "Linje {line}"
             },
             "importing": {
                 "label": "Importerer…"
@@ -11771,13 +11801,27 @@
             "undoFailed": "Kunne ikke fortryde importen.",
             "invitesFailed": "Kunne ikke sende login-mails.",
             "missingField": "Mangler {field}",
-            "invalidField": "Ugyldig {field}"
+            "invalidField": "Ugyldig {field}",
+            "checkFailed": "Kontrollen kunne ikke gennemføres"
         },
         "page": {
             "title": "Importér fra et andet system",
             "description": "Migrér borgere, ansatte, journaler og vagtplaner fra jeres nuværende system via CSV eller Excel. Upload filen, kobl kolonnerne til CitizenOne, og importér.",
             "startImport": "Start import",
             "adminOnly": "Kun administratorer kan importere data."
+        },
+        "results": {
+            "create": "oprettes",
+            "created": "oprettet",
+            "duplicate": "dublet",
+            "skipped": "sprunget over",
+            "failed": "fejlede"
+        },
+        "warnings": {
+            "cpr_missing": "CPR mangler - dubletter findes så kun på navn",
+            "cpr_malformed": "CPR har ikke 10 cifre",
+            "invalid_date": "Dato kan ikke læses: {field}",
+            "date_guessed": "Dato blev rettet af systemet: {field}"
         }
     },
     "sms": {
