@@ -4047,6 +4047,7 @@
         "holidayNonWorkedAssigned": "7,4 helgdagstimmar tilldelade",
         "holidayWorkedTooltip": "Du arbetar på en helgdag. Passets timmar multipliceras med organisationens helgdagsfaktor (t.ex. ×1,5) och visas både under passtypen och som helgdagstimmar.",
         "holidayNonWorkedTooltip": "Den här dagen är en helgdag. Du får helgdagstimmar även om inget pass är registrerat.",
+        "lockedShiftTooltip": "Detta pass är låst och kan endast redigeras av en administratör.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",
@@ -8958,6 +8959,8 @@
                 "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
+                "lockShiftsBeforeDate": "Lås pass före datum",
+                "clearLockShiftsBeforeDate": "Rensa datum",
                 "municipality": "Kommun",
                 "onlySendItWhenIAmOnADutyShift": "Skicka endast, när jag är på en pass",
                 "phone": "Telefon",

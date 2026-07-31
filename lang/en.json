@@ -4047,6 +4047,7 @@
         "holidayNonWorkedAssigned": "7.4 public holiday hours assigned",
         "holidayWorkedTooltip": "You are working on a public holiday. The shift's hours are multiplied by your organisation's public holiday factor (e.g. ×1.5) and appear both under the shift type and as public holiday hours.",
         "holidayNonWorkedTooltip": "This day is a public holiday. You receive public holiday hours even though no shift is registered.",
+        "lockedShiftTooltip": "This shift is locked and can only be edited by an admin.",
         "indicators": {
             "exceedsNorm": "Exceeds norm",
             "negative": "Negative balance",
@@ -8958,6 +8959,8 @@
                 "employmentWeeklyHoursHint": "Used to convert hourly billing rates into a weekly price. Leave blank to use the default of 37 hours/week.",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "lockPastSchedules": "Lock past schedules",
+                "lockShiftsBeforeDate": "Lock shifts before date",
+                "clearLockShiftsBeforeDate": "Clear date",
                 "municipality": "Municipality",
                 "onlySendItWhenIAmOnADutyShift": "Only send it when I am on a duty shift",
                 "phone": "Phone",

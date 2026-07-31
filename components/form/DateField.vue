@@ -83,9 +83,7 @@ watch(() => language.locale.value, (language: any) => {
 })
 
 watch(() => props.modelValue, (newValue: any) => {
-    if (newValue != null && newValue !== '') {
-        state.dateValue = new Date(newValue)  // use Date object here
-    }
+    state.dateValue = newValue ? new Date(newValue) : ''  // use Date object here, '' clears the picker
 })
 
 watch(() => props.disablePreviousWeeks, (newValue: any) => {

@@ -629,7 +629,7 @@
                                             </button>
                                         </Tooltip>
                                         <Tooltip position="left" :text="$t('dutySchedules.newSchedule')"
-                                            v-if="hasCreatePermission || isAtLeast('Admin')">
+                                            v-if="(hasCreatePermission || isAtLeast('Admin')) && !isShiftLocked(day)">
                                             <button
                                                 class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-md border border-dashed border-primary/40 bg-primary/5 text-primary hover:bg-primary/15 hover:border-primary transition-colors"
                                                 @click.stop="openAddNewShiftModalForDay(day)">
@@ -701,11 +701,11 @@
                                             </div>
                                             <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts)"
                                                 :key="'s-' + employeeIndex + '-' + shiftIndex"
-                                                :class="['rounded-lg relative cursor-pointer !mt-4 overflow-visible', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
-                                                :draggable="isAtLeast('Admin')"
+                                                :class="['rounded-lg relative cursor-pointer !mt-4 overflow-visible', shift.is_conflict ? 'ring-2 ring-red-400' : '', isShiftLocked(shift?.date_time_start) && 'opacity-60']"
+                                                :draggable="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start)"
                                                 :style="{ backgroundColor: shift?.type?.color }"
-                                                @click.stop="editSchedule(employee, employeeIndex as number, shift)"
-                                                @dragstart="isAtLeast('Admin') && onMonthDragStart($event, employee, day, shift)"
+                                                @click.stop="(hasScheduleManageAccess && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, shift) : viewSchedule(employeeIndex as number, shift)"
+                                                @dragstart="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start) && onMonthDragStart($event, employee, day, shift)"
                                                 @dragend="isAtLeast('Admin') && onMonthDragEnd($event)">
                                                 <!-- Conflict indicator -->
                                                 <div v-if="shift.is_conflict" class="absolute -top-2 -left-2 z-30">
@@ -728,6 +728,15 @@
                                                     v-if="shift?.type?.system_name === 'vacation-leave'">
                                                     🏖️
                                                 </div>
+                                                <Tooltip v-if="isShiftLocked(shift?.date_time_start)"
+                                                    :text="$t('dutySchedules.lockedShiftTooltip')" position="top"
+                                                    :wrap="true" class="absolute -top-3 -right-2 z-10">
+                                                    <div
+                                                        class="w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center">
+                                                        <Icon name="ph:lock-simple" class="w-3.5 h-3.5 text-gray-500"
+                                                            aria-hidden="true" />
+                                                    </div>
+                                                </Tooltip>
                                                 <div v-if="isWorkedHolidayShift(shift)"
                                                     class="absolute left-5 -top-2 sm:-right-3 sm:-top-3 z-10">
                                                     <Tooltip :text="$t('dutySchedules.holidayWorkedTooltip')"
@@ -746,7 +755,7 @@
                                                     class="w-5 h-5 rounded-full flex items-center justify-center absolute -right-1 -top-2 z-10"
                                                     style="background-color:#fef2f2;color:#dc2626;border:1.5px solid #fecaca"
                                                     @click.stop="removeShiftConfirmation(shift, employee)"
-                                                    v-if="hasDeletePermission || isAtLeast('Admin')">
+                                                    v-if="(hasDeletePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)">
                                                     <Tooltip position="left"
                                                         :text="$t('dutySchedules.removeSchedule.removeSchedule')">
                                                         <Icon name="ph:x" class="h-2 w-2" aria-hidden="true" />
@@ -1039,6 +1048,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useScheduleLock } from '@/composables/useScheduleLock'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -1047,6 +1057,7 @@ const language = useI18n()
 const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+const { isDateLocked, scheduleLockCutoff } = useScheduleLock()
 const favoriteEmployees = useFavoriteEmployees()
 const departmentStore = useDepartmentStore()
 const filteredEmployeesForModal = computed(() => {
@@ -1353,6 +1364,11 @@ const hasDeletePermission = computed(() => {
 
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || hasUpdatePermission.value)
 const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || hasCreatePermission.value)
+
+function isShiftLocked(date: any): boolean {
+    if (!date) return false
+    return isDateLocked(date, hasScheduleManageAccess.value)
+}
 
 
 // ============================================================
@@ -2093,12 +2109,15 @@ function toggleExpanded(index: number) {
 }
 
 function isPreviousMonthDisabled() {
-    if (!isAtLeast('Admin') && userStore.getUser?.company?.is_lock_past_schedules) {
-        const thisMonthStart = moment().startOf('month')
-        const selectedMonthStart = moment(state.selectedDate).startOf('month')
-        if (selectedMonthStart.isSame(thisMonthStart, 'month')) return true
-    }
-    return false
+    if (isAtLeast('Admin')) return false
+
+    const cutoff = scheduleLockCutoff()
+    if (!cutoff) return false
+
+    const cutoffMonth = cutoff.clone().startOf('month')
+    const selectedMonth = moment(state.selectedDate).startOf('month')
+
+    return selectedMonth.isSame(cutoffMonth, 'month')
 }
 
 async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {

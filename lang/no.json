@@ -4047,6 +4047,7 @@
         "holidayNonWorkedAssigned": "7,4 helligdagstimer tildelt",
         "holidayWorkedTooltip": "Du arbeider på en helligdag. Vaktens timer ganges med organisasjonens helligdagsfaktor (f.eks. ×1,5) og vises både under vakttypen og som helligdagstimer.",
         "holidayNonWorkedTooltip": "Denne dagen er en helligdag. Du mottar helligdagstimer selv om det ikke er registrert noen vakt.",
+        "lockedShiftTooltip": "Denne vakten er låst og kan kun redigeres av en administrator.",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",
@@ -8958,6 +8959,8 @@
                 "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",
                 "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
                 "lockPastSchedules": "Lås tidligere vaktplaner",
+                "lockShiftsBeforeDate": "Lås vakter før dato",
+                "clearLockShiftsBeforeDate": "Fjern dato",
                 "municipality": "Kommune",
                 "onlySendItWhenIAmOnADutyShift": "Send kun, når jeg er på en vakt",
                 "phone": "Telefon",
