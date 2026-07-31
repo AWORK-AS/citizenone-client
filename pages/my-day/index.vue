@@ -196,9 +196,6 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import 'moment/locale/da'
-import 'moment/locale/nb'
-import 'moment/locale/sv'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 import { useDepartmentStore } from '@/store/department'
@@ -210,9 +207,23 @@ import { usePermissions } from '@/composables/usePermissions'
 const runtimeConfig = useRuntimeConfig()
 const { t, locale } = useI18n()
 
-// vue-i18n locales are 'en'/'dk'/'no'/'sv'; moment's locale keys differ for
-// Danish and Norwegian ('da' and 'nb'), so they can't be used interchangeably.
-const momentLocales: Record<string, string> = { en: 'en', dk: 'da', no: 'nb', sv: 'sv' }
+// Hardcoded rather than routed through moment's locale files: the app's
+// bundler doesn't reliably pick up moment's side-effect-only
+// `moment/locale/xx` imports (they silently fall back to English), and the
+// exact wording per language ("den" in Danish, punctuation differences)
+// doesn't map onto any single moment locale format anyway.
+const weekdayNames: Record<string, string[]> = {
+    en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    dk: ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'],
+    no: ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'],
+    sv: ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'],
+}
+const monthNames: Record<string, string[]> = {
+    en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    dk: ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december'],
+    no: ['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember'],
+    sv: ['januari', 'februari', 'mars', 'april', 'maj', 'juni', 'juli', 'augusti', 'september', 'oktober', 'november', 'december'],
+}
 const userStore = useUserStore() as any
 const departmentStore = useDepartmentStore() as any
 const { isAtLeast, can } = usePermissions()
@@ -256,7 +267,28 @@ const showDutyScheduleLink = computed(() => {
 })
 
 const firstName = computed(() => userStore.getUser?.firstname ?? '')
-const todayLabel = computed(() => moment().locale(momentLocales[locale.value] ?? 'en').format('dddd D. MMMM YYYY'))
+
+// moment's locale formats don't match the wording each language actually
+// wants here: Danish inserts "den" before the day and da/nb/en all include a
+// period after the day number, but Swedish doesn't - none of that matches a
+// single `dddd D. MMMM YYYY` pattern, so the pieces are composed by hand.
+// Weekday names are capitalized manually since da/nb/sv locales lowercase
+// them by default (English already capitalizes on its own).
+const todayLabel = computed(() => {
+    const now = moment()
+    const names = weekdayNames[locale.value] ?? weekdayNames.en
+    const months = monthNames[locale.value] ?? monthNames.en
+    const weekday = names[now.day()]
+    const day = now.date()
+    const month = months[now.month()]
+    const year = now.year()
+
+    switch (locale.value) {
+        case 'dk': return `${weekday} den ${day}. ${month} ${year}`
+        case 'sv': return `${weekday} ${day} ${month} ${year}`
+        default: return `${weekday} ${day}. ${month} ${year}`
+    }
+})
 const greeting = computed(() => {
     const h = moment().hour()
     if (h < 10) return t('myDay.greeting.morning')

@@ -167,22 +167,22 @@
                                     accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
                                     @change="onFilesSelected" />
                                 <button type="button" @click="($refs.fileInput as HTMLInputElement).click()"
-                                    class="shrink-0 px-1.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
                                     <Icon name="ph:paperclip" class="h-5 w-5" />
                                 </button>
                                 <button type="button" @click="insertMentionTrigger" :title="$t('assistants.mentionSomeone')"
-                                    class="shrink-0 px-1.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
                                     <Icon name="ph:at" class="h-5 w-5" />
                                 </button>
                                 <button type="button" @click="togglePreview" :title="$t('assistants.previewBeforeSending')"
                                     :disabled="!state.newMessage.trim()"
-                                    class="shrink-0 px-1.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors disabled:opacity-30 disabled:hover:bg-transparent">
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors disabled:opacity-30 disabled:hover:bg-transparent">
                                     <Icon name="ph:eye" class="h-5 w-5" />
                                 </button>
                                 <div class="relative flex-1">
                                     <textarea ref="promptTextarea" v-model="state.newMessage"
                                         :placeholder="$t('assistants.askAnything')" rows="1"
-                                        class="w-full bg-transparent border-none shadow-none ring-0 focus:ring-0 focus:outline-none resize-none py-2 px-0 text-sm text-gray-900 placeholder-gray-400"
+                                        class="w-full bg-transparent border-none shadow-none ring-0 focus:ring-0 focus:outline-none resize-none py-1.5 px-0 text-sm text-gray-900 placeholder-gray-400"
                                         @keydown.enter.exact.prevent="handleEnterKey"
                                         @keydown.esc="state.mention.isOpen = false" />
                                     <div v-if="state.mention.isOpen && state.mention.results.length > 0"
