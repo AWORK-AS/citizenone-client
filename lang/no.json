@@ -11088,6 +11088,7 @@
     },
     "validation": {
         "invalidNumber": "Ugyldig nummer",
+        "invalidEmailAddress": "Ugyldig e-postadresse",
         "thisFieldIsRequired": "Dette felt er påkrevd"
     },
     "verifyEmail": {
