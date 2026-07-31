@@ -68,8 +68,12 @@
                 </div>
 
                 <div v-else class="flex flex-col h-[68vh] bg-transparent -mx-4 -mb-4 sm:-mx-6 sm:-mb-6">
-                    <!-- Chat container -->
-                    <div class="flex-1 overflow-y-auto scroll-smooth">
+                    <!-- Chat container. A fresh chat (just the initial greeting, no
+                    exchange yet) is centered in the available space instead of
+                    top-anchored, so the greeting and the input don't end up with
+                    a lopsided gap between them. -->
+                    <div class="flex-1 overflow-y-auto scroll-smooth"
+                        :class="isFreshChat && 'flex flex-col justify-center'">
                         <div class="px-4 sm:px-6 py-6 space-y-6">
                             <div v-for="(message, index) in state.messages" :key="index">
                                 <!-- User message -->
@@ -163,22 +167,22 @@
                                     accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
                                     @change="onFilesSelected" />
                                 <button type="button" @click="($refs.fileInput as HTMLInputElement).click()"
-                                    class="shrink-0 px-1.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
                                     <Icon name="ph:paperclip" class="h-5 w-5" />
                                 </button>
                                 <button type="button" @click="insertMentionTrigger" :title="$t('assistants.mentionSomeone')"
-                                    class="shrink-0 px-1.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
                                     <Icon name="ph:at" class="h-5 w-5" />
                                 </button>
                                 <button type="button" @click="togglePreview" :title="$t('assistants.previewBeforeSending')"
                                     :disabled="!state.newMessage.trim()"
-                                    class="shrink-0 px-1.5 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors disabled:opacity-30 disabled:hover:bg-transparent">
+                                    class="shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors disabled:opacity-30 disabled:hover:bg-transparent">
                                     <Icon name="ph:eye" class="h-5 w-5" />
                                 </button>
                                 <div class="relative flex-1">
                                     <textarea ref="promptTextarea" v-model="state.newMessage"
                                         :placeholder="$t('assistants.askAnything')" rows="1"
-                                        class="w-full bg-transparent border-none shadow-none ring-0 focus:ring-0 focus:outline-none resize-none py-2 px-0 text-sm text-gray-900 placeholder-gray-400"
+                                        class="block w-full bg-transparent border-none shadow-none ring-0 focus:ring-0 focus:outline-none resize-none py-1.5 px-0 text-sm text-gray-900 placeholder-gray-400"
                                         @keydown.enter.exact.prevent="handleEnterKey"
                                         @keydown.esc="state.mention.isOpen = false" />
                                     <div v-if="state.mention.isOpen && state.mention.results.length > 0"
@@ -311,6 +315,10 @@ const filteredConversations = computed(() => {
     if (!query) return state.conversations
     return state.conversations.filter((c: any) => (c.title || '').toLowerCase().includes(query))
 })
+
+// Only the initial greeting, no exchange yet - nothing to scroll to, so the
+// greeting is centered vertically instead of stuck to the top of the pane.
+const isFreshChat = computed(() => state.messages.length <= 1 && !state.isGeneratingResponse)
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {

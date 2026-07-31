@@ -7742,7 +7742,8 @@
             "given": "Gitt",
             "medicationOverview": "Medicinoversigt",
             "not": "Ikke",
-            "notGiven": "Ikke gitt"
+            "notGiven": "Ikke gitt",
+            "notManaged": "Ikke håndtert ennå"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
