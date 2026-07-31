@@ -106,8 +106,7 @@ const state = reactive({
 const geocodeTimers: Record<number, ReturnType<typeof setTimeout>> = {}
 
 function stopLabel(index: number) {
-    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-    const letter = letters[index] ?? `#${index + 1}`
+    const letter = index < 26 ? String.fromCharCode(65 + index) : `#${index + 1}`
     if (index === 0) return `${letter} — ${t('mileageLog.form.startAddress')}`
     if (index === props.modelValue.length - 1) return `${letter} — ${t('mileageLog.form.endAddress')}`
     return `${letter} — ${t('mileageLog.form.stopAddress')}`

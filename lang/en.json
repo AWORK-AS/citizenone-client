@@ -2207,6 +2207,7 @@
                 "kilometers": "Kilometers",
                 "note": "Note",
                 "startAddress": "Start address",
+                "stopAddress": "Stop address",
                 "transport": "Transport",
                 "type": "Type",
                 "viewInterventionHourLog": "View intervention hour log",
@@ -7410,6 +7411,7 @@
         "download": {
             "download": "Download",
             "downloadMileageLog": "Download mileage log",
+            "downloadType": "File format",
             "filterDate": "Filter date"
         },
         "editTrip": "Edit trip",

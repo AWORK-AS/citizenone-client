@@ -13,6 +13,11 @@
                                     :placeholder="$t('mileageLog.download.filterDate')" />
                                 <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                             </div>
+                            <div class="space-y-1">
+                                <FormLabel for="download_type" :label="$t('mileageLog.download.downloadType')" />
+                                <FormSelect id="download_type" name="download_type"
+                                    :options="state.options.downloadType" v-model="state.downloadForm.download_type" />
+                            </div>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -63,12 +68,19 @@ const state = reactive({
     downloadForm: {
         start_date: '',
         end_date: '',
+        download_type: 'pdf',
     },
     error: {} as Error,
     filter: {
         date_range: [],
     },
     isPageLoading: false,
+    options: {
+        downloadType: [
+            { value: 'pdf', label: 'PDF' },
+            { value: 'csv', label: 'CSV' },
+        ],
+    },
 })
 
 const rules = computed(() => {
@@ -101,13 +113,14 @@ async function downloadMileageLog() {
             let params = {
                 start_date: state.downloadForm.start_date,
                 end_date: state.downloadForm.end_date,
+                download_type: state.downloadForm.download_type,
             } as any
 
             if (props?.filters?.department_uuids?.length > 0) {
-                params.department_uuids = Array(props?.filters?.department_uuids)
+                params.department_uuids = props.filters.department_uuids
             }
             if (props?.filters?.employee_uuids?.length > 0) {
-                params.user_uuids = Array(props?.filters?.employee_uuids)
+                params.user_uuids = props.filters.employee_uuids
             }
 
             const response = props.employeeUuid
@@ -115,7 +128,14 @@ async function downloadMileageLog() {
                 : await mileageLogService.downloadMileageLogReport(params)
 
             if (response) {
-                saveAs(response, `${t('mileageLog.mileageLog').replace(' ', '-')}` + '-' + moment(state.downloadForm.start_date).format('MMMM-D-YYYY') + '-' + moment(state.downloadForm.end_date).format('MMMM-D-YYYY'))
+                const filename = `${t('mileageLog.mileageLog').replace(' ', '-')}` + '-' + moment(state.downloadForm.start_date).format('MMMM-D-YYYY') + '-' + moment(state.downloadForm.end_date).format('MMMM-D-YYYY')
+
+                if (state.downloadForm.download_type === 'csv') {
+                    const file = new Blob([response], { type: 'text/csv;charset=utf-8;' })
+                    saveAs(file, `${filename}.csv`)
+                } else {
+                    saveAs(response, filename)
+                }
             }
         } catch (error: any) {
             state.error = error

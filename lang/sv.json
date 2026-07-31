@@ -2207,6 +2207,7 @@
                 "kilometers": "Kilometer",
                 "note": "Anmärkning",
                 "startAddress": "Startadresse",
+                "stopAddress": "Stoppadress",
                 "transport": "Transportere",
                 "type": "Typ",
                 "viewInterventionHourLog": "Visa logg över indsatstimer",
@@ -7410,6 +7411,7 @@
         "download": {
             "download": "Ladda ner",
             "downloadMileageLog": "Ladda ner körjournal",
+            "downloadType": "Filformat",
             "filterDate": "Filtrera datum"
         },
         "editTrip": "Redigera resa",
