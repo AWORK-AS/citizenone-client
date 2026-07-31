@@ -68,12 +68,10 @@
                 </div>
 
                 <div v-else class="flex flex-col h-[68vh] bg-transparent -mx-4 -mb-4 sm:-mx-6 sm:-mb-6">
-                    <!-- Chat container. A fresh chat (just the initial greeting, no
-                    exchange yet) is centered in the available space instead of
-                    top-anchored, so the greeting and the input don't end up with
-                    a lopsided gap between them. -->
-                    <div class="flex-1 overflow-y-auto scroll-smooth"
-                        :class="isFreshChat && 'flex flex-col justify-center'">
+                    <!-- Chat container. Messages are top-anchored, including the
+                    initial greeting, so the conversation always reads downward
+                    from the same starting point. -->
+                    <div class="flex-1 overflow-y-auto scroll-smooth">
                         <div class="px-4 sm:px-6 py-6 space-y-6">
                             <div v-for="(message, index) in state.messages" :key="index">
                                 <!-- User message -->
@@ -315,10 +313,6 @@ const filteredConversations = computed(() => {
     if (!query) return state.conversations
     return state.conversations.filter((c: any) => (c.title || '').toLowerCase().includes(query))
 })
-
-// Only the initial greeting, no exchange yet - nothing to scroll to, so the
-// greeting is centered vertically instead of stuck to the top of the pane.
-const isFreshChat = computed(() => state.messages.length <= 1 && !state.isGeneratingResponse)
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
