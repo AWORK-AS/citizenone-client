@@ -1509,7 +1509,9 @@
                 "micError": "Kunne ikke få adgang til mikrofonen.",
                 "notifyColleagues": "Underret kolleger",
                 "notifyColleaguesPlaceholder": "Vælg kolleger der skal underrettes",
-                "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note."
+                "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note.",
+                "attachedSurveys": "Spørgeskemaer der skal besvares",
+                "linkedSurveys": "Tilknyttede spørgeskemaer"
             },
             "journalLogs": {
                 "date": "Dato",
@@ -9107,6 +9109,7 @@
             "journalContents": "Journal indhold",
             "journalNoteTags": "Journalnotetag",
             "journalTitles": "Journal titler",
+            "surveys": "Spørgeskemaer",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
             "massUnits": "Masseenheder",

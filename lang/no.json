@@ -1509,7 +1509,9 @@
                 "micError": "Fikk ikke tilgang til mikrofonen.",
                 "notifyColleagues": "Varsle kolleger",
                 "notifyColleaguesPlaceholder": "Velg kolleger som skal varsles",
-                "notifyColleaguesHint": "Valgte kolleger får et varsel om dette notatet."
+                "notifyColleaguesHint": "Valgte kolleger får et varsel om dette notatet.",
+                "attachedSurveys": "Spørreskjemaer som skal besvares",
+                "linkedSurveys": "Tilknyttede spørreskjemaer"
             },
             "journalLogs": {
                 "date": "Dato",
@@ -9107,6 +9109,7 @@
             "journalContents": "Journal innhold",
             "journalNoteTags": "Journalnotetag",
             "journalTitles": "Journal titler",
+            "surveys": "Spørreskjemaer",
             "licenseOverview": "Licensoversigt",
             "licenses": "Lisenser",
             "massUnits": "Masseenheder",

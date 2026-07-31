@@ -1509,7 +1509,9 @@
                 "micError": "Could not access the microphone.",
                 "notifyColleagues": "Notify colleagues",
                 "notifyColleaguesPlaceholder": "Select colleagues to notify",
-                "notifyColleaguesHint": "Selected colleagues get a notification about this note."
+                "notifyColleaguesHint": "Selected colleagues get a notification about this note.",
+                "attachedSurveys": "Surveys to answer",
+                "linkedSurveys": "Linked surveys"
             },
             "journalLogs": {
                 "date": "Date",
@@ -9107,6 +9109,7 @@
             "journalContents": "Journal contents",
             "journalNoteTags": "Journal note tags",
             "journalTitles": "Journal titles",
+            "surveys": "Surveys",
             "licenseOverview": "License overview",
             "licenses": "Licenses",
             "massUnits": "Mass units",

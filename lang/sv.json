@@ -1509,7 +1509,9 @@
                 "micError": "Kunde inte komma åt mikrofonen.",
                 "notifyColleagues": "Meddela kollegor",
                 "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
-                "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning."
+                "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning.",
+                "attachedSurveys": "Enkäter att besvara",
+                "linkedSurveys": "Kopplade enkäter"
             },
             "journalLogs": {
                 "date": "Datum",
@@ -9107,6 +9109,7 @@
             "journalContents": "Journal innehåll",
             "journalNoteTags": "Journalnotetag",
             "journalTitles": "Journal titlar",
+            "surveys": "Enkäter",
             "licenseOverview": "Licensoversigt",
             "licenses": "Licenser",
             "massUnits": "Masseenheder",

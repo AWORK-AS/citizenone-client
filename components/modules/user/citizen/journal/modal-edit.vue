@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 import { journalService } from '@/components/api/user/JournalService'
+import { surveyService } from '@/components/api/user/SurveyService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -68,6 +69,9 @@ async function updateJournal(journalDetails: any) {
         }
         const response = await journalService.updateJournal(journalUuid, params)
         if (response?.data) {
+            if (!journalDetails.isAutoSaving) {
+                await completeAnsweredSurveys(journalUuid, journalDetails.pending_survey_answers)
+            }
             refreshJournal()
             if (!journalDetails.isAutoSaving) {
                 closeModal()
@@ -78,5 +82,19 @@ async function updateJournal(journalDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function completeAnsweredSurveys(journalUuid: string, pendingSurveyAnswers: any[]) {
+    if (!Array.isArray(pendingSurveyAnswers) || pendingSurveyAnswers.length === 0) return
+    for (const entry of pendingSurveyAnswers) {
+        try {
+            await surveyService.completeAssignment(entry.assignment_uuid, {
+                answers: entry.answers,
+                citizen_journal_uuid: journalUuid,
+            })
+        } catch (error: any) {
+            // one survey failing to complete must not block the journal note itself
+        }
+    }
 }
 </script>
