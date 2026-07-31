@@ -92,6 +92,32 @@
                         placeholder="" v-model="state.formJournal.field_answers[i].response" />
                 </div>
             </div>
+            <div class="space-y-3" v-if="linkedCompletedSurveys.length > 0">
+                <p class="text-sm font-medium text-gray-700">
+                    {{ $t('citizens.citizenJournals.form.linkedSurveys') }}
+                </p>
+                <div v-for="assignment in linkedCompletedSurveys" :key="assignment.uuid"
+                    class="bg-gray-50 rounded-md p-4 space-y-2">
+                    <h3 class="text-sm font-semibold">{{ assignment?.survey?.title }}</h3>
+                    <div v-for="entry in linkedSurveyAnswerEntries(assignment)" :key="entry.question"
+                        class="text-sm">
+                        <p class="text-gray-500">{{ entry.question }}</p>
+                        <p class="font-medium">{{ entry.answer }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-3" v-if="state.pendingSurveys.length > 0">
+                <p class="text-sm font-medium text-gray-700">
+                    {{ $t('citizens.citizenJournals.form.attachedSurveys') }}
+                </p>
+                <div v-for="assignment in state.pendingSurveys" :key="assignment.uuid"
+                    class="bg-gray-50 rounded-md p-4 space-y-3">
+                    <h3 class="text-sm font-semibold">{{ assignment?.survey?.title }}</h3>
+                    <ModulesSharedSurveyFill :ref="(el: any) => setSurveyFillRef(assignment.uuid, el)"
+                        :questions="assignment?.survey?.questions ?? []"
+                        :answers="state.surveyAnswers[assignment.uuid]" />
+                </div>
+            </div>
             <div class="space-y-1">
                 <FormLabel for="score" :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formJournal.score" />
@@ -452,6 +478,7 @@ import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
 import { userService } from '@/components/api/user/UserService'
+import { surveyService } from '@/components/api/user/SurveyService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { useVuelidate } from "@vuelidate/core"
@@ -564,6 +591,8 @@ const state = reactive({
         field_answers: [] as Array<{ journal_title_field_uuid: string, response: string | string[] }>,
     } as any,
     selectedJournalTitleFields: [] as Array<{ uuid: string, label: string, field_type: string, options: string[] }>,
+    pendingSurveys: [] as any[],
+    surveyAnswers: {} as Record<string, Record<string, any>>,
     hasChanges: false,
     modal: {
         isAddJournalNoteTagsOpen: false,
@@ -646,6 +675,65 @@ async function fetchFormFieldConfig() {
     }
 }
 
+const linkedCompletedSurveys = computed(() => {
+    return (props.selectedJournal as any)?.survey_assignments?.filter((a: any) => a?.status === 'completed') ?? []
+})
+
+function linkedSurveyAnswerEntries(assignment: any) {
+    const entries: any[] = []
+    ;(assignment?.survey?.questions ?? []).forEach((q: any) => {
+        const def = q.question ?? q
+        entries.push({ question: def?.value, answer: resolveSurveyAnswer(def, assignment.answers?.[q.uuid]) })
+    })
+    return entries
+}
+
+function resolveSurveyAnswer(def: any, answer: any) {
+    if (answer === undefined || answer === null || answer === '') return '-'
+    if (def?.type === 'choice') return def?.options?.[answer] ?? '-'
+    if (def?.type === 'checkbox' && Array.isArray(answer)) return answer.map((i: any) => def?.options?.[i]).filter(Boolean).join(', ') || '-'
+    return String(answer)
+}
+
+const surveyFillRefs: Record<string, any> = {}
+
+function setSurveyFillRef(assignmentUuid: string, el: any) {
+    if (el) {
+        surveyFillRefs[assignmentUuid] = el
+    }
+}
+
+async function fetchPendingSurveys() {
+    if (!citizenUuid) return
+    try {
+        const response = await surveyService.getCitizenAssignments(citizenUuid)
+        const assignments = response?.data ?? []
+        state.pendingSurveys = assignments.filter((a: any) => a?.status === 'pending' && !a?.linked_to)
+        state.pendingSurveys.forEach((a: any) => {
+            if (!state.surveyAnswers[a.uuid]) {
+                state.surveyAnswers[a.uuid] = {}
+            }
+        })
+    } catch (error: any) {
+        // silently ignore - surveys are optional, must not block journal note creation
+    }
+}
+
+function missingRequiredSurveyQuestions() {
+    return state.pendingSurveys.filter((a: any) => {
+        const answered = Object.keys(state.surveyAnswers[a.uuid] ?? {}).length > 0
+        if (!answered) return false
+        const missing = surveyFillRefs[a.uuid]?.missingRequiredQuestions?.() ?? []
+        return missing.length > 0
+    })
+}
+
+function collectAnsweredSurveyPayloads() {
+    return state.pendingSurveys
+        .filter((a: any) => Object.keys(state.surveyAnswers[a.uuid] ?? {}).length > 0)
+        .map((a: any) => ({ assignment_uuid: a.uuid, answers: state.surveyAnswers[a.uuid] }))
+}
+
 onMounted(() => {
     suppressChangeTracking = true
 
@@ -657,6 +745,7 @@ onMounted(() => {
     fetchAllJournalTitles()
     fetchAllTeeth()
     fetchColleagues()
+    fetchPendingSurveys()
     // setFormJournalFromSelected(props.selectedJournal)
     // state.formJournal = {
     //     id: props.selectedJournal.id,
@@ -906,11 +995,16 @@ const v$ = useVuelidate(rules, state)
 
 function submitForm() {
     v$.value.$validate()
+    if (missingRequiredSurveyQuestions().length > 0) {
+        state.error = { message: `${t('validation.thisFieldIsRequired')}.` } as any
+        return
+    }
     if (!v$.value.$error && state.hasChanges) {
         state.hasChanges = false
         emit('submitForm', {
             isAutoSaving: state.isAutoSaving,
-            formJournal: state.formJournal
+            formJournal: state.formJournal,
+            pending_survey_answers: collectAnsweredSurveyPayloads(),
         })
     }
 }
