@@ -98,6 +98,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { employeeAvailabilityService } from '@/components/api/user/EmployeeAvailabilityService'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -105,6 +106,11 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const userStore = useUserStore() as any
+
+watch(() => userStore.getUser, (user: any) => {
+    if (user?.uuid && user?.is_extended_duty_schedule_active === false) navigateTo('/apps')
+}, { immediate: true })
 
 const breadcrumbLinks = [
     {
