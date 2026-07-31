@@ -7334,6 +7334,7 @@
         "download": {
             "download": "Ladda ner",
             "downloadMileageLog": "Ladda ner körjournal",
+            "downloadType": "Filformat",
             "filterDate": "Filtrera datum"
         },
         "editTrip": "Redigera resa",

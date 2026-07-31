@@ -7334,6 +7334,7 @@
         "download": {
             "download": "Download",
             "downloadMileageLog": "Download kørselsregnskab",
+            "downloadType": "Filformat",
             "filterDate": "Filtrer dato"
         },
         "editTrip": "Rediger tur",
