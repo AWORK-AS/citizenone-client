@@ -1360,6 +1360,7 @@
         "attendance": {
             "protocol": "Protocol"
         },
+        "birthdayToday": "Birthday today",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Event successfully deleted"

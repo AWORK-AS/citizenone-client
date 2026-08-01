@@ -1360,6 +1360,7 @@
         "attendance": {
             "protocol": "Protokoll"
         },
+        "birthdayToday": "Födelsedag idag",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Händelse raderad"

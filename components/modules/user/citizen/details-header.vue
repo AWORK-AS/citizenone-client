@@ -47,6 +47,11 @@
                                                     </span>
                                                 </div>
                                             </Tooltip>
+                                            <span v-if="isBirthdayToday"
+                                                class="inline-flex items-center gap-x-1 rounded-full bg-secondary-50 px-2.5 py-1 text-xs font-semibold text-secondary ring-1 ring-secondary-100">
+                                                <Icon name="ph:cake" class="h-4 w-4" aria-hidden="true" />
+                                                {{ $t('citizens.birthdayToday') }}
+                                            </span>
 
                                         </div>
                                         <p class="text-sm font-medium text-gray-700"
@@ -506,15 +511,21 @@ const { celebrate } = useConfetti()
 const { recordVisit } = useRecentCitizens()
 let birthdayCelebrated = false
 
-// A little 🎂 confetti when you open a citizen on their birthday.
-function celebrateBirthdayIfToday(birthday?: string | null) {
-    if (!birthday || birthdayCelebrated) return
+function isTodaysBirthday(birthday?: string | null) {
+    if (!birthday) return false
     const now = new Date()
     const todayMonthDay = `${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
-    if (String(birthday).slice(5, 10) === todayMonthDay) {
-        birthdayCelebrated = true
-        celebrate()
-    }
+    return String(birthday).slice(5, 10) === todayMonthDay
+}
+
+// Tells the user why the confetti fired, right on the citizen's header.
+const isBirthdayToday = computed(() => isTodaysBirthday(state.selectedCitizen?.data?.birthday))
+
+// A little 🎂 confetti when you open a citizen on their birthday.
+function celebrateBirthdayIfToday(birthday?: string | null) {
+    if (birthdayCelebrated || !isTodaysBirthday(birthday)) return
+    birthdayCelebrated = true
+    celebrate()
 }
 
 onMounted(() => {
