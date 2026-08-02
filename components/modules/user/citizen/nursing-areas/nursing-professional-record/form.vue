@@ -549,7 +549,7 @@
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { nursingAreasService } from '@/components/api/user/NursingAreasService'
 import { nursingProfessionalRecordTemplateService } from '@/components/api/user/NursingProfessionalRecordTemplateService'
 import { useVuelidate } from "@vuelidate/core"

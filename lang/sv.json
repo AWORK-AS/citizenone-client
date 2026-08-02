@@ -1531,6 +1531,12 @@
                 },
                 "updatedBy": "Uppdaterad av"
             },
+            "mentions": {
+                "hint": "Skriv {'@'} för att tagga en kollega eller en brukare",
+                "noAccess": "ingen åtkomst",
+                "noAccessMessage": "Du är inte kontaktperson för den här brukaren och kan därför inte öppna den.",
+                "noAccessTitle": "Ingen åtkomst"
+            },
             "move": {
                 "citizen": "Klient",
                 "move": "Flytta",

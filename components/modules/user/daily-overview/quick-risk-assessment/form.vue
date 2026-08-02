@@ -201,7 +201,7 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { journalService } from '@/components/api/user/JournalService'
 import { journalTitleService } from '@/components/api/user/JournalTitleService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useCitizenStore } from '@/store/citizen'

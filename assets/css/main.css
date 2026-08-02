@@ -1185,3 +1185,49 @@ input.appearance-none.border-primary {
 .brand-tile {
     background: linear-gradient(135deg, #3BA4BE 0%, #29829B 50%, #1A637A 100%);
 }
+
+/* Journal @-mentions: a colleague tag reads as "@Name", a citizen tag shows
+   only initials so a downloaded note never exposes a second citizen's name. */
+.co-mention {
+    border-radius: 9999px;
+    padding: 0.05rem 0.4rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.co-mention--user {
+    background-color: #e1eff3;
+    color: #0f4c75;
+}
+
+.co-mention--citizen {
+    background-color: #e1f4f2;
+    color: #1b6d8a;
+}
+
+.co-mention--citizen[data-mention-access="granted"] {
+    cursor: pointer;
+    text-decoration: underline dotted;
+}
+
+.co-mention--citizen[data-mention-access="denied"] {
+    cursor: not-allowed;
+}
+
+/* Rows in the @-picker dropdown. */
+.co-mention-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.co-mention-item__badge {
+    margin-left: auto;
+    border-radius: 9999px;
+    background-color: #e1f4f2;
+    color: #1b6d8a;
+    padding: 0.05rem 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+}

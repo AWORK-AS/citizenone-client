@@ -75,6 +75,8 @@ export default defineNuxtConfig({
   css: [
     '~/assets/css/main.css',
     '~/assets/css/superadmin.css',
+    // Ships with the ckeditor5 package; the old prebuilt bundle inlined it.
+    'ckeditor5/ckeditor5.css',
   ],
   devtools: { enabled: true },
 

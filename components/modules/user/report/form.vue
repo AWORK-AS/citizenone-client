@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { reportTemplateService } from '@/components/api/user/ReportTemplateService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { employeeService } from '@/components/api/user/EmployeeService'
