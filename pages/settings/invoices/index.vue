@@ -14,7 +14,9 @@
 
             <ModulesUserSettingsTab />
 
-            <div class="mt-10">
+            <div id="invoice-checkout" v-show="state.isCheckoutVisible" class="mx-auto max-w-sm md:max-w-md mt-10"></div>
+
+            <div class="mt-10" v-if="!state.isCheckoutVisible">
                 <div class="space-y-5">
                     <div class="flex justify-end gap-x-3">
                         <FormButton buttonStyle="primary" @click="state.modal.isEmailReceiversOpen = true">
@@ -88,6 +90,11 @@
                                                 <Icon name="ph:envelope-simple" class="size-4" />
                                                 {{ $t('invoices.table.actions.sendInvoice') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action" v-if="!invoice?.is_paid"
+                                                @click="payInvoice(invoice)">
+                                                <Icon name="ph:credit-card" class="size-4" />
+                                                {{ $t('invoices.table.actions.pay') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -116,7 +123,10 @@ const { formatAmount } = useAmountFormatter()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const router = useRouter()
+const route = useRoute()
 let currentTablePage = 1
+let checkout = null as any
 const breadcrumbLinks = [
     {
         name: 'invoices.invoices',
@@ -142,6 +152,7 @@ const state = reactive({
     invoices: [] as any,
     isSendAllInvoicesLoading: false,
     isTableLoading: false,
+    isCheckoutVisible: false,
     modal: {
         isEmailReceiversOpen: false,
     },
@@ -153,6 +164,15 @@ const state = reactive({
 
 onMounted(() => {
     fetchInvoices()
+})
+
+watch(() => route.query.paymentId, async (paymentId) => {
+    const invoiceUuid = route.query.invoiceUuid
+    if (!paymentId || !invoiceUuid) return
+    state.isCheckoutVisible = false
+    await verifyInvoicePayment(invoiceUuid as string, paymentId as string)
+    router.replace({ query: {} })
+    await fetchInvoices()
 })
 
 async function fetchInvoices() {
@@ -227,5 +247,42 @@ async function sendAllInvoices() {
         state.error = error
     }
     state.isSendAllInvoicesLoading = false
+}
+
+async function payInvoice(invoice: any) {
+    state.error = {}
+    try {
+        const response = await invoiceService.payInvoice(invoice.uuid)
+        if (response?.paymentId) {
+            state.isCheckoutVisible = true
+            await nextTick()
+            const checkoutEl = document.getElementById('invoice-checkout')
+            if (checkoutEl) checkoutEl.innerHTML = ''
+            checkout = new Dibs.Checkout({
+                checkoutKey: runtimeConfig?.public?.checkoutKey,
+                paymentId: response.paymentId,
+                containerId: 'invoice-checkout',
+                language: 'da-DK',
+                theme: { buttonRadius: '5px' },
+            })
+            checkout.on('payment-completed', (res: any) => {
+                checkout.cleanup()
+                navigateTo(`/settings/invoices?paymentId=${res['paymentId']}&invoiceUuid=${invoice.uuid}`)
+            })
+        }
+    } catch (error: any) {
+        state.error = error
+        state.isCheckoutVisible = false
+    }
+}
+
+async function verifyInvoicePayment(invoiceUuid: string, paymentId: string) {
+    state.error = {}
+    try {
+        await invoiceService.verifyInvoicePayment(invoiceUuid, paymentId)
+        successAlert(`${t('alert.success')}!`, `${t('invoices.table.alert.invoicePaidSuccessfully')}.`)
+    } catch (error: any) {
+        state.error = error
+    }
 }
 </script>

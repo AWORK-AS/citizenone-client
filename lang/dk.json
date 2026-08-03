@@ -3391,10 +3391,12 @@
             "actions": {
                 "download": "Download",
                 "edit": "Rediger",
+                "pay": "Betal",
                 "sendInvoice": "Send faktura",
                 "view": "Se"
             },
             "alert": {
+                "invoicePaidSuccessfully": "Faktura betalt med succes",
                 "invoiceSuccessfullySent": "Faktura sendt med succes"
             },
             "amount": "Beløb",
