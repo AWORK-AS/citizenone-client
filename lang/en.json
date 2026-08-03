@@ -6792,10 +6792,12 @@
         "sendAllInvoices": "Send all invoices",
         "table": {
             "actions": {
+                "pay": "Pay",
                 "sendInvoice": "Send invoice",
                 "view": "View"
             },
             "alert": {
+                "invoicePaidSuccessfully": "Invoice paid successfully",
                 "invoiceSuccessfullySent": "Invoice successfully sent"
             },
             "amount": "Amount",

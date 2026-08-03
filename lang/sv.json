@@ -6792,10 +6792,12 @@
         "sendAllInvoices": "Skicka alla fakturor",
         "table": {
             "actions": {
+                "pay": "Betala",
                 "sendInvoice": "Skicka faktura",
                 "view": "Se"
             },
             "alert": {
+                "invoicePaidSuccessfully": "Faktura betald",
                 "invoiceSuccessfullySent": "Faktura skickad"
             },
             "amount": "Belopp",
