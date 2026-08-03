@@ -1360,6 +1360,7 @@
         "attendance": {
             "protocol": "Protokoll"
         },
+        "birthdayToday": "Bursdag i dag",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Arrangement slettet vellykket"
