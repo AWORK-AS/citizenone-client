@@ -387,7 +387,7 @@
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
 import { bookingTagService } from '@/components/api/user/BookingTagService'
 import { useDepartmentStore } from '@/store/department'

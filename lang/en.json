@@ -1531,6 +1531,12 @@
                 },
                 "updatedBy": "Updated by"
             },
+            "mentions": {
+                "hint": "Type {'@'} to tag a colleague or a citizen",
+                "noAccess": "no access",
+                "noAccessMessage": "You are not a contact person on this citizen, so you cannot open them.",
+                "noAccessTitle": "No access"
+            },
             "move": {
                 "citizen": "Citizen",
                 "move": "Move",

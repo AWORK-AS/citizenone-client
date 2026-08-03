@@ -1531,6 +1531,12 @@
                 },
                 "updatedBy": "Opdateret af"
             },
+            "mentions": {
+                "hint": "Skriv {'@'} for at tagge en kollega eller en borger",
+                "noAccess": "ingen adgang",
+                "noAccessMessage": "Du er ikke kontaktperson på denne borger, så du kan ikke åbne borgeren.",
+                "noAccessTitle": "Ingen adgang"
+            },
             "move": {
                 "citizen": "Borger",
                 "move": "Flyt",

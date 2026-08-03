@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { incidentService } from '@/components/api/user/IncidentService'
 import { useVuelidate } from "@vuelidate/core"

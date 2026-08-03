@@ -1531,6 +1531,12 @@
                 },
                 "updatedBy": "Oppdatert av"
             },
+            "mentions": {
+                "hint": "Skriv {'@'} for å tagge en kollega eller en innbygger",
+                "noAccess": "ingen tilgang",
+                "noAccessMessage": "Du er ikke kontaktperson for denne innbyggeren, så du kan ikke åpne den.",
+                "noAccessTitle": "Ingen tilgang"
+            },
             "move": {
                 "citizen": "Bruker",
                 "move": "Flytt",

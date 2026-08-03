@@ -203,6 +203,7 @@
                 <div class="co-editor">
                     <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
                 </div>
+                <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
@@ -480,7 +481,9 @@ import { subgoalService } from '@/components/api/user/SubgoalService'
 import { userService } from '@/components/api/user/UserService'
 import { surveyService } from '@/components/api/user/SurveyService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
+import { Mention } from 'ckeditor5'
+import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useCitizenStore } from '@/store/citizen'
@@ -540,7 +543,9 @@ const editorContentConfig = ref({
             { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
         ]
     },
-    extraPlugins: [ContentUploadAdapterPlugin],
+    extraPlugins: [ContentUploadAdapterPlugin, Mention, MentionCustomization],
+    // Roadmap 357: @ tags a colleague (notified) or a citizen (initials only).
+    mention: mentionConfig(),
     height: 500  // Set the editor height here
 }) as any
 const editorNoteConfig = ref({
@@ -557,7 +562,8 @@ const editorNoteConfig = ref({
             { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
         ]
     },
-    extraPlugins: [NoteUploadAdapterPlugin],
+    extraPlugins: [NoteUploadAdapterPlugin, Mention, MentionCustomization],
+    mention: mentionConfig(),
     height: 500  // Set the editor height here
 }) as any
 
