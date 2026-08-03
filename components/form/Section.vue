@@ -4,8 +4,8 @@
         <!-- The heading sits above the card, not in a column beside it. The old
              side column held nothing but a heading, which left a third of the
              form empty on wide screens. -->
-        <div class="mb-4">
-            <h2 class="text-base font-semibold leading-7 text-gray-900">{{ title }}</h2>
+        <div v-if="title || description" class="mb-4">
+            <h2 v-if="title" class="text-base font-semibold leading-7 text-gray-900">{{ title }}</h2>
             <p v-if="description" class="mt-1 max-w-[65ch] text-sm leading-6 text-gray-500">{{ description }}</p>
             <slot name="intro" />
         </div>
@@ -23,7 +23,7 @@
 defineProps({
     title: {
         type: String,
-        required: true,
+        default: '',
     },
     description: {
         type: String,
