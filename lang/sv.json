@@ -9844,7 +9844,8 @@
                 "all": "Alla",
                 "active": "Aktiva",
                 "inactive": "Inaktiva",
-                "paying": "Betalande"
+                "paying": "Betalande",
+                "migration": "Datamigrering"
             },
             "totalClients": "klienter totalt",
             "export": "Exportera",
@@ -9884,6 +9885,24 @@
                 "searchPlaceholder": "Sök efter namn eller e-post...",
                 "userAccounts": "Användarkonton",
                 "yearly": "år."
+            },
+            "migration": {
+                "pageTitle": "Datamigrering",
+                "description": "Importera data till kundens konto utan att använda deras inloggning. Kontrollen visar vad som händer innan något sparas, och varje körning kan ångras.",
+                "startMigration": "Starta migrering",
+                "checkFirst": "Kör alltid kontrollen på ett litet utdrag först.",
+                "previousRuns": "Tidigare körningar",
+                "noRuns": "Inga migreringar körda ännu",
+                "colEntity": "Typ",
+                "colRows": "Rader",
+                "colRunBy": "Körd av",
+                "colWhen": "Tidpunkt",
+                "colStatus": "Status",
+                "undone": "Ångrad",
+                "active": "Aktiv",
+                "undo": "Ångra",
+                "undoneCount": "{count} rader borttagna",
+                "refresh": "Uppdatera"
             }
         },
         "coupons": {
@@ -11866,7 +11885,18 @@
                 "scheduleHint": "Rader utan matchning i CitizenOne (okänd e-post eller skifttyp) sorteras automatiskt bort under importen och visas i sammanfattningen.",
                 "citizensHint": "Medborgare som redan finns (samma CPR eller namn) hoppas över.",
                 "employeesHint": "Anställda som redan finns (samma e-post eller namn) hoppas över. Varje ny anställd använder en användarlicens - om du tar slut skapas resten inte.",
-                "noValidRows": "Inga giltiga rader att importera. Gå tillbaka och kontrollera mappning och data."
+                "noValidRows": "Inga giltiga rader att importera. Gå tillbaka och kontrollera mappning och data.",
+                "systemCheck": "Kontroll mot systemet",
+                "runCheck": "Kör kontroll",
+                "recheck": "Kör igen",
+                "checking": "Kontrollerar raderna mot systemet ...",
+                "checkHint": "Kontrollen visar dubbletter, nya avdelningar och datum systemet inte kan läsa. Ingenting sparas.",
+                "wouldCreate": "Skapas",
+                "alreadyExists": "Finns redan",
+                "wontLand": "Kommer inte in",
+                "newDepartments": "Nya avdelningar ({count}):",
+                "rowsToLookAt": "Rader att titta på",
+                "line": "Rad {line}"
             },
             "importing": {
                 "label": "Importerar…"
@@ -11931,13 +11961,27 @@
             "undoFailed": "Kunde inte ångra importen.",
             "invitesFailed": "Kunde inte skicka inloggningsmail.",
             "missingField": "Saknar {field}",
-            "invalidField": "Ogiltigt {field}"
+            "invalidField": "Ogiltigt {field}",
+            "checkFailed": "Kontrollen kunde inte genomföras"
         },
         "page": {
             "title": "Importera från ett annat system",
             "description": "Migrera invånare, anställda, journaler och scheman från ert nuvarande system via CSV eller Excel. Ladda upp filen, koppla kolumnerna till CitizenOne och importera.",
             "startImport": "Starta import",
             "adminOnly": "Endast administratörer kan importera data."
+        },
+        "results": {
+            "create": "skapas",
+            "created": "skapad",
+            "duplicate": "dubblett",
+            "skipped": "överhoppad",
+            "failed": "misslyckades"
+        },
+        "warnings": {
+            "cpr_missing": "Personnummer saknas - dubbletter hittas då bara på namn",
+            "cpr_malformed": "Personnummer har inte 10 siffror",
+            "invalid_date": "Datum kan inte läsas: {field}",
+            "date_guessed": "Datum korrigerades av systemet: {field}"
         }
     },
     "sms": {
