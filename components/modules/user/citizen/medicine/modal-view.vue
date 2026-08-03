@@ -78,12 +78,18 @@
                             </span>
                             {{ state.selectedMedicine?.current_stocks }}
                         </p>
-                        <p>
-                            <span class="font-semibold">
-                                {{ $t('citizens.medicineJournals.form.strength') }}:
+                        <p class="flex items-center gap-x-2">
+                            <span>
+                                <span class="font-semibold">
+                                    {{ $t('citizens.medicineJournals.form.strength') }}:
+                                </span>
+                                {{ state.selectedMedicine?.strength }}
+                                {{ state.selectedMedicine?.mass_unit?.name }}
                             </span>
-                            {{ state.selectedMedicine?.strength }}
-                            {{ state.selectedMedicine?.mass_unit?.name }}
+                            <button type="button" class="text-xs text-tertiary hover:text-tertiary-800 underline"
+                                @click="state.modal.isDosageHistoryOpen = true">
+                                {{ $t('citizens.medicineJournals.dosageChange.dosageHistory') }}
+                            </button>
                         </p>
                         <p>
                             <span class="font-semibold">
@@ -272,7 +278,12 @@
                                 buttonStyle="primary" class="w-full" @click="state.modal.isEditMedicineOpen = true">
                                 {{ $t('citizens.medicineJournals.editMedicine') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="cancel" class="col-start-2" @click="closeModal()">
+                            <FormButton v-if="isAtLeast('Admin') || can('update_citizen_medicine')" type="button"
+                                buttonStyle="action" class="w-full" @click="state.modal.isDosageChangeOpen = true">
+                                <Icon name="ph:trend-up" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.medicineJournals.dosageChange.recordDosageChange') }}
+                            </FormButton>
+                            <FormButton type="button" buttonStyle="cancel" @click="closeModal()">
                                 {{ $t('close') }}
                             </FormButton>
                         </div>
@@ -280,6 +291,12 @@
                 </LoadingSpinner>
                 <ModulesUserCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isEditMedicineOpen = false"
+                    @refreshMedicines="fetchCitizenMedicines" />
+                <ModulesUserCitizenMedicineDosageChangeModalNew :isModalOpen="state.modal.isDosageChangeOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isDosageChangeOpen = false"
+                    @refreshMedicines="fetchCitizenMedicines" @refreshDosageChanges="fetchCitizenMedicines" />
+                <ModulesUserCitizenMedicineDosageChangeModalHistory :isModalOpen="state.modal.isDosageHistoryOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isDosageHistoryOpen = false"
                     @refreshMedicines="fetchCitizenMedicines" />
             </template>
         </Modal>
@@ -315,7 +332,9 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     modal: {
-        isEditMedicineOpen: false
+        isEditMedicineOpen: false,
+        isDosageChangeOpen: false,
+        isDosageHistoryOpen: false
     },
     selectedMedicine: {} as any,
 })

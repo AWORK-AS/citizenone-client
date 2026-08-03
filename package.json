@@ -23,8 +23,8 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^42.0.2",
     "@ckeditor/ckeditor5-vue": "^6.0.0",
+    "ckeditor5": "42.0.2",
     "@headlessui/vue": "^1.7.22",
     "@iconify-json/carbon": "^1.1.36",
     "@iconify-json/heroicons": "^1.1.23",

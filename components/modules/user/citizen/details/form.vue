@@ -1044,7 +1044,7 @@ import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { employmentService } from '@/components/api/user/EmploymentService'
 import { employeeService } from '@/components/api/user/EmployeeService'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { journalService } from '@/components/api/user/JournalService'
 
 const userStore = useUserStore() as any

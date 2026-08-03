@@ -42,9 +42,6 @@ importers:
         specifier: ^0.18.5
         version: 0.18.5
     devDependencies:
-      '@ckeditor/ckeditor5-build-classic':
-        specifier: ^42.0.2
-        version: 42.0.2
       '@ckeditor/ckeditor5-vue':
         specifier: ^6.0.0
         version: 6.0.0(ckeditor5@42.0.2)(vue@3.4.34)
@@ -108,6 +105,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.40)
+      ckeditor5:
+        specifier: 42.0.2
+        version: 42.0.2
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
@@ -359,10 +359,6 @@ packages:
 
   '@ckeditor/ckeditor5-block-quote@42.0.2':
     resolution: {integrity: sha512-xfX+tdAhn7WPHNNZR5Wkjl+OnmbNlEOVVZCL2iAjfswf4r3CglLnJOa529FO+4MyNcwkP+joQ3iVBclZNbETLw==}
-
-  '@ckeditor/ckeditor5-build-classic@42.0.2':
-    resolution: {integrity: sha512-jzQ54btXx1EL6ioLLGWu0SMSVUqQJAuJC+K18yKaLP48gep6DnZ9unsTtJhkhKOLE21sEGUUnP3GXo/MzMBflw==}
-    deprecated: The predefined builds are no longer maintained. Check the https://ckeditor.com/docs/ckeditor5/latest/updating/nim-migration/predefined-builds.html page for the details.
 
   '@ckeditor/ckeditor5-ckbox@42.0.2':
     resolution: {integrity: sha512-RvCUphlhrTuGBy78kEOFJvdvmP3o7ajibubOOpVfUMz1V8BbTmmx1+XaveCDxznkwiCLUwqZplWZnpPoEABj2w==}
@@ -4884,29 +4880,6 @@ snapshots:
       '@ckeditor/ckeditor5-ui': 42.0.2
       '@ckeditor/ckeditor5-utils': 42.0.2
       ckeditor5: 42.0.2
-
-  '@ckeditor/ckeditor5-build-classic@42.0.2':
-    dependencies:
-      '@ckeditor/ckeditor5-adapter-ckfinder': 42.0.2
-      '@ckeditor/ckeditor5-autoformat': 42.0.2
-      '@ckeditor/ckeditor5-basic-styles': 42.0.2
-      '@ckeditor/ckeditor5-block-quote': 42.0.2
-      '@ckeditor/ckeditor5-ckbox': 42.0.2
-      '@ckeditor/ckeditor5-ckfinder': 42.0.2
-      '@ckeditor/ckeditor5-cloud-services': 42.0.2
-      '@ckeditor/ckeditor5-easy-image': 42.0.2
-      '@ckeditor/ckeditor5-editor-classic': 42.0.2
-      '@ckeditor/ckeditor5-essentials': 42.0.2
-      '@ckeditor/ckeditor5-heading': 42.0.2
-      '@ckeditor/ckeditor5-image': 42.0.2
-      '@ckeditor/ckeditor5-indent': 42.0.2
-      '@ckeditor/ckeditor5-link': 42.0.2
-      '@ckeditor/ckeditor5-list': 42.0.2
-      '@ckeditor/ckeditor5-media-embed': 42.0.2
-      '@ckeditor/ckeditor5-paragraph': 42.0.2
-      '@ckeditor/ckeditor5-paste-from-office': 42.0.2
-      '@ckeditor/ckeditor5-table': 42.0.2
-      '@ckeditor/ckeditor5-typing': 42.0.2
 
   '@ckeditor/ckeditor5-ckbox@42.0.2':
     dependencies:
