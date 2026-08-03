@@ -1,6 +1,19 @@
 import APIError from '@/components/api/user/APIError'
 
 class BaseAPIService {
+    /**
+     * The API tags every request with an id and returns it as X-Request-Id. The
+     * same id sits in the server log, so showing it turns "it broke some time
+     * this afternoon" into a lookup.
+     */
+    private static errorIdOf(error: any): string | undefined {
+        try {
+            return error?.response?.headers?.get?.('x-request-id') ?? undefined
+        } catch {
+            return undefined
+        }
+    }
+
     private readonly inflightRequests = new Map<string, Promise<any>>()
 
     async request(url: string, method: string, params: object = [], signal?: AbortSignal): Promise<any> {
@@ -49,6 +62,9 @@ class BaseAPIService {
             if (error?.name === 'AbortError') throw error
             switch (error.response?.status) {
                 case 400:
+                    // This app answers 400 with a generic message for server-side
+                    // failures it caught itself, so the id belongs here too.
+                    throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
                 case 404:
                 case 422:
                 case 429:
@@ -60,11 +76,13 @@ class BaseAPIService {
                     throw new APIError(error.response._data)
                 case 500:
                     throw new APIError({
-                        message: "Server error. Please try again. If the problem persists, contact your system administrator"
+                        message: "Server error. Please try again. If the problem persists, contact your system administrator",
+                        errorId: BaseAPIService.errorIdOf(error),
                     })
                 default:
                     throw new APIError({
-                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator"
+                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator",
+                        errorId: BaseAPIService.errorIdOf(error),
                     })
             }
         }
@@ -87,6 +105,9 @@ class BaseAPIService {
         } catch (error: any) {
             switch (error.response.status) {
                 case 400:
+                    // This app answers 400 with a generic message for server-side
+                    // failures it caught itself, so the id belongs here too.
+                    throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
                 case 404:
                 case 422:
                 case 429:
@@ -98,11 +119,13 @@ class BaseAPIService {
                     throw new APIError(error.response._data)
                 case 500:
                     throw new APIError({
-                        message: "Server error. Please try again. If the problem persists, contact your system administrator"
+                        message: "Server error. Please try again. If the problem persists, contact your system administrator",
+                        errorId: BaseAPIService.errorIdOf(error),
                     })
                 default:
                     throw new APIError({
-                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator"
+                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator",
+                        errorId: BaseAPIService.errorIdOf(error),
                     })
             }
         }
@@ -131,6 +154,9 @@ class BaseAPIService {
         } catch (error: any) {
             switch (error.response.status) {
                 case 400:
+                    // This app answers 400 with a generic message for server-side
+                    // failures it caught itself, so the id belongs here too.
+                    throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
                 case 404:
                 case 422:
                 case 429:
@@ -142,11 +168,13 @@ class BaseAPIService {
                     throw new APIError(error.response._data)
                 case 500:
                     throw new APIError({
-                        message: "Server error. Please try again. If the problem persists, contact your system administrator"
+                        message: "Server error. Please try again. If the problem persists, contact your system administrator",
+                        errorId: BaseAPIService.errorIdOf(error),
                     })
                 default:
                     throw new APIError({
-                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator"
+                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator",
+                        errorId: BaseAPIService.errorIdOf(error),
                     })
             }
         }
