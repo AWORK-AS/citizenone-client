@@ -77,7 +77,10 @@
                             <ul v-if="state.events.length" class="space-y-2">
                                 <li v-for="(e, i) in state.events" :key="i"
                                     class="flex items-center justify-between gap-3 rounded-lg bg-gray-50 px-3 py-2">
-                                    <p class="text-sm font-medium text-gray-800 truncate min-w-0">{{ e.title }}</p>
+                                    <div class="min-w-0">
+                                        <p class="text-sm font-medium text-gray-800 truncate">{{ e.title }}</p>
+                                        <p v-if="eventOwnersLabel(e)" class="text-xxs text-gray-500 truncate">{{ eventOwnersLabel(e) }}</p>
+                                    </div>
                                     <span class="shrink-0 text-xs font-medium text-gray-600 tabular-nums">
                                         {{ time(e.date_time_start) }}-{{ time(e.date_time_end) }}
                                     </span>
@@ -380,6 +383,13 @@ const stats = computed(() => [
     { key: 'meds', icon: 'solar:jar-of-pills-2-linear', label: t('myDay.medsDue'), value: pendingMedsCount.value },
     { key: 'reminders', icon: 'ph:check-square', label: t('myDay.reminders'), value: state.reminders.filter((r) => !isReminderDone(r)).length },
 ])
+
+function eventOwnersLabel(event: any) {
+    if (!event?.calendar_owners?.length) return ''
+    return event.calendar_owners
+        .map((o: any) => `${o?.owner?.firstname ?? ''} ${o?.owner?.lastname ?? ''}`.trim())
+        .filter(Boolean).join(', ')
+}
 
 function scrollTo(key: string) {
     document.getElementById(`card-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })

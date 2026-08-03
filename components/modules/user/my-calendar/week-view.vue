@@ -151,6 +151,10 @@
                                 </span>
                             </div>
                             <p class="text-gray-900" v-if="event?.description">{{ event?.description }}</p>
+                            <p class="text-xs text-gray-500 mt-1" v-if="ownersLabel(event)">
+                                <Icon name="ph:user-circle" class="h-3.5 w-3.5 inline-block text-gray-400" aria-hidden="true" />
+                                {{ ownersLabel(event) }}
+                            </p>
                             <dl class="text-gray-500">
                                 <div class="flex items-center space-x-3 text-xs">
                                     <Icon name="ph:calendar" class="h-4 w-4 text-gray-400" aria-hidden="true" />
@@ -321,6 +325,13 @@ const nextWeek = () => {
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
     state.selectedDate = moment(state.selectedDate).add(1, 'week').format('YYYY-MM-DD')
+}
+
+function ownersLabel(event: any) {
+    if (!event?.calendar_owners?.length) return ''
+    return event.calendar_owners
+        .map((o: any) => `${o?.owner?.firstname ?? ''} ${o?.owner?.lastname ?? ''}`.trim())
+        .filter(Boolean).join(', ')
 }
 
 function showAllInvitees(myCalendarEvent: any) {

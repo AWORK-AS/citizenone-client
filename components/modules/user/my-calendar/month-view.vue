@@ -179,6 +179,7 @@
                                             <span class="min-w-0 flex-1 truncate text-[11px] font-medium"
                                                 :class="myCalendarEvent?.completion_status === 'completed' ? 'text-gray-400 line-through' : 'text-gray-800 group-hover/event:text-gray-900'">
                                                 {{ myCalendarEvent?.title }}
+                                                <span v-if="ownersLabel(myCalendarEvent)" class="font-normal text-gray-400">· {{ ownersLabel(myCalendarEvent) }}</span>
                                             </span>
                                             <Icon v-if="myCalendarEvent?.completion_status === 'completed'"
                                                 name="ph:check-circle-fill" class="h-3 w-3 flex-none text-green-500" />

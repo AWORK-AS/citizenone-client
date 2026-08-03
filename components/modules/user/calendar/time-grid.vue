@@ -47,7 +47,8 @@
                         </div>
                         <!-- events -->
                         <button v-for="ev in day.events" :key="ev.uuid" type="button"
-                            :aria-label="ev.title"
+                            :aria-label="ev.ownersLabel ? `${ev.title}, ${ev.ownersLabel}` : ev.title"
+                            :title="ev.ownersLabel"
                             class="group/ev absolute overflow-hidden rounded-md border-l-2 px-1.5 py-0.5 text-left transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                             :class="[ev.colorClass, ev.completed && 'opacity-70', ev.isNow && 'ring-1 ring-inset ring-red-400']"
                             :style="{ top: ev.top + 'px', height: ev.height + 'px', left: ev.left, width: ev.width }"
@@ -56,7 +57,10 @@
                                 <span v-if="ev.isNow" class="h-1.5 w-1.5 flex-none rounded-full bg-red-500 motion-safe:animate-pulse"></span>
                                 <span class="truncate text-[11px] font-semibold" :class="ev.completed && 'line-through'">{{ ev.title }}</span>
                             </span>
-                            <span v-if="ev.height >= 30" class="block truncate text-[10px] tabular-nums opacity-75">
+                            <span v-if="ev.height >= 30 && ev.ownersLabel" class="block truncate text-[10px] opacity-75">
+                                {{ ev.ownersLabel }}
+                            </span>
+                            <span v-else-if="ev.height >= 30" class="block truncate text-[10px] tabular-nums opacity-75">
                                 {{ ev.timeLabel }}
                             </span>
                         </button>
@@ -112,6 +116,13 @@ function colorClass(type: string) {
     return 'border-amber-500 bg-amber-500/10 text-amber-900 hover:bg-amber-500/[0.18]'
 }
 
+function ownersLabel(event: any) {
+    if (!event?.calendar_owners?.length) return ''
+    return event.calendar_owners
+        .map((o: any) => `${o?.owner?.firstname ?? ''} ${o?.owner?.lastname ?? ''}`.trim())
+        .filter(Boolean).join(', ')
+}
+
 function isNow(e: any) {
     return nowTick.value.isBetween(moment(e.date_time_start), moment(e.date_time_end), null, '[)')
 }
@@ -145,6 +156,7 @@ const laidOut = computed(() => {
                     completed: c.raw.completion_status === 'completed',
                     isNow: isNow(c.raw),
                     colorClass: colorClass(c.raw.type),
+                    ownersLabel: ownersLabel(c.raw),
                     timeLabel: `${moment(c.raw.date_time_start).format('HH:mm')} – ${moment(c.raw.date_time_end).format('HH:mm')}`,
                     top: c.startMin / 60 * hourHeight,
                     height: Math.max(22, (c.endMin - c.startMin) / 60 * hourHeight - 2),
