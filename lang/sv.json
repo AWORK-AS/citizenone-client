@@ -2226,6 +2226,25 @@
                 "deactivateConfirmation": "Är du säker på att du vill deaktivere denna medicin",
                 "deleteConfirmation": "Är du säker på att du vill radera denna medicin"
             },
+            "dosageChange": {
+                "alert": {
+                    "successfullyAdded": "Doseringsändring registrerad",
+                    "successfullyDeleted": "Doseringsändring borttagen"
+                },
+                "confirmDelete": "Är du säker på att du vill ta bort denna doseringsändring",
+                "currentDosage": "Nuvarande dosering",
+                "deEscalate": "Trappa ner",
+                "dosageHistory": "Doseringshistorik",
+                "effectiveDate": "Ikraftträdandedatum",
+                "escalate": "Trappa upp",
+                "newMaxDailyDose": "Ny maximal daglig dos",
+                "newStrength": "Ny styrka",
+                "noDosageChangesRecorded": "Inga doseringsändringar registrerade ännu",
+                "reason": "Anledning",
+                "reasonPlaceholder": "Varför ändras doseringen?",
+                "recordDosageChange": "Trappa upp/ner dosering",
+                "type": "Ändringstyp"
+            },
             "download": "Ladda ner",
             "downloadOverview": "Ladda ner översikt",
             "editMedicine": "Redigera Medicin",
