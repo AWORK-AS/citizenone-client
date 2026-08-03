@@ -5741,12 +5741,12 @@
             },
             "firstname": "First name",
             "header": {
-                "comprehensiveEmploymentDetailsWithinTheOrganization": "Comprehensive employment details within the organization",
+                "comprehensiveEmploymentDetailsWithinTheOrganization": "Comprehensive employment details within the organization.",
                 "emergencyContactDetailsInCaseOfAnUrgentSituation": "Emergency contact details in case of an urgent situation",
                 "emergencyInfo": "Emergency info",
                 "employeeInformation": "Employee Information",
                 "employmentInformation": "Employment Information",
-                "essentialDetailsOfTheEmployee": "Essential details of the employee"
+                "essentialDetailsOfTheEmployee": "Essential details of the employee."
             },
             "lastname": "Last name",
             "mediaRisks": {

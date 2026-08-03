@@ -9,7 +9,11 @@
             <p v-if="description" class="mt-1 max-w-[65ch] text-sm leading-6 text-gray-500">{{ description }}</p>
             <slot name="intro" />
         </div>
-        <div class="space-y-3 rounded-lg bg-white px-4 py-6 shadow-sm ring-1 ring-gray-900/5 sm:p-8">
+        <!-- Sections that already bring their own cards opt out of this one. -->
+        <div v-if="bare">
+            <slot />
+        </div>
+        <div v-else class="space-y-3 rounded-lg bg-white px-4 py-6 shadow-sm ring-1 ring-gray-900/5 sm:p-8">
             <slot />
         </div>
     </section>
@@ -24,6 +28,10 @@ defineProps({
     description: {
         type: String,
         default: '',
+    },
+    bare: {
+        type: Boolean,
+        default: false,
     },
 })
 </script>

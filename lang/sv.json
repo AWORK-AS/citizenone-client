@@ -5741,12 +5741,12 @@
             },
             "firstname": "Förnamn",
             "header": {
-                "comprehensiveEmploymentDetailsWithinTheOrganization": "Omfattende ansättelsesoplysninger innan för organisationen",
+                "comprehensiveEmploymentDetailsWithinTheOrganization": "Omfattende ansättelsesoplysninger innan för organisationen.",
                 "emergencyContactDetailsInCaseOfAnUrgentSituation": "Kontaktuppgifter i nödstilfälde",
                 "emergencyInfo": "Nödinformation",
                 "employeeInformation": "Medarbejderinformation",
                 "employmentInformation": "Ansättelsesinformation",
-                "essentialDetailsOfTheEmployee": "Väsentlige uppgifter om den anställde"
+                "essentialDetailsOfTheEmployee": "Väsentlige uppgifter om den anställde."
             },
             "lastname": "Efternamn",
             "mediaRisks": {
