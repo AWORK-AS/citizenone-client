@@ -1360,6 +1360,7 @@
         "attendance": {
             "protocol": "Protokoll"
         },
+        "birthdayToday": "Bursdag i dag",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Arrangement slettet vellykket"
@@ -1530,6 +1531,12 @@
                     }
                 },
                 "updatedBy": "Oppdatert av"
+            },
+            "mentions": {
+                "hint": "Skriv {'@'} for å tagge en kollega eller en innbygger",
+                "noAccess": "ingen tilgang",
+                "noAccessMessage": "Du er ikke kontaktperson for denne innbyggeren, så du kan ikke åpne den.",
+                "noAccessTitle": "Ingen tilgang"
             },
             "move": {
                 "citizen": "Bruker",
@@ -2225,6 +2232,25 @@
                 "activateConfirmation": "Er du sikker på at du vil aktivere denne medisin",
                 "deactivateConfirmation": "Er du sikker på at du vil deaktivere denne medisin",
                 "deleteConfirmation": "Er du sikker på at du vil slette denne medisin"
+            },
+            "dosageChange": {
+                "alert": {
+                    "successfullyAdded": "Doseringsendring registrert",
+                    "successfullyDeleted": "Doseringsendring slettet"
+                },
+                "confirmDelete": "Er du sikker på at du vil slette denne doseringsendringen",
+                "currentDosage": "Nåværende dosering",
+                "deEscalate": "Nedtrapp",
+                "dosageHistory": "Doseringshistorikk",
+                "effectiveDate": "Ikrafttredelsesdato",
+                "escalate": "Opptrapp",
+                "newMaxDailyDose": "Ny maksimal daglig dose",
+                "newStrength": "Ny styrke",
+                "noDosageChangesRecorded": "Ingen doseringsendringer registrert ennå",
+                "reason": "Årsak",
+                "reasonPlaceholder": "Hvorfor endres doseringen?",
+                "recordDosageChange": "Opp- / nedtrapp dosering",
+                "type": "Endringstype"
             },
             "download": "Last ned",
             "downloadOverview": "Last ned oversigt",
@@ -3365,10 +3391,12 @@
             "actions": {
                 "download": "Last ned",
                 "edit": "Rediger",
+                "pay": "Betal",
                 "sendInvoice": "Send faktura",
                 "view": "Se"
             },
             "alert": {
+                "invoicePaidSuccessfully": "Faktura betalt vellykket",
                 "invoiceSuccessfullySent": "Faktura sendt vellykket"
             },
             "amount": "Beløp",
@@ -9819,7 +9847,8 @@
                 "all": "Alle",
                 "active": "Aktive",
                 "inactive": "Inaktive",
-                "paying": "Betalende"
+                "paying": "Betalende",
+                "migration": "Datamigrering"
             },
             "totalClients": "klienter totalt",
             "export": "Eksporter",
@@ -9859,6 +9888,24 @@
                 "searchPlaceholder": "Søk etter navn eller e-post...",
                 "userAccounts": "Brukerkontoer",
                 "yearly": "år."
+            },
+            "migration": {
+                "pageTitle": "Datamigrering",
+                "description": "Importer data til kundens konto uten å bruke deres innlogging. Kontrollen viser hva som skjer før noe blir lagret, og hver kjøring kan angres.",
+                "startMigration": "Start migrering",
+                "checkFirst": "Kjør alltid kontrollen på et lite uttrekk først.",
+                "previousRuns": "Tidligere kjøringer",
+                "noRuns": "Ingen migreringer kjørt ennå",
+                "colEntity": "Type",
+                "colRows": "Rader",
+                "colRunBy": "Kjørt av",
+                "colWhen": "Tidspunkt",
+                "colStatus": "Status",
+                "undone": "Angret",
+                "active": "Aktiv",
+                "undo": "Angre",
+                "undoneCount": "{count} rader slettet",
+                "refresh": "Oppdater"
             }
         },
         "coupons": {
@@ -11841,7 +11888,18 @@
                 "scheduleHint": "Rader uten treff i CitizenOne (ukjent e-post eller vakttype) sorteres automatisk ut under importen og vises i oppsummeringen.",
                 "citizensHint": "Innbyggere som allerede finnes (samme CPR eller navn) hoppes over.",
                 "employeesHint": "Ansatte som allerede finnes (samme e-post eller navn) hoppes over. Hver ny ansatt bruker én brukerlisens - går dere tomme, opprettes resten ikke.",
-                "noValidRows": "Ingen gyldige rader å importere. Gå tilbake og sjekk mapping og data."
+                "noValidRows": "Ingen gyldige rader å importere. Gå tilbake og sjekk mapping og data.",
+                "systemCheck": "Kontroll mot systemet",
+                "runCheck": "Kjør kontroll",
+                "recheck": "Kjør igjen",
+                "checking": "Kontrollerer radene mot systemet ...",
+                "checkHint": "Kontrollen viser duplikater, nye avdelinger og datoer systemet ikke kan lese. Ingenting blir lagret.",
+                "wouldCreate": "Opprettes",
+                "alreadyExists": "Finnes allerede",
+                "wontLand": "Kommer ikke inn",
+                "newDepartments": "Nye avdelinger ({count}):",
+                "rowsToLookAt": "Rader du bør se på",
+                "line": "Linje {line}"
             },
             "importing": {
                 "label": "Importerer…"
@@ -11906,13 +11964,27 @@
             "undoFailed": "Kunne ikke angre importen.",
             "invitesFailed": "Kunne ikke sende innloggings-e-poster.",
             "missingField": "Mangler {field}",
-            "invalidField": "Ugyldig {field}"
+            "invalidField": "Ugyldig {field}",
+            "checkFailed": "Kontrollen kunne ikke gjennomføres"
         },
         "page": {
             "title": "Importer fra et annet system",
             "description": "Migrer borgere, ansatte, journaler og vaktplaner fra ditt nåværende system via CSV eller Excel. Last opp filen, koble kolonnene til CitizenOne, og importer.",
             "startImport": "Start import",
             "adminOnly": "Kun administratorer kan importere data."
+        },
+        "results": {
+            "create": "opprettes",
+            "created": "opprettet",
+            "duplicate": "duplikat",
+            "skipped": "hoppet over",
+            "failed": "feilet"
+        },
+        "warnings": {
+            "cpr_missing": "CPR mangler - duplikater finnes da bare på navn",
+            "cpr_malformed": "CPR har ikke 10 sifre",
+            "invalid_date": "Dato kan ikke leses: {field}",
+            "date_guessed": "Dato ble rettet av systemet: {field}"
         }
     },
     "sms": {

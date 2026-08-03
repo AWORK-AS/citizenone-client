@@ -188,7 +188,7 @@
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { documentService } from '@/components/api/user/DocumentService'

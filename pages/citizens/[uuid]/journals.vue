@@ -205,7 +205,7 @@
                                         </div>
                                         <div class="text-sm text-muted-400"
                                             v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
-                                            <div v-html="journal.content" class="content" />
+                                            <JournalMentionContent :html="journal.content" />
                                         </div>
                                         <div class="flex items-center gap-x-1"
                                             v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
@@ -220,7 +220,7 @@
                                             <p class="font-semibold">
                                                 {{ customPagesStore.getCustomPagesName?.riskAssessment }}:
                                             </p>
-                                            <div v-html="journal.note" class="content" />
+                                            <JournalMentionContent :html="journal.note" />
                                         </div>
                                         <div class="flex items-center gap-x-1"
                                             v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">

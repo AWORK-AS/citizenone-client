@@ -172,7 +172,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { planService } from '@/components/api/user/PlanService'

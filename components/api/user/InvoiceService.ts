@@ -20,6 +20,14 @@ class InvoiceService extends BaseAPIService {
     async sendAllInvoice(): Promise<any> {
         return await this.request(`/user/invoices/send/all`, 'POST')
     }
+
+    async payInvoice(invoiceUuid: any): Promise<any> {
+        return await this.request(`/user/invoices/${invoiceUuid}/pay`, 'POST')
+    }
+
+    async verifyInvoicePayment(invoiceUuid: any, paymentId: any): Promise<any> {
+        return await this.request(`/user/invoices/${invoiceUuid}/${paymentId}/verify-payment`, 'POST')
+    }
 }
 
 export const invoiceService = new InvoiceService()

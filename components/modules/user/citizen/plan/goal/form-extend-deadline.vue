@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"

@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from '@/utils/editor'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
