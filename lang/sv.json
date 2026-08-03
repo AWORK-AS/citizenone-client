@@ -1923,6 +1923,9 @@
             "section": "Paragraf",
             "selectedAddress": "Vald adress",
             "selectedLocation": "Vald placering",
+            "autoFilledFromSsn": "Ifyllt från CPR-numret",
+            "selectGender": "Välj kön",
+            "ssnPlaceholder": "ddmmåå-xxxx",
             "ssn": "Personnummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdatum",
@@ -2787,10 +2790,15 @@
         "rooms": "Rum",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
+            "citizenDetailsHelp": "Namn, personnummer och kontaktuppgifter. CPR-numret fyller själv i födelsedag och kön.",
             "dentalProfile": "Tandprofil",
+            "dentalProfileHelp": "Tandläkare, patientnummer, kommunalt bidrag och senaste kontroll.",
             "employmentProgram": "Sysselsättningsförlopp",
+            "employmentProgramHelp": "Ärendetyp, status, försörjningsgrund och de konsulter och hänvisare som är på ärendet.",
             "inquiryData": "Henvendelsesdata",
-            "stayData": "Vistelsedata"
+            "inquiryDataHelp": "Vem som kontaktade, när, och vad samtalet ledde till.",
+            "stayData": "Vistelsedata",
+            "stayDataHelp": "Journalnummer, in- och utflyttning, pris och betalande kommun."
         },
         "statuses": {
             "alert": {
