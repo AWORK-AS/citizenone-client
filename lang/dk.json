@@ -2226,6 +2226,25 @@
                 "deactivateConfirmation": "Er du sikker på, at du vil deaktivere denne medicin",
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne medicin"
             },
+            "dosageChange": {
+                "alert": {
+                    "successfullyAdded": "Doseringsændring registreret",
+                    "successfullyDeleted": "Doseringsændring slettet"
+                },
+                "confirmDelete": "Er du sikker på, at du vil slette denne doseringsændring",
+                "currentDosage": "Nuværende dosering",
+                "deEscalate": "Nedtrap",
+                "dosageHistory": "Doseringshistorik",
+                "effectiveDate": "Ikrafttrædelsesdato",
+                "escalate": "Optrap",
+                "newMaxDailyDose": "Ny maksimal daglig dosis",
+                "newStrength": "Ny styrke",
+                "noDosageChangesRecorded": "Ingen doseringsændringer registreret endnu",
+                "reason": "Årsag",
+                "reasonPlaceholder": "Hvorfor ændres doseringen?",
+                "recordDosageChange": "Op- / nedtrap dosering",
+                "type": "Ændringstype"
+            },
             "download": "Download",
             "downloadOverview": "Download oversigt",
             "editMedicine": "Rediger Medicin",
