@@ -185,6 +185,24 @@
                         {{ $t('citizens.contacts.form.allowSystemAccess') }}
                     </div>
                 </div>
+                <div class="space-y-3" v-if="userStore.getUser?.has_third_party_app && isThirdPartyTitle">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formContact.has_system_access = !state.formContact.has_system_access">
+                        <FormCheckbox :value="state.formContact.has_system_access" />
+                        {{ $t('citizens.contacts.form.allowChatAccess') }}
+                    </div>
+                    <div v-if="state.formContact.has_system_access"
+                        class="ml-6 pl-4 border-l-2 border-primary/20 space-y-1">
+                        <FormLabel for="chat_users" :label="$t('citizens.contacts.form.mayChatWith')" />
+                        <p class="text-xs text-gray-500">
+                            {{ $t('citizens.contacts.form.mayChatWithHint') }}.
+                        </p>
+                        <FormSelectMultiple id="chat_users"
+                            :options="state.options.employees_without_all_users_option"
+                            v-model="state.formContact.chat_users" />
+                        <FormError :error="props?.error?.errors?.chat_user_uuid?.[0]" />
+                    </div>
+                </div>
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -243,6 +261,10 @@ const language = useI18n()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 
+// Contact types that can be given third-party chat access. Mirrors
+// ContactAccessService::THIRD_PARTY_TITLES on the backend.
+const THIRD_PARTY_TITLES = ['third_party', 'external_contact', 'case_manager', 'doctor', 'dentist']
+
 const state = reactive({
     error: {} as Error,
     formContact: {
@@ -269,6 +291,7 @@ const state = reactive({
             risk_level_uuid: '',
         }] as any,
         has_system_access: false,
+        chat_users: [] as any,
     },
     isPageLoading: false,
     modal: {
@@ -288,11 +311,19 @@ const state = reactive({
     }
 })
 
+const isThirdPartyTitle = computed(() => THIRD_PARTY_TITLES.includes(state.formContact.title))
+
 onMounted(async () => {
     fetchAllContactJobTitles()
     fetchNotificationTypes()
     fetchRiskLevels()
     fetchRegions()
+
+    // The third-party picker needs its options before the selected values can
+    // render, so it cannot wait for the job-title watcher.
+    if (userStore.getUser?.has_third_party_app) {
+        fetchAllUsersWithoutAllUsersOption()
+    }
 
     const contact = props.selectedContact
     const regionUuid = contact?.region?.uuid ?? (typeof contact?.region === 'string' ? contact?.region : '')
@@ -302,7 +333,7 @@ onMounted(async () => {
     state.formContact = {
         id: contact?.id,
         uuid: contact?.uuid,
-        title: contact?.title,
+        title: contact?.contact_job_title?.system_name ?? contact?.title,
         contact_job_title_uuid: contact?.contact_job_title?.uuid ?? contact?.contact_job_title_uuid ?? '',
         relationship: contact?.relationship?.uuid ?? '',
         company_name: contact?.company_name ?? '',
@@ -320,6 +351,7 @@ onMounted(async () => {
         post_code: contact?.post_code ?? '',
         notifications: [],
         has_system_access: contact?.has_system_access ?? false,
+        chat_users: contact?.chat_users?.map((user: any) => user?.uuid) ?? [],
     }
 
     if (regionUuid) {
@@ -352,7 +384,7 @@ watch(() => props.selectedContact, async (newValue: any) => {
     state.formContact = {
         id: newValue?.id,
         uuid: newValue?.uuid,
-        title: newValue?.title,
+        title: newValue?.contact_job_title?.system_name ?? newValue?.title,
         contact_job_title_uuid: newValue?.contact_job_title?.uuid ?? newValue?.contact_job_title_uuid ?? '',
         relationship: newValue?.relationship?.uuid ?? '',
         company_name: newValue?.company_name ?? '',
@@ -370,6 +402,7 @@ watch(() => props.selectedContact, async (newValue: any) => {
         post_code: newValue?.post_code ?? '',
         notifications: [],
         has_system_access: newValue?.has_system_access ?? false,
+        chat_users: newValue?.chat_users?.map((user: any) => user?.uuid) ?? [],
     }
 
     if (regionUuid) {
@@ -396,6 +429,10 @@ watch(() => props.selectedContact, async (newValue: any) => {
 watch(() => state.formContact.contact_job_title_uuid, () => {
     state.error = {}
     state.formContact.title = state.options.contactJobTitles.find((contactJobTitle: any) => contactJobTitle.value === state.formContact.contact_job_title_uuid)?.system_name
+    if (isThirdPartyTitle.value && userStore.getUser?.has_third_party_app) {
+        fetchAllUsersWithoutAllUsersOption()
+    }
+
     if (state.formContact.title === 'our_contact_person' && props.formType === 'create') {
         fetchAllUsers()
     }

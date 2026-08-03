@@ -74,7 +74,12 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData">
                             <template #body v-if="!(state.isTableLoading || state.assignments.length === 0)">
                                 <tr v-for="(a, index) in state.assignments" :key="index">
-                                    <td><p class="font-medium">{{ a?.survey?.title }}</p></td>
+                                    <td>
+                                        <p class="font-medium">{{ a?.survey?.title }}</p>
+                                        <p class="text-xs text-gray-500" v-if="a?.linked_to">
+                                            {{ $t('surveys.linkedTo') }}: {{ linkedToLabel(a.linked_to) }} — {{ a.linked_to.name }}
+                                        </p>
+                                    </td>
                                     <td>
                                         <span class="inline-block text-xs font-medium px-2.5 py-0.5 rounded-full"
                                             :class="a?.status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
@@ -121,6 +126,29 @@
                             <FormSelect id="assignment_survey" v-model="state.surveyModal.surveyUuid"
                                 :options="state.surveyOptions" :searchable="true" :canClear="false" />
                         </div>
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('surveys.linkToPlanGoalSubgoal')" />
+                            <p class="text-xs text-gray-500">{{ $t('surveys.linkToPlanGoalSubgoalHint') }}</p>
+                            <div class="grid md:grid-cols-3 gap-x-3">
+                                <div class="space-y-1">
+                                    <FormLabel for="assignment_plan" :label="$t('plansandgoals.plan')" />
+                                    <FormSelect id="assignment_plan" :options="state.options.plans"
+                                        v-model="state.surveyModal.planUuid"
+                                        @change="(planUuid: any) => fetchAllGoalsPerPlan(planUuid)" />
+                                </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="assignment_goal" :label="$t('plansandgoals.goal')" />
+                                    <FormSelect id="assignment_goal" :options="state.options.goals"
+                                        v-model="state.surveyModal.goalUuid"
+                                        @change="(goalUuid: any) => fetchAllSubgoalsPerGoal(goalUuid)" />
+                                </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="assignment_subgoal" :label="$t('plansandgoals.subgoal')" />
+                                    <FormSelect id="assignment_subgoal" :options="state.options.subgoals"
+                                        v-model="state.surveyModal.subgoalUuid" />
+                                </div>
+                            </div>
+                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <FormButton type="button" buttonStyle="cancel" @click="state.surveyModal.isOpen = false">
                                 {{ $t('cancel') }}
@@ -163,6 +191,9 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { surveyService } from '@/components/api/user/SurveyService'
+import { planService } from '@/components/api/user/PlanService'
+import { goalService } from '@/components/api/user/GoalService'
+import { subgoalService } from '@/components/api/user/SubgoalService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
@@ -198,11 +229,23 @@ const state = reactive({
     ],
     isPageLoading: false,
     isTableLoading: false,
-    surveyModal: { isOpen: false, mode: 'send' as 'send' | 'fill', surveyUuid: null as any },
+    surveyModal: {
+        isOpen: false,
+        mode: 'send' as 'send' | 'fill',
+        surveyUuid: null as any,
+        planUuid: null as any,
+        goalUuid: null as any,
+        subgoalUuid: null as any,
+    },
     answersModal: { isOpen: false, assignment: null as any },
     modal: { isDeleteOpen: false },
     selectedAssignment: {} as any,
     sortData: { sortField: 'created_at', sortOrder: 'descend' },
+    options: {
+        plans: [] as any[],
+        goals: [] as any[],
+        subgoals: [] as any[],
+    },
 })
 
 const completedWithScore = computed(() =>
@@ -255,7 +298,78 @@ function scoreLabel(score: any, ranges: any) {
 
 function formatDate(d: any) { return d ? moment(d).format('DD-MM-YYYY HH:mm') : '-' }
 
-onMounted(() => { fetchAssignments(); fetchSurveys() })
+function linkedToLabel(linkedTo: any) {
+    if (linkedTo?.type === 'plan') return t('plansandgoals.plan')
+    if (linkedTo?.type === 'goal') return t('plansandgoals.goal')
+    if (linkedTo?.type === 'subgoal') return t('plansandgoals.subgoal')
+    return ''
+}
+
+onMounted(() => {
+    fetchAssignments()
+    fetchSurveys()
+    openAssignModalFromQuery()
+})
+
+async function openAssignModalFromQuery() {
+    const linkType = route?.query?.link_type as string
+    const linkUuid = route?.query?.link_uuid as string
+    if (!linkType || !linkUuid) return
+
+    state.surveyModal.mode = 'send'
+    state.surveyModal.surveyUuid = null
+    state.surveyModal.planUuid = null
+    state.surveyModal.goalUuid = null
+    state.surveyModal.subgoalUuid = null
+    await fetchAllPlans()
+
+    if (linkType === 'plan') {
+        state.surveyModal.planUuid = linkUuid
+    } else if (linkType === 'goal') {
+        state.surveyModal.goalUuid = linkUuid
+        state.options.goals = [{ value: linkUuid, label: t('plansandgoals.goal') }]
+    } else if (linkType === 'subgoal') {
+        state.surveyModal.subgoalUuid = linkUuid
+        state.options.subgoals = [{ value: linkUuid, label: t('plansandgoals.subgoal') }]
+    }
+
+    state.surveyModal.isOpen = true
+}
+
+async function fetchAllPlans() {
+    try {
+        const response = await planService.getAllPlans(citizenUuid)
+        if (response?.data) {
+            state.options.plans = response.data.map((plan: any) => ({ value: plan?.uuid, label: plan?.name }))
+        }
+    } catch (error: any) { state.error = error }
+}
+
+async function fetchAllGoalsPerPlan(planUuid: any) {
+    state.surveyModal.goalUuid = null
+    state.surveyModal.subgoalUuid = null
+    state.options.goals = []
+    state.options.subgoals = []
+    if (!planUuid) return
+    try {
+        const response = await goalService.getAllGoalsPerPlan(planUuid)
+        if (response?.data) {
+            state.options.goals = response.data.map((goal: any) => ({ value: goal?.uuid, label: goal?.name }))
+        }
+    } catch (error: any) { state.error = error }
+}
+
+async function fetchAllSubgoalsPerGoal(goalUuid: any) {
+    state.surveyModal.subgoalUuid = null
+    state.options.subgoals = []
+    if (!goalUuid) return
+    try {
+        const response = await subgoalService.getAllSubgoals(goalUuid)
+        if (response?.data) {
+            state.options.subgoals = response.data.map((subgoal: any) => ({ value: subgoal?.uuid, label: subgoal?.name }))
+        }
+    } catch (error: any) { state.error = error }
+}
 
 async function fetchAssignments() {
     state.isTableLoading = true
@@ -278,17 +392,33 @@ async function fetchSurveys() {
 function openSurveyModal(mode: 'send' | 'fill') {
     state.surveyModal.mode = mode
     state.surveyModal.surveyUuid = null
+    state.surveyModal.planUuid = null
+    state.surveyModal.goalUuid = null
+    state.surveyModal.subgoalUuid = null
+    state.options.goals = []
+    state.options.subgoals = []
     state.surveyModal.isOpen = true
+    fetchAllPlans()
+}
+
+function planGoalSubgoalUuid() {
+    return state.surveyModal.subgoalUuid || state.surveyModal.goalUuid || state.surveyModal.planUuid || null
 }
 
 async function confirmSurveyModal() {
+    const linkUuid = planGoalSubgoalUuid()
+
     if (state.surveyModal.mode === 'fill') {
-        navigateTo(`/surveys/${state.surveyModal.surveyUuid}/fill?citizen_uuid=${citizenUuid}&from=citizen`)
+        const linkParam = linkUuid ? `&plan_goal_subgoal_uuid=${linkUuid}` : ''
+        navigateTo(`/surveys/${state.surveyModal.surveyUuid}/fill?citizen_uuid=${citizenUuid}&from=citizen${linkParam}`)
         return
     }
     state.isPageLoading = true
     try {
-        const response = await surveyService.saveAssignment(state.surveyModal.surveyUuid, { citizen_uuid: citizenUuid })
+        const response = await surveyService.saveAssignment(state.surveyModal.surveyUuid, {
+            citizen_uuid: citizenUuid,
+            plan_goal_subgoal_uuid: linkUuid,
+        })
         if (response?.data) {
             state.surveyModal.isOpen = false
             successAlert(`${t('alert.success')}!`, `${t('surveys.alert.sent')}.`)

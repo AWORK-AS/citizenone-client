@@ -40,6 +40,10 @@ class SurveyService extends BaseAPIService {
     async getCitizenAssignments(citizenUuid: any): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/survey-assignments`, 'GET')
     }
+
+    async completeAssignment(assignmentUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/survey-assignments/${assignmentUuid}/complete`, 'PUT', params)
+    }
 }
 
 export const surveyService = new SurveyService()

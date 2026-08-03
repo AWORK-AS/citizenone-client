@@ -54,7 +54,11 @@
                                         </div>
                                     </div>
                                     <div class="relative flex-1 px-4 py-6 sm:px-6 space-y-3">
-                                        <div class="flex justify-end items-center">
+                                        <div class="flex justify-end items-center gap-x-2">
+                                            <FormButton buttonStyle="action" @click="assignSurvey">
+                                                <Icon name="ph:clipboard-text" class="h-4 w-4" aria-hidden="true" />
+                                                {{ $t('surveys.assignSurvey') }}
+                                            </FormButton>
                                             <FormButton buttonStyle="action" @click="state.modal.isAddGoalOpen = true"
                                                 v-if="hasCreateGoalsAccess()">
                                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -453,6 +457,12 @@ const { t } = useI18n()
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
 const emit = defineEmits(['close'])
+const route = useRoute()
+const citizenUuid = route?.params?.uuid as string
+
+function assignSurvey() {
+    navigateTo(`/citizens/${citizenUuid}/surveys?link_type=plan&link_uuid=${props.selectedPlan?.uuid}`)
+}
 
 const state = reactive({
     error: {} as Error,

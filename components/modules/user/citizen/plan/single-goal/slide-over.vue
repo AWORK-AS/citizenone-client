@@ -54,7 +54,11 @@
                                         </div>
                                     </div>
                                     <div class="relative flex-1 px-4 py-6 sm:px-6 space-y-3">
-                                        <div class="flex justify-end items-center">
+                                        <div class="flex justify-end items-center gap-x-2">
+                                            <FormButton buttonStyle="action" @click="assignSurveyTo('goal', props.selectedGoal)">
+                                                <Icon name="ph:clipboard-text" class="h-4 w-4" aria-hidden="true" />
+                                                {{ $t('surveys.assignSurvey') }}
+                                            </FormButton>
                                             <FormButton buttonStyle="action"
                                                 @click="state.modal.isAddSubgoalOpen = true"
                                                 v-if="hasCreateSubgoalsAccess()">
@@ -94,6 +98,12 @@
                                                                     <FormButton buttonSize="sm"
                                                                         @click="editSubGoal(subgoal)">
                                                                         <Icon name="ph:pencil-duotone" class="size-4" />
+                                                                    </FormButton>
+                                                                </Tooltip>
+                                                                <Tooltip :text="$t('surveys.assignSurvey')">
+                                                                    <FormButton buttonSize="sm"
+                                                                        @click="assignSurveyTo('subgoal', subgoal)">
+                                                                        <Icon name="ph:clipboard-text" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
@@ -246,6 +256,12 @@ const { isAtLeast, can } = usePermissions()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const emit = defineEmits(['close'])
+const route = useRoute()
+const citizenUuid = route?.params?.uuid as string
+
+function assignSurveyTo(type: 'goal' | 'subgoal', entity: any) {
+    navigateTo(`/citizens/${citizenUuid}/surveys?link_type=${type}&link_uuid=${entity?.uuid}`)
+}
 
 const state = reactive({
     error: {} as Error,

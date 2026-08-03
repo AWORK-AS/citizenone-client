@@ -26,6 +26,10 @@
                         <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('timeLogs.interventionHours') }}
                     </FormButton>
+                    <FormButton buttonStyle="action" @click="viewMileageReport">
+                        <Icon name="ph:car" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('mileageLog.mileageReport') }}
+                    </FormButton>
                 </div>
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
@@ -131,6 +135,8 @@
 
                 <ModulesUserSettingsTimeLogsInterventionHoursModal :isModalOpen="state.modal.isInterventionHoursOpen"
                     @close="state.modal.isInterventionHoursOpen = false" />
+                <ModulesUserSettingsTimeLogsMileageModal :isModalOpen="state.modal.isMileageReportOpen"
+                    @close="state.modal.isMileageReportOpen = false" />
                 <ModulesUserTimeRegistrationModalNew :isModalOpen="state.modal.isAddNewTimeLogOpen"
                     @close="state.modal.isAddNewTimeLogOpen = false" @refreshTimeLogs="fetchTimeLogs" />
                 <ModulesUserTimeRegistrationModalEdit :isModalOpen="state.modal.isEditTimeLogOpen"
@@ -203,6 +209,7 @@ const state = reactive({
         isDeleteTimeLogConfirmationOpen: false,
         isEditTimeLogOpen: false,
         isInterventionHoursOpen: false,
+        isMileageReportOpen: false,
         isViewTimeLogOpen: false,
     },
 })
@@ -252,6 +259,10 @@ function sort(sortingData: any) {
 
 function viewInterventionHours() {
     state.modal.isInterventionHoursOpen = true
+}
+
+function viewMileageReport() {
+    state.modal.isMileageReportOpen = true
 }
 
 function viewTimeLog(log: any) {

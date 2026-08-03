@@ -147,6 +147,10 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$touch()
     if (v$.value.$invalid) return
+    const url = state.formLink.url.trim()
+    // Without a protocol, window.open() in the sidebar resolves the link
+    // relative to the app itself instead of opening the external site.
+    state.formLink.url = /^[a-z][a-z0-9+.-]*:\/\//i.test(url) ? url : `https://${url}`
     emit('submitForm', state.formLink)
 }
 </script>

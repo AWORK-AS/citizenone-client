@@ -117,6 +117,7 @@ async function saveContact(contactDetails: any) {
                 city_uuid: contactDetails.city,
                 post_code: contactDetails.post_code,
                 has_system_access: contactDetails.has_system_access,
+                chat_user_uuid: contactDetails.chat_users ?? [],
                 company_contact_uuid: state.formContact.company_contact_uuid || null,
             }
         }

@@ -69,9 +69,11 @@ watch(() => language.locale.value, (locale: any) => {
 })
 
 watch(() => props.modelValue, (newValue: string[]) => {
-    if (newValue.length === 2) {
+    if (newValue?.length === 2) {
         const [start, end] = newValue || []
         state.dateValue = [new Date(start), new Date(end)]
+    } else if (!newValue?.length) {
+        state.dateValue = []
     }
 })
 
@@ -86,7 +88,7 @@ function updateValue(selectedDates: any) {
         ) {
             emit('update:modelValue', formattedDates)
         }
-    } else if (selectedDates.length === 0) {
+    } else if (selectedDates.length === 0 && props.modelValue?.length !== 0) {
         emit('update:modelValue', [])
     }
 }

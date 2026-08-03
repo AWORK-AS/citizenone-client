@@ -18,10 +18,10 @@
                         </div>
                     </div>
 
-                    <div class="space-y-1 my-1">
+                    <div class="space-y-1 my-1" v-if="props.selectedCareHour?.citizen">
                         <FormLabel :label="$t('citizens.interventionHours.view.citizen')" />
                         <div class="flex items-center gap-x-2 py-1">
-                            <img :src="props.selectedCareHour?.citizen?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${props.selectedCareHour?.citizen?.firstname + ' ' + props.selectedCareHour?.citizen?.lastname}`"
+                            <img :src="props.selectedCareHour?.citizen?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${props.selectedCareHour?.citizen?.firstname ?? ''} ${props.selectedCareHour?.citizen?.lastname ?? ''}`"
                                 :class="[
                                     'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
                                 ]" />
@@ -44,11 +44,17 @@
                     </div>
 
                     <div class="space-y-1 my-1" v-if="props.selectedCareHour?.is_transportation">
-                        <FormLabel :label="$t('citizens.interventionHours.view.startAddress')" />
+                        <FormLabel :label="startAddressLabel" />
                         <p class="text-sm font-semibold text-gray-700">{{ props.selectedCareHour?.start_address }}</p>
                     </div>
+                    <template v-if="props.selectedCareHour?.is_transportation">
+                        <div class="space-y-1 my-1" v-for="(stop, idx) in middleStops" :key="stop.id ?? idx">
+                            <FormLabel :label="stopAddressLabel(idx)" />
+                            <p class="text-sm font-semibold text-gray-700">{{ stop.address }}</p>
+                        </div>
+                    </template>
                     <div class="space-y-1 my-1" v-if="props.selectedCareHour?.is_transportation">
-                        <FormLabel :label="$t('citizens.interventionHours.view.endAddress')" />
+                        <FormLabel :label="endAddressLabel" />
                         <p class="text-sm font-semibold text-gray-700">{{ props.selectedCareHour?.end_address }}</p>
                     </div>
                     <div class="space-y-1 my-1" v-if="props.selectedCareHour?.is_transportation">
@@ -124,6 +130,37 @@ const mapZoom = ref<number>(13)
 const mapCenter = ref<[number, number]>([55.6761, 12.5683])
 const mapInstance = ref<any>(null)
 
+interface TripStop {
+    id?: number
+    uuid?: string
+    address: string
+    latitude: number | string
+    longitude: number | string
+    sequence_order?: number
+}
+
+const middleStops = computed<TripStop[]>(() => {
+    const stops = props.selectedCareHour?.stops
+    if (!stops || !Array.isArray(stops) || stops.length === 0) {
+        return []
+    }
+    return [...stops].sort((a, b) => (a.sequence_order ?? 0) - (b.sequence_order ?? 0))
+})
+
+const hasMiddleStops = computed(() => middleStops.value.length > 0)
+
+function letterFor(index: number) {
+    return index < 26 ? String.fromCharCode(65 + index) : `#${index + 1}`
+}
+
+const totalStopsCount = computed(() => middleStops.value.length + 2)
+
+const startAddressLabel = computed(() => `${letterFor(0)} — ${t('citizens.interventionHours.view.startAddress')}`)
+const endAddressLabel = computed(() => `${letterFor(totalStopsCount.value - 1)} — ${t('citizens.interventionHours.view.endAddress')}`)
+function stopAddressLabel(idx: number) {
+    return `${letterFor(idx + 1)} — ${t('citizens.interventionHours.view.stopAddress')}`
+}
+
 const locationLogs = computed<LocationLog[]>(() => {
     const logs = props.selectedCareHour?.location_logs
     if (!logs || !Array.isArray(logs) || logs.length === 0) {
@@ -197,6 +234,21 @@ const extraMarkers = computed(() => {
         })
     }
 
+    if (!hasLocationLogs.value && hasMiddleStops.value) {
+        middleStops.value.forEach((stop, idx) => {
+            const lat = Number(stop.latitude)
+            const lng = Number(stop.longitude)
+
+            if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+                arr.push({
+                    lat,
+                    lng,
+                    popup: stopAddressLabel(idx),
+                })
+            }
+        })
+    }
+
     if (endCoordsValid.value) {
         arr.push({
             lat: endLat.value as number,
@@ -219,6 +271,14 @@ const polylinePoints = computed(() => {
         locationLogs.value.forEach(log => {
             const lat = Number(log.latitude)
             const lng = Number(log.longitude)
+            if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
+                points.push([lat, lng])
+            }
+        })
+    } else if (hasMiddleStops.value) {
+        middleStops.value.forEach(stop => {
+            const lat = Number(stop.latitude)
+            const lng = Number(stop.longitude)
             if (!Number.isNaN(lat) && !Number.isNaN(lng)) {
                 points.push([lat, lng])
             }

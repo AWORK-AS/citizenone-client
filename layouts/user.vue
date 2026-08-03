@@ -443,6 +443,7 @@
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
         <ModulesUserAppTourGuide v-if="state.activeAppTour" :appKey="state.activeAppTour" @close="closeAppTour" />
+        <ModulesUserNotificationsMissedMedicineToast />
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -541,8 +542,8 @@ import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
-import { customSidebarLinkService } from '@/components/api/user/CustomSidebarLinkService'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useCustomSidebarLinksStore } from '@/store/custom-sidebar-links'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -553,6 +554,7 @@ import type { Error } from '@/types'
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
+const customSidebarLinksStore = useCustomSidebarLinksStore()
 const { isAtLeast } = usePermissions()
 const language = useI18n()
 const { term } = useTerminology()
@@ -562,7 +564,6 @@ const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
 const routeName = router?.currentRoute?.value?.name
 
 const navigation = shallowRef<any[]>([])
-const customSidebarLinks = ref<any[]>([])
 
 // "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
 // per Allan's feedback, once onboarding is fully done it should disappear from
@@ -684,6 +685,8 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Calendar') return t('sidebar.calendar')
     if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
+    if (item.name === 'My availability') return t('sidebar.myAvailability')
+    if (item.name === 'My shift evaluations') return t('sidebar.myShiftEvaluations')
     if (item.name === 'Messages') return t('sidebar.messages')
     if (item.name === 'Procedures') return t('sidebar.procedures') || 'Procedurer'
     if (item.name === 'Protocols') return t('sidebar.protocols')
@@ -736,14 +739,15 @@ onMounted(() => {
 onUnmounted(() => clearTimeout(cmdkHintTimer))
 
 async function fetchCustomSidebarLinks() {
-    try {
-        const response = await customSidebarLinkService.getSidebarList()
-        customSidebarLinks.value = response?.data ?? []
-        if (userStore.getUser) generateSidebarLinks(userStore.getUser)
-    } catch (error) {
-        // Non-fatal: the sidebar still renders the standard links.
-    }
+    await customSidebarLinksStore.fetchLinks()
 }
+
+// Custom links can be created/edited/deleted from the settings pages while this
+// layout stays mounted (SPA navigation) - re-render the sidebar whenever the
+// shared store changes, not just on this layout's own initial fetch.
+watch(() => customSidebarLinksStore.links, () => {
+    if (userStore.getUser) generateSidebarLinks(userStore.getUser)
+})
 
 function openNavItem(item: any) {
     if (item?.external) {
@@ -830,6 +834,24 @@ function generateSidebarLinks(user: any) {
                 'schedules-draft'
             ]
         })
+        if (user?.is_extended_duty_schedule_active) {
+            nav.push({
+                name: 'My availability',
+                href: '/my-availability',
+                icon: 'ph:calendar-check',
+                activeRouteNames: [
+                    'my-availability'
+                ]
+            })
+            nav.push({
+                name: 'My shift evaluations',
+                href: '/my-shift-evaluations',
+                icon: 'ph:star',
+                activeRouteNames: [
+                    'my-shift-evaluations'
+                ]
+            })
+        }
     }
     nav.push({
         name: 'Messages',
@@ -894,7 +916,7 @@ function generateSidebarLinks(user: any) {
     // Removed from the sidebar (declutter, per stakeholder feedback) - the app
     // store is still reachable for every role via the profile dropdown menu.
 
-    customSidebarLinks.value.forEach((link: any) => {
+    customSidebarLinksStore.links.forEach((link: any) => {
         nav.push({
             name: link.label,
             href: link.url,

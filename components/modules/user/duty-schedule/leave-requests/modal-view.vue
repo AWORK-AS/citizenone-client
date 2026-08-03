@@ -115,8 +115,7 @@
                     :selectedEmployee="props.selectedEmployee" :selectedLeaveRequest="state.selectedLeaveRequest"
                     @close="state.modal.isEditLeaveRequestOpen = false" @refreshLeaveRequests="fetchLeaveRequests"
                     @refreshDutySchedules="emit('refreshDutySchedules')" />
-                <DialogConfirmation :isModalOpen="state.modal.isApproveRequest"
-                    :message="$t('dutySchedules.leaveRequests.table.confirmation.approveLeaveRequestConfirmation') + '?'"
+                <ModulesUserDutyScheduleLeaveRequestsModalApprove :isModalOpen="state.modal.isApproveRequest"
                     @close="state.modal.isApproveRequest = false" @confirm="approveLeaveRequestRequest" />
                 <DialogConfirmation :isModalOpen="state.modal.isRejectRequest"
                     :message="$t('dutySchedules.leaveRequests.table.confirmation.rejectLeaveRequestConfirmation') + '?'"
@@ -283,13 +282,14 @@ function confirmApproveLeaveRequestRequest(leaveRequests: any) {
     state.modal.isApproveRequest = true
 }
 
-async function approveLeaveRequestRequest() {
+async function approveLeaveRequestRequest(audience: object) {
     state.error = {}
     state.isTableLoading = true
     try {
         const leaveRequestsUuid = state.selectedLeaveRequest.uuid
-        const response = await leaveRequestService.approveLeaveRequest(leaveRequestsUuid)
+        const response = await leaveRequestService.approveLeaveRequest(leaveRequestsUuid, audience)
         if (response) {
+            state.modal.isApproveRequest = false
             fetchLeaveRequests()
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.leaveRequests.table.alert.leaveRequestsSuccessfullyApproved')}.`)
             emit('refreshDutySchedules')
