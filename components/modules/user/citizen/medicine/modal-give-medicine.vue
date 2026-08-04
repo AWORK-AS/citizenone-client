@@ -158,7 +158,7 @@
                                     <div class="flex items-center gap-2">
                                         <span class="text-xs text-gray-500">
                                             {{ slot.dosage }}
-                                            {{ props.selectedMedicine?.dosage?.dk_name ?? 'pcs' }}
+                                            {{ props.selectedMedicine?.dosage?.dk_name ?? $t('citizens.medicineJournals.giveMedicineModal.pcs') }}
                                         </span>
                                         <span v-if="slot.status === 'given'"
                                             class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
@@ -196,7 +196,7 @@
                                             }}
                                         </label>
                                         <input type="text" v-model="slot.customDosage"
-                                            :placeholder="`Standard: ${slot.dosage}`"
+                                            :placeholder="$t('citizens.medicineJournals.giveMedicineModal.standardDosage', { dosage: slot.dosage })"
                                             class="w-full text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 focus:outline-none focus:border-primary" />
                                     </div>
                                     <input v-if="slot.selectedType" type="text" v-model="slot.comment"
@@ -334,11 +334,7 @@ const { t } = useI18n()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 
-const calendarDayHeaders = computed(() =>
-    language.locale.value === 'dk'
-        ? ['M', 'T', 'O', 'T', 'F', 'L', 'S']
-        : ['M', 'T', 'W', 'T', 'F', 'S', 'S']
-)
+const calendarDayHeaders = computed(() => language.tm('citizens.medicineJournals.giveMedicineModal.dayHeaders') as string[])
 
 const state = reactive({
     selectedDate: moment().format('YYYY-MM-DD'),
@@ -395,13 +391,21 @@ const modalTitle = computed(() =>
         : t('citizens.medicineJournals.history.giveMedicine')
 )
 
+// Month/weekday names are looked up via the app's own translation keys rather
+// than moment's locale plugin: the bundler doesn't reliably load moment's
+// side-effect-only `moment/locale/xx` files, so `.locale('xx')` silently falls
+// back to English (see similar note in pages/my-day/index.vue).
+const MONTH_KEYS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+const DAY_KEYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+
 const currentMonthLabel = computed(() =>
-    state.calendarMonth.clone().locale('en').format('MMMM YYYY')
+    `${t('months.' + MONTH_KEYS[state.calendarMonth.month()])} ${state.calendarMonth.format('YYYY')}`
 )
 
-const selectedDateLabel = computed(() =>
-    moment(state.selectedDate).locale('en').format('dddd, D MMMM')
-)
+const selectedDateLabel = computed(() => {
+    const m = moment(state.selectedDate)
+    return `${t('recurring.days.' + DAY_KEYS[m.day()])}, ${m.date()} ${t('months.' + MONTH_KEYS[m.month()])}`
+})
 
 const overdueCount = computed(() =>
     state.slots.filter(s => s.isOverdue && !s.status).length
@@ -593,7 +597,8 @@ function removeDate(dateStr: string) {
 }
 
 function formatDateShort(dateStr: string): string {
-    return moment(dateStr).locale('en').format('D MMM')
+    const m = moment(dateStr)
+    return `${m.date()} ${t('months.' + MONTH_KEYS[m.month()])}`
 }
 
 async function saveMultiDate() {
@@ -667,20 +672,18 @@ async function saveAll() {
 }
 
 
-watch(() => props.isModalOpen, (val) => {
+watch(() => props.isModalOpen, async (val) => {
     if (val) {
         const initDate = props.preselectedDate ?? moment().format('YYYY-MM-DD')
         state.selectedDate = initDate
         state.calendarMonth = moment(initDate).startOf('month')
         state.error = null
-        buildSlots(initDate)
+        await buildSlots(initDate)
         fetchMonthDosageStatus()
         // If a specific time was preselected, auto-select 'given' for that slot
         if (props.preselectedTime) {
-            nextTick(() => {
-                const slot = state.slots.find(s => s.time === props.preselectedTime && !s.status)
-                if (slot) slot.selectedType = 'given'
-            })
+            const slot = state.slots.find(s => s.time === props.preselectedTime && !s.status)
+            if (slot) slot.selectedType = 'given'
         }
     }
 })

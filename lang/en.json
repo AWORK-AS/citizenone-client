@@ -2418,6 +2418,8 @@
                 "registrations": "registrations",
                 "inTotal": "in total",
                 "pcs": "pcs",
+                "standardDosage": "Standard: {dosage}",
+                "dayHeaders": ["M", "T", "W", "T", "F", "S", "S"],
                 "commentForAll": "Comment for all (optional)...",
                 "saving": "Saving...",
                 "saveDay": "Save {n} day(s)",

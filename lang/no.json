@@ -2418,6 +2418,8 @@
                 "registrations": "registreringer",
                 "inTotal": "totalt",
                 "pcs": "stk",
+                "standardDosage": "Standard: {dosage}",
+                "dayHeaders": ["M", "T", "O", "T", "F", "L", "S"],
                 "commentForAll": "Kommentar til alle (valgfri)...",
                 "saving": "Lagrer...",
                 "saveDay": "Lagre {n} dag(e)",
