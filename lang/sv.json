@@ -4246,10 +4246,11 @@
             "removeSchedule": "Ta bort schema",
             "reason": {
                 "title": "Ta bort pass",
-                "question": "Är den anställda sjuk eller på semester, eller ska passet omfördelas till en annan anställd?",
+                "question": "Är den anställda sjuk eller på semester, ska passet omfördelas till en annan anställd, eller ska passet raderas helt?",
                 "sick": "Den anställda är sjuk",
                 "vacation": "Den anställda är på semester",
-                "reassign": "Omfördela till en annan anställd"
+                "reassign": "Omfördela till en annan anställd",
+                "delete": "Radera pass"
             }
         },
         "requesters": {

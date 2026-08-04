@@ -15,6 +15,9 @@
                         <FormButton class="w-full" @click="state.step = 'reassign'">
                             {{ $t('dutySchedules.removeSchedule.reason.reassign') }}
                         </FormButton>
+                        <FormButton class="w-full" @click="confirmDelete">
+                            {{ $t('dutySchedules.removeSchedule.reason.delete') }}
+                        </FormButton>
                         <FormButton class="w-full" @click="closeModal">
                             {{ $t('cancel') }}
                         </FormButton>
@@ -57,7 +60,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['close', 'markAbsence', 'reassign'])
+const emit = defineEmits(['close', 'markAbsence', 'reassign', 'deleteShift'])
 
 const state = reactive({
     step: 'choose' as 'choose' | 'reassign',
@@ -86,6 +89,11 @@ function closeModal() {
 
 function emitReason(reason: string) {
     emit('markAbsence', reason)
+    emit('close')
+}
+
+function confirmDelete() {
+    emit('deleteShift')
     emit('close')
 }
 
