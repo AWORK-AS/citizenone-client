@@ -1930,6 +1930,9 @@
             "section": "Paragraf",
             "selectedAddress": "Valgt adresse",
             "selectedLocation": "Valgt plassering",
+            "autoFilledFromSsn": "Fylt ut fra CPR-nummeret",
+            "selectGender": "Velg kjønn",
+            "ssnPlaceholder": "ddmmåå-xxxx",
             "ssn": "CPR-nummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets sluttdato",
@@ -2813,10 +2816,15 @@
         "rooms": "Rom",
         "sections": {
             "citizenDetails": "Brukeroplysninger",
+            "citizenDetailsHelp": "Navn, personnummer og kontaktopplysninger. CPR-nummeret fyller selv ut fødselsdag og kjønn.",
             "dentalProfile": "Tannprofil",
+            "dentalProfileHelp": "Tannlege, pasientnummer, kommunalt tilskudd og siste kontroll.",
             "employmentProgram": "Sysselsettingsforløp",
+            "employmentProgramHelp": "Sakstype, status, forsørgelsesgrunnlag og konsulentene og henviserne på saken.",
             "inquiryData": "Henvendelsesdata",
-            "stayData": "Opholdsdata"
+            "inquiryDataHelp": "Hvem som tok kontakt, når, og hva samtalen førte til.",
+            "stayData": "Opholdsdata",
+            "stayDataHelp": "Journalnummer, inn- og utflytting, pris og betalende kommune."
         },
         "statuses": {
             "alert": {
@@ -5761,12 +5769,12 @@
             },
             "firstname": "Fornavn",
             "header": {
-                "comprehensiveEmploymentDetailsWithinTheOrganization": "Omfattende ansættelsesoplysninger inden for organisationen",
+                "comprehensiveEmploymentDetailsWithinTheOrganization": "Omfattende ansættelsesoplysninger inden for organisationen.",
                 "emergencyContactDetailsInCaseOfAnUrgentSituation": "Kontaktoplysninger i nødstilfælde",
                 "emergencyInfo": "Nødinformation",
                 "employeeInformation": "Medarbeiderinformation",
                 "employmentInformation": "Ansættelsesinformation",
-                "essentialDetailsOfTheEmployee": "Væsentlige opplysninger om medarbeideren"
+                "essentialDetailsOfTheEmployee": "Væsentlige opplysninger om medarbeideren."
             },
             "lastname": "Etternavn",
             "mediaRisks": {
