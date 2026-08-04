@@ -276,7 +276,70 @@
                         <span class="text-sm font-medium text-slate-500">{{ $t('citizens.citizens') }}</span>
                     </div>
                     <TableSearch @search="handleSearch" />
-                    <div class="table-responsive">
+                    <!-- Phone: the table shows two of six columns and pushes every
+                         row action off screen, so below md the same data is a list
+                         of cards instead. Staff on the floor carry a phone. -->
+                    <div class="md:hidden space-y-3" v-if="!state.isTableLoading">
+                        <div v-if="(state.citizens?.data?.length ?? 0) === 0"
+                            class="rounded-lg border border-slate-200 bg-white p-6 text-center text-sm text-slate-400">
+                            <template v-if="isFiltered">
+                                <p>{{ emptyFilteredMessage }}</p>
+                                <button type="button" class="mt-2 font-medium text-tertiary hover:underline"
+                                    @click="clearFilters">{{ $t('table.clearFilters') }}</button>
+                            </template>
+                            <p v-else>{{ $t('citizens.emptyList') }}</p>
+                        </div>
+                        <article v-for="citizen in state.citizens?.data" :key="citizen.uuid"
+                            class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                            <div class="flex items-start gap-3">
+                                <img class="size-11 shrink-0 rounded-full object-cover"
+                                    :src="citizen.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen.firstname} ${citizen.lastname}`"
+                                    :alt="`${citizen.firstname} ${citizen.lastname}`" />
+                                <div class="min-w-0 flex-1">
+                                    <button type="button"
+                                        class="flex min-h-11 w-full items-center truncate text-left font-semibold text-primary"
+                                        @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
+                                        {{ citizen.firstname }} {{ citizen.lastname }}
+                                    </button>
+                                    <p class="mt-0.5 truncate text-xs text-slate-500">
+                                        <span v-for="(department, index) in citizen?.departments" :key="index">
+                                            {{ department?.name }}<span v-if="index < (citizen?.departments?.length ?? 0) - 1">, </span>
+                                        </span>
+                                        <span v-if="!citizen?.departments?.length">{{ $t('citizens.noDepartmentYet') }}</span>
+                                    </p>
+                                </div>
+                                <button type="button"
+                                    class="flex size-11 shrink-0 items-center justify-center rounded-full"
+                                    :aria-label="isPinned(citizen.uuid) ? $t('citizens.table.actions.unpin') : $t('citizens.table.actions.pin')"
+                                    :aria-pressed="isPinned(citizen.uuid)" @click="togglePin(citizen)">
+                                    <Icon :name="isPinned(citizen.uuid) ? 'ph:star-fill' : 'ph:star'"
+                                        class="size-5" :class="isPinned(citizen.uuid) ? 'text-tertiary' : 'text-slate-300'" />
+                                </button>
+                            </div>
+                            <dl class="mt-3 grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                                <div v-if="citizen.phone">
+                                    <dt class="text-slate-400">{{ $t('citizens.form.phone') }}</dt>
+                                    <dd><a :href="`tel:${citizen.phone}`"
+                                        class="flex min-h-11 items-center text-primary">{{ citizen.phone }}</a></dd>
+                                </div>
+                                <div v-if="citizen.social_security_number">
+                                    <dt class="text-slate-400">{{ $t('citizens.form.ssn') }}</dt>
+                                    <dd class="tabular-nums text-slate-600">{{ citizen.social_security_number }}</dd>
+                                </div>
+                            </dl>
+                            <div class="mt-3 flex items-center gap-2 border-t border-slate-100 pt-3">
+                                <FormButton type="button" buttonStyle="action" class="min-h-11 flex-1"
+                                    @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
+                                    {{ $t('citizens.table.actions.latestJournalEntry') }}
+                                </FormButton>
+                                <FormButton type="button" buttonStyle="cancel" class="min-h-11 flex-1"
+                                    @click="navigateTo(`/citizens/${citizen.uuid}/edit`)">
+                                    {{ $t('citizens.table.actions.edit') }}
+                                </FormButton>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="hidden md:block table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.citizens"
                             :isLoading="state.isTableLoading" :sortData="citizenStore.getSortData" @sort="sort"
                             emptyIcon="heroicons:user-group"

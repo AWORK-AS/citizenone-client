@@ -2559,6 +2559,7 @@
             }
         },
         "newCitizen": "Ny klient",
+        "noDepartmentYet": "Ingen avdelning",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
             "noJournalToDisplay": "Inga journal att visa"
