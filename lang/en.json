@@ -7145,6 +7145,7 @@
             "confirmCode": "Confirm the code",
             "createCode": "Create a code to open the secure email",
             "encryptMessage": "Encrypt message",
+            "alwaysEncrypted": "Secure mail is always sent encrypted. Set a password the recipient needs to open the message.",
             "enterCode": "Enter a self-chosen code",
             "message": "Message",
             "passwordHint": "Write a small hint that can help the recipient remember the password",
