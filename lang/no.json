@@ -4246,10 +4246,11 @@
             "removeSchedule": "Fjern tidsplan",
             "reason": {
                 "title": "Fjern vakt",
-                "question": "Er den ansatte syk eller på ferie, eller skal vakten overføres til en annen ansatt?",
+                "question": "Er den ansatte syk eller på ferie, skal vakten overføres til en annen ansatt, eller skal vakten slettes helt?",
                 "sick": "Den ansatte er syk",
                 "vacation": "Den ansatte er på ferie",
-                "reassign": "Overfør til en annen ansatt"
+                "reassign": "Overfør til en annen ansatt",
+                "delete": "Slett vakt"
             }
         },
         "requesters": {

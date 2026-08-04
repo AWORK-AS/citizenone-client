@@ -1310,6 +1310,7 @@
         <ModulesUserDutyScheduleModalRemoveShiftReason :isModalOpen="state.modal.isRemoveShiftReasonOpen"
             :availableEmployees="state.weeklySchedules?.data" :currentEmployeeUuid="state.removeShift.selectedEmployee?.uuid"
             @close="state.modal.isRemoveShiftReasonOpen = false" @markAbsence="markShiftAbsence"
+            @deleteShift="removeShift"
             @reassign="reassignShift" />
         <ModulesUserDutyScheduleModalRemoveShiftSpanConfirmation
             :isModalOpen="state.modal.isRemoveShiftSpanConfirmationOpen"
