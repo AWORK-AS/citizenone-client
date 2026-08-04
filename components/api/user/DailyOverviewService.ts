@@ -45,6 +45,14 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/citizens/all/overview`, 'GET', params)
     }
 
+    /**
+     * What needs attention on this shift. Computed server-side, one prioritised
+     * list, so the page does not have to assemble it from five endpoints.
+     */
+    async getDailyBrief(): Promise<any> {
+        return await this.request(`/user/daily-brief`, 'GET')
+    }
+
     async getUpcomingBirthdays(params: object = {}): Promise<any> {
         return await this.request(`/user/citizens/all/upcoming-birthdays`, 'GET', params)
     }

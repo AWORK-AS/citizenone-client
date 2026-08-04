@@ -12155,6 +12155,13 @@
         }
     },
     "myDay": {
+        "brief": {
+            "goals_running_out": "Ett mål går ut inom en vecka | {n} mål går ut inom en vecka",
+            "heading": "Kräver din uppmärksamhet",
+            "journal_mentions": "Du har taggats i en journalanteckning | Du har taggats i {n} journalanteckningar",
+            "missed_doses": "En dos är inte registrerad som given | {n} doser är inte registrerade som givna",
+            "reminders_due": "En påminnelse förfaller idag | {n} påminnelser förfaller idag"
+        },
         "title": "Min dag",
         "greeting": {
             "morning": "God morgon",

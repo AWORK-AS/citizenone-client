@@ -12155,6 +12155,13 @@
         }
     },
     "myDay": {
+        "brief": {
+            "goals_running_out": "One goal is due within a week | {n} goals are due within a week",
+            "heading": "Needs your attention",
+            "journal_mentions": "You were tagged in a journal note | You were tagged in {n} journal notes",
+            "missed_doses": "One dose is not registered as given | {n} doses are not registered as given",
+            "reminders_due": "One reminder is due today | {n} reminders are due today"
+        },
         "title": "My day",
         "greeting": {
             "morning": "Good morning",
