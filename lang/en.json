@@ -4246,10 +4246,11 @@
             "removeSchedule": "Remove schedule",
             "reason": {
                 "title": "Remove shift",
-                "question": "Is the employee sick or on vacation, or should this shift be reassigned to another employee?",
+                "question": "Is the employee sick or on vacation, should this shift be reassigned to another employee, or should the shift be deleted entirely?",
                 "sick": "Employee is sick",
                 "vacation": "Employee is on vacation",
-                "reassign": "Reassign to another employee"
+                "reassign": "Reassign to another employee",
+                "delete": "Delete shift"
             }
         },
         "requesters": {
