@@ -6070,6 +6070,7 @@
         "seeNewFeatures": "See new features"
     },
     "filter": "Filter",
+    "menu": "Menu",
     "more": "More",
     "commandPalette": {
         "actions": "Actions",
@@ -7751,6 +7752,7 @@
         },
         "myDailyEvents": "My daily events",
         "news": "News",
+        "nextDay": "Next day",
         "noBulletBoardToShow": "No bullet board to show",
         "noDataToDisplay": "No data to display",
         "noEventsForToday": "No events for today",
@@ -7759,6 +7761,7 @@
         "noNewsToShow": "No news to show",
         "openLink": "Open link",
         "overview": "Overview",
+        "previousDay": "Previous day",
         "statisticsTab": "Statistics",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Goals statistics",

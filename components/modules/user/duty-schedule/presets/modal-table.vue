@@ -44,19 +44,19 @@
                                         <td width="20%">
                                             <div class="flex items-end justify-end gap-2">
                                                 <Tooltip :text="$t('dutySchedules.draft.preset.table.actions.apply')">
-                                                    <FormButton type="button" buttonStyle="action"
+                                                    <FormButton :aria-label="$t('dutySchedules.draft.preset.table.actions.apply')" type="button" buttonStyle="action"
                                                         @click="applyPreset(preset)">
                                                         <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.draft.preset.table.actions.edit')">
-                                                    <FormButton type="button" buttonStyle="action"
+                                                    <FormButton :aria-label="$t('dutySchedules.draft.preset.table.actions.edit')" type="button" buttonStyle="action"
                                                         @click="editPreset(preset)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.draft.preset.table.actions.delete')">
-                                                    <FormButton type="button" buttonStyle="danger"
+                                                    <FormButton :aria-label="$t('dutySchedules.draft.preset.table.actions.delete')" type="button" buttonStyle="danger"
                                                         @click="deletePresetConfirmation(preset)">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>

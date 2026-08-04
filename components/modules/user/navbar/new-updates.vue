@@ -1,7 +1,7 @@
 <template>
     <div>
         <Tooltip :text="$t('updates.newUpdates')" position="left">
-            <button
+            <button :aria-label="$t('updates.newUpdates')"
                 class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
                 @click="openUpdatesModal">
                 <Icon name="ph:lightbulb" class="h-5 w-5" aria-hidden="true" />

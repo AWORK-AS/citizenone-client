@@ -115,27 +115,27 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <Tooltip :text="$t('employees.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('employees.table.actions.view')" type="button" buttonStyle="action"
                                                     @click="navigateTo(`/employees/${employee.uuid}/view-details`)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.edit')"
                                                 v-if="employee?.is_editable">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('employees.table.actions.edit')" type="button" buttonStyle="action"
                                                     @click="navigateTo(`/employees/${employee.uuid}/edit`)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.message')"
                                                 v-if="userStore.getUser?.id !== employee?.id">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('employees.table.actions.message')" type="button" buttonStyle="action"
                                                     @click="messageEmployee(employee)">
                                                     <Icon name="ph:chat-circle" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.calendar')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('employees.table.actions.calendar')" type="button" buttonStyle="action"
                                                     @click="navigateTo(`/calendar?employee_uuid=${employee?.uuid}`)">
                                                     <Icon name="ph:calendar-blank" class="size-4" />
                                                 </FormButton>
@@ -144,21 +144,23 @@
                                                 $t('employees.table.actions.removeSecureMailAccess') :
                                                 $t('employees.table.actions.giveSecureMail')"
                                                 v-if="userStore.getUser?.is_secure_mail_active && !employee?.has_secure_mail_access">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="employee?.has_secure_mail_access ?
+                                                $t('employees.table.actions.removeSecureMailAccess') :
+                                                $t('employees.table.actions.giveSecureMail')" type="button" buttonStyle="action"
                                                     @click="giveRemoveSecureMailAccess(employee)">
                                                     <Icon name="ph:envelope-open" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.giveAIAccess')"
                                                 v-if="userStore.getUser?.has_ai_access && !employee?.has_ai_access">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('employees.table.actions.giveAIAccess')" type="button" buttonStyle="action"
                                                     @click="giveAIAccessConfirmation(employee)">
                                                     <Icon name="ic:round-accessibility" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.giveBookingAccess')"
                                                 v-if="userStore.getUser?.has_booking_app_access && !employee?.has_booking_app_access">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('employees.table.actions.giveBookingAccess')" type="button" buttonStyle="action"
                                                     @click="giveBookingAccessConfirmation(employee)">
                                                     <Icon name="ph:calendar-check" class="size-4" />
                                                 </FormButton>

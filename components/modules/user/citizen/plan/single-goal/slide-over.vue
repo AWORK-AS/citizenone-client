@@ -95,34 +95,34 @@
                                                             <div class="flex gap-x-2">
                                                                 <Tooltip :text="$t('plansandgoals.table.actions.edit')"
                                                                     v-if="subgoal?.is_editable">
-                                                                    <FormButton buttonSize="sm"
+                                                                    <FormButton :aria-label="$t('plansandgoals.table.actions.edit')" buttonSize="sm"
                                                                         @click="editSubGoal(subgoal)">
                                                                         <Icon name="ph:pencil-duotone" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip :text="$t('surveys.assignSurvey')">
-                                                                    <FormButton buttonSize="sm"
+                                                                    <FormButton :aria-label="$t('surveys.assignSurvey')" buttonSize="sm"
                                                                         @click="assignSurveyTo('subgoal', subgoal)">
                                                                         <Icon name="ph:clipboard-text" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.notifications')">
-                                                                    <FormButton buttonSize="sm"
+                                                                    <FormButton :aria-label="$t('plansandgoals.table.actions.notifications')" buttonSize="sm"
                                                                         @click="viewNotifications(subgoal)">
                                                                         <Icon name="ph:bell" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.archive')">
-                                                                    <FormButton buttonSize="sm"
+                                                                    <FormButton :aria-label="$t('plansandgoals.table.actions.archive')" buttonSize="sm"
                                                                         @click="confirmSubgoalArchive(subgoal)">
                                                                         <Icon name="ph:archive" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.notes')">
-                                                                    <FormButton buttonSize="sm"
+                                                                    <FormButton :aria-label="$t('plansandgoals.table.actions.notes')" buttonSize="sm"
                                                                         @click="viewSubgoalNotes(subgoal)">
                                                                         <Icon name="ph:check-square-offset"
                                                                             class="size-4" />
@@ -130,14 +130,14 @@
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.reports')">
-                                                                    <FormButton buttonSize="sm"
+                                                                    <FormButton :aria-label="$t('plansandgoals.table.actions.reports')" buttonSize="sm"
                                                                         @click="viewStatuses(subgoal)">
                                                                         <Icon name="ph:file" class="size-4" />
                                                                     </FormButton>
                                                                 </Tooltip>
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.graph')">
-                                                                    <FormButton buttonSize="sm"
+                                                                    <FormButton :aria-label="$t('plansandgoals.table.actions.graph')" buttonSize="sm"
                                                                         @click="openChart(subgoal)">
                                                                         <Icon name="ph:chart-line" class="size-4" />
                                                                     </FormButton>
@@ -145,7 +145,7 @@
                                                                 <Tooltip
                                                                     :text="$t('plansandgoals.table.actions.delete')"
                                                                     v-if="subgoal?.is_deletable">
-                                                                    <FormButton buttonSize="sm"
+                                                                    <FormButton :aria-label="$t('plansandgoals.table.actions.delete')" buttonSize="sm"
                                                                         @click="confirmSubgoalDeletion(subgoal)">
                                                                         <Icon name="ph:trash" class="size-4" />
                                                                     </FormButton>

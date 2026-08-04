@@ -364,14 +364,14 @@
                                     </div>
                                     <div class="flex items-center gap-0.5 shrink-0">
                                         <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')">
-                                            <button type="button"
+                                            <button :aria-label="$t('citizens.medicineJournals.table.actions.view')" type="button"
                                                 class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                                                 @click="viewMedicine(medicine)">
                                                 <Icon name="ph:eye" class="size-4" />
                                             </button>
                                         </Tooltip>
                                         <Tooltip :text="$t('citizens.medicineJournals.table.actions.medicineHistory')">
-                                            <button type="button"
+                                            <button :aria-label="$t('citizens.medicineJournals.table.actions.medicineHistory')" type="button"
                                                 class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                                                 @click="viewMedicineHistory(medicine)">
                                                 <Icon name="ph:files" class="size-4" />
@@ -379,7 +379,7 @@
                                         </Tooltip>
                                         <Tooltip v-if="medicine?.is_editable"
                                             :text="$t('citizens.medicineJournals.table.actions.edit')">
-                                            <button type="button"
+                                            <button :aria-label="$t('citizens.medicineJournals.table.actions.edit')" type="button"
                                                 class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                                                 @click="editMedicine(medicine)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
@@ -387,14 +387,14 @@
                                         </Tooltip>
                                         <Tooltip v-if="!medicine?.is_deactivated"
                                             :text="$t('citizens.medicineJournals.table.actions.deactivate')">
-                                            <button type="button"
+                                            <button :aria-label="$t('citizens.medicineJournals.table.actions.deactivate')" type="button"
                                                 class="p-1.5 rounded hover:bg-red-50 text-gray-400 hover:text-red-500"
                                                 @click="confirmMedicineDeactivation(medicine)">
                                                 <Icon name="ph:x" class="size-4" />
                                             </button>
                                         </Tooltip>
                                         <Tooltip v-else :text="$t('citizens.medicineJournals.table.actions.activate')">
-                                            <button type="button"
+                                            <button :aria-label="$t('citizens.medicineJournals.table.actions.activate')" type="button"
                                                 class="p-1.5 rounded hover:bg-green-50 text-gray-400 hover:text-green-600"
                                                 @click="confirmMedicineActivation(medicine)">
                                                 <Icon name="ph:check" class="size-4" />
@@ -408,7 +408,7 @@
                                     <template v-if="getDosageForTime(medicine, time)">
                                         <Tooltip :text="getSlotTooltip(getDosageForTime(medicine, time), time)"
                                             position="left">
-                                            <button type="button"
+                                            <button :aria-label="getSlotTooltip(getDosageForTime(medicine, time), time)" type="button"
                                                 @click="openGiveMedicine(medicine, getDosageForTime(medicine, time))"
                                                 :class="['inline-flex flex-col items-center gap-0.5 text-xs px-2.5 py-2 rounded-lg font-medium border min-w-16', getSlotClass(getDosageForTime(medicine, time), time)]">
                                                 <Icon :name="getSlotIcon(getDosageForTime(medicine, time))"
@@ -829,7 +829,7 @@
                                         <div class="flex items-end justify-end gap-1.5 flex-wrap">
                                             <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')"
                                                 position="left">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.view')" type="button" buttonStyle="action" class="rounded-md"
                                                     @click="viewMedicine(medicine)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
@@ -838,7 +838,7 @@
                                                 :text="$t('citizens.medicineJournals.table.actions.givePNMedicine')"
                                                 position="left"
                                                 v-if="medicine.is_pn_medicine && (isAtLeast('Admin') || can('update_citizen_medicine'))">
-                                                <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
+                                                <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.givePNMedicine')" buttonStyle="action" class="rounded-md text-xs shrink-0"
                                                     @click="givePNMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-3" />
                                                 </FormButton>
@@ -846,7 +846,7 @@
                                             <Tooltip :text="$t('citizens.medicineJournals.table.actions.giveMedicine')"
                                                 position="left"
                                                 v-else-if="!medicine.is_pn_medicine && (isAtLeast('Admin') || can('update_citizen_medicine'))">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.giveMedicine')" type="button" buttonStyle="action" class="rounded-md"
                                                     @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />
                                                 </FormButton>
@@ -854,7 +854,7 @@
                                             <Tooltip
                                                 :text="$t('citizens.medicineJournals.table.actions.medicineHistory')"
                                                 position="left">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.medicineHistory')" type="button" buttonStyle="action" class="rounded-md"
                                                     @click="viewMedicineHistory(medicine)">
                                                     <Icon name="ph:files" class="size-4" />
                                                 </FormButton>
@@ -862,7 +862,7 @@
                                             <Tooltip v-if="medicine?.is_editable"
                                                 :text="$t('citizens.medicineJournals.table.actions.edit')"
                                                 position="left">
-                                                <FormButton type="button" buttonStyle="action" class="rounded-md"
+                                                <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.edit')" type="button" buttonStyle="action" class="rounded-md"
                                                     @click="editMedicine(medicine)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
@@ -870,7 +870,7 @@
                                             <Tooltip v-if="medicine?.is_deactivated && (isAtLeast('Admin') || can('update_citizen_medicine'))"
                                                 :text="$t('citizens.medicineJournals.table.actions.activate')"
                                                 position="left">
-                                                <FormButton type="button" buttonStyle="primary" class="rounded-md"
+                                                <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.activate')" type="button" buttonStyle="primary" class="rounded-md"
                                                     @click="confirmMedicineActivation(medicine)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
@@ -878,7 +878,7 @@
                                             <Tooltip v-else-if="!medicine?.is_deactivated && (isAtLeast('Admin') || can('delete_citizen_medicine'))"
                                                 :text="$t('citizens.medicineJournals.table.actions.deactivate')"
                                                 position="left">
-                                                <FormButton type="button" buttonStyle="danger" class="rounded-md"
+                                                <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.deactivate')" type="button" buttonStyle="danger" class="rounded-md"
                                                     @click="confirmMedicineDeactivation(medicine)">
                                                     <Icon name="ph:x" class="size-4" />
                                                 </FormButton>

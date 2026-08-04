@@ -108,7 +108,7 @@
                     <div>
                         <Tooltip :text="$t('bookings.formEvent.information.createMultipleEvents')" position="left"
                             class="mt-7">
-                            <button type="button" @click="state.formEvent.is_recurring = !state.formEvent.is_recurring">
+                            <button :aria-label="$t('bookings.formEvent.information.createMultipleEvents')" type="button" @click="state.formEvent.is_recurring = !state.formEvent.is_recurring">
                                 <Icon name="ph:repeat" class="h-6 w-6" aria-hidden="true" />
                             </button>
                         </Tooltip>
@@ -245,7 +245,7 @@
                             </div>
                             <div v-if="state.formEvent.slots.length > 1" class="space-y-1">
                                 <Tooltip :text="$t('bookings.formEvent.slots.removeSlot')" position="left" class="mt-7">
-                                    <button type="button" @click="removeSlot(idx)">
+                                    <button :aria-label="$t('bookings.formEvent.slots.removeSlot')" type="button" @click="removeSlot(idx)">
                                         <Icon name="ph:trash" class="h-6 w-6 text-red-700 hover:text-red-600"
                                             aria-hidden="true" />
                                     </button>

@@ -338,14 +338,14 @@
                                                     @toggleSwitch="toggleLogin(citizen)" />
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
+                                                <FormButton :aria-label="$t('citizens.table.actions.view')" type="button" buttonStyle="action" buttonSize="xs"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip v-if="isMedicineEnabled"
                                                 :text="$t('citizens.table.actions.medicationOverview')">
-                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
+                                                <FormButton :aria-label="$t('citizens.table.actions.medicationOverview')" type="button" buttonStyle="action" buttonSize="xs"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)">
                                                     <Icon name="solar:jar-of-pills-2-linear" class="size-4" />
                                                 </FormButton>
@@ -354,7 +354,10 @@
                                                 citizen?.plans_goals_status === 'expiring' ? $t('citizens.table.actions.plansAndGoals.expiringPlansAndGoals') :
                                                     citizen?.plans_goals_status === 'expired' ? $t('citizens.table.actions.plansAndGoals.expiredPlansAndGoals') :
                                                         $t('citizens.table.actions.plansAndGoals.plansAndGoals')">
-                                                <FormButton type="button" buttonSize="xs" :buttonStyle="citizen?.plans_goals_status === 'none' ? 'plans-none' :
+                                                <FormButton :aria-label="citizen?.plans_goals_status === 'none' ? $t('citizens.table.actions.plansAndGoals.noPlansAndGoals') :
+                                                citizen?.plans_goals_status === 'expiring' ? $t('citizens.table.actions.plansAndGoals.expiringPlansAndGoals') :
+                                                    citizen?.plans_goals_status === 'expired' ? $t('citizens.table.actions.plansAndGoals.expiredPlansAndGoals') :
+                                                        $t('citizens.table.actions.plansAndGoals.plansAndGoals')" type="button" buttonSize="xs" :buttonStyle="citizen?.plans_goals_status === 'none' ? 'plans-none' :
                                                     citizen?.plans_goals_status === 'expiring' ? 'plans-expiring' :
                                                         citizen?.plans_goals_status === 'expired' ? 'plans-expired' :
                                                             'action'"
@@ -363,20 +366,20 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.latestJournalEntry')">
-                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
+                                                <FormButton :aria-label="$t('citizens.table.actions.latestJournalEntry')" type="button" buttonStyle="action" buttonSize="xs"
                                                     @click="showCitizenNote(citizen)">
                                                     <Icon name="ph:note" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.edit')"
                                                 v-if="isAtLeast('Admin') || can('update_citizen')">
-                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
+                                                <FormButton :aria-label="$t('citizens.table.actions.edit')" type="button" buttonStyle="action" buttonSize="xs"
                                                     @click="navigateTo(`/citizens/${citizen.uuid}/edit`)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.table.actions.latestRiskAssessment')">
-                                                <FormButton type="button" buttonSize="xs"
+                                                <FormButton :aria-label="$t('citizens.table.actions.latestRiskAssessment')" type="button" buttonSize="xs"
                                                     :buttonStyle="citizen.latest_risk_assessment === null && 'action' ||
                                                         citizen.latest_risk_assessment?.assessment === 'no risk' && 'no-risk' ||
                                                         citizen.latest_risk_assessment?.assessment === 'increased risk' && 'increased-risk' ||

@@ -115,7 +115,7 @@
                                     <td width="15%">
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('citizens.documents.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="primary"
+                                                <FormButton :aria-label="$t('citizens.documents.table.actions.view')" type="button" buttonStyle="primary"
                                                     @click="viewDirectory(document)" v-if="document?.type === 'folder'">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
@@ -123,49 +123,50 @@
                                             <Tooltip :text="document?.is_shared ? $t('citizens.documents.table.actions.unshare') :
                                                 $t('citizens.documents.table.actions.share')"
                                                 v-if="document?.type === 'file'">
-                                                <FormButton type="button" buttonStyle="primary"
+                                                <FormButton :aria-label="document?.is_shared ? $t('citizens.documents.table.actions.unshare') :
+                                                $t('citizens.documents.table.actions.share')" type="button" buttonStyle="primary"
                                                     @click="confirmDocumentShareUnshare(document)">
                                                     <Icon name="ph:share" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.move')"
                                                 v-if="document?.type === 'file'">
-                                                <FormButton type="button" buttonStyle="primary"
+                                                <FormButton :aria-label="$t('citizens.documents.table.actions.move')" type="button" buttonStyle="primary"
                                                     @click="moveFileConfirmation(document)">
                                                     <Icon name="ph:arrows-out" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.edit')"
                                                 v-if="isAtLeast('Admin') || can('update_citizen_document')">
-                                                <FormButton type="button" buttonStyle="primary"
+                                                <FormButton :aria-label="$t('citizens.documents.table.actions.edit')" type="button" buttonStyle="primary"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.access')"
                                                 v-if="isAtLeast('Admin')">
-                                                <FormButton type="button" buttonStyle="primary"
+                                                <FormButton :aria-label="$t('citizens.documents.table.actions.access')" type="button" buttonStyle="primary"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.archive')"
                                                 v-if="isAtLeast('Admin') || can('update_citizen_document')">
-                                                <FormButton type="button" buttonStyle="primary"
+                                                <FormButton :aria-label="$t('citizens.documents.table.actions.archive')" type="button" buttonStyle="primary"
                                                     @click="confirmDocumentArchiving(document)">
                                                     <Icon name="ph:archive-light" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.delete')"
                                                 v-if="document?.type === 'folder' && (isAtLeast('Admin') || can('delete_citizen_document'))">
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('citizens.documents.table.actions.delete')" type="button" buttonStyle="danger"
                                                     @click="deleteDirectoryConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.delete')"
                                                 v-else-if="document?.type !== 'folder' && (isAtLeast('Admin') || can('delete_citizen_document'))">
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('citizens.documents.table.actions.delete')" type="button" buttonStyle="danger"
                                                     @click="deleteFileConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

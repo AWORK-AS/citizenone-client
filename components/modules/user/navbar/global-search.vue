@@ -12,7 +12,7 @@
                             <input ref="searchInput" v-model="state.searchQuery" type="text"
                                 :placeholder="$t('globalSearch.placeholder')"
                                 class="flex-1 text-base text-slate-700 placeholder-slate-400 outline-none bg-transparent" />
-                            <button @click="close"
+                            <button :aria-label="$t('close')" @click="close"
                                 class="p-1 rounded-md hover:bg-surface-100 text-slate-400 hover:text-slate-600 transition-colors">
                                 <Icon name="heroicons:x-mark" class="h-5 w-5" />
                             </button>

@@ -195,28 +195,28 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('dutySchedules.draftTemplates.table.actions.view')" type="button" buttonStyle="action"
                                                     @click="navigateTo(`/schedules/draft/templates/${draftTemplate.uuid}/view-details`)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
 
                                             <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('dutySchedules.draftTemplates.table.actions.edit')" type="button" buttonStyle="action"
                                                     @click="editDraftTemplate(draftTemplate)">
                                                     <Icon name="ph:pencil" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
 
                                             <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.delete')">
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('dutySchedules.draftTemplates.table.actions.delete')" type="button" buttonStyle="danger"
                                                     @click="confirmTemplateRemoval(draftTemplate)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
 
                                             <Tooltip :text="$t('dutySchedules.draftTemplates.table.actions.apply')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('dutySchedules.draftTemplates.table.actions.apply')" type="button" buttonStyle="action"
                                                     @click="applyDraftTemplate(draftTemplate)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>

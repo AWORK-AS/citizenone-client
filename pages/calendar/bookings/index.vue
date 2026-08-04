@@ -65,19 +65,19 @@
                                         <td width="20%">
                                             <div class="flex items-center justify-end gap-2">
                                                 <Tooltip :text="$t('bookings.table.actions.view')">
-                                                    <FormButton type="button" buttonStyle="action"
+                                                    <FormButton :aria-label="$t('bookings.table.actions.view')" type="button" buttonStyle="action"
                                                         @click="viewCourseEvent(courseEvent)">
                                                         <Icon name="ph:eye" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('bookings.table.actions.edit')">
-                                                    <FormButton type="button" buttonStyle="action"
+                                                    <FormButton :aria-label="$t('bookings.table.actions.edit')" type="button" buttonStyle="action"
                                                         @click="editCourseEvent(courseEvent)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('bookings.table.actions.delete')">
-                                                    <FormButton type="button" buttonStyle="action"
+                                                    <FormButton :aria-label="$t('bookings.table.actions.delete')" type="button" buttonStyle="action"
                                                         @click="deleteCourseEventConfirmation(courseEvent)">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>

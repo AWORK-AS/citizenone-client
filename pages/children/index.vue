@@ -95,7 +95,7 @@
                                     <td width="10%">
                                         <div class="flex items-center justify-end gap-1.5">
                                             <Tooltip :text="$t('children.table.actions.view')" v-if="child?.citizen?.uuid">
-                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
+                                                <FormButton :aria-label="$t('children.table.actions.view')" type="button" buttonStyle="action" buttonSize="xs"
                                                     @click="navigateTo(`/citizens/${child.citizen.uuid}/children/${child.uuid}/journals`)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>

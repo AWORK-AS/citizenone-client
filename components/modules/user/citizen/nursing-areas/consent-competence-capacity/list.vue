@@ -26,7 +26,7 @@
                             <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')"
                                     v-if="isAtLeast('Admin') || can('update_citizen_health')">
-                                    <FormButton buttonSize="sm" @click="editConsentCompetenceCapacity(record)">
+                                    <FormButton :aria-label="$t('citizens.nursingAreas.table.actions.edit')" buttonSize="sm" @click="editConsentCompetenceCapacity(record)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </FormButton>
                                 </Tooltip>

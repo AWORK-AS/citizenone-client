@@ -34,6 +34,9 @@ const securityHeaders = {
 export default defineNuxtConfig({
   app: {
     head: {
+      // Overridden per locale in app.vue; this is what the document says before
+      // i18n is ready.
+      htmlAttrs: { lang: 'da' },
       link: [
         // Crisp SVG favicon (the CitizenOne circle mark); .ico kept as fallback.
         { rel: 'icon', type: 'image/svg+xml', href: '/icon-citizenone.svg' },

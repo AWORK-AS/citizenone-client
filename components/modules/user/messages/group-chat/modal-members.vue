@@ -34,7 +34,7 @@
                             </div>
 
                             <Tooltip :text="$t('messages.groupChat.removeUser')">
-                                <button @click="confirmUserRemoval(member)">
+                                <button :aria-label="$t('messages.groupChat.removeUser')" @click="confirmUserRemoval(member)">
                                     <Icon name="ph:user-minus" class="h-5 w-5" aria-hidden="true" />
                                 </button>
                             </Tooltip>

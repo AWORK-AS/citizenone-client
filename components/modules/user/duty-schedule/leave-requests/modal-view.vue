@@ -70,21 +70,21 @@
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.edit')"
                                                     @click="editLeaveRequest(leaveRequests)"
                                                     v-if="isAtLeast('Admin') || ['pending'].includes(leaveRequests?.status)">
-                                                    <FormButton type=" button" buttonStyle="action">
+                                                    <FormButton :aria-label="$t('dutySchedules.leaveRequests.table.actions.edit')" type=" button" buttonStyle="action">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.approve')"
                                                     @click="confirmApproveLeaveRequestRequest(leaveRequests)"
                                                     v-if="isAtLeast('Admin') && leaveRequests?.status === 'pending'"">
-                                                    <FormButton type=" button" buttonStyle="success">
+                                                    <FormButton :aria-label="$t('dutySchedules.leaveRequests.table.actions.approve')" type=" button" buttonStyle="success">
                                                     <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.leaveRequests.table.actions.reject')"
                                                     @click="confirmRejectLeaveRequestRequest(leaveRequests)"
                                                     v-if="isAtLeast('Admin') && leaveRequests?.status === 'pending'"">
-                                                    <FormButton type=" button" buttonStyle="danger">
+                                                    <FormButton :aria-label="$t('dutySchedules.leaveRequests.table.actions.reject')" type=" button" buttonStyle="danger">
                                                     <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
@@ -92,7 +92,7 @@
                                                     @click="confirmDeleteLeaveRequest(leaveRequests)"
                                                     v-if="isAtLeast('Admin') ||
                                                         (!isAtLeast('Admin') && ['pending'].includes(leaveRequests?.status))">
-                                                    <FormButton type="button" buttonStyle="danger">
+                                                    <FormButton :aria-label="$t('dutySchedules.leaveRequests.table.actions.delete')" type="button" buttonStyle="danger">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>

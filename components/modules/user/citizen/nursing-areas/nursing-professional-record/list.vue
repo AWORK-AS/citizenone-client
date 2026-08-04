@@ -26,25 +26,25 @@
                         <div>
                             <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.view')">
-                                    <FormButton buttonSize="sm"
+                                    <FormButton :aria-label="$t('citizens.nursingAreas.table.actions.view')" buttonSize="sm"
                                         @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/${record.uuid}/view`)">
                                         <Icon name="ph:eye" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.statuses')">
-                                    <FormButton buttonSize="sm" @click="viewStatuses(record)">
+                                    <FormButton :aria-label="$t('citizens.nursingAreas.table.actions.statuses')" buttonSize="sm" @click="viewStatuses(record)">
                                         <Icon name="ph:file" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.edit')"
                                     v-if="isAtLeast('Admin') || can('update_citizen_health')">
-                                    <FormButton buttonSize="sm"
+                                    <FormButton :aria-label="$t('citizens.nursingAreas.table.actions.edit')" buttonSize="sm"
                                         @click="navigateTo(`/citizens/${citizenUuid}/nursing-areas/nursing-professional-records/${record.uuid}/edit`)">
                                         <Icon name="ph:pencil-simple" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
                                 <Tooltip :text="$t('citizens.nursingAreas.table.actions.viewTreatments')">
-                                    <FormButton buttonSize="sm" @click="openTreatments">
+                                    <FormButton :aria-label="$t('citizens.nursingAreas.table.actions.viewTreatments')" buttonSize="sm" @click="openTreatments">
                                         <Icon name="ph:pill" class="size-4" />
                                     </FormButton>
                                 </Tooltip>

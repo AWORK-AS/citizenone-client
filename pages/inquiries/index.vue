@@ -244,20 +244,20 @@
                                         <td width="10%">
                                             <div class="flex items-end justify-end gap-2">
                                                 <Tooltip :text="$t('inquiries.table.actions.edit')">
-                                                    <FormButton type="button" buttonStyle="action"
+                                                    <FormButton :aria-label="$t('inquiries.table.actions.edit')" type="button" buttonStyle="action"
                                                         @click="editInquiry(inquiry)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')"
                                                     v-if="!inquiry?.citizen_id">
-                                                    <FormButton type="button" buttonStyle="action"
+                                                    <FormButton :aria-label="$t('inquiries.table.actions.convertAsCitizen')" type="button" buttonStyle="action"
                                                         @click="convertInquiryConfirmation(inquiry)">
                                                         <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('inquiries.table.actions.delete')">
-                                                    <FormButton type="button" buttonStyle="danger"
+                                                    <FormButton :aria-label="$t('inquiries.table.actions.delete')" type="button" buttonStyle="danger"
                                                         @click="deleteConfirmation(inquiry)">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>

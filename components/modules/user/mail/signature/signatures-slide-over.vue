@@ -71,7 +71,7 @@
                                                                 <div class="flex items-end justify-end gap-2">
                                                                     <Tooltip
                                                                         :text="$t('mail.settings.signatures.table.actions.edit')">
-                                                                        <FormButton type="button" buttonStyle="action"
+                                                                        <FormButton :aria-label="$t('mail.settings.signatures.table.actions.edit')" type="button" buttonStyle="action"
                                                                             @click="editSignature(signature)">
                                                                             <Icon name="ph:pencil-simple"
                                                                                 class="size-4" />
@@ -80,14 +80,14 @@
                                                                     <Tooltip
                                                                         :text="$t('mail.settings.signatures.table.actions.setToDefault')"
                                                                         v-if="!signature?.is_default">
-                                                                        <FormButton type="button" buttonStyle="action"
+                                                                        <FormButton :aria-label="$t('mail.settings.signatures.table.actions.setToDefault')" type="button" buttonStyle="action"
                                                                             @click="setSignatureToDefaultConfirmation(signature)">
                                                                             <Icon name="ph:check" class="size-4" />
                                                                         </FormButton>
                                                                     </Tooltip>
                                                                     <Tooltip
                                                                         :text="$t('mail.settings.signatures.table.actions.delete')">
-                                                                        <FormButton type="button" buttonStyle="danger"
+                                                                        <FormButton :aria-label="$t('mail.settings.signatures.table.actions.delete')" type="button" buttonStyle="danger"
                                                                             @click="deleteSignatureConfirmation(signature)">
                                                                             <Icon name="ph:trash" class="size-4" />
                                                                         </FormButton>

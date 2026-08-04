@@ -194,7 +194,7 @@
                                 <div>
                                     <Tooltip :text="$t('bookings.formEvent.information.createMultipleEvents')"
                                         position="left" class="mt-7">
-                                        <button type="button"
+                                        <button :aria-label="$t('bookings.formEvent.information.createMultipleEvents')" type="button"
                                             @click="state.formCourse.sessions[sessionIndex].is_recurring = !state.formCourse.sessions[sessionIndex].is_recurring">
                                             <Icon name="ph:repeat" class="h-6 w-6" aria-hidden="true" />
                                         </button>

@@ -6070,6 +6070,7 @@
         "seeNewFeatures": "Se nye funktioner"
     },
     "filter": "Filtrer",
+    "menu": "Menu",
     "more": "Mere",
     "commandPalette": {
         "actions": "Handlinger",
@@ -7751,6 +7752,7 @@
         },
         "myDailyEvents": "Mine daglige begivenheder",
         "news": "Nyheder",
+        "nextDay": "Næste dag",
         "noBulletBoardToShow": "Ingen opslagstavle at vise",
         "noDataToDisplay": "Ingen data at vise",
         "noEventsForToday": "Ingen begivenheder for i dag",
@@ -7759,6 +7761,7 @@
         "noNewsToShow": "Ingen nyheder at vise",
         "openLink": "Åbn link",
         "overview": "Oversigt",
+        "previousDay": "Forrige dag",
         "statisticsTab": "Statistik",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistik",

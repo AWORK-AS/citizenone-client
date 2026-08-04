@@ -150,7 +150,7 @@
             <!-- Navbar -->
             <div class="sticky z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6"
                 :class="isImpersonating ? 'top-[42px]' : 'top-0'">
-                <button type="button" class="-m-2.5 p-2.5 text-slate-500 lg:hidden" @click="sidebarOpen = true">
+                <button type="button" class="-m-2.5 p-2.5 text-slate-500 lg:hidden" :aria-label="$t('menu')" @click="sidebarOpen = true">
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
                 </button>
                 <div class="h-6 w-px bg-slate-200 lg:hidden" aria-hidden="true" />
@@ -180,7 +180,7 @@
                         <!-- Command palette (⌘K) -->
                         <div class="hidden sm:block relative">
                             <Tooltip :text="$t('commandPalette.hint')" position="bottom" :wrap="true">
-                                <button type="button" @click="openCommandPalette()"
+                                <button :aria-label="$t('commandPalette.hint')" type="button" @click="openCommandPalette()"
                                     class="flex items-center gap-2 rounded-lg border border-gray-200 bg-white/70 px-2.5 py-1.5 text-gray-400 hover:text-gray-600 hover:border-gray-300 transition-colors">
                                     <Icon name="ph:magnifying-glass" class="h-4 w-4" aria-hidden="true" />
                                     <kbd
@@ -202,12 +202,12 @@
                                             </p>
                                             <p class="mt-0.5 text-xs text-white/90">{{
                                                 $t('commandPalette.didYouKnowBody') }}</p>
-                                            <button type="button" @click="dismissCmdkHint"
+                                            <button type="button" @click="dismissCmdkHint" :aria-label="$t('close')"
                                                 class="mt-2 rounded-md bg-white/15 px-2.5 py-1 text-xs font-medium hover:bg-white/25 transition-colors">
                                                 {{ $t('commandPalette.didYouKnowDismiss') }}
                                             </button>
                                         </div>
-                                        <button type="button" @click="dismissCmdkHint"
+                                        <button type="button" @click="dismissCmdkHint" :aria-label="$t('close')"
                                             class="shrink-0 text-white/60 hover:text-white">
                                             <Icon name="ph:x" class="size-3.5" />
                                         </button>
@@ -235,7 +235,7 @@
                         <ModulesUserNavbarOwnChatGpt />
 
                         <!-- News / Megaphone -->
-                        <button type="button"
+                        <button :aria-label="$t('support.support')" type="button"
                             class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
                             @click="navigateToNews()">
                             <Icon name="ph:megaphone" class="h-5 w-5" aria-hidden="true" />
@@ -508,7 +508,7 @@
                         </div>
                     </div>
                     <button type="button" @click="dismissCmdkTip"
-                        class="ml-auto -mr-1 -mt-1 rounded p-1 text-slate-400 hover:bg-surface-100 transition-colors">
+                        class="ml-auto -mr-1 -mt-1 rounded p-1 text-slate-400 hover:bg-surface-100 transition-colors" :aria-label="$t('close')">
                         <Icon name="heroicons:x-mark" class="h-4 w-4" />
                     </button>
                 </div>

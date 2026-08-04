@@ -89,7 +89,7 @@
                                                     </p>
                                                 </div>
                                                 <Tooltip :text="$t('messages.groupChat.groupMembers')">
-                                                    <button v-if="state.chat?.data?.type === 'group'"
+                                                    <button :aria-label="$t('messages.groupChat.groupMembers')" v-if="state.chat?.data?.type === 'group'"
                                                         @click="state.modal.isManageGroupChatMembersOpen = true">
                                                         <Icon name="mdi:account-supervisor"
                                                             class="h-6 w-6 text-primary hover:text-primary-700"

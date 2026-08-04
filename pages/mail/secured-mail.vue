@@ -12,7 +12,7 @@
                     <div>
                         <MenuButton>
                             <Tooltip :text="$t('mail.settings.settings')">
-                                <FormButton buttonStyle="action">
+                                <FormButton :aria-label="$t('mail.settings.settings')" buttonStyle="action">
                                     <Icon name="ph:gear" class="h-3 w-3" aria-hidden="true" />
                                 </FormButton>
                             </Tooltip>

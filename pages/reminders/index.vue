@@ -53,17 +53,17 @@
                             </div>
                             <div class="flex items-center gap-1.5 flex-shrink-0">
                                 <Tooltip :text="$t('reminders.table.actions.view')">
-                                    <FormButton buttonStyle="action" buttonSize="sm" @click="viewReminder(reminder)">
+                                    <FormButton :aria-label="$t('reminders.table.actions.view')" buttonStyle="action" buttonSize="sm" @click="viewReminder(reminder)">
                                         <Icon name="ph:eye" class="h-4 w-4" aria-hidden="true" />
                                     </FormButton>
                                 </Tooltip>
                                 <Tooltip :text="$t('reminders.table.actions.edit')">
-                                    <FormButton buttonStyle="action" buttonSize="sm" @click="editReminder(reminder)">
+                                    <FormButton :aria-label="$t('reminders.table.actions.edit')" buttonStyle="action" buttonSize="sm" @click="editReminder(reminder)">
                                         <Icon name="ph:pencil-simple" class="h-4 w-4" aria-hidden="true" />
                                     </FormButton>
                                 </Tooltip>
                                 <Tooltip :text="$t('reminders.table.actions.delete')">
-                                    <FormButton buttonStyle="action" buttonSize="sm" @click="deleteReminderConfirmation(reminder)">
+                                    <FormButton :aria-label="$t('reminders.table.actions.delete')" buttonStyle="action" buttonSize="sm" @click="deleteReminderConfirmation(reminder)">
                                         <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
                                     </FormButton>
                                 </Tooltip>
@@ -110,17 +110,17 @@
                                     </div>
                                     <div class="flex items-center gap-1.5 flex-shrink-0">
                                         <Tooltip :text="$t('reminders.table.actions.view')">
-                                            <FormButton buttonStyle="action" buttonSize="sm" @click="viewReminder(reminder)">
+                                            <FormButton :aria-label="$t('reminders.table.actions.view')" buttonStyle="action" buttonSize="sm" @click="viewReminder(reminder)">
                                                 <Icon name="ph:eye" class="h-4 w-4" aria-hidden="true" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('reminders.table.actions.edit')">
-                                            <FormButton buttonStyle="action" buttonSize="sm" @click="editReminder(reminder)">
+                                            <FormButton :aria-label="$t('reminders.table.actions.edit')" buttonStyle="action" buttonSize="sm" @click="editReminder(reminder)">
                                                 <Icon name="ph:pencil-simple" class="h-4 w-4" aria-hidden="true" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('reminders.table.actions.delete')">
-                                            <FormButton buttonStyle="action" buttonSize="sm" @click="deleteReminderConfirmation(reminder)">
+                                            <FormButton :aria-label="$t('reminders.table.actions.delete')" buttonStyle="action" buttonSize="sm" @click="deleteReminderConfirmation(reminder)">
                                                 <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
                                             </FormButton>
                                         </Tooltip>
