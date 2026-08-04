@@ -1,5 +1,5 @@
 <template>
-    <div v-if="state.latest && !state.isDismissed" class="fixed bottom-6 right-6 z-50 max-w-sm bg-white border border-red-200 rounded-xl shadow-lg p-4">
+    <div v-if="state.latest && !state.isDismissed" class="fixed bottom-6 right-6 z-40 max-w-sm bg-white border border-red-200 rounded-xl shadow-lg p-4">
         <div class="flex items-start gap-3">
             <div class="shrink-0 w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
                 <Icon name="ph:warning-circle" class="size-5 text-red-600" />
