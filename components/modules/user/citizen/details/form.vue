@@ -1068,8 +1068,12 @@ function isFieldVisible(fieldKey: string): boolean {
 const { parse: parseCpr } = useDanishCpr()
 
 const state = reactive({
-    // True once a CPR number has filled in the birthday and gender for the user.
+    // True while the birthday field's current value came from the CPR number and
+    // has not been edited by hand since - drives the hint text under the field.
     autoFilledFromSsn: false,
+    // Same, tracked separately for gender: birthday and gender are corrected
+    // independently, so one being edited by hand must not re-lock the other.
+    genderAutoFilledFromSsn: false,
     error: {} as Error,
     formCitizen: {
         image: '',
@@ -1396,42 +1400,15 @@ watch(() => language.locale.value, (newLocale: any) => {
     }
 })
 
-watch(() => state.formCitizen.social_security_number, (ssn) => {
-    if (ssn?.length === 10) {
-        state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
-    }
-})
-
-watch(() => state.formCitizen.social_security_number, (ssn) => {
-    // Format social security number with a hyphen after six digits
-    if (ssn?.length === 10) {
-        state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
-    }
-
-    // Check if the length is at least six digits to derive the birthdate
-    if (ssn?.length >= 6) {
-        const day = ssn.slice(0, 2)
-        const month = ssn.slice(2, 4)
-        let year = ssn.slice(4, 6)
-
-        // Determine the century (adjust as needed for your specific case)
-        const currentYear = new Date().getFullYear() % 100
-        year = parseInt(year, 10) <= currentYear ? `20${year}` : `19${year}`
-
-        // Create a valid date string in the format 'YYYY-MM-DD'
-        const dateOfBirth = `${year}-${month}-${day}`
-
-        if (isValidDate(year, month, day)) {
-            // Update the birthday field if the date is valid
-            if (!state.formCitizen.birthday) {
-                state.formCitizen.birthday = dateOfBirth
-            }
-        } else {
-            // Handle invalid date case (optional: clear or show error)
-            state.formCitizen.birthday = ''
-        }
-    }
-})
+// Note: SSN-derived birthday/gender now goes entirely through
+// autoFillFromSocialSecurityNumber() below (backed by useDanishCpr, which knows
+// the real century rule and derives gender too). A pair of older watchers used
+// to duplicate the hyphen formatting here and derive the birthday with a cruder
+// same-century-as-today heuristic - removed because they raced with the newer
+// logic: since they fired on every keystroke from 6 digits onwards, they set
+// (or blanked, on a not-yet-valid intermediate date) the birthday before the
+// CPR was even fully typed, bypassing the auto-filled tracking used above to
+// tell a manual correction apart from an auto-filled value.
 
 watch(() => state.formCitizen.post_code, async (newPostCode, oldPostCode, onCleanup) => {
     if (!newPostCode || newPostCode.length < 4) return
@@ -1873,10 +1850,24 @@ function updateSocialSecurityNumber(event: Event) {
     autoFillFromSocialSecurityNumber()
 }
 
+// Set while autoFillFromSocialSecurityNumber() is writing a field itself, so the
+// watchers below don't mistake that write for a manual edit and immediately
+// clear the flag they were just asked to set.
+let isAutoFillingFromSsn = false
+
+watch(() => state.formCitizen.birthday, () => {
+    if (!isAutoFillingFromSsn) state.autoFilledFromSsn = false
+})
+
+watch(() => state.formCitizen.gender, () => {
+    if (!isAutoFillingFromSsn) state.genderAutoFilledFromSsn = false
+})
+
 /**
  * A CPR number already holds the birthday and the gender, so both are filled in
- * as soon as the number is complete. Anything the user typed themselves is left
- * alone, and both fields stay editable.
+ * as soon as the number is complete. Each field tracks its own auto-filled state,
+ * so correcting one by hand does not re-lock the other against the next edit of
+ * the CPR number - and both stay editable afterwards.
  */
 function autoFillFromSocialSecurityNumber() {
     const parsed = parseCpr(state.formCitizen.social_security_number)
@@ -1886,16 +1877,22 @@ function autoFillFromSocialSecurityNumber() {
     }
 
     const birthdayIsFree = !state.formCitizen.birthday || state.autoFilledFromSsn
-    const genderIsFree = !state.formCitizen.gender || state.autoFilledFromSsn
+    const genderIsFree = !state.formCitizen.gender || state.genderAutoFilledFromSsn
 
     if (!birthdayIsFree && !genderIsFree) {
         return
     }
 
-    if (birthdayIsFree) state.formCitizen.birthday = parsed.birthday
-    if (genderIsFree) state.formCitizen.gender = parsed.gender
-
-    state.autoFilledFromSsn = true
+    isAutoFillingFromSsn = true
+    if (birthdayIsFree) {
+        state.formCitizen.birthday = parsed.birthday
+        state.autoFilledFromSsn = true
+    }
+    if (genderIsFree) {
+        state.formCitizen.gender = parsed.gender
+        state.genderAutoFilledFromSsn = true
+    }
+    nextTick(() => { isAutoFillingFromSsn = false })
 }
 
 function addAccompanyingChild() {
