@@ -1930,6 +1930,9 @@
             "section": "Section",
             "selectedAddress": "Selected Address",
             "selectedLocation": "Selected Location",
+            "autoFilledFromSsn": "Filled in from the CPR number",
+            "selectGender": "Select gender",
+            "ssnPlaceholder": "ddmmyy-xxxx",
             "ssn": "Social security number",
             "stayData": {
                 "accommodationEndDate": "Accommodation end date",
@@ -2813,10 +2816,15 @@
         "rooms": "Rooms",
         "sections": {
             "citizenDetails": "Citizen details",
+            "citizenDetailsHelp": "Name, civil registration number and contact details. The CPR number fills in birthday and gender by itself.",
             "dentalProfile": "Dental profile",
+            "dentalProfileHelp": "Dentist, patient number, municipal subsidy and the latest check-up.",
             "employmentProgram": "Employment program",
+            "employmentProgramHelp": "Case type, status, basis for financial support, and the consultants and referrers on the case.",
             "inquiryData": "Inquiry data",
-            "stayData": "Stay data"
+            "inquiryDataHelp": "Who made the inquiry, when, and what came out of the conversation.",
+            "stayData": "Stay data",
+            "stayDataHelp": "Journal number, move-in and move-out, price and paying municipality."
         },
         "statuses": {
             "alert": {
@@ -5761,12 +5769,12 @@
             },
             "firstname": "First name",
             "header": {
-                "comprehensiveEmploymentDetailsWithinTheOrganization": "Comprehensive employment details within the organization",
+                "comprehensiveEmploymentDetailsWithinTheOrganization": "Comprehensive employment details within the organization.",
                 "emergencyContactDetailsInCaseOfAnUrgentSituation": "Emergency contact details in case of an urgent situation",
                 "emergencyInfo": "Emergency info",
                 "employeeInformation": "Employee Information",
                 "employmentInformation": "Employment Information",
-                "essentialDetailsOfTheEmployee": "Essential details of the employee"
+                "essentialDetailsOfTheEmployee": "Essential details of the employee."
             },
             "lastname": "Last name",
             "mediaRisks": {

@@ -4,13 +4,8 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
-            <div>
-                <h2 class="text-base font-semibold leading-7 text-gray-900">
-                    {{ $t('citizens.sections.citizenDetails') }}
-                </h2>
-            </div>
-            <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+        <FormSection :title="$t('citizens.sections.citizenDetails')"
+            :description="$t('citizens.sections.citizenDetailsHelp')">
                 <div class="space-y-1">
                     <div class="flex flex-col items-center">
                         <input type="file" ref="citizenImage" @change="onCitizenImageChange" class="hidden" />
@@ -30,54 +25,57 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="firstname" :label="$t('citizens.form.firstname')" />
-                        <FormTextField id="firstname" name="firstname" :placeholder="$t('citizens.form.firstname')"
-                            v-model="state.formCitizen.firstname" />
+                        <FormTextField id="firstname" name="firstname" v-model="state.formCitizen.firstname" />
                         <FormError :error="v$?.formCitizen?.firstname?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.firstname?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="lastname" :label="$t('citizens.form.lastname')" />
-                        <FormTextField id="lastname" name="lastname" :placeholder="$t('citizens.form.lastname')"
-                            v-model="state.formCitizen.lastname" />
+                        <FormTextField id="lastname" name="lastname" v-model="state.formCitizen.lastname" />
                         <FormError :error="v$?.formCitizen?.lastname?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.lastname?.[0]" />
                     </div>
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="gender" :label="$t('citizens.form.gender')" />
-                    <FormSelect id="gender" :options="state.options.genders" v-model="state.formCitizen.gender" />
-                    <FormError :error="v$?.formCitizen?.gender?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.gender?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="email" :label="$t('citizens.form.emailAddress')" />
-                    <FormTextField id="email" name="email" :placeholder="$t('citizens.form.emailAddress')"
-                        v-model="state.formCitizen.email" />
-                    <FormError :error="v$?.formCitizen?.email?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.email?.[0]" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="social_security_number" :label="$t('citizens.form.ssn')" />
                         <FormTextField id="social_security_number" name="social_security_number"
-                            :placeholder="$t('citizens.form.ssn')" :maxLength="10"
+                            :placeholder="$t('citizens.form.ssnPlaceholder')" :maxLength="10"
                             v-model="formattedSocialSecurityNumber" @input="updateSocialSecurityNumber" />
                         <FormError :error="v$?.formCitizen?.social_security_number?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="birthday" :label="$t('citizens.form.birthday')" />
-                        <FormDateField id="birthday" name="birthday" :placeholder="$t('citizens.form.birthday')"
-                            v-model="state.formCitizen.birthday" />
+                        <FormDateField id="birthday" name="birthday" v-model="state.formCitizen.birthday" />
+                        <p v-if="state.autoFilledFromSsn" class="flex items-center gap-x-1 text-xs text-tertiary">
+                            <Icon name="ph:magic-wand" class="h-3.5 w-3.5" aria-hidden="true" />
+                            {{ $t('citizens.form.autoFilledFromSsn') }}
+                        </p>
                         <FormError :error="v$?.formCitizen?.birthday?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.birthday?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
+                        <FormLabel for="gender" :label="$t('citizens.form.gender')" />
+                        <FormSelect id="gender" :options="state.options.genders"
+                            :placeholder="$t('citizens.form.selectGender')" v-model="state.formCitizen.gender" />
+                        <FormError :error="v$?.formCitizen?.gender?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.gender?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="email" :label="$t('citizens.form.emailAddress')" />
+                        <FormTextField id="email" name="email" placeholder="navn@eksempel.dk"
+                            v-model="state.formCitizen.email" />
+                        <FormError :error="v$?.formCitizen?.email?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.email?.[0]" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
                         <FormLabel for="phone" :label="$t('citizens.form.phone')" />
-                        <FormTextField id="phone" name="phone" :placeholder="$t('citizens.form.phone')"
-                            v-model="state.formCitizen.phone" />
+                        <FormTextField id="phone" name="phone" v-model="state.formCitizen.phone" />
                         <FormError :error="v$?.formCitizen?.phone?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
                     </div>
@@ -434,16 +432,8 @@
                         {{ $t('citizens.form.allowBulletBoardAccess') }}
                     </p>
                 </div>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('inquiry_data')">
-            <div>
-                <h2 class="text-base font-semibold leading-7 text-gray-900">
-                    {{ $t('citizens.sections.inquiryData') }}
-                </h2>
-            </div>
-            <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+        </FormSection>
+        <FormSection v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('inquiry_data')" :title="$t('citizens.sections.inquiryData')" :description="$t('citizens.sections.inquiryDataHelp')">
                 <div class="space-y-1">
                     <FormLabel for="inquiry_date" :label="$t('citizens.form.inquiryData.dateOfInquiry')" />
                     <FormDateField id="inquiry_date" name="inquiry_date"
@@ -484,16 +474,8 @@
                         :error="v$?.formCitizen?.inquiryData.conversation_summary?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.conversation_summary?.[0]" />
                 </div>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('stay_data')">
-            <div>
-                <h2 class="text-base font-semibold leading-7 text-gray-900">
-                    {{ $t('citizens.sections.stayData') }}
-                </h2>
-            </div>
-            <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+        </FormSection>
+        <FormSection v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('stay_data')" :title="$t('citizens.sections.stayData')" :description="$t('citizens.sections.stayDataHelp')">
                 <div class="space-y-1">
                     <FormLabel for="journal_number" :label="$t('citizens.form.stayData.journalNumber')" />
                     <FormTextField id="journal_number" name="journal_number"
@@ -791,16 +773,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services' && isFieldVisible('employment_data')">
-            <div>
-                <h2 class="text-base font-semibold leading-7 text-gray-900">
-                    {{ $t('citizens.sections.employmentProgram') }}
-                </h2>
-            </div>
-            <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+        </FormSection>
+        <FormSection v-if="userStore.getUser?.company?.industry?.system_name === 'employment_services' && isFieldVisible('employment_data')" :title="$t('citizens.sections.employmentProgram')" :description="$t('citizens.sections.employmentProgramHelp')">
                 <div class="space-y-1">
                     <FormLabel for="employment_case_type_uuid"
                         :label="$t('citizens.form.employmentProgram.caseType')" />
@@ -927,16 +901,8 @@
                         :placeholder="$t('citizens.form.employmentProgram.internshipCompany')"
                         v-model="state.formCitizen.employmentData.internship_company" />
                 </div>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10"
-            v-if="userStore.getUser?.company?.industry?.en_name === 'Dentists and dental hygienists' && isFieldVisible('dental_profile')">
-            <div>
-                <h2 class="text-base font-semibold leading-7 text-gray-900">
-                    {{ $t('citizens.sections.dentalProfile') }}
-                </h2>
-            </div>
-            <div class="md:col-span-2 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+        </FormSection>
+        <FormSection v-if="userStore.getUser?.company?.industry?.en_name === 'Dentists and dental hygienists' && isFieldVisible('dental_profile')" :title="$t('citizens.sections.dentalProfile')" :description="$t('citizens.sections.dentalProfileHelp')">
                 <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark = !state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark">
@@ -976,16 +942,17 @@
                             v-model="state.formCitizen.dentalData.checkup_interval_months" />
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/citizens')">
+        </FormSection>
+        <!-- Follows the reader, so saving never means scrolling to the bottom. -->
+        <div class="sticky bottom-0 z-20 -mx-4 mt-8 border-t border-gray-200 bg-white/95 px-4 py-3 backdrop-blur
+            sm:mx-0 sm:rounded-lg sm:px-6">
+            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
+                <FormButton type="button" buttonStyle="cancel" class="sm:w-auto sm:px-8"
+                    @click="navigateTo('/citizens')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="w-full">
-                    {{ props.formType === 'create' ? $t('save') :
-                        $t('update') }}
+                <FormButton type="submit" buttonStyle="primary" class="sm:w-auto sm:px-10">
+                    {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>
         </div>
@@ -1038,6 +1005,7 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useDanishCpr } from '@/composables/cpr'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
@@ -1097,7 +1065,15 @@ function isFieldVisible(fieldKey: string): boolean {
     return formConfig.value[fieldKey] !== false
 }
 
+const { parse: parseCpr } = useDanishCpr()
+
 const state = reactive({
+    // True while the birthday field's current value came from the CPR number and
+    // has not been edited by hand since - drives the hint text under the field.
+    autoFilledFromSsn: false,
+    // Same, tracked separately for gender: birthday and gender are corrected
+    // independently, so one being edited by hand must not re-lock the other.
+    genderAutoFilledFromSsn: false,
     error: {} as Error,
     formCitizen: {
         image: '',
@@ -1424,42 +1400,15 @@ watch(() => language.locale.value, (newLocale: any) => {
     }
 })
 
-watch(() => state.formCitizen.social_security_number, (ssn) => {
-    if (ssn?.length === 10) {
-        state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
-    }
-})
-
-watch(() => state.formCitizen.social_security_number, (ssn) => {
-    // Format social security number with a hyphen after six digits
-    if (ssn?.length === 10) {
-        state.formCitizen.social_security_number = ssn.slice(0, 6) + '-' + ssn.slice(6)
-    }
-
-    // Check if the length is at least six digits to derive the birthdate
-    if (ssn?.length >= 6) {
-        const day = ssn.slice(0, 2)
-        const month = ssn.slice(2, 4)
-        let year = ssn.slice(4, 6)
-
-        // Determine the century (adjust as needed for your specific case)
-        const currentYear = new Date().getFullYear() % 100
-        year = parseInt(year, 10) <= currentYear ? `20${year}` : `19${year}`
-
-        // Create a valid date string in the format 'YYYY-MM-DD'
-        const dateOfBirth = `${year}-${month}-${day}`
-
-        if (isValidDate(year, month, day)) {
-            // Update the birthday field if the date is valid
-            if (!state.formCitizen.birthday) {
-                state.formCitizen.birthday = dateOfBirth
-            }
-        } else {
-            // Handle invalid date case (optional: clear or show error)
-            state.formCitizen.birthday = ''
-        }
-    }
-})
+// Note: SSN-derived birthday/gender now goes entirely through
+// autoFillFromSocialSecurityNumber() below (backed by useDanishCpr, which knows
+// the real century rule and derives gender too). A pair of older watchers used
+// to duplicate the hyphen formatting here and derive the birthday with a cruder
+// same-century-as-today heuristic - removed because they raced with the newer
+// logic: since they fired on every keystroke from 6 digits onwards, they set
+// (or blanked, on a not-yet-valid intermediate date) the birthday before the
+// CPR was even fully typed, bypassing the auto-filled tracking used above to
+// tell a manual correction apart from an auto-filled value.
 
 watch(() => state.formCitizen.post_code, async (newPostCode, oldPostCode, onCleanup) => {
     if (!newPostCode || newPostCode.length < 4) return
@@ -1898,6 +1847,52 @@ const formattedSocialSecurityNumber = computed<string>({
 function updateSocialSecurityNumber(event: Event) {
     const target = event.target as HTMLInputElement
     state.formCitizen.social_security_number = target.value.replace(/-/g, '')
+    autoFillFromSocialSecurityNumber()
+}
+
+// Set while autoFillFromSocialSecurityNumber() is writing a field itself, so the
+// watchers below don't mistake that write for a manual edit and immediately
+// clear the flag they were just asked to set.
+let isAutoFillingFromSsn = false
+
+watch(() => state.formCitizen.birthday, () => {
+    if (!isAutoFillingFromSsn) state.autoFilledFromSsn = false
+})
+
+watch(() => state.formCitizen.gender, () => {
+    if (!isAutoFillingFromSsn) state.genderAutoFilledFromSsn = false
+})
+
+/**
+ * A CPR number already holds the birthday and the gender, so both are filled in
+ * as soon as the number is complete. Each field tracks its own auto-filled state,
+ * so correcting one by hand does not re-lock the other against the next edit of
+ * the CPR number - and both stay editable afterwards.
+ */
+function autoFillFromSocialSecurityNumber() {
+    const parsed = parseCpr(state.formCitizen.social_security_number)
+
+    if (!parsed) {
+        return
+    }
+
+    const birthdayIsFree = !state.formCitizen.birthday || state.autoFilledFromSsn
+    const genderIsFree = !state.formCitizen.gender || state.genderAutoFilledFromSsn
+
+    if (!birthdayIsFree && !genderIsFree) {
+        return
+    }
+
+    isAutoFillingFromSsn = true
+    if (birthdayIsFree) {
+        state.formCitizen.birthday = parsed.birthday
+        state.autoFilledFromSsn = true
+    }
+    if (genderIsFree) {
+        state.formCitizen.gender = parsed.gender
+        state.genderAutoFilledFromSsn = true
+    }
+    nextTick(() => { isAutoFillingFromSsn = false })
 }
 
 function addAccompanyingChild() {

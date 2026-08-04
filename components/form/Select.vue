@@ -1,5 +1,6 @@
 <template>
     <Multiselect :close-on-select="true" :searchable="props.searchable" :options="props.options"
+        :placeholder="props.placeholder"
         :canClear="props.canClear" :no-options-text="$t('theListIsEmpty')" :noResultsText="$t('noResultFound')"
         :appendToBody="props.appendToBody"
         :modelValue="props.modelValue" @update:modelValue="$emit('update:modelValue', $event)" />
@@ -24,6 +25,10 @@ const props = defineProps({
     options: {
         type: Object,
         required: true,
+    },
+    placeholder: {
+        type: String,
+        default: '',
     },
     searchable: {
         type: Boolean,

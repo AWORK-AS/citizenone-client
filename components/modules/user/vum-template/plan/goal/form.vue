@@ -5,7 +5,7 @@
         <div class="space-y-3">
             <div class="space-y-1">
                 <FormLabel for="name" :label="$t('plansandgoals.VUMTemplates.form.goals.name')" />
-                <FormTextField id="name" name="name" :placeholder="$t('plansandgoals.VUMTemplates.form.goals.name')"
+                <FormTextField id="name" name="name"
                     v-model="state.formGoal.name" />
                 <FormError :error="v$?.formGoal?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />

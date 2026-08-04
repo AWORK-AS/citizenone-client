@@ -2,17 +2,18 @@
     <form @submit.prevent="submitForm()" class="mt-6 max-w-3xl">
         <Alert type="danger" :text="props?.error?.message"
             v-if="props.error && props.error.length > 0 || props.error?.message" />
-        <div class="grid grid-cols-1 gap-y-3">
+        <FormSection>
             <div v-if="props.formType === 'create' && !props.citizenUuid" class="space-y-1">
                 <FormLabel for="citizen_uuid" :label="$t('citizenReports.form.citizen')" />
                 <FormSelect id="citizen_uuid" name="citizen_uuid" :options="state.options.citizens"
+                    :placeholder="$t('select')"
                     v-model="state.form.citizen_uuid" />
                 <FormError :error="v$?.form?.citizen_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.citizen_uuid?.[0]" />
             </div>
             <div class="space-y-1">
                 <FormLabel for="title" :label="$t('citizenReports.form.title')" />
-                <FormTextField id="title" name="title" :placeholder="$t('citizenReports.form.title')"
+                <FormTextField id="title" name="title"
                     v-model="state.form.title" />
                 <FormError :error="v$?.form?.title?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.title?.[0]" />
@@ -50,13 +51,15 @@
                 <ckeditor :editor="editor" v-model="state.form.body" :config="editorConfig" />
                 <FormError :error="props?.error?.errors?.body?.[0]" />
             </div>
-        </div>
-        <div class="mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/reports')">
+        </FormSection>
+        <!-- Follows the reader, so saving never means scrolling to the bottom. -->
+        <div class="sticky bottom-0 z-20 -mx-4 mt-8 border-t border-gray-200 bg-white/95 px-4 py-3 backdrop-blur
+            sm:mx-0 sm:rounded-lg sm:px-6">
+            <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
+                <FormButton type="button" buttonStyle="cancel" class="sm:w-auto sm:px-8" @click="navigateTo('/reports')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary">
+                <FormButton type="submit" buttonStyle="primary" class="sm:w-auto sm:px-10">
                     {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>
