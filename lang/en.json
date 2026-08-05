@@ -2419,7 +2419,15 @@
                 "inTotal": "in total",
                 "pcs": "pcs",
                 "standardDosage": "Standard: {dosage}",
-                "dayHeaders": ["M", "T", "W", "T", "F", "S", "S"],
+                "dayHeaders": [
+                    "M",
+                    "T",
+                    "W",
+                    "T",
+                    "F",
+                    "S",
+                    "S"
+                ],
                 "commentForAll": "Comment for all (optional)...",
                 "saving": "Saving...",
                 "saveDay": "Save {n} day(s)",
@@ -11917,7 +11925,8 @@
                 "wontLand": "Will not land",
                 "newDepartments": "New departments ({count}):",
                 "rowsToLookAt": "Rows to look at",
-                "line": "Line {line}"
+                "line": "Line {line}",
+                "newSections": "New paragraphs ({count}):"
             },
             "importing": {
                 "label": "Importing…"
@@ -11973,7 +11982,8 @@
             "shift": "Shift type (name)",
             "start_time": "Start time (HH:MM)",
             "end_time": "End time (HH:MM)",
-            "email_employee": "Employee's email (match)"
+            "email_employee": "Employee's email (match)",
+            "section": "Paragraph"
         },
         "errors": {
             "emptyFile": "The file appears empty or has no data rows.",

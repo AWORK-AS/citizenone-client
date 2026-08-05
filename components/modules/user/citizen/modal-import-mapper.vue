@@ -237,6 +237,15 @@
                                     {{ state.serverCheck.new_departments.join(', ') }}
                                 </p>
 
+                                <p v-if="state.serverCheck.new_sections?.length" class="mt-2 text-xs text-slate-500">
+                                    <span class="font-medium text-slate-600">{{
+                                        $t('import.steps.dryRun.newSections', {
+                                            count:
+                                                state.serverCheck.new_sections.length
+                                        }) }}</span>
+                                    {{ state.serverCheck.new_sections.join(', ') }}
+                                </p>
+
                                 <ul v-if="warningList.length" class="mt-3 space-y-1">
                                     <li v-for="warning in warningList" :key="warning.key"
                                         class="flex justify-between gap-x-3 rounded-lg bg-amber-50 px-3 py-1.5 text-sm text-amber-800">
@@ -435,7 +444,9 @@ const entityTypes = computed(() => [
             : citizenService.importMappedCitizens(payload),
         fields: [
             { key: 'firstname', label: t('import.fields.firstname'), required: true },
-            { key: 'lastname', label: t('import.fields.lastname'), required: true },
+            // Not required: systems being migrated from do not always record a
+            // surname, and the citizen is still a real person.
+            { key: 'lastname', label: t('import.fields.lastname'), required: false },
             { key: 'cpr_number', label: t('import.fields.cpr_number'), required: false },
             { key: 'birthday', label: t('import.fields.birthday'), required: false },
             { key: 'gender', label: t('import.fields.gender'), required: false },
@@ -444,6 +455,7 @@ const entityTypes = computed(() => [
             { key: 'date_admitted', label: t('import.fields.date_admitted'), required: false },
             { key: 'date_discharged', label: t('import.fields.date_discharged'), required: false },
             { key: 'departments', label: t('import.fields.departments'), required: false },
+            { key: 'section', label: t('import.fields.section'), required: false },
         ],
     },
     {
@@ -493,6 +505,7 @@ const synonyms: Record<string, string[]> = {
     date_admitted: ['indskrivning', 'indskrevet', 'admitted', 'startdato', 'opstart', 'start'],
     date_discharged: ['udskrivning', 'udskrevet', 'discharged', 'slutdato', 'ophør', 'ophor', 'slut'],
     departments: ['afdeling', 'afdelinger', 'department', 'departments', 'team', 'enhed', 'gruppe'],
+    section: ['paragraf', 'paragraph', 'section', 'sektion', 'indtyp', 'indsatstype', 'type', 'ydelse', 'lovgrundlag'],
     seniority_date: ['anciennitet', 'ancien', 'seniority', 'ansættelsesdato', 'ansaettelsesdato', 'ansat', 'startdato'],
     cpr: ['cpr', 'cprnr', 'cpr-nr', 'cprnummer', 'personnummer', 'ssn', 'borger'],
     shift: ['vagt', 'vagttype', 'shift', 'skift', 'vagtnavn', 'type'],
@@ -751,7 +764,8 @@ async function runServerCheck() {
         const CHUNK = 300
         const acc: any = {
             created: 0, duplicate_count: 0, skipped_count: 0, failed_count: 0,
-            new_departments: [] as string[], warnings: {} as Record<string, number>, rows: [] as any[],
+            new_departments: [] as string[], new_sections: [] as string[],
+            warnings: {} as Record<string, number>, rows: [] as any[],
         }
 
         for (let i = 0; i < rows.length; i += CHUNK) {
@@ -762,6 +776,9 @@ async function runServerCheck() {
             acc.failed_count += res?.failed_count ?? 0
             for (const name of res?.new_departments ?? []) {
                 if (!acc.new_departments.includes(name)) acc.new_departments.push(name)
+            }
+            for (const name of res?.new_sections ?? []) {
+                if (!acc.new_sections.includes(name)) acc.new_sections.push(name)
             }
             for (const row of res?.rows ?? []) {
                 for (const warning of row?.warnings ?? []) {
