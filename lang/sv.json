@@ -783,6 +783,7 @@
         "mentionSomeone": "Nämn en brukare eller medarbetare",
         "searchScopeHint": "AI kan söka i alla brukar-/medarbetaruppgifter du har åtkomst till, om du inte taggar en specifik person med {'@'}",
         "reviewNotice": "AI-genererat innehåll kan innehålla fel — granska alltid innan du litar på det",
+        "dataGovernanceNotice": "Läs hur CitizenOne skyddar dina uppgifter i vår",
         "previewBeforeSending": "Förhandsgranska innan du skickar",
         "fileSizeExceeds": "Den samlade filstörrelse får inte overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vänligen",

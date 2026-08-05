@@ -783,6 +783,7 @@
         "mentionSomeone": "Nævn en borger eller medarbejder",
         "searchScopeHint": "AI kan søge i alle borger-/medarbejderoplysninger, du har adgang til, medmindre du tagger en bestemt person med {'@'}",
         "reviewNotice": "AI-genereret indhold kan indeholde fejl — gennemgå det altid, før du stoler på det",
+        "dataGovernanceNotice": "Læs hvordan CitizenOne beskytter dine data i vores",
         "previewBeforeSending": "Se forhåndsvisning før afsendelse",
         "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB",
         "generatingResponse": "Genererer svar. Vent venligst",

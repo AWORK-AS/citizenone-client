@@ -134,6 +134,14 @@
                                     <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0 mt-0.5" />
                                     <span>{{ $t('assistants.reviewNotice') }}</span>
                                 </div>
+                                <div class="flex items-start gap-1.5">
+                                    <Icon name="ph:shield-check" class="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                                    <span>
+                                        {{ $t('assistants.dataGovernanceNotice') }}
+                                        <a :href="aiGovernanceUrl" target="_blank" rel="noopener noreferrer"
+                                            class="underline" style="color: #104c75">AI Governance</a>
+                                    </span>
+                                </div>
                             </div>
                             <div v-if="state.files.length > 0" class="flex flex-wrap gap-1.5 mb-2">
                                 <div v-for="(file, index) in state.files" :key="index"
@@ -257,9 +265,18 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close'])
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { errorAlert } = useAlert()
 const { formatCompactRelativeTime } = useCompactRelativeTime()
+
+const AI_GOVERNANCE_URLS: Record<string, string> = {
+    dk: 'https://citizenone.dk/ai-governance',
+    en: 'https://citizenone.eu/ai-governance',
+    sv: 'https://citizenone.eu/sv/ai-governance',
+    no: 'https://citizenone.eu/nb/ai-governance',
+}
+
+const aiGovernanceUrl = computed(() => AI_GOVERNANCE_URLS[locale.value] ?? AI_GOVERNANCE_URLS.en)
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024
 
