@@ -78,35 +78,35 @@
                                     v-model="state.filter.date_range" class="w-full md:w-72 h-11" />
                                 <div class="flex items-center gap-1.5 shrink-0">
                                     <Tooltip :text="$t('citizens.citizenJournals.filter.oldestFirst')">
-                                        <FormButton buttonSize="sm" :class="[
+                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.oldestFirst')" buttonSize="sm" :class="[
                                             ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
                                             'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
                                             <Icon name="mdi:sort-ascending" class="size-4" />
                                         </FormButton>
                                     </Tooltip>
                                     <Tooltip :text="$t('citizens.citizenJournals.filter.newestFirst')">
-                                        <FormButton buttonSize="sm" :class="[
+                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.newestFirst')" buttonSize="sm" :class="[
                                             ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
                                             'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
                                             <Icon name="mdi:sort-descending" class="size-4" />
                                         </FormButton>
                                     </Tooltip>
                                     <Tooltip :text="$t('citizens.citizenJournals.filter.showLockedOnly')">
-                                        <FormButton buttonSize="sm" :class="[
+                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.showLockedOnly')" buttonSize="sm" :class="[
                                             citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
                                             'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
                                             <Icon name="ph:lock" class="size-4" />
                                         </FormButton>
                                     </Tooltip>
                                     <Tooltip :text="$t('citizens.citizenJournals.filter.showFavoritesOnly')">
-                                        <FormButton buttonSize="sm" :class="[
+                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.showFavoritesOnly')" buttonSize="sm" :class="[
                                             citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
                                             'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
                                             <Icon name="ph:star" class="size-4" />
                                         </FormButton>
                                     </Tooltip>
                                     <Tooltip :text="$t('citizens.citizenJournals.filter.resetFilters')">
-                                        <FormButton class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
+                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.resetFilters')" class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
                                             <Icon name="mdi:refresh" class="size-4" />
                                         </FormButton>
                                     </Tooltip>
@@ -247,28 +247,28 @@
                                         <div class="flex items-center gap-x-2">
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.edit')"
                                                 v-if="journal?.is_editable">
-                                                <FormButton buttonStyle="primary" buttonSize="xs"
+                                                <FormButton :aria-label="$t('citizens.citizenJournals.actions.edit')" buttonStyle="primary" buttonSize="xs"
                                                     @click="editJournal(journal)">
                                                     <Icon name="ph:pencil-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.copy')"
                                                 v-if="journal?.is_copyable">
-                                                <FormButton buttonStyle="primary" buttonSize="xs"
+                                                <FormButton :aria-label="$t('citizens.citizenJournals.actions.copy')" buttonStyle="primary" buttonSize="xs"
                                                     @click="copyJournal(journal)">
                                                     <Icon name="ph:copy" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.move')"
                                                 v-if="journal?.is_movable">
-                                                <FormButton buttonStyle="primary" buttonSize="xs"
+                                                <FormButton :aria-label="$t('citizens.citizenJournals.actions.move')" buttonStyle="primary" buttonSize="xs"
                                                     @click="moveJournal(journal)">
                                                     <Icon name="ph:arrows-out-cardinal" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip
                                                 :text="journal?.is_favorite ? $t('citizens.citizenJournals.actions.removeFromFavorite') : $t('citizens.citizenJournals.actions.addToFavorite')">
-                                                <FormButton buttonSize="xs" :class="[
+                                                <FormButton :aria-label="journal?.is_favorite ? $t('citizens.citizenJournals.actions.removeFromFavorite') : $t('citizens.citizenJournals.actions.addToFavorite')" buttonSize="xs" :class="[
                                                     journal?.is_favorite && 'border-primary bg-primary text-white',
                                                     'w-full md:w-fit']"
                                                     @click="addRemoveJournalToFavorite(journal.uuid)">
@@ -277,7 +277,7 @@
                                             </Tooltip>
                                             <Tooltip
                                                 :text="journal?.is_locked ? `Unlock ${term('journal', 'Journal')}` : `Lock ${term('journal', 'Journal')}`">
-                                                <FormButton buttonSize="xs" :class="[
+                                                <FormButton :aria-label="journal?.is_locked ? `Unlock ${term('journal', 'Journal')}` : `Lock ${term('journal', 'Journal')}`" buttonSize="xs" :class="[
                                                     journal?.is_locked && 'border-primary bg-primary text-white',
                                                     'w-full md:w-fit']" @click="lockUnlockJournal(journal.uuid)">
                                                     <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
@@ -286,7 +286,7 @@
                                             </Tooltip>
                                             <Tooltip
                                                 :text="journal?.is_pinned ? `Unpin ${term('journal', 'Journal')}` : `Pin ${term('journal', 'Journal')}`">
-                                                <FormButton buttonSize="xs" :class="[
+                                                <FormButton :aria-label="journal?.is_pinned ? `Unpin ${term('journal', 'Journal')}` : `Pin ${term('journal', 'Journal')}`" buttonSize="xs" :class="[
                                                     journal?.is_pinned && 'border-primary bg-primary text-white',
                                                     'w-full md:w-fit']" @click="pinUnpinJournal(journal.uuid)">
                                                     <Icon name="ph:push-pin-fill" class="size-4"
@@ -295,19 +295,19 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="`${term('journal', 'Journal')} logs`">
-                                                <FormButton buttonStyle="primary" buttonSize="xs"
+                                                <FormButton :aria-label="`${term('journal', 'Journal')} logs`" buttonStyle="primary" buttonSize="xs"
                                                     @click="viewJournalLogs(journal)">
                                                     <Icon name="ph:clock-clockwise" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('recordHistory.viewHistory')">
-                                                <FormButton buttonStyle="action" buttonSize="xs"
+                                                <FormButton :aria-label="$t('recordHistory.viewHistory')" buttonStyle="action" buttonSize="xs"
                                                     data-testid="journal-history" @click="viewRecordHistory(journal)">
                                                     <Icon name="ph:clock-counter-clockwise" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.citizenJournals.actions.delete')">
-                                                <FormButton buttonStyle="danger" buttonSize="xs"
+                                                <FormButton :aria-label="$t('citizens.citizenJournals.actions.delete')" buttonStyle="danger" buttonSize="xs"
                                                     @click="confirmJournalDeletion(journal)"
                                                     v-if="journal?.is_deletable">
                                                     <Icon name="ph:trash-duotone" class="size-4" />

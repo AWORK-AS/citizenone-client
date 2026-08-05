@@ -93,20 +93,20 @@
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('referrals.table.actions.view')"
                                                 v-if="isAtLeast('Admin') || can('view_referral')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('referrals.table.actions.view')" type="button" buttonStyle="action"
                                                     @click="viewReferral(referral)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('referrals.table.actions.edit')"
                                                 v-if="isAtLeast('Admin') || can('update_referral')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('referrals.table.actions.edit')" type="button" buttonStyle="action"
                                                     @click="editReferral(referral)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('referrals.table.actions.delete')" v-if="isAtLeast('Admin') || can('delete_referral')">
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('referrals.table.actions.delete')" type="button" buttonStyle="danger"
                                                     @click="deleteConfirmation(referral)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

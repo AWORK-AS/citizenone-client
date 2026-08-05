@@ -57,7 +57,7 @@
                             <Tooltip
                                 :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                                 position="left">
-                                <button
+                                <button :aria-label="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                                     class="flex items-center justify-center gap-x-2 outline-none rounded-md text-xs truncate font-semibold bg-tertiary border border-tertiary text-white hover:bg-tertiary-800 px-2 py-2"
                                     @click="sortDutySchedule">
                                     <Icon name="heroicons:arrow-down" class="h-5 w-5" aria-hidden="true"
@@ -134,7 +134,7 @@
                                                 {{ $t('dutySchedules.week') }} {{ weekNumber }}
                                             </p>
                                             <Tooltip :text="$t('dutySchedules.copy.copyThisWeeksSchedule')">
-                                                <button
+                                                <button :aria-label="$t('dutySchedules.copy.copyThisWeeksSchedule')"
                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                     @click="copyWeeklySchedule(weekNumber)">
                                                     <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
@@ -142,7 +142,7 @@
                                             </Tooltip>
                                             <div class="flex-1 flex justify-end gap-x-2" v-if="isAtLeast('Admin')">
                                                 <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')">
-                                                    <button
+                                                    <button :aria-label="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
                                                         class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                         @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
                                                         <Icon name="mdi:content-copy" class="h-3 w-3"
@@ -237,7 +237,7 @@
                                                         <div>
                                                             <Tooltip position="right"
                                                                 :text="$t('dutySchedules.copy.copyEmployeeSchedule')">
-                                                                <button
+                                                                <button :aria-label="$t('dutySchedules.copy.copyEmployeeSchedule')"
                                                                     class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                     @click="copyEmployeeWeeklySchedule(employee)">
                                                                     <Icon name="mdi:content-copy" class="h-3 w-3"
@@ -419,7 +419,7 @@
                                                     v-if="!isDailyScheduleCopied(employeeIndex, weekIndex, weekNumber)">
                                                     <div class="flex justify-end gap-2" v-if="isAtLeast('Admin')">
                                                         <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
-                                                            <button
+                                                            <button :aria-label="$t('dutySchedules.copy.copy')"
                                                                 class="bg-gray-200 w-6 h-6 text-sm text-gray-600 rounded-sm hover:bg-gray-400 hover:text-gray-200 flex items-center justify-center"
                                                                 @click="copyEmployeeDailySchedule(employeeIndex, weekIndex, employee, weekNumber)">
                                                                 <Icon name="mdi:content-copy" class="h-3 w-3"

@@ -89,14 +89,14 @@
                                         <div class="flex items-end gap-2">
                                             <Tooltip :text="$t('citizens.outcomes.edit')"
                                                 v-if="isAtLeast('Admin') || can('update_citizen_outcomes')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('citizens.outcomes.edit')" type="button" buttonStyle="action"
                                                     @click="editOutcome(outcome)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.outcomes.delete')"
                                                 v-if="isAtLeast('Admin') || can('delete_citizen_outcomes')">
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('citizens.outcomes.delete')" type="button" buttonStyle="danger"
                                                     @click="deleteOutcomeConfirmation(outcome)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

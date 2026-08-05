@@ -146,7 +146,7 @@
                                 <td width="20%">
                                     <div class="flex items-end gap-2">
                                         <Tooltip :text="$t('dutySchedules.published.table.actions.view')">
-                                            <FormButton type="button" buttonStyle="action"
+                                            <FormButton :aria-label="$t('dutySchedules.published.table.actions.view')" type="button" buttonStyle="action"
                                                 @click="navigateTo(`/schedules/draft/published/${publishedVersion.uuid}/view-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
                                             </FormButton>

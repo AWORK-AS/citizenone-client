@@ -71,14 +71,14 @@
                     <!-- Date navigator -->
                     <div
                         class="flex items-center gap-x-2 bg-white rounded-lg border border-surface-200 shadow-sm px-3 py-1.5">
-                        <button @click="previousDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                        <button @click="previousDay" :aria-label="$t('overview.previousDay')" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
                             <Icon name="heroicons:chevron-left-20-solid" class="h-4 w-4 text-slate-400" />
                         </button>
                         <button @click="state.modal.isDailyOverviewDateRangeOpen = true"
                             class="text-sm font-medium text-slate-700 hover:text-primary transition-colors px-1">
                             {{ formatDisplayDate() }}
                         </button>
-                        <button @click="nextDay" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
+                        <button @click="nextDay" :aria-label="$t('overview.nextDay')" class="p-0.5 rounded hover:bg-surface-100 transition-colors">
                             <Icon name="heroicons:chevron-right-20-solid" class="h-4 w-4 text-slate-400" />
                         </button>
                     </div>

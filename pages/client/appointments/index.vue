@@ -38,7 +38,7 @@
                                     <td width="10%">
                                         <div class="flex items-end justify-end gap-2">
                                             <Tooltip :text="$t('citizens.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('citizens.table.actions.view')" type="button" buttonStyle="action"
                                                     @click="viewAppointment(appointment)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>

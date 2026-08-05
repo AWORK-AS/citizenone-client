@@ -104,13 +104,13 @@
                                     <div class="flex-shrink-0">
                                         <Tooltip :text="$t('reminders.table.markAsComplete')"
                                             v-if="!due?.is_complete">
-                                            <FormButton buttonStyle="action" buttonSize="sm"
+                                            <FormButton :aria-label="$t('reminders.table.markAsComplete')" buttonStyle="action" buttonSize="sm"
                                                 @click="markAsCompleteIncomplete(due)">
                                                 <Icon name="ph:check" class="h-4 w-4" aria-hidden="true" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('reminders.table.markAsIncomplete')" v-else>
-                                            <FormButton buttonStyle="action" buttonSize="sm"
+                                            <FormButton :aria-label="$t('reminders.table.markAsIncomplete')" buttonStyle="action" buttonSize="sm"
                                                 @click="markAsCompleteIncomplete(due)">
                                                 <Icon name="ph:arrow-counter-clockwise" class="h-4 w-4"
                                                     aria-hidden="true" />

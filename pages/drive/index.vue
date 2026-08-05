@@ -283,27 +283,27 @@
                                             <!-- Google Drive: Folder View + Delete -->
                                             <Tooltip :text="$t('drive.table.actions.view')"
                                                 v-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.view')" type="button" buttonStyle="action"
                                                     @click="viewGoogleDriveDirectory(document)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.move')"
                                                 v-if="document?.type === 'file' || document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.move')" type="button" buttonStyle="action"
                                                     @click="moveGoogleDriveFileConfirmation(document)">
                                                     <Icon name="ph:arrows-out" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.edit')"
                                                 v-if="document?.type === 'file' || document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.edit')" type="button" buttonStyle="action"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')">
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('drive.table.actions.delete')" type="button" buttonStyle="danger"
                                                     @click="deleteFromGoogleDrive(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
@@ -313,7 +313,7 @@
                                             <!-- OneDrive: Move always first -->
                                             <Tooltip :text="$t('drive.table.actions.move')"
                                                 v-if="document?.is_onedrive && (document?.type === 'file' || document?.type === 'folder')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.move')" type="button" buttonStyle="action"
                                                     @click="moveFileConfirmation(document)">
                                                     <Icon name="ph:arrows-out" class="size-4" />
                                                 </FormButton>
@@ -321,7 +321,7 @@
                                             <!-- OneDrive: Folder View -->
                                             <Tooltip :text="$t('drive.table.actions.view')"
                                                 v-if="document?.type === 'folder' && state.isInsideOneDrive">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.view')" type="button" buttonStyle="action"
                                                     @click="viewOneDriveDirectory(document)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
@@ -329,47 +329,47 @@
                                             <!-- Local files: Full actions -->
                                             <Tooltip :text="$t('drive.table.actions.view')"
                                                 v-else-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.view')" type="button" buttonStyle="action"
                                                     @click="viewDirectory(document)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.downloadPDF')"
                                                 v-if="document.type === 'file' && (state.isInsideOneDrive || state.viewMode === 'local')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.downloadPDF')" type="button" buttonStyle="action"
                                                     @click="openDownloadDocumentPdfDialog(document)">
                                                     <Icon name="ph:file-pdf" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.edit')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.edit')" type="button" buttonStyle="action"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.access')"
                                                 v-if="isAtLeast('Admin') && !state.isInsideOneDrive">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.access')" type="button" buttonStyle="action"
                                                     @click="viewDocumentAccess(document)">
                                                     <Icon name="ph:lock" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.archive')"
                                                 v-if="!state.isInsideOneDrive">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('drive.table.actions.archive')" type="button" buttonStyle="action"
                                                     @click="confirmDocumentArchiving(document)">
                                                     <Icon name="ph:archive-light" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')"
                                                 v-if="document?.type === 'folder'">
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('drive.table.actions.delete')" type="button" buttonStyle="danger"
                                                     @click="deleteDirectoryConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.delete')" v-else>
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('drive.table.actions.delete')" type="button" buttonStyle="danger"
                                                     @click="deleteFileConfirmation(document)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

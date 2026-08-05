@@ -69,20 +69,20 @@
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAttended')"
                                             position="left" @click="markAsPresent(citizenProtocol?.uuid)"
                                             v-if="disableIfFutureDate(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="primary">
+                                            <FormButton :aria-label="$t('protocols.table.actions.markCitizenAsAttended')" type="button" buttonStyle="primary">
                                                 <Icon name="material-symbols:event-available-outline" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.markCitizenAsAbent')"
                                             position="left" @click="confirmMarkAsAbsent(citizenProtocol)"
                                             v-if="disableIfFutureDate(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="warning">
+                                            <FormButton :aria-label="$t('protocols.table.actions.markCitizenAsAbent')" type="button" buttonStyle="warning">
                                                 <Icon name="material-symbols:event-busy-outline" class="size-4" />
                                             </FormButton>
                                         </Tooltip>
                                         <Tooltip :text="$t('protocols.table.actions.removeCitizenForThisDate')"
                                             position="left" @click="confirmRemoving(citizenProtocol)">
-                                            <FormButton type="button" buttonStyle="danger">
+                                            <FormButton :aria-label="$t('protocols.table.actions.removeCitizenForThisDate')" type="button" buttonStyle="danger">
                                                 <Icon name="ph:trash" class="size-4" />
                                             </FormButton>
                                         </Tooltip>

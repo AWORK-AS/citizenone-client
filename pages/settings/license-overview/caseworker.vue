@@ -175,7 +175,7 @@
                                                         <div class="flex items-center justify-end gap-2">
                                                             <Tooltip :text="$t('settings.licenseOverview.copyLink')"
                                                                 position="left">
-                                                                <button type="button"
+                                                                <button :aria-label="$t('settings.licenseOverview.copyLink')" type="button"
                                                                     class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition hover:border-primary hover:text-primary hover:bg-primary/5"
                                                                     @click.prevent="copyShareLink(license)">
                                                                     <Icon name="ph:link-simple-horizontal"
@@ -185,7 +185,7 @@
                                                             <Tooltip
                                                                 :text="$t('caseworkerSharing.configureSharingTooltip')"
                                                                 position="left">
-                                                                <button type="button"
+                                                                <button :aria-label="$t('caseworkerSharing.configureSharingTooltip')" type="button"
                                                                     class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition hover:border-primary hover:text-primary hover:bg-primary/5"
                                                                     @click.prevent="openConfigureModal(license)">
                                                                     <Icon name="ph:gear-six" class="h-4 w-4"

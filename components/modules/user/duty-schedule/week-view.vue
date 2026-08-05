@@ -98,7 +98,7 @@
                         <Tooltip
                             :text="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                             position="left">
-                            <button
+                            <button :aria-label="state.sortData.sortOrder === 'ascend' ? $t('dutySchedules.sort.sortNamesInDescendingOrder') : $t('dutySchedules.sort.sortNamesInAscendingOrder')"
                                 class="flex items-center justify-center outline-none rounded-full bg-primary text-white hover:bg-primary-800 p-2 w-9 h-9"
                                 @click="sortDutySchedule">
                                 <Icon name="heroicons:arrow-down" class="h-5 w-5" aria-hidden="true"
@@ -172,7 +172,7 @@
                                         </p>
                                         <Tooltip :text="$t('dutySchedules.copy.copyThisWeeksSchedule')"
                                             position="right">
-                                            <button
+                                            <button :aria-label="$t('dutySchedules.copy.copyThisWeeksSchedule')"
                                                 class="bg-gray-100 w-7 h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                 @click="copyWeeklySchedule(weekNumber)">
                                                 <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
@@ -181,7 +181,7 @@
                                         <div class="flex-1 flex justify-end gap-x-2" v-if="isAtLeast('Admin')">
                                             <Tooltip :text="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
                                                 position="right">
-                                                <button
+                                                <button :aria-label="$t('dutySchedules.copy.copyMultipleWeeksSchedule')"
                                                     class="bg-gray-100 w-7 h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                     @click="state.modal.isCopyMultipleWeeklyScheduleOpen = true">
                                                     <Icon name="mdi:content-copy" class="h-3 w-3" aria-hidden="true" />
@@ -232,7 +232,7 @@
                                     </Tooltip>
                                     <Tooltip :text="$t('dutySchedules.viewActivityLogForDay')" position="right"
                                         class="!absolute top-1 left-1">
-                                        <button type="button"
+                                        <button :aria-label="$t('dutySchedules.viewActivityLogForDay')" type="button"
                                             class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center transition-colors"
                                             @click.stop="emit('openDayActivityLog', day.fullDate.format('YYYY-MM-DD'))">
                                             <Icon name="ph:clock-counter-clockwise" class="h-3 w-3"
@@ -289,7 +289,7 @@
                                     </span>
                                     <Tooltip :text="$t('dutySchedules.viewActivityLogForDay')" position="right"
                                         class="!absolute top-1 left-1">
-                                        <button type="button"
+                                        <button :aria-label="$t('dutySchedules.viewActivityLogForDay')" type="button"
                                             class="w-5 h-5 rounded-md text-slate-400 hover:text-primary hover:bg-white flex items-center justify-center transition-colors"
                                             @click.stop="emit('openDayActivityLog', day.fullDate.format('YYYY-MM-DD'))">
                                             <Icon name="ph:clock-counter-clockwise" class="h-3 w-3"
@@ -418,7 +418,7 @@
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.copy.copyEmployeeSchedule')"
                                                             v-if="isAtLeast('Admin')">
-                                                            <button
+                                                            <button :aria-label="$t('dutySchedules.copy.copyEmployeeSchedule')"
                                                                 class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                                 @click="copyEmployeeWeeklySchedule(employee)">
                                                                 <Icon name="mdi:content-copy" class="h-3 w-3"
@@ -428,7 +428,7 @@
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.extraHours.extraHours')"
                                                             v-if="hasScheduleManageAccess || userStore.getUser?.uuid === employee?.uuid">
-                                                            <button
+                                                            <button :aria-label="$t('dutySchedules.extraHours.extraHours')"
                                                                 class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                                 @click="viewExtraHours(employee)">
                                                                 <Icon name="mdi:clock-outline" class="h-3 w-3"
@@ -438,7 +438,7 @@
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.leaveRequests.leaveRequests')"
                                                             v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.uuid === employee?.uuid)">
-                                                            <button
+                                                            <button :aria-label="$t('dutySchedules.leaveRequests.leaveRequests')"
                                                                 class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
                                                                 @click="viewLeaveRequests(employee)">
                                                                 <Icon name="mdi:wallet-travel" class="h-3 w-3"
@@ -450,7 +450,7 @@
                                                         <Tooltip position="right"
                                                             :text="isFavorited(employee) ? $t('dutySchedules.favorites.removeFromFavorites') : $t('dutySchedules.favorites.addToFavorites')"
                                                             v-if="hasManageFavoritesAccess && userStore.getUser?.uuid !== employee?.uuid">
-                                                            <button
+                                                            <button :aria-label="isFavorited(employee) ? $t('dutySchedules.favorites.removeFromFavorites') : $t('dutySchedules.favorites.addToFavorites')"
                                                                 :class="[
                                                                     isFavorited(employee) ? 'text-yellow-500' : 'text-gray-500',
                                                                     'bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm rounded-lg hover:bg-yellow-50 flex items-center justify-center transition-colors'
@@ -934,7 +934,7 @@
                                                         </transition>
                                                     </Menu>
                                                     <Tooltip position="left" :text="$t('dutySchedules.copy.copy')">
-                                                        <button
+                                                        <button :aria-label="$t('dutySchedules.copy.copy')"
                                                             class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors"
                                                             @click="copyEmployeeDailySchedule(employeeIndex as number, weekIndex as number, employee, weekNumber)">
                                                             <Icon name="mdi:content-copy" class="h-3 w-3"
@@ -942,7 +942,7 @@
                                                         </button>
                                                     </Tooltip>
                                                     <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
-                                                        <button
+                                                        <button :aria-label="$t('dutySchedules.newSchedule')"
                                                             class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-md border border-dashed border-primary/40 bg-primary/5 text-primary hover:bg-primary/15 hover:border-primary transition-colors"
                                                             @click="openAddNewShiftModal(employee, employeeIndex as number, weekIndex as number, week)">
                                                             <Icon name="ph:plus" class="h-3.5 w-3.5"

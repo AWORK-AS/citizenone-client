@@ -6109,6 +6109,7 @@
         "seeNewFeatures": "Se nya funktioner"
     },
     "filter": "Filtrera",
+    "menu": "Meny",
     "more": "Mer",
     "commandPalette": {
         "placeholder": "Sök efter åtgärder eller sektioner…",
@@ -7792,6 +7793,7 @@
         },
         "myDailyEvents": "Mina daglige händelser",
         "news": "Nyheter",
+        "nextDay": "Nästa dag",
         "noBulletBoardToShow": "Inga anslagstavla att visa",
         "noDataToDisplay": "Inga data att visa",
         "noEventsForToday": "Inga händelser för idag",
@@ -7800,6 +7802,7 @@
         "noNewsToShow": "Inga nyheter att visa",
         "openLink": "Öppna länk",
         "overview": "Översikt",
+        "previousDay": "Föregående dag",
         "statisticsTab": "Statistik",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistik",

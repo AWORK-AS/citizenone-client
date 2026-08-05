@@ -93,21 +93,21 @@
                     <!-- Icon-only actions -->
                     <div class="flex items-center gap-0.5">
                         <Tooltip :text="$t('dutySchedules.shareDutySchedule.shareDutySchedule')">
-                            <button
+                            <button :aria-label="$t('dutySchedules.shareDutySchedule.shareDutySchedule')"
                                 class="p-1.5 rounded-md text-slate-500 hover:text-slate-700 hover:bg-surface-100 transition-colors"
                                 @click="state.modal.isViewSharedDutyScheduleOpen = true">
                                 <Icon name="ph:share-fat" class="size-4.5" aria-hidden="true" />
                             </button>
                         </Tooltip>
                         <Tooltip :text="$t('dutySchedules.activityLogs')">
-                            <button
+                            <button :aria-label="$t('dutySchedules.activityLogs')"
                                 class="p-1.5 rounded-md text-slate-500 hover:text-slate-700 hover:bg-surface-100 transition-colors"
                                 @click="openDutySchedulesActivityLogs()">
                                 <Icon name="ph:clock-counter-clockwise" class="size-4.5" aria-hidden="true" />
                             </button>
                         </Tooltip>
                         <Tooltip :text="$t('guidedTour')">
-                            <button
+                            <button :aria-label="$t('guidedTour')"
                                 class="p-1.5 rounded-md text-slate-500 hover:text-slate-700 hover:bg-surface-100 transition-colors"
                                 @click="openGuidedTour()">
                                 <Icon name="ph:question" class="size-4.5" aria-hidden="true" />

@@ -78,35 +78,35 @@
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
                                             <Tooltip :text="$t('expenses.table.actions.view')">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('expenses.table.actions.view')" type="button" buttonStyle="action"
                                                     @click="viewExpense(expense)">
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('expenses.table.actions.edit')"
                                                 v-if="isAtLeast('Admin') && expense?.status === 'pending'">
-                                                <FormButton type="button" buttonStyle="action"
+                                                <FormButton :aria-label="$t('expenses.table.actions.edit')" type="button" buttonStyle="action"
                                                     @click="editExpense(expense)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('expenses.table.actions.reject')"
                                                 v-if="expense?.status !== 'reimbursed' && isAtLeast('Admin') && expense?.status !== 'rejected'">
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('expenses.table.actions.reject')" type="button" buttonStyle="danger"
                                                     @click="rejectExpenseConfirmation(expense)">
                                                     <Icon name="ph:file-x-duotone" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('expenses.table.actions.reimburse')"
                                                 v-if="expense?.status !== 'reimbursed' && expense?.status !== 'rejected' && isAtLeast('Admin')">
-                                                <FormButton type="button" buttonStyle="success"
+                                                <FormButton :aria-label="$t('expenses.table.actions.reimburse')" type="button" buttonStyle="success"
                                                     @click="reimburse(expense)">
                                                     <Icon name="ph:check" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('expenses.table.actions.delete')"
                                                 v-if="isAtLeast('Admin') && expense?.status !== 'pending'">
-                                                <FormButton type="button" buttonStyle="danger"
+                                                <FormButton :aria-label="$t('expenses.table.actions.delete')" type="button" buttonStyle="danger"
                                                     @click="deleteExpenseConfirmation(expense)">
                                                     <Icon name="ph:trash" class="size-4" />
                                                 </FormButton>

@@ -98,7 +98,7 @@
                         </div>
                         <div class="flex items-center gap-1 flex-1 justify-end">
                             <Tooltip :text="$t('ownChatGpt.sync')" position="left">
-                                <button type="button"
+                                <button :aria-label="$t('ownChatGpt.sync')" type="button"
                                     class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors disabled:opacity-40"
                                     :disabled="syncStore.isSyncing" @click="syncStore.startSync()">
                                     <Icon :name="syncStore.isSyncing ? 'ph:spinner' : 'ph:arrows-clockwise'"
@@ -107,14 +107,14 @@
                                 </button>
                             </Tooltip>
                             <Tooltip :text="$t('ownChatGpt.clearChat')" position="left">
-                                <button type="button"
+                                <button :aria-label="$t('ownChatGpt.clearChat')" type="button"
                                     class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
                                     @click="state.isConfirmClearOpen = true">
                                     <Icon name="ph:trash" class="h-4 w-4 text-gray-500" aria-hidden="true" />
                                 </button>
                             </Tooltip>
                             <Tooltip :text="$t('ownChatGpt.settings')" position="left">
-                                <button type="button"
+                                <button :aria-label="$t('ownChatGpt.settings')" type="button"
                                     class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
                                     @click="state.isSettingsOpen = true">
                                     <Icon name="ph:gear" class="h-4 w-4 text-gray-500" aria-hidden="true" />
@@ -210,7 +210,7 @@
                             @change="onFilesSelected" />
                         <div class="flex items-stretch gap-2">
                             <Tooltip :text="$t('ownChatGpt.attachFile')" position="top">
-                                <button type="button"
+                                <button :aria-label="$t('ownChatGpt.attachFile')" type="button"
                                     class="h-10 px-2 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors flex items-center"
                                     @click="($refs.fileInput as HTMLInputElement).click()">
                                     <Icon name="ph:paperclip" class="h-5 w-5" aria-hidden="true" />

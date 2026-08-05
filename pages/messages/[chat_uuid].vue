@@ -56,7 +56,7 @@
                 <div class="flex items-center gap-1">
                     <Tooltip :text="$t('messages.groupChat.editGroupName')" position="left"
                         v-if="state.chat?.data?.type === 'group'">
-                        <button
+                        <button :aria-label="$t('messages.groupChat.editGroupName')"
                             class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
                             @click="editGroupChatName()">
                             <Icon name="ph:pencil-simple" class="h-4 w-4 text-gray-500" aria-hidden="true" />
@@ -64,7 +64,7 @@
                     </Tooltip>
                     <Tooltip :text="$t('messages.groupChat.groupMembers')" position="left"
                         v-if="state.chat?.data?.type === 'group'">
-                        <button
+                        <button :aria-label="$t('messages.groupChat.groupMembers')"
                             class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
                             @click="state.modal.isManageGroupChatMembersOpen = true">
                             <Icon name="ph:users-three" class="h-5 w-5 text-gray-500" aria-hidden="true" />

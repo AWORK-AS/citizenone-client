@@ -8,13 +8,13 @@
 
                 <div class="flex items-center justify-end gap-1 -mt-2 mb-1">
                     <Tooltip :text="$t('assistants.history.newChat')">
-                        <button type="button" @click="startNewChat"
+                        <button :aria-label="$t('assistants.history.newChat')" type="button" @click="startNewChat"
                             class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
                             <Icon name="ph:plus" class="h-4 w-4 text-gray-500" aria-hidden="true" />
                         </button>
                     </Tooltip>
                     <Tooltip :text="state.view === 'chat' ? $t('assistants.history.viewHistory') : $t('assistants.history.backToChat')">
-                        <button type="button" @click="toggleView"
+                        <button :aria-label="state.view === 'chat' ? $t('assistants.history.viewHistory') : $t('assistants.history.backToChat')" type="button" @click="toggleView"
                             class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
                             <Icon :name="state.view === 'chat' ? 'ph:clock-counter-clockwise' : 'ph:arrow-left'"
                                 class="h-4 w-4 text-gray-500" aria-hidden="true" />

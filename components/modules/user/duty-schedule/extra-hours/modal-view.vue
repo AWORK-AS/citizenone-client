@@ -98,21 +98,21 @@
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.edit')"
                                                     @click="editExtraHours(extraHours)"
                                                     v-if="hasScheduleManageAccess || ['pending'].includes(extraHours?.extra_hours_status)">
-                                                    <FormButton type=" button" buttonStyle="action">
+                                                    <FormButton :aria-label="$t('dutySchedules.extraHours.table.actions.edit')" type=" button" buttonStyle="action">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.approve')"
                                                     @click="confirmApproveExtraHoursRequest(extraHours)"
                                                     v-if="hasScheduleManageAccess && extraHours?.extra_hours_status === 'pending'"">
-                                                    <FormButton type=" button" buttonStyle="success">
+                                                    <FormButton :aria-label="$t('dutySchedules.extraHours.table.actions.approve')" type=" button" buttonStyle="success">
                                                     <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('dutySchedules.extraHours.table.actions.reject')"
                                                     @click="confirmRejectExtraHoursRequest(extraHours)"
                                                     v-if="hasScheduleManageAccess && extraHours?.extra_hours_status === 'pending'"">
-                                                    <FormButton type=" button" buttonStyle="danger">
+                                                    <FormButton :aria-label="$t('dutySchedules.extraHours.table.actions.reject')" type=" button" buttonStyle="danger">
                                                     <Icon name="ph:x" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
@@ -120,7 +120,7 @@
                                                     @click="confirmDeleteExtraHours(extraHours)"
                                                     v-if="hasScheduleManageAccess ||
                                                         ['pending'].includes(extraHours?.extra_hours_status)">
-                                                    <FormButton type="button" buttonStyle="danger">
+                                                    <FormButton :aria-label="$t('dutySchedules.extraHours.table.actions.delete')" type="button" buttonStyle="danger">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
