@@ -2590,6 +2590,7 @@
             }
         },
         "newCitizen": "New citizen",
+        "noDepartmentYet": "No department",
         "note": {
             "latestJournalEntry": "Latest journal entry",
             "noJournalToDisplay": "No journal to display"

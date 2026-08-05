@@ -2590,6 +2590,7 @@
             }
         },
         "newCitizen": "Ny borger",
+        "noDepartmentYet": "Ingen afdeling",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
             "noJournalToDisplay": "Ingen journal at vise"

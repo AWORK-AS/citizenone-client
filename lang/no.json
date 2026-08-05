@@ -2590,6 +2590,7 @@
             }
         },
         "newCitizen": "Ny bruker",
+        "noDepartmentYet": "Ingen avdeling",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
             "noJournalToDisplay": "Ingen journal at vise"
