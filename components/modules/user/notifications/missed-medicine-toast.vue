@@ -48,6 +48,16 @@ const { locale } = useI18n()
 
 const POLL_INTERVAL_MS = 3 * 60 * 1000
 
+// A fixed overlay parked over the bottom-right corner sits exactly where
+// pages put their save buttons. A customer (Fonden Ansminde) could not press
+// Save because this toast never went away: dismissal only lived in component
+// state, so every navigation remounted it, and their dose could not be
+// resolved. Two rules since: the toast auto-hides, and a dismissal is
+// remembered for the session per dose.
+const AUTO_HIDE_MS = 45 * 1000
+
+const DISMISSED_STORAGE_KEY = 'missed-dose-toast-dismissed-uuid'
+
 const state = reactive({
     latest: null as any,
     total: 0,
@@ -70,6 +80,7 @@ const citizenName = computed(() => {
 })
 
 let intervalId: ReturnType<typeof setInterval> | null = null
+let autoHideTimer: ReturnType<typeof setTimeout> | null = null
 
 onMounted(() => {
     fetchLatestMissedDose()
@@ -78,6 +89,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     if (intervalId) clearInterval(intervalId)
+    if (autoHideTimer) clearTimeout(autoHideTimer)
 })
 
 async function fetchLatestMissedDose() {
@@ -87,9 +99,14 @@ async function fetchLatestMissedDose() {
         const previousUuid = state.latest?.uuid
         state.latest = data[0] ?? null
         state.total = response?.meta?.total ?? data.length
-        // A newly-arrived alert (or one resolved elsewhere) should reset dismissal.
-        if (state.latest?.uuid !== previousUuid) {
-            state.isDismissed = false
+
+        if (!state.latest) return
+
+        // A newly-arrived alert should show again; the one already dismissed
+        // this session (in this or an earlier mount) should stay dismissed.
+        if (state.latest.uuid !== previousUuid) {
+            state.isDismissed = sessionStorage.getItem(DISMISSED_STORAGE_KEY) === state.latest.uuid
+            if (!state.isDismissed) startAutoHide()
         }
     } catch {
         // Silently skip - this is a passive background alert, not a page the user is
@@ -97,8 +114,29 @@ async function fetchLatestMissedDose() {
     }
 }
 
+function startAutoHide() {
+    if (autoHideTimer) clearTimeout(autoHideTimer)
+    autoHideTimer = setTimeout(() => {
+        // The give-medicine modal is rendered inside this component, so hiding
+        // the toast now would tear the modal down mid-registration. Try again
+        // in a bit instead.
+        if (state.modal.isGiveMedicineOpen) {
+            startAutoHide()
+            return
+        }
+
+        // Auto-hide only hides; it does not mark the dose as dismissed, so the
+        // alert returns on the next mount until someone acts on or closes it.
+        state.isDismissed = true
+    }, AUTO_HIDE_MS)
+}
+
 function dismiss() {
     state.isDismissed = true
+    if (autoHideTimer) clearTimeout(autoHideTimer)
+    if (state.latest?.uuid) {
+        sessionStorage.setItem(DISMISSED_STORAGE_KEY, state.latest.uuid)
+    }
 }
 
 function giveNow() {
