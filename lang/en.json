@@ -12205,7 +12205,10 @@
         "titleField": "Title",
         "publishedTo": "Visible to all customers",
         "gate": "Only the CTO can approve & publish.",
-        "noNotes": "No release notes yet."
+        "noNotes": "No release notes yet.",
+        "noPendingNotes": "Nothing pending review.",
+        "pendingReview": "Pending review",
+        "allNotes": "All release notes"
     },
     "customSidebarLinks": {
         "title": "Custom links",

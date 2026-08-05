@@ -12205,7 +12205,10 @@
         "titleField": "Titel",
         "publishedTo": "Synlig för alla kunder",
         "gate": "Endast CTO kan godkänna & publicera.",
-        "noNotes": "Inga release notes än."
+        "noNotes": "Inga release notes än.",
+        "noPendingNotes": "Inget väntar på godkännande.",
+        "pendingReview": "Väntar på godkännande",
+        "allNotes": "Alla release notes"
     },
     "customSidebarLinks": {
         "title": "Egna länkar",

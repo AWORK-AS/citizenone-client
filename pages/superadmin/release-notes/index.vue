@@ -12,9 +12,17 @@
                         <h1 class="text-[22px] font-semibold text-[#1F2533]">{{ $t('releaseNotes.title') }}</h1>
                         <p class="text-sm text-[#6B7280]">{{ $t('releaseNotes.gate') }}</p>
                     </div>
-                    <FormButton buttonStyle="primary" @click="openForm()">
-                        <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('releaseNotes.newNote') }}
-                    </FormButton>
+                    <div class="flex items-center gap-x-2">
+                        <button type="button" @click="toggleFilter"
+                            class="flex items-center gap-x-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors"
+                            :class="state.filterStatus === 'all' ? 'bg-tertiary/10 text-tertiary' : 'text-gray-500 hover:bg-gray-100'">
+                            <Icon name="ph:clock-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
+                            {{ state.filterStatus === 'all' ? $t('releaseNotes.pendingReview') : $t('releaseNotes.allNotes') }}
+                        </button>
+                        <FormButton buttonStyle="primary" @click="openForm()">
+                            <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('releaseNotes.newNote') }}
+                        </FormButton>
+                    </div>
                 </div>
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
@@ -23,7 +31,7 @@
                     <div v-if="!state.isLoading && !state.notes.data?.length"
                         class="flex flex-col items-center gap-y-2 py-12 text-center text-sm text-[#6B7280]">
                         <Icon name="ph:sparkle" class="h-8 w-8 text-gray-300" />
-                        {{ $t('releaseNotes.noNotes') }}
+                        {{ state.filterStatus === 'draft' ? $t('releaseNotes.noPendingNotes') : $t('releaseNotes.noNotes') }}
                     </div>
                     <ul class="space-y-3">
                         <li v-for="note in state.notes.data" :key="note.uuid"
@@ -134,6 +142,11 @@ const state = reactive({
     deleteTarget: null as any,
     readOpen: false,
     readNote: null as any,
+    // Defaults to drafts pending review, not the full history - the full,
+    // newest-first paginated list buries new drafts behind however many
+    // published notes came before them, so "Next" only ever moves further
+    // into the past. Pending review is normally a small, bounded set.
+    filterStatus: 'draft' as 'draft' | 'all',
 })
 
 onMounted(() => fetchNotes())
@@ -142,7 +155,9 @@ async function fetchNotes() {
     state.isLoading = true
     state.error = ''
     try {
-        const response = await releaseNoteService.getReleaseNotes({ page: currentPage })
+        const params: Record<string, any> = { page: currentPage }
+        if (state.filterStatus === 'draft') params.status = 'draft'
+        const response = await releaseNoteService.getReleaseNotes(params)
         if (response) state.notes = response
     } catch (error: any) {
         state.error = error?.message ?? 'Error'
@@ -157,6 +172,12 @@ function previousPage() {
 
 function nextPage() {
     currentPage++
+    fetchNotes()
+}
+
+function toggleFilter() {
+    state.filterStatus = state.filterStatus === 'draft' ? 'all' : 'draft'
+    currentPage = 1
     fetchNotes()
 }
 

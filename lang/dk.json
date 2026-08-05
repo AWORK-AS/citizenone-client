@@ -12205,7 +12205,10 @@
         "titleField": "Titel",
         "publishedTo": "Synlig for alle kunder",
         "gate": "Kun CTO kan godkende & udgive.",
-        "noNotes": "Ingen release notes endnu."
+        "noNotes": "Ingen release notes endnu.",
+        "noPendingNotes": "Intet afventer godkendelse.",
+        "pendingReview": "Afventer godkendelse",
+        "allNotes": "Alle release notes"
     },
     "customSidebarLinks": {
         "title": "Egne links",
