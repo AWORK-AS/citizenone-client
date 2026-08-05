@@ -38,16 +38,22 @@
                                 <FormError :error="v$?.formEmail?.content?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.content?.[0]" />
                             </div>
+                            <!--
+                                Secure mail is always encrypted (AW-2026-2744).
+                                The toggle used to default to off, which sent the
+                                body and the citizen's own documents as ordinary
+                                email. The backend now refuses an unencrypted
+                                send, so this states the rule instead of offering
+                                a choice that no longer exists.
+                            -->
                             <div class="space-y-1 flex items-center gap-x-2"
                                 v-if="userStore.getUser?.is_secure_mail_active">
-                                <FormSwitch :value="state.formEmail.encrypt_message"
-                                    @toggleSwitch="state.formEmail.encrypt_message = !state.formEmail.encrypt_message" />
-                                <p>
-                                    {{ $t('mail.form.encryptMessage') }}
-                                </p>
                                 <div class="flex items-center">
                                     <Icon name="ph:lock-key-fill" class="w-4 h-4 text-[#95cf55]" />
                                 </div>
+                                <p>
+                                    {{ $t('mail.form.alwaysEncrypted') }}
+                                </p>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-3"
                                 v-if="userStore.getUser?.is_secure_mail_active">
@@ -242,7 +248,7 @@ const state = reactive({
         recipient: [] as any,
         subject: '',
         content: '',
-        encrypt_message: false,
+        encrypt_message: true,
         password: '',
         confirm_password: '',
         password_hint: '',
@@ -472,7 +478,7 @@ async function sendEmail() {
                 recipient: [],
                 subject: '',
                 content: '',
-                encrypt_message: false,
+                encrypt_message: true,
                 password: '',
                 confirm_password: '',
                 password_hint: '',

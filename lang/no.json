@@ -7147,6 +7147,7 @@
             "confirmCode": "Bekreft koden",
             "createCode": "Lav en kode for at åpne den sikre e-post",
             "encryptMessage": "Send e-post som Sikker E-post",
+            "alwaysEncrypted": "Sikker post sendes alltid kryptert. Angi et passord som mottakeren trenger for å åpne meldingen.",
             "enterCode": "Skriv inn en selvvalgt kode",
             "message": "Melding",
             "passwordHint": "Skriv et lite hint, der kan hjelpe mottakeren med at huske passordet",
