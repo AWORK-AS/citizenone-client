@@ -21,6 +21,38 @@
                     <p class="text-sm text-white/80 mt-0.5">{{ todayLabel }}</p>
                 </div>
 
+                <!-- What needs attention on this shift. Every line is computed by
+                     the API, not generated: the counters above say "medicine
+                     today: 22" without saying which of the 22 is a problem. -->
+                <section v-if="brief.items.length" aria-labelledby="daily-brief-heading"
+                    class="rounded-xl border border-amber-200 bg-amber-50/60 p-5">
+                    <h2 id="daily-brief-heading" class="mb-3 flex items-center gap-2 text-sm font-semibold text-gray-900">
+                        <Icon name="ph:bell-ringing" class="size-4 text-amber-600" aria-hidden="true" />
+                        {{ $t('myDay.brief.heading') }}
+                    </h2>
+                    <ul class="space-y-2">
+                        <li v-for="item in brief.items" :key="item.key">
+                            <button type="button"
+                                class="flex min-h-11 w-full items-start gap-3 rounded-lg bg-white px-3 py-2 text-left ring-1 ring-gray-200 transition-colors hover:ring-primary/40"
+                                @click="navigateTo(item.link)">
+                                <span class="mt-1 size-2 shrink-0 rounded-full" :class="{
+                                    'bg-red-500': item.severity === 'critical',
+                                    'bg-amber-500': item.severity === 'warning',
+                                    'bg-slate-400': item.severity === 'info',
+                                }" aria-hidden="true"></span>
+                                <span class="min-w-0 flex-1">
+                                    <span class="block text-sm font-medium text-gray-900">
+                                        {{ $t(`myDay.brief.${item.key}`, item.count) }}
+                                    </span>
+                                    <span v-if="item.details?.length" class="mt-0.5 block truncate text-xs text-gray-500">
+                                        {{ describe(item) }}
+                                    </span>
+                                </span>
+                            </button>
+                        </li>
+                    </ul>
+                </section>
+
                 <!-- Stat row -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
                     <button v-for="stat in stats" :key="stat.key" type="button" @click="scrollTo(stat.key)"
@@ -381,11 +413,42 @@ const stats = computed(() => [
     { key: 'reminders', icon: 'ph:check-square', label: t('myDay.reminders'), value: state.reminders.filter((r) => !isReminderDone(r)).length },
 ])
 
+interface BriefItem {
+    key: string
+    severity: 'critical' | 'warning' | 'info'
+    count: number
+    link: string
+    details: Array<Record<string, string>>
+}
+
+const brief = reactive<{ items: BriefItem[] }>({ items: [] })
+
+async function fetchBrief() {
+    try {
+        const response = await dailyOverviewService.getDailyBrief()
+        brief.items = response?.data?.items ?? []
+    } catch (error) {
+        // The brief is a summary of things visible elsewhere on the page, so a
+        // failure here hides the card rather than breaking the day.
+        brief.items = []
+    }
+}
+
+/** The second line: initials and times, never full names, for a screen read in a shared room. */
+function describe(item: BriefItem): string {
+    return item.details
+        .map((detail) => [detail.initials, detail.name, detail.time].filter(Boolean).join(' '))
+        .join(' · ')
+}
+
 function scrollTo(key: string) {
     document.getElementById(`card-${key}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 
-onMounted(() => fetchAll())
+onMounted(() => {
+    fetchAll()
+    fetchBrief()
+})
 
 async function fetchAll() {
     state.isLoading = true

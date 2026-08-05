@@ -12244,6 +12244,13 @@
         }
     },
     "myDay": {
+        "brief": {
+            "goals_running_out": "Et mål udløber inden for en uge | {n} mål udløber inden for en uge",
+            "heading": "Kræver din opmærksomhed",
+            "journal_mentions": "Du er tagget i et journalnotat | Du er tagget i {n} journalnotater",
+            "missed_doses": "En dosis er ikke registreret som givet | {n} doser er ikke registreret som givet",
+            "reminders_due": "En påmindelse forfalder i dag | {n} påmindelser forfalder i dag"
+        },
         "title": "Min dag",
         "greeting": {
             "morning": "Godmorgen",
