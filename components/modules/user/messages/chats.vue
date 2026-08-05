@@ -9,7 +9,8 @@
                 </div>
                 <button
                     class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-                    @click.stop="state.modal.isNewChatOpen = true" :title="$t('messages.newMessage')">
+                    @click.stop="state.modal.isNewChatOpen = true" :aria-label="$t('messages.newMessage')"
+                    :title="$t('messages.newMessage')">
                     <Icon name="ph:plus" class="w-4 h-4 text-gray-600" aria-hidden="true" />
                 </button>
             </div>

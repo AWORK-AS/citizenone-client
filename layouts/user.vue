@@ -80,8 +80,9 @@
                     </span>
                     <button @click="toggleSidebarPin"
                         :class="['flex items-center p-1.5 rounded-md transition-all duration-200 delay-75', sidebarExpanded ? 'opacity-100 pointer-events-auto text-blue-300/60 hover:text-white hover:bg-white/10' : 'opacity-0 pointer-events-none']"
+                        :aria-label="sidebarPinned ? $t('sidebar.unpinSidebar') : $t('sidebar.pinSidebar')"
                         :title="sidebarPinned ? $t('sidebar.unpinSidebar') : $t('sidebar.pinSidebar')">
-                        <Icon :name="sidebarPinned ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-4 w-4" />
+                        <Icon :name="sidebarPinned ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-4 w-4" aria-hidden="true" />
                     </button>
                 </div>
 
@@ -217,7 +218,7 @@
                         </div>
                         <button type="button" @click="openCommandPalette()"
                             class="sm:hidden w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
-                            :title="$t('commandPalette.placeholder')">
+                            :aria-label="$t('commandPalette.placeholder')" :title="$t('commandPalette.placeholder')">
                             <Icon name="ph:magnifying-glass" class="h-5 w-5" aria-hidden="true" />
                         </button>
 
