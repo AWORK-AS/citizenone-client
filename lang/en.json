@@ -12200,6 +12200,8 @@
         "published": "Published",
         "save": "Save draft",
         "publish": "Approve & publish",
+        "unpublish": "Unpublish",
+        "unpublishConfirm": "Unpublish this release note? Customers who haven't seen it yet will no longer see it.",
         "delete": "Delete",
         "deleteConfirm": "Delete this release note?",
         "titleField": "Title",

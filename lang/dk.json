@@ -12200,6 +12200,8 @@
         "published": "Udgivet",
         "save": "Gem kladde",
         "publish": "Godkend & udgiv",
+        "unpublish": "Fjern fra udgivelse",
+        "unpublishConfirm": "Fjern denne release note fra udgivelse? Kunder, der ikke allerede har set den, vil ikke længere se den.",
         "delete": "Slet",
         "deleteConfirm": "Slet denne release note?",
         "titleField": "Titel",

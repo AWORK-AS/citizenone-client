@@ -12200,6 +12200,8 @@
         "published": "Publicerad",
         "save": "Spara utkast",
         "publish": "Godkänn & publicera",
+        "unpublish": "Avpublicera",
+        "unpublishConfirm": "Avpublicera denna release note? Kunder som inte redan har sett den kommer inte längre att se den.",
         "delete": "Radera",
         "deleteConfirm": "Radera denna release note?",
         "titleField": "Titel",

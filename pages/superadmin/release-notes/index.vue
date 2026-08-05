@@ -63,6 +63,10 @@
                                     @click="publish(note)">
                                     {{ $t('releaseNotes.publish') }}
                                 </FormButton>
+                                <FormButton v-else buttonStyle="cancel" buttonSize="sm"
+                                    @click="confirmUnpublish(note)">
+                                    {{ $t('releaseNotes.unpublish') }}
+                                </FormButton>
                                 <FormButton buttonStyle="danger" buttonSize="sm" @click="confirmDelete(note)">
                                     <Icon name="ph:trash" class="h-4 w-4" />
                                 </FormButton>
@@ -117,6 +121,9 @@
 
             <DialogConfirmation :isModalOpen="state.deleteOpen" :message="$t('releaseNotes.deleteConfirm')"
                 @close="state.deleteOpen = false" @confirm="doDelete" />
+
+            <DialogConfirmation :isModalOpen="state.unpublishOpen" :message="$t('releaseNotes.unpublishConfirm')"
+                @close="state.unpublishOpen = false" @confirm="doUnpublish" />
         </NuxtLayout>
     </div>
 </template>
@@ -140,6 +147,8 @@ const state = reactive({
     form: { uuid: '', title: '', version: '', content: '' },
     deleteOpen: false,
     deleteTarget: null as any,
+    unpublishOpen: false,
+    unpublishTarget: null as any,
     readOpen: false,
     readNote: null as any,
     // Defaults to drafts pending review, not the full history - the full,
@@ -241,6 +250,22 @@ async function doDelete() {
     state.deleteOpen = false
     try {
         await releaseNoteService.deleteReleaseNote(state.deleteTarget.uuid)
+        fetchNotes()
+    } catch (error: any) {
+        state.error = error?.message ?? 'Error'
+    }
+}
+
+function confirmUnpublish(note: any) {
+    state.unpublishTarget = note
+    state.unpublishOpen = true
+}
+
+async function doUnpublish() {
+    state.unpublishOpen = false
+    try {
+        await releaseNoteService.unpublishReleaseNote(state.unpublishTarget.uuid)
+        successAlert(`${t('alert.success')}!`, '')
         fetchNotes()
     } catch (error: any) {
         state.error = error?.message ?? 'Error'

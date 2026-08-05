@@ -21,6 +21,10 @@ class ReleaseNoteService extends BaseAPIService {
         return await this.request(`/superadmin/release-notes/${uuid}/publish`, 'PUT')
     }
 
+    async unpublishReleaseNote(uuid: string): Promise<any> {
+        return await this.request(`/superadmin/release-notes/${uuid}/unpublish`, 'PUT')
+    }
+
     async deleteReleaseNote(uuid: string): Promise<any> {
         return await this.request(`/superadmin/release-notes/${uuid}`, 'DELETE')
     }
