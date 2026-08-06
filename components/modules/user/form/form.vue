@@ -390,6 +390,30 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div v-if="field.type === 'scale'" class="grow">
+                                    <div class="p-5 space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-semibold uppercase tracking-wide text-primary">
+                                                {{ $t('forms.fields.scale') }}
+                                            </span>
+                                            <button type="button" @click="removeField(fieldIndex)">
+                                                <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                        </div>
+                                        <ModulesUserFormScaleEditor :field="state.form.fields[fieldIndex]"
+                                            :fieldIndex="fieldIndex" />
+                                    </div>
+                                    <hr />
+                                    <div class="px-5 py-3">
+                                        <div class="flex items-center justify-end gap-x-2">
+                                            <FormSwitch :value="state.form.fields[fieldIndex].required"
+                                                @toggleSwitch="state.form.fields[fieldIndex].required = !state.form.fields[fieldIndex].required" />
+                                            <p>
+                                                {{ $t('forms.fields.required') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div v-if="isLayoutBlock(field.type)" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-between">
@@ -505,6 +529,13 @@
                                 <Icon name="material-symbols:upload-rounded" class="w-5 h-5 text-primary"
                                     aria-hidden="true" />
                                 {{ $t('forms.fields.uploadFile') }}
+                            </div>
+                        </button>
+                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                            @click="addScale">
+                            <div class="flex items-center gap-x-2 text-sm">
+                                <Icon name="ph:ruler" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                {{ $t('forms.fields.scale') }}
                             </div>
                         </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
@@ -784,6 +815,36 @@ const fieldWidthOptions = computed(() => [
 
 function toggleLayoutMode() {
     state.form.layout_mode = state.form.layout_mode === 'document' ? 'classic' : 'document'
+}
+
+/**
+ * Seeded with the five steps Danish social-care reports use, so a new scale is
+ * usable without setting anything up. Everything here is editable afterwards.
+ */
+function addScale() {
+    state.form.fields.push({
+        type: 'scale',
+        value: `${t('forms.fields.scale')}`,
+        required: false,
+        scaleKey: 'trivsel',
+        maxScore: 10,
+        bands: [
+            { to: 2, label: `${t('forms.scale.defaults.threatened')}`, color: '#96263a' },
+            { to: 4, label: `${t('forms.scale.defaults.atRisk')}`, color: '#d9634a' },
+            { to: 6, label: `${t('forms.scale.defaults.vulnerable')}`, color: '#e0ab3d' },
+            { to: 8, label: `${t('forms.scale.defaults.moderate')}`, color: '#93b25c' },
+            { to: 10, label: `${t('forms.scale.defaults.thriving')}`, color: '#2f8577' },
+        ],
+        raters: [
+            { key: 'staff', label: `${t('forms.scale.defaults.staff')}` },
+            { key: 'caseworker', label: `${t('forms.scale.defaults.caseworker')}` },
+            { key: 'mother', label: `${t('forms.scale.defaults.mother')}` },
+            { key: 'father', label: `${t('forms.scale.defaults.father')}` },
+            { key: 'citizen', label: `${t('forms.scale.defaults.citizen')}` },
+        ],
+        showHistory: true,
+        perGoal: false,
+    })
 }
 
 function addHeading() {

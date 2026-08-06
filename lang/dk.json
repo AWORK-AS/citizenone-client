@@ -6465,7 +6465,8 @@
             "helpTextPlaceholder": "Kort vejledning til den der udfylder",
             "width": "Bredde",
             "widthFull": "Fuld bredde",
-            "widthHalf": "Halv bredde"
+            "widthHalf": "Halv bredde",
+            "scale": "Trivselslineal"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6554,6 +6555,37 @@
             "documentLayout": "Dokumentlayout",
             "documentLayoutHint": "Genererer rapporten som et dokument med sektioner i stedet for en gengivelse af formularen.",
             "showNumbering": "Nummerér spørgsmål"
+        },
+        "scale": {
+            "question": "Spørgsmål",
+            "scaleKey": "Målingens nøgle",
+            "scaleKeyHint": "Skabeloner med samme nøgle deler historik på borgeren. Brug fx trivsel.",
+            "maxScore": "Skala",
+            "maxScoreHint": "0 til 5 eller 0 til 10.",
+            "preview": "Sådan ser den ud",
+            "bands": "Farvebånd",
+            "upTo": "Til og med",
+            "bandLabel": "Navn på bånd",
+            "addBand": "Tilføj bånd",
+            "raters": "Vurderende parter",
+            "ratersHint": "Medarbejderen taster alles vurdering. Tilføj selv flere, fx en specialist.",
+            "raterLabel": "Navn",
+            "addRater": "Tilføj part",
+            "showHistory": "Vis tidligere målinger",
+            "perGoal": "Gentag linealen for hvert mål",
+            "perGoalHint": "Slået til bliver linealen vist én gang pr. aktivt mål på borgeren.",
+            "defaults": {
+                "threatened": "Truet",
+                "atRisk": "Udsat",
+                "vulnerable": "Sårbar",
+                "moderate": "Moderat trivsel",
+                "thriving": "Trivsel",
+                "staff": "Medarbejder",
+                "caseworker": "Rådgiver",
+                "mother": "Mor",
+                "father": "Far",
+                "citizen": "Borgeren"
+            }
         }
     },
     "gender": {

@@ -6465,7 +6465,8 @@
             "helpTextPlaceholder": "Kort veiledning til den som fyller ut",
             "width": "Bredde",
             "widthFull": "Full bredde",
-            "widthHalf": "Halv bredde"
+            "widthHalf": "Halv bredde",
+            "scale": "Trivselslinjal"
         },
         "formDescription": "Skjemabeskrivelse",
         "formTitle": "Skjematitel",
@@ -6554,6 +6555,37 @@
             "documentLayout": "Dokumentoppsett",
             "documentLayoutHint": "Genererer rapporten som et dokument med seksjoner i stedet for en kopi av skjemaet.",
             "showNumbering": "Nummerer spørsmålene"
+        },
+        "scale": {
+            "question": "Spørsmål",
+            "scaleKey": "Målingens nøkkel",
+            "scaleKeyHint": "Maler med samme nøkkel deler historikk på innbyggeren. Bruk f.eks. trivsel.",
+            "maxScore": "Skala",
+            "maxScoreHint": "0 til 5 eller 0 til 10.",
+            "preview": "Slik ser den ut",
+            "bands": "Fargebånd",
+            "upTo": "Til og med",
+            "bandLabel": "Navn på bånd",
+            "addBand": "Legg til bånd",
+            "raters": "Vurderende parter",
+            "ratersHint": "Medarbeideren fører inn alles vurdering. Legg til flere, f.eks. en spesialist.",
+            "raterLabel": "Navn",
+            "addRater": "Legg til part",
+            "showHistory": "Vis tidligere målinger",
+            "perGoal": "Gjenta linjalen for hvert mål",
+            "perGoalHint": "Slått på vises linjalen én gang per aktivt mål på innbyggeren.",
+            "defaults": {
+                "threatened": "Truet",
+                "atRisk": "Utsatt",
+                "vulnerable": "Sårbar",
+                "moderate": "Moderat trivsel",
+                "thriving": "Trivsel",
+                "staff": "Medarbeider",
+                "caseworker": "Rådgiver",
+                "mother": "Mor",
+                "father": "Far",
+                "citizen": "Innbyggeren"
+            }
         }
     },
     "gender": {

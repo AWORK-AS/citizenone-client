@@ -6465,7 +6465,8 @@
             "helpTextPlaceholder": "Short guidance for whoever fills this in",
             "width": "Width",
             "widthFull": "Full width",
-            "widthHalf": "Half width"
+            "widthHalf": "Half width",
+            "scale": "Wellbeing scale"
         },
         "formDescription": "Form description",
         "formTitle": "Form title",
@@ -6554,6 +6555,37 @@
             "documentLayout": "Document layout",
             "documentLayoutHint": "Renders the report as a document with sections instead of a copy of the form.",
             "showNumbering": "Number the questions"
+        },
+        "scale": {
+            "question": "Question",
+            "scaleKey": "Measurement key",
+            "scaleKeyHint": "Templates sharing a key share the citizen's history. Use wellbeing, for instance.",
+            "maxScore": "Scale",
+            "maxScoreHint": "0 to 5 or 0 to 10.",
+            "preview": "How it looks",
+            "bands": "Colour bands",
+            "upTo": "Up to",
+            "bandLabel": "Band name",
+            "addBand": "Add band",
+            "raters": "Assessing parties",
+            "ratersHint": "Staff record every party's assessment. Add your own, a specialist for instance.",
+            "raterLabel": "Name",
+            "addRater": "Add party",
+            "showHistory": "Show earlier measurements",
+            "perGoal": "Repeat the scale for each goal",
+            "perGoalHint": "When on, the scale is shown once per active goal on the citizen.",
+            "defaults": {
+                "threatened": "Threatened",
+                "atRisk": "At risk",
+                "vulnerable": "Vulnerable",
+                "moderate": "Moderate wellbeing",
+                "thriving": "Thriving",
+                "staff": "Staff",
+                "caseworker": "Caseworker",
+                "mother": "Mother",
+                "father": "Father",
+                "citizen": "The citizen"
+            }
         }
     },
     "gender": {
