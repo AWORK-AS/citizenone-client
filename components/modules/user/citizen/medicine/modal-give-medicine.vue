@@ -50,7 +50,7 @@
                             <div class="grid grid-cols-7 mb-1">
                                 <div v-for="(day, dayIndex) in calendarDayHeaders" :key="dayIndex"
                                     class="text-center text-xs text-gray-400 font-medium py-1">
-                                    {{ day }}
+                                    {{ language.rt(day) }}
                                 </div>
                             </div>
                             <div class="grid grid-cols-7 gap-y-0.5">
