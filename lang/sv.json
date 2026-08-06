@@ -7196,6 +7196,7 @@
             "unlockMessage": "Lås upp för meddelande"
         },
         "sent": "Skickad",
+        "unsupportedConfiguration": "Vi kunde inte känna igen din e-postkonfiguration. Anslut din e-post igen.",
         "settings": {
             "alert": {
                 "mailConfigurationSuccessfullySaved": "Mailkonfiguration sparad"
