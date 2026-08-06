@@ -222,10 +222,10 @@
                                         </div>
                                         <span class="text-[#5C6478]">
                                             {{ state.subscription.data.deal.name }} —
-                                            {{ state.subscription.data.type === 'monthly'
+                                            {{ ['monthly', 'custom_monthly'].includes(state.subscription.data.type)
                                                 ? formatAmount(state.subscription.data.deal.monthly_price)
                                                 : formatAmount(state.subscription.data.deal.yearly_price) }}
-                                            / {{ state.subscription.data.type === 'monthly' ?
+                                            / {{ ['monthly', 'custom_monthly'].includes(state.subscription.data.type) ?
                                                 $t('superadmin.companies.accounts.monthly') :
                                                 $t('superadmin.companies.accounts.yearly')
                                             }}
