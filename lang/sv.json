@@ -9482,7 +9482,8 @@
         "surveys": "Enkäter",
         "myDay": "Min dag",
         "myAvailability": "Min tillgänglighet",
-        "myShiftEvaluations": "Mina passutvärderingar"
+        "myShiftEvaluations": "Mina passutvärderingar",
+        "forms": "Formulär"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {

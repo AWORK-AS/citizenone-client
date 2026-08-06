@@ -556,7 +556,7 @@ const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const customSidebarLinksStore = useCustomSidebarLinksStore()
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const { term } = useTerminology()
 const router = useRouter()
@@ -698,6 +698,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
     if (item.name === 'Journal Notes') return term('journalNotes', t('sidebar.journalNotes'))
+    if (item.name === 'Forms') return t('sidebar.forms')
     if (item.name === 'Billing') return language.t('employment.billing.billing')
     if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     if (item.name === 'Management & Economy') return language.t('managementEconomy.title')
@@ -896,6 +897,23 @@ function generateSidebarLinks(user: any) {
     nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
 
     nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
+
+    // Report templates had no way in at all: not in the sidebar, and the command
+    // palette is built from the sidebar, so search could not find them either.
+    // Shown only to whoever may actually manage them - everyone else reaches a
+    // template through "Create report" on the citizen and never needs the page.
+    if (isAtLeast('Admin') || can('manage_status_reports')) {
+        nav.push({
+            name: 'Forms',
+            href: '/forms',
+            icon: 'ph:clipboard-text',
+            activeRouteNames: [
+                'forms',
+                'forms-new',
+                'forms-form_uuid-edit',
+            ]
+        })
+    }
 
     if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
         nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', activeRouteNames: ['inquiries'] })
