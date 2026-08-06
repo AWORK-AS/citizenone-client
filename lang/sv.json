@@ -6451,7 +6451,21 @@
             "required": "Obligatorisk",
             "text": "Text",
             "textarea": "Tekstområde",
-            "uploadFile": "Upload fil"
+            "uploadFile": "Upload fil",
+            "heading": "Rubrik",
+            "subheading": "Underrubrik",
+            "paragraph": "Textavsnitt",
+            "guidance": "Vägledning",
+            "pagebreak": "Sidbrytning",
+            "headingPlaceholder": "Skriv rubriken",
+            "paragraphPlaceholder": "Skriv texten",
+            "pagebreakHint": "Börjar en ny sida i den genererade PDF:en.",
+            "guidanceHint": "Visas endast när rapporten fylls i. Kommer inte med i PDF:en.",
+            "helpText": "Hjälptext",
+            "helpTextPlaceholder": "Kort vägledning för den som fyller i",
+            "width": "Bredd",
+            "widthFull": "Full bredd",
+            "widthHalf": "Halv bredd"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6535,6 +6549,11 @@
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Är du säker på att du vill radera denna fördefinierade händelse"
             }
+        },
+        "layout": {
+            "documentLayout": "Dokumentlayout",
+            "documentLayoutHint": "Genererar rapporten som ett dokument med sektioner i stället för en kopia av formuläret.",
+            "showNumbering": "Numrera frågorna"
         }
     },
     "gender": {

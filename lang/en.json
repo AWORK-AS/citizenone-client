@@ -6451,7 +6451,21 @@
             "required": "Required",
             "text": "Text",
             "textarea": "Textarea",
-            "uploadFile": "Upload file"
+            "uploadFile": "Upload file",
+            "heading": "Heading",
+            "subheading": "Subheading",
+            "paragraph": "Paragraph",
+            "guidance": "Guidance",
+            "pagebreak": "Page break",
+            "headingPlaceholder": "Write the heading",
+            "paragraphPlaceholder": "Write the text",
+            "pagebreakHint": "Starts a new page in the generated PDF.",
+            "guidanceHint": "Only shown while the report is filled in. Left out of the PDF.",
+            "helpText": "Help text",
+            "helpTextPlaceholder": "Short guidance for whoever fills this in",
+            "width": "Width",
+            "widthFull": "Full width",
+            "widthHalf": "Half width"
         },
         "formDescription": "Form description",
         "formTitle": "Form title",
@@ -6535,6 +6549,11 @@
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Are you sure you want to delete this predefined event"
             }
+        },
+        "layout": {
+            "documentLayout": "Document layout",
+            "documentLayoutHint": "Renders the report as a document with sections instead of a copy of the form.",
+            "showNumbering": "Number the questions"
         }
     },
     "gender": {

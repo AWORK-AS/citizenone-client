@@ -6451,7 +6451,21 @@
             "required": "Påkrevd",
             "text": "Tekst",
             "textarea": "Tekstområde",
-            "uploadFile": "Last opp fil"
+            "uploadFile": "Last opp fil",
+            "heading": "Overskrift",
+            "subheading": "Underoverskrift",
+            "paragraph": "Tekstavsnitt",
+            "guidance": "Veiledning",
+            "pagebreak": "Sideskift",
+            "headingPlaceholder": "Skriv overskriften",
+            "paragraphPlaceholder": "Skriv teksten",
+            "pagebreakHint": "Starter en ny side i den genererte PDF-en.",
+            "guidanceHint": "Vises bare når rapporten fylles ut. Kommer ikke med i PDF-en.",
+            "helpText": "Hjelpetekst",
+            "helpTextPlaceholder": "Kort veiledning til den som fyller ut",
+            "width": "Bredde",
+            "widthFull": "Full bredde",
+            "widthHalf": "Halv bredde"
         },
         "formDescription": "Skjemabeskrivelse",
         "formTitle": "Skjematitel",
@@ -6535,6 +6549,11 @@
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Er du sikker på at du vil slette denne forhåndsdefinerte hendelsen"
             }
+        },
+        "layout": {
+            "documentLayout": "Dokumentoppsett",
+            "documentLayoutHint": "Genererer rapporten som et dokument med seksjoner i stedet for en kopi av skjemaet.",
+            "showNumbering": "Nummerer spørsmålene"
         }
     },
     "gender": {

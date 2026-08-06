@@ -22,6 +22,9 @@
                                             :key="fieldIndex" class="space-y-3">
                                             <div class="bg-gray-100 rounded-md border-t-2 border-primary">
                                                 <div>
+                                                    <ModulesUserFormBlockStatic
+                                                        v-if="['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(JSON.parse(formField?.field)?.type)"
+                                                        :field="JSON.parse(formField?.field)" />
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'textfield'"
                                                         class="grow">
                                                         <div class="p-5 space-y-3">
@@ -402,6 +405,10 @@ async function submitResponse() {
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
             const fieldUuid = formField.uuid
+            if (['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(fieldType)) {
+                return
+            }
+
 
             if (fieldType === 'uploadfile' && formField.responses instanceof File) {
                 // Handle file uploads separately
@@ -455,6 +462,10 @@ async function submitResponseAndDownloadPDF() {
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
             const fieldUuid = formField.uuid
+            if (['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(fieldType)) {
+                return
+            }
+
 
             if (fieldType === 'uploadfile' && formField.responses instanceof File) {
                 // Handle file uploads separately

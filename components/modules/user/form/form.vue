@@ -61,6 +61,23 @@
                     <span class="text-sm text-gray-700">{{ option.label }}</span>
                 </div>
             </div>
+            <div v-if="isAdmin" class="flex items-center gap-x-3 pt-2">
+                <FormSwitch :value="state.form.layout_mode === 'document'" @toggleSwitch="toggleLayoutMode" />
+                <label class="text-sm font-medium text-gray-700 cursor-pointer" @click="toggleLayoutMode">
+                    {{ $t('forms.layout.documentLayout') }}
+                </label>
+            </div>
+            <p v-if="isAdmin" class="text-xs text-gray-500 ml-12">
+                {{ $t('forms.layout.documentLayoutHint') }}
+            </p>
+            <div v-if="isAdmin && state.form.layout_mode === 'document'" class="flex items-center gap-x-3 pt-2">
+                <FormSwitch :value="state.form.show_numbering"
+                    @toggleSwitch="state.form.show_numbering = !state.form.show_numbering" />
+                <label class="text-sm font-medium text-gray-700 cursor-pointer"
+                    @click="state.form.show_numbering = !state.form.show_numbering">
+                    {{ $t('forms.layout.showNumbering') }}
+                </label>
+            </div>
         </div>
 
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
@@ -373,6 +390,54 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div v-if="isLayoutBlock(field.type)" class="grow">
+                                    <div class="p-5 space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-semibold uppercase tracking-wide text-primary">
+                                                {{ $t('forms.fields.' + field.type) }}
+                                            </span>
+                                            <button @click="removeField(fieldIndex)">
+                                                <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                        </div>
+                                        <FormTextField
+                                            v-if="field.type === 'heading' || field.type === 'subheading'"
+                                            :name="'heading_' + fieldIndex"
+                                            :placeholder="$t('forms.fields.headingPlaceholder')"
+                                            v-model="state.form.fields[fieldIndex].value" />
+                                        <FormTextArea
+                                            v-else-if="field.type === 'paragraph' || field.type === 'guidance'"
+                                            :name="'paragraph_' + fieldIndex" :rows="3"
+                                            :placeholder="$t('forms.fields.paragraphPlaceholder')"
+                                            v-model="state.form.fields[fieldIndex].value" />
+                                        <p v-else class="text-sm text-gray-500">
+                                            {{ $t('forms.fields.pagebreakHint') }}
+                                        </p>
+                                        <p v-if="field.type === 'guidance'" class="text-xs text-gray-500">
+                                            {{ $t('forms.fields.guidanceHint') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div v-if="state.form.layout_mode === 'document' && !isLayoutBlock(field.type)"
+                                    class="px-5 pb-4 space-y-3">
+                                    <hr class="mb-3" />
+                                    <div class="space-y-1">
+                                        <FormLabel :for="'help_text_' + fieldIndex"
+                                            :label="$t('forms.fields.helpText')" />
+                                        <FormTextField :id="'help_text_' + fieldIndex"
+                                            :name="'help_text_' + fieldIndex"
+                                            :placeholder="$t('forms.fields.helpTextPlaceholder')"
+                                            v-model="state.form.fields[fieldIndex].helpText" />
+                                    </div>
+                                    <div class="flex items-center gap-x-3">
+                                        <span class="text-sm text-gray-600">{{ $t('forms.fields.width') }}</span>
+                                        <div class="w-48">
+                                            <FormSelect :id="'width_' + fieldIndex" :options="fieldWidthOptions"
+                                                :canClear="false" :searchable="false"
+                                                v-model="state.form.fields[fieldIndex].width" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -442,6 +507,41 @@
                                 {{ $t('forms.fields.uploadFile') }}
                             </div>
                         </button>
+                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                            @click="addHeading">
+                            <div class="flex items-center gap-x-2 text-sm">
+                                <Icon name="ph:text-h-one" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                {{ $t('forms.fields.heading') }}
+                            </div>
+                        </button>
+                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                            @click="addSubheading">
+                            <div class="flex items-center gap-x-2 text-sm">
+                                <Icon name="ph:text-h-two" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                {{ $t('forms.fields.subheading') }}
+                            </div>
+                        </button>
+                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                            @click="addParagraph">
+                            <div class="flex items-center gap-x-2 text-sm">
+                                <Icon name="ph:paragraph" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                {{ $t('forms.fields.paragraph') }}
+                            </div>
+                        </button>
+                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                            @click="addGuidance">
+                            <div class="flex items-center gap-x-2 text-sm">
+                                <Icon name="ph:info" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                {{ $t('forms.fields.guidance') }}
+                            </div>
+                        </button>
+                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                            @click="addPageBreak">
+                            <div class="flex items-center gap-x-2 text-sm">
+                                <Icon name="ph:scissors" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                {{ $t('forms.fields.pagebreak') }}
+                            </div>
+                        </button>
                     </div>
                     <FormError :error="state?.error?.errors?.fields?.[0]" />
                 </div>
@@ -505,6 +605,8 @@ const state = reactive({
         follow_up_duration: '',
         show_citizen_profile_data: true,
         citizen_profile_fields: ['citizen_name'] as string[],
+        layout_mode: 'classic',
+        show_numbering: true,
     },
     showFieldsAdder: true,
     followUpNumber: '1',
@@ -582,6 +684,12 @@ watch(() => props.selectedForm, (selectedForm: any) => {
         }
         if (selectedForm.show_citizen_profile_data !== undefined) {
             state.form.show_citizen_profile_data = selectedForm.show_citizen_profile_data
+        }
+        if (selectedForm.layout_mode) {
+            state.form.layout_mode = selectedForm.layout_mode
+        }
+        if (selectedForm.show_numbering !== undefined) {
+            state.form.show_numbering = selectedForm.show_numbering
         }
         if (selectedForm.citizen_profile_fields) {
             state.form.citizen_profile_fields = selectedForm.citizen_profile_fields
@@ -661,6 +769,41 @@ function removeCheckboxOption(fieldIndex: number, radioIndex: number) {
     if (state.form.fields[fieldIndex].type === 'checkbox') {
         state.form.fields[fieldIndex].options.splice(radioIndex, 1)
     }
+}
+
+const LAYOUT_BLOCK_TYPES = ['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak']
+
+function isLayoutBlock(type: string): boolean {
+    return LAYOUT_BLOCK_TYPES.includes(type)
+}
+
+const fieldWidthOptions = computed(() => [
+    { value: 'full', label: t('forms.fields.widthFull') },
+    { value: 'half', label: t('forms.fields.widthHalf') },
+])
+
+function toggleLayoutMode() {
+    state.form.layout_mode = state.form.layout_mode === 'document' ? 'classic' : 'document'
+}
+
+function addHeading() {
+    state.form.fields.push({ type: 'heading', value: `${t('forms.fields.heading')}` })
+}
+
+function addSubheading() {
+    state.form.fields.push({ type: 'subheading', value: `${t('forms.fields.subheading')}` })
+}
+
+function addParagraph() {
+    state.form.fields.push({ type: 'paragraph', value: '' })
+}
+
+function addGuidance() {
+    state.form.fields.push({ type: 'guidance', value: '' })
+}
+
+function addPageBreak() {
+    state.form.fields.push({ type: 'pagebreak', value: '' })
 }
 
 function removeField(fieldIndex: number) {

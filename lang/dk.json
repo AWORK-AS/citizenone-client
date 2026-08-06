@@ -6451,7 +6451,21 @@
             "required": "Påkrævet",
             "text": "Tekst",
             "textarea": "Tekstområde",
-            "uploadFile": "Upload fil"
+            "uploadFile": "Upload fil",
+            "heading": "Overskrift",
+            "subheading": "Underoverskrift",
+            "paragraph": "Tekstafsnit",
+            "guidance": "Vejledning",
+            "pagebreak": "Sideskift",
+            "headingPlaceholder": "Skriv overskriften",
+            "paragraphPlaceholder": "Skriv teksten",
+            "pagebreakHint": "Starter en ny side i den genererede PDF.",
+            "guidanceHint": "Vises kun når rapporten udfyldes. Kommer ikke med i PDF'en.",
+            "helpText": "Hjælpetekst",
+            "helpTextPlaceholder": "Kort vejledning til den der udfylder",
+            "width": "Bredde",
+            "widthFull": "Fuld bredde",
+            "widthHalf": "Halv bredde"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6535,6 +6549,11 @@
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Er du sikker på, at du vil slette denne foruddefinerede hændelse"
             }
+        },
+        "layout": {
+            "documentLayout": "Dokumentlayout",
+            "documentLayoutHint": "Genererer rapporten som et dokument med sektioner i stedet for en gengivelse af formularen.",
+            "showNumbering": "Nummerér spørgsmål"
         }
     },
     "gender": {
