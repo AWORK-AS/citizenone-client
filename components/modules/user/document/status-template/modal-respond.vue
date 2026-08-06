@@ -22,6 +22,12 @@
                                             :key="fieldIndex" class="space-y-3">
                                             <div class="bg-gray-100 rounded-md border-t-2 border-primary">
                                                 <div>
+                                                    <ModulesUserFormScaleField
+                                                        v-if="JSON.parse(formField?.field)?.type === 'scale'"
+                                                        :field="JSON.parse(formField?.field)" :fieldIndex="fieldIndex"
+                                                        :number="fieldIndex + 1"
+                                                        :citizenUuid="scaleCitizenUuid"
+                                                        v-model="formField.responses" />
                                                     <ModulesUserFormBlockStatic
                                                         v-if="['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(JSON.parse(formField?.field)?.type)"
                                                         :field="JSON.parse(formField?.field)" />
@@ -245,6 +251,21 @@ import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { googledriveService } from '~/components/api/user/GoogleDriveService'
+import { useCitizenStore } from '@/store/citizen'
+
+// The scale loads the citizen's earlier measurements. The citizen comes from the
+// route on a citizen page and from the store when a modal was opened without
+// one; on Drive there is no citizen at all, and an empty uuid simply means no
+// history is fetched.
+const scaleRoute = useRoute()
+const scaleCitizenStore = useCitizenStore() as any
+const scaleCitizenUuid = computed(() => {
+    const fromRoute = scaleRoute?.params?.uuid
+    if (typeof fromRoute === 'string' && fromRoute.length > 0) return fromRoute
+
+    return scaleCitizenStore?.getSelectedCitizen?.uuid ?? ''
+})
+
 
 const props = defineProps({
     isModalOpen: {
@@ -347,6 +368,12 @@ async function submitResponse() {
                 return
             }
 
+            if (fieldType === 'scale') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+
+                return
+            }
+
 
                 if (fieldType === 'uploadfile' && formField.responses instanceof File) {
                     // File uploads not supported in Google Drive PDF generation
@@ -378,6 +405,12 @@ async function submitResponse() {
                 const fieldType = JSON.parse(formField.field)?.type
                 const fieldUuid = formField.uuid
             if (['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(fieldType)) {
+                return
+            }
+
+            if (fieldType === 'scale') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+
                 return
             }
 
@@ -423,6 +456,12 @@ async function submitResponseAndDownloadPDF() {
                 return
             }
 
+            if (fieldType === 'scale') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+
+                return
+            }
+
 
                 if (fieldType === 'uploadfile' && formField.responses instanceof File) {
                     // File uploads not supported in Google Drive PDF generation
@@ -458,6 +497,12 @@ async function submitResponseAndDownloadPDF() {
                 const fieldType = JSON.parse(formField.field)?.type
                 const fieldUuid = formField.uuid
             if (['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(fieldType)) {
+                return
+            }
+
+            if (fieldType === 'scale') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+
                 return
             }
 

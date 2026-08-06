@@ -6585,7 +6585,11 @@
                 "mother": "Mother",
                 "father": "Father",
                 "citizen": "The citizen"
-            }
+            },
+            "clear": "Clear",
+            "measuredAt": "Measured on",
+            "earlier": "Earlier measurements",
+            "recordedByHint": "You record every party's assessment. The report shows who wrote it down."
         }
     },
     "gender": {

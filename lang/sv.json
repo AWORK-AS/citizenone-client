@@ -6585,7 +6585,11 @@
                 "mother": "Mamma",
                 "father": "Pappa",
                 "citizen": "Medborgaren"
-            }
+            },
+            "clear": "Rensa",
+            "measuredAt": "Mätt den",
+            "earlier": "Tidigare mätningar",
+            "recordedByHint": "Du noterar alla parters bedömning. Rapporten visar vem som skrivit in den."
         }
     },
     "gender": {

@@ -6585,7 +6585,11 @@
                 "mother": "Mor",
                 "father": "Far",
                 "citizen": "Borgeren"
-            }
+            },
+            "clear": "Ryd",
+            "measuredAt": "Målt den",
+            "earlier": "Tidligere målinger",
+            "recordedByHint": "Du noterer alle parters vurdering. Rapporten viser hvem der har skrevet den ned."
         }
     },
     "gender": {
