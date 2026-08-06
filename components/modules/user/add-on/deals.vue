@@ -120,7 +120,7 @@ const couponStore = useCouponStore()
 const userStore = useUserStore() as any
 let checkout = null as any
 
-const isMonthly = computed(() => userStore.getUser?.user_subscription?.type === 'monthly')
+const isMonthly = computed(() => ['monthly', 'custom_monthly'].includes(userStore.getUser?.user_subscription?.type))
 
 const totalAmount = computed(() => {
     const deptPrice = isMonthly.value
