@@ -7196,6 +7196,7 @@
             "unlockMessage": "Lås opp for melding"
         },
         "sent": "Sendt",
+        "unsupportedConfiguration": "Vi kunne ikke gjenkjenne e-postkonfigurasjonen din. Koble til e-posten din på nytt.",
         "settings": {
             "alert": {
                 "mailConfigurationSuccessfullySaved": "Mailkonfigurasjon lagret vellykket"
