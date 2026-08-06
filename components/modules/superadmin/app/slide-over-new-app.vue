@@ -33,7 +33,7 @@
                                     <div class="flex-1 overflow-y-auto px-6 py-5">
                                         <LoadingSpinner :isActive="state.isPageLoading">
                                             <ModulesSuperadminAppSlideOverForm ref="formRef" formType="create"
-                                                :error="state.error" :showActions="false" :showCompanyAttach="false"
+                                                :error="state.error" :showActions="false"
                                                 @submitForm="saveApp" />
                                         </LoadingSpinner>
                                     </div>

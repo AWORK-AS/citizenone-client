@@ -222,13 +222,17 @@
                                         </div>
                                         <span class="text-[#5C6478]">
                                             {{ state.subscription.data.deal.name }} —
-                                            {{ state.subscription.data.type === 'monthly'
-                                                ? formatAmount(state.subscription.data.deal.monthly_price)
-                                                : formatAmount(state.subscription.data.deal.yearly_price) }}
-                                            / {{ state.subscription.data.type === 'monthly' ?
-                                                $t('superadmin.companies.accounts.monthly') :
-                                                $t('superadmin.companies.accounts.yearly')
-                                            }}
+                                            <template v-if="state.subscription.data.type === 'free'">
+                                                {{ $t('superadmin.companies.accounts.free') }}
+                                            </template>
+                                            <template v-else-if="state.subscription.data.type?.includes('monthly')">
+                                                {{ formatAmount(state.subscription.data.deal.monthly_price) }}
+                                                / {{ $t('superadmin.companies.accounts.monthly') }}
+                                            </template>
+                                            <template v-else>
+                                                {{ formatAmount(state.subscription.data.deal.yearly_price) }}
+                                                / {{ $t('superadmin.companies.accounts.yearly') }}
+                                            </template>
                                         </span>
                                     </div>
                                     <div class="flex items-center gap-3 text-[13px]">
@@ -264,13 +268,19 @@
                                                 <Icon name="ph:squares-four" class="w-4 h-4 text-[#205E77]" />
                                             </div>
                                             <span class="text-[13px] font-medium text-[#1F2533]">
-                                                {{ app?.deal?.name }}
+                                                {{ app?.name }}
                                             </span>
                                         </div>
-                                        <span class="co-badge co-badge-green text-[10px]">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
-                                            {{ $t('superadmin.companies.table.active') }}
-                                        </span>
+                                        <div class="flex items-center gap-2">
+                                            <span v-if="app?.active_quantity > 0" class="co-badge co-badge-green text-[10px]">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                                {{ $t('superadmin.companies.table.active') }}
+                                            </span>
+                                            <span v-else class="co-badge co-badge-red text-[10px]">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                                {{ $t('superadmin.companies.companyApps.table.inactive') }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -339,6 +349,10 @@
                                                         :title="$t('superadmin.accounts.table.actions.edit')">
                                                         <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
                                                     </SuperadminTableButton>
+                                                    <ModulesSuperadminCompanyMenuAssignLicense
+                                                        v-if="canManageLicenses && !account?.roles?.some((r: any) => r.name === 'Superadmin')"
+                                                        :companyUuid="companyUuid" :userUuid="account.uuid"
+                                                        @assigned="fetchApps" />
                                                     <SuperadminTableButton
                                                         @click="activateDeactivateAccount(i as number, account)"
                                                         :title="account.is_active ? $t('superadmin.accounts.table.actions.deactivate') : $t('superadmin.accounts.table.actions.activate')">
@@ -374,13 +388,17 @@ import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { accountService } from '@/components/api/superadmin/AccountService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { successAlert } = useAlert()
+const { can } = usePermissions()
 const { t } = useI18n()
+
+const canManageLicenses = computed(() => can('manage_licenses'))
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid as string
 const searchQuery = ref('')
