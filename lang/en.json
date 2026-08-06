@@ -7196,6 +7196,7 @@
             "unlockMessage": "Unlock message"
         },
         "sent": "Sent",
+        "unsupportedConfiguration": "We could not recognise your mail configuration. Please reconnect your mail.",
         "settings": {
             "alert": {
                 "mailConfigurationSuccessfullySaved": "Mail configuration successfully saved"

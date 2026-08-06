@@ -7196,6 +7196,7 @@
             "unlockMessage": "Lås op for besked"
         },
         "sent": "Sendt",
+        "unsupportedConfiguration": "Vi kunne ikke genkende din mailkonfiguration. Forbind venligst din mail igen.",
         "settings": {
             "alert": {
                 "mailConfigurationSuccessfullySaved": "Mailkonfiguration gemt med succes"
