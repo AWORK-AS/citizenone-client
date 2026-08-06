@@ -35,8 +35,14 @@
                             : 'text-gray-600 hover:bg-gray-100'"
                         :style="scoreOf(rater.key) === step ? { backgroundColor: colourFor(step) } : {}"
                         :aria-pressed="scoreOf(rater.key) === step"
+                        :title="previousScore(rater.key) === step ? $t('forms.scale.previousHere') : ''"
                         @click="setScore(rater.key, rater.label, step)">
-                        {{ step }}
+                        <span class="relative inline-block">
+                            {{ step }}
+                            <span v-if="previousScore(rater.key) === step && scoreOf(rater.key) !== step"
+                                class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
+                                :style="{ backgroundColor: colourFor(step), opacity: 0.55 }"></span>
+                        </span>
                     </button>
                 </div>
                 <button type="button" class="shrink-0 text-xs text-gray-400 hover:text-gray-700 w-12 text-right"
@@ -55,37 +61,39 @@
 
         <p class="text-xs text-gray-500">{{ $t('forms.scale.recordedByHint') }}</p>
 
-        <!-- Earlier measurements, so the movement is visible while writing. -->
-        <div v-if="props.field?.showHistory && history.length > 0" class="pt-2 border-t border-gray-200">
+        <!-- Earlier measurements. The movement is the point, so it is drawn. -->
+        <div v-if="props.field?.showHistory && historyDates.length > 1" class="pt-3 border-t border-gray-200">
             <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">
                 {{ $t('forms.scale.earlier') }}
             </p>
             <div class="overflow-x-auto">
-                <table class="text-sm min-w-full">
-                    <thead>
-                        <tr class="text-left text-xs text-gray-500">
-                            <th class="pr-4 pb-1 font-medium">{{ $t('forms.scale.raterLabel') }}</th>
-                            <th v-for="date in historyDates" :key="'h_' + date" class="pr-4 pb-1 font-medium">
-                                {{ date }}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="rater in historyRaters" :key="'hr_' + rater">
-                            <td class="pr-4 py-0.5 text-gray-700">{{ historyLabel(rater) }}</td>
-                            <td v-for="date in historyDates" :key="'hc_' + rater + date" class="pr-4 py-0.5">
-                                <span v-if="historyScore(rater, date) !== null"
-                                    class="inline-block w-6 text-center rounded text-white text-xs"
-                                    :style="{ backgroundColor: colourFor(historyScore(rater, date)) }">
-                                    {{ historyScore(rater, date) }}
-                                </span>
-                                <span v-else class="text-gray-300">-</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <svg :viewBox="`0 0 ${chart.width} ${chart.height}`" class="w-full h-auto"
+                    style="min-width: 320px" role="img" :aria-label="$t('forms.scale.earlier')">
+                    <line v-for="tick in chart.ticks" :key="'g' + tick.value" :x1="chart.padLeft" :y1="tick.y"
+                        :x2="chart.width - chart.padRight" :y2="tick.y" stroke="#e5e7eb" stroke-width="1" />
+                    <text v-for="tick in chart.ticks" :key="'t' + tick.value" :x="chart.padLeft - 6" :y="tick.y + 3"
+                        text-anchor="end" font-size="9" fill="#9ca3af">{{ tick.value }}</text>
+                    <text v-for="(point, i) in chart.xLabels" :key="'x' + i" :x="point.x"
+                        :y="chart.height - 6" text-anchor="middle" font-size="9" fill="#9ca3af">
+                        {{ point.label }}
+                    </text>
+                    <g v-for="series in chart.series" :key="'s' + series.key">
+                        <polyline :points="series.points" fill="none" :stroke="series.colour" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                        <circle v-for="(dot, i) in series.dots" :key="'d' + i" :cx="dot.x" :cy="dot.y" r="3"
+                            :fill="series.colour" />
+                        <text :x="chart.width - chart.padRight + 6" :y="series.endY + 3" font-size="9"
+                            :fill="series.colour" font-weight="600">{{ series.label }}</text>
+                    </g>
+                </svg>
             </div>
         </div>
+
+        <p v-else-if="props.field?.showHistory && historyDates.length === 1"
+            class="pt-3 border-t border-gray-200 text-xs text-gray-500">
+            {{ $t('forms.scale.needsTwo') }}
+        </p>
+
     </div>
 </template>
 
@@ -193,6 +201,63 @@ function historyLabel(raterKey: string): string {
 function historyScore(raterKey: string, date: string): number | null {
     const hit = history.value.find((h: any) => h.rater_key === raterKey && h.measured_at === date)
     return hit ? Number(hit.score) : null
+}
+
+/** The most recent earlier score, marked faintly so movement is visible in place. */
+function previousScore(raterKey: string): number | null {
+    const dates = historyDates.value
+    for (let i = dates.length - 1; i >= 0; i--) {
+        const score = historyScore(raterKey, dates[i])
+        if (score !== null) return score
+    }
+
+    return null
+}
+
+const chart = computed(() => {
+    const width = 520
+    const height = 170
+    const padLeft = 24
+    const padRight = 78
+    const padTop = 10
+    const padBottom = 22
+    const innerW = width - padLeft - padRight
+    const innerH = height - padTop - padBottom
+    const dates = historyDates.value
+    const max = maxScore.value
+
+    const x = (i: number) => dates.length < 2
+        ? padLeft
+        : padLeft + (innerW * i) / (dates.length - 1)
+    const y = (value: number) => padTop + innerH - (innerH * value) / max
+
+    const ticks = [0, Math.round(max / 2), max].map((value) => ({ value, y: y(value) }))
+    const xLabels = dates.map((date, i) => ({ x: x(i), label: shortDate(date) }))
+
+    const series = historyRaters.value.map((raterKey: string) => {
+        const dots: any[] = []
+        dates.forEach((date, i) => {
+            const score = historyScore(raterKey, date)
+            if (score !== null) dots.push({ x: x(i), y: y(score) })
+        })
+
+        return {
+            key: raterKey,
+            label: historyLabel(raterKey),
+            colour: colourFor(previousScore(raterKey)),
+            points: dots.map((d) => `${d.x},${d.y}`).join(' '),
+            dots,
+            endY: dots.length ? dots[dots.length - 1].y : y(0),
+        }
+    }).filter((s: any) => s.dots.length > 0)
+
+    return { width, height, padLeft, padRight, ticks, xLabels, series }
+})
+
+function shortDate(date: string): string {
+    const parts = (date || '').split('-')
+
+    return parts.length === 3 ? `${parts[2]}/${parts[1]}` : date
 }
 
 async function fetchHistory() {

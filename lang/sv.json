@@ -6589,7 +6589,9 @@
             "clear": "Rensa",
             "measuredAt": "Mätt den",
             "earlier": "Tidigare mätningar",
-            "recordedByHint": "Du noterar alla parters bedömning. Rapporten visar vem som skrivit in den."
+            "recordedByHint": "Du noterar alla parters bedömning. Rapporten visar vem som skrivit in den.",
+            "previousHere": "Föregående mätning låg här",
+            "needsTwo": "Det krävs två mätningar innan utvecklingen kan ritas."
         }
     },
     "gender": {

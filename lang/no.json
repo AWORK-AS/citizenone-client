@@ -6589,7 +6589,9 @@
             "clear": "Tøm",
             "measuredAt": "Målt den",
             "earlier": "Tidligere målinger",
-            "recordedByHint": "Du fører inn alle parters vurdering. Rapporten viser hvem som har skrevet den ned."
+            "recordedByHint": "Du fører inn alle parters vurdering. Rapporten viser hvem som har skrevet den ned.",
+            "previousHere": "Forrige måling lå her",
+            "needsTwo": "Det trengs to målinger før utviklingen kan tegnes."
         }
     },
     "gender": {

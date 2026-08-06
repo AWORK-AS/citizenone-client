@@ -6589,7 +6589,9 @@
             "clear": "Ryd",
             "measuredAt": "Målt den",
             "earlier": "Tidligere målinger",
-            "recordedByHint": "Du noterer alle parters vurdering. Rapporten viser hvem der har skrevet den ned."
+            "recordedByHint": "Du noterer alle parters vurdering. Rapporten viser hvem der har skrevet den ned.",
+            "previousHere": "Forrige måling lå her",
+            "needsTwo": "Der skal to målinger til før udviklingen kan tegnes."
         }
     },
     "gender": {

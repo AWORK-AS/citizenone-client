@@ -6589,7 +6589,9 @@
             "clear": "Clear",
             "measuredAt": "Measured on",
             "earlier": "Earlier measurements",
-            "recordedByHint": "You record every party's assessment. The report shows who wrote it down."
+            "recordedByHint": "You record every party's assessment. The report shows who wrote it down.",
+            "previousHere": "The previous measurement was here",
+            "needsTwo": "Two measurements are needed before the movement can be drawn."
         }
     },
     "gender": {
