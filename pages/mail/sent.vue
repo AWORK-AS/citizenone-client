@@ -69,8 +69,7 @@
                         <span class="dot5">.</span>
                     </div>
                     <div v-else>
-                        <div class="mt-44 flex items-center justify-center"
-                            v-if="state.emailConfiguration?.data?.length === 0">
+                        <div class="mt-44 flex items-center justify-center" v-if="!hasEmailConfiguration">
                             <div class="space-y-6">
                                 <p>{{ $t('mail.connectYourMessage') }}.</p>
                                 <div class="flex justify-center">
@@ -85,8 +84,18 @@
                             <div class="flex bg-white rounded-tr-md rounded-br-md">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage" />
-                                <ModulesUserMailSmtpSent v-if="state.emailConfiguration?.data?.type === 'smtp'" />
-                                <ModulesUserMailEntraSent v-if="state.emailConfiguration?.data?.type === 'entra'" />
+                                <ModulesUserMailSmtpSent v-if="emailConfigurationType === 'smtp'" />
+                                <ModulesUserMailEntraSent v-else-if="emailConfigurationType === 'entra'" />
+                                <!-- TODO(i18n): add mail.unsupportedConfiguration to lang/{en,dk,sv,no}.json -->
+                                <div v-else class="grow mt-44 flex items-center justify-center text-center px-8">
+                                    <p class="text-gray-500">
+                                        {{
+                                            $te('mail.unsupportedConfiguration') ?
+                                                $t('mail.unsupportedConfiguration') :
+                                                'We could not recognise your mail configuration. Please reconnect your mail.'
+                                        }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -128,6 +137,18 @@ const state = reactive({
     },
     unreadEmails: 0,
     unreadSecuredMessage: 0,
+})
+
+// See pages/mail/inbox.vue for why this checks content rather than `.length`:
+// `data` is `[]` only when unconfigured, otherwise a single settings object.
+const emailConfigurationType = computed(() => {
+    const data = state.emailConfiguration?.data
+    return Array.isArray(data) ? null : (data?.type ?? null)
+})
+
+const hasEmailConfiguration = computed(() => {
+    const data = state.emailConfiguration?.data
+    return Array.isArray(data) ? data.length > 0 : !!data
 })
 
 watch(() => userStore.getUser, (user: any) => {

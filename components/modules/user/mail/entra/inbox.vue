@@ -365,10 +365,13 @@ async function fetchEmails(page: any) {
         state.loading.isEmailsLoadingMore = true
     }
     try {
-        const params: any = {
-            page: page,
-        }
-        if (page === null && searchTerm.value) params.search = searchTerm.value
+        // Graph paginates via opaque @odata.nextLink skip tokens, not page
+        // numbers - only ever forward a real continuation link the previous
+        // response gave us. Sending anything else (including a bare `page`
+        // key) makes the backend silently fall back to page one.
+        const params: any = {}
+        if (page) params.page = page
+        if (!page && searchTerm.value) params.search = searchTerm.value
         const response = await mailEntraService.getMails(params)
         if (response?.value) {
             state.emails.push(...response?.value)
