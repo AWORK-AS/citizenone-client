@@ -440,6 +440,9 @@
                                         <p v-if="field.type === 'guidance'" class="text-xs text-gray-500">
                                             {{ $t('forms.fields.guidanceHint') }}
                                         </p>
+                                        <ModulesUserFormMergeFieldPicker
+                                            v-if="field.type !== 'pagebreak'"
+                                            @insert="(key) => appendMergeField(fieldIndex, key)" />
                                     </div>
                                 </div>
                                 <div v-if="state.form.layout_mode === 'document' && !isLayoutBlock(field.type)"
@@ -845,6 +848,18 @@ function addScale() {
         showHistory: true,
         perGoal: false,
     })
+}
+
+/**
+ * Appended rather than inserted at the caret: the block editors are plain
+ * inputs, and reaching into their selection from here would tie the builder to
+ * how each one happens to be rendered. The administrator moves it if it belongs
+ * elsewhere in the line.
+ */
+function appendMergeField(fieldIndex: number, key: string) {
+    const field = state.form.fields[fieldIndex]
+    const current = field.value ?? ''
+    field.value = current.length > 0 && !current.endsWith(' ') ? `${current} ${key}` : `${current}${key}`
 }
 
 function addHeading() {
