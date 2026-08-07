@@ -9799,6 +9799,25 @@
                     "billingFixed": "Fakturering: {frequency}",
                     "granted": "Licenser tillagda",
                     "failed": "Kunde inte lägga till licenser"
+                },
+                "addSubscription": {
+                    "addSubscription": "Lägg till prenumeration",
+                    "title": "Lägg till prenumeration",
+                    "plan": "Plan",
+                    "frequency": "Frekvens",
+                    "monthly": "Månadsvis",
+                    "yearly": "Årsvis",
+                    "billingMethod": "Faktureringsmetod",
+                    "manualInvoice": "Manuell faktura",
+                    "manualInvoiceDescription": "Vi fakturerar detta företag separat.",
+                    "paymentCard": "Kunden betalar med kort",
+                    "paymentCardDescription": "Kunden betalar via sin egen sida Inställningar → Fakturor.",
+                    "unitPrice": "Planpris",
+                    "tax": "Moms (25%)",
+                    "serviceFee": "Serviceavgift",
+                    "total": "Totalt",
+                    "added": "Prenumeration tillagd",
+                    "failed": "Kunde inte lägga till prenumeration"
                 }
             },
             "newCompany": "Ny företag",

@@ -9799,6 +9799,25 @@
                     "billingFixed": "Fakturering: {frequency}",
                     "granted": "Licenser tilføjet",
                     "failed": "Kunne ikke tilføje licenser"
+                },
+                "addSubscription": {
+                    "addSubscription": "Tilføj abonnement",
+                    "title": "Tilføj abonnement",
+                    "plan": "Plan",
+                    "frequency": "Frekvens",
+                    "monthly": "Månedlig",
+                    "yearly": "Årlig",
+                    "billingMethod": "Faktureringsmetode",
+                    "manualInvoice": "Manuel faktura",
+                    "manualInvoiceDescription": "Vi fakturerer denne virksomhed separat.",
+                    "paymentCard": "Kunden betaler med kort",
+                    "paymentCardDescription": "Kunden betaler via deres egen side Indstillinger → Fakturaer.",
+                    "unitPrice": "Planpris",
+                    "tax": "Moms (25%)",
+                    "serviceFee": "Servicegebyr",
+                    "total": "Total",
+                    "added": "Abonnement tilføjet",
+                    "failed": "Kunne ikke tilføje abonnement"
                 }
             },
             "newCompany": "Ny virksomhed",

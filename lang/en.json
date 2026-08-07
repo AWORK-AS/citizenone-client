@@ -9799,6 +9799,25 @@
                     "billingFixed": "Billing: {frequency}",
                     "granted": "Licenses added",
                     "failed": "Could not add licenses"
+                },
+                "addSubscription": {
+                    "addSubscription": "Add subscription",
+                    "title": "Add subscription",
+                    "plan": "Plan",
+                    "frequency": "Frequency",
+                    "monthly": "Monthly",
+                    "yearly": "Yearly",
+                    "billingMethod": "Billing method",
+                    "manualInvoice": "Manual invoice",
+                    "manualInvoiceDescription": "We invoice this company separately.",
+                    "paymentCard": "Customer pays by card",
+                    "paymentCardDescription": "The customer pays via their own Settings → Invoices page.",
+                    "unitPrice": "Plan price",
+                    "tax": "VAT (25%)",
+                    "serviceFee": "Service fee",
+                    "total": "Total",
+                    "added": "Subscription added",
+                    "failed": "Could not add subscription"
                 }
             },
             "newCompany": "New company",

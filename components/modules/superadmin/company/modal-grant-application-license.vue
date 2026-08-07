@@ -167,8 +167,10 @@
                         {{ $t('superadmin.grantLicense.billingFixed', { frequency: fixedFrequencyLabel }) }}
                     </p>
 
-                    <!-- Assign directly to a user -->
-                    <div class="border border-[#EAECF0] rounded-xl p-4">
+                    <!-- Assign directly to a user (only for apps sold as multiple seats -
+                         a single-toggle app like Mail/OneDrive is a company-wide grant,
+                         not a per-user seat, so there's nothing to assign) -->
+                    <div v-if="!selectedApp || selectedApp.is_quantifiable" class="border border-[#EAECF0] rounded-xl p-4">
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-[13px] font-medium text-[#1F2533]">
@@ -372,6 +374,11 @@ function selectApp(app: any) {
     if (!isAppPickable(app)) return
     state.form.application_uuid = app.uuid ?? app.id
     state.form.quantity = app.is_quantifiable ? state.form.quantity : 1
+    if (!app.is_quantifiable) {
+        state.assignEnabled = false
+        state.selectedUser = null
+        state.userSearch = ''
+    }
     fetchSeatCounts()
 }
 

@@ -34,6 +34,21 @@ class LicenseService extends BaseAPIService {
     async grantLicenses(companyUuid: string, params: object): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/licenses/grant`, 'POST', params)
     }
+
+    // All Deals (Basis/Pro) with base pricing, unfiltered by any company context -
+    // powers the "add subscription" plan picker for companies with none yet.
+    async getDeals(): Promise<any> {
+        return await this.request(`/superadmin/deals/all/list`, 'GET')
+    }
+
+    // Manually add the company's main Deal subscription (Basis/Pro) when it
+    // currently has none - creates a pending Invoice + InvoiceDetail + UserSubscription.
+    async addDealSubscription(
+        companyUuid: string,
+        params: { package: string; frequency: 'monthly' | 'yearly'; billing_method: 'manual_invoice' | 'payment_card' },
+    ): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/subscription`, 'POST', params)
+    }
 }
 
 export const licenseService = new LicenseService()

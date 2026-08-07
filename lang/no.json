@@ -9799,6 +9799,25 @@
                     "billingFixed": "Fakturering: {frequency}",
                     "granted": "Lisenser lagt til",
                     "failed": "Kunne ikke legge til lisenser"
+                },
+                "addSubscription": {
+                    "addSubscription": "Legg til abonnement",
+                    "title": "Legg til abonnement",
+                    "plan": "Plan",
+                    "frequency": "Frekvens",
+                    "monthly": "Månedlig",
+                    "yearly": "Årlig",
+                    "billingMethod": "Faktureringsmetode",
+                    "manualInvoice": "Manuell faktura",
+                    "manualInvoiceDescription": "Vi fakturerer dette firmaet separat.",
+                    "paymentCard": "Kunden betaler med kort",
+                    "paymentCardDescription": "Kunden betaler via sin egen side Innstillinger → Fakturaer.",
+                    "unitPrice": "Planpris",
+                    "tax": "MVA (25%)",
+                    "serviceFee": "Servicegebyr",
+                    "total": "Totalt",
+                    "added": "Abonnement lagt til",
+                    "failed": "Kunne ikke legge til abonnement"
                 }
             },
             "newCompany": "Ny virksomhet",
