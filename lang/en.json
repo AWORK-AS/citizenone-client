@@ -2421,7 +2421,15 @@
                 "inTotal": "in total",
                 "pcs": "pcs",
                 "standardDosage": "Standard: {dosage}",
-                "dayHeaders": ["M", "T", "W", "T", "F", "S", "S"],
+                "dayHeaders": [
+                    "M",
+                    "T",
+                    "W",
+                    "T",
+                    "F",
+                    "S",
+                    "S"
+                ],
                 "commentForAll": "Comment for all (optional)...",
                 "saving": "Saving...",
                 "saveDay": "Save {n} day(s)",
@@ -10970,7 +10978,8 @@
             "save": "Save",
             "successCreated": "Storage package created",
             "successDeleted": "Storage package deleted",
-            "successUpdated": "Storage package updated"
+            "successUpdated": "Storage package updated",
+            "colPricePerGb": "Price per GB"
         }
     },
     "support": {

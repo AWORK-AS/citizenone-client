@@ -2421,7 +2421,15 @@
                 "inTotal": "totalt",
                 "pcs": "stk",
                 "standardDosage": "Standard: {dosage}",
-                "dayHeaders": ["M", "T", "O", "T", "F", "L", "S"],
+                "dayHeaders": [
+                    "M",
+                    "T",
+                    "O",
+                    "T",
+                    "F",
+                    "L",
+                    "S"
+                ],
                 "commentForAll": "Kommentar til alle (valgfri)...",
                 "saving": "Lagrer...",
                 "saveDay": "Lagre {n} dag(e)",
@@ -10970,7 +10978,8 @@
             "save": "Lagre",
             "successCreated": "Lagringspakke opprettet",
             "successDeleted": "Lagringspakke slettet",
-            "successUpdated": "Lagringspakke oppdatert"
+            "successUpdated": "Lagringspakke oppdatert",
+            "colPricePerGb": "Kr. pr. GB"
         }
     },
     "support": {
