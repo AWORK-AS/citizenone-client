@@ -109,12 +109,18 @@
                 v-else-if="props.app?.user_activated && destination" @click="navigateTo(destination.path)">
                 {{ destination.open ? $t('apps.openApp') : $t('apps.goToSetup') }}
             </FormButton>
-            <FormButton type="button" :buttonStyle="props.app?.user_activated ? 'app-activated' : 'app-order-now'"
+            <FormButton type="button"
+                :buttonStyle="(props.app?.user_activated && !props.app?.is_quantifiable) ? 'app-activated' : 'app-order-now'"
                 :class="[
-                    props.app?.user_activated && 'cursor-not-allowed',
+                    (props.app?.user_activated && !props.app?.is_quantifiable) && 'cursor-not-allowed',
                     'w-full'
-                ]" color="primary" @click="!props.app?.user_activated && emit('activate', props.app)" v-else>
-                <span v-if="props.app?.user_activated">
+                ]" color="primary"
+                @click="(!props.app?.user_activated || props.app?.is_quantifiable) && emit('activate', props.app)"
+                v-else>
+                <span v-if="props.app?.user_activated && props.app?.is_quantifiable">
+                    {{ $t('apps.buyMoreLicenses') }}
+                </span>
+                <span v-else-if="props.app?.user_activated">
                     {{ $t('apps.activated') }}
                 </span>
                 <span v-else-if="props.app?.is_one_time_fee">

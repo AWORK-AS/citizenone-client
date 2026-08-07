@@ -78,12 +78,19 @@
                             {{ $t('apps.goToSetup') }}
                         </FormButton>
                         <FormButton type="button"
-                            :buttonStyle="props.selectedApp?.user_activated ? 'app-activated' : 'action'" :class="[
-                                props.selectedApp?.user_activated && 'cursor-not-allowed',
+                            :buttonStyle="(props.selectedApp?.user_activated && !props.selectedApp?.is_quantifiable) ? 'app-activated' : 'action'"
+                            :class="[
+                                (props.selectedApp?.user_activated && !props.selectedApp?.is_quantifiable) && 'cursor-not-allowed',
                                 'w-full'
-                            ]" color="primary" @click="!props.selectedApp?.user_activated && confirmTACAcceptance()"
+                            ]" color="primary"
+                            @click="(!props.selectedApp?.user_activated || props.selectedApp?.is_quantifiable) && confirmTACAcceptance()"
                             v-else>
-                            {{ props.selectedApp?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
+                            <span v-if="props.selectedApp?.user_activated && props.selectedApp?.is_quantifiable">
+                                {{ $t('apps.buyMoreLicenses') }}
+                            </span>
+                            <span v-else>
+                                {{ props.selectedApp?.user_activated ? $t('apps.activated') : $t('apps.activate') }}
+                            </span>
                         </FormButton>
                     </div>
                 </LoadingSpinner>

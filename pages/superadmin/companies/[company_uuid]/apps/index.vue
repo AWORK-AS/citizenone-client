@@ -33,7 +33,14 @@
                 <div class="mt-5 space-y-4">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('search')" @input="debouncedSearch" />
+                    <div class="flex items-center justify-between gap-3">
+                        <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('search')"
+                            @input="debouncedSearch" class="flex-1" />
+                        <FormButton v-if="canManageLicenses" buttonStyle="action" @click="state.grantModalOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('superadmin.grantLicense.grantButton') }}
+                        </FormButton>
+                    </div>
                     <SuperadminTable :columnHeaders="state.columnHeaders" :data="state.companyApps"
                         :isLoading="state.isTableLoading" :sortData="state.sortData"
                         :emptyMessage="$t('superadmin.companies.companyApps.noAppsFound')" emptyIcon="ph:squares-four"
@@ -41,9 +48,10 @@
                         <template #body>
                             <tr v-for="(companyApp, index) in state.companyApps?.data" :key="index"
                                 class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
-                                <td class="co-td text-[13px] text-[#1F2533]">{{ companyApp?.deal?.name }}</td>
+                                <td class="co-td text-[13px] text-[#1F2533]">{{ companyApp?.name }}</td>
+                                <td class="co-td text-[13px] text-[#1F2533]">{{ companyApp?.quantity }}</td>
                                 <td class="co-td">
-                                    <span v-if="companyApp?.is_active" class="co-badge co-badge-green">
+                                    <span v-if="companyApp?.active_quantity > 0" class="co-badge co-badge-green">
                                         <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
                                         {{ $t('superadmin.companies.companyApps.table.active') }}
                                     </span>
@@ -58,22 +66,30 @@
                     <Pagination :data="state.companyApps" @previous="previous" @next="next" />
                 </div>
             </div>
+
+            <ModulesSuperadminCompanyModalGrantApplicationLicense :open="state.grantModalOpen"
+                :companyUuid="companyUuid as string" @close="state.grantModalOpen = false"
+                @granted="fetchCompanyApps" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
+const { can } = usePermissions()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 let currentTablePage = 1
 let searchTimeout: any = null
 const searchQuery = ref('')
+
+const canManageLicenses = computed(() => can('manage_licenses'))
 
 const detailTabs = computed(() => [
     { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },
@@ -87,6 +103,7 @@ const detailTabs = computed(() => [
 const state = reactive({
     columnHeaders: computed(() => [
         { key: 'name', name: t('superadmin.companies.companyApps.table.name'), sorter: true },
+        { key: 'quantity', name: t('superadmin.companies.companyApps.table.quantity'), sorter: true },
         { key: 'status', name: t('superadmin.companies.companyApps.table.status') },
     ]),
     companyApps: {} as any,
@@ -94,6 +111,7 @@ const state = reactive({
         search: ''
     } as any,
     error: {} as Error,
+    grantModalOpen: false,
     isTableLoading: false,
     sortData: {
         sortField: 'id',
