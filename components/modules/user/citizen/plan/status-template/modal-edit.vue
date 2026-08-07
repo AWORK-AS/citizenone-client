@@ -362,6 +362,7 @@ const scaleCitizenUuid = computed(() => {
 })
 
 
+
 const emit = defineEmits(['close', 'refreshData',])
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
@@ -701,7 +702,13 @@ async function submitResponse() {
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
             const fieldUuid = formField.uuid
+            // Layout blocks carry no answer, but they do carry the text that
+            // ends up in the document. Without a row of their own the headings
+            // never reach the generated PDF at all. The server resolves any
+            // merge fields in that text before storing it.
             if (['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(fieldType)) {
+                params.append(`responses[${fieldUuid}]`, JSON.parse(formField.field)?.value ?? '')
+
                 return
             }
 
@@ -767,7 +774,13 @@ async function submitResponseAndDownloadPDF() {
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
             const fieldUuid = formField.uuid
+            // Layout blocks carry no answer, but they do carry the text that
+            // ends up in the document. Without a row of their own the headings
+            // never reach the generated PDF at all. The server resolves any
+            // merge fields in that text before storing it.
             if (['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(fieldType)) {
+                params.append(`responses[${fieldUuid}]`, JSON.parse(formField.field)?.value ?? '')
+
                 return
             }
 
