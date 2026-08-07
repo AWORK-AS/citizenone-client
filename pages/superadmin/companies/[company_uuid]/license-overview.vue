@@ -40,30 +40,32 @@
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
-                        <div v-if="state.isPageLoading || state?.subscriptions?.data?.length === 0">
-                            <div class="isolate mx-auto mt-10 grid max-w-lg">
-                                <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
-                                    <h3 class="text-xl font-semibold leading-7">
-                                        {{
-                                            $t('superadmin.companies.subscriptions.noSubscription.noActiveSubscription')
-                                        }}
-                                    </h3>
-                                    <p class="mt-4 text-sm text-gray-600 leading-6">
-                                        {{
-                                            $t('superadmin.companies.subscriptions.noSubscription.itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment')
-                                        }}.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div v-else>
+                        <div v-if="!state.isPageLoading">
                             <div class="lg:flex gap-8">
                                 <div class="isolate w-full max-w-md">
                                     <h3 class="py-3 text-sm font-semibold">
                                         {{ $t('subscription.currentSubscription') }}
                                     </h3>
-                                    <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
+                                    <div v-if="state?.subscriptions?.data?.length === 0"
+                                        class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
+                                        <h3 class="text-xl font-semibold leading-7">
+                                            {{
+                                                $t('superadmin.companies.subscriptions.noSubscription.noActiveSubscription')
+                                            }}
+                                        </h3>
+                                        <p class="mt-4 text-sm text-gray-600 leading-6">
+                                            {{
+                                                $t('superadmin.companies.subscriptions.noSubscription.itLooksLikeThisCompanyDontHaveAnActiveSubscriptionAtTheMoment')
+                                            }}.
+                                        </p>
+                                        <div v-if="canManageLicenses" class="mt-6">
+                                            <FormButton buttonStyle="primary" class="w-full" @click="openAddSubscriptionModal">
+                                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                                {{ $t('superadmin.companies.licenseOverview.addSubscription.addSubscription') }}
+                                            </FormButton>
+                                        </div>
+                                    </div>
+                                    <div v-else class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                                         <div class="flex items-center justify-between gap-x-4">
                                             <h3 class="text-base font-semibold leading-7 text-tertiary">
                                                 {{ state?.subscriptions?.data?.deal?.name }}
@@ -159,6 +161,10 @@
                                         <h3 class="py-3 text-sm font-semibold">
                                             {{ $t('settings.licenseOverview.licenses') }}
                                         </h3>
+                                        <TabsLocal v-model="state.activeLicenseType" :tabs="[
+                                            { key: 'user', label: $t('superadmin.companies.licenseOverview.userLicenses') },
+                                            { key: 'department', label: $t('superadmin.companies.licenseOverview.departmentLicenses') },
+                                        ]" class="mb-4" />
                                         <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 space-y-5">
                                             <div class="mb-5 flex items-center gap-x-5 justify-end">
                                                 <div>
@@ -214,19 +220,129 @@
                         <p class="text-sm text-gray-600">
                             {{ $t('superadmin.companies.licenseOverview.grant.description') }}
                         </p>
+                        <p class="text-sm font-semibold text-gray-900">
+                            {{ state.activeLicenseType === 'department'
+                                ? $t('superadmin.companies.licenseOverview.departmentLicenses')
+                                : $t('superadmin.companies.licenseOverview.userLicenses') }}
+                        </p>
                         <div class="space-y-1">
                             <FormLabel for="grant_quantity"
                                 :label="$t('superadmin.companies.licenseOverview.grant.quantity')" />
                             <input id="grant_quantity" type="number" min="1" max="1000" v-model.number="state.grant.quantity"
                                 class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
                         </div>
+                        <div v-if="needsFrequencyPicker" class="space-y-1">
+                            <FormLabel :label="$t('superadmin.companies.licenseOverview.grant.billingFrequency')" />
+                            <fieldset :aria-label="$t('superadmin.companies.licenseOverview.grant.billingFrequency')">
+                                <RadioGroup v-model="state.grant.frequency"
+                                    class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                    <RadioGroupOption as="template" v-for="option in ['monthly', 'yearly']" :key="option"
+                                        :value="option" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                            {{ option === 'monthly'
+                                                ? $t('superadmin.companies.licenseOverview.grant.monthly')
+                                                : $t('superadmin.companies.licenseOverview.grant.yearly') }}
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                        <p v-else class="text-sm text-gray-600">
+                            {{ $t('superadmin.companies.licenseOverview.grant.billingFixed', { frequency: fixedFrequencyLabel }) }}
+                        </p>
                         <div class="flex justify-end gap-3 pt-2">
                             <FormButton buttonStyle="secondary" @click="state.grant.isOpen = false">
                                 {{ $t('cancel') }}
                             </FormButton>
                             <FormButton buttonStyle="primary"
-                                :disabled="state.grant.isSaving || !state.grant.quantity || state.grant.quantity < 1"
+                                :disabled="state.grant.isSaving || !state.grant.quantity || state.grant.quantity < 1 || (needsFrequencyPicker && !state.grant.frequency)"
                                 @click="submitGrant">
+                                {{ $t('save') }}
+                            </FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
+
+            <Modal size="sm" :title="$t('superadmin.companies.licenseOverview.addSubscription.title')"
+                :show="state.addSubscription.isOpen" @close="state.addSubscription.isOpen = false">
+                <template #modal-body>
+                    <div class="space-y-4">
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('superadmin.companies.licenseOverview.addSubscription.plan')" />
+                            <fieldset :aria-label="$t('superadmin.companies.licenseOverview.addSubscription.plan')">
+                                <RadioGroup v-model="state.addSubscription.package"
+                                    class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                    <RadioGroupOption as="template" v-for="deal in state.addSubscription.deals"
+                                        :key="deal.name" :value="deal.name" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                            {{ deal.name }}
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('superadmin.companies.licenseOverview.addSubscription.frequency')" />
+                            <fieldset :aria-label="$t('superadmin.companies.licenseOverview.addSubscription.frequency')">
+                                <RadioGroup v-model="state.addSubscription.frequency"
+                                    class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                    <RadioGroupOption as="template" v-for="option in ['monthly', 'yearly']" :key="option"
+                                        :value="option" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                            {{ option === 'monthly'
+                                                ? $t('superadmin.companies.licenseOverview.addSubscription.monthly')
+                                                : $t('superadmin.companies.licenseOverview.addSubscription.yearly') }}
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('superadmin.companies.licenseOverview.addSubscription.billingMethod')" />
+                            <fieldset :aria-label="$t('superadmin.companies.licenseOverview.addSubscription.billingMethod')">
+                                <RadioGroup v-model="state.addSubscription.billingMethod" class="space-y-2">
+                                    <RadioGroupOption as="template" v-for="option in [
+                                        { value: 'manual_invoice', label: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoice'), description: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoiceDescription') },
+                                        { value: 'payment_card', label: $t('superadmin.companies.licenseOverview.addSubscription.paymentCard'), description: $t('superadmin.companies.licenseOverview.addSubscription.paymentCardDescription') },
+                                    ]" :key="option.value" :value="option.value" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'ring-2 ring-tertiary' : 'ring-1 ring-gray-200', 'cursor-pointer rounded-lg p-3']">
+                                            <p class="text-sm font-semibold text-gray-900">{{ option.label }}</p>
+                                            <p class="text-xs text-gray-500 mt-0.5">{{ option.description }}</p>
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                        <div class="rounded-lg bg-gray-50 p-3 space-y-1 text-sm">
+                            <div class="flex justify-between text-gray-600">
+                                <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.unitPrice') }}</span>
+                                <span>{{ formatAmount(addSubscriptionUnitPrice) }}</span>
+                            </div>
+                            <div class="flex justify-between text-gray-600">
+                                <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.tax') }}</span>
+                                <span>{{ formatAmount(addSubscriptionTax) }}</span>
+                            </div>
+                            <div class="flex justify-between text-gray-600">
+                                <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.serviceFee') }}</span>
+                                <span>{{ formatAmount(addSubscriptionServiceFee) }}</span>
+                            </div>
+                            <div class="flex justify-between font-semibold text-gray-900 pt-1 border-t border-gray-200">
+                                <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.total') }}</span>
+                                <span>{{ formatAmount(addSubscriptionTotal) }}</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-2">
+                            <FormButton buttonStyle="secondary" @click="state.addSubscription.isOpen = false">
+                                {{ $t('cancel') }}
+                            </FormButton>
+                            <FormButton buttonStyle="primary"
+                                :disabled="state.addSubscription.isSaving || !state.addSubscription.package"
+                                @click="submitAddSubscription">
                                 {{ $t('save') }}
                             </FormButton>
                         </div>
@@ -242,6 +358,7 @@ import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -266,6 +383,7 @@ const detailTabs = computed(() => [
 let currentTablePage = 1
 
 const state = reactive({
+    activeLicenseType: 'user' as 'user' | 'department',
     columnHeaders: [
         { name: 'superadmin.companies.licenseOverview.table.license', isTranslateName: true, sorter: true, key: 'license' },
         { name: 'superadmin.companies.licenseOverview.table.user', isTranslateName: true, },
@@ -287,19 +405,70 @@ const state = reactive({
         isOpen: false,
         isSaving: false,
         quantity: 1 as number,
+        frequency: 'monthly' as 'monthly' | 'yearly',
     },
+    addSubscription: {
+        isOpen: false,
+        isSaving: false,
+        isLoadingDeals: false,
+        deals: [] as any[],
+        package: '' as string,
+        frequency: 'monthly' as 'monthly' | 'yearly',
+        billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card',
+    },
+})
+
+const addSubscriptionSelectedDeal = computed(() =>
+    state.addSubscription.deals.find((deal: any) => deal.name === state.addSubscription.package)
+)
+const addSubscriptionUnitPrice = computed(() => {
+    const deal = addSubscriptionSelectedDeal.value
+    if (!deal) return 0
+    return state.addSubscription.frequency === 'yearly' ? Number(deal.yearly_price ?? 0) : Number(deal.monthly_price ?? 0)
+})
+const addSubscriptionTax = computed(() => addSubscriptionUnitPrice.value * 0.25)
+const addSubscriptionServiceFee = 4.75
+const addSubscriptionTotal = computed(() => addSubscriptionUnitPrice.value * 1.25 + addSubscriptionServiceFee)
+
+// The company's active Deal subscription (monthly/yearly/custom_monthly/custom_yearly)
+// determines the license's billing frequency automatically; only a missing or
+// free subscription leaves it ambiguous enough to need the picker.
+const needsFrequencyPicker = computed(() =>
+    !['monthly', 'yearly', 'custom_monthly', 'custom_yearly'].includes(state.subscriptions?.data?.type)
+)
+
+const fixedFrequencyLabel = computed(() => {
+    const dealType = state.subscriptions?.data?.type
+    return dealType?.includes('yearly')
+        ? t('superadmin.companies.licenseOverview.grant.yearly')
+        : t('superadmin.companies.licenseOverview.grant.monthly')
+})
+
+watch(() => state.activeLicenseType, () => {
+    currentTablePage = 1
+    fetchLicenses()
+    fetchLicensesCount()
 })
 
 function openGrantModal() {
     state.grant.quantity = 1
+    state.grant.frequency = 'monthly'
     state.grant.isOpen = true
 }
 
 async function submitGrant() {
     if (!state.grant.quantity || state.grant.quantity < 1) return
+    if (needsFrequencyPicker.value && !state.grant.frequency) return
     state.grant.isSaving = true
     try {
-        await licenseService.grantLicenses(companyUuid as string, { quantity: state.grant.quantity })
+        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly' } = {
+            quantity: state.grant.quantity,
+            type: state.activeLicenseType,
+        }
+        if (needsFrequencyPicker.value) {
+            params.frequency = state.grant.frequency
+        }
+        await licenseService.grantLicenses(companyUuid as string, params)
         state.grant.isOpen = false
         successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.grant.granted')}.`)
         fetchLicenses()
@@ -308,6 +477,44 @@ async function submitGrant() {
         errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.grant.failed'))
     }
     state.grant.isSaving = false
+}
+
+async function openAddSubscriptionModal() {
+    state.addSubscription.frequency = 'monthly'
+    state.addSubscription.billingMethod = 'manual_invoice'
+    state.addSubscription.isOpen = true
+
+    if (state.addSubscription.deals.length === 0) {
+        state.addSubscription.isLoadingDeals = true
+        try {
+            const response = await licenseService.getDeals()
+            state.addSubscription.deals = response?.data ?? []
+            state.addSubscription.package = state.addSubscription.deals[0]?.name ?? ''
+        } catch (error: any) {
+            errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.addSubscription.failed'))
+        }
+        state.addSubscription.isLoadingDeals = false
+    } else {
+        state.addSubscription.package = state.addSubscription.deals[0]?.name ?? ''
+    }
+}
+
+async function submitAddSubscription() {
+    if (!state.addSubscription.package) return
+    state.addSubscription.isSaving = true
+    try {
+        await licenseService.addDealSubscription(companyUuid as string, {
+            package: state.addSubscription.package,
+            frequency: state.addSubscription.frequency,
+            billing_method: state.addSubscription.billingMethod,
+        })
+        state.addSubscription.isOpen = false
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.addSubscription.added')}.`)
+        fetchSubscription()
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.addSubscription.failed'))
+    }
+    state.addSubscription.isSaving = false
 }
 
 onMounted(() => {
@@ -334,7 +541,7 @@ async function fetchLicensesCount() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await licenseService.getLicensesCount(companyUuid)
+        const response = await licenseService.getLicensesCount(companyUuid, state.activeLicenseType)
         if (response) {
             state.licensesCount = response
         }
@@ -352,6 +559,7 @@ async function fetchLicenses() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
+            type: state.activeLicenseType,
             ...state.dataFilter
         }
         const response = await licenseService.getLicenses(companyUuid, params)

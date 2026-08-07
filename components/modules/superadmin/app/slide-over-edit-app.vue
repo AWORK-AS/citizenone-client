@@ -34,7 +34,7 @@
                                         <LoadingSpinner :isActive="state.isPageLoading">
                                             <ModulesSuperadminAppSlideOverForm ref="formRef" formType="update"
                                                 :selectedApp="state.app" :error="state.error" :showActions="false"
-                                                :showCompanyAttach="false" @submitForm="updateApp" />
+                                                @submitForm="updateApp" />
                                         </LoadingSpinner>
                                     </div>
 
