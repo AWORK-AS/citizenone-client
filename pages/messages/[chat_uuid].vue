@@ -243,7 +243,7 @@
 
                     <!-- Text Input -->
                     <textarea rows="1"
-                        class="flex-1 h-10 px-4 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-10"
+                        class="flex-1 h-10 px-4 py-2.5 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-tight"
                         :placeholder="$t('messages.typeAMessage')" v-model="state.message"
                         @keydown.enter.exact.prevent="sendMessage" />
 
