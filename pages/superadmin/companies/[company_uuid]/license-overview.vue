@@ -79,14 +79,14 @@
                                         </p>
                                         <p class="mt-4 flex items-baseline gap-x-2" v-if="canViewFinancials">
                                             <span class="text-3xl font-bold tracking-tight text-gray-900">
-                                                {{ state?.subscriptions?.data?.type === 'monthly' ?
+                                                {{ ['monthly', 'custom_monthly'].includes(state?.subscriptions?.data?.type) ?
                                                     formatAmount(state?.subscriptions?.data?.deal?.monthly_price ?? 0)
                                                     :
                                                     formatAmount(state?.subscriptions?.data?.deal?.yearly_price ?? 0)
                                                 }}
                                             </span>
                                             <span class="text-base text-gray-500 lowercase">
-                                                /{{ state?.subscriptions?.data?.type === 'monthly' ?
+                                                /{{ ['monthly', 'custom_monthly'].includes(state?.subscriptions?.data?.type) ?
                                                     $t('superadmin.companies.subscriptions.deal.month') :
                                                     $t('superadmin.companies.subscriptions.deal.year')
                                                 }}
