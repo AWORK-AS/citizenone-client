@@ -373,7 +373,7 @@
         </FormSection>
         <FormSection :title="$t('employees.form.header.emergencyInfo')" :description="$t('employees.form.header.emergencyContactDetailsInCaseOfAnUrgentSituation')" bare>
             <div class="grid grid-cols-1  gap-y-3">
-                    <div>
+                    <div ref="trusteesField">
                         <p class="text-sm text-gray-600 font-semibold leading-5">
                             {{ $t('employees.form.emergencyInfo.trustees') }}
                         </p>
@@ -396,6 +396,7 @@
                                                 :label="$t('employees.form.emergencyInfo.name')" />
                                             <FormTextField :id="`trustee_name_${index}`" name="trustee_name" :value="trustee.name"
                                                 @keyup="(event: any) => state.formEmployee.emergencyInfo.trustees[index].name = event.target.value" />
+                                            <FormError :error="trusteeError(index, 'name')" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel :for="`trustee_phone_${index}`"
@@ -403,6 +404,7 @@
                                             <FormTextField :id="`trustee_phone_${index}`" name="trustee_phone"
                                                 :value="trustee.phone"
                                                 @keyup="(event: any) => state.formEmployee.emergencyInfo.trustees[index].phone = event.target.value" />
+                                            <FormError :error="trusteeError(index, 'phone')" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel :for="`trustee_email_${index}`"
@@ -410,6 +412,7 @@
                                             <FormTextField :for="`trustee_email_${index}`" name="trustee_email"
                                                 :value="trustee.email"
                                                 @keyup="(event: any) => state.formEmployee.emergencyInfo.trustees[index].email = event.target.value" />
+                                            <FormError :error="trusteeError(index, 'email')" />
                                         </div>
                                     </div>
                                     <button type="button"
@@ -851,6 +854,30 @@ function hasEmergencyContactErrors() {
     )
 }
 
+const hasSubmittedTrustees = ref(false)
+const trusteesField = ref<HTMLElement | null>(null)
+
+function trusteeError(index: number, field: 'name' | 'phone' | 'email') {
+    if (!hasSubmittedTrustees.value) {
+        return ''
+    }
+    const trustee = state.formEmployee.emergencyInfo.trustees[index] as any
+    const value = trustee?.[field]
+    if (!value) {
+        return `${t('validation.thisFieldIsRequired')}.`
+    }
+    if (field === 'email' && !EMAIL_REGEX.test(value)) {
+        return `${t('validation.invalidEmailAddress')}.`
+    }
+    return ''
+}
+
+function hasTrusteeErrors() {
+    return state.formEmployee.emergencyInfo.trustees.some((trustee: any) =>
+        !trustee?.name || !trustee?.phone || !trustee?.email || !EMAIL_REGEX.test(trustee.email)
+    )
+}
+
 onMounted(() => {
     fetchMediaRisks()
     fetchDepartments()
@@ -1124,6 +1151,11 @@ function changeSelectedMunicipality(municipalityUuid: string) {
 
 function submitForm() {
     v$.value.$validate()
+    hasSubmittedTrustees.value = true
+    if (hasTrusteeErrors() && trusteesField.value) {
+        trusteesField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        return
+    }
     hasSubmittedEmergencyContacts.value = true
     if (hasEmergencyContactErrors() && emergencyContactsField.value) {
         emergencyContactsField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
