@@ -482,6 +482,38 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div v-if="field.type === 'table'" class="grow">
+                                    <div class="p-5 space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-semibold uppercase tracking-wide text-primary">
+                                                {{ $t('forms.fields.table') }}
+                                            </span>
+                                            <div class="flex items-center gap-x-2">
+                                                <button type="button" :disabled="fieldIndex === 0"
+                                                    class="disabled:opacity-30" :aria-label="$t('forms.fields.moveUp')"
+                                                    @click="moveField(fieldIndex, -1)">
+                                                    <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                                <button type="button"
+                                                    :disabled="fieldIndex === state.form.fields.length - 1"
+                                                    class="disabled:opacity-30"
+                                                    :aria-label="$t('forms.fields.moveDown')"
+                                                    @click="moveField(fieldIndex, 1)">
+                                                    <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                                <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                    @click="duplicateField(fieldIndex)">
+                                                    <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                                <button type="button" @click="removeField(fieldIndex)">
+                                                    <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <ModulesUserFormTableEditor :field="state.form.fields[fieldIndex]"
+                                            :fieldIndex="fieldIndex" />
+                                    </div>
+                                </div>
                                 <div v-if="field.type === 'scale'" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-between">
@@ -606,42 +638,42 @@
                             {{ $t('forms.groups.questions') }}
                         </p>
                         <div class="grid grid-cols-3 gap-x-3 gap-y-5">
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addTextField">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="solar:text-outline" class="w-5 h-5 text-primary" aria-hidden="true" />
                                     {{ $t('forms.fields.text') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addTextarea">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="ph:file-text" class="w-5 h-5 text-primary" aria-hidden="true" />
                                     {{ $t('forms.fields.textarea') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addDateField">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="ph:calendar" class="w-5 h-5 text-primary" aria-hidden="true" />
                                     {{ $t('forms.fields.date') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addChoiceField">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="mdi:circle-slice-8" class="w-5 h-5 text-primary" aria-hidden="true" />
                                     {{ $t('forms.fields.choice') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addCheckbox">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="ph:check-square" class="w-5 h-5 text-primary" aria-hidden="true" />
                                     {{ $t('forms.fields.checkbox') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addRating">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="material-symbols:thumb-up-outline-sharp" class="w-5 h-5 text-primary"
@@ -649,7 +681,7 @@
                                     {{ $t('forms.fields.rating') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addUploadFile">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="material-symbols:upload-rounded" class="w-5 h-5 text-primary"
@@ -657,7 +689,14 @@
                                     {{ $t('forms.fields.uploadFile') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                                @click="addTable">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:table" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.table') }}
+                                </div>
+                            </button>
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addScale">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="ph:ruler" class="w-5 h-5 text-primary" aria-hidden="true" />
@@ -675,35 +714,35 @@
                             </p>
                         </div>
                         <div class="grid grid-cols-3 gap-x-3 gap-y-5">
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addHeading">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="ph:text-h-one" class="w-5 h-5 text-primary" aria-hidden="true" />
                                     {{ $t('forms.fields.heading') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addSubheading">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="ph:text-h-two" class="w-5 h-5 text-primary" aria-hidden="true" />
                                     {{ $t('forms.fields.subheading') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addParagraph">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="ph:paragraph" class="w-5 h-5 text-primary" aria-hidden="true" />
                                     {{ $t('forms.fields.paragraph') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addGuidance">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="ph:info" class="w-5 h-5 text-primary" aria-hidden="true" />
                                     {{ $t('forms.fields.guidance') }}
                                 </div>
                             </button>
-                        <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
                                 @click="addPageBreak">
                                 <div class="flex items-center gap-x-2 text-sm">
                                     <Icon name="ph:scissors" class="w-5 h-5 text-primary" aria-hidden="true" />
@@ -967,6 +1006,20 @@ function toggleLayoutMode() {
  * Seeded with the five steps Danish social-care reports use, so a new scale is
  * usable without setting anything up. Everything here is editable afterwards.
  */
+/**
+ * Seeded with two columns and two rows so there is something to edit rather
+ * than an empty frame. Their party tables are the common shape.
+ */
+function addTable() {
+    state.form.fields.push({
+        type: 'table',
+        value: '',
+        required: false,
+        columns: [`${t('forms.table.columnName')} 1`, `${t('forms.table.columnName')} 2`],
+        rows: [['', ''], ['', '']],
+    })
+}
+
 function addScale() {
     state.form.fields.push({
         type: 'scale',

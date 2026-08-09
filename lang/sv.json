@@ -6469,7 +6469,8 @@
             "scale": "Trivsellinjal",
             "moveUp": "Flytta upp",
             "moveDown": "Flytta ner",
-            "duplicate": "Duplicera"
+            "duplicate": "Duplicera",
+            "table": "Tabell"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6499,7 +6500,16 @@
                 "formSuccessfullyDeleted": "Formulär raderad"
             },
             "description": "Beskrivning",
-            "title": "Titel"
+            "title": "Titel",
+            "caption": "Rubrik över tabellen",
+            "captionPlaceholder": "Valfri rubrik",
+            "columnName": "Kolumn",
+            "addColumn": "Lägg till kolumn",
+            "removeColumn": "Ta bort kolumn",
+            "addRow": "Lägg till rad",
+            "removeRow": "Ta bort rad",
+            "cellPlaceholder": "Text eller fält",
+            "hint": "Celler kan innehålla fält från systemet. Medarbetaren kan ändra dem när rapporten fylls i."
         },
         "viewResponses": "Se svar",
         "tabs": {

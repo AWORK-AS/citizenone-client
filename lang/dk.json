@@ -6469,7 +6469,8 @@
             "scale": "Trivselslineal",
             "moveUp": "Flyt op",
             "moveDown": "Flyt ned",
-            "duplicate": "Dupliker"
+            "duplicate": "Dupliker",
+            "table": "Tabel"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6499,7 +6500,16 @@
                 "formSuccessfullyDeleted": "Formular slettet med succes"
             },
             "description": "Beskrivelse",
-            "title": "Titel"
+            "title": "Titel",
+            "caption": "Overskrift over tabellen",
+            "captionPlaceholder": "Valgfri overskrift",
+            "columnName": "Kolonne",
+            "addColumn": "Tilføj kolonne",
+            "removeColumn": "Fjern kolonne",
+            "addRow": "Tilføj række",
+            "removeRow": "Fjern række",
+            "cellPlaceholder": "Tekst eller felt",
+            "hint": "Celler kan indeholde felter fra systemet. Medarbejderen kan rette dem, når rapporten udfyldes."
         },
         "viewResponses": "Se svar",
         "tabs": {

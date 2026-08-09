@@ -80,6 +80,10 @@
                                             <div class="bg-gray-100 rounded-md border-t-2 border-primary">
                                                 <div>
                                                     <!-- TEXTFIELD -->
+                                                    <ModulesUserFormTableField
+                                                        v-if="JSON.parse(formField?.field)?.type === 'table'"
+                                                        :field="JSON.parse(formField?.field)"
+                                                        :number="fieldIndex + 1" v-model="formField.responses" />
                                                     <ModulesUserFormScaleField
                                                         v-if="JSON.parse(formField?.field)?.type === 'scale'"
                                                         :field="JSON.parse(formField?.field)" :fieldIndex="fieldIndex"
@@ -712,6 +716,12 @@ async function submitResponse() {
                 return
             }
 
+            if (fieldType === 'table') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+
+                return
+            }
+
             if (fieldType === 'scale') {
                 params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
 
@@ -780,6 +790,12 @@ async function submitResponseAndDownloadPDF() {
             // merge fields in that text before storing it.
             if (['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(fieldType)) {
                 params.append(`responses[${fieldUuid}]`, JSON.parse(formField.field)?.value ?? '')
+
+                return
+            }
+
+            if (fieldType === 'table') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
 
                 return
             }

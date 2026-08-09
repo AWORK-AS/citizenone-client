@@ -6469,7 +6469,8 @@
             "scale": "Trivselslinjal",
             "moveUp": "Flytt opp",
             "moveDown": "Flytt ned",
-            "duplicate": "Dupliser"
+            "duplicate": "Dupliser",
+            "table": "Tabell"
         },
         "formDescription": "Skjemabeskrivelse",
         "formTitle": "Skjematitel",
@@ -6499,7 +6500,16 @@
                 "formSuccessfullyDeleted": "Skjema slettet vellykket"
             },
             "description": "Beskrivelse",
-            "title": "Tittel"
+            "title": "Tittel",
+            "caption": "Overskrift over tabellen",
+            "captionPlaceholder": "Valgfri overskrift",
+            "columnName": "Kolonne",
+            "addColumn": "Legg til kolonne",
+            "removeColumn": "Fjern kolonne",
+            "addRow": "Legg til rad",
+            "removeRow": "Fjern rad",
+            "cellPlaceholder": "Tekst eller felt",
+            "hint": "Celler kan inneholde felt fra systemet. Medarbeideren kan endre dem når rapporten fylles ut."
         },
         "viewResponses": "Se svar",
         "tabs": {

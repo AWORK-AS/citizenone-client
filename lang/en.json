@@ -6469,7 +6469,8 @@
             "scale": "Wellbeing scale",
             "moveUp": "Move up",
             "moveDown": "Move down",
-            "duplicate": "Duplicate"
+            "duplicate": "Duplicate",
+            "table": "Table"
         },
         "formDescription": "Form description",
         "formTitle": "Form title",
@@ -6499,7 +6500,16 @@
                 "formSuccessfullyDeleted": "Form successfully deleted"
             },
             "description": "Description",
-            "title": "Title"
+            "title": "Title",
+            "caption": "Table heading",
+            "captionPlaceholder": "Optional heading",
+            "columnName": "Column",
+            "addColumn": "Add column",
+            "removeColumn": "Remove column",
+            "addRow": "Add row",
+            "removeRow": "Remove row",
+            "cellPlaceholder": "Text or field",
+            "hint": "Cells can contain fields from the system. Staff can edit them when the report is filled in."
         },
         "viewResponses": "View responses",
         "tabs": {
