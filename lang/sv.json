@@ -6637,7 +6637,7 @@
             "blocksInside": "block i gruppen",
             "addingInside": "Nästa block läggs in i gruppen",
             "addAtEnd": "Lägg den längst ned i stället",
-            "hint": "Blocken i gruppen upprepas en gång per mål på medborgaren. Använd {{gentagelse.navn}} för målets namn.",
+            "hint": "Blocken i gruppen upprepas en gång per mål på medborgaren. Infoga fältet för upprepningens namn där målets namn ska stå.",
             "noIterations": "Medborgaren har inga mål ännu, så den här gruppen är tom."
         }
     },

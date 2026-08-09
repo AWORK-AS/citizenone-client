@@ -6637,7 +6637,7 @@
             "blocksInside": "blokker i gruppen",
             "addingInside": "Neste blokk legges inn i gruppen",
             "addAtEnd": "Legg den nederst i stedet",
-            "hint": "Blokkene i gruppen gjentas én gang per mål på innbyggeren. Bruk {{gentagelse.navn}} for målets navn.",
+            "hint": "Blokkene i gruppen gjentas én gang per mål på innbyggeren. Sett inn feltet for gjentakelsens navn der målets navn skal stå.",
             "noIterations": "Innbyggeren har ingen mål ennå, så denne gruppen er tom."
         }
     },
