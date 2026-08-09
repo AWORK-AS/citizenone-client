@@ -6466,7 +6466,10 @@
             "width": "Width",
             "widthFull": "Full width",
             "widthHalf": "Half width",
-            "scale": "Wellbeing scale"
+            "scale": "Wellbeing scale",
+            "moveUp": "Move up",
+            "moveDown": "Move down",
+            "duplicate": "Duplicate"
         },
         "formDescription": "Form description",
         "formTitle": "Form title",
@@ -6604,6 +6607,11 @@
             "questions": "Questions for someone to answer",
             "layout": "The document's structure",
             "layoutNeedsDocument": "These only appear in the finished report when the document layout is on."
+        },
+        "previewDocument": {
+            "button": "Preview the document",
+            "working": "Generating...",
+            "hint": "Opens the report as it will look, with example answers. Nothing is saved."
         }
     },
     "gender": {

@@ -6466,7 +6466,10 @@
             "width": "Bredde",
             "widthFull": "Full bredde",
             "widthHalf": "Halv bredde",
-            "scale": "Trivselslinjal"
+            "scale": "Trivselslinjal",
+            "moveUp": "Flytt opp",
+            "moveDown": "Flytt ned",
+            "duplicate": "Dupliser"
         },
         "formDescription": "Skjemabeskrivelse",
         "formTitle": "Skjematitel",
@@ -6604,6 +6607,11 @@
             "questions": "Spørsmål som noen skal svare på",
             "layout": "Dokumentets oppbygning",
             "layoutNeedsDocument": "Disse vises bare i den ferdige rapporten når dokumentoppsettet er slått på."
+        },
+        "previewDocument": {
+            "button": "Forhåndsvis dokumentet",
+            "working": "Genererer...",
+            "hint": "Åpner rapporten slik den vil se ut, med eksempelsvar. Ingenting lagres."
         }
     },
     "gender": {

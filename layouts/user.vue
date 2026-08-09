@@ -193,7 +193,7 @@
                                 enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
                                 leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100"
                                 leave-to-class="opacity-0">
-                                <div v-if="showCmdkHint"
+                                <div v-if="showCmdkHint && !showCmdkTip"
                                     class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
                                     <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
                                     <div class="relative flex items-start gap-2.5 px-3.5 py-3">

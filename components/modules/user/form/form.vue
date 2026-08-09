@@ -90,6 +90,19 @@
                                 <div v-if="field.type === 'textfield'" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-end">
+                                            <button type="button" :disabled="fieldIndex === 0" class="disabled:opacity-30"
+                                                :aria-label="$t('forms.fields.moveUp')" @click="moveField(fieldIndex, -1)">
+                                                <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :disabled="fieldIndex === state.form.fields.length - 1"
+                                                class="disabled:opacity-30" :aria-label="$t('forms.fields.moveDown')"
+                                                @click="moveField(fieldIndex, 1)">
+                                                <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                @click="duplicateField(fieldIndex)">
+                                                <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
                                             <button type="button" @click="removeField(fieldIndex)">
                                                 <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                             </button>
@@ -131,6 +144,19 @@
                                 <div v-if="field.type === 'textarea'" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-end">
+                                            <button type="button" :disabled="fieldIndex === 0" class="disabled:opacity-30"
+                                                :aria-label="$t('forms.fields.moveUp')" @click="moveField(fieldIndex, -1)">
+                                                <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :disabled="fieldIndex === state.form.fields.length - 1"
+                                                class="disabled:opacity-30" :aria-label="$t('forms.fields.moveDown')"
+                                                @click="moveField(fieldIndex, 1)">
+                                                <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                @click="duplicateField(fieldIndex)">
+                                                <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
                                             <button @click="removeField(fieldIndex)">
                                                 <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                             </button>
@@ -172,6 +198,19 @@
                                 <div v-if="field.type === 'choice'" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-end">
+                                            <button type="button" :disabled="fieldIndex === 0" class="disabled:opacity-30"
+                                                :aria-label="$t('forms.fields.moveUp')" @click="moveField(fieldIndex, -1)">
+                                                <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :disabled="fieldIndex === state.form.fields.length - 1"
+                                                class="disabled:opacity-30" :aria-label="$t('forms.fields.moveDown')"
+                                                @click="moveField(fieldIndex, 1)">
+                                                <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                @click="duplicateField(fieldIndex)">
+                                                <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
                                             <button @click="removeField(fieldIndex)">
                                                 <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                             </button>
@@ -218,6 +257,19 @@
                                 <div v-if="field.type === 'checkbox'" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-end">
+                                            <button type="button" :disabled="fieldIndex === 0" class="disabled:opacity-30"
+                                                :aria-label="$t('forms.fields.moveUp')" @click="moveField(fieldIndex, -1)">
+                                                <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :disabled="fieldIndex === state.form.fields.length - 1"
+                                                class="disabled:opacity-30" :aria-label="$t('forms.fields.moveDown')"
+                                                @click="moveField(fieldIndex, 1)">
+                                                <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                @click="duplicateField(fieldIndex)">
+                                                <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
                                             <button @click="removeField(fieldIndex)">
                                                 <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                             </button>
@@ -265,6 +317,19 @@
                                 <div v-if="field.type === 'rating'" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-end">
+                                            <button type="button" :disabled="fieldIndex === 0" class="disabled:opacity-30"
+                                                :aria-label="$t('forms.fields.moveUp')" @click="moveField(fieldIndex, -1)">
+                                                <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :disabled="fieldIndex === state.form.fields.length - 1"
+                                                class="disabled:opacity-30" :aria-label="$t('forms.fields.moveDown')"
+                                                @click="moveField(fieldIndex, 1)">
+                                                <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                @click="duplicateField(fieldIndex)">
+                                                <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
                                             <button @click="removeField(fieldIndex)">
                                                 <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                             </button>
@@ -314,6 +379,19 @@
                                 <div v-if="field.type === 'datefield'" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-end">
+                                            <button type="button" :disabled="fieldIndex === 0" class="disabled:opacity-30"
+                                                :aria-label="$t('forms.fields.moveUp')" @click="moveField(fieldIndex, -1)">
+                                                <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :disabled="fieldIndex === state.form.fields.length - 1"
+                                                class="disabled:opacity-30" :aria-label="$t('forms.fields.moveDown')"
+                                                @click="moveField(fieldIndex, 1)">
+                                                <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                @click="duplicateField(fieldIndex)">
+                                                <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
                                             <button @click="removeField(fieldIndex)">
                                                 <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                             </button>
@@ -361,6 +439,19 @@
                                     <div>
                                         <div class="p-5 space-y-3">
                                             <div class="flex items-center justify-end">
+                                                <button type="button" :disabled="fieldIndex === 0" class="disabled:opacity-30"
+                                                    :aria-label="$t('forms.fields.moveUp')" @click="moveField(fieldIndex, -1)">
+                                                    <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                                <button type="button" :disabled="fieldIndex === state.form.fields.length - 1"
+                                                    class="disabled:opacity-30" :aria-label="$t('forms.fields.moveDown')"
+                                                    @click="moveField(fieldIndex, 1)">
+                                                    <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                                <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                    @click="duplicateField(fieldIndex)">
+                                                    <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                                </button>
                                                 <button @click="removeField(fieldIndex)">
                                                     <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                                 </button>
@@ -397,6 +488,19 @@
                                             <span class="text-xs font-semibold uppercase tracking-wide text-primary">
                                                 {{ $t('forms.fields.scale') }}
                                             </span>
+                                            <button type="button" :disabled="fieldIndex === 0" class="disabled:opacity-30"
+                                                :aria-label="$t('forms.fields.moveUp')" @click="moveField(fieldIndex, -1)">
+                                                <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :disabled="fieldIndex === state.form.fields.length - 1"
+                                                class="disabled:opacity-30" :aria-label="$t('forms.fields.moveDown')"
+                                                @click="moveField(fieldIndex, 1)">
+                                                <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                @click="duplicateField(fieldIndex)">
+                                                <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
                                             <button type="button" @click="removeField(fieldIndex)">
                                                 <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                             </button>
@@ -421,6 +525,19 @@
                                             <span class="text-xs font-semibold uppercase tracking-wide text-primary">
                                                 {{ $t('forms.fields.' + field.type) }}
                                             </span>
+                                            <button type="button" :disabled="fieldIndex === 0" class="disabled:opacity-30"
+                                                :aria-label="$t('forms.fields.moveUp')" @click="moveField(fieldIndex, -1)">
+                                                <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :disabled="fieldIndex === state.form.fields.length - 1"
+                                                class="disabled:opacity-30" :aria-label="$t('forms.fields.moveDown')"
+                                                @click="moveField(fieldIndex, 1)">
+                                                <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
+                                            <button type="button" :aria-label="$t('forms.fields.duplicate')"
+                                                @click="duplicateField(fieldIndex)">
+                                                <Icon name="ph:copy" class="h-5 w-5" aria-hidden="true" />
+                                            </button>
                                             <button @click="removeField(fieldIndex)">
                                                 <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
                                             </button>
@@ -600,7 +717,13 @@
             </div>
         </div>
 
-        <div class="mt-6">
+        <div class="mt-6 space-y-3">
+            <FormButton type="button" buttonStyle="action" @click="previewDocument" :disabled="state.isPreviewing">
+                <Icon name="ph:file-magnifying-glass" class="h-4 w-4" aria-hidden="true" />
+                {{ state.isPreviewing ? $t('forms.previewDocument.working') : $t('forms.previewDocument.button') }}
+            </FormButton>
+            <p class="text-xs text-gray-500">{{ $t('forms.previewDocument.hint') }}</p>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/forms')">
                     {{ $t('cancel') }}
@@ -621,6 +744,7 @@ import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
+import { formService } from '@/components/api/user/FormService'
 
 const props = defineProps({
     error: {
@@ -661,6 +785,7 @@ const state = reactive({
         show_numbering: true,
     },
     showFieldsAdder: true,
+    isPreviewing: false,
     followUpNumber: '1',
     followUpUnit: 'Days',
 })
@@ -900,11 +1025,57 @@ function addPageBreak() {
     state.form.fields.push({ type: 'pagebreak', value: '' })
 }
 
+/**
+ * Up and down rather than drag: the block editors are tall and a drag surface
+ * over a form full of inputs is easy to trigger by accident.
+ */
+function moveField(fieldIndex: number, direction: number) {
+    const target = fieldIndex + direction
+    if (target < 0 || target >= state.form.fields.length) return
+
+    const fields = state.form.fields
+    const [moved] = fields.splice(fieldIndex, 1)
+    fields.splice(target, 0, moved)
+}
+
+function duplicateField(fieldIndex: number) {
+    const copy = JSON.parse(JSON.stringify(state.form.fields[fieldIndex]))
+    state.form.fields.splice(fieldIndex + 1, 0, copy)
+}
+
 function removeField(fieldIndex: number) {
     state.form.fields.splice(fieldIndex, 1)
     if (state.form.fields?.length === 0) {
         state.showFieldsAdder = true
     }
+}
+
+/**
+ * Opens the document the template would produce, with stand-in answers, without
+ * saving anything. Before this the only way to see a change was to save, leave,
+ * find a citizen, write a whole report and download it.
+ */
+async function previewDocument() {
+    state.isPreviewing = true
+    try {
+        const pdf = await formService.previewForm({
+            title: state.form.title,
+            description: state.form.description,
+            document_title: state.form.document_title,
+            layout_mode: state.form.layout_mode,
+            show_numbering: state.form.show_numbering,
+            fields: state.form.fields,
+        })
+        if (pdf) {
+            const url = URL.createObjectURL(pdf)
+            window.open(url, '_blank', 'noopener')
+            // Freed on the next tick; revoking at once leaves the new tab blank.
+            setTimeout(() => URL.revokeObjectURL(url), 60000)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPreviewing = false
 }
 
 function submitForm() {

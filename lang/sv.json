@@ -6466,7 +6466,10 @@
             "width": "Bredd",
             "widthFull": "Full bredd",
             "widthHalf": "Halv bredd",
-            "scale": "Trivsellinjal"
+            "scale": "Trivsellinjal",
+            "moveUp": "Flytta upp",
+            "moveDown": "Flytta ner",
+            "duplicate": "Duplicera"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6604,6 +6607,11 @@
             "questions": "Frågor som någon ska besvara",
             "layout": "Dokumentets uppbyggnad",
             "layoutNeedsDocument": "Dessa visas bara i den färdiga rapporten när dokumentlayouten är påslagen."
+        },
+        "previewDocument": {
+            "button": "Förhandsgranska dokumentet",
+            "working": "Genererar...",
+            "hint": "Öppnar rapporten som den kommer att se ut, med exempelsvar. Inget sparas."
         }
     },
     "gender": {
