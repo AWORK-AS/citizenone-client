@@ -17,6 +17,24 @@
                 <FormError :error="v$?.form?.description?.$errors[0]?.$message.toString()" />
                 <FormError :error="state?.error?.errors?.description?.[0]" />
             </div>
+            <div v-if="isAdmin" class="rounded-md border border-gray-200 bg-gray-50 p-4 space-y-3">
+                <div class="flex items-center gap-x-3">
+                    <FormSwitch :value="state.form.layout_mode === 'document'" @toggleSwitch="toggleLayoutMode" />
+                    <label class="text-sm font-semibold text-gray-800 cursor-pointer" @click="toggleLayoutMode">
+                        {{ $t('forms.layout.documentLayout') }}
+                    </label>
+                </div>
+                <p class="text-xs text-gray-500">{{ $t('forms.layout.documentLayoutHint') }}</p>
+                <div v-if="state.form.layout_mode === 'document'" class="flex items-center gap-x-3 pt-1">
+                    <FormSwitch :value="state.form.show_numbering"
+                        @toggleSwitch="state.form.show_numbering = !state.form.show_numbering" />
+                    <label class="text-sm text-gray-700 cursor-pointer"
+                        @click="state.form.show_numbering = !state.form.show_numbering">
+                        {{ $t('forms.layout.showNumbering') }}
+                    </label>
+                </div>
+            </div>
+
             <div class="space-y-1">
                 <FormLabel for="document_title" :label="$t('forms.documentTitle')" />
                 <FormTextField id="document_title" name="document_title" :placeholder="$t('forms.documentTitle')"
@@ -60,23 +78,6 @@
                     <FormCheckbox :value="isCitizenProfileFieldSelected(option.key)" />
                     <span class="text-sm text-gray-700">{{ option.label }}</span>
                 </div>
-            </div>
-            <div v-if="isAdmin" class="flex items-center gap-x-3 pt-2">
-                <FormSwitch :value="state.form.layout_mode === 'document'" @toggleSwitch="toggleLayoutMode" />
-                <label class="text-sm font-medium text-gray-700 cursor-pointer" @click="toggleLayoutMode">
-                    {{ $t('forms.layout.documentLayout') }}
-                </label>
-            </div>
-            <p v-if="isAdmin" class="text-xs text-gray-500 ml-12">
-                {{ $t('forms.layout.documentLayoutHint') }}
-            </p>
-            <div v-if="isAdmin && state.form.layout_mode === 'document'" class="flex items-center gap-x-3 pt-2">
-                <FormSwitch :value="state.form.show_numbering"
-                    @toggleSwitch="state.form.show_numbering = !state.form.show_numbering" />
-                <label class="text-sm font-medium text-gray-700 cursor-pointer"
-                    @click="state.form.show_numbering = !state.form.show_numbering">
-                    {{ $t('forms.layout.showNumbering') }}
-                </label>
             </div>
         </div>
 
@@ -461,7 +462,8 @@
                                         <div class="w-48">
                                             <FormSelect :id="'width_' + fieldIndex" :options="fieldWidthOptions"
                                                 :canClear="false" :searchable="false"
-                                                v-model="state.form.fields[fieldIndex].width" />
+                                                :modelValue="state.form.fields[fieldIndex].width ?? 'full'"
+                                                @update:modelValue="(v) => state.form.fields[fieldIndex].width = v" />
                                         </div>
                                     </div>
                                 </div>
@@ -482,100 +484,116 @@
                             <p v-else>{{ $t('forms.addNewQuestion') }}</p>
                         </div>
                     </div>
-                    <div class="grid grid-cols-3 gap-x-3 gap-y-5" v-if="state.showFieldsAdder">
+                    <div v-if="state.showFieldsAdder" class="space-y-5">
+                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                            {{ $t('forms.groups.questions') }}
+                        </p>
+                        <div class="grid grid-cols-3 gap-x-3 gap-y-5">
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addTextField">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="solar:text-outline" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.text') }}
-                            </div>
-                        </button>
+                                @click="addTextField">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="solar:text-outline" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.text') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addTextarea">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="ph:file-text" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.textarea') }}
-                            </div>
-                        </button>
+                                @click="addTextarea">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:file-text" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.textarea') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addDateField">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="ph:calendar" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.date') }}
-                            </div>
-                        </button>
+                                @click="addDateField">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:calendar" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.date') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addChoiceField">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="mdi:circle-slice-8" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.choice') }}
-                            </div>
-                        </button>
+                                @click="addChoiceField">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="mdi:circle-slice-8" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.choice') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addCheckbox">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="ph:check-square" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.checkbox') }}
-                            </div>
-                        </button>
+                                @click="addCheckbox">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:check-square" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.checkbox') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addRating">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="material-symbols:thumb-up-outline-sharp" class="w-5 h-5 text-primary"
-                                    aria-hidden="true" />
-                                {{ $t('forms.fields.rating') }}
-                            </div>
-                        </button>
+                                @click="addRating">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="material-symbols:thumb-up-outline-sharp" class="w-5 h-5 text-primary"
+                                        aria-hidden="true" />
+                                    {{ $t('forms.fields.rating') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addUploadFile">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="material-symbols:upload-rounded" class="w-5 h-5 text-primary"
-                                    aria-hidden="true" />
-                                {{ $t('forms.fields.uploadFile') }}
-                            </div>
-                        </button>
+                                @click="addUploadFile">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="material-symbols:upload-rounded" class="w-5 h-5 text-primary"
+                                        aria-hidden="true" />
+                                    {{ $t('forms.fields.uploadFile') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addScale">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="ph:ruler" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.scale') }}
-                            </div>
-                        </button>
+                                @click="addScale">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:ruler" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.scale') }}
+                                </div>
+                            </button>
+                        </div>
+
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                                {{ $t('forms.groups.layout') }}
+                            </p>
+                            <p v-if="state.form.layout_mode !== 'document'" class="text-xs text-gray-500 mt-1">
+                                {{ $t('forms.groups.layoutNeedsDocument') }}
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-3 gap-x-3 gap-y-5">
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addHeading">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="ph:text-h-one" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.heading') }}
-                            </div>
-                        </button>
+                                @click="addHeading">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:text-h-one" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.heading') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addSubheading">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="ph:text-h-two" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.subheading') }}
-                            </div>
-                        </button>
+                                @click="addSubheading">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:text-h-two" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.subheading') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addParagraph">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="ph:paragraph" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.paragraph') }}
-                            </div>
-                        </button>
+                                @click="addParagraph">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:paragraph" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.paragraph') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addGuidance">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="ph:info" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.guidance') }}
-                            </div>
-                        </button>
+                                @click="addGuidance">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:info" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.guidance') }}
+                                </div>
+                            </button>
                         <button class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
-                            @click="addPageBreak">
-                            <div class="flex items-center gap-x-2 text-sm">
-                                <Icon name="ph:scissors" class="w-5 h-5 text-primary" aria-hidden="true" />
-                                {{ $t('forms.fields.pagebreak') }}
-                            </div>
-                        </button>
+                                @click="addPageBreak">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:scissors" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.fields.pagebreak') }}
+                                </div>
+                            </button>
+                        </div>
                     </div>
                     <FormError :error="state?.error?.errors?.fields?.[0]" />
                 </div>

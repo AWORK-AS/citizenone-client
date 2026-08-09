@@ -6599,6 +6599,11 @@
             "none": "Ingen felt tilgjengelig",
             "hint": "Feltet erstattes med innbyggerens data når rapporten lagres.",
             "loading": "Henter..."
+        },
+        "groups": {
+            "questions": "Spørsmål som noen skal svare på",
+            "layout": "Dokumentets oppbygning",
+            "layoutNeedsDocument": "Disse vises bare i den ferdige rapporten når dokumentoppsettet er slått på."
         }
     },
     "gender": {

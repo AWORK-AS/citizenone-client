@@ -6599,6 +6599,11 @@
             "none": "Ingen felter tilgængelige",
             "hint": "Feltet erstattes med borgerens data, når rapporten gemmes.",
             "loading": "Henter..."
+        },
+        "groups": {
+            "questions": "Spørgsmål, som nogen skal besvare",
+            "layout": "Dokumentets opbygning",
+            "layoutNeedsDocument": "Disse vises kun i den færdige rapport, når dokumentlayout er slået til."
         }
     },
     "gender": {

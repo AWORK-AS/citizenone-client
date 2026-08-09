@@ -6599,6 +6599,11 @@
             "none": "Inga fält tillgängliga",
             "hint": "Fältet ersätts med medborgarens uppgifter när rapporten sparas.",
             "loading": "Hämtar..."
+        },
+        "groups": {
+            "questions": "Frågor som någon ska besvara",
+            "layout": "Dokumentets uppbyggnad",
+            "layoutNeedsDocument": "Dessa visas bara i den färdiga rapporten när dokumentlayouten är påslagen."
         }
     },
     "gender": {

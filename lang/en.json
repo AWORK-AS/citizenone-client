@@ -6599,6 +6599,11 @@
             "none": "No fields available",
             "hint": "The field is replaced with the citizen's data when the report is saved.",
             "loading": "Loading..."
+        },
+        "groups": {
+            "questions": "Questions for someone to answer",
+            "layout": "The document's structure",
+            "layoutNeedsDocument": "These only appear in the finished report when the document layout is on."
         }
     },
     "gender": {
