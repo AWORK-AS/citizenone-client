@@ -6622,6 +6622,22 @@
             "button": "Preview the document",
             "working": "Generating...",
             "hint": "Opens the report as it will look, with example answers. Nothing is saved."
+        },
+        "group": {
+            "title": "Group",
+            "defaultName": "Goal",
+            "namePlaceholder": "Name of the group, e.g. Goal",
+            "repeatFor": "Repeat for",
+            "sourceGoals": "Each active goal",
+            "sourceContacts": "Each party",
+            "sourceFixed": "A fixed number",
+            "count": "Number of repetitions",
+            "includeCompleted": "Include completed goals",
+            "addInside": "Add a block inside the group",
+            "blocksInside": "blocks inside",
+            "addingInside": "The next block goes inside the group",
+            "addAtEnd": "Put it at the end instead",
+            "hint": "Blocks inside the group repeat once per goal on the citizen. Use {{gentagelse.navn}} for the goal's name."
         }
     },
     "gender": {

@@ -84,7 +84,8 @@
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
             <div>
                 <div class="space-y-8 mt-5" v-if="state.form.fields?.length > 0">
-                    <div v-for="(field, fieldIndex) in state.form.fields" :key="fieldIndex" class="space-y-3">
+                    <div v-for="(field, fieldIndex) in state.form.fields" :key="fieldIndex" class="space-y-3"
+                        :class="field.parentGroup && 'ml-8 border-l-2 border-dashed border-primary/40 pl-4'">
                         <div class="bg-gray-100 rounded-md border-t-2 border-primary">
                             <div>
                                 <div v-if="field.type === 'textfield'" class="grow">
@@ -482,6 +483,68 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div v-if="field.type === 'group'" class="grow">
+                                    <div class="p-5 space-y-3">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-semibold uppercase tracking-wide text-primary">
+                                                {{ $t('forms.group.title') }}
+                                            </span>
+                                            <div class="flex items-center gap-x-2">
+                                                <button type="button" :disabled="fieldIndex === 0"
+                                                    class="disabled:opacity-30" :aria-label="$t('forms.fields.moveUp')"
+                                                    @click="moveField(fieldIndex, -1)">
+                                                    <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                                <button type="button" @click="removeField(fieldIndex)">
+                                                    <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <FormTextField :name="'group_name_' + fieldIndex"
+                                            :placeholder="$t('forms.group.namePlaceholder')"
+                                            v-model="state.form.fields[fieldIndex].value" />
+
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div class="space-y-1">
+                                                <FormLabel :label="$t('forms.group.repeatFor')" />
+                                                <FormSelect :id="'group_src_' + fieldIndex" :options="repeatForOptions"
+                                                    :canClear="false" :searchable="false"
+                                                    v-model="state.form.fields[fieldIndex].repeatFor" />
+                                            </div>
+                                            <div v-if="state.form.fields[fieldIndex].repeatFor === 'fixed'"
+                                                class="space-y-1">
+                                                <FormLabel :label="$t('forms.group.count')" />
+                                                <FormNumberField :name="'group_count_' + fieldIndex" placeholder="3"
+                                                    v-model="state.form.fields[fieldIndex].count" />
+                                            </div>
+                                        </div>
+
+                                        <div v-if="state.form.fields[fieldIndex].repeatFor === 'goals'"
+                                            class="flex items-center gap-x-3">
+                                            <FormSwitch :value="state.form.fields[fieldIndex].includeCompleted"
+                                                @toggleSwitch="state.form.fields[fieldIndex].includeCompleted = !state.form.fields[fieldIndex].includeCompleted" />
+                                            <label class="text-sm text-gray-700 cursor-pointer"
+                                                @click="state.form.fields[fieldIndex].includeCompleted = !state.form.fields[fieldIndex].includeCompleted">
+                                                {{ $t('forms.group.includeCompleted') }}
+                                            </label>
+                                        </div>
+
+                                        <p class="text-xs text-gray-500">{{ $t('forms.group.hint') }}</p>
+
+                                        <div class="flex items-center gap-x-3 pt-1">
+                                            <button type="button" class="text-sm text-primary flex items-center gap-x-1"
+                                                @click="aimAt(state.form.fields[fieldIndex].groupId)">
+                                                <Icon name="ph:plus-circle" class="h-4 w-4" aria-hidden="true" />
+                                                {{ $t('forms.group.addInside') }}
+                                            </button>
+                                            <span class="text-xs text-gray-400">
+                                                {{ childrenOf(state.form.fields[fieldIndex].groupId).length }}
+                                                {{ $t('forms.group.blocksInside') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div v-if="field.type === 'table'" class="grow">
                                     <div class="p-5 space-y-3">
                                         <div class="flex items-center justify-between">
@@ -634,6 +697,13 @@
                         </div>
                     </div>
                     <div v-if="state.showFieldsAdder" class="space-y-5">
+                        <div v-if="state.addTarget"
+                            class="flex items-center justify-between rounded-md bg-primary/5 border border-primary/30 px-3 py-2">
+                            <span class="text-sm text-gray-700">{{ $t('forms.group.addingInside') }}</span>
+                            <button type="button" class="text-sm text-primary" @click="state.addTarget = null">
+                                {{ $t('forms.group.addAtEnd') }}
+                            </button>
+                        </div>
                         <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">
                             {{ $t('forms.groups.questions') }}
                         </p>
@@ -687,6 +757,13 @@
                                     <Icon name="material-symbols:upload-rounded" class="w-5 h-5 text-primary"
                                         aria-hidden="true" />
                                     {{ $t('forms.fields.uploadFile') }}
+                                </div>
+                            </button>
+                        <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
+                                @click="addGroup">
+                                <div class="flex items-center gap-x-2 text-sm">
+                                    <Icon name="ph:stack" class="w-5 h-5 text-primary" aria-hidden="true" />
+                                    {{ $t('forms.group.title') }}
                                 </div>
                             </button>
                         <button type="button" class="px-5 py-4 border border-primary rounded-md bg-gray-50 hover:bg-gray-100"
@@ -825,6 +902,7 @@ const state = reactive({
     },
     showFieldsAdder: true,
     isPreviewing: false,
+    addTarget: null as string | null,
     followUpNumber: '1',
     followUpUnit: 'Days',
 })
@@ -929,37 +1007,37 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function addTextField() {
-    state.form.fields.push({ type: 'textfield', value: `${t('forms.question')}`, required: false, autoFillSource: '' })
+    insertField({ type: 'textfield', value: `${t('forms.question')}`, required: false, autoFillSource: '' })
     state.showFieldsAdder = false
 }
 
 function addTextarea() {
-    state.form.fields.push({ type: 'textarea', value: `${t('forms.question')}`, required: false, autoFillSource: '' })
+    insertField({ type: 'textarea', value: `${t('forms.question')}`, required: false, autoFillSource: '' })
     state.showFieldsAdder = false
 }
 
 function addDateField() {
-    state.form.fields.push({ type: 'datefield', value: `${t('forms.question')}`, required: false, autoFillSource: '' })
+    insertField({ type: 'datefield', value: `${t('forms.question')}`, required: false, autoFillSource: '' })
     state.showFieldsAdder = false
 }
 
 function addChoiceField() {
-    state.form.fields.push({ type: 'choice', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`] })
+    insertField({ type: 'choice', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`] })
     state.showFieldsAdder = false
 }
 
 function addCheckbox() {
-    state.form.fields.push({ type: 'checkbox', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`] })
+    insertField({ type: 'checkbox', value: `${t('forms.question')}`, required: false, options: [`${t('forms.option')} 1`, `${t('forms.option')} 2`] })
     state.showFieldsAdder = false
 }
 
 function addRating() {
-    state.form.fields.push({ type: 'rating', value: `${t('forms.question')}`, required: false, levels: 2 })
+    insertField({ type: 'rating', value: `${t('forms.question')}`, required: false, levels: 2 })
     state.showFieldsAdder = false
 }
 
 function addUploadFile() {
-    state.form.fields.push({ type: 'uploadfile', value: `${t('forms.question')}`, required: false })
+    insertField({ type: 'uploadfile', value: `${t('forms.question')}`, required: false })
     state.showFieldsAdder = false
 }
 
@@ -993,6 +1071,12 @@ function isLayoutBlock(type: string): boolean {
     return LAYOUT_BLOCK_TYPES.includes(type)
 }
 
+const repeatForOptions = computed(() => [
+    { value: 'goals', label: t('forms.group.sourceGoals') },
+    { value: 'contacts', label: t('forms.group.sourceContacts') },
+    { value: 'fixed', label: t('forms.group.sourceFixed') },
+])
+
 const fieldWidthOptions = computed(() => [
     { value: 'full', label: t('forms.fields.widthFull') },
     { value: 'half', label: t('forms.fields.widthHalf') },
@@ -1011,7 +1095,7 @@ function toggleLayoutMode() {
  * than an empty frame. Their party tables are the common shape.
  */
 function addTable() {
-    state.form.fields.push({
+    insertField({
         type: 'table',
         value: '',
         required: false,
@@ -1021,7 +1105,7 @@ function addTable() {
 }
 
 function addScale() {
-    state.form.fields.push({
+    insertField({
         type: 'scale',
         value: `${t('forms.fields.scale')}`,
         required: false,
@@ -1059,29 +1143,75 @@ function appendMergeField(fieldIndex: number, key: string) {
 }
 
 function addHeading() {
-    state.form.fields.push({ type: 'heading', value: `${t('forms.fields.heading')}` })
+    insertField({ type: 'heading', value: `${t('forms.fields.heading')}` })
 }
 
 function addSubheading() {
-    state.form.fields.push({ type: 'subheading', value: `${t('forms.fields.subheading')}` })
+    insertField({ type: 'subheading', value: `${t('forms.fields.subheading')}` })
 }
 
 function addParagraph() {
-    state.form.fields.push({ type: 'paragraph', value: '' })
+    insertField({ type: 'paragraph', value: '' })
 }
 
 function addGuidance() {
-    state.form.fields.push({ type: 'guidance', value: '' })
+    insertField({ type: 'guidance', value: '' })
 }
 
 function addPageBreak() {
-    state.form.fields.push({ type: 'pagebreak', value: '' })
+    insertField({ type: 'pagebreak', value: '' })
 }
 
 /**
  * Up and down rather than drag: the block editors are tall and a drag surface
  * over a form full of inputs is easy to trigger by accident.
  */
+/**
+ * A block lands at the end, or inside the group the picker is aimed at. Children
+ * sit right after their group in the flat list, so a group and its contents stay
+ * together when anything moves.
+ */
+function insertField(field: any) {
+    const target = state.addTarget
+
+    if (!target) {
+        state.form.fields.push(field)
+
+        return
+    }
+
+    field.parentGroup = target
+
+    let last = state.form.fields.findIndex((f: any) => f.groupId === target)
+    for (let i = last + 1; i < state.form.fields.length; i++) {
+        if (state.form.fields[i]?.parentGroup === target) last = i
+        else break
+    }
+
+    state.form.fields.splice(last + 1, 0, field)
+}
+
+function childrenOf(groupId: string) {
+    return state.form.fields.filter((f: any) => f.parentGroup === groupId)
+}
+
+function addGroup() {
+    state.addTarget = null
+    state.form.fields.push({
+        type: 'group',
+        value: `${t('forms.group.defaultName')}`,
+        groupId: `g${Date.now()}${Math.floor(Math.random() * 1000)}`,
+        repeatFor: 'goals',
+        includeCompleted: false,
+        count: 3,
+    })
+}
+
+function aimAt(groupId: string | null) {
+    state.addTarget = groupId
+    state.showFieldsAdder = true
+}
+
 function moveField(fieldIndex: number, direction: number) {
     const target = fieldIndex + direction
     if (target < 0 || target >= state.form.fields.length) return

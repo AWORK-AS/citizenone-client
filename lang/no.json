@@ -6622,6 +6622,22 @@
             "button": "Forhåndsvis dokumentet",
             "working": "Genererer...",
             "hint": "Åpner rapporten slik den vil se ut, med eksempelsvar. Ingenting lagres."
+        },
+        "group": {
+            "title": "Gruppe",
+            "defaultName": "Mål",
+            "namePlaceholder": "Navn på gruppen, f.eks. Mål",
+            "repeatFor": "Gjentas for",
+            "sourceGoals": "Hvert aktive mål",
+            "sourceContacts": "Hver part",
+            "sourceFixed": "Et fast antall",
+            "count": "Antall gjentakelser",
+            "includeCompleted": "Ta med avsluttede mål",
+            "addInside": "Legg til blokk i gruppen",
+            "blocksInside": "blokker i gruppen",
+            "addingInside": "Neste blokk legges inn i gruppen",
+            "addAtEnd": "Legg den nederst i stedet",
+            "hint": "Blokkene i gruppen gjentas én gang per mål på innbyggeren. Bruk {{gentagelse.navn}} for målets navn."
         }
     },
     "gender": {

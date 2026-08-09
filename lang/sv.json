@@ -6622,6 +6622,22 @@
             "button": "Förhandsgranska dokumentet",
             "working": "Genererar...",
             "hint": "Öppnar rapporten som den kommer att se ut, med exempelsvar. Inget sparas."
+        },
+        "group": {
+            "title": "Grupp",
+            "defaultName": "Mål",
+            "namePlaceholder": "Namn på gruppen, t.ex. Mål",
+            "repeatFor": "Upprepas för",
+            "sourceGoals": "Varje aktivt mål",
+            "sourceContacts": "Varje part",
+            "sourceFixed": "Ett fast antal",
+            "count": "Antal upprepningar",
+            "includeCompleted": "Ta med avslutade mål",
+            "addInside": "Lägg till block i gruppen",
+            "blocksInside": "block i gruppen",
+            "addingInside": "Nästa block läggs in i gruppen",
+            "addAtEnd": "Lägg den längst ned i stället",
+            "hint": "Blocken i gruppen upprepas en gång per mål på medborgaren. Använd {{gentagelse.navn}} för målets namn."
         }
     },
     "gender": {
