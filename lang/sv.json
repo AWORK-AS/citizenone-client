@@ -6424,7 +6424,8 @@
             "primaryCaseWorker": "Handläggare"
         },
         "confirmation": {
-            "deleteFormConfirmation": "Är du säker på att du vill radera denna formulär"
+            "deleteFormConfirmation": "Är du säker på att du vill radera denna formulär",
+            "deleteFormHasReports": "Det har skrivits {count} rapporter utifrån den."
         },
         "createResponse": "Skapa svar",
         "documentTitle": "Dokumenttitel",
@@ -6481,7 +6482,9 @@
                 "formSuccessfullyDeleted": "Formulär raderad"
             },
             "description": "Beskrivning",
-            "title": "Titel"
+            "title": "Titel",
+            "blocks": "Block",
+            "reports": "Rapporter"
         },
         "viewResponses": "Se svar",
         "tabs": {

@@ -21,6 +21,16 @@
                             <td width="50%">
                                 <p>{{ form?.description }}</p>
                             </td>
+                            <td class="whitespace-nowrap">
+                                <p>{{ form?.field_count ?? 0 }}</p>
+                            </td>
+                            <td class="whitespace-nowrap">
+                                <!-- A template with reports behind it is one you
+                                     think twice about deleting. -->
+                                <p :class="form?.report_count > 0 && 'font-medium'">
+                                    {{ form?.report_count ?? 0 }}
+                                </p>
+                            </td>
                             <td width="20%">
                                 <div class="flex items-end justify-end gap-2">
                                     <FormButton type="button" buttonStyle="action"
@@ -51,7 +61,7 @@
             <Pagination :data="state.forms" @previous="previous" @next="next" />
         </div>
         <DialogConfirmation :isModalOpen="state.modal.isDeleteFormOpen"
-            :message="$t('forms.confirmation.deleteFormConfirmation') + '?'"
+            :message="deleteMessage"
             @close="state.modal.isDeleteFormOpen = false" @confirm="deleteForm" />
     </div>
 </template>
@@ -70,6 +80,8 @@ const state = reactive({
     columnHeaders: [
         { name: 'forms.table.title', isTranslateName: true, sorter: true, key: 'title' },
         { name: 'forms.table.description', isTranslateName: true, },
+        { name: 'forms.table.blocks', isTranslateName: true },
+        { name: 'forms.table.reports', isTranslateName: true },
         { name: '' },
     ],
     dataFilter: {
@@ -136,6 +148,19 @@ function handleSearch(value: any) {
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchForms()
 }
+
+/**
+ * Says how many reports hang off the template, because deleting one that is in
+ * use is not the same decision as deleting one that never was.
+ */
+const deleteMessage = computed(() => {
+    const base = `${t('forms.confirmation.deleteFormConfirmation')}?`
+    const reports = state.selectedForm?.report_count ?? 0
+
+    return reports > 0
+        ? `${base} ${t('forms.confirmation.deleteFormHasReports', { count: reports })}`
+        : base
+})
 
 function deleteConfirmation(form: any) {
     state.selectedForm = form

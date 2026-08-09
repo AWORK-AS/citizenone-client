@@ -6424,7 +6424,8 @@
             "primaryCaseWorker": "Case worker"
         },
         "confirmation": {
-            "deleteFormConfirmation": "Are you sure you want to delete this form"
+            "deleteFormConfirmation": "Are you sure you want to delete this form",
+            "deleteFormHasReports": "{count} reports have been written from it."
         },
         "createResponse": "Create response",
         "documentTitle": "Document Title",
@@ -6481,7 +6482,9 @@
                 "formSuccessfullyDeleted": "Form successfully deleted"
             },
             "description": "Description",
-            "title": "Title"
+            "title": "Title",
+            "blocks": "Blocks",
+            "reports": "Reports"
         },
         "viewResponses": "View responses",
         "tabs": {

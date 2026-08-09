@@ -6424,7 +6424,8 @@
             "primaryCaseWorker": "Saksbehandler"
         },
         "confirmation": {
-            "deleteFormConfirmation": "Er du sikker på at du vil slette denne skjema"
+            "deleteFormConfirmation": "Er du sikker på at du vil slette denne skjema",
+            "deleteFormHasReports": "Det er skrevet {count} rapporter ut fra den."
         },
         "createResponse": "Opprett svar",
         "documentTitle": "Dokumenttitel",
@@ -6481,7 +6482,9 @@
                 "formSuccessfullyDeleted": "Skjema slettet vellykket"
             },
             "description": "Beskrivelse",
-            "title": "Tittel"
+            "title": "Tittel",
+            "blocks": "Blokker",
+            "reports": "Rapporter"
         },
         "viewResponses": "Se svar",
         "tabs": {
