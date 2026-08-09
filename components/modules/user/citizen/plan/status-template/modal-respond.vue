@@ -289,6 +289,8 @@ import { useCitizenStore } from '@/store/citizen'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
+const { expandGroups, responseKey } = useFormGroups()
+
 // The scale loads the citizen's earlier measurements. The citizen comes from the
 // route on a citizen page and from the store when a modal was opened without
 // one; on Drive there is no citizen at all, and an empty uuid simply means no
@@ -363,89 +365,6 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
     }
 })
 
-/**
- * A group unfolds here rather than in the template, so the list the modal walks
- * stays flat and every existing branch keeps working. Each copy carries the
- * repetition it belongs to, which is what the answer is filed under.
- */
-async function expandGroups(fields: any[]) {
-    const groups = fields.filter((f: any) => JSON.parse(f.field)?.type === 'group')
-
-    if (groups.length === 0) return fields
-
-    const citizenUuid = scaleCitizenUuid.value
-    const iterationsByGroup: Record<string, any[]> = {}
-
-    for (const group of groups) {
-        const config = JSON.parse(group.field)
-        try {
-            const response = await citizenScaleScoreService.getGroupIterations(citizenUuid, {
-                repeat_for: config.repeatFor ?? 'goals',
-                include_completed: config.includeCompleted ? 1 : 0,
-                count: config.count ?? 3,
-            })
-            iterationsByGroup[config.groupId] = response?.data ?? []
-        } catch {
-            iterationsByGroup[config.groupId] = []
-        }
-    }
-
-    const out: any[] = []
-
-    for (const field of fields) {
-        const config = JSON.parse(field.field)
-
-        if (config?.parentGroup) continue        // emitted by its group below
-
-        if (config?.type !== 'group') {
-            out.push(field)
-
-            continue
-        }
-
-        const children = fields.filter((f: any) => JSON.parse(f.field)?.parentGroup === config.groupId)
-        const iterations = iterationsByGroup[config.groupId] ?? []
-
-        if (iterations.length === 0) {
-            out.push({
-                ...field,
-                _emptyGroup: true,
-                field: JSON.stringify({ type: 'group_empty', value: config.value }),
-            })
-
-            continue
-        }
-
-        for (const iteration of iterations) {
-            out.push({
-                uuid: `${field.uuid}::title::${iteration.key}`,
-                field: JSON.stringify({
-                    type: 'group_title',
-                    value: `${config.value ?? ''} ${iteration.number}${iteration.label ? ': ' + iteration.label : ''}`.trim(),
-                }),
-                _skipInPayload: true,
-            })
-
-            for (const child of children) {
-                const childConfig = JSON.parse(child.field)
-                childConfig.value = String(childConfig.value ?? '')
-                    .replaceAll('{{gentagelse.navn}}', iteration.label ?? '')
-                    .replaceAll('{{gentagelse.nummer}}', String(iteration.number))
-                    .replaceAll('{{gentagelse.i_alt}}', String(iterations.length))
-
-                out.push({
-                    ...child,
-                    field: JSON.stringify(childConfig),
-                    responses: childConfig.type === 'checkbox' ? [] : '',
-                    _iterationKey: iteration.key,
-                })
-            }
-        }
-    }
-
-    return out
-}
-
 async function fetchForm() {
     state.error = {}
     state.isPageLoading = true
@@ -467,7 +386,7 @@ async function fetchForm() {
                 })
             }
             if (response.data?.form_fields) {
-                response.data.form_fields = await expandGroups(response.data.form_fields)
+                response.data.form_fields = await expandGroups(response.data.form_fields, scaleCitizenUuid.value)
             }
 
             state.form = response
@@ -523,12 +442,9 @@ async function submitResponse() {
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
-            if (formField._skipInPayload || formField._emptyGroup) return
-
-            // A question inside a group files its answer under the repetition.
-            const fieldUuid = formField._iterationKey
-                ? `${formField.uuid}::${formField._iterationKey}`
-                : formField.uuid
+            const responseFieldKey = responseKey(formField)
+            if (!responseFieldKey) return
+            const fieldUuid = responseFieldKey
             // Layout blocks carry no answer, but they do carry the text that
             // ends up in the document. Without a row of their own the headings
             // never reach the generated PDF at all. The server resolves any
@@ -603,12 +519,9 @@ async function submitResponseAndDownloadPDF() {
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
-            if (formField._skipInPayload || formField._emptyGroup) return
-
-            // A question inside a group files its answer under the repetition.
-            const fieldUuid = formField._iterationKey
-                ? `${formField.uuid}::${formField._iterationKey}`
-                : formField.uuid
+            const responseFieldKey = responseKey(formField)
+            if (!responseFieldKey) return
+            const fieldUuid = responseFieldKey
             // Layout blocks carry no answer, but they do carry the text that
             // ends up in the document. Without a row of their own the headings
             // never reach the generated PDF at all. The server resolves any

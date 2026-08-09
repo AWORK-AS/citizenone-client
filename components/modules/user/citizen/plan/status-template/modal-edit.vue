@@ -90,6 +90,14 @@
                                                         :number="fieldIndex + 1"
                                                         :citizenUuid="scaleCitizenUuid"
                                                         v-model="formField.responses" />
+                                                    <div v-if="JSON.parse(formField?.field)?.type === 'group_title'"
+                                                        class="px-5 py-3 font-semibold text-primary border-l-4 border-primary bg-primary/5">
+                                                        {{ JSON.parse(formField?.field)?.value }}
+                                                    </div>
+                                                    <p v-else-if="JSON.parse(formField?.field)?.type === 'group_empty'"
+                                                        class="px-5 py-3 text-sm text-gray-500">
+                                                        {{ $t('forms.group.noIterations') }}
+                                                    </p>
                                                     <ModulesUserFormBlockStatic
                                                         v-if="['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(JSON.parse(formField?.field)?.type)"
                                                         :field="JSON.parse(formField?.field)" />
@@ -352,6 +360,8 @@ import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useCitizenStore } from '@/store/citizen'
 
+const { expandGroups, responseKey } = useFormGroups()
+
 // The scale loads the citizen's earlier measurements. The citizen comes from the
 // route on a citizen page and from the store when a modal was opened without
 // one; on Drive there is no citizen at all, and an empty uuid simply means no
@@ -513,6 +523,10 @@ async function fetchForm() {
                     responses: JSON.parse(field?.field)?.type === 'checkbox' ? [] : ""
                 }))
             }
+            if (response.data?.form_fields) {
+                response.data.form_fields = await expandGroups(response.data.form_fields, scaleCitizenUuid.value)
+            }
+
             state.form = response
 
             if (state.form?.data?.form_fields && state.status?.field_responses) {
@@ -705,7 +719,9 @@ async function submitResponse() {
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
-            const fieldUuid = formField.uuid
+            const responseFieldKey = responseKey(formField)
+            if (!responseFieldKey) return
+            const fieldUuid = responseFieldKey
             // Layout blocks carry no answer, but they do carry the text that
             // ends up in the document. Without a row of their own the headings
             // never reach the generated PDF at all. The server resolves any
@@ -783,7 +799,9 @@ async function submitResponseAndDownloadPDF() {
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
-            const fieldUuid = formField.uuid
+            const responseFieldKey = responseKey(formField)
+            if (!responseFieldKey) return
+            const fieldUuid = responseFieldKey
             // Layout blocks carry no answer, but they do carry the text that
             // ends up in the document. Without a row of their own the headings
             // never reach the generated PDF at all. The server resolves any
