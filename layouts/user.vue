@@ -35,19 +35,30 @@
                                 </div>
                                 <nav class="flex flex-1 flex-col px-3 mt-2">
                                     <ul role="list" class="flex flex-1 flex-col gap-y-1">
-                                        <li>
+                                        <li v-for="group in navigationGroups" :key="group.key" class="mt-3 first:mt-0">
+                                            <p class="sidebar-section-label">{{ $t(group.label) }}</p>
                                             <ul role="list" class="space-y-0.5">
-                                                <li v-for="item in navigation" :key="item.name">
+                                                <li v-for="item in group.items" :key="item.name">
                                                     <div @click="openNavItem(item); sidebarOpen = false"
                                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive']">
-                                                        <Icon :name="item.icon" class="h-5 w-5 shrink-0"
+                                                        <img v-if="item.image" :src="item.image" :alt="item.name"
+                                                            class="h-5 w-5 shrink-0" />
+                                                        <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0"
                                                             aria-hidden="true" />
                                                         <span>{{ getNavItemLabel(item) }}</span>
+                                                        <Icon v-if="item.external" name="ph:arrow-square-out"
+                                                            class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                                                     </div>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li class="mt-auto pb-4 space-y-2">
+                                            <div v-for="item in footerNavigation" :key="item.name"
+                                                @click="openNavItem(item); sidebarOpen = false"
+                                                :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive']">
+                                                <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
+                                                <span>{{ getNavItemLabel(item) }}</span>
+                                            </div>
                                             <ModulesUserTimeRegistrationCheckInOut
                                                 v-if="userStore.getUser?.checkin_enabled" />
                                             <ModulesUserSidebarSubscribeButton
@@ -89,37 +100,45 @@
                 <!-- Nav items -->
                 <nav class="flex flex-1 flex-col px-3 mt-1 custom-scrollbar">
                     <ul role="list" class="flex flex-1 flex-col gap-y-1">
-                        <li>
+                        <li v-for="group in navigationGroups" :key="group.key" class="mt-3 first:mt-0">
+                            <!-- Collapsed rail has no room for a heading, so the groups are
+                                 separated by a hairline instead. The first group needs neither. -->
+                            <p v-if="sidebarExpanded" class="sidebar-section-label">
+                                {{ $t(group.label) }}
+                            </p>
+                            <div v-else-if="group.key !== navigationGroups[0]?.key" class="mx-3 my-2 border-t border-current opacity-10" />
                             <ul role="list" class="space-y-0.5">
-                                <li v-for="item in navigation" :key="item.name">
+                                <li v-for="item in group.items" :key="item.name">
                                     <div @click="openNavItem(item)"
                                         :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
                                         :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null"
                                         :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
-                                        <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
+                                        <img v-if="item.image" :src="item.image" :alt="item.name"
+                                            class="h-5 w-5 shrink-0" />
+                                        <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                                         <span
                                             :class="['whitespace-nowrap transition-all duration-200 delay-75 overflow-hidden', sidebarExpanded ? 'opacity-100 max-w-[200px]' : 'opacity-0 max-w-0']">
                                             {{ getNavItemLabel(item) }}
                                         </span>
-                                    </div>
-                                </li>
-                                <li
-                                    v-if="!state.isSidebarLoading && userStore.getUser?.industry === 'Social welfare services' && userStore.getUser?.role === 'Admin'">
-                                    <div @click="navigateTo('/findsocialetilbud.dk')"
-                                        :class="['findsocialetilbud.dk'].includes($route.name as string) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
-                                        :title="!sidebarExpanded ? 'FindSocialeTilbud.dk' : ''">
-                                        <img src="/img/findsocialetilbud-icon.png" alt="FindSocialeTilbud.dk"
-                                            class="h-5 w-5 shrink-0" />
-                                        <span
-                                            :class="['whitespace-nowrap transition-all duration-200 delay-75 overflow-hidden', sidebarExpanded ? 'opacity-100 max-w-[200px]' : 'opacity-0 max-w-0']">
-                                            FindSocialeTilbud.dk
-                                        </span>
+                                        <Icon v-if="item.external && sidebarExpanded" name="ph:arrow-square-out"
+                                            class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                                     </div>
                                 </li>
                             </ul>
                         </li>
 
                         <li class="mt-auto pb-4 space-y-2">
+                            <!-- Onboarding and other one-off entries sit below the daily work,
+                                 not among it. -->
+                            <div v-for="item in footerNavigation" :key="item.name" @click="openNavItem(item)"
+                                :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
+                                :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
+                                <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
+                                <span
+                                    :class="['whitespace-nowrap transition-all duration-200 delay-75 overflow-hidden', sidebarExpanded ? 'opacity-100 max-w-[200px]' : 'opacity-0 max-w-0']">
+                                    {{ getNavItemLabel(item) }}
+                                </span>
+                            </div>
                             <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
                             <div v-show="sidebarExpanded">
                                 <ModulesUserSidebarCompanyId />
@@ -566,6 +585,28 @@ const routeName = router?.currentRoute?.value?.name
 
 const navigation = shallowRef<any[]>([])
 
+// The sidebar is a flat list of up to ~15 entries at very different altitudes,
+// which makes it hard to scan. Each nav item carries a `group`; these render as
+// labelled sections in a fixed order, and empty ones are dropped so a company
+// with few modules never sees a heading over nothing. `footer` entries (only
+// onboarding today) sit at the bottom, away from the daily work.
+const NAV_GROUPS = [
+    { key: 'daily', label: 'sidebar.groups.daily' },
+    { key: 'documentation', label: 'sidebar.groups.documentation' },
+    { key: 'organisation', label: 'sidebar.groups.organisation' },
+    { key: 'shortcuts', label: 'sidebar.groups.shortcuts' },
+]
+
+const navigationGroups = computed(() =>
+    NAV_GROUPS
+        .map((group) => ({
+            ...group,
+            items: navigation.value.filter((item: any) => (item.group || 'daily') === group.key),
+        }))
+        .filter((group) => group.items.length > 0))
+
+const footerNavigation = computed(() => navigation.value.filter((item: any) => item.group === 'footer'))
+
 // "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
 // per Allan's feedback, once onboarding is fully done it should disappear from
 // the sidebar too, not just the tab, so it doesn't look like something's still
@@ -770,6 +811,7 @@ function generateSidebarLinks(user: any) {
         name: 'Overview',
         href: '/overview',
         icon: 'material-symbols:dashboard',
+        group: 'daily',
         // My day and Statistics no longer have their own sidebar entries -
         // they're reachable via the tab row on these pages - so Overview
         // stays highlighted as active while on any of them.
@@ -780,10 +822,12 @@ function generateSidebarLinks(user: any) {
         ]
     })
     if (isAtLeast('Admin') && !discoverCompleted.value) {
+        // Onboarding, not daily work: rendered in the sidebar footer.
         nav.push({
             name: 'Discover',
             href: '/discover',
             icon: 'ph:compass',
+            group: 'footer',
             activeRouteNames: [
                 'discover',
             ]
@@ -793,6 +837,7 @@ function generateSidebarLinks(user: any) {
         name: 'Citizens',
         href: '/citizens',
         icon: 'heroicons:user-group',
+        group: 'daily',
         activeRouteNames: [
             'citizens',
             'citizens-new',
@@ -817,6 +862,7 @@ function generateSidebarLinks(user: any) {
             name: 'Calendar',
             href: '/calendar',
             icon: 'ph:calendar-blank',
+            group: 'daily',
             activeRouteNames: [
                 'calendar',
                 'calendar-appointments',
@@ -830,6 +876,7 @@ function generateSidebarLinks(user: any) {
             name: 'Duty schedules',
             href: '/schedules',
             icon: 'ph:calendar-dots',
+            group: 'daily',
             activeRouteNames: [
                 'schedules',
                 'schedules-draft'
@@ -840,6 +887,7 @@ function generateSidebarLinks(user: any) {
                 name: 'My availability',
                 href: '/my-availability',
                 icon: 'ph:calendar-check',
+                group: 'daily',
                 activeRouteNames: [
                     'my-availability'
                 ]
@@ -848,6 +896,7 @@ function generateSidebarLinks(user: any) {
                 name: 'My shift evaluations',
                 href: '/my-shift-evaluations',
                 icon: 'ph:star',
+                group: 'daily',
                 activeRouteNames: [
                     'my-shift-evaluations'
                 ]
@@ -858,13 +907,24 @@ function generateSidebarLinks(user: any) {
         name: 'Messages',
         href: '/messages',
         icon: 'ph:chat-circle',
+        group: 'daily',
         activeRouteNames: [
             'messages',
             'messages-chat_uuid'
         ]
     })
+    if (userHasSecuredMailAccess) {
+        nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', group: 'daily', activeRouteNames: ['mail'] })
+    }
+
+    nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', group: 'documentation', activeRouteNames: ['journal-notes'] })
+
+    if (companyHasModule("Documents")) {
+        nav.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', group: 'documentation', activeRouteNames: ['drive'] })
+    }
+
     if (userHasPageAttendanceAccess) {
-        nav.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
+        nav.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', group: 'documentation', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
     }
 
     if (user?.company?.industry?.system_name === 'employment_services') {
@@ -872,6 +932,7 @@ function generateSidebarLinks(user: any) {
             name: 'Reports',
             href: '/reports',
             icon: 'ph:file-text',
+            group: 'documentation',
             activeRouteNames: [
                 'reports',
                 'reports-new',
@@ -881,47 +942,53 @@ function generateSidebarLinks(user: any) {
         })
     }
 
-    if (companyHasModule("Documents")) {
-        nav.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
-    }
+    // The board announces things to the whole house, so it gets a megaphone
+    // rather than yet another sheet-of-paper icon next to notes and documents.
+    nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:megaphone', group: 'organisation', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
 
-    if (userHasSecuredMailAccess) {
-        nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', activeRouteNames: ['mail'] })
+    if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
+        nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', group: 'organisation', activeRouteNames: ['inquiries'] })
     }
 
     if (userHasLeadsActive) {
-        nav.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', activeRouteNames: ['leads'] })
-    }
-
-    nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
-
-    nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
-
-    if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
-        nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', activeRouteNames: ['inquiries'] })
+        nav.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', group: 'organisation', activeRouteNames: ['leads'] })
     }
 
     if (user?.company?.industry?.system_name === 'employment_services') {
         if (companyHasModule('Billing')) {
-            nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
+            nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', group: 'organisation', activeRouteNames: ['billing-employment'] })
         }
         if (companyHasModule('Revenue report')) {
-            nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+            nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', group: 'organisation', activeRouteNames: ['reports-employment-revenue'] })
         }
     }
 
     if (user?.company?.industry?.system_name === 'social_welfare' && user?.pages?.some((page: any) => page.name === 'Management & Economy')) {
-        nav.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', activeRouteNames: ['management-economy'] })
+        nav.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', group: 'organisation', activeRouteNames: ['management-economy'] })
     }
 
     // Removed from the sidebar (declutter, per stakeholder feedback) - the app
     // store is still reachable for every role via the profile dropdown menu.
+
+    // Was rendered straight into the desktop template, which left it out of the
+    // mobile sidebar entirely; as a nav item it now appears in both.
+    if (user?.industry === 'Social welfare services' && user?.role === 'Admin') {
+        nav.push({
+            name: 'FindSocialeTilbud.dk',
+            href: '/findsocialetilbud.dk',
+            image: '/img/findsocialetilbud-icon.png',
+            group: 'shortcuts',
+            rawLabel: true,
+            activeRouteNames: ['findsocialetilbud.dk'],
+        })
+    }
 
     customSidebarLinksStore.links.forEach((link: any) => {
         nav.push({
             name: link.label,
             href: link.url,
             icon: link.icon || 'ph:link',
+            group: 'shortcuts',
             activeRouteNames: [],
             external: true,
             rawLabel: true,

@@ -9416,6 +9416,12 @@
         "companyId": "Virksomhets-ID",
         "coupons": "Kuponer",
         "discover": "Kom i gang",
+        "groups": {
+            "daily": "Daglig drift",
+            "documentation": "Dokumentasjon",
+            "organisation": "Organisasjon",
+            "shortcuts": "Snarveier"
+        },
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
