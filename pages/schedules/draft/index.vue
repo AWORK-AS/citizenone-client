@@ -84,7 +84,9 @@
                     </svg>
                     {{ $t('helpGuide.title') }}
                 </button>
-                <!-- Help Modal -->
+                <!-- Help Modal - teleported out: the toolbar row is sticky, and a positioned
+                     sticky ancestor would trap this overlay below the navbar's stacking context. -->
+                <Teleport to="body">
                 <div id="help-guide-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,43,70,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none'">
                     <div style="background:white;border-radius:20px;width:90vw;max-width:1100px;height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,0.35);">
                         <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #e2e8f0;flex-shrink:0;">
@@ -99,6 +101,7 @@
                         <iframe src="/vagtplan-guide.html" style="flex:1;border:none;width:100%;" :title="$t('helpGuide.title')"></iframe>
                     </div>
                 </div>
+                </Teleport>
                 </div>
             </template>
             <template #guided-tour>
