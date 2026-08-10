@@ -155,7 +155,7 @@
                                                 v-if="userStore.getUser?.has_ai_access && !employee?.has_ai_access">
                                                 <FormButton :aria-label="$t('employees.table.actions.giveAIAccess')" type="button" buttonStyle="action"
                                                     @click="giveAIAccessConfirmation(employee)">
-                                                    <Icon name="ic:round-accessibility" class="size-4" />
+                                                    <Icon name="ph:sparkle" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.giveBookingAccess')"

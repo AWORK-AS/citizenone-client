@@ -155,7 +155,7 @@
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                                 v-if="userStore.getUser?.has_ai_access" @click="generateNoteForRiskAssessmentNote">
                                 <div class="flex items-center">
-                                    <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                    <Icon name="ph:sparkle" class="h-4 w-4" aria-hidden="true" />
                                 </div>
                                 {{ $t('overview.quickRiskAssessment.form.prepareWithAI') }}
                             </FormButton>
@@ -163,6 +163,10 @@
                     </div>
                     <ckeditor :editor="editor" v-model="state.formRiskAssessment.note" :config="editorNoteConfig">
                     </ckeditor>
+                    <p v-if="state.isAiUsed" class="mt-1.5 flex items-start gap-1.5 text-xs text-gray-400">
+                        <Icon name="ph:sparkle" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                        {{ $t('assistants.reviewNotice') }}
+                    </p>
                     <FormError :error="v$?.formRiskAssessment?.note?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.note?.[0]" />
                 </div>
@@ -267,6 +271,7 @@ const state = reactive({
         assessment: null,
         note: '',
     } as any,
+    isAiUsed: false,
     modal: {
         isAddJournalTitleOpen: false,
         isUpgradeStorageOpen: false,
@@ -463,6 +468,7 @@ async function generateNoteForRiskAssessmentNote() {
         const response = await aIAssistantService.generateNote(params)
         if (response?.data) {
             state.formRiskAssessment.note = response?.data?.answer
+            state.isAiUsed = true
         }
     } catch (error: any) {
         state.error = error
