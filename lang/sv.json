@@ -7798,7 +7798,12 @@
             "medicationOverview": "Medicinoversigt",
             "not": "Inte",
             "notGiven": "Inte given",
-            "notManaged": "Inte hanterad än"
+            "notManaged": "Inte hanterad än",
+            "effectEvaluations": "Effektutvärderingar",
+            "remembered": "Ihågkommen",
+            "forgotten": "Glömd",
+            "pending": "Väntande",
+            "noEvaluationsToShow": "Inga effektutvärderingar att visa"
         },
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",
