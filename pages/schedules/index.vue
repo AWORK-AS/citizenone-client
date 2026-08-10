@@ -123,6 +123,9 @@
                         </svg>
                         {{ $t('helpGuide.title') }}
                     </button>
+                    <!-- Teleported out: the toolbar row is sticky, and a positioned sticky
+                         ancestor would trap this overlay below the navbar's stacking context. -->
+                    <Teleport to="body">
                     <div id="help-modal-udgivet"
                         style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,43,70,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;"
                         onclick="if(event.target===this)this.style.display='none'">
@@ -152,6 +155,7 @@
                                 :title="$t('helpGuide.title')"></iframe>
                         </div>
                     </div>
+                    </Teleport>
                 </div>
             </template>
 
