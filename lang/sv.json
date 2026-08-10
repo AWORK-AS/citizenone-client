@@ -784,6 +784,8 @@
             "copy": "Kopiera",
             "copied": "Kopierat",
             "copyFailed": "Kunde inte kopiera svaret",
+            "insert": "Infoga",
+            "stop": "Stoppa",
             "regenerate": "Försök igen"
         },
         "starters": {
@@ -793,6 +795,7 @@
             "report": "Skriv ett utkast till en rapport till handläggaren om ",
             "organisation": "Vad står det i våra riktlinjer om "
         },
+        "basedOn": "Baserat på",
         "askAnything": "Fråga om vad som helst, eller skriv {'@'} för att nämna någon",
         "mentionSomeone": "Nämn en brukare eller medarbetare",
         "searchScopeHint": "AI kan söka i alla brukar-/medarbetaruppgifter du har åtkomst till, om du inte taggar en specifik person med {'@'}",

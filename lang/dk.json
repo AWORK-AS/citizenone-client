@@ -784,6 +784,8 @@
             "copy": "Kopiér",
             "copied": "Kopieret",
             "copyFailed": "Kunne ikke kopiere svaret",
+            "insert": "Indsæt",
+            "stop": "Stop",
             "regenerate": "Prøv igen"
         },
         "starters": {
@@ -793,6 +795,7 @@
             "report": "Skriv et udkast til en rapport til sagsbehandleren om ",
             "organisation": "Hvad står der i vores retningslinjer om "
         },
+        "basedOn": "Baseret på",
         "askAnything": "Spørg om hvad som helst, eller skriv {'@'} for at nævne nogen",
         "mentionSomeone": "Nævn en borger eller medarbejder",
         "searchScopeHint": "AI kan søge i alle borger-/medarbejderoplysninger, du har adgang til, medmindre du tagger en bestemt person med {'@'}",

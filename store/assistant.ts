@@ -12,6 +12,11 @@ import { defineStore } from 'pinia'
 export const useAssistantStore = defineStore('assistantStore', {
     state: () => ({
         isOpen: false,
+        // A form that can receive an answer registers itself here while it is
+        // open, which is what turns the "insert" action on in the panel. The
+        // panel has no reference to the editor and does not need one.
+        insertTargetLabel: null as string | null,
+        pendingInsert: null as string | null,
     }),
     actions: {
         open() {
@@ -22,6 +27,19 @@ export const useAssistantStore = defineStore('assistantStore', {
         },
         toggle() {
             this.isOpen = !this.isOpen
+        },
+        offerInsertTarget(label: string) {
+            this.insertTargetLabel = label
+        },
+        withdrawInsertTarget() {
+            this.insertTargetLabel = null
+            this.pendingInsert = null
+        },
+        requestInsert(html: string) {
+            this.pendingInsert = html
+        },
+        insertHandled() {
+            this.pendingInsert = null
         },
     },
 })

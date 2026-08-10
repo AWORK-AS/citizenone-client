@@ -784,6 +784,8 @@
             "copy": "Kopier",
             "copied": "Kopiert",
             "copyFailed": "Kunne ikke kopiere svaret",
+            "insert": "Sett inn",
+            "stop": "Stopp",
             "regenerate": "Prøv igjen"
         },
         "starters": {
@@ -793,6 +795,7 @@
             "report": "Skriv et utkast til en rapport til saksbehandleren om ",
             "organisation": "Hva står det i retningslinjene våre om "
         },
+        "basedOn": "Basert på",
         "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
         "mentionSomeone": "Nevn en bruker eller ansatt",
         "searchScopeHint": "AI kan søke i alle bruker-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",

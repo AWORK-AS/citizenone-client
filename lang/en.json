@@ -784,6 +784,8 @@
             "copy": "Copy",
             "copied": "Copied",
             "copyFailed": "Could not copy the answer",
+            "insert": "Insert",
+            "stop": "Stop",
             "regenerate": "Try again"
         },
         "starters": {
@@ -793,6 +795,7 @@
             "report": "Draft a report for the caseworker about ",
             "organisation": "What do our guidelines say about "
         },
+        "basedOn": "Based on",
         "askAnything": "Ask anything, or type {'@'} to mention someone",
         "mentionSomeone": "Mention a citizen or employee",
         "searchScopeHint": "AI can search any citizen/employee record you have access to, unless you tag someone specific with {'@'}",
