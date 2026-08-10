@@ -235,20 +235,6 @@
                         <!-- TODO: restore v-if="userStore.getUser?.has_own_chatgpt_access" once backend adds flag -->
                         <ModulesUserNavbarOwnChatGpt />
 
-                        <!-- News / Megaphone -->
-                        <button :aria-label="$t('support.support')" type="button"
-                            class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
-                            @click="navigateToNews()">
-                            <Icon name="ph:megaphone" class="h-5 w-5" aria-hidden="true" />
-                            <Badge type="notification"
-                                class="w-4.5 h-4.5 flex items-center justify-center absolute -top-0.5 -right-0.5 text-[10px]"
-                                v-if="!userStore.getUser?.is_read_news && userStore?.getUnreadNewsCount > 0">
-                                {{ userStore?.getUnreadNewsCount }}
-                            </Badge>
-                        </button>
-
-                        <ModulesUserNavbarNewUpdates @fetchUser="fetchUser" />
-
                         <!-- Notification Bell -->
                         <div data-tour="notification-area" class="flex items-center">
                             <ModulesUserNavbarNotificationBell />
@@ -277,15 +263,10 @@
                             </Badge>
                         </button>
 
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-slate-200" aria-hidden="true" />
-
-                        <!-- Support -->
-                        <button type="button"
-                            class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700 p-2 rounded-lg hover:bg-surface-100 transition-colors"
-                            @click="openSupport">
-                            <Icon name="material-symbols:support" class="h-5 w-5" aria-hidden="true" />
-                            <span class="text-xs font-semibold hidden lg:block">{{ $t('support.support') }}</span>
-                        </button>
+                        <!-- Bulletin board, release notes and support -->
+                        <ModulesUserNavbarHelpMenu
+                            :unreadNewsCount="!userStore.getUser?.is_read_news ? userStore?.getUnreadNewsCount : 0"
+                            @openNews="navigateToNews()" @openSupport="openSupport" />
 
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-slate-200" aria-hidden="true" />
 
