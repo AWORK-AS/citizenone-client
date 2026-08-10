@@ -1,29 +1,43 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('assistants.askAI')" titleIcon="ph:lightbulb" :show="props.isModalOpen"
-            @close="closeModal">
-            <template #modal-body>
-                <Alert type="danger" :text="state?.error?.message"
-                    v-if="state.error?.message && state.error.message.length > 0" />
-
-                <div class="flex items-center justify-end gap-1 -mt-2 mb-1">
+        <!-- A panel rather than a dialog: the page behind stays live, so the
+        journal you are asking about is still readable while you ask. -->
+        <transition enter-active-class="transform transition ease-in-out duration-300"
+            enter-from-class="translate-x-full" enter-to-class="translate-x-0"
+            leave-active-class="transform transition ease-in-out duration-200" leave-from-class="translate-x-0"
+            leave-to-class="translate-x-full">
+            <aside v-if="assistantStore.isOpen" :aria-label="$t('assistants.askAI')"
+                class="fixed inset-y-0 right-0 z-[56] flex w-full max-w-[26rem] flex-col border-l border-surface-200 bg-white shadow-2xl">
+                <header class="flex h-16 shrink-0 items-center gap-1 border-b border-surface-200 px-4">
+                    <Icon name="ph:lightbulb" class="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                    <p class="flex-1 truncate text-sm font-semibold text-gray-900">{{ $t('assistants.askAI') }}</p>
                     <Tooltip :text="$t('assistants.history.newChat')">
                         <button :aria-label="$t('assistants.history.newChat')" type="button" @click="startNewChat"
                             class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
                             <Icon name="ph:plus" class="h-4 w-4 text-gray-500" aria-hidden="true" />
                         </button>
                     </Tooltip>
-                    <Tooltip :text="state.view === 'chat' ? $t('assistants.history.viewHistory') : $t('assistants.history.backToChat')">
-                        <button :aria-label="state.view === 'chat' ? $t('assistants.history.viewHistory') : $t('assistants.history.backToChat')" type="button" @click="toggleView"
+                    <Tooltip
+                        :text="state.view === 'chat' ? $t('assistants.history.viewHistory') : $t('assistants.history.backToChat')">
+                        <button
+                            :aria-label="state.view === 'chat' ? $t('assistants.history.viewHistory') : $t('assistants.history.backToChat')"
+                            type="button" @click="toggleView"
                             class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
                             <Icon :name="state.view === 'chat' ? 'ph:clock-counter-clockwise' : 'ph:arrow-left'"
                                 class="h-4 w-4 text-gray-500" aria-hidden="true" />
                         </button>
                     </Tooltip>
-                </div>
+                    <button :aria-label="$t('close')" type="button" @click="closePanel"
+                        class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+                        <Icon name="ph:x" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                    </button>
+                </header>
+
+                <Alert type="danger" :text="state?.error?.message" class="mx-4 mt-3"
+                    v-if="state.error?.message && state.error.message.length > 0" />
 
                 <!-- History list -->
-                <div v-if="state.view === 'history'" class="h-[68vh] overflow-y-auto -mx-4 -mb-4 sm:-mx-6 sm:-mb-6 px-4 sm:px-6 py-2">
+                <div v-if="state.view === 'history'" class="flex-1 min-h-0 overflow-y-auto px-4 py-3">
                     <div class="relative mb-2">
                         <Icon name="ph:magnifying-glass"
                             class="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400"
@@ -67,12 +81,12 @@
                     </div>
                 </div>
 
-                <div v-else class="flex flex-col h-[68vh] bg-transparent -mx-4 -mb-4 sm:-mx-6 sm:-mb-6">
+                <div v-else class="flex flex-1 min-h-0 flex-col bg-transparent">
                     <!-- Chat container. Messages are top-anchored, including the
                     initial greeting, so the conversation always reads downward
                     from the same starting point. -->
                     <div class="flex-1 overflow-y-auto scroll-smooth">
-                        <div class="px-4 sm:px-6 py-6 space-y-6">
+                        <div class="px-4 py-5 space-y-5">
                             <div v-for="(message, index) in state.messages" :key="index">
                                 <!-- User message -->
                                 <div v-if="message.type === 'user'" class="w-full bg-primary rounded-md px-4 py-3">
@@ -151,7 +165,7 @@
                         </div>
                     </div>
                     <!-- Input area -->
-                    <div class="border-t border-gray-100 bg-white px-4 sm:px-6 py-5">
+                    <div class="border-t border-gray-100 bg-white px-4 py-4">
                         <div>
                             <!-- Audit P2.1/P2.2/P2.4: transparency notices - search scope and the
                             "always review AI output" reminder. Kept as plain small text rather
@@ -270,8 +284,8 @@
                         </div>
                     </div>
                 </div>
-            </template>
-        </Modal>
+            </aside>
+        </transition>
 
         <DialogConfirmation :isModalOpen="state.isConfirmDeleteOpen"
             :message="$t('assistants.history.deleteConfirmation')" @close="state.isConfirmDeleteOpen = false"
@@ -283,20 +297,18 @@
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { generalSearchService } from '@/components/api/user/GeneralSearchService'
 import { userService } from '@/components/api/user/UserService'
+import { useAssistantStore } from '@/store/assistant'
+import { useCitizenStore } from '@/store/citizen'
 import { useCompactRelativeTime } from '@/composables/compactRelativeTime'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
 
-const props = defineProps({
-    isModalOpen: {
-        type: Boolean,
-        required: true,
-    },
-})
-
-const emit = defineEmits(['close'])
+const assistantStore = useAssistantStore()
+const citizenStore = useCitizenStore() as any
+const route = useRoute()
 const { t, locale } = useI18n()
 const { errorAlert } = useAlert()
 const { formatCompactRelativeTime } = useCompactRelativeTime()
@@ -315,8 +327,8 @@ const MAX_FILE_SIZE = 20 * 1024 * 1024
 const editInputRef = ref<HTMLInputElement | null>(null)
 const promptTextarea = ref<HTMLTextAreaElement | null>(null)
 
-function closeModal() {
-    emit('close')
+function closePanel() {
+    assistantStore.close()
 }
 
 const state = reactive({
@@ -346,7 +358,9 @@ const state = reactive({
     mention: {
         isOpen: false,
         query: '',
-        allEntities: [] as Array<{ uuid: string, label: string, type: 'citizen' | 'employee' }>,
+        employees: [] as Array<{ uuid: string, label: string, type: 'citizen' | 'employee' }>,
+        employeesLoaded: false,
+        citizenResults: [] as Array<{ uuid: string, label: string, type: 'citizen' | 'employee' }>,
         results: [] as Array<{ uuid: string, label: string, type: 'citizen' | 'employee' }>,
     },
     // Audit P2.3: on-demand "what will be sent" preview.
@@ -377,41 +391,92 @@ const filteredConversations = computed(() => {
     return state.conversations.filter((c: any) => (c.title || '').toLowerCase().includes(query))
 })
 
-watch(() => props.isModalOpen, (isModalOpen: boolean) => {
-    if (isModalOpen) {
-        state.view = 'chat'
-        state.messages = []
-        state.files = []
-        state.mentionedEntities = []
-        state.searchQuery = ''
-        state.activeConversationUuid = null
-        state.preview.isOpen = false
+watch(() => assistantStore.isOpen, (isOpen: boolean) => {
+    if (!isOpen) return
+
+    // The greeting is seeded once. Re-opening keeps the conversation, otherwise
+    // stepping away to look something up would wipe the answer you went to check.
+    if (!state.messages.length) {
         state.messages.push({ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` })
-        clearAiElements()
-        fetchConversations()
-        fetchMentionableEntities()
     }
+    state.view = 'chat'
+    state.preview.isOpen = false
+    fetchConversations()
+    loadMentionableEmployees()
+    applyRouteContext()
 })
 
-async function fetchMentionableEntities() {
-    const [citizensRes, employeesRes] = await Promise.allSettled([
-        citizenService.getAllCitizens({}),
-        userService.getAllUsers({}),
-    ])
+// Follows the user around the app: ask about the citizen whose page is open
+// without tagging them by hand first.
+watch(() => route.fullPath, () => {
+    if (assistantStore.isOpen) applyRouteContext()
+})
 
-    const citizens = citizensRes.status === 'fulfilled'
-        ? (citizensRes.value?.data ?? [])
-            .filter((c: any) => c.uuid !== 'all-citizens')
-            .map((c: any) => ({ uuid: c.uuid, label: `${c.firstname ?? ''} ${c.lastname ?? ''}`.trim(), type: 'citizen' as const }))
-        : []
+async function applyRouteContext() {
+    const uuid = route.params?.uuid as string | undefined
+    if (!uuid || !String(route.name ?? '').startsWith('citizens-uuid')) return
+    if (state.mentionedEntities.some((entity) => entity.uuid === uuid)) return
 
-    const employees = employeesRes.status === 'fulfilled'
-        ? (employeesRes.value?.data ?? [])
-            .filter((e: any) => e.uuid && e.uuid !== 'all-employees')
-            .map((e: any) => ({ uuid: e.uuid, label: `${e.firstname ?? ''} ${e.lastname ?? ''}`.trim(), type: 'employee' as const }))
-        : []
+    const label = await resolveCitizenLabel(uuid)
+    if (!label) return
+    // A second guard: resolving the name is async and the user may have tagged
+    // or navigated in the meantime.
+    if (state.mentionedEntities.some((entity) => entity.uuid === uuid)) return
+    state.mentionedEntities.push({ uuid, label, type: 'citizen' })
+}
 
-    state.mention.allEntities = [...citizens, ...employees]
+async function resolveCitizenLabel(uuid: string): Promise<string> {
+    const selected = citizenStore.getSelectedCitizen?.data
+    if (selected?.uuid === uuid) {
+        return `${selected.firstname ?? ''} ${selected.lastname ?? ''}`.trim()
+    }
+    try {
+        const response = await citizenService.getCitizen(uuid)
+        const citizen = response?.data
+        return citizen ? `${citizen.firstname ?? ''} ${citizen.lastname ?? ''}`.trim() : ''
+    } catch {
+        return ''
+    }
+}
+
+// Employees are a short, stable list, so one fetch per session is enough.
+// Citizens are not - they used to be pulled in full (with journals, plans and
+// medicines eager-loaded) every single time the assistant opened, so they are
+// looked up server-side as the user types instead.
+async function loadMentionableEmployees() {
+    if (state.mention.employeesLoaded) return
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        state.mention.employees = (response?.data ?? [])
+            .filter((employee: any) => employee.uuid && employee.uuid !== 'all-employees')
+            .map((employee: any) => ({
+                uuid: employee.uuid,
+                label: `${employee.firstname ?? ''} ${employee.lastname ?? ''}`.trim(),
+                type: 'employee' as const,
+            }))
+        state.mention.employeesLoaded = true
+    } catch {
+        // Without the list the picker just falls back to citizens.
+    }
+}
+
+async function searchMentionableCitizens(query: string) {
+    if (query.length < 2) return []
+    try {
+        const response = await generalSearchService.search({
+            search: JSON.stringify([query]),
+            page_length: 8,
+        })
+        return (response?.citizens ?? [])
+            .filter((citizen: any) => citizen.uuid)
+            .map((citizen: any) => ({
+                uuid: citizen.uuid,
+                label: `${citizen.firstname ?? ''} ${citizen.lastname ?? ''}`.trim(),
+                type: 'citizen' as const,
+            }))
+    } catch {
+        return []
+    }
 }
 
 function toggleView() {
@@ -479,7 +544,11 @@ function startNewChat() {
     clearAiElements()
     state.messages = [{ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` }]
     state.activeConversationUuid = null
+    state.mentionedEntities = []
+    state.lastRequest.prompt = ''
     state.view = 'chat'
+    // A new chat on a citizen page starts from that citizen again.
+    applyRouteContext()
 }
 
 function confirmDeleteConversation(conversation: any) {
@@ -515,6 +584,9 @@ async function sendMessage() {
         })
 
         const formData = processPayload()
+        // processPayload clears the tags; on a citizen page the page context
+        // should still be there for the next question.
+        applyRouteContext()
 
         const response = await aIAssistantService.sendMessage(formData)
         if (response?.data) {
@@ -639,15 +711,48 @@ watch(() => state.newMessage, (newVal) => {
     state.preview.isOpen = false
 })
 
+// Employees come from the cached list, citizens from a debounced server-side
+// lookup, so the two halves of the picker settle independently.
+let mentionSearchTimer: ReturnType<typeof setTimeout> | null = null
+let mentionSearchToken = 0
+
 function filterMentionResults() {
-    const query = state.mention.query.trim().toLowerCase()
+    const query = state.mention.query.trim()
+    const lowered = query.toLowerCase()
     const alreadyMentioned = new Set(state.mentionedEntities.map((e) => e.uuid))
 
-    state.mention.results = state.mention.allEntities
+    const employees = state.mention.employees
         .filter((e) => !alreadyMentioned.has(e.uuid))
-        .filter((e) => !query || e.label.toLowerCase().includes(query))
-        .slice(0, 8)
+        .filter((e) => !lowered || e.label.toLowerCase().includes(lowered))
+        .slice(0, 4)
+
+    state.mention.results = [...employees, ...state.mention.citizenResults
+        .filter((e) => !alreadyMentioned.has(e.uuid))
+        .slice(0, 8 - employees.length)]
+
+    if (mentionSearchTimer) clearTimeout(mentionSearchTimer)
+    if (query.length < 2) {
+        state.mention.citizenResults = []
+        return
+    }
+
+    const token = ++mentionSearchToken
+    mentionSearchTimer = setTimeout(async () => {
+        const citizens = await searchMentionableCitizens(query)
+        // A newer keystroke already started its own lookup.
+        if (token !== mentionSearchToken) return
+        state.mention.citizenResults = citizens
+        const mentioned = new Set(state.mentionedEntities.map((e) => e.uuid))
+        state.mention.results = [
+            ...state.mention.results.filter((e) => e.type === 'employee'),
+            ...citizens.filter((e) => !mentioned.has(e.uuid)),
+        ].slice(0, 8)
+    }, 250)
 }
+
+onBeforeUnmount(() => {
+    if (mentionSearchTimer) clearTimeout(mentionSearchTimer)
+})
 
 function selectMention(entity: { uuid: string, label: string, type: 'citizen' | 'employee' }) {
     state.newMessage = state.newMessage.replace(/@([^\s@]*)$/, `@${entity.label} `)
