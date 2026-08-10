@@ -7798,7 +7798,12 @@
             "medicationOverview": "Medicinoversigt",
             "not": "Ikke",
             "notGiven": "Ikke gitt",
-            "notManaged": "Ikke håndtert ennå"
+            "notManaged": "Ikke håndtert ennå",
+            "effectEvaluations": "Effektevalueringer",
+            "remembered": "Husket",
+            "forgotten": "Glemt",
+            "pending": "Venter",
+            "noEvaluationsToShow": "Ingen effektevalueringer å vise"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",

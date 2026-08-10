@@ -7798,7 +7798,12 @@
             "medicationOverview": "Medication overview",
             "not": "Not",
             "notGiven": "Not given",
-            "notManaged": "Not managed yet"
+            "notManaged": "Not managed yet",
+            "effectEvaluations": "Effect evaluations",
+            "remembered": "Remembered",
+            "forgotten": "Forgotten",
+            "pending": "Pending",
+            "noEvaluationsToShow": "No effect evaluations to show"
         },
         "medicineDeviationStatistics": {
             "deviated": "Deviated",
