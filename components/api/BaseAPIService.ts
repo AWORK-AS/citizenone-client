@@ -117,6 +117,76 @@ class BaseAPIService {
         }
     }
 
+    /**
+     * Posts and reads a server-sent-event response as it arrives.
+     *
+     * $fetch buffers the whole body, which is the opposite of the point, so this
+     * one path uses fetch directly. Rejects with `{ streamUnavailable: true }`
+     * when the endpoint or a proxy in front of it will not stream, which is the
+     * caller's signal to fall back to the buffered endpoint.
+     */
+    async requestStream(
+        url: string,
+        body: FormData | object,
+        onEvent: (event: string, data: any) => void,
+        signal?: AbortSignal,
+    ): Promise<void> {
+        const runtimeConfig = useRuntimeConfig()
+
+        const response = await fetch(`${runtimeConfig.public.apiBaseURL}${url}`, {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                Accept: 'text/event-stream',
+            },
+            body: body instanceof FormData ? body : JSON.stringify(body),
+            signal,
+        })
+
+        if (response.status === 401) {
+            this.revokeAccess()
+            throw new APIError({ message: 'Unauthorized' })
+        }
+
+        if (!response.ok || !response.body) {
+            throw { streamUnavailable: true, status: response.status }
+        }
+
+        const reader = response.body.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ''
+
+        // Events are separated by a blank line; a chunk can end anywhere, so
+        // only whole events are handed on.
+        for (;;) {
+            const { done, value } = await reader.read()
+            if (done) break
+
+            buffer += decoder.decode(value, { stream: true })
+
+            let boundary = buffer.indexOf('\n\n')
+            while (boundary !== -1) {
+                const raw = buffer.slice(0, boundary)
+                buffer = buffer.slice(boundary + 2)
+                boundary = buffer.indexOf('\n\n')
+
+                let name = 'message'
+                let payload = ''
+                for (const line of raw.split('\n')) {
+                    if (line.startsWith('event:')) name = line.slice(6).trim()
+                    else if (line.startsWith('data:')) payload += line.slice(5).trim()
+                }
+                if (!payload) continue
+
+                try {
+                    onEvent(name, JSON.parse(payload))
+                } catch {
+                    // A half-written payload is not worth failing the answer for.
+                }
+            }
+        }
+    }
+
     private async _sendRequest(url: string, method: string, params: object, signal?: AbortSignal): Promise<any> {
         const runtimeConfig = useRuntimeConfig()
         let config: any = null

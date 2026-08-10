@@ -5,6 +5,12 @@ class AIAssistantService extends BaseAPIService {
         return await this.request(`/user/chat-gpt`, 'POST', params)
     }
 
+    // Same request as sendMessage, answered as it is generated. onEvent receives
+    // 'delta' fragments and finally 'done' with the payload sendMessage returns.
+    async streamMessage(params: FormData, onEvent: (event: string, data: any) => void, signal?: AbortSignal): Promise<void> {
+        return await this.requestStream(`/user/chat-gpt/stream`, params, onEvent, signal)
+    }
+
     async generateNote(params: object): Promise<any> {
         return await this.request(`/user/chat-gpt/journal-prompt`, 'POST', params)
     }
