@@ -44,6 +44,7 @@
                                 <th class="co-th">{{ $t('superadmin.storagePackages.colSize') }}</th>
                                 <th class="co-th">{{ $t('superadmin.storagePackages.colMonthlyPrice') }}</th>
                                 <th class="co-th">{{ $t('superadmin.storagePackages.colYearlyPrice') }}</th>
+                                <th class="co-th">{{ $t('superadmin.storagePackages.colPricePerGb') }}</th>
                                 <th class="co-th"></th>
                             </tr>
                         </thead>
@@ -56,6 +57,7 @@
                                 <td class="co-td text-[13px] text-[#5C6478]">
                                     {{ pkg.yearly_price != null ? pkg.yearly_price + ' kr.' : '-' }}
                                 </td>
+                                <td class="co-td text-[13px] text-[#5C6478]">{{ pricePerGb(pkg) }}</td>
                                 <td class="co-td">
                                     <div class="flex items-center gap-2 justify-end">
                                         <button class="co-action-btn" @click="openEdit(pkg)">
@@ -158,6 +160,15 @@ const state = reactive({
 })
 
 const packages = computed(() => state.packages?.data ?? [])
+
+// What a package costs per gigabyte, so the volume discount across the ladder is
+// visible when pricing a new package.
+function pricePerGb(pkg: any) {
+    const size = Number(pkg?.storage_size_gb ?? 0)
+    const monthly = Number(pkg?.monthly_price ?? 0)
+    if (!size || !monthly) return '-'
+    return `${(monthly / size).toLocaleString('da-DK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} kr.`
+}
 
 onMounted(() => {
     fetchPackages()

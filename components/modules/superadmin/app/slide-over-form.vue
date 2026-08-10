@@ -183,37 +183,6 @@
             </button>
         </div>
 
-        <!-- Attach to company (edit only) -->
-        <div v-if="showCompanyAttach" class="border border-[#EAECF0] rounded-xl p-4">
-            <p class="text-[13px] font-semibold text-[#1F2533] mb-1">{{ $t('superadmin.apps.attachToCompany') }}</p>
-            <p class="text-[11px] text-[#8891A4] mb-3">{{ $t('superadmin.apps.attachToCompanyDesc') }}</p>
-            <div class="relative">
-                <Icon name="ph:magnifying-glass"
-                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8891A4]" />
-                <SuperadminFormTextField v-model="state.companySearch"
-                    :placeholder="$t('superadmin.apps.searchCompany')" class="!pl-9" @input="searchCompanies" />
-            </div>
-            <div v-if="state.companyResults.length"
-                class="mt-1 border border-[#EAECF0] rounded-lg bg-white shadow max-h-36 overflow-y-auto">
-                <button v-for="c in state.companyResults" :key="c.uuid" type="button"
-                    class="w-full text-left px-3 py-2 hover:bg-[#F5F6F8] flex items-center gap-2 text-[13px] transition-colors"
-                    @click="assignToCompany(c)">
-                    <div class="w-5 h-5 rounded flex items-center justify-center text-[9px] font-bold text-white flex-shrink-0"
-                        :style="`background:${avatarColor(c.name)}`">
-                        {{ (c.name || '?').charAt(0).toUpperCase() }}
-                    </div>
-                    {{ c.name }}
-                </button>
-            </div>
-            <div v-if="state.assignedCompanies.length" class="mt-2 space-y-1">
-                <div v-for="c in state.assignedCompanies" :key="c.uuid"
-                    class="flex items-center gap-2 px-3 py-2 bg-green-50 rounded-lg border border-green-200 text-[12px]">
-                    <Icon name="ph:check-circle" class="w-3.5 h-3.5 text-green-600" />
-                    <span class="text-green-700 flex-1">{{ c.name }} — {{ $t('superadmin.apps.assigned') }}</span>
-                </div>
-            </div>
-        </div>
-
         <!-- Action buttons (page context) -->
         <div v-if="showActions" class="flex items-center justify-end gap-3 pt-2">
             <button type="button" @click="navigateTo('/superadmin/apps')"
@@ -231,10 +200,7 @@
 </template>
 
 <script setup lang="ts">
-import { companyService } from '@/components/api/superadmin/CompanyService'
-import { appService } from '@/components/api/superadmin/AppService'
 import { appCategoryService } from '@/components/api/superadmin/AppCategoryService'
-import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -255,21 +221,11 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
-    showCompanyAttach: {
-        type: Boolean,
-        default: false,
-    },
 })
 
 const emit = defineEmits(['submitForm'])
 
-const { successAlert } = useAlert()
 const { t } = useI18n()
-
-let companySearchTimeout: any = null
-
-const APP_COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B', '#CC3B2D']
-const avatarColor = (name: string) => APP_COLORS[(name?.charCodeAt(0) ?? 0) % APP_COLORS.length]
 
 const logoInputRef = ref<HTMLInputElement | null>(null)
 const imageInputRef = ref<HTMLInputElement | null>(null)
@@ -284,12 +240,9 @@ const boolFlags = [
 ]
 
 const state = reactive({
-    assignedCompanies: [] as any[],
     bgFile: null as File | null,
     bgPreview: '' as string,
     categories: [] as any[],
-    companyResults: [] as any[],
-    companySearch: '',
     errors: { name: '' },
     form: {
         category_id: '' as any,
@@ -347,9 +300,6 @@ watch(() => props.selectedApp, (app: any) => {
         state.logoFile = null
         state.imageFile = null
         state.bgFile = null
-        state.assignedCompanies = []
-        state.companySearch = ''
-        state.companyResults = []
     }
 })
 
@@ -422,33 +372,6 @@ function reset() {
     state.imagePreview = ''
     state.bgFile = null
     state.bgPreview = ''
-    state.assignedCompanies = []
-    state.companySearch = ''
-    state.companyResults = []
-}
-
-function searchCompanies() {
-    clearTimeout(companySearchTimeout)
-    if (!state.companySearch.trim()) { state.companyResults = []; return }
-    companySearchTimeout = setTimeout(async () => {
-        try {
-            const response = await companyService.getCompanies({ search: state.companySearch, page: 1 })
-            state.companyResults = response?.data?.slice(0, 8) ?? []
-        } catch (_) { }
-    }, 300)
-}
-
-async function assignToCompany(company: any) {
-    try {
-        await appService.assignAppToCompany(props.selectedApp?.uuid ?? props.selectedApp?.id, company.uuid)
-        state.assignedCompanies.push(company)
-        state.companySearch = ''
-        state.companyResults = []
-        successAlert(
-            t('superadmin.apps.successAssigned'),
-            t('superadmin.apps.successAssignedBody', { appName: props.selectedApp?.name, companyName: company.name })
-        )
-    } catch (_) { }
 }
 
 async function submit() {
