@@ -9732,7 +9732,12 @@
                     "price": "Price",
                     "quantity": "Quantity",
                     "status": "Status",
-                    "type": "Type"
+                    "type": "Type",
+                    "decrease": "Remove one license",
+                    "increase": "Add one license",
+                    "decreaseConfirm": "Remove one {name} license? If every license is currently assigned, this will unassign one employee.",
+                    "increaseSuccess": "License added",
+                    "decreaseSuccess": "License removed"
                 }
             },
             "editCompany": "Edit company",
@@ -9826,6 +9831,21 @@
                     "total": "Total",
                     "added": "Subscription added",
                     "failed": "Could not add subscription"
+                },
+                "editSubscription": {
+                    "editSubscription": "Edit subscription",
+                    "title": "Edit subscription",
+                    "estimatedCredit": "Estimated credit for unused time",
+                    "updated": "Subscription updated",
+                    "failed": "Could not update subscription"
+                },
+                "removeLicense": {
+                    "remove": "Remove",
+                    "confirm": "Remove license {license}? {user}",
+                    "assignedTo": "It is currently assigned to {name}.",
+                    "noOne": "It is not currently assigned to anyone.",
+                    "removed": "License removed",
+                    "failed": "Could not remove license"
                 }
             },
             "newCompany": "New company",
