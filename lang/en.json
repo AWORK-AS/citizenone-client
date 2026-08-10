@@ -4069,7 +4069,7 @@
             "date": "Date",
             "dateTimeEnd": "Date time end",
             "datetimeStart": "Date time start",
-            "departments": "Departments",
+            "departments": "Department",
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
             "doNotCountWeekends": "Do not count weekends",
