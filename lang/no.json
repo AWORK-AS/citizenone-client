@@ -4069,7 +4069,7 @@
             "date": "Dato",
             "dateTimeEnd": "Slutt dato og tid",
             "datetimeStart": "Start dato og tid",
-            "departments": "Avdelinger",
+            "departments": "Avdeling",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sykefravær som arbeidstimer",
             "doNotCountWeekends": "Tæl ikke weekender med",
@@ -7798,7 +7798,12 @@
             "medicationOverview": "Medicinoversigt",
             "not": "Ikke",
             "notGiven": "Ikke gitt",
-            "notManaged": "Ikke håndtert ennå"
+            "notManaged": "Ikke håndtert ennå",
+            "effectEvaluations": "Effektevalueringer",
+            "remembered": "Husket",
+            "forgotten": "Glemt",
+            "pending": "Venter",
+            "noEvaluationsToShow": "Ingen effektevalueringer å vise"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",

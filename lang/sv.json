@@ -4069,7 +4069,7 @@
             "date": "Datum",
             "dateTimeEnd": "Slut datum och tid",
             "datetimeStart": "Start datum och tid",
-            "departments": "Avdelningar",
+            "departments": "Avdelning",
             "description": "Beskrivning",
             "doNotCountSickLeaveAsWorkingHours": "Täl inte sjukfrånvaro som arbejdstimer",
             "doNotCountWeekends": "Täl inte weekender med",
@@ -7798,7 +7798,12 @@
             "medicationOverview": "Medicinoversigt",
             "not": "Inte",
             "notGiven": "Inte given",
-            "notManaged": "Inte hanterad än"
+            "notManaged": "Inte hanterad än",
+            "effectEvaluations": "Effektutvärderingar",
+            "remembered": "Ihågkommen",
+            "forgotten": "Glömd",
+            "pending": "Väntande",
+            "noEvaluationsToShow": "Inga effektutvärderingar att visa"
         },
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",
