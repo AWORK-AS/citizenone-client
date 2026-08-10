@@ -204,7 +204,8 @@
                                                                 </span>
                                                             </td>
                                                             <td width="20%" class="text-right">
-                                                                <button v-if="canManageLicenses" class="co-action-btn-danger"
+                                                                <button v-if="canManageLicenses && license?.type !== 'free'"
+                                                                    class="co-action-btn-danger"
                                                                     @click="confirmRemoveLicense(license)">
                                                                     {{ $t('superadmin.companies.licenseOverview.removeLicense.remove') }}
                                                                 </button>
