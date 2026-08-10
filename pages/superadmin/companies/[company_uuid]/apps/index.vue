@@ -49,16 +49,39 @@
                             <tr v-for="(companyApp, index) in state.companyApps?.data" :key="index"
                                 class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
                                 <td class="co-td text-[13px] text-[#1F2533]">{{ companyApp?.name }}</td>
-                                <td class="co-td text-[13px] text-[#1F2533]">{{ companyApp?.quantity }}</td>
+                                <td class="co-td text-[13px] text-[#1F2533]">
+                                    <div v-if="canManageLicenses && companyApp?.is_quantifiable" class="flex items-center gap-2">
+                                        <button class="co-action-btn" :disabled="state.isAdjusting"
+                                            :title="$t('superadmin.companies.companyApps.table.decrease')"
+                                            @click="confirmDecrement(companyApp)">
+                                            <Icon name="ph:minus" class="w-3.5 h-3.5" />
+                                        </button>
+                                        <span class="w-6 text-center">{{ companyApp?.quantity }}</span>
+                                        <button class="co-action-btn" :disabled="state.isAdjusting"
+                                            :title="$t('superadmin.companies.companyApps.table.increase')"
+                                            @click="increment(companyApp)">
+                                            <Icon name="ph:plus" class="w-3.5 h-3.5" />
+                                        </button>
+                                    </div>
+                                    <span v-else>{{ companyApp?.quantity }}</span>
+                                </td>
                                 <td class="co-td">
-                                    <span v-if="companyApp?.active_quantity > 0" class="co-badge co-badge-green">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
-                                        {{ $t('superadmin.companies.companyApps.table.active') }}
-                                    </span>
-                                    <span v-else class="co-badge co-badge-red">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
-                                        {{ $t('superadmin.companies.companyApps.table.inactive') }}
-                                    </span>
+                                    <div class="flex items-center gap-3">
+                                        <span v-if="companyApp?.active_quantity > 0" class="co-badge co-badge-green">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                            {{ $t('superadmin.companies.companyApps.table.active') }}
+                                        </span>
+                                        <span v-else class="co-badge co-badge-red">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                            {{ $t('superadmin.companies.companyApps.table.inactive') }}
+                                        </span>
+                                        <button v-if="canManageLicenses" class="co-action-btn"
+                                            :disabled="state.isAdjusting" @click="confirmToggleStatus(companyApp)">
+                                            {{ companyApp?.active_quantity > 0
+                                                ? $t('superadmin.companies.companyApps.table.actions.deactivate')
+                                                : $t('superadmin.companies.companyApps.table.actions.activate') }}
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         </template>
@@ -70,18 +93,30 @@
             <ModulesSuperadminCompanyModalGrantApplicationLicense :open="state.grantModalOpen"
                 :companyUuid="companyUuid as string" @close="state.grantModalOpen = false"
                 @granted="fetchCompanyApps" />
+
+            <DialogConfirmation :isModalOpen="state.decrementConfirmOpen"
+                :message="$t('superadmin.companies.companyApps.table.decreaseConfirm', { name: state.appToAdjust?.name })"
+                @close="state.decrementConfirmOpen = false" @confirm="decrement" />
+
+            <DialogConfirmation :isModalOpen="state.toggleConfirmOpen"
+                :message="state.appToToggle?.active_quantity > 0
+                    ? $t('superadmin.companies.companyApps.confirmation.deactivateAppConfirmation')
+                    : $t('superadmin.companies.companyApps.confirmation.activateAppConfirmation')"
+                @close="state.toggleConfirmOpen = false" @confirm="toggleStatus" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
+import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
+const { successAlert } = useAlert()
 const { can } = usePermissions()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
@@ -113,6 +148,11 @@ const state = reactive({
     error: {} as Error,
     grantModalOpen: false,
     isTableLoading: false,
+    isAdjusting: false,
+    decrementConfirmOpen: false,
+    appToAdjust: null as any,
+    toggleConfirmOpen: false,
+    appToToggle: null as any,
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -168,5 +208,59 @@ function debouncedSearch() {
         currentTablePage = 1
         fetchCompanyApps()
     }, 350)
+}
+
+async function increment(companyApp: any) {
+    state.isAdjusting = true
+    try {
+        await licenseService.adjustApplicationQuantity(companyUuid as string, companyApp.application_uuid, 1)
+        successAlert(t('superadmin.companies.companyApps.table.increaseSuccess'), companyApp.name)
+        fetchCompanyApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isAdjusting = false
+}
+
+function confirmDecrement(companyApp: any) {
+    state.appToAdjust = companyApp
+    state.decrementConfirmOpen = true
+}
+
+async function decrement() {
+    if (!state.appToAdjust) return
+    state.isAdjusting = true
+    try {
+        await licenseService.adjustApplicationQuantity(companyUuid as string, state.appToAdjust.application_uuid, -1)
+        successAlert(t('superadmin.companies.companyApps.table.decreaseSuccess'), state.appToAdjust.name)
+        fetchCompanyApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isAdjusting = false
+}
+
+function confirmToggleStatus(companyApp: any) {
+    state.appToToggle = companyApp
+    state.toggleConfirmOpen = true
+}
+
+async function toggleStatus() {
+    if (!state.appToToggle) return
+    state.isAdjusting = true
+    try {
+        const activate = !(state.appToToggle.active_quantity > 0)
+        await licenseService.toggleAppStatus(companyUuid as string, state.appToToggle.application_uuid, activate)
+        successAlert(
+            activate
+                ? t('superadmin.companies.companyApps.alert.appSuccessfullyActivated')
+                : t('superadmin.companies.companyApps.alert.appSuccessfullyDeactivated'),
+            state.appToToggle.name,
+        )
+        fetchCompanyApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isAdjusting = false
 }
 </script>

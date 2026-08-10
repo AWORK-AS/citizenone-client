@@ -9732,7 +9732,12 @@
                     "price": "Pris",
                     "quantity": "Antall",
                     "status": "Status",
-                    "type": "Type"
+                    "type": "Type",
+                    "decrease": "Fjern en lisens",
+                    "increase": "Legg til en lisens",
+                    "decreaseConfirm": "Fjern en {name}-lisens? Hvis alle lisenser for øyeblikket er i bruk, vil dette fjerne tilgangen for en ansatt.",
+                    "increaseSuccess": "Lisens lagt til",
+                    "decreaseSuccess": "Lisens fjernet"
                 }
             },
             "editCompany": "Rediger virksomhet",
@@ -9826,6 +9831,21 @@
                     "total": "Totalt",
                     "added": "Abonnement lagt til",
                     "failed": "Kunne ikke legge til abonnement"
+                },
+                "editSubscription": {
+                    "editSubscription": "Rediger abonnement",
+                    "title": "Rediger abonnement",
+                    "estimatedCredit": "Anslått kreditt for ubrukt tid",
+                    "updated": "Abonnement oppdatert",
+                    "failed": "Kunne ikke oppdatere abonnement"
+                },
+                "removeLicense": {
+                    "remove": "Fjern",
+                    "confirm": "Fjern lisens {license}? {user}",
+                    "assignedTo": "Den er for øyeblikket tildelt {name}.",
+                    "noOne": "Den er for øyeblikket ikke tildelt noen.",
+                    "removed": "Lisens fjernet",
+                    "failed": "Kunne ikke fjerne lisens"
                 }
             },
             "newCompany": "Ny virksomhet",

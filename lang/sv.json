@@ -9732,7 +9732,12 @@
                     "price": "Pris",
                     "quantity": "Antal",
                     "status": "Status",
-                    "type": "Typ"
+                    "type": "Typ",
+                    "decrease": "Ta bort en licens",
+                    "increase": "Lägg till en licens",
+                    "decreaseConfirm": "Ta bort en {name}-licens? Om alla licenser för närvarande används kommer detta att ta bort åtkomsten för en anställd.",
+                    "increaseSuccess": "Licens tillagd",
+                    "decreaseSuccess": "Licens borttagen"
                 }
             },
             "editCompany": "Redigera företag",
@@ -9826,6 +9831,21 @@
                     "total": "Totalt",
                     "added": "Prenumeration tillagd",
                     "failed": "Kunde inte lägga till prenumeration"
+                },
+                "editSubscription": {
+                    "editSubscription": "Redigera prenumeration",
+                    "title": "Redigera prenumeration",
+                    "estimatedCredit": "Uppskattad kredit för outnyttjad tid",
+                    "updated": "Prenumeration uppdaterad",
+                    "failed": "Kunde inte uppdatera prenumeration"
+                },
+                "removeLicense": {
+                    "remove": "Ta bort",
+                    "confirm": "Ta bort licens {license}? {user}",
+                    "assignedTo": "Den är för närvarande tilldelad {name}.",
+                    "noOne": "Den är för närvarande inte tilldelad någon.",
+                    "removed": "Licens borttagen",
+                    "failed": "Kunde inte ta bort licens"
                 }
             },
             "newCompany": "Ny företag",

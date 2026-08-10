@@ -70,6 +70,10 @@
                                             <h3 class="text-base font-semibold leading-7 text-tertiary">
                                                 {{ state?.subscriptions?.data?.deal?.name }}
                                             </h3>
+                                            <button v-if="canManageLicenses" class="co-action-btn"
+                                                @click="openEditSubscriptionModal">
+                                                {{ $t('superadmin.companies.licenseOverview.editSubscription.editSubscription') }}
+                                            </button>
                                         </div>
                                         <p class="text-gray-600 mt-6 text-base leading-7">
                                             <span v-if="state?.subscriptions?.data?.deal?.name === 'Basis'">
@@ -190,14 +194,20 @@
                                                         v-if="!(state.isTableLoading || (state.licenses?.data?.length === 0))">
                                                         <tr v-for="(license, index) in state.licenses?.data"
                                                             :key="index">
-                                                            <td width="50%">
+                                                            <td width="40%">
                                                                 <span>{{ license?.license }}</span>
                                                             </td>
-                                                            <td width="50%">
+                                                            <td width="40%">
                                                                 <span>
                                                                     {{ license?.licensed_user?.firstname }}
                                                                     {{ license?.licensed_user?.lastname }}
                                                                 </span>
+                                                            </td>
+                                                            <td width="20%" class="text-right">
+                                                                <button v-if="canManageLicenses" class="co-action-btn-danger"
+                                                                    @click="confirmRemoveLicense(license)">
+                                                                    {{ $t('superadmin.companies.licenseOverview.removeLicense.remove') }}
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     </template>
@@ -349,6 +359,99 @@
                     </div>
                 </template>
             </Modal>
+
+            <Modal size="sm" :title="$t('superadmin.companies.licenseOverview.editSubscription.title')"
+                :show="state.editSubscription.isOpen" @close="state.editSubscription.isOpen = false">
+                <template #modal-body>
+                    <div class="space-y-4">
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('superadmin.companies.licenseOverview.addSubscription.plan')" />
+                            <fieldset :aria-label="$t('superadmin.companies.licenseOverview.addSubscription.plan')">
+                                <RadioGroup v-model="state.editSubscription.package"
+                                    class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                    <RadioGroupOption as="template" v-for="deal in state.addSubscription.deals"
+                                        :key="deal.name" :value="deal.name" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                            {{ deal.name }}
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('superadmin.companies.licenseOverview.addSubscription.frequency')" />
+                            <fieldset :aria-label="$t('superadmin.companies.licenseOverview.addSubscription.frequency')">
+                                <RadioGroup v-model="state.editSubscription.frequency"
+                                    class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                    <RadioGroupOption as="template" v-for="option in ['monthly', 'yearly']" :key="option"
+                                        :value="option" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                            {{ option === 'monthly'
+                                                ? $t('superadmin.companies.licenseOverview.addSubscription.monthly')
+                                                : $t('superadmin.companies.licenseOverview.addSubscription.yearly') }}
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('superadmin.companies.licenseOverview.addSubscription.billingMethod')" />
+                            <fieldset :aria-label="$t('superadmin.companies.licenseOverview.addSubscription.billingMethod')">
+                                <RadioGroup v-model="state.editSubscription.billingMethod" class="space-y-2">
+                                    <RadioGroupOption as="template" v-for="option in [
+                                        { value: 'manual_invoice', label: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoice'), description: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoiceDescription') },
+                                        { value: 'payment_card', label: $t('superadmin.companies.licenseOverview.addSubscription.paymentCard'), description: $t('superadmin.companies.licenseOverview.addSubscription.paymentCardDescription') },
+                                    ]" :key="option.value" :value="option.value" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'ring-2 ring-tertiary' : 'ring-1 ring-gray-200', 'cursor-pointer rounded-lg p-3']">
+                                            <p class="text-sm font-semibold text-gray-900">{{ option.label }}</p>
+                                            <p class="text-xs text-gray-500 mt-0.5">{{ option.description }}</p>
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                        <div class="rounded-lg bg-gray-50 p-3 space-y-1 text-sm">
+                            <div class="flex justify-between text-gray-600">
+                                <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.unitPrice') }}</span>
+                                <span>{{ formatAmount(editSubscriptionUnitPrice) }}</span>
+                            </div>
+                            <div class="flex justify-between text-gray-600">
+                                <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.tax') }}</span>
+                                <span>{{ formatAmount(editSubscriptionTax) }}</span>
+                            </div>
+                            <div class="flex justify-between text-gray-600">
+                                <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.serviceFee') }}</span>
+                                <span>{{ formatAmount(editSubscriptionServiceFee) }}</span>
+                            </div>
+                            <div v-if="editSubscriptionEstimatedCredit > 0" class="flex justify-between text-gray-600">
+                                <span>{{ $t('superadmin.companies.licenseOverview.editSubscription.estimatedCredit') }}</span>
+                                <span>-{{ formatAmount(editSubscriptionEstimatedCredit) }}</span>
+                            </div>
+                            <div class="flex justify-between font-semibold text-gray-900 pt-1 border-t border-gray-200">
+                                <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.total') }}</span>
+                                <span>{{ formatAmount(editSubscriptionTotal) }}</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-2">
+                            <FormButton buttonStyle="secondary" @click="state.editSubscription.isOpen = false">
+                                {{ $t('cancel') }}
+                            </FormButton>
+                            <FormButton buttonStyle="primary"
+                                :disabled="state.editSubscription.isSaving || !state.editSubscription.package"
+                                @click="submitEditSubscription">
+                                {{ $t('save') }}
+                            </FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
+
+            <DialogConfirmation :isModalOpen="state.removeLicense.isConfirmOpen"
+                :message="$t('superadmin.companies.licenseOverview.removeLicense.confirm', { license: state.removeLicense.target?.license, user: removeLicenseTargetUserName })"
+                @close="state.removeLicense.isConfirmOpen = false" @confirm="submitRemoveLicense" />
         </NuxtLayout>
     </div>
 </template>
@@ -387,6 +490,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'superadmin.companies.licenseOverview.table.license', isTranslateName: true, sorter: true, key: 'license' },
         { name: 'superadmin.companies.licenseOverview.table.user', isTranslateName: true, },
+        { name: '', isTranslateName: false, },
     ],
     dataFilter: {
         search: ''
@@ -416,6 +520,18 @@ const state = reactive({
         frequency: 'monthly' as 'monthly' | 'yearly',
         billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card',
     },
+    editSubscription: {
+        isOpen: false,
+        isSaving: false,
+        package: '' as string,
+        frequency: 'monthly' as 'monthly' | 'yearly',
+        billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card',
+    },
+    removeLicense: {
+        isConfirmOpen: false,
+        isSaving: false,
+        target: null as any,
+    },
 })
 
 const addSubscriptionSelectedDeal = computed(() =>
@@ -429,6 +545,50 @@ const addSubscriptionUnitPrice = computed(() => {
 const addSubscriptionTax = computed(() => addSubscriptionUnitPrice.value * 0.25)
 const addSubscriptionServiceFee = 4.75
 const addSubscriptionTotal = computed(() => addSubscriptionUnitPrice.value * 1.25 + addSubscriptionServiceFee)
+
+// What fraction of the current billing period is still unused, rolling
+// forward from the subscription's start date in monthly/yearly steps until
+// it brackets "now" - mirrors ProrationCalculator on the backend. This is
+// only ever a preview: the manual-invoice path recomputes it authoritatively
+// server-side, and the card-billed path (payment_card) is the one value this
+// estimate actually gets sent for, matching changePlan's existing contract.
+function remainingFraction(subscriptionStart: Date, frequency: string, now: Date): number {
+    const isYearly = frequency.includes('year')
+    const step = (date: Date) => {
+        const next = new Date(date)
+        if (isYearly) next.setFullYear(next.getFullYear() + 1)
+        else next.setMonth(next.getMonth() + 1)
+        return next
+    }
+    let periodStart = new Date(subscriptionStart)
+    while (step(periodStart).getTime() <= now.getTime()) {
+        periodStart = step(periodStart)
+    }
+    const periodEnd = step(periodStart)
+    return (periodEnd.getTime() - now.getTime()) / (periodEnd.getTime() - periodStart.getTime())
+}
+
+const editSubscriptionSelectedDeal = computed(() =>
+    state.addSubscription.deals.find((deal: any) => deal.name === state.editSubscription.package)
+)
+const editSubscriptionUnitPrice = computed(() => {
+    const deal = editSubscriptionSelectedDeal.value
+    if (!deal) return 0
+    return state.editSubscription.frequency === 'yearly' ? Number(deal.yearly_price ?? 0) : Number(deal.monthly_price ?? 0)
+})
+const editSubscriptionTax = computed(() => editSubscriptionUnitPrice.value * 0.25)
+const editSubscriptionServiceFee = 4.75
+const editSubscriptionEstimatedCredit = computed(() => {
+    const current = state.subscriptions?.data
+    if (!current?.created_at || !current?.type || !current?.deal) return 0
+    const oldUnitPrice = current.type.includes('year') ? Number(current.deal.yearly_price ?? 0) : Number(current.deal.monthly_price ?? 0)
+    if (!oldUnitPrice) return 0
+    const fraction = remainingFraction(new Date(current.created_at), current.type, new Date())
+    return Math.round(Math.max(0, fraction) * oldUnitPrice * 100) / 100
+})
+const editSubscriptionTotal = computed(() =>
+    Math.max(0, editSubscriptionUnitPrice.value * 1.25 + editSubscriptionServiceFee - editSubscriptionEstimatedCredit.value)
+)
 
 // The company's active Deal subscription (monthly/yearly/custom_monthly/custom_yearly)
 // determines the license's billing frequency automatically; only a missing or
@@ -515,6 +675,74 @@ async function submitAddSubscription() {
         errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.addSubscription.failed'))
     }
     state.addSubscription.isSaving = false
+}
+
+async function openEditSubscriptionModal() {
+    const current = state.subscriptions?.data
+    state.editSubscription.package = current?.deal?.name ?? ''
+    state.editSubscription.frequency = current?.type?.includes('year') ? 'yearly' : 'monthly'
+    state.editSubscription.billingMethod = current?.type?.startsWith('custom') ? 'manual_invoice' : 'payment_card'
+    state.editSubscription.isOpen = true
+
+    if (state.addSubscription.deals.length === 0) {
+        state.addSubscription.isLoadingDeals = true
+        try {
+            const response = await licenseService.getDeals()
+            state.addSubscription.deals = response?.data ?? []
+        } catch (error: any) {
+            errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.addSubscription.failed'))
+        }
+        state.addSubscription.isLoadingDeals = false
+    }
+}
+
+async function submitEditSubscription() {
+    if (!state.editSubscription.package) return
+    state.editSubscription.isSaving = true
+    try {
+        const params: any = {
+            package: state.editSubscription.package,
+            frequency: state.editSubscription.frequency,
+            billing_method: state.editSubscription.billingMethod,
+        }
+        if (state.editSubscription.billingMethod === 'payment_card') {
+            params.credit_amount = editSubscriptionEstimatedCredit.value
+        }
+        await licenseService.updateDealSubscription(companyUuid as string, params)
+        state.editSubscription.isOpen = false
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.editSubscription.updated')}.`)
+        fetchSubscription()
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.editSubscription.failed'))
+    }
+    state.editSubscription.isSaving = false
+}
+
+function confirmRemoveLicense(license: any) {
+    state.removeLicense.target = license
+    state.removeLicense.isConfirmOpen = true
+}
+
+const removeLicenseTargetUserName = computed(() => {
+    const user = state.removeLicense.target?.licensed_user
+    return user?.firstname
+        ? t('superadmin.companies.licenseOverview.removeLicense.assignedTo', { name: `${user.firstname} ${user.lastname}` })
+        : t('superadmin.companies.licenseOverview.removeLicense.noOne')
+})
+
+async function submitRemoveLicense() {
+    if (!state.removeLicense.target?.uuid) return
+    state.removeLicense.isSaving = true
+    try {
+        await licenseService.removeLicense(companyUuid as string, state.removeLicense.target.uuid)
+        state.removeLicense.isConfirmOpen = false
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.removeLicense.removed')}.`)
+        fetchLicenses()
+        fetchLicensesCount()
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.removeLicense.failed'))
+    }
+    state.removeLicense.isSaving = false
 }
 
 onMounted(() => {
