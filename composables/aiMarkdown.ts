@@ -1,10 +1,12 @@
 /**
- * Minimal markdown renderer for AI answers.
+ * Markdown fallback for AI answers.
  *
- * The assistant replies in markdown, but the chat rendered the raw string, so
- * users saw literal `**`, `-` and `|` instead of headings, lists and tables.
- * The subset here is what the model actually emits: headings, emphasis, code,
- * lists, links, blockquotes, rules and pipe tables.
+ * The backend prompt asks the model for HTML, and HTML is passed straight
+ * through. But models drift - when the answer comes back as markdown instead,
+ * the chat used to print the raw string, so users saw literal `**`, `-` and `|`
+ * where headings, lists and tables were meant. That case is rendered here.
+ * The subset covered is what the model actually emits when it does drift:
+ * headings, emphasis, code, lists, links, blockquotes, rules and pipe tables.
  *
  * Everything is HTML-escaped before any markup is produced, so text from the
  * model can never introduce tags of its own. The result is still rendered
@@ -64,8 +66,13 @@ function splitTableRow(line: string): string[] {
     return line.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|').map((cell) => cell.trim())
 }
 
+// The assistant is instructed to answer in HTML, so anything that already
+// carries markup is left alone rather than escaped into visible tags.
+const LOOKS_LIKE_HTML = /<(strong|em|b|i|u|br|p|div|span|ul|ol|li|table|thead|tbody|tr|td|th|hr|h[1-6]|a|code|pre|blockquote)\b[^>]*>/i
+
 export function renderMarkdown(source: string): string {
     if (!source) return ''
+    if (LOOKS_LIKE_HTML.test(source)) return source
 
     // Fenced code blocks are pulled out first so their contents are never
     // treated as markdown.
