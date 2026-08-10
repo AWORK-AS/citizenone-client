@@ -796,6 +796,10 @@
             "organisation": "Hva står det i retningslinjene våre om "
         },
         "basedOn": "Basert på",
+        "rateLimited": "Du har stilt mange spørsmål akkurat nå. Prøv igjen om {minutes} min.",
+        "rateLimitedToday": "Organisasjonen deres har nådd dagens grense for AI-forespørsler. Prøv igjen i morgen.",
+        "companyDataMissing": "Svaret er gitt uten tilgang til deres data. Søkeindeksen er ikke opprettet ennå.",
+        "companyDataBuilding": "Svaret er gitt uten tilgang til deres data. Søkeindeksen bygges fortsatt.",
         "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
         "mentionSomeone": "Nevn en bruker eller ansatt",
         "searchScopeHint": "AI kan søke i alle bruker-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",

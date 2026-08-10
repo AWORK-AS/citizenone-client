@@ -122,8 +122,11 @@ class BaseAPIService {
      *
      * $fetch buffers the whole body, which is the opposite of the point, so this
      * one path uses fetch directly. Rejects with `{ streamUnavailable: true }`
-     * when the endpoint or a proxy in front of it will not stream, which is the
-     * caller's signal to fall back to the buffered endpoint.
+     * only when the endpoint or a proxy in front of it will not stream - a
+     * missing route or a server error - which is the caller's signal to fall
+     * back to the buffered endpoint. Everything else, a rate limit above all,
+     * is a real error: retrying it buffered spends a second request to be
+     * refused again, on exactly the request that was already too many.
      */
     async requestStream(
         url: string,
@@ -148,7 +151,22 @@ class BaseAPIService {
             throw new APIError({ message: 'Unauthorized' })
         }
 
-        if (!response.ok || !response.body) {
+        if (!response.ok) {
+            // 404/405 mean the route is not there; 5xx that it failed on the way
+            // out. Both are worth a buffered retry. Other failures are not.
+            if ([404, 405].includes(response.status) || response.status >= 500) {
+                throw { streamUnavailable: true, status: response.status }
+            }
+
+            const body = await response.json().catch(() => ({}))
+            throw new APIError({
+                ...body,
+                status: response.status,
+                retryAfter: Number(response.headers.get('retry-after')) || 0,
+            })
+        }
+
+        if (!response.body) {
             throw { streamUnavailable: true, status: response.status }
         }
 
