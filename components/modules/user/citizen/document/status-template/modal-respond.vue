@@ -22,6 +22,27 @@
                                             :key="fieldIndex" class="space-y-3">
                                             <div class="bg-gray-100 rounded-md border-t-2 border-primary">
                                                 <div>
+                                                    <ModulesUserFormTableField
+                                                        v-if="JSON.parse(formField?.field)?.type === 'table'"
+                                                        :field="JSON.parse(formField?.field)"
+                                                        :number="fieldIndex + 1" v-model="formField.responses" />
+                                                    <ModulesUserFormScaleField
+                                                        v-if="JSON.parse(formField?.field)?.type === 'scale'"
+                                                        :field="JSON.parse(formField?.field)" :fieldIndex="fieldIndex"
+                                                        :number="fieldIndex + 1"
+                                                        :citizenUuid="scaleCitizenUuid"
+                                                        v-model="formField.responses" />
+                                                    <div v-if="JSON.parse(formField?.field)?.type === 'group_title'"
+                                                        class="px-5 py-3 font-semibold text-primary border-l-4 border-primary bg-primary/5">
+                                                        {{ JSON.parse(formField?.field)?.value }}
+                                                    </div>
+                                                    <p v-else-if="JSON.parse(formField?.field)?.type === 'group_empty'"
+                                                        class="px-5 py-3 text-sm text-gray-500">
+                                                        {{ $t('forms.group.noIterations') }}
+                                                    </p>
+                                                    <ModulesUserFormBlockStatic
+                                                        v-if="['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(JSON.parse(formField?.field)?.type)"
+                                                        :field="JSON.parse(formField?.field)" />
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'textfield'"
                                                         class="grow">
                                                         <div class="p-5 space-y-3">
@@ -269,6 +290,22 @@ import { useCitizenStore } from '@/store/citizen'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
+const { expandGroups, responseKey } = useFormGroups()
+
+// The scale loads the citizen's earlier measurements. The citizen comes from the
+// route on a citizen page and from the store when a modal was opened without
+// one; on Drive there is no citizen at all, and an empty uuid simply means no
+// history is fetched.
+const scaleRoute = useRoute()
+const scaleCitizenStore = useCitizenStore() as any
+const scaleCitizenUuid = computed(() => {
+    const fromRoute = scaleRoute?.params?.uuid
+    if (typeof fromRoute === 'string' && fromRoute.length > 0) return fromRoute
+
+    return scaleCitizenStore?.getSelectedCitizen?.uuid ?? ''
+})
+
+
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
@@ -354,6 +391,10 @@ async function fetchForm() {
                     }
                 })
             }
+            if (response.data?.form_fields) {
+                response.data.form_fields = await expandGroups(response.data.form_fields, scaleCitizenUuid.value)
+            }
+
             state.form = response
         }
     } catch (error: any) {
@@ -408,7 +449,31 @@ async function submitResponse() {
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
-            const fieldUuid = formField.uuid
+            const responseFieldKey = responseKey(formField)
+            if (!responseFieldKey) return
+            const fieldUuid = responseFieldKey
+            // Layout blocks carry no answer, but they do carry the text that
+            // ends up in the document. Without a row of their own the headings
+            // never reach the generated PDF at all. The server resolves any
+            // merge fields in that text before storing it.
+            if (['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(fieldType)) {
+                params.append(`responses[${fieldUuid}]`, JSON.parse(formField.field)?.value ?? '')
+
+                return
+            }
+
+            if (fieldType === 'table') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+
+                return
+            }
+
+            if (fieldType === 'scale') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+
+                return
+            }
+
 
             if (fieldType === 'uploadfile' && formField.responses instanceof File) {
                 // Handle file uploads separately
@@ -456,7 +521,31 @@ async function submitResponseAndDownloadPDF() {
 
         state.form.data.form_fields.forEach((formField: any) => {
             const fieldType = JSON.parse(formField.field)?.type
-            const fieldUuid = formField.uuid
+            const responseFieldKey = responseKey(formField)
+            if (!responseFieldKey) return
+            const fieldUuid = responseFieldKey
+            // Layout blocks carry no answer, but they do carry the text that
+            // ends up in the document. Without a row of their own the headings
+            // never reach the generated PDF at all. The server resolves any
+            // merge fields in that text before storing it.
+            if (['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(fieldType)) {
+                params.append(`responses[${fieldUuid}]`, JSON.parse(formField.field)?.value ?? '')
+
+                return
+            }
+
+            if (fieldType === 'table') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+
+                return
+            }
+
+            if (fieldType === 'scale') {
+                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+
+                return
+            }
+
 
             if (fieldType === 'uploadfile' && formField.responses instanceof File) {
                 // Handle file uploads separately

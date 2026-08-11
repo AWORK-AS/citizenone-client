@@ -105,8 +105,8 @@
                             {{ $t('departments.addNewDepartment') }}
                         </span>
                     </div>
-                    <FormSelectMultiple id="department_uuid" name="department_uuid" :options="state.options.departments"
-                        v-model="state.formShift.department_uuid" />
+                    <FormSelect id="department_uuid" name="department_uuid" :options="state.options.departments"
+                        :canClear="false" v-model="state.formShift.department_uuid[0]" />
                     <FormError :error="v$?.formShift?.department_uuid?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.department_uuid?.[0]" />
                 </div>

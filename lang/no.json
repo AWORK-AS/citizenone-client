@@ -4069,7 +4069,7 @@
             "date": "Dato",
             "dateTimeEnd": "Slutt dato og tid",
             "datetimeStart": "Start dato og tid",
-            "departments": "Avdelinger",
+            "departments": "Avdeling",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sykefravær som arbeidstimer",
             "doNotCountWeekends": "Tæl ikke weekender med",
@@ -6452,7 +6452,26 @@
             "required": "Påkrevd",
             "text": "Tekst",
             "textarea": "Tekstområde",
-            "uploadFile": "Last opp fil"
+            "uploadFile": "Last opp fil",
+            "heading": "Overskrift",
+            "subheading": "Underoverskrift",
+            "paragraph": "Tekstavsnitt",
+            "guidance": "Veiledning",
+            "pagebreak": "Sideskift",
+            "headingPlaceholder": "Skriv overskriften",
+            "paragraphPlaceholder": "Skriv teksten",
+            "pagebreakHint": "Starter en ny side i den genererte PDF-en.",
+            "guidanceHint": "Vises bare når rapporten fylles ut. Kommer ikke med i PDF-en.",
+            "helpText": "Hjelpetekst",
+            "helpTextPlaceholder": "Kort veiledning til den som fyller ut",
+            "width": "Bredde",
+            "widthFull": "Full bredde",
+            "widthHalf": "Halv bredde",
+            "scale": "Trivselslinjal",
+            "moveUp": "Flytt opp",
+            "moveDown": "Flytt ned",
+            "duplicate": "Dupliser",
+            "table": "Tabell"
         },
         "formDescription": "Skjemabeskrivelse",
         "formTitle": "Skjematitel",
@@ -6484,7 +6503,16 @@
             "description": "Beskrivelse",
             "title": "Tittel",
             "blocks": "Blokker",
-            "reports": "Rapporter"
+            "reports": "Rapporter",
+            "caption": "Overskrift over tabellen",
+            "captionPlaceholder": "Valgfri overskrift",
+            "columnName": "Kolonne",
+            "addColumn": "Legg til kolonne",
+            "removeColumn": "Fjern kolonne",
+            "addRow": "Legg til rad",
+            "removeRow": "Fjern rad",
+            "cellPlaceholder": "Tekst eller felt",
+            "hint": "Celler kan inneholde felt fra systemet. Medarbeideren kan endre dem når rapporten fylles ut."
         },
         "viewResponses": "Se svar",
         "tabs": {
@@ -6538,6 +6566,82 @@
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Er du sikker på at du vil slette denne forhåndsdefinerte hendelsen"
             }
+        },
+        "layout": {
+            "documentLayout": "Dokumentoppsett",
+            "documentLayoutHint": "Genererer rapporten som et dokument med seksjoner i stedet for en kopi av skjemaet.",
+            "showNumbering": "Nummerer spørsmålene"
+        },
+        "scale": {
+            "question": "Spørsmål",
+            "scaleKey": "Målingens nøkkel",
+            "scaleKeyHint": "Maler med samme nøkkel deler historikk på innbyggeren. Bruk f.eks. trivsel.",
+            "maxScore": "Skala",
+            "maxScoreHint": "0 til 5 eller 0 til 10.",
+            "preview": "Slik ser den ut",
+            "bands": "Fargebånd",
+            "upTo": "Til og med",
+            "bandLabel": "Navn på bånd",
+            "addBand": "Legg til bånd",
+            "raters": "Vurderende parter",
+            "ratersHint": "Medarbeideren fører inn alles vurdering. Legg til flere, f.eks. en spesialist.",
+            "raterLabel": "Navn",
+            "addRater": "Legg til part",
+            "showHistory": "Vis tidligere målinger",
+            "perGoal": "Gjenta linjalen for hvert mål",
+            "perGoalHint": "Slått på vises linjalen én gang per aktivt mål på innbyggeren.",
+            "defaults": {
+                "threatened": "Truet",
+                "atRisk": "Utsatt",
+                "vulnerable": "Sårbar",
+                "moderate": "Moderat trivsel",
+                "thriving": "Trivsel",
+                "staff": "Medarbeider",
+                "caseworker": "Rådgiver",
+                "mother": "Mor",
+                "father": "Far",
+                "citizen": "Innbyggeren"
+            },
+            "clear": "Tøm",
+            "measuredAt": "Målt den",
+            "earlier": "Tidligere målinger",
+            "recordedByHint": "Du fører inn alle parters vurdering. Rapporten viser hvem som har skrevet den ned.",
+            "previousHere": "Forrige måling lå her",
+            "needsTwo": "Det trengs to målinger før utviklingen kan tegnes."
+        },
+        "mergeFields": {
+            "insert": "Sett inn felt",
+            "personal": "Personopplysning",
+            "none": "Ingen felt tilgjengelig",
+            "hint": "Feltet erstattes med innbyggerens data når rapporten lagres.",
+            "loading": "Henter..."
+        },
+        "groups": {
+            "questions": "Spørsmål som noen skal svare på",
+            "layout": "Dokumentets oppbygning",
+            "layoutNeedsDocument": "Disse vises bare i den ferdige rapporten når dokumentoppsettet er slått på."
+        },
+        "previewDocument": {
+            "button": "Forhåndsvis dokumentet",
+            "working": "Genererer...",
+            "hint": "Åpner rapporten slik den vil se ut, med eksempelsvar. Ingenting lagres."
+        },
+        "group": {
+            "title": "Gruppe",
+            "defaultName": "Mål",
+            "namePlaceholder": "Navn på gruppen, f.eks. Mål",
+            "repeatFor": "Gjentas for",
+            "sourceGoals": "Hvert aktive mål",
+            "sourceContacts": "Hver part",
+            "sourceFixed": "Et fast antall",
+            "count": "Antall gjentakelser",
+            "includeCompleted": "Ta med avsluttede mål",
+            "addInside": "Legg til blokk i gruppen",
+            "blocksInside": "blokker i gruppen",
+            "addingInside": "Neste blokk legges inn i gruppen",
+            "addAtEnd": "Legg den nederst i stedet",
+            "hint": "Blokkene i gruppen gjentas én gang per mål på innbyggeren. Sett inn feltet for gjentakelsens navn der målets navn skal stå.",
+            "noIterations": "Innbyggeren har ingen mål ennå, så denne gruppen er tom."
         }
     },
     "gender": {
@@ -7801,7 +7905,12 @@
             "medicationOverview": "Medicinoversigt",
             "not": "Ikke",
             "notGiven": "Ikke gitt",
-            "notManaged": "Ikke håndtert ennå"
+            "notManaged": "Ikke håndtert ennå",
+            "effectEvaluations": "Effektevalueringer",
+            "remembered": "Husket",
+            "forgotten": "Glemt",
+            "pending": "Venter",
+            "noEvaluationsToShow": "Ingen effektevalueringer å vise"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
@@ -9434,7 +9543,8 @@
         "surveys": "Spørreskjemaer",
         "myDay": "Min dag",
         "myAvailability": "Min tilgjengelighet",
-        "myShiftEvaluations": "Mine vaktevalueringer"
+        "myShiftEvaluations": "Mine vaktevalueringer",
+        "forms": "Skjemaer"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -9674,7 +9784,13 @@
                 "discountPercent": "Rabatt (%)",
                 "discountEndsAt": "Tilbudet slutter"
             },
-            "colName": "Navn"
+            "colName": "Navn",
+            "attachToCompany": "Tilordne til selskap",
+            "attachToCompanyDesc": "Tilordne denne appen direkte til et bestemt selskap",
+            "searchCompany": "Søk selskap...",
+            "assigned": "Tilordnet",
+            "successAssigned": "App tilordnet",
+            "successAssignedBody": "{appName} er blitt tilordnet til {companyName}"
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -9735,7 +9851,12 @@
                     "price": "Pris",
                     "quantity": "Antall",
                     "status": "Status",
-                    "type": "Type"
+                    "type": "Type",
+                    "decrease": "Fjern en lisens",
+                    "increase": "Legg til en lisens",
+                    "decreaseConfirm": "Fjern en {name}-lisens? Hvis alle lisenser for øyeblikket er i bruk, vil dette fjerne tilgangen for en ansatt.",
+                    "increaseSuccess": "Lisens lagt til",
+                    "decreaseSuccess": "Lisens fjernet"
                 }
             },
             "editCompany": "Rediger virksomhet",
@@ -9802,7 +9923,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens",
                 "grant": {
                     "addLicenses": "Legg til lisenser",
-                    "description": "Legger til ekstra lisenser i firmaets pool og oppretter en ventende manuell faktura for beløpet.",
+                    "description": "Legger til ekstra brukerlisenser i firmaets pool. Ingen betaling i systemet - faktureres separat i e-conomic.",
                     "quantity": "Antall lisenser",
                     "billingFrequency": "Faktureringsfrekvens",
                     "monthly": "Månedlig",
@@ -9829,6 +9950,21 @@
                     "total": "Totalt",
                     "added": "Abonnement lagt til",
                     "failed": "Kunne ikke legge til abonnement"
+                },
+                "editSubscription": {
+                    "editSubscription": "Rediger abonnement",
+                    "title": "Rediger abonnement",
+                    "estimatedCredit": "Anslått kreditt for ubrukt tid",
+                    "updated": "Abonnement oppdatert",
+                    "failed": "Kunne ikke oppdatere abonnement"
+                },
+                "removeLicense": {
+                    "remove": "Fjern",
+                    "confirm": "Fjern lisens {license}? {user}",
+                    "assignedTo": "Den er for øyeblikket tildelt {name}.",
+                    "noOne": "Den er for øyeblikket ikke tildelt noen.",
+                    "removed": "Lisens fjernet",
+                    "failed": "Kunne ikke fjerne lisens"
                 }
             },
             "newCompany": "Ny virksomhet",
@@ -10698,13 +10834,61 @@
         "licenses": {
             "pageTitle": "App-lisenser",
             "header": "App-lisenser",
-            "subtitle": "Tildel app-lisenser til bedrifter",
-            "newLicense": "Ny app",
+            "subtitle": "Definer priser og lisensstrukturer per app",
+            "newLicense": "Ny lisens",
             "licenseModelLabel": "Lisensmodell",
-            "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Hver app har én pris (månedlig eller årlig); plasser tildeles en bedrift og kan valgfritt tildeles direkte til en bruker.",
+            "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruker/lisens med fleksible faktureringsintervaller - månedlig, årlig eller spesifikk avtale (f.eks. offentlig sektor med stort volum).",
             "noAppsFound": "Ingen apper funnet",
             "noAppsFoundSub": "Legg til apper fra Apps-siden først",
-            "inactive": "Inaktiv"
+            "inactive": "Inaktiv",
+            "licenseTypes": "lisenstyper",
+            "activeCompanies": "aktive bedrifter",
+            "addLicense": "Legg til lisens",
+            "noLicenseTypes": "Ingen lisenstyper ennå - legg til den første",
+            "volume": "Volum",
+            "free": "Gratis",
+            "perUser": "/ bruker",
+            "included": "inkl.",
+            "min": "min.",
+            "users": "brukere",
+            "editLicense": "Rediger lisens",
+            "appLabel": "App",
+            "selectAppPlaceholder": "Velg app…",
+            "licenseNameLabel": "Lisensnavn",
+            "licenseNamePlaceholder": "f.eks. Standard, Enterprise, Offentlig",
+            "descriptionLabel": "Beskrivelse",
+            "descriptionPlaceholder": "Kort beskrivelse av lisenstypen",
+            "priceLabel": "Pris per bruker (kr)",
+            "billingIntervalLabel": "Faktureringsintervall",
+            "monthly": "Månedlig",
+            "yearly": "Årlig",
+            "quarterly": "Kvartalsvis",
+            "custom": "Spesifikk avtale",
+            "includedSeatsLabel": "Inkluderte brukere",
+            "includedSeatsHint": "Inkludert i basisprisen (0 = ingen)",
+            "minSeatsLabel": "Min. kjøp (brukere)",
+            "minSeatsHint": "Minimum som må kjøpes",
+            "volumeAgreement": "Volumavtale",
+            "volumeAgreementDesc": "Aktiver for f.eks. offentlige institusjoner med mange brukere",
+            "activeLabel": "Aktiv",
+            "activeDesc": "Lisenstypen kan kjøpes av bedrifter",
+            "assignToCompany": "Tilknytt til bedrift (valgfritt)",
+            "assignToCompanyDesc": "Tilknytt denne lisenstypen direkte til en bedrift",
+            "searchCompanyPlaceholder": "Søk bedrift...",
+            "cancelAction": "Avbryt",
+            "saving": "Lagrer...",
+            "saveChanges": "Lagre endringer",
+            "createLicense": "Opprett lisens",
+            "errorSelectApp": "Velg en app",
+            "errorLicenseName": "Lisensnavn er påkrevd",
+            "errorPrice": "Prisen må være 0 eller mer",
+            "successSaved": "Lagret!",
+            "successUpdatedBody": "Lisenstype '{name}' er oppdatert.",
+            "successCreated": "Opprettet!",
+            "successCreatedBody": "Lisenstype '{name}' er opprettet.",
+            "successDeleted": "Slettet!",
+            "successDeletedBody": "Lisenstype '{name}' er slettet.",
+            "deleteConfirm": "Slett lisenstype '{name}'?"
         },
         "grantLicense": {
             "title": "Tildel app-lisens",

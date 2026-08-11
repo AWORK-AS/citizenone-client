@@ -217,7 +217,7 @@
                 </div>
                 <div class="isolate flex flex-auto flex-col min-w-0 bg-white rounded-xl ring-1 ring-gray-200 shadow-sm">
                     <div ref="weekHeaderRef"
-                        class="overflow-x-hidden sticky top-16 z-30 bg-white rounded-t-xl border-b border-gray-100">
+                        class="overflow-x-hidden sticky top-[var(--sticky-toolbar-offset,4rem)] z-30 bg-white rounded-t-xl border-b border-gray-100">
                         <div class="min-w-[700px]">
                             <div>
                                 <div class="grid grid-cols-9" id="fixed-header-week-view">

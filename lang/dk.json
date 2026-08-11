@@ -4069,7 +4069,7 @@
             "date": "Dato",
             "dateTimeEnd": "Slut dato og tid",
             "datetimeStart": "Start dato og tid",
-            "departments": "Afdelinger",
+            "departments": "Afdeling",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
             "doNotCountWeekends": "Tæl ikke weekender med",
@@ -6452,7 +6452,26 @@
             "required": "Påkrævet",
             "text": "Tekst",
             "textarea": "Tekstområde",
-            "uploadFile": "Upload fil"
+            "uploadFile": "Upload fil",
+            "heading": "Overskrift",
+            "subheading": "Underoverskrift",
+            "paragraph": "Tekstafsnit",
+            "guidance": "Vejledning",
+            "pagebreak": "Sideskift",
+            "headingPlaceholder": "Skriv overskriften",
+            "paragraphPlaceholder": "Skriv teksten",
+            "pagebreakHint": "Starter en ny side i den genererede PDF.",
+            "guidanceHint": "Vises kun når rapporten udfyldes. Kommer ikke med i PDF'en.",
+            "helpText": "Hjælpetekst",
+            "helpTextPlaceholder": "Kort vejledning til den der udfylder",
+            "width": "Bredde",
+            "widthFull": "Fuld bredde",
+            "widthHalf": "Halv bredde",
+            "scale": "Trivselslineal",
+            "moveUp": "Flyt op",
+            "moveDown": "Flyt ned",
+            "duplicate": "Dupliker",
+            "table": "Tabel"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6484,7 +6503,16 @@
             "description": "Beskrivelse",
             "title": "Titel",
             "blocks": "Blokke",
-            "reports": "Rapporter"
+            "reports": "Rapporter",
+            "caption": "Overskrift over tabellen",
+            "captionPlaceholder": "Valgfri overskrift",
+            "columnName": "Kolonne",
+            "addColumn": "Tilføj kolonne",
+            "removeColumn": "Fjern kolonne",
+            "addRow": "Tilføj række",
+            "removeRow": "Fjern række",
+            "cellPlaceholder": "Tekst eller felt",
+            "hint": "Celler kan indeholde felter fra systemet. Medarbejderen kan rette dem, når rapporten udfyldes."
         },
         "viewResponses": "Se svar",
         "tabs": {
@@ -6538,6 +6566,82 @@
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Er du sikker på, at du vil slette denne foruddefinerede hændelse"
             }
+        },
+        "layout": {
+            "documentLayout": "Dokumentlayout",
+            "documentLayoutHint": "Genererer rapporten som et dokument med sektioner i stedet for en gengivelse af formularen.",
+            "showNumbering": "Nummerér spørgsmål"
+        },
+        "scale": {
+            "question": "Spørgsmål",
+            "scaleKey": "Målingens nøgle",
+            "scaleKeyHint": "Skabeloner med samme nøgle deler historik på borgeren. Brug fx trivsel.",
+            "maxScore": "Skala",
+            "maxScoreHint": "0 til 5 eller 0 til 10.",
+            "preview": "Sådan ser den ud",
+            "bands": "Farvebånd",
+            "upTo": "Til og med",
+            "bandLabel": "Navn på bånd",
+            "addBand": "Tilføj bånd",
+            "raters": "Vurderende parter",
+            "ratersHint": "Medarbejderen taster alles vurdering. Tilføj selv flere, fx en specialist.",
+            "raterLabel": "Navn",
+            "addRater": "Tilføj part",
+            "showHistory": "Vis tidligere målinger",
+            "perGoal": "Gentag linealen for hvert mål",
+            "perGoalHint": "Slået til bliver linealen vist én gang pr. aktivt mål på borgeren.",
+            "defaults": {
+                "threatened": "Truet",
+                "atRisk": "Udsat",
+                "vulnerable": "Sårbar",
+                "moderate": "Moderat trivsel",
+                "thriving": "Trivsel",
+                "staff": "Medarbejder",
+                "caseworker": "Rådgiver",
+                "mother": "Mor",
+                "father": "Far",
+                "citizen": "Borgeren"
+            },
+            "clear": "Ryd",
+            "measuredAt": "Målt den",
+            "earlier": "Tidligere målinger",
+            "recordedByHint": "Du noterer alle parters vurdering. Rapporten viser hvem der har skrevet den ned.",
+            "previousHere": "Forrige måling lå her",
+            "needsTwo": "Der skal to målinger til før udviklingen kan tegnes."
+        },
+        "mergeFields": {
+            "insert": "Indsæt felt",
+            "personal": "Personoplysning",
+            "none": "Ingen felter tilgængelige",
+            "hint": "Feltet erstattes med borgerens data, når rapporten gemmes.",
+            "loading": "Henter..."
+        },
+        "groups": {
+            "questions": "Spørgsmål, som nogen skal besvare",
+            "layout": "Dokumentets opbygning",
+            "layoutNeedsDocument": "Disse vises kun i den færdige rapport, når dokumentlayout er slået til."
+        },
+        "previewDocument": {
+            "button": "Forhåndsvis dokumentet",
+            "working": "Genererer...",
+            "hint": "Åbner rapporten som den vil se ud, med eksempelsvar. Intet gemmes."
+        },
+        "group": {
+            "title": "Gruppe",
+            "defaultName": "Mål",
+            "namePlaceholder": "Navn på gruppen, fx Mål",
+            "repeatFor": "Gentages for",
+            "sourceGoals": "Hvert aktivt mål",
+            "sourceContacts": "Hver part",
+            "sourceFixed": "Et fast antal",
+            "count": "Antal gentagelser",
+            "includeCompleted": "Tag afsluttede mål med",
+            "addInside": "Tilføj blok i gruppen",
+            "blocksInside": "blokke i gruppen",
+            "addingInside": "Næste blok lægges ind i gruppen",
+            "addAtEnd": "Læg den nederst i stedet",
+            "hint": "Blokkene i gruppen gentages én gang pr. mål på borgeren. Indsæt feltet for gentagelsens navn, hvor målets navn skal stå.",
+            "noIterations": "Borgeren har ingen mål endnu, så denne gruppe er tom."
         }
     },
     "gender": {
@@ -7801,7 +7905,12 @@
             "medicationOverview": "Medicinoversigt",
             "not": "Ikke",
             "notGiven": "Ikke givet",
-            "notManaged": "Endnu ikke håndteret"
+            "notManaged": "Endnu ikke håndteret",
+            "effectEvaluations": "Effektevalueringer",
+            "remembered": "Husket",
+            "forgotten": "Glemt",
+            "pending": "Afventer",
+            "noEvaluationsToShow": "Ingen effektevalueringer at vise"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
@@ -9434,7 +9543,8 @@
         "surveys": "Spørgeskemaer",
         "myDay": "Min dag",
         "myAvailability": "Min tilgængelighed",
-        "myShiftEvaluations": "Mine vagtevalueringer"
+        "myShiftEvaluations": "Mine vagtevalueringer",
+        "forms": "Formularer"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -9674,7 +9784,13 @@
                 "discountPercent": "Rabat (%)",
                 "discountEndsAt": "Tilbud slutter"
             },
-            "colName": "Navn"
+            "colName": "Navn",
+            "attachToCompany": "Tildel til virksomhed",
+            "attachToCompanyDesc": "Tildel denne app direkte til en specifik virksomhed",
+            "searchCompany": "Søg virksomhed...",
+            "assigned": "Tildelt",
+            "successAssigned": "App tildelt",
+            "successAssignedBody": "{appName} er blevet tildelt til {companyName}"
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -9735,7 +9851,12 @@
                     "price": "Pris",
                     "quantity": "Antal",
                     "status": "Status",
-                    "type": "Type"
+                    "type": "Type",
+                    "decrease": "Fjern en licens",
+                    "increase": "Tilføj en licens",
+                    "decreaseConfirm": "Fjern en {name}-licens? Hvis alle licenser i øjeblikket er i brug, vil dette fjerne en medarbejders adgang.",
+                    "increaseSuccess": "Licens tilføjet",
+                    "decreaseSuccess": "Licens fjernet"
                 }
             },
             "editCompany": "Rediger virksomhed",
@@ -9802,7 +9923,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens",
                 "grant": {
                     "addLicenses": "Tilføj licenser",
-                    "description": "Tilføjer ekstra licenser til virksomhedens pulje og opretter en afventende manuel faktura for beløbet.",
+                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje. Der opkræves ikke i systemet - faktureres separat i e-conomic.",
                     "quantity": "Antal licenser",
                     "billingFrequency": "Faktureringsfrekvens",
                     "monthly": "Månedlig",
@@ -9829,6 +9950,21 @@
                     "total": "Total",
                     "added": "Abonnement tilføjet",
                     "failed": "Kunne ikke tilføje abonnement"
+                },
+                "editSubscription": {
+                    "editSubscription": "Rediger abonnement",
+                    "title": "Rediger abonnement",
+                    "estimatedCredit": "Anslået kredit for ubrugt tid",
+                    "updated": "Abonnement opdateret",
+                    "failed": "Kunne ikke opdatere abonnement"
+                },
+                "removeLicense": {
+                    "remove": "Fjern",
+                    "confirm": "Fjern licens {license}? {user}",
+                    "assignedTo": "Den er i øjeblikket tildelt {name}.",
+                    "noOne": "Den er i øjeblikket ikke tildelt nogen.",
+                    "removed": "Licens fjernet",
+                    "failed": "Kunne ikke fjerne licens"
                 }
             },
             "newCompany": "Ny virksomhed",
@@ -10698,13 +10834,61 @@
         "licenses": {
             "pageTitle": "App Licenser",
             "header": "App Licenser",
-            "subtitle": "Tildel app-licenser til virksomheder",
-            "newLicense": "Ny app",
+            "subtitle": "Definer priser og licensstrukturer per app",
+            "newLicense": "Ny licens",
             "licenseModelLabel": "Licensmodel",
-            "licenseModelDesc": "Virksomheder betaler per app de aktiverer, ikke en samlet plan. Hver app har én pris (månedlig eller årlig); pladser tildeles en virksomhed og kan valgfrit tildeles direkte til en bruger.",
+            "licenseModelDesc": "Virksomheder betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruger/licens med fleksible faktureringsintervaller - månedlig, årlig eller specifik aftale (fx offentlig sektor med stor volumen).",
             "noAppsFound": "Ingen apps fundet",
             "noAppsFoundSub": "Tilføj apps fra Apps-siden først",
-            "inactive": "Inaktiv"
+            "inactive": "Inaktiv",
+            "licenseTypes": "licenstyper",
+            "activeCompanies": "aktive virksomheder",
+            "addLicense": "Tilføj licens",
+            "noLicenseTypes": "Ingen licenstyper endnu - tilføj den første",
+            "volume": "Volumen",
+            "free": "Gratis",
+            "perUser": "/ bruger",
+            "included": "inkl.",
+            "min": "min.",
+            "users": "brugere",
+            "editLicense": "Rediger licens",
+            "appLabel": "App",
+            "selectAppPlaceholder": "Vælg app…",
+            "licenseNameLabel": "Licensnavn",
+            "licenseNamePlaceholder": "fx Standard, Enterprise, Offentlig",
+            "descriptionLabel": "Beskrivelse",
+            "descriptionPlaceholder": "Kort beskrivelse af licenstypen",
+            "priceLabel": "Pris per bruger (kr)",
+            "billingIntervalLabel": "Faktureringsinterval",
+            "monthly": "Månedlig",
+            "yearly": "Årlig",
+            "quarterly": "Kvartalsvis",
+            "custom": "Specifik aftale",
+            "includedSeatsLabel": "Inkluderede brugere",
+            "includedSeatsHint": "Inkluderet i basisprisen (0 = ingen)",
+            "minSeatsLabel": "Min. køb (brugere)",
+            "minSeatsHint": "Minimum der skal tilkøbes",
+            "volumeAgreement": "Volumenaftale",
+            "volumeAgreementDesc": "Aktivér for fx offentlige institutioner med mange brugere (fx 6.300 brugere til 29 kr/stk.)",
+            "activeLabel": "Aktiv",
+            "activeDesc": "Licenstypen kan tilkøbes af virksomheder",
+            "assignToCompany": "Tilknyt til virksomhed (valgfri)",
+            "assignToCompanyDesc": "Tilknyt denne licenstype direkte til en virksomhed",
+            "searchCompanyPlaceholder": "Søg virksomhed...",
+            "cancelAction": "Annuller",
+            "saving": "Gemmer...",
+            "saveChanges": "Gem ændringer",
+            "createLicense": "Opret licens",
+            "errorSelectApp": "Vælg en app",
+            "errorLicenseName": "Licensnavn er påkrævet",
+            "errorPrice": "Prisen skal være 0 eller mere",
+            "successSaved": "Gemt!",
+            "successUpdatedBody": "Licenstype '{name}' er opdateret.",
+            "successCreated": "Oprettet!",
+            "successCreatedBody": "Licenstype '{name}' er oprettet.",
+            "successDeleted": "Slettet!",
+            "successDeletedBody": "Licenstype '{name}' er slettet.",
+            "deleteConfirm": "Slet licenstype '{name}'?"
         },
         "grantLicense": {
             "title": "Tildel app-licens",

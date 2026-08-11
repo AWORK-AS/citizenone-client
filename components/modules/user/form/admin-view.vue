@@ -16,7 +16,11 @@
                     <template #body v-if="!(state.isTableLoading || (state.forms?.data?.length === 0))">
                         <tr v-for="(form, index) in state.forms?.data" :key="index">
                             <td width="50%">
-                                <p>{{ form?.title }}</p>
+                                <button type="button"
+                                    class="text-left text-primary hover:underline focus-visible:underline"
+                                    @click="navigateTo(`/forms/${form.uuid}/edit`)">
+                                    {{ form?.title }}
+                                </button>
                             </td>
                             <td width="50%">
                                 <p>{{ form?.description }}</p>

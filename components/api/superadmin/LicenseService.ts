@@ -49,6 +49,38 @@ class LicenseService extends BaseAPIService {
     ): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/subscription`, 'POST', params)
     }
+
+    // Change an EXISTING subscription's plan/frequency. credit_amount is only
+    // read for a payment_card target (manual-invoice companies get their
+    // credit computed server-side).
+    async updateDealSubscription(
+        companyUuid: string,
+        params: {
+            package: string
+            frequency: 'monthly' | 'yearly'
+            billing_method: 'manual_invoice' | 'payment_card'
+            credit_amount?: number
+        },
+    ): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/subscription`, 'PUT', params)
+    }
+
+    // Add (positive delta) or remove (negative delta) seats for an
+    // already-granted Application.
+    async adjustApplicationQuantity(companyUuid: string, applicationUuid: string, delta: number): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/apps/${applicationUuid}/quantity`, 'PATCH', { delta })
+    }
+
+    // Pause (activate: false) or resume every seat of an app for a company at once.
+    async toggleAppStatus(companyUuid: string, applicationUuid: string, activate: boolean): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/apps/${applicationUuid}/status`, 'PATCH', { activate })
+    }
+
+    // Remove one license row - works for both Application seats and AddOnDeal
+    // (Extra User/Department) seats.
+    async removeLicense(companyUuid: string, licenseUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/licenses/${licenseUuid}`, 'DELETE')
+    }
 }
 
 export const licenseService = new LicenseService()
