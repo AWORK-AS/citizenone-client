@@ -780,6 +780,19 @@
     },
     "assistants": {
         "askAI": "Ask AI",
+        "actions": {
+            "copy": "Copy",
+            "copied": "Copied",
+            "copyFailed": "Could not copy the answer",
+            "regenerate": "Try again"
+        },
+        "starters": {
+            "title": "For example",
+            "overview": "Give me an overview of the case for ",
+            "summary": "Summarise the latest journal notes for ",
+            "report": "Draft a report for the caseworker about ",
+            "organisation": "What do our guidelines say about "
+        },
         "askAnything": "Ask anything, or type {'@'} to mention someone",
         "mentionSomeone": "Mention a citizen or employee",
         "searchScopeHint": "AI can search any citizen/employee record you have access to, unless you tag someone specific with {'@'}",

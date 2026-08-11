@@ -780,6 +780,19 @@
     },
     "assistants": {
         "askAI": "Fråga AI",
+        "actions": {
+            "copy": "Kopiera",
+            "copied": "Kopierat",
+            "copyFailed": "Kunde inte kopiera svaret",
+            "regenerate": "Försök igen"
+        },
+        "starters": {
+            "title": "Prova till exempel",
+            "overview": "Ge mig en överblick över ärendet för ",
+            "summary": "Sammanfatta de senaste journalanteckningarna för ",
+            "report": "Skriv ett utkast till en rapport till handläggaren om ",
+            "organisation": "Vad står det i våra riktlinjer om "
+        },
         "askAnything": "Fråga om vad som helst, eller skriv {'@'} för att nämna någon",
         "mentionSomeone": "Nämn en brukare eller medarbetare",
         "searchScopeHint": "AI kan söka i alla brukar-/medarbetaruppgifter du har åtkomst till, om du inte taggar en specifik person med {'@'}",

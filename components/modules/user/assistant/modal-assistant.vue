@@ -97,10 +97,42 @@
                                     <div class="flex-1 min-w-0">
                                         <div class="text-xs font-medium text-gray-400 mb-1">{{ $t('assistants.askAI') }}
                                         </div>
-                                        <div class="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap"
+                                        <div class="ai-answer text-sm text-gray-800 leading-relaxed"
                                             v-safe-html="formatMessage(message?.text)" />
+                                        <!-- The answer used to be a dead end: read it, then retype it
+                                        somewhere else. Copy takes the markdown as written. -->
+                                        <div v-if="index > 0" class="flex items-center gap-1 mt-2 -ml-1.5">
+                                            <button type="button" @click="copyAnswer(message, index)"
+                                                :title="$t('assistants.actions.copy')"
+                                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors">
+                                                <Icon :name="state.copiedIndex === index ? 'ph:check' : 'ph:copy'"
+                                                    class="h-3.5 w-3.5" />
+                                                {{ state.copiedIndex === index ? $t('assistants.actions.copied') :
+                                                    $t('assistants.actions.copy') }}
+                                            </button>
+                                            <button type="button"
+                                                v-if="index === state.messages.length - 1 && state.lastRequest.prompt"
+                                                @click="regenerateAnswer" :disabled="state.isGeneratingResponse"
+                                                :title="$t('assistants.actions.regenerate')"
+                                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-40">
+                                                <Icon name="ph:arrow-clockwise" class="h-3.5 w-3.5" />
+                                                {{ $t('assistants.actions.regenerate') }}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <!-- A blank box does not tell anyone what the assistant is for, so a
+                            fresh chat offers the things it is actually good at. -->
+                            <div v-if="showStarters" class="space-y-2">
+                                <p class="text-xs font-medium text-gray-400">{{ $t('assistants.starters.title') }}</p>
+                                <button v-for="starter in STARTER_KEYS" :key="starter" type="button"
+                                    @click="useStarter($t(`assistants.starters.${starter}`))"
+                                    class="flex w-full items-start gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-left text-sm text-gray-600 hover:border-primary/40 hover:text-primary transition-colors">
+                                    <Icon name="ph:sparkle" class="h-4 w-4 shrink-0 mt-0.5 text-primary/60" />
+                                    <span>{{ $t(`assistants.starters.${starter}`) }}</span>
+                                </button>
                             </div>
                             <div v-if="state.isGeneratingResponse"
                                 class="w-full bg-gray-50 border border-gray-100 rounded-xl px-1 py-3 flex items-start gap-3">
@@ -323,7 +355,21 @@ const state = reactive({
         isLoading: false,
         redactedPrompt: '',
     },
+    copiedIndex: null as number | null,
+    // Kept so an answer can be re-asked without the user retyping the question.
+    lastRequest: {
+        prompt: '',
+        citizenUuids: [] as string[],
+        employeeUuids: [] as string[],
+    },
 })
+
+// Suggestions for an empty chat, matching what the assistant is actually good
+// at. Order matches the product description: overview, summary, report, lookup.
+const STARTER_KEYS = ['overview', 'summary', 'report', 'organisation']
+
+const showStarters = computed(() =>
+    state.view === 'chat' && state.messages.length <= 1 && !state.isGeneratingResponse)
 
 const filteredConversations = computed(() => {
     const query = state.searchQuery.trim().toLowerCase()
@@ -495,14 +541,56 @@ async function sendMessage() {
     state.isGeneratingResponse = false
 }
 
+// The model answers in markdown. This used to return the raw string, so
+// headings, lists and tables reached the user as literal `#`, `-` and `|`.
+// The result still goes through v-safe-html (DOMPurify) before it hits the DOM.
 function formatMessage(messageText: string) {
-    // Example format: If the message contains a structured citizen list, format it
-    // const formattedMessage = messageText.replace(/---/g, '<hr/>') // Replace "---" with horizontal line
-    //     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold the text wrapped in **
-    //     .replace(/\*\[(.*?)\]\(.*?\)/g, '<a href="#">$1</a>') // Make links clickable
-    //     .replace(/\n/g, '<br/>') // Replace newlines with <br/>
+    return renderMarkdown(messageText ?? '')
+}
 
-    return messageText
+async function copyAnswer(message: any, index: number) {
+    try {
+        await navigator.clipboard.writeText(message?.text ?? '')
+        state.copiedIndex = index
+        setTimeout(() => {
+            if (state.copiedIndex === index) state.copiedIndex = null
+        }, 2000)
+    } catch {
+        errorAlert(`${t('alert.somethingWentWrong')}!`, t('assistants.actions.copyFailed'))
+    }
+}
+
+function useStarter(text: string) {
+    state.newMessage = text
+    nextTick(() => promptTextarea.value?.focus())
+}
+
+// Re-asks the last question on the same conversation. Attachments are not
+// resent - they already live on the conversation from the first send.
+async function regenerateAnswer() {
+    if (state.isGeneratingResponse || !state.lastRequest.prompt) return
+
+    if (state.messages[state.messages.length - 1]?.type === 'bot') state.messages.pop()
+
+    state.error = {}
+    state.isGeneratingResponse = true
+    try {
+        const formData = new FormData()
+        formData.append('prompt', state.lastRequest.prompt)
+        if (state.aiElements.conversationId) formData.append('conversation_id', state.aiElements.conversationId)
+        if (state.aiElements.vectorStoreId) formData.append('vector_store_id', state.aiElements.vectorStoreId)
+        state.lastRequest.citizenUuids.forEach((uuid) => formData.append('citizen_uuids[]', uuid))
+        state.lastRequest.employeeUuids.forEach((uuid) => formData.append('employee_uuids[]', uuid))
+
+        const response = await aIAssistantService.sendMessage(formData)
+        if (response?.data) {
+            state.messages.push({ type: 'bot', text: response?.data?.answer })
+            if (response.conversation_id) state.aiElements.conversationId = response.conversation_id
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isGeneratingResponse = false
 }
 
 function getTotalFilesSize(files: File[]) {
@@ -643,6 +731,10 @@ function processPayload() {
         }
     })
 
+    state.lastRequest.prompt = state.newMessage
+    state.lastRequest.citizenUuids = state.mentionedEntities.filter((e) => e.type === 'citizen').map((e) => e.uuid)
+    state.lastRequest.employeeUuids = state.mentionedEntities.filter((e) => e.type !== 'citizen').map((e) => e.uuid)
+
     state.newMessage = ''
     state.files = []
     state.mentionedEntities = []
@@ -692,5 +784,123 @@ function processPayload() {
 .dot5 {
     animation: blink 1.4s infinite both;
     animation-delay: 0.8s;
+}
+</style>
+<style scoped>
+/* Styling for the markdown the assistant returns. Scoped to the answer bubble
+   so it can't leak into the rest of the chat. */
+.ai-answer :deep(p) {
+    margin: 0 0 0.6rem;
+}
+
+.ai-answer :deep(p:last-child) {
+    margin-bottom: 0;
+}
+
+.ai-answer :deep(h3),
+.ai-answer :deep(h4),
+.ai-answer :deep(h5),
+.ai-answer :deep(h6) {
+    font-weight: 600;
+    color: #111827;
+    margin: 0.9rem 0 0.4rem;
+}
+
+.ai-answer :deep(h3) {
+    font-size: 0.95rem;
+}
+
+.ai-answer :deep(h4),
+.ai-answer :deep(h5),
+.ai-answer :deep(h6) {
+    font-size: 0.875rem;
+}
+
+.ai-answer :deep(> :first-child) {
+    margin-top: 0;
+}
+
+.ai-answer :deep(ul),
+.ai-answer :deep(ol) {
+    margin: 0 0 0.6rem;
+    padding-left: 1.25rem;
+}
+
+.ai-answer :deep(ul) {
+    list-style: disc;
+}
+
+.ai-answer :deep(ol) {
+    list-style: decimal;
+}
+
+.ai-answer :deep(li) {
+    margin: 0.15rem 0;
+}
+
+.ai-answer :deep(a) {
+    color: #0f4c75;
+    text-decoration: underline;
+}
+
+.ai-answer :deep(strong) {
+    font-weight: 600;
+    color: #111827;
+}
+
+.ai-answer :deep(code) {
+    background: #f3f4f6;
+    border-radius: 0.25rem;
+    padding: 0.05rem 0.3rem;
+    font-size: 0.8125rem;
+}
+
+.ai-answer :deep(pre) {
+    background: #f3f4f6;
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    margin: 0 0 0.6rem;
+    overflow-x: auto;
+}
+
+.ai-answer :deep(pre code) {
+    background: transparent;
+    padding: 0;
+}
+
+.ai-answer :deep(blockquote) {
+    border-left: 3px solid #d1d5db;
+    padding-left: 0.75rem;
+    color: #4b5563;
+    margin: 0 0 0.6rem;
+}
+
+.ai-answer :deep(hr) {
+    border: 0;
+    border-top: 1px solid #e5e7eb;
+    margin: 0.75rem 0;
+}
+
+/* Wide tables scroll inside the bubble rather than stretching the chat. */
+.ai-answer :deep(table) {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 0.6rem;
+    font-size: 0.8125rem;
+}
+
+.ai-answer :deep(th),
+.ai-answer :deep(td) {
+    border: 1px solid #e5e7eb;
+    padding: 0.35rem 0.55rem;
+    text-align: left;
+    vertical-align: top;
+}
+
+.ai-answer :deep(th) {
+    background: #f9fafb;
+    font-weight: 600;
 }
 </style>

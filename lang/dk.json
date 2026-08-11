@@ -780,6 +780,19 @@
     },
     "assistants": {
         "askAI": "Spørg AI",
+        "actions": {
+            "copy": "Kopiér",
+            "copied": "Kopieret",
+            "copyFailed": "Kunne ikke kopiere svaret",
+            "regenerate": "Prøv igen"
+        },
+        "starters": {
+            "title": "Prøv for eksempel",
+            "overview": "Giv mig et overblik over forløbet for ",
+            "summary": "Opsummer de seneste journalnotater for ",
+            "report": "Skriv et udkast til en rapport til sagsbehandleren om ",
+            "organisation": "Hvad står der i vores retningslinjer om "
+        },
         "askAnything": "Spørg om hvad som helst, eller skriv {'@'} for at nævne nogen",
         "mentionSomeone": "Nævn en borger eller medarbejder",
         "searchScopeHint": "AI kan søge i alle borger-/medarbejderoplysninger, du har adgang til, medmindre du tagger en bestemt person med {'@'}",
