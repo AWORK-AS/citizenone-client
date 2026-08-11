@@ -650,7 +650,16 @@
                                                     </div>
                                                     <div
                                                         class="col-span-2 flex gap-2 flex-col items-end border-l-0.5 border-gray-200">
-                                                        <p class="text-xxs py-2 pr-2 text-right leading-tight">
+                                                        <!-- This column accumulates over the employee's current norm
+                                                             cycle, which only equals the calendar year when their norm
+                                                             period does. Don't caption a May–April cycle "current year". -->
+                                                        <Tooltip v-if="cycleRange(employee)"
+                                                            :text="cycleTooltip(employee)" position="left">
+                                                            <p class="text-xxs py-2 pr-2 text-right leading-tight">
+                                                                {{ $t('normPeriod.form.normPeriod') }}
+                                                            </p>
+                                                        </Tooltip>
+                                                        <p v-else class="text-xxs py-2 pr-2 text-right leading-tight">
                                                             {{ $t('dutySchedules.currentYear') }}
                                                         </p>
                                                     </div>
@@ -771,6 +780,77 @@
                                                             }}
                                                         </div>
                                                     </div>
+                                                </div>
+                                                <!-- Pro-rated period. Additive: every figure above is still the
+                                                     full-year one, this box is the only range-aware norm/balance. -->
+                                                <div class="text-xs border-t-0.5 border-gray-200 px-1.5 sm:px-3 py-2">
+                                                    <div class="flex items-center gap-2">
+                                                        <div class="flex items-center gap-1 text-xxs text-primary cursor-pointer hover:text-primary-700"
+                                                            @click="state.modal.isHoursPeriodOpen = true">
+                                                            <Icon name="ph:calendar-blank"
+                                                                class="w-3 h-3 flex-shrink-0" aria-hidden="true" />
+                                                            <span>
+                                                                {{ state.hoursPeriod.isActive
+                                                                    ? hoursPeriodLabel(employee)
+                                                                    : $t('dutySchedules.normHours.period.selectPeriod')
+                                                                }}
+                                                            </span>
+                                                        </div>
+                                                        <button v-if="state.hoursPeriod.isActive" type="button"
+                                                            class="text-xxs text-gray-500 hover:text-gray-700 underline"
+                                                            @click="clearHoursPeriod()">
+                                                            {{ $t('dutySchedules.normHours.period.clear') }}
+                                                        </button>
+                                                    </div>
+
+                                                    <template v-if="state.hoursPeriod.isActive">
+                                                        <div v-if="empStats(employee)?.period"
+                                                            class="mt-1.5 grid grid-cols-[1fr_auto] gap-x-2.5 gap-y-0.5 text-xxs">
+                                                            <span>
+                                                                {{ $t('dutySchedules.normHours.period.normHours') }}
+                                                            </span>
+                                                            <span class="text-right tabular-nums">
+                                                                {{ formatNumber(language.locale.value,
+                                                                    empStats(employee)?.period?.norm_hours) }}
+                                                            </span>
+                                                            <span>
+                                                                {{ $t('dutySchedules.normHours.period.workedHours') }}
+                                                            </span>
+                                                            <span class="text-right tabular-nums">
+                                                                {{ formatNumber(language.locale.value,
+                                                                    empStats(employee)?.period?.worked_hours) }}
+                                                            </span>
+                                                            <span class="font-semibold">
+                                                                {{ $t('dutySchedules.normHours.period.balance') }}
+                                                            </span>
+                                                            <!-- balance_hours is a raw JSON number, so a plain sign
+                                                                 test is safe here (no parseLocaleNumber). -->
+                                                            <span :class="[
+                                                                empStats(employee)?.period?.balance_hours >= 0 ? 'text-green-700' : 'text-red-700',
+                                                                'text-right tabular-nums font-semibold'
+                                                            ]">
+                                                                {{ formatNumber(language.locale.value,
+                                                                    empStats(employee)?.period?.balance_hours) }}
+                                                            </span>
+                                                            <span v-if="empStats(employee)?.period?.basis === 'workdays'"
+                                                                class="col-span-2 text-gray-500 italic">
+                                                                {{ $t('dutySchedules.normHours.period.basisWorkdays', {
+                                                                    days: empStats(employee)?.period?.workdays_in_range,
+                                                                    total: empStats(employee)?.period?.workdays_in_norm_period
+                                                                }) }}
+                                                            </span>
+                                                            <span v-if="carryOverEnabled"
+                                                                class="col-span-2 text-gray-500 italic">
+                                                                {{
+                                                                    $t('dutySchedules.normHours.period.excludesCarryOver')
+                                                                }}
+                                                            </span>
+                                                        </div>
+                                                        <p v-else-if="!isStatsLoading(employee)"
+                                                            class="mt-1.5 text-xxs text-gray-500 italic">
+                                                            {{ $t('dutySchedules.normHours.period.notAvailable') }}
+                                                        </p>
+                                                    </template>
                                                 </div>
                                                 <div class="text-xs grid grid-cols-7"
                                                     v-if="employee?.show_compensatory_hours">
@@ -1351,6 +1431,9 @@
         <ModulesUserDutyScheduleModalTimeRangeFilter :isModalOpen="state.modal.isTimeRangeFilterOpen"
             :timeFrom="state.filter.time_from" :timeTo="state.filter.time_to"
             @close="state.modal.isTimeRangeFilterOpen = false" @setTimeRange="setTimeRange" />
+        <ModulesUserDutyScheduleNormHoursModalDateRange :isModalOpen="state.modal.isHoursPeriodOpen"
+            :dateRange="state.hoursPeriod" @close="state.modal.isHoursPeriodOpen = false"
+            @filterDate="setHoursPeriod" />
 
         <!-- Floating stop-copying button — shown when something has been copied -->
         <div v-if="!isDailyScheduleCopiedEmpty()"
@@ -1373,6 +1456,7 @@ import { dutyScheduleFavoriteEmployeeService } from '@/components/api/user/DutyS
 import { useFavoriteEmployees } from '@/composables/useFavoriteEmployees'
 import { useDepartmentStore } from '@/store/department'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
@@ -1391,8 +1475,13 @@ const favoriteEmployees = useFavoriteEmployees()
 
 // Holiday markers only show for companies that opted in to holiday hours.
 const holidaysEnabled = computed(() => !!userStore.getUser?.company?.holiday_non_sunday_hours_enabled)
+// period.balance_hours excludes carry-over, while the Afspadseringstimer line above it
+// (total_norm_hours) includes it. The two differ by exactly the carried-over amount, so
+// only say so when carry-over is actually switched on.
+const carryOverEnabled = computed(() => !!userStore.getUser?.company?.transfer_norm_hours_enabled)
 const departmentStore = useDepartmentStore()
 const { formatNumber, parseLocaleNumber } = useNumberFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { errorAlert } = useAlert()
 const currentDate = ref(moment())
 const month = computed(() => currentDate.value.format('MMMM'))
@@ -1526,6 +1615,7 @@ const state = reactive({
         isAnnualNormHoursInfoOpen: false,
         isGraphOpen: false,
         isTimeRangeFilterOpen: false,
+        isHoursPeriodOpen: false,
     } as any,
     newShift: {
         selectedDate: '',
@@ -1573,6 +1663,15 @@ const state = reactive({
     weeklySchedules: [] as any,
     employeeHoursStats: {} as Record<string, any>,
     employeeHoursStatsLoading: {} as Record<string, boolean>,
+    // Optional pro-rated period for the hours panel. While inactive the stats request
+    // omits period_start/period_end entirely and the response is the plain year figures.
+    hoursPeriod: {
+        isActive: false,
+        formDateRange: {
+            start_date: moment().startOf('month').format('YYYY-MM-DD'),
+            end_date: moment().endOf('month').format('YYYY-MM-DD'),
+        },
+    } as any,
     shiftWarnings: [] as any,
     showWarningDialog: false,
 })
@@ -2003,11 +2102,20 @@ async function fetchEmployeeHoursStats(employee: any) {
     state.employeeHoursStatsLoading[uuid] = true
     try {
         const dateMoment = moment(currentDate.value)
-        const response = await dutyScheduleService.getEmployeeHoursStats(uuid, {
+        const params = {
             date_start: dateMoment.clone().startOf('isoWeek').format('YYYY-MM-DD'),
             date_end: dateMoment.clone().endOf('isoWeek').format('YYYY-MM-DD'),
             department: departmentStore.getSelectedDepartmentName,
-        })
+        } as any
+        // period_start/period_end are both-or-neither: sending them adds the pro-rated
+        // `period` block to the response and leaves every year figure untouched.
+        if (state.hoursPeriod.isActive
+            && state.hoursPeriod.formDateRange.start_date
+            && state.hoursPeriod.formDateRange.end_date) {
+            params.period_start = state.hoursPeriod.formDateRange.start_date
+            params.period_end = state.hoursPeriod.formDateRange.end_date
+        }
+        const response = await dutyScheduleService.getEmployeeHoursStats(uuid, params)
         if (response) {
             state.employeeHoursStats[uuid] = response?.data ?? response
         }
@@ -2020,6 +2128,38 @@ async function fetchEmployeeHoursStats(employee: any) {
 
 function empStats(employee: any) {
     return state.employeeHoursStats[employee?.uuid]
+}
+
+// fetchEmployeeHoursStats() early-returns on a cached uuid, so anything that changes
+// the request has to drop the cache first or the change silently no-ops.
+function refetchEmployeeHoursStats() {
+    state.employeeHoursStats = {}
+    state.employeeHoursStatsLoading = {}
+    state.weeklySchedules?.data?.forEach((employee: any, index: number) => {
+        if (!expandedRecords[index]) fetchEmployeeHoursStats(employee)
+    })
+}
+
+function setHoursPeriod(formDateRange: any) {
+    state.hoursPeriod.formDateRange.start_date = formDateRange.start_date
+    state.hoursPeriod.formDateRange.end_date = formDateRange.end_date
+    state.hoursPeriod.isActive = true
+    refetchEmployeeHoursStats()
+}
+
+function clearHoursPeriod() {
+    state.hoursPeriod.isActive = false
+    refetchEmployeeHoursStats()
+}
+
+// The backend clamps the requested range to the intersection with the employment and
+// norm period and echoes the clamped values back, so label the box with what was
+// actually measured rather than with what the user asked for.
+function hoursPeriodLabel(employee: any) {
+    const period = empStats(employee)?.period
+    const start = period?.start ?? state.hoursPeriod.formDateRange.start_date
+    const end = period?.end ?? state.hoursPeriod.formDateRange.end_date
+    return `${formatDateToReadable(start)} - ${formatDateToReadable(end)}`
 }
 
 // Total of the shift-type rows plus only the NON-WORKED holiday hours.
@@ -2035,6 +2175,30 @@ function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): nu
 
 function isStatsLoading(employee: any) {
     return !!state.employeeHoursStatsLoading[employee?.uuid]
+}
+
+// Returns the employee's norm cycle only when it differs from the calendar year —
+// null means the "Indeværende år" caption is still accurate and stays.
+function cycleRange(employee: any) {
+    const normPeriod = employee?.norm_period
+    const start = normPeriod?.period_start
+    const end = normPeriod?.period_end
+    if (!start || !end) return null
+    const startMoment = moment(start)
+    const endMoment = moment(end)
+    if (!startMoment.isValid() || !endMoment.isValid()) return null
+    const isCalendarYear = startMoment.isSame(startMoment.clone().startOf('year'), 'day')
+        && endMoment.isSame(endMoment.clone().endOf('year'), 'day')
+        && startMoment.year() === endMoment.year()
+    return isCalendarYear ? null : { start: startMoment, end: endMoment }
+}
+
+function cycleTooltip(employee: any) {
+    const range = cycleRange(employee)
+    if (!range) return ''
+    const name = employee?.norm_period?.name
+    const dates = `${range.start.format('DD.MM.YYYY')} - ${range.end.format('DD.MM.YYYY')}`
+    return name ? `${name} (${dates})` : dates
 }
 
 function previousWeek() {
