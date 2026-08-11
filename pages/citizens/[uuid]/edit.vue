@@ -386,7 +386,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('responsible_municipality', citizenDetails.responsible_municipality)
         params.append('ean_number', citizenDetails.ean_number)
         params.append('transportation', citizenDetails.transportation)
-        params.append('hourly_rate', citizenDetails.hourly_rate)
+        params.append('hourly_rate', citizenDetails.hourly_rate ? parseLocaleNumber(language.locale.value, citizenDetails.hourly_rate) : citizenDetails.hourly_rate)
         params.append('allocated_daily_hours', citizenDetails.allocated_daily_hours)
         params.append('allocated_weekly_hours', citizenDetails.allocated_weekly_hours)
         params.append('allocated_monthly_hours', citizenDetails.allocated_monthly_hours)
