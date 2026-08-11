@@ -2927,7 +2927,8 @@
                 "time": "Tid & närvaro",
                 "admin": "Administration"
             },
-            "surveys": "Enkäter"
+            "surveys": "Enkäter",
+            "toothChart": "Tandkarta"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -3374,7 +3375,56 @@
             "edit": "Redigera",
             "delete": "Ta bort"
         },
-        "noCitizensYet": "Inga medborgare än"
+        "noCitizensYet": "Inga medborgare än",
+        "toothChart": {
+            "title": "Tandkarta",
+            "numbering": "Numrering",
+            "fdi": "FDI",
+            "universal": "Universal",
+            "universalShort": "univ.",
+            "tooth": "Tand",
+            "upperJaw": "Överkäke",
+            "lowerJaw": "Underkäke",
+            "legend": "Teckenförklaring:",
+            "generalNotes": "Allmänna anteckningar",
+            "generalNotesPlaceholder": "Kliniska anteckningar som inte hör till en enskild tand",
+            "generalNotesSaved": "Anteckningar sparade",
+            "statuses": {
+                "healthy": "Frisk",
+                "caries": "Karies",
+                "filling": "Fyllning",
+                "crown": "Krona",
+                "bridge": "Bro",
+                "root_canal": "Rotbehandling",
+                "implant": "Implantat",
+                "veneer": "Skalfasad",
+                "sealant": "Fissurförsegling",
+                "fracture": "Fraktur",
+                "extracted": "Utdragen",
+                "missing": "Saknas",
+                "planned": "Planerad behandling",
+                "observation": "Observation"
+            },
+            "surfaces": {
+                "whole": "Hela tanden",
+                "occlusal": "Tuggyta (ocklusal)",
+                "mesial": "Mesial",
+                "distal": "Distal",
+                "buccal": "Kindyta (buckal)",
+                "lingual": "Tungyta (lingual)"
+            },
+            "panel": {
+                "emptyTitle": "Välj en tand",
+                "emptyText": "Klicka på en tand eller en yta i tandkartan för att se och ändra status.",
+                "noStatus": "Ingen status",
+                "notePlaceholder": "Anteckning",
+                "saved": "Tandens status sparad",
+                "history": "Behandlingshistorik",
+                "noHistory": "Inga journalanteckningar på den här tanden ännu.",
+                "openJournals": "Öppna journal",
+                "treatedAt": "Behandlingsdatum"
+            }
+        }
     },
     "client": {
         "appointments": "Möten",

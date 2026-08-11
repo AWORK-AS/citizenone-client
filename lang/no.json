@@ -2927,7 +2927,8 @@
                 "time": "Tid & oppmøte",
                 "admin": "Administrasjon"
             },
-            "surveys": "Spørreskjemaer"
+            "surveys": "Spørreskjemaer",
+            "toothChart": "Tannkart"
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -3374,7 +3375,56 @@
             "edit": "Rediger",
             "delete": "Slett"
         },
-        "noCitizensYet": "Ingen borgere ennå"
+        "noCitizensYet": "Ingen borgere ennå",
+        "toothChart": {
+            "title": "Tannkart",
+            "numbering": "Nummerering",
+            "fdi": "FDI",
+            "universal": "Universal",
+            "universalShort": "univ.",
+            "tooth": "Tann",
+            "upperJaw": "Overkjeve",
+            "lowerJaw": "Underkjeve",
+            "legend": "Tegnforklaring:",
+            "generalNotes": "Generelle notater",
+            "generalNotesPlaceholder": "Kliniske notater som ikke hører til én tann",
+            "generalNotesSaved": "Notater lagret",
+            "statuses": {
+                "healthy": "Frisk",
+                "caries": "Karies",
+                "filling": "Fylling",
+                "crown": "Krone",
+                "bridge": "Bro",
+                "root_canal": "Rotfylling",
+                "implant": "Implantat",
+                "veneer": "Fasade",
+                "sealant": "Fissurforsegling",
+                "fracture": "Fraktur",
+                "extracted": "Trukket",
+                "missing": "Mangler",
+                "planned": "Planlagt behandling",
+                "observation": "Observasjon"
+            },
+            "surfaces": {
+                "whole": "Hele tannen",
+                "occlusal": "Tyggeflate (okklusal)",
+                "mesial": "Mesial",
+                "distal": "Distal",
+                "buccal": "Kinnflate (bukkal)",
+                "lingual": "Tungeflate (lingual)"
+            },
+            "panel": {
+                "emptyTitle": "Velg en tann",
+                "emptyText": "Klikk på en tann eller en flate i tannkartet for å se og endre status.",
+                "noStatus": "Ingen status",
+                "notePlaceholder": "Notat",
+                "saved": "Tannens status er lagret",
+                "history": "Behandlingshistorikk",
+                "noHistory": "Ingen journalnotater på denne tannen ennå.",
+                "openJournals": "Åpne journal",
+                "treatedAt": "Behandlingsdato"
+            }
+        }
     },
     "client": {
         "appointments": "Avtaler",

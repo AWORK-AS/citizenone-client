@@ -2927,7 +2927,8 @@
                 "time": "Tid & fremmøde",
                 "admin": "Administration"
             },
-            "surveys": "Spørgeskemaer"
+            "surveys": "Spørgeskemaer",
+            "toothChart": "Tandkort"
         },
         "timeline": {
             "newEvent": "Ny hændelse",
@@ -3374,7 +3375,56 @@
             "edit": "Rediger",
             "delete": "Slet"
         },
-        "noCitizensYet": "Ingen borgere endnu"
+        "noCitizensYet": "Ingen borgere endnu",
+        "toothChart": {
+            "title": "Tandkort",
+            "numbering": "Nummerering",
+            "fdi": "FDI",
+            "universal": "Universal",
+            "universalShort": "univ.",
+            "tooth": "Tand",
+            "upperJaw": "Overkæbe",
+            "lowerJaw": "Underkæbe",
+            "legend": "Signaturforklaring:",
+            "generalNotes": "Generelle noter",
+            "generalNotesPlaceholder": "Kliniske noter der ikke hører til en enkelt tand",
+            "generalNotesSaved": "Noter gemt",
+            "statuses": {
+                "healthy": "Sund",
+                "caries": "Caries",
+                "filling": "Fyldning",
+                "crown": "Krone",
+                "bridge": "Bro",
+                "root_canal": "Rodbehandling",
+                "implant": "Implantat",
+                "veneer": "Facade",
+                "sealant": "Forsegling",
+                "fracture": "Fraktur",
+                "extracted": "Trukket ud",
+                "missing": "Mangler",
+                "planned": "Planlagt behandling",
+                "observation": "Observation"
+            },
+            "surfaces": {
+                "whole": "Hele tanden",
+                "occlusal": "Tyggeflade (okklusal)",
+                "mesial": "Mesial",
+                "distal": "Distal",
+                "buccal": "Kindflade (bukkal)",
+                "lingual": "Tungeflade (lingual)"
+            },
+            "panel": {
+                "emptyTitle": "Vælg en tand",
+                "emptyText": "Klik på en tand eller en flade i tandkortet for at se og redigere status.",
+                "noStatus": "Ingen status",
+                "notePlaceholder": "Note",
+                "saved": "Tandens status er gemt",
+                "history": "Behandlingshistorik",
+                "noHistory": "Ingen journalnotater på denne tand endnu.",
+                "openJournals": "Åbn journal",
+                "treatedAt": "Behandlingsdato"
+            }
+        }
     },
     "client": {
         "appointments": "Aftaler",

@@ -2927,7 +2927,8 @@
                 "time": "Time & attendance",
                 "admin": "Administration"
             },
-            "surveys": "Surveys"
+            "surveys": "Surveys",
+            "toothChart": "Tooth chart"
         },
         "timeline": {
             "newEvent": "New event",
@@ -3374,7 +3375,56 @@
             "edit": "Edit",
             "delete": "Delete"
         },
-        "noCitizensYet": "No citizens yet"
+        "noCitizensYet": "No citizens yet",
+        "toothChart": {
+            "title": "Tooth chart",
+            "numbering": "Numbering",
+            "fdi": "FDI",
+            "universal": "Universal",
+            "universalShort": "univ.",
+            "tooth": "Tooth",
+            "upperJaw": "Upper jaw",
+            "lowerJaw": "Lower jaw",
+            "legend": "Legend:",
+            "generalNotes": "General notes",
+            "generalNotesPlaceholder": "Clinical notes that do not belong to a single tooth",
+            "generalNotesSaved": "Notes saved",
+            "statuses": {
+                "healthy": "Healthy",
+                "caries": "Caries",
+                "filling": "Filling",
+                "crown": "Crown",
+                "bridge": "Bridge",
+                "root_canal": "Root canal",
+                "implant": "Implant",
+                "veneer": "Veneer",
+                "sealant": "Sealant",
+                "fracture": "Fracture",
+                "extracted": "Extracted",
+                "missing": "Missing",
+                "planned": "Planned treatment",
+                "observation": "Observation"
+            },
+            "surfaces": {
+                "whole": "Whole tooth",
+                "occlusal": "Chewing surface (occlusal)",
+                "mesial": "Mesial",
+                "distal": "Distal",
+                "buccal": "Cheek side (buccal)",
+                "lingual": "Tongue side (lingual)"
+            },
+            "panel": {
+                "emptyTitle": "Select a tooth",
+                "emptyText": "Click a tooth or a surface in the chart to view and edit its status.",
+                "noStatus": "No status",
+                "notePlaceholder": "Note",
+                "saved": "Tooth status saved",
+                "history": "Treatment history",
+                "noHistory": "No journal notes on this tooth yet.",
+                "openJournals": "Open journals",
+                "treatedAt": "Treatment date"
+            }
+        }
     },
     "client": {
         "appointments": "Appointments",

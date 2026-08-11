@@ -32,6 +32,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     const can = (name: string) => companyHasModule(name) && pages.some((page: any) => page.name === name)
     const systemName = newValue?.company?.industry?.system_name
     const isEmploymentServices = systemName === 'employment_services'
+    const isDental = systemName === 'dental'
 
     const tabs: any[] = []
 
@@ -41,6 +42,14 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             category: 'documentation', primary: true,
             href: `/citizens/${citizenUuid}/journals`,
             routeNames: ['citizens-uuid-journals'],
+        })
+    }
+    if (isDental) {
+        tabs.push({
+            name: 'citizens.tabs.toothChart', icon: 'ph:tooth', isTranslateName: true,
+            category: 'care', primary: true,
+            href: `/citizens/${citizenUuid}/tooth-chart`,
+            routeNames: ['citizens-uuid-tooth-chart'],
         })
     }
     // Not rendered in the nav/"More" dropdown anymore (surfaced in the details card instead),
