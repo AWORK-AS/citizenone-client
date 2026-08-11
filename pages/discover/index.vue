@@ -448,7 +448,12 @@ onMounted(async () => {
         ])
         state.done.departments = (d?.data?.length ?? 0) > 0
         state.done.employees = (u?.data?.length ?? 0) > 1
-        state.done.citizens = (c?.data?.length ?? 0) > 0
+        // The citizen list always carries a synthetic "all citizens" entry, and a
+        // new company also starts with seeded demo records. Neither is a citizen
+        // the customer created, so neither counts as this step being done.
+        state.done.citizens = (c?.data ?? []).some((citizen: any) =>
+            citizen?.uuid !== 'all-citizens' && !citizen?.is_demo
+        )
         state.done.shiftTags = (tags?.data?.length ?? 0) > 0
     } catch (e) { }
 })

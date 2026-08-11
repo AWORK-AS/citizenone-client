@@ -323,6 +323,17 @@ function animateAssets() {
 	if (animatedAsset02) observer.observe(animatedAsset02)
 }
 
+// Where a staff member starts after signing in. The general overview assumes the
+// company already has data in it, so the very first session goes somewhere with
+// something to do instead: Discover for an admin, who sets the company up, and
+// My day for everyone else. The is_first_login flag is left for the guided tour
+// in layouts/user.vue to clear, so the welcome tour still runs.
+function staffLandingRoute(user: any) {
+	if (!user?.is_first_login) return '/overview'
+
+	return user?.role === 'Admin' ? '/discover' : '/my-day'
+}
+
 async function login() {
 	state.error = {}
 	v$.value.$validate()
@@ -363,7 +374,7 @@ async function login() {
 					} else if (response.data.user?.role === 'ThirdParty') {
 						navigateTo('/third-party/messages')
 					} else {
-						navigateTo('/overview')
+						navigateTo(staffLandingRoute(response.data.user))
 					}
 				}
 			}
