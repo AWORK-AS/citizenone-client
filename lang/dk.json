@@ -6424,7 +6424,8 @@
             "primaryCaseWorker": "Sagsbehandler"
         },
         "confirmation": {
-            "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular"
+            "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular",
+            "deleteFormHasReports": "Der er skrevet {count} rapporter ud fra den."
         },
         "createResponse": "Opret svar",
         "documentTitle": "Dokumenttitel",
@@ -6501,6 +6502,8 @@
             },
             "description": "Beskrivelse",
             "title": "Titel",
+            "blocks": "Blokke",
+            "reports": "Rapporter",
             "caption": "Overskrift over tabellen",
             "captionPlaceholder": "Valgfri overskrift",
             "columnName": "Kolonne",

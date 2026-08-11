@@ -19,6 +19,9 @@
                             <td width="50%">
                                 <p>{{ form?.description }}</p>
                             </td>
+                            <td class="whitespace-nowrap">
+                                <p>{{ form?.field_count ?? 0 }}</p>
+                            </td>
                             <!-- <td width="20%">
                                 <div class="flex items-end gap-2">
                                     <FormButton type="button" buttonStyle="action" 
@@ -47,6 +50,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'forms.table.title', isTranslateName: true, sorter: true, key: 'title' },
         { name: 'forms.table.description', isTranslateName: true, },
+        { name: 'forms.table.blocks', isTranslateName: true },
     ],
     dataFilter: {
         search: ''
