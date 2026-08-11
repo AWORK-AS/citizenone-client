@@ -50,7 +50,7 @@
                             leave-from-class="transform opacity-100 scale-100"
                             leave-to-class="transform opacity-0 scale-95">
                             <MenuItems
-                                class="absolute right-0 z-20 mt-1 w-64 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[28rem] overflow-y-auto py-1">
+                                class="absolute right-0 z-[9999] mt-1 w-64 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[28rem] overflow-y-auto py-1">
                                 <div v-for="group in overflowGroups" :key="group.key">
                                     <p v-if="group.label"
                                         class="px-4 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-400">
