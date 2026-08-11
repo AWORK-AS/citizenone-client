@@ -1972,7 +1972,9 @@
                     "group1": "Gruppe 1",
                     "group2": "Gruppe 2",
                     "foreignInsurance": "Utenlandsk forsikring",
-                    "other": "Annet"
+                    "other": "Annet",
+                    "group4": "Gruppe 4 (betaler selv)",
+                    "but": "BUT (barn og unge i tannpleien)"
                 },
                 "patientNumber": "Pasientnummer",
                 "municipalSubsidy": "Kommunalt tilskudd",
@@ -1981,6 +1983,33 @@
                     "label": "Anbefalt kontrollintervall",
                     "everySixMonths": "Hver 6. måned",
                     "everyTwelveMonths": "Hver 12. måned"
+                },
+                "danmarkGroup": {
+                    "label": "\"danmark\"-gruppe",
+                    "basis": "Basis",
+                    "group1": "Gruppe 1",
+                    "group2": "Gruppe 2",
+                    "group5": "Gruppe 5"
+                },
+                "isForeignPatient": "Utenlandsk pasient uten CPR",
+                "isForeignPatientHelp": "Kryss av hvis pasienten ikke har dansk CPR-nummer. Da kreves ikke CPR.",
+                "recallChannel": {
+                    "label": "Innkallingstype",
+                    "help": "Brev og oppringning sendes ikke automatisk. Systemet varsler i stedet ansvarlig medarbeider.",
+                    "letter": "Post / brev",
+                    "sms": "SMS",
+                    "email": "E-post",
+                    "app": "App-varsel",
+                    "phone": "Oppringning"
+                },
+                "autoReminder": "Automatisk påminnelse",
+                "riskProfile": {
+                    "label": "Risikoprofil for tannhelse",
+                    "green": "Grønn",
+                    "yellow": "Gul",
+                    "red": "Rød",
+                    "note": "Notat til risikoprofil",
+                    "notePlaceholder": "Valgfritt notat"
                 }
             },
             "employmentProgram": {
@@ -5928,7 +5957,11 @@
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbeidstimer",
             "showCompensatoryHours": "Vis avspasering og feriedager",
-            "street": "Gade"
+            "street": "Gade",
+            "note": "Notat",
+            "notePlaceholder": "Internt notat om medarbeideren",
+            "unionMembership": "Fagforening",
+            "unionMembershipPlaceholder": "For eksempel HK"
         },
         "importEmployees": {
             "alert": {
