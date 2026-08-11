@@ -500,6 +500,7 @@ import { Mention } from 'ckeditor5'
 import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useAssistantStore } from '@/store/assistant'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -1364,6 +1365,23 @@ async function transcribeAndStructure() {
     }
     isTranscribing.value = false
 }
+
+// While this form is open the assistant may hand its answer straight into the
+// note, so the user does not copy out of one panel and paste into the other.
+// The panel never touches the editor: it only asks, and the answer lands here.
+const assistantStore = useAssistantStore()
+
+onMounted(() => assistantStore.offerInsertTarget(term('journalNotes', t('sidebar.journalNotes'))))
+onBeforeUnmount(() => assistantStore.withdrawInsertTarget())
+
+watch(() => assistantStore.pendingInsert, (html: string | null) => {
+    if (!html) return
+
+    const existing = state.formJournal.content ?? ''
+    state.formJournal.content = existing ? `${existing}<p></p>${html}` : html
+    state.formJournal.is_ai_used = true
+    assistantStore.insertHandled()
+})
 
 async function generateNoteForJournalContent(excludedJournalUuids: string[] = [], excludedPlanUuids: string[] = []) {
     state.error = {}

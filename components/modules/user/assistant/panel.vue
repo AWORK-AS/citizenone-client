@@ -113,6 +113,18 @@
                                         </div>
                                         <div class="ai-answer text-sm text-gray-800 leading-relaxed"
                                             v-safe-html="formatMessage(message?.text)" />
+                                        <!-- What the answer was actually built from. The backend
+                                        already resolved these for the audit trail. -->
+                                        <p v-if="message.sources?.length"
+                                            class="mt-2 flex flex-wrap items-center gap-1 text-xs text-gray-400">
+                                            <Icon name="ph:database" class="size-3.5 shrink-0" aria-hidden="true" />
+                                            <span>{{ $t('assistants.basedOn') }}:</span>
+                                            <span v-for="source in message.sources" :key="source.uuid"
+                                                class="rounded bg-gray-100 px-1.5 py-0.5 text-gray-500">
+                                                {{ source.name }}
+                                            </span>
+                                        </p>
+
                                         <!-- The answer used to be a dead end: read it, then retype it
                                         somewhere else. Copy takes the markdown as written. -->
                                         <div v-if="index > 0" class="flex items-center gap-1 mt-2 -ml-1.5">
@@ -123,6 +135,13 @@
                                                     class="h-3.5 w-3.5" />
                                                 {{ state.copiedIndex === index ? $t('assistants.actions.copied') :
                                                     $t('assistants.actions.copy') }}
+                                            </button>
+                                            <button type="button" v-if="assistantStore.insertTargetLabel"
+                                                @click="assistantStore.requestInsert(formatMessage(message?.text))"
+                                                :title="assistantStore.insertTargetLabel"
+                                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors">
+                                                <Icon name="ph:arrow-line-down" class="h-3.5 w-3.5" />
+                                                {{ $t('assistants.actions.insert') }}
                                             </button>
                                             <button type="button"
                                                 v-if="index === state.messages.length - 1 && state.lastRequest.prompt"
@@ -148,6 +167,14 @@
                                     <span>{{ $t(`assistants.starters.${starter}`) }}</span>
                                 </button>
                             </div>
+                            <div v-if="state.isStreaming" class="flex justify-center">
+                                <button type="button" @click="stopGenerating"
+                                    class="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-500 hover:border-gray-300 hover:text-gray-700 transition-colors">
+                                    <Icon name="ph:stop-circle" class="h-3.5 w-3.5" />
+                                    {{ $t('assistants.actions.stop') }}
+                                </button>
+                            </div>
+
                             <div v-if="state.isGeneratingResponse"
                                 class="w-full bg-gray-50 border border-gray-100 rounded-xl px-1 py-3 flex items-start gap-3">
                                 <div
@@ -370,6 +397,9 @@ const state = reactive({
         redactedPrompt: '',
     },
     copiedIndex: null as number | null,
+    // Distinct from isGeneratingResponse: true only while fragments are still
+    // arriving, which is the window where stopping means anything.
+    isStreaming: false,
     // Kept so an answer can be re-asked without the user retyping the question.
     lastRequest: {
         prompt: '',
@@ -605,8 +635,15 @@ async function sendMessage() {
 // Streams when the API and whatever sits in front of it allow it, and falls
 // back to the buffered endpoint otherwise. Both return the same payload, so
 // only the waiting differs.
+let streamAbort: AbortController | null = null
+
+function stopGenerating() {
+    streamAbort?.abort()
+}
+
 async function requestAnswer(formData: FormData) {
     const streamed = { index: -1, text: '', done: null as any }
+    streamAbort = new AbortController()
 
     try {
         await aIAssistantService.streamMessage(formData, (event: string, data: any) => {
@@ -615,6 +652,7 @@ async function requestAnswer(formData: FormData) {
                     // The typing indicator gives way to the answer itself as
                     // soon as there is something to show.
                     state.isGeneratingResponse = false
+                    state.isStreaming = true
                     streamed.index = state.messages.push({ type: 'bot', text: '' }) - 1
                 }
                 streamed.text += data?.text ?? ''
@@ -623,8 +661,15 @@ async function requestAnswer(formData: FormData) {
             }
             if (event === 'done') streamed.done = data
             if (event === 'error') throw new Error(data?.message ?? '')
-        })
+        }, streamAbort.signal)
     } catch (error: any) {
+        state.isStreaming = false
+
+        // Stopping is a choice, not a failure: whatever was written is kept.
+        if (error?.name === 'AbortError') {
+            return streamed.done ?? (streamed.text ? { data: { answer: streamed.text }, stopped: true } : null)
+        }
+
         // Drop a partial answer before retrying, so nothing is shown twice.
         if (streamed.index !== -1) state.messages.splice(streamed.index, 1)
         if (streamed.done) return streamed.done
@@ -633,6 +678,9 @@ async function requestAnswer(formData: FormData) {
         state.isGeneratingResponse = true
 
         return await aIAssistantService.sendMessage(formData)
+    } finally {
+        state.isStreaming = false
+        streamAbort = null
     }
 
     if (!streamed.done) throw new Error(t('alert.somethingWentWrong'))
@@ -645,7 +693,11 @@ async function requestAnswer(formData: FormData) {
 }
 
 function applyAnswer(response: any) {
-    state.messages.push({ type: 'bot', text: response?.data?.answer })
+    state.messages.push({
+        type: 'bot',
+        text: response?.data?.answer,
+        sources: response?.sources ?? [],
+    })
 
     if (response.conversation_id) {
         state.aiElements.conversationId = response.conversation_id
