@@ -150,8 +150,10 @@
         </div>
 
         <!-- Main content -->
-        <div class="bg-surface-50 min-h-screen transition-all duration-300 ease-in-out"
-            :class="sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]'">
+        <div class="bg-surface-50 min-h-screen transition-all duration-300 ease-in-out" :class="[
+            sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]',
+            assistantStore.isOpen ? 'xl:pr-[26rem]' : ''
+        ]">
             <!-- Impersonation Banner -->
             <div v-if="isImpersonating" ref="bannerRef"
                 class="sticky top-0 z-[60] bg-amber-500 text-white px-6 py-2.5 flex items-center justify-between gap-x-4">
@@ -244,7 +246,7 @@
                         <!-- AI (mobile) -->
                         <div class="xl:hidden">
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
-                                @click="userStore.getUser?.has_ai_access ? state.modal.isAIAssistantOpen = true : navigateTo('/apps')">
+                                @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
                                 <Icon name="ic:round-accessibility" class="h-6 w-6 md:w-5 md:h-5" aria-hidden="true" />
                                 <p class="text-sm font-semibold hidden lg:block">{{ $t('assistants.askAI') }}</p>
                             </FormButton>
@@ -480,8 +482,9 @@
             :isModalOpen="state.modal.isGuidedTourEndOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourEndOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
-        <ModulesUserAssistantModalAssistant :isModalOpen="state.modal.isAIAssistantOpen"
-            @close="state.modal.isAIAssistantOpen = false" />
+        <!-- Rendered once here rather than inside the navbar button, so the panel
+        survives navigation and the content area can make room for it. -->
+        <ModulesUserAssistantPanel v-if="userStore.getUser?.has_ai_access" />
         <ModulesUserOwnChatGptSyncProgressBar />
 
         <!-- One-time ⌘K discovery tip -->
@@ -551,6 +554,7 @@ import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCustomSidebarLinksStore } from '@/store/custom-sidebar-links'
+import { useAssistantStore } from '@/store/assistant'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -562,6 +566,7 @@ const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const customSidebarLinksStore = useCustomSidebarLinksStore()
+const assistantStore = useAssistantStore()
 const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const { term } = useTerminology()
@@ -731,7 +736,6 @@ const state = reactive({
     isSidebarLoading: true,
     modal: {
         is2faRequiredOpen: false,
-        isAIAssistantOpen: false,
         isCheckinReminderOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
