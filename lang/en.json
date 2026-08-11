@@ -3423,6 +3423,18 @@
                 "noHistory": "No journal notes on this tooth yet.",
                 "openJournals": "Open journals",
                 "treatedAt": "Treatment date"
+            },
+            "downloadPdf": "Download PDF",
+            "oralHealthNotes": "Oral health and observations",
+            "oralHealthNotesPlaceholder": "For example gum condition, mucosa, oral hygiene",
+            "perio": {
+                "title": "Periodontal",
+                "show": "Periodontal",
+                "bleeding": "Bleeding",
+                "pocketDepth": "Pocket depth (mm)",
+                "pocketPlaceholder": "mm",
+                "mobility": "Mobility (0-3)",
+                "measuredAt": "Measured on"
             }
         }
     },

@@ -3423,6 +3423,18 @@
                 "noHistory": "Ingen journalnotater på denne tannen ennå.",
                 "openJournals": "Åpne journal",
                 "treatedAt": "Behandlingsdato"
+            },
+            "downloadPdf": "Last ned PDF",
+            "oralHealthNotes": "Munnhelse og observasjoner",
+            "oralHealthNotesPlaceholder": "For eksempel tannkjøttets tilstand, slimhinner, munnhygiene",
+            "perio": {
+                "title": "Periodontal",
+                "show": "Periodontal",
+                "bleeding": "Blødning",
+                "pocketDepth": "Lommedybde (mm)",
+                "pocketPlaceholder": "mm",
+                "mobility": "Mobilitet (0-3)",
+                "measuredAt": "Måledato"
             }
         }
     },

@@ -49,6 +49,54 @@
                 </div>
             </div>
 
+            <div class="border-t border-gray-200 pt-4 space-y-3">
+                <h4 class="text-sm font-semibold text-gray-900">{{ $t('citizens.toothChart.perio.title') }}</h4>
+
+                <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center">
+                    <div class="sm:col-span-6">
+                        <FormLabel for="perio_bleeding" :label="$t('citizens.toothChart.perio.bleeding')" />
+                    </div>
+                    <div class="sm:col-span-6">
+                        <FormSwitch :value="state.perio.bleeding"
+                            @toggleSwitch="state.perio.bleeding = !state.perio.bleeding" />
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <FormLabel for="perio_pocket" :label="$t('citizens.toothChart.perio.pocketDepth')" />
+                    </div>
+                    <div class="sm:col-span-6">
+                        <FormNumberField id="perio_pocket" name="perio_pocket" :min="0"
+                            :placeholder="$t('citizens.toothChart.perio.pocketPlaceholder')"
+                            v-model="state.perio.pocket_depth_mm" />
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <FormLabel for="perio_mobility" :label="$t('citizens.toothChart.perio.mobility')" />
+                    </div>
+                    <div class="sm:col-span-6">
+                        <FormSelect id="perio_mobility" :options="mobilityOptions" v-model="state.perio.mobility"
+                            :placeholder="$t('citizens.toothChart.panel.noStatus')" />
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <FormLabel for="perio_measured" :label="$t('citizens.toothChart.perio.measuredAt')" />
+                    </div>
+                    <div class="sm:col-span-6">
+                        <FormDateField id="perio_measured" name="perio_measured"
+                            :placeholder="$t('citizens.toothChart.perio.measuredAt')"
+                            v-model="state.perio.measured_at" />
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <FormLabel for="perio_note" :label="$t('citizens.toothChart.panel.notePlaceholder')" />
+                    </div>
+                    <div class="sm:col-span-6">
+                        <FormTextField id="perio_note" name="perio_note" v-model="state.perio.note"
+                            :placeholder="$t('citizens.toothChart.panel.notePlaceholder')" />
+                    </div>
+                </div>
+            </div>
+
             <div class="flex items-center justify-end gap-2">
                 <FormButton buttonStyle="action" @click="reset" :disabled="state.isSaving">
                     {{ $t('cancel') }}
@@ -100,6 +148,7 @@ const props = defineProps<{
     citizenUuid: string
     tooth: any | null
     statuses: any[]
+    perio: any | null
     statusOptions: string[]
     surfaceOptions: string[]
     selectedSurface?: string | null
@@ -112,6 +161,7 @@ const { successAlert } = useAlert()
 
 const state = reactive({
     rows: [] as any[],
+    perio: { bleeding: false, pocket_depth_mm: '', mobility: null, note: '', measured_at: '' } as any,
     journals: [] as any[],
     isHistoryLoading: false,
     isSaving: false,
@@ -121,6 +171,12 @@ const state = reactive({
 const statusOptions = computed(() => (props.statusOptions || []).map((status: string) => ({
     value: status,
     label: t(`citizens.toothChart.statuses.${status}`),
+})))
+
+// 0-3 is the Miller mobility scale used chairside.
+const mobilityOptions = computed(() => [0, 1, 2, 3].map((value: number) => ({
+    value,
+    label: String(value),
 })))
 
 const toothName = computed(() => (locale.value === 'en' ? props.tooth?.en_name : props.tooth?.dk_name) || '')
@@ -138,6 +194,14 @@ function buildRows() {
         note: recorded[surface]?.note || '',
         treated_at: recorded[surface]?.treated_at || '',
     }))
+
+    state.perio = {
+        bleeding: props.perio?.bleeding ?? false,
+        pocket_depth_mm: props.perio?.pocket_depth_mm != null ? String(props.perio.pocket_depth_mm) : '',
+        mobility: props.perio?.mobility ?? null,
+        note: props.perio?.note || '',
+        measured_at: props.perio?.measured_at || '',
+    }
 }
 
 function reset() {
@@ -176,6 +240,15 @@ async function save() {
                     note: row.note || null,
                     treated_at: row.treated_at || null,
                 })),
+            perio: {
+                bleeding: state.perio.bleeding,
+                pocket_depth_mm: state.perio.pocket_depth_mm !== '' && state.perio.pocket_depth_mm != null
+                    ? Number(state.perio.pocket_depth_mm)
+                    : null,
+                mobility: state.perio.mobility ?? null,
+                note: state.perio.note || null,
+                measured_at: state.perio.measured_at || null,
+            },
         })
 
         successAlert(`${t('alert.success')}!`, `${t('citizens.toothChart.panel.saved')}.`)
@@ -197,4 +270,6 @@ watch(() => props.tooth?.uuid, () => {
 }, { immediate: true })
 
 watch(() => props.statuses, () => buildRows(), { deep: true })
+
+watch(() => props.perio, () => buildRows(), { deep: true })
 </script>

@@ -3423,6 +3423,18 @@
                 "noHistory": "Inga journalanteckningar på den här tanden ännu.",
                 "openJournals": "Öppna journal",
                 "treatedAt": "Behandlingsdatum"
+            },
+            "downloadPdf": "Ladda ner PDF",
+            "oralHealthNotes": "Munhälsa och observationer",
+            "oralHealthNotesPlaceholder": "Till exempel tandköttets tillstånd, slemhinnor, munhygien",
+            "perio": {
+                "title": "Parodontal",
+                "show": "Parodontal",
+                "bleeding": "Blödning",
+                "pocketDepth": "Fickdjup (mm)",
+                "pocketPlaceholder": "mm",
+                "mobility": "Mobilitet (0-3)",
+                "measuredAt": "Mätdatum"
             }
         }
     },

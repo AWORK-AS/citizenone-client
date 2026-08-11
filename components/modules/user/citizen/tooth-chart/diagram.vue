@@ -13,6 +13,15 @@
                                 {{ toothLabel(tooth) }}
                             </span>
 
+                            <!-- Gum health sits next to the tooth number so a
+                                 screening can be read off the chart in one pass. -->
+                            <span v-if="props.showPerio && row.key === 'upper'"
+                                class="flex items-center gap-0.5 text-[10px] leading-none h-3">
+                                <span v-if="perioOf(tooth)?.bleeding" class="size-1.5 rounded-full bg-red-500"
+                                    :title="$t('citizens.toothChart.perio.bleeding')" />
+                                <span class="text-gray-600">{{ perioOf(tooth)?.pocket_depth_mm ?? '' }}</span>
+                            </span>
+
                             <svg :viewBox="`0 0 ${SIZE} ${SIZE}`" :width="SIZE" :height="SIZE"
                                 class="rounded-sm ring-1 transition"
                                 :class="tooth.uuid === props.selectedToothUuid ? 'ring-2 ring-primary' : 'ring-gray-200'"
@@ -32,6 +41,13 @@
                                     <line :x1="SIZE - 4" y1="4" x2="4" :y2="SIZE - 4" />
                                 </g>
                             </svg>
+
+                            <span v-if="props.showPerio && row.key === 'lower'"
+                                class="flex items-center gap-0.5 text-[10px] leading-none h-3">
+                                <span v-if="perioOf(tooth)?.bleeding" class="size-1.5 rounded-full bg-red-500"
+                                    :title="$t('citizens.toothChart.perio.bleeding')" />
+                                <span class="text-gray-600">{{ perioOf(tooth)?.pocket_depth_mm ?? '' }}</span>
+                            </span>
 
                             <span v-if="row.key === 'lower'" class="text-[11px] font-medium text-gray-500">
                                 {{ toothLabel(tooth) }}
@@ -58,6 +74,8 @@ import { useI18n } from 'vue-i18n'
 const props = defineProps<{
     teeth: any[]
     statuses: any[]
+    perio: any[]
+    showPerio: boolean
     statusOptions: string[]
     selectedToothUuid?: string | null
     numbering: 'fdi' | 'universal'
@@ -108,6 +126,20 @@ const statusIndex = computed(() => {
 
     return index
 })
+
+const perioIndex = computed(() => {
+    const index: Record<string, any> = {}
+
+    for (const measurement of props.perio || []) {
+        index[measurement.tooth_uuid] = measurement
+    }
+
+    return index
+})
+
+function perioOf(tooth: any) {
+    return perioIndex.value[tooth.uuid] || null
+}
 
 function quadrantOf(tooth: any): number {
     return Math.floor((tooth?.fdi_number ?? 0) / 10)

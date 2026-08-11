@@ -16,6 +16,10 @@ class ToothChartService extends BaseAPIService {
     async updateGeneralNotes(citizenUuid: string, params: object): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/tooth-chart/general-notes`, 'PUT', params)
     }
+
+    async downloadPdf(citizenUuid: string): Promise<Blob | null> {
+        return await this.requestBlob(`/user/citizens/${citizenUuid}/tooth-chart/pdf`, 'GET')
+    }
 }
 
 export const toothChartService = new ToothChartService()

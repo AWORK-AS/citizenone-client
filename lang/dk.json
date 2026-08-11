@@ -3423,6 +3423,18 @@
                 "noHistory": "Ingen journalnotater på denne tand endnu.",
                 "openJournals": "Åbn journal",
                 "treatedAt": "Behandlingsdato"
+            },
+            "downloadPdf": "Hent PDF",
+            "oralHealthNotes": "Mundhygiejne og observationer",
+            "oralHealthNotesPlaceholder": "Fx tandkødets tilstand, slimhinder, mundhygiejne",
+            "perio": {
+                "title": "Parodontal",
+                "show": "Parodontal",
+                "bleeding": "Blødning",
+                "pocketDepth": "Pochedybde (mm)",
+                "pocketPlaceholder": "mm",
+                "mobility": "Mobilitet (0-3)",
+                "measuredAt": "Måledato"
             }
         }
     },
