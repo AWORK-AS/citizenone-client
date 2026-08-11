@@ -7,10 +7,12 @@
                     <ModulesUserCitizenMedicineHistoryForm formType="create" :selectedMedicine="props.selectedMedicine"
                         :selectedMedicineHistory="state.formMedicineHistory" :error="state.error" @error="setError"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="saveMedicineHistory" />
+                        @submitForm="(details: any) => saveMedicineHistory(details)" />
                 </LoadingSpinner>
             </template>
         </Modal>
+        <DialogConfirmation :isModalOpen="state.modal.isPnWarningOpen" :message="state.pnWarningMessage"
+            @close="cancelPnWarning" @confirm="confirmPnWarning" />
     </div>
 </template>
 
@@ -45,6 +47,11 @@ const state = reactive({
         dosages: [],
         evaluator_uuid: '',
     },
+    modal: {
+        isPnWarningOpen: false,
+    },
+    pnWarningMessage: '',
+    pendingSave: null as any,
 })
 
 function closeModal() {
@@ -63,7 +70,7 @@ function refreshMedicineHistories() {
     emit('refreshMedicineHistories')
 }
 
-async function saveMedicineHistory(medicineHistoryDetails: any) {
+async function saveMedicineHistory(medicineHistoryDetails: any, startIndex = 0, force = false) {
     state.error = {}
     state.isPageLoading = true
     try {
@@ -72,8 +79,9 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
             ? medicineHistoryDetails.selectedDates
             : [medicineHistoryDetails.date]
 
-        for (const date of dates) {
-            let params = {}
+        for (let i = startIndex; i < dates.length; i++) {
+            const date = dates[i]
+            let params: any = {}
             if (props.selectedMedicine?.is_pn_medicine) {
                 params = {
                     medicine_uuid: selectedMedicineUuid,
@@ -84,6 +92,9 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
                     evaluation_frequency: medicineHistoryDetails.evaluation_frequency,
                     comment: medicineHistoryDetails.comment,
                 }
+                if (force) {
+                    params.force = true
+                }
             } else {
                 params = {
                     medicine_uuid: selectedMedicineUuid,
@@ -91,7 +102,16 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
                     dosages: medicineHistoryDetails.dosages,
                 }
             }
-            await medicineHistoryService.saveMedicineHistory(params)
+
+            const response = await medicineHistoryService.saveMedicineHistory(params)
+
+            if (response?.warning) {
+                state.pnWarningMessage = response.message
+                state.pendingSave = { medicineHistoryDetails, index: i }
+                state.modal.isPnWarningOpen = true
+                state.isPageLoading = false
+                return
+            }
         }
 
         refreshMedicines()
@@ -102,5 +122,17 @@ async function saveMedicineHistory(medicineHistoryDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function confirmPnWarning() {
+    if (!state.pendingSave) return
+    const { medicineHistoryDetails, index } = state.pendingSave
+    state.pendingSave = null
+    saveMedicineHistory(medicineHistoryDetails, index, true)
+}
+
+function cancelPnWarning() {
+    state.pendingSave = null
+    state.modal.isPnWarningOpen = false
 }
 </script>
