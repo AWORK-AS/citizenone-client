@@ -2928,7 +2928,8 @@
                 "admin": "Administration"
             },
             "surveys": "Surveys",
-            "toothChart": "Tooth chart"
+            "toothChart": "Tooth chart",
+            "priceEstimates": "Price estimates"
         },
         "timeline": {
             "newEvent": "New event",
@@ -3435,6 +3436,45 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobility (0-3)",
                 "measuredAt": "Measured on"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "New price estimate",
+            "editTitle": "Edit price estimate",
+            "total": "Total price",
+            "subsidy": "Expected subsidy",
+            "patientPays": "Patient pays",
+            "saved": "Price estimate saved",
+            "markSent": "Mark as sent",
+            "markAccepted": "Accepted",
+            "markDeclined": "Declined",
+            "statuses": {
+                "draft": "Draft",
+                "sent": "Sent",
+                "accepted": "Accepted",
+                "declined": "Declined",
+                "expired": "Expired"
+            },
+            "empty": {
+                "title": "No price estimates yet",
+                "text": "Create an estimate so the patient can see the price and their own share before treatment starts."
+            },
+            "form": {
+                "title": "Heading",
+                "titlePlaceholder": "For example crown and filling",
+                "validUntil": "Valid until",
+                "lines": "Treatments",
+                "addLine": "Add line",
+                "code": "Code",
+                "description": "Treatment",
+                "quantity": "Qty",
+                "unitPrice": "Unit price",
+                "subsidy": "Subsidy",
+                "lineTotal": "Amount",
+                "noTooth": "No tooth",
+                "note": "Notes",
+                "notePlaceholder": "For example what the price assumes",
+                "needsALine": "Add at least one treatment"
             }
         }
     },

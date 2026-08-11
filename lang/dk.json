@@ -2928,7 +2928,8 @@
                 "admin": "Administration"
             },
             "surveys": "Spørgeskemaer",
-            "toothChart": "Tandkort"
+            "toothChart": "Tandkort",
+            "priceEstimates": "Prisoverslag"
         },
         "timeline": {
             "newEvent": "Ny hændelse",
@@ -3435,6 +3436,45 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobilitet (0-3)",
                 "measuredAt": "Måledato"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "Nyt prisoverslag",
+            "editTitle": "Rediger prisoverslag",
+            "total": "Samlet pris",
+            "subsidy": "Forventet tilskud",
+            "patientPays": "Egenbetaling",
+            "saved": "Prisoverslaget er gemt",
+            "markSent": "Markér som sendt",
+            "markAccepted": "Accepteret",
+            "markDeclined": "Afvist",
+            "statuses": {
+                "draft": "Kladde",
+                "sent": "Sendt",
+                "accepted": "Accepteret",
+                "declined": "Afvist",
+                "expired": "Udløbet"
+            },
+            "empty": {
+                "title": "Ingen prisoverslag endnu",
+                "text": "Lav et prisoverslag, så patienten kan se prisen og sin egenbetaling, før behandlingen sættes i gang."
+            },
+            "form": {
+                "title": "Overskrift",
+                "titlePlaceholder": "Fx krone og fyldning",
+                "validUntil": "Gyldigt til",
+                "lines": "Behandlinger",
+                "addLine": "Tilføj linje",
+                "code": "Ydelse",
+                "description": "Behandling",
+                "quantity": "Antal",
+                "unitPrice": "Stykpris",
+                "subsidy": "Tilskud",
+                "lineTotal": "Beløb",
+                "noTooth": "Ingen tand",
+                "note": "Bemærkninger",
+                "notePlaceholder": "Fx hvad prisen forudsætter",
+                "needsALine": "Tilføj mindst én behandling"
             }
         }
     },

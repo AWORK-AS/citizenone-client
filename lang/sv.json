@@ -2928,7 +2928,8 @@
                 "admin": "Administration"
             },
             "surveys": "Enkäter",
-            "toothChart": "Tandkarta"
+            "toothChart": "Tandkarta",
+            "priceEstimates": "Prisuppskattningar"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -3435,6 +3436,45 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobilitet (0-3)",
                 "measuredAt": "Mätdatum"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "Ny prisuppskattning",
+            "editTitle": "Redigera prisuppskattning",
+            "total": "Totalpris",
+            "subsidy": "Förväntat bidrag",
+            "patientPays": "Patienten betalar",
+            "saved": "Prisuppskattningen är sparad",
+            "markSent": "Markera som skickad",
+            "markAccepted": "Accepterad",
+            "markDeclined": "Avvisad",
+            "statuses": {
+                "draft": "Utkast",
+                "sent": "Skickad",
+                "accepted": "Accepterad",
+                "declined": "Avvisad",
+                "expired": "Utgången"
+            },
+            "empty": {
+                "title": "Inga prisuppskattningar ännu",
+                "text": "Skapa en uppskattning så patienten ser priset och sin egen del innan behandlingen börjar."
+            },
+            "form": {
+                "title": "Rubrik",
+                "titlePlaceholder": "Till exempel krona och fyllning",
+                "validUntil": "Giltig till",
+                "lines": "Behandlingar",
+                "addLine": "Lägg till rad",
+                "code": "Kod",
+                "description": "Behandling",
+                "quantity": "Antal",
+                "unitPrice": "Styckpris",
+                "subsidy": "Bidrag",
+                "lineTotal": "Belopp",
+                "noTooth": "Ingen tand",
+                "note": "Anmärkningar",
+                "notePlaceholder": "Till exempel vad priset förutsätter",
+                "needsALine": "Lägg till minst en behandling"
             }
         }
     },

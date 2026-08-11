@@ -2928,7 +2928,8 @@
                 "admin": "Administrasjon"
             },
             "surveys": "Spørreskjemaer",
-            "toothChart": "Tannkart"
+            "toothChart": "Tannkart",
+            "priceEstimates": "Prisoverslag"
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -3435,6 +3436,45 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobilitet (0-3)",
                 "measuredAt": "Måledato"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "Nytt prisoverslag",
+            "editTitle": "Rediger prisoverslag",
+            "total": "Samlet pris",
+            "subsidy": "Forventet tilskudd",
+            "patientPays": "Egenandel",
+            "saved": "Prisoverslaget er lagret",
+            "markSent": "Merk som sendt",
+            "markAccepted": "Akseptert",
+            "markDeclined": "Avvist",
+            "statuses": {
+                "draft": "Utkast",
+                "sent": "Sendt",
+                "accepted": "Akseptert",
+                "declined": "Avvist",
+                "expired": "Utløpt"
+            },
+            "empty": {
+                "title": "Ingen prisoverslag ennå",
+                "text": "Lag et prisoverslag så pasienten ser prisen og egenandelen før behandlingen starter."
+            },
+            "form": {
+                "title": "Overskrift",
+                "titlePlaceholder": "For eksempel krone og fylling",
+                "validUntil": "Gyldig til",
+                "lines": "Behandlinger",
+                "addLine": "Legg til linje",
+                "code": "Kode",
+                "description": "Behandling",
+                "quantity": "Antall",
+                "unitPrice": "Stykkpris",
+                "subsidy": "Tilskudd",
+                "lineTotal": "Beløp",
+                "noTooth": "Ingen tann",
+                "note": "Merknader",
+                "notePlaceholder": "For eksempel hva prisen forutsetter",
+                "needsALine": "Legg til minst én behandling"
             }
         }
     },

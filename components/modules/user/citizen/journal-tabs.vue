@@ -52,6 +52,14 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-tooth-chart'],
         })
     }
+    if (isDental) {
+        tabs.push({
+            name: 'citizens.tabs.priceEstimates', icon: 'ph:receipt', isTranslateName: true,
+            category: 'admin', primary: false,
+            href: `/citizens/${citizenUuid}/price-estimates`,
+            routeNames: ['citizens-uuid-price-estimates'],
+        })
+    }
     // Not rendered in the nav/"More" dropdown anymore (surfaced in the details card instead),
     // but kept in `tabs` so direct navigation to the full timeline page isn't treated as inaccessible.
     tabs.push({
