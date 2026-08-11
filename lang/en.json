@@ -4243,6 +4243,16 @@
             "info1": "The employee’s individual annual norm is always used.",
             "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",
             "info3": "Compensatory and vacation hours are calculated from that annual norm.",
+            "period": {
+                "balance": "Plus/minus in period",
+                "basisWorkdays": "{days} of {total} workdays",
+                "clear": "Clear period",
+                "excludesCarryOver": "Excludes hours carried over from the previous period",
+                "normHours": "Norm hours in period",
+                "notAvailable": "No period calculation for this range",
+                "selectPeriod": "Select period",
+                "workedHours": "Worked hours in period"
+            },
             "totalCompensatoryHours": "Total compensatory hours",
             "totalVacationDays": "Total vacation days",
             "totalVacationHours": "Total vacation hours",

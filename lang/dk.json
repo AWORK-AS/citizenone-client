@@ -4243,6 +4243,16 @@
             "info1": "Medarbejderens individuelle årlige norm anvendes altid.",
             "info2": "Hvis medarbejderen er startet i løbet af året, beregnes den årlige norm forholdsmæssigt ud fra ansættelsesdatoen.",
             "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm.",
+            "period": {
+                "balance": "Plus/minus i perioden",
+                "basisWorkdays": "{days} af {total} arbejdsdage",
+                "clear": "Nulstil periode",
+                "excludesCarryOver": "Ekskl. overførte timer fra tidligere periode",
+                "normHours": "Normtimer i perioden",
+                "notAvailable": "Ingen periodeberegning for denne periode",
+                "selectPeriod": "Vælg periode",
+                "workedHours": "Arbejdede timer i perioden"
+            },
             "totalCompensatoryHours": "Samlede afspadseringstimer",
             "totalVacationDays": "Samlede feriedage",
             "totalVacationHours": "Samlede ferietimer",
