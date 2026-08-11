@@ -153,7 +153,7 @@
         <div class="bg-surface-50 min-h-screen transition-all duration-300 ease-in-out"
             :class="sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]'">
             <!-- Impersonation Banner -->
-            <div v-if="isImpersonating"
+            <div v-if="isImpersonating" ref="bannerRef"
                 class="sticky top-0 z-[60] bg-amber-500 text-white px-6 py-2.5 flex items-center justify-between gap-x-4">
                 <div class="flex items-center gap-x-2 min-w-0">
                     <Icon name="ph:user-switch" class="h-5 w-5 shrink-0" />
@@ -168,8 +168,8 @@
                 </button>
             </div>
             <!-- Navbar -->
-            <div class="sticky z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6"
-                :class="isImpersonating ? 'top-[42px]' : 'top-0'">
+            <div ref="navbarRef"
+                class="sticky top-[var(--sticky-banner-height,0px)] z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6">
                 <button type="button" class="-m-2.5 p-2.5 text-slate-500 lg:hidden" :aria-label="$t('menu')" @click="sidebarOpen = true">
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
                 </button>
@@ -212,7 +212,7 @@
                                 enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
                                 leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100"
                                 leave-to-class="opacity-0">
-                                <div v-if="showCmdkHint"
+                                <div v-if="showCmdkHint && !showCmdkTip"
                                     class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
                                     <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
                                     <div class="relative flex items-start gap-2.5 px-3.5 py-3">
@@ -428,7 +428,13 @@
             <!-- Page content -->
             <main class="py-6 lg:py-8">
                 <div class="px-4 sm:px-6 lg:px-6">
-                    <div class="flex items-center justify-between flex-wrap gap-3">
+                    <!-- On the schedules pages this toolbar carries the date navigation, so it pins
+                         beneath the navbar - otherwise you have to scroll back to the top of a long
+                         employee grid just to step one week forward. The negative margins absorb
+                         <main>'s own padding so the resting layout is unchanged, while the pinned
+                         bar still covers the full strip below the navbar with no seam. -->
+                    <div ref="toolbarRef" class="flex items-center justify-between flex-wrap gap-3"
+                        :class="isSchedulesPage && 'sticky top-[var(--sticky-header-offset,4rem)] z-40 -mx-4 sm:-mx-6 lg:-mx-6 px-4 sm:px-6 lg:px-6 -mt-6 lg:-mt-8 pt-6 lg:pt-8 pb-3 bg-surface-50 border-b border-surface-200'">
                         <slot name="breadcrumb"></slot>
                         <slot name="guided-tour"></slot>
                     </div>
@@ -575,7 +581,7 @@ const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const customSidebarLinksStore = useCustomSidebarLinksStore()
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const { term } = useTerminology()
 const router = useRouter()
@@ -620,6 +626,63 @@ watch(discoverCompleted, () => {
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
+
+// Each sticky strip has to know the exact height of the ones above it. Those heights are
+// not constants - the navbar is h-16 plus a 1px border, the impersonation banner only
+// exists sometimes, and the schedules toolbar wraps to two or three rows depending on
+// viewport width. Measuring them and publishing the result as CSS vars is the only way
+// these stay flush; every hardcoded pixel value here was wrong by at least a border width.
+const bannerRef = ref<HTMLElement | null>(null)
+const navbarRef = ref<HTMLElement | null>(null)
+const toolbarRef = ref<HTMLElement | null>(null)
+let stickyObserver: ResizeObserver | null = null
+
+function publishStickyOffsets() {
+    if (typeof document === 'undefined') return
+    // getBoundingClientRect, not offsetHeight: the latter rounds to whole pixels and a
+    // fractional height then leaves a hairline gap under the pinned element.
+    const heightOf = (el: HTMLElement | null) => el?.getBoundingClientRect().height ?? 0
+    const bannerHeight = isImpersonating.value ? heightOf(bannerRef.value) : 0
+    const headerOffset = bannerHeight + heightOf(navbarRef.value)
+    const toolbarHeight = isSchedulesPage.value ? heightOf(toolbarRef.value) : 0
+
+    const root = document.documentElement.style
+    root.setProperty('--sticky-banner-height', `${bannerHeight}px`)
+    root.setProperty('--sticky-header-offset', `${headerOffset}px`)
+    root.setProperty('--sticky-toolbar-offset', `${headerOffset + toolbarHeight}px`)
+}
+
+function observeStickyElements() {
+    if (typeof ResizeObserver === 'undefined') return
+    stickyObserver?.disconnect()
+    stickyObserver = new ResizeObserver(publishStickyOffsets)
+    for (const el of [bannerRef.value, navbarRef.value, toolbarRef.value]) {
+        if (el) stickyObserver.observe(el)
+    }
+}
+
+onMounted(() => {
+    publishStickyOffsets()
+    observeStickyElements()
+})
+
+onBeforeUnmount(() => {
+    stickyObserver?.disconnect()
+    stickyObserver = null
+    const root = document.documentElement.style
+    root.removeProperty('--sticky-banner-height')
+    root.removeProperty('--sticky-header-offset')
+    root.removeProperty('--sticky-toolbar-offset')
+})
+
+// nextTick so the toolbar is measured after it has re-rendered with (or without) its
+// sticky classes, not on the previous route's layout. The banner is v-if'd, so its
+// element identity changes and the observer has to be re-attached.
+watch([isSchedulesPage, isImpersonating], async () => {
+    await nextTick()
+    publishStickyOffsets()
+    observeStickyElements()
+})
 
 // Keyboard hint for the global search button (⌘K on mac, Ctrl K elsewhere)
 const { visible: undoVisible, message: undoMessage, undo, dismiss: dismissUndo } = useUndo()
@@ -739,6 +802,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
     if (item.name === 'Journal Notes') return term('journalNotes', t('sidebar.journalNotes'))
+    if (item.name === 'Forms') return t('sidebar.forms')
     if (item.name === 'Billing') return language.t('employment.billing.billing')
     if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     if (item.name === 'Management & Economy') return language.t('managementEconomy.title')
@@ -952,6 +1016,24 @@ function generateSidebarLinks(user: any) {
 
     if (userHasLeadsActive) {
         nav.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', group: 'organisation', activeRouteNames: ['leads'] })
+    }
+
+    // Report templates had no way in at all: not in the sidebar, and the command
+    // palette is built from the sidebar, so search could not find them either.
+    // Shown only to whoever may actually manage them - everyone else reaches a
+    // template through "Create report" on the citizen and never needs the page.
+    if (isAtLeast('Admin') || can('manage_status_reports')) {
+        nav.push({
+            name: 'Forms',
+            href: '/forms',
+            icon: 'ph:clipboard-text',
+            group: 'documentation',
+            activeRouteNames: [
+                'forms',
+                'forms-new',
+                'forms-form_uuid-edit',
+            ]
+        })
     }
 
     if (user?.company?.industry?.system_name === 'employment_services') {

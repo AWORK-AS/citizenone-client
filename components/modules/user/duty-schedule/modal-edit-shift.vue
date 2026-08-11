@@ -131,9 +131,11 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
         selectedEmployeeSchedule?.tags?.forEach((tag: any) => {
             state.formShift.schedule_tag_uuid.push(tag.uuid)
         })
-        selectedEmployeeSchedule?.departments?.forEach((department: any) => {
-            state.formShift.department_uuid.push(department.uuid)
-        })
+        // Only one department is allowed per shift. Legacy shifts synced to
+        // multiple departments before this restriction keep only the first here.
+        if (selectedEmployeeSchedule?.departments?.[0]) {
+            state.formShift.department_uuid.push(selectedEmployeeSchedule.departments[0].uuid)
+        }
         state.formShift.note = selectedEmployeeSchedule?.note
         state.formShift.do_not_count_sick_leave = selectedEmployeeSchedule?.do_not_count_sick_leave
         state.formShift.use_compensatory_time = selectedEmployeeSchedule?.use_compensatory_time

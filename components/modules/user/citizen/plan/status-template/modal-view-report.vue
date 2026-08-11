@@ -69,6 +69,10 @@
                             <div v-for="(fieldResponse, fieldIndex) in report?.field_response" :key="fieldIndex"
                                 class="bg-gray-100 rounded-md mt-4 p-4" style="border-top: 2px solid #174560;">
 
+                                <ModulesUserFormBlockStatic
+                                    v-if="['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(parseField(fieldResponse)?.type)"
+                                    :field="parseField(fieldResponse)" />
+
                                 <!-- TEXTFIELD -->
                                 <template v-if="parseField(fieldResponse)?.type === 'textfield'">
                                     <p class="mb-3">{{ fieldIndex + 1 }}. {{ parseField(fieldResponse)?.value }}</p>
