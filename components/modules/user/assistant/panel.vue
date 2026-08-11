@@ -113,6 +113,20 @@
                                         </div>
                                         <div class="ai-answer text-sm text-gray-800 leading-relaxed"
                                             v-safe-html="formatMessage(message?.text)" />
+                                        <!-- An answer with no company data behind it is not the
+                                        same as an answer that found nothing, and it used to look
+                                        identical. -->
+                                        <p v-if="message.companyDataStatus && message.companyDataStatus !== 'ready'"
+                                            class="mt-2 flex items-start gap-1.5 rounded-md bg-amber-50 px-2 py-1.5 text-xs text-amber-800">
+                                            <Icon name="ph:warning-circle" class="mt-0.5 size-3.5 shrink-0"
+                                                aria-hidden="true" />
+                                            <span>
+                                                {{ message.companyDataStatus === 'missing'
+                                                    ? $t('assistants.companyDataMissing')
+                                                    : $t('assistants.companyDataBuilding') }}
+                                            </span>
+                                        </p>
+
                                         <!-- What the answer was actually built from. The backend
                                         already resolved these for the audit trail. -->
                                         <p v-if="message.sources?.length"
@@ -421,8 +435,30 @@ const filteredConversations = computed(() => {
     return state.conversations.filter((c: any) => (c.title || '').toLowerCase().includes(query))
 })
 
+// Esc closes the panel. It is deliberately not a dialog - the page behind stays
+// live - so headlessui's keyboard handling does not come with it.
+function onKeydown(event: KeyboardEvent) {
+    if (event.key !== 'Escape' || !assistantStore.isOpen) return
+    // Let the mention picker and the redaction preview take Escape first.
+    if (state.mention.isOpen || state.preview.isOpen) return
+    assistantStore.close()
+}
+
+onMounted(() => {
+    document.addEventListener('keydown', onKeydown)
+    // Reopening after a reload restores the panel, so its data has to load too.
+    if (assistantStore.isOpen) initialisePanel()
+})
+
+onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
+
 watch(() => assistantStore.isOpen, (isOpen: boolean) => {
     if (!isOpen) return
+    initialisePanel()
+    nextTick(() => promptTextarea.value?.focus())
+})
+
+function initialisePanel() {
 
     // The greeting is seeded once. Re-opening keeps the conversation, otherwise
     // stepping away to look something up would wipe the answer you went to check.
@@ -434,7 +470,7 @@ watch(() => assistantStore.isOpen, (isOpen: boolean) => {
     fetchConversations()
     loadMentionableEmployees()
     applyRouteContext()
-})
+}
 
 // Follows the user around the app: ask about the citizen whose page is open
 // without tagging them by hand first.
@@ -624,9 +660,20 @@ async function sendMessage() {
             fetchConversations()
         }
     } catch (error: any) {
-        state.error = error
+        state.error = rateLimitError(error) ?? error
     }
     state.isGeneratingResponse = false
+}
+
+// The assistant has its own request ceiling. Telling the user "something went
+// wrong" for a limit they will be under again shortly is the wrong story.
+function rateLimitError(error: any) {
+    if (error?.status !== 429) return null
+
+    const seconds = Number(error.retryAfter) || 0
+    if (seconds > 600) return { message: t('assistants.rateLimitedToday') }
+
+    return { message: t('assistants.rateLimited', { minutes: Math.max(1, Math.ceil(seconds / 60)) }) }
 }
 
 // The model answers in markdown. This used to return the raw string, so
@@ -697,6 +744,7 @@ function applyAnswer(response: any) {
         type: 'bot',
         text: response?.data?.answer,
         sources: response?.sources ?? [],
+        companyDataStatus: response?.company_data_status ?? 'ready',
     })
 
     if (response.conversation_id) {
@@ -751,7 +799,7 @@ async function regenerateAnswer() {
         const response = await requestAnswer(formData)
         if (response?.data) applyAnswer(response)
     } catch (error: any) {
-        state.error = error
+        state.error = rateLimitError(error) ?? error
     }
     state.isGeneratingResponse = false
 }

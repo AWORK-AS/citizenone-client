@@ -796,6 +796,10 @@
             "organisation": "What do our guidelines say about "
         },
         "basedOn": "Based on",
+        "rateLimited": "You have asked a lot of questions just now. Try again in {minutes} min.",
+        "rateLimitedToday": "Your organisation has reached its daily limit for AI requests. Try again tomorrow.",
+        "companyDataMissing": "Answered without access to your data. The search index has not been created yet.",
+        "companyDataBuilding": "Answered without access to your data. The search index is still being built.",
         "askAnything": "Ask anything, or type {'@'} to mention someone",
         "mentionSomeone": "Mention a citizen or employee",
         "searchScopeHint": "AI can search any citizen/employee record you have access to, unless you tag someone specific with {'@'}",

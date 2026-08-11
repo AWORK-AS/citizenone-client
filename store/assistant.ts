@@ -10,6 +10,10 @@ import { defineStore } from 'pinia'
  * screens.
  */
 export const useAssistantStore = defineStore('assistantStore', {
+    // Only whether the panel is open survives a reload. The insert target
+    // belongs to a form that is open right now, and a stored one would offer to
+    // insert into something that is not there any more.
+    persist: { paths: ['isOpen'] },
     state: () => ({
         isOpen: false,
         // A form that can receive an answer registers itself here while it is
