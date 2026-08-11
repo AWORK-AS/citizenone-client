@@ -9,7 +9,7 @@
             <aside v-if="assistantStore.isOpen" :aria-label="$t('assistants.askAI')"
                 class="fixed inset-y-0 right-0 z-[56] flex w-full max-w-[26rem] flex-col border-l border-surface-200 bg-white shadow-2xl">
                 <header class="flex h-16 shrink-0 items-center gap-1 border-b border-surface-200 px-4">
-                    <Icon name="ph:lightbulb" class="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                    <Icon name="ph:sparkle" class="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
                     <p class="flex-1 truncate text-sm font-semibold text-gray-900">{{ $t('assistants.askAI') }}</p>
                     <Tooltip :text="$t('assistants.history.newChat')">
                         <button :aria-label="$t('assistants.history.newChat')" type="button" @click="startNewChat"
@@ -106,7 +106,7 @@
                                     class="w-full bg-gray-50 border border-gray-100 rounded-md px-0 py-2 flex items-start gap-3">
                                     <div
                                         class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5 ml-2 shadow-sm px-2">
-                                        <Icon name="ph:lightbulb" class="h-4 w-4 text-white" />
+                                        <Icon name="ph:sparkle" class="h-4 w-4 text-white" />
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <div class="text-xs font-medium text-gray-400 mb-1">{{ $t('assistants.askAI') }}

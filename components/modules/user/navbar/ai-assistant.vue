@@ -3,7 +3,7 @@
         <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
             :aria-expanded="assistantStore.isOpen"
             @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
-            <Icon name="ic:round-accessibility" class="h-8 w-8 md:w-5 md:h-5" aria-hidden="true" />
+            <Icon name="ph:sparkle" class="h-8 w-8 md:w-5 md:h-5" aria-hidden="true" />
             <p class="text-sm font-semibold hidden lg:block">
                 {{ $t('assistants.askAI') }}
             </p>
