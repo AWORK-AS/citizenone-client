@@ -95,12 +95,51 @@
         </div>
         <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
             :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
+
+        <div class="border-t px-5 py-4">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                {{ $t('overview.medicationOverview.effectEvaluations') }}
+            </p>
+            <div v-if="!state.evaluationOverview?.data?.length"
+                class="border-2 border-gray-300 border-dashed rounded-md flex items-center justify-center min-h-24 text-sm text-gray-400">
+                {{ $t('overview.medicationOverview.noEvaluationsToShow') }}
+            </div>
+            <div v-else class="space-y-2 overflow-scroll max-h-72">
+                <div v-for="(history, historyIndex) in state.evaluationOverview?.data" :key="historyIndex"
+                    class="border rounded-md px-3 py-2 text-xs space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <span class="font-medium">
+                            {{ history.citizen?.firstname }} {{ history.citizen?.lastname }}
+                            —
+                            {{ language.locale.value === 'en' ? history.medicine?.en_name : history.medicine?.dk_name }}
+                        </span>
+                        <span class="text-gray-400">{{ formatDateToReadable(history.date) }}</span>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span v-for="(slot, slotIndex) in history.slots" :key="slotIndex" :class="[
+                            slot.status === 'remembered' && 'bg-green-100 text-green-700',
+                            slot.status === 'forgotten' && 'bg-red-100 text-red-700',
+                            slot.status === 'pending' && 'bg-amber-100 text-amber-700',
+                            'px-2 py-1 rounded-md inline-flex items-center gap-1'
+                        ]" :title="slot.status === 'remembered' ? formatDateTimeToReadable(slot.evaluated_at) : ''">
+                            {{ slot.time }} ·
+                            {{
+                                slot.status === 'remembered' ? $t('overview.medicationOverview.remembered')
+                                    : slot.status === 'forgotten' ? $t('overview.medicationOverview.forgotten')
+                                        : $t('overview.medicationOverview.pending')
+                            }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </LoadingSpinner>
 </template>
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { effectEvaluationService } from '@/components/api/user/EffectEvaluationService'
 import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -113,7 +152,7 @@ const props = defineProps({
     },
 })
 
-const { formatDateToReadable } = useDatetimeFormatter()
+const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore()
 const language = useI18n()
@@ -122,6 +161,7 @@ const state = reactive({
     isPageLoading: false,
     error: {} as Error,
     medicines: [] as any,
+    evaluationOverview: [] as any,
     modal: {
         isViewMedicineOpen: false,
     },
@@ -130,22 +170,26 @@ const state = reactive({
 
 watch(() => props.dateRange, () => {
     fetchCitizensMedicines()
+    fetchEvaluationOverview()
 }, { deep: true })
 
 watch(() => state.modal.isViewMedicineOpen, (isViewMedicineOpen: boolean) => {
     if (!isViewMedicineOpen) {
         fetchCitizensMedicines()
+        fetchEvaluationOverview()
     }
 })
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
         fetchCitizensMedicines()
+        fetchEvaluationOverview()
     }
 })
 
 onMounted(() => {
     fetchCitizensMedicines()
+    fetchEvaluationOverview()
 })
 
 async function fetchCitizensMedicines() {
@@ -168,6 +212,25 @@ async function fetchCitizensMedicines() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function fetchEvaluationOverview() {
+    try {
+        const params: any = {
+            department: departmentStore.getSelectedDepartmentName
+        }
+
+        if (props.dateRange) {
+            params.end_date = props.dateRange.end_date
+            params.start_date = props.dateRange.start_date
+        }
+        const response = await effectEvaluationService.getEffectEvaluationOverview(params)
+        if (response) {
+            state.evaluationOverview = response
+        }
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 function viewMedicineHistory(medicine: any) {
