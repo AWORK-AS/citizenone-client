@@ -588,23 +588,9 @@ async function sendMessage() {
         // should still be there for the next question.
         applyRouteContext()
 
-        const response = await aIAssistantService.sendMessage(formData)
+        const response = await requestAnswer(formData)
         if (response?.data) {
-            state.messages.push({
-                type: 'bot',
-                text: response?.data?.answer,
-            })
-
-            if (response.conversation_id) {
-                state.aiElements.conversationId = response.conversation_id
-            }
-            if (response.tools?.[0]?.vector_store_ids) {
-                state.aiElements.vectorStoreId = response.tools[0].vector_store_ids[0]
-            }
-            if (response.file_ids) {
-                state.aiElements.fileIds.push(...response.file_ids)
-            }
-
+            applyAnswer(response)
             fetchConversations()
         }
     } catch (error: any) {
@@ -616,6 +602,62 @@ async function sendMessage() {
 // The model answers in markdown. This used to return the raw string, so
 // headings, lists and tables reached the user as literal `#`, `-` and `|`.
 // The result still goes through v-safe-html (DOMPurify) before it hits the DOM.
+// Streams when the API and whatever sits in front of it allow it, and falls
+// back to the buffered endpoint otherwise. Both return the same payload, so
+// only the waiting differs.
+async function requestAnswer(formData: FormData) {
+    const streamed = { index: -1, text: '', done: null as any }
+
+    try {
+        await aIAssistantService.streamMessage(formData, (event: string, data: any) => {
+            if (event === 'delta') {
+                if (streamed.index === -1) {
+                    // The typing indicator gives way to the answer itself as
+                    // soon as there is something to show.
+                    state.isGeneratingResponse = false
+                    streamed.index = state.messages.push({ type: 'bot', text: '' }) - 1
+                }
+                streamed.text += data?.text ?? ''
+                state.messages[streamed.index].text = streamed.text
+                return
+            }
+            if (event === 'done') streamed.done = data
+            if (event === 'error') throw new Error(data?.message ?? '')
+        })
+    } catch (error: any) {
+        // Drop a partial answer before retrying, so nothing is shown twice.
+        if (streamed.index !== -1) state.messages.splice(streamed.index, 1)
+        if (streamed.done) return streamed.done
+        if (!error?.streamUnavailable) throw error
+
+        state.isGeneratingResponse = true
+
+        return await aIAssistantService.sendMessage(formData)
+    }
+
+    if (!streamed.done) throw new Error(t('alert.somethingWentWrong'))
+
+    // The streamed fragments were progress; the completed answer is what gets
+    // kept, so the rendered result matches the buffered path exactly.
+    if (streamed.index !== -1) state.messages.splice(streamed.index, 1)
+
+    return streamed.done
+}
+
+function applyAnswer(response: any) {
+    state.messages.push({ type: 'bot', text: response?.data?.answer })
+
+    if (response.conversation_id) {
+        state.aiElements.conversationId = response.conversation_id
+    }
+    if (response.tools?.[0]?.vector_store_ids) {
+        state.aiElements.vectorStoreId = response.tools[0].vector_store_ids[0]
+    }
+    if (response.file_ids) {
+        state.aiElements.fileIds.push(...response.file_ids)
+    }
+}
+
 function formatMessage(messageText: string) {
     return renderMarkdown(messageText ?? '')
 }
@@ -654,11 +696,8 @@ async function regenerateAnswer() {
         state.lastRequest.citizenUuids.forEach((uuid) => formData.append('citizen_uuids[]', uuid))
         state.lastRequest.employeeUuids.forEach((uuid) => formData.append('employee_uuids[]', uuid))
 
-        const response = await aIAssistantService.sendMessage(formData)
-        if (response?.data) {
-            state.messages.push({ type: 'bot', text: response?.data?.answer })
-            if (response.conversation_id) state.aiElements.conversationId = response.conversation_id
-        }
+        const response = await requestAnswer(formData)
+        if (response?.data) applyAnswer(response)
     } catch (error: any) {
         state.error = error
     }
