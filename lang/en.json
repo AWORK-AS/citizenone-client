@@ -9528,6 +9528,12 @@
         "companyId": "Company ID",
         "coupons": "Coupons",
         "discover": "Get started",
+        "groups": {
+            "daily": "Daily work",
+            "documentation": "Documentation",
+            "organisation": "Organisation",
+            "shortcuts": "Shortcuts"
+        },
         "documents": "Documents",
         "dutySchedules": "Duty schedules",
         "leads": "Leads",

@@ -9528,6 +9528,12 @@
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
         "discover": "Kom igång",
+        "groups": {
+            "daily": "Daglig drift",
+            "documentation": "Dokumentation",
+            "organisation": "Organisation",
+            "shortcuts": "Genvägar"
+        },
         "documents": "Dokument",
         "dutySchedules": "Tjänsteschema",
         "leads": "Leads",
