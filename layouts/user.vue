@@ -685,6 +685,21 @@ function tryCmdkTip() {
     globalSearch.value?.open()
 }
 
+// The tip is `fixed bottom-5 right-5`, so on a busy or narrow screen it can
+// land on top of real, unrelated controls (the Ask AI input, an alert's
+// action button, a list row) and silently absorb the click meant for them
+// for its whole 12s/until-dismissed lifetime - including clicks that land ON
+// the tip only because it happens to cover the control underneath. Dismiss on
+// any click that isn't one of the tip's own two buttons (which already
+// dismiss themselves via their own handlers), so at most one click is ever
+// lost to it and the covered control is reachable immediately after.
+function dismissCmdkTipIfClickOutside(event: PointerEvent) {
+    if (!showCmdkTip.value) return
+    const target = event.target as HTMLElement | null
+    if (target?.closest('button')) return
+    dismissCmdkTip()
+}
+
 const searchShortcut = computed(() => {
     const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform)
     return isMac ? '⌘K' : 'Ctrl K'
@@ -728,6 +743,10 @@ onMounted(() => {
     if (typeof localStorage !== 'undefined' && !localStorage.getItem(CMDK_TIP_KEY)) {
         setTimeout(() => { showCmdkTip.value = true }, 3000)
     }
+    document.addEventListener('pointerdown', dismissCmdkTipIfClickOutside, true)
+})
+onUnmounted(() => {
+    document.removeEventListener('pointerdown', dismissCmdkTipIfClickOutside, true)
 })
 
 const state = reactive({
