@@ -1,11 +1,12 @@
 <template>
     <div class="space-y-3">
         <div class="overflow-x-auto">
-            <svg :viewBox="`0 0 ${BOX} ${BOX}`" class="mx-auto block w-full max-w-[560px]" role="group"
+            <svg :viewBox="`0 0 ${BOX_W} ${BOX_H}`" class="mx-auto block w-full max-w-[680px]" role="group"
                 :aria-label="$t('citizens.toothChart.title')">
-                <!-- The midline, the way it is drawn on a paper chart. -->
-                <line :x1="CENTER" y1="24" :x2="CENTER" :y2="BOX - 24" stroke="#e5e7eb" stroke-width="1" />
-                <line x1="40" :y1="CENTER" :x2="BOX - 40" :y2="CENTER" stroke="#e5e7eb" stroke-width="1" />
+                <!-- Midline and the line between the jaws, the way both are
+                     drawn on a paper chart. -->
+                <line :x1="CENTER_X" y1="20" :x2="CENTER_X" :y2="BOX_H - 20" stroke="#e5e7eb" stroke-width="1" />
+                <line x1="70" :y1="BOX_H / 2" :x2="BOX_W - 70" :y2="BOX_H / 2" stroke="#e5e7eb" stroke-width="1" />
 
                 <g v-for="tooth in placed" :key="tooth.uuid">
                     <g :transform="tooth.transform" class="cursor-pointer" role="button" tabindex="0"
@@ -70,9 +71,24 @@ const emit = defineEmits<{ (event: 'select', toothUuid: string, surface: string)
 
 const { t } = useI18n()
 
-const BOX = 560
+const BOX_W = 660
 
-const CENTER = BOX / 2
+const BOX_H = 560
+
+const CENTER_X = BOX_W / 2
+
+/**
+ * A mouth seen from above is wider across the molars than it is deep from
+ * front to back, so the arch is an oval rather than a circle. The two jaws sit
+ * on their own arcs with the bite opening between them.
+ */
+const RADIUS_X = 258
+
+const RADIUS_Y = 190
+
+const UPPER_CENTER_Y = 262
+
+const LOWER_CENTER_Y = 298
 
 // Kept in sync with CitizenToothStatus::STATUSES on the backend.
 const STATUS_COLORS: Record<string, string> = {
@@ -192,17 +208,16 @@ const placed = computed(() => {
     const upper = arch(isPrimary ? 5 : 1, isPrimary ? 6 : 2)
     const lower = arch(isPrimary ? 8 : 4, isPrimary ? 7 : 3)
 
-    const rx = 196
-    const ry = 168
-    const scale = isPrimary ? 1.15 : 1
+    const scale = isPrimary ? 1.3 : 1.15
 
-    const place = (row: any[], fromDegrees: number, toDegrees: number) => row.map((tooth: any, index: number) => {
+    const place = (row: any[], centerY: number, fromDegrees: number, toDegrees: number) => row.map((tooth: any, index: number) => {
         const step = row.length > 1 ? index / (row.length - 1) : 0.5
         const angle = ((fromDegrees + (toDegrees - fromDegrees) * step) * Math.PI) / 180
 
-        const x = CENTER + rx * Math.cos(angle)
-        const y = CENTER + ry * Math.sin(angle)
-        const rotation = (Math.atan2(y - CENTER, x - CENTER) * 180) / Math.PI + 90
+        const x = CENTER_X + RADIUS_X * Math.cos(angle)
+        const y = centerY + RADIUS_Y * Math.sin(angle)
+        // Turned so the root points away from the middle of the mouth.
+        const rotation = (Math.atan2(y - centerY, x - CENTER_X) * 180) / Math.PI + 90
 
         return {
             ...tooth,
@@ -210,15 +225,16 @@ const placed = computed(() => {
             // The drawing is 34 x 58 with its root up, so it is centred on its
             // own crown before being rotated onto the arch.
             transform: `translate(${x} ${y}) rotate(${rotation}) scale(${scale}) translate(-17 -44)`,
-            labelX: CENTER + rx * 1.28 * Math.cos(angle),
-            labelY: CENTER + ry * 1.3 * Math.sin(angle),
-            perioX: CENTER + rx * 1.12 * Math.cos(angle),
-            perioY: CENTER + ry * 1.13 * Math.sin(angle),
+            labelX: CENTER_X + (RADIUS_X + 46) * Math.cos(angle),
+            labelY: centerY + (RADIUS_Y + 46) * Math.sin(angle),
+            perioX: CENTER_X + (RADIUS_X + 22) * Math.cos(angle),
+            perioY: centerY + (RADIUS_Y + 22) * Math.sin(angle),
         }
     })
 
-    // Upper teeth occupy the top half of the ellipse, lower teeth the bottom.
-    return [...place(upper, 191, 349), ...place(lower, 169, 11)]
+    // The upper jaw curves above its own centre and the lower jaw below its
+    // own, which leaves the bite open in the middle.
+    return [...place(upper, UPPER_CENTER_Y, 194, 346), ...place(lower, LOWER_CENTER_Y, 166, 14)]
 })
 
 function statusOf(tooth: any): string | null {
