@@ -67,6 +67,14 @@
         "whatDoYouNeed": "Vad behöver du?",
         "stepsProgress": "{done} av {total} steg slutförda",
         "nextStep": "Nästa steg",
+        "demoData": {
+            "title": "Utforska med demoklienter",
+            "desc": "Vi har lagt till {count} fiktiva klienter så att det finns något att klicka runt i direkt. Ta bort dem när du är redo att lägga till era egna.",
+            "remove": "Ta bort demoklienter",
+            "removing": "Tar bort...",
+            "removed": "Demoklienter borttagna",
+            "removeFailed": "Kunde inte ta bort demoklienter"
+        },
         "ready": {
             "title": "Du är redo att gå live!",
             "desc": "Alla onboarding-steg är slutförda."

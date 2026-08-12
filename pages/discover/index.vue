@@ -86,6 +86,28 @@
                 </button>
             </div>
 
+            <!-- Demo data -->
+            <div v-if="isAdmin && demoCitizenCount > 0"
+                class="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 flex items-center justify-between gap-x-4">
+                <div class="flex items-center gap-x-4 min-w-0">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-600 shrink-0">
+                        <Icon name="ph:flask" class="h-6 w-6" />
+                    </div>
+                    <div class="min-w-0">
+                        <p class="font-semibold text-slate-900">
+                            {{ $t('discover.demoData.title') }}
+                        </p>
+                        <p class="text-sm text-slate-600">
+                            {{ $t('discover.demoData.desc', { count: demoCitizenCount }) }}
+                        </p>
+                    </div>
+                </div>
+                <button type="button" @click="removeDemoData" :disabled="state.isRemovingDemoData"
+                    class="shrink-0 inline-flex items-center gap-x-1.5 rounded-lg bg-white border border-amber-300 text-amber-700 px-3.5 py-2.5 text-sm font-medium hover:bg-amber-100 transition-colors disabled:opacity-60">
+                    {{ state.isRemovingDemoData ? $t('discover.demoData.removing') : $t('discover.demoData.remove') }}
+                </button>
+            </div>
+
             <!-- Step groups -->
             <div class="mt-6 space-y-4">
                 <div v-for="group in visibleGroups" :key="group.key" class="card !p-0 overflow-hidden">
@@ -260,12 +282,17 @@ import { userService } from '@/components/api/user/UserService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { companyService } from '@/components/api/user/CompanyService'
+import { demoDataService } from '@/components/api/user/DemoDataService'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { isAtLeast } = usePermissions()
+const { successAlert, errorAlert } = useAlert()
+const { t } = useI18n()
 const isAdmin = computed(() => isAtLeast('Admin'))
 
 const firstName = computed(() => userStore.getUser?.firstname ?? '')
@@ -283,7 +310,30 @@ const state = reactive({
     open: { migration: true, komIGang: true } as Record<string, boolean>,
     done: { departments: false, employees: false, citizens: false, shiftTags: false } as Record<string, boolean>,
     modal: { whatDoYouNeed: false, appInfo: false, importMapper: false },
+    isRemovingDemoData: false,
 })
+
+const demoCitizenCount = ref(0)
+
+async function fetchDemoDataStatus() {
+    if (!isAdmin.value) return
+    try {
+        const res: any = await demoDataService.status()
+        demoCitizenCount.value = res?.data?.citizens ?? 0
+    } catch (e) { /* not worth failing the page over */ }
+}
+
+async function removeDemoData() {
+    state.isRemovingDemoData = true
+    try {
+        await demoDataService.destroy()
+        demoCitizenCount.value = 0
+        successAlert(t('alert.success'), t('discover.demoData.removed'))
+    } catch (e: any) {
+        errorAlert(t('alert.warning'), e?.message ?? t('discover.demoData.removeFailed'))
+    }
+    state.isRemovingDemoData = false
+}
 
 function runStepAction(action: string) {
     if (action === 'import') state.modal.importMapper = true
@@ -456,5 +506,7 @@ onMounted(async () => {
         )
         state.done.shiftTags = (tags?.data?.length ?? 0) > 0
     } catch (e) { }
+
+    fetchDemoDataStatus()
 })
 </script>

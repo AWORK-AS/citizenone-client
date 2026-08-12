@@ -67,6 +67,14 @@
         "whatDoYouNeed": "What do you need?",
         "stepsProgress": "{done} of {total} steps completed",
         "nextStep": "Next step",
+        "demoData": {
+            "title": "Explore with demo citizens",
+            "desc": "We've added {count} fictional citizens so there's something to click around right away. Remove them whenever you're ready to add your own.",
+            "remove": "Remove demo citizens",
+            "removing": "Removing...",
+            "removed": "Demo citizens removed",
+            "removeFailed": "Could not remove demo citizens"
+        },
         "ready": {
             "title": "You're ready to go live!",
             "desc": "All onboarding steps are complete."
