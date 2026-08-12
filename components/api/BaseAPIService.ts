@@ -359,7 +359,13 @@ class BaseAPIService {
     revokeAccess() {
         localStorage.removeItem("_token")
         localStorage.removeItem("rememberMe")
-        navigateTo('/')
+
+        const currentPath = typeof window !== 'undefined' ? window.location.pathname + window.location.search : ''
+        if (currentPath && currentPath !== '/') {
+            navigateTo({ path: '/', query: { redirect: currentPath } })
+        } else {
+            navigateTo('/')
+        }
     }
 }
 
