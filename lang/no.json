@@ -9843,6 +9843,7 @@
                     "unitPrice": "Planpris",
                     "tax": "MVA (25%)",
                     "serviceFee": "Servicegebyr",
+                    "paysViaLeverandorservice": "Betales via leverandørservice",
                     "total": "Totalt",
                     "added": "Abonnement lagt til",
                     "failed": "Kunne ikke legge til abonnement"
