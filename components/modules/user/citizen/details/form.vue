@@ -902,7 +902,7 @@
                         v-model="state.formCitizen.employmentData.internship_company" />
                 </div>
         </FormSection>
-        <FormSection v-if="userStore.getUser?.company?.industry?.en_name === 'Dentists and dental hygienists' && isFieldVisible('dental_profile')" :title="$t('citizens.sections.dentalProfile')" :description="$t('citizens.sections.dentalProfileHelp')">
+        <FormSection v-if="isDentalClinic && isFieldVisible('dental_profile')" :title="$t('citizens.sections.dentalProfile')" :description="$t('citizens.sections.dentalProfileHelp')">
                 <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark = !state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark">
@@ -1902,6 +1902,15 @@ async function changeSelectedMunicipality(municipalityUuid: string) {
         await fetchCities(municipalityUuid)
     }
 }
+
+// Every dental feature keys off the same rule: the industry's system name,
+// with the English industry name still counting until all installs are
+// migrated. The API enforces the same thing.
+const isDentalClinic = computed(() => {
+    const industry = userStore.getUser?.company?.industry
+
+    return industry?.system_name === 'dental' || industry?.en_name === 'Dentists and dental hygienists'
+})
 
 const rules = computed(() => {
     return {
