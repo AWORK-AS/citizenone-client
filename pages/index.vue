@@ -367,14 +367,14 @@ async function login() {
 					userStore.setUser(response?.data?.user)
 					userStore.setLanguage(response?.data?.user?.language?.code)
 					language.locale.value = response?.data?.user?.language?.code
-					if (response.data.user?.role === 'Citizen') {
-						navigateTo('/citizen/overview')
-					} else if (response.data.user?.role === 'Relative') {
-						navigateTo('/relative/citizens')
-					} else if (response.data.user?.role === 'ThirdParty') {
-						navigateTo('/third-party/messages')
-					} else {
+					// A deep-link redirect (?redirect=) always wins; the first-login
+					// override only applies where resolvePostLoginRedirect() would
+					// otherwise have fallen back to the plain staff default.
+					const target = resolvePostLoginRedirect(response.data.user?.role)
+					if (target === '/overview' && response.data.user?.is_first_login) {
 						navigateTo(staffLandingRoute(response.data.user))
+					} else {
+						navigateTo(target)
 					}
 				}
 			}
