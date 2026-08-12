@@ -167,6 +167,14 @@
                         {{ $t('superadmin.grantLicense.billingFixed', { frequency: fixedFrequencyLabel }) }}
                     </p>
 
+                    <div>
+                        <div class="w-fit flex items-center cursor-pointer"
+                            @click="state.form.paysViaLeverandorservice = !state.form.paysViaLeverandorservice">
+                            <FormCheckbox :value="state.form.paysViaLeverandorservice" />
+                            {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
+                        </div>
+                    </div>
+
                     <!-- Assign directly to a user (only for apps sold as multiple seats -
                          a single-toggle app like Mail/OneDrive is a company-wide grant,
                          not a per-user seat, so there's nothing to assign) -->
@@ -310,6 +318,7 @@ const state = reactive({
         application_uuid: '',
         quantity: 1 as number,
         frequency: 'monthly' as 'monthly' | 'yearly',
+        paysViaLeverandorservice: false,
     },
     isSaving: false,
     seatCounts: null as null | { total: number; used: number; available: number },
@@ -384,7 +393,7 @@ function selectApp(app: any) {
 
 watch(() => props.open, (open: boolean) => {
     if (open) {
-        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly' }
+        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly', paysViaLeverandorservice: false }
         state.appSearch = ''
         state.assignEnabled = false
         state.errors = { application: '', quantity: '', user: '', frequency: '' }
@@ -544,6 +553,7 @@ async function submit() {
             application_uuid: state.form.application_uuid,
             quantity: state.form.quantity,
             assign_to_user_uuid: state.selectedUser?.uuid ?? null,
+            pays_via_leverandorservice: state.form.paysViaLeverandorservice,
             ...(needsFrequencyPicker.value ? { frequency: state.form.frequency } : {}),
         })
         successAlert(t('superadmin.grantLicense.successTitle'), t('superadmin.grantLicense.successBody'))

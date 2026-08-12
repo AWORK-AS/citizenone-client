@@ -9843,6 +9843,7 @@
                     "unitPrice": "Planpris",
                     "tax": "Moms (25%)",
                     "serviceFee": "Servicegebyr",
+                    "paysViaLeverandorservice": "Betales via Leverandørservice",
                     "total": "Total",
                     "added": "Abonnement tilføjet",
                     "failed": "Kunne ikke tilføje abonnement"

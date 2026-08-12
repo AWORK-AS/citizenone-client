@@ -9843,6 +9843,7 @@
                     "unitPrice": "Plan price",
                     "tax": "VAT (25%)",
                     "serviceFee": "Service fee",
+                    "paysViaLeverandorservice": "Paid via Supplier Service",
                     "total": "Total",
                     "added": "Subscription added",
                     "failed": "Could not add subscription"
