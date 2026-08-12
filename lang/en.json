@@ -9826,7 +9826,8 @@
         "myDay": "My day",
         "myAvailability": "My availability",
         "myShiftEvaluations": "My shift evaluations",
-        "forms": "Forms"
+        "forms": "Forms",
+        "dentalRecalls": "Recalls"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -12920,6 +12921,32 @@
         "alert": {
             "savedSuccessfully": "Your evaluation was saved",
             "deletedSuccessfully": "Your evaluation was removed"
+        }
+    },
+    "dentalRecalls": {
+        "title": "Recalls",
+        "help": "Patients due for a check-up. SMS, email and app notifications go out automatically. Letters and phone calls are listed here, because a system cannot make them.",
+        "overdueCount": "patients are overdue",
+        "daysOverdue": "days overdue",
+        "markContacted": "Mark as called in",
+        "contacted": "Patient marked as called in",
+        "manual": "Needs to be contacted by hand",
+        "autoOff": "Automatic reminder is off",
+        "noChannel": "Not chosen",
+        "window": {
+            "overdue": "Overdue",
+            "month": "Next 30 days",
+            "quarter": "Next 90 days"
+        },
+        "table": {
+            "patient": "Patient",
+            "due": "Due",
+            "channel": "Recall type",
+            "lastContact": "Last contacted"
+        },
+        "empty": {
+            "title": "No recalls",
+            "text": "No patients are due in the selected period."
         }
     }
 }

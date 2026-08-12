@@ -795,6 +795,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Overview') return t('sidebar.overview')
     if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
+    if (item.name === 'DentalRecalls') return t('sidebar.dentalRecalls')
     if (item.name === 'Calendar') return t('sidebar.calendar')
     if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
     if (item.name === 'My availability') return t('sidebar.myAvailability')
@@ -902,6 +903,16 @@ function generateSidebarLinks(user: any) {
             activeRouteNames: [
                 'discover',
             ]
+        })
+    }
+    // The recall list only exists for dental clinics, the same rule the tabs
+    // and the API use.
+    if (newValue?.company?.industry?.system_name === 'dental') {
+        nav.push({
+            name: 'DentalRecalls',
+            href: '/dental-recalls',
+            icon: 'ph:calendar-check',
+            activeRouteNames: ['dental-recalls'],
         })
     }
     nav.push({

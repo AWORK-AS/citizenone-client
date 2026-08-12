@@ -9826,7 +9826,8 @@
         "myDay": "Min dag",
         "myAvailability": "Min tilgjengelighet",
         "myShiftEvaluations": "Mine vaktevalueringer",
-        "forms": "Skjemaer"
+        "forms": "Skjemaer",
+        "dentalRecalls": "Innkallinger"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -12920,6 +12921,32 @@
         "alert": {
             "savedSuccessfully": "Evalueringen din ble lagret",
             "deletedSuccessfully": "Evalueringen din ble fjernet"
+        }
+    },
+    "dentalRecalls": {
+        "title": "Innkallinger",
+        "help": "Pasienter som skal innkalles til kontroll. SMS, e-post og appvarsler sendes automatisk. Brev og oppringninger står her, fordi et system ikke kan utføre dem.",
+        "overdueCount": "pasienter er forfalt",
+        "daysOverdue": "dager over tiden",
+        "markContacted": "Merk som innkalt",
+        "contacted": "Pasienten er merket som innkalt",
+        "manual": "Må kontaktes manuelt",
+        "autoOff": "Automatisk påminnelse er av",
+        "noChannel": "Ikke valgt",
+        "window": {
+            "overdue": "Forfalt",
+            "month": "Neste 30 dager",
+            "quarter": "Neste 90 dager"
+        },
+        "table": {
+            "patient": "Pasient",
+            "due": "Til kontroll",
+            "channel": "Innkallingstype",
+            "lastContact": "Sist kontaktet"
+        },
+        "empty": {
+            "title": "Ingen innkallinger",
+            "text": "Ingen pasienter skal innkalles i den valgte perioden."
         }
     }
 }

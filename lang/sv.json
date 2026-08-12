@@ -9826,7 +9826,8 @@
         "myDay": "Min dag",
         "myAvailability": "Min tillgänglighet",
         "myShiftEvaluations": "Mina passutvärderingar",
-        "forms": "Formulär"
+        "forms": "Formulär",
+        "dentalRecalls": "Kallelser"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -12920,6 +12921,32 @@
         "alert": {
             "savedSuccessfully": "Din utvärdering sparades",
             "deletedSuccessfully": "Din utvärdering togs bort"
+        }
+    },
+    "dentalRecalls": {
+        "title": "Kallelser",
+        "help": "Patienter som ska kallas till kontroll. SMS, e-post och appnotiser skickas automatiskt. Brev och samtal står här, eftersom ett system inte kan utföra dem.",
+        "overdueCount": "patienter är försenade",
+        "daysOverdue": "dagar försenad",
+        "markContacted": "Markera som kallad",
+        "contacted": "Patienten är markerad som kallad",
+        "manual": "Ska kontaktas manuellt",
+        "autoOff": "Automatisk påminnelse är av",
+        "noChannel": "Inte vald",
+        "window": {
+            "overdue": "Försenade",
+            "month": "Nästa 30 dagar",
+            "quarter": "Nästa 90 dagar"
+        },
+        "table": {
+            "patient": "Patient",
+            "due": "Till kontroll",
+            "channel": "Kallelsetyp",
+            "lastContact": "Senast kontaktad"
+        },
+        "empty": {
+            "title": "Inga kallelser",
+            "text": "Inga patienter ska kallas under den valda perioden."
         }
     }
 }
