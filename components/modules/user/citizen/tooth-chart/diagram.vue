@@ -22,23 +22,42 @@
                                 <span class="text-gray-600">{{ perioOf(tooth)?.pocket_depth_mm ?? '' }}</span>
                             </span>
 
-                            <svg :viewBox="`0 0 ${SIZE} ${SIZE}`" :width="SIZE" :height="SIZE"
-                                class="rounded-sm ring-1 transition"
-                                :class="tooth.uuid === props.selectedToothUuid ? 'ring-2 ring-primary' : 'ring-gray-200'"
+                            <svg :viewBox="`0 0 ${WIDTH} ${HEIGHT}`" :width="WIDTH" :height="HEIGHT"
+                                class="rounded transition"
+                                :class="tooth.uuid === props.selectedToothUuid ? 'ring-2 ring-primary' : ''"
                                 role="button" tabindex="0" :aria-label="ariaLabel(tooth)"
                                 @keydown.enter.prevent="select(tooth, 'whole')"
                                 @keydown.space.prevent="select(tooth, 'whole')">
                                 <title>{{ ariaLabel(tooth) }}</title>
 
-                                <polygon v-for="face in faces(tooth)" :key="face.surface" :points="face.points"
-                                    :fill="fillFor(tooth, face.surface)" stroke="#9ca3af" stroke-width="0.75"
-                                    class="cursor-pointer" @click="select(tooth, face.surface)" />
+                                <defs>
+                                    <clipPath :id="`crown-${tooth.uuid}`">
+                                        <path :d="crownOutline(tooth, row.key)" />
+                                    </clipPath>
+                                </defs>
 
-                                <!-- A tooth that is gone is marked across the whole
-                                     cell, the way it is drawn on paper charts. -->
+                                <!-- The root is drawn for recognition only: it is
+                                     not a surface, so it takes no clicks. -->
+                                <path :d="rootOutline(tooth, row.key)" fill="#f3f4f6" stroke="#cbd5e1"
+                                    stroke-width="0.75" pointer-events="none" />
+
+                                <g :clip-path="`url(#crown-${tooth.uuid})`">
+                                    <polygon v-for="face in faces(tooth, row.key)" :key="face.surface"
+                                        :points="face.points" :fill="fillFor(tooth, face.surface)" stroke="#9ca3af"
+                                        stroke-width="0.75" class="cursor-pointer"
+                                        @click="select(tooth, face.surface)" />
+                                </g>
+
+                                <path :d="crownOutline(tooth, row.key)" fill="none" stroke="#6b7280" stroke-width="1"
+                                    pointer-events="none" />
+
+                                <!-- A tooth that is gone is crossed out, the way it
+                                     is marked on paper charts. -->
                                 <g v-if="isRemoved(tooth)" pointer-events="none" stroke="#111827" stroke-width="2.5">
-                                    <line x1="4" y1="4" :x2="SIZE - 4" :y2="SIZE - 4" />
-                                    <line :x1="SIZE - 4" y1="4" x2="4" :y2="SIZE - 4" />
+                                    <line x1="4" :y1="crownTop(row.key) + 3" :x2="WIDTH - 4"
+                                        :y2="crownTop(row.key) + CROWN - 3" />
+                                    <line :x1="WIDTH - 4" :y1="crownTop(row.key) + 3" x2="4"
+                                        :y2="crownTop(row.key) + CROWN - 3" />
                                 </g>
                             </svg>
 
@@ -86,7 +105,13 @@ const emit = defineEmits<{ (event: 'select', toothUuid: string, surface: string)
 
 const { t } = useI18n()
 
-const SIZE = 44
+const WIDTH = 44
+
+const CROWN = 40
+
+const ROOT = 16
+
+const HEIGHT = CROWN + ROOT
 
 // Kept in sync with CitizenToothStatus::STATUSES on the backend.
 const STATUS_COLORS: Record<string, string> = {
@@ -162,31 +187,117 @@ function positionOf(tooth: any): number {
 }
 
 /**
- * A flat chart shows five surfaces per tooth: the chewing surface in the middle
- * and the four sides around it. Which side is which depends on the quadrant:
- * the cheek side faces up in the upper jaw and down in the lower jaw, and the
- * surface nearest the midline sits toward the centre of the chart.
+ * Front teeth (incisors and canines) have four surfaces, back teeth five: the
+ * chewing surface in the middle plus the four sides. Which side is which
+ * follows the quadrant, so the surface nearest the midline always points at the
+ * centre of the chart and the cheek side faces away from the tongue.
+ *
+ * The same four/five split is what dmf-s and DMF-S are counted from, so the
+ * drawing and the figures cannot drift apart.
  */
-function faces(tooth: any) {
+function isBackTooth(tooth: any): boolean {
+    return positionOf(tooth) >= 4
+}
+
+function crownTop(rowKey: string): number {
+    // Roots point away from the bite: upwards in the upper jaw, downwards in
+    // the lower one.
+    return rowKey === 'upper' ? ROOT : 0
+}
+
+function surfaceNames(tooth: any) {
     const quadrant = quadrantOf(tooth)
     const isUpper = [1, 2, 5, 6].includes(quadrant)
     const isPatientRight = [1, 4, 5, 8].includes(quadrant)
 
-    const top = isUpper ? 'buccal' : 'lingual'
-    const bottom = isUpper ? 'lingual' : 'buccal'
-    const right = isPatientRight ? 'mesial' : 'distal'
-    const left = isPatientRight ? 'distal' : 'mesial'
+    return {
+        top: isUpper ? 'buccal' : 'lingual',
+        bottom: isUpper ? 'lingual' : 'buccal',
+        right: isPatientRight ? 'mesial' : 'distal',
+        left: isPatientRight ? 'distal' : 'mesial',
+    }
+}
 
-    const outer = SIZE
-    const inner = 12
+function faces(tooth: any, rowKey: string) {
+    const names = surfaceNames(tooth)
+    const top = crownTop(rowKey)
+    const bottom = top + CROWN
+    const right = WIDTH
+
+    if (!isBackTooth(tooth)) {
+        // Four triangles meeting in the middle of the crown.
+        const cx = WIDTH / 2
+        const cy = top + CROWN / 2
+
+        return [
+            { surface: names.top, points: `0,${top} ${right},${top} ${cx},${cy}` },
+            { surface: names.right, points: `${right},${top} ${right},${bottom} ${cx},${cy}` },
+            { surface: names.bottom, points: `0,${bottom} ${right},${bottom} ${cx},${cy}` },
+            { surface: names.left, points: `0,${top} 0,${bottom} ${cx},${cy}` },
+        ]
+    }
+
+    const inset = 12
 
     return [
-        { surface: top, points: `0,0 ${outer},0 ${outer - inner},${inner} ${inner},${inner}` },
-        { surface: right, points: `${outer},0 ${outer},${outer} ${outer - inner},${outer - inner} ${outer - inner},${inner}` },
-        { surface: bottom, points: `0,${outer} ${outer},${outer} ${outer - inner},${outer - inner} ${inner},${outer - inner}` },
-        { surface: left, points: `0,0 0,${outer} ${inner},${outer - inner} ${inner},${inner}` },
-        { surface: 'occlusal', points: `${inner},${inner} ${outer - inner},${inner} ${outer - inner},${outer - inner} ${inner},${outer - inner}` },
+        { surface: names.top, points: `0,${top} ${right},${top} ${right - inset},${top + inset} ${inset},${top + inset}` },
+        { surface: names.right, points: `${right},${top} ${right},${bottom} ${right - inset},${bottom - inset} ${right - inset},${top + inset}` },
+        { surface: names.bottom, points: `0,${bottom} ${right},${bottom} ${right - inset},${bottom - inset} ${inset},${bottom - inset}` },
+        { surface: names.left, points: `0,${top} 0,${bottom} ${inset},${bottom - inset} ${inset},${top + inset}` },
+        { surface: 'occlusal', points: `${inset},${top + inset} ${right - inset},${top + inset} ${right - inset},${bottom - inset} ${inset},${bottom - inset}` },
     ]
+}
+
+/**
+ * Back teeth are drawn as a broad crown with rounded corners, front teeth as a
+ * narrower crown that rounds off towards the biting edge, which is roughly how
+ * they look on a chart drawn by hand.
+ */
+function crownOutline(tooth: any, rowKey: string): string {
+    const top = crownTop(rowKey)
+    const bottom = top + CROWN
+    const back = isBackTooth(tooth)
+    const inset = back ? 1 : 6
+    const left = inset
+    const right = WIDTH - inset
+    // The biting edge is the side facing the opposite jaw.
+    const bite = rowKey === 'upper' ? bottom : top
+    const neck = rowKey === 'upper' ? top : bottom
+    const biteRadius = back ? 6 : 12
+    const neckRadius = back ? 4 : 5
+    const biteDirection = rowKey === 'upper' ? -1 : 1
+
+    return [
+        `M ${left} ${neck + biteDirection * neckRadius * -1}`,
+        `Q ${left} ${neck} ${left + neckRadius} ${neck}`,
+        `L ${right - neckRadius} ${neck}`,
+        `Q ${right} ${neck} ${right} ${neck + biteDirection * neckRadius * -1}`,
+        `L ${right} ${bite + biteDirection * biteRadius}`,
+        `Q ${right} ${bite} ${right - biteRadius} ${bite}`,
+        `L ${left + biteRadius} ${bite}`,
+        `Q ${left} ${bite} ${left} ${bite + biteDirection * biteRadius}`,
+        'Z',
+    ].join(' ')
+}
+
+/**
+ * Molars carry two roots, everything else one. The root is decoration that
+ * makes the cell read as a tooth rather than a box.
+ */
+function rootOutline(tooth: any, rowKey: string): string {
+    const isUpper = rowKey === 'upper'
+    const neck = isUpper ? ROOT : CROWN
+    const tip = isUpper ? 3 : CROWN + ROOT - 3
+    const molar = positionOf(tooth) >= 6
+
+    if (!molar) {
+        return `M 14 ${neck} L 30 ${neck} L 25 ${tip} L 19 ${tip} Z`
+    }
+
+    return [
+        `M 8 ${neck} L 20 ${neck} L 17 ${tip} L 11 ${tip} Z`,
+        `M 24 ${neck} L 36 ${neck} L 33 ${tip} L 27 ${tip} Z`,
+    ].join(' ')
 }
 
 function colorFor(status: string): string {

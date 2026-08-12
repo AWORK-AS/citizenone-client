@@ -188,7 +188,12 @@ function buildRows() {
         recorded[status.surface] = status
     }
 
-    state.rows = (props.surfaceOptions || []).map((surface: string) => ({
+    // A front tooth has four surfaces, so it is not offered a chewing surface.
+    const isBackTooth = ((props.tooth?.fdi_number ?? 0) % 10) >= 4
+    const surfaces = (props.surfaceOptions || [])
+        .filter((surface: string) => isBackTooth || surface !== 'occlusal')
+
+    state.rows = surfaces.map((surface: string) => ({
         surface,
         status: recorded[surface]?.status || null,
         note: recorded[surface]?.note || '',
