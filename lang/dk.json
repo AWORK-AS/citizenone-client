@@ -1972,7 +1972,9 @@
                     "group1": "Gruppe 1",
                     "group2": "Gruppe 2",
                     "foreignInsurance": "Udenlandsk forsikring",
-                    "other": "Andet"
+                    "other": "Andet",
+                    "group4": "Gruppe 4 (betaler selv)",
+                    "but": "BUT (børn og unge i tandplejen)"
                 },
                 "patientNumber": "Patientnummer",
                 "municipalSubsidy": "Kommunalt tilskud",
@@ -1981,6 +1983,33 @@
                     "label": "Anbefalet eftersynsinterval",
                     "everySixMonths": "Hver 6. måned",
                     "everyTwelveMonths": "Hver 12. måned"
+                },
+                "danmarkGroup": {
+                    "label": "\"danmark\"-gruppe",
+                    "basis": "Basis",
+                    "group1": "Gruppe 1",
+                    "group2": "Gruppe 2",
+                    "group5": "Gruppe 5"
+                },
+                "isForeignPatient": "Udenlandsk patient uden CPR",
+                "isForeignPatientHelp": "Sæt flueben, hvis patienten ikke har et dansk CPR-nummer. Så er CPR ikke påkrævet.",
+                "recallChannel": {
+                    "label": "Indkaldelsestype",
+                    "help": "Brev og opkald sendes ikke automatisk. Systemet giver i stedet besked til den ansvarlige medarbejder.",
+                    "letter": "Post / brev",
+                    "sms": "SMS",
+                    "email": "E-mail",
+                    "app": "App-notifikation",
+                    "phone": "Ringes op"
+                },
+                "autoReminder": "Automatisk påmindelse",
+                "riskProfile": {
+                    "label": "Risikoprofil for tandsundhed",
+                    "green": "Grøn",
+                    "yellow": "Gul",
+                    "red": "Rød",
+                    "note": "Notat til risikoprofil",
+                    "notePlaceholder": "Valgfrit notat"
                 }
             },
             "employmentProgram": {
@@ -2928,7 +2957,8 @@
                 "admin": "Administration"
             },
             "surveys": "Spørgeskemaer",
-            "toothChart": "Tandkort"
+            "toothChart": "Tandkort",
+            "priceEstimates": "Prisoverslag"
         },
         "timeline": {
             "newEvent": "Ny hændelse",
@@ -3435,6 +3465,45 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobilitet (0-3)",
                 "measuredAt": "Måledato"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "Nyt prisoverslag",
+            "editTitle": "Rediger prisoverslag",
+            "total": "Samlet pris",
+            "subsidy": "Forventet tilskud",
+            "patientPays": "Egenbetaling",
+            "saved": "Prisoverslaget er gemt",
+            "markSent": "Markér som sendt",
+            "markAccepted": "Accepteret",
+            "markDeclined": "Afvist",
+            "statuses": {
+                "draft": "Kladde",
+                "sent": "Sendt",
+                "accepted": "Accepteret",
+                "declined": "Afvist",
+                "expired": "Udløbet"
+            },
+            "empty": {
+                "title": "Ingen prisoverslag endnu",
+                "text": "Lav et prisoverslag, så patienten kan se prisen og sin egenbetaling, før behandlingen sættes i gang."
+            },
+            "form": {
+                "title": "Overskrift",
+                "titlePlaceholder": "Fx krone og fyldning",
+                "validUntil": "Gyldigt til",
+                "lines": "Behandlinger",
+                "addLine": "Tilføj linje",
+                "code": "Ydelse",
+                "description": "Behandling",
+                "quantity": "Antal",
+                "unitPrice": "Stykpris",
+                "subsidy": "Tilskud",
+                "lineTotal": "Beløb",
+                "noTooth": "Ingen tand",
+                "note": "Bemærkninger",
+                "notePlaceholder": "Fx hvad prisen forudsætter",
+                "needsALine": "Tilføj mindst én behandling"
             }
         }
     },
@@ -5888,7 +5957,11 @@
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbejdstimer",
             "showCompensatoryHours": "Vis afspadsering og feriedage",
-            "street": "Gade"
+            "street": "Gade",
+            "note": "Note",
+            "notePlaceholder": "Intern note om medarbejderen",
+            "unionMembership": "Fagforening",
+            "unionMembershipPlaceholder": "Fx HK"
         },
         "importEmployees": {
             "alert": {

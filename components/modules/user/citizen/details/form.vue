@@ -911,10 +911,24 @@
                         {{ $t('citizens.form.dental.isMemberOfSygeforsikringDanmark') }}
                     </div>
                 </div>
+                <div class="space-y-1" v-if="state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark">
+                    <FormLabel for="danmark_group" :label="$t('citizens.form.dental.danmarkGroup.label')" />
+                    <FormSelect id="danmark_group" :options="state.options.danmarkGroups"
+                        v-model="state.formCitizen.dentalData.danmark_group" />
+                </div>
                 <div class="space-y-1">
                     <FormLabel for="sygesikring_group" :label="$t('citizens.form.dental.sygesikringGroup.label')" />
                     <FormSelect id="sygesikring_group" :options="state.options.sygesikringGroups"
                         v-model="state.formCitizen.dentalData.sygesikring_group" />
+                </div>
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formCitizen.dentalData.is_foreign_patient = !state.formCitizen.dentalData.is_foreign_patient">
+                        <FormCheckbox id="is_foreign_patient"
+                            :value="state.formCitizen.dentalData.is_foreign_patient" />
+                        {{ $t('citizens.form.dental.isForeignPatient') }}
+                    </div>
+                    <p class="text-xs text-gray-500">{{ $t('citizens.form.dental.isForeignPatientHelp') }}</p>
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="patient_number" :label="$t('citizens.form.dental.patientNumber')" />
@@ -941,6 +955,42 @@
                         <FormSelect id="checkup_interval_months" :options="state.options.checkupIntervals"
                             v-model="state.formCitizen.dentalData.checkup_interval_months" />
                     </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="recall_channel" :label="$t('citizens.form.dental.recallChannel.label')" />
+                        <FormSelect id="recall_channel" :options="state.options.recallChannels"
+                            v-model="state.formCitizen.dentalData.recall_channel" />
+                        <p class="text-xs text-gray-500">{{ $t('citizens.form.dental.recallChannel.help') }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="w-fit flex items-center cursor-pointer"
+                            @click="state.formCitizen.dentalData.auto_reminder = !state.formCitizen.dentalData.auto_reminder">
+                            <FormCheckbox id="auto_reminder" :value="state.formCitizen.dentalData.auto_reminder" />
+                            {{ $t('citizens.form.dental.autoReminder') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="risk_profile" :label="$t('citizens.form.dental.riskProfile.label')" />
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button type="button" v-for="option in state.options.riskProfiles" :key="option.value"
+                            @click="toggleRiskProfile(option.value)" :class="[
+                                'inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm',
+                                state.formCitizen.dentalData.risk_profile === option.value
+                                    ? 'border-primary bg-primary/10 text-primary'
+                                    : 'border-gray-300 text-gray-600 hover:border-gray-400'
+                            ]">
+                            <span class="size-3 rounded-full" :style="{ backgroundColor: option.color }" />
+                            {{ option.label }}
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-1" v-if="state.formCitizen.dentalData.risk_profile">
+                    <FormLabel for="risk_profile_note" :label="$t('citizens.form.dental.riskProfile.note')" />
+                    <FormTextArea id="risk_profile_note" name="risk_profile_note" :rows="2"
+                        :placeholder="$t('citizens.form.dental.riskProfile.notePlaceholder')"
+                        v-model="state.formCitizen.dentalData.risk_profile_note" />
                 </div>
         </FormSection>
         <!-- Follows the reader, so saving never means scrolling to the bottom. -->
@@ -1176,7 +1226,13 @@ const state = reactive({
         } as any,
         dentalData: {
             is_member_of_sygeforsikring_danmark: false,
+            danmark_group: '',
             sygesikring_group: '',
+            is_foreign_patient: false,
+            risk_profile: '',
+            risk_profile_note: '',
+            recall_channel: '',
+            auto_reminder: true,
             patient_number: '',
             municipal_subsidy: '',
             last_checkup_date: '',
@@ -1221,6 +1277,8 @@ const state = reactive({
         sygesikringGroups: [
             { value: 'group_1', label: `${t('citizens.form.dental.sygesikringGroup.group1')}`, },
             { value: 'group_2', label: `${t('citizens.form.dental.sygesikringGroup.group2')}`, },
+            { value: 'group_4', label: `${t('citizens.form.dental.sygesikringGroup.group4')}`, },
+            { value: 'but', label: `${t('citizens.form.dental.sygesikringGroup.but')}`, },
             { value: 'foreign_insurance', label: `${t('citizens.form.dental.sygesikringGroup.foreignInsurance')}`, },
             { value: 'other', label: `${t('citizens.form.dental.sygesikringGroup.other')}`, },
         ],
@@ -1228,9 +1286,51 @@ const state = reactive({
             { value: 6, label: `${t('citizens.form.dental.checkupInterval.everySixMonths')}`, },
             { value: 12, label: `${t('citizens.form.dental.checkupInterval.everyTwelveMonths')}`, },
         ],
+        danmarkGroups: danmarkGroupOptions(),
+        recallChannels: recallChannelOptions(),
+        riskProfiles: riskProfileOptions(),
     },
     selectedCitizenLocation: null as { lat: number; lng: number } | null,
 })
+
+function danmarkGroupOptions() {
+    return [
+        { value: 'basis', label: `${t('citizens.form.dental.danmarkGroup.basis')}` },
+        { value: 'group_1', label: `${t('citizens.form.dental.danmarkGroup.group1')}` },
+        { value: 'group_2', label: `${t('citizens.form.dental.danmarkGroup.group2')}` },
+        { value: 'group_5', label: `${t('citizens.form.dental.danmarkGroup.group5')}` },
+    ]
+}
+
+function recallChannelOptions() {
+    return [
+        { value: 'letter', label: `${t('citizens.form.dental.recallChannel.letter')}` },
+        { value: 'sms', label: `${t('citizens.form.dental.recallChannel.sms')}` },
+        { value: 'email', label: `${t('citizens.form.dental.recallChannel.email')}` },
+        { value: 'app', label: `${t('citizens.form.dental.recallChannel.app')}` },
+        { value: 'phone', label: `${t('citizens.form.dental.recallChannel.phone')}` },
+    ]
+}
+
+// Green, yellow and red is how a clinic marks caries risk, so the colours are
+// part of the meaning rather than decoration.
+function riskProfileOptions() {
+    return [
+        { value: 'green', color: '#16a34a', label: `${t('citizens.form.dental.riskProfile.green')}` },
+        { value: 'yellow', color: '#eab308', label: `${t('citizens.form.dental.riskProfile.yellow')}` },
+        { value: 'red', color: '#dc2626', label: `${t('citizens.form.dental.riskProfile.red')}` },
+    ]
+}
+
+// Clicking the marked profile again clears it: the profile is optional.
+function toggleRiskProfile(value: string) {
+    state.formCitizen.dentalData.risk_profile =
+        state.formCitizen.dentalData.risk_profile === value ? '' : value
+
+    if (!state.formCitizen.dentalData.risk_profile) {
+        state.formCitizen.dentalData.risk_profile_note = ''
+    }
+}
 
 watch(() => language.locale.value, () => {
     state.options.genders = [
@@ -1242,6 +1342,8 @@ watch(() => language.locale.value, () => {
     state.options.sygesikringGroups = [
         { value: 'group_1', label: `${t('citizens.form.dental.sygesikringGroup.group1')}`, },
         { value: 'group_2', label: `${t('citizens.form.dental.sygesikringGroup.group2')}`, },
+        { value: 'group_4', label: `${t('citizens.form.dental.sygesikringGroup.group4')}`, },
+        { value: 'but', label: `${t('citizens.form.dental.sygesikringGroup.but')}`, },
         { value: 'foreign_insurance', label: `${t('citizens.form.dental.sygesikringGroup.foreignInsurance')}`, },
         { value: 'other', label: `${t('citizens.form.dental.sygesikringGroup.other')}`, },
     ]
@@ -1249,6 +1351,9 @@ watch(() => language.locale.value, () => {
         { value: 6, label: `${t('citizens.form.dental.checkupInterval.everySixMonths')}`, },
         { value: 12, label: `${t('citizens.form.dental.checkupInterval.everyTwelveMonths')}`, },
     ]
+    state.options.danmarkGroups = danmarkGroupOptions()
+    state.options.recallChannels = recallChannelOptions()
+    state.options.riskProfiles = riskProfileOptions()
 })
 
 watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
@@ -1381,7 +1486,13 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             } as any,
             dentalData: {
                 is_member_of_sygeforsikring_danmark: selectedCitizen.dentalData?.is_member_of_sygeforsikring_danmark ?? false,
+                danmark_group: selectedCitizen.dentalData?.danmark_group || '',
                 sygesikring_group: selectedCitizen.dentalData?.sygesikring_group || '',
+                is_foreign_patient: selectedCitizen.dentalData?.is_foreign_patient ?? false,
+                risk_profile: selectedCitizen.dentalData?.risk_profile || '',
+                risk_profile_note: selectedCitizen.dentalData?.risk_profile_note || '',
+                recall_channel: selectedCitizen.dentalData?.recall_channel || '',
+                auto_reminder: selectedCitizen.dentalData?.auto_reminder ?? true,
                 patient_number: selectedCitizen.dentalData?.patient_number || '',
                 municipal_subsidy: selectedCitizen.dentalData?.municipal_subsidy || '',
                 last_checkup_date: selectedCitizen.dentalData?.last_checkup_date || '',

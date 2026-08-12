@@ -1972,7 +1972,9 @@
                     "group1": "Gruppe 1",
                     "group2": "Gruppe 2",
                     "foreignInsurance": "Utenlandsk forsikring",
-                    "other": "Annet"
+                    "other": "Annet",
+                    "group4": "Gruppe 4 (betaler selv)",
+                    "but": "BUT (barn og unge i tannpleien)"
                 },
                 "patientNumber": "Pasientnummer",
                 "municipalSubsidy": "Kommunalt tilskudd",
@@ -1981,6 +1983,33 @@
                     "label": "Anbefalt kontrollintervall",
                     "everySixMonths": "Hver 6. måned",
                     "everyTwelveMonths": "Hver 12. måned"
+                },
+                "danmarkGroup": {
+                    "label": "\"danmark\"-gruppe",
+                    "basis": "Basis",
+                    "group1": "Gruppe 1",
+                    "group2": "Gruppe 2",
+                    "group5": "Gruppe 5"
+                },
+                "isForeignPatient": "Utenlandsk pasient uten CPR",
+                "isForeignPatientHelp": "Kryss av hvis pasienten ikke har dansk CPR-nummer. Da kreves ikke CPR.",
+                "recallChannel": {
+                    "label": "Innkallingstype",
+                    "help": "Brev og oppringning sendes ikke automatisk. Systemet varsler i stedet ansvarlig medarbeider.",
+                    "letter": "Post / brev",
+                    "sms": "SMS",
+                    "email": "E-post",
+                    "app": "App-varsel",
+                    "phone": "Oppringning"
+                },
+                "autoReminder": "Automatisk påminnelse",
+                "riskProfile": {
+                    "label": "Risikoprofil for tannhelse",
+                    "green": "Grønn",
+                    "yellow": "Gul",
+                    "red": "Rød",
+                    "note": "Notat til risikoprofil",
+                    "notePlaceholder": "Valgfritt notat"
                 }
             },
             "employmentProgram": {
@@ -2928,7 +2957,8 @@
                 "admin": "Administrasjon"
             },
             "surveys": "Spørreskjemaer",
-            "toothChart": "Tannkart"
+            "toothChart": "Tannkart",
+            "priceEstimates": "Prisoverslag"
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -3435,6 +3465,45 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobilitet (0-3)",
                 "measuredAt": "Måledato"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "Nytt prisoverslag",
+            "editTitle": "Rediger prisoverslag",
+            "total": "Samlet pris",
+            "subsidy": "Forventet tilskudd",
+            "patientPays": "Egenandel",
+            "saved": "Prisoverslaget er lagret",
+            "markSent": "Merk som sendt",
+            "markAccepted": "Akseptert",
+            "markDeclined": "Avvist",
+            "statuses": {
+                "draft": "Utkast",
+                "sent": "Sendt",
+                "accepted": "Akseptert",
+                "declined": "Avvist",
+                "expired": "Utløpt"
+            },
+            "empty": {
+                "title": "Ingen prisoverslag ennå",
+                "text": "Lag et prisoverslag så pasienten ser prisen og egenandelen før behandlingen starter."
+            },
+            "form": {
+                "title": "Overskrift",
+                "titlePlaceholder": "For eksempel krone og fylling",
+                "validUntil": "Gyldig til",
+                "lines": "Behandlinger",
+                "addLine": "Legg til linje",
+                "code": "Kode",
+                "description": "Behandling",
+                "quantity": "Antall",
+                "unitPrice": "Stykkpris",
+                "subsidy": "Tilskudd",
+                "lineTotal": "Beløp",
+                "noTooth": "Ingen tann",
+                "note": "Merknader",
+                "notePlaceholder": "For eksempel hva prisen forutsetter",
+                "needsALine": "Legg til minst én behandling"
             }
         }
     },
@@ -5888,7 +5957,11 @@
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbeidstimer",
             "showCompensatoryHours": "Vis avspasering og feriedager",
-            "street": "Gade"
+            "street": "Gade",
+            "note": "Notat",
+            "notePlaceholder": "Internt notat om medarbeideren",
+            "unionMembership": "Fagforening",
+            "unionMembershipPlaceholder": "For eksempel HK"
         },
         "importEmployees": {
             "alert": {
