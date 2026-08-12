@@ -132,6 +132,14 @@
                 </div>
             </div>
 
+            <label
+                class="flex cursor-pointer items-start gap-2 rounded-lg bg-slate-50 px-3 py-2 text-sm text-gray-600">
+                <FormCheckbox id="create_journal" :value="state.createJournal" />
+                <span @click="state.createJournal = !state.createJournal">
+                    {{ $t('citizens.toothChart.panel.writeToJournal') }}
+                </span>
+            </label>
+
             <div class="sticky bottom-0 -mx-4 border-t border-gray-100 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
                 <div class="flex items-center justify-end gap-2">
                     <FormButton buttonStyle="action" @click="reset" :disabled="state.isSaving">
@@ -222,6 +230,7 @@ const state = reactive({
     journals: [] as any[],
     isHistoryLoading: false,
     isSaving: false,
+    createJournal: false,
     error: '',
 })
 
@@ -319,6 +328,7 @@ async function save() {
                     note: row.note || null,
                     treated_at: row.treated_at || null,
                 })),
+            create_journal: state.createJournal,
             perio: {
                 bleeding: state.perio.bleeding,
                 pocket_depth_mm: state.perio.pocket_depth_mm !== '' && state.perio.pocket_depth_mm != null
@@ -331,6 +341,7 @@ async function save() {
         })
 
         successAlert(`${t('alert.success')}!`, `${t('citizens.toothChart.panel.saved')}.`)
+        state.createJournal = false
         emit('saved')
     } catch (error: any) {
         state.error = error?.message || ''

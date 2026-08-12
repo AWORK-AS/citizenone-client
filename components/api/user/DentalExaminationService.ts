@@ -9,6 +9,10 @@ class DentalExaminationService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/dental-examinations`, 'POST', params)
     }
 
+    async getExamination(uuid: string): Promise<any> {
+        return await this.request(`/user/dental-examinations/${uuid}`, 'GET')
+    }
+
     async deleteExamination(uuid: string): Promise<any> {
         return await this.request(`/user/dental-examinations/${uuid}`, 'DELETE')
     }

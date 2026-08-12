@@ -3483,7 +3483,8 @@
                 "openJournals": "Öppna journal",
                 "treatedAt": "Behandlingsdatum",
                 "quickStatus": "Snabbstatus",
-                "surfaces": "Ytor"
+                "surfaces": "Ytor",
+                "writeToJournal": "Skriv även till journalen"
             },
             "downloadPdf": "Ladda ner PDF",
             "oralHealthNotes": "Munhälsa och observationer",
@@ -3521,6 +3522,17 @@
             },
             "arch": {
                 "help": "Klicka på en tand för att se och ändra den. Byt till Ytor för att markera enskilda tandytor."
+            },
+            "strip": {
+                "payer": "Betalare",
+                "nextCheckup": "Nästa kontroll",
+                "overdue": "försenad",
+                "lastExamination": "Senaste undersökning"
+            },
+            "history": {
+                "label": "Visa en tidigare undersökning:",
+                "viewing": "Visar tandkartan som vid undersökningen",
+                "backToToday": "Tillbaka till i dag"
             }
         },
         "priceEstimates": {

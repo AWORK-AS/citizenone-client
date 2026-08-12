@@ -3483,7 +3483,8 @@
                 "openJournals": "Åpne journal",
                 "treatedAt": "Behandlingsdato",
                 "quickStatus": "Hurtig status",
-                "surfaces": "Flater"
+                "surfaces": "Flater",
+                "writeToJournal": "Skriv også til journalen"
             },
             "downloadPdf": "Last ned PDF",
             "oralHealthNotes": "Munnhelse og observasjoner",
@@ -3521,6 +3522,17 @@
             },
             "arch": {
                 "help": "Klikk på en tann for å se og endre den. Bytt til Flater for å markere enkelte tannflater."
+            },
+            "strip": {
+                "payer": "Betaler",
+                "nextCheckup": "Neste kontroll",
+                "overdue": "forfalt",
+                "lastExamination": "Siste undersøkelse"
+            },
+            "history": {
+                "label": "Vis en tidligere undersøkelse:",
+                "viewing": "Viser tannkartet som ved undersøkelsen",
+                "backToToday": "Tilbake til i dag"
             }
         },
         "priceEstimates": {

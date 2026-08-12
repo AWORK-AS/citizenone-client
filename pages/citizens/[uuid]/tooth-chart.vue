@@ -34,6 +34,9 @@
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <ModulesUserCitizenToothChartPatientStrip class="mb-5" :patient="state.patient"
+                        :lastExamination="state.lastExamination" />
+
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
                         <div class="xl:col-span-2 space-y-5">
                             <div class="px-4 py-5 sm:p-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
@@ -103,13 +106,38 @@
                                     </div>
                                 </div>
 
+                                <div class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2"
+                                    v-if="state.viewedExamination">
+                                    <p class="text-sm text-amber-900">
+                                        {{ $t('citizens.toothChart.history.viewing') }}
+                                        <strong>{{ formatDate(state.viewedExamination.examined_at) }}</strong>
+                                    </p>
+                                    <button type="button" @click="showToday"
+                                        class="text-sm font-medium text-amber-900 underline underline-offset-2">
+                                        {{ $t('citizens.toothChart.history.backToToday') }}
+                                    </button>
+                                </div>
+
+                                <div class="mb-4 flex flex-wrap items-center gap-2" v-if="state.examinations.length">
+                                    <span class="text-xs text-gray-500">{{ $t('citizens.toothChart.history.label') }}</span>
+                                    <button type="button" v-for="examination in state.examinations.slice(0, 6)"
+                                        :key="examination.uuid" @click="showExamination(examination)" :class="[
+                                            'rounded-full border px-3 py-1 text-xs font-medium tabular-nums transition',
+                                            state.viewedExamination?.uuid === examination.uuid
+                                                ? 'border-primary bg-primary/5 text-primary'
+                                                : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                                        ]">
+                                        {{ formatDate(examination.examined_at) }}
+                                    </button>
+                                </div>
+
                                 <ModulesUserCitizenToothChartArch v-if="state.view === 'arch'" :teeth="state.teeth"
-                                    :statuses="state.statuses" :perio="state.perio" :showPerio="state.showPerio"
+                                    :statuses="shownStatuses" :perio="state.perio" :showPerio="state.showPerio"
                                     :selectedToothUuid="state.selectedToothUuid" :numbering="state.numbering"
                                     :dentition="state.dentition" @select="selectTooth" />
 
                                 <ModulesUserCitizenToothChartDiagram v-else :teeth="state.teeth"
-                                    :statuses="state.statuses" :perio="state.perio" :showPerio="state.showPerio"
+                                    :statuses="shownStatuses" :perio="state.perio" :showPerio="state.showPerio"
                                     :statusOptions="state.statusOptions" :selectedToothUuid="state.selectedToothUuid"
                                     :numbering="state.numbering" :dentition="state.dentition"
                                     @select="selectTooth" />
@@ -156,7 +184,8 @@
                         </div>
 
                         <div class="xl:col-span-1">
-                            <ModulesUserCitizenToothChartPanel :citizenUuid="citizenUuid" :tooth="selectedTooth"
+                            <ModulesUserCitizenToothChartPanel v-if="!state.viewedExamination"
+                                :citizenUuid="citizenUuid" :tooth="selectedTooth"
                                 :statuses="selectedToothStatuses" :perio="selectedToothPerio"
                                 :statusOptions="state.statusOptions"
                                 :surfaceOptions="state.surfaceOptions" :selectedSurface="state.selectedSurface"
@@ -170,7 +199,9 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { saveAs } from 'file-saver'
+import { dentalExaminationService } from '@/components/api/user/DentalExaminationService'
 import { toothChartService } from '@/components/api/user/ToothChartService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
@@ -195,6 +226,11 @@ const state = reactive({
     statusOptions: [] as string[],
     surfaceOptions: [] as string[],
     perio: [] as any[],
+    patient: null as any,
+    examinations: [] as any[],
+    lastExamination: null as any,
+    viewedExamination: null as any,
+    viewedStatuses: [] as any[],
     generalNotes: '',
     oralHealthNotes: '',
     numbering: 'fdi' as 'fdi' | 'universal',
@@ -219,6 +255,10 @@ watch(() => userStore.getUser, (user: any) => {
 
 const selectedTooth = computed(() => state.teeth.find((tooth: any) => tooth.uuid === state.selectedToothUuid) || null)
 
+// While a past examination is shown, the drawing reads from its snapshot and
+// nothing is edited: that day cannot be changed after the fact.
+const shownStatuses = computed(() => (state.viewedExamination ? state.viewedStatuses : state.statuses))
+
 const selectedToothStatuses = computed(() =>
     state.statuses.filter((status: any) => status.tooth_uuid === state.selectedToothUuid))
 
@@ -235,6 +275,7 @@ async function loadChart() {
         state.perio = response?.data?.perio || []
         state.statusOptions = response?.data?.status_options || []
         state.surfaceOptions = response?.data?.surface_options || []
+        state.patient = response?.data?.patient || null
         state.generalNotes = response?.data?.general_notes || ''
         state.oralHealthNotes = response?.data?.oral_health_notes || ''
     } catch (error: any) {
@@ -279,6 +320,40 @@ const STATUS_COLORS: Record<string, string> = {
 
 function statusColor(status: string): string {
     return STATUS_COLORS[status] || '#ffffff'
+}
+
+async function loadExaminations() {
+    try {
+        const response = await dentalExaminationService.getExaminations(citizenUuid)
+        state.examinations = response?.data || []
+        state.lastExamination = state.examinations[0] || null
+    } catch {
+        // The chart is usable without the examination history.
+        state.examinations = []
+    }
+}
+
+async function showExamination(examination: any) {
+    state.error = ''
+
+    try {
+        const response = await dentalExaminationService.getExamination(examination.uuid)
+        state.viewedStatuses = response?.data?.statuses || []
+        state.viewedExamination = examination
+        clearSelection()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
+function showToday() {
+    state.viewedExamination = null
+    state.viewedStatuses = []
+    clearSelection()
+}
+
+function formatDate(date: string): string {
+    return date ? moment(date).format('DD.MM.YYYY') : ''
 }
 
 function selectTooth(toothUuid: string, surface: string) {
@@ -326,5 +401,6 @@ async function downloadPdf() {
 
 onMounted(() => {
     loadChart()
+    loadExaminations()
 })
 </script>

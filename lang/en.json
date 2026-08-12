@@ -3483,7 +3483,8 @@
                 "openJournals": "Open journals",
                 "treatedAt": "Treatment date",
                 "quickStatus": "Quick status",
-                "surfaces": "Surfaces"
+                "surfaces": "Surfaces",
+                "writeToJournal": "Also write to the journal"
             },
             "downloadPdf": "Download PDF",
             "oralHealthNotes": "Oral health and observations",
@@ -3521,6 +3522,17 @@
             },
             "arch": {
                 "help": "Click a tooth to view and edit it. Switch to Surfaces to mark individual tooth surfaces."
+            },
+            "strip": {
+                "payer": "Payer",
+                "nextCheckup": "Next check-up",
+                "overdue": "overdue",
+                "lastExamination": "Last examination"
+            },
+            "history": {
+                "label": "Show an earlier examination:",
+                "viewing": "Showing the chart as at the examination on",
+                "backToToday": "Back to today"
             }
         },
         "priceEstimates": {

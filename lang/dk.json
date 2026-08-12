@@ -3483,7 +3483,8 @@
                 "openJournals": "Åbn journal",
                 "treatedAt": "Behandlingsdato",
                 "quickStatus": "Hurtig status",
-                "surfaces": "Flader"
+                "surfaces": "Flader",
+                "writeToJournal": "Skriv også til journalen"
             },
             "downloadPdf": "Hent PDF",
             "oralHealthNotes": "Mundhygiejne og observationer",
@@ -3521,6 +3522,17 @@
             },
             "arch": {
                 "help": "Klik en tand for at se og redigere den. Skift til Flader for at markere enkelte tandflader."
+            },
+            "strip": {
+                "payer": "Betaler",
+                "nextCheckup": "Næste kontrol",
+                "overdue": "overskredet",
+                "lastExamination": "Seneste undersøgelse"
+            },
+            "history": {
+                "label": "Vis tidligere undersøgelse:",
+                "viewing": "Viser tandkortet som ved undersøgelsen",
+                "backToToday": "Tilbage til i dag"
             }
         },
         "priceEstimates": {
