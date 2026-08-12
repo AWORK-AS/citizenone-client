@@ -3512,6 +3512,13 @@
                 "empty": "Ingen undersøkelser registrert ennå.",
                 "saved": "Undersøkelsen er registrert",
                 "snapshotNote": "Tallene beregnes ut fra tannkartet slik det ser ut nå, og lagres på undersøkelsen."
+            },
+            "view": {
+                "arch": "Tannbue",
+                "surfaces": "Flater"
+            },
+            "arch": {
+                "help": "Klikk på en tann for å se og endre den. Bytt til Flater for å markere enkelte tannflater."
             }
         },
         "priceEstimates": {

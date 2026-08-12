@@ -3512,6 +3512,13 @@
                 "empty": "No examinations recorded yet.",
                 "saved": "Examination recorded",
                 "snapshotNote": "The figures are calculated from the chart as it looks now and stored on the examination."
+            },
+            "view": {
+                "arch": "Arch",
+                "surfaces": "Surfaces"
+            },
+            "arch": {
+                "help": "Click a tooth to view and edit it. Switch to Surfaces to mark individual tooth surfaces."
             }
         },
         "priceEstimates": {

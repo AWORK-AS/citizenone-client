@@ -3512,6 +3512,13 @@
                 "empty": "Ingen undersøgelser registreret endnu.",
                 "saved": "Undersøgelsen er registreret",
                 "snapshotNote": "Tallene beregnes ud fra tandkortet, som det ser ud nu, og gemmes fast på undersøgelsen."
+            },
+            "view": {
+                "arch": "Tandbue",
+                "surfaces": "Flader"
+            },
+            "arch": {
+                "help": "Klik en tand for at se og redigere den. Skift til Flader for at markere enkelte tandflader."
             }
         },
         "priceEstimates": {

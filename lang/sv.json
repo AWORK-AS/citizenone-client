@@ -3512,6 +3512,13 @@
                 "empty": "Inga undersökningar registrerade ännu.",
                 "saved": "Undersökningen är registrerad",
                 "snapshotNote": "Värdena beräknas utifrån tandkartan som den ser ut nu och sparas på undersökningen."
+            },
+            "view": {
+                "arch": "Tandbåge",
+                "surfaces": "Ytor"
+            },
+            "arch": {
+                "help": "Klicka på en tand för att se och ändra den. Byt till Ytor för att markera enskilda tandytor."
             }
         },
         "priceEstimates": {

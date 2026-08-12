@@ -1,0 +1,267 @@
+<template>
+    <div class="space-y-3">
+        <div class="overflow-x-auto">
+            <svg :viewBox="`0 0 ${BOX} ${BOX}`" class="mx-auto block w-full max-w-[560px]" role="group"
+                :aria-label="$t('citizens.toothChart.title')">
+                <!-- The midline, the way it is drawn on a paper chart. -->
+                <line :x1="CENTER" y1="24" :x2="CENTER" :y2="BOX - 24" stroke="#e5e7eb" stroke-width="1" />
+                <line x1="40" :y1="CENTER" :x2="BOX - 40" :y2="CENTER" stroke="#e5e7eb" stroke-width="1" />
+
+                <g v-for="tooth in placed" :key="tooth.uuid">
+                    <g :transform="tooth.transform" class="cursor-pointer" role="button" tabindex="0"
+                        :aria-label="ariaLabel(tooth)" @click="emit('select', tooth.uuid, 'whole')"
+                        @keydown.enter.prevent="emit('select', tooth.uuid, 'whole')"
+                        @keydown.space.prevent="emit('select', tooth.uuid, 'whole')">
+                        <title>{{ ariaLabel(tooth) }}</title>
+
+                        <path v-for="(root, index) in tooth.shape.roots" :key="`root-${index}`" :d="root"
+                            fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2" />
+
+                        <path :d="tooth.shape.crown" :fill="fillFor(tooth)" stroke="#94a3b8"
+                            :stroke-width="tooth.uuid === props.selectedToothUuid ? 2.4 : 1.2"
+                            :class="tooth.uuid === props.selectedToothUuid ? 'stroke-primary' : ''" />
+
+                        <!-- The grooves are what makes a molar read as a molar. -->
+                        <path v-for="(groove, index) in tooth.shape.grooves" :key="`groove-${index}`" :d="groove"
+                            fill="none" stroke="#94a3b8" stroke-width="0.9" stroke-linecap="round" />
+
+                        <g v-if="isRemoved(tooth)" stroke="#111827" stroke-width="2.4">
+                            <line x1="6" y1="30" x2="28" y2="52" />
+                            <line x1="28" y1="30" x2="6" y2="52" />
+                        </g>
+                    </g>
+
+                    <text :x="tooth.labelX" :y="tooth.labelY" text-anchor="middle" dominant-baseline="middle"
+                        class="fill-gray-500" style="font-size: 11px; font-weight: 500;">
+                        {{ toothLabel(tooth) }}
+                    </text>
+
+                    <g v-if="props.showPerio && perioOf(tooth)">
+                        <circle v-if="perioOf(tooth)?.bleeding" :cx="tooth.perioX" :cy="tooth.perioY" r="3"
+                            fill="#ef4444" />
+                        <text v-if="perioOf(tooth)?.pocket_depth_mm" :x="tooth.perioX + 8" :y="tooth.perioY"
+                            text-anchor="middle" dominant-baseline="middle" class="fill-gray-600"
+                            style="font-size: 10px;">
+                            {{ perioOf(tooth)?.pocket_depth_mm }}
+                        </text>
+                    </g>
+                </g>
+            </svg>
+        </div>
+
+        <p class="text-xs text-gray-500 text-center">{{ $t('citizens.toothChart.arch.help') }}</p>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const props = defineProps<{
+    teeth: any[]
+    statuses: any[]
+    perio: any[]
+    showPerio: boolean
+    selectedToothUuid?: string | null
+    numbering: 'fdi' | 'universal'
+    dentition: 'permanent' | 'primary'
+}>()
+
+const emit = defineEmits<{ (event: 'select', toothUuid: string, surface: string): void }>()
+
+const { t } = useI18n()
+
+const BOX = 560
+
+const CENTER = BOX / 2
+
+// Kept in sync with CitizenToothStatus::STATUSES on the backend.
+const STATUS_COLORS: Record<string, string> = {
+    healthy: '#ffffff',
+    caries: '#ef4444',
+    filling: '#3b82f6',
+    crown: '#fbbf24',
+    bridge: '#8b5cf6',
+    root_canal: '#ec4899',
+    implant: '#64748b',
+    veneer: '#22d3ee',
+    sealant: '#2dd4bf',
+    fracture: '#f97316',
+    extracted: '#374151',
+    missing: '#d1d5db',
+    planned: '#a3e635',
+    observation: '#fde047',
+}
+
+/**
+ * When several surfaces of one tooth are recorded, the arch shows the finding
+ * that matters most, so a decayed surface is never hidden behind a filling.
+ */
+const SEVERITY = [
+    'caries', 'fracture', 'extracted', 'missing', 'root_canal', 'implant',
+    'bridge', 'crown', 'veneer', 'filling', 'sealant', 'planned', 'observation', 'healthy',
+]
+
+/**
+ * Tooth silhouettes, drawn in a 34 x 58 box with the root pointing up and the
+ * biting edge at the bottom. Each tooth is rotated into place on the arch, so
+ * one drawing per tooth type is enough.
+ */
+const SHAPES: Record<string, { crown: string; roots: string[]; grooves: string[] }> = {
+    incisor: {
+        crown: 'M 7 30 C 5 40, 6 50, 9 54 L 25 54 C 28 50, 29 40, 27 30 Z',
+        roots: ['M 13 4 C 11 14, 12 24, 14 30 L 20 30 C 22 24, 23 14, 21 4 C 18 2, 16 2, 13 4 Z'],
+        grooves: ['M 12 46 L 22 46'],
+    },
+    canine: {
+        crown: 'M 7 30 C 5 40, 8 50, 17 56 C 26 50, 29 40, 27 30 Z',
+        roots: ['M 12 2 C 10 13, 11 24, 14 30 L 20 30 C 23 24, 24 13, 22 2 C 19 0, 15 0, 12 2 Z'],
+        grooves: ['M 17 42 L 17 52'],
+    },
+    premolar: {
+        crown: 'M 5 30 C 3 40, 4 50, 8 55 C 13 58, 21 58, 26 55 C 30 50, 31 40, 29 30 Z',
+        roots: ['M 12 4 C 10 14, 11 24, 14 30 L 20 30 C 23 24, 24 14, 22 4 C 19 2, 15 2, 12 4 Z'],
+        grooves: ['M 10 44 C 15 41, 19 41, 24 44'],
+    },
+    molar: {
+        crown: 'M 3 28 C 1 39, 2 51, 7 56 C 13 60, 21 60, 27 56 C 32 51, 33 39, 31 28 Z',
+        roots: [
+            'M 7 5 C 5 15, 7 24, 10 28 L 15 28 C 14 20, 12 12, 11 5 C 10 3, 8 3, 7 5 Z',
+            'M 27 5 C 29 15, 27 24, 24 28 L 19 28 C 20 20, 22 12, 23 5 C 24 3, 26 3, 27 5 Z',
+        ],
+        grooves: ['M 8 42 C 14 39, 20 39, 26 42', 'M 17 39 L 17 52'],
+    },
+}
+
+const statusIndex = computed(() => {
+    const index: Record<string, Record<string, any>> = {}
+
+    for (const status of props.statuses || []) {
+        if (!index[status.tooth_uuid]) index[status.tooth_uuid] = {}
+        index[status.tooth_uuid][status.surface] = status
+    }
+
+    return index
+})
+
+const perioIndex = computed(() => {
+    const index: Record<string, any> = {}
+
+    for (const measurement of props.perio || []) {
+        index[measurement.tooth_uuid] = measurement
+    }
+
+    return index
+})
+
+function quadrantOf(tooth: any): number {
+    return Math.floor((tooth?.fdi_number ?? 0) / 10)
+}
+
+function positionOf(tooth: any): number {
+    return (tooth?.fdi_number ?? 0) % 10
+}
+
+function shapeOf(tooth: any) {
+    const position = positionOf(tooth)
+    const isPrimary = (tooth.dentition || 'permanent') === 'primary'
+
+    if (position <= 2) return SHAPES.incisor
+    if (position === 3) return SHAPES.canine
+    // A primary tooth in position 4 or 5 is a molar; a permanent one is a premolar.
+    if (position <= 5) return isPrimary ? SHAPES.molar : SHAPES.premolar
+
+    return SHAPES.molar
+}
+
+/**
+ * Teeth sit on an ellipse, upper jaw above the midline and lower jaw below,
+ * each one turned so its root points away from the centre of the mouth. That is
+ * the arch a dentist is used to reading.
+ */
+const placed = computed(() => {
+    const teeth = (props.teeth || []).filter((tooth: any) => (tooth.dentition || 'permanent') === props.dentition)
+
+    const arch = (rightQuadrant: number, leftQuadrant: number) => [
+        ...teeth.filter((tooth: any) => quadrantOf(tooth) === rightQuadrant)
+            .sort((a: any, b: any) => positionOf(b) - positionOf(a)),
+        ...teeth.filter((tooth: any) => quadrantOf(tooth) === leftQuadrant)
+            .sort((a: any, b: any) => positionOf(a) - positionOf(b)),
+    ]
+
+    const isPrimary = props.dentition === 'primary'
+    const upper = arch(isPrimary ? 5 : 1, isPrimary ? 6 : 2)
+    const lower = arch(isPrimary ? 8 : 4, isPrimary ? 7 : 3)
+
+    const rx = 196
+    const ry = 168
+    const scale = isPrimary ? 1.15 : 1
+
+    const place = (row: any[], fromDegrees: number, toDegrees: number) => row.map((tooth: any, index: number) => {
+        const step = row.length > 1 ? index / (row.length - 1) : 0.5
+        const angle = ((fromDegrees + (toDegrees - fromDegrees) * step) * Math.PI) / 180
+
+        const x = CENTER + rx * Math.cos(angle)
+        const y = CENTER + ry * Math.sin(angle)
+        const rotation = (Math.atan2(y - CENTER, x - CENTER) * 180) / Math.PI + 90
+
+        return {
+            ...tooth,
+            shape: shapeOf(tooth),
+            // The drawing is 34 x 58 with its root up, so it is centred on its
+            // own crown before being rotated onto the arch.
+            transform: `translate(${x} ${y}) rotate(${rotation}) scale(${scale}) translate(-17 -44)`,
+            labelX: CENTER + rx * 1.28 * Math.cos(angle),
+            labelY: CENTER + ry * 1.3 * Math.sin(angle),
+            perioX: CENTER + rx * 1.12 * Math.cos(angle),
+            perioY: CENTER + ry * 1.13 * Math.sin(angle),
+        }
+    })
+
+    // Upper teeth occupy the top half of the ellipse, lower teeth the bottom.
+    return [...place(upper, 191, 349), ...place(lower, 169, 11)]
+})
+
+function statusOf(tooth: any): string | null {
+    const recorded = statusIndex.value[tooth.uuid]
+
+    if (!recorded) return null
+
+    const found = Object.values(recorded).map((status: any) => status.status)
+
+    for (const status of SEVERITY) {
+        if (found.includes(status)) return status
+    }
+
+    return null
+}
+
+function fillFor(tooth: any): string {
+    const status = statusOf(tooth)
+
+    return status ? (STATUS_COLORS[status] || '#ffffff') : '#ffffff'
+}
+
+function isRemoved(tooth: any): boolean {
+    const status = statusIndex.value[tooth.uuid]?.whole?.status
+
+    return status === 'extracted' || status === 'missing'
+}
+
+function perioOf(tooth: any) {
+    return perioIndex.value[tooth.uuid] || null
+}
+
+function toothLabel(tooth: any): string {
+    if (props.numbering !== 'universal') return String(tooth.fdi_number)
+
+    return String(tooth.universal_code ?? tooth.number)
+}
+
+function ariaLabel(tooth: any): string {
+    const status = statusOf(tooth)
+
+    return status
+        ? `${t('citizens.toothChart.tooth')} ${toothLabel(tooth)}: ${t(`citizens.toothChart.statuses.${status}`)}`
+        : `${t('citizens.toothChart.tooth')} ${toothLabel(tooth)}`
+}
+</script>

@@ -52,6 +52,14 @@
                                             <Icon name="ph:file-pdf" class="size-4" />
                                             {{ $t('citizens.toothChart.downloadPdf') }}
                                         </FormButton>
+                                        <FormButton :buttonStyle="state.view === 'arch' ? 'primary' : 'action'"
+                                            buttonSize="xs" @click="state.view = 'arch'">
+                                            {{ $t('citizens.toothChart.view.arch') }}
+                                        </FormButton>
+                                        <FormButton :buttonStyle="state.view === 'surfaces' ? 'primary' : 'action'"
+                                            buttonSize="xs" @click="state.view = 'surfaces'">
+                                            {{ $t('citizens.toothChart.view.surfaces') }}
+                                        </FormButton>
                                         <span class="text-xs text-gray-500">{{ $t('citizens.toothChart.dentition.label') }}</span>
                                         <FormButton :buttonStyle="state.dentition === 'permanent' ? 'primary' : 'action'"
                                             buttonSize="xs" @click="state.dentition = 'permanent'">
@@ -74,11 +82,27 @@
                                     </div>
                                 </div>
 
-                                <ModulesUserCitizenToothChartDiagram :teeth="state.teeth" :statuses="state.statuses"
-                                    :perio="state.perio" :showPerio="state.showPerio"
+                                <ModulesUserCitizenToothChartArch v-if="state.view === 'arch'" :teeth="state.teeth"
+                                    :statuses="state.statuses" :perio="state.perio" :showPerio="state.showPerio"
+                                    :selectedToothUuid="state.selectedToothUuid" :numbering="state.numbering"
+                                    :dentition="state.dentition" @select="selectTooth" />
+
+                                <ModulesUserCitizenToothChartDiagram v-else :teeth="state.teeth"
+                                    :statuses="state.statuses" :perio="state.perio" :showPerio="state.showPerio"
                                     :statusOptions="state.statusOptions" :selectedToothUuid="state.selectedToothUuid"
                                     :numbering="state.numbering" :dentition="state.dentition"
                                     @select="selectTooth" />
+
+                                <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2"
+                                    v-if="state.view === 'arch'">
+                                    <span class="text-xs text-gray-500">{{ $t('citizens.toothChart.legend') }}</span>
+                                    <span v-for="status in state.statusOptions" :key="status"
+                                        class="inline-flex items-center gap-1.5 text-xs">
+                                        <span class="size-3 rounded-sm ring-1 ring-gray-300"
+                                            :style="{ backgroundColor: statusColor(status) }" />
+                                        {{ $t(`citizens.toothChart.statuses.${status}`) }}
+                                    </span>
+                                </div>
                             </div>
 
                             <div class="px-4 py-5 sm:p-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg space-y-3">
@@ -151,6 +175,7 @@ const state = reactive({
     oralHealthNotes: '',
     numbering: 'fdi' as 'fdi' | 'universal',
     dentition: 'permanent' as 'permanent' | 'primary',
+    view: 'arch' as 'arch' | 'surfaces',
     showPerio: false,
     selectedToothUuid: null as string | null,
     selectedSurface: null as string | null,
@@ -193,6 +218,28 @@ async function loadChart() {
     } finally {
         state.isPageLoading = false
     }
+}
+
+// Kept in sync with CitizenToothStatus::STATUSES on the backend.
+const STATUS_COLORS: Record<string, string> = {
+    healthy: '#ffffff',
+    caries: '#ef4444',
+    filling: '#3b82f6',
+    crown: '#fbbf24',
+    bridge: '#8b5cf6',
+    root_canal: '#ec4899',
+    implant: '#64748b',
+    veneer: '#22d3ee',
+    sealant: '#2dd4bf',
+    fracture: '#f97316',
+    extracted: '#374151',
+    missing: '#d1d5db',
+    planned: '#a3e635',
+    observation: '#fde047',
+}
+
+function statusColor(status: string): string {
+    return STATUS_COLORS[status] || '#ffffff'
 }
 
 function selectTooth(toothUuid: string, surface: string) {
