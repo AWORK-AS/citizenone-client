@@ -262,6 +262,13 @@
                         <p v-else class="text-sm text-gray-600">
                             {{ $t('superadmin.companies.licenseOverview.grant.billingFixed', { frequency: fixedFrequencyLabel }) }}
                         </p>
+                        <div class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.grant.paysViaLeverandorservice = !state.grant.paysViaLeverandorservice">
+                                <FormCheckbox :value="state.grant.paysViaLeverandorservice" />
+                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
+                            </div>
+                        </div>
                         <div class="flex justify-end gap-3 pt-2">
                             <FormButton buttonStyle="secondary" @click="state.grant.isOpen = false">
                                 {{ $t('cancel') }}
@@ -328,6 +335,13 @@
                                     </RadioGroupOption>
                                 </RadioGroup>
                             </fieldset>
+                        </div>
+                        <div v-if="state.addSubscription.billingMethod === 'manual_invoice'" class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.addSubscription.paysViaLeverandorservice = !state.addSubscription.paysViaLeverandorservice">
+                                <FormCheckbox :value="state.addSubscription.paysViaLeverandorservice" />
+                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
+                            </div>
                         </div>
                         <div class="rounded-lg bg-gray-50 p-3 space-y-1 text-sm">
                             <div class="flex justify-between text-gray-600">
@@ -413,6 +427,13 @@
                                     </RadioGroupOption>
                                 </RadioGroup>
                             </fieldset>
+                        </div>
+                        <div v-if="state.editSubscription.billingMethod === 'manual_invoice'" class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.editSubscription.paysViaLeverandorservice = !state.editSubscription.paysViaLeverandorservice">
+                                <FormCheckbox :value="state.editSubscription.paysViaLeverandorservice" />
+                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
+                            </div>
                         </div>
                         <div class="rounded-lg bg-gray-50 p-3 space-y-1 text-sm">
                             <div class="flex justify-between text-gray-600">
@@ -511,6 +532,7 @@ const state = reactive({
         isSaving: false,
         quantity: 1 as number,
         frequency: 'monthly' as 'monthly' | 'yearly',
+        paysViaLeverandorservice: false,
     },
     addSubscription: {
         isOpen: false,
@@ -520,6 +542,7 @@ const state = reactive({
         package: '' as string,
         frequency: 'monthly' as 'monthly' | 'yearly',
         billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card',
+        paysViaLeverandorservice: false,
     },
     editSubscription: {
         isOpen: false,
@@ -527,6 +550,7 @@ const state = reactive({
         package: '' as string,
         frequency: 'monthly' as 'monthly' | 'yearly',
         billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card',
+        paysViaLeverandorservice: false,
     },
     removeLicense: {
         isConfirmOpen: false,
@@ -544,8 +568,11 @@ const addSubscriptionUnitPrice = computed(() => {
     return state.addSubscription.frequency === 'yearly' ? Number(deal.yearly_price ?? 0) : Number(deal.monthly_price ?? 0)
 })
 const addSubscriptionTax = computed(() => addSubscriptionUnitPrice.value * 0.25)
-const addSubscriptionServiceFee = 4.75
-const addSubscriptionTotal = computed(() => addSubscriptionUnitPrice.value * 1.25 + addSubscriptionServiceFee)
+const addSubscriptionServiceFee = computed(() =>
+    state.addSubscription.billingMethod !== 'manual_invoice' ? 4.75
+    : state.addSubscription.paysViaLeverandorservice ? 0 : 295
+)
+const addSubscriptionTotal = computed(() => addSubscriptionUnitPrice.value * 1.25 + addSubscriptionServiceFee.value)
 
 // What fraction of the current billing period is still unused, rolling
 // forward from the subscription's start date in monthly/yearly steps until
@@ -578,7 +605,10 @@ const editSubscriptionUnitPrice = computed(() => {
     return state.editSubscription.frequency === 'yearly' ? Number(deal.yearly_price ?? 0) : Number(deal.monthly_price ?? 0)
 })
 const editSubscriptionTax = computed(() => editSubscriptionUnitPrice.value * 0.25)
-const editSubscriptionServiceFee = 4.75
+const editSubscriptionServiceFee = computed(() =>
+    state.editSubscription.billingMethod !== 'manual_invoice' ? 4.75
+    : state.editSubscription.paysViaLeverandorservice ? 0 : 295
+)
 const editSubscriptionEstimatedCredit = computed(() => {
     const current = state.subscriptions?.data
     if (!current?.created_at || !current?.type || !current?.deal) return 0
@@ -588,7 +618,7 @@ const editSubscriptionEstimatedCredit = computed(() => {
     return Math.round(Math.max(0, fraction) * oldUnitPrice * 100) / 100
 })
 const editSubscriptionTotal = computed(() =>
-    Math.max(0, editSubscriptionUnitPrice.value * 1.25 + editSubscriptionServiceFee - editSubscriptionEstimatedCredit.value)
+    Math.max(0, editSubscriptionUnitPrice.value * 1.25 + editSubscriptionServiceFee.value - editSubscriptionEstimatedCredit.value)
 )
 
 // The company's active Deal subscription (monthly/yearly/custom_monthly/custom_yearly)
@@ -614,6 +644,7 @@ watch(() => state.activeLicenseType, () => {
 function openGrantModal() {
     state.grant.quantity = 1
     state.grant.frequency = 'monthly'
+    state.grant.paysViaLeverandorservice = false
     state.grant.isOpen = true
 }
 
@@ -622,9 +653,10 @@ async function submitGrant() {
     if (needsFrequencyPicker.value && !state.grant.frequency) return
     state.grant.isSaving = true
     try {
-        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly' } = {
+        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly', pays_via_leverandorservice: boolean } = {
             quantity: state.grant.quantity,
             type: state.activeLicenseType,
+            pays_via_leverandorservice: state.grant.paysViaLeverandorservice,
         }
         if (needsFrequencyPicker.value) {
             params.frequency = state.grant.frequency
@@ -643,6 +675,7 @@ async function submitGrant() {
 async function openAddSubscriptionModal() {
     state.addSubscription.frequency = 'monthly'
     state.addSubscription.billingMethod = 'manual_invoice'
+    state.addSubscription.paysViaLeverandorservice = false
     state.addSubscription.isOpen = true
 
     if (state.addSubscription.deals.length === 0) {
@@ -668,6 +701,7 @@ async function submitAddSubscription() {
             package: state.addSubscription.package,
             frequency: state.addSubscription.frequency,
             billing_method: state.addSubscription.billingMethod,
+            pays_via_leverandorservice: state.addSubscription.paysViaLeverandorservice,
         })
         state.addSubscription.isOpen = false
         successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.addSubscription.added')}.`)
@@ -683,6 +717,7 @@ async function openEditSubscriptionModal() {
     state.editSubscription.package = current?.deal?.name ?? ''
     state.editSubscription.frequency = current?.type?.includes('year') ? 'yearly' : 'monthly'
     state.editSubscription.billingMethod = current?.type?.startsWith('custom') ? 'manual_invoice' : 'payment_card'
+    state.editSubscription.paysViaLeverandorservice = false
     state.editSubscription.isOpen = true
 
     if (state.addSubscription.deals.length === 0) {
@@ -708,6 +743,8 @@ async function submitEditSubscription() {
         }
         if (state.editSubscription.billingMethod === 'payment_card') {
             params.credit_amount = editSubscriptionEstimatedCredit.value
+        } else {
+            params.pays_via_leverandorservice = state.editSubscription.paysViaLeverandorservice
         }
         await licenseService.updateDealSubscription(companyUuid as string, params)
         state.editSubscription.isOpen = false
