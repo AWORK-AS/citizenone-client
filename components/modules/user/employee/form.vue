@@ -69,6 +69,18 @@
                             v-model="state.formEmployee.phone" />
                         <FormError :error="v$?.formEmployee?.phone?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
+                        <div class="pt-4 space-y-1">
+                            <FormLabel for="union_membership" :label="$t('employees.form.unionMembership')" />
+                            <FormTextField id="union_membership" name="union_membership"
+                                :placeholder="$t('employees.form.unionMembershipPlaceholder')"
+                                v-model="state.formEmployee.union_membership" />
+                        </div>
+                        <div class="pt-4 space-y-1">
+                            <FormLabel for="note" :label="$t('employees.form.note')" />
+                            <FormTextArea id="note" name="note" :rows="3"
+                                :placeholder="$t('employees.form.notePlaceholder')"
+                                v-model="state.formEmployee.note" />
+                        </div>
                     </div>
                     <div class="space-y-1" ref="birthdayField">
                         <FormLabel for="birthday" :label="$t('employees.form.birthday')" />
@@ -608,6 +620,8 @@ const state = reactive({
         email: '',
         password: '',
         phone: '',
+        note: '',
+        union_membership: '',
         birthday: '',
         seniority_date: '',
         departments: [],
@@ -727,6 +741,8 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             email: newValue.email,
             password: '',
             phone: newValue.phone,
+            note: newValue.note ?? '',
+            union_membership: newValue.union_membership ?? '',
             birthday: newValue.birthday,
             seniority_date: newValue.seniority_date,
             departments: newValue.departments,
