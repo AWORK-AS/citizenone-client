@@ -79,6 +79,7 @@ const props = defineProps<{
     statusOptions: string[]
     selectedToothUuid?: string | null
     numbering: 'fdi' | 'universal'
+    dentition: 'permanent' | 'primary'
 }>()
 
 const emit = defineEmits<{ (event: 'select', toothUuid: string, surface: string): void }>()
@@ -106,13 +107,24 @@ const STATUS_COLORS: Record<string, string> = {
 }
 
 const rows = computed(() => {
-    const sorted = [...(props.teeth || [])].sort((a: any, b: any) => a.number - b.number)
+    const teeth = (props.teeth || []).filter((tooth: any) => (tooth.dentition || 'permanent') === props.dentition)
+
+    // A chart is read from the patient's right to their left: the right
+    // quadrant runs from the back tooth inwards, the left one outwards again.
+    // FDI encodes both, so the same rule covers permanent (1-4) and primary
+    // (5-8) quadrants.
+    const row = (rightQuadrant: number, leftQuadrant: number) => [
+        ...teeth.filter((tooth: any) => quadrantOf(tooth) === rightQuadrant)
+            .sort((a: any, b: any) => positionOf(b) - positionOf(a)),
+        ...teeth.filter((tooth: any) => quadrantOf(tooth) === leftQuadrant)
+            .sort((a: any, b: any) => positionOf(a) - positionOf(b)),
+    ]
+
+    const isPrimary = props.dentition === 'primary'
 
     return [
-        // Upper jaw reads FDI 18-11 then 21-28, which is Universal 1-16.
-        { key: 'upper', label: 'citizens.toothChart.upperJaw', teeth: sorted.filter((tooth: any) => tooth.number <= 16) },
-        // Lower jaw reads FDI 48-41 then 31-38, which is Universal 32 down to 17.
-        { key: 'lower', label: 'citizens.toothChart.lowerJaw', teeth: sorted.filter((tooth: any) => tooth.number > 16).reverse() },
+        { key: 'upper', label: 'citizens.toothChart.upperJaw', teeth: row(isPrimary ? 5 : 1, isPrimary ? 6 : 2) },
+        { key: 'lower', label: 'citizens.toothChart.lowerJaw', teeth: row(isPrimary ? 8 : 4, isPrimary ? 7 : 3) },
     ]
 })
 
@@ -145,6 +157,10 @@ function quadrantOf(tooth: any): number {
     return Math.floor((tooth?.fdi_number ?? 0) / 10)
 }
 
+function positionOf(tooth: any): number {
+    return (tooth?.fdi_number ?? 0) % 10
+}
+
 /**
  * A flat chart shows five surfaces per tooth: the chewing surface in the middle
  * and the four sides around it. Which side is which depends on the quadrant:
@@ -153,8 +169,8 @@ function quadrantOf(tooth: any): number {
  */
 function faces(tooth: any) {
     const quadrant = quadrantOf(tooth)
-    const isUpper = quadrant === 1 || quadrant === 2
-    const isPatientRight = quadrant === 1 || quadrant === 4
+    const isUpper = [1, 2, 5, 6].includes(quadrant)
+    const isPatientRight = [1, 4, 5, 8].includes(quadrant)
 
     const top = isUpper ? 'buccal' : 'lingual'
     const bottom = isUpper ? 'lingual' : 'buccal'
@@ -195,7 +211,11 @@ function isRemoved(tooth: any): boolean {
 }
 
 function toothLabel(tooth: any): string {
-    return String(props.numbering === 'universal' ? tooth.number : tooth.fdi_number)
+    if (props.numbering !== 'universal') return String(tooth.fdi_number)
+
+    // Universal notation letters the primary teeth A-T and numbers the
+    // permanent ones 1-32.
+    return String(tooth.universal_code ?? tooth.number)
 }
 
 function ariaLabel(tooth: any): string {

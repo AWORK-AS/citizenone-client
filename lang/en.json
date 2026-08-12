@@ -3494,6 +3494,24 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobility (0-3)",
                 "measuredAt": "Measured on"
+            },
+            "dentition": {
+                "label": "Dentition",
+                "permanent": "Permanent",
+                "primary": "Primary"
+            },
+            "examinations": {
+                "title": "Examinations",
+                "help": "Each examination stores the caries figures as they were that day. Those are the ones reported.",
+                "record": "Record examination",
+                "examinedAt": "Examination date",
+                "age": "Age",
+                "primary": "Primary",
+                "permanent": "Permanent",
+                "scorCohort": "SCOR cohort",
+                "empty": "No examinations recorded yet.",
+                "saved": "Examination recorded",
+                "snapshotNote": "The figures are calculated from the chart as it looks now and stored on the examination."
             }
         },
         "priceEstimates": {

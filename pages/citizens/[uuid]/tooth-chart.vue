@@ -52,6 +52,15 @@
                                             <Icon name="ph:file-pdf" class="size-4" />
                                             {{ $t('citizens.toothChart.downloadPdf') }}
                                         </FormButton>
+                                        <span class="text-xs text-gray-500">{{ $t('citizens.toothChart.dentition.label') }}</span>
+                                        <FormButton :buttonStyle="state.dentition === 'permanent' ? 'primary' : 'action'"
+                                            buttonSize="xs" @click="state.dentition = 'permanent'">
+                                            {{ $t('citizens.toothChart.dentition.permanent') }}
+                                        </FormButton>
+                                        <FormButton :buttonStyle="state.dentition === 'primary' ? 'primary' : 'action'"
+                                            buttonSize="xs" @click="state.dentition = 'primary'">
+                                            {{ $t('citizens.toothChart.dentition.primary') }}
+                                        </FormButton>
                                         <span class="text-xs text-gray-500">{{ $t('citizens.toothChart.numbering') }}</span>
                                         <FormButton :buttonStyle="state.numbering === 'fdi' ? 'primary' : 'action'"
                                             buttonSize="xs" @click="state.numbering = 'fdi'">
@@ -68,7 +77,8 @@
                                 <ModulesUserCitizenToothChartDiagram :teeth="state.teeth" :statuses="state.statuses"
                                     :perio="state.perio" :showPerio="state.showPerio"
                                     :statusOptions="state.statusOptions" :selectedToothUuid="state.selectedToothUuid"
-                                    :numbering="state.numbering" @select="selectTooth" />
+                                    :numbering="state.numbering" :dentition="state.dentition"
+                                    @select="selectTooth" />
                             </div>
 
                             <div class="px-4 py-5 sm:p-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg space-y-3">
@@ -93,6 +103,8 @@
                                     :placeholder="$t('citizens.toothChart.oralHealthNotesPlaceholder')" :rows="4"
                                     v-model="state.oralHealthNotes" />
                             </div>
+
+                            <ModulesUserCitizenToothChartExaminations :citizenUuid="citizenUuid" />
                         </div>
 
                         <div class="xl:col-span-1">
@@ -138,6 +150,7 @@ const state = reactive({
     generalNotes: '',
     oralHealthNotes: '',
     numbering: 'fdi' as 'fdi' | 'universal',
+    dentition: 'permanent' as 'permanent' | 'primary',
     showPerio: false,
     selectedToothUuid: null as string | null,
     selectedSurface: null as string | null,

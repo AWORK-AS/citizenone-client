@@ -3494,6 +3494,24 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobilitet (0-3)",
                 "measuredAt": "Måledato"
+            },
+            "dentition": {
+                "label": "Tannsett",
+                "permanent": "Permanente",
+                "primary": "Melketenner"
+            },
+            "examinations": {
+                "title": "Undersøkelser",
+                "help": "Hver undersøkelse lagrer karierstallene slik de var den dagen. Det er de som innrapporteres.",
+                "record": "Registrer undersøkelse",
+                "examinedAt": "Undersøkelsesdato",
+                "age": "Alder",
+                "primary": "Melketenner",
+                "permanent": "Permanente",
+                "scorCohort": "SCOR-årskull",
+                "empty": "Ingen undersøkelser registrert ennå.",
+                "saved": "Undersøkelsen er registrert",
+                "snapshotNote": "Tallene beregnes ut fra tannkartet slik det ser ut nå, og lagres på undersøkelsen."
             }
         },
         "priceEstimates": {

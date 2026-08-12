@@ -3494,6 +3494,24 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobilitet (0-3)",
                 "measuredAt": "Måledato"
+            },
+            "dentition": {
+                "label": "Tandsæt",
+                "permanent": "Blivende",
+                "primary": "Mælketænder"
+            },
+            "examinations": {
+                "title": "Undersøgelser",
+                "help": "Hver undersøgelse gemmer cariestallene, som de så ud den dag. Det er dem der indberettes.",
+                "record": "Registrér undersøgelse",
+                "examinedAt": "Undersøgelsesdato",
+                "age": "Alder",
+                "primary": "Mælketænder",
+                "permanent": "Blivende",
+                "scorCohort": "SCOR-årgang",
+                "empty": "Ingen undersøgelser registreret endnu.",
+                "saved": "Undersøgelsen er registreret",
+                "snapshotNote": "Tallene beregnes ud fra tandkortet, som det ser ud nu, og gemmes fast på undersøgelsen."
             }
         },
         "priceEstimates": {

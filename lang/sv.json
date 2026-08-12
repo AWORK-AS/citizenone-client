@@ -3494,6 +3494,24 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobilitet (0-3)",
                 "measuredAt": "Mätdatum"
+            },
+            "dentition": {
+                "label": "Tandsättning",
+                "permanent": "Permanenta",
+                "primary": "Mjölktänder"
+            },
+            "examinations": {
+                "title": "Undersökningar",
+                "help": "Varje undersökning sparar kariesvärdena som de såg ut den dagen. Det är de som rapporteras.",
+                "record": "Registrera undersökning",
+                "examinedAt": "Undersökningsdatum",
+                "age": "Ålder",
+                "primary": "Mjölktänder",
+                "permanent": "Permanenta",
+                "scorCohort": "SCOR-årskull",
+                "empty": "Inga undersökningar registrerade ännu.",
+                "saved": "Undersökningen är registrerad",
+                "snapshotNote": "Värdena beräknas utifrån tandkartan som den ser ut nu och sparas på undersökningen."
             }
         },
         "priceEstimates": {
