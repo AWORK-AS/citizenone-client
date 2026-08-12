@@ -172,7 +172,13 @@ const state = reactive({
         },
         dentalData: {
             is_member_of_sygeforsikring_danmark: false,
+            danmark_group: '',
             sygesikring_group: '',
+            is_foreign_patient: false,
+            risk_profile: '',
+            risk_profile_note: '',
+            recall_channel: '',
+            auto_reminder: true,
             patient_number: '',
             municipal_subsidy: '',
             last_checkup_date: '',
@@ -295,7 +301,13 @@ async function fetchCitizen() {
                 } as any,
                 dentalData: {
                     is_member_of_sygeforsikring_danmark: response?.data?.dental_profile?.is_member_of_sygeforsikring_danmark ?? false,
+                    danmark_group: response?.data?.dental_profile?.danmark_group || '',
                     sygesikring_group: response?.data?.dental_profile?.sygesikring_group || '',
+                    is_foreign_patient: response?.data?.dental_profile?.is_foreign_patient ?? false,
+                    risk_profile: response?.data?.dental_profile?.risk_profile || '',
+                    risk_profile_note: response?.data?.dental_profile?.risk_profile_note || '',
+                    recall_channel: response?.data?.dental_profile?.recall_channel || '',
+                    auto_reminder: response?.data?.dental_profile?.auto_reminder ?? true,
                     patient_number: response?.data?.dental_profile?.patient_number || '',
                     municipal_subsidy: response?.data?.dental_profile?.municipal_subsidy || '',
                     last_checkup_date: response?.data?.dental_profile?.last_checkup_date || '',
@@ -450,6 +462,12 @@ async function updateCitizen(citizenDetails: any) {
             params.append('municipal_subsidy', citizenDetails.dentalData.municipal_subsidy)
             params.append('last_checkup_date', citizenDetails.dentalData.last_checkup_date != 'Invalid date' ? citizenDetails.dentalData.last_checkup_date : '')
             params.append('checkup_interval_months', citizenDetails.dentalData.checkup_interval_months)
+            params.append('danmark_group', citizenDetails.dentalData.danmark_group)
+            params.append('is_foreign_patient', citizenDetails.dentalData.is_foreign_patient)
+            params.append('risk_profile', citizenDetails.dentalData.risk_profile)
+            params.append('risk_profile_note', citizenDetails.dentalData.risk_profile_note)
+            params.append('recall_channel', citizenDetails.dentalData.recall_channel)
+            params.append('auto_reminder', citizenDetails.dentalData.auto_reminder)
         }
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {

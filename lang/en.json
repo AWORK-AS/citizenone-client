@@ -2000,7 +2000,9 @@
                     "group1": "Group 1",
                     "group2": "Group 2",
                     "foreignInsurance": "Foreign insurance",
-                    "other": "Other"
+                    "other": "Other",
+                    "group4": "Group 4 (pays themselves)",
+                    "but": "BUT (children and young people)"
                 },
                 "patientNumber": "Patient number",
                 "municipalSubsidy": "Municipal subsidy",
@@ -2009,6 +2011,33 @@
                     "label": "Recommended check-up interval",
                     "everySixMonths": "Every 6 months",
                     "everyTwelveMonths": "Every 12 months"
+                },
+                "danmarkGroup": {
+                    "label": "\"danmark\" group",
+                    "basis": "Basis",
+                    "group1": "Group 1",
+                    "group2": "Group 2",
+                    "group5": "Group 5"
+                },
+                "isForeignPatient": "Foreign patient without a CPR number",
+                "isForeignPatientHelp": "Tick this if the patient has no Danish CPR number. The CPR field is then not required.",
+                "recallChannel": {
+                    "label": "Recall type",
+                    "help": "Letters and phone calls are not sent automatically. The system tells the responsible employee instead.",
+                    "letter": "Post / letter",
+                    "sms": "SMS",
+                    "email": "Email",
+                    "app": "App notification",
+                    "phone": "Phone call"
+                },
+                "autoReminder": "Automatic reminder",
+                "riskProfile": {
+                    "label": "Dental health risk profile",
+                    "green": "Green",
+                    "yellow": "Yellow",
+                    "red": "Red",
+                    "note": "Risk profile note",
+                    "notePlaceholder": "Optional note"
                 }
             },
             "employmentProgram": {
@@ -2955,7 +2984,9 @@
                 "time": "Time & attendance",
                 "admin": "Administration"
             },
-            "surveys": "Surveys"
+            "surveys": "Surveys",
+            "toothChart": "Tooth chart",
+            "priceEstimates": "Price estimates"
         },
         "timeline": {
             "newEvent": "New event",
@@ -3402,7 +3433,107 @@
             "edit": "Edit",
             "delete": "Delete"
         },
-        "noCitizensYet": "No citizens yet"
+        "noCitizensYet": "No citizens yet",
+        "toothChart": {
+            "title": "Tooth chart",
+            "numbering": "Numbering",
+            "fdi": "FDI",
+            "universal": "Universal",
+            "universalShort": "univ.",
+            "tooth": "Tooth",
+            "upperJaw": "Upper jaw",
+            "lowerJaw": "Lower jaw",
+            "legend": "Legend:",
+            "generalNotes": "General notes",
+            "generalNotesPlaceholder": "Clinical notes that do not belong to a single tooth",
+            "generalNotesSaved": "Notes saved",
+            "statuses": {
+                "healthy": "Healthy",
+                "caries": "Caries",
+                "filling": "Filling",
+                "crown": "Crown",
+                "bridge": "Bridge",
+                "root_canal": "Root canal",
+                "implant": "Implant",
+                "veneer": "Veneer",
+                "sealant": "Sealant",
+                "fracture": "Fracture",
+                "extracted": "Extracted",
+                "missing": "Missing",
+                "planned": "Planned treatment",
+                "observation": "Observation"
+            },
+            "surfaces": {
+                "whole": "Whole tooth",
+                "occlusal": "Chewing surface (occlusal)",
+                "mesial": "Mesial",
+                "distal": "Distal",
+                "buccal": "Cheek side (buccal)",
+                "lingual": "Tongue side (lingual)"
+            },
+            "panel": {
+                "emptyTitle": "Select a tooth",
+                "emptyText": "Click a tooth or a surface in the chart to view and edit its status.",
+                "noStatus": "No status",
+                "notePlaceholder": "Note",
+                "saved": "Tooth status saved",
+                "history": "Treatment history",
+                "noHistory": "No journal notes on this tooth yet.",
+                "openJournals": "Open journals",
+                "treatedAt": "Treatment date"
+            },
+            "downloadPdf": "Download PDF",
+            "oralHealthNotes": "Oral health and observations",
+            "oralHealthNotesPlaceholder": "For example gum condition, mucosa, oral hygiene",
+            "perio": {
+                "title": "Periodontal",
+                "show": "Periodontal",
+                "bleeding": "Bleeding",
+                "pocketDepth": "Pocket depth (mm)",
+                "pocketPlaceholder": "mm",
+                "mobility": "Mobility (0-3)",
+                "measuredAt": "Measured on"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "New price estimate",
+            "editTitle": "Edit price estimate",
+            "total": "Total price",
+            "subsidy": "Expected subsidy",
+            "patientPays": "Patient pays",
+            "saved": "Price estimate saved",
+            "markSent": "Mark as sent",
+            "markAccepted": "Accepted",
+            "markDeclined": "Declined",
+            "statuses": {
+                "draft": "Draft",
+                "sent": "Sent",
+                "accepted": "Accepted",
+                "declined": "Declined",
+                "expired": "Expired"
+            },
+            "empty": {
+                "title": "No price estimates yet",
+                "text": "Create an estimate so the patient can see the price and their own share before treatment starts."
+            },
+            "form": {
+                "title": "Heading",
+                "titlePlaceholder": "For example crown and filling",
+                "validUntil": "Valid until",
+                "lines": "Treatments",
+                "addLine": "Add line",
+                "code": "Code",
+                "description": "Treatment",
+                "quantity": "Qty",
+                "unitPrice": "Unit price",
+                "subsidy": "Subsidy",
+                "lineTotal": "Amount",
+                "noTooth": "No tooth",
+                "note": "Notes",
+                "notePlaceholder": "For example what the price assumes",
+                "needsALine": "Add at least one treatment"
+            }
+        }
     },
     "client": {
         "appointments": "Appointments",
@@ -5854,7 +5985,11 @@
             "seniorityDate": "Seniority date",
             "showWorkingHours": "Show working hours",
             "showCompensatoryHours": "Show time off in lieu and vacation days",
-            "street": "Street"
+            "street": "Street",
+            "note": "Note",
+            "notePlaceholder": "Internal note about the employee",
+            "unionMembership": "Union",
+            "unionMembershipPlaceholder": "For example HK"
         },
         "importEmployees": {
             "alert": {

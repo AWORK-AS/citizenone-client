@@ -2000,7 +2000,9 @@
                     "group1": "Grupp 1",
                     "group2": "Grupp 2",
                     "foreignInsurance": "Utländsk försäkring",
-                    "other": "Annat"
+                    "other": "Annat",
+                    "group4": "Grupp 4 (betalar själv)",
+                    "but": "BUT (barn och unga i tandvården)"
                 },
                 "patientNumber": "Patientnummer",
                 "municipalSubsidy": "Kommunalt bidrag",
@@ -2009,6 +2011,33 @@
                     "label": "Rekommenderat kontrollintervall",
                     "everySixMonths": "Var 6:e månad",
                     "everyTwelveMonths": "Var 12:e månad"
+                },
+                "danmarkGroup": {
+                    "label": "\"danmark\"-grupp",
+                    "basis": "Basis",
+                    "group1": "Grupp 1",
+                    "group2": "Grupp 2",
+                    "group5": "Grupp 5"
+                },
+                "isForeignPatient": "Utländsk patient utan CPR",
+                "isForeignPatientHelp": "Kryssa i om patienten saknar danskt CPR-nummer. Då krävs inte CPR.",
+                "recallChannel": {
+                    "label": "Kallelsetyp",
+                    "help": "Brev och samtal skickas inte automatiskt. Systemet meddelar i stället ansvarig medarbetare.",
+                    "letter": "Post / brev",
+                    "sms": "SMS",
+                    "email": "E-post",
+                    "app": "Appnotis",
+                    "phone": "Uppringning"
+                },
+                "autoReminder": "Automatisk påminnelse",
+                "riskProfile": {
+                    "label": "Riskprofil för tandhälsa",
+                    "green": "Grön",
+                    "yellow": "Gul",
+                    "red": "Röd",
+                    "note": "Anteckning till riskprofil",
+                    "notePlaceholder": "Valfri anteckning"
                 }
             },
             "employmentProgram": {
@@ -2955,7 +2984,9 @@
                 "time": "Tid & närvaro",
                 "admin": "Administration"
             },
-            "surveys": "Enkäter"
+            "surveys": "Enkäter",
+            "toothChart": "Tandkarta",
+            "priceEstimates": "Prisuppskattningar"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -3402,7 +3433,107 @@
             "edit": "Redigera",
             "delete": "Ta bort"
         },
-        "noCitizensYet": "Inga medborgare än"
+        "noCitizensYet": "Inga medborgare än",
+        "toothChart": {
+            "title": "Tandkarta",
+            "numbering": "Numrering",
+            "fdi": "FDI",
+            "universal": "Universal",
+            "universalShort": "univ.",
+            "tooth": "Tand",
+            "upperJaw": "Överkäke",
+            "lowerJaw": "Underkäke",
+            "legend": "Teckenförklaring:",
+            "generalNotes": "Allmänna anteckningar",
+            "generalNotesPlaceholder": "Kliniska anteckningar som inte hör till en enskild tand",
+            "generalNotesSaved": "Anteckningar sparade",
+            "statuses": {
+                "healthy": "Frisk",
+                "caries": "Karies",
+                "filling": "Fyllning",
+                "crown": "Krona",
+                "bridge": "Bro",
+                "root_canal": "Rotbehandling",
+                "implant": "Implantat",
+                "veneer": "Skalfasad",
+                "sealant": "Fissurförsegling",
+                "fracture": "Fraktur",
+                "extracted": "Utdragen",
+                "missing": "Saknas",
+                "planned": "Planerad behandling",
+                "observation": "Observation"
+            },
+            "surfaces": {
+                "whole": "Hela tanden",
+                "occlusal": "Tuggyta (ocklusal)",
+                "mesial": "Mesial",
+                "distal": "Distal",
+                "buccal": "Kindyta (buckal)",
+                "lingual": "Tungyta (lingual)"
+            },
+            "panel": {
+                "emptyTitle": "Välj en tand",
+                "emptyText": "Klicka på en tand eller en yta i tandkartan för att se och ändra status.",
+                "noStatus": "Ingen status",
+                "notePlaceholder": "Anteckning",
+                "saved": "Tandens status sparad",
+                "history": "Behandlingshistorik",
+                "noHistory": "Inga journalanteckningar på den här tanden ännu.",
+                "openJournals": "Öppna journal",
+                "treatedAt": "Behandlingsdatum"
+            },
+            "downloadPdf": "Ladda ner PDF",
+            "oralHealthNotes": "Munhälsa och observationer",
+            "oralHealthNotesPlaceholder": "Till exempel tandköttets tillstånd, slemhinnor, munhygien",
+            "perio": {
+                "title": "Parodontal",
+                "show": "Parodontal",
+                "bleeding": "Blödning",
+                "pocketDepth": "Fickdjup (mm)",
+                "pocketPlaceholder": "mm",
+                "mobility": "Mobilitet (0-3)",
+                "measuredAt": "Mätdatum"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "Ny prisuppskattning",
+            "editTitle": "Redigera prisuppskattning",
+            "total": "Totalpris",
+            "subsidy": "Förväntat bidrag",
+            "patientPays": "Patienten betalar",
+            "saved": "Prisuppskattningen är sparad",
+            "markSent": "Markera som skickad",
+            "markAccepted": "Accepterad",
+            "markDeclined": "Avvisad",
+            "statuses": {
+                "draft": "Utkast",
+                "sent": "Skickad",
+                "accepted": "Accepterad",
+                "declined": "Avvisad",
+                "expired": "Utgången"
+            },
+            "empty": {
+                "title": "Inga prisuppskattningar ännu",
+                "text": "Skapa en uppskattning så patienten ser priset och sin egen del innan behandlingen börjar."
+            },
+            "form": {
+                "title": "Rubrik",
+                "titlePlaceholder": "Till exempel krona och fyllning",
+                "validUntil": "Giltig till",
+                "lines": "Behandlingar",
+                "addLine": "Lägg till rad",
+                "code": "Kod",
+                "description": "Behandling",
+                "quantity": "Antal",
+                "unitPrice": "Styckpris",
+                "subsidy": "Bidrag",
+                "lineTotal": "Belopp",
+                "noTooth": "Ingen tand",
+                "note": "Anmärkningar",
+                "notePlaceholder": "Till exempel vad priset förutsätter",
+                "needsALine": "Lägg till minst en behandling"
+            }
+        }
     },
     "client": {
         "appointments": "Möten",
@@ -5854,7 +5985,11 @@
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Visa arbejdstimer",
             "showCompensatoryHours": "Visa komptid och semesterdagar",
-            "street": "Gata"
+            "street": "Gata",
+            "note": "Anteckning",
+            "notePlaceholder": "Intern anteckning om medarbetaren",
+            "unionMembership": "Fackförbund",
+            "unionMembershipPlaceholder": "Till exempel HK"
         },
         "importEmployees": {
             "alert": {
