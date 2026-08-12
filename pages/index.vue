@@ -296,7 +296,7 @@ onMounted(() => {
 
 	const rememberMe = localStorage.getItem("rememberMe")
 	if (rememberMe) {
-		navigateTo('/overview')
+		navigateTo(resolvePostLoginRedirect(userStore.getUser?.role))
 	}
 	let deviceUuid = localStorage.getItem("device_uuid")
 	if (!deviceUuid) {
@@ -356,15 +356,7 @@ async function login() {
 					userStore.setUser(response?.data?.user)
 					userStore.setLanguage(response?.data?.user?.language?.code)
 					language.locale.value = response?.data?.user?.language?.code
-					if (response.data.user?.role === 'Citizen') {
-						navigateTo('/citizen/overview')
-					} else if (response.data.user?.role === 'Relative') {
-						navigateTo('/relative/citizens')
-					} else if (response.data.user?.role === 'ThirdParty') {
-						navigateTo('/third-party/messages')
-					} else {
-						navigateTo('/overview')
-					}
+					navigateTo(resolvePostLoginRedirect(response.data.user?.role))
 				}
 			}
 		} catch (error: any) {
