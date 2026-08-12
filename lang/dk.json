@@ -67,6 +67,14 @@
         "whatDoYouNeed": "Hvad skal du bruge?",
         "stepsProgress": "{done} af {total} trin fuldført",
         "nextStep": "Næste skridt",
+        "demoData": {
+            "title": "Udforsk med demo-borgere",
+            "desc": "Vi har tilføjet {count} fiktive borgere, så der er noget at klikke rundt i med det samme. Fjern dem, når du er klar til at tilføje jeres egne.",
+            "remove": "Fjern demo-borgere",
+            "removing": "Fjerner...",
+            "removed": "Demo-borgere fjernet",
+            "removeFailed": "Kunne ikke fjerne demo-borgere"
+        },
         "ready": {
             "title": "I er klar til drift!",
             "desc": "Alle onboarding-trin er fuldført."
