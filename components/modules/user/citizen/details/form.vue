@@ -1321,7 +1321,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             responsible_municipality: selectedCitizen.responsible_municipality,
             ean_number: selectedCitizen.ean_number,
             transportation: selectedCitizen.transportation,
-            hourly_rate: selectedCitizen.hourly_rate,
+            hourly_rate: selectedCitizen.hourly_rate ? formatPrice(selectedCitizen.hourly_rate, language.locale.value) : '',
             allocated_daily_hours: selectedCitizen.allocated_daily_hours,
             allocated_weekly_hours: selectedCitizen.allocated_weekly_hours,
             allocated_monthly_hours: selectedCitizen.allocated_monthly_hours,
@@ -1396,6 +1396,9 @@ watch(() => language.locale.value, (newLocale: any) => {
         state.formCitizen.pricing = formatPrice(props.selectedCitizen.pricing, newLocale)
         if (props.selectedCitizen?.stayData?.contract_price) {
             state.formCitizen.stayData.contract_price = formatPrice(props.selectedCitizen.stayData.contract_price, newLocale)
+        }
+        if (props.selectedCitizen?.hourly_rate) {
+            state.formCitizen.hourly_rate = formatPrice(props.selectedCitizen.hourly_rate, newLocale)
         }
     }
 })
