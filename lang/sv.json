@@ -3481,7 +3481,9 @@
                 "history": "Behandlingshistorik",
                 "noHistory": "Inga journalanteckningar på den här tanden ännu.",
                 "openJournals": "Öppna journal",
-                "treatedAt": "Behandlingsdatum"
+                "treatedAt": "Behandlingsdatum",
+                "quickStatus": "Snabbstatus",
+                "surfaces": "Ytor"
             },
             "downloadPdf": "Ladda ner PDF",
             "oralHealthNotes": "Munhälsa och observationer",

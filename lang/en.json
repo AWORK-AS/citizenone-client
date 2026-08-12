@@ -3481,7 +3481,9 @@
                 "history": "Treatment history",
                 "noHistory": "No journal notes on this tooth yet.",
                 "openJournals": "Open journals",
-                "treatedAt": "Treatment date"
+                "treatedAt": "Treatment date",
+                "quickStatus": "Quick status",
+                "surfaces": "Surfaces"
             },
             "downloadPdf": "Download PDF",
             "oralHealthNotes": "Oral health and observations",

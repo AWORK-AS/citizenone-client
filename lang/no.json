@@ -3481,7 +3481,9 @@
                 "history": "Behandlingshistorikk",
                 "noHistory": "Ingen journalnotater på denne tannen ennå.",
                 "openJournals": "Åpne journal",
-                "treatedAt": "Behandlingsdato"
+                "treatedAt": "Behandlingsdato",
+                "quickStatus": "Hurtig status",
+                "surfaces": "Flater"
             },
             "downloadPdf": "Last ned PDF",
             "oralHealthNotes": "Munnhelse og observasjoner",

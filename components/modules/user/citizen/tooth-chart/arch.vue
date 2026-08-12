@@ -1,12 +1,20 @@
 <template>
     <div class="space-y-3">
-        <div class="overflow-x-auto">
+        <div class="relative overflow-x-auto rounded-2xl bg-gradient-to-b from-slate-50 to-white ring-1 ring-slate-100 px-2 py-4">
+            <span class="absolute left-4 top-4 text-[11px] font-semibold uppercase tracking-wide text-gray-300">
+                {{ $t('citizens.toothChart.upperJaw') }}
+            </span>
+            <span class="absolute left-4 bottom-4 text-[11px] font-semibold uppercase tracking-wide text-gray-300">
+                {{ $t('citizens.toothChart.lowerJaw') }}
+            </span>
             <svg :viewBox="`0 0 ${BOX_W} ${BOX_H}`" class="mx-auto block w-full max-w-[680px]" role="group"
                 :aria-label="$t('citizens.toothChart.title')">
                 <!-- Midline and the line between the jaws, the way both are
                      drawn on a paper chart. -->
-                <line :x1="CENTER_X" y1="20" :x2="CENTER_X" :y2="BOX_H - 20" stroke="#e5e7eb" stroke-width="1" />
-                <line x1="70" :y1="BOX_H / 2" :x2="BOX_W - 70" :y2="BOX_H / 2" stroke="#e5e7eb" stroke-width="1" />
+                <line :x1="CENTER_X" y1="28" :x2="CENTER_X" :y2="BOX_H - 28" stroke="#e2e8f0" stroke-width="1"
+                    stroke-dasharray="4 6" />
+                <line x1="150" :y1="BOX_H / 2" :x2="BOX_W - 150" :y2="BOX_H / 2" stroke="#e2e8f0" stroke-width="1"
+                    stroke-dasharray="4 6" />
 
                 <g v-for="tooth in placed" :key="tooth.uuid">
                     <g :transform="tooth.transform" class="cursor-pointer" role="button" tabindex="0"
@@ -18,9 +26,13 @@
                         <path v-for="(root, index) in tooth.shape.roots" :key="`root-${index}`" :d="root"
                             fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2" />
 
-                        <path :d="tooth.shape.crown" :fill="fillFor(tooth)" stroke="#94a3b8"
-                            :stroke-width="tooth.uuid === props.selectedToothUuid ? 2.4 : 1.2"
-                            :class="tooth.uuid === props.selectedToothUuid ? 'stroke-primary' : ''" />
+                        <path v-if="tooth.uuid === props.selectedToothUuid" :d="tooth.shape.crown" fill="none"
+                            stroke="#1e3a5f" stroke-width="7" stroke-opacity="0.12" stroke-linejoin="round" />
+
+                        <path :d="tooth.shape.crown" :fill="fillFor(tooth)"
+                            :stroke="tooth.uuid === props.selectedToothUuid ? '#1e3a5f' : '#94a3b8'"
+                            :stroke-width="tooth.uuid === props.selectedToothUuid ? 2 : 1.2"
+                            stroke-linejoin="round" class="transition-[fill]" />
 
                         <!-- The grooves are what makes a molar read as a molar. -->
                         <path v-for="(groove, index) in tooth.shape.grooves" :key="`groove-${index}`" :d="groove"
@@ -33,7 +45,9 @@
                     </g>
 
                     <text :x="tooth.labelX" :y="tooth.labelY" text-anchor="middle" dominant-baseline="middle"
-                        class="fill-gray-500" style="font-size: 11px; font-weight: 500;">
+                        :class="tooth.uuid === props.selectedToothUuid ? 'fill-primary' : 'fill-gray-400'"
+                        :style="`font-size: 11px; font-weight: ${tooth.uuid === props.selectedToothUuid ? 700 : 500};
+                            font-variant-numeric: tabular-nums;`">
                         {{ toothLabel(tooth) }}
                     </text>
 
@@ -50,7 +64,6 @@
             </svg>
         </div>
 
-        <p class="text-xs text-gray-500 text-center">{{ $t('citizens.toothChart.arch.help') }}</p>
     </div>
 </template>
 

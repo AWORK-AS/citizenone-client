@@ -37,48 +37,69 @@
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
                         <div class="xl:col-span-2 space-y-5">
                             <div class="px-4 py-5 sm:p-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
-                                <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-                                    <h3 class="text-base font-semibold text-gray-900">
-                                        {{ $t('citizens.toothChart.title') }}
-                                    </h3>
+                                <div class="flex flex-wrap items-start justify-between gap-4 mb-5">
+                                    <div>
+                                        <h3 class="text-base font-semibold text-gray-900">
+                                            {{ $t('citizens.toothChart.title') }}
+                                        </h3>
+                                        <p class="text-sm text-gray-500">{{ $t('citizens.toothChart.arch.help') }}</p>
+                                    </div>
+
                                     <div class="flex flex-wrap items-center gap-2">
-                                        <FormButton :buttonStyle="state.showPerio ? 'primary' : 'action'" buttonSize="xs"
-                                            @click="state.showPerio = !state.showPerio">
-                                            <Icon name="ph:eye" class="size-4" />
+                                        <!-- Two things are switched often while working: which
+                                             dentition is charted and how it is drawn. They are
+                                             grouped so neither is mistaken for an action. -->
+                                        <div class="inline-flex rounded-lg bg-gray-100 p-0.5">
+                                            <button type="button" v-for="option in dentitionOptions" :key="option.value"
+                                                @click="state.dentition = option.value" :class="[
+                                                    'rounded-md px-3 py-1.5 text-sm font-medium transition',
+                                                    state.dentition === option.value
+                                                        ? 'bg-white text-primary shadow-sm'
+                                                        : 'text-gray-500 hover:text-gray-700'
+                                                ]">
+                                                {{ option.label }}
+                                            </button>
+                                        </div>
+
+                                        <div class="inline-flex rounded-lg bg-gray-100 p-0.5">
+                                            <button type="button" v-for="option in viewOptions" :key="option.value"
+                                                @click="state.view = option.value" :class="[
+                                                    'rounded-md px-3 py-1.5 text-sm font-medium transition',
+                                                    state.view === option.value
+                                                        ? 'bg-white text-primary shadow-sm'
+                                                        : 'text-gray-500 hover:text-gray-700'
+                                                ]">
+                                                {{ option.label }}
+                                            </button>
+                                        </div>
+
+                                        <div class="inline-flex rounded-lg bg-gray-100 p-0.5">
+                                            <button type="button" v-for="option in numberingOptions" :key="option.value"
+                                                @click="state.numbering = option.value" :class="[
+                                                    'rounded-md px-3 py-1.5 text-sm font-medium transition',
+                                                    state.numbering === option.value
+                                                        ? 'bg-white text-primary shadow-sm'
+                                                        : 'text-gray-500 hover:text-gray-700'
+                                                ]">
+                                                {{ option.label }}
+                                            </button>
+                                        </div>
+
+                                        <button type="button" @click="state.showPerio = !state.showPerio" :class="[
+                                            'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition',
+                                            state.showPerio
+                                                ? 'border-primary bg-primary/5 text-primary'
+                                                : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                                        ]">
+                                            <Icon name="ph:drop" class="size-4" />
                                             {{ $t('citizens.toothChart.perio.show') }}
-                                        </FormButton>
-                                        <FormButton buttonStyle="action" buttonSize="xs" @click="downloadPdf"
-                                            :disabled="state.isDownloading">
+                                        </button>
+
+                                        <button type="button" @click="downloadPdf" :disabled="state.isDownloading"
+                                            class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-600 transition hover:border-gray-300 disabled:opacity-50">
                                             <Icon name="ph:file-pdf" class="size-4" />
                                             {{ $t('citizens.toothChart.downloadPdf') }}
-                                        </FormButton>
-                                        <FormButton :buttonStyle="state.view === 'arch' ? 'primary' : 'action'"
-                                            buttonSize="xs" @click="state.view = 'arch'">
-                                            {{ $t('citizens.toothChart.view.arch') }}
-                                        </FormButton>
-                                        <FormButton :buttonStyle="state.view === 'surfaces' ? 'primary' : 'action'"
-                                            buttonSize="xs" @click="state.view = 'surfaces'">
-                                            {{ $t('citizens.toothChart.view.surfaces') }}
-                                        </FormButton>
-                                        <span class="text-xs text-gray-500">{{ $t('citizens.toothChart.dentition.label') }}</span>
-                                        <FormButton :buttonStyle="state.dentition === 'permanent' ? 'primary' : 'action'"
-                                            buttonSize="xs" @click="state.dentition = 'permanent'">
-                                            {{ $t('citizens.toothChart.dentition.permanent') }}
-                                        </FormButton>
-                                        <FormButton :buttonStyle="state.dentition === 'primary' ? 'primary' : 'action'"
-                                            buttonSize="xs" @click="state.dentition = 'primary'">
-                                            {{ $t('citizens.toothChart.dentition.primary') }}
-                                        </FormButton>
-                                        <span class="text-xs text-gray-500">{{ $t('citizens.toothChart.numbering') }}</span>
-                                        <FormButton :buttonStyle="state.numbering === 'fdi' ? 'primary' : 'action'"
-                                            buttonSize="xs" @click="state.numbering = 'fdi'">
-                                            {{ $t('citizens.toothChart.fdi') }}
-                                        </FormButton>
-                                        <FormButton
-                                            :buttonStyle="state.numbering === 'universal' ? 'primary' : 'action'"
-                                            buttonSize="xs" @click="state.numbering = 'universal'">
-                                            {{ $t('citizens.toothChart.universal') }}
-                                        </FormButton>
+                                        </button>
                                     </div>
                                 </div>
 
@@ -93,15 +114,18 @@
                                     :numbering="state.numbering" :dentition="state.dentition"
                                     @select="selectTooth" />
 
-                                <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2"
-                                    v-if="state.view === 'arch'">
-                                    <span class="text-xs text-gray-500">{{ $t('citizens.toothChart.legend') }}</span>
-                                    <span v-for="status in state.statusOptions" :key="status"
-                                        class="inline-flex items-center gap-1.5 text-xs">
-                                        <span class="size-3 rounded-sm ring-1 ring-gray-300"
-                                            :style="{ backgroundColor: statusColor(status) }" />
-                                        {{ $t(`citizens.toothChart.statuses.${status}`) }}
-                                    </span>
+                                <div class="mt-5 border-t border-gray-100 pt-4" v-if="state.view === 'arch'">
+                                    <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400 mb-2">
+                                        {{ $t('citizens.toothChart.legend') }}
+                                    </p>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span v-for="status in state.statusOptions" :key="status"
+                                            class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-2 py-0.5 text-[11px] text-gray-600">
+                                            <span class="size-2.5 rounded-full ring-1 ring-gray-300"
+                                                :style="{ backgroundColor: statusColor(status) }" />
+                                            {{ $t(`citizens.toothChart.statuses.${status}`) }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -219,6 +243,21 @@ async function loadChart() {
         state.isPageLoading = false
     }
 }
+
+const dentitionOptions = computed(() => [
+    { value: 'permanent' as const, label: t('citizens.toothChart.dentition.permanent') },
+    { value: 'primary' as const, label: t('citizens.toothChart.dentition.primary') },
+])
+
+const viewOptions = computed(() => [
+    { value: 'arch' as const, label: t('citizens.toothChart.view.arch') },
+    { value: 'surfaces' as const, label: t('citizens.toothChart.view.surfaces') },
+])
+
+const numberingOptions = computed(() => [
+    { value: 'fdi' as const, label: t('citizens.toothChart.fdi') },
+    { value: 'universal' as const, label: t('citizens.toothChart.universal') },
+])
 
 // Kept in sync with CitizenToothStatus::STATUSES on the backend.
 const STATUS_COLORS: Record<string, string> = {

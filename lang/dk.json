@@ -3481,7 +3481,9 @@
                 "history": "Behandlingshistorik",
                 "noHistory": "Ingen journalnotater på denne tand endnu.",
                 "openJournals": "Åbn journal",
-                "treatedAt": "Behandlingsdato"
+                "treatedAt": "Behandlingsdato",
+                "quickStatus": "Hurtig status",
+                "surfaces": "Flader"
             },
             "downloadPdf": "Hent PDF",
             "oralHealthNotes": "Mundhygiejne og observationer",

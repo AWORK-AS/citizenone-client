@@ -10,41 +10,76 @@
 
         <template v-else>
             <div class="flex items-start justify-between gap-3">
-                <div>
-                    <h3 class="text-base font-semibold text-gray-900">
-                        {{ $t('citizens.toothChart.tooth') }} {{ props.tooth.fdi_number }}
-                        <span class="text-sm font-normal text-gray-500">
-                            ({{ $t('citizens.toothChart.universalShort') }} {{ props.tooth.number }})
-                        </span>
-                    </h3>
-                    <p class="text-sm text-gray-500">{{ toothName }}</p>
+                <div class="flex items-center gap-3">
+                    <span
+                        class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-base font-semibold text-primary tabular-nums">
+                        {{ props.tooth.fdi_number }}
+                    </span>
+                    <div>
+                        <h3 class="text-base font-semibold text-gray-900">{{ toothName }}</h3>
+                        <p class="text-xs text-gray-500">
+                            {{ $t('citizens.toothChart.universalShort') }} {{ props.tooth.universal_code ?? props.tooth.number }}
+                            <span v-if="wholeStatus" class="text-gray-300">&middot;</span>
+                            <span v-if="wholeStatus" class="inline-flex items-center gap-1">
+                                <span class="size-2 rounded-full ring-1 ring-gray-300"
+                                    :style="{ backgroundColor: statusColor(wholeStatus) }" />
+                                {{ $t(`citizens.toothChart.statuses.${wholeStatus}`) }}
+                            </span>
+                        </p>
+                    </div>
                 </div>
-                <FormButton buttonStyle="action" buttonSize="xs" @click="emit('close')">
+                <button type="button" @click="emit('close')" :aria-label="$t('cancel')"
+                    class="rounded-full p-1.5 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600">
                     <Icon name="ph:x" class="size-4" />
-                </FormButton>
+                </button>
             </div>
 
             <Alert type="danger" :text="state.error" v-if="state.error" />
 
-            <div class="space-y-3">
+            <div class="space-y-2">
+                <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                    {{ $t('citizens.toothChart.panel.quickStatus') }}
+                </p>
+                <!-- The five findings a clinic reaches for most often, one tap
+                     away and gloved-finger sized. -->
+                <div class="flex flex-wrap gap-1.5">
+                    <button type="button" v-for="status in QUICK_STATUSES" :key="status"
+                        @click="setWholeStatus(status)" :class="[
+                            'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition',
+                            wholeRow?.status === status
+                                ? 'border-primary bg-primary/5 text-primary'
+                                : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                        ]">
+                        <span class="size-2.5 rounded-full ring-1 ring-gray-300"
+                            :style="{ backgroundColor: statusColor(status) }" />
+                        {{ $t(`citizens.toothChart.statuses.${status}`) }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                    {{ $t('citizens.toothChart.panel.surfaces') }}
+                </p>
+
                 <div v-for="row in state.rows" :key="row.surface"
-                    class="grid grid-cols-1 sm:grid-cols-12 gap-2 items-center">
-                    <div class="sm:col-span-3">
-                        <FormLabel :for="`status-${row.surface}`"
-                            :label="$t(`citizens.toothChart.surfaces.${row.surface}`)" />
+                    class="rounded-lg border border-gray-200 px-3 py-2 space-y-2"
+                    :class="row.status ? 'bg-white' : 'bg-gray-50/60'">
+                    <div class="flex items-center justify-between gap-3">
+                        <span class="text-sm text-gray-700">
+                            {{ $t(`citizens.toothChart.surfaces.${row.surface}`) }}
+                        </span>
+                        <div class="w-40">
+                            <FormSelect :id="`status-${row.surface}`" :options="statusOptions" v-model="row.status"
+                                :placeholder="$t('citizens.toothChart.panel.noStatus')" />
+                        </div>
                     </div>
-                    <div class="sm:col-span-4">
-                        <FormSelect :id="`status-${row.surface}`" :options="statusOptions" v-model="row.status"
-                            :placeholder="$t('citizens.toothChart.panel.noStatus')" />
-                    </div>
-                    <div class="sm:col-span-2">
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" v-if="row.status">
                         <FormDateField :id="`treated-${row.surface}`" :name="`treated-${row.surface}`"
-                            :placeholder="$t('citizens.toothChart.panel.treatedAt')" v-model="row.treated_at"
-                            v-if="row.status" />
-                    </div>
-                    <div class="sm:col-span-3">
+                            :placeholder="$t('citizens.toothChart.panel.treatedAt')" v-model="row.treated_at" />
                         <FormTextField :id="`note-${row.surface}`" :name="`note-${row.surface}`" v-model="row.note"
-                            :placeholder="$t('citizens.toothChart.panel.notePlaceholder')" v-if="row.status" />
+                            :placeholder="$t('citizens.toothChart.panel.notePlaceholder')" />
                     </div>
                 </div>
             </div>
@@ -97,14 +132,16 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-end gap-2">
-                <FormButton buttonStyle="action" @click="reset" :disabled="state.isSaving">
-                    {{ $t('cancel') }}
-                </FormButton>
-                <FormButton buttonStyle="primary" @click="save" :disabled="state.isSaving">
-                    <Icon name="ph:floppy-disk" class="size-4" />
-                    {{ $t('save') }}
-                </FormButton>
+            <div class="sticky bottom-0 -mx-4 border-t border-gray-100 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
+                <div class="flex items-center justify-end gap-2">
+                    <FormButton buttonStyle="action" @click="reset" :disabled="state.isSaving">
+                        {{ $t('cancel') }}
+                    </FormButton>
+                    <FormButton buttonStyle="primary" @click="save" :disabled="state.isSaving">
+                        <Icon name="ph:floppy-disk" class="size-4" />
+                        {{ $t('save') }}
+                    </FormButton>
+                </div>
             </div>
 
             <div class="border-t border-gray-200 pt-4 space-y-3">
@@ -159,6 +196,26 @@ const emit = defineEmits<{ (event: 'saved'): void; (event: 'close'): void }>()
 const { t, locale } = useI18n()
 const { successAlert } = useAlert()
 
+// Kept in sync with CitizenToothStatus::STATUSES on the backend.
+const STATUS_COLORS: Record<string, string> = {
+    healthy: '#ffffff',
+    caries: '#ef4444',
+    filling: '#3b82f6',
+    crown: '#fbbf24',
+    bridge: '#8b5cf6',
+    root_canal: '#ec4899',
+    implant: '#64748b',
+    veneer: '#22d3ee',
+    sealant: '#2dd4bf',
+    fracture: '#f97316',
+    extracted: '#374151',
+    missing: '#d1d5db',
+    planned: '#a3e635',
+    observation: '#fde047',
+}
+
+const QUICK_STATUSES = ['healthy', 'caries', 'filling', 'crown', 'extracted']
+
 const state = reactive({
     rows: [] as any[],
     perio: { bleeding: false, pocket_depth_mm: '', mobility: null, note: '', measured_at: '' } as any,
@@ -178,6 +235,23 @@ const mobilityOptions = computed(() => [0, 1, 2, 3].map((value: number) => ({
     value,
     label: String(value),
 })))
+
+const wholeRow = computed(() => state.rows.find((row: any) => row.surface === 'whole'))
+
+const wholeStatus = computed(() => wholeRow.value?.status || null)
+
+function statusColor(status: string): string {
+    return STATUS_COLORS[status] || '#ffffff'
+}
+
+// Tapping the marked status again clears it, so a mis-tap costs one tap.
+function setWholeStatus(status: string) {
+    const row = wholeRow.value
+
+    if (!row) return
+
+    row.status = row.status === status ? null : status
+}
 
 const toothName = computed(() => (locale.value === 'en' ? props.tooth?.en_name : props.tooth?.dk_name) || '')
 
