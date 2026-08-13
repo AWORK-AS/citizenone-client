@@ -129,6 +129,7 @@ const STATUS_COLORS: Record<string, string> = {
     missing: '#d1d5db',
     planned: '#a3e635',
     observation: '#fde047',
+    not_erupted: '#eef2ff',
 }
 
 const rows = computed(() => {

@@ -153,6 +153,48 @@
             </div>
 
             <div class="border-t border-gray-200 pt-4 space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                    <h4 class="text-sm font-semibold text-gray-900">
+                        {{ $t('citizens.toothChart.panel.attachments') }}
+                    </h4>
+                    <label
+                        class="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-gray-200 px-2.5 py-1.5 text-xs font-medium text-gray-600 transition hover:border-gray-300">
+                        <Icon name="ph:upload-simple" class="size-4" />
+                        {{ $t('citizens.toothChart.panel.addAttachment') }}
+                        <input type="file" class="hidden" accept="image/*,application/pdf"
+                            :disabled="state.isUploading" @change="uploadAttachment" />
+                    </label>
+                </div>
+
+                <p class="text-sm text-gray-500" v-if="state.attachments.length === 0">
+                    {{ $t('citizens.toothChart.panel.noAttachments') }}
+                </p>
+
+                <ul class="grid grid-cols-2 gap-2" v-else>
+                    <li v-for="attachment in state.attachments" :key="attachment.uuid"
+                        class="rounded-md border border-gray-200 p-2">
+                        <a :href="attachment.file_url" target="_blank" rel="noopener" class="block">
+                            <img v-if="isImage(attachment)" :src="attachment.file_url" :alt="attachment.file_name"
+                                class="h-24 w-full rounded object-cover" />
+                            <div v-else class="flex h-24 items-center justify-center rounded bg-gray-50">
+                                <Icon name="ph:file-pdf" class="size-8 text-gray-400" />
+                            </div>
+                        </a>
+                        <p class="mt-1 truncate text-xs text-gray-700" :title="attachment.file_name">
+                            {{ attachment.file_name }}
+                        </p>
+                        <div class="flex items-center justify-between text-[11px] text-gray-500">
+                            <span>{{ $t(`citizens.toothChart.attachmentKinds.${attachment.kind}`) }}</span>
+                            <button type="button" class="text-gray-400 hover:text-red-600" :aria-label="$t('delete')"
+                                @click="removeAttachment(attachment)">
+                                <Icon name="ph:trash" class="size-3.5" />
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="border-t border-gray-200 pt-4 space-y-3">
                 <h4 class="text-sm font-semibold text-gray-900">{{ $t('citizens.toothChart.panel.history') }}</h4>
 
                 <LoadingSpinner :isActive="state.isHistoryLoading">
@@ -220,6 +262,7 @@ const STATUS_COLORS: Record<string, string> = {
     missing: '#d1d5db',
     planned: '#a3e635',
     observation: '#fde047',
+    not_erupted: '#eef2ff',
 }
 
 const QUICK_STATUSES = ['healthy', 'caries', 'filling', 'crown', 'extracted']
@@ -228,8 +271,10 @@ const state = reactive({
     rows: [] as any[],
     perio: { bleeding: false, pocket_depth_mm: '', mobility: null, note: '', measured_at: '' } as any,
     journals: [] as any[],
+    attachments: [] as any[],
     isHistoryLoading: false,
     isSaving: false,
+    isUploading: false,
     createJournal: false,
     error: '',
 })
@@ -305,10 +350,52 @@ async function loadHistory() {
     try {
         const response = await toothChartService.getToothHistory(props.citizenUuid, props.tooth.uuid)
         state.journals = response?.data?.journals || []
+        state.attachments = response?.data?.attachments || []
     } catch (error: any) {
         state.error = error?.message || ''
     } finally {
         state.isHistoryLoading = false
+    }
+}
+
+function isImage(attachment: any): boolean {
+    return /\.(jpe?g|png|gif|webp)$/i.test(attachment.file_name || '')
+}
+
+async function uploadAttachment(event: Event) {
+    const input = event.target as HTMLInputElement
+    const file = input.files?.[0]
+
+    if (!file || !props.tooth) return
+
+    state.isUploading = true
+    state.error = ''
+
+    try {
+        const formData = new FormData()
+        formData.append('file', file)
+        // An x-ray is what a clinic files most; the rest is corrected on the
+        // spot if it is a photo or a report.
+        formData.append('kind', file.type === 'application/pdf' ? 'document' : 'xray')
+
+        await toothChartService.uploadAttachment(props.citizenUuid, props.tooth.uuid, formData)
+        await loadHistory()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    } finally {
+        state.isUploading = false
+        input.value = ''
+    }
+}
+
+async function removeAttachment(attachment: any) {
+    state.error = ''
+
+    try {
+        await toothChartService.deleteAttachment(attachment.uuid)
+        await loadHistory()
+    } catch (error: any) {
+        state.error = error?.message || ''
     }
 }
 

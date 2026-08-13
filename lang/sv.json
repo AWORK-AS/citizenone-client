@@ -3462,7 +3462,8 @@
                 "extracted": "Utdragen",
                 "missing": "Saknas",
                 "planned": "Planerad behandling",
-                "observation": "Observation"
+                "observation": "Observation",
+                "not_erupted": "Ej frambruten"
             },
             "surfaces": {
                 "whole": "Hela tanden",
@@ -3484,7 +3485,10 @@
                 "treatedAt": "Behandlingsdatum",
                 "quickStatus": "Snabbstatus",
                 "surfaces": "Ytor",
-                "writeToJournal": "Skriv även till journalen"
+                "writeToJournal": "Skriv även till journalen",
+                "attachments": "Bilagor",
+                "addAttachment": "Lägg till fil",
+                "noAttachments": "Inga röntgenbilder eller foton på den här tanden ännu."
             },
             "downloadPdf": "Ladda ner PDF",
             "oralHealthNotes": "Munhälsa och observationer",
@@ -3533,6 +3537,11 @@
                 "label": "Visa en tidigare undersökning:",
                 "viewing": "Visar tandkartan som vid undersökningen",
                 "backToToday": "Tillbaka till i dag"
+            },
+            "attachmentKinds": {
+                "xray": "Röntgen",
+                "photo": "Foto",
+                "document": "Dokument"
             }
         },
         "priceEstimates": {

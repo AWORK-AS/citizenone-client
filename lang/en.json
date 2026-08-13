@@ -3462,7 +3462,8 @@
                 "extracted": "Extracted",
                 "missing": "Missing",
                 "planned": "Planned treatment",
-                "observation": "Observation"
+                "observation": "Observation",
+                "not_erupted": "Not erupted"
             },
             "surfaces": {
                 "whole": "Whole tooth",
@@ -3484,7 +3485,10 @@
                 "treatedAt": "Treatment date",
                 "quickStatus": "Quick status",
                 "surfaces": "Surfaces",
-                "writeToJournal": "Also write to the journal"
+                "writeToJournal": "Also write to the journal",
+                "attachments": "Attachments",
+                "addAttachment": "Add file",
+                "noAttachments": "No x-rays or images on this tooth yet."
             },
             "downloadPdf": "Download PDF",
             "oralHealthNotes": "Oral health and observations",
@@ -3533,6 +3537,11 @@
                 "label": "Show an earlier examination:",
                 "viewing": "Showing the chart as at the examination on",
                 "backToToday": "Back to today"
+            },
+            "attachmentKinds": {
+                "xray": "X-ray",
+                "photo": "Photo",
+                "document": "Document"
             }
         },
         "priceEstimates": {

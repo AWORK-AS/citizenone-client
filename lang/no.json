@@ -3462,7 +3462,8 @@
                 "extracted": "Trukket",
                 "missing": "Mangler",
                 "planned": "Planlagt behandling",
-                "observation": "Observasjon"
+                "observation": "Observasjon",
+                "not_erupted": "Ikke frembrutt"
             },
             "surfaces": {
                 "whole": "Hele tannen",
@@ -3484,7 +3485,10 @@
                 "treatedAt": "Behandlingsdato",
                 "quickStatus": "Hurtig status",
                 "surfaces": "Flater",
-                "writeToJournal": "Skriv også til journalen"
+                "writeToJournal": "Skriv også til journalen",
+                "attachments": "Vedlegg",
+                "addAttachment": "Legg til fil",
+                "noAttachments": "Ingen røntgen eller bilder på denne tannen ennå."
             },
             "downloadPdf": "Last ned PDF",
             "oralHealthNotes": "Munnhelse og observasjoner",
@@ -3533,6 +3537,11 @@
                 "label": "Vis en tidligere undersøkelse:",
                 "viewing": "Viser tannkartet som ved undersøkelsen",
                 "backToToday": "Tilbake til i dag"
+            },
+            "attachmentKinds": {
+                "xray": "Røntgen",
+                "photo": "Bilde",
+                "document": "Dokument"
             }
         },
         "priceEstimates": {

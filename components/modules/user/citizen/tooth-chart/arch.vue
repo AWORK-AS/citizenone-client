@@ -119,6 +119,7 @@ const STATUS_COLORS: Record<string, string> = {
     missing: '#d1d5db',
     planned: '#a3e635',
     observation: '#fde047',
+    not_erupted: '#eef2ff',
 }
 
 /**
@@ -127,7 +128,7 @@ const STATUS_COLORS: Record<string, string> = {
  */
 const SEVERITY = [
     'caries', 'fracture', 'extracted', 'missing', 'root_canal', 'implant',
-    'bridge', 'crown', 'veneer', 'filling', 'sealant', 'planned', 'observation', 'healthy',
+    'bridge', 'crown', 'veneer', 'filling', 'sealant', 'planned', 'observation', 'not_erupted', 'healthy',
 ]
 
 /**
