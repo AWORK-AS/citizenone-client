@@ -2974,6 +2974,7 @@
                     "geolocationNotSupported": "Geolokation understøttes ikke av denne browser.",
                     "permissionDenied": "Aktiver placeringstilladelse i browseren.",
                     "positionUnavailable": "Lokationsoplysninger er ikke tilgjengelige.",
+                    "reverseGeocodeRateLimited": "Adressesøket er midlertidig begrenset. Prøv igjen om et øyeblikk.",
                     "somethingWentWrong": "Der opstod en feil ved hentning av din nåværende plassering. Prøv vennligst igjen.",
                     "timeout": "Forespørselen om at hente din plassering fik timeout.",
                     "unableToLocate": "Kunne ikke bestemme din plassering."
@@ -7473,6 +7474,13 @@
         "seeAllConversations": "Se alle samtaler",
         "sending": "Sender..."
     },
+    "map": {
+        "layers": {
+            "satellite": "Satellitt",
+            "street": "Kart",
+            "toggle": "Bytt karttype"
+        }
+    },
     "mileageLog": {
         "download": {
             "download": "Last ned",
@@ -7491,6 +7499,19 @@
             "notLinked": "Ikke tilknyttet"
         },
         "form": {
+            "address": {
+                "clear": "Fjern adresse",
+                "confirmed": "Adresse bekreftet",
+                "locationFailed": "Kunne ikke hente din posisjon",
+                "noResults": "Ingen adresser funnet",
+                "notConfirmed": "Velg en adresse fra listen for å bekrefte plasseringen",
+                "placeholder": "Skriv gatenavn og husnummer",
+                "rateLimited": "Adressesøket er midlertidig begrenset. Prøv igjen om et øyeblikk.",
+                "resolveFailed": "Kunne ikke hente koordinater for denne adressen.",
+                "resultsAvailable": "{count} adresser funnet",
+                "searchFailed": "Adressesøk er ikke tilgjengelig akkurat nå. Prøv igjen, eller velg på kartet.",
+                "searching": "Søker…"
+            },
             "addStop": "Legg til stopp",
             "alert": {
                 "incompleteStopAddress": "Sørg for at hvert stopp har en gyldig valgt adresse",
@@ -7501,11 +7522,14 @@
             "endAddress": "Sluttadresse",
             "estimatedDistance": "Distanse (beregnes automatisk)",
             "linkToCitizen": "Knytt denne turen til en bruker som en indsatstime",
+            "mapHint": "Klikk på kartet eller dra markøren for å justere plasseringen",
             "note": "Note",
             "pickOnMap": "Velg lokasjon",
+            "searchOnMap": "Søk etter en adresse",
             "selectCitizen": "Velg bruker",
             "startAddress": "Startadresse",
-            "stopAddress": "Stoppadresse"
+            "stopAddress": "Stoppadresse",
+            "useMyLocation": "Bruk min posisjon"
         },
         "mileageLog": "Kjørebok",
         "mileageReport": "Kjørerapport",
@@ -7535,6 +7559,43 @@
             "distance": "Distanse",
             "employee": "Medarbeider",
             "route": "Rute"
+        },
+        "tracking": {
+            "acquiringPosition": "Finner din posisjon …",
+            "alert": {
+                "tripDiscarded": "Turen ble forkastet",
+                "tripSaved": "Turen ble lagret",
+                "tripStarted": "Turen er startet"
+            },
+            "cancelTrip": "Forkast tur",
+            "confirmation": {
+                "cancelTrip": "Er du sikker på at du vil forkaste denne turen"
+            },
+            "distanceLooksOff": "Den målte distansen avviker mye fra den direkte ruten",
+            "distanceSoFar": "Kjørt så langt",
+            "elapsed": "Varighet",
+            "errors": {
+                "alreadyStarted": "Du har allerede en tur i gang",
+                "permissionDenied": "Tilgang til posisjon ble avvist. Tillat posisjon i nettleserens innstillinger.",
+                "startFailed": "Turen kunne ikke startes",
+                "stopFailed": "Turen kunne ikke avsluttes — prøv igjen",
+                "unsupported": "Nettleseren din støtter ikke posisjonstjenester"
+            },
+            "gpsPaused": "GPS pauset",
+            "gpsPausedHint": "Ingen posisjon på {minutes} min. Åpne appen igjen for å fortsette.",
+            "mobileNotice": {
+                "body": "Sporingen kjører bare mens denne siden er åpen og skjermen er på. Låser du telefonen eller bytter app, settes sporingen på pause, og distansen blir for lav.",
+                "title": "Hold appen åpen mens du kjører"
+            },
+            "recalculateFromAddresses": "Beregn ut fra adresser i stedet",
+            "resumed": "Fortsetter pågående tur",
+            "reviewTitle": "Gjennomgå tur",
+            "saveTrip": "Lagre tur",
+            "startAddressResolving": "Finner adresse …",
+            "startAddressUnavailable": "Adressen kunne ikke bli funnet — koordinater er lagret",
+            "startTrip": "Start tur",
+            "stopTrip": "Avslutt tur",
+            "tripInProgress": "Tur pågår"
         },
         "view": {
             "createdBy": "Opprettet av",

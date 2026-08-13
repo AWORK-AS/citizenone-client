@@ -1,5 +1,8 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
+        <!-- Live mileage-trip tracking banner: fixed-position, survives navigation -->
+        <ModulesUserMileageLogTrackingBanner />
+
         <!-- Global Search -->
         <ModulesUserNavbarGlobalSearch ref="globalSearch" />
 

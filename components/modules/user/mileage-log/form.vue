@@ -91,6 +91,15 @@ const emit = defineEmits(['submitForm', 'closeModal'])
 const { t, locale } = useI18n()
 const { formatNumber } = useNumberFormatter()
 
+let stopKeySeq = 0
+function newStopKey() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID()
+    }
+    stopKeySeq += 1
+    return `stop-${stopKeySeq}-${Date.now()}`
+}
+
 const state = reactive({
     error: {} as Error,
     formMileageLog: {
@@ -100,9 +109,9 @@ const state = reactive({
         citizen_uuid: null as string | null,
     },
     stops: [
-        { address: '', lat: null, lng: null },
-        { address: '', lat: null, lng: null },
-    ] as Array<{ address: string; lat: number | null; lng: number | null }>,
+        { address: '', lat: null, lng: null, key: newStopKey() },
+        { address: '', lat: null, lng: null, key: newStopKey() },
+    ] as Array<{ address: string; lat: number | null; lng: number | null; key?: string }>,
 })
 
 const estimatedDistanceKm = computed(() => computeTripDistanceKm(state.stops))
@@ -120,12 +129,13 @@ watch(() => props.selectedMileageLog, (selected: any) => {
             address: stop.address ?? '',
             lat: stop.latitude ?? null,
             lng: stop.longitude ?? null,
+            key: newStopKey(),
         }))
 
         state.stops = [
-            { address: selected.start_address ?? '', lat: selected.geo_start_lat ?? null, lng: selected.geo_start_lng ?? null },
+            { address: selected.start_address ?? '', lat: selected.geo_start_lat ?? null, lng: selected.geo_start_lng ?? null, key: newStopKey() },
             ...middleStops,
-            { address: selected.end_address ?? '', lat: selected.geo_end_lat ?? null, lng: selected.geo_end_lng ?? null },
+            { address: selected.end_address ?? '', lat: selected.geo_end_lat ?? null, lng: selected.geo_end_lng ?? null, key: newStopKey() },
         ]
     }
 }, { immediate: true })

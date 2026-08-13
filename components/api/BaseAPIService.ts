@@ -154,6 +154,7 @@ class BaseAPIService {
                     // failures it caught itself, so the id belongs here too.
                     throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
                 case 404:
+                case 409:
                 case 422:
                 case 429:
                     throw new APIError(error.response._data)
@@ -197,6 +198,7 @@ class BaseAPIService {
                     // failures it caught itself, so the id belongs here too.
                     throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
                 case 404:
+                case 409:
                 case 422:
                 case 429:
                     throw new APIError(error.response._data)
@@ -246,6 +248,7 @@ class BaseAPIService {
                     // failures it caught itself, so the id belongs here too.
                     throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
                 case 404:
+                case 409:
                 case 422:
                 case 429:
                     throw new APIError(error.response._data)

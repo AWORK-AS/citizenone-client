@@ -2974,6 +2974,7 @@
                     "geolocationNotSupported": "Geolocation is not supported by this browser.",
                     "permissionDenied": "Enable location permission in the browser.",
                     "positionUnavailable": "Location information is unavailable.",
+                    "reverseGeocodeRateLimited": "Reverse geocoding is temporarily rate-limited. Please try again in a moment.",
                     "somethingWentWrong": "Something went wrong fetching your current location. Please try again.",
                     "timeout": "The request to get your location timed out.",
                     "unableToLocate": "Unable to determine your location."
@@ -7473,6 +7474,13 @@
         "seeAllConversations": "See all conversations",
         "sending": "Sending..."
     },
+    "map": {
+        "layers": {
+            "satellite": "Satellite",
+            "street": "Map",
+            "toggle": "Switch map type"
+        }
+    },
     "mileageLog": {
         "download": {
             "download": "Download",
@@ -7491,6 +7499,19 @@
             "notLinked": "Not linked"
         },
         "form": {
+            "address": {
+                "clear": "Clear address",
+                "confirmed": "Address confirmed",
+                "locationFailed": "Could not get your location",
+                "noResults": "No addresses found",
+                "notConfirmed": "Select an address from the list to confirm the location",
+                "placeholder": "Type street name and house number",
+                "rateLimited": "Address search is temporarily rate-limited. Please try again in a moment.",
+                "resolveFailed": "Could not retrieve coordinates for this address.",
+                "resultsAvailable": "{count} addresses found",
+                "searchFailed": "Address search is unavailable right now. Try again, or pick on the map.",
+                "searching": "Searching…"
+            },
             "addStop": "Add stop",
             "alert": {
                 "incompleteStopAddress": "Please make sure every stop has a valid address selected",
@@ -7501,11 +7522,14 @@
             "endAddress": "End address",
             "estimatedDistance": "Distance (calculated automatically)",
             "linkToCitizen": "Link this trip to a citizen as an Intervention Hour",
+            "mapHint": "Click the map or drag the marker to adjust the location",
             "note": "Note",
             "pickOnMap": "Select location",
+            "searchOnMap": "Search for an address",
             "selectCitizen": "Select citizen",
             "startAddress": "Start address",
-            "stopAddress": "Stop address"
+            "stopAddress": "Stop address",
+            "useMyLocation": "Use my location"
         },
         "mileageLog": "Mileage Log",
         "mileageReport": "Mileage Report",
@@ -7535,6 +7559,43 @@
             "distance": "Distance",
             "employee": "Employee",
             "route": "Route"
+        },
+        "tracking": {
+            "acquiringPosition": "Getting your position …",
+            "alert": {
+                "tripDiscarded": "Trip discarded",
+                "tripSaved": "Trip saved",
+                "tripStarted": "Trip started"
+            },
+            "cancelTrip": "Discard trip",
+            "confirmation": {
+                "cancelTrip": "Are you sure you want to discard this trip"
+            },
+            "distanceLooksOff": "The measured distance differs a lot from the direct route",
+            "distanceSoFar": "Distance so far",
+            "elapsed": "Duration",
+            "errors": {
+                "alreadyStarted": "You already have a trip in progress",
+                "permissionDenied": "Location access was denied. Allow location in your browser settings.",
+                "startFailed": "Could not start the trip",
+                "stopFailed": "Could not stop the trip — try again",
+                "unsupported": "Your browser does not support geolocation"
+            },
+            "gpsPaused": "GPS paused",
+            "gpsPausedHint": "No position for {minutes} min. Reopen the app to continue.",
+            "mobileNotice": {
+                "body": "Tracking only runs while this page is open and the screen is on. Locking the phone or switching apps pauses tracking and the distance will be too low.",
+                "title": "Keep the app open while driving"
+            },
+            "recalculateFromAddresses": "Calculate from addresses instead",
+            "resumed": "Resumed trip in progress",
+            "reviewTitle": "Review trip",
+            "saveTrip": "Save trip",
+            "startAddressResolving": "Resolving address …",
+            "startAddressUnavailable": "Address could not be resolved — coordinates saved",
+            "startTrip": "Start trip",
+            "stopTrip": "Stop trip",
+            "tripInProgress": "Trip in progress"
         },
         "view": {
             "createdBy": "Created by",

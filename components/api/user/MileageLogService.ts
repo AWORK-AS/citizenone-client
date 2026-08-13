@@ -36,6 +36,23 @@ class MileageLogService extends BaseAPIService {
     async downloadEmployeeMileageLogReport(employeeUuid: any, params: object): Promise<any> {
         return await this.request(`/user/mileage-logs/download/employee/${employeeUuid}/reports`, 'GET', params)
     }
+
+    // Live GPS trip tracking — see backend/dev.md for the endpoint contract.
+    async startTrip(params: object): Promise<any> {
+        return await this.request(`/user/mileage-logs/start`, 'POST', params)
+    }
+
+    async getActiveTrip(): Promise<any> {
+        return await this.request(`/user/mileage-logs/active`, 'GET')
+    }
+
+    async stopTrip(mileageLogUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/mileage-logs/${mileageLogUuid}/stop`, 'POST', params)
+    }
+
+    async cancelTrip(mileageLogUuid: string): Promise<any> {
+        return await this.request(`/user/mileage-logs/${mileageLogUuid}/cancel`, 'POST')
+    }
 }
 
 export const mileageLogService = new MileageLogService()

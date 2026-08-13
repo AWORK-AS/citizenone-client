@@ -8,6 +8,14 @@ class APIError extends Error {
 	 */
 	errorId?: string
 
+	/**
+	 * Some error responses carry a body alongside the message — e.g. a 409
+	 * "you already have an active mileage trip" response also returns that
+	 * trip as `data`, so the caller can adopt it instead of just failing.
+	 * Optional and untyped on purpose: most callers never set or read it.
+	 */
+	data?: any
+
 	constructor(error: any) {
 		super(error.message)
 		Object.setPrototypeOf(this, APIError.prototype)
@@ -17,6 +25,9 @@ class APIError extends Error {
 		if (error.errorId) {
 			this.errorId = error.errorId
 			this.message = `${this.message} (ID: ${error.errorId})`
+		}
+		if (error.data !== undefined) {
+			this.data = error.data
 		}
 	}
 
