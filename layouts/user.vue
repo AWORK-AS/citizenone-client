@@ -946,6 +946,7 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-reports',
             'citizens-uuid-tooth-chart',
             'citizens-uuid-price-estimates',
+            'citizens-uuid-invoices',
         ]
     })
     if (companyHasModule("Calendar")) {

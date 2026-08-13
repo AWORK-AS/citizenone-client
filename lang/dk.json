@@ -2986,7 +2986,8 @@
             },
             "surveys": "Spørgeskemaer",
             "toothChart": "Tandkort",
-            "priceEstimates": "Prisoverslag"
+            "priceEstimates": "Prisoverslag",
+            "invoices": "Fakturaer"
         },
         "timeline": {
             "newEvent": "Ny hændelse",
@@ -3590,6 +3591,60 @@
             "plan": "Plan",
             "markDone": "Markér udført",
             "done": "Udført"
+        },
+        "invoices": {
+            "newTitle": "Opret faktura",
+            "invoice": "Faktura",
+            "net": "Beløb",
+            "vat": "Moms",
+            "subsidy": "Tilskud",
+            "toPay": "Til betaling",
+            "paid": "Betalt",
+            "outstanding": "Udestående",
+            "payments": "Betalinger",
+            "markSent": "Markér som sendt",
+            "registerPayment": "Registrér betaling",
+            "amount": "Beløb",
+            "method": "Metode",
+            "paidAt": "Betalingsdato",
+            "saved": "Fakturaen er oprettet",
+            "statuses": {
+                "draft": "Kladde",
+                "sent": "Sendt",
+                "paid": "Betalt",
+                "partly_paid": "Delvist betalt",
+                "cancelled": "Annulleret"
+            },
+            "methods": {
+                "cash": "Kontant",
+                "card": "Kort",
+                "mobilepay": "MobilePay",
+                "bank_transfer": "Bankoverførsel",
+                "terminal": "Terminal",
+                "other": "Andet"
+            },
+            "empty": {
+                "title": "Ingen fakturaer",
+                "text": "Opret en faktura, når borgeren skal betale for en ydelse."
+            },
+            "form": {
+                "issuedAt": "Fakturadato",
+                "dueAt": "Betalingsfrist",
+                "lines": "Linjer",
+                "addLine": "Tilføj linje",
+                "service": "Ydelse",
+                "freeLine": "Fri linje",
+                "description": "Beskrivelse",
+                "quantity": "Antal",
+                "unitPrice": "Stykpris",
+                "vat": "Moms %",
+                "subsidy": "Tilskud",
+                "lineTotal": "Beløb",
+                "note": "Bemærkninger",
+                "notePlaceholder": "Fx hvad fakturaen dækker",
+                "needsALine": "Tilføj mindst én linje",
+                "noServices": "Der er ingen ydelser i kataloget endnu. Du kan stadig skrive frie linjer."
+            }
         }
     },
     "client": {
@@ -12984,5 +13039,25 @@
         "noPlanned": "Intet planlagt arbejde.",
         "seeAll": "Se alle",
         "examinations": "{total} undersøgelser registreret i år, heraf {reportable} i en indberetningspligtig årgang."
+    },
+    "services": {
+        "title": "Ydelser",
+        "help": "Kataloget over hvad I sælger, med pris, moms og forventet tilskud. Fakturalinjer henter deres pris herfra.",
+        "new": "Ny ydelse",
+        "saved": "Ydelsen er gemt",
+        "inactive": "inaktiv",
+        "empty": {
+            "title": "Ingen ydelser endnu",
+            "text": "Opret jeres ydelser, så priser ikke skal skrives ind på hver faktura."
+        },
+        "form": {
+            "code": "Ydelsesnummer",
+            "codePlaceholder": "Fx 1111",
+            "name": "Navn",
+            "unitPrice": "Stykpris",
+            "vatRate": "Moms %",
+            "subsidy": "Standardtilskud",
+            "vatHelp": "Tandbehandling er momsfri, så momssatsen sættes pr. ydelse i stedet for at blive antaget."
+        }
     }
 }

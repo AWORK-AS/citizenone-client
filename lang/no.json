@@ -2986,7 +2986,8 @@
             },
             "surveys": "Spørreskjemaer",
             "toothChart": "Tannkart",
-            "priceEstimates": "Prisoverslag"
+            "priceEstimates": "Prisoverslag",
+            "invoices": "Fakturaer"
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -3590,6 +3591,60 @@
             "plan": "Plan",
             "markDone": "Merk utført",
             "done": "Utført"
+        },
+        "invoices": {
+            "newTitle": "Opprett faktura",
+            "invoice": "Faktura",
+            "net": "Beløp",
+            "vat": "Mva",
+            "subsidy": "Tilskudd",
+            "toPay": "Til betaling",
+            "paid": "Betalt",
+            "outstanding": "Utestående",
+            "payments": "Betalinger",
+            "markSent": "Merk som sendt",
+            "registerPayment": "Registrer betaling",
+            "amount": "Beløp",
+            "method": "Metode",
+            "paidAt": "Betalingsdato",
+            "saved": "Fakturaen er opprettet",
+            "statuses": {
+                "draft": "Utkast",
+                "sent": "Sendt",
+                "paid": "Betalt",
+                "partly_paid": "Delvis betalt",
+                "cancelled": "Annullert"
+            },
+            "methods": {
+                "cash": "Kontant",
+                "card": "Kort",
+                "mobilepay": "MobilePay",
+                "bank_transfer": "Bankoverføring",
+                "terminal": "Terminal",
+                "other": "Annet"
+            },
+            "empty": {
+                "title": "Ingen fakturaer",
+                "text": "Opprett en faktura når innbyggeren skal betale for en tjeneste."
+            },
+            "form": {
+                "issuedAt": "Fakturadato",
+                "dueAt": "Forfallsdato",
+                "lines": "Linjer",
+                "addLine": "Legg til linje",
+                "service": "Tjeneste",
+                "freeLine": "Fri linje",
+                "description": "Beskrivelse",
+                "quantity": "Antall",
+                "unitPrice": "Stykkpris",
+                "vat": "Mva %",
+                "subsidy": "Tilskudd",
+                "lineTotal": "Beløp",
+                "note": "Merknader",
+                "notePlaceholder": "For eksempel hva fakturaen dekker",
+                "needsALine": "Legg til minst én linje",
+                "noServices": "Katalogen er tom. Du kan fortsatt skrive frie linjer."
+            }
         }
     },
     "client": {
@@ -12984,5 +13039,25 @@
         "noPlanned": "Ingen planlagt arbeid.",
         "seeAll": "Se alle",
         "examinations": "{total} undersøkelser registrert i år, hvorav {reportable} i en rapporteringspliktig årskull."
+    },
+    "services": {
+        "title": "Tjenester",
+        "help": "Katalogen over hva dere selger, med pris, mva og forventet tilskudd. Fakturalinjer henter prisen herfra.",
+        "new": "Ny tjeneste",
+        "saved": "Tjenesten er lagret",
+        "inactive": "inaktiv",
+        "empty": {
+            "title": "Ingen tjenester ennå",
+            "text": "Legg inn tjenestene deres, så prisene ikke skrives inn på hver faktura."
+        },
+        "form": {
+            "code": "Kode",
+            "codePlaceholder": "For eksempel 1111",
+            "name": "Navn",
+            "unitPrice": "Stykkpris",
+            "vatRate": "Mva %",
+            "subsidy": "Standardtilskudd",
+            "vatHelp": "Tannbehandling er fritatt for mva, så satsen settes per tjeneste i stedet for å antas."
+        }
     }
 }

@@ -2986,7 +2986,8 @@
             },
             "surveys": "Surveys",
             "toothChart": "Tooth chart",
-            "priceEstimates": "Price estimates"
+            "priceEstimates": "Price estimates",
+            "invoices": "Invoices"
         },
         "timeline": {
             "newEvent": "New event",
@@ -3590,6 +3591,60 @@
             "plan": "Plan",
             "markDone": "Mark done",
             "done": "Done"
+        },
+        "invoices": {
+            "newTitle": "Create invoice",
+            "invoice": "Invoice",
+            "net": "Amount",
+            "vat": "VAT",
+            "subsidy": "Subsidy",
+            "toPay": "To pay",
+            "paid": "Paid",
+            "outstanding": "Outstanding",
+            "payments": "Payments",
+            "markSent": "Mark as sent",
+            "registerPayment": "Record payment",
+            "amount": "Amount",
+            "method": "Method",
+            "paidAt": "Payment date",
+            "saved": "Invoice created",
+            "statuses": {
+                "draft": "Draft",
+                "sent": "Sent",
+                "paid": "Paid",
+                "partly_paid": "Partly paid",
+                "cancelled": "Cancelled"
+            },
+            "methods": {
+                "cash": "Cash",
+                "card": "Card",
+                "mobilepay": "MobilePay",
+                "bank_transfer": "Bank transfer",
+                "terminal": "Terminal",
+                "other": "Other"
+            },
+            "empty": {
+                "title": "No invoices",
+                "text": "Create an invoice when the citizen is to pay for a service."
+            },
+            "form": {
+                "issuedAt": "Invoice date",
+                "dueAt": "Due date",
+                "lines": "Lines",
+                "addLine": "Add line",
+                "service": "Service",
+                "freeLine": "Free line",
+                "description": "Description",
+                "quantity": "Qty",
+                "unitPrice": "Unit price",
+                "vat": "VAT %",
+                "subsidy": "Subsidy",
+                "lineTotal": "Amount",
+                "note": "Notes",
+                "notePlaceholder": "For example what the invoice covers",
+                "needsALine": "Add at least one line",
+                "noServices": "The catalogue is empty. You can still write free lines."
+            }
         }
     },
     "client": {
@@ -12984,5 +13039,25 @@
         "noPlanned": "No planned work.",
         "seeAll": "See all",
         "examinations": "{total} examinations recorded this year, {reportable} of them in a reportable cohort."
+    },
+    "services": {
+        "title": "Services",
+        "help": "The catalogue of what you sell, with price, VAT and expected subsidy. Invoice lines take their price from here.",
+        "new": "New service",
+        "saved": "Service saved",
+        "inactive": "inactive",
+        "empty": {
+            "title": "No services yet",
+            "text": "Add your services so prices are not typed onto every invoice."
+        },
+        "form": {
+            "code": "Code",
+            "codePlaceholder": "For example 1111",
+            "name": "Name",
+            "unitPrice": "Unit price",
+            "vatRate": "VAT %",
+            "subsidy": "Default subsidy",
+            "vatHelp": "Dental treatment is VAT exempt, so the rate is set per service rather than assumed."
+        }
     }
 }

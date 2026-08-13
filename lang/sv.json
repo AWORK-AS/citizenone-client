@@ -2986,7 +2986,8 @@
             },
             "surveys": "Enkäter",
             "toothChart": "Tandkarta",
-            "priceEstimates": "Prisuppskattningar"
+            "priceEstimates": "Prisuppskattningar",
+            "invoices": "Fakturor"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -3590,6 +3591,60 @@
             "plan": "Plan",
             "markDone": "Markera utförd",
             "done": "Utförd"
+        },
+        "invoices": {
+            "newTitle": "Skapa faktura",
+            "invoice": "Faktura",
+            "net": "Belopp",
+            "vat": "Moms",
+            "subsidy": "Bidrag",
+            "toPay": "Att betala",
+            "paid": "Betalt",
+            "outstanding": "Utestående",
+            "payments": "Betalningar",
+            "markSent": "Markera som skickad",
+            "registerPayment": "Registrera betalning",
+            "amount": "Belopp",
+            "method": "Metod",
+            "paidAt": "Betalningsdatum",
+            "saved": "Fakturan är skapad",
+            "statuses": {
+                "draft": "Utkast",
+                "sent": "Skickad",
+                "paid": "Betald",
+                "partly_paid": "Delvis betald",
+                "cancelled": "Annullerad"
+            },
+            "methods": {
+                "cash": "Kontant",
+                "card": "Kort",
+                "mobilepay": "MobilePay",
+                "bank_transfer": "Banköverföring",
+                "terminal": "Terminal",
+                "other": "Övrigt"
+            },
+            "empty": {
+                "title": "Inga fakturor",
+                "text": "Skapa en faktura när invånaren ska betala för en tjänst."
+            },
+            "form": {
+                "issuedAt": "Fakturadatum",
+                "dueAt": "Förfallodatum",
+                "lines": "Rader",
+                "addLine": "Lägg till rad",
+                "service": "Tjänst",
+                "freeLine": "Fri rad",
+                "description": "Beskrivning",
+                "quantity": "Antal",
+                "unitPrice": "Styckpris",
+                "vat": "Moms %",
+                "subsidy": "Bidrag",
+                "lineTotal": "Belopp",
+                "note": "Anmärkningar",
+                "notePlaceholder": "Till exempel vad fakturan täcker",
+                "needsALine": "Lägg till minst en rad",
+                "noServices": "Katalogen är tom. Du kan ändå skriva fria rader."
+            }
         }
     },
     "client": {
@@ -12984,5 +13039,25 @@
         "noPlanned": "Inget planerat arbete.",
         "seeAll": "Visa alla",
         "examinations": "{total} undersökningar registrerade i år, varav {reportable} i en rapporteringspliktig årskull."
+    },
+    "services": {
+        "title": "Tjänster",
+        "help": "Katalogen över vad ni säljer, med pris, moms och förväntat bidrag. Fakturarader hämtar sitt pris härifrån.",
+        "new": "Ny tjänst",
+        "saved": "Tjänsten är sparad",
+        "inactive": "inaktiv",
+        "empty": {
+            "title": "Inga tjänster ännu",
+            "text": "Lägg in era tjänster så att priser inte skrivs in på varje faktura."
+        },
+        "form": {
+            "code": "Kod",
+            "codePlaceholder": "Till exempel 1111",
+            "name": "Namn",
+            "unitPrice": "Styckpris",
+            "vatRate": "Moms %",
+            "subsidy": "Standardbidrag",
+            "vatHelp": "Tandvård är momsfri, så satsen sätts per tjänst i stället för att antas."
+        }
     }
 }
