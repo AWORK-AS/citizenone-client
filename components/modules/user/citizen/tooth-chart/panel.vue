@@ -152,6 +152,20 @@
                 </div>
             </div>
 
+            <div class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 space-y-1"
+                v-if="state.plannedTreatments.length">
+                <p class="text-xs font-semibold uppercase tracking-wide text-amber-800">
+                    {{ $t('citizens.toothChart.panel.planned') }}
+                </p>
+                <p v-for="planned in state.plannedTreatments" :key="planned.uuid" class="text-sm text-amber-900">
+                    {{ planned.description }}
+                    <span class="text-xs text-amber-700" v-if="planned.treatment_code">
+                        ({{ planned.treatment_code }})
+                    </span>
+                    <span class="text-xs text-amber-700">&middot; {{ planned.estimate_number }}</span>
+                </p>
+            </div>
+
             <div class="border-t border-gray-200 pt-4 space-y-3">
                 <div class="flex items-center justify-between gap-2">
                     <h4 class="text-sm font-semibold text-gray-900">
@@ -272,6 +286,7 @@ const state = reactive({
     perio: { bleeding: false, pocket_depth_mm: '', mobility: null, note: '', measured_at: '' } as any,
     journals: [] as any[],
     attachments: [] as any[],
+    plannedTreatments: [] as any[],
     isHistoryLoading: false,
     isSaving: false,
     isUploading: false,
@@ -351,6 +366,7 @@ async function loadHistory() {
         const response = await toothChartService.getToothHistory(props.citizenUuid, props.tooth.uuid)
         state.journals = response?.data?.journals || []
         state.attachments = response?.data?.attachments || []
+        state.plannedTreatments = response?.data?.planned_treatments || []
     } catch (error: any) {
         state.error = error?.message || ''
     } finally {

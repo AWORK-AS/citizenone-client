@@ -3488,7 +3488,8 @@
                 "writeToJournal": "Also write to the journal",
                 "attachments": "Attachments",
                 "addAttachment": "Add file",
-                "noAttachments": "No x-rays or images on this tooth yet."
+                "noAttachments": "No x-rays or images on this tooth yet.",
+                "planned": "Planned treatment"
             },
             "downloadPdf": "Download PDF",
             "oralHealthNotes": "Oral health and observations",
@@ -3581,7 +3582,10 @@
                 "note": "Notes",
                 "notePlaceholder": "For example what the price assumes",
                 "needsALine": "Add at least one treatment"
-            }
+            },
+            "plan": "Plan",
+            "markDone": "Mark done",
+            "done": "Done"
         }
     },
     "client": {
@@ -9836,7 +9840,9 @@
         "myAvailability": "My availability",
         "myShiftEvaluations": "My shift evaluations",
         "forms": "Forms",
-        "dentalRecalls": "Recalls"
+        "dentalRecalls": "Recalls",
+        "dentalRecalls": "Recalls",
+        "dentalOverview": "Clinic overview"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -12957,5 +12963,22 @@
             "title": "No recalls",
             "text": "No patients are due in the selected period."
         }
+    },
+    "dentalOverview": {
+        "title": "Clinic overview",
+        "overdue": "Overdue check-ups",
+        "overdueHelp": "Patients who should have been called in",
+        "dueSoon": "Due soon",
+        "dueSoonHelp": "Within {days} days",
+        "plannedWork": "Planned work",
+        "plannedWorkHelp": "{patients} patients, {value} DKK accepted",
+        "awaitingAnswer": "Awaiting answer",
+        "awaitingAnswerHelp": "Sent estimates, {value} DKK patient share",
+        "mostOverdue": "Most overdue",
+        "oldestPlanned": "Oldest planned work",
+        "noOverdue": "No overdue check-ups.",
+        "noPlanned": "No planned work.",
+        "seeAll": "See all",
+        "examinations": "{total} examinations recorded this year, {reportable} of them in a reportable cohort."
     }
 }

@@ -3488,7 +3488,8 @@
                 "writeToJournal": "Skriv også til journalen",
                 "attachments": "Vedlegg",
                 "addAttachment": "Legg til fil",
-                "noAttachments": "Ingen røntgen eller bilder på denne tannen ennå."
+                "noAttachments": "Ingen røntgen eller bilder på denne tannen ennå.",
+                "planned": "Planlagt behandling"
             },
             "downloadPdf": "Last ned PDF",
             "oralHealthNotes": "Munnhelse og observasjoner",
@@ -3581,7 +3582,10 @@
                 "note": "Merknader",
                 "notePlaceholder": "For eksempel hva prisen forutsetter",
                 "needsALine": "Legg til minst én behandling"
-            }
+            },
+            "plan": "Plan",
+            "markDone": "Merk utført",
+            "done": "Utført"
         }
     },
     "client": {
@@ -9836,7 +9840,9 @@
         "myAvailability": "Min tilgjengelighet",
         "myShiftEvaluations": "Mine vaktevalueringer",
         "forms": "Skjemaer",
-        "dentalRecalls": "Innkallinger"
+        "dentalRecalls": "Innkallinger",
+        "dentalRecalls": "Innkallinger",
+        "dentalOverview": "Klinikkoversikt"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -12957,5 +12963,22 @@
             "title": "Ingen innkallinger",
             "text": "Ingen pasienter skal innkalles i den valgte perioden."
         }
+    },
+    "dentalOverview": {
+        "title": "Klinikkoversikt",
+        "overdue": "Forfalte kontroller",
+        "overdueHelp": "Pasienter som skulle vært innkalt",
+        "dueSoon": "Til kontroll snart",
+        "dueSoonHelp": "Innen {days} dager",
+        "plannedWork": "Planlagt arbeid",
+        "plannedWorkHelp": "{patients} pasienter, {value} kr akseptert",
+        "awaitingAnswer": "Venter på svar",
+        "awaitingAnswerHelp": "Sendte prisoverslag, {value} kr egenandel",
+        "mostOverdue": "Mest forfalte",
+        "oldestPlanned": "Eldste planlagte arbeid",
+        "noOverdue": "Ingen forfalte kontroller.",
+        "noPlanned": "Ingen planlagt arbeid.",
+        "seeAll": "Se alle",
+        "examinations": "{total} undersøkelser registrert i år, hvorav {reportable} i en rapporteringspliktig årskull."
     }
 }

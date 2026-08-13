@@ -3488,7 +3488,8 @@
                 "writeToJournal": "Skriv også til journalen",
                 "attachments": "Vedhæftninger",
                 "addAttachment": "Tilføj fil",
-                "noAttachments": "Ingen røntgen eller billeder på denne tand endnu."
+                "noAttachments": "Ingen røntgen eller billeder på denne tand endnu.",
+                "planned": "Planlagt behandling"
             },
             "downloadPdf": "Hent PDF",
             "oralHealthNotes": "Mundhygiejne og observationer",
@@ -3581,7 +3582,10 @@
                 "note": "Bemærkninger",
                 "notePlaceholder": "Fx hvad prisen forudsætter",
                 "needsALine": "Tilføj mindst én behandling"
-            }
+            },
+            "plan": "Plan",
+            "markDone": "Markér udført",
+            "done": "Udført"
         }
     },
     "client": {
@@ -9836,7 +9840,9 @@
         "myAvailability": "Min tilgængelighed",
         "myShiftEvaluations": "Mine vagtevalueringer",
         "forms": "Formularer",
-        "dentalRecalls": "Indkaldelser"
+        "dentalRecalls": "Indkaldelser",
+        "dentalRecalls": "Indkaldelser",
+        "dentalOverview": "Klinikoverblik"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -12957,5 +12963,22 @@
             "title": "Ingen indkaldelser",
             "text": "Ingen patienter skal indkaldes i den valgte periode."
         }
+    },
+    "dentalOverview": {
+        "title": "Klinikoverblik",
+        "overdue": "Overskredne kontroller",
+        "overdueHelp": "Patienter der skulle have været indkaldt",
+        "dueSoon": "Til kontrol snart",
+        "dueSoonHelp": "Inden for {days} dage",
+        "plannedWork": "Planlagt arbejde",
+        "plannedWorkHelp": "{patients} patienter, {value} kr. accepteret",
+        "awaitingAnswer": "Afventer svar",
+        "awaitingAnswerHelp": "Sendte prisoverslag, {value} kr. i egenbetaling",
+        "mostOverdue": "Mest overskredne",
+        "oldestPlanned": "Ældste planlagte arbejde",
+        "noOverdue": "Ingen overskredne kontroller.",
+        "noPlanned": "Intet planlagt arbejde.",
+        "seeAll": "Se alle",
+        "examinations": "{total} undersøgelser registreret i år, heraf {reportable} i en indberetningspligtig årgang."
     }
 }

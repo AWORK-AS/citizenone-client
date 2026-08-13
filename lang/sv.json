@@ -3488,7 +3488,8 @@
                 "writeToJournal": "Skriv även till journalen",
                 "attachments": "Bilagor",
                 "addAttachment": "Lägg till fil",
-                "noAttachments": "Inga röntgenbilder eller foton på den här tanden ännu."
+                "noAttachments": "Inga röntgenbilder eller foton på den här tanden ännu.",
+                "planned": "Planerad behandling"
             },
             "downloadPdf": "Ladda ner PDF",
             "oralHealthNotes": "Munhälsa och observationer",
@@ -3581,7 +3582,10 @@
                 "note": "Anmärkningar",
                 "notePlaceholder": "Till exempel vad priset förutsätter",
                 "needsALine": "Lägg till minst en behandling"
-            }
+            },
+            "plan": "Plan",
+            "markDone": "Markera utförd",
+            "done": "Utförd"
         }
     },
     "client": {
@@ -9836,7 +9840,9 @@
         "myAvailability": "Min tillgänglighet",
         "myShiftEvaluations": "Mina passutvärderingar",
         "forms": "Formulär",
-        "dentalRecalls": "Kallelser"
+        "dentalRecalls": "Kallelser",
+        "dentalRecalls": "Kallelser",
+        "dentalOverview": "Kliniköversikt"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -12957,5 +12963,22 @@
             "title": "Inga kallelser",
             "text": "Inga patienter ska kallas under den valda perioden."
         }
+    },
+    "dentalOverview": {
+        "title": "Kliniköversikt",
+        "overdue": "Försenade kontroller",
+        "overdueHelp": "Patienter som skulle ha kallats",
+        "dueSoon": "Till kontroll snart",
+        "dueSoonHelp": "Inom {days} dagar",
+        "plannedWork": "Planerat arbete",
+        "plannedWorkHelp": "{patients} patienter, {value} kr accepterat",
+        "awaitingAnswer": "Väntar på svar",
+        "awaitingAnswerHelp": "Skickade uppskattningar, {value} kr egenavgift",
+        "mostOverdue": "Mest försenade",
+        "oldestPlanned": "Äldsta planerade arbetet",
+        "noOverdue": "Inga försenade kontroller.",
+        "noPlanned": "Inget planerat arbete.",
+        "seeAll": "Visa alla",
+        "examinations": "{total} undersökningar registrerade i år, varav {reportable} i en rapporteringspliktig årskull."
     }
 }
