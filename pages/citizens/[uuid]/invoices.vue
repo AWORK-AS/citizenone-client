@@ -56,28 +56,58 @@
 
                     <div v-else class="space-y-3">
                         <div v-for="invoice in state.invoices" :key="invoice.uuid"
-                            class="px-4 py-4 sm:px-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
-                            <div class="flex flex-wrap items-start justify-between gap-3">
-                                <div>
-                                    <p class="font-medium text-gray-900">
-                                        {{ $t('citizens.invoices.invoice') }}
-                                        <span class="tabular-nums">{{ invoice.invoice_number }}</span>
-                                    </p>
-                                    <p class="text-xs text-gray-500">
-                                        {{ formatDate(invoice.issued_at) }}
-                                        <template v-if="invoice.due_at">
-                                            &middot; {{ $t('citizens.invoices.form.dueAt') }}
-                                            {{ formatDate(invoice.due_at) }}
-                                        </template>
-                                        <template v-if="invoice.created_by"> &middot; {{ invoice.created_by }}</template>
-                                    </p>
+                            class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
+                            <!-- With a patient who comes in often the list turns
+                                 into a wall, so each invoice opens on demand and
+                                 the header carries what is looked for: number,
+                                 date, status and what is left to pay. -->
+                            <button type="button" @click="toggle(invoice)"
+                                class="flex w-full flex-wrap items-center justify-between gap-3 px-4 py-3 text-left sm:px-6"
+                                :aria-expanded="isOpen(invoice)">
+                                <div class="flex items-center gap-3">
+                                    <Icon
+                                        :name="isOpen(invoice) ? 'heroicons:chevron-down' : 'heroicons:chevron-right'"
+                                        class="size-4 shrink-0 text-gray-400" />
+                                    <div>
+                                        <p class="font-medium text-gray-900">
+                                            {{ $t('citizens.invoices.invoice') }}
+                                            <span class="tabular-nums">{{ invoice.invoice_number }}</span>
+                                            <span class="text-xs font-normal text-gray-400"
+                                                v-if="invoice.type === 'credit_note'">
+                                                &middot; {{ $t('invoicing.creditNote') }}
+                                            </span>
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            {{ formatDate(invoice.issued_at) }}
+                                            <template v-if="invoice.due_at">
+                                                &middot; {{ $t('citizens.invoices.form.dueAt') }}
+                                                {{ formatDate(invoice.due_at) }}
+                                            </template>
+                                            <template v-if="invoice.created_by"> &middot; {{ invoice.created_by }}</template>
+                                        </p>
+                                    </div>
                                 </div>
-                                <Badge :type="statusStyle(invoice.status)">
-                                    {{ $t(`citizens.invoices.statuses.${invoice.status}`) }}
-                                </Badge>
-                            </div>
 
-                            <div class="mt-3 overflow-x-auto">
+                                <div class="flex items-center gap-4">
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium text-gray-900 tabular-nums">
+                                            {{ formatAmount(invoice.total_amount) }}
+                                        </p>
+                                        <p class="text-xs tabular-nums"
+                                            :class="invoice.outstanding > 0 ? 'text-red-600' : 'text-gray-400'"
+                                            v-if="invoice.outstanding !== 0">
+                                            {{ $t('citizens.invoices.outstanding') }}
+                                            {{ formatAmount(invoice.outstanding) }}
+                                        </p>
+                                    </div>
+                                    <Badge :type="statusStyle(invoice.status)">
+                                        {{ $t(`citizens.invoices.statuses.${invoice.status}`) }}
+                                    </Badge>
+                                </div>
+                            </button>
+
+                            <div class="border-t border-gray-100 px-4 pb-4 pt-3 sm:px-6" v-if="isOpen(invoice)">
+                            <div class="overflow-x-auto">
                                 <table class="min-w-full text-sm">
                                     <thead>
                                         <tr class="text-left text-xs uppercase tracking-wide text-gray-500">
@@ -193,6 +223,7 @@
                                     </div>
                                 </div>
                             </div>
+                            </div>
                         </div>
                     </div>
                 </LoadingSpinner>
@@ -230,6 +261,7 @@ const state = reactive({
     isModalOpen: false,
     payingUuid: null as string | null,
     billableEstimate: null as any,
+    openUuids: [] as string[],
     payment: { amount: '', method: 'card', paid_at: '' },
     isPageLoading: true,
     error: '',
@@ -243,6 +275,16 @@ watch(() => userStore.getUser, (user: any) => {
 
 const methodOptions = computed(() => ['cash', 'card', 'mobilepay', 'bank_transfer', 'terminal', 'other']
     .map((method: string) => ({ value: method, label: t(`citizens.invoices.methods.${method}`) })))
+
+function isOpen(invoice: any): boolean {
+    return state.openUuids.includes(invoice.uuid)
+}
+
+function toggle(invoice: any) {
+    state.openUuids = isOpen(invoice)
+        ? state.openUuids.filter((uuid: string) => uuid !== invoice.uuid)
+        : [...state.openUuids, invoice.uuid]
+}
 
 function statusStyle(status: string): string {
     if (status === 'paid') return 'active'
@@ -274,6 +316,10 @@ async function load() {
 
         state.invoices = invoices?.data || []
         state.services = services?.data || []
+
+        if (state.openUuids.length === 0 && state.invoices.length > 0) {
+            state.openUuids = [state.invoices[0].uuid]
+        }
     } catch (error: any) {
         state.error = error?.message || ''
     } finally {
@@ -300,6 +346,8 @@ async function setStatus(invoice: any, status: string) {
 
 function openPayment(invoice: any) {
     state.payingUuid = invoice.uuid
+
+    if (!isOpen(invoice)) toggle(invoice)
     // The whole outstanding amount is what is usually handed over, so it is
     // filled in and can be corrected.
     state.payment = { amount: String(invoice.outstanding), method: 'card', paid_at: '' }
