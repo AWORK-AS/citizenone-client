@@ -414,7 +414,9 @@
                         <DialogConfirmation :isModalOpen="state.modal.isMoreThanMedicineDailyConfirmationOpen"
                             :message="$t('citizens.medicineJournals.history.confirmation.rightDailyDoseConfirmation') + '?'"
                             @close="state.modal.isMoreThanMedicineDailyConfirmationOpen = false"
-                            @confirm="giveAllMedicines" />
+                            @confirm="() => giveAllMedicines(false)" />
+                        <DialogConfirmation :isModalOpen="state.modal.isPnWarningOpen" :message="state.pnWarningMessage"
+                            @close="state.modal.isPnWarningOpen = false" @confirm="() => giveAllMedicines(true)" />
                     </form>
                 </LoadingSpinner>
             </template>
@@ -461,7 +463,9 @@ const state = reactive({
     } as any,
     modal: {
         isMoreThanMedicineDailyConfirmationOpen: false,
+        isPnWarningOpen: false,
     },
+    pnWarningMessage: '',
     options: {
         evaluation_frequencies: [] as any,
         evaluators: [],
@@ -671,15 +675,26 @@ function submitForm() {
     state.modal.isMoreThanMedicineDailyConfirmationOpen = true
 }
 
-async function giveAllMedicines() {
+async function giveAllMedicines(force = false) {
     state.error = {}
     state.isPageLoading = true
     try {
-        let params = {
+        let params: any = {
             date: state.formGiveMedicine.date,
             medicines: state.formGiveMedicine.medicines,
         }
+        if (force) {
+            params.force = true
+        }
         const response = await medicineHistoryService.saveAllMedicineHistory(params)
+
+        if (response?.warning) {
+            state.pnWarningMessage = response.message
+            state.modal.isPnWarningOpen = true
+            state.isPageLoading = false
+            return
+        }
+
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)
             closeModal()

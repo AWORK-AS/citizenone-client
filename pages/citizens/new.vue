@@ -162,7 +162,13 @@ const state = reactive({
         },
         dentalData: {
             is_member_of_sygeforsikring_danmark: false,
+            danmark_group: '',
             sygesikring_group: '',
+            is_foreign_patient: false,
+            risk_profile: '',
+            risk_profile_note: '',
+            recall_channel: '',
+            auto_reminder: true,
             patient_number: '',
             municipal_subsidy: '',
             last_checkup_date: '',
@@ -226,7 +232,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('responsible_municipality', citizenDetails.responsible_municipality)
         params.append('ean_number', citizenDetails.ean_number)
         params.append('transportation', citizenDetails.transportation)
-        params.append('hourly_rate', citizenDetails.hourly_rate)
+        params.append('hourly_rate', citizenDetails.hourly_rate ? parseLocaleNumber(language.locale.value, citizenDetails.hourly_rate) : citizenDetails.hourly_rate)
         params.append('allocated_daily_hours', citizenDetails.allocated_daily_hours)
         params.append('allocated_weekly_hours', citizenDetails.allocated_weekly_hours)
         params.append('allocated_monthly_hours', citizenDetails.allocated_monthly_hours)
@@ -286,6 +292,12 @@ async function saveCitizen(citizenDetails: any) {
             params.append('municipal_subsidy', citizenDetails.dentalData.municipal_subsidy)
             params.append('last_checkup_date', citizenDetails.dentalData.last_checkup_date != 'Invalid date' ? citizenDetails.dentalData.last_checkup_date : '')
             params.append('checkup_interval_months', citizenDetails.dentalData.checkup_interval_months)
+            params.append('danmark_group', citizenDetails.dentalData.danmark_group)
+            params.append('is_foreign_patient', citizenDetails.dentalData.is_foreign_patient)
+            params.append('risk_profile', citizenDetails.dentalData.risk_profile)
+            params.append('risk_profile_note', citizenDetails.dentalData.risk_profile_note)
+            params.append('recall_channel', citizenDetails.dentalData.recall_channel)
+            params.append('auto_reminder', citizenDetails.dentalData.auto_reminder)
         }
         const response = await citizenService.saveCitizen(params)
         if (response.data) {

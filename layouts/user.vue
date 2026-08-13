@@ -35,19 +35,30 @@
                                 </div>
                                 <nav class="flex flex-1 flex-col px-3 mt-2">
                                     <ul role="list" class="flex flex-1 flex-col gap-y-1">
-                                        <li>
+                                        <li v-for="group in navigationGroups" :key="group.key" class="mt-3 first:mt-0">
+                                            <p class="sidebar-section-label">{{ $t(group.label) }}</p>
                                             <ul role="list" class="space-y-0.5">
-                                                <li v-for="item in navigation" :key="item.name">
+                                                <li v-for="item in group.items" :key="item.name">
                                                     <div @click="openNavItem(item); sidebarOpen = false"
                                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive']">
-                                                        <Icon :name="item.icon" class="h-5 w-5 shrink-0"
+                                                        <img v-if="item.image" :src="item.image" :alt="item.name"
+                                                            class="h-5 w-5 shrink-0" />
+                                                        <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0"
                                                             aria-hidden="true" />
                                                         <span>{{ getNavItemLabel(item) }}</span>
+                                                        <Icon v-if="item.external" name="ph:arrow-square-out"
+                                                            class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                                                     </div>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li class="mt-auto pb-4 space-y-2">
+                                            <div v-for="item in footerNavigation" :key="item.name"
+                                                @click="openNavItem(item); sidebarOpen = false"
+                                                :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive']">
+                                                <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
+                                                <span>{{ getNavItemLabel(item) }}</span>
+                                            </div>
                                             <ModulesUserTimeRegistrationCheckInOut
                                                 v-if="userStore.getUser?.checkin_enabled" />
                                             <ModulesUserSidebarSubscribeButton
@@ -89,37 +100,45 @@
                 <!-- Nav items -->
                 <nav class="flex flex-1 flex-col px-3 mt-1 custom-scrollbar">
                     <ul role="list" class="flex flex-1 flex-col gap-y-1">
-                        <li>
+                        <li v-for="group in navigationGroups" :key="group.key" class="mt-3 first:mt-0">
+                            <!-- Collapsed rail has no room for a heading, so the groups are
+                                 separated by a hairline instead. The first group needs neither. -->
+                            <p v-if="sidebarExpanded" class="sidebar-section-label">
+                                {{ $t(group.label) }}
+                            </p>
+                            <div v-else-if="group.key !== navigationGroups[0]?.key" class="mx-3 my-2 border-t border-current opacity-10" />
                             <ul role="list" class="space-y-0.5">
-                                <li v-for="item in navigation" :key="item.name">
+                                <li v-for="item in group.items" :key="item.name">
                                     <div @click="openNavItem(item)"
                                         :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
                                         :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null"
                                         :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
-                                        <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
+                                        <img v-if="item.image" :src="item.image" :alt="item.name"
+                                            class="h-5 w-5 shrink-0" />
+                                        <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                                         <span
                                             :class="['whitespace-nowrap transition-all duration-200 delay-75 overflow-hidden', sidebarExpanded ? 'opacity-100 max-w-[200px]' : 'opacity-0 max-w-0']">
                                             {{ getNavItemLabel(item) }}
                                         </span>
-                                    </div>
-                                </li>
-                                <li
-                                    v-if="!state.isSidebarLoading && userStore.getUser?.industry === 'Social welfare services' && userStore.getUser?.role === 'Admin'">
-                                    <div @click="navigateTo('/findsocialetilbud.dk')"
-                                        :class="['findsocialetilbud.dk'].includes($route.name as string) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
-                                        :title="!sidebarExpanded ? 'FindSocialeTilbud.dk' : ''">
-                                        <img src="/img/findsocialetilbud-icon.png" alt="FindSocialeTilbud.dk"
-                                            class="h-5 w-5 shrink-0" />
-                                        <span
-                                            :class="['whitespace-nowrap transition-all duration-200 delay-75 overflow-hidden', sidebarExpanded ? 'opacity-100 max-w-[200px]' : 'opacity-0 max-w-0']">
-                                            FindSocialeTilbud.dk
-                                        </span>
+                                        <Icon v-if="item.external && sidebarExpanded" name="ph:arrow-square-out"
+                                            class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                                     </div>
                                 </li>
                             </ul>
                         </li>
 
                         <li class="mt-auto pb-4 space-y-2">
+                            <!-- Onboarding and other one-off entries sit below the daily work,
+                                 not among it. -->
+                            <div v-for="item in footerNavigation" :key="item.name" @click="openNavItem(item)"
+                                :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
+                                :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
+                                <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
+                                <span
+                                    :class="['whitespace-nowrap transition-all duration-200 delay-75 overflow-hidden', sidebarExpanded ? 'opacity-100 max-w-[200px]' : 'opacity-0 max-w-0']">
+                                    {{ getNavItemLabel(item) }}
+                                </span>
+                            </div>
                             <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
                             <div v-show="sidebarExpanded">
                                 <ModulesUserSidebarCompanyId />
@@ -131,8 +150,10 @@
         </div>
 
         <!-- Main content -->
-        <div class="bg-surface-50 min-h-screen transition-all duration-300 ease-in-out"
-            :class="sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]'">
+        <div class="bg-surface-50 min-h-screen transition-all duration-300 ease-in-out" :class="[
+            sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]',
+            assistantStore.isOpen ? 'xl:pr-[26rem]' : ''
+        ]">
             <!-- Impersonation Banner -->
             <div v-if="isImpersonating" ref="bannerRef"
                 class="sticky top-0 z-[60] bg-amber-500 text-white px-6 py-2.5 flex items-center justify-between gap-x-4">
@@ -193,7 +214,7 @@
                                 enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
                                 leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100"
                                 leave-to-class="opacity-0">
-                                <div v-if="showCmdkHint"
+                                <div v-if="showCmdkHint && !showCmdkTip"
                                     class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
                                     <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
                                     <div class="relative flex items-start gap-2.5 px-3.5 py-3">
@@ -225,8 +246,8 @@
                         <!-- AI (mobile) -->
                         <div class="xl:hidden">
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
-                                @click="userStore.getUser?.has_ai_access ? state.modal.isAIAssistantOpen = true : navigateTo('/apps')">
-                                <Icon name="ic:round-accessibility" class="h-6 w-6 md:w-5 md:h-5" aria-hidden="true" />
+                                @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
+                                <Icon name="ph:sparkle" class="h-6 w-6 md:w-5 md:h-5" aria-hidden="true" />
                                 <p class="text-sm font-semibold hidden lg:block">{{ $t('assistants.askAI') }}</p>
                             </FormButton>
                         </div>
@@ -234,20 +255,6 @@
                         <!-- Own ChatGPT Integration -->
                         <!-- TODO: restore v-if="userStore.getUser?.has_own_chatgpt_access" once backend adds flag -->
                         <ModulesUserNavbarOwnChatGpt />
-
-                        <!-- News / Megaphone -->
-                        <button :aria-label="$t('support.support')" type="button"
-                            class="relative w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
-                            @click="navigateToNews()">
-                            <Icon name="ph:megaphone" class="h-5 w-5" aria-hidden="true" />
-                            <Badge type="notification"
-                                class="w-4.5 h-4.5 flex items-center justify-center absolute -top-0.5 -right-0.5 text-[10px]"
-                                v-if="!userStore.getUser?.is_read_news && userStore?.getUnreadNewsCount > 0">
-                                {{ userStore?.getUnreadNewsCount }}
-                            </Badge>
-                        </button>
-
-                        <ModulesUserNavbarNewUpdates @fetchUser="fetchUser" />
 
                         <!-- Notification Bell -->
                         <div data-tour="notification-area" class="flex items-center">
@@ -277,15 +284,10 @@
                             </Badge>
                         </button>
 
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-slate-200" aria-hidden="true" />
-
-                        <!-- Support -->
-                        <button type="button"
-                            class="flex items-center gap-x-1 text-sm text-primary hover:text-primary-700 p-2 rounded-lg hover:bg-surface-100 transition-colors"
-                            @click="openSupport">
-                            <Icon name="material-symbols:support" class="h-5 w-5" aria-hidden="true" />
-                            <span class="text-xs font-semibold hidden lg:block">{{ $t('support.support') }}</span>
-                        </button>
+                        <!-- Bulletin board, release notes and support -->
+                        <ModulesUserNavbarHelpMenu
+                            :unreadNewsCount="!userStore.getUser?.is_read_news ? userStore?.getUnreadNewsCount : 0"
+                            @openNews="navigateToNews()" @openSupport="openSupport" />
 
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-slate-200" aria-hidden="true" />
 
@@ -480,8 +482,9 @@
             :isModalOpen="state.modal.isGuidedTourEndOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourEndOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
-        <ModulesUserAssistantModalAssistant :isModalOpen="state.modal.isAIAssistantOpen"
-            @close="state.modal.isAIAssistantOpen = false" />
+        <!-- Rendered once here rather than inside the navbar button, so the panel
+        survives navigation and the content area can make room for it. -->
+        <ModulesUserAssistantPanel v-if="userStore.getUser?.has_ai_access" />
         <ModulesUserOwnChatGptSyncProgressBar />
 
         <!-- One-time ⌘K discovery tip -->
@@ -551,6 +554,7 @@ import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCustomSidebarLinksStore } from '@/store/custom-sidebar-links'
+import { useAssistantStore } from '@/store/assistant'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -562,7 +566,8 @@ const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const customSidebarLinksStore = useCustomSidebarLinksStore()
-const { isAtLeast } = usePermissions()
+const assistantStore = useAssistantStore()
+const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const { term } = useTerminology()
 const router = useRouter()
@@ -571,6 +576,28 @@ const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
 const routeName = router?.currentRoute?.value?.name
 
 const navigation = shallowRef<any[]>([])
+
+// The sidebar is a flat list of up to ~15 entries at very different altitudes,
+// which makes it hard to scan. Each nav item carries a `group`; these render as
+// labelled sections in a fixed order, and empty ones are dropped so a company
+// with few modules never sees a heading over nothing. `footer` entries (only
+// onboarding today) sit at the bottom, away from the daily work.
+const NAV_GROUPS = [
+    { key: 'daily', label: 'sidebar.groups.daily' },
+    { key: 'documentation', label: 'sidebar.groups.documentation' },
+    { key: 'organisation', label: 'sidebar.groups.organisation' },
+    { key: 'shortcuts', label: 'sidebar.groups.shortcuts' },
+]
+
+const navigationGroups = computed(() =>
+    NAV_GROUPS
+        .map((group) => ({
+            ...group,
+            items: navigation.value.filter((item: any) => (item.group || 'daily') === group.key),
+        }))
+        .filter((group) => group.items.length > 0))
+
+const footerNavigation = computed(() => navigation.value.filter((item: any) => item.group === 'footer'))
 
 // "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
 // per Allan's feedback, once onboarding is fully done it should disappear from
@@ -658,6 +685,21 @@ function tryCmdkTip() {
     globalSearch.value?.open()
 }
 
+// The tip is `fixed bottom-5 right-5`, so on a busy or narrow screen it can
+// land on top of real, unrelated controls (the Ask AI input, an alert's
+// action button, a list row) and silently absorb the click meant for them
+// for its whole 12s/until-dismissed lifetime - including clicks that land ON
+// the tip only because it happens to cover the control underneath. Dismiss on
+// any click that isn't one of the tip's own two buttons (which already
+// dismiss themselves via their own handlers), so at most one click is ever
+// lost to it and the covered control is reachable immediately after.
+function dismissCmdkTipIfClickOutside(event: PointerEvent) {
+    if (!showCmdkTip.value) return
+    const target = event.target as HTMLElement | null
+    if (target?.closest('button')) return
+    dismissCmdkTip()
+}
+
 const searchShortcut = computed(() => {
     const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform)
     return isMac ? '⌘K' : 'Ctrl K'
@@ -701,6 +743,10 @@ onMounted(() => {
     if (typeof localStorage !== 'undefined' && !localStorage.getItem(CMDK_TIP_KEY)) {
         setTimeout(() => { showCmdkTip.value = true }, 3000)
     }
+    document.addEventListener('pointerdown', dismissCmdkTipIfClickOutside, true)
+})
+onUnmounted(() => {
+    document.removeEventListener('pointerdown', dismissCmdkTipIfClickOutside, true)
 })
 
 const state = reactive({
@@ -709,7 +755,6 @@ const state = reactive({
     isSidebarLoading: true,
     modal: {
         is2faRequiredOpen: false,
-        isAIAssistantOpen: false,
         isCheckinReminderOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
@@ -761,6 +806,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Leads') return t('sidebar.leads')
     if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
     if (item.name === 'Journal Notes') return term('journalNotes', t('sidebar.journalNotes'))
+    if (item.name === 'Forms') return t('sidebar.forms')
     if (item.name === 'Billing') return language.t('employment.billing.billing')
     if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     if (item.name === 'Management & Economy') return language.t('managementEconomy.title')
@@ -833,6 +879,7 @@ function generateSidebarLinks(user: any) {
         name: 'Overview',
         href: '/overview',
         icon: 'material-symbols:dashboard',
+        group: 'daily',
         // My day and Statistics no longer have their own sidebar entries -
         // they're reachable via the tab row on these pages - so Overview
         // stays highlighted as active while on any of them.
@@ -843,10 +890,12 @@ function generateSidebarLinks(user: any) {
         ]
     })
     if (isAtLeast('Admin') && !discoverCompleted.value) {
+        // Onboarding, not daily work: rendered in the sidebar footer.
         nav.push({
             name: 'Discover',
             href: '/discover',
             icon: 'ph:compass',
+            group: 'footer',
             activeRouteNames: [
                 'discover',
             ]
@@ -856,6 +905,7 @@ function generateSidebarLinks(user: any) {
         name: 'Citizens',
         href: '/citizens',
         icon: 'heroicons:user-group',
+        group: 'daily',
         activeRouteNames: [
             'citizens',
             'citizens-new',
@@ -873,6 +923,8 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-wallets-wallet_uuid',
             'citizens-uuid-contacts',
             'citizens-uuid-reports',
+            'citizens-uuid-tooth-chart',
+            'citizens-uuid-price-estimates',
         ]
     })
     if (companyHasModule("Calendar")) {
@@ -880,6 +932,7 @@ function generateSidebarLinks(user: any) {
             name: 'Calendar',
             href: '/calendar',
             icon: 'ph:calendar-blank',
+            group: 'daily',
             activeRouteNames: [
                 'calendar',
                 'calendar-appointments',
@@ -893,6 +946,7 @@ function generateSidebarLinks(user: any) {
             name: 'Duty schedules',
             href: '/schedules',
             icon: 'ph:calendar-dots',
+            group: 'daily',
             activeRouteNames: [
                 'schedules',
                 'schedules-draft'
@@ -903,6 +957,7 @@ function generateSidebarLinks(user: any) {
                 name: 'My availability',
                 href: '/my-availability',
                 icon: 'ph:calendar-check',
+                group: 'daily',
                 activeRouteNames: [
                     'my-availability'
                 ]
@@ -911,6 +966,7 @@ function generateSidebarLinks(user: any) {
                 name: 'My shift evaluations',
                 href: '/my-shift-evaluations',
                 icon: 'ph:star',
+                group: 'daily',
                 activeRouteNames: [
                     'my-shift-evaluations'
                 ]
@@ -921,13 +977,24 @@ function generateSidebarLinks(user: any) {
         name: 'Messages',
         href: '/messages',
         icon: 'ph:chat-circle',
+        group: 'daily',
         activeRouteNames: [
             'messages',
             'messages-chat_uuid'
         ]
     })
+    if (userHasSecuredMailAccess) {
+        nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', group: 'daily', activeRouteNames: ['mail'] })
+    }
+
+    nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', group: 'documentation', activeRouteNames: ['journal-notes'] })
+
+    if (companyHasModule("Documents")) {
+        nav.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', group: 'documentation', activeRouteNames: ['drive'] })
+    }
+
     if (userHasPageAttendanceAccess) {
-        nav.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
+        nav.push({ name: 'Protocols', href: '/protocols', icon: 'ic:outline-shield', group: 'documentation', activeRouteNames: ['protocols', 'protocols-new', 'protocols-uuid'] })
     }
 
     if (user?.company?.industry?.system_name === 'employment_services') {
@@ -935,6 +1002,7 @@ function generateSidebarLinks(user: any) {
             name: 'Reports',
             href: '/reports',
             icon: 'ph:file-text',
+            group: 'documentation',
             activeRouteNames: [
                 'reports',
                 'reports-new',
@@ -944,47 +1012,71 @@ function generateSidebarLinks(user: any) {
         })
     }
 
-    if (companyHasModule("Documents")) {
-        nav.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', activeRouteNames: ['drive'] })
-    }
+    // The board announces things to the whole house, so it gets a megaphone
+    // rather than yet another sheet-of-paper icon next to notes and documents.
+    nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:megaphone', group: 'organisation', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
 
-    if (userHasSecuredMailAccess) {
-        nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', activeRouteNames: ['mail'] })
+    if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
+        nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', group: 'organisation', activeRouteNames: ['inquiries'] })
     }
 
     if (userHasLeadsActive) {
-        nav.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', activeRouteNames: ['leads'] })
+        nav.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', group: 'organisation', activeRouteNames: ['leads'] })
     }
 
-    nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:newspaper', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
-
-    nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', activeRouteNames: ['journal-notes'] })
-
-    if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
-        nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', activeRouteNames: ['inquiries'] })
+    // Report templates had no way in at all: not in the sidebar, and the command
+    // palette is built from the sidebar, so search could not find them either.
+    // Shown only to whoever may actually manage them - everyone else reaches a
+    // template through "Create report" on the citizen and never needs the page.
+    if (isAtLeast('Admin') || can('manage_status_reports')) {
+        nav.push({
+            name: 'Forms',
+            href: '/forms',
+            icon: 'ph:clipboard-text',
+            group: 'documentation',
+            activeRouteNames: [
+                'forms',
+                'forms-new',
+                'forms-form_uuid-edit',
+            ]
+        })
     }
 
     if (user?.company?.industry?.system_name === 'employment_services') {
         if (companyHasModule('Billing')) {
-            nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', activeRouteNames: ['billing-employment'] })
+            nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', group: 'organisation', activeRouteNames: ['billing-employment'] })
         }
         if (companyHasModule('Revenue report')) {
-            nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', activeRouteNames: ['reports-employment-revenue'] })
+            nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', group: 'organisation', activeRouteNames: ['reports-employment-revenue'] })
         }
     }
 
     if (user?.company?.industry?.system_name === 'social_welfare' && user?.pages?.some((page: any) => page.name === 'Management & Economy')) {
-        nav.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', activeRouteNames: ['management-economy'] })
+        nav.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', group: 'organisation', activeRouteNames: ['management-economy'] })
     }
 
     // Removed from the sidebar (declutter, per stakeholder feedback) - the app
     // store is still reachable for every role via the profile dropdown menu.
+
+    // Was rendered straight into the desktop template, which left it out of the
+    // mobile sidebar entirely; as a nav item it now appears in both.
+    if (user?.industry === 'Social welfare services' && user?.role === 'Admin') {
+        nav.push({
+            name: 'FindSocialeTilbud.dk',
+            href: '/findsocialetilbud.dk',
+            image: '/img/findsocialetilbud-icon.png',
+            group: 'shortcuts',
+            rawLabel: true,
+            activeRouteNames: ['findsocialetilbud.dk'],
+        })
+    }
 
     customSidebarLinksStore.links.forEach((link: any) => {
         nav.push({
             name: link.label,
             href: link.url,
             icon: link.icon || 'ph:link',
+            group: 'shortcuts',
             activeRouteNames: [],
             external: true,
             rawLabel: true,

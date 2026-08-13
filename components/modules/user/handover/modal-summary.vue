@@ -23,7 +23,7 @@
 
                             <!-- AI summary -->
                             <div class="rounded-xl border border-gray-200 bg-white p-4">
-                                <div class="content prose-sm max-w-none text-sm text-gray-800" v-html="state.summary" />
+                                <div class="content prose-sm max-w-none text-sm text-gray-800" v-safe-html="state.summary" />
                             </div>
 
                             <p class="flex items-center gap-1.5 text-xxs text-gray-400">

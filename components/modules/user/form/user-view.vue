@@ -10,10 +10,17 @@
                     <template #body v-if="!(state.isTableLoading || (state.forms?.data?.length === 0))">
                         <tr v-for="(form, index) in state.forms?.data" :key="index">
                             <td width="50%">
-                                <p>{{ form?.title }}</p>
+                                <button type="button"
+                                    class="text-left text-primary hover:underline focus-visible:underline"
+                                    @click="navigateTo(`/forms/${form.uuid}/edit`)">
+                                    {{ form?.title }}
+                                </button>
                             </td>
                             <td width="50%">
                                 <p>{{ form?.description }}</p>
+                            </td>
+                            <td class="whitespace-nowrap">
+                                <p>{{ form?.field_count ?? 0 }}</p>
                             </td>
                             <!-- <td width="20%">
                                 <div class="flex items-end gap-2">
@@ -43,6 +50,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'forms.table.title', isTranslateName: true, sorter: true, key: 'title' },
         { name: 'forms.table.description', isTranslateName: true, },
+        { name: 'forms.table.blocks', isTranslateName: true },
     ],
     dataFilter: {
         search: ''
