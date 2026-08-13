@@ -3532,7 +3532,11 @@
                 "payer": "Betaler",
                 "nextCheckup": "Neste kontroll",
                 "overdue": "forfalt",
-                "lastExamination": "Siste undersøkelse"
+                "lastExamination": "Siste undersøkelse",
+                "setCheckup": "Sett kontrolldato",
+                "everyMonths": "Hver {months}. måned",
+                "checkupSaved": "Kontrollen er oppdatert",
+                "checkupHelp": "Neste kontroll regnes ut fra siste kontroll pluss intervallet."
             },
             "history": {
                 "label": "Vis en tidligere undersøkelse:",

@@ -3532,7 +3532,11 @@
                 "payer": "Payer",
                 "nextCheckup": "Next check-up",
                 "overdue": "overdue",
-                "lastExamination": "Last examination"
+                "lastExamination": "Last examination",
+                "setCheckup": "Set a check-up",
+                "everyMonths": "Every {months} months",
+                "checkupSaved": "Check-up updated",
+                "checkupHelp": "The next check-up is the last one plus the interval."
             },
             "history": {
                 "label": "Show an earlier examination:",

@@ -3532,7 +3532,11 @@
                 "payer": "Betaler",
                 "nextCheckup": "Næste kontrol",
                 "overdue": "overskredet",
-                "lastExamination": "Seneste undersøgelse"
+                "lastExamination": "Seneste undersøgelse",
+                "setCheckup": "Sæt kontroldato",
+                "everyMonths": "Hver {months}. måned",
+                "checkupSaved": "Kontrollen er opdateret",
+                "checkupHelp": "Næste kontrol regnes ud fra seneste kontrol plus intervallet."
             },
             "history": {
                 "label": "Vis tidligere undersøgelse:",

@@ -13,6 +13,10 @@ class ToothChartService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/tooth-chart/teeth/${toothUuid}`, 'PUT', params)
     }
 
+    async updateCheckup(citizenUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/tooth-chart/checkup`, 'PUT', params)
+    }
+
     async updateGeneralNotes(citizenUuid: string, params: object): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/tooth-chart/general-notes`, 'PUT', params)
     }

@@ -35,7 +35,7 @@
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenToothChartPatientStrip class="mb-5" :patient="state.patient"
-                        :lastExamination="state.lastExamination" />
+                        :lastExamination="state.lastExamination" :citizenUuid="citizenUuid" @saved="loadChart" />
 
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
                         <div class="xl:col-span-2 space-y-5">

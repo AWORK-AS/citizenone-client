@@ -25,16 +25,23 @@
             <p class="text-sm font-medium text-gray-900">{{ payer }}</p>
         </div>
 
-        <div v-if="props.patient.next_checkup_due">
+        <div>
             <p class="text-[11px] uppercase tracking-wide text-gray-400">
                 {{ $t('citizens.toothChart.strip.nextCheckup') }}
             </p>
-            <p class="text-sm font-medium" :class="isOverdue ? 'text-red-600' : 'text-gray-900'">
-                {{ formatDate(props.patient.next_checkup_due) }}
-                <span v-if="isOverdue" class="text-xs font-normal">
-                    &middot; {{ $t('citizens.toothChart.strip.overdue') }}
-                </span>
-            </p>
+            <button type="button" @click="state.isEditing = !state.isEditing"
+                class="group inline-flex items-center gap-1.5 text-sm font-medium"
+                :class="isOverdue ? 'text-red-600' : 'text-gray-900'">
+                <template v-if="props.patient.next_checkup_due">
+                    {{ formatDate(props.patient.next_checkup_due) }}
+                    <span v-if="isOverdue" class="text-xs font-normal">
+                        &middot; {{ $t('citizens.toothChart.strip.overdue') }}
+                    </span>
+                </template>
+                <span v-else class="text-gray-500">{{ $t('citizens.toothChart.strip.setCheckup') }}</span>
+                <Icon name="ph:pencil-simple"
+                    class="size-3.5 text-gray-300 transition group-hover:text-gray-500" />
+            </button>
         </div>
 
         <div v-if="props.lastExamination">
@@ -53,19 +60,127 @@
         <p class="text-xs text-gray-500 basis-full" v-if="props.patient.risk_profile_note">
             {{ props.patient.risk_profile_note }}
         </p>
+
+        <div class="basis-full border-t border-slate-200 pt-3" v-if="state.isEditing">
+            <Alert type="danger" :text="state.error" v-if="state.error" />
+
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+                <div class="space-y-1">
+                    <FormLabel for="last_checkup_date" :label="$t('citizens.form.dental.lastCheckupDate')" />
+                    <FormDateField id="last_checkup_date" name="last_checkup_date"
+                        :placeholder="$t('citizens.form.dental.lastCheckupDate')" v-model="state.form.last_checkup_date" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="checkup_interval_months"
+                        :label="$t('citizens.form.dental.checkupInterval.label')" />
+                    <FormSelect id="checkup_interval_months" :options="intervalOptions"
+                        v-model="state.form.checkup_interval_months" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="strip_recall_channel" :label="$t('citizens.form.dental.recallChannel.label')" />
+                    <FormSelect id="strip_recall_channel" :options="channelOptions"
+                        v-model="state.form.recall_channel" :placeholder="$t('dentalRecalls.noChannel')" />
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                    <label class="flex cursor-pointer items-center gap-2 text-sm text-gray-600"
+                        @click="state.form.auto_reminder = !state.form.auto_reminder">
+                        <FormCheckbox id="strip_auto_reminder" :value="state.form.auto_reminder" />
+                        {{ $t('citizens.form.dental.autoReminder') }}
+                    </label>
+                </div>
+            </div>
+
+            <p class="mt-2 text-xs text-gray-500">{{ $t('citizens.toothChart.strip.checkupHelp') }}</p>
+
+            <div class="mt-3 flex items-center justify-end gap-2">
+                <FormButton buttonStyle="action" buttonSize="xs" @click="cancel" :disabled="state.isSaving">
+                    {{ $t('cancel') }}
+                </FormButton>
+                <FormButton buttonStyle="primary" buttonSize="xs" @click="save" :disabled="state.isSaving">
+                    <Icon name="ph:floppy-disk" class="size-4" />
+                    {{ $t('save') }}
+                </FormButton>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import moment from 'moment'
+import { toothChartService } from '@/components/api/user/ToothChartService'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
     patient: any | null
     lastExamination: any | null
+    citizenUuid: string
 }>()
 
+const emit = defineEmits<{ (event: 'saved'): void }>()
+
 const { t } = useI18n()
+const { successAlert } = useAlert()
+
+const state = reactive({
+    isEditing: false,
+    isSaving: false,
+    error: '',
+    form: {
+        last_checkup_date: '',
+        checkup_interval_months: null as number | null,
+        recall_channel: null as string | null,
+        auto_reminder: true,
+    },
+})
+
+const intervalOptions = computed(() => [3, 6, 12, 18, 24].map((months: number) => ({
+    value: months,
+    label: t('citizens.toothChart.strip.everyMonths', { months }),
+})))
+
+const channelOptions = computed(() => ['letter', 'sms', 'email', 'app', 'phone'].map((channel: string) => ({
+    value: channel,
+    label: t(`citizens.form.dental.recallChannel.${channel}`),
+})))
+
+function fillForm() {
+    state.form = {
+        last_checkup_date: props.patient?.last_checkup_date || '',
+        checkup_interval_months: props.patient?.checkup_interval_months ?? null,
+        recall_channel: props.patient?.recall_channel || null,
+        auto_reminder: props.patient?.auto_reminder ?? true,
+    }
+}
+
+function cancel() {
+    fillForm()
+    state.isEditing = false
+}
+
+async function save() {
+    state.isSaving = true
+    state.error = ''
+
+    try {
+        await toothChartService.updateCheckup(props.citizenUuid, {
+            last_checkup_date: state.form.last_checkup_date || null,
+            checkup_interval_months: state.form.checkup_interval_months || null,
+            recall_channel: state.form.recall_channel || null,
+            auto_reminder: state.form.auto_reminder,
+        })
+
+        successAlert(`${t('alert.success')}!`, `${t('citizens.toothChart.strip.checkupSaved')}.`)
+        state.isEditing = false
+        emit('saved')
+    } catch (error: any) {
+        state.error = error?.message || ''
+    } finally {
+        state.isSaving = false
+    }
+}
+
+watch(() => props.patient, () => fillForm(), { immediate: true, deep: true })
 
 const RISK_COLORS: Record<string, string> = {
     green: '#16a34a',
