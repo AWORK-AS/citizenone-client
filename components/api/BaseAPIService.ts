@@ -356,31 +356,21 @@ class BaseAPIService {
         }
     }
 
-    // Concurrent 401s (several in-flight requests failing at once) can each call
-    // revokeAccess() before the URL updates, so a naive read of window.location
-    // compounds into redirect=/?redirect=/?redirect=/... — guard against re-entrancy.
-    private static isRevoking = false
-
     revokeAccess() {
-        if (BaseAPIService.isRevoking) return
-        BaseAPIService.isRevoking = true
-
         localStorage.removeItem("_token")
         localStorage.removeItem("rememberMe")
 
-        const currentUrl = typeof window !== 'undefined' ? new URL(window.location.href) : null
-        currentUrl?.searchParams.delete('redirect')
-        const currentPath = currentUrl ? currentUrl.pathname + currentUrl.search : ''
+        // A page fires several requests in parallel (sidebar counts, lists, the
+        // page's own data), so an expired session 401s several times at once.
+        // Only the first arrival should navigate: by the time the rest run,
+        // window.location already points at "/" (with ?redirect= attached) from
+        // that first navigateTo, so once we're already there the rest must be
+        // no-ops — re-navigating to a bare "/" would wipe the redirect the
+        // first call just set.
+        if (typeof window === 'undefined') return
+        if (window.location.pathname === '/') return
 
-        if (currentPath && currentPath !== '/') {
-            navigateTo({ path: '/', query: { redirect: currentPath } })
-        } else {
-            navigateTo('/')
-        }
-
-        // Release the guard once this burst of concurrent 401s has had time to
-        // settle, so a later, genuine logout can still redirect correctly.
-        setTimeout(() => { BaseAPIService.isRevoking = false }, 1000)
+        navigateTo({ path: '/', query: { redirect: window.location.pathname } })
     }
 }
 
