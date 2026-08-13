@@ -3644,7 +3644,8 @@
                 "notePlaceholder": "For example what the invoice covers",
                 "needsALine": "Add at least one line",
                 "noServices": "The catalogue is empty. You can still write free lines."
-            }
+            },
+            "downloadPdf": "Download PDF"
         }
     },
     "client": {

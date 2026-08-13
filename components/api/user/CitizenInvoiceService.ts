@@ -41,6 +41,10 @@ class CitizenInvoiceService extends BaseAPIService {
         return await this.request(`/user/citizen-invoices/${uuid}/payments`, 'POST', params)
     }
 
+    async downloadPdf(uuid: string): Promise<Blob | null> {
+        return await this.requestBlob(`/user/citizen-invoices/${uuid}/pdf`, 'GET')
+    }
+
     async deleteInvoice(uuid: string): Promise<any> {
         return await this.request(`/user/citizen-invoices/${uuid}`, 'DELETE')
     }

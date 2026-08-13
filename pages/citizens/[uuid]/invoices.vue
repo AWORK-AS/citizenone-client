@@ -131,6 +131,10 @@
                             </div>
 
                             <div class="mt-3 flex flex-wrap items-center gap-2">
+                                <FormButton buttonStyle="action" buttonSize="xs" @click="downloadPdf(invoice)">
+                                    <Icon name="ph:file-pdf" class="size-4" />
+                                    {{ $t('citizens.invoices.downloadPdf') }}
+                                </FormButton>
                                 <FormButton buttonStyle="action" buttonSize="xs" @click="setStatus(invoice, 'sent')"
                                     v-if="invoice.status === 'draft'">
                                     <Icon name="ph:paper-plane-tilt" class="size-4" />
@@ -188,6 +192,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { saveAs } from 'file-saver'
 import { citizenInvoiceService } from '@/components/api/user/CitizenInvoiceService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
@@ -296,6 +301,19 @@ async function savePayment(invoice: any) {
 
         state.payingUuid = null
         await load()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
+async function downloadPdf(invoice: any) {
+    state.error = ''
+
+    try {
+        const response = await citizenInvoiceService.downloadPdf(invoice.uuid)
+        const blob = response instanceof Blob ? response : new Blob([response as any], { type: 'application/pdf' })
+
+        saveAs(blob, `faktura-${invoice.invoice_number}.pdf`)
     } catch (error: any) {
         state.error = error?.message || ''
     }

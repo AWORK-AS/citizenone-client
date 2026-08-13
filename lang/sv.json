@@ -3644,7 +3644,8 @@
                 "notePlaceholder": "Till exempel vad fakturan täcker",
                 "needsALine": "Lägg till minst en rad",
                 "noServices": "Katalogen är tom. Du kan ändå skriva fria rader."
-            }
+            },
+            "downloadPdf": "Ladda ner PDF"
         }
     },
     "client": {

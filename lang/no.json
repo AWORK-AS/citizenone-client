@@ -3644,7 +3644,8 @@
                 "notePlaceholder": "For eksempel hva fakturaen dekker",
                 "needsALine": "Legg til minst én linje",
                 "noServices": "Katalogen er tom. Du kan fortsatt skrive frie linjer."
-            }
+            },
+            "downloadPdf": "Last ned PDF"
         }
     },
     "client": {

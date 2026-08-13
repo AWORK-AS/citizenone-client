@@ -3644,7 +3644,8 @@
                 "notePlaceholder": "Fx hvad fakturaen dækker",
                 "needsALine": "Tilføj mindst én linje",
                 "noServices": "Der er ingen ydelser i kataloget endnu. Du kan stadig skrive frie linjer."
-            }
+            },
+            "downloadPdf": "Hent PDF"
         }
     },
     "client": {
