@@ -356,16 +356,31 @@ class BaseAPIService {
         }
     }
 
+    // Concurrent 401s (several in-flight requests failing at once) can each call
+    // revokeAccess() before the URL updates, so a naive read of window.location
+    // compounds into redirect=/?redirect=/?redirect=/... — guard against re-entrancy.
+    private static isRevoking = false
+
     revokeAccess() {
+        if (BaseAPIService.isRevoking) return
+        BaseAPIService.isRevoking = true
+
         localStorage.removeItem("_token")
         localStorage.removeItem("rememberMe")
 
-        const currentPath = typeof window !== 'undefined' ? window.location.pathname + window.location.search : ''
+        const currentUrl = typeof window !== 'undefined' ? new URL(window.location.href) : null
+        currentUrl?.searchParams.delete('redirect')
+        const currentPath = currentUrl ? currentUrl.pathname + currentUrl.search : ''
+
         if (currentPath && currentPath !== '/') {
             navigateTo({ path: '/', query: { redirect: currentPath } })
         } else {
             navigateTo('/')
         }
+
+        // Release the guard once this burst of concurrent 401s has had time to
+        // settle, so a later, genuine logout can still redirect correctly.
+        setTimeout(() => { BaseAPIService.isRevoking = false }, 1000)
     }
 }
 
