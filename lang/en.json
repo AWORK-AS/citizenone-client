@@ -3645,7 +3645,13 @@
                 "needsALine": "Add at least one line",
                 "noServices": "The catalogue is empty. You can still write free lines."
             },
-            "downloadPdf": "Download PDF"
+            "downloadPdf": "Download PDF",
+            "send": "Send to citizen",
+            "sendAgain": "Send again",
+            "sent": "Invoice sent",
+            "creditNote": "Credit note",
+            "credited": "Credit note created",
+            "fromPlan": "Invoice carried out treatment"
         }
     },
     "client": {
@@ -9902,7 +9908,8 @@
         "forms": "Forms",
         "dentalRecalls": "Recalls",
         "dentalRecalls": "Recalls",
-        "dentalOverview": "Clinic overview"
+        "dentalOverview": "Clinic overview",
+        "invoicing": "Invoicing"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -13059,6 +13066,28 @@
             "vatRate": "VAT %",
             "subsidy": "Default subsidy",
             "vatHelp": "Dental treatment is VAT exempt, so the rate is set per service rather than assumed."
+        }
+    },
+    "invoicing": {
+        "title": "Invoicing",
+        "outstandingTotal": "Total outstanding",
+        "creditNote": "credit note",
+        "filters": {
+            "outstanding": "Outstanding",
+            "all": "All",
+            "paid": "Paid",
+            "draft": "Drafts"
+        },
+        "table": {
+            "number": "No.",
+            "citizen": "Citizen",
+            "issued": "Invoice date",
+            "due": "Due",
+            "status": "Status"
+        },
+        "empty": {
+            "title": "No invoices",
+            "text": "Invoices are created on the citizen and collected here."
         }
     }
 }

@@ -41,6 +41,18 @@ class CitizenInvoiceService extends BaseAPIService {
         return await this.request(`/user/citizen-invoices/${uuid}/payments`, 'POST', params)
     }
 
+    async createFromEstimate(citizenUuid: string, estimateUuid: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/invoices/from-estimate/${estimateUuid}`, 'POST')
+    }
+
+    async sendInvoice(uuid: string): Promise<any> {
+        return await this.request(`/user/citizen-invoices/${uuid}/send`, 'POST')
+    }
+
+    async createCreditNote(uuid: string): Promise<any> {
+        return await this.request(`/user/citizen-invoices/${uuid}/credit-note`, 'POST')
+    }
+
     async downloadPdf(uuid: string): Promise<Blob | null> {
         return await this.requestBlob(`/user/citizen-invoices/${uuid}/pdf`, 'GET')
     }

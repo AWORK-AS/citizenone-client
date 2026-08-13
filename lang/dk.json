@@ -3645,7 +3645,13 @@
                 "needsALine": "Tilføj mindst én linje",
                 "noServices": "Der er ingen ydelser i kataloget endnu. Du kan stadig skrive frie linjer."
             },
-            "downloadPdf": "Hent PDF"
+            "downloadPdf": "Hent PDF",
+            "send": "Send til borger",
+            "sendAgain": "Send igen",
+            "sent": "Fakturaen er sendt",
+            "creditNote": "Kreditnota",
+            "credited": "Kreditnotaen er oprettet",
+            "fromPlan": "Fakturér udført behandling"
         }
     },
     "client": {
@@ -9902,7 +9908,8 @@
         "forms": "Formularer",
         "dentalRecalls": "Indkaldelser",
         "dentalRecalls": "Indkaldelser",
-        "dentalOverview": "Klinikoverblik"
+        "dentalOverview": "Klinikoverblik",
+        "invoicing": "Fakturering"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -13059,6 +13066,28 @@
             "vatRate": "Moms %",
             "subsidy": "Standardtilskud",
             "vatHelp": "Tandbehandling er momsfri, så momssatsen sættes pr. ydelse i stedet for at blive antaget."
+        }
+    },
+    "invoicing": {
+        "title": "Fakturering",
+        "outstandingTotal": "Samlet udestående",
+        "creditNote": "kreditnota",
+        "filters": {
+            "outstanding": "Udestående",
+            "all": "Alle",
+            "paid": "Betalte",
+            "draft": "Kladder"
+        },
+        "table": {
+            "number": "Nr.",
+            "citizen": "Borger",
+            "issued": "Fakturadato",
+            "due": "Frist",
+            "status": "Status"
+        },
+        "empty": {
+            "title": "Ingen fakturaer",
+            "text": "Fakturaer oprettes på den enkelte borger og samles her."
         }
     }
 }

@@ -3645,7 +3645,13 @@
                 "needsALine": "Lägg till minst en rad",
                 "noServices": "Katalogen är tom. Du kan ändå skriva fria rader."
             },
-            "downloadPdf": "Ladda ner PDF"
+            "downloadPdf": "Ladda ner PDF",
+            "send": "Skicka till invånaren",
+            "sendAgain": "Skicka igen",
+            "sent": "Fakturan är skickad",
+            "creditNote": "Kreditnota",
+            "credited": "Kreditnotan är skapad",
+            "fromPlan": "Fakturera utförd behandling"
         }
     },
     "client": {
@@ -9902,7 +9908,8 @@
         "forms": "Formulär",
         "dentalRecalls": "Kallelser",
         "dentalRecalls": "Kallelser",
-        "dentalOverview": "Kliniköversikt"
+        "dentalOverview": "Kliniköversikt",
+        "invoicing": "Fakturering"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -13059,6 +13066,28 @@
             "vatRate": "Moms %",
             "subsidy": "Standardbidrag",
             "vatHelp": "Tandvård är momsfri, så satsen sätts per tjänst i stället för att antas."
+        }
+    },
+    "invoicing": {
+        "title": "Fakturering",
+        "outstandingTotal": "Totalt utestående",
+        "creditNote": "kreditnota",
+        "filters": {
+            "outstanding": "Utestående",
+            "all": "Alla",
+            "paid": "Betalda",
+            "draft": "Utkast"
+        },
+        "table": {
+            "number": "Nr.",
+            "citizen": "Invånare",
+            "issued": "Fakturadatum",
+            "due": "Förfaller",
+            "status": "Status"
+        },
+        "empty": {
+            "title": "Inga fakturor",
+            "text": "Fakturor skapas på invånaren och samlas här."
         }
     }
 }

@@ -33,7 +33,11 @@
 
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 
-                <div class="flex justify-end">
+                <div class="flex flex-wrap justify-end gap-2">
+                    <FormButton buttonStyle="action" @click="billPlan" v-if="state.billableEstimate">
+                        <Icon name="ph:clipboard-text" class="size-4" />
+                        {{ $t('citizens.invoices.fromPlan') }}
+                    </FormButton>
                     <FormButton buttonStyle="action" @click="state.isModalOpen = true">
                         <Icon name="ph:plus" class="size-4" />
                         {{ $t('citizens.invoices.newTitle') }}
@@ -135,10 +139,20 @@
                                     <Icon name="ph:file-pdf" class="size-4" />
                                     {{ $t('citizens.invoices.downloadPdf') }}
                                 </FormButton>
+                                <FormButton buttonStyle="action" buttonSize="xs" @click="send(invoice)"
+                                    v-if="invoice.type !== 'credit_note' && invoice.status !== 'cancelled' && invoice.status !== 'credited'">
+                                    <Icon name="ph:envelope-simple" class="size-4" />
+                                    {{ invoice.sent_at ? $t('citizens.invoices.sendAgain') : $t('citizens.invoices.send') }}
+                                </FormButton>
                                 <FormButton buttonStyle="action" buttonSize="xs" @click="setStatus(invoice, 'sent')"
                                     v-if="invoice.status === 'draft'">
                                     <Icon name="ph:paper-plane-tilt" class="size-4" />
                                     {{ $t('citizens.invoices.markSent') }}
+                                </FormButton>
+                                <FormButton buttonStyle="action" buttonSize="xs" @click="creditNote(invoice)"
+                                    v-if="invoice.type !== 'credit_note' && invoice.status !== 'draft' && invoice.status !== 'credited'">
+                                    <Icon name="ph:arrow-u-up-left" class="size-4" />
+                                    {{ $t('citizens.invoices.creditNote') }}
                                 </FormButton>
                                 <FormButton buttonStyle="primary" buttonSize="xs" @click="openPayment(invoice)"
                                     v-if="invoice.outstanding > 0 && invoice.status !== 'cancelled'">
@@ -194,6 +208,7 @@
 import moment from 'moment'
 import { saveAs } from 'file-saver'
 import { citizenInvoiceService } from '@/components/api/user/CitizenInvoiceService'
+import { priceEstimateService } from '@/components/api/user/PriceEstimateService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
@@ -214,6 +229,7 @@ const state = reactive({
     services: [] as any[],
     isModalOpen: false,
     payingUuid: null as string | null,
+    billableEstimate: null as any,
     payment: { amount: '', method: 'card', paid_at: '' },
     isPageLoading: true,
     error: '',
@@ -306,6 +322,53 @@ async function savePayment(invoice: any) {
     }
 }
 
+// Accepted estimates are where carried out work is billed from, so the button
+// only appears when there is one to bill.
+async function loadBillableEstimate() {
+    try {
+        const response = await priceEstimateService.getEstimates(citizenUuid)
+        state.billableEstimate = (response?.data || []).find((estimate: any) => estimate.status === 'accepted') || null
+    } catch {
+        state.billableEstimate = null
+    }
+}
+
+async function billPlan() {
+    state.error = ''
+
+    try {
+        await citizenInvoiceService.createFromEstimate(citizenUuid, state.billableEstimate.uuid)
+        successAlert(`${t('alert.success')}!`, `${t('citizens.invoices.saved')}.`)
+        await load()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
+async function send(invoice: any) {
+    state.error = ''
+
+    try {
+        await citizenInvoiceService.sendInvoice(invoice.uuid)
+        successAlert(`${t('alert.success')}!`, `${t('citizens.invoices.sent')}.`)
+        await load()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
+async function creditNote(invoice: any) {
+    state.error = ''
+
+    try {
+        await citizenInvoiceService.createCreditNote(invoice.uuid)
+        successAlert(`${t('alert.success')}!`, `${t('citizens.invoices.credited')}.`)
+        await load()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
 async function downloadPdf(invoice: any) {
     state.error = ''
 
@@ -330,5 +393,8 @@ async function remove(invoice: any) {
     }
 }
 
-onMounted(() => load())
+onMounted(() => {
+    load()
+    loadBillableEstimate()
+})
 </script>
