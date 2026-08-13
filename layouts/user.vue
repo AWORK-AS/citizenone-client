@@ -909,7 +909,7 @@ function generateSidebarLinks(user: any) {
     }
     // The recall list only exists for dental clinics, the same rule the tabs
     // and the API use.
-    if (newValue?.company?.industry?.system_name === 'dental') {
+    if (user?.company?.industry?.system_name === 'dental') {
         nav.push({
             name: 'DentalOverview',
             href: '/dental-overview',
@@ -924,7 +924,7 @@ function generateSidebarLinks(user: any) {
         })
     }
     // The module is switched on per company from the app store.
-    if (newValue?.has_invoice_app) {
+    if (user?.has_invoice_app) {
         nav.push({
             name: 'Invoicing',
             href: '/invoicing',
