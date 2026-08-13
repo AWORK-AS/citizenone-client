@@ -137,14 +137,14 @@ att, ai
 
             <input ref="fileInput" type="file" multiple class="hidden" @change="handleFileChange" />
 
-            <form class="flex items-stretch gap-2 px-4 py-3" @submit.prevent="sendMessage">
+            <form class="flex items-end gap-2 px-4 py-3" @submit.prevent="sendMessage">
                 <button type="button"
                     class="w-10 h-10 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors flex-shrink-0"
                     @click="triggerFileInput">
                     <Icon name="ph:paperclip" class="w-5 h-5 text-gray-500" />
                 </button>
-                <textarea rows="1"
-                    class="flex-1 h-10 px-4 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-10"
+                <textarea ref="messageTextarea" rows="1"
+                    class="flex-1 min-h-10 max-h-40 px-4 py-2.5 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-tight overflow-y-hidden"
                     :placeholder="$t('guestPortal.typeAMessage')" v-model="messageText"
                     @keydown.enter.exact.prevent="sendMessage" />
                 <button type="submit" :disabled="!messageText.trim() && !selectedFiles.length"
@@ -191,13 +191,27 @@ const emit = defineEmits<{
 
 const messagesContainer = ref<HTMLElement | null>(null);
 const fileInput = ref<HTMLInputElement | null>(null);
+const messageTextarea = ref<HTMLTextAreaElement | null>(null);
 const selectedFiles = ref<File[]>([]);
 const messageText = ref("");
+
+const MESSAGE_INPUT_MAX_HEIGHT = 160; // px, roughly 6 lines before scrolling kicks in
+
+async function autoResizeMessageInput() {
+    await nextTick();
+    const el = messageTextarea.value;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, MESSAGE_INPUT_MAX_HEIGHT)}px`;
+    el.style.overflowY = el.scrollHeight > MESSAGE_INPUT_MAX_HEIGHT ? "auto" : "hidden";
+}
 
 watch(
     () => props.messages.length,
     () => scrollToBottom(),
 );
+
+watch(messageText, () => autoResizeMessageInput());
 
 onMounted(() => scrollToBottom());
 
