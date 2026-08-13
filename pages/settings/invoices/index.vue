@@ -32,7 +32,7 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.invoices"
+                        <Table class="table-sticky-actions" :columnHeaders="state.columnHeaders" :data="state.invoices"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.invoices?.data?.length === 0))">
                                 <tr v-for="(invoice, index) in state.invoices?.data" :key="index">
