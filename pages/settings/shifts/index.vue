@@ -28,7 +28,7 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.shifts"
+                        <Table class="table-sticky-actions" :columnHeaders="state.columnHeaders" :data="state.shifts"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.shifts?.data?.length === 0))">
                                 <tr v-for="(shift, index) in state.shifts?.data" :key="index">

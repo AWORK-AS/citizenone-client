@@ -272,12 +272,17 @@ class BaseAPIService {
         localStorage.removeItem("_token")
         localStorage.removeItem("rememberMe")
 
-        const currentPath = typeof window !== 'undefined' ? window.location.pathname + window.location.search : ''
-        if (currentPath && currentPath !== '/') {
-            navigateTo({ path: '/', query: { redirect: currentPath } })
-        } else {
-            navigateTo('/')
-        }
+        // A page fires several requests in parallel (sidebar counts, lists, the
+        // page's own data), so an expired session 401s several times at once.
+        // Only the first arrival should navigate: by the time the rest run,
+        // window.location already points at "/" (with ?redirect= attached) from
+        // that first navigateTo, so once we're already there the rest must be
+        // no-ops — re-navigating to a bare "/" would wipe the redirect the
+        // first call just set.
+        if (typeof window === 'undefined') return
+        if (window.location.pathname === '/') return
+
+        navigateTo({ path: '/', query: { redirect: window.location.pathname } })
     }
 }
 
