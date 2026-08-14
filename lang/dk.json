@@ -12376,6 +12376,7 @@
                 "title": "Gennemgang før import - intet er gemt endnu.",
                 "readyToImport": "klar til import",
                 "skipped": "springes over",
+                "unknownSpokenLanguages": "Sprog vi ikke genkendte ({count}) - de bliver ikke importeret:",
                 "whySkipped": "Hvorfor springes rækker over",
                 "journalHint": "Rækker uden match i CitizenOne (ukendt CPR) frasorteres automatisk under importen og vises i opsummeringen.",
                 "scheduleHint": "Rækker uden match i CitizenOne (ukendt e-mail eller vagttype) frasorteres automatisk under importen og vises i opsummeringen.",
@@ -12440,9 +12441,11 @@
             "date_admitted": "Indskrivningsdato",
             "date_discharged": "Udskrivningsdato",
             "departments": "Afdelinger (adskilt med ;)",
+            "requires_interpreter": "Tolk påkrævet (ja/nej)",
             "seniority_date": "Anciennitetsdato",
             "cpr": "Borgerens CPR-nummer (match)",
             "date": "Dato (ÅÅÅÅ-MM-DD)",
+            "spoken_languages": "Sprog (adskilt med semikolon)",
             "title": "Titel",
             "content": "Notat-tekst",
             "shift": "Vagttype (navn)",
@@ -12477,7 +12480,8 @@
             "cpr_missing": "CPR mangler - dubletter findes så kun på navn",
             "cpr_malformed": "CPR har ikke 10 cifre",
             "invalid_date": "Dato kan ikke læses: {field}",
-            "date_guessed": "Dato blev rettet af systemet: {field}"
+            "date_guessed": "Dato blev rettet af systemet: {field}",
+            "spoken_language_unknown": "Et eller flere sprog blev ikke genkendt og er ikke importeret"
         }
     },
     "sms": {

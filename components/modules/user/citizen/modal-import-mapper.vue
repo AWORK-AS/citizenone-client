@@ -237,6 +237,15 @@
                                     {{ state.serverCheck.new_departments.join(', ') }}
                                 </p>
 
+                                <p v-if="state.serverCheck.unknown_spoken_languages?.length"
+                                    class="mt-3 text-xs text-amber-800">
+                                    <span class="font-medium">{{
+                                        $t('import.steps.dryRun.unknownSpokenLanguages', {
+                                            count: state.serverCheck.unknown_spoken_languages.length
+                                        }) }}</span>
+                                    {{ state.serverCheck.unknown_spoken_languages.join(', ') }}
+                                </p>
+
                                 <ul v-if="warningList.length" class="mt-3 space-y-1">
                                     <li v-for="warning in warningList" :key="warning.key"
                                         class="flex justify-between gap-x-3 rounded-lg bg-amber-50 px-3 py-1.5 text-sm text-amber-800">
@@ -444,6 +453,8 @@ const entityTypes = computed(() => [
             { key: 'date_admitted', label: t('import.fields.date_admitted'), required: false },
             { key: 'date_discharged', label: t('import.fields.date_discharged'), required: false },
             { key: 'departments', label: t('import.fields.departments'), required: false },
+            { key: 'spoken_languages', label: t('import.fields.spoken_languages'), required: false },
+            { key: 'requires_interpreter', label: t('import.fields.requires_interpreter'), required: false },
         ],
     },
     {
@@ -457,6 +468,7 @@ const entityTypes = computed(() => [
             { key: 'birthday', label: t('import.fields.birthday'), required: false },
             { key: 'seniority_date', label: t('import.fields.seniority_date'), required: false },
             { key: 'departments', label: t('import.fields.departments'), required: false },
+            { key: 'spoken_languages', label: t('import.fields.spoken_languages'), required: false },
         ],
     },
     {
@@ -493,6 +505,8 @@ const synonyms: Record<string, string[]> = {
     date_admitted: ['indskrivning', 'indskrevet', 'admitted', 'startdato', 'opstart', 'start'],
     date_discharged: ['udskrivning', 'udskrevet', 'discharged', 'slutdato', 'ophør', 'ophor', 'slut'],
     departments: ['afdeling', 'afdelinger', 'department', 'departments', 'team', 'enhed', 'gruppe'],
+    spoken_languages: ['sprog', 'talt sprog', 'sprogkundskaber', 'modersmål', 'modersmal', 'language', 'languages', 'spoken language', 'spoken languages', 'native language'],
+    requires_interpreter: ['tolk', 'tolkebehov', 'tolk påkrævet', 'tolk pakraevet', 'interpreter', 'needs interpreter', 'requires interpreter'],
     seniority_date: ['anciennitet', 'ancien', 'seniority', 'ansættelsesdato', 'ansaettelsesdato', 'ansat', 'startdato'],
     cpr: ['cpr', 'cprnr', 'cpr-nr', 'cprnummer', 'personnummer', 'ssn', 'borger'],
     shift: ['vagt', 'vagttype', 'shift', 'skift', 'vagtnavn', 'type'],
@@ -751,7 +765,8 @@ async function runServerCheck() {
         const CHUNK = 300
         const acc: any = {
             created: 0, duplicate_count: 0, skipped_count: 0, failed_count: 0,
-            new_departments: [] as string[], warnings: {} as Record<string, number>, rows: [] as any[],
+            new_departments: [] as string[], unknown_spoken_languages: [] as string[],
+            warnings: {} as Record<string, number>, rows: [] as any[],
         }
 
         for (let i = 0; i < rows.length; i += CHUNK) {
@@ -762,6 +777,9 @@ async function runServerCheck() {
             acc.failed_count += res?.failed_count ?? 0
             for (const name of res?.new_departments ?? []) {
                 if (!acc.new_departments.includes(name)) acc.new_departments.push(name)
+            }
+            for (const name of res?.unknown_spoken_languages ?? []) {
+                if (!acc.unknown_spoken_languages.includes(name)) acc.unknown_spoken_languages.push(name)
             }
             for (const row of res?.rows ?? []) {
                 for (const warning of row?.warnings ?? []) {

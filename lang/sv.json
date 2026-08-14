@@ -12376,6 +12376,7 @@
                 "title": "Genomgång innan import - inget är sparat ännu.",
                 "readyToImport": "redo att importera",
                 "skipped": "hoppas över",
+                "unknownSpokenLanguages": "Språk vi inte kände igen ({count}) - de importeras inte:",
                 "whySkipped": "Varför rader hoppas över",
                 "journalHint": "Rader utan matchning i CitizenOne (okänt CPR) sorteras automatiskt bort under importen och visas i sammanfattningen.",
                 "scheduleHint": "Rader utan matchning i CitizenOne (okänd e-post eller skifttyp) sorteras automatiskt bort under importen och visas i sammanfattningen.",
@@ -12440,9 +12441,11 @@
             "date_admitted": "Inskrivningsdatum",
             "date_discharged": "Utskrivningsdatum",
             "departments": "Avdelningar (separerade med ;)",
+            "requires_interpreter": "Tolk krävs (ja/nej)",
             "seniority_date": "Anställningsdatum",
             "cpr": "Medborgarens CPR-nummer (matchning)",
             "date": "Datum (ÅÅÅÅ-MM-DD)",
+            "spoken_languages": "Språk (åtskilda med semikolon)",
             "title": "Titel",
             "content": "Anteckningstext",
             "shift": "Skifttyp (namn)",
@@ -12477,7 +12480,8 @@
             "cpr_missing": "Personnummer saknas - dubbletter hittas då bara på namn",
             "cpr_malformed": "Personnummer har inte 10 siffror",
             "invalid_date": "Datum kan inte läsas: {field}",
-            "date_guessed": "Datum korrigerades av systemet: {field}"
+            "date_guessed": "Datum korrigerades av systemet: {field}",
+            "spoken_language_unknown": "Ett eller flera språk kändes inte igen och importerades inte"
         }
     },
     "sms": {
