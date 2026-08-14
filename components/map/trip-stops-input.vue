@@ -316,7 +316,18 @@ function cancelMap() {
     state.isMapModalOpen = false
 }
 
-function confirmMap() {
+async function confirmMap() {
+    const stop = props.modelValue.find((s) => s.key === state.activeKey)
+
+    // If the user never clicked the map, dragged the marker, or picked a
+    // search result, there's nothing to confirm yet — fall back to treating
+    // the map's current center as the pick, so the button always does
+    // something instead of silently closing with nothing selected.
+    if (!hasCoords(stop) && state.activeKey) {
+        const [lat, lng] = state.mapCenter
+        await onMarkerUpdate({ lat, lng })
+    }
+
     state.isMapModalOpen = false
 }
 
