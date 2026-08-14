@@ -13111,7 +13111,8 @@
             "invoices": "Fakturor",
             "services": "Tjänster",
             "settings": "Inställningar",
-            "templates": "Mallar"
+            "templates": "Mallar",
+            "reports": "Rapporter"
         },
         "settings": {
             "help": "Momssats, priser och uppgifterna som ska stå på varje faktura.",
@@ -13141,6 +13142,40 @@
             "preview": "Förhandsvisning",
             "previewInvoice": "Förhandsgranska faktura",
             "previewHelp": "Öppnar en exempelfaktura som PDF, precis som medborgaren tar emot den. Sparar dina ändringar först."
+        },
+        "reports": {
+            "from": "Från",
+            "to": "Till",
+            "export": "Exportera CSV",
+            "revenue": "Omsättning",
+            "overTime": "Omsättning och betalningar",
+            "ageing": "Utestående efter ålder",
+            "ageingHelp": "Räknat från förfallodatumet, som det ser ut i dag.",
+            "topServices": "Mest sålda tjänster",
+            "paymentMethods": "Betalningsmetoder",
+            "empty": "Inga siffror i perioden",
+            "periods": {
+                "month": "Denna månad",
+                "lastMonth": "Förra månaden",
+                "quarter": "Kvartal",
+                "year": "År"
+            },
+            "buckets": {
+                "not_due": "Inte förfallna",
+                "days_1_30": "1-30 dagar",
+                "days_31_60": "31-60 dagar",
+                "days_60_plus": "Över 60 dagar"
+            },
+            "cards": {
+                "revenue": "Omsättning denna månad",
+                "revenueHint": "Exkl. moms, {count} bokförda fakturor",
+                "outstanding": "Obetalda fakturor",
+                "outstandingHint": "{count} utkast är inte bokförda ännu",
+                "overdue": "Förfallna",
+                "overdueHint": "Förfallodatumet har passerat",
+                "paid": "Betald",
+                "paidHint": "Registrerad i perioden"
+            }
         }
     },
     "invoiceTemplates": {

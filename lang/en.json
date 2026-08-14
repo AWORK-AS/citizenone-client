@@ -13111,7 +13111,8 @@
             "invoices": "Invoices",
             "services": "Services",
             "settings": "Settings",
-            "templates": "Templates"
+            "templates": "Templates",
+            "reports": "Reports"
         },
         "settings": {
             "help": "The VAT rate, how prices are typed, and the details every invoice has to carry.",
@@ -13141,6 +13142,40 @@
             "preview": "Preview",
             "previewInvoice": "Preview invoice",
             "previewHelp": "Opens a sample invoice as a PDF, exactly as the citizen receives it. Saves your changes first."
+        },
+        "reports": {
+            "from": "From",
+            "to": "To",
+            "export": "Export CSV",
+            "revenue": "Revenue",
+            "overTime": "Revenue and payments",
+            "ageing": "Outstanding by age",
+            "ageingHelp": "Counted from the due date, as it stands today.",
+            "topServices": "Best selling services",
+            "paymentMethods": "Payment methods",
+            "empty": "No figures in this period",
+            "periods": {
+                "month": "This month",
+                "lastMonth": "Last month",
+                "quarter": "Quarter",
+                "year": "Year"
+            },
+            "buckets": {
+                "not_due": "Not due",
+                "days_1_30": "1-30 days",
+                "days_31_60": "31-60 days",
+                "days_60_plus": "Over 60 days"
+            },
+            "cards": {
+                "revenue": "Revenue this month",
+                "revenueHint": "Excl. VAT, {count} booked invoices",
+                "outstanding": "Unpaid invoices",
+                "outstandingHint": "{count} drafts are not booked yet",
+                "overdue": "Overdue",
+                "overdueHint": "Past the due date",
+                "paid": "Paid",
+                "paidHint": "Recorded in the period"
+            }
         }
     },
     "invoiceTemplates": {

@@ -49,13 +49,16 @@
                     </div>
 
                     <LoadingSpinner :isActive="state.isPageLoading">
-                        <div class="rounded-xl bg-white px-4 py-4 shadow-sm ring-1 ring-gray-900/5 max-w-xs">
-                            <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
-                                {{ $t('invoicing.outstandingTotal') }}
-                            </p>
-                            <p class="mt-1 text-2xl font-semibold text-gray-900 tabular-nums">
-                                {{ formatAmount(state.outstandingTotal) }}
-                            </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                            <div v-for="card in cards" :key="card.key"
+                                class="rounded-xl bg-white px-4 py-4 shadow-sm ring-1 ring-gray-900/5">
+                                <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                                    {{ card.label }}
+                                </p>
+                                <p class="mt-1 text-2xl font-semibold tabular-nums" :class="card.tone">
+                                    {{ formatAmount(card.value) }}
+                                </p>
+                            </div>
                         </div>
 
                         <div v-if="state.invoices.length === 0"
@@ -123,6 +126,8 @@
 
                 <ModulesUserInvoicingTemplates v-else-if="state.tab === 'templates'" :services="state.services" />
 
+                <ModulesUserInvoicingReports v-else-if="state.tab === 'reports'" />
+
                 <ModulesUserInvoicingSettingsForm v-else @saved="onSettingsSaved" />
 
                 <ModulesUserCitizenInvoiceModalForm :isModalOpen="state.isModalOpen" :services="state.services"
@@ -148,6 +153,7 @@ const breadcrumbLinks = [{ name: 'invoicing.title', translate: true, href: '/inv
 const state = reactive({
     invoices: [] as any[],
     outstandingTotal: 0,
+    summary: { revenue: 0, outstanding: 0, overdue: 0, paid: 0 },
     status: 'outstanding',
     tab: (route.query.tab as string) || 'invoices',
     services: [] as any[],
@@ -165,7 +171,22 @@ const tabs = computed(() => [
     { value: 'invoices', label: t('invoicing.tabs.invoices') },
     { value: 'services', label: t('invoicing.tabs.services') },
     { value: 'templates', label: t('invoicing.tabs.templates') },
+    { value: 'reports', label: t('invoicing.tabs.reports') },
     { value: 'settings', label: t('invoicing.tabs.settings') },
+])
+
+// The month everyone is asked about, plus the two figures that are chased no
+// matter which month they were written in.
+const cards = computed(() => [
+    { key: 'revenue', label: t('invoicing.reports.cards.revenue'), value: state.summary.revenue, tone: 'text-gray-900' },
+    { key: 'outstanding', label: t('invoicing.reports.cards.outstanding'), value: state.summary.outstanding, tone: 'text-gray-900' },
+    {
+        key: 'overdue',
+        label: t('invoicing.reports.cards.overdue'),
+        value: state.summary.overdue,
+        tone: state.summary.overdue > 0 ? 'text-red-600' : 'text-gray-900',
+    },
+    { key: 'paid', label: t('invoicing.reports.cards.paid'), value: state.summary.paid, tone: 'text-gray-900' },
 ])
 
 const filterOptions = computed(() => [
@@ -220,6 +241,24 @@ async function load() {
     }
 }
 
+async function loadSummary() {
+    try {
+        const response = await citizenInvoiceService.getReport({})
+        const data = response?.data
+
+        if (!data) return
+
+        state.summary = {
+            revenue: data.totals?.net_amount || 0,
+            outstanding: data.open?.outstanding || 0,
+            overdue: data.open?.overdue || 0,
+            paid: data.totals?.paid_amount || 0,
+        }
+    } catch (error: any) {
+        // The list is the point of the page; the cards are a summary of it.
+    }
+}
+
 async function loadSettings() {
     try {
         const [response, services] = await Promise.all([
@@ -253,6 +292,7 @@ function setFilter(status: string) {
 
 onMounted(() => {
     load()
+    loadSummary()
     loadSettings()
 })
 </script>

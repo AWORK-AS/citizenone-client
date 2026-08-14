@@ -13111,7 +13111,8 @@
             "invoices": "Fakturaer",
             "services": "Ydelser",
             "settings": "Opsætning",
-            "templates": "Skabeloner"
+            "templates": "Skabeloner",
+            "reports": "Rapporter"
         },
         "settings": {
             "help": "Momssats, priser og de oplysninger, der skal stå på hver faktura.",
@@ -13141,6 +13142,40 @@
             "preview": "Forhåndsvisning",
             "previewInvoice": "Forhåndsvis faktura",
             "previewHelp": "Åbner en eksempelfaktura som PDF, præcis som borgeren modtager den. Gemmer først dine ændringer."
+        },
+        "reports": {
+            "from": "Fra",
+            "to": "Til",
+            "export": "Eksportér CSV",
+            "revenue": "Omsætning",
+            "overTime": "Omsætning og betalinger",
+            "ageing": "Udestående efter alder",
+            "ageingHelp": "Regnet fra betalingsfristen, opgjort i dag.",
+            "topServices": "Mest solgte ydelser",
+            "paymentMethods": "Betalingsmetoder",
+            "empty": "Ingen tal i perioden",
+            "periods": {
+                "month": "Denne måned",
+                "lastMonth": "Sidste måned",
+                "quarter": "Kvartal",
+                "year": "År"
+            },
+            "buckets": {
+                "not_due": "Ikke forfaldne",
+                "days_1_30": "1-30 dage",
+                "days_31_60": "31-60 dage",
+                "days_60_plus": "Over 60 dage"
+            },
+            "cards": {
+                "revenue": "Omsætning denne måned",
+                "revenueHint": "Ekskl. moms, {count} bogførte fakturaer",
+                "outstanding": "Ubetalte fakturaer",
+                "outstandingHint": "{count} kladder er ikke bogført endnu",
+                "overdue": "Forfaldne",
+                "overdueHint": "Betalingsfristen er overskredet",
+                "paid": "Betalt",
+                "paidHint": "Registreret i perioden"
+            }
         }
     },
     "invoiceTemplates": {

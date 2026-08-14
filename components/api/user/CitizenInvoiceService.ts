@@ -1,6 +1,14 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class CitizenInvoiceService extends BaseAPIService {
+    async getReport(params: object): Promise<any> {
+        return await this.request(`/user/invoice-reports`, 'GET', params)
+    }
+
+    async exportReport(params: object): Promise<Blob | null> {
+        return await this.requestBlob(`/user/invoice-reports/export`, 'GET', params)
+    }
+
     async getSettings(): Promise<any> {
         return await this.request(`/user/invoice-settings`, 'GET')
     }
