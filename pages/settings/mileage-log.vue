@@ -77,7 +77,7 @@
                             <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('mileageLog.download.download') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" @click="onStartTripClick" :disabled="tracking.isTracking.value">
+                        <FormButton buttonStyle="action" @click="onStartTripClick" :disabled="!tracking.isIdle.value">
                             <Icon name="ph:car" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('mileageLog.tracking.startTrip') }}
                         </FormButton>
@@ -245,28 +245,27 @@ onMounted(() => {
 
 // The tracking banner (mounted once in layouts/user.vue) is what actually
 // stops the trip, from anywhere in the app. This page just needs to notice
-// when a stopped trip has actually finished saving, and refresh — an
-// in-progress trip is excluded from the list/summary until it's stopped
-// (see backend/dev.md, §9), so there's nothing to show until then anyway.
+// when a trip has actually finished saving, and refresh — an in-progress
+// trip is excluded from the list/summary until it's stopped (see
+// backend/dev.md, §9), so there's nothing to show until then anyway.
 //
-// Deliberately watching `status` for the exact 'reviewing' -> 'idle' edge,
-// not `isTracking` going false: `stop()` flips status to 'stopping' (which
-// makes isTracking false) *before* it calls the backend, so watching
-// isTracking refreshed the list before the trip was actually saved — it
-// would show as missing until a manual page reload. 'reviewing' is only
-// reached after a successful save, and 'idle' is only reached from there
-// once the review modal is closed, so this fires exactly once, at the right
-// time. (A cancelled trip goes straight to 'idle' without passing through
-// 'reviewing', so cancelling correctly does not trigger a refresh here.)
-watch(tracking.status, (status, previousStatus) => {
-    if (previousStatus === 'reviewing' && status === 'idle') {
-        fetchMileageLogs()
-        fetchSummary()
-    }
+// Watching tripSavedTick (bumped once, inside stop(), right after the
+// backend confirms the save) rather than inferring "a trip was just saved"
+// from a status transition such as 'reviewing' -> 'idle': that transition
+// only happens once the review modal is later closed, elsewhere in the
+// component tree, which is one step removed from the save itself. Watching
+// the tick fires at the moment the data actually changed, independent of
+// whatever the review UI does afterward.
+watch(tracking.tripSavedTick, () => {
+    fetchMileageLogs()
+    fetchSummary()
 })
 
 function onStartTripClick() {
-    if (tracking.isTracking.value) return
+    // Guards on isIdle, not isTracking: isTracking goes false the moment
+    // stop() begins, which left a several-second window mid-stop where a new
+    // trip could be started on top of one still being saved.
+    if (!tracking.isIdle.value) return
     state.modal.isStartTripOpen = true
 }
 

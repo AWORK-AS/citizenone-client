@@ -7595,6 +7595,7 @@
             "startAddressResolving": "Resolving address …",
             "startAddressUnavailable": "Address could not be resolved — coordinates saved",
             "startTrip": "Start trip",
+            "stoppingInProgress": "Finishing the trip …",
             "stopTrip": "Stop trip",
             "tripInProgress": "Trip in progress"
         },

@@ -7595,6 +7595,7 @@
             "startAddressResolving": "Finner adresse …",
             "startAddressUnavailable": "Adressen kunne ikke bli funnet — koordinater er lagret",
             "startTrip": "Start tur",
+            "stoppingInProgress": "Avslutter turen …",
             "stopTrip": "Avslutt tur",
             "tripInProgress": "Tur pågår"
         },

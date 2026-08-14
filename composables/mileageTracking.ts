@@ -68,6 +68,13 @@ const startAddress = ref<string | null>(null)
 const citizenUuid = ref<string | null>(null)
 const trackingError = ref<string | null>(null)
 const isBusy = ref(false) // true while start()/stop()/cancel() are in flight
+// Bumped at the start of start()/stop()/cancel(). reconcile() snapshots this
+// before its GET /active call and discards its result if the number has
+// since moved on — otherwise a reconcile() issued on page load (before any
+// trip exists) can resolve *after* the user has already started a new trip
+// while it was in flight, and its stale "no trip running" answer would wipe
+// out the trip that was just started.
+let stateGeneration = 0
 // Updated on every geolocation fix regardless of accuracy — purely for "where
 // is the user right now" display purposes (map centering). Deliberately
 // separate from `points`, which stays filtered for distance-calculation
@@ -77,9 +84,26 @@ const isBusy = ref(false) // true while start()/stop()/cancel() are in flight
 // hardcoded fallback center for the whole session.
 const lastKnownPosition = ref<{ lat: number; lng: number; accuracy?: number } | null>(null)
 
+// Increments exactly once per successful stop() — i.e. exactly when a trip
+// actually changed on the server. Pages that list/summarize mileage logs
+// should watch this directly rather than inferring "a trip was just saved"
+// from a status transition like 'reviewing' -> 'idle': that transition only
+// happens when the review modal is later closed, which is one step removed
+// from the save itself and depends on a component elsewhere in the tree
+// staying mounted with the same composable instance the whole time.
+const tripSavedTick = ref(0)
+
+// Ticks every second while tracking so `elapsedSeconds` below has an actual
+// reactive dependency to recompute on — Date.now() alone isn't reactive, so
+// without this the computed only evaluates once (whenever it's first read)
+// and then stays frozen at that value forever, which is why the banner's
+// timer was stuck instead of counting up.
+const clockTick = ref(0)
+
 let watchId: number | null = null
 let logIntervalId: ReturnType<typeof setInterval> | null = null
 let staleCheckId: ReturnType<typeof setInterval> | null = null
+let clockIntervalId: ReturnType<typeof setInterval> | null = null
 let lastLoggedPoint: { lat: number; lng: number } | null = null
 let wakeLock: any = null
 let listenersBound = false
@@ -125,7 +149,18 @@ function clearPersisted() {
     localStorage.removeItem(STORAGE_KEY)
 }
 
+/**
+ * Returns to a clean idle state. Deliberately also tears down the geolocation
+ * watcher, timers and wake lock: every caller that resets is ending the
+ * session (review dismissed, trip cancelled, server says nothing is running),
+ * and leaving those running leaked a live watchPosition + intervals that kept
+ * pushing breadcrumbs for a trip that no longer exists locally. Safe to call
+ * when nothing is running — stopWatching()/releaseWakeLock() are both no-ops
+ * in that case.
+ */
 function resetState() {
+    stopWatching()
+    releaseWakeLock()
     status.value = 'idle'
     activeTrip.value = null
     points.value = []
@@ -220,6 +255,14 @@ function onPositionError() {
 
 function startWatching() {
     if (typeof navigator === 'undefined' || !navigator.geolocation) return
+    // Idempotent: tear down any existing watcher/intervals first. reconcile()
+    // calls this whenever it adopts a running trip, and it runs on every mount
+    // of the tracking banner — which remounts more often than it looks, because
+    // pages render the layout themselves (<NuxtLayout name="user"> lives inside
+    // the page template), so navigating away and back recreates it. Without
+    // this, each remount leaked another live watchPosition and another pair of
+    // intervals, all writing to the same shared state.
+    stopWatching()
     watchId = navigator.geolocation.watchPosition(onPosition, onPositionError, {
         enableHighAccuracy: true,
         timeout: 30000,
@@ -236,6 +279,10 @@ function startWatching() {
             status.value = 'tracking-degraded'
         }
     }, 15000)
+
+    clockIntervalId = setInterval(() => {
+        clockTick.value++
+    }, 1000)
 }
 
 function stopWatching() {
@@ -250,6 +297,10 @@ function stopWatching() {
     if (staleCheckId !== null) {
         clearInterval(staleCheckId)
         staleCheckId = null
+    }
+    if (clockIntervalId !== null) {
+        clearInterval(clockIntervalId)
+        clockIntervalId = null
     }
     lastLoggedPoint = null
 }
@@ -292,8 +343,30 @@ export function useMileageTracking(t?: (key: string) => string) {
 
     const isTracking = computed(() => status.value === 'tracking' || status.value === 'tracking-degraded')
     const isIdle = computed(() => status.value === 'idle')
+    // A trip that's already been stopped server-side but whose review screen
+    // hasn't been closed yet. The banner must stay reachable during this
+    // state too — otherwise, if the component showing the review modal ever
+    // unmounts (a page refresh, navigating away and back) before the user
+    // clicks through it, there is no way back in to finish closing it out.
+    const isReviewing = computed(() => status.value === 'reviewing')
+    const isStopping = computed(() => status.value === 'stopping')
+    /**
+     * True for every state that represents an existing trip session, including
+     * the transitional 'stopping'. This is what the tracking banner must key
+     * its visibility off — NOT isTracking, which goes false the moment stop()
+     * begins. Because the banner hosts the stop/review modal, a visibility
+     * condition that excludes 'stopping' unmounts the banner (and the open
+     * modal with it) for the several seconds stop()'s network calls take, then
+     * remounts it when status reaches 'reviewing' — which re-fires the modal's
+     * open watcher and makes the review screen appear twice. It also left a
+     * window with no banner where a new trip could be started mid-stop.
+     */
+    const hasTripSession = computed(() =>
+        ['tracking', 'tracking-degraded', 'stopping', 'reviewing'].includes(status.value)
+    )
     const distanceSoFarKm = computed(() => Math.round((distanceTrackedMeters() / 1000) * 100) / 100)
     const elapsedSeconds = computed(() => {
+        clockTick.value // reactive dependency — see the comment by its declaration
         if (!startedAt.value) return 0
         return Math.max(0, Math.floor((Date.now() - new Date(startedAt.value).getTime()) / 1000))
     })
@@ -306,8 +379,11 @@ export function useMileageTracking(t?: (key: string) => string) {
      * clear local state silently.
      */
     async function reconcile() {
+        const generationAtCallTime = stateGeneration
         try {
             const response = await mileageLogService.getActiveTrip()
+            if (generationAtCallTime !== stateGeneration) return // superseded — see the comment by stateGeneration's declaration
+
             // NOT `response?.data ?? response` — the endpoint legitimately
             // returns `{ data: null }` when nothing is running, and that
             // fallback would then resolve to the (truthy) wrapper object
@@ -343,7 +419,30 @@ export function useMileageTracking(t?: (key: string) => string) {
     }
 
     async function start(opts: { citizenUuid?: string | null; note?: string } = {}) {
-        if (status.value !== 'idle') return
+        // 'reviewing' must NOT block a new trip. The trip it refers to was
+        // already fully persisted by /stop — 'reviewing' is a purely
+        // informational client-side screen ("here's what we saved"), not an
+        // unsaved-work state. Treating it as blocking is what wedged this
+        // feature repeatedly: any interruption to that screen (the component
+        // unmounting, navigating away, the modal being dismissed by a route
+        // change) left status stuck at 'reviewing' forever, and every later
+        // Start silently did nothing until a full page reload. Starting a new
+        // trip is itself an unambiguous "I'm done looking at that" signal, so
+        // just drop the review and continue.
+        if (status.value === 'reviewing') {
+            resetState()
+        }
+
+        // What genuinely blocks a new trip: one that is actually live or
+        // mid-transition ('starting'/'tracking'/'stopping'/...). Throw rather
+        // than returning silently — a bare `return` resolves the promise
+        // successfully, so the Start modal couldn't tell it apart from a real
+        // start and showed a "trip started" toast while doing nothing.
+        if (status.value !== 'idle') {
+            trackingError.value = localize('mileageLog.tracking.errors.alreadyStarted', 'You already have a trip in progress')
+            throw new Error(trackingError.value)
+        }
+        stateGeneration++
         trackingError.value = null
         status.value = 'requesting-permission'
         isBusy.value = true
@@ -392,10 +491,20 @@ export function useMileageTracking(t?: (key: string) => string) {
         } catch (err: any) {
             // A 409 ("you already have an active trip") carries that trip as
             // err.data (see backend/dev.md and APIError.data) — adopt it
-            // instead of surfacing this as a failure. Fall back to an
-            // explicit getActiveTrip() lookup if the error didn't carry a
-            // usable body, so a conflict is still recoverable either way.
-            const conflictTrip = err?.data ?? (await mileageLogService.getActiveTrip().catch(() => null))?.data
+            // instead of surfacing this as a failure.
+            //
+            // Deliberately NOT falling back to a speculative getActiveTrip()
+            // lookup when err.data is absent: that used to run for *any*
+            // failure (a genuine validation error, a network hiccup,
+            // anything), and if an unrelated trip happened to already be
+            // active — e.g. an orphaned one left over from earlier testing —
+            // it got silently adopted and returned as if the request had
+            // succeeded. That masked real failures (confirmed: starting a
+            // trip with a citizen linked could fail outright while still
+            // showing a success toast, because some other stale trip got
+            // adopted in its place) behind a false-positive "success".
+            // Require actual evidence this was the 409-with-body case.
+            const conflictTrip = err?.data?.uuid ? err.data : null
             if (conflictTrip) {
                 activeTrip.value = conflictTrip
                 startedAt.value = conflictTrip.trip_started_at ?? new Date().toISOString()
@@ -433,6 +542,7 @@ export function useMileageTracking(t?: (key: string) => string) {
      */
     async function stop(opts: { endAddress?: string | null; note?: string; citizenUuid?: string | null; useBreadcrumbs?: boolean } = {}) {
         if (!isTracking.value || !activeTrip.value?.uuid) return null
+        stateGeneration++
         isBusy.value = true
         status.value = 'stopping'
 
@@ -456,9 +566,18 @@ export function useMileageTracking(t?: (key: string) => string) {
                 use_breadcrumbs: opts.useBreadcrumbs ?? true,
             })
 
+            // Write the final trip (correct kilometers, end_address, etc.)
+            // back into the shared activeTrip ref rather than leaving it
+            // holding pre-stop data — this is what makes activeTrip a
+            // reliable source for the review screen even if the component
+            // showing it gets unmounted/remounted (e.g. a page refresh)
+            // while status is still 'reviewing', instead of relying on a
+            // component-local copy that a remount would lose entirely.
+            if (result?.data) activeTrip.value = result.data
             stopWatching()
             releaseWakeLock()
             status.value = 'reviewing'
+            tripSavedTick.value++
             return result?.data
         } catch (err: any) {
             // Stop failed server-side — stay in 'tracking' so the user can retry
@@ -475,12 +594,11 @@ export function useMileageTracking(t?: (key: string) => string) {
 
     /** Called once the review modal is dismissed (whether saved or not). */
     function finishReview() {
-        stopWatching()
-        releaseWakeLock()
-        resetState()
+        resetState() // also tears down watcher/timers/wake lock — see resetState()
     }
 
     async function cancel() {
+        stateGeneration++
         if (!activeTrip.value?.uuid) {
             resetState()
             return
@@ -492,9 +610,7 @@ export function useMileageTracking(t?: (key: string) => string) {
             // Even if the server call fails, clear local state — the user
             // explicitly asked to discard, and staying "stuck" tracking is worse.
         } finally {
-            stopWatching()
-            releaseWakeLock()
-            resetState()
+            resetState() // also tears down watcher/timers/wake lock
             isBusy.value = false
         }
     }
@@ -504,7 +620,11 @@ export function useMileageTracking(t?: (key: string) => string) {
         activeTrip,
         points,
         lastKnownPosition,
+        tripSavedTick,
         isTracking,
+        isReviewing,
+        isStopping,
+        hasTripSession,
         isIdle,
         isBusy,
         trackingError,

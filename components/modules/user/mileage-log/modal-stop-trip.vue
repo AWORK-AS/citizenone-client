@@ -64,8 +64,12 @@
                         </div>
                     </template>
 
-                    <!-- Phase 2: already stopped server-side, showing the final summary -->
-                    <template v-else-if="state.phase === 'summary' && state.finalTrip">
+                    <!-- Phase 2: already stopped server-side, showing the final summary.
+                         Reads tracking.activeTrip directly (kept up to date by stop()
+                         itself) rather than a component-local copy, so this still
+                         renders correctly if this component gets unmounted and
+                         reopened (e.g. a page refresh) while a review is pending. -->
+                    <template v-else-if="state.phase === 'summary' && tracking.activeTrip.value">
                         <div class="p-4 bg-green-50 border border-green-200 rounded-md flex items-start gap-x-2">
                             <Icon name="ph:check-circle" class="w-5 h-5 text-green-600 shrink-0 mt-0.5" />
                             <p class="text-sm text-green-800">{{ $t('mileageLog.tracking.alert.tripSaved') }}</p>
@@ -73,16 +77,16 @@
                         <div class="grid grid-cols-2 gap-3">
                             <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
                                 <p class="text-xs text-tertiary">{{ $t('mileageLog.form.startAddress') }}</p>
-                                <p class="text-sm font-semibold text-gray-700">{{ state.finalTrip.start_address || '—' }}</p>
+                                <p class="text-sm font-semibold text-gray-700">{{ tracking.activeTrip.value.start_address || '—' }}</p>
                             </div>
                             <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
                                 <p class="text-xs text-tertiary">{{ $t('mileageLog.form.endAddress') }}</p>
-                                <p class="text-sm font-semibold text-gray-700">{{ state.finalTrip.end_address || '—' }}</p>
+                                <p class="text-sm font-semibold text-gray-700">{{ tracking.activeTrip.value.end_address || '—' }}</p>
                             </div>
                         </div>
                         <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
                             <p class="text-xs text-tertiary">{{ $t('mileageLog.form.estimatedDistance') }}</p>
-                            <p class="text-sm font-semibold text-gray-700">{{ Number(state.finalTrip.kilometers ?? 0).toFixed(2) }} km</p>
+                            <p class="text-sm font-semibold text-gray-700">{{ Number(tracking.activeTrip.value.kilometers ?? 0).toFixed(2) }} km</p>
                         </div>
                         <div class="flex justify-end">
                             <FormButton buttonStyle="primary" @click="onCloseSummary">
@@ -123,13 +127,31 @@ const state = reactive({
     citizenUuid: null as string | null,
     citizenOptions: [] as any,
     confirmingCancel: false,
-    finalTrip: null as any,
 })
 
 watch(() => props.show, (open) => {
     if (!open) return
-    state.phase = 'confirm'
     state.confirmingCancel = false
+
+    // A trip that was already stopped, awaiting review, opens straight into
+    // the summary — re-running the "confirm stop" screen for an already-
+    // stopped trip makes no sense, and would be unreachable anyway (nothing
+    // in that phase applies once trip_started_at is already cleared
+    // server-side). This is also what makes the trip recoverable via the
+    // banner after this component remounts (e.g. a page refresh) while a
+    // review is still pending.
+    if (tracking.isReviewing.value) {
+        state.phase = 'summary'
+        return
+    }
+
+    state.phase = 'confirm'
+    // The trip may already have been linked to a citizen at Start — reflect
+    // that here rather than always opening blank/unlinked. tracking.citizenUuid
+    // is set from opts.citizenUuid in start() and persists for the life of
+    // the tracked trip.
+    state.linkToCitizen = !!tracking.citizenUuid.value
+    state.citizenUuid = tracking.citizenUuid.value
     fetchCitizenOptions()
 })
 
@@ -183,11 +205,13 @@ const formattedElapsed = computed(() => {
 
 async function onStop() {
     try {
-        const result = await tracking.stop({
+        // stop() itself now writes the final trip data into
+        // tracking.activeTrip, which is what the summary phase reads —
+        // nothing further to capture from the return value here.
+        await tracking.stop({
             note: state.note,
             citizenUuid: state.linkToCitizen ? state.citizenUuid : null,
         })
-        state.finalTrip = result
         state.phase = 'summary'
     } catch {
         // tracking.trackingError is already populated; stay on the confirm

@@ -7595,6 +7595,7 @@
             "startAddressResolving": "Hämtar adress …",
             "startAddressUnavailable": "Adressen kunde inte hittas — koordinater har sparats",
             "startTrip": "Starta resa",
+            "stoppingInProgress": "Avslutar resan …",
             "stopTrip": "Avsluta resa",
             "tripInProgress": "Resa pågår"
         },

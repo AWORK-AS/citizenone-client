@@ -1,27 +1,38 @@
 <template>
-    <div v-if="tracking.isTracking.value"
+    <div v-if="tracking.hasTripSession.value"
         class="fixed bottom-0 inset-x-0 z-40 lg:bottom-4 lg:left-auto lg:right-4 lg:inset-x-auto lg:max-w-sm lg:rounded-xl bg-gray-900 text-white shadow-2xl">
         <div class="px-4 py-3 flex items-center gap-x-3">
             <div class="flex items-center justify-center w-9 h-9 rounded-full bg-primary/20 shrink-0">
                 <Icon name="ph:car" class="w-5 h-5 text-primary-300" />
             </div>
             <div class="min-w-0 flex-1">
-                <p class="text-sm font-semibold truncate">{{ $t('mileageLog.tracking.tripInProgress') }}</p>
+                <p class="text-sm font-semibold truncate">
+                    {{ tracking.isReviewing.value ? $t('mileageLog.tracking.reviewTitle') : $t('mileageLog.tracking.tripInProgress') }}
+                </p>
                 <p class="text-xs text-gray-300 flex items-center gap-x-2">
-                    <span>{{ formattedElapsed }}</span>
-                    <span>·</span>
-                    <span>{{ tracking.distanceSoFarKm.value.toFixed(2) }} km</span>
-                    <span v-if="tracking.status.value === 'tracking-degraded'"
-                        class="flex items-center gap-x-1 text-amber-300">
-                        <Icon name="ph:warning" class="w-3.5 h-3.5" />
-                        {{ $t('mileageLog.tracking.gpsPaused') }}
-                    </span>
+                    <template v-if="tracking.isReviewing.value">
+                        <span>{{ $t('mileageLog.tracking.alert.tripSaved') }}</span>
+                    </template>
+                    <template v-else-if="tracking.isStopping.value">
+                        <Icon name="ph:spinner-gap" class="w-3.5 h-3.5 animate-spin" />
+                        <span>{{ $t('mileageLog.tracking.stoppingInProgress') }}</span>
+                    </template>
+                    <template v-else>
+                        <span>{{ formattedElapsed }}</span>
+                        <span>·</span>
+                        <span>{{ tracking.distanceSoFarKm.value.toFixed(2) }} km</span>
+                        <span v-if="tracking.status.value === 'tracking-degraded'"
+                            class="flex items-center gap-x-1 text-amber-300">
+                            <Icon name="ph:warning" class="w-3.5 h-3.5" />
+                            {{ $t('mileageLog.tracking.gpsPaused') }}
+                        </span>
+                    </template>
                 </p>
             </div>
-            <button type="button"
-                class="shrink-0 bg-white text-gray-900 text-xs font-semibold px-3 py-1.5 rounded-md hover:bg-gray-100"
+            <button type="button" :disabled="tracking.isStopping.value"
+                class="shrink-0 bg-white text-gray-900 text-xs font-semibold px-3 py-1.5 rounded-md hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                 @click="state.isStopModalOpen = true">
-                {{ $t('mileageLog.tracking.stopTrip') }}
+                {{ tracking.isReviewing.value ? $t('close') : $t('mileageLog.tracking.stopTrip') }}
             </button>
         </div>
 
