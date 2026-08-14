@@ -1,6 +1,14 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class CitizenInvoiceService extends BaseAPIService {
+    async getSettings(): Promise<any> {
+        return await this.request(`/user/invoice-settings`, 'GET')
+    }
+
+    async updateSettings(params: object): Promise<any> {
+        return await this.request(`/user/invoice-settings`, 'PUT', params)
+    }
+
     async getServices(): Promise<any> {
         return await this.request(`/user/services`, 'GET')
     }

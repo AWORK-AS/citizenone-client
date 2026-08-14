@@ -13065,7 +13065,8 @@
             "unitPrice": "Styckpris",
             "vatRate": "Moms %",
             "subsidy": "Standardbidrag",
-            "vatHelp": "Tandvård är momsfri, så satsen sätts per tjänst i stället för att antas."
+            "vatHelp": "Tandvård är momsfri, så satsen sätts per tjänst i stället för att antas.",
+            "unitPriceIncl": "Styckpris inkl. moms"
         }
     },
     "invoicing": {
@@ -13088,6 +13089,31 @@
         "empty": {
             "title": "Inga fakturor",
             "text": "Fakturor skapas på invånaren och samlas här."
+        },
+        "tabs": {
+            "invoices": "Fakturor",
+            "services": "Tjänster",
+            "settings": "Inställningar"
+        },
+        "settings": {
+            "help": "Momssats, priser och uppgifterna som ska stå på varje faktura.",
+            "adminOnly": "Endast en administratör kan ändra fakturainställningarna.",
+            "vat": "Moms",
+            "defaultVatRate": "Standardmomssats %",
+            "defaultVatRateHelp": "Används på nya tjänster och på fakturarader utan egen sats. Tandvård är momsfri, så här sätts 0.",
+            "pricesIncludeVat": "Priser är inkl. moms",
+            "pricesIncludeVatHelp": "Slå på om ni skriver priser så som kunden betalar dem. Momsen räknas då ut ur beloppet i stället för att läggas till.",
+            "example": "Med ett pris på 100:",
+            "exampleIncl": "{net} exkl. moms + {vat} i moms = 100,00",
+            "exampleExcl": "100,00 + {vat} i moms = {total}",
+            "invoiceDetails": "Fakturauppgifter",
+            "vatNumber": "Org.nr.",
+            "paymentTerms": "Betalningsvillkor (dagar)",
+            "paymentDetails": "Betalningsuppgifter",
+            "paymentDetailsPlaceholder": "T.ex. bankkonto, MobilePay-nummer eller betalningsvillkor",
+            "footer": "Fotnot på faktura",
+            "footerPlaceholder": "T.ex. hänvisning till era villkor",
+            "saved": "Fakturainställningarna är sparade"
         }
     }
 }

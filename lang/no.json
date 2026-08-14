@@ -13065,7 +13065,8 @@
             "unitPrice": "Stykkpris",
             "vatRate": "Mva %",
             "subsidy": "Standardtilskudd",
-            "vatHelp": "Tannbehandling er fritatt for mva, så satsen settes per tjeneste i stedet for å antas."
+            "vatHelp": "Tannbehandling er fritatt for mva, så satsen settes per tjeneste i stedet for å antas.",
+            "unitPriceIncl": "Stykkpris inkl. mva"
         }
     },
     "invoicing": {
@@ -13088,6 +13089,31 @@
         "empty": {
             "title": "Ingen fakturaer",
             "text": "Fakturaer opprettes på innbyggeren og samles her."
+        },
+        "tabs": {
+            "invoices": "Fakturaer",
+            "services": "Tjenester",
+            "settings": "Oppsett"
+        },
+        "settings": {
+            "help": "Mva-sats, priser og opplysningene som skal stå på hver faktura.",
+            "adminOnly": "Bare en administrator kan endre fakturaoppsettet.",
+            "vat": "Mva",
+            "defaultVatRate": "Standard mva-sats %",
+            "defaultVatRateHelp": "Brukes på nye tjenester og på fakturalinjer uten egen sats. Tannbehandling er unntatt, så her settes 0.",
+            "pricesIncludeVat": "Priser er inkl. mva",
+            "pricesIncludeVatHelp": "Slå på hvis dere skriver priser slik kunden betaler dem. Mva regnes da ut av beløpet i stedet for å legges til.",
+            "example": "Med en pris på 100:",
+            "exampleIncl": "{net} ekskl. mva + {vat} i mva = 100,00",
+            "exampleExcl": "100,00 + {vat} i mva = {total}",
+            "invoiceDetails": "Fakturaopplysninger",
+            "vatNumber": "Org.nr.",
+            "paymentTerms": "Forfall (dager)",
+            "paymentDetails": "Betalingsopplysninger",
+            "paymentDetailsPlaceholder": "F.eks. bankkonto, MobilePay-nummer eller betalingsvilkår",
+            "footer": "Fotnote på faktura",
+            "footerPlaceholder": "F.eks. henvisning til vilkårene deres",
+            "saved": "Fakturaoppsettet er lagret"
         }
     }
 }

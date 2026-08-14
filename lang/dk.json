@@ -13065,7 +13065,8 @@
             "unitPrice": "Stykpris",
             "vatRate": "Moms %",
             "subsidy": "Standardtilskud",
-            "vatHelp": "Tandbehandling er momsfri, så momssatsen sættes pr. ydelse i stedet for at blive antaget."
+            "vatHelp": "Tandbehandling er momsfri, så momssatsen sættes pr. ydelse i stedet for at blive antaget.",
+            "unitPriceIncl": "Stykpris inkl. moms"
         }
     },
     "invoicing": {
@@ -13088,6 +13089,31 @@
         "empty": {
             "title": "Ingen fakturaer",
             "text": "Fakturaer oprettes på den enkelte borger og samles her."
+        },
+        "tabs": {
+            "invoices": "Fakturaer",
+            "services": "Ydelser",
+            "settings": "Opsætning"
+        },
+        "settings": {
+            "help": "Momssats, priser og de oplysninger, der skal stå på hver faktura.",
+            "adminOnly": "Kun en administrator kan ændre fakturaopsætningen.",
+            "vat": "Moms",
+            "defaultVatRate": "Standard momssats %",
+            "defaultVatRateHelp": "Bruges på nye ydelser og på fakturalinjer uden egen sats. Tandbehandling er momsfri, så her sættes 0.",
+            "pricesIncludeVat": "Priser er inkl. moms",
+            "pricesIncludeVatHelp": "Slå til, hvis I skriver priser, som kunden betaler dem. Momsen regnes så ud af beløbet i stedet for at blive lagt til.",
+            "example": "Med en pris på 100:",
+            "exampleIncl": "{net} ekskl. moms + {vat} i moms = 100,00",
+            "exampleExcl": "100,00 + {vat} i moms = {total}",
+            "invoiceDetails": "Fakturaoplysninger",
+            "vatNumber": "CVR-nr.",
+            "paymentTerms": "Betalingsfrist (dage)",
+            "paymentDetails": "Betalingsoplysninger",
+            "paymentDetailsPlaceholder": "Fx bankkonto, MobilePay-nummer eller betalingsvilkår",
+            "footer": "Fodnote på faktura",
+            "footerPlaceholder": "Fx henvisning til handelsbetingelser",
+            "saved": "Fakturaopsætningen er gemt"
         }
     }
 }

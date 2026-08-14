@@ -37,7 +37,7 @@
                                     <th class="py-1 pr-2 w-48">{{ $t('citizens.invoices.form.service') }}</th>
                                     <th class="py-1 pr-2">{{ $t('citizens.invoices.form.description') }}</th>
                                     <th class="py-1 pr-2 w-20">{{ $t('citizens.invoices.form.quantity') }}</th>
-                                    <th class="py-1 pr-2 w-28">{{ $t('citizens.invoices.form.unitPrice') }}</th>
+                                    <th class="py-1 pr-2 w-28">{{ unitPriceLabel }}</th>
                                     <th class="py-1 pr-2 w-20">{{ $t('citizens.invoices.form.vat') }}</th>
                                     <th class="py-1 pr-2 w-28">{{ $t('citizens.invoices.form.subsidy') }}</th>
                                     <th class="py-1 pr-2 w-28 text-right">{{ $t('citizens.invoices.form.lineTotal') }}</th>
@@ -137,6 +137,7 @@ const props = defineProps<{
     isModalOpen: boolean
     citizenUuid: string
     services: any[]
+    settings?: { default_vat_rate?: number; prices_include_vat?: boolean }
 }>()
 
 const emit = defineEmits<{ (event: 'saved'): void; (event: 'close'): void }>()
@@ -154,7 +155,31 @@ function emptyForm() {
 }
 
 function newLine() {
-    return { service_uuid: null, description: '', quantity: '1', unit_price: '', vat_rate: '0', subsidy_amount: '' }
+    return {
+        service_uuid: null,
+        description: '',
+        quantity: '1',
+        unit_price: '',
+        // A free line inherits the company rate; picking a service overwrites
+        // it with whatever the catalogue says.
+        vat_rate: String(props.settings?.default_vat_rate ?? 0),
+        subsidy_amount: '',
+    }
+}
+
+const pricesIncludeVat = computed(() => !!props.settings?.prices_include_vat)
+
+const unitPriceLabel = computed(() => pricesIncludeVat.value
+    ? t('services.form.unitPriceIncl')
+    : t('citizens.invoices.form.unitPrice'))
+
+// With VAT-inclusive prices the typed amount already holds the VAT, so the
+// net is taken back out of it. This mirrors what the server stores.
+function netOf(line: any): number {
+    const amount = (Number(line.quantity) || 0) * (Number(line.unit_price) || 0)
+    const rate = Number(line.vat_rate) || 0
+
+    return pricesIncludeVat.value && rate > 0 ? amount / (1 + rate / 100) : amount
 }
 
 const serviceOptions = computed(() => (props.services || []).map((service: any) => ({
@@ -176,7 +201,7 @@ function applyService(line: any) {
 }
 
 function lineTotal(line: any): number {
-    const net = (Number(line.quantity) || 0) * (Number(line.unit_price) || 0)
+    const net = netOf(line)
 
     return net + net * ((Number(line.vat_rate) || 0) / 100)
 }
@@ -187,7 +212,7 @@ const totals = computed(() => {
     let subsidy = 0
 
     for (const line of state.form.lines) {
-        const lineNet = (Number(line.quantity) || 0) * (Number(line.unit_price) || 0)
+        const lineNet = netOf(line)
         net += lineNet
         vat += lineNet * ((Number(line.vat_rate) || 0) / 100)
         subsidy += Number(line.subsidy_amount) || 0

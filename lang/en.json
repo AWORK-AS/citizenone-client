@@ -13065,7 +13065,8 @@
             "unitPrice": "Unit price",
             "vatRate": "VAT %",
             "subsidy": "Default subsidy",
-            "vatHelp": "Dental treatment is VAT exempt, so the rate is set per service rather than assumed."
+            "vatHelp": "Dental treatment is VAT exempt, so the rate is set per service rather than assumed.",
+            "unitPriceIncl": "Unit price incl. VAT"
         }
     },
     "invoicing": {
@@ -13088,6 +13089,31 @@
         "empty": {
             "title": "No invoices",
             "text": "Invoices are created on the citizen and collected here."
+        },
+        "tabs": {
+            "invoices": "Invoices",
+            "services": "Services",
+            "settings": "Settings"
+        },
+        "settings": {
+            "help": "The VAT rate, how prices are typed, and the details every invoice has to carry.",
+            "adminOnly": "Only an administrator can change the invoicing settings.",
+            "vat": "VAT",
+            "defaultVatRate": "Default VAT rate %",
+            "defaultVatRateHelp": "Used on new services and on invoice lines without a rate of their own. Dental treatment is exempt, so set 0.",
+            "pricesIncludeVat": "Prices include VAT",
+            "pricesIncludeVatHelp": "Turn on if you type prices the way the customer pays them. VAT is then taken out of the amount instead of added to it.",
+            "example": "On a price of 100:",
+            "exampleIncl": "{net} excl. VAT + {vat} VAT = 100.00",
+            "exampleExcl": "100.00 + {vat} VAT = {total}",
+            "invoiceDetails": "Invoice details",
+            "vatNumber": "VAT number",
+            "paymentTerms": "Payment terms (days)",
+            "paymentDetails": "Payment details",
+            "paymentDetailsPlaceholder": "Bank account, MobilePay number or payment terms",
+            "footer": "Invoice footer",
+            "footerPlaceholder": "For example a reference to your terms of trade",
+            "saved": "The invoicing settings are saved"
         }
     }
 }

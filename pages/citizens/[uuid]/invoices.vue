@@ -230,7 +230,8 @@
             </div>
 
             <ModulesUserCitizenInvoiceModalForm :isModalOpen="state.isModalOpen" :citizenUuid="citizenUuid"
-                :services="state.services" @close="state.isModalOpen = false" @saved="onSaved" />
+                :services="state.services" :settings="state.settings" @close="state.isModalOpen = false"
+                @saved="onSaved" />
         </NuxtLayout>
     </div>
 </template>
@@ -258,6 +259,7 @@ const breadcrumbLinks = [{ name: 'citizens.tabs.invoices', translate: true, href
 const state = reactive({
     invoices: [] as any[],
     services: [] as any[],
+    settings: { default_vat_rate: 0, prices_include_vat: false } as any,
     isModalOpen: false,
     payingUuid: null as string | null,
     billableEstimate: null as any,
@@ -309,13 +311,15 @@ async function load() {
     state.error = ''
 
     try {
-        const [invoices, services] = await Promise.all([
+        const [invoices, services, settings] = await Promise.all([
             citizenInvoiceService.getForCitizen(citizenUuid),
             citizenInvoiceService.getServices(),
+            citizenInvoiceService.getSettings(),
         ])
 
         state.invoices = invoices?.data || []
         state.services = services?.data || []
+        state.settings = settings?.data || state.settings
 
         if (state.openUuids.length === 0 && state.invoices.length > 0) {
             state.openUuids = [state.invoices[0].uuid]
