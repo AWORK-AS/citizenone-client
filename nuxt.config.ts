@@ -137,6 +137,12 @@ export default defineNuxtConfig({
       // OneDrive miljøvariabler
       VITE_ONEDRIVE_CLIENT_ID: process.env.VITE_ONEDRIVE_CLIENT_ID,
       VITE_ONEDRIVE_REDIRECT_URI: process.env.VITE_ONEDRIVE_REDIRECT_URI,
+      // Adressevælger (Klimadatastyrelsen) — DAWA's official autocomplete
+      // replacement (DAWA's address endpoints close 2026-08-17). The token
+      // below is the publicly-documented shared token; KDS has said per-user
+      // tokens are coming later, so this is env-overridable rather than
+      // hard-coded so it can be swapped without a code change.
+      adressevaelgerToken: process.env.ADRESSEVAELGER_TOKEN || 'adressevaelger123',
     },
   },
 

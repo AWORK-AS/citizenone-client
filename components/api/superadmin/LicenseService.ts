@@ -81,6 +81,26 @@ class LicenseService extends BaseAPIService {
     async removeLicense(companyUuid: string, licenseUuid: string): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/licenses/${licenseUuid}`, 'DELETE')
     }
+
+    // The company's active storage tier (if any) plus current usage/quota.
+    async getCompanyStorage(companyUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/storage`, 'GET')
+    }
+
+    // Grant a storage AddOnDeal tier to a company. If the company already has
+    // a different active tier, the backend swaps it (with a prorated credit);
+    // granting the same tier again is rejected.
+    async grantStorage(
+        companyUuid: string,
+        params: { add_on_deal_uuid: string; frequency?: 'monthly' | 'yearly'; pays_via_leverandorservice?: boolean },
+    ): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/storage/grant`, 'POST', params)
+    }
+
+    // Remove the company's active storage tier, crediting the unused portion.
+    async removeStorage(companyUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/storage`, 'DELETE')
+    }
 }
 
 export const licenseService = new LicenseService()

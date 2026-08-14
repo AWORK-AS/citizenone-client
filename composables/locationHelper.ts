@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { useAddressSearch } from '@/composables/addressSearch'
 
 export type LocationResult = {
     success: boolean
@@ -142,7 +143,19 @@ export function useLocationHelper(t?: (key: string) => string) {
     }
 
     /**
-     * Geocode: convert address string to coordinates
+     * Geocode: convert address string to coordinates.
+     *
+     * @deprecated New code should call useAddressSearch() directly — it
+     * exposes suggestions (not just the first result), which is the whole
+     * point of the mileage-log address-entry rework: taking a geocoder's
+     * first result blindly picks the wrong address often enough to matter
+     * (verified: "Nørrebrogade 155" ranks "Nørrebrogade 55, Vejle" first).
+     * This wrapper exists only so the five pre-existing call sites
+     * (modal-locate-citizen.vue, check-in-out.vue, details-header.vue,
+     * pages/citizens/index.vue) keep working — and now resolve DK addresses
+     * via Adressevælgeren instead of Nominatim — without themselves being
+     * rewritten to a suggestion-list UI in this change.
+     *
      * @param address - the address to geocode
      * @returns { lat, lng } or null
      */
@@ -155,33 +168,24 @@ export function useLocationHelper(t?: (key: string) => string) {
         error.value = null
 
         try {
-            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`
-            const response = await fetch(url, {
-                headers: {
-                    'User-Agent': 'CitizenOne',
-                },
-            })
-
-            if (!response.ok) {
-                if (response.status === 429 || response.status === 425) {
-                    error.value = 'rate-limited'
-                    return null
-                }
-                throw new Error(`Geocoding failed: ${response.status}`)
+            const addressSearch = useAddressSearch(t)
+            const results = await addressSearch.search(address, { limit: 1 })
+            if (addressSearch.searchError.value) {
+                error.value = addressSearch.searchError.value
+                return null
+            }
+            if (results.length === 0) {
+                error.value = 'not-found'
+                return null
             }
 
-            const data = await response.json()
-
-            if (data && data.length > 0) {
-                const result = data[0]
-                return {
-                    lat: parseFloat(result.lat),
-                    lng: parseFloat(result.lon),
-                }
+            const resolved = await addressSearch.resolveSuggestion(results[0])
+            if (!resolved) {
+                error.value = 'not-found'
+                return null
             }
 
-            error.value = 'not-found'
-            return null
+            return { lat: resolved.lat, lng: resolved.lng }
         } catch (err) {
             error.value = 'error'
             return null

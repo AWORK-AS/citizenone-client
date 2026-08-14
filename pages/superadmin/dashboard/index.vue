@@ -85,7 +85,7 @@
                                     {{ $t('superadmin.dashboard.users') }}
                                 </p>
                                 <p class="co-stat-value">
-                                    {{ state.usersWithLicenses }}
+                                    {{ state.totalUsers }}
                                 </p>
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.registeredUsers') }}
@@ -107,10 +107,10 @@
                                     {{ $t('superadmin.dashboard.invoices') }}
                                 </p>
                                 <p class="co-stat-value">
-                                    {{ state.totalActiveLicenses }}
+                                    {{ state.totalInvoices }}
                                 </p>
                                 <p class="co-stat-sub">
-                                    {{ $t('superadmin.dashboard.activeLicenses') }}
+                                    {{ $t('superadmin.dashboard.invoicesCreated') }}
                                 </p>
                             </div>
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -125,10 +125,10 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
                         <p class="co-stat-label">
-                            {{ $t('superadmin.dashboard.usersWithLicenses') }}
+                            {{ $t('superadmin.dashboard.totalPaidLicenses') }}
                         </p>
                         <p class="text-[22px] font-bold text-[#1F2533] mt-1">
-                            {{ state.usersWithLicenses }}
+                            {{ state.totalPaidLicenses }}
                         </p>
                     </div>
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
@@ -313,7 +313,9 @@ const state = reactive({
     totalCompanies: 0,
     payingCompanies: 0,
     nonPayingCompanies: 0,
-    usersWithLicenses: 0,
+    totalUsers: 0,
+    totalInvoices: 0,
+    totalPaidLicenses: 0,
     totalActiveLicenses: 0,
     unusedLicenses: 0,
     sharedCitizenOne: 0,
@@ -340,7 +342,9 @@ async function fetchDashboard() {
             state.totalCompanies = response?.data?.total_companies ?? 0
             state.payingCompanies = response?.data?.paying_companies ?? 0
             state.nonPayingCompanies = response?.data?.non_paying_companies ?? 0
-            state.usersWithLicenses = response?.data?.users_with_licenses ?? 0
+            state.totalUsers = response?.data?.total_users ?? 0
+            state.totalInvoices = response?.data?.total_invoices ?? 0
+            state.totalPaidLicenses = response?.data?.total_paid_licenses ?? 0
             state.totalActiveLicenses = response?.data?.total_active_licenses ?? 0
             state.unusedLicenses = response?.data?.unused_licenses ?? 0
             state.sharedCitizenOne = response?.data?.shared_citizen ?? 0

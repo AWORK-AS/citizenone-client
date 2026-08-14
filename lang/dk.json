@@ -3033,6 +3033,7 @@
                     "geolocationNotSupported": "Geolokation understøttes ikke af denne browser.",
                     "permissionDenied": "Aktivér placeringstilladelse i browseren.",
                     "positionUnavailable": "Lokationsoplysninger er ikke tilgængelige.",
+                    "reverseGeocodeRateLimited": "Adressesøgningen er midlertidigt begrænset. Prøv igen om et øjeblik.",
                     "somethingWentWrong": "Der opstod en fejl ved hentning af din nuværende placering. Prøv venligst igen.",
                     "timeout": "Anmodningen om at hente din placering fik timeout.",
                     "unableToLocate": "Kunne ikke bestemme din placering."
@@ -7786,6 +7787,13 @@
         "seeAllConversations": "Se alle samtaler",
         "sending": "Sender..."
     },
+    "map": {
+        "layers": {
+            "satellite": "Satellit",
+            "street": "Kort",
+            "toggle": "Skift korttype"
+        }
+    },
     "mileageLog": {
         "download": {
             "download": "Download",
@@ -7804,6 +7812,19 @@
             "notLinked": "Ikke tilknyttet"
         },
         "form": {
+            "address": {
+                "clear": "Ryd adresse",
+                "confirmed": "Adresse bekræftet",
+                "locationFailed": "Kunne ikke hente din placering",
+                "noResults": "Ingen adresser fundet",
+                "notConfirmed": "Vælg en adresse fra listen for at bekræfte placeringen",
+                "placeholder": "Skriv vejnavn og husnummer",
+                "rateLimited": "Adressesøgningen er midlertidigt begrænset. Prøv igen om et øjeblik.",
+                "resolveFailed": "Kunne ikke hente koordinater for denne adresse.",
+                "resultsAvailable": "{count} adresser fundet",
+                "searchFailed": "Adressesøgning er ikke tilgængelig lige nu. Prøv igen, eller vælg på kortet.",
+                "searching": "Søger…"
+            },
             "addStop": "Tilføj stop",
             "alert": {
                 "incompleteStopAddress": "Sørg for at hvert stop har en gyldig valgt adresse",
@@ -7814,11 +7835,14 @@
             "endAddress": "Slutadresse",
             "estimatedDistance": "Distance (beregnes automatisk)",
             "linkToCitizen": "Knyt denne tur til en borger som en indsatstime",
+            "mapHint": "Klik på kortet eller træk markøren for at justere placeringen",
             "note": "Note",
             "pickOnMap": "Vælg lokation",
+            "searchOnMap": "Søg efter en adresse",
             "selectCitizen": "Vælg borger",
             "startAddress": "Startadresse",
-            "stopAddress": "Stopadresse"
+            "stopAddress": "Stopadresse",
+            "useMyLocation": "Brug min placering"
         },
         "mileageLog": "Kørselsregnskab",
         "mileageReport": "Kørselsrapport",
@@ -7848,6 +7872,45 @@
             "distance": "Distance",
             "employee": "Medarbejder",
             "route": "Rute"
+        },
+        "tracking": {
+            "acquiringPosition": "Finder din position …",
+            "alert": {
+                "tripDiscarded": "Turen blev kasseret",
+                "tripSaved": "Turen blev gemt",
+                "tripStarted": "Turen er startet"
+            },
+            "cancelTrip": "Kassér tur",
+            "confirmation": {
+                "cancelTrip": "Er du sikker på, at du vil kassere denne tur"
+            },
+            "distanceLooksOff": "Den målte distance afviger meget fra den direkte rute",
+            "distanceSoFar": "Kørt indtil nu",
+            "elapsed": "Varighed",
+            "errors": {
+                "alreadyStarted": "Du har allerede en tur i gang",
+                "permissionDenied": "Adgang til lokation blev afvist. Tillad lokation i browserens indstillinger.",
+                "startFailed": "Turen kunne ikke startes",
+                "stopFailed": "Turen kunne ikke afsluttes — prøv igen",
+                "unsupported": "Din browser understøtter ikke lokation"
+            },
+            "gpsPaused": "GPS pauset",
+            "gpsPausedHint": "Ingen position i {minutes} min. Åbn appen igen for at fortsætte.",
+            "mobileNotice": {
+                "body": "Sporingen kører kun, mens siden er åben og skærmen er tændt. Låser du telefonen eller skifter app, sættes sporingen på pause, og distancen bliver for lav.",
+                "title": "Hold appen åben under kørslen"
+            },
+            "noGpsPointsYetHint": "Ingen GPS-punkter er registreret endnu — det kan skyldes svag positionsnøjagtighed (almindeligt på en computer uden GPS). Distancen beregnes ud fra start- og slutadressen i stedet.",
+            "recalculateFromAddresses": "Beregn ud fra adresser i stedet",
+            "resumed": "Fortsætter igangværende tur",
+            "reviewTitle": "Gennemse tur",
+            "saveTrip": "Gem tur",
+            "startAddressResolving": "Finder adresse …",
+            "startAddressUnavailable": "Adressen kunne ikke findes — koordinater er gemt",
+            "startTrip": "Start tur",
+            "stoppingInProgress": "Afslutter turen …",
+            "stopTrip": "Afslut tur",
+            "tripInProgress": "Tur i gang"
         },
         "view": {
             "createdBy": "Oprettet af",
@@ -10189,6 +10252,20 @@
                     "noOne": "Den er i øjeblikket ikke tildelt nogen.",
                     "removed": "Licens fjernet",
                     "failed": "Kunne ikke fjerne licens"
+                },
+                "storage": {
+                    "storage": "Lager",
+                    "grantStorage": "Tildel lager",
+                    "description": "Tildeler en lagerpakke til virksomheden og opretter en afventende manuel faktura for beløbet. Køb af en anden pakke erstatter den nuværende (med en forholdsmæssig kredit); den samme pakke igen bliver afvist.",
+                    "packageLabel": "Lagerpakke",
+                    "used": "{used} GB brugt af {quota} GB",
+                    "none": "Ingen lagerpakke tildelt - kvoten er {quota} GB.",
+                    "remove": "Fjern",
+                    "confirmRemove": "Fjern lagerpakken {package}? Virksomhedens kvote vender tilbage til planens standard.",
+                    "granted": "Lager tildelt",
+                    "grantFailed": "Kunne ikke tildele lager",
+                    "removed": "Lager fjernet",
+                    "removeFailed": "Kunne ikke fjerne lager"
                 }
             },
             "newCompany": "Ny virksomhed",
@@ -10408,14 +10485,15 @@
             "sharedCitizenOne": "Delt CitizenOne",
             "viewAll": "Se alle",
             "clients": "Klienter",
-            "activeCompanies": "Aktive virksomheder",
+            "activeCompanies": "Virksomheder i alt",
             "paying": "Betalende",
             "activeSubscribers": "Aktive abonnenter",
             "users": "Brugere",
             "registeredUsers": "Registrerede brugere",
             "invoices": "Fakturaer",
+            "invoicesCreated": "Fakturaer oprettet",
             "activeLicenses": "Aktive licenser",
-            "usersWithLicenses": "Brugere med licenser",
+            "totalPaidLicenses": "Betalte licenser i alt",
             "unusedLicenses": "Ubrugte licenser",
             "recentCompanies": "Seneste virksomheder",
             "noCompaniesYet": "Ingen virksomheder endnu",
