@@ -1720,7 +1720,7 @@ const hasDeletePermission = computed(() => {
 })
 
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || hasUpdatePermission.value)
-const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || hasCreatePermission.value)
+const hasManageFavoritesAccess = computed(() => true)
 
 function isShiftLocked(date: any): boolean {
     if (!date) return false
