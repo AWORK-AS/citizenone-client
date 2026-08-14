@@ -3033,6 +3033,7 @@
                     "geolocationNotSupported": "Geolokation understöttes inte av denna browser.",
                     "permissionDenied": "Aktivera placeringstilladelse i browseren.",
                     "positionUnavailable": "Lokationsoplysninger är inte tillgängliga.",
+                    "reverseGeocodeRateLimited": "Adresssökningen är tillfälligt begränsad. Försök igen om en stund.",
                     "somethingWentWrong": "Där opstod en fel vet hentning av din nuvarande placering. Försök igen.",
                     "timeout": "Anmodningen om att hente din placering fik timeout.",
                     "unableToLocate": "Kunde inte bestemme din placering."
@@ -7743,6 +7744,13 @@
         "seeAllConversations": "Se alla samtal",
         "sending": "Skickar..."
     },
+    "map": {
+        "layers": {
+            "satellite": "Satellit",
+            "street": "Karta",
+            "toggle": "Byt karttyp"
+        }
+    },
     "mileageLog": {
         "download": {
             "download": "Ladda ner",
@@ -7761,6 +7769,19 @@
             "notLinked": "Ej kopplad"
         },
         "form": {
+            "address": {
+                "clear": "Rensa adress",
+                "confirmed": "Adress bekräftad",
+                "locationFailed": "Kunde inte hämta din plats",
+                "noResults": "Inga adresser hittades",
+                "notConfirmed": "Välj en adress från listan för att bekräfta platsen",
+                "placeholder": "Skriv gatunamn och husnummer",
+                "rateLimited": "Adresssökningen är tillfälligt begränsad. Försök igen om en stund.",
+                "resolveFailed": "Det gick inte att hämta koordinater för denna adress.",
+                "resultsAvailable": "{count} adresser hittades",
+                "searchFailed": "Adresssökning är inte tillgänglig just nu. Försök igen, eller välj på kartan.",
+                "searching": "Söker…"
+            },
             "addStop": "Lägg till stopp",
             "alert": {
                 "incompleteStopAddress": "Se till att varje stopp har en giltig vald adress",
@@ -7771,11 +7792,14 @@
             "endAddress": "Slutadress",
             "estimatedDistance": "Avstånd (beräknas automatiskt)",
             "linkToCitizen": "Koppla denna resa till en brukare som en insatstimme",
+            "mapHint": "Klicka på kartan eller dra markören för att justera platsen",
             "note": "Anteckning",
             "pickOnMap": "Välj plats",
+            "searchOnMap": "Sök efter en adress",
             "selectCitizen": "Välj brukare",
             "startAddress": "Startadress",
-            "stopAddress": "Stoppadress"
+            "stopAddress": "Stoppadress",
+            "useMyLocation": "Använd min plats"
         },
         "mileageLog": "Körjournal",
         "mileageReport": "Körrapport",
@@ -7805,6 +7829,45 @@
             "distance": "Avstånd",
             "employee": "Medarbetare",
             "route": "Rutt"
+        },
+        "tracking": {
+            "acquiringPosition": "Hämtar din plats …",
+            "alert": {
+                "tripDiscarded": "Resan kasserades",
+                "tripSaved": "Resan har sparats",
+                "tripStarted": "Resan har startats"
+            },
+            "cancelTrip": "Kassera resa",
+            "confirmation": {
+                "cancelTrip": "Är du säker på att du vill kassera denna resa"
+            },
+            "distanceLooksOff": "Den uppmätta sträckan avviker mycket från den direkta rutten",
+            "distanceSoFar": "Körd sträcka hittills",
+            "elapsed": "Varaktighet",
+            "errors": {
+                "alreadyStarted": "Du har redan en resa igång",
+                "permissionDenied": "Åtkomst till plats nekades. Tillåt plats i webbläsarens inställningar.",
+                "startFailed": "Resan kunde inte startas",
+                "stopFailed": "Resan kunde inte avslutas — försök igen",
+                "unsupported": "Din webbläsare stöder inte platstjänster"
+            },
+            "gpsPaused": "GPS pausad",
+            "gpsPausedHint": "Ingen plats på {minutes} min. Öppna appen igen för att fortsätta.",
+            "mobileNotice": {
+                "body": "Spårningen körs bara medan denna sida är öppen och skärmen är på. Låser du telefonen eller byter app pausas spårningen och sträckan blir för kort.",
+                "title": "Håll appen öppen medan du kör"
+            },
+            "noGpsPointsYetHint": "Inga GPS-punkter har registrerats ännu — det kan bero på svag positionsnoggrannhet (vanligt på en dator utan GPS). Avståndet beräknas då istället utifrån start- och slutadressen.",
+            "recalculateFromAddresses": "Beräkna utifrån adresser istället",
+            "resumed": "Återupptar pågående resa",
+            "reviewTitle": "Granska resa",
+            "saveTrip": "Spara resa",
+            "startAddressResolving": "Hämtar adress …",
+            "startAddressUnavailable": "Adressen kunde inte hittas — koordinater har sparats",
+            "startTrip": "Starta resa",
+            "stoppingInProgress": "Avslutar resan …",
+            "stopTrip": "Avsluta resa",
+            "tripInProgress": "Resa pågår"
         },
         "view": {
             "createdBy": "Skapad av",
