@@ -890,7 +890,7 @@ const { formatNumber, parseLocaleNumber } = useNumberFormatter()
 const { isAtLeast, can } = usePermissions()
 const favoriteEmployees = useFavoriteEmployees()
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || can('update_schedule'))
-const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || can('create_schedule'))
+const hasManageFavoritesAccess = computed(() => true)
 
 // Current year as a ref — navigation changes this
 const currentYear = ref(moment().year())
