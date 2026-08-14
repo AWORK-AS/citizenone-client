@@ -1,16 +1,27 @@
 <template>
     <ClientOnly>
-        <LMap 
-            :key="mapKey" 
-            ref="lmap" 
-            :center="internalCenter" 
-            :zoom="internalZoom" 
+        <LMap
+            :key="mapKey"
+            ref="lmap"
+            :center="internalCenter"
+            :zoom="internalZoom"
             @click="onMapClick"
             @ready="onMapReady"
             class="w-full h-full"
         >
-            <LTileLayer :url="tileUrl" :attribution="tileAttribution" />
-            <LMarker 
+            <LTileLayer v-if="!props.layers || activeBase === 'street'" :url="STREET_URL" :attribution="STREET_ATTRIBUTION" />
+            <LTileLayer v-else :url="SATELLITE_URL" :attribution="SATELLITE_ATTRIBUTION" />
+
+            <LControl v-if="props.layers" position="topright">
+                <button type="button" @click="toggleBaseLayer"
+                    class="bg-white rounded-md shadow px-2 py-1.5 flex items-center gap-x-1 text-xs text-gray-700 hover:bg-gray-50 border border-gray-200"
+                    :aria-pressed="activeBase === 'satellite'" :title="$t('map.layers.toggle')">
+                    <Icon :name="activeBase === 'satellite' ? 'ph:map-trifold' : 'ph:globe-hemisphere-west'" class="w-4 h-4" />
+                    {{ activeBase === 'satellite' ? $t('map.layers.street') : $t('map.layers.satellite') }}
+                </button>
+            </LControl>
+
+            <LMarker
                 v-if="markerLat !== null && markerLng !== null" 
                 :lat-lng="[markerLat, markerLng]"
                 :draggable="draggable" 
@@ -50,7 +61,7 @@
 <script setup lang="ts">
 import { ref, watch, computed, nextTick } from 'vue'
 import type { PropType } from 'vue'
-import { LMap, LTileLayer, LMarker, LPopup, LPolyline, LIcon } from '@vue-leaflet/vue-leaflet'
+import { LMap, LTileLayer, LMarker, LPopup, LPolyline, LIcon, LControl } from '@vue-leaflet/vue-leaflet'
 
 const props = defineProps({
     center: {
@@ -60,6 +71,16 @@ const props = defineProps({
     zoom: {
         type: Number,
         default: 13,
+    },
+    // Opt-in second tile layer (Esri World Imagery) + a base-layer toggle
+    // control. Defaults keep every existing consumer unchanged.
+    layers: {
+        type: Boolean,
+        default: false,
+    },
+    baseLayer: {
+        type: String as PropType<'street' | 'satellite'>,
+        default: 'street',
     },
     markerCoords: {
         type: Object as PropType<{ lat: number | string; lng: number | string } | null>,
@@ -98,6 +119,7 @@ const props = defineProps({
 const emit = defineEmits<{
     (e: 'update:marker', coords: { lat: number; lng: number }): void
     (e: 'map-ready', mapObj: any): void
+    (e: 'update:baseLayer', value: 'street' | 'satellite'): void
 }>()
 
 const mapKey = ref(0)
@@ -105,9 +127,18 @@ const lmap = ref<any>(null)
 const markerRef = ref<any>(null)
 const internalCenter = ref<[number, number]>(props.center)
 const internalZoom = ref<number>(props.zoom)
+// Declared alongside mapKey (outside <LMap>) so it survives the :key="mapKey"
+// remount trick — only LMap's children (tile layers, LControl) are recreated
+// on remount, and they read this ref back out on the next render.
+const activeBase = ref<'street' | 'satellite'>(props.baseLayer)
 
-const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-const tileAttribution = '&copy; OpenStreetMap contributors'
+const STREET_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+const STREET_ATTRIBUTION = '&copy; OpenStreetMap contributors'
+// Esri World Imagery — free, no API key. Note the {y}/{x} order, reversed
+// from the OSM tile URL above; Leaflet substitutes by token name so this is
+// correct as written, but it's the easiest thing here to typo.
+const SATELLITE_URL = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+const SATELLITE_ATTRIBUTION = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 
 const markerLat = computed(() => {
     return props.markerCoords && props.markerCoords.lat !== undefined && props.markerCoords.lat !== null
@@ -132,6 +163,17 @@ watch(
         if (typeof z === 'number') internalZoom.value = z
     }
 )
+watch(
+    () => props.baseLayer,
+    (b) => {
+        if (b === 'street' || b === 'satellite') activeBase.value = b
+    }
+)
+
+function toggleBaseLayer() {
+    activeBase.value = activeBase.value === 'street' ? 'satellite' : 'street'
+    emit('update:baseLayer', activeBase.value)
+}
 
 function validCoord(m: any) {
     return m && m.lat !== undefined && m.lng !== undefined && m.lat !== null && m.lng !== null && !Number.isNaN(Number(m.lat)) && !Number.isNaN(Number(m.lng))
@@ -202,9 +244,25 @@ function setMarker(lat: number, lng: number) {
     emit('update:marker', { lat, lng })
 }
 
+/**
+ * Forces Leaflet to re-measure its container. Needed whenever the map is
+ * revealed inside something that was hidden/zero-size at mount time (e.g. a
+ * modal that's still animating open) — without this, Leaflet renders offset
+ * from where it thinks it is.
+ */
+function invalidate() {
+    const mapObj = getMapObject()
+    try {
+        mapObj?.invalidateSize?.()
+    } catch (e) {
+        console.warn('Failed to invalidate map size:', e)
+    }
+}
+
 defineExpose({
     centerTo,
     setMarker,
+    invalidate,
     lmap,
     markerRef,
     getMapObject,
