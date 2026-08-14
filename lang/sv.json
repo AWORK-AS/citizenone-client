@@ -11603,7 +11603,17 @@
                 "paymentsHint": "Under månaden"
             },
             "app": "App",
-            "unknownApp": "Okänd app"
+            "unknownApp": "Okänd app",
+            "gaps": {
+                "title": "Pengar på väg att gå förlorade",
+                "paymentsWithoutFee": "{count} betalningar utan avgift ({amount})",
+                "feesWithoutStatement": "{count} avgifter hör inte till en avräkning",
+                "stale": "{count} månader har aldrig fakturerats ({amount}, äldsta {period})"
+            },
+            "uncharged": {
+                "title": "Avslutade månader som väntar på att dras",
+                "waiting": "väntar {months} mån"
+            }
         }
     },
     "support": {

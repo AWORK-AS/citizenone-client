@@ -11603,7 +11603,17 @@
                 "paymentsHint": "In the month"
             },
             "app": "App",
-            "unknownApp": "Unknown app"
+            "unknownApp": "Unknown app",
+            "gaps": {
+                "title": "Money on its way to being lost",
+                "paymentsWithoutFee": "{count} payments without a fee ({amount})",
+                "feesWithoutStatement": "{count} fees do not belong to a statement",
+                "stale": "{count} months were never invoiced ({amount}, oldest {period})"
+            },
+            "uncharged": {
+                "title": "Closed months waiting to be charged",
+                "waiting": "waiting {months} months"
+            }
         }
     },
     "support": {

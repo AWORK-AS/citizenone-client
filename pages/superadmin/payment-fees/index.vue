@@ -56,6 +56,56 @@
                     </div>
                 </div>
 
+                <div class="bg-white border border-[#F0C4C4] rounded-xl shadow-sm px-4 py-4 mb-5"
+                    v-if="hasGaps">
+                    <p class="text-sm font-semibold text-[#B42318]">{{ $t('superadmin.paymentFees.gaps.title') }}</p>
+                    <ul class="mt-1 text-sm text-[#5C6478] list-disc pl-5">
+                        <li v-if="state.reconciliation.payments_without_fee?.count">
+                            {{ $t('superadmin.paymentFees.gaps.paymentsWithoutFee', {
+                                count: state.reconciliation.payments_without_fee.count,
+                                amount: formatAmount(state.reconciliation.payments_without_fee.amount),
+                            }) }}
+                        </li>
+                        <li v-if="state.reconciliation.fees_without_statement">
+                            {{ $t('superadmin.paymentFees.gaps.feesWithoutStatement', {
+                                count: state.reconciliation.fees_without_statement,
+                            }) }}
+                        </li>
+                        <li v-if="state.reconciliation.stale_statements?.count">
+                            {{ $t('superadmin.paymentFees.gaps.stale', {
+                                count: state.reconciliation.stale_statements.count,
+                                amount: formatAmount(state.reconciliation.stale_statements.amount),
+                                period: state.reconciliation.stale_statements.oldest_period,
+                            }) }}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden mb-5"
+                    v-if="state.uncharged.length">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-[#F9FAFB] border-b border-[#EAECF0]">
+                                <th class="co-th" colspan="4">{{ $t('superadmin.paymentFees.uncharged.title') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="row in state.uncharged" :key="`${row.company}-${row.period}`"
+                                class="border-b border-[#F5F6F8]">
+                                <td class="co-td text-[13px] text-[#1F2533]">{{ row.company }}</td>
+                                <td class="co-td text-[13px] text-[#5C6478]">{{ row.period }}</td>
+                                <td class="co-td text-[13px]"
+                                    :class="row.months_waiting >= 2 ? 'text-[#B42318] font-medium' : 'text-[#5C6478]'">
+                                    {{ $t('superadmin.paymentFees.uncharged.waiting', { months: row.months_waiting }) }}
+                                </td>
+                                <td class="co-td text-right text-[13px] font-semibold text-[#1F2533] tabular-nums">
+                                    {{ formatAmount(row.fee_amount) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden mb-5"
                     v-if="state.byApplication.length > 1">
                     <table class="w-full">
@@ -143,11 +193,21 @@ const state = reactive({
     period: moment().format('YYYY-MM'),
     apps: [] as any[],
     byApplication: [] as any[],
+    reconciliation: {} as any,
+    uncharged: [] as any[],
     totals: { company_count: 0, payment_count: 0, gross_amount: 0, fee_amount: 0, uncharged_amount: 0 },
     statements: [] as any[],
     isLoading: true,
     error: '',
 })
+
+// Anything here means money is on its way to being lost, so it sits above the
+// figures rather than under them.
+const hasGaps = computed(() => Boolean(
+    state.reconciliation?.payments_without_fee?.count
+    || state.reconciliation?.fees_without_statement
+    || state.reconciliation?.stale_statements?.count
+))
 
 const isCurrentMonth = computed(() => state.period === moment().format('YYYY-MM'))
 
@@ -214,6 +274,8 @@ async function load() {
         if (data) {
             state.apps = data.apps || []
             state.byApplication = data.by_application || []
+            state.reconciliation = data.reconciliation || {}
+            state.uncharged = data.uncharged || []
             state.totals = data.totals
             state.statements = data.statements || []
         }

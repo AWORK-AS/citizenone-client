@@ -11603,7 +11603,17 @@
                 "paymentsHint": "I måneden"
             },
             "app": "App",
-            "unknownApp": "Ukendt app"
+            "unknownApp": "Ukendt app",
+            "gaps": {
+                "title": "Penge på vej til at gå tabt",
+                "paymentsWithoutFee": "{count} betalinger uden gebyr ({amount})",
+                "feesWithoutStatement": "{count} gebyrer hører ikke til en opgørelse",
+                "stale": "{count} måneder er aldrig faktureret ({amount}, ældste {period})"
+            },
+            "uncharged": {
+                "title": "Afsluttede måneder der venter på at blive trukket",
+                "waiting": "venter {months} md."
+            }
         }
     },
     "support": {
