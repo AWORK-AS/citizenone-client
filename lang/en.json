@@ -3655,7 +3655,9 @@
             "sent": "Invoice sent",
             "creditNote": "Credit note",
             "credited": "Credit note created",
-            "fromPlan": "Invoice carried out treatment"
+            "fromPlan": "Invoice carried out treatment",
+            "creditHelp": "Lower the quantity to credit part of the invoice. The rest stays payable.",
+            "creditRemaining": "up to {quantity}"
         }
     },
     "client": {

@@ -3655,7 +3655,9 @@
             "sent": "Fakturaen er sendt",
             "creditNote": "Kreditnota",
             "credited": "Kreditnotaen er oprettet",
-            "fromPlan": "Fakturér udført behandling"
+            "fromPlan": "Fakturér udført behandling",
+            "creditHelp": "Sæt antallet ned, hvis kun en del skal krediteres. Resten står stadig til betaling.",
+            "creditRemaining": "op til {quantity}"
         }
     },
     "client": {

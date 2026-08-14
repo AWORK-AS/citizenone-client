@@ -85,7 +85,7 @@
                                     <tr v-for="invoice in state.invoices" :key="invoice.uuid"
                                         class="border-t border-gray-100">
                                         <td class="px-4 py-3 tabular-nums">
-                                            {{ invoice.invoice_number }}
+                                            {{ invoice.invoice_number || $t('citizens.invoices.statuses.draft') }}
                                             <span class="text-xs text-gray-400" v-if="invoice.type === 'credit_note'">
                                                 &middot; {{ $t('invoicing.creditNote') }}
                                             </span>

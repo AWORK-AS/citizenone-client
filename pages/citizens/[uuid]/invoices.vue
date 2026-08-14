@@ -71,7 +71,12 @@
                                     <div>
                                         <p class="font-medium text-gray-900">
                                             {{ $t('citizens.invoices.invoice') }}
-                                            <span class="tabular-nums">{{ invoice.invoice_number }}</span>
+                                            <span class="tabular-nums" v-if="invoice.invoice_number">
+                                                {{ invoice.invoice_number }}
+                                            </span>
+                                            <span class="text-xs font-normal text-gray-400" v-else>
+                                                &middot; {{ $t('citizens.invoices.statuses.draft') }}
+                                            </span>
                                             <span class="text-xs font-normal text-gray-400"
                                                 v-if="invoice.type === 'credit_note'">
                                                 &middot; {{ $t('invoicing.creditNote') }}
@@ -179,7 +184,7 @@
                                     <Icon name="ph:paper-plane-tilt" class="size-4" />
                                     {{ $t('citizens.invoices.markSent') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" buttonSize="xs" @click="creditNote(invoice)"
+                                <FormButton buttonStyle="action" buttonSize="xs" @click="openCreditNote(invoice)"
                                     v-if="invoice.type !== 'credit_note' && invoice.status !== 'draft' && invoice.status !== 'credited'">
                                     <Icon name="ph:arrow-u-up-left" class="size-4" />
                                     {{ $t('citizens.invoices.creditNote') }}
@@ -190,10 +195,42 @@
                                     {{ $t('citizens.invoices.registerPayment') }}
                                 </FormButton>
                                 <FormButton buttonStyle="action" buttonSize="xs" @click="remove(invoice)"
-                                    v-if="!invoice.payments?.length">
+                                    v-if="!invoice.booked_at && !invoice.payments?.length">
                                     <Icon name="ph:trash" class="size-4" />
                                     {{ $t('delete') }}
                                 </FormButton>
+                            </div>
+
+                            <div class="mt-3 rounded-lg border border-gray-200 p-3"
+                                v-if="state.creditingUuid === invoice.uuid">
+                                <p class="text-sm font-medium text-gray-900">{{ $t('citizens.invoices.creditNote') }}</p>
+                                <p class="text-xs text-gray-500">{{ $t('citizens.invoices.creditHelp') }}</p>
+
+                                <div class="mt-2 space-y-2">
+                                    <div v-for="line in state.creditLines" :key="line.uuid"
+                                        class="flex items-center justify-between gap-3">
+                                        <span class="text-sm text-gray-700">{{ line.description }}</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs text-gray-400 whitespace-nowrap">
+                                                {{ $t('citizens.invoices.creditRemaining', { quantity: line.remaining }) }}
+                                            </span>
+                                            <div class="w-24">
+                                                <FormNumberField :name="`credit-${line.uuid}`" :min="0"
+                                                    :max="line.remaining" v-model="line.quantity"
+                                                    :placeholder="$t('citizens.invoices.form.quantity')" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3 flex justify-end gap-2">
+                                    <FormButton buttonStyle="action" buttonSize="xs" @click="state.creditingUuid = null">
+                                        {{ $t('cancel') }}
+                                    </FormButton>
+                                    <FormButton buttonStyle="primary" buttonSize="xs" @click="creditNote(invoice)">
+                                        {{ $t('citizens.invoices.creditNote') }}
+                                    </FormButton>
+                                </div>
                             </div>
 
                             <div class="mt-3 rounded-lg border border-gray-200 p-3" v-if="state.payingUuid === invoice.uuid">
@@ -262,6 +299,8 @@ const state = reactive({
     settings: { default_vat_rate: 0, prices_include_vat: false } as any,
     isModalOpen: false,
     payingUuid: null as string | null,
+    creditingUuid: null as string | null,
+    creditLines: [] as any[],
     billableEstimate: null as any,
     openUuids: [] as string[],
     payment: { amount: '', method: 'card', paid_at: '' },
@@ -409,12 +448,31 @@ async function send(invoice: any) {
     }
 }
 
+function openCreditNote(invoice: any) {
+    state.creditingUuid = invoice.uuid
+    state.creditLines = (invoice.lines || [])
+        .filter((line: any) => (line.remaining_quantity ?? line.quantity) > 0)
+        .map((line: any) => ({
+            uuid: line.uuid,
+            description: line.description,
+            remaining: line.remaining_quantity ?? line.quantity,
+            quantity: String(line.remaining_quantity ?? line.quantity),
+        }))
+}
+
+// Everything is credited unless single lines are dialled down, which is the
+// common case: the whole invoice was wrong.
 async function creditNote(invoice: any) {
     state.error = ''
 
+    const lines = state.creditLines
+        .filter((line: any) => Number(line.quantity) > 0)
+        .map((line: any) => ({ uuid: line.uuid, quantity: Number(line.quantity) }))
+
     try {
-        await citizenInvoiceService.createCreditNote(invoice.uuid)
+        await citizenInvoiceService.createCreditNote(invoice.uuid, { lines })
         successAlert(`${t('alert.success')}!`, `${t('citizens.invoices.credited')}.`)
+        state.creditingUuid = null
         await load()
     } catch (error: any) {
         state.error = error?.message || ''
