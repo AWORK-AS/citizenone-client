@@ -19,7 +19,7 @@
             <div class="mt-10" v-if="!state.isCheckoutVisible">
                 <!-- What is running and what it costs, before the list of what
                      has already been charged. -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6" v-if="state.fees.current || state.apps.length">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6" v-if="state.apps.length">
                     <div class="rounded-xl bg-white px-4 py-4 shadow-sm ring-1 ring-gray-900/5">
                         <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
                             {{ $t('invoices.purchases.apps') }}
@@ -27,17 +27,6 @@
                         <p class="mt-1 text-2xl font-semibold text-gray-900 tabular-nums">{{ state.apps.length }}</p>
                         <p class="mt-1 text-xs text-gray-500">
                             {{ $t('invoices.purchases.appsHint', { amount: formatAmount(monthlyAppTotal) }) }}
-                        </p>
-                    </div>
-                    <div class="rounded-xl bg-white px-4 py-4 shadow-sm ring-1 ring-gray-900/5">
-                        <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
-                            {{ $t('invoices.purchases.fees') }}
-                        </p>
-                        <p class="mt-1 text-2xl font-semibold text-gray-900 tabular-nums">
-                            {{ formatAmount(state.fees.current?.fee_amount || 0) }}
-                        </p>
-                        <p class="mt-1 text-xs text-gray-500">
-                            {{ $t('invoices.purchases.feesHint', { count: state.fees.current?.payment_count || 0 }) }}
                         </p>
                     </div>
                     <div class="rounded-xl bg-white px-4 py-4 shadow-sm ring-1 ring-gray-900/5">
@@ -55,12 +44,7 @@
                     <h3 class="text-sm font-semibold text-gray-900">{{ $t('invoices.purchases.title') }}</h3>
                     <ul class="mt-2 divide-y divide-gray-100 text-sm">
                         <li v-for="app in state.apps" :key="app.uuid" class="flex items-center justify-between py-2">
-                            <span class="text-gray-700">
-                                {{ app.name }}
-                                <span class="text-xs text-gray-400" v-if="app.payment_fee_percent">
-                                    &middot; {{ $t('invoices.purchases.plusFee', { rate: String(app.payment_fee_percent).replace('.', ',') }) }}
-                                </span>
-                            </span>
+                            <span class="text-gray-700">{{ app.name }}</span>
                             <span class="tabular-nums text-gray-900">
                                 {{ formatAmount(app.monthly_price) }} {{ $t('invoices.purchases.perMonth') }}
                             </span>
