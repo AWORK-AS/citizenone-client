@@ -234,7 +234,7 @@
                             </div>
 
                             <div class="mt-3 rounded-lg border border-gray-200 p-3" v-if="state.payingUuid === invoice.uuid">
-                                <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 items-end">
+                                <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 items-end">
                                     <div class="space-y-1">
                                         <FormLabel for="payment_amount" :label="$t('citizens.invoices.amount')" />
                                         <FormNumberField name="payment_amount" :min="0" v-model="state.payment.amount"
@@ -246,11 +246,17 @@
                                             v-model="state.payment.method" />
                                     </div>
                                     <div class="space-y-1">
+                                        <FormLabel for="payment_channel" :label="$t('citizens.invoices.channel')" />
+                                        <FormSelect id="payment_channel" :options="channelOptions"
+                                            v-model="state.payment.channel" />
+                                    </div>
+                                    <div class="space-y-1">
                                         <FormLabel for="paid_at" :label="$t('citizens.invoices.paidAt')" />
                                         <FormDateField id="paid_at" name="paid_at" v-model="state.payment.paid_at"
                                             :placeholder="$t('citizens.invoices.paidAt')" />
                                     </div>
-                                    <div class="flex items-center justify-end gap-2">
+                                    <div class="flex items-center justify-end gap-2 sm:col-span-5">
+                                        <p class="mr-auto text-xs text-gray-500" v-if="feeHint">{{ feeHint }}</p>
                                         <FormButton buttonStyle="action" buttonSize="xs" @click="state.payingUuid = null">
                                             {{ $t('cancel') }}
                                         </FormButton>
@@ -303,7 +309,7 @@ const state = reactive({
     creditLines: [] as any[],
     billableEstimate: null as any,
     openUuids: [] as string[],
-    payment: { amount: '', method: 'card', paid_at: '' },
+    payment: { amount: '', method: 'card', channel: 'manual', paid_at: '' },
     isPageLoading: true,
     error: '',
 })
@@ -316,6 +322,22 @@ watch(() => userStore.getUser, (user: any) => {
 
 const methodOptions = computed(() => ['cash', 'card', 'mobilepay', 'bank_transfer', 'terminal', 'other']
     .map((method: string) => ({ value: method, label: t(`citizens.invoices.methods.${method}`) })))
+
+// The channel is who carried the money, which is a different question from
+// how the citizen paid. Cash in the reception and the clinic's own terminal
+// are its own business; only what runs through CitizenOne carries a fee.
+const channelOptions = computed(() => ['manual', 'online', 'fi']
+    .map((channel: string) => ({ value: channel, label: t(`citizens.invoices.channels.${channel}`) })))
+
+const feeHint = computed(() => {
+    const rate = Number(state.settings?.payment_fee_percent) || 0
+
+    if (!rate || state.payment.channel === 'manual') return ''
+
+    const amount = Number(state.payment.amount) || 0
+
+    return t('citizens.invoices.feeHint', { rate: String(rate).replace('.', ','), amount: formatAmount(amount * rate / 100) })
+})
 
 function isOpen(invoice: any): boolean {
     return state.openUuids.includes(invoice.uuid)
@@ -393,7 +415,7 @@ function openPayment(invoice: any) {
     if (!isOpen(invoice)) toggle(invoice)
     // The whole outstanding amount is what is usually handed over, so it is
     // filled in and can be corrected.
-    state.payment = { amount: String(invoice.outstanding), method: 'card', paid_at: '' }
+    state.payment = { amount: String(invoice.outstanding), method: 'card', channel: 'manual', paid_at: '' }
 }
 
 async function savePayment(invoice: any) {
@@ -403,6 +425,7 @@ async function savePayment(invoice: any) {
         await citizenInvoiceService.addPayment(invoice.uuid, {
             amount: Number(state.payment.amount) || 0,
             method: state.payment.method,
+            channel: state.payment.channel,
             paid_at: state.payment.paid_at || null,
         })
 

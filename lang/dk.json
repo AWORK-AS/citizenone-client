@@ -3657,7 +3657,14 @@
             "credited": "Kreditnotaen er oprettet",
             "fromPlan": "Fakturér udført behandling",
             "creditHelp": "Sæt antallet ned, hvis kun en del skal krediteres. Resten står stadig til betaling.",
-            "creditRemaining": "op til {quantity}"
+            "creditRemaining": "op til {quantity}",
+            "channel": "Kanal",
+            "feeHint": "Betalingsgebyr {rate} % svarer til {amount} kr.",
+            "channels": {
+                "manual": "Betalt til jer",
+                "online": "Onlinebetaling",
+                "fi": "FI-indbetaling"
+            }
         }
     },
     "client": {
@@ -10991,7 +10998,8 @@
             "products": "Produkter",
             "clientRoles": "Roller & Rettigheder",
             "cancellations": "Opsigelser",
-            "storagePackages": "Lagerpakker"
+            "storagePackages": "Lagerpakker",
+            "paymentFees": "Betalingsgebyrer"
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
@@ -11554,6 +11562,33 @@
             "successDeleted": "Lagerpakke slettet",
             "successUpdated": "Lagerpakke opdateret",
             "colPricePerGb": "Kr. pr. GB"
+        },
+        "paymentFees": {
+            "pageTitle": "Betalingsgebyrer",
+            "header": "Betalingsgebyrer",
+            "subtitle": "{rate} % af de betalinger, vi bærer for kunderne. Bankoverførsel koster intet.",
+            "period": "Måned",
+            "company": "Virksomhed",
+            "payments": "Betalinger",
+            "volume": "Omsat",
+            "fee": "Gebyr",
+            "status": "Status",
+            "empty": "Ingen betalinger gennem os i denne måned",
+            "statuses": {
+                "open": "Åben",
+                "closed": "Lukket",
+                "charged": "Faktureret"
+            },
+            "cards": {
+                "fee": "Gebyr i alt",
+                "feeHint": "{count} virksomheder",
+                "uncharged": "Ikke faktureret",
+                "unchargedHint": "Mangler at komme på en faktura",
+                "volume": "Omsat gennem os",
+                "volumeHint": "Betalinger vi har båret",
+                "payments": "Antal betalinger",
+                "paymentsHint": "I måneden"
+            }
         }
     },
     "support": {
@@ -13175,7 +13210,9 @@
                 "overdueHint": "Betalingsfristen er overskredet",
                 "paid": "Betalt",
                 "paidHint": "Registreret i perioden"
-            }
+            },
+            "fees": "Betalingsgebyr til CitizenOne",
+            "feesHelp": "Opkræves på jeres egen CitizenOne-faktura."
         }
     },
     "invoiceTemplates": {

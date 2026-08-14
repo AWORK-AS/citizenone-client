@@ -112,6 +112,20 @@
                         </dl>
                     </div>
 
+                    <div class="border-t border-gray-100 pt-4" v-if="state.report.fees.length">
+                        <h3 class="text-sm font-semibold text-gray-900">{{ $t('invoicing.reports.fees') }}</h3>
+                        <p class="text-xs text-gray-500">{{ $t('invoicing.reports.feesHelp') }}</p>
+                        <dl class="mt-2 space-y-1 text-sm">
+                            <div v-for="row in state.report.fees" :key="row.period" class="flex justify-between gap-3">
+                                <dt class="text-gray-500">
+                                    {{ row.period }}
+                                    <span class="text-xs text-gray-400">{{ row.payment_count }}</span>
+                                </dt>
+                                <dd class="tabular-nums">{{ formatAmount(row.fee_amount) }}</dd>
+                            </div>
+                        </dl>
+                    </div>
+
                     <div class="border-t border-gray-100 pt-4">
                         <h3 class="text-sm font-semibold text-gray-900">{{ $t('invoicing.reports.paymentMethods') }}</h3>
                         <dl class="mt-2 space-y-1 text-sm">
@@ -158,6 +172,7 @@ const emptyReport = () => ({
     top_services: [] as any[],
     by_category: [] as any[],
     payment_methods: [] as any[],
+    fees: [] as any[],
     outstanding_by_age: [] as any[],
 })
 

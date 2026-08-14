@@ -3657,7 +3657,14 @@
             "credited": "Credit note created",
             "fromPlan": "Invoice carried out treatment",
             "creditHelp": "Lower the quantity to credit part of the invoice. The rest stays payable.",
-            "creditRemaining": "up to {quantity}"
+            "creditRemaining": "up to {quantity}",
+            "channel": "Channel",
+            "feeHint": "A {rate} % payment fee comes to {amount}.",
+            "channels": {
+                "manual": "Paid to you",
+                "online": "Online payment",
+                "fi": "FI payment"
+            }
         }
     },
     "client": {
@@ -10991,7 +10998,8 @@
             "products": "Products",
             "clientRoles": "Roles & Rights",
             "cancellations": "Cancellations",
-            "storagePackages": "Storage packages"
+            "storagePackages": "Storage packages",
+            "paymentFees": "Payment fees"
         },
         "emailTemplates": {
             "title": "Email templates",
@@ -11554,6 +11562,33 @@
             "successDeleted": "Storage package deleted",
             "successUpdated": "Storage package updated",
             "colPricePerGb": "Price per GB"
+        },
+        "paymentFees": {
+            "pageTitle": "Payment fees",
+            "header": "Payment fees",
+            "subtitle": "{rate} % of the payments we carry for customers. A bank transfer costs nothing.",
+            "period": "Month",
+            "company": "Company",
+            "payments": "Payments",
+            "volume": "Volume",
+            "fee": "Fee",
+            "status": "Status",
+            "empty": "No payments through us this month",
+            "statuses": {
+                "open": "Open",
+                "closed": "Closed",
+                "charged": "Invoiced"
+            },
+            "cards": {
+                "fee": "Fees in total",
+                "feeHint": "{count} companies",
+                "uncharged": "Not invoiced",
+                "unchargedHint": "Yet to reach an invoice",
+                "volume": "Volume through us",
+                "volumeHint": "Payments we carried",
+                "payments": "Payments",
+                "paymentsHint": "In the month"
+            }
         }
     },
     "support": {
@@ -13175,7 +13210,9 @@
                 "overdueHint": "Past the due date",
                 "paid": "Paid",
                 "paidHint": "Recorded in the period"
-            }
+            },
+            "fees": "Payment fee to CitizenOne",
+            "feesHelp": "Charged on your own CitizenOne invoice."
         }
     },
     "invoiceTemplates": {

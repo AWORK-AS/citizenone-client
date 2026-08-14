@@ -3657,7 +3657,14 @@
             "credited": "Kreditnotan är skapad",
             "fromPlan": "Fakturera utförd behandling",
             "creditHelp": "Sänk antalet om bara en del ska krediteras. Resten står kvar att betala.",
-            "creditRemaining": "upp till {quantity}"
+            "creditRemaining": "upp till {quantity}",
+            "channel": "Kanal",
+            "feeHint": "Betalningsavgift {rate} % motsvarar {amount} kr.",
+            "channels": {
+                "manual": "Betalt till er",
+                "online": "Onlinebetalning",
+                "fi": "FI-inbetalning"
+            }
         }
     },
     "client": {
@@ -10991,7 +10998,8 @@
             "products": "Produkter",
             "clientRoles": "Klientroller",
             "cancellations": "Avslutningar",
-            "storagePackages": "Lagringspaket"
+            "storagePackages": "Lagringspaket",
+            "paymentFees": "Betalningsavgifter"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -11554,6 +11562,33 @@
             "successDeleted": "Lagringspaket raderat",
             "successUpdated": "Lagringspaket uppdaterat",
             "colPricePerGb": "Kr. per GB"
+        },
+        "paymentFees": {
+            "pageTitle": "Betalningsavgifter",
+            "header": "Betalningsavgifter",
+            "subtitle": "{rate} % av betalningarna vi bär för kunderna. En banköverföring kostar ingenting.",
+            "period": "Månad",
+            "company": "Företag",
+            "payments": "Betalningar",
+            "volume": "Omsatt",
+            "fee": "Avgift",
+            "status": "Status",
+            "empty": "Inga betalningar genom oss denna månad",
+            "statuses": {
+                "open": "Öppen",
+                "closed": "Stängd",
+                "charged": "Fakturerad"
+            },
+            "cards": {
+                "fee": "Avgifter totalt",
+                "feeHint": "{count} företag",
+                "uncharged": "Inte fakturerad",
+                "unchargedHint": "Har ännu inte nått en faktura",
+                "volume": "Omsatt genom oss",
+                "volumeHint": "Betalningar vi burit",
+                "payments": "Antal betalningar",
+                "paymentsHint": "Under månaden"
+            }
         }
     },
     "support": {
@@ -13175,7 +13210,9 @@
                 "overdueHint": "Förfallodatumet har passerat",
                 "paid": "Betald",
                 "paidHint": "Registrerad i perioden"
-            }
+            },
+            "fees": "Betalningsavgift till CitizenOne",
+            "feesHelp": "Debiteras på er egen CitizenOne-faktura."
         }
     },
     "invoiceTemplates": {
