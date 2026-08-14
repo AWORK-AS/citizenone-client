@@ -34,7 +34,7 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <div class="table-responsive">
-                    <Table :columnHeaders="state.columnHeaders" :data="state.logs" :isLoading="state.isTableLoading"
+                    <Table class="table-sticky-actions" :columnHeaders="state.columnHeaders" :data="state.logs" :isLoading="state.isTableLoading"
                         :sortData="state.sortData" @sort="sort">
                         <template #body v-if="!(state.isTableLoading || (state.logs?.data?.length === 0))">
                             <tr v-for="(log, index) in state.logs?.data" :key="index">

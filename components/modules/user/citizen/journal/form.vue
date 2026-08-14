@@ -194,7 +194,7 @@
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                             v-if="userStore.getUser?.has_ai_access" @click="openAiGeneratePreview('content')">
                             <div class="flex items-center">
-                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                <Icon name="ph:sparkle" class="h-4 w-4" aria-hidden="true" />
                             </div>
                             {{ $t('citizens.citizenJournals.form.prepareWithAI') }}
                         </FormButton>
@@ -202,6 +202,13 @@
                 </div>
                 <div class="co-editor">
                     <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
+                    <!-- The audit's "always review AI output" reminder belongs where the
+                    text was generated, not only in the assistant. -->
+                    <p v-if="state.formJournal.is_ai_used"
+                        class="mt-1.5 flex items-start gap-1.5 text-xs text-gray-400">
+                        <Icon name="ph:sparkle" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                        {{ $t('assistants.reviewNotice') }}
+                    </p>
                 </div>
                 <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
@@ -314,7 +321,7 @@
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                             v-if="userStore.getUser?.has_ai_access" @click="openAiGeneratePreview('note')">
                             <div class="flex items-center">
-                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                <Icon name="ph:sparkle" class="h-4 w-4" aria-hidden="true" />
                             </div>
                             {{ $t('citizens.citizenJournals.form.prepareWithAI') }}
                         </FormButton>
@@ -322,6 +329,13 @@
                 </div>
                 <div class="co-editor">
                     <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
+                    <!-- The audit's "always review AI output" reminder belongs where the
+                    text was generated, not only in the assistant. -->
+                    <p v-if="state.formJournal.is_ai_used"
+                        class="mt-1.5 flex items-start gap-1.5 text-xs text-gray-400">
+                        <Icon name="ph:sparkle" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                        {{ $t('assistants.reviewNotice') }}
+                    </p>
                 </div>
                 <FormError :error="v$?.formJournal?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
@@ -486,6 +500,7 @@ import { Mention } from 'ckeditor5'
 import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useAssistantStore } from '@/store/assistant'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -1350,6 +1365,23 @@ async function transcribeAndStructure() {
     }
     isTranscribing.value = false
 }
+
+// While this form is open the assistant may hand its answer straight into the
+// note, so the user does not copy out of one panel and paste into the other.
+// The panel never touches the editor: it only asks, and the answer lands here.
+const assistantStore = useAssistantStore()
+
+onMounted(() => assistantStore.offerInsertTarget(term('journalNotes', t('sidebar.journalNotes'))))
+onBeforeUnmount(() => assistantStore.withdrawInsertTarget())
+
+watch(() => assistantStore.pendingInsert, (html: string | null) => {
+    if (!html) return
+
+    const existing = state.formJournal.content ?? ''
+    state.formJournal.content = existing ? `${existing}<p></p>${html}` : html
+    state.formJournal.is_ai_used = true
+    assistantStore.insertHandled()
+})
 
 async function generateNoteForJournalContent(excludedJournalUuids: string[] = [], excludedPlanUuids: string[] = []) {
     state.error = {}

@@ -67,6 +67,14 @@
         "whatDoYouNeed": "Vad behöver du?",
         "stepsProgress": "{done} av {total} steg slutförda",
         "nextStep": "Nästa steg",
+        "demoData": {
+            "title": "Utforska med demoklienter",
+            "desc": "Vi har lagt till {count} fiktiva klienter så att det finns något att klicka runt i direkt. Ta bort dem när du är redo att lägga till era egna.",
+            "remove": "Ta bort demoklienter",
+            "removing": "Tar bort...",
+            "removed": "Demoklienter borttagna",
+            "removeFailed": "Kunde inte ta bort demoklienter"
+        },
         "ready": {
             "title": "Du är redo att gå live!",
             "desc": "Alla onboarding-steg är slutförda."
@@ -780,6 +788,26 @@
     },
     "assistants": {
         "askAI": "Fråga AI",
+        "actions": {
+            "copy": "Kopiera",
+            "copied": "Kopierat",
+            "copyFailed": "Kunde inte kopiera svaret",
+            "insert": "Infoga",
+            "stop": "Stoppa",
+            "regenerate": "Försök igen"
+        },
+        "starters": {
+            "title": "Prova till exempel",
+            "overview": "Ge mig en överblick över ärendet för ",
+            "summary": "Sammanfatta de senaste journalanteckningarna för ",
+            "report": "Skriv ett utkast till en rapport till handläggaren om ",
+            "organisation": "Vad står det i våra riktlinjer om "
+        },
+        "basedOn": "Baserat på",
+        "rateLimited": "Du har ställt många frågor just nu. Försök igen om {minutes} min.",
+        "rateLimitedToday": "Er organisation har nått dagens gräns för AI-förfrågningar. Försök igen i morgon.",
+        "companyDataMissing": "Svaret gavs utan åtkomst till er data. Sökindexet har inte skapats ännu.",
+        "companyDataBuilding": "Svaret gavs utan åtkomst till er data. Sökindexet byggs fortfarande.",
         "askAnything": "Fråga om vad som helst, eller skriv {'@'} för att nämna någon",
         "mentionSomeone": "Nämn en brukare eller medarbetare",
         "searchScopeHint": "AI kan söka i alla brukar-/medarbetaruppgifter du har åtkomst till, om du inte taggar en specifik person med {'@'}",
@@ -1972,7 +2000,9 @@
                     "group1": "Grupp 1",
                     "group2": "Grupp 2",
                     "foreignInsurance": "Utländsk försäkring",
-                    "other": "Annat"
+                    "other": "Annat",
+                    "group4": "Grupp 4 (betalar själv)",
+                    "but": "BUT (barn och unga i tandvården)"
                 },
                 "patientNumber": "Patientnummer",
                 "municipalSubsidy": "Kommunalt bidrag",
@@ -1981,6 +2011,33 @@
                     "label": "Rekommenderat kontrollintervall",
                     "everySixMonths": "Var 6:e månad",
                     "everyTwelveMonths": "Var 12:e månad"
+                },
+                "danmarkGroup": {
+                    "label": "\"danmark\"-grupp",
+                    "basis": "Basis",
+                    "group1": "Grupp 1",
+                    "group2": "Grupp 2",
+                    "group5": "Grupp 5"
+                },
+                "isForeignPatient": "Utländsk patient utan CPR",
+                "isForeignPatientHelp": "Kryssa i om patienten saknar danskt CPR-nummer. Då krävs inte CPR.",
+                "recallChannel": {
+                    "label": "Kallelsetyp",
+                    "help": "Brev och samtal skickas inte automatiskt. Systemet meddelar i stället ansvarig medarbetare.",
+                    "letter": "Post / brev",
+                    "sms": "SMS",
+                    "email": "E-post",
+                    "app": "Appnotis",
+                    "phone": "Uppringning"
+                },
+                "autoReminder": "Automatisk påminnelse",
+                "riskProfile": {
+                    "label": "Riskprofil för tandhälsa",
+                    "green": "Grön",
+                    "yellow": "Gul",
+                    "red": "Röd",
+                    "note": "Anteckning till riskprofil",
+                    "notePlaceholder": "Valfri anteckning"
                 }
             },
             "employmentProgram": {
@@ -2927,7 +2984,9 @@
                 "time": "Tid & närvaro",
                 "admin": "Administration"
             },
-            "surveys": "Enkäter"
+            "surveys": "Enkäter",
+            "toothChart": "Tandkarta",
+            "priceEstimates": "Prisuppskattningar"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -3375,7 +3434,107 @@
             "edit": "Redigera",
             "delete": "Ta bort"
         },
-        "noCitizensYet": "Inga medborgare än"
+        "noCitizensYet": "Inga medborgare än",
+        "toothChart": {
+            "title": "Tandkarta",
+            "numbering": "Numrering",
+            "fdi": "FDI",
+            "universal": "Universal",
+            "universalShort": "univ.",
+            "tooth": "Tand",
+            "upperJaw": "Överkäke",
+            "lowerJaw": "Underkäke",
+            "legend": "Teckenförklaring:",
+            "generalNotes": "Allmänna anteckningar",
+            "generalNotesPlaceholder": "Kliniska anteckningar som inte hör till en enskild tand",
+            "generalNotesSaved": "Anteckningar sparade",
+            "statuses": {
+                "healthy": "Frisk",
+                "caries": "Karies",
+                "filling": "Fyllning",
+                "crown": "Krona",
+                "bridge": "Bro",
+                "root_canal": "Rotbehandling",
+                "implant": "Implantat",
+                "veneer": "Skalfasad",
+                "sealant": "Fissurförsegling",
+                "fracture": "Fraktur",
+                "extracted": "Utdragen",
+                "missing": "Saknas",
+                "planned": "Planerad behandling",
+                "observation": "Observation"
+            },
+            "surfaces": {
+                "whole": "Hela tanden",
+                "occlusal": "Tuggyta (ocklusal)",
+                "mesial": "Mesial",
+                "distal": "Distal",
+                "buccal": "Kindyta (buckal)",
+                "lingual": "Tungyta (lingual)"
+            },
+            "panel": {
+                "emptyTitle": "Välj en tand",
+                "emptyText": "Klicka på en tand eller en yta i tandkartan för att se och ändra status.",
+                "noStatus": "Ingen status",
+                "notePlaceholder": "Anteckning",
+                "saved": "Tandens status sparad",
+                "history": "Behandlingshistorik",
+                "noHistory": "Inga journalanteckningar på den här tanden ännu.",
+                "openJournals": "Öppna journal",
+                "treatedAt": "Behandlingsdatum"
+            },
+            "downloadPdf": "Ladda ner PDF",
+            "oralHealthNotes": "Munhälsa och observationer",
+            "oralHealthNotesPlaceholder": "Till exempel tandköttets tillstånd, slemhinnor, munhygien",
+            "perio": {
+                "title": "Parodontal",
+                "show": "Parodontal",
+                "bleeding": "Blödning",
+                "pocketDepth": "Fickdjup (mm)",
+                "pocketPlaceholder": "mm",
+                "mobility": "Mobilitet (0-3)",
+                "measuredAt": "Mätdatum"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "Ny prisuppskattning",
+            "editTitle": "Redigera prisuppskattning",
+            "total": "Totalpris",
+            "subsidy": "Förväntat bidrag",
+            "patientPays": "Patienten betalar",
+            "saved": "Prisuppskattningen är sparad",
+            "markSent": "Markera som skickad",
+            "markAccepted": "Accepterad",
+            "markDeclined": "Avvisad",
+            "statuses": {
+                "draft": "Utkast",
+                "sent": "Skickad",
+                "accepted": "Accepterad",
+                "declined": "Avvisad",
+                "expired": "Utgången"
+            },
+            "empty": {
+                "title": "Inga prisuppskattningar ännu",
+                "text": "Skapa en uppskattning så patienten ser priset och sin egen del innan behandlingen börjar."
+            },
+            "form": {
+                "title": "Rubrik",
+                "titlePlaceholder": "Till exempel krona och fyllning",
+                "validUntil": "Giltig till",
+                "lines": "Behandlingar",
+                "addLine": "Lägg till rad",
+                "code": "Kod",
+                "description": "Behandling",
+                "quantity": "Antal",
+                "unitPrice": "Styckpris",
+                "subsidy": "Bidrag",
+                "lineTotal": "Belopp",
+                "noTooth": "Ingen tand",
+                "note": "Anmärkningar",
+                "notePlaceholder": "Till exempel vad priset förutsätter",
+                "needsALine": "Lägg till minst en behandling"
+            }
+        }
     },
     "client": {
         "appointments": "Möten",
@@ -5827,7 +5986,11 @@
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Visa arbejdstimer",
             "showCompensatoryHours": "Visa komptid och semesterdagar",
-            "street": "Gata"
+            "street": "Gata",
+            "note": "Anteckning",
+            "notePlaceholder": "Intern anteckning om medarbetaren",
+            "unionMembership": "Fackförbund",
+            "unionMembershipPlaceholder": "Till exempel HK"
         },
         "importEmployees": {
             "alert": {
@@ -6435,7 +6598,8 @@
             "primaryCaseWorker": "Handläggare"
         },
         "confirmation": {
-            "deleteFormConfirmation": "Är du säker på att du vill radera denna formulär"
+            "deleteFormConfirmation": "Är du säker på att du vill radera denna formulär",
+            "deleteFormHasReports": "Det har skrivits {count} rapporter utifrån den."
         },
         "createResponse": "Skapa svar",
         "documentTitle": "Dokumenttitel",
@@ -6462,7 +6626,26 @@
             "required": "Obligatorisk",
             "text": "Text",
             "textarea": "Tekstområde",
-            "uploadFile": "Upload fil"
+            "uploadFile": "Upload fil",
+            "heading": "Rubrik",
+            "subheading": "Underrubrik",
+            "paragraph": "Textavsnitt",
+            "guidance": "Vägledning",
+            "pagebreak": "Sidbrytning",
+            "headingPlaceholder": "Skriv rubriken",
+            "paragraphPlaceholder": "Skriv texten",
+            "pagebreakHint": "Börjar en ny sida i den genererade PDF:en.",
+            "guidanceHint": "Visas endast när rapporten fylls i. Kommer inte med i PDF:en.",
+            "helpText": "Hjälptext",
+            "helpTextPlaceholder": "Kort vägledning för den som fyller i",
+            "width": "Bredd",
+            "widthFull": "Full bredd",
+            "widthHalf": "Halv bredd",
+            "scale": "Trivsellinjal",
+            "moveUp": "Flytta upp",
+            "moveDown": "Flytta ner",
+            "duplicate": "Duplicera",
+            "table": "Tabell"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6492,7 +6675,18 @@
                 "formSuccessfullyDeleted": "Formulär raderad"
             },
             "description": "Beskrivning",
-            "title": "Titel"
+            "title": "Titel",
+            "blocks": "Block",
+            "reports": "Rapporter",
+            "caption": "Rubrik över tabellen",
+            "captionPlaceholder": "Valfri rubrik",
+            "columnName": "Kolumn",
+            "addColumn": "Lägg till kolumn",
+            "removeColumn": "Ta bort kolumn",
+            "addRow": "Lägg till rad",
+            "removeRow": "Ta bort rad",
+            "cellPlaceholder": "Text eller fält",
+            "hint": "Celler kan innehålla fält från systemet. Medarbetaren kan ändra dem när rapporten fylls i."
         },
         "viewResponses": "Se svar",
         "tabs": {
@@ -6546,6 +6740,82 @@
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Är du säker på att du vill radera denna fördefinierade händelse"
             }
+        },
+        "layout": {
+            "documentLayout": "Dokumentlayout",
+            "documentLayoutHint": "Genererar rapporten som ett dokument med sektioner i stället för en kopia av formuläret.",
+            "showNumbering": "Numrera frågorna"
+        },
+        "scale": {
+            "question": "Fråga",
+            "scaleKey": "Mätningens nyckel",
+            "scaleKeyHint": "Mallar med samma nyckel delar historik på medborgaren. Använd t.ex. trivsel.",
+            "maxScore": "Skala",
+            "maxScoreHint": "0 till 5 eller 0 till 10.",
+            "preview": "Så här ser den ut",
+            "bands": "Färgband",
+            "upTo": "Till och med",
+            "bandLabel": "Bandets namn",
+            "addBand": "Lägg till band",
+            "raters": "Bedömande parter",
+            "ratersHint": "Medarbetaren skriver in allas bedömning. Lägg till fler, t.ex. en specialist.",
+            "raterLabel": "Namn",
+            "addRater": "Lägg till part",
+            "showHistory": "Visa tidigare mätningar",
+            "perGoal": "Upprepa linjalen för varje mål",
+            "perGoalHint": "Påslaget visas linjalen en gång per aktivt mål på medborgaren.",
+            "defaults": {
+                "threatened": "Hotad",
+                "atRisk": "Utsatt",
+                "vulnerable": "Sårbar",
+                "moderate": "Måttlig trivsel",
+                "thriving": "Trivsel",
+                "staff": "Medarbetare",
+                "caseworker": "Handläggare",
+                "mother": "Mamma",
+                "father": "Pappa",
+                "citizen": "Medborgaren"
+            },
+            "clear": "Rensa",
+            "measuredAt": "Mätt den",
+            "earlier": "Tidigare mätningar",
+            "recordedByHint": "Du noterar alla parters bedömning. Rapporten visar vem som skrivit in den.",
+            "previousHere": "Föregående mätning låg här",
+            "needsTwo": "Det krävs två mätningar innan utvecklingen kan ritas."
+        },
+        "mergeFields": {
+            "insert": "Infoga fält",
+            "personal": "Personuppgift",
+            "none": "Inga fält tillgängliga",
+            "hint": "Fältet ersätts med medborgarens uppgifter när rapporten sparas.",
+            "loading": "Hämtar..."
+        },
+        "groups": {
+            "questions": "Frågor som någon ska besvara",
+            "layout": "Dokumentets uppbyggnad",
+            "layoutNeedsDocument": "Dessa visas bara i den färdiga rapporten när dokumentlayouten är påslagen."
+        },
+        "previewDocument": {
+            "button": "Förhandsgranska dokumentet",
+            "working": "Genererar...",
+            "hint": "Öppnar rapporten som den kommer att se ut, med exempelsvar. Inget sparas."
+        },
+        "group": {
+            "title": "Grupp",
+            "defaultName": "Mål",
+            "namePlaceholder": "Namn på gruppen, t.ex. Mål",
+            "repeatFor": "Upprepas för",
+            "sourceGoals": "Varje aktivt mål",
+            "sourceContacts": "Varje part",
+            "sourceFixed": "Ett fast antal",
+            "count": "Antal upprepningar",
+            "includeCompleted": "Ta med avslutade mål",
+            "addInside": "Lägg till block i gruppen",
+            "blocksInside": "block i gruppen",
+            "addingInside": "Nästa block läggs in i gruppen",
+            "addAtEnd": "Lägg den längst ned i stället",
+            "hint": "Blocken i gruppen upprepas en gång per mål på medborgaren. Infoga fältet för upprepningens namn där målets namn ska stå.",
+            "noIterations": "Medborgaren har inga mål ännu, så den här gruppen är tom."
         }
     },
     "gender": {
@@ -7638,6 +7908,7 @@
         "settings": "Inställningar",
         "subscription": "Prenumeration",
         "switchLanguage": "Byt språk",
+        "helpAndNews": "Hjälp och nytt",
         "impersonating": "Inloggad som klient",
         "stopImpersonation": "Logga ut som klient",
         "surveys": "Enkäter"
@@ -9494,6 +9765,12 @@
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
         "discover": "Kom igång",
+        "groups": {
+            "daily": "Daglig drift",
+            "documentation": "Dokumentation",
+            "organisation": "Organisation",
+            "shortcuts": "Genvägar"
+        },
         "documents": "Dokument",
         "dutySchedules": "Tjänsteschema",
         "leads": "Leads",
@@ -9509,7 +9786,8 @@
         "surveys": "Enkäter",
         "myDay": "Min dag",
         "myAvailability": "Min tillgänglighet",
-        "myShiftEvaluations": "Mina passutvärderingar"
+        "myShiftEvaluations": "Mina passutvärderingar",
+        "forms": "Formulär"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -9749,7 +10027,13 @@
                 "discountPercent": "Rabatt (%)",
                 "discountEndsAt": "Erbjudandet slutar"
             },
-            "colName": "Namn"
+            "colName": "Namn",
+            "attachToCompany": "Tilldela till företag",
+            "attachToCompanyDesc": "Tilldela den här appen direkt till ett specifikt företag",
+            "searchCompany": "Sök företag...",
+            "assigned": "Tilldelad",
+            "successAssigned": "App tilldelad",
+            "successAssignedBody": "{appName} har tilldelats till {companyName}"
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -9882,7 +10166,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens",
                 "grant": {
                     "addLicenses": "Lägg till licenser",
-                    "description": "Lägger till extra licenser i företagets pool och skapar en väntande manuell faktura för beloppet.",
+                    "description": "Lägger till extra användarlicenser i företagets pool. Ingen debitering i systemet - faktureras separat i e-conomic.",
                     "quantity": "Antal licenser",
                     "billingFrequency": "Faktureringsfrekvens",
                     "monthly": "Månadsvis",
@@ -10794,13 +11078,61 @@
         "licenses": {
             "pageTitle": "App-licenser",
             "header": "App-licenser",
-            "subtitle": "Tilldela app-licenser till företag",
-            "newLicense": "Ny app",
+            "subtitle": "Definiera priser och licensstrukturer per app",
+            "newLicense": "Ny licens",
             "licenseModelLabel": "Licensmodell",
-            "licenseModelDesc": "Företag betalar per app de aktiverar, inte en samlad plan. Varje app har ett pris (månadsvis eller årsvis); platser tilldelas ett företag och kan valfritt tilldelas direkt till en användare.",
+            "licenseModelDesc": "Företag betalar per app de aktiverar, inte en samlad plan. Priset är per användare/licens med flexibla faktureringsintervall - månadsvis, årsvis eller specifikt avtal (t.ex. offentlig sektor med stor volym).",
             "noAppsFound": "Inga appar hittades",
             "noAppsFoundSub": "Lägg till appar från Apps-sidan först",
-            "inactive": "Inaktiv"
+            "inactive": "Inaktiv",
+            "licenseTypes": "licenstyper",
+            "activeCompanies": "aktiva företag",
+            "addLicense": "Lägg till licens",
+            "noLicenseTypes": "Inga licenstyper ännu - lägg till den första",
+            "volume": "Volym",
+            "free": "Gratis",
+            "perUser": "/ användare",
+            "included": "inkl.",
+            "min": "min.",
+            "users": "användare",
+            "editLicense": "Redigera licens",
+            "appLabel": "App",
+            "selectAppPlaceholder": "Välj app…",
+            "licenseNameLabel": "Licensnamn",
+            "licenseNamePlaceholder": "t.ex. Standard, Enterprise, Offentlig",
+            "descriptionLabel": "Beskrivning",
+            "descriptionPlaceholder": "Kort beskrivning av licenstypen",
+            "priceLabel": "Pris per användare (kr)",
+            "billingIntervalLabel": "Faktureringsintervall",
+            "monthly": "Månadsvis",
+            "yearly": "Årsvis",
+            "quarterly": "Kvartalsvis",
+            "custom": "Specifikt avtal",
+            "includedSeatsLabel": "Inkluderade användare",
+            "includedSeatsHint": "Inkluderat i baspriset (0 = ingen)",
+            "minSeatsLabel": "Min. köp (användare)",
+            "minSeatsHint": "Minimum som måste köpas",
+            "volumeAgreement": "Volymsavtal",
+            "volumeAgreementDesc": "Aktivera för t.ex. offentliga institutioner med många användare",
+            "activeLabel": "Aktiv",
+            "activeDesc": "Licenstypen kan köpas av företag",
+            "assignToCompany": "Koppla till företag (valfritt)",
+            "assignToCompanyDesc": "Koppla denna licenstyp direkt till ett företag",
+            "searchCompanyPlaceholder": "Sök företag...",
+            "cancelAction": "Avbryt",
+            "saving": "Sparar...",
+            "saveChanges": "Spara ändringar",
+            "createLicense": "Skapa licens",
+            "errorSelectApp": "Välj en app",
+            "errorLicenseName": "Licensnamn krävs",
+            "errorPrice": "Priset måste vara 0 eller mer",
+            "successSaved": "Sparat!",
+            "successUpdatedBody": "Licenstyp '{name}' har uppdaterats.",
+            "successCreated": "Skapat!",
+            "successCreatedBody": "Licenstyp '{name}' har skapats.",
+            "successDeleted": "Raderat!",
+            "successDeletedBody": "Licenstyp '{name}' har raderats.",
+            "deleteConfirm": "Ta bort licenstyp '{name}'?"
         },
         "grantLicense": {
             "title": "Tilldela app-licens",

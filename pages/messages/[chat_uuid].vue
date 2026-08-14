@@ -226,7 +226,7 @@
 
             <!-- Message Input -->
             <div class="flex-shrink-0 border-t border-gray-100 px-4 py-3 bg-white">
-                <div class="flex items-stretch gap-2">
+                <div class="flex items-end gap-2">
                     <!-- Attachment Button -->
                     <input ref="fileInput" type="file" multiple @change="handleFileChange" class="hidden" />
                     <button type="button"
@@ -242,8 +242,8 @@
                     <ModulesUserMessagesTemplatePicker @select="appendTemplate" />
 
                     <!-- Text Input -->
-                    <textarea rows="1"
-                        class="flex-1 h-10 px-4 py-2.5 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-tight"
+                    <textarea ref="messageTextarea" rows="1"
+                        class="flex-1 min-h-10 max-h-40 px-4 py-2.5 bg-gray-100 rounded-md text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none focus:ring-1 focus:ring-primary/20 border-0 leading-tight overflow-y-hidden"
                         :placeholder="$t('messages.typeAMessage')" v-model="state.message"
                         @keydown.enter.exact.prevent="sendMessage" />
 
@@ -300,6 +300,7 @@ let currentPage = 1
 let scrollHeight = 0
 const fileInput = ref(null) as any
 const files = ref<File[]>([])
+const messageTextarea = ref<HTMLTextAreaElement | null>(null)
 
 const fetchChats = inject('fetchChats') as any
 const updateChatName = inject('updateChatName') as any
@@ -409,6 +410,17 @@ function appendTemplate(body: string) {
     state.message = current && current.trim() ? `${current}\n${body}` : body
 }
 
+const MESSAGE_INPUT_MAX_HEIGHT = 160 // px, roughly 6 lines before scrolling kicks in
+
+async function autoResizeMessageInput() {
+    await nextTick()
+    const el = messageTextarea.value
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${Math.min(el.scrollHeight, MESSAGE_INPUT_MAX_HEIGHT)}px`
+    el.style.overflowY = el.scrollHeight > MESSAGE_INPUT_MAX_HEIGHT ? 'auto' : 'hidden'
+}
+
 const SENDER_COLORS = [
     'text-rose-600', 'text-amber-600', 'text-emerald-600', 'text-sky-600',
     'text-violet-600', 'text-fuchsia-600', 'text-teal-600', 'text-indigo-600',
@@ -426,6 +438,7 @@ watch(() => state.message, (value: string) => {
     if (replaced !== value) {
         state.message = replaced
     }
+    autoResizeMessageInput()
 })
 
 function senderDisplayName(message: any) {

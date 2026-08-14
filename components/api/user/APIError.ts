@@ -16,9 +16,17 @@ class APIError extends Error {
 	 */
 	data?: any
 
+	/** HTTP status, when the caller needs to tell a rate limit from a failure. */
+	status?: number
+
+	/** Seconds until the request would be accepted again (429 only). */
+	retryAfter?: number
+
 	constructor(error: any) {
 		super(error.message)
 		Object.setPrototypeOf(this, APIError.prototype)
+		this.status = error.status
+		this.retryAfter = error.retryAfter
 		if (error.errors) {
 			this.errors = error.errors
 		}

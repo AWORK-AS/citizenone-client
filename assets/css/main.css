@@ -170,6 +170,28 @@ input:disabled {
 ---------------------------------------------------------------------------------------------------- */
 .table-responsive {
     @apply w-full overflow-x-auto rounded-xl border border-surface-200;
+    scrollbar-color: #94a3b8 #f1f5f9;
+    scrollbar-width: auto;
+}
+
+.table-responsive::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 10px;
+    border: 2px solid #f1f5f9;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
 }
 
 table {
@@ -203,6 +225,19 @@ table tbody tr:last-child {
 
 table td {
     @apply text-sm font-normal px-5 py-3 text-left bg-white text-slate-700;
+}
+
+/* ----------------------------------------------------------------------------------------------------
+    Sticky actions column — opt-in via class="table-sticky-actions" on <Table>.
+    Keeps the last column (typically row actions) reachable without scrolling, so
+    it isn't dependent on the user noticing the horizontal scrollbar at all.
+---------------------------------------------------------------------------------------------------- */
+.table-sticky-actions th:last-child,
+.table-sticky-actions td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 1;
+    box-shadow: -6px 0 8px -6px rgba(15, 23, 42, 0.15);
 }
 
 /* ----------------------------------------------------------------------------------------------------
