@@ -245,11 +245,21 @@ onMounted(() => {
 
 // The tracking banner (mounted once in layouts/user.vue) is what actually
 // stops the trip, from anywhere in the app. This page just needs to notice
-// when a trip that was running stops being tracked, and refresh — an
+// when a stopped trip has actually finished saving, and refresh — an
 // in-progress trip is excluded from the list/summary until it's stopped
 // (see backend/dev.md, §9), so there's nothing to show until then anyway.
-watch(tracking.isTracking, (isTracking, wasTracking) => {
-    if (wasTracking && !isTracking) {
+//
+// Deliberately watching `status` for the exact 'reviewing' -> 'idle' edge,
+// not `isTracking` going false: `stop()` flips status to 'stopping' (which
+// makes isTracking false) *before* it calls the backend, so watching
+// isTracking refreshed the list before the trip was actually saved — it
+// would show as missing until a manual page reload. 'reviewing' is only
+// reached after a successful save, and 'idle' is only reached from there
+// once the review modal is closed, so this fires exactly once, at the right
+// time. (A cancelled trip goes straight to 'idle' without passing through
+// 'reviewing', so cancelling correctly does not trigger a refresh here.)
+watch(tracking.status, (status, previousStatus) => {
+    if (previousStatus === 'reviewing' && status === 'idle') {
         fetchMileageLogs()
         fetchSummary()
     }
