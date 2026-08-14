@@ -7587,6 +7587,7 @@
                 "body": "Sporingen kører kun, mens siden er åben og skærmen er tændt. Låser du telefonen eller skifter app, sættes sporingen på pause, og distancen bliver for lav.",
                 "title": "Hold appen åben under kørslen"
             },
+            "noGpsPointsYetHint": "Ingen GPS-punkter er registreret endnu — det kan skyldes svag positionsnøjagtighed (almindeligt på en computer uden GPS). Distancen beregnes ud fra start- og slutadressen i stedet.",
             "recalculateFromAddresses": "Beregn ud fra adresser i stedet",
             "resumed": "Fortsætter igangværende tur",
             "reviewTitle": "Gennemse tur",

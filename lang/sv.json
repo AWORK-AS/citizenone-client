@@ -7587,6 +7587,7 @@
                 "body": "Spårningen körs bara medan denna sida är öppen och skärmen är på. Låser du telefonen eller byter app pausas spårningen och sträckan blir för kort.",
                 "title": "Håll appen öppen medan du kör"
             },
+            "noGpsPointsYetHint": "Inga GPS-punkter har registrerats ännu — det kan bero på svag positionsnoggrannhet (vanligt på en dator utan GPS). Avståndet beräknas då istället utifrån start- och slutadressen.",
             "recalculateFromAddresses": "Beräkna utifrån adresser istället",
             "resumed": "Återupptar pågående resa",
             "reviewTitle": "Granska resa",

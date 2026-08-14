@@ -68,6 +68,14 @@ const startAddress = ref<string | null>(null)
 const citizenUuid = ref<string | null>(null)
 const trackingError = ref<string | null>(null)
 const isBusy = ref(false) // true while start()/stop()/cancel() are in flight
+// Updated on every geolocation fix regardless of accuracy — purely for "where
+// is the user right now" display purposes (map centering). Deliberately
+// separate from `points`, which stays filtered for distance-calculation
+// quality: a laptop without a GPS chip routinely reports accuracy in the
+// hundreds/thousands of meters via wifi-based location, which would
+// otherwise leave `points` permanently empty and the review map stuck on a
+// hardcoded fallback center for the whole session.
+const lastKnownPosition = ref<{ lat: number; lng: number; accuracy?: number } | null>(null)
 
 let watchId: number | null = null
 let logIntervalId: ReturnType<typeof setInterval> | null = null
@@ -128,6 +136,7 @@ function resetState() {
     startAddress.value = null
     citizenUuid.value = null
     trackingError.value = null
+    lastKnownPosition.value = null
     clearPersisted()
 }
 
@@ -186,6 +195,7 @@ function onPosition(position: GeolocationPosition) {
 
     lastFixAt.value = Date.now()
     if (status.value === 'tracking-degraded') status.value = 'tracking'
+    lastKnownPosition.value = { lat, lng, accuracy }
 
     if (typeof accuracy === 'number' && accuracy > MAX_ACCURACY_METERS) {
         // Drop low-quality fixes rather than let them jitter the distance —
@@ -493,6 +503,7 @@ export function useMileageTracking(t?: (key: string) => string) {
         status,
         activeTrip,
         points,
+        lastKnownPosition,
         isTracking,
         isIdle,
         isBusy,

@@ -7587,6 +7587,7 @@
                 "body": "Tracking only runs while this page is open and the screen is on. Locking the phone or switching apps pauses tracking and the distance will be too low.",
                 "title": "Keep the app open while driving"
             },
+            "noGpsPointsYetHint": "No GPS points recorded yet — this can happen with weak location accuracy (common on a computer without GPS). Distance will be calculated from the start and end address instead.",
             "recalculateFromAddresses": "Calculate from addresses instead",
             "resumed": "Resumed trip in progress",
             "reviewTitle": "Review trip",

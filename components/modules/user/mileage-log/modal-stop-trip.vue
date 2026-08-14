@@ -8,7 +8,7 @@
                     <!-- Phase 1: still tracking, deciding whether to stop or discard -->
                     <template v-if="state.phase === 'confirm'">
                         <div class="h-64 w-full rounded-md overflow-hidden border">
-                            <MapLocation :center="mapCenter" :zoom="15" :polylinePoints="polylinePoints" layers />
+                            <MapLocation :center="mapCenter" :zoom="15" :markerCoords="markerCoords" :polylinePoints="polylinePoints" layers />
                         </div>
 
                         <div class="grid grid-cols-2 gap-3">
@@ -20,6 +20,11 @@
                                 <p class="text-xs text-tertiary">{{ $t('mileageLog.tracking.distanceSoFar') }}</p>
                                 <p class="text-sm font-semibold text-gray-700">{{ tracking.distanceSoFarKm.value.toFixed(2) }} km</p>
                             </div>
+                        </div>
+
+                        <div v-if="tracking.points.value.length === 0" class="flex items-start gap-x-2 p-3 bg-amber-50 border border-amber-200 rounded-md">
+                            <Icon name="ph:warning-circle" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                            <p class="text-xs text-amber-700">{{ $t('mileageLog.tracking.noGpsPointsYetHint') }}</p>
                         </div>
 
                         <div class="space-y-1">
@@ -143,12 +148,29 @@ async function fetchCitizenOptions() {
 }
 
 const mapCenter = computed<[number, number]>(() => {
+    // Prefer, in order: the last logged (accuracy-filtered) breadcrumb; the
+    // raw last-known fix regardless of accuracy (covers the common case of
+    // testing without a real GPS chip, where every fix gets filtered out of
+    // `points` but we still know roughly where the device is); the trip's
+    // actual start coordinates from the backend resource; and only then a
+    // hardcoded fallback, which should now be rare rather than the default.
     const last = tracking.points.value[tracking.points.value.length - 1]
     if (last) return [last.lat, last.lng]
+
+    const rawFix = tracking.lastKnownPosition.value
+    if (rawFix) return [rawFix.lat, rawFix.lng]
+
+    const trip = tracking.activeTrip.value
+    if (trip?.geo_start_lat != null && trip?.geo_start_lng != null) {
+        return [Number(trip.geo_start_lat), Number(trip.geo_start_lng)]
+    }
+
     return [55.6761, 12.5683]
 })
 
 const polylinePoints = computed<[number, number][]>(() => tracking.points.value.map((p) => [p.lat, p.lng]))
+
+const markerCoords = computed(() => ({ lat: mapCenter.value[0], lng: mapCenter.value[1] }))
 
 const formattedElapsed = computed(() => {
     const seconds = tracking.elapsedSeconds.value
