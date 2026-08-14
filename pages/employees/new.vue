@@ -75,6 +75,8 @@ const state = reactive({
         do_not_count_sick_leave: false,
         media_risks: [],
         pages: [],
+        spoken_languages: [],
+        primary_spoken_language: '',
         employment: {
             salary_id: '',
             employment_date: '',
@@ -125,6 +127,8 @@ async function saveEmployee(employeeDetails: any) {
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('termination_date', employeeDetails.employment.termination_date)
         params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
+        params.append('spoken_languages_uuid', JSON.stringify(employeeDetails.spoken_languages ?? []))
+        params.append('primary_spoken_language_uuid', employeeDetails.primary_spoken_language ?? '')
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)

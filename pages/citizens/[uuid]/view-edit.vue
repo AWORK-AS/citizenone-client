@@ -91,6 +91,9 @@ const state = reactive({
         city: '',
         post_code: '',
         origin: '',
+        spoken_languages: [],
+        primary_spoken_language: '',
+        requires_interpreter: false,
         diagnoses: [],
         medication_allergies: [],
         addictions: [],
@@ -183,6 +186,9 @@ async function fetchCitizen() {
                 city: response?.data?.address?.city ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
                 origin: response?.data?.origin?.uuid?.toString() ?? '',
+                spoken_languages: [],
+                primary_spoken_language: '',
+                requires_interpreter: response?.data?.requires_interpreter ?? false,
                 diagnoses: [],
                 medication_allergies: [],
                 addictions: [],
@@ -250,6 +256,12 @@ async function fetchCitizen() {
             response?.data?.diagnoses?.forEach((diagnosis: any) => {
                 state.formCitizen.diagnoses.push(diagnosis?.uuid)
             })
+            response?.data?.spoken_languages?.forEach((spokenLanguage: any) => {
+                state.formCitizen.spoken_languages.push(spokenLanguage?.uuid)
+                if (spokenLanguage?.is_primary) {
+                    state.formCitizen.primary_spoken_language = spokenLanguage?.uuid
+                }
+            })
             response?.data?.allergies?.forEach((medication_allergy: any) => {
                 state.formCitizen.medication_allergies.push(medication_allergy?.uuid)
             })
@@ -298,6 +310,9 @@ async function updateCitizen(citizenDetails: any) {
         } else {
             params.append('origin_uuid', citizenDetails.origin)
         }
+        params.append('spoken_languages_uuid', JSON.stringify(citizenDetails.spoken_languages ?? []))
+        params.append('primary_spoken_language_uuid', citizenDetails.primary_spoken_language ?? '')
+        params.append('requires_interpreter', citizenDetails.requires_interpreter ? 'true' : 'false')
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
         params.append('medication_allergies_uuid', JSON.stringify(citizenDetails.medication_allergies))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))

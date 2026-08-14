@@ -100,6 +100,8 @@ const state = reactive({
         do_not_count_sick_leave: false,
         media_risks: [],
         pages: [],
+        spoken_languages: [],
+        primary_spoken_language: '',
         employment: {
             salary_id: '',
             employment_date: '',
@@ -159,6 +161,8 @@ async function fetchEmployee() {
                 do_not_count_sick_leave: response?.data?.do_not_count_sick_leave ?? false,
                 media_risks: [],
                 pages: [],
+                spoken_languages: [],
+                primary_spoken_language: '',
                 employment: {
                     salary_id: response?.data?.employee_detail?.salary_id ?? '',
                     employment_date: response?.data?.employee_detail?.date_of_employment ?? '',
@@ -179,6 +183,12 @@ async function fetchEmployee() {
             }
             response?.data?.media_risks?.forEach((media_risk: any) => {
                 state.formEmployee.media_risks.push(media_risk?.uuid)
+            })
+            response?.data?.spoken_languages?.forEach((spokenLanguage: any) => {
+                state.formEmployee.spoken_languages.push(spokenLanguage?.uuid)
+                if (spokenLanguage?.is_primary) {
+                    state.formEmployee.primary_spoken_language = spokenLanguage?.uuid
+                }
             })
             response?.data?.employee_specialties?.forEach((job_specialty: any) => {
                 state.formEmployee.employment.job_specialties.push(job_specialty?.uuid)
@@ -247,6 +257,8 @@ async function updateEmployee(employeeDetails: any) {
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('termination_date', employeeDetails.employment.termination_date)
         params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
+        params.append('spoken_languages_uuid', JSON.stringify(employeeDetails.spoken_languages ?? []))
+        params.append('primary_spoken_language_uuid', employeeDetails.primary_spoken_language ?? '')
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)

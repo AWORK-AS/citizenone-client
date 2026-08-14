@@ -52,6 +52,11 @@
                                                 <Icon name="ph:cake" class="h-4 w-4" aria-hidden="true" />
                                                 {{ $t('citizens.birthdayToday') }}
                                             </span>
+                                            <span v-if="state.selectedCitizen?.data?.requires_interpreter"
+                                                class="inline-flex items-center gap-x-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-800 ring-1 ring-amber-200">
+                                                <Icon name="ph:translate" class="h-4 w-4" aria-hidden="true" />
+                                                {{ $t('citizens.form.requiresInterpreter') }}
+                                            </span>
 
                                         </div>
                                         <p class="text-sm font-medium text-gray-700"
@@ -142,6 +147,14 @@
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
                                             {{ state.selectedCitizen?.data?.phone }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1" v-if="spokenLanguagesSummary">
+                                        <Tooltip :text="$t('citizens.form.spokenLanguages')" class="flex items-center">
+                                            <Icon name="ph:translate" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ spokenLanguagesSummary }}
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
@@ -436,6 +449,7 @@ import { useConfetti } from '@/composables/useConfetti'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useTerminology } from '@/composables/useTerminology'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -520,6 +534,13 @@ function isTodaysBirthday(birthday?: string | null) {
 
 // Tells the user why the confetti fired, right on the citizen's header.
 const isBirthdayToday = computed(() => isTodaysBirthday(state.selectedCitizen?.data?.birthday))
+
+// Which languages the citizen speaks, mother tongue first, so staff can see it
+// before starting a conversation.
+const { summarise: summariseSpokenLanguages } = useSpokenLanguages()
+const spokenLanguagesSummary = computed(() =>
+    summariseSpokenLanguages(state.selectedCitizen?.data?.spoken_languages, t('citizens.form.motherTongue').toLowerCase())
+)
 
 // A little 🎂 confetti when you open a citizen on their birthday.
 function celebrateBirthdayIfToday(birthday?: string | null) {
