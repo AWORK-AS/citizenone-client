@@ -448,6 +448,16 @@
                                                             </button>
                                                         </Tooltip>
                                                         <Tooltip position="right"
+                                                            :text="$t('dutySchedules.shiftRequests.shiftRequests')"
+                                                            v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.uuid === employee?.uuid)">
+                                                            <button :aria-label="$t('dutySchedules.shiftRequests.shiftRequests')"
+                                                                class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
+                                                                @click="viewShiftRequests(employee)">
+                                                                <Icon name="mdi:calendar-plus" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                            </button>
+                                                        </Tooltip>
+                                                        <Tooltip position="right"
                                                             :text="isFavorited(employee) ? $t('dutySchedules.favorites.removeFromFavorites') : $t('dutySchedules.favorites.addToFavorites')"
                                                             v-if="hasManageFavoritesAccess && userStore.getUser?.uuid !== employee?.uuid">
                                                             <button :aria-label="isFavorited(employee) ? $t('dutySchedules.favorites.removeFromFavorites') : $t('dutySchedules.favorites.addToFavorites')"
@@ -1405,6 +1415,9 @@
         <ModulesUserDutyScheduleLeaveRequestsModalView :isModalOpen="state.modal.isManageLeaveRequestsOpen"
             :selectedEmployee="state.manageLeaveRequests.selectedEmployee"
             @close="state.modal.isManageLeaveRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+        <ModulesUserDutyScheduleShiftRequestsModalView :isModalOpen="state.modal.isManageShiftRequestsOpen"
+            :selectedEmployee="state.manageShiftRequests.selectedEmployee"
+            @close="state.modal.isManageShiftRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
         <ModulesUserDutyScheduleTimeRequestsModalRequests :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
             :selectedDate="state.manageTimeRequest.selectedDate"
             :selectedEmployee="state.manageTimeRequest.selectedEmployee"
@@ -1582,6 +1595,9 @@ const state = reactive({
     manageLeaveRequests: {
         selectedEmployee: {},
     },
+    manageShiftRequests: {
+        selectedEmployee: {},
+    },
     manageTimeRequest: {
         selectedDate: '',
         selectedEmployee: {},
@@ -1603,6 +1619,7 @@ const state = reactive({
         isManageFavoritesOpen: false,
         isManageLeaveRequestsOpen: false,
         isManageScheduleSlotOpen: false,
+        isManageShiftRequestsOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
         isRemoveShiftReasonOpen: false,
@@ -2521,6 +2538,11 @@ function viewExtraHours(employee: any) {
 function viewLeaveRequests(employee: any) {
     state.manageLeaveRequests.selectedEmployee = employee
     state.modal.isManageLeaveRequestsOpen = true
+}
+
+function viewShiftRequests(employee: any) {
+    state.manageShiftRequests.selectedEmployee = employee
+    state.modal.isManageShiftRequestsOpen = true
 }
 
 async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
