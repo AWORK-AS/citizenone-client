@@ -7244,6 +7244,17 @@
             "serviceFee": "Service fee",
             "status": "Status",
             "unpaid": "Unpaid"
+        },
+        "purchases": {
+            "title": "Active apps",
+            "apps": "Active apps",
+            "appsHint": "{amount} a month in total",
+            "fees": "Payment fee this month",
+            "feesHint": "{count} payments carried by CitizenOne",
+            "nextCharge": "Expected next charge",
+            "nextChargeHint": "Subscription and fees together",
+            "perMonth": "a month",
+            "plusFee": "+ {rate} % per payment"
         }
     },
     "jobSpecialties": {
@@ -9622,7 +9633,7 @@
         },
         "groups": {
             "company": "Company",
-            "billing": "Billing",
+            "billing": "Subscription and payment",
             "data": "Data",
             "logs": "Logs",
             "integrations": "Integrations",
@@ -9650,7 +9661,7 @@
             "expenseCategories": "Expense categories",
             "extraHoursTags": "Extra hours tags",
             "foreignCities": "Foreign cities",
-            "invoices": "Invoices",
+            "invoices": "Purchases and payments",
             "jobTitles": "Job titles",
             "journalContents": "Journal contents",
             "journalNoteTags": "Journal note tags",

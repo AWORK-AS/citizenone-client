@@ -7244,6 +7244,17 @@
             "serviceFee": "Servicegebyr",
             "status": "Status",
             "unpaid": "Ubetalt"
+        },
+        "purchases": {
+            "title": "Aktive apper",
+            "apps": "Aktive apper",
+            "appsHint": "{amount} kr./md. totalt",
+            "fees": "Betalingsgebyr denne måneden",
+            "feesHint": "{count} betalinger båret av CitizenOne",
+            "nextCharge": "Forventet neste trekk",
+            "nextChargeHint": "Abonnement og gebyr samlet",
+            "perMonth": "kr./md.",
+            "plusFee": "+ {rate} % per betaling"
         }
     },
     "jobSpecialties": {
@@ -9622,7 +9633,7 @@
         },
         "groups": {
             "company": "Bedrift",
-            "billing": "Fakturering",
+            "billing": "Abonnement og betaling",
             "data": "Data",
             "logs": "Logger",
             "integrations": "Integrasjoner",
@@ -9650,7 +9661,7 @@
             "expenseCategories": "Udgiftskategorier",
             "extraHoursTags": "Ekstra timer tagger",
             "foreignCities": "Udenlandske byer",
-            "invoices": "Fakturaer",
+            "invoices": "Kjøp og betalinger",
             "jobTitles": "Jobbtitler",
             "journalContents": "Journal innhold",
             "journalNoteTags": "Journalnotetag",
