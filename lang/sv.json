@@ -3613,7 +3613,8 @@
                 "sent": "Skickad",
                 "paid": "Betald",
                 "partly_paid": "Delvis betald",
-                "cancelled": "Annullerad"
+                "cancelled": "Annullerad",
+                "credited": "Krediterad"
             },
             "methods": {
                 "cash": "Kontant",
@@ -3643,7 +3644,10 @@
                 "note": "Anmärkningar",
                 "notePlaceholder": "Till exempel vad fakturan täcker",
                 "needsALine": "Lägg till minst en rad",
-                "noServices": "Katalogen är tom. Du kan ändå skriva fria rader."
+                "noServices": "Katalogen är tom. Du kan ändå skriva fria rader.",
+                "citizen": "Medborgare",
+                "citizenPlaceholder": "Välj medborgare",
+                "needsACitizen": "Välj den medborgare fakturan hör till."
             },
             "downloadPdf": "Ladda ner PDF",
             "send": "Skicka till invånaren",
@@ -13093,7 +13097,8 @@
         "tabs": {
             "invoices": "Fakturor",
             "services": "Tjänster",
-            "settings": "Inställningar"
+            "settings": "Inställningar",
+            "templates": "Mallar"
         },
         "settings": {
             "help": "Momssats, priser och uppgifterna som ska stå på varje faktura.",
@@ -13113,7 +13118,38 @@
             "paymentDetailsPlaceholder": "T.ex. bankkonto, MobilePay-nummer eller betalningsvillkor",
             "footer": "Fotnot på faktura",
             "footerPlaceholder": "T.ex. hänvisning till era villkor",
-            "saved": "Fakturainställningarna är sparade"
+            "saved": "Fakturainställningarna är sparade",
+            "design": "Design",
+            "showLogo": "Visa logotyp på fakturan",
+            "showLogoHelp": "Använder klinikens logotyp från företagsinställningarna. Utan den står avsändaren med namn och adress.",
+            "accentColor": "Färg",
+            "accentColorHelp": "Används på rubrik, tabellhuvud och linjen vid beloppet att betala.",
+            "resetColor": "Återställ",
+            "preview": "Förhandsvisning",
+            "previewInvoice": "Förhandsgranska faktura",
+            "previewHelp": "Öppnar en exempelfaktura som PDF, precis som medborgaren tar emot den. Sparar dina ändringar först."
         }
-    }
+    },
+    "invoiceTemplates": {
+        "help": "Spara raderna ni fakturerar tillsammans gång på gång, och lägg dem på en ny faktura med ett klick.",
+        "new": "Ny mall",
+        "saved": "Mallen är sparad",
+        "use": "Använd mall",
+        "catalogue": "katalogpris",
+        "fromCatalogue": "från katalog",
+        "empty": {
+            "title": "Inga mallar ännu",
+            "text": "Skapa en mall för t.ex. en årskontroll, så behöver de fasta raderna inte skrivas varje gång."
+        },
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Årskontroll",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Kort förklaring till dina kollegor",
+            "priceHelp": "Lämna pris och moms tomma på en rad med tjänst, så följer den alltid katalogpriset."
+        },
+        "preview": "Förhandsgranska"
+    },
+    "delete": "Radera",
+    "edit": "Redigera"
 }

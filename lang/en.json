@@ -3613,7 +3613,8 @@
                 "sent": "Sent",
                 "paid": "Paid",
                 "partly_paid": "Partly paid",
-                "cancelled": "Cancelled"
+                "cancelled": "Cancelled",
+                "credited": "Credited"
             },
             "methods": {
                 "cash": "Cash",
@@ -3643,7 +3644,10 @@
                 "note": "Notes",
                 "notePlaceholder": "For example what the invoice covers",
                 "needsALine": "Add at least one line",
-                "noServices": "The catalogue is empty. You can still write free lines."
+                "noServices": "The catalogue is empty. You can still write free lines.",
+                "citizen": "Citizen",
+                "citizenPlaceholder": "Choose a citizen",
+                "needsACitizen": "Choose the citizen the invoice belongs to."
             },
             "downloadPdf": "Download PDF",
             "send": "Send to citizen",
@@ -13093,7 +13097,8 @@
         "tabs": {
             "invoices": "Invoices",
             "services": "Services",
-            "settings": "Settings"
+            "settings": "Settings",
+            "templates": "Templates"
         },
         "settings": {
             "help": "The VAT rate, how prices are typed, and the details every invoice has to carry.",
@@ -13113,7 +13118,38 @@
             "paymentDetailsPlaceholder": "Bank account, MobilePay number or payment terms",
             "footer": "Invoice footer",
             "footerPlaceholder": "For example a reference to your terms of trade",
-            "saved": "The invoicing settings are saved"
+            "saved": "The invoicing settings are saved",
+            "design": "Design",
+            "showLogo": "Show logo on the invoice",
+            "showLogoHelp": "Uses the clinic logo from the company settings. Without it the sender is name and address only.",
+            "accentColor": "Colour",
+            "accentColorHelp": "Used on the heading, the table head and the line by the amount to pay.",
+            "resetColor": "Reset",
+            "preview": "Preview",
+            "previewInvoice": "Preview invoice",
+            "previewHelp": "Opens a sample invoice as a PDF, exactly as the citizen receives it. Saves your changes first."
         }
-    }
+    },
+    "invoiceTemplates": {
+        "help": "Save the lines you bill together again and again, and drop them onto a new invoice in one click.",
+        "new": "New template",
+        "saved": "The template is saved",
+        "use": "Use template",
+        "catalogue": "catalogue price",
+        "fromCatalogue": "from catalogue",
+        "empty": {
+            "title": "No templates yet",
+            "text": "Create one for a yearly check-up, and the standard lines never have to be typed again."
+        },
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "For example Yearly check-up",
+            "description": "Description",
+            "descriptionPlaceholder": "A short note for your colleagues",
+            "priceHelp": "Leave price and VAT empty on a line with a service, and it always follows the catalogue price."
+        },
+        "preview": "Preview"
+    },
+    "delete": "Delete",
+    "edit": "Edit"
 }

@@ -3613,7 +3613,8 @@
                 "sent": "Sendt",
                 "paid": "Betalt",
                 "partly_paid": "Delvist betalt",
-                "cancelled": "Annulleret"
+                "cancelled": "Annulleret",
+                "credited": "Krediteret"
             },
             "methods": {
                 "cash": "Kontant",
@@ -3643,7 +3644,10 @@
                 "note": "Bemærkninger",
                 "notePlaceholder": "Fx hvad fakturaen dækker",
                 "needsALine": "Tilføj mindst én linje",
-                "noServices": "Der er ingen ydelser i kataloget endnu. Du kan stadig skrive frie linjer."
+                "noServices": "Der er ingen ydelser i kataloget endnu. Du kan stadig skrive frie linjer.",
+                "citizen": "Borger",
+                "citizenPlaceholder": "Vælg borger",
+                "needsACitizen": "Vælg den borger, fakturaen hører til."
             },
             "downloadPdf": "Hent PDF",
             "send": "Send til borger",
@@ -13093,7 +13097,8 @@
         "tabs": {
             "invoices": "Fakturaer",
             "services": "Ydelser",
-            "settings": "Opsætning"
+            "settings": "Opsætning",
+            "templates": "Skabeloner"
         },
         "settings": {
             "help": "Momssats, priser og de oplysninger, der skal stå på hver faktura.",
@@ -13113,7 +13118,38 @@
             "paymentDetailsPlaceholder": "Fx bankkonto, MobilePay-nummer eller betalingsvilkår",
             "footer": "Fodnote på faktura",
             "footerPlaceholder": "Fx henvisning til handelsbetingelser",
-            "saved": "Fakturaopsætningen er gemt"
+            "saved": "Fakturaopsætningen er gemt",
+            "design": "Design",
+            "showLogo": "Vis logo på faktura",
+            "showLogoHelp": "Bruger klinikkens logo fra firmaindstillingerne. Uden logo står afsenderen med navn og adresse.",
+            "accentColor": "Farve",
+            "accentColorHelp": "Bruges på overskrift, tabelhoved og stregen ved beløbet til betaling.",
+            "resetColor": "Nulstil",
+            "preview": "Forhåndsvisning",
+            "previewInvoice": "Forhåndsvis faktura",
+            "previewHelp": "Åbner en eksempelfaktura som PDF, præcis som borgeren modtager den. Gemmer først dine ændringer."
         }
-    }
+    },
+    "invoiceTemplates": {
+        "help": "Gem de linjer, I fakturerer sammen igen og igen, og træk dem ind på en ny faktura med ét klik.",
+        "new": "Ny skabelon",
+        "saved": "Skabelonen er gemt",
+        "use": "Brug skabelon",
+        "catalogue": "katalogpris",
+        "fromCatalogue": "fra katalog",
+        "empty": {
+            "title": "Ingen skabeloner endnu",
+            "text": "Opret en skabelon for fx et årseftersyn, så de faste linjer ikke skal skrives hver gang."
+        },
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Årskontrol",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Kort forklaring til dine kolleger",
+            "priceHelp": "Lad pris og moms stå tomme på en linje med ydelse, så følger den altid katalogets pris."
+        },
+        "preview": "Forhåndsvis"
+    },
+    "delete": "Slet",
+    "edit": "Rediger"
 }

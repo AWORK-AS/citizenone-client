@@ -9,6 +9,26 @@ class CitizenInvoiceService extends BaseAPIService {
         return await this.request(`/user/invoice-settings`, 'PUT', params)
     }
 
+    async previewPdf(templateUuid: string | null = null): Promise<Blob | null> {
+        return await this.requestBlob(`/user/invoice-preview`, 'GET', templateUuid ? { template: templateUuid } : {})
+    }
+
+    async getTemplates(): Promise<any> {
+        return await this.request(`/user/invoice-templates`, 'GET')
+    }
+
+    async createTemplate(params: object): Promise<any> {
+        return await this.request(`/user/invoice-templates`, 'POST', params)
+    }
+
+    async updateTemplate(uuid: string, params: object): Promise<any> {
+        return await this.request(`/user/invoice-templates/${uuid}`, 'PUT', params)
+    }
+
+    async deleteTemplate(uuid: string): Promise<any> {
+        return await this.request(`/user/invoice-templates/${uuid}`, 'DELETE')
+    }
+
     async getServices(): Promise<any> {
         return await this.request(`/user/services`, 'GET')
     }

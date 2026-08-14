@@ -4,6 +4,12 @@
             <div class="space-y-5">
                 <Alert type="danger" :text="state.error" v-if="state.error" />
 
+                <div class="space-y-1" v-if="!props.citizenUuid">
+                    <FormLabel for="citizen" :label="$t('citizens.invoices.form.citizen')" />
+                    <FormSelect id="citizen" :options="citizenOptions" v-model="state.citizenUuid"
+                        :placeholder="$t('citizens.invoices.form.citizenPlaceholder')" />
+                </div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="issued_at" :label="$t('citizens.invoices.form.issuedAt')" />
@@ -18,12 +24,18 @@
                 </div>
 
                 <div class="space-y-2">
-                    <div class="flex items-center justify-between">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
                         <FormLabel for="lines" :label="$t('citizens.invoices.form.lines')" />
-                        <FormButton buttonStyle="action" buttonSize="xs" @click="addLine">
-                            <Icon name="ph:plus" class="size-4" />
-                            {{ $t('citizens.invoices.form.addLine') }}
-                        </FormButton>
+                        <div class="flex items-center gap-2">
+                            <div class="w-56" v-if="templateOptions.length">
+                                <FormSelect id="template" :options="templateOptions" v-model="state.templateUuid"
+                                    @change="applyTemplate" :placeholder="$t('invoiceTemplates.use')" />
+                            </div>
+                            <FormButton buttonStyle="action" buttonSize="xs" @click="addLine">
+                                <Icon name="ph:plus" class="size-4" />
+                                {{ $t('citizens.invoices.form.addLine') }}
+                            </FormButton>
+                        </div>
                     </div>
 
                     <p class="text-xs text-gray-500" v-if="!props.services.length">
@@ -131,11 +143,14 @@
 
 <script setup lang="ts">
 import { citizenInvoiceService } from '@/components/api/user/CitizenInvoiceService'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
     isModalOpen: boolean
-    citizenUuid: string
+    // Left out when the invoice is written from the invoicing overview, where
+    // the citizen is picked in the form instead.
+    citizenUuid?: string
     services: any[]
     settings?: { default_vat_rate?: number; prices_include_vat?: boolean }
 }>()
@@ -146,8 +161,79 @@ const { t, locale } = useI18n()
 
 const state = reactive({
     form: emptyForm(),
+    citizenUuid: null as string | null,
+    citizens: [] as any[],
+    templates: [] as any[],
+    templateUuid: null as string | null,
     isSaving: false,
     error: '',
+})
+
+const citizenOptions = computed(() => state.citizens.map((citizen: any) => ({
+    value: citizen.uuid,
+    label: `${citizen.firstname} ${citizen.lastname}`.trim(),
+})))
+
+const templateOptions = computed(() => state.templates.map((template: any) => ({
+    value: template.uuid,
+    label: template.name,
+})))
+
+// A template drops its lines in and then gets out of the way: everything can
+// still be corrected before the invoice is saved.
+function applyTemplate() {
+    const template = state.templates.find((item: any) => item.uuid === state.templateUuid)
+
+    if (!template) return
+
+    const lines = (template.lines || []).map((line: any) => {
+        const service = (props.services || []).find((item: any) => item.uuid === line.service_uuid)
+
+        return {
+            service_uuid: line.service_uuid || null,
+            description: line.description || service?.name || '',
+            quantity: String(line.quantity ?? 1),
+            unit_price: String(line.unit_price ?? service?.unit_price ?? ''),
+            vat_rate: String(line.vat_rate ?? service?.vat_rate ?? props.settings?.default_vat_rate ?? 0),
+            subsidy_amount: line.subsidy_amount !== null && line.subsidy_amount !== undefined
+                ? String(line.subsidy_amount)
+                : (service?.default_subsidy ? String(service.default_subsidy) : ''),
+        }
+    })
+
+    if (!lines.length) return
+
+    // An untouched first line is replaced rather than left hanging above the
+    // template's own lines.
+    const first = state.form.lines[0]
+    const startsEmpty = state.form.lines.length === 1 && !first.description && !first.unit_price && !first.service_uuid
+
+    state.form.lines = startsEmpty ? lines : [...state.form.lines, ...lines]
+    state.templateUuid = null
+}
+
+async function loadCitizens() {
+    try {
+        const response = await citizenService.getCitizens({ per_page: 500 })
+        state.citizens = response?.data || []
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
+async function loadTemplates() {
+    try {
+        const response = await citizenInvoiceService.getTemplates()
+        state.templates = response?.data || []
+    } catch (error: any) {
+        // Templates are a shortcut, not a requirement for writing an invoice.
+    }
+}
+
+onMounted(() => {
+    loadTemplates()
+
+    if (!props.citizenUuid) loadCitizens()
 })
 
 function emptyForm() {
@@ -258,10 +344,18 @@ async function save() {
         return
     }
 
+    const citizenUuid = props.citizenUuid || state.citizenUuid
+
+    if (!citizenUuid) {
+        state.error = t('citizens.invoices.form.needsACitizen')
+
+        return
+    }
+
     state.isSaving = true
 
     try {
-        await citizenInvoiceService.createInvoice(props.citizenUuid, {
+        await citizenInvoiceService.createInvoice(citizenUuid, {
             issued_at: state.form.issued_at || null,
             due_at: state.form.due_at || null,
             note: state.form.note || null,
@@ -279,6 +373,7 @@ async function save() {
 watch(() => props.isModalOpen, (isOpen: boolean) => {
     if (isOpen) {
         state.form = emptyForm()
+        state.citizenUuid = null
         state.error = ''
     }
 })

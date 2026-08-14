@@ -62,6 +62,50 @@
                             :placeholder="$t('invoicing.settings.footerPlaceholder')" />
                     </div>
                 </div>
+
+                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-5 space-y-4">
+                    <h3 class="text-sm font-semibold text-gray-900">{{ $t('invoicing.settings.design') }}</h3>
+
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">{{ $t('invoicing.settings.showLogo') }}</p>
+                            <p class="text-xs text-gray-500 max-w-sm">{{ $t('invoicing.settings.showLogoHelp') }}</p>
+                        </div>
+                        <FormSwitch :value="state.form.show_logo" :disabled="!canEdit"
+                            @toggleSwitch="canEdit && (state.form.show_logo = !state.form.show_logo)" />
+                    </div>
+
+                    <div class="flex items-center justify-between gap-4 border-t border-gray-100 pt-4">
+                        <div>
+                            <p class="text-sm font-medium text-gray-900">{{ $t('invoicing.settings.accentColor') }}</p>
+                            <p class="text-xs text-gray-500 max-w-sm">{{ $t('invoicing.settings.accentColorHelp') }}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <FormColorPicker id="accent_color" v-model="state.form.accent_color" v-if="canEdit" />
+                            <span class="inline-block size-6 rounded border border-gray-200" v-else
+                                :style="{ backgroundColor: state.form.accent_color }"></span>
+                            <button type="button" class="text-xs text-gray-500 hover:text-primary" v-if="canEdit"
+                                @click="state.form.accent_color = '#111111'">
+                                {{ $t('invoicing.settings.resetColor') }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="rounded-lg border border-gray-200 p-3">
+                        <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                            {{ $t('invoicing.settings.preview') }}
+                        </p>
+                        <p class="mt-1 text-lg font-semibold" :style="{ color: state.form.accent_color }">
+                            {{ $t('citizens.invoices.invoice') }}
+                        </p>
+                        <div class="mt-2 border-t-2" :style="{ borderColor: state.form.accent_color }"></div>
+                        <p class="mt-3 text-xs text-gray-500">{{ $t('invoicing.settings.previewHelp') }}</p>
+                        <FormButton buttonStyle="action" buttonSize="xs" class="mt-2" @click="preview">
+                            <Icon name="ph:eye" class="size-4" />
+                            {{ $t('invoicing.settings.previewInvoice') }}
+                        </FormButton>
+                    </div>
+                </div>
             </div>
 
             <div class="mt-5 flex justify-end" v-if="canEdit">
@@ -94,6 +138,8 @@ const state = reactive({
         payment_terms_days: '14',
         payment_details: '',
         invoice_footer: '',
+        show_logo: true,
+        accent_color: '#111111',
     },
     isPageLoading: true,
     isSaving: false,
@@ -133,12 +179,31 @@ async function load() {
                 payment_terms_days: String(settings.payment_terms_days ?? 14),
                 payment_details: settings.payment_details || '',
                 invoice_footer: settings.invoice_footer || '',
+                show_logo: settings.show_logo !== false,
+                accent_color: settings.accent_color || '#111111',
             }
         }
     } catch (error: any) {
         state.error = error?.message || ''
     } finally {
         state.isPageLoading = false
+    }
+}
+
+// The PDF is built from what is saved, so a preview always follows a save.
+async function preview() {
+    if (canEdit.value) await save()
+
+    try {
+        const blob = await citizenInvoiceService.previewPdf()
+
+        if (!blob) return
+
+        const url = URL.createObjectURL(blob)
+        window.open(url, '_blank')
+        setTimeout(() => URL.revokeObjectURL(url), 60000)
+    } catch (error: any) {
+        state.error = error?.message || ''
     }
 }
 
@@ -154,6 +219,8 @@ async function save() {
             payment_terms_days: Number(state.form.payment_terms_days) || 0,
             payment_details: state.form.payment_details || null,
             invoice_footer: state.form.invoice_footer || null,
+            show_logo: state.form.show_logo,
+            accent_color: state.form.accent_color || null,
         })
 
         successAlert(`${t('alert.success')}!`, `${t('invoicing.settings.saved')}.`)

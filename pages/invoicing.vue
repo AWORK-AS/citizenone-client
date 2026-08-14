@@ -29,16 +29,23 @@
                 <template v-if="state.tab === 'invoices'">
                     <Alert type="danger" :text="state.error" v-if="state.error" />
 
-                    <div class="inline-flex rounded-lg bg-gray-100 p-0.5">
-                        <button type="button" v-for="option in filterOptions" :key="option.value"
-                            @click="setFilter(option.value)" :class="[
-                                'rounded-md px-3 py-1.5 text-sm font-medium transition',
-                                state.status === option.value
-                                    ? 'bg-white text-primary shadow-sm'
-                                    : 'text-gray-500 hover:text-gray-700'
-                            ]">
-                            {{ option.label }}
-                        </button>
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div class="inline-flex rounded-lg bg-gray-100 p-0.5">
+                            <button type="button" v-for="option in filterOptions" :key="option.value"
+                                @click="setFilter(option.value)" :class="[
+                                    'rounded-md px-3 py-1.5 text-sm font-medium transition',
+                                    state.status === option.value
+                                        ? 'bg-white text-primary shadow-sm'
+                                        : 'text-gray-500 hover:text-gray-700'
+                                ]">
+                                {{ option.label }}
+                            </button>
+                        </div>
+
+                        <FormButton buttonStyle="action" @click="state.isModalOpen = true">
+                            <Icon name="ph:plus" class="size-4" />
+                            {{ $t('citizens.invoices.newTitle') }}
+                        </FormButton>
                     </div>
 
                     <LoadingSpinner :isActive="state.isPageLoading">
@@ -113,7 +120,12 @@
                     :defaultVatRate="state.settings.default_vat_rate"
                     :pricesIncludeVat="state.settings.prices_include_vat" />
 
+                <ModulesUserInvoicingTemplates v-else-if="state.tab === 'templates'" :services="state.services" />
+
                 <ModulesUserInvoicingSettingsForm v-else @saved="onSettingsSaved" />
+
+                <ModulesUserCitizenInvoiceModalForm :isModalOpen="state.isModalOpen" :services="state.services"
+                    :settings="state.settings" @close="state.isModalOpen = false" @saved="onInvoiceSaved" />
             </div>
         </NuxtLayout>
     </div>
@@ -137,6 +149,8 @@ const state = reactive({
     outstandingTotal: 0,
     status: 'outstanding',
     tab: (route.query.tab as string) || 'invoices',
+    services: [] as any[],
+    isModalOpen: false,
     settings: { default_vat_rate: 25, prices_include_vat: false },
     isPageLoading: true,
     error: '',
@@ -149,6 +163,7 @@ watch(() => userStore.getUser, (user: any) => {
 const tabs = computed(() => [
     { value: 'invoices', label: t('invoicing.tabs.invoices') },
     { value: 'services', label: t('invoicing.tabs.services') },
+    { value: 'templates', label: t('invoicing.tabs.templates') },
     { value: 'settings', label: t('invoicing.tabs.settings') },
 ])
 
@@ -206,13 +221,24 @@ async function load() {
 
 async function loadSettings() {
     try {
-        const response = await citizenInvoiceService.getSettings()
+        const [response, services] = await Promise.all([
+            citizenInvoiceService.getSettings(),
+            citizenInvoiceService.getServices(),
+        ])
 
         if (response?.data) state.settings = response.data
+        state.services = services?.data || []
     } catch (error: any) {
         // The list is still usable without the settings, so a failure here
         // only costs the catalogue its defaults.
     }
+}
+
+// An invoice written here belongs to the citizen who was picked, so it shows
+// up on their own page as well without anything further being done.
+function onInvoiceSaved() {
+    state.isModalOpen = false
+    load()
 }
 
 function onSettingsSaved(settings: any) {

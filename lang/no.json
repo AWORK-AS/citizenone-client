@@ -3613,7 +3613,8 @@
                 "sent": "Sendt",
                 "paid": "Betalt",
                 "partly_paid": "Delvis betalt",
-                "cancelled": "Annullert"
+                "cancelled": "Annullert",
+                "credited": "Kreditert"
             },
             "methods": {
                 "cash": "Kontant",
@@ -3643,7 +3644,10 @@
                 "note": "Merknader",
                 "notePlaceholder": "For eksempel hva fakturaen dekker",
                 "needsALine": "Legg til minst én linje",
-                "noServices": "Katalogen er tom. Du kan fortsatt skrive frie linjer."
+                "noServices": "Katalogen er tom. Du kan fortsatt skrive frie linjer.",
+                "citizen": "Borger",
+                "citizenPlaceholder": "Velg borger",
+                "needsACitizen": "Velg borgeren fakturaen hører til."
             },
             "downloadPdf": "Last ned PDF",
             "send": "Send til innbygger",
@@ -13093,7 +13097,8 @@
         "tabs": {
             "invoices": "Fakturaer",
             "services": "Tjenester",
-            "settings": "Oppsett"
+            "settings": "Oppsett",
+            "templates": "Maler"
         },
         "settings": {
             "help": "Mva-sats, priser og opplysningene som skal stå på hver faktura.",
@@ -13113,7 +13118,38 @@
             "paymentDetailsPlaceholder": "F.eks. bankkonto, MobilePay-nummer eller betalingsvilkår",
             "footer": "Fotnote på faktura",
             "footerPlaceholder": "F.eks. henvisning til vilkårene deres",
-            "saved": "Fakturaoppsettet er lagret"
+            "saved": "Fakturaoppsettet er lagret",
+            "design": "Design",
+            "showLogo": "Vis logo på faktura",
+            "showLogoHelp": "Bruker klinikkens logo fra firmainnstillingene. Uten logo står avsenderen med navn og adresse.",
+            "accentColor": "Farge",
+            "accentColorHelp": "Brukes på overskrift, tabellhode og streken ved beløpet til betaling.",
+            "resetColor": "Nullstill",
+            "preview": "Forhåndsvisning",
+            "previewInvoice": "Forhåndsvis faktura",
+            "previewHelp": "Åpner en eksempelfaktura som PDF, akkurat slik borgeren mottar den. Lagrer endringene dine først."
         }
-    }
+    },
+    "invoiceTemplates": {
+        "help": "Lagre linjene dere fakturerer sammen igjen og igjen, og legg dem på en ny faktura med ett klikk.",
+        "new": "Ny mal",
+        "saved": "Malen er lagret",
+        "use": "Bruk mal",
+        "catalogue": "katalogpris",
+        "fromCatalogue": "fra katalog",
+        "empty": {
+            "title": "Ingen maler ennå",
+            "text": "Opprett en mal for f.eks. en årskontroll, så de faste linjene ikke må skrives hver gang."
+        },
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Årskontroll",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Kort forklaring til kollegene dine",
+            "priceHelp": "La pris og mva stå tomme på en linje med tjeneste, så følger den alltid katalogprisen."
+        },
+        "preview": "Forhåndsvis"
+    },
+    "delete": "Slett",
+    "edit": "Rediger"
 }
