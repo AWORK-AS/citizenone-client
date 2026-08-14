@@ -18,7 +18,13 @@
                             {{ $t('superadmin.paymentFees.header') }}
                         </h1>
                         <p class="text-sm text-[#5C6478] mt-0.5">
-                            {{ $t('superadmin.paymentFees.subtitle', { rate: formatRate(state.rate) }) }}
+                            {{ $t('superadmin.paymentFees.subtitle') }}
+                        </p>
+                        <p class="text-xs text-[#8891A4] mt-1" v-if="state.apps.length">
+                            <span v-for="(app, index) in state.apps" :key="app.uuid">
+                                <span v-if="index"> &middot; </span>
+                                {{ app.name }} {{ formatRate(app.payment_fee_percent) }} %
+                            </span>
                         </p>
                     </div>
 
@@ -48,6 +54,37 @@
                         <p class="mt-1 text-2xl font-semibold text-[#1F2533] tabular-nums">{{ card.value }}</p>
                         <p class="mt-1 text-xs text-[#8891A4]">{{ card.hint }}</p>
                     </div>
+                </div>
+
+                <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden mb-5"
+                    v-if="state.byApplication.length > 1">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-[#F9FAFB] border-b border-[#EAECF0]">
+                                <th class="co-th">{{ $t('superadmin.paymentFees.app') }}</th>
+                                <th class="co-th text-right">{{ $t('superadmin.paymentFees.payments') }}</th>
+                                <th class="co-th text-right">{{ $t('superadmin.paymentFees.volume') }}</th>
+                                <th class="co-th text-right">{{ $t('superadmin.paymentFees.fee') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="row in state.byApplication" :key="row.generic_name || 'unknown'"
+                                class="border-b border-[#F5F6F8]">
+                                <td class="co-td text-[13px] text-[#1F2533]">
+                                    {{ row.name || $t('superadmin.paymentFees.unknownApp') }}
+                                </td>
+                                <td class="co-td text-right text-[13px] text-[#5C6478] tabular-nums">
+                                    {{ row.payment_count }}
+                                </td>
+                                <td class="co-td text-right text-[13px] text-[#5C6478] tabular-nums">
+                                    {{ formatAmount(row.gross_amount) }}
+                                </td>
+                                <td class="co-td text-right text-[13px] font-semibold text-[#1F2533] tabular-nums">
+                                    {{ formatAmount(row.fee_amount) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
@@ -104,7 +141,8 @@ const { t, locale } = useI18n()
 
 const state = reactive({
     period: moment().format('YYYY-MM'),
-    rate: 0,
+    apps: [] as any[],
+    byApplication: [] as any[],
     totals: { company_count: 0, payment_count: 0, gross_amount: 0, fee_amount: 0, uncharged_amount: 0 },
     statements: [] as any[],
     isLoading: true,
@@ -174,7 +212,8 @@ async function load() {
         const data = response?.data
 
         if (data) {
-            state.rate = data.rate
+            state.apps = data.apps || []
+            state.byApplication = data.by_application || []
             state.totals = data.totals
             state.statements = data.statements || []
         }

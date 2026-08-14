@@ -10160,7 +10160,9 @@
                     "other": "Anden"
                 },
                 "discountPercent": "Rabat (%)",
-                "discountEndsAt": "Tilbud slutter"
+                "discountEndsAt": "Tilbud slutter",
+                "paymentFeePercent": "Betalingsgebyr",
+                "paymentFeeHelp": "Hvad CitizenOne tager af en betaling, appen bærer. Tom betyder intet gebyr."
             },
             "colName": "Navn",
             "attachToCompany": "Tildel til virksomhed",
@@ -11566,7 +11568,7 @@
         "paymentFees": {
             "pageTitle": "Betalingsgebyrer",
             "header": "Betalingsgebyrer",
-            "subtitle": "{rate} % af de betalinger, vi bærer for kunderne. Bankoverførsel koster intet.",
+            "subtitle": "Hvad vi tjener på betalinger, vi bærer for kunderne. Satsen sættes på den enkelte app.",
             "period": "Måned",
             "company": "Virksomhed",
             "payments": "Betalinger",
@@ -11588,7 +11590,9 @@
                 "volumeHint": "Betalinger vi har båret",
                 "payments": "Antal betalinger",
                 "paymentsHint": "I måneden"
-            }
+            },
+            "app": "App",
+            "unknownApp": "Ukendt app"
         }
     },
     "support": {

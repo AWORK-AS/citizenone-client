@@ -113,6 +113,18 @@
             <SuperadminFormError :error="props.error?.errors?.setup_fee?.[0]" />
         </div>
 
+        <!-- Payment fee (%) -->
+        <div>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.paymentFeePercent')" />
+            <div class="relative">
+                <SuperadminFormTextField v-model="state.form.payment_fee_percent" type="number" placeholder="0"
+                    class="pr-8" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[#8891A4] text-sm">%</span>
+            </div>
+            <p class="mt-1 text-xs text-[#8891A4]">{{ $t('superadmin.apps.form.paymentFeeHelp') }}</p>
+            <SuperadminFormError :error="props.error?.errors?.payment_fee_percent?.[0]" />
+        </div>
+
         <!-- Discount (%) -->
         <div>
             <SuperadminFormLabel :label="$t('superadmin.apps.form.discountPercent')" />
@@ -258,6 +270,7 @@ const state = reactive({
         is_thirdparty: false,
         monthly_price: 0,
         name: '',
+        payment_fee_percent: '' as string | number,
         price: 0,
         setup_fee: 0,
         sort_order: 0,
@@ -287,6 +300,7 @@ watch(() => props.selectedApp, (app: any) => {
             is_thirdparty: app.is_thirdparty ?? false,
             monthly_price: app.monthly_price ?? 0,
             name: app.name ?? '',
+            payment_fee_percent: app.payment_fee_percent ?? '',
             price: app.price ?? 0,
             setup_fee: app.setup_fee ?? 0,
             sort_order: app.sort_order ?? 0,
@@ -358,6 +372,7 @@ function reset() {
         is_thirdparty: false,
         monthly_price: 0,
         name: '',
+        payment_fee_percent: '',
         price: 0,
         setup_fee: 0,
         sort_order: 0,

@@ -10160,7 +10160,9 @@
                     "other": "Annan"
                 },
                 "discountPercent": "Rabatt (%)",
-                "discountEndsAt": "Erbjudandet slutar"
+                "discountEndsAt": "Erbjudandet slutar",
+                "paymentFeePercent": "Betalningsavgift",
+                "paymentFeeHelp": "Vad CitizenOne tar av en betalning appen bär. Tom betyder ingen avgift."
             },
             "colName": "Namn",
             "attachToCompany": "Tilldela till företag",
@@ -11566,7 +11568,7 @@
         "paymentFees": {
             "pageTitle": "Betalningsavgifter",
             "header": "Betalningsavgifter",
-            "subtitle": "{rate} % av betalningarna vi bär för kunderna. En banköverföring kostar ingenting.",
+            "subtitle": "Vad vi tjänar på betalningar vi bär för kunderna. Satsen sätts på varje app.",
             "period": "Månad",
             "company": "Företag",
             "payments": "Betalningar",
@@ -11588,7 +11590,9 @@
                 "volumeHint": "Betalningar vi burit",
                 "payments": "Antal betalningar",
                 "paymentsHint": "Under månaden"
-            }
+            },
+            "app": "App",
+            "unknownApp": "Okänd app"
         }
     },
     "support": {

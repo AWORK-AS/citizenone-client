@@ -10160,7 +10160,9 @@
                     "other": "Other"
                 },
                 "discountPercent": "Discount (%)",
-                "discountEndsAt": "Offer ends"
+                "discountEndsAt": "Offer ends",
+                "paymentFeePercent": "Payment fee",
+                "paymentFeeHelp": "What CitizenOne takes of a payment the app carries. Empty means no fee."
             },
             "colName": "Name",
             "attachToCompany": "Assign to company",
@@ -11566,7 +11568,7 @@
         "paymentFees": {
             "pageTitle": "Payment fees",
             "header": "Payment fees",
-            "subtitle": "{rate} % of the payments we carry for customers. A bank transfer costs nothing.",
+            "subtitle": "What we earn on payments we carry for customers. The rate is set on each app.",
             "period": "Month",
             "company": "Company",
             "payments": "Payments",
@@ -11588,7 +11590,9 @@
                 "volumeHint": "Payments we carried",
                 "payments": "Payments",
                 "paymentsHint": "In the month"
-            }
+            },
+            "app": "App",
+            "unknownApp": "Unknown app"
         }
     },
     "support": {
