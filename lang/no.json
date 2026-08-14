@@ -13070,7 +13070,18 @@
             "vatRate": "Mva %",
             "subsidy": "Standardtilskudd",
             "vatHelp": "Tannbehandling er fritatt for mva, så satsen settes per tjeneste i stedet for å antas.",
-            "unitPriceIncl": "Stykkpris inkl. mva"
+            "unitPriceIncl": "Stykkpris inkl. mva",
+            "category": "Kategori",
+            "noCategory": "Ingen kategori"
+        },
+        "categories": {
+            "title": "Kategorier",
+            "help": "Grupper tjenestene deres, f.eks. undersøkelser, kirurgi og tannpleie. Sletter du en kategori, blir tjenestene stående uten gruppe.",
+            "name": "Kategorinavn",
+            "placeholder": "F.eks. Undersøkelser",
+            "add": "Legg til",
+            "all": "Alle",
+            "uncategorised": "Uten kategori"
         }
     },
     "invoicing": {

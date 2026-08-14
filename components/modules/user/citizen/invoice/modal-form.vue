@@ -270,7 +270,9 @@ function netOf(line: any): number {
 
 const serviceOptions = computed(() => (props.services || []).map((service: any) => ({
     value: service.uuid,
-    label: service.code ? `${service.code} · ${service.name}` : service.name,
+    // The category rides along in the label, so a long catalogue can be found
+    // by group in the same search box.
+    label: [service.category?.name, service.code, service.name].filter(Boolean).join(' · '),
 })))
 
 // Picking a service fills the line with what the catalogue says, and the price

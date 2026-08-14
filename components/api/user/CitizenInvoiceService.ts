@@ -29,6 +29,22 @@ class CitizenInvoiceService extends BaseAPIService {
         return await this.request(`/user/invoice-templates/${uuid}`, 'DELETE')
     }
 
+    async getServiceCategories(): Promise<any> {
+        return await this.request(`/user/service-categories`, 'GET')
+    }
+
+    async createServiceCategory(params: object): Promise<any> {
+        return await this.request(`/user/service-categories`, 'POST', params)
+    }
+
+    async updateServiceCategory(uuid: string, params: object): Promise<any> {
+        return await this.request(`/user/service-categories/${uuid}`, 'PUT', params)
+    }
+
+    async deleteServiceCategory(uuid: string): Promise<any> {
+        return await this.request(`/user/service-categories/${uuid}`, 'DELETE')
+    }
+
     async getServices(): Promise<any> {
         return await this.request(`/user/services`, 'GET')
     }

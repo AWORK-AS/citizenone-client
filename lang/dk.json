@@ -13070,7 +13070,18 @@
             "vatRate": "Moms %",
             "subsidy": "Standardtilskud",
             "vatHelp": "Tandbehandling er momsfri, så momssatsen sættes pr. ydelse i stedet for at blive antaget.",
-            "unitPriceIncl": "Stykpris inkl. moms"
+            "unitPriceIncl": "Stykpris inkl. moms",
+            "category": "Kategori",
+            "noCategory": "Ingen kategori"
+        },
+        "categories": {
+            "title": "Kategorier",
+            "help": "Grupper jeres ydelser, fx undersøgelser, kirurgi og tandpleje. Sletter du en kategori, bliver ydelserne stående uden gruppe.",
+            "name": "Kategorinavn",
+            "placeholder": "Fx Undersøgelser",
+            "add": "Tilføj",
+            "all": "Alle",
+            "uncategorised": "Uden kategori"
         }
     },
     "invoicing": {

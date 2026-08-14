@@ -13070,7 +13070,18 @@
             "vatRate": "Moms %",
             "subsidy": "Standardbidrag",
             "vatHelp": "Tandvård är momsfri, så satsen sätts per tjänst i stället för att antas.",
-            "unitPriceIncl": "Styckpris inkl. moms"
+            "unitPriceIncl": "Styckpris inkl. moms",
+            "category": "Kategori",
+            "noCategory": "Ingen kategori"
+        },
+        "categories": {
+            "title": "Kategorier",
+            "help": "Gruppera era tjänster, t.ex. undersökningar, kirurgi och tandvård. Tar du bort en kategori står tjänsterna kvar utan grupp.",
+            "name": "Kategorinamn",
+            "placeholder": "T.ex. Undersökningar",
+            "add": "Lägg till",
+            "all": "Alla",
+            "uncategorised": "Utan kategori"
         }
     },
     "invoicing": {

@@ -2,13 +2,52 @@
     <div class="space-y-5">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <p class="text-sm text-gray-500 max-w-2xl">{{ $t('services.help') }}</p>
-            <FormButton buttonStyle="action" @click="startNew">
-                <Icon name="ph:plus" class="size-4" />
-                {{ $t('services.new') }}
-            </FormButton>
+            <div class="flex items-center gap-2">
+                <FormButton buttonStyle="action" @click="state.isManagingCategories = !state.isManagingCategories">
+                    <Icon name="ph:folders" class="size-4" />
+                    {{ $t('services.categories.title') }}
+                </FormButton>
+                <FormButton buttonStyle="action" @click="startNew">
+                    <Icon name="ph:plus" class="size-4" />
+                    {{ $t('services.new') }}
+                </FormButton>
+            </div>
         </div>
 
         <Alert type="danger" :text="state.error" v-if="state.error" />
+
+        <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-4 space-y-3" v-if="state.isManagingCategories">
+            <h3 class="text-sm font-semibold text-gray-900">{{ $t('services.categories.title') }}</h3>
+            <p class="text-xs text-gray-500">{{ $t('services.categories.help') }}</p>
+
+            <div class="flex flex-wrap items-center gap-2" v-if="state.categories.length">
+                <div v-for="category in state.categories" :key="category.uuid"
+                    class="inline-flex items-center gap-2 rounded-full bg-gray-100 pl-3 pr-2 py-1 text-sm">
+                    <span>{{ category.name }}</span>
+                    <span class="text-xs text-gray-400 tabular-nums">{{ category.service_count }}</span>
+                    <button type="button" class="text-gray-400 hover:text-primary" :aria-label="$t('edit')"
+                        @click="renameCategory(category)">
+                        <Icon name="ph:pencil-simple" class="size-3.5" />
+                    </button>
+                    <button type="button" class="text-gray-400 hover:text-red-600" :aria-label="$t('delete')"
+                        @click="removeCategory(category)">
+                        <Icon name="ph:x" class="size-3.5" />
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-end gap-2">
+                <div class="space-y-1 w-full sm:w-64">
+                    <FormLabel for="category_name" :label="$t('services.categories.name')" />
+                    <FormTextField id="category_name" name="category_name" v-model="state.categoryName"
+                        :placeholder="$t('services.categories.placeholder')" />
+                </div>
+                <FormButton buttonStyle="primary" buttonSize="xs" @click="addCategory"
+                    :disabled="!state.categoryName.trim()">
+                    {{ $t('services.categories.add') }}
+                </FormButton>
+            </div>
+        </div>
 
         <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-4 space-y-3" v-if="state.isEditing">
             <div class="grid grid-cols-1 sm:grid-cols-6 gap-3">
@@ -21,6 +60,11 @@
                     <FormLabel for="name" :label="$t('services.form.name')" />
                     <FormTextField id="name" name="name" v-model="state.form.name"
                         :placeholder="$t('services.form.name')" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="category" :label="$t('services.form.category')" />
+                    <FormSelect id="category" :options="categoryOptions" v-model="state.form.service_category_uuid"
+                        :placeholder="$t('services.form.noCategory')" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="unit_price" :label="priceLabel" />
@@ -51,6 +95,16 @@
             </div>
         </div>
 
+        <div class="inline-flex flex-wrap gap-1 rounded-lg bg-gray-100 p-0.5" v-if="state.categories.length">
+            <button type="button" v-for="option in filterOptions" :key="option.value" @click="state.filter = option.value"
+                :class="[
+                    'rounded-md px-3 py-1.5 text-sm font-medium transition',
+                    state.filter === option.value ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                ]">
+                {{ option.label }}
+            </button>
+        </div>
+
         <LoadingSpinner :isActive="state.isPageLoading">
             <div v-if="state.services.length === 0"
                 class="px-6 py-14 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg text-center">
@@ -73,8 +127,15 @@
                             <th class="px-4 py-3"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="service in state.services" :key="service.uuid" class="border-t border-gray-100">
+                    <tbody v-for="group in groups" :key="group.key">
+                        <tr class="bg-gray-50/70">
+                            <th colspan="6"
+                                class="px-4 py-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                {{ group.name }}
+                                <span class="ml-1 font-normal text-gray-400 tabular-nums">{{ group.services.length }}</span>
+                            </th>
+                        </tr>
+                        <tr v-for="service in group.services" :key="service.uuid" class="border-t border-gray-100">
                             <td class="px-4 py-3 tabular-nums">{{ service.code }}</td>
                             <td class="px-4 py-3">
                                 {{ service.name }}
@@ -113,14 +174,20 @@ const props = defineProps<{
     pricesIncludeVat?: boolean
 }>()
 
+const emit = defineEmits(['changed'])
+
 const { successAlert } = useAlert()
 const { t, locale } = useI18n()
 
 const state = reactive({
     services: [] as any[],
+    categories: [] as any[],
     form: emptyForm(),
+    categoryName: '',
+    filter: 'all',
     editingUuid: null as string | null,
     isEditing: false,
+    isManagingCategories: false,
     isPageLoading: true,
     isSaving: false,
     error: '',
@@ -132,8 +199,53 @@ const priceLabel = computed(() => props.pricesIncludeVat
     ? t('services.form.unitPriceIncl')
     : t('services.form.unitPrice'))
 
+const categoryOptions = computed(() => state.categories.map((category: any) => ({
+    value: category.uuid,
+    label: category.name,
+})))
+
+const filterOptions = computed(() => [
+    { value: 'all', label: t('services.categories.all') },
+    ...state.categories.map((category: any) => ({ value: category.uuid, label: category.name })),
+    { value: 'none', label: t('services.categories.uncategorised') },
+])
+
+// Services are shown under their category, and anything without one lands in
+// a group at the bottom rather than disappearing.
+const groups = computed(() => {
+    const visible = state.services.filter((service: any) => {
+        if (state.filter === 'all') return true
+        if (state.filter === 'none') return !service.category
+
+        return service.category?.uuid === state.filter
+    })
+
+    const result: any[] = []
+
+    for (const category of state.categories) {
+        const services = visible.filter((service: any) => service.category?.uuid === category.uuid)
+
+        if (services.length) result.push({ key: category.uuid, name: category.name, services })
+    }
+
+    const uncategorised = visible.filter((service: any) => !service.category)
+
+    if (uncategorised.length) {
+        result.push({ key: 'none', name: t('services.categories.uncategorised'), services: uncategorised })
+    }
+
+    return result
+})
+
 function emptyForm() {
-    return { code: '', name: '', unit_price: '', vat_rate: String(props.defaultVatRate ?? 0), default_subsidy: '' }
+    return {
+        code: '',
+        name: '',
+        service_category_uuid: null as string | null,
+        unit_price: '',
+        vat_rate: String(props.defaultVatRate ?? 0),
+        default_subsidy: '',
+    }
 }
 
 function formatAmount(amount: number): string {
@@ -145,6 +257,9 @@ function formatAmount(amount: number): string {
 
 function startNew() {
     state.form = emptyForm()
+    // A filtered list says which category you are working in, so a new service
+    // starts there.
+    if (state.filter !== 'all' && state.filter !== 'none') state.form.service_category_uuid = state.filter
     state.editingUuid = null
     state.isEditing = true
 }
@@ -153,6 +268,7 @@ function startEdit(service: any) {
     state.form = {
         code: service.code || '',
         name: service.name,
+        service_category_uuid: service.category?.uuid || null,
         unit_price: String(service.unit_price ?? ''),
         vat_rate: String(service.vat_rate ?? 0),
         default_subsidy: service.default_subsidy ? String(service.default_subsidy) : '',
@@ -165,8 +281,14 @@ async function load() {
     state.error = ''
 
     try {
-        const response = await citizenInvoiceService.getServices()
-        state.services = response?.data || []
+        const [services, categories] = await Promise.all([
+            citizenInvoiceService.getServices(),
+            citizenInvoiceService.getServiceCategories(),
+        ])
+
+        state.services = services?.data || []
+        state.categories = categories?.data || []
+        emit('changed', state.services)
     } catch (error: any) {
         state.error = error?.message || ''
     } finally {
@@ -181,6 +303,7 @@ async function save() {
     const payload = {
         code: state.form.code || null,
         name: state.form.name,
+        service_category_uuid: state.form.service_category_uuid || null,
         unit_price: Number(state.form.unit_price) || 0,
         vat_rate: Number(state.form.vat_rate) || 0,
         default_subsidy: Number(state.form.default_subsidy) || 0,
@@ -208,6 +331,49 @@ async function remove(service: any) {
 
     try {
         await citizenInvoiceService.deleteService(service.uuid)
+        await load()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
+async function addCategory() {
+    state.error = ''
+
+    try {
+        await citizenInvoiceService.createServiceCategory({ name: state.categoryName.trim() })
+        state.categoryName = ''
+        await load()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
+async function renameCategory(category: any) {
+    const name = window.prompt(t('services.categories.name'), category.name)
+
+    if (!name || name.trim() === category.name) return
+
+    state.error = ''
+
+    try {
+        await citizenInvoiceService.updateServiceCategory(category.uuid, { name: name.trim() })
+        await load()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
+// Deleting the group never deletes what is in it, so this needs no warning
+// beyond what the help text already says.
+async function removeCategory(category: any) {
+    state.error = ''
+
+    try {
+        await citizenInvoiceService.deleteServiceCategory(category.uuid)
+
+        if (state.filter === category.uuid) state.filter = 'all'
+
         await load()
     } catch (error: any) {
         state.error = error?.message || ''

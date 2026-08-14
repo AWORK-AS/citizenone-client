@@ -118,7 +118,8 @@
 
                 <ModulesUserInvoicingServiceCatalogue v-else-if="state.tab === 'services'"
                     :defaultVatRate="state.settings.default_vat_rate"
-                    :pricesIncludeVat="state.settings.prices_include_vat" />
+                    :pricesIncludeVat="state.settings.prices_include_vat"
+                    @changed="services => state.services = services" />
 
                 <ModulesUserInvoicingTemplates v-else-if="state.tab === 'templates'" :services="state.services" />
 

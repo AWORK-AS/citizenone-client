@@ -13070,7 +13070,18 @@
             "vatRate": "VAT %",
             "subsidy": "Default subsidy",
             "vatHelp": "Dental treatment is VAT exempt, so the rate is set per service rather than assumed.",
-            "unitPriceIncl": "Unit price incl. VAT"
+            "unitPriceIncl": "Unit price incl. VAT",
+            "category": "Category",
+            "noCategory": "No category"
+        },
+        "categories": {
+            "title": "Categories",
+            "help": "Group your services, for example examinations, surgery and hygiene. Deleting a category leaves the services in place without a group.",
+            "name": "Category name",
+            "placeholder": "For example Examinations",
+            "add": "Add",
+            "all": "All",
+            "uncategorised": "No category"
         }
     },
     "invoicing": {
