@@ -219,6 +219,43 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Storage -->
+                            <div class="mt-8">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h3 class="text-sm font-semibold">
+                                        {{ $t('superadmin.companies.licenseOverview.storage.storage') }}
+                                    </h3>
+                                    <FormButton v-if="canManageLicenses" buttonStyle="action" @click="openGrantStorageModal">
+                                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('superadmin.companies.licenseOverview.storage.grantStorage') }}
+                                    </FormButton>
+                                </div>
+                                <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
+                                    <div v-if="state.storage.subscription" class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-base font-semibold text-tertiary">
+                                                {{ state.storage.subscription.deal.name }}
+                                            </p>
+                                            <p class="text-sm text-gray-600 mt-1">
+                                                {{ $t('superadmin.companies.licenseOverview.storage.used', {
+                                                    used: state.storage.storage_used_gb,
+                                                    quota: state.storage.storage_quota_gb
+                                                }) }}
+                                            </p>
+                                        </div>
+                                        <button v-if="canManageLicenses" class="co-action-btn-danger"
+                                            @click="state.removeStorage.isConfirmOpen = true">
+                                            {{ $t('superadmin.companies.licenseOverview.storage.remove') }}
+                                        </button>
+                                    </div>
+                                    <p v-else class="text-sm text-gray-600">
+                                        {{ $t('superadmin.companies.licenseOverview.storage.none', {
+                                            quota: state.storage.storage_quota_gb
+                                        }) }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </LoadingSpinner>
                 </div>
@@ -474,12 +511,69 @@
             <DialogConfirmation :isModalOpen="state.removeLicense.isConfirmOpen"
                 :message="$t('superadmin.companies.licenseOverview.removeLicense.confirm', { license: state.removeLicense.target?.license, user: removeLicenseTargetUserName })"
                 @close="state.removeLicense.isConfirmOpen = false" @confirm="submitRemoveLicense" />
+
+            <Modal size="sm" :title="$t('superadmin.companies.licenseOverview.storage.grantStorage')"
+                :show="state.grantStorage.isOpen" @close="state.grantStorage.isOpen = false">
+                <template #modal-body>
+                    <div class="space-y-4">
+                        <p class="text-sm text-gray-600">
+                            {{ $t('superadmin.companies.licenseOverview.storage.description') }}
+                        </p>
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('superadmin.companies.licenseOverview.storage.packageLabel')" />
+                            <FormSelect :options="grantStoragePackageOptions" v-model="state.grantStorage.addOnDealUuid" />
+                        </div>
+                        <div v-if="needsFrequencyPicker" class="space-y-1">
+                            <FormLabel :label="$t('superadmin.companies.licenseOverview.grant.billingFrequency')" />
+                            <fieldset :aria-label="$t('superadmin.companies.licenseOverview.grant.billingFrequency')">
+                                <RadioGroup v-model="state.grantStorage.frequency"
+                                    class="grid grid-cols-2 gap-x-1 rounded-full p-2 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+                                    <RadioGroupOption as="template" v-for="option in ['monthly', 'yearly']" :key="option"
+                                        :value="option" v-slot="{ checked }">
+                                        <div
+                                            :class="[checked ? 'bg-tertiary text-white' : 'text-gray-500', 'cursor-pointer rounded-full px-2.5 py-1']">
+                                            {{ option === 'monthly'
+                                                ? $t('superadmin.companies.licenseOverview.grant.monthly')
+                                                : $t('superadmin.companies.licenseOverview.grant.yearly') }}
+                                        </div>
+                                    </RadioGroupOption>
+                                </RadioGroup>
+                            </fieldset>
+                        </div>
+                        <p v-else class="text-sm text-gray-600">
+                            {{ $t('superadmin.companies.licenseOverview.grant.billingFixed', { frequency: fixedFrequencyLabel }) }}
+                        </p>
+                        <div class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.grantStorage.paysViaLeverandorservice = !state.grantStorage.paysViaLeverandorservice">
+                                <FormCheckbox :value="state.grantStorage.paysViaLeverandorservice" />
+                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-2">
+                            <FormButton buttonStyle="secondary" @click="state.grantStorage.isOpen = false">
+                                {{ $t('cancel') }}
+                            </FormButton>
+                            <FormButton buttonStyle="primary"
+                                :disabled="state.grantStorage.isSaving || !state.grantStorage.addOnDealUuid || (needsFrequencyPicker && !state.grantStorage.frequency)"
+                                @click="submitGrantStorage">
+                                {{ $t('save') }}
+                            </FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
+
+            <DialogConfirmation :isModalOpen="state.removeStorage.isConfirmOpen"
+                :message="$t('superadmin.companies.licenseOverview.storage.confirmRemove', { package: state.storage.subscription?.deal?.name })"
+                @close="state.removeStorage.isConfirmOpen = false" @confirm="submitRemoveStorage" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { licenseService } from '@/components/api/superadmin/LicenseService'
+import { storagePackageService } from '@/components/api/superadmin/StoragePackageService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
@@ -557,7 +651,32 @@ const state = reactive({
         isSaving: false,
         target: null as any,
     },
+    storage: {
+        subscription: null as any,
+        storage_used_gb: 0,
+        storage_quota_gb: 0,
+    },
+    grantStorage: {
+        isOpen: false,
+        isSaving: false,
+        isLoadingPackages: false,
+        packages: [] as any[],
+        addOnDealUuid: '' as string,
+        frequency: 'monthly' as 'monthly' | 'yearly',
+        paysViaLeverandorservice: false,
+    },
+    removeStorage: {
+        isConfirmOpen: false,
+        isSaving: false,
+    },
 })
+
+const grantStoragePackageOptions = computed(() =>
+    state.grantStorage.packages.map((pkg: any) => ({
+        value: pkg.uuid,
+        label: `${pkg.name} (${formatAmount(pkg.monthly_price)}/${t('superadmin.companies.licenseOverview.grant.monthly')})`,
+    }))
+)
 
 const addSubscriptionSelectedDeal = computed(() =>
     state.addSubscription.deals.find((deal: any) => deal.name === state.addSubscription.package)
@@ -787,7 +906,74 @@ onMounted(() => {
     fetchSubscription()
     fetchLicenses()
     fetchLicensesCount()
+    fetchCompanyStorage()
 })
+
+async function fetchCompanyStorage() {
+    try {
+        const response = await licenseService.getCompanyStorage(companyUuid as string)
+        if (response) {
+            state.storage.subscription = response.subscription ?? null
+            state.storage.storage_used_gb = response.storage_used_gb ?? 0
+            state.storage.storage_quota_gb = response.storage_quota_gb ?? 0
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function openGrantStorageModal() {
+    state.grantStorage.addOnDealUuid = ''
+    state.grantStorage.frequency = 'monthly'
+    state.grantStorage.paysViaLeverandorservice = false
+    state.grantStorage.isOpen = true
+
+    if (state.grantStorage.packages.length === 0) {
+        state.grantStorage.isLoadingPackages = true
+        try {
+            const response = await storagePackageService.getStoragePackages()
+            state.grantStorage.packages = response?.data ?? []
+        } catch (error: any) {
+            errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.storage.grantFailed'))
+        }
+        state.grantStorage.isLoadingPackages = false
+    }
+}
+
+async function submitGrantStorage() {
+    if (!state.grantStorage.addOnDealUuid) return
+    if (needsFrequencyPicker.value && !state.grantStorage.frequency) return
+    state.grantStorage.isSaving = true
+    try {
+        const params: { add_on_deal_uuid: string, frequency?: 'monthly' | 'yearly', pays_via_leverandorservice: boolean } = {
+            add_on_deal_uuid: state.grantStorage.addOnDealUuid,
+            pays_via_leverandorservice: state.grantStorage.paysViaLeverandorservice,
+        }
+        if (needsFrequencyPicker.value) {
+            params.frequency = state.grantStorage.frequency
+        }
+        await licenseService.grantStorage(companyUuid as string, params)
+        state.grantStorage.isOpen = false
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.storage.granted')}.`)
+        fetchCompanyStorage()
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.storage.grantFailed'))
+    }
+    state.grantStorage.isSaving = false
+}
+
+async function submitRemoveStorage() {
+    state.removeStorage.isSaving = true
+    try {
+        await licenseService.removeStorage(companyUuid as string)
+        state.removeStorage.isConfirmOpen = false
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.storage.removed')}.`)
+        fetchCompanyStorage()
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.storage.removeFailed'))
+    }
+    state.removeStorage.isSaving = false
+}
 
 async function fetchSubscription() {
     state.error = {}
