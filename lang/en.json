@@ -9862,6 +9862,20 @@
                     "noOne": "It is not currently assigned to anyone.",
                     "removed": "License removed",
                     "failed": "Could not remove license"
+                },
+                "storage": {
+                    "storage": "Storage",
+                    "grantStorage": "Grant storage",
+                    "description": "Assigns a storage package to the company and creates a pending manual invoice for the amount. Buying a different package swaps the current one (with a prorated credit); the same package again is rejected.",
+                    "packageLabel": "Storage package",
+                    "used": "{used} GB used of {quota} GB",
+                    "none": "No storage package granted - quota is {quota} GB.",
+                    "remove": "Remove",
+                    "confirmRemove": "Remove the {package} storage package? The company's quota will revert to its plan default.",
+                    "granted": "Storage granted",
+                    "grantFailed": "Could not grant storage",
+                    "removed": "Storage removed",
+                    "removeFailed": "Could not remove storage"
                 }
             },
             "newCompany": "New company",

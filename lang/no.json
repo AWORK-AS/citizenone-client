@@ -9862,6 +9862,20 @@
                     "noOne": "Den er for øyeblikket ikke tildelt noen.",
                     "removed": "Lisens fjernet",
                     "failed": "Kunne ikke fjerne lisens"
+                },
+                "storage": {
+                    "storage": "Lagring",
+                    "grantStorage": "Tildel lagring",
+                    "description": "Tildeler en lagringspakke til bedriften og oppretter en ventende manuell faktura for beløpet. Kjøp av en annen pakke erstatter den nåværende (med en forholdsmessig kreditt); samme pakke igjen blir avvist.",
+                    "packageLabel": "Lagringspakke",
+                    "used": "{used} GB brukt av {quota} GB",
+                    "none": "Ingen lagringspakke tildelt - kvoten er {quota} GB.",
+                    "remove": "Fjern",
+                    "confirmRemove": "Fjern lagringspakken {package}? Bedriftens kvote går tilbake til planens standard.",
+                    "granted": "Lagring tildelt",
+                    "grantFailed": "Kunne ikke tildele lagring",
+                    "removed": "Lagring fjernet",
+                    "removeFailed": "Kunne ikke fjerne lagring"
                 }
             },
             "newCompany": "Ny virksomhet",

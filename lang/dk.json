@@ -9862,6 +9862,20 @@
                     "noOne": "Den er i øjeblikket ikke tildelt nogen.",
                     "removed": "Licens fjernet",
                     "failed": "Kunne ikke fjerne licens"
+                },
+                "storage": {
+                    "storage": "Lager",
+                    "grantStorage": "Tildel lager",
+                    "description": "Tildeler en lagerpakke til virksomheden og opretter en afventende manuel faktura for beløbet. Køb af en anden pakke erstatter den nuværende (med en forholdsmæssig kredit); den samme pakke igen bliver afvist.",
+                    "packageLabel": "Lagerpakke",
+                    "used": "{used} GB brugt af {quota} GB",
+                    "none": "Ingen lagerpakke tildelt - kvoten er {quota} GB.",
+                    "remove": "Fjern",
+                    "confirmRemove": "Fjern lagerpakken {package}? Virksomhedens kvote vender tilbage til planens standard.",
+                    "granted": "Lager tildelt",
+                    "grantFailed": "Kunne ikke tildele lager",
+                    "removed": "Lager fjernet",
+                    "removeFailed": "Kunne ikke fjerne lager"
                 }
             },
             "newCompany": "Ny virksomhed",

@@ -9862,6 +9862,20 @@
                     "noOne": "Den är för närvarande inte tilldelad någon.",
                     "removed": "Licens borttagen",
                     "failed": "Kunde inte ta bort licens"
+                },
+                "storage": {
+                    "storage": "Lagring",
+                    "grantStorage": "Tilldela lagring",
+                    "description": "Tilldelar ett lagringspaket till företaget och skapar en väntande manuell faktura för beloppet. Köp av ett annat paket ersätter det nuvarande (med en proportionell kredit); samma paket igen avvisas.",
+                    "packageLabel": "Lagringspaket",
+                    "used": "{used} GB använt av {quota} GB",
+                    "none": "Inget lagringspaket tilldelat - kvoten är {quota} GB.",
+                    "remove": "Ta bort",
+                    "confirmRemove": "Ta bort lagringspaketet {package}? Företagets kvot återgår till planens standard.",
+                    "granted": "Lagring tilldelad",
+                    "grantFailed": "Kunde inte tilldela lagring",
+                    "removed": "Lagring borttagen",
+                    "removeFailed": "Kunde inte ta bort lagring"
                 }
             },
             "newCompany": "Ny företag",
