@@ -4328,6 +4328,52 @@
                 }
             }
         },
+        "shiftRequests": {
+            "form": {
+                "alert": {
+                    "requestSuccessfullySent": "Passförfrågan har skickats"
+                },
+                "date": "Datum",
+                "department": "Avdelning",
+                "note": "Anmärkning",
+                "sendRequest": "Skicka förfrågan",
+                "shiftType": "Passtyp",
+                "timeIn": "Starttid",
+                "timeOut": "Sluttid"
+            },
+            "newShiftRequest": "Begär ett pass",
+            "shiftRequests": "Passförfrågningar",
+            "table": {
+                "actions": {
+                    "approve": "Godkänn",
+                    "cancel": "Avbryt",
+                    "reject": "Avvisa"
+                },
+                "alert": {
+                    "shiftRequestSuccessfullyApproved": "Passförfrågan har godkänts",
+                    "shiftRequestSuccessfullyCancelled": "Passförfrågan har avbrutits",
+                    "shiftRequestSuccessfullyRejected": "Passförfrågan har avvisats"
+                },
+                "confirmation": {
+                    "approveShiftRequestConfirmation": "Är du säker på att du vill godkänna denna passförfrågan?",
+                    "cancelShiftRequestConfirmation": "Är du säker på att du vill avbryta denna passförfrågan?",
+                    "rejectComment": "Kommentar (valfri)",
+                    "rejectCommentPlaceholder": "Lägg till en motivering som medarbetaren kan se",
+                    "rejectShiftRequestConfirmation": "Är du säker på att du vill avvisa denna passförfrågan?"
+                },
+                "date": "Datum",
+                "dateTimeEnd": "Slutdatum och -tid",
+                "dateTimeStart": "Startdatum och -tid",
+                "note": "Anmärkning",
+                "shiftType": "Passtyp",
+                "status": {
+                    "approved": "Godkänd",
+                    "pending": "Väntar",
+                    "rejected": "Avvisad",
+                    "status": "Status"
+                }
+            }
+        },
         "month": "Månad",
         "monthView": {
             "copied": "Kopierad",

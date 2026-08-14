@@ -182,6 +182,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('birthday')) return 'birthday'
     if (type.toLowerCase().includes('surveyreturned')) return 'survey'
     if (type.toLowerCase().includes('journalmention')) return 'journal_mention'
+    if (type.toLowerCase().includes('shiftrequest')) return 'shift_request'
     return 'other'
 }
 
@@ -190,6 +191,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     birthday: { bg: 'bg-accent-orange/10', icon: 'ph:cake', color: 'text-accent-orange' },
     survey: { bg: 'bg-primary/10', icon: 'ph:clipboard-text', color: 'text-primary' },
     journal_mention: { bg: 'bg-secondary/10', icon: 'ph:at', color: 'text-secondary' },
+    shift_request: { bg: 'bg-primary/10', icon: 'mdi:calendar-plus', color: 'text-primary' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -370,6 +372,26 @@ async function handleNotifClick(notif: any) {
     if (getCategory(notif.type) === 'duty_shift') {
         state.isOpen = false
         navigateTo('/notifications/duty-shift-rule-notifications')
+        return
+    }
+    if (getCategory(notif.type) === 'shift_request') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        const employeeUuid = notif.data?.content?.employee?.uuid
+        if (employeeUuid) {
+            navigateTo(`/schedules?shiftRequestEmployee=${employeeUuid}`)
+        }
         return
     }
     if (getCategory(notif.type) === 'survey') {

@@ -4328,6 +4328,52 @@
                 }
             }
         },
+        "shiftRequests": {
+            "form": {
+                "alert": {
+                    "requestSuccessfullySent": "Vaktforespørsel ble sendt"
+                },
+                "date": "Dato",
+                "department": "Avdeling",
+                "note": "Merknad",
+                "sendRequest": "Send forespørsel",
+                "shiftType": "Vakttype",
+                "timeIn": "Starttid",
+                "timeOut": "Sluttid"
+            },
+            "newShiftRequest": "Be om en vakt",
+            "shiftRequests": "Vaktforespørsler",
+            "table": {
+                "actions": {
+                    "approve": "Godkjenn",
+                    "cancel": "Avbryt",
+                    "reject": "Avvis"
+                },
+                "alert": {
+                    "shiftRequestSuccessfullyApproved": "Vaktforespørsel ble godkjent",
+                    "shiftRequestSuccessfullyCancelled": "Vaktforespørsel ble avbrutt",
+                    "shiftRequestSuccessfullyRejected": "Vaktforespørsel ble avvist"
+                },
+                "confirmation": {
+                    "approveShiftRequestConfirmation": "Er du sikker på at du vil godkjenne denne vaktforespørselen?",
+                    "cancelShiftRequestConfirmation": "Er du sikker på at du vil avbryte denne vaktforespørselen?",
+                    "rejectComment": "Kommentar (valgfri)",
+                    "rejectCommentPlaceholder": "Legg til en begrunnelse den ansatte kan se",
+                    "rejectShiftRequestConfirmation": "Er du sikker på at du vil avvise denne vaktforespørselen?"
+                },
+                "date": "Dato",
+                "dateTimeEnd": "Sluttdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
+                "note": "Merknad",
+                "shiftType": "Vakttype",
+                "status": {
+                    "approved": "Godkjent",
+                    "pending": "Venter",
+                    "rejected": "Avvist",
+                    "status": "Status"
+                }
+            }
+        },
         "month": "Måned",
         "monthView": {
             "copied": "Kopieret",

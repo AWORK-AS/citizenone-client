@@ -4328,6 +4328,52 @@
                 }
             }
         },
+        "shiftRequests": {
+            "form": {
+                "alert": {
+                    "requestSuccessfullySent": "Shift request successfully sent"
+                },
+                "date": "Date",
+                "department": "Department",
+                "note": "Note",
+                "sendRequest": "Send request",
+                "shiftType": "Shift type",
+                "timeIn": "Time in",
+                "timeOut": "Time out"
+            },
+            "newShiftRequest": "Request a shift",
+            "shiftRequests": "Shift requests",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "cancel": "Cancel",
+                    "reject": "Reject"
+                },
+                "alert": {
+                    "shiftRequestSuccessfullyApproved": "Shift request successfully approved",
+                    "shiftRequestSuccessfullyCancelled": "Shift request successfully cancelled",
+                    "shiftRequestSuccessfullyRejected": "Shift request successfully rejected"
+                },
+                "confirmation": {
+                    "approveShiftRequestConfirmation": "Are you sure you want to approve this shift request",
+                    "cancelShiftRequestConfirmation": "Are you sure you want to cancel this shift request",
+                    "rejectComment": "Comment (optional)",
+                    "rejectCommentPlaceholder": "Add a reason the employee will see",
+                    "rejectShiftRequestConfirmation": "Are you sure you want to reject this shift request"
+                },
+                "date": "Date",
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "note": "Note",
+                "shiftType": "Shift type",
+                "status": {
+                    "approved": "Approved",
+                    "pending": "Pending",
+                    "rejected": "Rejected",
+                    "status": "Status"
+                }
+            }
+        },
         "month": "Month",
         "monthView": {
             "copied": "Copied",
