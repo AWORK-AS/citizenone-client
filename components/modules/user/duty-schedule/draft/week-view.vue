@@ -968,7 +968,7 @@ const language = useI18n()
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
 const favoriteEmployees = useFavoriteEmployees()
-const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || can('create_schedule'))
+const hasManageFavoritesAccess = computed(() => true)
 const departmentStore = useDepartmentStore()
 const draftDutyScheduleStore = useDraftDutyScheduleStore() as any
 const { formatNumber } = useNumberFormatter()

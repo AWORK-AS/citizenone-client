@@ -898,7 +898,7 @@ const { formatNumber, parseLocaleNumber } = useNumberFormatter()
 const { isAtLeast, can } = usePermissions()
 const favoriteEmployees = useFavoriteEmployees()
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || can('update_schedule'))
-const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || can('create_schedule'))
+const hasManageFavoritesAccess = computed(() => true)
 
 // Period anchor: start of the half-year (Jan or Jul of some year)
 const periodStart = ref(getHalfYearStart(moment()))
