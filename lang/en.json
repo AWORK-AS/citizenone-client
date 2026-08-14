@@ -4346,14 +4346,17 @@
             "table": {
                 "actions": {
                     "approve": "Approve",
+                    "cancel": "Cancel",
                     "reject": "Reject"
                 },
                 "alert": {
                     "shiftRequestSuccessfullyApproved": "Shift request successfully approved",
+                    "shiftRequestSuccessfullyCancelled": "Shift request successfully cancelled",
                     "shiftRequestSuccessfullyRejected": "Shift request successfully rejected"
                 },
                 "confirmation": {
                     "approveShiftRequestConfirmation": "Are you sure you want to approve this shift request",
+                    "cancelShiftRequestConfirmation": "Are you sure you want to cancel this shift request",
                     "rejectComment": "Comment (optional)",
                     "rejectCommentPlaceholder": "Add a reason the employee will see",
                     "rejectShiftRequestConfirmation": "Are you sure you want to reject this shift request"

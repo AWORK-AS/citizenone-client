@@ -58,17 +58,26 @@
                                             </span>
                                         </td>
                                         <td width="15%">
-                                            <div class="flex items-end gap-2" v-if="isAtLeast('Admin') && shiftRequest?.status === 'pending'">
-                                                <Tooltip :text="$t('dutySchedules.shiftRequests.table.actions.approve')"
-                                                    @click="confirmApproveShiftRequest(shiftRequest)">
-                                                    <FormButton :aria-label="$t('dutySchedules.shiftRequests.table.actions.approve')" type="button" buttonStyle="success">
-                                                        <Icon name="ph:check" class="size-4" />
-                                                    </FormButton>
-                                                </Tooltip>
-                                                <Tooltip :text="$t('dutySchedules.shiftRequests.table.actions.reject')"
-                                                    @click="confirmRejectShiftRequest(shiftRequest)">
-                                                    <FormButton :aria-label="$t('dutySchedules.shiftRequests.table.actions.reject')" type="button" buttonStyle="danger">
-                                                        <Icon name="ph:x" class="size-4" />
+                                            <div class="flex items-end gap-2" v-if="shiftRequest?.status === 'pending'">
+                                                <template v-if="isAtLeast('Admin')">
+                                                    <Tooltip :text="$t('dutySchedules.shiftRequests.table.actions.approve')"
+                                                        @click="confirmApproveShiftRequest(shiftRequest)">
+                                                        <FormButton :aria-label="$t('dutySchedules.shiftRequests.table.actions.approve')" type="button" buttonStyle="success">
+                                                            <Icon name="ph:check" class="size-4" />
+                                                        </FormButton>
+                                                    </Tooltip>
+                                                    <Tooltip :text="$t('dutySchedules.shiftRequests.table.actions.reject')"
+                                                        @click="confirmRejectShiftRequest(shiftRequest)">
+                                                        <FormButton :aria-label="$t('dutySchedules.shiftRequests.table.actions.reject')" type="button" buttonStyle="danger">
+                                                            <Icon name="ph:x" class="size-4" />
+                                                        </FormButton>
+                                                    </Tooltip>
+                                                </template>
+                                                <Tooltip :text="$t('dutySchedules.shiftRequests.table.actions.cancel')"
+                                                    v-if="userStore.getUser?.uuid === props.selectedEmployee?.uuid"
+                                                    @click="confirmCancelShiftRequest(shiftRequest)">
+                                                    <FormButton :aria-label="$t('dutySchedules.shiftRequests.table.actions.cancel')" type="button" buttonStyle="danger">
+                                                        <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                             </div>
@@ -95,6 +104,9 @@
                             class="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-palette-green focus:ring-palette-green" />
                     </template>
                 </DialogConfirmation>
+                <DialogConfirmation :isModalOpen="state.modal.isCancelRequest"
+                    :message="$t('dutySchedules.shiftRequests.table.confirmation.cancelShiftRequestConfirmation') + '?'"
+                    @close="state.modal.isCancelRequest = false" @confirm="cancelShiftRequest" />
                 <ModulesUserDutyScheduleShiftRequestsModalNew :isModalOpen="state.modal.isAddNewShiftRequestOpen"
                     @close="state.modal.isAddNewShiftRequestOpen = false" @refreshDutySchedules="fetchShiftRequests(); emit('refreshDutySchedules')" />
             </template>
@@ -146,6 +158,7 @@ const state = reactive({
         isAddNewShiftRequestOpen: false,
         isApproveRequest: false,
         isRejectRequest: false,
+        isCancelRequest: false,
     },
     shiftRequests: [] as any,
     selectedShiftRequest: {} as any,
@@ -244,6 +257,28 @@ async function rejectShiftRequest() {
             state.rejectComment = ''
             fetchShiftRequests()
             successAlert(`${t('alert.success')}!`, `${t('dutySchedules.shiftRequests.table.alert.shiftRequestSuccessfullyRejected')}.`)
+            emit('refreshDutySchedules')
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function confirmCancelShiftRequest(shiftRequest: any) {
+    state.selectedShiftRequest = shiftRequest
+    state.modal.isCancelRequest = true
+}
+
+async function cancelShiftRequest() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await shiftRequestService.deleteShiftRequest(state.selectedShiftRequest.uuid)
+        if (response) {
+            state.modal.isCancelRequest = false
+            fetchShiftRequests()
+            successAlert(`${t('alert.success')}!`, `${t('dutySchedules.shiftRequests.table.alert.shiftRequestSuccessfullyCancelled')}.`)
             emit('refreshDutySchedules')
         }
     } catch (error: any) {

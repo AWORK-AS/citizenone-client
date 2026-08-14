@@ -4346,14 +4346,17 @@
             "table": {
                 "actions": {
                     "approve": "Godkänn",
+                    "cancel": "Avbryt",
                     "reject": "Avvisa"
                 },
                 "alert": {
                     "shiftRequestSuccessfullyApproved": "Passförfrågan har godkänts",
+                    "shiftRequestSuccessfullyCancelled": "Passförfrågan har avbrutits",
                     "shiftRequestSuccessfullyRejected": "Passförfrågan har avvisats"
                 },
                 "confirmation": {
                     "approveShiftRequestConfirmation": "Är du säker på att du vill godkänna denna passförfrågan?",
+                    "cancelShiftRequestConfirmation": "Är du säker på att du vill avbryta denna passförfrågan?",
                     "rejectComment": "Kommentar (valfri)",
                     "rejectCommentPlaceholder": "Lägg till en motivering som medarbetaren kan se",
                     "rejectShiftRequestConfirmation": "Är du säker på att du vill avvisa denna passförfrågan?"

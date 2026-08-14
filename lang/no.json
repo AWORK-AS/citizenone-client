@@ -4346,14 +4346,17 @@
             "table": {
                 "actions": {
                     "approve": "Godkjenn",
+                    "cancel": "Avbryt",
                     "reject": "Avvis"
                 },
                 "alert": {
                     "shiftRequestSuccessfullyApproved": "Vaktforespørsel ble godkjent",
+                    "shiftRequestSuccessfullyCancelled": "Vaktforespørsel ble avbrutt",
                     "shiftRequestSuccessfullyRejected": "Vaktforespørsel ble avvist"
                 },
                 "confirmation": {
                     "approveShiftRequestConfirmation": "Er du sikker på at du vil godkjenne denne vaktforespørselen?",
+                    "cancelShiftRequestConfirmation": "Er du sikker på at du vil avbryte denne vaktforespørselen?",
                     "rejectComment": "Kommentar (valgfri)",
                     "rejectCommentPlaceholder": "Legg til en begrunnelse den ansatte kan se",
                     "rejectShiftRequestConfirmation": "Er du sikker på at du vil avvise denne vaktforespørselen?"
