@@ -13269,5 +13269,16 @@
         "preview": "Förhandsgranska"
     },
     "delete": "Radera",
-    "edit": "Redigera"
+    "edit": "Redigera",
+    "payment": {
+        "done": {
+            "title": "Tack för betalningen",
+            "text": "Betalningen är genomförd och fakturan är markerad som betald.",
+            "receipt": "Betalleverantören har skickat kvittot till din e-post."
+        },
+        "cancelled": {
+            "title": "Betalningen avbröts",
+            "text": "Ingenting har dragits. Du kan använda länken igen när du är redo."
+        }
+    }
 }

@@ -13269,5 +13269,16 @@
         "preview": "Preview"
     },
     "delete": "Delete",
-    "edit": "Edit"
+    "edit": "Edit",
+    "payment": {
+        "done": {
+            "title": "Thank you for the payment",
+            "text": "The payment went through, and the invoice is marked as paid.",
+            "receipt": "The payment provider has emailed you a receipt."
+        },
+        "cancelled": {
+            "title": "The payment was cancelled",
+            "text": "Nothing was charged. You can use the link again when you are ready."
+        }
+    }
 }

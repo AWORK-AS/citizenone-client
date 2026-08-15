@@ -13269,5 +13269,16 @@
         "preview": "Forhåndsvis"
     },
     "delete": "Slet",
-    "edit": "Rediger"
+    "edit": "Rediger",
+    "payment": {
+        "done": {
+            "title": "Tak for betalingen",
+            "text": "Betalingen er gennemført, og fakturaen er markeret som betalt.",
+            "receipt": "Kvitteringen er sendt til din mail af betalingsudbyderen."
+        },
+        "cancelled": {
+            "title": "Betalingen blev afbrudt",
+            "text": "Der er ikke trukket noget. Du kan bruge linket igen, når du er klar."
+        }
+    }
 }
