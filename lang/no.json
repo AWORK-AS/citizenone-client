@@ -3664,7 +3664,9 @@
                 "manual": "Betalt til dere",
                 "online": "Onlinebetaling",
                 "fi": "FI-innbetaling"
-            }
+            },
+            "paymentLink": "Betalingslenke",
+            "paymentLinkCopied": "Betalingslenken er kopiert"
         }
     },
     "client": {
@@ -9931,7 +9933,6 @@
         "myShiftEvaluations": "Mine vaktevalueringer",
         "forms": "Skjemaer",
         "dentalRecalls": "Innkallinger",
-        "dentalRecalls": "Innkallinger",
         "dentalOverview": "Klinikkoversikt",
         "invoicing": "Fakturering"
     },
@@ -13201,7 +13202,14 @@
             "resetColor": "Nullstill",
             "preview": "Forhåndsvisning",
             "previewInvoice": "Forhåndsvis faktura",
-            "previewHelp": "Åpner en eksempelfaktura som PDF, akkurat slik borgeren mottar den. Lagrer endringene dine først."
+            "previewHelp": "Åpner en eksempelfaktura som PDF, akkurat slik borgeren mottar den. Lagrer endringene dine først.",
+            "onlinePayment": "Onlinebetaling",
+            "onlinePaymentUnavailable": "Onlinebetaling er ikke slått på i CitizenOne ennå.",
+            "onlinePaymentHelp": "Borgeren betaler med kort eller MobilePay fra fakturaen. Pengene går rett til deres egen konto. {rate} % per betaling.",
+            "paymentsReady": "Klar til å ta imot betalinger",
+            "paymentsNotReady": "Oppsettet er ikke ferdig",
+            "connectPayments": "Koble til betalingskonto",
+            "continueSetup": "Fortsett oppsett"
         },
         "reports": {
             "from": "Fra",

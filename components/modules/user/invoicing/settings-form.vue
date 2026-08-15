@@ -64,6 +64,41 @@
                 </div>
 
                 <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-5 space-y-4">
+                    <h3 class="text-sm font-semibold text-gray-900">{{ $t('invoicing.settings.onlinePayment') }}</h3>
+
+                    <p class="text-xs text-gray-500" v-if="!state.payments.available">
+                        {{ $t('invoicing.settings.onlinePaymentUnavailable') }}
+                    </p>
+
+                    <template v-else>
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">
+                                    {{ state.payments.charges_enabled
+                                        ? $t('invoicing.settings.paymentsReady')
+                                        : $t('invoicing.settings.paymentsNotReady') }}
+                                </p>
+                                <p class="text-xs text-gray-500 max-w-sm">
+                                    {{ $t('invoicing.settings.onlinePaymentHelp', {
+                                        rate: String(state.payments.fee_percent || 0).replace('.', ',')
+                                    }) }}
+                                </p>
+                            </div>
+                            <span class="inline-flex size-2.5 rounded-full mt-1.5"
+                                :class="state.payments.charges_enabled ? 'bg-green-500' : 'bg-gray-300'"></span>
+                        </div>
+
+                        <FormButton buttonStyle="action" buttonSize="xs" @click="connectPayments"
+                            :disabled="!canEdit || state.isConnecting">
+                            <Icon name="ph:credit-card" class="size-4" />
+                            {{ state.payments.connected
+                                ? $t('invoicing.settings.continueSetup')
+                                : $t('invoicing.settings.connectPayments') }}
+                        </FormButton>
+                    </template>
+                </div>
+
+                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-5 space-y-4">
                     <h3 class="text-sm font-semibold text-gray-900">{{ $t('invoicing.settings.design') }}</h3>
 
                     <div class="flex items-start justify-between gap-4">
@@ -141,7 +176,9 @@ const state = reactive({
         show_logo: true,
         accent_color: '#111111',
     },
+    payments: { available: false, connected: false, charges_enabled: false, fee_percent: 0 } as any,
     isPageLoading: true,
+    isConnecting: false,
     isSaving: false,
     error: '',
 })
@@ -163,6 +200,33 @@ const example = computed(() => {
 
     return t('invoicing.settings.exampleExcl', { vat: format(100 * (rate / 100)), total: format(100 + 100 * (rate / 100)) })
 })
+
+// The provider hosts the setup, so this hands the company over and picks the
+// answer up when they come back.
+async function connectPayments() {
+    state.error = ''
+    state.isConnecting = true
+
+    try {
+        const response = await citizenInvoiceService.startPaymentOnboarding()
+        const url = response?.data?.url
+
+        if (url) window.location.href = url
+    } catch (error: any) {
+        state.error = error?.message || ''
+    } finally {
+        state.isConnecting = false
+    }
+}
+
+async function loadPaymentStatus() {
+    try {
+        const response = await citizenInvoiceService.getPaymentStatus()
+        state.payments = response?.data || state.payments
+    } catch (error: any) {
+        // Online payment is an extra; the rest of the setup works without it.
+    }
+}
 
 async function load() {
     state.error = ''
@@ -232,5 +296,8 @@ async function save() {
     }
 }
 
-onMounted(() => load())
+onMounted(() => {
+    load()
+    loadPaymentStatus()
+})
 </script>

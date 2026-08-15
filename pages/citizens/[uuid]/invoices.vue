@@ -189,6 +189,12 @@
                                     <Icon name="ph:arrow-u-up-left" class="size-4" />
                                     {{ $t('citizens.invoices.creditNote') }}
                                 </FormButton>
+                                <FormButton buttonStyle="action" buttonSize="xs" @click="paymentLink(invoice)"
+                                    v-if="state.payments.charges_enabled && invoice.outstanding > 0
+                                        && invoice.type !== 'credit_note' && invoice.status !== 'cancelled'">
+                                    <Icon name="ph:link-simple" class="size-4" />
+                                    {{ $t('citizens.invoices.paymentLink') }}
+                                </FormButton>
                                 <FormButton buttonStyle="primary" buttonSize="xs" @click="openPayment(invoice)"
                                     v-if="invoice.outstanding > 0 && invoice.status !== 'cancelled'">
                                     <Icon name="ph:cash-register" class="size-4" />
@@ -303,6 +309,7 @@ const state = reactive({
     invoices: [] as any[],
     services: [] as any[],
     settings: { default_vat_rate: 0, prices_include_vat: false } as any,
+    payments: { available: false, connected: false, charges_enabled: false } as any,
     isModalOpen: false,
     payingUuid: null as string | null,
     creditingUuid: null as string | null,
@@ -438,6 +445,39 @@ async function savePayment(invoice: any) {
 
 // Accepted estimates are where carried out work is billed from, so the button
 // only appears when there is one to bill.
+// The citizen pays on the provider's own page. The link is put on the
+// clipboard so it can go in a text message as easily as in the invoice mail.
+async function paymentLink(invoice: any) {
+    state.error = ''
+
+    try {
+        const response = await citizenInvoiceService.createPaymentLink(invoice.uuid)
+        const url = response?.data?.url
+
+        if (!url) return
+
+        try {
+            await navigator.clipboard.writeText(url)
+            successAlert(`${t('alert.success')}!`, `${t('citizens.invoices.paymentLinkCopied')}.`)
+        } catch (clipboardError) {
+            // A browser that refuses the clipboard should still hand over the
+            // link rather than swallow it.
+            window.prompt(t('citizens.invoices.paymentLink'), url)
+        }
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
+
+async function loadPaymentStatus() {
+    try {
+        const response = await citizenInvoiceService.getPaymentStatus()
+        state.payments = response?.data || state.payments
+    } catch (error: any) {
+        // Online payment is an extra; the page works without it.
+    }
+}
+
 async function loadBillableEstimate() {
     try {
         const response = await priceEstimateService.getEstimates(citizenUuid)
@@ -528,6 +568,7 @@ async function remove(invoice: any) {
 
 onMounted(() => {
     load()
+    loadPaymentStatus()
     loadBillableEstimate()
 })
 </script>

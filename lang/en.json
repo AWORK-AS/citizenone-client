@@ -3664,7 +3664,9 @@
                 "manual": "Paid to you",
                 "online": "Online payment",
                 "fi": "FI payment"
-            }
+            },
+            "paymentLink": "Payment link",
+            "paymentLinkCopied": "The payment link is copied"
         }
     },
     "client": {
@@ -9931,7 +9933,6 @@
         "myShiftEvaluations": "My shift evaluations",
         "forms": "Forms",
         "dentalRecalls": "Recalls",
-        "dentalRecalls": "Recalls",
         "dentalOverview": "Clinic overview",
         "invoicing": "Invoicing"
     },
@@ -13201,7 +13202,14 @@
             "resetColor": "Reset",
             "preview": "Preview",
             "previewInvoice": "Preview invoice",
-            "previewHelp": "Opens a sample invoice as a PDF, exactly as the citizen receives it. Saves your changes first."
+            "previewHelp": "Opens a sample invoice as a PDF, exactly as the citizen receives it. Saves your changes first.",
+            "onlinePayment": "Online payment",
+            "onlinePaymentUnavailable": "Online payment is not switched on in CitizenOne yet.",
+            "onlinePaymentHelp": "The citizen pays by card or MobilePay from the invoice. The money goes straight to your own account. {rate} % per payment.",
+            "paymentsReady": "Ready to take payments",
+            "paymentsNotReady": "Setup is not finished",
+            "connectPayments": "Connect payment account",
+            "continueSetup": "Continue setup"
         },
         "reports": {
             "from": "From",
