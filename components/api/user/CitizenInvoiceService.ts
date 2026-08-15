@@ -13,8 +13,8 @@ class CitizenInvoiceService extends BaseAPIService {
         return await this.request(`/user/payment-links/status`, 'GET')
     }
 
-    async startPaymentOnboarding(): Promise<any> {
-        return await this.request(`/user/payment-links/onboarding`, 'POST')
+    async startPaymentOnboarding(params: object = {}): Promise<any> {
+        return await this.request(`/user/payment-links/onboarding`, 'POST', params)
     }
 
     async createPaymentLink(uuid: string): Promise<any> {

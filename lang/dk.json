@@ -13211,7 +13211,15 @@
             "connectPayments": "Forbind betalingskonto",
             "continueSetup": "Fortsæt opsætning",
             "testMode": "Testtilstand: betalinger her er ikke rigtige, og der bliver ikke trukket penge.",
-            "onlinePaymentTooltip": "Borgeren betaler med kort eller MobilePay på en side hos betalingsudbyderen. Pengene går direkte ind på jeres egen konto, ikke gennem CitizenOne, og fakturaen lukker sig selv, når betalingen er gennemført. CitizenOne tager 1,49 % pr. betaling, og betalingsudbyderens eget gebyr afregner I direkte med dem. Bankoverførsel koster ingenting."
+            "onlinePaymentTooltip": "Borgeren betaler med kort eller MobilePay på en side hos betalingsudbyderen. Pengene går direkte ind på jeres egen konto, ikke gennem CitizenOne, og fakturaen lukker sig selv, når betalingen er gennemført. CitizenOne tager 1,49 % pr. betaling, og betalingsudbyderens eget gebyr afregner I direkte med dem. Bankoverførsel koster ingenting.",
+            "termsTitle": "Aktivér onlinebetaling",
+            "termsFee": "CitizenOne trækker {rate} % af hver onlinebetaling. Bankoverførsel koster ingenting.",
+            "termsProvider": "Betalingsudbyderens eget gebyr afregner I direkte med dem, og pengene udbetales til jeres egen konto.",
+            "termsCancel": "I kan slå onlinebetaling fra igen når som helst. Allerede gennemførte betalinger berøres ikke.",
+            "termsAccept": "Jeg godkender, at CitizenOne trækker {rate} % pr. onlinebetaling.",
+            "activate": "Aktivér og fortsæt til opsætning",
+            "termsAcceptedOn": "Vilkårene er godkendt {date} med {rate} % pr. betaling.",
+            "termsLink": "Se vilkår og betingelser"
         },
         "reports": {
             "from": "Fra",

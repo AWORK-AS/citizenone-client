@@ -13211,7 +13211,15 @@
             "connectPayments": "Connect payment account",
             "continueSetup": "Continue setup",
             "testMode": "Test mode: payments here are not real, and no money is charged.",
-            "onlinePaymentTooltip": "The citizen pays by card or MobilePay on a page hosted by the payment provider. The money goes straight into your own account, never through CitizenOne, and the invoice closes itself once the payment goes through. CitizenOne takes 1.49 % per payment, and the provider bills you for its own fee directly. A bank transfer costs nothing."
+            "onlinePaymentTooltip": "The citizen pays by card or MobilePay on a page hosted by the payment provider. The money goes straight into your own account, never through CitizenOne, and the invoice closes itself once the payment goes through. CitizenOne takes 1.49 % per payment, and the provider bills you for its own fee directly. A bank transfer costs nothing.",
+            "termsTitle": "Activate online payment",
+            "termsFee": "CitizenOne takes {rate} % of every online payment. A bank transfer costs nothing.",
+            "termsProvider": "The payment provider bills you for its own fee directly, and the money is paid out to your own account.",
+            "termsCancel": "You can switch online payment off again at any time. Payments already made are unaffected.",
+            "termsAccept": "I accept that CitizenOne takes {rate} % per online payment.",
+            "activate": "Activate and continue to setup",
+            "termsAcceptedOn": "The terms were accepted on {date} at {rate} % per payment.",
+            "termsLink": "See terms and conditions"
         },
         "reports": {
             "from": "From",

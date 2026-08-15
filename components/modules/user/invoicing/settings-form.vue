@@ -103,6 +103,47 @@
                                 :class="state.payments.charges_enabled ? 'bg-green-500' : 'bg-gray-300'"></span>
                         </div>
 
+                        <!-- Taking a share of every payment is a term, not a
+                             setting, so it is agreed to before anything is set
+                             up rather than discovered on the first payout. -->
+                        <div class="rounded-lg border border-gray-200 p-3 space-y-3" v-if="!state.payments.terms_accepted">
+                            <p class="text-sm font-medium text-gray-900">{{ $t('invoicing.settings.termsTitle') }}</p>
+                            <ul class="list-disc pl-5 text-xs text-gray-600 space-y-1">
+                                <li>{{ $t('invoicing.settings.termsFee', {
+                                    rate: String(state.payments.fee_percent || 0).replace('.', ',')
+                                }) }}</li>
+                                <li>{{ $t('invoicing.settings.termsProvider') }}</li>
+                                <li>{{ $t('invoicing.settings.termsCancel') }}</li>
+                            </ul>
+
+                            <label class="flex items-start gap-2 text-sm text-gray-700">
+                                <input type="checkbox" v-model="state.acceptsTerms" :disabled="!canEdit"
+                                    class="mt-0.5 size-4 rounded border-gray-300 text-primary focus:ring-primary" />
+                                <span>
+                                    {{ $t('invoicing.settings.termsAccept', {
+                                        rate: String(state.payments.fee_percent || 0).replace('.', ',')
+                                    }) }}
+                                    <a href="https://citizenone.dk/vilkaarogbetingelser/" target="_blank"
+                                        rel="noopener" class="text-primary underline">
+                                        {{ $t('invoicing.settings.termsLink') }}
+                                    </a>
+                                </span>
+                            </label>
+
+                            <FormButton buttonStyle="primary" buttonSize="xs" @click="connectPayments"
+                                :disabled="!canEdit || !state.acceptsTerms || state.isConnecting">
+                                <Icon name="ph:credit-card" class="size-4" />
+                                {{ $t('invoicing.settings.activate') }}
+                            </FormButton>
+                        </div>
+
+                        <p class="text-xs text-gray-500" v-else>
+                            {{ $t('invoicing.settings.termsAcceptedOn', {
+                                date: formatDate(state.payments.terms_accepted_at),
+                                rate: String(state.payments.terms_fee_percent ?? state.payments.fee_percent).replace('.', ','),
+                            }) }}
+                        </p>
+
                         <!-- What the patient will actually see as ways to pay.
                              Read from the provider, so it cannot promise a
                              method someone has since turned off. -->
@@ -115,7 +156,7 @@
                         </div>
 
                         <FormButton buttonStyle="action" buttonSize="xs" @click="connectPayments"
-                            :disabled="!canEdit || state.isConnecting">
+                            v-if="state.payments.terms_accepted" :disabled="!canEdit || state.isConnecting">
                             <Icon name="ph:credit-card" class="size-4" />
                             {{ state.payments.connected
                                 ? $t('invoicing.settings.continueSetup')
@@ -179,6 +220,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { citizenInvoiceService } from '@/components/api/user/CitizenInvoiceService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
@@ -220,6 +262,7 @@ const state = reactive({
     },
     payments: { available: false, connected: false, charges_enabled: false, fee_percent: 0, methods: [] } as any,
     isPageLoading: true,
+    acceptsTerms: false,
     isConnecting: false,
     isSaving: false,
     error: '',
@@ -245,12 +288,16 @@ const example = computed(() => {
 
 // The provider hosts the setup, so this hands the company over and picks the
 // answer up when they come back.
+function formatDate(date: string): string {
+    return date ? moment(date).format('DD.MM.YYYY') : ''
+}
+
 async function connectPayments() {
     state.error = ''
     state.isConnecting = true
 
     try {
-        const response = await citizenInvoiceService.startPaymentOnboarding()
+        const response = await citizenInvoiceService.startPaymentOnboarding({ accept_terms: state.acceptsTerms })
         const url = response?.data?.url
 
         if (url) window.location.href = url
