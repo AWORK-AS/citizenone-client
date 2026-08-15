@@ -78,12 +78,14 @@
                         {{ $t('invoicing.settings.onlinePaymentUnavailable') }}
                     </p>
 
-                    <p class="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800"
-                        v-else-if="state.payments.live === false">
-                        {{ $t('invoicing.settings.testMode') }}
-                    </p>
-
                     <template v-else>
+                        <!-- A standalone note, not a branch: saying payments
+                             are not real must never hide the setup itself. -->
+                        <p class="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800"
+                            v-if="state.payments.live === false">
+                            {{ $t('invoicing.settings.testMode') }}
+                        </p>
+
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <p class="text-sm font-medium text-gray-900">
@@ -99,6 +101,17 @@
                             </div>
                             <span class="inline-flex size-2.5 rounded-full mt-1.5"
                                 :class="state.payments.charges_enabled ? 'bg-green-500' : 'bg-gray-300'"></span>
+                        </div>
+
+                        <!-- What the patient will actually see as ways to pay.
+                             Read from the provider, so it cannot promise a
+                             method someone has since turned off. -->
+                        <div class="flex flex-wrap items-center gap-2" v-if="paymentMethods.length">
+                            <span v-for="method in paymentMethods" :key="method.key"
+                                class="inline-flex items-center gap-1.5 rounded-md bg-gray-50 px-2 py-1 text-xs text-gray-700 ring-1 ring-gray-200">
+                                <Icon :name="method.icon" class="size-3.5 text-gray-500" />
+                                {{ method.label }}
+                            </span>
                         </div>
 
                         <FormButton buttonStyle="action" buttonSize="xs" @click="connectPayments"
@@ -178,6 +191,22 @@ const { t, locale } = useI18n()
 
 const canEdit = computed(() => isAtLeast('Admin'))
 
+// Named and drawn the way a patient would recognise them, in the order they
+// are likely to be used from a phone.
+const METHOD_LABELS: Record<string, { label: string; icon: string }> = {
+    mobilepay: { label: 'MobilePay', icon: 'ph:device-mobile' },
+    apple_pay: { label: 'Apple Pay', icon: 'ph:apple-logo' },
+    google_pay: { label: 'Google Pay', icon: 'ph:google-logo' },
+    card: { label: 'Visa / Mastercard', icon: 'ph:credit-card' },
+    klarna: { label: 'Klarna', icon: 'ph:squares-four' },
+    link: { label: 'Link', icon: 'ph:link-simple' },
+}
+
+const paymentMethods = computed(() => (state.payments.methods || [])
+    .filter((key: string) => METHOD_LABELS[key])
+    .sort((a: string, b: string) => Object.keys(METHOD_LABELS).indexOf(a) - Object.keys(METHOD_LABELS).indexOf(b))
+    .map((key: string) => ({ key, ...METHOD_LABELS[key] })))
+
 const state = reactive({
     form: {
         default_vat_rate: '25',
@@ -189,7 +218,7 @@ const state = reactive({
         show_logo: true,
         accent_color: '#111111',
     },
-    payments: { available: false, connected: false, charges_enabled: false, fee_percent: 0 } as any,
+    payments: { available: false, connected: false, charges_enabled: false, fee_percent: 0, methods: [] } as any,
     isPageLoading: true,
     isConnecting: false,
     isSaving: false,
