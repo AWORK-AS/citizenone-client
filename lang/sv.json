@@ -13274,7 +13274,10 @@
         "done": {
             "title": "Tack för betalningen",
             "text": "Betalningen är genomförd och fakturan är markerad som betald.",
-            "receipt": "Betalleverantören har skickat kvittot till din e-post."
+            "receipt": "Betalleverantören har skickat kvittot till din e-post.",
+            "pendingTitle": "Betalningen är mottagen",
+            "pendingText": "Vi väntar på bekräftelse från betalleverantören. Du behöver inte göra mer.",
+            "paidTo": "Betald till {company}"
         },
         "cancelled": {
             "title": "Betalningen avbröts",

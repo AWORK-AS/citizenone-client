@@ -13274,7 +13274,10 @@
         "done": {
             "title": "Thank you for the payment",
             "text": "The payment went through, and the invoice is marked as paid.",
-            "receipt": "The payment provider has emailed you a receipt."
+            "receipt": "The payment provider has emailed you a receipt.",
+            "pendingTitle": "The payment is received",
+            "pendingText": "We are waiting for confirmation from the payment provider. Nothing more is needed from you.",
+            "paidTo": "Paid to {company}"
         },
         "cancelled": {
             "title": "The payment was cancelled",

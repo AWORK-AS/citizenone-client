@@ -13274,7 +13274,10 @@
         "done": {
             "title": "Tak for betalingen",
             "text": "Betalingen er gennemført, og fakturaen er markeret som betalt.",
-            "receipt": "Kvitteringen er sendt til din mail af betalingsudbyderen."
+            "receipt": "Kvitteringen er sendt til din mail af betalingsudbyderen.",
+            "pendingTitle": "Betalingen er modtaget",
+            "pendingText": "Vi venter på bekræftelse fra betalingsudbyderen. Du behøver ikke gøre mere.",
+            "paidTo": "Betalt til {company}"
         },
         "cancelled": {
             "title": "Betalingen blev afbrudt",
