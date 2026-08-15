@@ -13210,7 +13210,8 @@
             "paymentsNotReady": "Opsætningen er ikke færdig",
             "connectPayments": "Forbind betalingskonto",
             "continueSetup": "Fortsæt opsætning",
-            "testMode": "Testtilstand: betalinger her er ikke rigtige, og der bliver ikke trukket penge."
+            "testMode": "Testtilstand: betalinger her er ikke rigtige, og der bliver ikke trukket penge.",
+            "onlinePaymentTooltip": "Borgeren betaler med kort eller MobilePay på en side hos betalingsudbyderen. Pengene går direkte ind på jeres egen konto, ikke gennem CitizenOne, og fakturaen lukker sig selv, når betalingen er gennemført. CitizenOne tager 1,49 % pr. betaling, og betalingsudbyderens eget gebyr afregner I direkte med dem. Bankoverførsel koster ingenting."
         },
         "reports": {
             "from": "Fra",

@@ -13210,7 +13210,8 @@
             "paymentsNotReady": "Setup is not finished",
             "connectPayments": "Connect payment account",
             "continueSetup": "Continue setup",
-            "testMode": "Test mode: payments here are not real, and no money is charged."
+            "testMode": "Test mode: payments here are not real, and no money is charged.",
+            "onlinePaymentTooltip": "The citizen pays by card or MobilePay on a page hosted by the payment provider. The money goes straight into your own account, never through CitizenOne, and the invoice closes itself once the payment goes through. CitizenOne takes 1.49 % per payment, and the provider bills you for its own fee directly. A bank transfer costs nothing."
         },
         "reports": {
             "from": "From",

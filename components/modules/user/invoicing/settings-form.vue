@@ -64,7 +64,15 @@
                 </div>
 
                 <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-5 space-y-4">
-                    <h3 class="text-sm font-semibold text-gray-900">{{ $t('invoicing.settings.onlinePayment') }}</h3>
+                    <div class="flex items-center gap-1.5">
+                        <h3 class="text-sm font-semibold text-gray-900">{{ $t('invoicing.settings.onlinePayment') }}</h3>
+                        <!-- Who gets the money, who takes what, and who is on
+                             the hook. Asked every time and worth answering
+                             where the question comes up. -->
+                        <Tooltip :text="$t('invoicing.settings.onlinePaymentTooltip')" :wrap="true">
+                            <Icon name="ph:info" class="size-4 text-gray-400" />
+                        </Tooltip>
+                    </div>
 
                     <p class="text-xs text-gray-500" v-if="!state.payments.available">
                         {{ $t('invoicing.settings.onlinePaymentUnavailable') }}

@@ -13210,7 +13210,8 @@
             "paymentsNotReady": "Uppsättningen är inte klar",
             "connectPayments": "Anslut betalkonto",
             "continueSetup": "Fortsätt uppsättning",
-            "testMode": "Testläge: betalningar här är inte riktiga och inga pengar dras."
+            "testMode": "Testläge: betalningar här är inte riktiga och inga pengar dras.",
+            "onlinePaymentTooltip": "Medborgaren betalar med kort eller MobilePay på en sida hos betalleverantören. Pengarna går direkt in på ert eget konto, inte genom CitizenOne, och fakturan stängs av sig själv när betalningen gått igenom. CitizenOne tar 1,49 % per betalning, och leverantörens egen avgift gör ni upp direkt med dem. En banköverföring kostar ingenting."
         },
         "reports": {
             "from": "Från",
