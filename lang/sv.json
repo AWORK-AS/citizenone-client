@@ -13209,7 +13209,8 @@
             "paymentsReady": "Redo att ta emot betalningar",
             "paymentsNotReady": "Uppsättningen är inte klar",
             "connectPayments": "Anslut betalkonto",
-            "continueSetup": "Fortsätt uppsättning"
+            "continueSetup": "Fortsätt uppsättning",
+            "testMode": "Testläge: betalningar här är inte riktiga och inga pengar dras."
         },
         "reports": {
             "from": "Från",

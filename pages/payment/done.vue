@@ -1,37 +1,39 @@
 <template>
-    <div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div class="payment-page">
         <Head>
             <Title>{{ $t('payment.done.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
         </Head>
 
-        <div class="w-full max-w-md rounded-2xl bg-white px-6 py-10 text-center shadow-sm ring-1 ring-gray-900/5">
-            <div class="mx-auto flex size-14 items-center justify-center rounded-full"
-                :class="state.isPending ? 'bg-amber-100' : 'bg-green-100'">
-                <Icon :name="state.isPending ? 'ph:clock' : 'ph:check'" class="size-7"
-                    :class="state.isPending ? 'text-amber-700' : 'text-green-700'" />
+        <div class="payment-card">
+            <img src="/img/logo.svg" class="payment-logo" alt="CitizenOne" />
+
+            <div class="payment-mark" :class="state.isPending ? 'is-pending' : 'is-done'">
+                <Icon :name="state.isPending ? 'ph:clock' : 'ph:check'" class="size-8" />
             </div>
 
-            <h1 class="mt-5 text-xl font-semibold text-gray-900">
+            <h1 class="payment-title">
                 {{ state.isPending ? $t('payment.done.pendingTitle') : $t('payment.done.title') }}
             </h1>
 
             <!-- What was paid, to whom. Enough to recognise the payment, and
                  nothing that would matter if the link were forwarded. -->
-            <p class="mt-4 text-3xl font-semibold text-gray-900 tabular-nums" v-if="state.payment.amount">
-                {{ formatAmount(state.payment.amount) }} {{ state.payment.currency }}
-            </p>
-            <p class="mt-1 text-sm text-gray-600" v-if="state.payment.company">
-                {{ $t('payment.done.paidTo', { company: state.payment.company }) }}
-            </p>
-            <p class="mt-1 text-sm text-gray-500" v-if="state.payment.invoice_number">
-                {{ $t('citizens.invoices.invoice') }} {{ state.payment.invoice_number }}
+            <p class="payment-amount" v-if="state.payment.amount">
+                {{ formatAmount(state.payment.amount) }}
+                <span class="payment-currency">{{ state.payment.currency }}</span>
             </p>
 
-            <p class="mt-5 text-sm text-gray-600">
+            <div class="payment-meta" v-if="state.payment.company || state.payment.invoice_number">
+                <p v-if="state.payment.company">{{ $t('payment.done.paidTo', { company: state.payment.company }) }}</p>
+                <p v-if="state.payment.invoice_number">
+                    {{ $t('citizens.invoices.invoice') }} {{ state.payment.invoice_number }}
+                </p>
+            </div>
+
+            <p class="payment-text">
                 {{ state.isPending ? $t('payment.done.pendingText') : $t('payment.done.text') }}
             </p>
 
-            <p class="mt-6 text-xs text-gray-400">{{ $t('payment.done.receipt') }}</p>
+            <p class="payment-note">{{ $t('payment.done.receipt') }}</p>
         </div>
     </div>
 </template>
@@ -81,3 +83,96 @@ async function load(attempt = 0) {
 
 onMounted(() => load())
 </script>
+
+<style scoped>
+/* CitizenOne's own colours: the deep navy of the brand cover, with the teal
+   reserved for the one thing that matters here, that the payment landed. */
+.payment-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: linear-gradient(160deg, #0f2b46 0%, #0a1f33 60%, #071520 100%);
+    font-family: Inter, sans-serif;
+}
+
+.payment-card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 32px;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(7, 21, 32, 0.35);
+}
+
+.payment-logo {
+    height: 28px;
+    margin: 0 auto 28px auto;
+}
+
+.payment-mark {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-mark.is-done {
+    background: #f0faf9;
+    color: #2dbab2;
+}
+
+.payment-mark.is-pending {
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.payment-title {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a2332;
+}
+
+.payment-amount {
+    margin-top: 20px;
+    font-size: 36px;
+    font-weight: 600;
+    color: #0f2b46;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+.payment-currency {
+    font-size: 18px;
+    font-weight: 500;
+    color: #64748b;
+    margin-left: 4px;
+}
+
+.payment-meta {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.payment-text {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 14px;
+    color: #1a2332;
+}
+
+.payment-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+</style>

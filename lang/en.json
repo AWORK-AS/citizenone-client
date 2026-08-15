@@ -13209,7 +13209,8 @@
             "paymentsReady": "Ready to take payments",
             "paymentsNotReady": "Setup is not finished",
             "connectPayments": "Connect payment account",
-            "continueSetup": "Continue setup"
+            "continueSetup": "Continue setup",
+            "testMode": "Test mode: payments here are not real, and no money is charged."
         },
         "reports": {
             "from": "From",

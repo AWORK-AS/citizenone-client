@@ -70,6 +70,11 @@
                         {{ $t('invoicing.settings.onlinePaymentUnavailable') }}
                     </p>
 
+                    <p class="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800"
+                        v-else-if="state.payments.live === false">
+                        {{ $t('invoicing.settings.testMode') }}
+                    </p>
+
                     <template v-else>
                         <div class="flex items-start justify-between gap-4">
                             <div>

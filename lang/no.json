@@ -13209,7 +13209,8 @@
             "paymentsReady": "Klar til å ta imot betalinger",
             "paymentsNotReady": "Oppsettet er ikke ferdig",
             "connectPayments": "Koble til betalingskonto",
-            "continueSetup": "Fortsett oppsett"
+            "continueSetup": "Fortsett oppsett",
+            "testMode": "Testmodus: betalinger her er ikke ekte, og det trekkes ingen penger."
         },
         "reports": {
             "from": "Fra",
