@@ -323,6 +323,17 @@ function animateAssets() {
 	if (animatedAsset02) observer.observe(animatedAsset02)
 }
 
+// Where a staff member starts after signing in. The general overview assumes the
+// company already has data in it, so the very first session goes somewhere with
+// something to do instead: Discover for an admin, who sets the company up, and
+// My day for everyone else. The is_first_login flag is left for the guided tour
+// in layouts/user.vue to clear, so the welcome tour still runs.
+function staffLandingRoute(user: any) {
+	if (!user?.is_first_login) return '/overview'
+
+	return user?.role === 'Admin' ? '/discover' : '/my-day'
+}
+
 async function login() {
 	state.error = {}
 	v$.value.$validate()
@@ -356,7 +367,15 @@ async function login() {
 					userStore.setUser(response?.data?.user)
 					userStore.setLanguage(response?.data?.user?.language?.code)
 					language.locale.value = response?.data?.user?.language?.code
-					navigateTo(resolvePostLoginRedirect(response.data.user?.role))
+					// A deep-link redirect (?redirect=) always wins; the first-login
+					// override only applies where resolvePostLoginRedirect() would
+					// otherwise have fallen back to the plain staff default.
+					const target = resolvePostLoginRedirect(response.data.user?.role)
+					if (target === '/overview' && response.data.user?.is_first_login) {
+						navigateTo(staffLandingRoute(response.data.user))
+					} else {
+						navigateTo(target)
+					}
 				}
 			}
 		} catch (error: any) {

@@ -67,6 +67,14 @@
         "whatDoYouNeed": "Hvad skal du bruge?",
         "stepsProgress": "{done} af {total} trin fuldført",
         "nextStep": "Næste skridt",
+        "demoData": {
+            "title": "Udforsk med demo-borgere",
+            "desc": "Vi har tilføjet {count} fiktive borgere, så der er noget at klikke rundt i med det samme. Fjern dem, når du er klar til at tilføje jeres egne.",
+            "remove": "Fjern demo-borgere",
+            "removing": "Fjerner...",
+            "removed": "Demo-borgere fjernet",
+            "removeFailed": "Kunne ikke fjerne demo-borgere"
+        },
         "ready": {
             "title": "I er klar til drift!",
             "desc": "Alle onboarding-trin er fuldført."
@@ -780,6 +788,26 @@
     },
     "assistants": {
         "askAI": "Spørg AI",
+        "actions": {
+            "copy": "Kopiér",
+            "copied": "Kopieret",
+            "copyFailed": "Kunne ikke kopiere svaret",
+            "insert": "Indsæt",
+            "stop": "Stop",
+            "regenerate": "Prøv igen"
+        },
+        "starters": {
+            "title": "Prøv for eksempel",
+            "overview": "Giv mig et overblik over forløbet for ",
+            "summary": "Opsummer de seneste journalnotater for ",
+            "report": "Skriv et udkast til en rapport til sagsbehandleren om ",
+            "organisation": "Hvad står der i vores retningslinjer om "
+        },
+        "basedOn": "Baseret på",
+        "rateLimited": "Du har stillet mange spørgsmål lige nu. Prøv igen om {minutes} min.",
+        "rateLimitedToday": "Jeres organisation har nået dagens grænse for AI-forespørgsler. Prøv igen i morgen.",
+        "companyDataMissing": "Svaret er givet uden adgang til jeres data. Søgeindekset er ikke oprettet endnu.",
+        "companyDataBuilding": "Svaret er givet uden adgang til jeres data. Søgeindekset er stadig ved at blive bygget.",
         "askAnything": "Spørg om hvad som helst, eller skriv {'@'} for at nævne nogen",
         "mentionSomeone": "Nævn en borger eller medarbejder",
         "searchScopeHint": "AI kan søge i alle borger-/medarbejderoplysninger, du har adgang til, medmindre du tagger en bestemt person med {'@'}",
@@ -1972,7 +2000,9 @@
                     "group1": "Gruppe 1",
                     "group2": "Gruppe 2",
                     "foreignInsurance": "Udenlandsk forsikring",
-                    "other": "Andet"
+                    "other": "Andet",
+                    "group4": "Gruppe 4 (betaler selv)",
+                    "but": "BUT (børn og unge i tandplejen)"
                 },
                 "patientNumber": "Patientnummer",
                 "municipalSubsidy": "Kommunalt tilskud",
@@ -1981,6 +2011,33 @@
                     "label": "Anbefalet eftersynsinterval",
                     "everySixMonths": "Hver 6. måned",
                     "everyTwelveMonths": "Hver 12. måned"
+                },
+                "danmarkGroup": {
+                    "label": "\"danmark\"-gruppe",
+                    "basis": "Basis",
+                    "group1": "Gruppe 1",
+                    "group2": "Gruppe 2",
+                    "group5": "Gruppe 5"
+                },
+                "isForeignPatient": "Udenlandsk patient uden CPR",
+                "isForeignPatientHelp": "Sæt flueben, hvis patienten ikke har et dansk CPR-nummer. Så er CPR ikke påkrævet.",
+                "recallChannel": {
+                    "label": "Indkaldelsestype",
+                    "help": "Brev og opkald sendes ikke automatisk. Systemet giver i stedet besked til den ansvarlige medarbejder.",
+                    "letter": "Post / brev",
+                    "sms": "SMS",
+                    "email": "E-mail",
+                    "app": "App-notifikation",
+                    "phone": "Ringes op"
+                },
+                "autoReminder": "Automatisk påmindelse",
+                "riskProfile": {
+                    "label": "Risikoprofil for tandsundhed",
+                    "green": "Grøn",
+                    "yellow": "Gul",
+                    "red": "Rød",
+                    "note": "Notat til risikoprofil",
+                    "notePlaceholder": "Valgfrit notat"
                 }
             },
             "employmentProgram": {
@@ -2927,7 +2984,9 @@
                 "time": "Tid & fremmøde",
                 "admin": "Administration"
             },
-            "surveys": "Spørgeskemaer"
+            "surveys": "Spørgeskemaer",
+            "toothChart": "Tandkort",
+            "priceEstimates": "Prisoverslag"
         },
         "timeline": {
             "newEvent": "Ny hændelse",
@@ -2974,6 +3033,7 @@
                     "geolocationNotSupported": "Geolokation understøttes ikke af denne browser.",
                     "permissionDenied": "Aktivér placeringstilladelse i browseren.",
                     "positionUnavailable": "Lokationsoplysninger er ikke tilgængelige.",
+                    "reverseGeocodeRateLimited": "Adressesøgningen er midlertidigt begrænset. Prøv igen om et øjeblik.",
                     "somethingWentWrong": "Der opstod en fejl ved hentning af din nuværende placering. Prøv venligst igen.",
                     "timeout": "Anmodningen om at hente din placering fik timeout.",
                     "unableToLocate": "Kunne ikke bestemme din placering."
@@ -3374,7 +3434,107 @@
             "edit": "Rediger",
             "delete": "Slet"
         },
-        "noCitizensYet": "Ingen borgere endnu"
+        "noCitizensYet": "Ingen borgere endnu",
+        "toothChart": {
+            "title": "Tandkort",
+            "numbering": "Nummerering",
+            "fdi": "FDI",
+            "universal": "Universal",
+            "universalShort": "univ.",
+            "tooth": "Tand",
+            "upperJaw": "Overkæbe",
+            "lowerJaw": "Underkæbe",
+            "legend": "Signaturforklaring:",
+            "generalNotes": "Generelle noter",
+            "generalNotesPlaceholder": "Kliniske noter der ikke hører til en enkelt tand",
+            "generalNotesSaved": "Noter gemt",
+            "statuses": {
+                "healthy": "Sund",
+                "caries": "Caries",
+                "filling": "Fyldning",
+                "crown": "Krone",
+                "bridge": "Bro",
+                "root_canal": "Rodbehandling",
+                "implant": "Implantat",
+                "veneer": "Facade",
+                "sealant": "Forsegling",
+                "fracture": "Fraktur",
+                "extracted": "Trukket ud",
+                "missing": "Mangler",
+                "planned": "Planlagt behandling",
+                "observation": "Observation"
+            },
+            "surfaces": {
+                "whole": "Hele tanden",
+                "occlusal": "Tyggeflade (okklusal)",
+                "mesial": "Mesial",
+                "distal": "Distal",
+                "buccal": "Kindflade (bukkal)",
+                "lingual": "Tungeflade (lingual)"
+            },
+            "panel": {
+                "emptyTitle": "Vælg en tand",
+                "emptyText": "Klik på en tand eller en flade i tandkortet for at se og redigere status.",
+                "noStatus": "Ingen status",
+                "notePlaceholder": "Note",
+                "saved": "Tandens status er gemt",
+                "history": "Behandlingshistorik",
+                "noHistory": "Ingen journalnotater på denne tand endnu.",
+                "openJournals": "Åbn journal",
+                "treatedAt": "Behandlingsdato"
+            },
+            "downloadPdf": "Hent PDF",
+            "oralHealthNotes": "Mundhygiejne og observationer",
+            "oralHealthNotesPlaceholder": "Fx tandkødets tilstand, slimhinder, mundhygiejne",
+            "perio": {
+                "title": "Parodontal",
+                "show": "Parodontal",
+                "bleeding": "Blødning",
+                "pocketDepth": "Pochedybde (mm)",
+                "pocketPlaceholder": "mm",
+                "mobility": "Mobilitet (0-3)",
+                "measuredAt": "Måledato"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "Nyt prisoverslag",
+            "editTitle": "Rediger prisoverslag",
+            "total": "Samlet pris",
+            "subsidy": "Forventet tilskud",
+            "patientPays": "Egenbetaling",
+            "saved": "Prisoverslaget er gemt",
+            "markSent": "Markér som sendt",
+            "markAccepted": "Accepteret",
+            "markDeclined": "Afvist",
+            "statuses": {
+                "draft": "Kladde",
+                "sent": "Sendt",
+                "accepted": "Accepteret",
+                "declined": "Afvist",
+                "expired": "Udløbet"
+            },
+            "empty": {
+                "title": "Ingen prisoverslag endnu",
+                "text": "Lav et prisoverslag, så patienten kan se prisen og sin egenbetaling, før behandlingen sættes i gang."
+            },
+            "form": {
+                "title": "Overskrift",
+                "titlePlaceholder": "Fx krone og fyldning",
+                "validUntil": "Gyldigt til",
+                "lines": "Behandlinger",
+                "addLine": "Tilføj linje",
+                "code": "Ydelse",
+                "description": "Behandling",
+                "quantity": "Antal",
+                "unitPrice": "Stykpris",
+                "subsidy": "Tilskud",
+                "lineTotal": "Beløb",
+                "noTooth": "Ingen tand",
+                "note": "Bemærkninger",
+                "notePlaceholder": "Fx hvad prisen forudsætter",
+                "needsALine": "Tilføj mindst én behandling"
+            }
+        }
     },
     "client": {
         "appointments": "Aftaler",
@@ -5826,7 +5986,11 @@
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbejdstimer",
             "showCompensatoryHours": "Vis afspadsering og feriedage",
-            "street": "Gade"
+            "street": "Gade",
+            "note": "Note",
+            "notePlaceholder": "Intern note om medarbejderen",
+            "unionMembership": "Fagforening",
+            "unionMembershipPlaceholder": "Fx HK"
         },
         "importEmployees": {
             "alert": {
@@ -6434,7 +6598,8 @@
             "primaryCaseWorker": "Sagsbehandler"
         },
         "confirmation": {
-            "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular"
+            "deleteFormConfirmation": "Er du sikker på, at du vil slette denne formular",
+            "deleteFormHasReports": "Der er skrevet {count} rapporter ud fra den."
         },
         "createResponse": "Opret svar",
         "documentTitle": "Dokumenttitel",
@@ -6461,7 +6626,26 @@
             "required": "Påkrævet",
             "text": "Tekst",
             "textarea": "Tekstområde",
-            "uploadFile": "Upload fil"
+            "uploadFile": "Upload fil",
+            "heading": "Overskrift",
+            "subheading": "Underoverskrift",
+            "paragraph": "Tekstafsnit",
+            "guidance": "Vejledning",
+            "pagebreak": "Sideskift",
+            "headingPlaceholder": "Skriv overskriften",
+            "paragraphPlaceholder": "Skriv teksten",
+            "pagebreakHint": "Starter en ny side i den genererede PDF.",
+            "guidanceHint": "Vises kun når rapporten udfyldes. Kommer ikke med i PDF'en.",
+            "helpText": "Hjælpetekst",
+            "helpTextPlaceholder": "Kort vejledning til den der udfylder",
+            "width": "Bredde",
+            "widthFull": "Fuld bredde",
+            "widthHalf": "Halv bredde",
+            "scale": "Trivselslineal",
+            "moveUp": "Flyt op",
+            "moveDown": "Flyt ned",
+            "duplicate": "Dupliker",
+            "table": "Tabel"
         },
         "formDescription": "Formularbeskrivelse",
         "formTitle": "Formulartitel",
@@ -6491,7 +6675,18 @@
                 "formSuccessfullyDeleted": "Formular slettet med succes"
             },
             "description": "Beskrivelse",
-            "title": "Titel"
+            "title": "Titel",
+            "blocks": "Blokke",
+            "reports": "Rapporter",
+            "caption": "Overskrift over tabellen",
+            "captionPlaceholder": "Valgfri overskrift",
+            "columnName": "Kolonne",
+            "addColumn": "Tilføj kolonne",
+            "removeColumn": "Fjern kolonne",
+            "addRow": "Tilføj række",
+            "removeRow": "Fjern række",
+            "cellPlaceholder": "Tekst eller felt",
+            "hint": "Celler kan indeholde felter fra systemet. Medarbejderen kan rette dem, når rapporten udfyldes."
         },
         "viewResponses": "Se svar",
         "tabs": {
@@ -6545,6 +6740,82 @@
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Er du sikker på, at du vil slette denne foruddefinerede hændelse"
             }
+        },
+        "layout": {
+            "documentLayout": "Dokumentlayout",
+            "documentLayoutHint": "Genererer rapporten som et dokument med sektioner i stedet for en gengivelse af formularen.",
+            "showNumbering": "Nummerér spørgsmål"
+        },
+        "scale": {
+            "question": "Spørgsmål",
+            "scaleKey": "Målingens nøgle",
+            "scaleKeyHint": "Skabeloner med samme nøgle deler historik på borgeren. Brug fx trivsel.",
+            "maxScore": "Skala",
+            "maxScoreHint": "0 til 5 eller 0 til 10.",
+            "preview": "Sådan ser den ud",
+            "bands": "Farvebånd",
+            "upTo": "Til og med",
+            "bandLabel": "Navn på bånd",
+            "addBand": "Tilføj bånd",
+            "raters": "Vurderende parter",
+            "ratersHint": "Medarbejderen taster alles vurdering. Tilføj selv flere, fx en specialist.",
+            "raterLabel": "Navn",
+            "addRater": "Tilføj part",
+            "showHistory": "Vis tidligere målinger",
+            "perGoal": "Gentag linealen for hvert mål",
+            "perGoalHint": "Slået til bliver linealen vist én gang pr. aktivt mål på borgeren.",
+            "defaults": {
+                "threatened": "Truet",
+                "atRisk": "Udsat",
+                "vulnerable": "Sårbar",
+                "moderate": "Moderat trivsel",
+                "thriving": "Trivsel",
+                "staff": "Medarbejder",
+                "caseworker": "Rådgiver",
+                "mother": "Mor",
+                "father": "Far",
+                "citizen": "Borgeren"
+            },
+            "clear": "Ryd",
+            "measuredAt": "Målt den",
+            "earlier": "Tidligere målinger",
+            "recordedByHint": "Du noterer alle parters vurdering. Rapporten viser hvem der har skrevet den ned.",
+            "previousHere": "Forrige måling lå her",
+            "needsTwo": "Der skal to målinger til før udviklingen kan tegnes."
+        },
+        "mergeFields": {
+            "insert": "Indsæt felt",
+            "personal": "Personoplysning",
+            "none": "Ingen felter tilgængelige",
+            "hint": "Feltet erstattes med borgerens data, når rapporten gemmes.",
+            "loading": "Henter..."
+        },
+        "groups": {
+            "questions": "Spørgsmål, som nogen skal besvare",
+            "layout": "Dokumentets opbygning",
+            "layoutNeedsDocument": "Disse vises kun i den færdige rapport, når dokumentlayout er slået til."
+        },
+        "previewDocument": {
+            "button": "Forhåndsvis dokumentet",
+            "working": "Genererer...",
+            "hint": "Åbner rapporten som den vil se ud, med eksempelsvar. Intet gemmes."
+        },
+        "group": {
+            "title": "Gruppe",
+            "defaultName": "Mål",
+            "namePlaceholder": "Navn på gruppen, fx Mål",
+            "repeatFor": "Gentages for",
+            "sourceGoals": "Hvert aktivt mål",
+            "sourceContacts": "Hver part",
+            "sourceFixed": "Et fast antal",
+            "count": "Antal gentagelser",
+            "includeCompleted": "Tag afsluttede mål med",
+            "addInside": "Tilføj blok i gruppen",
+            "blocksInside": "blokke i gruppen",
+            "addingInside": "Næste blok lægges ind i gruppen",
+            "addAtEnd": "Læg den nederst i stedet",
+            "hint": "Blokkene i gruppen gentages én gang pr. mål på borgeren. Indsæt feltet for gentagelsens navn, hvor målets navn skal stå.",
+            "noIterations": "Borgeren har ingen mål endnu, så denne gruppe er tom."
         }
     },
     "gender": {
@@ -7473,6 +7744,13 @@
         "seeAllConversations": "Se alle samtaler",
         "sending": "Sender..."
     },
+    "map": {
+        "layers": {
+            "satellite": "Satellit",
+            "street": "Kort",
+            "toggle": "Skift korttype"
+        }
+    },
     "mileageLog": {
         "download": {
             "download": "Download",
@@ -7491,6 +7769,19 @@
             "notLinked": "Ikke tilknyttet"
         },
         "form": {
+            "address": {
+                "clear": "Ryd adresse",
+                "confirmed": "Adresse bekræftet",
+                "locationFailed": "Kunne ikke hente din placering",
+                "noResults": "Ingen adresser fundet",
+                "notConfirmed": "Vælg en adresse fra listen for at bekræfte placeringen",
+                "placeholder": "Skriv vejnavn og husnummer",
+                "rateLimited": "Adressesøgningen er midlertidigt begrænset. Prøv igen om et øjeblik.",
+                "resolveFailed": "Kunne ikke hente koordinater for denne adresse.",
+                "resultsAvailable": "{count} adresser fundet",
+                "searchFailed": "Adressesøgning er ikke tilgængelig lige nu. Prøv igen, eller vælg på kortet.",
+                "searching": "Søger…"
+            },
             "addStop": "Tilføj stop",
             "alert": {
                 "incompleteStopAddress": "Sørg for at hvert stop har en gyldig valgt adresse",
@@ -7501,11 +7792,14 @@
             "endAddress": "Slutadresse",
             "estimatedDistance": "Distance (beregnes automatisk)",
             "linkToCitizen": "Knyt denne tur til en borger som en indsatstime",
+            "mapHint": "Klik på kortet eller træk markøren for at justere placeringen",
             "note": "Note",
             "pickOnMap": "Vælg lokation",
+            "searchOnMap": "Søg efter en adresse",
             "selectCitizen": "Vælg borger",
             "startAddress": "Startadresse",
-            "stopAddress": "Stopadresse"
+            "stopAddress": "Stopadresse",
+            "useMyLocation": "Brug min placering"
         },
         "mileageLog": "Kørselsregnskab",
         "mileageReport": "Kørselsrapport",
@@ -7535,6 +7829,45 @@
             "distance": "Distance",
             "employee": "Medarbejder",
             "route": "Rute"
+        },
+        "tracking": {
+            "acquiringPosition": "Finder din position …",
+            "alert": {
+                "tripDiscarded": "Turen blev kasseret",
+                "tripSaved": "Turen blev gemt",
+                "tripStarted": "Turen er startet"
+            },
+            "cancelTrip": "Kassér tur",
+            "confirmation": {
+                "cancelTrip": "Er du sikker på, at du vil kassere denne tur"
+            },
+            "distanceLooksOff": "Den målte distance afviger meget fra den direkte rute",
+            "distanceSoFar": "Kørt indtil nu",
+            "elapsed": "Varighed",
+            "errors": {
+                "alreadyStarted": "Du har allerede en tur i gang",
+                "permissionDenied": "Adgang til lokation blev afvist. Tillad lokation i browserens indstillinger.",
+                "startFailed": "Turen kunne ikke startes",
+                "stopFailed": "Turen kunne ikke afsluttes — prøv igen",
+                "unsupported": "Din browser understøtter ikke lokation"
+            },
+            "gpsPaused": "GPS pauset",
+            "gpsPausedHint": "Ingen position i {minutes} min. Åbn appen igen for at fortsætte.",
+            "mobileNotice": {
+                "body": "Sporingen kører kun, mens siden er åben og skærmen er tændt. Låser du telefonen eller skifter app, sættes sporingen på pause, og distancen bliver for lav.",
+                "title": "Hold appen åben under kørslen"
+            },
+            "noGpsPointsYetHint": "Ingen GPS-punkter er registreret endnu — det kan skyldes svag positionsnøjagtighed (almindeligt på en computer uden GPS). Distancen beregnes ud fra start- og slutadressen i stedet.",
+            "recalculateFromAddresses": "Beregn ud fra adresser i stedet",
+            "resumed": "Fortsætter igangværende tur",
+            "reviewTitle": "Gennemse tur",
+            "saveTrip": "Gem tur",
+            "startAddressResolving": "Finder adresse …",
+            "startAddressUnavailable": "Adressen kunne ikke findes — koordinater er gemt",
+            "startTrip": "Start tur",
+            "stoppingInProgress": "Afslutter turen …",
+            "stopTrip": "Afslut tur",
+            "tripInProgress": "Tur i gang"
         },
         "view": {
             "createdBy": "Oprettet af",
@@ -7575,6 +7908,7 @@
         "settings": "Indstillinger",
         "subscription": "Abonnement",
         "switchLanguage": "Skift sprog",
+        "helpAndNews": "Hjælp og nyt",
         "impersonating": "Logget ind som klient",
         "stopImpersonation": "Log ud som klient",
         "surveys": "Spørgeskemaer"
@@ -9431,6 +9765,12 @@
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
         "discover": "Kom godt i gang",
+        "groups": {
+            "daily": "Daglig drift",
+            "documentation": "Dokumentation",
+            "organisation": "Organisation",
+            "shortcuts": "Genveje"
+        },
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
@@ -9446,7 +9786,8 @@
         "surveys": "Spørgeskemaer",
         "myDay": "Min dag",
         "myAvailability": "Min tilgængelighed",
-        "myShiftEvaluations": "Mine vagtevalueringer"
+        "myShiftEvaluations": "Mine vagtevalueringer",
+        "forms": "Formularer"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -9686,7 +10027,13 @@
                 "discountPercent": "Rabat (%)",
                 "discountEndsAt": "Tilbud slutter"
             },
-            "colName": "Navn"
+            "colName": "Navn",
+            "attachToCompany": "Tildel til virksomhed",
+            "attachToCompanyDesc": "Tildel denne app direkte til en specifik virksomhed",
+            "searchCompany": "Søg virksomhed...",
+            "assigned": "Tildelt",
+            "successAssigned": "App tildelt",
+            "successAssignedBody": "{appName} er blevet tildelt til {companyName}"
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -9819,7 +10166,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens",
                 "grant": {
                     "addLicenses": "Tilføj licenser",
-                    "description": "Tilføjer ekstra licenser til virksomhedens pulje og opretter en afventende manuel faktura for beløbet.",
+                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje. Der opkræves ikke i systemet - faktureres separat i e-conomic.",
                     "quantity": "Antal licenser",
                     "billingFrequency": "Faktureringsfrekvens",
                     "monthly": "Månedlig",
@@ -10746,13 +11093,61 @@
         "licenses": {
             "pageTitle": "App Licenser",
             "header": "App Licenser",
-            "subtitle": "Tildel app-licenser til virksomheder",
-            "newLicense": "Ny app",
+            "subtitle": "Definer priser og licensstrukturer per app",
+            "newLicense": "Ny licens",
             "licenseModelLabel": "Licensmodel",
-            "licenseModelDesc": "Virksomheder betaler per app de aktiverer, ikke en samlet plan. Hver app har én pris (månedlig eller årlig); pladser tildeles en virksomhed og kan valgfrit tildeles direkte til en bruger.",
+            "licenseModelDesc": "Virksomheder betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruger/licens med fleksible faktureringsintervaller - månedlig, årlig eller specifik aftale (fx offentlig sektor med stor volumen).",
             "noAppsFound": "Ingen apps fundet",
             "noAppsFoundSub": "Tilføj apps fra Apps-siden først",
-            "inactive": "Inaktiv"
+            "inactive": "Inaktiv",
+            "licenseTypes": "licenstyper",
+            "activeCompanies": "aktive virksomheder",
+            "addLicense": "Tilføj licens",
+            "noLicenseTypes": "Ingen licenstyper endnu - tilføj den første",
+            "volume": "Volumen",
+            "free": "Gratis",
+            "perUser": "/ bruger",
+            "included": "inkl.",
+            "min": "min.",
+            "users": "brugere",
+            "editLicense": "Rediger licens",
+            "appLabel": "App",
+            "selectAppPlaceholder": "Vælg app…",
+            "licenseNameLabel": "Licensnavn",
+            "licenseNamePlaceholder": "fx Standard, Enterprise, Offentlig",
+            "descriptionLabel": "Beskrivelse",
+            "descriptionPlaceholder": "Kort beskrivelse af licenstypen",
+            "priceLabel": "Pris per bruger (kr)",
+            "billingIntervalLabel": "Faktureringsinterval",
+            "monthly": "Månedlig",
+            "yearly": "Årlig",
+            "quarterly": "Kvartalsvis",
+            "custom": "Specifik aftale",
+            "includedSeatsLabel": "Inkluderede brugere",
+            "includedSeatsHint": "Inkluderet i basisprisen (0 = ingen)",
+            "minSeatsLabel": "Min. køb (brugere)",
+            "minSeatsHint": "Minimum der skal tilkøbes",
+            "volumeAgreement": "Volumenaftale",
+            "volumeAgreementDesc": "Aktivér for fx offentlige institutioner med mange brugere (fx 6.300 brugere til 29 kr/stk.)",
+            "activeLabel": "Aktiv",
+            "activeDesc": "Licenstypen kan tilkøbes af virksomheder",
+            "assignToCompany": "Tilknyt til virksomhed (valgfri)",
+            "assignToCompanyDesc": "Tilknyt denne licenstype direkte til en virksomhed",
+            "searchCompanyPlaceholder": "Søg virksomhed...",
+            "cancelAction": "Annuller",
+            "saving": "Gemmer...",
+            "saveChanges": "Gem ændringer",
+            "createLicense": "Opret licens",
+            "errorSelectApp": "Vælg en app",
+            "errorLicenseName": "Licensnavn er påkrævet",
+            "errorPrice": "Prisen skal være 0 eller mere",
+            "successSaved": "Gemt!",
+            "successUpdatedBody": "Licenstype '{name}' er opdateret.",
+            "successCreated": "Oprettet!",
+            "successCreatedBody": "Licenstype '{name}' er oprettet.",
+            "successDeleted": "Slettet!",
+            "successDeletedBody": "Licenstype '{name}' er slettet.",
+            "deleteConfirm": "Slet licenstype '{name}'?"
         },
         "grantLicense": {
             "title": "Tildel app-licens",

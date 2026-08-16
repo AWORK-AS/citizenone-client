@@ -77,6 +77,10 @@
                             <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('mileageLog.download.download') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="onStartTripClick" :disabled="!tracking.isIdle.value">
+                            <Icon name="ph:car" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('mileageLog.tracking.startTrip') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="state.modal.isAddNewOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('mileageLog.newTrip') }}
@@ -139,6 +143,8 @@
                 </div>
                 <Pagination :data="state.mileageLogs" @previous="previous" @next="next" />
 
+                <ModulesUserMileageLogModalStartTrip :show="state.modal.isStartTripOpen"
+                    @close="state.modal.isStartTripOpen = false" @started="onTripStarted" />
                 <ModulesUserMileageLogModalNew :isModalOpen="state.modal.isAddNewOpen"
                     @close="state.modal.isAddNewOpen = false" @refreshMileageLog="fetchMileageLogs" />
                 <ModulesUserMileageLogModalEdit :isModalOpen="state.modal.isEditOpen"
@@ -165,6 +171,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
+import { useMileageTracking } from '@/composables/mileageTracking'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -175,6 +182,7 @@ const language = useI18n()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const { isAtLeast } = usePermissions()
+const tracking = useMileageTracking(t)
 // Admins/Managers get company-wide data on this page already (the backend
 // scopes it), so let them filter/attribute it by department and employee
 // too, matching the all-employees report's filter fields.
@@ -220,6 +228,7 @@ const state = reactive({
         isEditOpen: false,
         isFilterOpen: false,
         isViewOpen: false,
+        isStartTripOpen: false,
     },
     selectedMileageLog: {} as any,
     sortData: {
@@ -233,6 +242,36 @@ onMounted(() => {
     fetchMileageLogs()
     fetchSummary()
 })
+
+// The tracking banner (mounted once in layouts/user.vue) is what actually
+// stops the trip, from anywhere in the app. This page just needs to notice
+// when a trip has actually finished saving, and refresh — an in-progress
+// trip is excluded from the list/summary until it's stopped (see
+// backend/dev.md, §9), so there's nothing to show until then anyway.
+//
+// Watching tripSavedTick (bumped once, inside stop(), right after the
+// backend confirms the save) rather than inferring "a trip was just saved"
+// from a status transition such as 'reviewing' -> 'idle': that transition
+// only happens once the review modal is later closed, elsewhere in the
+// component tree, which is one step removed from the save itself. Watching
+// the tick fires at the moment the data actually changed, independent of
+// whatever the review UI does afterward.
+watch(tracking.tripSavedTick, () => {
+    fetchMileageLogs()
+    fetchSummary()
+})
+
+function onStartTripClick() {
+    // Guards on isIdle, not isTracking: isTracking goes false the moment
+    // stop() begins, which left a several-second window mid-stop where a new
+    // trip could be started on top of one still being saved.
+    if (!tracking.isIdle.value) return
+    state.modal.isStartTripOpen = true
+}
+
+function onTripStarted() {
+    state.modal.isStartTripOpen = false
+}
 
 const employeeSummaries = computed(() => {
     const employees = state.summary?.data?.employees ?? []

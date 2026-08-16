@@ -59,6 +59,8 @@ const state = reactive({
         password: '',
         phone: '',
         birthday: '',
+        note: '',
+        union_membership: '',
         seniority_date: '',
         departments: [],
         roles: [],
@@ -103,6 +105,8 @@ async function saveEmployee(employeeDetails: any) {
         params.append('email', employeeDetails.email)
         params.append('phone', employeeDetails.phone)
         params.append('birthday', employeeDetails.birthday)
+        params.append('note', employeeDetails.note ?? '')
+        params.append('union_membership', employeeDetails.union_membership ?? '')
         params.append('seniority_date', employeeDetails.seniority_date)
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
         employeeDetails.roles.forEach((role: string) => params.append('roles[]', role))

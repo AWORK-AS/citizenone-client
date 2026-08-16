@@ -285,6 +285,7 @@ const language = useI18n()
 const { successAlert } = useAlert()
 const { pushSignUpEvent } = useGtag()
 const { t } = useI18n()
+const route = useRoute()
 
 // Set language
 language.locale.value = userStore.getLanguage
@@ -508,6 +509,30 @@ function animateAssets() {
     if (animatedAsset02) observer.observe(animatedAsset02)
 }
 
+// The marketing site already knows which professional group a visitor belongs to
+// before they reach this form, and links here with that answer attached. Matching
+// accepts a system name, a visible label or a uuid, so the site can link with
+// whichever of the three it has to hand.
+function findOption(options: any[], wanted: string) {
+    const needle = wanted.trim().toLowerCase()
+
+    return options.find((option: any) => option.system_name?.toLowerCase() === needle)
+        ?? options.find((option: any) => option.label?.toLowerCase() === needle)
+        ?? options.find((option: any) => option.value?.toLowerCase() === needle)
+}
+
+// Only fills a field the visitor has not answered yet, so an unrecognised or
+// stale link never overwrites a choice made in the form.
+function applyPreselection(field: 'industry' | 'facility_type_uuid', queryKey: string, options: any[]) {
+    const wanted = route.query[queryKey]
+
+    if (typeof wanted !== 'string' || wanted === '' || state.formRegister[field]) return
+
+    const match = findOption(options, wanted)
+
+    if (match) state.formRegister[field] = match.value
+}
+
 async function fetchAllIndustries() {
     state.error = {}
     state.isPageLoading = true
@@ -523,6 +548,7 @@ async function fetchAllIndustries() {
                 })
             )
             state.options.industries = options
+            applyPreselection('industry', 'industry', options)
         }
     } catch (error: any) {
         state.error = error
@@ -544,6 +570,7 @@ async function fetchAllFacilityTypes() {
                 })
             )
             state.options.typeOfFacilities = options
+            applyPreselection('facility_type_uuid', 'facility_type', options)
         }
     } catch (error: any) {
         state.error = error

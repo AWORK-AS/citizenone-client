@@ -67,6 +67,14 @@
         "whatDoYouNeed": "Hva trenger du?",
         "stepsProgress": "{done} av {total} trinn fullført",
         "nextStep": "Neste steg",
+        "demoData": {
+            "title": "Utforsk med demo-brukere",
+            "desc": "Vi har lagt til {count} fiktive brukere, så det er noe å klikke rundt i med en gang. Fjern dem når du er klar til å legge til dine egne.",
+            "remove": "Fjern demo-brukere",
+            "removing": "Fjerner...",
+            "removed": "Demo-brukere fjernet",
+            "removeFailed": "Kunne ikke fjerne demo-brukere"
+        },
         "ready": {
             "title": "Du er klar til å gå live!",
             "desc": "Alle onboarding-steg er fullført."
@@ -780,6 +788,26 @@
     },
     "assistants": {
         "askAI": "Spørg AI",
+        "actions": {
+            "copy": "Kopier",
+            "copied": "Kopiert",
+            "copyFailed": "Kunne ikke kopiere svaret",
+            "insert": "Sett inn",
+            "stop": "Stopp",
+            "regenerate": "Prøv igjen"
+        },
+        "starters": {
+            "title": "Prøv for eksempel",
+            "overview": "Gi meg en oversikt over forløpet for ",
+            "summary": "Oppsummer de siste journalnotatene for ",
+            "report": "Skriv et utkast til en rapport til saksbehandleren om ",
+            "organisation": "Hva står det i retningslinjene våre om "
+        },
+        "basedOn": "Basert på",
+        "rateLimited": "Du har stilt mange spørsmål akkurat nå. Prøv igjen om {minutes} min.",
+        "rateLimitedToday": "Organisasjonen deres har nådd dagens grense for AI-forespørsler. Prøv igjen i morgen.",
+        "companyDataMissing": "Svaret er gitt uten tilgang til deres data. Søkeindeksen er ikke opprettet ennå.",
+        "companyDataBuilding": "Svaret er gitt uten tilgang til deres data. Søkeindeksen bygges fortsatt.",
         "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
         "mentionSomeone": "Nevn en bruker eller ansatt",
         "searchScopeHint": "AI kan søke i alle bruker-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",
@@ -1972,7 +2000,9 @@
                     "group1": "Gruppe 1",
                     "group2": "Gruppe 2",
                     "foreignInsurance": "Utenlandsk forsikring",
-                    "other": "Annet"
+                    "other": "Annet",
+                    "group4": "Gruppe 4 (betaler selv)",
+                    "but": "BUT (barn og unge i tannpleien)"
                 },
                 "patientNumber": "Pasientnummer",
                 "municipalSubsidy": "Kommunalt tilskudd",
@@ -1981,6 +2011,33 @@
                     "label": "Anbefalt kontrollintervall",
                     "everySixMonths": "Hver 6. måned",
                     "everyTwelveMonths": "Hver 12. måned"
+                },
+                "danmarkGroup": {
+                    "label": "\"danmark\"-gruppe",
+                    "basis": "Basis",
+                    "group1": "Gruppe 1",
+                    "group2": "Gruppe 2",
+                    "group5": "Gruppe 5"
+                },
+                "isForeignPatient": "Utenlandsk pasient uten CPR",
+                "isForeignPatientHelp": "Kryss av hvis pasienten ikke har dansk CPR-nummer. Da kreves ikke CPR.",
+                "recallChannel": {
+                    "label": "Innkallingstype",
+                    "help": "Brev og oppringning sendes ikke automatisk. Systemet varsler i stedet ansvarlig medarbeider.",
+                    "letter": "Post / brev",
+                    "sms": "SMS",
+                    "email": "E-post",
+                    "app": "App-varsel",
+                    "phone": "Oppringning"
+                },
+                "autoReminder": "Automatisk påminnelse",
+                "riskProfile": {
+                    "label": "Risikoprofil for tannhelse",
+                    "green": "Grønn",
+                    "yellow": "Gul",
+                    "red": "Rød",
+                    "note": "Notat til risikoprofil",
+                    "notePlaceholder": "Valgfritt notat"
                 }
             },
             "employmentProgram": {
@@ -2927,7 +2984,9 @@
                 "time": "Tid & oppmøte",
                 "admin": "Administrasjon"
             },
-            "surveys": "Spørreskjemaer"
+            "surveys": "Spørreskjemaer",
+            "toothChart": "Tannkart",
+            "priceEstimates": "Prisoverslag"
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -2974,6 +3033,7 @@
                     "geolocationNotSupported": "Geolokation understøttes ikke av denne browser.",
                     "permissionDenied": "Aktiver placeringstilladelse i browseren.",
                     "positionUnavailable": "Lokationsoplysninger er ikke tilgjengelige.",
+                    "reverseGeocodeRateLimited": "Adressesøket er midlertidig begrenset. Prøv igjen om et øyeblikk.",
                     "somethingWentWrong": "Der opstod en feil ved hentning av din nåværende plassering. Prøv vennligst igjen.",
                     "timeout": "Forespørselen om at hente din plassering fik timeout.",
                     "unableToLocate": "Kunne ikke bestemme din plassering."
@@ -3374,7 +3434,107 @@
             "edit": "Rediger",
             "delete": "Slett"
         },
-        "noCitizensYet": "Ingen borgere ennå"
+        "noCitizensYet": "Ingen borgere ennå",
+        "toothChart": {
+            "title": "Tannkart",
+            "numbering": "Nummerering",
+            "fdi": "FDI",
+            "universal": "Universal",
+            "universalShort": "univ.",
+            "tooth": "Tann",
+            "upperJaw": "Overkjeve",
+            "lowerJaw": "Underkjeve",
+            "legend": "Tegnforklaring:",
+            "generalNotes": "Generelle notater",
+            "generalNotesPlaceholder": "Kliniske notater som ikke hører til én tann",
+            "generalNotesSaved": "Notater lagret",
+            "statuses": {
+                "healthy": "Frisk",
+                "caries": "Karies",
+                "filling": "Fylling",
+                "crown": "Krone",
+                "bridge": "Bro",
+                "root_canal": "Rotfylling",
+                "implant": "Implantat",
+                "veneer": "Fasade",
+                "sealant": "Fissurforsegling",
+                "fracture": "Fraktur",
+                "extracted": "Trukket",
+                "missing": "Mangler",
+                "planned": "Planlagt behandling",
+                "observation": "Observasjon"
+            },
+            "surfaces": {
+                "whole": "Hele tannen",
+                "occlusal": "Tyggeflate (okklusal)",
+                "mesial": "Mesial",
+                "distal": "Distal",
+                "buccal": "Kinnflate (bukkal)",
+                "lingual": "Tungeflate (lingual)"
+            },
+            "panel": {
+                "emptyTitle": "Velg en tann",
+                "emptyText": "Klikk på en tann eller en flate i tannkartet for å se og endre status.",
+                "noStatus": "Ingen status",
+                "notePlaceholder": "Notat",
+                "saved": "Tannens status er lagret",
+                "history": "Behandlingshistorikk",
+                "noHistory": "Ingen journalnotater på denne tannen ennå.",
+                "openJournals": "Åpne journal",
+                "treatedAt": "Behandlingsdato"
+            },
+            "downloadPdf": "Last ned PDF",
+            "oralHealthNotes": "Munnhelse og observasjoner",
+            "oralHealthNotesPlaceholder": "For eksempel tannkjøttets tilstand, slimhinner, munnhygiene",
+            "perio": {
+                "title": "Periodontal",
+                "show": "Periodontal",
+                "bleeding": "Blødning",
+                "pocketDepth": "Lommedybde (mm)",
+                "pocketPlaceholder": "mm",
+                "mobility": "Mobilitet (0-3)",
+                "measuredAt": "Måledato"
+            }
+        },
+        "priceEstimates": {
+            "newTitle": "Nytt prisoverslag",
+            "editTitle": "Rediger prisoverslag",
+            "total": "Samlet pris",
+            "subsidy": "Forventet tilskudd",
+            "patientPays": "Egenandel",
+            "saved": "Prisoverslaget er lagret",
+            "markSent": "Merk som sendt",
+            "markAccepted": "Akseptert",
+            "markDeclined": "Avvist",
+            "statuses": {
+                "draft": "Utkast",
+                "sent": "Sendt",
+                "accepted": "Akseptert",
+                "declined": "Avvist",
+                "expired": "Utløpt"
+            },
+            "empty": {
+                "title": "Ingen prisoverslag ennå",
+                "text": "Lag et prisoverslag så pasienten ser prisen og egenandelen før behandlingen starter."
+            },
+            "form": {
+                "title": "Overskrift",
+                "titlePlaceholder": "For eksempel krone og fylling",
+                "validUntil": "Gyldig til",
+                "lines": "Behandlinger",
+                "addLine": "Legg til linje",
+                "code": "Kode",
+                "description": "Behandling",
+                "quantity": "Antall",
+                "unitPrice": "Stykkpris",
+                "subsidy": "Tilskudd",
+                "lineTotal": "Beløp",
+                "noTooth": "Ingen tann",
+                "note": "Merknader",
+                "notePlaceholder": "For eksempel hva prisen forutsetter",
+                "needsALine": "Legg til minst én behandling"
+            }
+        }
     },
     "client": {
         "appointments": "Avtaler",
@@ -5826,7 +5986,11 @@
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbeidstimer",
             "showCompensatoryHours": "Vis avspasering og feriedager",
-            "street": "Gade"
+            "street": "Gade",
+            "note": "Notat",
+            "notePlaceholder": "Internt notat om medarbeideren",
+            "unionMembership": "Fagforening",
+            "unionMembershipPlaceholder": "For eksempel HK"
         },
         "importEmployees": {
             "alert": {
@@ -6434,7 +6598,8 @@
             "primaryCaseWorker": "Saksbehandler"
         },
         "confirmation": {
-            "deleteFormConfirmation": "Er du sikker på at du vil slette denne skjema"
+            "deleteFormConfirmation": "Er du sikker på at du vil slette denne skjema",
+            "deleteFormHasReports": "Det er skrevet {count} rapporter ut fra den."
         },
         "createResponse": "Opprett svar",
         "documentTitle": "Dokumenttitel",
@@ -6461,7 +6626,26 @@
             "required": "Påkrevd",
             "text": "Tekst",
             "textarea": "Tekstområde",
-            "uploadFile": "Last opp fil"
+            "uploadFile": "Last opp fil",
+            "heading": "Overskrift",
+            "subheading": "Underoverskrift",
+            "paragraph": "Tekstavsnitt",
+            "guidance": "Veiledning",
+            "pagebreak": "Sideskift",
+            "headingPlaceholder": "Skriv overskriften",
+            "paragraphPlaceholder": "Skriv teksten",
+            "pagebreakHint": "Starter en ny side i den genererte PDF-en.",
+            "guidanceHint": "Vises bare når rapporten fylles ut. Kommer ikke med i PDF-en.",
+            "helpText": "Hjelpetekst",
+            "helpTextPlaceholder": "Kort veiledning til den som fyller ut",
+            "width": "Bredde",
+            "widthFull": "Full bredde",
+            "widthHalf": "Halv bredde",
+            "scale": "Trivselslinjal",
+            "moveUp": "Flytt opp",
+            "moveDown": "Flytt ned",
+            "duplicate": "Dupliser",
+            "table": "Tabell"
         },
         "formDescription": "Skjemabeskrivelse",
         "formTitle": "Skjematitel",
@@ -6491,7 +6675,18 @@
                 "formSuccessfullyDeleted": "Skjema slettet vellykket"
             },
             "description": "Beskrivelse",
-            "title": "Tittel"
+            "title": "Tittel",
+            "blocks": "Blokker",
+            "reports": "Rapporter",
+            "caption": "Overskrift over tabellen",
+            "captionPlaceholder": "Valgfri overskrift",
+            "columnName": "Kolonne",
+            "addColumn": "Legg til kolonne",
+            "removeColumn": "Fjern kolonne",
+            "addRow": "Legg til rad",
+            "removeRow": "Fjern rad",
+            "cellPlaceholder": "Tekst eller felt",
+            "hint": "Celler kan inneholde felt fra systemet. Medarbeideren kan endre dem når rapporten fylles ut."
         },
         "viewResponses": "Se svar",
         "tabs": {
@@ -6545,6 +6740,82 @@
             "confirmation": {
                 "deletePredefinedEventConfirmation": "Er du sikker på at du vil slette denne forhåndsdefinerte hendelsen"
             }
+        },
+        "layout": {
+            "documentLayout": "Dokumentoppsett",
+            "documentLayoutHint": "Genererer rapporten som et dokument med seksjoner i stedet for en kopi av skjemaet.",
+            "showNumbering": "Nummerer spørsmålene"
+        },
+        "scale": {
+            "question": "Spørsmål",
+            "scaleKey": "Målingens nøkkel",
+            "scaleKeyHint": "Maler med samme nøkkel deler historikk på innbyggeren. Bruk f.eks. trivsel.",
+            "maxScore": "Skala",
+            "maxScoreHint": "0 til 5 eller 0 til 10.",
+            "preview": "Slik ser den ut",
+            "bands": "Fargebånd",
+            "upTo": "Til og med",
+            "bandLabel": "Navn på bånd",
+            "addBand": "Legg til bånd",
+            "raters": "Vurderende parter",
+            "ratersHint": "Medarbeideren fører inn alles vurdering. Legg til flere, f.eks. en spesialist.",
+            "raterLabel": "Navn",
+            "addRater": "Legg til part",
+            "showHistory": "Vis tidligere målinger",
+            "perGoal": "Gjenta linjalen for hvert mål",
+            "perGoalHint": "Slått på vises linjalen én gang per aktivt mål på innbyggeren.",
+            "defaults": {
+                "threatened": "Truet",
+                "atRisk": "Utsatt",
+                "vulnerable": "Sårbar",
+                "moderate": "Moderat trivsel",
+                "thriving": "Trivsel",
+                "staff": "Medarbeider",
+                "caseworker": "Rådgiver",
+                "mother": "Mor",
+                "father": "Far",
+                "citizen": "Innbyggeren"
+            },
+            "clear": "Tøm",
+            "measuredAt": "Målt den",
+            "earlier": "Tidligere målinger",
+            "recordedByHint": "Du fører inn alle parters vurdering. Rapporten viser hvem som har skrevet den ned.",
+            "previousHere": "Forrige måling lå her",
+            "needsTwo": "Det trengs to målinger før utviklingen kan tegnes."
+        },
+        "mergeFields": {
+            "insert": "Sett inn felt",
+            "personal": "Personopplysning",
+            "none": "Ingen felt tilgjengelig",
+            "hint": "Feltet erstattes med innbyggerens data når rapporten lagres.",
+            "loading": "Henter..."
+        },
+        "groups": {
+            "questions": "Spørsmål som noen skal svare på",
+            "layout": "Dokumentets oppbygning",
+            "layoutNeedsDocument": "Disse vises bare i den ferdige rapporten når dokumentoppsettet er slått på."
+        },
+        "previewDocument": {
+            "button": "Forhåndsvis dokumentet",
+            "working": "Genererer...",
+            "hint": "Åpner rapporten slik den vil se ut, med eksempelsvar. Ingenting lagres."
+        },
+        "group": {
+            "title": "Gruppe",
+            "defaultName": "Mål",
+            "namePlaceholder": "Navn på gruppen, f.eks. Mål",
+            "repeatFor": "Gjentas for",
+            "sourceGoals": "Hvert aktive mål",
+            "sourceContacts": "Hver part",
+            "sourceFixed": "Et fast antall",
+            "count": "Antall gjentakelser",
+            "includeCompleted": "Ta med avsluttede mål",
+            "addInside": "Legg til blokk i gruppen",
+            "blocksInside": "blokker i gruppen",
+            "addingInside": "Neste blokk legges inn i gruppen",
+            "addAtEnd": "Legg den nederst i stedet",
+            "hint": "Blokkene i gruppen gjentas én gang per mål på innbyggeren. Sett inn feltet for gjentakelsens navn der målets navn skal stå.",
+            "noIterations": "Innbyggeren har ingen mål ennå, så denne gruppen er tom."
         }
     },
     "gender": {
@@ -7473,6 +7744,13 @@
         "seeAllConversations": "Se alle samtaler",
         "sending": "Sender..."
     },
+    "map": {
+        "layers": {
+            "satellite": "Satellitt",
+            "street": "Kart",
+            "toggle": "Bytt karttype"
+        }
+    },
     "mileageLog": {
         "download": {
             "download": "Last ned",
@@ -7491,6 +7769,19 @@
             "notLinked": "Ikke tilknyttet"
         },
         "form": {
+            "address": {
+                "clear": "Fjern adresse",
+                "confirmed": "Adresse bekreftet",
+                "locationFailed": "Kunne ikke hente din posisjon",
+                "noResults": "Ingen adresser funnet",
+                "notConfirmed": "Velg en adresse fra listen for å bekrefte plasseringen",
+                "placeholder": "Skriv gatenavn og husnummer",
+                "rateLimited": "Adressesøket er midlertidig begrenset. Prøv igjen om et øyeblikk.",
+                "resolveFailed": "Kunne ikke hente koordinater for denne adressen.",
+                "resultsAvailable": "{count} adresser funnet",
+                "searchFailed": "Adressesøk er ikke tilgjengelig akkurat nå. Prøv igjen, eller velg på kartet.",
+                "searching": "Søker…"
+            },
             "addStop": "Legg til stopp",
             "alert": {
                 "incompleteStopAddress": "Sørg for at hvert stopp har en gyldig valgt adresse",
@@ -7501,11 +7792,14 @@
             "endAddress": "Sluttadresse",
             "estimatedDistance": "Distanse (beregnes automatisk)",
             "linkToCitizen": "Knytt denne turen til en bruker som en indsatstime",
+            "mapHint": "Klikk på kartet eller dra markøren for å justere plasseringen",
             "note": "Note",
             "pickOnMap": "Velg lokasjon",
+            "searchOnMap": "Søk etter en adresse",
             "selectCitizen": "Velg bruker",
             "startAddress": "Startadresse",
-            "stopAddress": "Stoppadresse"
+            "stopAddress": "Stoppadresse",
+            "useMyLocation": "Bruk min posisjon"
         },
         "mileageLog": "Kjørebok",
         "mileageReport": "Kjørerapport",
@@ -7535,6 +7829,45 @@
             "distance": "Distanse",
             "employee": "Medarbeider",
             "route": "Rute"
+        },
+        "tracking": {
+            "acquiringPosition": "Finner din posisjon …",
+            "alert": {
+                "tripDiscarded": "Turen ble forkastet",
+                "tripSaved": "Turen ble lagret",
+                "tripStarted": "Turen er startet"
+            },
+            "cancelTrip": "Forkast tur",
+            "confirmation": {
+                "cancelTrip": "Er du sikker på at du vil forkaste denne turen"
+            },
+            "distanceLooksOff": "Den målte distansen avviker mye fra den direkte ruten",
+            "distanceSoFar": "Kjørt så langt",
+            "elapsed": "Varighet",
+            "errors": {
+                "alreadyStarted": "Du har allerede en tur i gang",
+                "permissionDenied": "Tilgang til posisjon ble avvist. Tillat posisjon i nettleserens innstillinger.",
+                "startFailed": "Turen kunne ikke startes",
+                "stopFailed": "Turen kunne ikke avsluttes — prøv igjen",
+                "unsupported": "Nettleseren din støtter ikke posisjonstjenester"
+            },
+            "gpsPaused": "GPS pauset",
+            "gpsPausedHint": "Ingen posisjon på {minutes} min. Åpne appen igjen for å fortsette.",
+            "mobileNotice": {
+                "body": "Sporingen kjører bare mens denne siden er åpen og skjermen er på. Låser du telefonen eller bytter app, settes sporingen på pause, og distansen blir for lav.",
+                "title": "Hold appen åpen mens du kjører"
+            },
+            "noGpsPointsYetHint": "Ingen GPS-punkter er registrert ennå — dette kan skyldes svak posisjonsnøyaktighet (vanlig på en datamaskin uten GPS). Distansen beregnes ut fra start- og sluttadressen i stedet.",
+            "recalculateFromAddresses": "Beregn ut fra adresser i stedet",
+            "resumed": "Fortsetter pågående tur",
+            "reviewTitle": "Gjennomgå tur",
+            "saveTrip": "Lagre tur",
+            "startAddressResolving": "Finner adresse …",
+            "startAddressUnavailable": "Adressen kunne ikke bli funnet — koordinater er lagret",
+            "startTrip": "Start tur",
+            "stoppingInProgress": "Avslutter turen …",
+            "stopTrip": "Avslutt tur",
+            "tripInProgress": "Tur pågår"
         },
         "view": {
             "createdBy": "Opprettet av",
@@ -7575,6 +7908,7 @@
         "settings": "Innstillinger",
         "subscription": "Abonnement",
         "switchLanguage": "Bytt språk",
+        "helpAndNews": "Hjelp og nytt",
         "impersonating": "Innlogget som klient",
         "stopImpersonation": "Logg ut som klient",
         "surveys": "Spørreskjemaer"
@@ -9431,6 +9765,12 @@
         "companyId": "Virksomhets-ID",
         "coupons": "Kuponer",
         "discover": "Kom i gang",
+        "groups": {
+            "daily": "Daglig drift",
+            "documentation": "Dokumentasjon",
+            "organisation": "Organisasjon",
+            "shortcuts": "Snarveier"
+        },
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
@@ -9446,7 +9786,8 @@
         "surveys": "Spørreskjemaer",
         "myDay": "Min dag",
         "myAvailability": "Min tilgjengelighet",
-        "myShiftEvaluations": "Mine vaktevalueringer"
+        "myShiftEvaluations": "Mine vaktevalueringer",
+        "forms": "Skjemaer"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -9686,7 +10027,13 @@
                 "discountPercent": "Rabatt (%)",
                 "discountEndsAt": "Tilbudet slutter"
             },
-            "colName": "Navn"
+            "colName": "Navn",
+            "attachToCompany": "Tilordne til selskap",
+            "attachToCompanyDesc": "Tilordne denne appen direkte til et bestemt selskap",
+            "searchCompany": "Søk selskap...",
+            "assigned": "Tilordnet",
+            "successAssigned": "App tilordnet",
+            "successAssignedBody": "{appName} er blitt tilordnet til {companyName}"
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -9819,7 +10166,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens",
                 "grant": {
                     "addLicenses": "Legg til lisenser",
-                    "description": "Legger til ekstra lisenser i firmaets pool og oppretter en ventende manuell faktura for beløpet.",
+                    "description": "Legger til ekstra brukerlisenser i firmaets pool. Ingen betaling i systemet - faktureres separat i e-conomic.",
                     "quantity": "Antall lisenser",
                     "billingFrequency": "Faktureringsfrekvens",
                     "monthly": "Månedlig",
@@ -10746,13 +11093,61 @@
         "licenses": {
             "pageTitle": "App-lisenser",
             "header": "App-lisenser",
-            "subtitle": "Tildel app-lisenser til bedrifter",
-            "newLicense": "Ny app",
+            "subtitle": "Definer priser og lisensstrukturer per app",
+            "newLicense": "Ny lisens",
             "licenseModelLabel": "Lisensmodell",
-            "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Hver app har én pris (månedlig eller årlig); plasser tildeles en bedrift og kan valgfritt tildeles direkte til en bruker.",
+            "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruker/lisens med fleksible faktureringsintervaller - månedlig, årlig eller spesifikk avtale (f.eks. offentlig sektor med stort volum).",
             "noAppsFound": "Ingen apper funnet",
             "noAppsFoundSub": "Legg til apper fra Apps-siden først",
-            "inactive": "Inaktiv"
+            "inactive": "Inaktiv",
+            "licenseTypes": "lisenstyper",
+            "activeCompanies": "aktive bedrifter",
+            "addLicense": "Legg til lisens",
+            "noLicenseTypes": "Ingen lisenstyper ennå - legg til den første",
+            "volume": "Volum",
+            "free": "Gratis",
+            "perUser": "/ bruker",
+            "included": "inkl.",
+            "min": "min.",
+            "users": "brukere",
+            "editLicense": "Rediger lisens",
+            "appLabel": "App",
+            "selectAppPlaceholder": "Velg app…",
+            "licenseNameLabel": "Lisensnavn",
+            "licenseNamePlaceholder": "f.eks. Standard, Enterprise, Offentlig",
+            "descriptionLabel": "Beskrivelse",
+            "descriptionPlaceholder": "Kort beskrivelse av lisenstypen",
+            "priceLabel": "Pris per bruker (kr)",
+            "billingIntervalLabel": "Faktureringsintervall",
+            "monthly": "Månedlig",
+            "yearly": "Årlig",
+            "quarterly": "Kvartalsvis",
+            "custom": "Spesifikk avtale",
+            "includedSeatsLabel": "Inkluderte brukere",
+            "includedSeatsHint": "Inkludert i basisprisen (0 = ingen)",
+            "minSeatsLabel": "Min. kjøp (brukere)",
+            "minSeatsHint": "Minimum som må kjøpes",
+            "volumeAgreement": "Volumavtale",
+            "volumeAgreementDesc": "Aktiver for f.eks. offentlige institusjoner med mange brukere",
+            "activeLabel": "Aktiv",
+            "activeDesc": "Lisenstypen kan kjøpes av bedrifter",
+            "assignToCompany": "Tilknytt til bedrift (valgfritt)",
+            "assignToCompanyDesc": "Tilknytt denne lisenstypen direkte til en bedrift",
+            "searchCompanyPlaceholder": "Søk bedrift...",
+            "cancelAction": "Avbryt",
+            "saving": "Lagrer...",
+            "saveChanges": "Lagre endringer",
+            "createLicense": "Opprett lisens",
+            "errorSelectApp": "Velg en app",
+            "errorLicenseName": "Lisensnavn er påkrevd",
+            "errorPrice": "Prisen må være 0 eller mer",
+            "successSaved": "Lagret!",
+            "successUpdatedBody": "Lisenstype '{name}' er oppdatert.",
+            "successCreated": "Opprettet!",
+            "successCreatedBody": "Lisenstype '{name}' er opprettet.",
+            "successDeleted": "Slettet!",
+            "successDeletedBody": "Lisenstype '{name}' er slettet.",
+            "deleteConfirm": "Slett lisenstype '{name}'?"
         },
         "grantLicense": {
             "title": "Tildel app-lisens",
