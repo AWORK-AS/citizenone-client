@@ -12882,5 +12882,235 @@
             "savedSuccessfully": "Your evaluation was saved",
             "deletedSuccessfully": "Your evaluation was removed"
         }
+    },
+    "dentalRecalls": {
+        "title": "Recalls",
+        "help": "Patients due for a check-up. SMS, email and app notifications go out automatically. Letters and phone calls are listed here, because a system cannot make them.",
+        "overdueCount": "patients are overdue",
+        "daysOverdue": "days overdue",
+        "markContacted": "Mark as called in",
+        "contacted": "Patient marked as called in",
+        "manual": "Needs to be contacted by hand",
+        "autoOff": "Automatic reminder is off",
+        "noChannel": "Not chosen",
+        "window": {
+            "overdue": "Overdue",
+            "month": "Next 30 days",
+            "quarter": "Next 90 days"
+        },
+        "table": {
+            "patient": "Patient",
+            "due": "Due",
+            "channel": "Recall type",
+            "lastContact": "Last contacted"
+        },
+        "empty": {
+            "title": "No recalls",
+            "text": "No patients are due in the selected period."
+        }
+    },
+    "dentalOverview": {
+        "title": "Clinic overview",
+        "overdue": "Overdue check-ups",
+        "overdueHelp": "Patients who should have been called in",
+        "dueSoon": "Due soon",
+        "dueSoonHelp": "Within {days} days",
+        "plannedWork": "Planned work",
+        "plannedWorkHelp": "{patients} patients, {value} DKK accepted",
+        "awaitingAnswer": "Awaiting answer",
+        "awaitingAnswerHelp": "Sent estimates, {value} DKK patient share",
+        "mostOverdue": "Most overdue",
+        "oldestPlanned": "Oldest planned work",
+        "noOverdue": "No overdue check-ups.",
+        "noPlanned": "No planned work.",
+        "seeAll": "See all",
+        "examinations": "{total} examinations recorded this year, {reportable} of them in a reportable cohort."
+    },
+    "services": {
+        "title": "Services",
+        "help": "The catalogue of what you sell, with price, VAT and expected subsidy. Invoice lines take their price from here.",
+        "new": "New service",
+        "saved": "Service saved",
+        "inactive": "inactive",
+        "empty": {
+            "title": "No services yet",
+            "text": "Add your services so prices are not typed onto every invoice."
+        },
+        "form": {
+            "code": "Code",
+            "codePlaceholder": "For example 1111",
+            "name": "Name",
+            "unitPrice": "Unit price",
+            "vatRate": "VAT %",
+            "subsidy": "Default subsidy",
+            "vatHelp": "Dental treatment is VAT exempt, so the rate is set per service rather than assumed.",
+            "unitPriceIncl": "Unit price incl. VAT",
+            "category": "Category",
+            "noCategory": "No category"
+        },
+        "categories": {
+            "title": "Categories",
+            "help": "Group your services, for example examinations, surgery and hygiene. Deleting a category leaves the services in place without a group.",
+            "name": "Category name",
+            "placeholder": "For example Examinations",
+            "add": "Add",
+            "all": "All",
+            "uncategorised": "No category"
+        }
+    },
+    "invoicing": {
+        "title": "Invoicing",
+        "outstandingTotal": "Total outstanding",
+        "creditNote": "credit note",
+        "filters": {
+            "outstanding": "Outstanding",
+            "all": "All",
+            "paid": "Paid",
+            "draft": "Drafts"
+        },
+        "table": {
+            "number": "No.",
+            "citizen": "Citizen",
+            "issued": "Invoice date",
+            "due": "Due",
+            "status": "Status"
+        },
+        "empty": {
+            "title": "No invoices",
+            "text": "Invoices are created on the citizen and collected here."
+        },
+        "tabs": {
+            "invoices": "Invoices",
+            "services": "Services",
+            "settings": "Settings",
+            "templates": "Templates",
+            "reports": "Reports"
+        },
+        "settings": {
+            "help": "The VAT rate, how prices are typed, and the details every invoice has to carry.",
+            "adminOnly": "Only an administrator can change the invoicing settings.",
+            "vat": "VAT",
+            "defaultVatRate": "Default VAT rate %",
+            "defaultVatRateHelp": "Used on new services and on invoice lines without a rate of their own. Dental treatment is exempt, so set 0.",
+            "pricesIncludeVat": "Prices include VAT",
+            "pricesIncludeVatHelp": "Turn on if you type prices the way the customer pays them. VAT is then taken out of the amount instead of added to it.",
+            "example": "On a price of 100:",
+            "exampleIncl": "{net} excl. VAT + {vat} VAT = 100.00",
+            "exampleExcl": "100.00 + {vat} VAT = {total}",
+            "invoiceDetails": "Invoice details",
+            "vatNumber": "VAT number",
+            "paymentTerms": "Payment terms (days)",
+            "paymentDetails": "Payment details",
+            "paymentDetailsPlaceholder": "Bank account, MobilePay number or payment terms",
+            "footer": "Invoice footer",
+            "footerPlaceholder": "For example a reference to your terms of trade",
+            "saved": "The invoicing settings are saved",
+            "design": "Design",
+            "showLogo": "Show logo on the invoice",
+            "showLogoHelp": "Uses the clinic logo from the company settings. Without it the sender is name and address only.",
+            "accentColor": "Colour",
+            "accentColorHelp": "Used on the heading, the table head and the line by the amount to pay.",
+            "resetColor": "Reset",
+            "preview": "Preview",
+            "previewInvoice": "Preview invoice",
+            "previewHelp": "Opens a sample invoice as a PDF, exactly as the citizen receives it. Saves your changes first.",
+            "onlinePayment": "Online payment",
+            "onlinePaymentUnavailable": "Online payment is not switched on in CitizenOne yet.",
+            "onlinePaymentHelp": "The citizen pays by card or MobilePay from the invoice. The money goes straight to your own account. {rate} % per payment.",
+            "paymentsReady": "Ready to take payments",
+            "paymentsNotReady": "Setup is not finished",
+            "connectPayments": "Connect payment account",
+            "continueSetup": "Continue setup",
+            "testMode": "Test mode: payments here are not real, and no money is charged.",
+            "onlinePaymentTooltip": "The citizen pays by card or MobilePay on a page hosted by the payment provider. The money goes straight into your own account, never through CitizenOne, and the invoice closes itself once the payment goes through. CitizenOne takes 1.49 % per payment, and the provider bills you for its own fee directly. A bank transfer costs nothing.",
+            "termsTitle": "Activate online payment",
+            "termsFee": "CitizenOne takes {rate} % of every online payment. A bank transfer costs nothing.",
+            "termsProvider": "The payment provider bills you for its own fee directly, and the money is paid out to your own account.",
+            "termsCancel": "You can switch online payment off again at any time. Payments already made are unaffected.",
+            "termsAccept": "I accept that CitizenOne takes {rate} % per online payment.",
+            "activate": "Activate and continue to setup",
+            "termsAcceptedOn": "The terms were accepted on {date} at {rate} % per payment.",
+            "termsLink": "See terms and conditions"
+        },
+        "reports": {
+            "from": "From",
+            "to": "To",
+            "export": "Export CSV",
+            "revenue": "Revenue",
+            "overTime": "Revenue and payments",
+            "ageing": "Outstanding by age",
+            "ageingHelp": "Counted from the due date, as it stands today.",
+            "topServices": "Best selling services",
+            "paymentMethods": "Payment methods",
+            "empty": "No figures in this period",
+            "periods": {
+                "month": "This month",
+                "lastMonth": "Last month",
+                "quarter": "Quarter",
+                "year": "Year"
+            },
+            "buckets": {
+                "not_due": "Not due",
+                "days_1_30": "1-30 days",
+                "days_31_60": "31-60 days",
+                "days_60_plus": "Over 60 days"
+            },
+            "cards": {
+                "revenue": "Revenue this month",
+                "revenueHint": "Excl. VAT, {count} booked invoices",
+                "outstanding": "Unpaid invoices",
+                "outstandingHint": "{count} drafts are not booked yet",
+                "overdue": "Overdue",
+                "overdueHint": "Past the due date",
+                "paid": "Paid",
+                "paidHint": "Recorded in the period"
+            },
+            "fees": "Payment fee to CitizenOne",
+            "feesHelp": "Charged on your own CitizenOne invoice."
+        }
+    },
+    "invoiceTemplates": {
+        "help": "Save the lines you bill together again and again, and drop them onto a new invoice in one click.",
+        "new": "New template",
+        "saved": "The template is saved",
+        "use": "Use template",
+        "catalogue": "catalogue price",
+        "fromCatalogue": "from catalogue",
+        "empty": {
+            "title": "No templates yet",
+            "text": "Create one for a yearly check-up, and the standard lines never have to be typed again."
+        },
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "For example Yearly check-up",
+            "description": "Description",
+            "descriptionPlaceholder": "A short note for your colleagues",
+            "priceHelp": "Leave price and VAT empty on a line with a service, and it always follows the catalogue price."
+        },
+        "preview": "Preview"
+    },
+    "delete": "Delete",
+    "edit": "Edit",
+    "payment": {
+        "done": {
+            "title": "Thank you for the payment",
+            "text": "The payment went through, and the invoice is marked as paid.",
+            "receipt": "The payment provider has emailed you a receipt.",
+            "pendingTitle": "The payment is received",
+            "pendingText": "We are waiting for confirmation from the payment provider. Nothing more is needed from you.",
+            "paidTo": "Paid to {company}"
+        },
+        "cancelled": {
+            "title": "The payment was cancelled",
+            "text": "Nothing was charged. You can use the link again when you are ready."
+        }
+    },
+    "economy": {
+        "title": "Economy",
+        "tabs": {
+            "overview": "Overview",
+            "revenue": "Revenue",
+            "billing": "Billing extraction"
+        }
     }
 }

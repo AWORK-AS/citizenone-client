@@ -12882,5 +12882,235 @@
             "savedSuccessfully": "Din utvärdering sparades",
             "deletedSuccessfully": "Din utvärdering togs bort"
         }
+    },
+    "dentalRecalls": {
+        "title": "Kallelser",
+        "help": "Patienter som ska kallas till kontroll. SMS, e-post och appnotiser skickas automatiskt. Brev och samtal står här, eftersom ett system inte kan utföra dem.",
+        "overdueCount": "patienter är försenade",
+        "daysOverdue": "dagar försenad",
+        "markContacted": "Markera som kallad",
+        "contacted": "Patienten är markerad som kallad",
+        "manual": "Ska kontaktas manuellt",
+        "autoOff": "Automatisk påminnelse är av",
+        "noChannel": "Inte vald",
+        "window": {
+            "overdue": "Försenade",
+            "month": "Nästa 30 dagar",
+            "quarter": "Nästa 90 dagar"
+        },
+        "table": {
+            "patient": "Patient",
+            "due": "Till kontroll",
+            "channel": "Kallelsetyp",
+            "lastContact": "Senast kontaktad"
+        },
+        "empty": {
+            "title": "Inga kallelser",
+            "text": "Inga patienter ska kallas under den valda perioden."
+        }
+    },
+    "dentalOverview": {
+        "title": "Kliniköversikt",
+        "overdue": "Försenade kontroller",
+        "overdueHelp": "Patienter som skulle ha kallats",
+        "dueSoon": "Till kontroll snart",
+        "dueSoonHelp": "Inom {days} dagar",
+        "plannedWork": "Planerat arbete",
+        "plannedWorkHelp": "{patients} patienter, {value} kr accepterat",
+        "awaitingAnswer": "Väntar på svar",
+        "awaitingAnswerHelp": "Skickade uppskattningar, {value} kr egenavgift",
+        "mostOverdue": "Mest försenade",
+        "oldestPlanned": "Äldsta planerade arbetet",
+        "noOverdue": "Inga försenade kontroller.",
+        "noPlanned": "Inget planerat arbete.",
+        "seeAll": "Visa alla",
+        "examinations": "{total} undersökningar registrerade i år, varav {reportable} i en rapporteringspliktig årskull."
+    },
+    "services": {
+        "title": "Tjänster",
+        "help": "Katalogen över vad ni säljer, med pris, moms och förväntat bidrag. Fakturarader hämtar sitt pris härifrån.",
+        "new": "Ny tjänst",
+        "saved": "Tjänsten är sparad",
+        "inactive": "inaktiv",
+        "empty": {
+            "title": "Inga tjänster ännu",
+            "text": "Lägg in era tjänster så att priser inte skrivs in på varje faktura."
+        },
+        "form": {
+            "code": "Kod",
+            "codePlaceholder": "Till exempel 1111",
+            "name": "Namn",
+            "unitPrice": "Styckpris",
+            "vatRate": "Moms %",
+            "subsidy": "Standardbidrag",
+            "vatHelp": "Tandvård är momsfri, så satsen sätts per tjänst i stället för att antas.",
+            "unitPriceIncl": "Styckpris inkl. moms",
+            "category": "Kategori",
+            "noCategory": "Ingen kategori"
+        },
+        "categories": {
+            "title": "Kategorier",
+            "help": "Gruppera era tjänster, t.ex. undersökningar, kirurgi och tandvård. Tar du bort en kategori står tjänsterna kvar utan grupp.",
+            "name": "Kategorinamn",
+            "placeholder": "T.ex. Undersökningar",
+            "add": "Lägg till",
+            "all": "Alla",
+            "uncategorised": "Utan kategori"
+        }
+    },
+    "invoicing": {
+        "title": "Fakturering",
+        "outstandingTotal": "Totalt utestående",
+        "creditNote": "kreditnota",
+        "filters": {
+            "outstanding": "Utestående",
+            "all": "Alla",
+            "paid": "Betalda",
+            "draft": "Utkast"
+        },
+        "table": {
+            "number": "Nr.",
+            "citizen": "Invånare",
+            "issued": "Fakturadatum",
+            "due": "Förfaller",
+            "status": "Status"
+        },
+        "empty": {
+            "title": "Inga fakturor",
+            "text": "Fakturor skapas på invånaren och samlas här."
+        },
+        "tabs": {
+            "invoices": "Fakturor",
+            "services": "Tjänster",
+            "settings": "Inställningar",
+            "templates": "Mallar",
+            "reports": "Rapporter"
+        },
+        "settings": {
+            "help": "Momssats, priser och uppgifterna som ska stå på varje faktura.",
+            "adminOnly": "Endast en administratör kan ändra fakturainställningarna.",
+            "vat": "Moms",
+            "defaultVatRate": "Standardmomssats %",
+            "defaultVatRateHelp": "Används på nya tjänster och på fakturarader utan egen sats. Tandvård är momsfri, så här sätts 0.",
+            "pricesIncludeVat": "Priser är inkl. moms",
+            "pricesIncludeVatHelp": "Slå på om ni skriver priser så som kunden betalar dem. Momsen räknas då ut ur beloppet i stället för att läggas till.",
+            "example": "Med ett pris på 100:",
+            "exampleIncl": "{net} exkl. moms + {vat} i moms = 100,00",
+            "exampleExcl": "100,00 + {vat} i moms = {total}",
+            "invoiceDetails": "Fakturauppgifter",
+            "vatNumber": "Org.nr.",
+            "paymentTerms": "Betalningsvillkor (dagar)",
+            "paymentDetails": "Betalningsuppgifter",
+            "paymentDetailsPlaceholder": "T.ex. bankkonto, MobilePay-nummer eller betalningsvillkor",
+            "footer": "Fotnot på faktura",
+            "footerPlaceholder": "T.ex. hänvisning till era villkor",
+            "saved": "Fakturainställningarna är sparade",
+            "design": "Design",
+            "showLogo": "Visa logotyp på fakturan",
+            "showLogoHelp": "Använder klinikens logotyp från företagsinställningarna. Utan den står avsändaren med namn och adress.",
+            "accentColor": "Färg",
+            "accentColorHelp": "Används på rubrik, tabellhuvud och linjen vid beloppet att betala.",
+            "resetColor": "Återställ",
+            "preview": "Förhandsvisning",
+            "previewInvoice": "Förhandsgranska faktura",
+            "previewHelp": "Öppnar en exempelfaktura som PDF, precis som medborgaren tar emot den. Sparar dina ändringar först.",
+            "onlinePayment": "Onlinebetalning",
+            "onlinePaymentUnavailable": "Onlinebetalning är inte påslagen i CitizenOne ännu.",
+            "onlinePaymentHelp": "Medborgaren betalar med kort eller MobilePay från fakturan. Pengarna går direkt till ert eget konto. {rate} % per betalning.",
+            "paymentsReady": "Redo att ta emot betalningar",
+            "paymentsNotReady": "Uppsättningen är inte klar",
+            "connectPayments": "Anslut betalkonto",
+            "continueSetup": "Fortsätt uppsättning",
+            "testMode": "Testläge: betalningar här är inte riktiga och inga pengar dras.",
+            "onlinePaymentTooltip": "Medborgaren betalar med kort eller MobilePay på en sida hos betalleverantören. Pengarna går direkt in på ert eget konto, inte genom CitizenOne, och fakturan stängs av sig själv när betalningen gått igenom. CitizenOne tar 1,49 % per betalning, och leverantörens egen avgift gör ni upp direkt med dem. En banköverföring kostar ingenting.",
+            "termsTitle": "Aktivera onlinebetalning",
+            "termsFee": "CitizenOne tar {rate} % av varje onlinebetalning. En banköverföring kostar ingenting.",
+            "termsProvider": "Betalleverantörens egen avgift gör ni upp direkt med dem, och pengarna betalas ut till ert eget konto.",
+            "termsCancel": "Ni kan stänga av onlinebetalning igen när som helst. Redan genomförda betalningar påverkas inte.",
+            "termsAccept": "Jag godkänner att CitizenOne tar {rate} % per onlinebetalning.",
+            "activate": "Aktivera och fortsätt till uppsättning",
+            "termsAcceptedOn": "Villkoren godkändes {date} med {rate} % per betalning.",
+            "termsLink": "Se villkor"
+        },
+        "reports": {
+            "from": "Från",
+            "to": "Till",
+            "export": "Exportera CSV",
+            "revenue": "Omsättning",
+            "overTime": "Omsättning och betalningar",
+            "ageing": "Utestående efter ålder",
+            "ageingHelp": "Räknat från förfallodatumet, som det ser ut i dag.",
+            "topServices": "Mest sålda tjänster",
+            "paymentMethods": "Betalningsmetoder",
+            "empty": "Inga siffror i perioden",
+            "periods": {
+                "month": "Denna månad",
+                "lastMonth": "Förra månaden",
+                "quarter": "Kvartal",
+                "year": "År"
+            },
+            "buckets": {
+                "not_due": "Inte förfallna",
+                "days_1_30": "1-30 dagar",
+                "days_31_60": "31-60 dagar",
+                "days_60_plus": "Över 60 dagar"
+            },
+            "cards": {
+                "revenue": "Omsättning denna månad",
+                "revenueHint": "Exkl. moms, {count} bokförda fakturor",
+                "outstanding": "Obetalda fakturor",
+                "outstandingHint": "{count} utkast är inte bokförda ännu",
+                "overdue": "Förfallna",
+                "overdueHint": "Förfallodatumet har passerat",
+                "paid": "Betald",
+                "paidHint": "Registrerad i perioden"
+            },
+            "fees": "Betalningsavgift till CitizenOne",
+            "feesHelp": "Debiteras på er egen CitizenOne-faktura."
+        }
+    },
+    "invoiceTemplates": {
+        "help": "Spara raderna ni fakturerar tillsammans gång på gång, och lägg dem på en ny faktura med ett klick.",
+        "new": "Ny mall",
+        "saved": "Mallen är sparad",
+        "use": "Använd mall",
+        "catalogue": "katalogpris",
+        "fromCatalogue": "från katalog",
+        "empty": {
+            "title": "Inga mallar ännu",
+            "text": "Skapa en mall för t.ex. en årskontroll, så behöver de fasta raderna inte skrivas varje gång."
+        },
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Årskontroll",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Kort förklaring till dina kollegor",
+            "priceHelp": "Lämna pris och moms tomma på en rad med tjänst, så följer den alltid katalogpriset."
+        },
+        "preview": "Förhandsgranska"
+    },
+    "delete": "Radera",
+    "edit": "Redigera",
+    "payment": {
+        "done": {
+            "title": "Tack för betalningen",
+            "text": "Betalningen är genomförd och fakturan är markerad som betald.",
+            "receipt": "Betalleverantören har skickat kvittot till din e-post.",
+            "pendingTitle": "Betalningen är mottagen",
+            "pendingText": "Vi väntar på bekräftelse från betalleverantören. Du behöver inte göra mer.",
+            "paidTo": "Betald till {company}"
+        },
+        "cancelled": {
+            "title": "Betalningen avbröts",
+            "text": "Ingenting har dragits. Du kan använda länken igen när du är redo."
+        }
+    },
+    "economy": {
+        "title": "Ekonomi",
+        "tabs": {
+            "overview": "Översikt",
+            "revenue": "Omsättning",
+            "billing": "Faktureringsunderlag"
+        }
     }
 }

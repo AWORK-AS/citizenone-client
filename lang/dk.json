@@ -12882,5 +12882,235 @@
             "savedSuccessfully": "Din evaluering blev gemt",
             "deletedSuccessfully": "Din evaluering blev fjernet"
         }
+    },
+    "dentalRecalls": {
+        "title": "Indkaldelser",
+        "help": "Patienter der skal indkaldes til kontrol. SMS, e-mail og app-beskeder sendes automatisk. Brev og opkald står her, fordi et system ikke kan foretage dem.",
+        "overdueCount": "patienter er overskredet",
+        "daysOverdue": "dage over tid",
+        "markContacted": "Markér som indkaldt",
+        "contacted": "Patienten er markeret som indkaldt",
+        "manual": "Skal kontaktes manuelt",
+        "autoOff": "Automatisk påmindelse er slået fra",
+        "noChannel": "Ikke valgt",
+        "window": {
+            "overdue": "Overskredet",
+            "month": "Næste 30 dage",
+            "quarter": "Næste 90 dage"
+        },
+        "table": {
+            "patient": "Patient",
+            "due": "Til kontrol",
+            "channel": "Indkaldelsestype",
+            "lastContact": "Sidst kontaktet"
+        },
+        "empty": {
+            "title": "Ingen indkaldelser",
+            "text": "Ingen patienter skal indkaldes i den valgte periode."
+        }
+    },
+    "dentalOverview": {
+        "title": "Klinikoverblik",
+        "overdue": "Overskredne kontroller",
+        "overdueHelp": "Patienter der skulle have været indkaldt",
+        "dueSoon": "Til kontrol snart",
+        "dueSoonHelp": "Inden for {days} dage",
+        "plannedWork": "Planlagt arbejde",
+        "plannedWorkHelp": "{patients} patienter, {value} kr. accepteret",
+        "awaitingAnswer": "Afventer svar",
+        "awaitingAnswerHelp": "Sendte prisoverslag, {value} kr. i egenbetaling",
+        "mostOverdue": "Mest overskredne",
+        "oldestPlanned": "Ældste planlagte arbejde",
+        "noOverdue": "Ingen overskredne kontroller.",
+        "noPlanned": "Intet planlagt arbejde.",
+        "seeAll": "Se alle",
+        "examinations": "{total} undersøgelser registreret i år, heraf {reportable} i en indberetningspligtig årgang."
+    },
+    "services": {
+        "title": "Ydelser",
+        "help": "Kataloget over hvad I sælger, med pris, moms og forventet tilskud. Fakturalinjer henter deres pris herfra.",
+        "new": "Ny ydelse",
+        "saved": "Ydelsen er gemt",
+        "inactive": "inaktiv",
+        "empty": {
+            "title": "Ingen ydelser endnu",
+            "text": "Opret jeres ydelser, så priser ikke skal skrives ind på hver faktura."
+        },
+        "form": {
+            "code": "Ydelsesnummer",
+            "codePlaceholder": "Fx 1111",
+            "name": "Navn",
+            "unitPrice": "Stykpris",
+            "vatRate": "Moms %",
+            "subsidy": "Standardtilskud",
+            "vatHelp": "Tandbehandling er momsfri, så momssatsen sættes pr. ydelse i stedet for at blive antaget.",
+            "unitPriceIncl": "Stykpris inkl. moms",
+            "category": "Kategori",
+            "noCategory": "Ingen kategori"
+        },
+        "categories": {
+            "title": "Kategorier",
+            "help": "Grupper jeres ydelser, fx undersøgelser, kirurgi og tandpleje. Sletter du en kategori, bliver ydelserne stående uden gruppe.",
+            "name": "Kategorinavn",
+            "placeholder": "Fx Undersøgelser",
+            "add": "Tilføj",
+            "all": "Alle",
+            "uncategorised": "Uden kategori"
+        }
+    },
+    "invoicing": {
+        "title": "Fakturering",
+        "outstandingTotal": "Samlet udestående",
+        "creditNote": "kreditnota",
+        "filters": {
+            "outstanding": "Udestående",
+            "all": "Alle",
+            "paid": "Betalte",
+            "draft": "Kladder"
+        },
+        "table": {
+            "number": "Nr.",
+            "citizen": "Borger",
+            "issued": "Fakturadato",
+            "due": "Frist",
+            "status": "Status"
+        },
+        "empty": {
+            "title": "Ingen fakturaer",
+            "text": "Fakturaer oprettes på den enkelte borger og samles her."
+        },
+        "tabs": {
+            "invoices": "Fakturaer",
+            "services": "Ydelser",
+            "settings": "Opsætning",
+            "templates": "Skabeloner",
+            "reports": "Rapporter"
+        },
+        "settings": {
+            "help": "Momssats, priser og de oplysninger, der skal stå på hver faktura.",
+            "adminOnly": "Kun en administrator kan ændre fakturaopsætningen.",
+            "vat": "Moms",
+            "defaultVatRate": "Standard momssats %",
+            "defaultVatRateHelp": "Bruges på nye ydelser og på fakturalinjer uden egen sats. Tandbehandling er momsfri, så her sættes 0.",
+            "pricesIncludeVat": "Priser er inkl. moms",
+            "pricesIncludeVatHelp": "Slå til, hvis I skriver priser, som kunden betaler dem. Momsen regnes så ud af beløbet i stedet for at blive lagt til.",
+            "example": "Med en pris på 100:",
+            "exampleIncl": "{net} ekskl. moms + {vat} i moms = 100,00",
+            "exampleExcl": "100,00 + {vat} i moms = {total}",
+            "invoiceDetails": "Fakturaoplysninger",
+            "vatNumber": "CVR-nr.",
+            "paymentTerms": "Betalingsfrist (dage)",
+            "paymentDetails": "Betalingsoplysninger",
+            "paymentDetailsPlaceholder": "Fx bankkonto, MobilePay-nummer eller betalingsvilkår",
+            "footer": "Fodnote på faktura",
+            "footerPlaceholder": "Fx henvisning til handelsbetingelser",
+            "saved": "Fakturaopsætningen er gemt",
+            "design": "Design",
+            "showLogo": "Vis logo på faktura",
+            "showLogoHelp": "Bruger klinikkens logo fra firmaindstillingerne. Uden logo står afsenderen med navn og adresse.",
+            "accentColor": "Farve",
+            "accentColorHelp": "Bruges på overskrift, tabelhoved og stregen ved beløbet til betaling.",
+            "resetColor": "Nulstil",
+            "preview": "Forhåndsvisning",
+            "previewInvoice": "Forhåndsvis faktura",
+            "previewHelp": "Åbner en eksempelfaktura som PDF, præcis som borgeren modtager den. Gemmer først dine ændringer.",
+            "onlinePayment": "Onlinebetaling",
+            "onlinePaymentUnavailable": "Onlinebetaling er ikke slået til i CitizenOne endnu.",
+            "onlinePaymentHelp": "Borgeren betaler med kort eller MobilePay fra fakturaen. Pengene går direkte til jeres egen konto. {rate} % pr. betaling.",
+            "paymentsReady": "Klar til at modtage betalinger",
+            "paymentsNotReady": "Opsætningen er ikke færdig",
+            "connectPayments": "Forbind betalingskonto",
+            "continueSetup": "Fortsæt opsætning",
+            "testMode": "Testtilstand: betalinger her er ikke rigtige, og der bliver ikke trukket penge.",
+            "onlinePaymentTooltip": "Borgeren betaler med kort eller MobilePay på en side hos betalingsudbyderen. Pengene går direkte ind på jeres egen konto, ikke gennem CitizenOne, og fakturaen lukker sig selv, når betalingen er gennemført. CitizenOne tager 1,49 % pr. betaling, og betalingsudbyderens eget gebyr afregner I direkte med dem. Bankoverførsel koster ingenting.",
+            "termsTitle": "Aktivér onlinebetaling",
+            "termsFee": "CitizenOne trækker {rate} % af hver onlinebetaling. Bankoverførsel koster ingenting.",
+            "termsProvider": "Betalingsudbyderens eget gebyr afregner I direkte med dem, og pengene udbetales til jeres egen konto.",
+            "termsCancel": "I kan slå onlinebetaling fra igen når som helst. Allerede gennemførte betalinger berøres ikke.",
+            "termsAccept": "Jeg godkender, at CitizenOne trækker {rate} % pr. onlinebetaling.",
+            "activate": "Aktivér og fortsæt til opsætning",
+            "termsAcceptedOn": "Vilkårene er godkendt {date} med {rate} % pr. betaling.",
+            "termsLink": "Se vilkår og betingelser"
+        },
+        "reports": {
+            "from": "Fra",
+            "to": "Til",
+            "export": "Eksportér CSV",
+            "revenue": "Omsætning",
+            "overTime": "Omsætning og betalinger",
+            "ageing": "Udestående efter alder",
+            "ageingHelp": "Regnet fra betalingsfristen, opgjort i dag.",
+            "topServices": "Mest solgte ydelser",
+            "paymentMethods": "Betalingsmetoder",
+            "empty": "Ingen tal i perioden",
+            "periods": {
+                "month": "Denne måned",
+                "lastMonth": "Sidste måned",
+                "quarter": "Kvartal",
+                "year": "År"
+            },
+            "buckets": {
+                "not_due": "Ikke forfaldne",
+                "days_1_30": "1-30 dage",
+                "days_31_60": "31-60 dage",
+                "days_60_plus": "Over 60 dage"
+            },
+            "cards": {
+                "revenue": "Omsætning denne måned",
+                "revenueHint": "Ekskl. moms, {count} bogførte fakturaer",
+                "outstanding": "Ubetalte fakturaer",
+                "outstandingHint": "{count} kladder er ikke bogført endnu",
+                "overdue": "Forfaldne",
+                "overdueHint": "Betalingsfristen er overskredet",
+                "paid": "Betalt",
+                "paidHint": "Registreret i perioden"
+            },
+            "fees": "Betalingsgebyr til CitizenOne",
+            "feesHelp": "Opkræves på jeres egen CitizenOne-faktura."
+        }
+    },
+    "invoiceTemplates": {
+        "help": "Gem de linjer, I fakturerer sammen igen og igen, og træk dem ind på en ny faktura med ét klik.",
+        "new": "Ny skabelon",
+        "saved": "Skabelonen er gemt",
+        "use": "Brug skabelon",
+        "catalogue": "katalogpris",
+        "fromCatalogue": "fra katalog",
+        "empty": {
+            "title": "Ingen skabeloner endnu",
+            "text": "Opret en skabelon for fx et årseftersyn, så de faste linjer ikke skal skrives hver gang."
+        },
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Årskontrol",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Kort forklaring til dine kolleger",
+            "priceHelp": "Lad pris og moms stå tomme på en linje med ydelse, så følger den altid katalogets pris."
+        },
+        "preview": "Forhåndsvis"
+    },
+    "delete": "Slet",
+    "edit": "Rediger",
+    "payment": {
+        "done": {
+            "title": "Tak for betalingen",
+            "text": "Betalingen er gennemført, og fakturaen er markeret som betalt.",
+            "receipt": "Kvitteringen er sendt til din mail af betalingsudbyderen.",
+            "pendingTitle": "Betalingen er modtaget",
+            "pendingText": "Vi venter på bekræftelse fra betalingsudbyderen. Du behøver ikke gøre mere.",
+            "paidTo": "Betalt til {company}"
+        },
+        "cancelled": {
+            "title": "Betalingen blev afbrudt",
+            "text": "Der er ikke trukket noget. Du kan bruge linket igen, når du er klar."
+        }
+    },
+    "economy": {
+        "title": "Økonomi",
+        "tabs": {
+            "overview": "Overblik",
+            "revenue": "Omsætning",
+            "billing": "Faktureringsudtræk"
+        }
     }
 }
