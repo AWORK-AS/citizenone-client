@@ -263,10 +263,10 @@
                                     </div>
                                     <div class="flex items-center justify-end gap-2 sm:col-span-5">
                                         <p class="mr-auto text-xs text-gray-500" v-if="feeHint">{{ feeHint }}</p>
-                                        <FormButton buttonStyle="action" buttonSize="xs" @click="state.payingUuid = null">
+                                        <FormButton buttonStyle="action" buttonSize="xs" :disabled="state.isSavingPayment" @click="state.payingUuid = null">
                                             {{ $t('cancel') }}
                                         </FormButton>
-                                        <FormButton buttonStyle="primary" buttonSize="xs" @click="savePayment(invoice)">
+                                        <FormButton buttonStyle="primary" buttonSize="xs" :disabled="state.isSavingPayment" @click="savePayment(invoice)">
                                             {{ $t('save') }}
                                         </FormButton>
                                     </div>
@@ -316,7 +316,8 @@ const state = reactive({
     creditLines: [] as any[],
     billableEstimate: null as any,
     openUuids: [] as string[],
-    payment: { amount: '', method: 'card', channel: 'manual', paid_at: '' },
+    payment: { amount: '', method: 'card', channel: 'manual', paid_at: '', idempotency_key: '' },
+    isSavingPayment: false,
     isPageLoading: true,
     error: '',
 })
@@ -421,12 +422,23 @@ function openPayment(invoice: any) {
 
     if (!isOpen(invoice)) toggle(invoice)
     // The whole outstanding amount is what is usually handed over, so it is
-    // filled in and can be corrected.
-    state.payment = { amount: String(invoice.outstanding), method: 'card', channel: 'manual', paid_at: '' }
+    // filled in and can be corrected. The key is generated once per open, not
+    // per keystroke, so a retried or double-clicked submit of the same form
+    // is recognized server-side as the same attempt rather than a new payment.
+    state.payment = {
+        amount: String(invoice.outstanding),
+        method: 'card',
+        channel: 'manual',
+        paid_at: '',
+        idempotency_key: crypto.randomUUID(),
+    }
 }
 
 async function savePayment(invoice: any) {
+    if (state.isSavingPayment) return
+
     state.error = ''
+    state.isSavingPayment = true
 
     try {
         await citizenInvoiceService.addPayment(invoice.uuid, {
@@ -434,12 +446,15 @@ async function savePayment(invoice: any) {
             method: state.payment.method,
             channel: state.payment.channel,
             paid_at: state.payment.paid_at || null,
+            idempotency_key: state.payment.idempotency_key,
         })
 
         state.payingUuid = null
         await load()
     } catch (error: any) {
         state.error = error?.message || ''
+    } finally {
+        state.isSavingPayment = false
     }
 }
 
