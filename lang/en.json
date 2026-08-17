@@ -12644,6 +12644,7 @@
                 "alreadyExists": "Already exists",
                 "wontLand": "Will not land",
                 "newDepartments": "New departments ({count}):",
+                "newSections": "New paragraphs ({count}):",
                 "rowsToLookAt": "Rows to look at",
                 "line": "Line {line}"
             },
@@ -12695,6 +12696,7 @@
             "departments": "Departments (separated by ;)",
             "requires_interpreter": "Interpreter required (yes/no)",
             "seniority_date": "Seniority date",
+            "section": "Paragraph",
             "cpr": "Citizen's CPR number (match)",
             "date": "Date (YYYY-MM-DD)",
             "spoken_languages": "Languages (separated by semicolon)",
@@ -12711,6 +12713,7 @@
             "importFailed": "Import failed. Check mapping and date formats (YYYY-MM-DD).",
             "undoFailed": "Could not undo the import.",
             "invitesFailed": "Could not send login emails.",
+            "missingName": "Missing first or last name",
             "missingField": "Missing {field}",
             "invalidField": "Invalid {field}",
             "checkFailed": "The check could not be completed"

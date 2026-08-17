@@ -237,6 +237,15 @@
                                     {{ state.serverCheck.new_departments.join(', ') }}
                                 </p>
 
+                                <p v-if="state.serverCheck.new_sections?.length" class="mt-3 text-xs text-slate-500">
+                                    <span class="font-medium text-slate-600">{{
+                                        $t('import.steps.dryRun.newSections', {
+                                            count:
+                                                state.serverCheck.new_sections.length
+                                        }) }}</span>
+                                    {{ state.serverCheck.new_sections.join(', ') }}
+                                </p>
+
                                 <p v-if="state.serverCheck.unknown_spoken_languages?.length"
                                     class="mt-3 text-xs text-amber-800">
                                     <span class="font-medium">{{
@@ -439,12 +448,16 @@ const entityTypes = computed(() => [
     {
         key: 'citizens', label: t('import.entities.citizens'), icon: 'ph:users-three', available: true, mode: 'json',
         supportsServerCheck: true,
+        // A source system doesn't always record both names (e.g. only one "name"
+        // column) - the backend accepts a row as long as either is present, so
+        // neither is individually required here; requireOneOf enforces the pair.
+        requireOneOf: ['firstname', 'lastname'],
         importFn: (payload: object) => props.companyUuid
             ? companyImportService.importCitizens(props.companyUuid, payload)
             : citizenService.importMappedCitizens(payload),
         fields: [
-            { key: 'firstname', label: t('import.fields.firstname'), required: true },
-            { key: 'lastname', label: t('import.fields.lastname'), required: true },
+            { key: 'firstname', label: t('import.fields.firstname'), required: false },
+            { key: 'lastname', label: t('import.fields.lastname'), required: false },
             { key: 'cpr_number', label: t('import.fields.cpr_number'), required: false },
             { key: 'birthday', label: t('import.fields.birthday'), required: false },
             { key: 'gender', label: t('import.fields.gender'), required: false },
@@ -455,6 +468,7 @@ const entityTypes = computed(() => [
             { key: 'departments', label: t('import.fields.departments'), required: false },
             { key: 'spoken_languages', label: t('import.fields.spoken_languages'), required: false },
             { key: 'requires_interpreter', label: t('import.fields.requires_interpreter'), required: false },
+            { key: 'section', label: t('import.fields.section'), required: false },
         ],
     },
     {
@@ -507,6 +521,7 @@ const synonyms: Record<string, string[]> = {
     departments: ['afdeling', 'afdelinger', 'department', 'departments', 'team', 'enhed', 'gruppe'],
     spoken_languages: ['sprog', 'talt sprog', 'sprogkundskaber', 'modersmål', 'modersmal', 'language', 'languages', 'spoken language', 'spoken languages', 'native language'],
     requires_interpreter: ['tolk', 'tolkebehov', 'tolk påkrævet', 'tolk pakraevet', 'interpreter', 'needs interpreter', 'requires interpreter'],
+    section: ['paragraf', 'paragraph', 'section', 'lovparagraf', 'indsatsparagraf'],
     seniority_date: ['anciennitet', 'ancien', 'seniority', 'ansættelsesdato', 'ansaettelsesdato', 'ansat', 'startdato'],
     cpr: ['cpr', 'cprnr', 'cpr-nr', 'cprnummer', 'personnummer', 'ssn', 'borger'],
     shift: ['vagt', 'vagttype', 'shift', 'skift', 'vagtnavn', 'type'],
@@ -556,8 +571,12 @@ const warningList = computed(() => Object.entries(state.serverCheck?.warnings ??
         return { key, count: count as number, label: t(`import.warnings.${base}`, { field: cleanLabel(fieldLabel) }) }
     })
     .sort((a, b) => b.count - a.count))
-const requiredMapped = computed(() =>
-    targetFields.value.filter(f => f.required).every(f => (state.mapping[f.key] ?? -1) >= 0))
+const requiredMapped = computed(() => {
+    const allRequiredMapped = targetFields.value.filter(f => f.required).every(f => (state.mapping[f.key] ?? -1) >= 0)
+    const requireOneOf = (entity.value as any).requireOneOf as string[] | undefined
+    const oneOfMapped = !requireOneOf || requireOneOf.some(key => (state.mapping[key] ?? -1) >= 0)
+    return allRequiredMapped && oneOfMapped
+})
 const mappedFields = computed(() => targetFields.value.filter(f => (state.mapping[f.key] ?? -1) >= 0))
 const previewRows = computed(() => state.rows.slice(0, 5))
 
@@ -716,6 +735,10 @@ function cleanLabel(label: string) { return label.replace(/\s*\(.*\)/, '').trim(
 
 // Returns null if the row is valid, else a human reason it will be skipped.
 function rowSkipReason(obj: Record<string, string>): string | null {
+    const requireOneOf = (entity.value as any).requireOneOf as string[] | undefined
+    if (requireOneOf && requireOneOf.every(key => !(obj[key] ?? '').trim())) {
+        return t('import.errors.missingName')
+    }
     for (const f of targetFields.value) {
         const v = (obj[f.key] ?? '').trim()
         if (f.required && !v) return t('import.errors.missingField', { field: cleanLabel(f.label) })
@@ -765,7 +788,7 @@ async function runServerCheck() {
         const CHUNK = 300
         const acc: any = {
             created: 0, duplicate_count: 0, skipped_count: 0, failed_count: 0,
-            new_departments: [] as string[], unknown_spoken_languages: [] as string[],
+            new_departments: [] as string[], new_sections: [] as string[], unknown_spoken_languages: [] as string[],
             warnings: {} as Record<string, number>, rows: [] as any[],
         }
 
@@ -777,6 +800,9 @@ async function runServerCheck() {
             acc.failed_count += res?.failed_count ?? 0
             for (const name of res?.new_departments ?? []) {
                 if (!acc.new_departments.includes(name)) acc.new_departments.push(name)
+            }
+            for (const name of res?.new_sections ?? []) {
+                if (!acc.new_sections.includes(name)) acc.new_sections.push(name)
             }
             for (const name of res?.unknown_spoken_languages ?? []) {
                 if (!acc.unknown_spoken_languages.includes(name)) acc.unknown_spoken_languages.push(name)

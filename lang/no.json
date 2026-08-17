@@ -12644,6 +12644,7 @@
                 "alreadyExists": "Finnes allerede",
                 "wontLand": "Kommer ikke inn",
                 "newDepartments": "Nye avdelinger ({count}):",
+                "newSections": "Nye paragrafer ({count}):",
                 "rowsToLookAt": "Rader du bør se på",
                 "line": "Linje {line}"
             },
@@ -12695,6 +12696,7 @@
             "departments": "Avdelinger (adskilt med ;)",
             "requires_interpreter": "Tolk kreves (ja/nei)",
             "seniority_date": "Ansettelsesdato",
+            "section": "Paragraf",
             "cpr": "Innbyggerens CPR-nummer (match)",
             "date": "Dato (ÅÅÅÅ-MM-DD)",
             "spoken_languages": "Språk (adskilt med semikolon)",
@@ -12711,6 +12713,7 @@
             "importFailed": "Importen feilet. Sjekk mapping og datoformater (ÅÅÅÅ-MM-DD).",
             "undoFailed": "Kunne ikke angre importen.",
             "invitesFailed": "Kunne ikke sende innloggings-e-poster.",
+            "missingName": "Mangler for- eller etternavn",
             "missingField": "Mangler {field}",
             "invalidField": "Ugyldig {field}",
             "checkFailed": "Kontrollen kunne ikke gjennomføres"

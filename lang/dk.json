@@ -12644,6 +12644,7 @@
                 "alreadyExists": "Findes allerede",
                 "wontLand": "Kommer ikke ind",
                 "newDepartments": "Nye afdelinger ({count}):",
+                "newSections": "Nye paragraffer ({count}):",
                 "rowsToLookAt": "Rækker du bør se på",
                 "line": "Linje {line}"
             },
@@ -12695,6 +12696,7 @@
             "departments": "Afdelinger (adskilt med ;)",
             "requires_interpreter": "Tolk påkrævet (ja/nej)",
             "seniority_date": "Anciennitetsdato",
+            "section": "Paragraf",
             "cpr": "Borgerens CPR-nummer (match)",
             "date": "Dato (ÅÅÅÅ-MM-DD)",
             "spoken_languages": "Sprog (adskilt med semikolon)",
@@ -12711,6 +12713,7 @@
             "importFailed": "Importen fejlede. Tjek mapping og datoformater (ÅÅÅÅ-MM-DD).",
             "undoFailed": "Kunne ikke fortryde importen.",
             "invitesFailed": "Kunne ikke sende login-mails.",
+            "missingName": "Mangler for- eller efternavn",
             "missingField": "Mangler {field}",
             "invalidField": "Ugyldig {field}",
             "checkFailed": "Kontrollen kunne ikke gennemføres"

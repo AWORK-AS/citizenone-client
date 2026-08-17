@@ -12644,6 +12644,7 @@
                 "alreadyExists": "Finns redan",
                 "wontLand": "Kommer inte in",
                 "newDepartments": "Nya avdelningar ({count}):",
+                "newSections": "Nya paragrafer ({count}):",
                 "rowsToLookAt": "Rader att titta på",
                 "line": "Rad {line}"
             },
@@ -12695,6 +12696,7 @@
             "departments": "Avdelningar (separerade med ;)",
             "requires_interpreter": "Tolk krävs (ja/nej)",
             "seniority_date": "Anställningsdatum",
+            "section": "Paragraf",
             "cpr": "Medborgarens CPR-nummer (matchning)",
             "date": "Datum (ÅÅÅÅ-MM-DD)",
             "spoken_languages": "Språk (åtskilda med semikolon)",
@@ -12711,6 +12713,7 @@
             "importFailed": "Importen misslyckades. Kontrollera mappning och datumformat (ÅÅÅÅ-MM-DD).",
             "undoFailed": "Kunde inte ångra importen.",
             "invitesFailed": "Kunde inte skicka inloggningsmail.",
+            "missingName": "Saknar för- eller efternamn",
             "missingField": "Saknar {field}",
             "invalidField": "Ogiltigt {field}",
             "checkFailed": "Kontrollen kunde inte genomföras"
