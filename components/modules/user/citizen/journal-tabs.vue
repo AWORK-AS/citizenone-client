@@ -60,6 +60,16 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-price-estimates'],
         })
     }
+    // Invoicing is a module a company switches on, so the tab follows the app
+    // rather than the industry.
+    if (newValue?.has_invoice_app) {
+        tabs.push({
+            name: 'citizens.tabs.invoices', icon: 'ph:currency-circle-dollar', isTranslateName: true,
+            category: 'admin', primary: false,
+            href: `/citizens/${citizenUuid}/invoices`,
+            routeNames: ['citizens-uuid-invoices'],
+        })
+    }
     // Not rendered in the nav/"More" dropdown anymore (surfaced in the details card instead),
     // but kept in `tabs` so direct navigation to the full timeline page isn't treated as inaccessible.
     tabs.push({

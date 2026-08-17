@@ -417,6 +417,25 @@
                             @confirm="() => giveAllMedicines(false)" />
                         <DialogConfirmation :isModalOpen="state.modal.isPnWarningOpen" :message="state.pnWarningMessage"
                             @close="state.modal.isPnWarningOpen = false" @confirm="() => giveAllMedicines(true)" />
+
+                        <!-- A pouring container in this batch ran out (HTTP 409,
+                             pouring_empty: true). The response doesn't say which
+                             medicine, so "New pouring" hands the choice to the user
+                             instead of pre-selecting one; "Give from main stock"
+                             resubmits this whole batch forced to main stock. -->
+                        <DialogConfirmation :isModalOpen="state.modal.isPouringEmptyOpen"
+                            :title="$t('citizens.medicineJournals.pouring.emptyWarningTitle')"
+                            :message="state.pouringEmptyMessage"
+                            :confirmLabel="$t('citizens.medicineJournals.pouring.giveFromMainStock')"
+                            @close="state.modal.isPouringEmptyOpen = false" @confirm="giveFromMainStock">
+                            <template #extra>
+                                <button type="button"
+                                    class="mt-3 w-full text-sm text-primary border border-primary/30 rounded-lg py-2 hover:bg-primary/5 transition-colors font-medium"
+                                    @click="requestNewPouring">
+                                    {{ $t('citizens.medicineJournals.newPouring') }}
+                                </button>
+                            </template>
+                        </DialogConfirmation>
                     </form>
                 </LoadingSpinner>
             </template>
@@ -450,7 +469,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close', 'refreshMedicines', 'refreshMedicineHistories'])
+const emit = defineEmits(['close', 'refreshMedicines', 'refreshMedicineHistories', 'openNewPouring'])
 const customPagesStore = useCustomPagesStore() as any
 
 const state = reactive({
@@ -464,8 +483,11 @@ const state = reactive({
     modal: {
         isMoreThanMedicineDailyConfirmationOpen: false,
         isPnWarningOpen: false,
+        isPouringEmptyOpen: false,
     },
     pnWarningMessage: '',
+    pouringEmptyMessage: '',
+    pendingRetryForce: false,
     options: {
         evaluation_frequencies: [] as any,
         evaluators: [],
@@ -675,13 +697,19 @@ function submitForm() {
     state.modal.isMoreThanMedicineDailyConfirmationOpen = true
 }
 
-async function giveAllMedicines(force = false) {
+async function giveAllMedicines(force = false, forceMainStock = false) {
     state.error = {}
     state.isPageLoading = true
     try {
         let params: any = {
             date: state.formGiveMedicine.date,
-            medicines: state.formGiveMedicine.medicines,
+            // The user explicitly chose "give from main stock" for this whole
+            // batch after a pouring container ran out — the 409 that triggers it
+            // doesn't identify which medicine, so this applies to every item in
+            // the submission rather than trying to guess just one.
+            medicines: forceMainStock
+                ? state.formGiveMedicine.medicines.map((m: any) => ({ ...m, give_from_main_stock: true }))
+                : state.formGiveMedicine.medicines,
         }
         if (force) {
             params.force = true
@@ -702,9 +730,26 @@ async function giveAllMedicines(force = false) {
             refreshMedicines()
         }
     } catch (error: any) {
+        if (error?.pouring_empty && !forceMainStock) {
+            state.pouringEmptyMessage = error?.message ?? t('citizens.medicineJournals.pouring.emptyWarningMessage')
+            state.pendingRetryForce = force
+            state.modal.isPouringEmptyOpen = true
+            state.isPageLoading = false
+            return
+        }
         state.error = error
     }
     state.isPageLoading = false
+}
+
+function giveFromMainStock() {
+    state.modal.isPouringEmptyOpen = false
+    giveAllMedicines(state.pendingRetryForce, true)
+}
+
+function requestNewPouring() {
+    state.modal.isPouringEmptyOpen = false
+    emit('openNewPouring')
 }
 
 function handleQuantityInput(event: Event, selectedMedicineIndex: number, dosageIndex: number) {

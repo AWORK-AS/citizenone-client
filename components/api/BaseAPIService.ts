@@ -242,10 +242,15 @@ class BaseAPIService {
                     // failures it caught itself, so the id belongs here too.
                     throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
                 case 404:
-                case 409:
                 case 422:
                 case 429:
                     throw new APIError(error.response._data)
+                case 409:
+                    // Some 409s carry a business-rule flag alongside the message (e.g.
+                    // pouring_empty) that a caller needs to branch on rather than just
+                    // showing a generic failure — the real HTTP status makes that
+                    // check unambiguous instead of relying on message text.
+                    throw new APIError({ ...error.response._data, status: error.response.status })
                 case 401:
                     this.revokeAccess()
                     throw new APIError(error.response._data || { message: 'Unauthorized' })

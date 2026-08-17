@@ -1946,6 +1946,7 @@
             "locateCitizen": "Find borger",
             "locateCitizenInstructions": "Klik et sted på kortet for at fastgøre en placering. Du kan også trække markøren for at justere positionen. Adressen hentes automatisk.",
             "medicationAllergies": "Medicinallergier (CAVE)",
+            "motherTongue": "Modersmål",
             "municipality": "Kommune",
             "note": "Bemærkning",
             "payingMunicipality": "Betalingskommune",
@@ -1955,6 +1956,8 @@
             "pricingStartDate": "Startdato for prisfastsættelse",
             "primaryCaseworker": "Primær sagsbehandler",
             "region": "Region",
+            "requiresInterpreter": "Tolk påkrævet",
+            "requiresInterpreterDescription": "Markér, hvis der skal bruges tolk ved samtaler med borgeren.",
             "responsibleMunicipality": "Handlekommune",
             "room": "Værelse",
             "section": "Paragraf",
@@ -1962,6 +1965,8 @@
             "selectedLocation": "Valgt placering",
             "autoFilledFromSsn": "Udfyldt ud fra CPR",
             "selectGender": "Vælg køn",
+            "spokenLanguages": "Sprog borgeren taler",
+            "spokenLanguagesDescription": "Vælg de sprog, borgeren kan tale. Det er ikke det samme som systemets sprog.",
             "ssnPlaceholder": "ddmmåå-xxxx",
             "ssn": "CPR-nummer",
             "stayData": {
@@ -2525,6 +2530,23 @@
                 "me": "Mig"
             },
             "newMedicine": "Ny medicin",
+            "newPouring": "Ny dosering",
+            "givenViaPouringContainer": "Givet via doseringsæsken",
+            "pouring": {
+                "activeIngredient": "Aktivt stof",
+                "amount": "Mængde doseret",
+                "amountExceedsStock": "Mængden må ikke overstige den aktuelle hovedbeholdning",
+                "currentMainStock": "Aktuel hovedbeholdning",
+                "emptyWarningMessage": "Doseringsæsken til denne medicin er tom. Vælg, hvordan du vil fortsætte.",
+                "emptyWarningTitle": "Doseringsæsken er tom",
+                "giveFromMainStock": "Giv fra hovedbeholdning",
+                "periodEnd": "Periode slut",
+                "periodEndBeforeStart": "Periodens slutdato skal være samme dag som eller efter startdatoen",
+                "periodStart": "Periode start",
+                "alert": {
+                    "successfullyAdded": "Dosering oprettet"
+                }
+            },
             "page": {
                 "overdue": "Forsinkede",
                 "dueSoon": "Forfaldner snart",
@@ -2986,7 +3008,8 @@
             },
             "surveys": "Spørgeskemaer",
             "toothChart": "Tandkort",
-            "priceEstimates": "Prisoverslag"
+            "priceEstimates": "Prisoverslag",
+            "invoices": "Fakturaer"
         },
         "timeline": {
             "newEvent": "Ny hændelse",
@@ -3462,7 +3485,8 @@
                 "extracted": "Trukket ud",
                 "missing": "Mangler",
                 "planned": "Planlagt behandling",
-                "observation": "Observation"
+                "observation": "Observation",
+                "not_erupted": "Ikke frembrudt"
             },
             "surfaces": {
                 "whole": "Hele tanden",
@@ -3481,7 +3505,14 @@
                 "history": "Behandlingshistorik",
                 "noHistory": "Ingen journalnotater på denne tand endnu.",
                 "openJournals": "Åbn journal",
-                "treatedAt": "Behandlingsdato"
+                "treatedAt": "Behandlingsdato",
+                "quickStatus": "Hurtig status",
+                "surfaces": "Flader",
+                "writeToJournal": "Skriv også til journalen",
+                "attachments": "Vedhæftninger",
+                "addAttachment": "Tilføj fil",
+                "noAttachments": "Ingen røntgen eller billeder på denne tand endnu.",
+                "planned": "Planlagt behandling"
             },
             "downloadPdf": "Hent PDF",
             "oralHealthNotes": "Mundhygiejne og observationer",
@@ -3494,6 +3525,51 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobilitet (0-3)",
                 "measuredAt": "Måledato"
+            },
+            "dentition": {
+                "label": "Tandsæt",
+                "permanent": "Blivende",
+                "primary": "Mælketænder"
+            },
+            "examinations": {
+                "title": "Undersøgelser",
+                "help": "Hver undersøgelse gemmer cariestallene, som de så ud den dag. Det er dem der indberettes.",
+                "record": "Registrér undersøgelse",
+                "examinedAt": "Undersøgelsesdato",
+                "age": "Alder",
+                "primary": "Mælketænder",
+                "permanent": "Blivende",
+                "scorCohort": "SCOR-årgang",
+                "empty": "Ingen undersøgelser registreret endnu.",
+                "saved": "Undersøgelsen er registreret",
+                "snapshotNote": "Tallene beregnes ud fra tandkortet, som det ser ud nu, og gemmes fast på undersøgelsen."
+            },
+            "view": {
+                "arch": "Tandbue",
+                "surfaces": "Flader"
+            },
+            "arch": {
+                "help": "Klik en tand for at se og redigere den. Skift til Flader for at markere enkelte tandflader."
+            },
+            "strip": {
+                "payer": "Betaler",
+                "nextCheckup": "Næste kontrol",
+                "overdue": "overskredet",
+                "lastExamination": "Seneste undersøgelse",
+                "setCheckup": "Sæt kontroldato",
+                "everyMonths": "Hver {months}. måned",
+                "checkupSaved": "Kontrollen er opdateret",
+                "checkupHelp": "Næste kontrol regnes ud fra seneste kontrol plus intervallet."
+            },
+            "history": {
+                "label": "Vis tidligere undersøgelse:",
+                "viewing": "Viser tandkortet som ved undersøgelsen",
+                "backToToday": "Tilbage til i dag"
+            },
+            "attachmentKinds": {
+                "xray": "Røntgen",
+                "photo": "Billede",
+                "document": "Dokument"
             }
         },
         "priceEstimates": {
@@ -3533,7 +3609,86 @@
                 "note": "Bemærkninger",
                 "notePlaceholder": "Fx hvad prisen forudsætter",
                 "needsALine": "Tilføj mindst én behandling"
-            }
+            },
+            "plan": "Plan",
+            "markDone": "Markér udført",
+            "done": "Udført"
+        },
+        "invoices": {
+            "newTitle": "Opret faktura",
+            "invoice": "Faktura",
+            "net": "Beløb",
+            "vat": "Moms",
+            "subsidy": "Tilskud",
+            "toPay": "Til betaling",
+            "paid": "Betalt",
+            "outstanding": "Udestående",
+            "payments": "Betalinger",
+            "markSent": "Markér som sendt",
+            "registerPayment": "Registrér betaling",
+            "amount": "Beløb",
+            "method": "Metode",
+            "paidAt": "Betalingsdato",
+            "saved": "Fakturaen er oprettet",
+            "statuses": {
+                "draft": "Kladde",
+                "sent": "Sendt",
+                "paid": "Betalt",
+                "partly_paid": "Delvist betalt",
+                "cancelled": "Annulleret",
+                "credited": "Krediteret"
+            },
+            "methods": {
+                "cash": "Kontant",
+                "card": "Kort",
+                "mobilepay": "MobilePay",
+                "bank_transfer": "Bankoverførsel",
+                "terminal": "Terminal",
+                "other": "Andet"
+            },
+            "empty": {
+                "title": "Ingen fakturaer",
+                "text": "Opret en faktura, når borgeren skal betale for en ydelse."
+            },
+            "form": {
+                "issuedAt": "Fakturadato",
+                "dueAt": "Betalingsfrist",
+                "lines": "Linjer",
+                "addLine": "Tilføj linje",
+                "service": "Ydelse",
+                "freeLine": "Fri linje",
+                "description": "Beskrivelse",
+                "quantity": "Antal",
+                "unitPrice": "Stykpris",
+                "vat": "Moms %",
+                "subsidy": "Tilskud",
+                "lineTotal": "Beløb",
+                "note": "Bemærkninger",
+                "notePlaceholder": "Fx hvad fakturaen dækker",
+                "needsALine": "Tilføj mindst én linje",
+                "noServices": "Der er ingen ydelser i kataloget endnu. Du kan stadig skrive frie linjer.",
+                "citizen": "Borger",
+                "citizenPlaceholder": "Vælg borger",
+                "needsACitizen": "Vælg den borger, fakturaen hører til."
+            },
+            "downloadPdf": "Hent PDF",
+            "send": "Send til borger",
+            "sendAgain": "Send igen",
+            "sent": "Fakturaen er sendt",
+            "creditNote": "Kreditnota",
+            "credited": "Kreditnotaen er oprettet",
+            "fromPlan": "Fakturér udført behandling",
+            "creditHelp": "Sæt antallet ned, hvis kun en del skal krediteres. Resten står stadig til betaling.",
+            "creditRemaining": "op til {quantity}",
+            "channel": "Kanal",
+            "feeHint": "Betalingsgebyr {rate} % svarer til {amount} kr.",
+            "channels": {
+                "manual": "Betalt til jer",
+                "online": "Onlinebetaling",
+                "fi": "FI-indbetaling"
+            },
+            "paymentLink": "Betalingslink",
+            "paymentLinkCopied": "Betalingslinket er kopieret"
         }
     },
     "client": {
@@ -4325,6 +4480,52 @@
                     "sickLeave": "Sygefravær",
                     "type": "Type",
                     "vacationLeave": "Feriefravær"
+                }
+            }
+        },
+        "shiftRequests": {
+            "form": {
+                "alert": {
+                    "requestSuccessfullySent": "Vagtanmodning blev sendt"
+                },
+                "date": "Dato",
+                "department": "Afdeling",
+                "note": "Bemærkning",
+                "sendRequest": "Send anmodning",
+                "shiftType": "Vagttype",
+                "timeIn": "Tid ind",
+                "timeOut": "Tid ud"
+            },
+            "newShiftRequest": "Anmod om en vagt",
+            "shiftRequests": "Vagtanmodninger",
+            "table": {
+                "actions": {
+                    "approve": "Godkend",
+                    "cancel": "Annuller",
+                    "reject": "Afvis"
+                },
+                "alert": {
+                    "shiftRequestSuccessfullyApproved": "Vagtanmodning blev godkendt",
+                    "shiftRequestSuccessfullyCancelled": "Vagtanmodning blev annulleret",
+                    "shiftRequestSuccessfullyRejected": "Vagtanmodning blev afvist"
+                },
+                "confirmation": {
+                    "approveShiftRequestConfirmation": "Er du sikker på, at du vil godkende denne vagtanmodning?",
+                    "cancelShiftRequestConfirmation": "Er du sikker på, at du vil annullere denne vagtanmodning?",
+                    "rejectComment": "Kommentar (valgfri)",
+                    "rejectCommentPlaceholder": "Tilføj en begrundelse, medarbejderen kan se",
+                    "rejectShiftRequestConfirmation": "Er du sikker på, at du vil afvise denne vagtanmodning?"
+                },
+                "date": "Dato",
+                "dateTimeEnd": "Slutdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
+                "note": "Bemærkning",
+                "shiftType": "Vagttype",
+                "status": {
+                    "approved": "Godkendt",
+                    "pending": "Afventer",
+                    "rejected": "Afvist",
+                    "status": "Status"
                 }
             }
         },
@@ -5968,6 +6169,7 @@
                 "medicineDeviation": "Medicinafvigelse",
                 "useOfForce": "Brug af magt"
             },
+            "motherTongue": "Modersmål",
             "municipality": "Kommune",
             "pageAccess": "Sideadgang",
             "password": "Adgangskode",
@@ -5986,6 +6188,9 @@
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbejdstimer",
             "showCompensatoryHours": "Vis afspadsering og feriedage",
+            "spokenLanguages": "Sprog medarbejderen taler",
+            "spokenLanguagesDescription": "Vælg de sprog, medarbejderen kan tale. Det er ikke det samme som systemets sprog.",
+            "spokenLanguagesNotRegistered": "Ikke registreret",
             "street": "Gade",
             "note": "Note",
             "notePlaceholder": "Intern note om medarbejderen",
@@ -7113,6 +7318,17 @@
             "serviceFee": "Servicegebyr",
             "status": "Status",
             "unpaid": "Ubetalt"
+        },
+        "purchases": {
+            "title": "Aktive apps",
+            "apps": "Aktive apps",
+            "appsHint": "{amount} kr./md. i alt",
+            "fees": "Betalingsgebyr denne måned",
+            "feesHint": "{count} betalinger båret af CitizenOne",
+            "nextCharge": "Forventet næste træk",
+            "nextChargeHint": "Abonnement og gebyr samlet",
+            "perMonth": "kr./md.",
+            "plusFee": "+ {rate} % pr. betaling"
         }
     },
     "jobSpecialties": {
@@ -9491,7 +9707,7 @@
         },
         "groups": {
             "company": "Virksomhed",
-            "billing": "Fakturering",
+            "billing": "Abonnement og betaling",
             "data": "Data",
             "logs": "Logs",
             "integrations": "Integrationer",
@@ -9519,7 +9735,7 @@
             "expenseCategories": "Udgiftskategorier",
             "extraHoursTags": "Ekstra timer tags",
             "foreignCities": "Udenlandske byer",
-            "invoices": "Fakturaer",
+            "invoices": "Køb og betalinger",
             "jobTitles": "Jobtitler",
             "journalContents": "Journal indhold",
             "journalNoteTags": "Journalnotetag",
@@ -9787,7 +10003,10 @@
         "myDay": "Min dag",
         "myAvailability": "Min tilgængelighed",
         "myShiftEvaluations": "Mine vagtevalueringer",
-        "forms": "Formularer"
+        "forms": "Formularer",
+        "dentalRecalls": "Indkaldelser",
+        "dentalOverview": "Klinikoverblik",
+        "invoicing": "Fakturering"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -10025,7 +10244,9 @@
                     "other": "Anden"
                 },
                 "discountPercent": "Rabat (%)",
-                "discountEndsAt": "Tilbud slutter"
+                "discountEndsAt": "Tilbud slutter",
+                "paymentFeePercent": "Betalingsgebyr",
+                "paymentFeeHelp": "Hvad CitizenOne tager af en betaling, appen bærer. Tom betyder intet gebyr."
             },
             "colName": "Navn",
             "attachToCompany": "Tildel til virksomhed",
@@ -10863,7 +11084,8 @@
             "products": "Produkter",
             "clientRoles": "Roller & Rettigheder",
             "cancellations": "Opsigelser",
-            "storagePackages": "Lagerpakker"
+            "storagePackages": "Lagerpakker",
+            "paymentFees": "Betalingsgebyrer"
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
@@ -11426,6 +11648,45 @@
             "successDeleted": "Lagerpakke slettet",
             "successUpdated": "Lagerpakke opdateret",
             "colPricePerGb": "Kr. pr. GB"
+        },
+        "paymentFees": {
+            "pageTitle": "Betalingsgebyrer",
+            "header": "Betalingsgebyrer",
+            "subtitle": "Hvad vi tjener på betalinger, vi bærer for kunderne. Satsen sættes på den enkelte app.",
+            "period": "Måned",
+            "company": "Virksomhed",
+            "payments": "Betalinger",
+            "volume": "Omsat",
+            "fee": "Gebyr",
+            "status": "Status",
+            "empty": "Ingen betalinger gennem os i denne måned",
+            "statuses": {
+                "open": "Åben",
+                "closed": "Lukket",
+                "charged": "Faktureret"
+            },
+            "cards": {
+                "fee": "Gebyr i alt",
+                "feeHint": "{count} virksomheder",
+                "uncharged": "Ikke faktureret",
+                "unchargedHint": "Mangler at komme på en faktura",
+                "volume": "Omsat gennem os",
+                "volumeHint": "Betalinger vi har båret",
+                "payments": "Antal betalinger",
+                "paymentsHint": "I måneden"
+            },
+            "app": "App",
+            "unknownApp": "Ukendt app",
+            "gaps": {
+                "title": "Penge på vej til at gå tabt",
+                "paymentsWithoutFee": "{count} betalinger uden gebyr ({amount})",
+                "feesWithoutStatement": "{count} gebyrer hører ikke til en opgørelse",
+                "stale": "{count} måneder er aldrig faktureret ({amount}, ældste {period})"
+            },
+            "uncharged": {
+                "title": "Afsluttede måneder der venter på at blive trukket",
+                "waiting": "venter {months} md."
+            }
         }
     },
     "support": {
@@ -12367,6 +12628,7 @@
                 "title": "Gennemgang før import - intet er gemt endnu.",
                 "readyToImport": "klar til import",
                 "skipped": "springes over",
+                "unknownSpokenLanguages": "Sprog vi ikke genkendte ({count}) - de bliver ikke importeret:",
                 "whySkipped": "Hvorfor springes rækker over",
                 "journalHint": "Rækker uden match i CitizenOne (ukendt CPR) frasorteres automatisk under importen og vises i opsummeringen.",
                 "scheduleHint": "Rækker uden match i CitizenOne (ukendt e-mail eller vagttype) frasorteres automatisk under importen og vises i opsummeringen.",
@@ -12382,6 +12644,7 @@
                 "alreadyExists": "Findes allerede",
                 "wontLand": "Kommer ikke ind",
                 "newDepartments": "Nye afdelinger ({count}):",
+                "newSections": "Nye paragraffer ({count}):",
                 "rowsToLookAt": "Rækker du bør se på",
                 "line": "Linje {line}"
             },
@@ -12431,9 +12694,12 @@
             "date_admitted": "Indskrivningsdato",
             "date_discharged": "Udskrivningsdato",
             "departments": "Afdelinger (adskilt med ;)",
+            "requires_interpreter": "Tolk påkrævet (ja/nej)",
             "seniority_date": "Anciennitetsdato",
+            "section": "Paragraf",
             "cpr": "Borgerens CPR-nummer (match)",
             "date": "Dato (ÅÅÅÅ-MM-DD)",
+            "spoken_languages": "Sprog (adskilt med semikolon)",
             "title": "Titel",
             "content": "Notat-tekst",
             "shift": "Vagttype (navn)",
@@ -12447,6 +12713,7 @@
             "importFailed": "Importen fejlede. Tjek mapping og datoformater (ÅÅÅÅ-MM-DD).",
             "undoFailed": "Kunne ikke fortryde importen.",
             "invitesFailed": "Kunne ikke sende login-mails.",
+            "missingName": "Mangler for- eller efternavn",
             "missingField": "Mangler {field}",
             "invalidField": "Ugyldig {field}",
             "checkFailed": "Kontrollen kunne ikke gennemføres"
@@ -12468,7 +12735,8 @@
             "cpr_missing": "CPR mangler - dubletter findes så kun på navn",
             "cpr_malformed": "CPR har ikke 10 cifre",
             "invalid_date": "Dato kan ikke læses: {field}",
-            "date_guessed": "Dato blev rettet af systemet: {field}"
+            "date_guessed": "Dato blev rettet af systemet: {field}",
+            "spoken_language_unknown": "Et eller flere sprog blev ikke genkendt og er ikke importeret"
         }
     },
     "sms": {
@@ -12881,6 +13149,236 @@
         "alert": {
             "savedSuccessfully": "Din evaluering blev gemt",
             "deletedSuccessfully": "Din evaluering blev fjernet"
+        }
+    },
+    "dentalRecalls": {
+        "title": "Indkaldelser",
+        "help": "Patienter der skal indkaldes til kontrol. SMS, e-mail og app-beskeder sendes automatisk. Brev og opkald står her, fordi et system ikke kan foretage dem.",
+        "overdueCount": "patienter er overskredet",
+        "daysOverdue": "dage over tid",
+        "markContacted": "Markér som indkaldt",
+        "contacted": "Patienten er markeret som indkaldt",
+        "manual": "Skal kontaktes manuelt",
+        "autoOff": "Automatisk påmindelse er slået fra",
+        "noChannel": "Ikke valgt",
+        "window": {
+            "overdue": "Overskredet",
+            "month": "Næste 30 dage",
+            "quarter": "Næste 90 dage"
+        },
+        "table": {
+            "patient": "Patient",
+            "due": "Til kontrol",
+            "channel": "Indkaldelsestype",
+            "lastContact": "Sidst kontaktet"
+        },
+        "empty": {
+            "title": "Ingen indkaldelser",
+            "text": "Ingen patienter skal indkaldes i den valgte periode."
+        }
+    },
+    "dentalOverview": {
+        "title": "Klinikoverblik",
+        "overdue": "Overskredne kontroller",
+        "overdueHelp": "Patienter der skulle have været indkaldt",
+        "dueSoon": "Til kontrol snart",
+        "dueSoonHelp": "Inden for {days} dage",
+        "plannedWork": "Planlagt arbejde",
+        "plannedWorkHelp": "{patients} patienter, {value} kr. accepteret",
+        "awaitingAnswer": "Afventer svar",
+        "awaitingAnswerHelp": "Sendte prisoverslag, {value} kr. i egenbetaling",
+        "mostOverdue": "Mest overskredne",
+        "oldestPlanned": "Ældste planlagte arbejde",
+        "noOverdue": "Ingen overskredne kontroller.",
+        "noPlanned": "Intet planlagt arbejde.",
+        "seeAll": "Se alle",
+        "examinations": "{total} undersøgelser registreret i år, heraf {reportable} i en indberetningspligtig årgang."
+    },
+    "services": {
+        "title": "Ydelser",
+        "help": "Kataloget over hvad I sælger, med pris, moms og forventet tilskud. Fakturalinjer henter deres pris herfra.",
+        "new": "Ny ydelse",
+        "saved": "Ydelsen er gemt",
+        "inactive": "inaktiv",
+        "empty": {
+            "title": "Ingen ydelser endnu",
+            "text": "Opret jeres ydelser, så priser ikke skal skrives ind på hver faktura."
+        },
+        "form": {
+            "code": "Ydelsesnummer",
+            "codePlaceholder": "Fx 1111",
+            "name": "Navn",
+            "unitPrice": "Stykpris",
+            "vatRate": "Moms %",
+            "subsidy": "Standardtilskud",
+            "vatHelp": "Tandbehandling er momsfri, så momssatsen sættes pr. ydelse i stedet for at blive antaget.",
+            "unitPriceIncl": "Stykpris inkl. moms",
+            "category": "Kategori",
+            "noCategory": "Ingen kategori"
+        },
+        "categories": {
+            "title": "Kategorier",
+            "help": "Grupper jeres ydelser, fx undersøgelser, kirurgi og tandpleje. Sletter du en kategori, bliver ydelserne stående uden gruppe.",
+            "name": "Kategorinavn",
+            "placeholder": "Fx Undersøgelser",
+            "add": "Tilføj",
+            "all": "Alle",
+            "uncategorised": "Uden kategori"
+        }
+    },
+    "invoicing": {
+        "title": "Fakturering",
+        "outstandingTotal": "Samlet udestående",
+        "creditNote": "kreditnota",
+        "filters": {
+            "outstanding": "Udestående",
+            "all": "Alle",
+            "paid": "Betalte",
+            "draft": "Kladder"
+        },
+        "table": {
+            "number": "Nr.",
+            "citizen": "Borger",
+            "issued": "Fakturadato",
+            "due": "Frist",
+            "status": "Status"
+        },
+        "empty": {
+            "title": "Ingen fakturaer",
+            "text": "Fakturaer oprettes på den enkelte borger og samles her."
+        },
+        "tabs": {
+            "invoices": "Fakturaer",
+            "services": "Ydelser",
+            "settings": "Opsætning",
+            "templates": "Skabeloner",
+            "reports": "Rapporter"
+        },
+        "settings": {
+            "help": "Momssats, priser og de oplysninger, der skal stå på hver faktura.",
+            "adminOnly": "Kun en administrator kan ændre fakturaopsætningen.",
+            "vat": "Moms",
+            "defaultVatRate": "Standard momssats %",
+            "defaultVatRateHelp": "Bruges på nye ydelser og på fakturalinjer uden egen sats. Tandbehandling er momsfri, så her sættes 0.",
+            "pricesIncludeVat": "Priser er inkl. moms",
+            "pricesIncludeVatHelp": "Slå til, hvis I skriver priser, som kunden betaler dem. Momsen regnes så ud af beløbet i stedet for at blive lagt til.",
+            "example": "Med en pris på 100:",
+            "exampleIncl": "{net} ekskl. moms + {vat} i moms = 100,00",
+            "exampleExcl": "100,00 + {vat} i moms = {total}",
+            "invoiceDetails": "Fakturaoplysninger",
+            "vatNumber": "CVR-nr.",
+            "paymentTerms": "Betalingsfrist (dage)",
+            "paymentDetails": "Betalingsoplysninger",
+            "paymentDetailsPlaceholder": "Fx bankkonto, MobilePay-nummer eller betalingsvilkår",
+            "footer": "Fodnote på faktura",
+            "footerPlaceholder": "Fx henvisning til handelsbetingelser",
+            "saved": "Fakturaopsætningen er gemt",
+            "design": "Design",
+            "showLogo": "Vis logo på faktura",
+            "showLogoHelp": "Bruger klinikkens logo fra firmaindstillingerne. Uden logo står afsenderen med navn og adresse.",
+            "accentColor": "Farve",
+            "accentColorHelp": "Bruges på overskrift, tabelhoved og stregen ved beløbet til betaling.",
+            "resetColor": "Nulstil",
+            "preview": "Forhåndsvisning",
+            "previewInvoice": "Forhåndsvis faktura",
+            "previewHelp": "Åbner en eksempelfaktura som PDF, præcis som borgeren modtager den. Gemmer først dine ændringer.",
+            "onlinePayment": "Onlinebetaling",
+            "onlinePaymentUnavailable": "Onlinebetaling er ikke slået til i CitizenOne endnu.",
+            "onlinePaymentHelp": "Borgeren betaler med kort eller MobilePay fra fakturaen. Pengene går direkte til jeres egen konto. {rate} % pr. betaling.",
+            "paymentsReady": "Klar til at modtage betalinger",
+            "paymentsNotReady": "Opsætningen er ikke færdig",
+            "connectPayments": "Forbind betalingskonto",
+            "continueSetup": "Fortsæt opsætning",
+            "testMode": "Testtilstand: betalinger her er ikke rigtige, og der bliver ikke trukket penge.",
+            "onlinePaymentTooltip": "Borgeren betaler med kort eller MobilePay på en side hos betalingsudbyderen. Pengene går direkte ind på jeres egen konto, ikke gennem CitizenOne, og fakturaen lukker sig selv, når betalingen er gennemført. CitizenOne tager 1,49 % pr. betaling, og betalingsudbyderens eget gebyr afregner I direkte med dem. Bankoverførsel koster ingenting.",
+            "termsTitle": "Aktivér onlinebetaling",
+            "termsFee": "CitizenOne trækker {rate} % af hver onlinebetaling. Bankoverførsel koster ingenting.",
+            "termsProvider": "Betalingsudbyderens eget gebyr afregner I direkte med dem, og pengene udbetales til jeres egen konto.",
+            "termsCancel": "I kan slå onlinebetaling fra igen når som helst. Allerede gennemførte betalinger berøres ikke.",
+            "termsAccept": "Jeg godkender, at CitizenOne trækker {rate} % pr. onlinebetaling.",
+            "activate": "Aktivér og fortsæt til opsætning",
+            "termsAcceptedOn": "Vilkårene er godkendt {date} med {rate} % pr. betaling.",
+            "termsLink": "Se vilkår og betingelser"
+        },
+        "reports": {
+            "from": "Fra",
+            "to": "Til",
+            "export": "Eksportér CSV",
+            "revenue": "Omsætning",
+            "overTime": "Omsætning og betalinger",
+            "ageing": "Udestående efter alder",
+            "ageingHelp": "Regnet fra betalingsfristen, opgjort i dag.",
+            "topServices": "Mest solgte ydelser",
+            "paymentMethods": "Betalingsmetoder",
+            "empty": "Ingen tal i perioden",
+            "periods": {
+                "month": "Denne måned",
+                "lastMonth": "Sidste måned",
+                "quarter": "Kvartal",
+                "year": "År"
+            },
+            "buckets": {
+                "not_due": "Ikke forfaldne",
+                "days_1_30": "1-30 dage",
+                "days_31_60": "31-60 dage",
+                "days_60_plus": "Over 60 dage"
+            },
+            "cards": {
+                "revenue": "Omsætning denne måned",
+                "revenueHint": "Ekskl. moms, {count} bogførte fakturaer",
+                "outstanding": "Ubetalte fakturaer",
+                "outstandingHint": "{count} kladder er ikke bogført endnu",
+                "overdue": "Forfaldne",
+                "overdueHint": "Betalingsfristen er overskredet",
+                "paid": "Betalt",
+                "paidHint": "Registreret i perioden"
+            },
+            "fees": "Betalingsgebyr til CitizenOne",
+            "feesHelp": "Opkræves på jeres egen CitizenOne-faktura."
+        }
+    },
+    "invoiceTemplates": {
+        "help": "Gem de linjer, I fakturerer sammen igen og igen, og træk dem ind på en ny faktura med ét klik.",
+        "new": "Ny skabelon",
+        "saved": "Skabelonen er gemt",
+        "use": "Brug skabelon",
+        "catalogue": "katalogpris",
+        "fromCatalogue": "fra katalog",
+        "empty": {
+            "title": "Ingen skabeloner endnu",
+            "text": "Opret en skabelon for fx et årseftersyn, så de faste linjer ikke skal skrives hver gang."
+        },
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Årskontrol",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Kort forklaring til dine kolleger",
+            "priceHelp": "Lad pris og moms stå tomme på en linje med ydelse, så følger den altid katalogets pris."
+        },
+        "preview": "Forhåndsvis"
+    },
+    "delete": "Slet",
+    "edit": "Rediger",
+    "payment": {
+        "done": {
+            "title": "Tak for betalingen",
+            "text": "Betalingen er gennemført, og fakturaen er markeret som betalt.",
+            "receipt": "Kvitteringen er sendt til din mail af betalingsudbyderen.",
+            "pendingTitle": "Betalingen er modtaget",
+            "pendingText": "Vi venter på bekræftelse fra betalingsudbyderen. Du behøver ikke gøre mere.",
+            "paidTo": "Betalt til {company}"
+        },
+        "cancelled": {
+            "title": "Betalingen blev afbrudt",
+            "text": "Der er ikke trukket noget. Du kan bruge linket igen, når du er klar."
+        }
+    },
+    "economy": {
+        "title": "Økonomi",
+        "tabs": {
+            "overview": "Overblik",
+            "revenue": "Omsætning",
+            "billing": "Faktureringsudtræk"
         }
     }
 }

@@ -414,7 +414,7 @@
                                                             {{ getDisplayName(employee).lastName }}
                                                         </p>
                                                     </div>
-                                                    <div class="flex items-center gap-x-0.5 sm:gap-x-1 flex-shrink-0">
+                                                    <div class="flex items-center flex-wrap justify-end gap-x-0.5 gap-y-1 sm:gap-x-1">
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.copy.copyEmployeeSchedule')"
                                                             v-if="isAtLeast('Admin')">
@@ -444,6 +444,18 @@
                                                                 <Icon name="mdi:wallet-travel" class="h-3 w-3"
                                                                     aria-hidden="true" />
                                                 <div v-if="employee?.pending_leave_requests > 0"
+                                                                    class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
+                                                            </button>
+                                                        </Tooltip>
+                                                        <Tooltip position="right"
+                                                            :text="$t('dutySchedules.shiftRequests.shiftRequests')"
+                                                            v-if="isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.uuid === employee?.uuid)">
+                                                            <button :aria-label="$t('dutySchedules.shiftRequests.shiftRequests')"
+                                                                class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
+                                                                @click="viewShiftRequests(employee)">
+                                                                <Icon name="mdi:calendar-plus" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                <div v-if="employee?.pending_shift_requests > 0"
                                                                     class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
                                                             </button>
                                                         </Tooltip>
@@ -1405,6 +1417,9 @@
         <ModulesUserDutyScheduleLeaveRequestsModalView :isModalOpen="state.modal.isManageLeaveRequestsOpen"
             :selectedEmployee="state.manageLeaveRequests.selectedEmployee"
             @close="state.modal.isManageLeaveRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+        <ModulesUserDutyScheduleShiftRequestsModalView :isModalOpen="state.modal.isManageShiftRequestsOpen"
+            :selectedEmployee="state.manageShiftRequests.selectedEmployee"
+            @close="state.modal.isManageShiftRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
         <ModulesUserDutyScheduleTimeRequestsModalRequests :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
             :selectedDate="state.manageTimeRequest.selectedDate"
             :selectedEmployee="state.manageTimeRequest.selectedEmployee"
@@ -1489,6 +1504,7 @@ const year = computed(() => currentDate.value.format('YYYY'))
 const teleportReady = ref(false)
 const route = useRoute()
 const hasHandledSwapDeepLink = ref(false)
+const hasHandledShiftRequestDeepLink = ref(false)
 const expandedRecords = reactive([] as boolean[])
 const weekHeaderRef = ref<HTMLElement | null>(null)
 const weekBodyRef = ref<HTMLElement | null>(null)
@@ -1582,6 +1598,9 @@ const state = reactive({
     manageLeaveRequests: {
         selectedEmployee: {},
     },
+    manageShiftRequests: {
+        selectedEmployee: {},
+    },
     manageTimeRequest: {
         selectedDate: '',
         selectedEmployee: {},
@@ -1603,6 +1622,7 @@ const state = reactive({
         isManageFavoritesOpen: false,
         isManageLeaveRequestsOpen: false,
         isManageScheduleSlotOpen: false,
+        isManageShiftRequestsOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
         isRemoveShiftReasonOpen: false,
@@ -1754,6 +1774,7 @@ onMounted(async () => {
     await fetchDutySchedule()
     favoriteEmployees.ensureLoaded()
     handleSwapRequestDeepLink()
+    handleShiftRequestDeepLink()
     window.addEventListener('keydown', handleKeyDown)
     fetchDepartmentsWithMinimumStaff()
 })
@@ -2521,6 +2542,25 @@ function viewExtraHours(employee: any) {
 function viewLeaveRequests(employee: any) {
     state.manageLeaveRequests.selectedEmployee = employee
     state.modal.isManageLeaveRequestsOpen = true
+}
+
+function handleShiftRequestDeepLink() {
+    if (hasHandledShiftRequestDeepLink.value) return
+    const shiftRequestEmployee = route.query.shiftRequestEmployee as string | undefined
+    if (!shiftRequestEmployee) return
+
+    hasHandledShiftRequestDeepLink.value = true
+
+    const matchedEmployee = state.weeklySchedules?.data?.find(
+        (employee: any) => employee?.uuid === shiftRequestEmployee
+    )
+    state.manageShiftRequests.selectedEmployee = matchedEmployee ?? { uuid: shiftRequestEmployee }
+    state.modal.isManageShiftRequestsOpen = true
+}
+
+function viewShiftRequests(employee: any) {
+    state.manageShiftRequests.selectedEmployee = employee
+    state.modal.isManageShiftRequestsOpen = true
 }
 
 async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {

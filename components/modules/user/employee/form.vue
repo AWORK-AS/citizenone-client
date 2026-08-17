@@ -126,6 +126,23 @@
                         <FormError :error="props?.error?.errors?.roles?.[0]" />
                     </div>
                 </div>
+                <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <div class="space-y-1">
+                        <FormLabel for="spoken_languages" :label="$t('employees.form.spokenLanguages')" />
+                        <FormSelectMultiple id="spoken_languages" :options="state.options.spokenLanguages"
+                            v-model="state.formEmployee.spoken_languages" />
+                        <p class="text-xs text-gray-500">
+                            {{ $t('employees.form.spokenLanguagesDescription') }}
+                        </p>
+                        <FormError :error="props?.error?.errors?.spoken_languages_uuid?.[0]" />
+                    </div>
+                    <div class="space-y-1" v-if="state.formEmployee.spoken_languages?.length > 0">
+                        <FormLabel for="primary_spoken_language" :label="$t('employees.form.motherTongue')" />
+                        <FormSelect id="primary_spoken_language" :options="selectedSpokenLanguageOptions"
+                            v-model="state.formEmployee.primary_spoken_language" />
+                        <FormError :error="props?.error?.errors?.primary_spoken_language_uuid?.[0]" />
+                    </div>
+                </div>
                 <div class="space-y-1" ref="streetField">
                     <FormLabel for="street" :label="$t('employees.form.street')" />
                     <FormTextField id="street" name="street"
@@ -563,6 +580,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import type { EmployeeForm, Error } from '@/types'
 
 const props = defineProps({
@@ -590,6 +608,7 @@ const avatarUrl = ref('/img/avatars/user.svg')
 const { errorAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
+const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
 const firstnameField = ref<HTMLElement | null>(null)
 const lastnameField = ref<HTMLElement | null>(null)
 const emailField = ref<HTMLElement | null>(null)
@@ -634,6 +653,8 @@ const state = reactive({
         permissions: [],
         media_risks: [],
         pages: [],
+        spoken_languages: [],
+        primary_spoken_language: '',
         employment: {
             salary_id: '',
             employment_date: '',
@@ -682,6 +703,7 @@ const state = reactive({
         ],
         jobSpecialties: [],
         jobTitles: [],
+        spokenLanguages: [] as any,
         media_risks: [] as any,
         municipalities: [],
         pages: [],
@@ -722,8 +744,25 @@ watch(() => language.locale.value, (newValue: any) => {
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
             { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
         ]
+        // Language names are Danish or English depending on the locale, so relabel.
+        fetchSpokenLanguages()
     }
 })
+
+// The mother tongue can only be one of the languages actually selected.
+const selectedSpokenLanguageOptions = computed(() =>
+    state.options.spokenLanguages.filter((option: any) =>
+        state.formEmployee.spoken_languages?.includes(option.value)
+    )
+)
+
+// Deselecting a language that was the mother tongue would otherwise leave a
+// dangling uuid that the backend silently drops on save.
+watch(() => state.formEmployee.spoken_languages, (languages: any) => {
+    if (state.formEmployee.primary_spoken_language && !languages?.includes(state.formEmployee.primary_spoken_language)) {
+        state.formEmployee.primary_spoken_language = ''
+    }
+}, { deep: true })
 
 watch(() => props.selectedEmployee, (newValue: any) => {
     if (newValue != null) {
@@ -755,6 +794,8 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             permissions: [],
             media_risks: newValue.media_risks,
             pages: newValue.pages,
+            spoken_languages: newValue.spoken_languages ?? [],
+            primary_spoken_language: newValue.primary_spoken_language ?? '',
             emergencyInfo: {
                 emergency_contacts: newValue.emergencyInfo.emergency_contacts,
                 trustees: newValue.emergencyInfo.trustees,
@@ -896,6 +937,7 @@ function hasTrusteeErrors() {
 
 onMounted(() => {
     fetchMediaRisks()
+    fetchSpokenLanguages()
     fetchDepartments()
     fetchRoles()
     fetchJobTitles()
@@ -1125,6 +1167,17 @@ async function fetchCities(municipalityUuid: any) {
             )
             state.options.cities = options
         }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchSpokenLanguages() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        state.options.spokenLanguages = await fetchSpokenLanguageOptions()
     } catch (error: any) {
         state.error = error
     }

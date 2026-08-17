@@ -1946,6 +1946,7 @@
             "locateCitizen": "Locate Citizen",
             "locateCitizenInstructions": "Click anywhere on the map to pin a location. You can also drag the marker to adjust the position. The address will be automatically fetched.",
             "medicationAllergies": "Medication allergies (CAVE)",
+            "motherTongue": "Mother tongue",
             "municipality": "Municipality",
             "note": "Note",
             "payingMunicipality": "Paying municipality",
@@ -1955,6 +1956,8 @@
             "pricingStartDate": "Pricing start date",
             "primaryCaseworker": "Primary caseworker",
             "region": "Region",
+            "requiresInterpreter": "Interpreter required",
+            "requiresInterpreterDescription": "Tick this if an interpreter is needed for conversations with the citizen.",
             "responsibleMunicipality": "Responsible municipality",
             "room": "Room",
             "section": "Section",
@@ -1962,6 +1965,8 @@
             "selectedLocation": "Selected Location",
             "autoFilledFromSsn": "Filled in from the CPR number",
             "selectGender": "Select gender",
+            "spokenLanguages": "Languages the citizen speaks",
+            "spokenLanguagesDescription": "Select the languages the citizen can speak. This is not the same as the system language.",
             "ssnPlaceholder": "ddmmyy-xxxx",
             "ssn": "Social security number",
             "stayData": {
@@ -2525,6 +2530,23 @@
                 "me": "Me"
             },
             "newMedicine": "New medicine",
+            "newPouring": "New pouring",
+            "givenViaPouringContainer": "Given via the pouring container",
+            "pouring": {
+                "activeIngredient": "Active ingredient",
+                "amount": "Amount poured",
+                "amountExceedsStock": "Amount cannot exceed the current main stock",
+                "currentMainStock": "Current main stock",
+                "emptyWarningMessage": "The pouring container for this medicine is empty. Choose how you want to proceed.",
+                "emptyWarningTitle": "Pouring container is empty",
+                "giveFromMainStock": "Give from main stock",
+                "periodEnd": "Period end",
+                "periodEndBeforeStart": "Period end must be on or after the period start",
+                "periodStart": "Period start",
+                "alert": {
+                    "successfullyAdded": "Pouring successfully created"
+                }
+            },
             "page": {
                 "overdue": "Overdue",
                 "dueSoon": "Due soon",
@@ -2986,7 +3008,8 @@
             },
             "surveys": "Surveys",
             "toothChart": "Tooth chart",
-            "priceEstimates": "Price estimates"
+            "priceEstimates": "Price estimates",
+            "invoices": "Invoices"
         },
         "timeline": {
             "newEvent": "New event",
@@ -3462,7 +3485,8 @@
                 "extracted": "Extracted",
                 "missing": "Missing",
                 "planned": "Planned treatment",
-                "observation": "Observation"
+                "observation": "Observation",
+                "not_erupted": "Not erupted"
             },
             "surfaces": {
                 "whole": "Whole tooth",
@@ -3481,7 +3505,14 @@
                 "history": "Treatment history",
                 "noHistory": "No journal notes on this tooth yet.",
                 "openJournals": "Open journals",
-                "treatedAt": "Treatment date"
+                "treatedAt": "Treatment date",
+                "quickStatus": "Quick status",
+                "surfaces": "Surfaces",
+                "writeToJournal": "Also write to the journal",
+                "attachments": "Attachments",
+                "addAttachment": "Add file",
+                "noAttachments": "No x-rays or images on this tooth yet.",
+                "planned": "Planned treatment"
             },
             "downloadPdf": "Download PDF",
             "oralHealthNotes": "Oral health and observations",
@@ -3494,6 +3525,51 @@
                 "pocketPlaceholder": "mm",
                 "mobility": "Mobility (0-3)",
                 "measuredAt": "Measured on"
+            },
+            "dentition": {
+                "label": "Dentition",
+                "permanent": "Permanent",
+                "primary": "Primary"
+            },
+            "examinations": {
+                "title": "Examinations",
+                "help": "Each examination stores the caries figures as they were that day. Those are the ones reported.",
+                "record": "Record examination",
+                "examinedAt": "Examination date",
+                "age": "Age",
+                "primary": "Primary",
+                "permanent": "Permanent",
+                "scorCohort": "SCOR cohort",
+                "empty": "No examinations recorded yet.",
+                "saved": "Examination recorded",
+                "snapshotNote": "The figures are calculated from the chart as it looks now and stored on the examination."
+            },
+            "view": {
+                "arch": "Arch",
+                "surfaces": "Surfaces"
+            },
+            "arch": {
+                "help": "Click a tooth to view and edit it. Switch to Surfaces to mark individual tooth surfaces."
+            },
+            "strip": {
+                "payer": "Payer",
+                "nextCheckup": "Next check-up",
+                "overdue": "overdue",
+                "lastExamination": "Last examination",
+                "setCheckup": "Set a check-up",
+                "everyMonths": "Every {months} months",
+                "checkupSaved": "Check-up updated",
+                "checkupHelp": "The next check-up is the last one plus the interval."
+            },
+            "history": {
+                "label": "Show an earlier examination:",
+                "viewing": "Showing the chart as at the examination on",
+                "backToToday": "Back to today"
+            },
+            "attachmentKinds": {
+                "xray": "X-ray",
+                "photo": "Photo",
+                "document": "Document"
             }
         },
         "priceEstimates": {
@@ -3533,7 +3609,86 @@
                 "note": "Notes",
                 "notePlaceholder": "For example what the price assumes",
                 "needsALine": "Add at least one treatment"
-            }
+            },
+            "plan": "Plan",
+            "markDone": "Mark done",
+            "done": "Done"
+        },
+        "invoices": {
+            "newTitle": "Create invoice",
+            "invoice": "Invoice",
+            "net": "Amount",
+            "vat": "VAT",
+            "subsidy": "Subsidy",
+            "toPay": "To pay",
+            "paid": "Paid",
+            "outstanding": "Outstanding",
+            "payments": "Payments",
+            "markSent": "Mark as sent",
+            "registerPayment": "Record payment",
+            "amount": "Amount",
+            "method": "Method",
+            "paidAt": "Payment date",
+            "saved": "Invoice created",
+            "statuses": {
+                "draft": "Draft",
+                "sent": "Sent",
+                "paid": "Paid",
+                "partly_paid": "Partly paid",
+                "cancelled": "Cancelled",
+                "credited": "Credited"
+            },
+            "methods": {
+                "cash": "Cash",
+                "card": "Card",
+                "mobilepay": "MobilePay",
+                "bank_transfer": "Bank transfer",
+                "terminal": "Terminal",
+                "other": "Other"
+            },
+            "empty": {
+                "title": "No invoices",
+                "text": "Create an invoice when the citizen is to pay for a service."
+            },
+            "form": {
+                "issuedAt": "Invoice date",
+                "dueAt": "Due date",
+                "lines": "Lines",
+                "addLine": "Add line",
+                "service": "Service",
+                "freeLine": "Free line",
+                "description": "Description",
+                "quantity": "Qty",
+                "unitPrice": "Unit price",
+                "vat": "VAT %",
+                "subsidy": "Subsidy",
+                "lineTotal": "Amount",
+                "note": "Notes",
+                "notePlaceholder": "For example what the invoice covers",
+                "needsALine": "Add at least one line",
+                "noServices": "The catalogue is empty. You can still write free lines.",
+                "citizen": "Citizen",
+                "citizenPlaceholder": "Choose a citizen",
+                "needsACitizen": "Choose the citizen the invoice belongs to."
+            },
+            "downloadPdf": "Download PDF",
+            "send": "Send to citizen",
+            "sendAgain": "Send again",
+            "sent": "Invoice sent",
+            "creditNote": "Credit note",
+            "credited": "Credit note created",
+            "fromPlan": "Invoice carried out treatment",
+            "creditHelp": "Lower the quantity to credit part of the invoice. The rest stays payable.",
+            "creditRemaining": "up to {quantity}",
+            "channel": "Channel",
+            "feeHint": "A {rate} % payment fee comes to {amount}.",
+            "channels": {
+                "manual": "Paid to you",
+                "online": "Online payment",
+                "fi": "FI payment"
+            },
+            "paymentLink": "Payment link",
+            "paymentLinkCopied": "The payment link is copied"
         }
     },
     "client": {
@@ -4325,6 +4480,52 @@
                     "sickLeave": "Sick leave",
                     "type": "Type",
                     "vacationLeave": "Vacation leave"
+                }
+            }
+        },
+        "shiftRequests": {
+            "form": {
+                "alert": {
+                    "requestSuccessfullySent": "Shift request successfully sent"
+                },
+                "date": "Date",
+                "department": "Department",
+                "note": "Note",
+                "sendRequest": "Send request",
+                "shiftType": "Shift type",
+                "timeIn": "Time in",
+                "timeOut": "Time out"
+            },
+            "newShiftRequest": "Request a shift",
+            "shiftRequests": "Shift requests",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "cancel": "Cancel",
+                    "reject": "Reject"
+                },
+                "alert": {
+                    "shiftRequestSuccessfullyApproved": "Shift request successfully approved",
+                    "shiftRequestSuccessfullyCancelled": "Shift request successfully cancelled",
+                    "shiftRequestSuccessfullyRejected": "Shift request successfully rejected"
+                },
+                "confirmation": {
+                    "approveShiftRequestConfirmation": "Are you sure you want to approve this shift request",
+                    "cancelShiftRequestConfirmation": "Are you sure you want to cancel this shift request",
+                    "rejectComment": "Comment (optional)",
+                    "rejectCommentPlaceholder": "Add a reason the employee will see",
+                    "rejectShiftRequestConfirmation": "Are you sure you want to reject this shift request"
+                },
+                "date": "Date",
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "note": "Note",
+                "shiftType": "Shift type",
+                "status": {
+                    "approved": "Approved",
+                    "pending": "Pending",
+                    "rejected": "Rejected",
+                    "status": "Status"
                 }
             }
         },
@@ -5968,6 +6169,7 @@
                 "medicineDeviation": "Medicine Deviation",
                 "useOfForce": "Use of force"
             },
+            "motherTongue": "Mother tongue",
             "municipality": "Municipality",
             "pageAccess": "Page access",
             "password": "Password",
@@ -5986,6 +6188,9 @@
             "seniorityDate": "Seniority date",
             "showWorkingHours": "Show working hours",
             "showCompensatoryHours": "Show time off in lieu and vacation days",
+            "spokenLanguages": "Languages the employee speaks",
+            "spokenLanguagesDescription": "Select the languages the employee can speak. This is not the same as the system language.",
+            "spokenLanguagesNotRegistered": "Not registered",
             "street": "Street",
             "note": "Note",
             "notePlaceholder": "Internal note about the employee",
@@ -7113,6 +7318,17 @@
             "serviceFee": "Service fee",
             "status": "Status",
             "unpaid": "Unpaid"
+        },
+        "purchases": {
+            "title": "Active apps",
+            "apps": "Active apps",
+            "appsHint": "{amount} a month in total",
+            "fees": "Payment fee this month",
+            "feesHint": "{count} payments carried by CitizenOne",
+            "nextCharge": "Expected next charge",
+            "nextChargeHint": "Subscription and fees together",
+            "perMonth": "a month",
+            "plusFee": "+ {rate} % per payment"
         }
     },
     "jobSpecialties": {
@@ -9491,7 +9707,7 @@
         },
         "groups": {
             "company": "Company",
-            "billing": "Billing",
+            "billing": "Subscription and payment",
             "data": "Data",
             "logs": "Logs",
             "integrations": "Integrations",
@@ -9519,7 +9735,7 @@
             "expenseCategories": "Expense categories",
             "extraHoursTags": "Extra hours tags",
             "foreignCities": "Foreign cities",
-            "invoices": "Invoices",
+            "invoices": "Purchases and payments",
             "jobTitles": "Job titles",
             "journalContents": "Journal contents",
             "journalNoteTags": "Journal note tags",
@@ -9787,7 +10003,10 @@
         "myDay": "My day",
         "myAvailability": "My availability",
         "myShiftEvaluations": "My shift evaluations",
-        "forms": "Forms"
+        "forms": "Forms",
+        "dentalRecalls": "Recalls",
+        "dentalOverview": "Clinic overview",
+        "invoicing": "Invoicing"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -10025,7 +10244,9 @@
                     "other": "Other"
                 },
                 "discountPercent": "Discount (%)",
-                "discountEndsAt": "Offer ends"
+                "discountEndsAt": "Offer ends",
+                "paymentFeePercent": "Payment fee",
+                "paymentFeeHelp": "What CitizenOne takes of a payment the app carries. Empty means no fee."
             },
             "colName": "Name",
             "attachToCompany": "Assign to company",
@@ -10863,7 +11084,8 @@
             "products": "Products",
             "clientRoles": "Roles & Rights",
             "cancellations": "Cancellations",
-            "storagePackages": "Storage packages"
+            "storagePackages": "Storage packages",
+            "paymentFees": "Payment fees"
         },
         "emailTemplates": {
             "title": "Email templates",
@@ -11426,6 +11648,45 @@
             "successDeleted": "Storage package deleted",
             "successUpdated": "Storage package updated",
             "colPricePerGb": "Price per GB"
+        },
+        "paymentFees": {
+            "pageTitle": "Payment fees",
+            "header": "Payment fees",
+            "subtitle": "What we earn on payments we carry for customers. The rate is set on each app.",
+            "period": "Month",
+            "company": "Company",
+            "payments": "Payments",
+            "volume": "Volume",
+            "fee": "Fee",
+            "status": "Status",
+            "empty": "No payments through us this month",
+            "statuses": {
+                "open": "Open",
+                "closed": "Closed",
+                "charged": "Invoiced"
+            },
+            "cards": {
+                "fee": "Fees in total",
+                "feeHint": "{count} companies",
+                "uncharged": "Not invoiced",
+                "unchargedHint": "Yet to reach an invoice",
+                "volume": "Volume through us",
+                "volumeHint": "Payments we carried",
+                "payments": "Payments",
+                "paymentsHint": "In the month"
+            },
+            "app": "App",
+            "unknownApp": "Unknown app",
+            "gaps": {
+                "title": "Money on its way to being lost",
+                "paymentsWithoutFee": "{count} payments without a fee ({amount})",
+                "feesWithoutStatement": "{count} fees do not belong to a statement",
+                "stale": "{count} months were never invoiced ({amount}, oldest {period})"
+            },
+            "uncharged": {
+                "title": "Closed months waiting to be charged",
+                "waiting": "waiting {months} months"
+            }
         }
     },
     "support": {
@@ -12367,6 +12628,7 @@
                 "title": "Review before import - nothing is saved yet.",
                 "readyToImport": "ready to import",
                 "skipped": "skipped",
+                "unknownSpokenLanguages": "Languages we did not recognise ({count}) - these are not imported:",
                 "whySkipped": "Why rows are skipped",
                 "journalHint": "Rows without a match in CitizenOne (unknown CPR) are automatically excluded during import and shown in the summary.",
                 "scheduleHint": "Rows without a match in CitizenOne (unknown email or shift type) are automatically excluded during import and shown in the summary.",
@@ -12382,6 +12644,7 @@
                 "alreadyExists": "Already exists",
                 "wontLand": "Will not land",
                 "newDepartments": "New departments ({count}):",
+                "newSections": "New paragraphs ({count}):",
                 "rowsToLookAt": "Rows to look at",
                 "line": "Line {line}"
             },
@@ -12431,9 +12694,12 @@
             "date_admitted": "Admission date",
             "date_discharged": "Discharge date",
             "departments": "Departments (separated by ;)",
+            "requires_interpreter": "Interpreter required (yes/no)",
             "seniority_date": "Seniority date",
+            "section": "Paragraph",
             "cpr": "Citizen's CPR number (match)",
             "date": "Date (YYYY-MM-DD)",
+            "spoken_languages": "Languages (separated by semicolon)",
             "title": "Title",
             "content": "Note text",
             "shift": "Shift type (name)",
@@ -12447,6 +12713,7 @@
             "importFailed": "Import failed. Check mapping and date formats (YYYY-MM-DD).",
             "undoFailed": "Could not undo the import.",
             "invitesFailed": "Could not send login emails.",
+            "missingName": "Missing first or last name",
             "missingField": "Missing {field}",
             "invalidField": "Invalid {field}",
             "checkFailed": "The check could not be completed"
@@ -12468,7 +12735,8 @@
             "cpr_missing": "CPR missing - duplicates can then only be matched on name",
             "cpr_malformed": "CPR is not 10 digits",
             "invalid_date": "Date cannot be read: {field}",
-            "date_guessed": "Date was corrected by the system: {field}"
+            "date_guessed": "Date was corrected by the system: {field}",
+            "spoken_language_unknown": "One or more languages were not recognised and were not imported"
         }
     },
     "sms": {
@@ -12881,6 +13149,236 @@
         "alert": {
             "savedSuccessfully": "Your evaluation was saved",
             "deletedSuccessfully": "Your evaluation was removed"
+        }
+    },
+    "dentalRecalls": {
+        "title": "Recalls",
+        "help": "Patients due for a check-up. SMS, email and app notifications go out automatically. Letters and phone calls are listed here, because a system cannot make them.",
+        "overdueCount": "patients are overdue",
+        "daysOverdue": "days overdue",
+        "markContacted": "Mark as called in",
+        "contacted": "Patient marked as called in",
+        "manual": "Needs to be contacted by hand",
+        "autoOff": "Automatic reminder is off",
+        "noChannel": "Not chosen",
+        "window": {
+            "overdue": "Overdue",
+            "month": "Next 30 days",
+            "quarter": "Next 90 days"
+        },
+        "table": {
+            "patient": "Patient",
+            "due": "Due",
+            "channel": "Recall type",
+            "lastContact": "Last contacted"
+        },
+        "empty": {
+            "title": "No recalls",
+            "text": "No patients are due in the selected period."
+        }
+    },
+    "dentalOverview": {
+        "title": "Clinic overview",
+        "overdue": "Overdue check-ups",
+        "overdueHelp": "Patients who should have been called in",
+        "dueSoon": "Due soon",
+        "dueSoonHelp": "Within {days} days",
+        "plannedWork": "Planned work",
+        "plannedWorkHelp": "{patients} patients, {value} DKK accepted",
+        "awaitingAnswer": "Awaiting answer",
+        "awaitingAnswerHelp": "Sent estimates, {value} DKK patient share",
+        "mostOverdue": "Most overdue",
+        "oldestPlanned": "Oldest planned work",
+        "noOverdue": "No overdue check-ups.",
+        "noPlanned": "No planned work.",
+        "seeAll": "See all",
+        "examinations": "{total} examinations recorded this year, {reportable} of them in a reportable cohort."
+    },
+    "services": {
+        "title": "Services",
+        "help": "The catalogue of what you sell, with price, VAT and expected subsidy. Invoice lines take their price from here.",
+        "new": "New service",
+        "saved": "Service saved",
+        "inactive": "inactive",
+        "empty": {
+            "title": "No services yet",
+            "text": "Add your services so prices are not typed onto every invoice."
+        },
+        "form": {
+            "code": "Code",
+            "codePlaceholder": "For example 1111",
+            "name": "Name",
+            "unitPrice": "Unit price",
+            "vatRate": "VAT %",
+            "subsidy": "Default subsidy",
+            "vatHelp": "Dental treatment is VAT exempt, so the rate is set per service rather than assumed.",
+            "unitPriceIncl": "Unit price incl. VAT",
+            "category": "Category",
+            "noCategory": "No category"
+        },
+        "categories": {
+            "title": "Categories",
+            "help": "Group your services, for example examinations, surgery and hygiene. Deleting a category leaves the services in place without a group.",
+            "name": "Category name",
+            "placeholder": "For example Examinations",
+            "add": "Add",
+            "all": "All",
+            "uncategorised": "No category"
+        }
+    },
+    "invoicing": {
+        "title": "Invoicing",
+        "outstandingTotal": "Total outstanding",
+        "creditNote": "credit note",
+        "filters": {
+            "outstanding": "Outstanding",
+            "all": "All",
+            "paid": "Paid",
+            "draft": "Drafts"
+        },
+        "table": {
+            "number": "No.",
+            "citizen": "Citizen",
+            "issued": "Invoice date",
+            "due": "Due",
+            "status": "Status"
+        },
+        "empty": {
+            "title": "No invoices",
+            "text": "Invoices are created on the citizen and collected here."
+        },
+        "tabs": {
+            "invoices": "Invoices",
+            "services": "Services",
+            "settings": "Settings",
+            "templates": "Templates",
+            "reports": "Reports"
+        },
+        "settings": {
+            "help": "The VAT rate, how prices are typed, and the details every invoice has to carry.",
+            "adminOnly": "Only an administrator can change the invoicing settings.",
+            "vat": "VAT",
+            "defaultVatRate": "Default VAT rate %",
+            "defaultVatRateHelp": "Used on new services and on invoice lines without a rate of their own. Dental treatment is exempt, so set 0.",
+            "pricesIncludeVat": "Prices include VAT",
+            "pricesIncludeVatHelp": "Turn on if you type prices the way the customer pays them. VAT is then taken out of the amount instead of added to it.",
+            "example": "On a price of 100:",
+            "exampleIncl": "{net} excl. VAT + {vat} VAT = 100.00",
+            "exampleExcl": "100.00 + {vat} VAT = {total}",
+            "invoiceDetails": "Invoice details",
+            "vatNumber": "VAT number",
+            "paymentTerms": "Payment terms (days)",
+            "paymentDetails": "Payment details",
+            "paymentDetailsPlaceholder": "Bank account, MobilePay number or payment terms",
+            "footer": "Invoice footer",
+            "footerPlaceholder": "For example a reference to your terms of trade",
+            "saved": "The invoicing settings are saved",
+            "design": "Design",
+            "showLogo": "Show logo on the invoice",
+            "showLogoHelp": "Uses the clinic logo from the company settings. Without it the sender is name and address only.",
+            "accentColor": "Colour",
+            "accentColorHelp": "Used on the heading, the table head and the line by the amount to pay.",
+            "resetColor": "Reset",
+            "preview": "Preview",
+            "previewInvoice": "Preview invoice",
+            "previewHelp": "Opens a sample invoice as a PDF, exactly as the citizen receives it. Saves your changes first.",
+            "onlinePayment": "Online payment",
+            "onlinePaymentUnavailable": "Online payment is not switched on in CitizenOne yet.",
+            "onlinePaymentHelp": "The citizen pays by card or MobilePay from the invoice. The money goes straight to your own account. {rate} % per payment.",
+            "paymentsReady": "Ready to take payments",
+            "paymentsNotReady": "Setup is not finished",
+            "connectPayments": "Connect payment account",
+            "continueSetup": "Continue setup",
+            "testMode": "Test mode: payments here are not real, and no money is charged.",
+            "onlinePaymentTooltip": "The citizen pays by card or MobilePay on a page hosted by the payment provider. The money goes straight into your own account, never through CitizenOne, and the invoice closes itself once the payment goes through. CitizenOne takes 1.49 % per payment, and the provider bills you for its own fee directly. A bank transfer costs nothing.",
+            "termsTitle": "Activate online payment",
+            "termsFee": "CitizenOne takes {rate} % of every online payment. A bank transfer costs nothing.",
+            "termsProvider": "The payment provider bills you for its own fee directly, and the money is paid out to your own account.",
+            "termsCancel": "You can switch online payment off again at any time. Payments already made are unaffected.",
+            "termsAccept": "I accept that CitizenOne takes {rate} % per online payment.",
+            "activate": "Activate and continue to setup",
+            "termsAcceptedOn": "The terms were accepted on {date} at {rate} % per payment.",
+            "termsLink": "See terms and conditions"
+        },
+        "reports": {
+            "from": "From",
+            "to": "To",
+            "export": "Export CSV",
+            "revenue": "Revenue",
+            "overTime": "Revenue and payments",
+            "ageing": "Outstanding by age",
+            "ageingHelp": "Counted from the due date, as it stands today.",
+            "topServices": "Best selling services",
+            "paymentMethods": "Payment methods",
+            "empty": "No figures in this period",
+            "periods": {
+                "month": "This month",
+                "lastMonth": "Last month",
+                "quarter": "Quarter",
+                "year": "Year"
+            },
+            "buckets": {
+                "not_due": "Not due",
+                "days_1_30": "1-30 days",
+                "days_31_60": "31-60 days",
+                "days_60_plus": "Over 60 days"
+            },
+            "cards": {
+                "revenue": "Revenue this month",
+                "revenueHint": "Excl. VAT, {count} booked invoices",
+                "outstanding": "Unpaid invoices",
+                "outstandingHint": "{count} drafts are not booked yet",
+                "overdue": "Overdue",
+                "overdueHint": "Past the due date",
+                "paid": "Paid",
+                "paidHint": "Recorded in the period"
+            },
+            "fees": "Payment fee to CitizenOne",
+            "feesHelp": "Charged on your own CitizenOne invoice."
+        }
+    },
+    "invoiceTemplates": {
+        "help": "Save the lines you bill together again and again, and drop them onto a new invoice in one click.",
+        "new": "New template",
+        "saved": "The template is saved",
+        "use": "Use template",
+        "catalogue": "catalogue price",
+        "fromCatalogue": "from catalogue",
+        "empty": {
+            "title": "No templates yet",
+            "text": "Create one for a yearly check-up, and the standard lines never have to be typed again."
+        },
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "For example Yearly check-up",
+            "description": "Description",
+            "descriptionPlaceholder": "A short note for your colleagues",
+            "priceHelp": "Leave price and VAT empty on a line with a service, and it always follows the catalogue price."
+        },
+        "preview": "Preview"
+    },
+    "delete": "Delete",
+    "edit": "Edit",
+    "payment": {
+        "done": {
+            "title": "Thank you for the payment",
+            "text": "The payment went through, and the invoice is marked as paid.",
+            "receipt": "The payment provider has emailed you a receipt.",
+            "pendingTitle": "The payment is received",
+            "pendingText": "We are waiting for confirmation from the payment provider. Nothing more is needed from you.",
+            "paidTo": "Paid to {company}"
+        },
+        "cancelled": {
+            "title": "The payment was cancelled",
+            "text": "Nothing was charged. You can use the link again when you are ready."
+        }
+    },
+    "economy": {
+        "title": "Economy",
+        "tabs": {
+            "overview": "Overview",
+            "revenue": "Revenue",
+            "billing": "Billing extraction"
         }
     }
 }

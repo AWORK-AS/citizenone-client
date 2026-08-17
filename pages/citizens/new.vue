@@ -82,6 +82,9 @@ const state = reactive({
         latitude: '',
         longitude: '',
         origin: '',
+        spoken_languages: [],
+        primary_spoken_language: '',
+        requires_interpreter: false,
         diagnoses: [],
         medication_allergies: [],
         addictions: [],
@@ -211,6 +214,9 @@ async function saveCitizen(citizenDetails: any) {
         } else {
             params.append('origin_uuid', citizenDetails.origin)
         }
+        params.append('spoken_languages_uuid', JSON.stringify(citizenDetails.spoken_languages ?? []))
+        params.append('primary_spoken_language_uuid', citizenDetails.primary_spoken_language ?? '')
+        params.append('requires_interpreter', citizenDetails.requires_interpreter ? 'true' : 'false')
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
         params.append('medication_allergies_uuid', JSON.stringify(citizenDetails.medication_allergies))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
