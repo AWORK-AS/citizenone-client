@@ -22,6 +22,8 @@ export interface EmployeeForm {
     do_not_count_sick_leave: boolean,
     media_risks: any
     pages: any
+    spoken_languages: any
+    primary_spoken_language: string
 }
 
 type Permission = 'read' | 'create' | 'update' | 'delete'

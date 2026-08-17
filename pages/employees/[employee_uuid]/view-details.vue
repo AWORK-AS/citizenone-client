@@ -84,6 +84,15 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="space-y-1">
+                                    <Label :label="$t('employees.form.spokenLanguages')" />
+                                    <p class="font-medium" v-if="spokenLanguagesSummary">
+                                        {{ spokenLanguagesSummary }}
+                                    </p>
+                                    <p class="font-medium text-gray-400" v-else>
+                                        {{ $t('employees.form.spokenLanguagesNotRegistered') }}
+                                    </p>
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
                                         <Label
@@ -469,6 +478,7 @@ import { employeeService } from '@/components/api/user/EmployeeService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { usePermissions, getPermissionLabel } from '@/composables/usePermissions'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -477,8 +487,9 @@ const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast } = usePermissions()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { summarise: summariseSpokenLanguages } = useSpokenLanguages()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const breadcrumbLinks = [
     {
@@ -521,6 +532,7 @@ const state = reactive({
         show_working_hours: false,
         show_compensatory_hours: false,
         media_risks: [],
+        spoken_languages: [],
         employment: {
             salary_id: '',
             employment_date: '',
@@ -537,6 +549,11 @@ const state = reactive({
     } as any,
     isPageLoading: false,
 })
+
+// Which languages the employee speaks, mother tongue first.
+const spokenLanguagesSummary = computed(() =>
+    summariseSpokenLanguages(state.selectedEmployee?.spoken_languages, t('employees.form.motherTongue').toLowerCase())
+)
 
 onMounted(() => {
     fetchEmployee()
@@ -584,6 +601,7 @@ async function fetchEmployee() {
                 show_working_hours: response?.data?.show_working_hours ?? false,
                 show_compensatory_hours: response?.data?.show_compensatory_hours ?? false,
                 media_risks: response?.data?.media_risks ?? [],
+                spoken_languages: response?.data?.spoken_languages ?? [],
                 employment: {
                     salary_id: response?.data?.employee_detail?.salary_id,
                     employment_date: response?.data?.employee_detail?.date_of_employment,

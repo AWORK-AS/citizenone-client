@@ -181,6 +181,31 @@
                     <FormError :error="v$?.formCitizen?.origin?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.origin_uuid?.[0]" />
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="spoken_languages" :label="$t('citizens.form.spokenLanguages')" />
+                    <FormSelectMultiple id="spoken_languages" :options="state.options.spokenLanguages"
+                        v-model="state.formCitizen.spoken_languages" />
+                    <p class="text-xs text-gray-500">
+                        {{ $t('citizens.form.spokenLanguagesDescription') }}
+                    </p>
+                    <FormError :error="props?.error?.errors?.spoken_languages_uuid?.[0]" />
+                </div>
+                <div class="space-y-1" v-if="state.formCitizen.spoken_languages?.length > 0">
+                    <FormLabel for="primary_spoken_language" :label="$t('citizens.form.motherTongue')" />
+                    <FormSelect id="primary_spoken_language" :options="selectedSpokenLanguageOptions"
+                        v-model="state.formCitizen.primary_spoken_language" />
+                    <FormError :error="props?.error?.errors?.primary_spoken_language_uuid?.[0]" />
+                </div>
+                <div class="w-fit cursor-pointer"
+                    @click="state.formCitizen.requires_interpreter = !state.formCitizen.requires_interpreter">
+                    <div class="flex items-center">
+                        <FormCheckbox id="requires_interpreter" :value="state.formCitizen.requires_interpreter" />
+                        {{ $t('citizens.form.requiresInterpreter') }}
+                    </div>
+                    <p class="ml-7 text-xs">
+                        {{ $t('citizens.form.requiresInterpreterDescription') }}
+                    </p>
+                </div>
                 <div class="space-y-1" v-if="isFieldVisible('diagnoses')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="diagnoses" :label="$t('citizens.form.diagnoses')" />
@@ -1051,12 +1076,14 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
 import { foreignCityService } from '@/components/api/user/ForeignCityService'
+import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDanishCpr } from '@/composables/cpr'
 import { useTerminology } from '@/composables/useTerminology'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import type { Error } from '@/types'
 import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
@@ -1068,6 +1095,7 @@ import { journalService } from '@/components/api/user/JournalService'
 const userStore = useUserStore() as any
 const { t } = useI18n()
 const { term } = useTerminology()
+const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
 const { formatPrice } = useNumberFormatter()
 const language = useI18n()
 const citizenImage = ref<HTMLInputElement | null>(null)
@@ -1146,6 +1174,9 @@ const state = reactive({
         latitude: '',
         longitude: '',
         origin: '',
+        spoken_languages: [],
+        primary_spoken_language: '',
+        requires_interpreter: false,
         diagnoses: [],
         medication_allergies: [],
         addictions: [],
@@ -1271,6 +1302,7 @@ const state = reactive({
         regions: [] as any,
         rooms: [] as any,
         sections: [] as any,
+        spokenLanguages: [] as any,
         employmentCaseTypes: [] as any,
         employmentStatusTypes: [] as any,
         consultants: [] as any,
@@ -1354,6 +1386,8 @@ watch(() => language.locale.value, () => {
     state.options.danmarkGroups = danmarkGroupOptions()
     state.options.recallChannels = recallChannelOptions()
     state.options.riskProfiles = riskProfileOptions()
+    // Language names are Danish or English depending on the locale, so relabel.
+    fetchSpokenLanguages()
 })
 
 watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
@@ -1410,6 +1444,9 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             latitude: lat ? lat.toString() : '',
             longitude: lng ? lng.toString() : '',
             origin: selectedCitizen.origin,
+            spoken_languages: selectedCitizen.spoken_languages ?? [],
+            primary_spoken_language: selectedCitizen.primary_spoken_language ?? '',
+            requires_interpreter: selectedCitizen.requires_interpreter ?? false,
             diagnoses: selectedCitizen.diagnoses,
             medication_allergies: selectedCitizen.medication_allergies,
             addictions: selectedCitizen.addictions,
@@ -1573,6 +1610,7 @@ onMounted(async () => {
     fetchDepartments()
     fetchRooms()
     fetchDiagnoses()
+    fetchSpokenLanguages()
     fetchMedicationAllergies()
     fetchAddictions()
     fetchSections()
@@ -1711,6 +1749,17 @@ async function fetchDiagnoses() {
             )
             state.options.diagnoses = options
         }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchSpokenLanguages() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        state.options.spokenLanguages = await fetchSpokenLanguageOptions()
     } catch (error: any) {
         state.error = error
     }
@@ -1953,6 +2002,21 @@ function onCitizenImageChange(event: any) {
         reader.readAsDataURL(file)
     }
 }
+
+// The mother tongue can only be one of the languages actually selected.
+const selectedSpokenLanguageOptions = computed(() =>
+    state.options.spokenLanguages.filter((option: any) =>
+        state.formCitizen.spoken_languages?.includes(option.value)
+    )
+)
+
+// Deselecting a language that was the mother tongue would otherwise leave a
+// dangling uuid that the backend silently drops on save.
+watch(() => state.formCitizen.spoken_languages, (languages: any) => {
+    if (state.formCitizen.primary_spoken_language && !languages?.includes(state.formCitizen.primary_spoken_language)) {
+        state.formCitizen.primary_spoken_language = ''
+    }
+}, { deep: true })
 
 const formattedSocialSecurityNumber = computed<string>({
     get() {

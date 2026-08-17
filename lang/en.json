@@ -1946,6 +1946,7 @@
             "locateCitizen": "Locate Citizen",
             "locateCitizenInstructions": "Click anywhere on the map to pin a location. You can also drag the marker to adjust the position. The address will be automatically fetched.",
             "medicationAllergies": "Medication allergies (CAVE)",
+            "motherTongue": "Mother tongue",
             "municipality": "Municipality",
             "note": "Note",
             "payingMunicipality": "Paying municipality",
@@ -1955,6 +1956,8 @@
             "pricingStartDate": "Pricing start date",
             "primaryCaseworker": "Primary caseworker",
             "region": "Region",
+            "requiresInterpreter": "Interpreter required",
+            "requiresInterpreterDescription": "Tick this if an interpreter is needed for conversations with the citizen.",
             "responsibleMunicipality": "Responsible municipality",
             "room": "Room",
             "section": "Section",
@@ -1962,6 +1965,8 @@
             "selectedLocation": "Selected Location",
             "autoFilledFromSsn": "Filled in from the CPR number",
             "selectGender": "Select gender",
+            "spokenLanguages": "Languages the citizen speaks",
+            "spokenLanguagesDescription": "Select the languages the citizen can speak. This is not the same as the system language.",
             "ssnPlaceholder": "ddmmyy-xxxx",
             "ssn": "Social security number",
             "stayData": {
@@ -6147,6 +6152,7 @@
                 "medicineDeviation": "Medicine Deviation",
                 "useOfForce": "Use of force"
             },
+            "motherTongue": "Mother tongue",
             "municipality": "Municipality",
             "pageAccess": "Page access",
             "password": "Password",
@@ -6165,6 +6171,9 @@
             "seniorityDate": "Seniority date",
             "showWorkingHours": "Show working hours",
             "showCompensatoryHours": "Show time off in lieu and vacation days",
+            "spokenLanguages": "Languages the employee speaks",
+            "spokenLanguagesDescription": "Select the languages the employee can speak. This is not the same as the system language.",
+            "spokenLanguagesNotRegistered": "Not registered",
             "street": "Street",
             "note": "Note",
             "notePlaceholder": "Internal note about the employee",
@@ -12602,6 +12611,7 @@
                 "title": "Review before import - nothing is saved yet.",
                 "readyToImport": "ready to import",
                 "skipped": "skipped",
+                "unknownSpokenLanguages": "Languages we did not recognise ({count}) - these are not imported:",
                 "whySkipped": "Why rows are skipped",
                 "journalHint": "Rows without a match in CitizenOne (unknown CPR) are automatically excluded during import and shown in the summary.",
                 "scheduleHint": "Rows without a match in CitizenOne (unknown email or shift type) are automatically excluded during import and shown in the summary.",
@@ -12666,9 +12676,11 @@
             "date_admitted": "Admission date",
             "date_discharged": "Discharge date",
             "departments": "Departments (separated by ;)",
+            "requires_interpreter": "Interpreter required (yes/no)",
             "seniority_date": "Seniority date",
             "cpr": "Citizen's CPR number (match)",
             "date": "Date (YYYY-MM-DD)",
+            "spoken_languages": "Languages (separated by semicolon)",
             "title": "Title",
             "content": "Note text",
             "shift": "Shift type (name)",
@@ -12703,7 +12715,8 @@
             "cpr_missing": "CPR missing - duplicates can then only be matched on name",
             "cpr_malformed": "CPR is not 10 digits",
             "invalid_date": "Date cannot be read: {field}",
-            "date_guessed": "Date was corrected by the system: {field}"
+            "date_guessed": "Date was corrected by the system: {field}",
+            "spoken_language_unknown": "One or more languages were not recognised and were not imported"
         }
     },
     "sms": {

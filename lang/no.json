@@ -1946,6 +1946,7 @@
             "locateCitizen": "Finn bruker",
             "locateCitizenInstructions": "Klikk et sted på kortet for at fastgøre en plassering. Du kan også trække markøren for at justere positionen. Adressen hentes automatisk.",
             "medicationAllergies": "Medisinallergier (CAVE)",
+            "motherTongue": "Morsmål",
             "municipality": "Kommune",
             "note": "Bemærkning",
             "payingMunicipality": "Betalingskommune",
@@ -1955,6 +1956,8 @@
             "pricingStartDate": "Startdato for prisfastsættelse",
             "primaryCaseworker": "Primær sagsbehandler",
             "region": "Region",
+            "requiresInterpreter": "Tolk kreves",
+            "requiresInterpreterDescription": "Kryss av hvis det trengs tolk ved samtaler med borgeren.",
             "responsibleMunicipality": "Handlekommune",
             "room": "Rom",
             "section": "Paragraf",
@@ -1962,6 +1965,8 @@
             "selectedLocation": "Valgt plassering",
             "autoFilledFromSsn": "Fylt ut fra CPR-nummeret",
             "selectGender": "Velg kjønn",
+            "spokenLanguages": "Språk borgeren snakker",
+            "spokenLanguagesDescription": "Velg språkene borgeren kan snakke. Dette er ikke det samme som systemspråket.",
             "ssnPlaceholder": "ddmmåå-xxxx",
             "ssn": "CPR-nummer",
             "stayData": {
@@ -6147,6 +6152,7 @@
                 "medicineDeviation": "Medicinafvigelse",
                 "useOfForce": "Bruk av makt"
             },
+            "motherTongue": "Morsmål",
             "municipality": "Kommune",
             "pageAccess": "Sideadgang",
             "password": "Passord",
@@ -6165,6 +6171,9 @@
             "seniorityDate": "Anciennitetsdato",
             "showWorkingHours": "Vis arbeidstimer",
             "showCompensatoryHours": "Vis avspasering og feriedager",
+            "spokenLanguages": "Språk medarbeideren snakker",
+            "spokenLanguagesDescription": "Velg språkene medarbeideren kan snakke. Dette er ikke det samme som systemspråket.",
+            "spokenLanguagesNotRegistered": "Ikke registrert",
             "street": "Gade",
             "note": "Notat",
             "notePlaceholder": "Internt notat om medarbeideren",
@@ -12602,6 +12611,7 @@
                 "title": "Gjennomgang før import - ingenting er lagret ennå.",
                 "readyToImport": "klar til import",
                 "skipped": "hoppes over",
+                "unknownSpokenLanguages": "Språk vi ikke gjenkjente ({count}) - disse importeres ikke:",
                 "whySkipped": "Hvorfor rader hoppes over",
                 "journalHint": "Rader uten treff i CitizenOne (ukjent CPR) sorteres automatisk ut under importen og vises i oppsummeringen.",
                 "scheduleHint": "Rader uten treff i CitizenOne (ukjent e-post eller vakttype) sorteres automatisk ut under importen og vises i oppsummeringen.",
@@ -12666,9 +12676,11 @@
             "date_admitted": "Innskrivningsdato",
             "date_discharged": "Utskrivningsdato",
             "departments": "Avdelinger (adskilt med ;)",
+            "requires_interpreter": "Tolk kreves (ja/nei)",
             "seniority_date": "Ansettelsesdato",
             "cpr": "Innbyggerens CPR-nummer (match)",
             "date": "Dato (ÅÅÅÅ-MM-DD)",
+            "spoken_languages": "Språk (adskilt med semikolon)",
             "title": "Tittel",
             "content": "Notat-tekst",
             "shift": "Vakttype (navn)",
@@ -12703,7 +12715,8 @@
             "cpr_missing": "CPR mangler - duplikater finnes da bare på navn",
             "cpr_malformed": "CPR har ikke 10 sifre",
             "invalid_date": "Dato kan ikke leses: {field}",
-            "date_guessed": "Dato ble rettet av systemet: {field}"
+            "date_guessed": "Dato ble rettet av systemet: {field}",
+            "spoken_language_unknown": "Ett eller flere språk ble ikke gjenkjent og er ikke importert"
         }
     },
     "sms": {
