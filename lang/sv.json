@@ -2530,6 +2530,23 @@
                 "me": "Mig"
             },
             "newMedicine": "Ny medicin",
+            "newPouring": "Ny dosering",
+            "givenViaPouringContainer": "Givet via doseringsbehållaren",
+            "pouring": {
+                "activeIngredient": "Aktiv substans",
+                "amount": "Mängd uppmätt",
+                "amountExceedsStock": "Mängden får inte överstiga det aktuella huvudlagret",
+                "currentMainStock": "Aktuellt huvudlager",
+                "emptyWarningMessage": "Doseringsbehållaren för denna medicin är tom. Välj hur du vill fortsätta.",
+                "emptyWarningTitle": "Doseringsbehållaren är tom",
+                "giveFromMainStock": "Ge från huvudlager",
+                "periodEnd": "Period slut",
+                "periodEndBeforeStart": "Slutdatumet måste vara samma dag som eller efter startdatumet",
+                "periodStart": "Period start",
+                "alert": {
+                    "successfullyAdded": "Dosering skapad"
+                }
+            },
             "page": {
                 "overdue": "Forsinkede",
                 "dueSoon": "Forfaldner snart",

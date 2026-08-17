@@ -196,9 +196,21 @@
                             <Icon name="ph:plus" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.newMedicine') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md shrink-0"
+                            @click="state.modal.isNewPouringOpen = true"
+                            v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
+                            <Icon name="ph:flask" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.newPouring') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md shrink-0"
+                            @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
+                            v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
+                            <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                        </FormButton>
                         <!-- Secondary actions overflow -->
                         <Menu as="div" class="relative inline-block text-left shrink-0"
-                            v-if="isAtLeast('Admin') || can('update_citizen_medicine') || can('create_citizen_medicine') || can('update_form_field_config')">
+                            v-if="isAtLeast('Admin') || can('create_citizen_medicine') || can('update_citizen_medicine') || can('update_form_field_config')">
                             <MenuButton
                                 class="flex items-center justify-center p-2 rounded-md border border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors">
                                 <Icon name="ph:dots-three-bold" class="size-5" />
@@ -212,14 +224,6 @@
                                 <MenuItems
                                     class="absolute right-0 z-20 mt-2 w-60 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div class="py-1">
-                                        <MenuItem v-if="isAtLeast('Admin') || can('update_citizen_medicine')"
-                                            v-slot="{ active }">
-                                        <button type="button" @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
-                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
-                                            <Icon name="mdi:cloud-refresh-outline" class="size-4" />
-                                            {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
-                                        </button>
-                                        </MenuItem>
                                         <MenuItem
                                             v-if="isAtLeast('Admin') || can('create_citizen_medicine') || can('update_citizen_medicine')"
                                             v-slot="{ active }">
@@ -291,6 +295,12 @@
                                 v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
                                 <Icon name="ph:plus" class="h-4 w-4" />
                                 {{ $t('citizens.medicineJournals.page.addMedicine') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="state.modal.isNewPouringOpen = true"
+                                v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
+                                <Icon name="ph:flask" class="h-4 w-4" />
+                                {{ $t('citizens.medicineJournals.newPouring') }}
                             </FormButton>
                             <FormButton buttonStyle="action" class="rounded-md"
                                 @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
@@ -902,7 +912,7 @@
                                         <div class="mt-1 flex flex-wrap gap-1" v-if="!medicine.is_pn_medicine">
                                             <Tooltip
                                                 v-for="(dosage, dosageIndex) in medicine?.dosage_status_by_date?.[todayStr]"
-                                                :key="dosageIndex" :text="getStatusLabel(dosage?.status)">
+                                                :key="dosageIndex" :text="getStatusLabel(dosage)">
                                                 <span :class="[
                                                     getStatusBg(dosage?.status),
                                                     'flex items-center gap-1 px-1.5 py-0.5 text-white rounded-full text-xs'
@@ -1022,15 +1032,20 @@
                     :selectedMedicine="state.selectedMedicine" :citizenUuid="citizenUuid"
                     :preselectedDate="state.preselectedDate ?? undefined"
                     :preselectedTime="state.preselectedTime ?? undefined" @close="closeGiveMedicineModal"
-                    @refreshMedicines="fetchCitizenMedicines()" />
+                    @refreshMedicines="fetchCitizenMedicines()"
+                    @openNewPouring="openNewPouringFromGiveMedicine" />
                 <ModulesUserCitizenMedicineHistoryModalGiveMultipleMedicine
                     :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false"
-                    @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
+                    @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }"
+                    @openNewPouring="openNewPouringFromGiveMultiple" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false"
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
                     @close="state.modal.isDownloadMedicineOverviewOpen = false" />
+                <ModulesUserCitizenMedicineModalNewPouring :isModalOpen="state.modal.isNewPouringOpen"
+                    :medicines="allMedicines" :preselectedMedicineUuid="state.pouringPreselectedMedicineUuid"
+                    @close="closeNewPouringModal" @refreshMedicines="fetchCitizenMedicines" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
                     @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
@@ -1167,9 +1182,11 @@ const state = reactive({
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
         isGivePNMedicineOpen: false,
+        isNewPouringOpen: false,
         isViewMedicineOpen: false,
         isViewMedicineHistoryOpen: false,
     },
+    pouringPreselectedMedicineUuid: null as string | null,
     selectedMedicine: {} as any,
     sortData: { sortField: '', sortOrder: '' },
     pnExpanded: true,
@@ -1448,6 +1465,7 @@ function getSlotIcon(dosage: any): string {
 
 function getSlotTooltip(dosage: any, time: string): string {
     const s = dosage?.status
+    if (s === 'given' && dosage?.given_via_pouring) return t('citizens.medicineJournals.givenViaPouringContainer')
     if (s === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.page.givenLegend')
     if (s === 'delivered') return t('citizens.medicineJournals.history.form.type.delivered')
     if (s === 'deviated') return t('citizens.medicineJournals.history.form.type.deviated')
@@ -1505,7 +1523,9 @@ function getWeekSlotClass(dosage: any, day: any): string {
     return 'bg-gray-50 text-gray-400'
 }
 
-function getStatusLabel(status: string | null): string {
+function getStatusLabel(dosage: { status?: string | null, given_via_pouring?: boolean } | null): string {
+    const status = dosage?.status ?? null
+    if (status === 'given' && dosage?.given_via_pouring) return t('citizens.medicineJournals.givenViaPouringContainer')
     if (status === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.page.givenLegend')
     if (status === 'delivered') return t('citizens.medicineJournals.history.form.type.delivered')
     if (status === 'deviated') return t('citizens.medicineJournals.history.form.type.deviated')
@@ -1736,6 +1756,29 @@ function closeGiveMedicineModal() {
     state.preselectedTime = null
     state.historyCache = {}
     fetchCitizenMedicines()
+}
+
+// A give-medicine dialog can hit an empty pouring container (HTTP 409,
+// `pouring_empty: true`) and offer "New pouring" as one of the two ways
+// forward — that closes the give dialog it came from and opens this one,
+// pre-selecting the medicine when the caller knows exactly which one it is
+// (the bulk "give all" flow does not, since the 409 doesn't say which
+// medicine in the batch ran out, so it is left unset there).
+function openNewPouringFromGiveMedicine(medicineUuid: string | null) {
+    state.modal.isGiveMedicineOpen = false
+    state.pouringPreselectedMedicineUuid = medicineUuid ?? null
+    state.modal.isNewPouringOpen = true
+}
+
+function openNewPouringFromGiveMultiple() {
+    state.modal.isGiveMedicinesOpen = false
+    state.pouringPreselectedMedicineUuid = null
+    state.modal.isNewPouringOpen = true
+}
+
+function closeNewPouringModal() {
+    state.modal.isNewPouringOpen = false
+    state.pouringPreselectedMedicineUuid = null
 }
 
 function giveMedicine(medicine: any) {

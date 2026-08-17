@@ -80,7 +80,7 @@
                                                     entry.type === 'delivered' ? 'bg-blue-100 text-blue-700' :
                                                         entry.type === 'deviated' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'
                                             ]">
-                                                {{ getTypeLabel(entry.type) }}
+                                                {{ getTypeLabel(entry) }}
                                             </span>
                                             <span v-if="entry.quantity" class="text-xs text-gray-500">
                                                 {{ formatNumber(language.locale.value, entry.quantity) }}
@@ -237,14 +237,8 @@
                                                 </p>
                                             </td>
                                             <td width="10%">
-                                                <span v-if="medicineHistory?.type === 'delivered'">
-                                                    {{ $t('citizens.medicineJournals.history.table.type.delivered') }}
-                                                </span>
-                                                <span v-if="medicineHistory?.type === 'deviated'">
-                                                    {{ $t('citizens.medicineJournals.history.table.type.deviated') }}
-                                                </span>
-                                                <span v-if="medicineHistory?.type === 'given'">
-                                                    {{ customPagesStore.getCustomPagesName?.giveMedicine }}
+                                                <span>
+                                                    {{ getTypeLabel(medicineHistory) }}
                                                 </span>
                                             </td>
                                             <td width="15%">
@@ -379,11 +373,13 @@ const pendingEvaluations = computed(() => {
 
 // ─── Helpers ──────────────────────────────────────────────────
 
-function getTypeLabel(type: string): string {
+function getTypeLabel(entry: { type?: string, given_via_pouring?: boolean } | null): string {
+    const type = entry?.type
+    if (type === 'given' && entry?.given_via_pouring) return t('citizens.medicineJournals.givenViaPouringContainer')
     if (type === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.history.form.type.given')
     if (type === 'delivered') return t('citizens.medicineJournals.history.table.type.delivered')
     if (type === 'deviated') return t('citizens.medicineJournals.history.table.type.deviated')
-    return type
+    return type ?? ''
 }
 
 function getEntryMedicineName(): string {

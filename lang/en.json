@@ -2530,6 +2530,23 @@
                 "me": "Me"
             },
             "newMedicine": "New medicine",
+            "newPouring": "New pouring",
+            "givenViaPouringContainer": "Given via the pouring container",
+            "pouring": {
+                "activeIngredient": "Active ingredient",
+                "amount": "Amount poured",
+                "amountExceedsStock": "Amount cannot exceed the current main stock",
+                "currentMainStock": "Current main stock",
+                "emptyWarningMessage": "The pouring container for this medicine is empty. Choose how you want to proceed.",
+                "emptyWarningTitle": "Pouring container is empty",
+                "giveFromMainStock": "Give from main stock",
+                "periodEnd": "Period end",
+                "periodEndBeforeStart": "Period end must be on or after the period start",
+                "periodStart": "Period start",
+                "alert": {
+                    "successfullyAdded": "Pouring successfully created"
+                }
+            },
             "page": {
                 "overdue": "Overdue",
                 "dueSoon": "Due soon",

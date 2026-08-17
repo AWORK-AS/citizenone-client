@@ -2530,6 +2530,23 @@
                 "me": "Mig"
             },
             "newMedicine": "Ny medisin",
+            "newPouring": "Ny dosering",
+            "givenViaPouringContainer": "Gitt via doseringsboksen",
+            "pouring": {
+                "activeIngredient": "Virkestoff",
+                "amount": "Mengde helt opp",
+                "amountExceedsStock": "Mengden kan ikke overstige gjeldende hovedlager",
+                "currentMainStock": "Gjeldende hovedlager",
+                "emptyWarningMessage": "Doseringsboksen for denne medisinen er tom. Velg hvordan du vil fortsette.",
+                "emptyWarningTitle": "Doseringsboksen er tom",
+                "giveFromMainStock": "Gi fra hovedlager",
+                "periodEnd": "Periode slutt",
+                "periodEndBeforeStart": "Sluttdato må være samme dag som eller etter startdato",
+                "periodStart": "Periode start",
+                "alert": {
+                    "successfullyAdded": "Dosering opprettet"
+                }
+            },
             "page": {
                 "overdue": "Forsinkede",
                 "dueSoon": "Forfaller snart",

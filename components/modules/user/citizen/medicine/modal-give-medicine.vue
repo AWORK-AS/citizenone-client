@@ -277,7 +277,7 @@
                         <!-- Multi-date save -->
                         <button v-if="state.multiDateMode" type="button"
                             :disabled="!state.multiType || state.selectedDates.length === 0 || state.isSaving"
-                            @click="saveMultiDate" :class="[
+                            @click="saveMultiDate()" :class="[
                                 'flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all border',
                                 state.multiType && state.selectedDates.length > 0 && !state.isSaving
                                     ? 'bg-primary text-white border-primary hover:bg-primary/90'
@@ -290,7 +290,7 @@
                             }}
                         </button>
                         <!-- Single date save -->
-                        <button v-else type="button" :disabled="!hasAnyTypeSelected || state.isSaving" @click="saveAll"
+                        <button v-else type="button" :disabled="!hasAnyTypeSelected || state.isSaving" @click="saveAll()"
                             :class="[
                                 'flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all border',
                                 hasAnyTypeSelected && !state.isSaving
@@ -310,6 +310,23 @@
                 </div>
             </template>
         </Modal>
+
+        <!-- The pouring container for this medicine ran out mid-give (HTTP 409,
+             pouring_empty: true): offer topping it up or falling back to main stock
+             instead of just showing a generic failure toast. -->
+        <DialogConfirmation :isModalOpen="state.isPouringEmptyOpen"
+            :title="$t('citizens.medicineJournals.pouring.emptyWarningTitle')"
+            :message="state.pouringEmptyMessage"
+            :confirmLabel="$t('citizens.medicineJournals.pouring.giveFromMainStock')"
+            @close="state.isPouringEmptyOpen = false" @confirm="giveFromMainStock">
+            <template #extra>
+                <button type="button"
+                    class="mt-3 w-full text-sm text-primary border border-primary/30 rounded-lg py-2 hover:bg-primary/5 transition-colors font-medium"
+                    @click="requestNewPouring">
+                    {{ $t('citizens.medicineJournals.newPouring') }}
+                </button>
+            </template>
+        </DialogConfirmation>
     </div>
 </template>
 
@@ -327,7 +344,7 @@ const props = defineProps({
     preselectedDate: { type: String, default: null },
     preselectedTime: { type: String, default: null },
 })
-const emit = defineEmits(['close', 'refreshMedicines'])
+const emit = defineEmits(['close', 'refreshMedicines', 'openNewPouring'])
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -350,6 +367,9 @@ const state = reactive({
     multiStep: 1 as number, // 1=select dates, 2=confirm
     monthDosageStatusByDate: {} as Record<string, any[]>,
     isLoadingMonthStatus: false,
+    isPouringEmptyOpen: false,
+    pouringEmptyMessage: '',
+    pendingRetry: null as (() => void) | null,
 })
 
 const typeOptions = computed(() => [
@@ -601,7 +621,7 @@ function formatDateShort(dateStr: string): string {
     return `${m.date()} ${t('months.' + MONTH_KEYS[m.month()])}`
 }
 
-async function saveMultiDate() {
+async function saveMultiDate(forceMainStock = false) {
     if (!state.multiType || state.selectedDates.length === 0 || !state.slots.length) return
     state.isSaving = true
     state.error = null
@@ -609,7 +629,7 @@ async function saveMultiDate() {
         // Save one entry per date per timeslot in parallel
         await Promise.all(
             state.selectedDates.map(async (dateStr: string) => {
-                await medicineHistoryService.saveMedicineHistory({
+                const payload: any = {
                     medicine_uuid: props.selectedMedicine?.uuid,
                     date: dateStr,
                     dosages: state.slots.map((s: any) => ({
@@ -619,7 +639,9 @@ async function saveMultiDate() {
                         dosage: s.dosage,
                         comment: state.multiComment,
                     })),
-                })
+                }
+                if (forceMainStock) payload.give_from_main_stock = true
+                await medicineHistoryService.saveMedicineHistory(payload)
             })
         )
         successAlert(`${t('alert.success')}!`, t('citizens.medicineJournals.giveMedicineModal.registeredForDays', { n: state.selectedDates.length }))
@@ -631,18 +653,23 @@ async function saveMultiDate() {
         fetchMonthDosageStatus()
         setTimeout(() => closeModal(), 600)
     } catch (error: any) {
+        if (error?.pouring_empty && !forceMainStock) {
+            openPouringEmptyDialog(error, () => saveMultiDate(true))
+            state.isSaving = false
+            return
+        }
         state.error = { message: error?.data?.message ?? error?.message ?? t('citizens.medicineJournals.giveMedicineModal.anErrorOccurred') }
     }
     state.isSaving = false
 }
 
-async function saveAll() {
+async function saveAll(forceMainStock = false) {
     const toSave = state.slots.filter(s => s.selectedType && !s.status)
     if (!toSave.length) return
     state.isSaving = true
     state.error = null
     try {
-        await medicineHistoryService.saveMedicineHistory({
+        const payload: any = {
             medicine_uuid: props.selectedMedicine?.uuid,
             date: state.selectedDate,
             dosages: toSave.map(s => ({
@@ -652,7 +679,9 @@ async function saveAll() {
                 dosage: s.customDosage || s.dosage,
                 comment: s.comment,
             })),
-        })
+        }
+        if (forceMainStock) payload.give_from_main_stock = true
+        await medicineHistoryService.saveMedicineHistory(payload)
         successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)
         // Update slots locally so UI reflects immediately
         toSave.forEach(s => {
@@ -666,11 +695,35 @@ async function saveAll() {
         // Short delay so parent can refresh before we close
         setTimeout(() => closeModal(), 800)
     } catch (error: any) {
+        if (error?.pouring_empty && !forceMainStock) {
+            openPouringEmptyDialog(error, () => saveAll(true))
+            state.isSaving = false
+            return
+        }
         state.error = { message: error?.data?.message ?? error?.message ?? t('citizens.medicineJournals.giveMedicineModal.anErrorOccurredRetry') }
     }
     state.isSaving = false
 }
 
+// ─── Pouring container ran empty mid-give (HTTP 409) ──────────────────────
+
+function openPouringEmptyDialog(error: any, retry: () => void) {
+    state.pouringEmptyMessage = error?.message ?? t('citizens.medicineJournals.pouring.emptyWarningMessage')
+    state.pendingRetry = retry
+    state.isPouringEmptyOpen = true
+}
+
+function giveFromMainStock() {
+    state.isPouringEmptyOpen = false
+    state.pendingRetry?.()
+    state.pendingRetry = null
+}
+
+function requestNewPouring() {
+    state.isPouringEmptyOpen = false
+    state.pendingRetry = null
+    emit('openNewPouring', props.selectedMedicine?.uuid ?? null)
+}
 
 watch(() => props.isModalOpen, async (val) => {
     if (val) {
