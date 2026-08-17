@@ -92,6 +92,9 @@
                                             <th class="py-1 pr-3 text-right">{{ $t('citizens.priceEstimates.form.unitPrice') }}</th>
                                             <th class="py-1 pr-3 text-right">{{ $t('citizens.priceEstimates.form.subsidy') }}</th>
                                             <th class="py-1 text-right">{{ $t('citizens.priceEstimates.form.lineTotal') }}</th>
+                                            <th class="py-1 pl-3 text-right" v-if="estimate.status === 'accepted'">
+                                                {{ $t('citizens.priceEstimates.plan') }}
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -107,6 +110,20 @@
                                             <td class="py-1 pr-3 text-right tabular-nums">{{ formatAmount(line.unit_price) }}</td>
                                             <td class="py-1 pr-3 text-right tabular-nums">{{ formatAmount(line.subsidy_amount) }}</td>
                                             <td class="py-1 text-right tabular-nums">{{ formatAmount(line.line_total) }}</td>
+                                            <td class="py-1 pl-3 text-right" v-if="estimate.status === 'accepted'">
+                                                <button type="button" @click="toggleLine(line)" :class="[
+                                                    'inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium transition',
+                                                    line.status === 'done'
+                                                        ? 'border-green-600 bg-green-50 text-green-700'
+                                                        : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                                                ]">
+                                                    <Icon :name="line.status === 'done' ? 'ph:check-circle' : 'ph:circle'"
+                                                        class="size-3.5" />
+                                                    {{ line.status === 'done'
+                                                        ? $t('citizens.priceEstimates.done')
+                                                        : $t('citizens.priceEstimates.markDone') }}
+                                                </button>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -268,6 +285,19 @@ async function onSaved() {
     state.isModalOpen = false
     successAlert(`${t('alert.success')}!`, `${t('citizens.priceEstimates.saved')}.`)
     await loadEstimates()
+}
+
+// An accepted estimate is the treatment plan, so its lines are ticked off as
+// the work is carried out.
+async function toggleLine(line: any) {
+    state.error = ''
+
+    try {
+        await priceEstimateService.completeLine(line.uuid, { done: line.status !== 'done' })
+        await loadEstimates()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
 }
 
 async function setStatus(estimate: any, status: string) {

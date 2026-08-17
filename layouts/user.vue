@@ -795,6 +795,9 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Overview') return t('sidebar.overview')
     if (item.name === 'Discover') return t('sidebar.discover')
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
+    if (item.name === 'Invoicing') return t('sidebar.invoicing')
+    if (item.name === 'DentalOverview') return t('sidebar.dentalOverview')
+    if (item.name === 'DentalRecalls') return t('sidebar.dentalRecalls')
     if (item.name === 'Calendar') return t('sidebar.calendar')
     if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
     if (item.name === 'My availability') return t('sidebar.myAvailability')
@@ -904,6 +907,31 @@ function generateSidebarLinks(user: any) {
             ]
         })
     }
+    // The recall list only exists for dental clinics, the same rule the tabs
+    // and the API use.
+    if (user?.company?.industry?.system_name === 'dental') {
+        nav.push({
+            name: 'DentalOverview',
+            href: '/dental-overview',
+            icon: 'ph:chart-pie-slice',
+            activeRouteNames: ['dental-overview'],
+        })
+        nav.push({
+            name: 'DentalRecalls',
+            href: '/dental-recalls',
+            icon: 'ph:calendar-check',
+            activeRouteNames: ['dental-recalls'],
+        })
+    }
+    // The module is switched on per company from the app store.
+    if (user?.has_invoice_app) {
+        nav.push({
+            name: 'Invoicing',
+            href: '/invoicing',
+            icon: 'ph:receipt',
+            activeRouteNames: ['invoicing', 'settings-services'],
+        })
+    }
     nav.push({
         name: 'Citizens',
         href: '/citizens',
@@ -928,6 +956,7 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-reports',
             'citizens-uuid-tooth-chart',
             'citizens-uuid-price-estimates',
+            'citizens-uuid-invoices',
         ]
     })
     if (companyHasModule("Calendar")) {

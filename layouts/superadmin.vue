@@ -337,6 +337,7 @@ const groupedNav = {
         // { name: 'Finance', label: 'superadmin.sidebar.finance', href: '/superadmin/finance', icon: 'ph:chart-line-up', routes: ['superadmin-finance'] },
         { name: 'Invoices', label: 'superadmin.sidebar.invoices', href: '/superadmin/invoices', icon: 'ph:invoice', routes: ['superadmin-invoices', 'superadmin-invoices-invoice_uuid'] },
         { name: 'Orders', label: 'superadmin.sidebar.orders', href: '/superadmin/orders', icon: 'ph:database', routes: ['superadmin-orders'] },
+        { name: 'PaymentFees', label: 'superadmin.sidebar.paymentFees', href: '/superadmin/payment-fees', icon: 'ph:percent', routes: ['superadmin-payment-fees'] },
     ],
     platform: [
         // { name: 'Licenses', label: 'superadmin.sidebar.licenses', href: '/superadmin/licenses', icon: 'ph:key', routes: ['superadmin-licenses'] },

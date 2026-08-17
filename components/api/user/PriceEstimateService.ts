@@ -17,6 +17,10 @@ class PriceEstimateService extends BaseAPIService {
         return await this.request(`/user/price-estimates/${uuid}/status`, 'PUT', params)
     }
 
+    async completeLine(lineUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/price-estimates/lines/${lineUuid}/complete`, 'PUT', params)
+    }
+
     async deleteEstimate(uuid: string): Promise<any> {
         return await this.request(`/user/price-estimates/${uuid}`, 'DELETE')
     }
