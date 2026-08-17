@@ -13339,5 +13339,13 @@
             "title": "Betalningen avbröts",
             "text": "Ingenting har dragits. Du kan använda länken igen när du är redo."
         }
+    },
+    "economy": {
+        "title": "Ekonomi",
+        "tabs": {
+            "overview": "Översikt",
+            "revenue": "Omsättning",
+            "billing": "Faktureringsunderlag"
+        }
     }
 }

@@ -816,6 +816,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Billing') return language.t('employment.billing.billing')
     if (item.name === 'Revenue report') return language.t('employment.revenue.report')
     if (item.name === 'Management & Economy') return language.t('managementEconomy.title')
+    if (item.name === 'Economy') return language.t('economy.title')
     if (item.name === 'Inquiries') return language.t('inquiries.inquiries')
     return item.name
 }
@@ -1074,17 +1075,21 @@ function generateSidebarLinks(user: any) {
         })
     }
 
-    if (user?.company?.industry?.system_name === 'employment_services') {
-        if (companyHasModule('Billing')) {
-            nav.push({ name: 'Billing', href: '/billing/employment', icon: 'ph:invoice', group: 'organisation', activeRouteNames: ['billing-employment'] })
-        }
-        if (companyHasModule('Revenue report')) {
-            nav.push({ name: 'Revenue report', href: '/reports/employment-revenue', icon: 'ph:chart-bar', group: 'organisation', activeRouteNames: ['reports-employment-revenue'] })
-        }
-    }
+    // One economy area rather than three addresses nobody could tell apart:
+    // how it is going, what was earned, and what has to be invoiced.
+    const hasEconomyOverview = user?.company?.industry?.system_name === 'social_welfare'
+        && user?.pages?.some((page: any) => page.name === 'Management & Economy')
+    const hasEmploymentEconomy = user?.company?.industry?.system_name === 'employment_services'
+        && (companyHasModule('Billing') || companyHasModule('Revenue report'))
 
-    if (user?.company?.industry?.system_name === 'social_welfare' && user?.pages?.some((page: any) => page.name === 'Management & Economy')) {
-        nav.push({ name: 'Management & Economy', href: '/management-economy', icon: 'ph:chart-line-up', group: 'organisation', activeRouteNames: ['management-economy'] })
+    if (hasEconomyOverview || hasEmploymentEconomy) {
+        nav.push({
+            name: 'Economy',
+            href: '/economy',
+            icon: 'ph:chart-line-up',
+            group: 'organisation',
+            activeRouteNames: ['economy', 'management-economy', 'reports-employment-revenue', 'billing-employment'],
+        })
     }
 
     // Removed from the sidebar (declutter, per stakeholder feedback) - the app

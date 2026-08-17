@@ -13339,5 +13339,13 @@
             "title": "Betalingen blev afbrudt",
             "text": "Der er ikke trukket noget. Du kan bruge linket igen, når du er klar."
         }
+    },
+    "economy": {
+        "title": "Økonomi",
+        "tabs": {
+            "overview": "Overblik",
+            "revenue": "Omsætning",
+            "billing": "Faktureringsudtræk"
+        }
     }
 }

@@ -13339,5 +13339,13 @@
             "title": "The payment was cancelled",
             "text": "Nothing was charged. You can use the link again when you are ready."
         }
+    },
+    "economy": {
+        "title": "Economy",
+        "tabs": {
+            "overview": "Overview",
+            "revenue": "Revenue",
+            "billing": "Billing extraction"
+        }
     }
 }

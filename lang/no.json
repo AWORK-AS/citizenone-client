@@ -13339,5 +13339,13 @@
             "title": "Betalingen ble avbrutt",
             "text": "Ingenting er trukket. Du kan bruke lenken igjen når du er klar."
         }
+    },
+    "economy": {
+        "title": "Økonomi",
+        "tabs": {
+            "overview": "Oversikt",
+            "revenue": "Omsetning",
+            "billing": "Faktureringsuttrekk"
+        }
     }
 }
