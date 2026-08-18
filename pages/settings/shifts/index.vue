@@ -67,10 +67,6 @@
                                         <span>{{ shift?.time_out }}</span>
                                     </td>
                                     <td width="10%">
-                                        <span v-if="shift?.working_hours_factor">{{ shift.working_hours_factor }}</span>
-                                        <span v-else class="text-gray-400">—</span>
-                                    </td>
-                                    <td width="10%">
                                         <span :style="{ backgroundColor: shift?.color }"
                                             class="inline-block w-8 h-8 rounded" />
                                     </td>
@@ -133,7 +129,6 @@ const state = reactive({
         { name: 'shifts.table.paycode', isTranslateName: true, sorter: true, key: 'pay_code' },
         { name: 'shifts.table.timeIn', isTranslateName: true, },
         { name: 'shifts.table.timeOut', isTranslateName: true, },
-        { name: 'shifts.table.workingHoursFactor', isTranslateName: true, },
         { name: 'shifts.table.color', isTranslateName: true, },
         { name: '' }
     ],

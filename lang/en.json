@@ -4592,7 +4592,7 @@
                 "normHours": "Norm hours in period",
                 "notAvailable": "No period calculation for this range",
                 "selectPeriod": "Select period",
-                "workedHours": "Worked hours in period"
+                "workedHours": "Hours in period"
             },
             "totalCompensatoryHours": "Total compensatory hours",
             "totalVacationDays": "Total vacation days",
@@ -9937,11 +9937,6 @@
             "multiplierRuleAppliesToWeekends": "Weekends",
             "multiplierRuleAppliesToHolidays": "Holidays",
             "multiplierRuleIsActive": "Active",
-            "workingHoursFactor": "Working hours factor",
-            "workingHoursFactorFrom": "From",
-            "workingHoursFactorInterval": "Apply within time interval (optional)",
-            "workingHoursFactorPlaceholder": "e.g. 0.75",
-            "workingHoursFactorTo": "To",
             "nameNorwegian": "Name (norwegian)",
             "nameSwedish": "Name (swedish)"
         },
@@ -9964,7 +9959,6 @@
             "standardShift": "Standard shift",
             "timeIn": "Time out",
             "timeOut": "Time in",
-            "workingHoursFactor": "Working hours factor",
             "nameNorwegian": "Name (norwegian)",
             "nameSwedish": "Name (swedish)"
         }
