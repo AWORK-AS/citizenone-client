@@ -4592,7 +4592,7 @@
                 "normHours": "Normtimer i perioden",
                 "notAvailable": "Ingen periodeberegning for denne periode",
                 "selectPeriod": "Vælg periode",
-                "workedHours": "Arbejdede timer i perioden"
+                "workedHours": "Timer i perioden"
             },
             "totalCompensatoryHours": "Samlede afspadseringstimer",
             "totalVacationDays": "Samlede feriedage",
@@ -9937,11 +9937,6 @@
             "multiplierRuleAppliesToWeekends": "Weekender",
             "multiplierRuleAppliesToHolidays": "Helligdage",
             "multiplierRuleIsActive": "Aktiv",
-            "workingHoursFactor": "Arbejdstidsfaktor",
-            "workingHoursFactorFrom": "Fra",
-            "workingHoursFactorInterval": "Anvend inden for tidsinterval (valgfrit)",
-            "workingHoursFactorPlaceholder": "f.eks. 0.75",
-            "workingHoursFactorTo": "Til",
             "nameNorwegian": "Navn (norsk)",
             "nameSwedish": "Navn (svensk)"
         },
@@ -9964,7 +9959,6 @@
             "standardShift": "Standard vagt",
             "timeIn": "Tid ind",
             "timeOut": "Tid ud",
-            "workingHoursFactor": "Arbejdstidsfaktor",
             "nameNorwegian": "Navn (norsk)",
             "nameSwedish": "Navn (svensk)"
         }
