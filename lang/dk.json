@@ -2531,7 +2531,9 @@
             },
             "newMedicine": "Ny medicin",
             "newPouring": "Ny dosering",
+            "newPlannedDelivery": "Planlagt udlevering",
             "givenViaPouringContainer": "Givet via doseringsæsken",
+            "deliveredViaPlannedDelivery": "Udleveret via planlagt udlevering",
             "pouring": {
                 "activeIngredient": "Aktivt stof",
                 "amount": "Mængde doseret",
@@ -2545,6 +2547,19 @@
                 "periodStart": "Periode start",
                 "alert": {
                     "successfullyAdded": "Dosering oprettet"
+                }
+            },
+            "plannedDelivery": {
+                "activeIngredient": "Aktivt stof",
+                "amount": "Mængde udleveret",
+                "amountExceedsStock": "Mængden må ikke overstige den aktuelle hovedbeholdning",
+                "currentMainStock": "Aktuel hovedbeholdning",
+                "label": "Planlagt udlevering",
+                "periodEnd": "Periode slut",
+                "periodEndBeforeStart": "Periodens slutdato skal være samme dag som eller efter startdatoen",
+                "periodStart": "Periode start",
+                "alert": {
+                    "successfullyAdded": "Planlagt udlevering oprettet"
                 }
             },
             "page": {

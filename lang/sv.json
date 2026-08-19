@@ -2531,7 +2531,9 @@
             },
             "newMedicine": "Ny medicin",
             "newPouring": "Ny dosering",
+            "newPlannedDelivery": "Planerad leverans",
             "givenViaPouringContainer": "Givet via doseringsbehållaren",
+            "deliveredViaPlannedDelivery": "Levererat via planerad leverans",
             "pouring": {
                 "activeIngredient": "Aktiv substans",
                 "amount": "Mängd uppmätt",
@@ -2545,6 +2547,19 @@
                 "periodStart": "Period start",
                 "alert": {
                     "successfullyAdded": "Dosering skapad"
+                }
+            },
+            "plannedDelivery": {
+                "activeIngredient": "Aktiv substans",
+                "amount": "Mängd levererad",
+                "amountExceedsStock": "Mängden får inte överstiga det aktuella huvudlagret",
+                "currentMainStock": "Aktuellt huvudlager",
+                "label": "Planerad leverans",
+                "periodEnd": "Period slut",
+                "periodEndBeforeStart": "Slutdatumet måste vara samma dag som eller efter startdatumet",
+                "periodStart": "Period start",
+                "alert": {
+                    "successfullyAdded": "Planerad leverans skapad"
                 }
             },
             "page": {

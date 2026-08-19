@@ -2531,7 +2531,9 @@
             },
             "newMedicine": "New medicine",
             "newPouring": "New pouring",
+            "newPlannedDelivery": "Planned delivery",
             "givenViaPouringContainer": "Given via the pouring container",
+            "deliveredViaPlannedDelivery": "Delivered via planned delivery",
             "pouring": {
                 "activeIngredient": "Active ingredient",
                 "amount": "Amount poured",
@@ -2545,6 +2547,19 @@
                 "periodStart": "Period start",
                 "alert": {
                     "successfullyAdded": "Pouring successfully created"
+                }
+            },
+            "plannedDelivery": {
+                "activeIngredient": "Active ingredient",
+                "amount": "Amount delivered",
+                "amountExceedsStock": "Amount cannot exceed the current main stock",
+                "currentMainStock": "Current main stock",
+                "label": "Planned delivery",
+                "periodEnd": "Period end",
+                "periodEndBeforeStart": "Period end must be on or after the period start",
+                "periodStart": "Period start",
+                "alert": {
+                    "successfullyAdded": "Planned delivery successfully created"
                 }
             },
             "page": {

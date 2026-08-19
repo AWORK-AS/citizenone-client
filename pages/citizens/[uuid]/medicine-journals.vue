@@ -203,6 +203,12 @@
                             {{ $t('citizens.medicineJournals.newPouring') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-md shrink-0"
+                            @click="state.modal.isNewPlannedDeliveryOpen = true"
+                            v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
+                            <Icon name="ph:package" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.newPlannedDelivery') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md shrink-0"
                             @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                             v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
                             <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
@@ -301,6 +307,12 @@
                                 v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
                                 <Icon name="ph:flask" class="h-4 w-4" />
                                 {{ $t('citizens.medicineJournals.newPouring') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="state.modal.isNewPlannedDeliveryOpen = true"
+                                v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
+                                <Icon name="ph:package" class="h-4 w-4" />
+                                {{ $t('citizens.medicineJournals.newPlannedDelivery') }}
                             </FormButton>
                             <FormButton buttonStyle="action" class="rounded-md"
                                 @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
@@ -1046,6 +1058,9 @@
                 <ModulesUserCitizenMedicineModalNewPouring :isModalOpen="state.modal.isNewPouringOpen"
                     :medicines="allMedicines" :preselectedMedicineUuid="state.pouringPreselectedMedicineUuid"
                     @close="closeNewPouringModal" @refreshMedicines="fetchCitizenMedicines" />
+                <ModulesUserCitizenMedicineModalNewPlannedDelivery :isModalOpen="state.modal.isNewPlannedDeliveryOpen"
+                    :medicines="allMedicines"
+                    @close="state.modal.isNewPlannedDeliveryOpen = false" @refreshMedicines="fetchCitizenMedicines" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
                     @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
@@ -1183,6 +1198,7 @@ const state = reactive({
         isGiveMedicinesOpen: false,
         isGivePNMedicineOpen: false,
         isNewPouringOpen: false,
+        isNewPlannedDeliveryOpen: false,
         isViewMedicineOpen: false,
         isViewMedicineHistoryOpen: false,
     },
@@ -1467,6 +1483,7 @@ function getSlotTooltip(dosage: any, time: string): string {
     const s = dosage?.status
     if (s === 'given' && dosage?.given_via_pouring) return t('citizens.medicineJournals.givenViaPouringContainer')
     if (s === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.page.givenLegend')
+    if (s === 'delivered' && dosage?.delivered_via_planned_delivery) return t('citizens.medicineJournals.deliveredViaPlannedDelivery')
     if (s === 'delivered') return t('citizens.medicineJournals.history.form.type.delivered')
     if (s === 'deviated') return t('citizens.medicineJournals.history.form.type.deviated')
     if (isMissed(time)) return t('citizens.medicineJournals.page.slotOverdue', { time })
@@ -1523,10 +1540,11 @@ function getWeekSlotClass(dosage: any, day: any): string {
     return 'bg-gray-50 text-gray-400'
 }
 
-function getStatusLabel(dosage: { status?: string | null, given_via_pouring?: boolean } | null): string {
+function getStatusLabel(dosage: { status?: string | null, given_via_pouring?: boolean, delivered_via_planned_delivery?: boolean } | null): string {
     const status = dosage?.status ?? null
     if (status === 'given' && dosage?.given_via_pouring) return t('citizens.medicineJournals.givenViaPouringContainer')
     if (status === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.page.givenLegend')
+    if (status === 'delivered' && dosage?.delivered_via_planned_delivery) return t('citizens.medicineJournals.deliveredViaPlannedDelivery')
     if (status === 'delivered') return t('citizens.medicineJournals.history.form.type.delivered')
     if (status === 'deviated') return t('citizens.medicineJournals.history.form.type.deviated')
     return t('citizens.medicineJournals.page.notGivenStatus')
