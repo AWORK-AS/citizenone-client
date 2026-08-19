@@ -2534,6 +2534,8 @@
             "newPlannedDelivery": "Planlagt udlevering",
             "givenViaPouringContainer": "Givet via doseringsæsken",
             "deliveredViaPlannedDelivery": "Udleveret via planlagt udlevering",
+            "createdOn": "Oprettet",
+            "nextAdministrationDate": "Næste dosering",
             "pouring": {
                 "activeIngredient": "Aktivt stof",
                 "amount": "Mængde doseret",
@@ -6773,6 +6775,10 @@
         "editForm": "Redigeringsformular",
         "entityType": "Entitetstype",
         "fieldVisibility": "Feltsynlighed",
+        "statusTypes": {
+            "title": "Medicinstatustyper",
+            "description": "Vælg hvilke statusser medarbejdere kan vælge, når de registrerer en dosis. \"Givet\" forbliver altid aktiveret."
+        },
         "fields": {
             "addictions": "Afhængigheder",
             "allocatedHours": "Tildelte timer",

@@ -2534,6 +2534,8 @@
             "newPlannedDelivery": "Planned delivery",
             "givenViaPouringContainer": "Given via the pouring container",
             "deliveredViaPlannedDelivery": "Delivered via planned delivery",
+            "createdOn": "Created",
+            "nextAdministrationDate": "Next dose",
             "pouring": {
                 "activeIngredient": "Active ingredient",
                 "amount": "Amount poured",
@@ -6773,6 +6775,10 @@
         "editForm": "Edit Form",
         "entityType": "Entity Type",
         "fieldVisibility": "Field Visibility",
+        "statusTypes": {
+            "title": "Medicine status types",
+            "description": "Choose which statuses staff can select when logging a dose. \"Given\" always stays enabled."
+        },
         "fields": {
             "addictions": "Dependencies",
             "allocatedHours": "Allocated Hours",

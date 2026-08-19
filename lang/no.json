@@ -2534,6 +2534,8 @@
             "newPlannedDelivery": "Planlagt utlevering",
             "givenViaPouringContainer": "Gitt via doseringsboksen",
             "deliveredViaPlannedDelivery": "Utlevert via planlagt utlevering",
+            "createdOn": "Opprettet",
+            "nextAdministrationDate": "Neste dosering",
             "pouring": {
                 "activeIngredient": "Virkestoff",
                 "amount": "Mengde helt opp",
@@ -6773,6 +6775,10 @@
         "editForm": "Redigeringsskjema",
         "entityType": "Entitetstype",
         "fieldVisibility": "Feltsynlighed",
+        "statusTypes": {
+            "title": "Medisinstatustyper",
+            "description": "Velg hvilke statuser ansatte kan velge når de registrerer en dose. \"Gitt\" forblir alltid aktivert."
+        },
         "fields": {
             "addictions": "Afhængigheder",
             "allocatedHours": "Tildelte timer",

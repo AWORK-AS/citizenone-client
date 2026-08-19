@@ -2534,6 +2534,8 @@
             "newPlannedDelivery": "Planerad leverans",
             "givenViaPouringContainer": "Givet via doseringsbehållaren",
             "deliveredViaPlannedDelivery": "Levererat via planerad leverans",
+            "createdOn": "Skapad",
+            "nextAdministrationDate": "Nästa dosering",
             "pouring": {
                 "activeIngredient": "Aktiv substans",
                 "amount": "Mängd uppmätt",
@@ -6773,6 +6775,10 @@
         "editForm": "Redigeringsformular",
         "entityType": "Entitetstype",
         "fieldVisibility": "Feltsynlighed",
+        "statusTypes": {
+            "title": "Läkemedelsstatustyper",
+            "description": "Välj vilka statusar personalen kan välja när de registrerar en dos. \"Given\" förblir alltid aktiverad."
+        },
         "fields": {
             "addictions": "Afhängigheder",
             "allocatedHours": "Tilldelade timmar",
