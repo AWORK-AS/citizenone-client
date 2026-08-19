@@ -10568,6 +10568,29 @@
                 "undo": "Angre",
                 "undoneCount": "{count} rader slettet",
                 "refresh": "Oppdater"
+            },
+            "storage": {
+                "title": "Lagerplass",
+                "used": "{percent}% brukt",
+                "breakdownTitle": "Lagerforbruk",
+                "breakdownHint": "Hva fyller kundens data",
+                "measuredAt": "målt {at}",
+                "recalculate": "Beregn på nytt",
+                "empty": "Kunden bruker ikke lagerplass ennå",
+                "manualLimit": "Kvoten er satt manuelt til {limit} GB av en superadmin.",
+                "categories": {
+                    "citizen_files": "Brukerfiler",
+                    "journal_attachments": "Journalvedlegg",
+                    "news": "Nyheter",
+                    "assessments": "Vurderinger",
+                    "chat": "Meldinger",
+                    "incidents": "Hendelser",
+                    "employee_documents": "Ansattdokumenter",
+                    "procedures": "Prosedyrer",
+                    "tasks": "Oppgaver",
+                    "company_files": "Virksomhetsfiler",
+                    "nursing_areas": "Pleieområder"
+                }
             }
         },
         "coupons": {

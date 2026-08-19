@@ -10568,6 +10568,29 @@
                 "undo": "Ångra",
                 "undoneCount": "{count} rader borttagna",
                 "refresh": "Uppdatera"
+            },
+            "storage": {
+                "title": "Lagringsutrymme",
+                "used": "{percent}% använt",
+                "breakdownTitle": "Lagringsanvändning",
+                "breakdownHint": "Vad fyller kundens data",
+                "measuredAt": "mätt {at}",
+                "recalculate": "Beräkna om",
+                "empty": "Kunden använder inget lagringsutrymme ännu",
+                "manualLimit": "Kvoten är satt manuellt till {limit} GB av en superadmin.",
+                "categories": {
+                    "citizen_files": "Klientfiler",
+                    "journal_attachments": "Journalbilagor",
+                    "news": "Nyheter",
+                    "assessments": "Bedömningar",
+                    "chat": "Meddelanden",
+                    "incidents": "Händelser",
+                    "employee_documents": "Medarbetardokument",
+                    "procedures": "Rutiner",
+                    "tasks": "Uppgifter",
+                    "company_files": "Företagsfiler",
+                    "nursing_areas": "Vårdområden"
+                }
             }
         },
         "coupons": {

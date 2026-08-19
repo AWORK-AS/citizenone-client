@@ -118,7 +118,7 @@
                         </div>
 
                         <!-- Stats row -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                             <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
                                 <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">
                                     {{ $t('superadmin.dashboard.users') }}
@@ -167,7 +167,11 @@
                                     {{ $t('superadmin.companies.accounts.stats.activatedModules') }}
                                 </p>
                             </div>
+                            <SuperadminCompanyStorageStat :companyUuid="(companyUuid as string)" />
                         </div>
+
+                        <!-- Storage usage -->
+                        <SuperadminCompanyStorageBreakdown :companyUuid="(companyUuid as string)" />
 
                         <!-- Details + apps -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">

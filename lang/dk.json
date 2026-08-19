@@ -10568,6 +10568,29 @@
                 "undo": "Fortryd",
                 "undoneCount": "{count} rækker slettet",
                 "refresh": "Opdater"
+            },
+            "storage": {
+                "title": "Lagerplads",
+                "used": "{percent}% brugt",
+                "breakdownTitle": "Lagerforbrug",
+                "breakdownHint": "Hvad fylder kundens data",
+                "measuredAt": "målt {at}",
+                "recalculate": "Genberegn",
+                "empty": "Kunden bruger ikke lagerplads endnu",
+                "manualLimit": "Kvoten er sat manuelt til {limit} GB af en superadmin.",
+                "categories": {
+                    "citizen_files": "Borgerfiler",
+                    "journal_attachments": "Journalbilag",
+                    "news": "Nyheder",
+                    "assessments": "Vurderinger",
+                    "chat": "Beskeder",
+                    "incidents": "Hændelser",
+                    "employee_documents": "Medarbejderdokumenter",
+                    "procedures": "Procedurer",
+                    "tasks": "Opgaver",
+                    "company_files": "Virksomhedsfiler",
+                    "nursing_areas": "Plejeområder"
+                }
             }
         },
         "coupons": {

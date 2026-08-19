@@ -10568,6 +10568,29 @@
                 "undo": "Undo",
                 "undoneCount": "{count} rows deleted",
                 "refresh": "Refresh"
+            },
+            "storage": {
+                "title": "Storage",
+                "used": "{percent}% used",
+                "breakdownTitle": "Storage usage",
+                "breakdownHint": "What fills the customer's space",
+                "measuredAt": "measured {at}",
+                "recalculate": "Recalculate",
+                "empty": "This customer is not using storage yet",
+                "manualLimit": "The quota is set manually to {limit} GB by a superadmin.",
+                "categories": {
+                    "citizen_files": "Citizen files",
+                    "journal_attachments": "Journal attachments",
+                    "news": "News",
+                    "assessments": "Assessments",
+                    "chat": "Messages",
+                    "incidents": "Incidents",
+                    "employee_documents": "Employee documents",
+                    "procedures": "Procedures",
+                    "tasks": "Tasks",
+                    "company_files": "Company files",
+                    "nursing_areas": "Nursing areas"
+                }
             }
         },
         "coupons": {
