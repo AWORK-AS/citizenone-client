@@ -17,6 +17,11 @@ class ReleaseNoteService extends BaseAPIService {
         return await this.request(`/superadmin/release-notes/${uuid}`, 'PUT', params)
     }
 
+    // Ask the approver again, for a note whose first request never arrived.
+    async notifyApprover(uuid: string): Promise<any> {
+        return await this.request(`/superadmin/release-notes/${uuid}/notify`, 'POST')
+    }
+
     async publishReleaseNote(uuid: string): Promise<any> {
         return await this.request(`/superadmin/release-notes/${uuid}/publish`, 'PUT')
     }

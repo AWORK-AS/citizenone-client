@@ -12937,7 +12937,11 @@
         "noNotes": "Ingen release notes ennå.",
         "noPendingNotes": "Ingenting venter på godkjenning.",
         "pendingReview": "Venter på godkjenning",
-        "allNotes": "Alle release notes"
+        "allNotes": "Alle release notes",
+        "approvalRequestSent": "Godkjenningsforespørsel sendt til CTO {date}",
+        "approvalRequestNotSent": "Ingen godkjenningsforespørsel sendt ennå",
+        "approvalRequestFailed": "Godkjenningsforespørselen kunne ikke sendes: {error}",
+        "remindApprover": "Send til CTO"
     },
     "customSidebarLinks": {
         "title": "Egne lenker",

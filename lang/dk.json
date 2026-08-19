@@ -12937,7 +12937,11 @@
         "noNotes": "Ingen release notes endnu.",
         "noPendingNotes": "Intet afventer godkendelse.",
         "pendingReview": "Afventer godkendelse",
-        "allNotes": "Alle release notes"
+        "allNotes": "Alle release notes",
+        "approvalRequestSent": "Godkendelsesanmodning sendt til CTO {date}",
+        "approvalRequestNotSent": "Ingen godkendelsesanmodning sendt endnu",
+        "approvalRequestFailed": "Godkendelsesanmodningen kunne ikke sendes: {error}",
+        "remindApprover": "Send til CTO"
     },
     "customSidebarLinks": {
         "title": "Egne links",

@@ -12937,7 +12937,11 @@
         "noNotes": "No release notes yet.",
         "noPendingNotes": "Nothing pending review.",
         "pendingReview": "Pending review",
-        "allNotes": "All release notes"
+        "allNotes": "All release notes",
+        "approvalRequestSent": "Approval request sent to the CTO {date}",
+        "approvalRequestNotSent": "No approval request sent yet",
+        "approvalRequestFailed": "The approval request could not be sent: {error}",
+        "remindApprover": "Send to CTO"
     },
     "customSidebarLinks": {
         "title": "Custom links",

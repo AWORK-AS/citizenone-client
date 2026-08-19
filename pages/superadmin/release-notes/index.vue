@@ -38,6 +38,8 @@
                             class="flex items-start justify-between gap-x-4 rounded-lg border border-gray-200 bg-white p-4">
                             <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                    <span v-if="note.number"
+                                        class="rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-semibold text-[#205E77]">#{{ note.number }}</span>
                                     <span class="font-semibold text-gray-900">{{ note.title }}</span>
                                     <span v-if="note.version"
                                         class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">{{ note.version }}</span>
@@ -51,6 +53,18 @@
                                 <p v-if="note.status === 'published'" class="mt-1 text-xs text-gray-400">
                                     {{ $t('releaseNotes.publishedTo') }}
                                 </p>
+                                <p v-else-if="note.approver_notification_error"
+                                    class="mt-1 flex items-center gap-1 text-xs text-[#CC3B2D]">
+                                    <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0" />
+                                    {{ $t('releaseNotes.approvalRequestFailed', { error: note.approver_notification_error }) }}
+                                </p>
+                                <p v-else-if="note.approver_notified_at" class="mt-1 text-xs text-gray-400">
+                                    {{ $t('releaseNotes.approvalRequestSent', { date: formatDateTime(note.approver_notified_at) }) }}
+                                </p>
+                                <p v-else class="mt-1 flex items-center gap-1 text-xs text-[#D4900A]">
+                                    <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0" />
+                                    {{ $t('releaseNotes.approvalRequestNotSent') }}
+                                </p>
                             </div>
                             <div class="flex flex-none items-center gap-x-2">
                                 <FormButton buttonStyle="action" buttonSize="sm" @click="openRead(note)">
@@ -58,6 +72,12 @@
                                 </FormButton>
                                 <FormButton buttonStyle="action" buttonSize="sm" @click="openForm(note)">
                                     <Icon name="ph:pencil-simple" class="h-4 w-4" />
+                                </FormButton>
+                                <FormButton v-if="note.status !== 'published'" buttonStyle="cancel" buttonSize="sm"
+                                    :disabled="state.notifyingUuid === note.uuid" @click="notifyApprover(note)">
+                                    <Icon name="ph:paper-plane-tilt" class="h-4 w-4"
+                                        :class="state.notifyingUuid === note.uuid ? 'animate-pulse' : ''" />
+                                    {{ $t('releaseNotes.remindApprover') }}
                                 </FormButton>
                                 <FormButton v-if="note.status !== 'published'" buttonStyle="success" buttonSize="sm"
                                     @click="publish(note)">
@@ -156,6 +176,7 @@ const state = reactive({
     // published notes came before them, so "Next" only ever moves further
     // into the past. Pending review is normally a small, bounded set.
     filterStatus: 'draft' as 'draft' | 'all',
+    notifyingUuid: '' as string,
 })
 
 onMounted(() => fetchNotes())
@@ -204,6 +225,32 @@ function closeForm() {
 function openRead(note: any) {
     state.readNote = note
     state.readOpen = true
+}
+
+function formatDateTime(value: string): string {
+    return new Date(value).toLocaleString('da-DK', {
+        day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
+    })
+}
+
+// The approval mail is sent when the note is created, including by the CI
+// ingest. If that attempt failed, this is how it gets asked again.
+async function notifyApprover(note: any) {
+    state.error = ''
+    state.notifyingUuid = note.uuid
+    try {
+        const response = await releaseNoteService.notifyApprover(note.uuid)
+        const failure = response?.data?.approver_notification_error ?? response?.approver_notification_error
+        if (failure) {
+            state.error = failure
+        } else {
+            successAlert(`${t('alert.success')}!`, '')
+        }
+        fetchNotes()
+    } catch (error: any) {
+        state.error = error?.message ?? 'Error'
+    }
+    state.notifyingUuid = ''
 }
 
 function formatNoteDate(note: any): string {

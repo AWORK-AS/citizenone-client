@@ -1,0 +1,77 @@
+# Every deploy to main becomes a DRAFT release note in CitizenONE.
+# A superadmin (CTO) still has to edit and approve it before customers see it,
+# so this is a starting point for the note, not the note itself.
+#
+# Required repository secrets:
+#   RELEASE_NOTE_API_URL        e.g. https://api.citizenone.dk   (no trailing slash)
+#   RELEASE_NOTE_INGEST_TOKEN   same value as backend env RELEASE_NOTE_INGEST_TOKEN
+name: Release notes on deploy → CitizenONE
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The whole history, so the range between the last deploy and this one
+          # can be read.
+          fetch-depth: 0
+
+      - name: Post deploy draft
+        env:
+          API_URL: ${{ secrets.RELEASE_NOTE_API_URL }}
+          INGEST_TOKEN: ${{ secrets.RELEASE_NOTE_INGEST_TOKEN }}
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${API_URL:-}" ] || [ -z "${INGEST_TOKEN:-}" ]; then
+            echo "Missing RELEASE_NOTE_API_URL or RELEASE_NOTE_INGEST_TOKEN secret." >&2
+            exit 1
+          fi
+
+          # A first push or a force push leaves no usable "before" commit to
+          # measure from, so fall back to the last handful of commits.
+          if [ -n "${BEFORE:-}" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ] \
+             && git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+            subjects=$(git log --no-merges --pretty=format:'%s' "${BEFORE}..${SHA}")
+          else
+            subjects=$(git log --no-merges --max-count=20 --pretty=format:'%s' "${SHA}")
+          fi
+
+          # Merge commits are already excluded; drop the housekeeping that no
+          # customer will ever care about.
+          filtered=$(printf '%s\n' "$subjects" \
+            | grep -viE '^(chore|ci|build|style|test|refactor)(\(|:)' \
+            | grep -viE '^(merge|bump|wip|revert)\b' \
+            | sed '/^[[:space:]]*$/d' \
+            | sed 's/^/- /' || true)
+
+          if [ -z "$filtered" ]; then
+            echo "Nothing customer-facing in this deploy; no draft created."
+            exit 0
+          fi
+
+          title="Produktopdateringer $(date -u +'%d.%m.%Y')"
+          body=$(printf 'Kladde fra deploy af %s.\n\n%s\n' "$REPO_NAME" "$filtered")
+
+          payload=$(jq -n \
+            --arg title "$title" \
+            --arg content "$body" \
+            --arg ref "deploy-${SHA}" \
+            '{title: $title, content: $content, external_ref: $ref}')
+
+          # external_ref makes this idempotent: re-running the workflow for the
+          # same commit updates nothing and creates nothing new.
+          curl -sS -X POST "$API_URL/api/internal/release-notes" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/json" \
+            -H "X-Release-Token: $INGEST_TOKEN" \
+            --fail-with-body \
+            --data "$payload"

@@ -12937,7 +12937,11 @@
         "noNotes": "Inga release notes än.",
         "noPendingNotes": "Inget väntar på godkännande.",
         "pendingReview": "Väntar på godkännande",
-        "allNotes": "Alla release notes"
+        "allNotes": "Alla release notes",
+        "approvalRequestSent": "Godkännandeförfrågan skickad till CTO {date}",
+        "approvalRequestNotSent": "Ingen godkännandeförfrågan skickad ännu",
+        "approvalRequestFailed": "Godkännandeförfrågan kunde inte skickas: {error}",
+        "remindApprover": "Skicka till CTO"
     },
     "customSidebarLinks": {
         "title": "Egna länkar",
