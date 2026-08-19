@@ -10496,7 +10496,8 @@
                 "name": "Namn",
                 "phone": "Telefon",
                 "status": "Status",
-                "website": "Websted"
+                "website": "Websted",
+                "storage": "Lagringsanvändning"
             },
             "tabs": {
                 "accounts": "Konton",
@@ -10639,8 +10640,13 @@
                 "table": {
                     "name": "Namn",
                     "storagePaid": "Betald lager",
-                    "storageUsed": "Brugt lager"
-                }
+                    "storageUsed": "Brugt lager",
+                    "storageQuota": "Kvot",
+                    "usage": "Användning",
+                    "measuredAt": "Mätt"
+                },
+                "seeAll": "Se alla",
+                "notMeasuredYet": "Inga mätningar ännu"
             },
             "dashboard": "Dashboard",
             "numberOfNonpayingCompanies": "Antal inte-betalende företag",
@@ -11079,7 +11085,8 @@
             "clientRoles": "Klientroller",
             "cancellations": "Avslutningar",
             "storagePackages": "Lagringspaket",
-            "paymentFees": "Betalningsavgifter"
+            "paymentFees": "Betalningsavgifter",
+            "storageUsage": "Lagringsanvändning"
         },
         "emailTemplates": {
             "title": "E-postmallar",

@@ -108,7 +108,7 @@
                         </div>
 
                         <!-- Stats row -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                             <div class="bg-white rounded-xl border border-gray-200 p-4">
                                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Slutbrugere</p>
                                 <p class="text-2xl font-bold text-gray-900">
@@ -137,6 +137,74 @@
                                 <p class="text-2xl font-bold text-gray-900">{{ state.apps.length }}</p>
                                 <p class="text-xs text-gray-400 mt-0.5">moduler aktiveret</p>
                             </div>
+                            <div class="bg-white rounded-xl border border-gray-200 p-4">
+                                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Lagerplads</p>
+                                <p class="text-2xl font-bold" :class="storageTextClass">
+                                    <template v-if="state.isStorageLoading">
+                                        <Icon name="ph:spinner" class="w-5 h-5 text-gray-300 animate-spin" />
+                                    </template>
+                                    <template v-else>
+                                        {{ formatGb(state.storage?.storage_used_gb) }}
+                                        <span class="text-base font-normal text-gray-400">
+                                            / {{ formatGb(state.storage?.storage_quota_gb) }} GB
+                                        </span>
+                                    </template>
+                                </p>
+                                <div class="mt-2 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                    <div class="h-full rounded-full" :class="storageBarClass"
+                                        :style="{ width: storagePercent + '%' }"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">{{ storagePercent }}% brugt</p>
+                            </div>
+                        </div>
+
+                        <!-- Storage breakdown -->
+                        <div class="bg-white rounded-xl border border-gray-200 p-5">
+                            <div class="flex items-start justify-between gap-4 mb-4">
+                                <div>
+                                    <h3 class="text-sm font-semibold text-gray-700">Lagerforbrug</h3>
+                                    <p class="text-xs text-gray-400 mt-0.5">
+                                        Hvad fylder kundens data
+                                        <span v-if="state.storage?.measured_at">
+                                            · målt {{ formatDateTime(state.storage.measured_at) }}
+                                        </span>
+                                    </p>
+                                </div>
+                                <button
+                                    class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 transition-colors"
+                                    :disabled="state.isStorageLoading" @click="fetchStorage">
+                                    <Icon name="ph:arrows-clockwise" class="w-4 h-4"
+                                        :class="state.isStorageLoading ? 'animate-spin' : ''" />
+                                    Genberegn
+                                </button>
+                            </div>
+
+                            <div v-if="state.isStorageLoading" class="flex justify-center py-4">
+                                <Icon name="ph:spinner" class="w-5 h-5 text-gray-400 animate-spin" />
+                            </div>
+                            <div v-else-if="!usedBreakdown.length" class="text-sm text-gray-400 py-2">
+                                Kunden bruger ikke lagerplads endnu
+                            </div>
+                            <div v-else class="space-y-3">
+                                <div v-for="item in usedBreakdown" :key="item.category">
+                                    <div class="flex items-center justify-between text-sm mb-1">
+                                        <span class="text-gray-700">{{ storageCategoryLabels[item.category] || item.category }}</span>
+                                        <span class="text-gray-500">
+                                            {{ formatSize(item.bytes) }}
+                                            <span class="text-gray-400 ml-1">({{ item.percent }}%)</span>
+                                        </span>
+                                    </div>
+                                    <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-primary/60 rounded-full"
+                                            :style="{ width: Math.min(100, item.percent) + '%' }"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p v-if="state.storage?.storage_limit_gb !== null && state.storage?.storage_limit_gb !== undefined"
+                                class="text-xs text-gray-400 mt-4">
+                                Kvoten er sat manuelt til {{ formatGb(state.storage.storage_limit_gb) }} GB af en superadmin.
+                            </p>
                         </div>
 
                         <!-- Details + apps row -->
@@ -260,10 +328,27 @@ const state = reactive({
     licensesCount: null as any,
     apps: [] as any[],
     userCount: null as any,
+    storage: null as any,
     error: {} as Error,
     isPageLoading: false,
     isAppsLoading: false,
+    isStorageLoading: false,
 })
+
+// Keys come from the backend breakdown (StorageCalculator), so they stay stable.
+const storageCategoryLabels: Record<string, string> = {
+    citizen_files: 'Borgerfiler',
+    journal_attachments: 'Journalbilag',
+    news: 'Nyheder',
+    assessments: 'Vurderinger',
+    chat: 'Beskeder',
+    incidents: 'Hændelser',
+    employee_documents: 'Medarbejderdokumenter',
+    procedures: 'Procedurer',
+    tasks: 'Opgaver',
+    company_files: 'Virksomhedsfiler',
+    nursing_areas: 'Plejeområder',
+}
 
 const licencePercent = computed(() => {
     const used = state.licensesCount?.data?.used ?? 0
@@ -271,6 +356,47 @@ const licencePercent = computed(() => {
     if (!total) return 0
     return Math.min(100, Math.round((used / total) * 100))
 })
+
+const storagePercent = computed(() => {
+    const used = Number(state.storage?.storage_used_gb ?? 0)
+    const quota = Number(state.storage?.storage_quota_gb ?? 0)
+    if (!quota) return 0
+    return Math.min(100, Math.round((used / quota) * 100))
+})
+
+// Same thresholds as the customer-facing quota warnings (80% / 100%).
+const storageTextClass = computed(() => {
+    if (storagePercent.value >= 100) return 'text-red-600'
+    if (storagePercent.value >= 80) return 'text-orange-600'
+    return 'text-gray-900'
+})
+
+const storageBarClass = computed(() => {
+    if (storagePercent.value >= 100) return 'bg-red-500'
+    if (storagePercent.value >= 80) return 'bg-orange-400'
+    return 'bg-primary'
+})
+
+const usedBreakdown = computed(() =>
+    (state.storage?.breakdown ?? []).filter((item: any) => Number(item?.bytes) > 0)
+)
+
+function formatGb(value: any) {
+    const number = Number(value ?? 0)
+    return Number.isFinite(number) ? number.toLocaleString('da-DK', { maximumFractionDigits: 2 }) : '0'
+}
+
+function formatSize(bytes: any) {
+    const number = Number(bytes ?? 0)
+    if (number >= 1024 * 1024 * 1024) return (number / (1024 ** 3)).toLocaleString('da-DK', { maximumFractionDigits: 2 }) + ' GB'
+    if (number >= 1024 * 1024) return (number / (1024 ** 2)).toLocaleString('da-DK', { maximumFractionDigits: 1 }) + ' MB'
+    if (number >= 1024) return (number / 1024).toLocaleString('da-DK', { maximumFractionDigits: 0 }) + ' KB'
+    return number + ' B'
+}
+
+function formatDateTime(dateStr: string) {
+    return new Date(dateStr).toLocaleString('da-DK', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+}
 
 const isExpiringSoon = computed(() => {
     const exp = state.company?.subscription?.expires_at
@@ -295,8 +421,18 @@ async function fetchAll() {
         fetchSubscription(),
         fetchLicensesCount(),
         fetchApps(),
+        fetchStorage(),
     ])
     state.isPageLoading = false
+}
+
+async function fetchStorage() {
+    state.isStorageLoading = true
+    try {
+        const response = await licenseService.getCompanyStorage(companyUuid as string)
+        if (response) state.storage = response
+    } catch (_) { /* usage is informational - the rest of the page still renders */ }
+    state.isStorageLoading = false
 }
 
 async function fetchCompany() {

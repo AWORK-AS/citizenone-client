@@ -10496,7 +10496,8 @@
                 "name": "Name",
                 "phone": "Phone",
                 "status": "Status",
-                "website": "Website"
+                "website": "Website",
+                "storage": "Storage usage"
             },
             "tabs": {
                 "accounts": "Accounts",
@@ -10639,8 +10640,13 @@
                 "table": {
                     "name": "Name",
                     "storagePaid": "Storage paid",
-                    "storageUsed": "Storage used"
-                }
+                    "storageUsed": "Storage used",
+                    "storageQuota": "Quota",
+                    "usage": "Usage",
+                    "measuredAt": "Measured"
+                },
+                "seeAll": "See all",
+                "notMeasuredYet": "No measurements yet"
             },
             "dashboard": "Dashboard",
             "numberOfNonpayingCompanies": "Number of non-paying companies",
@@ -11079,7 +11085,8 @@
             "clientRoles": "Roles & Rights",
             "cancellations": "Cancellations",
             "storagePackages": "Storage packages",
-            "paymentFees": "Payment fees"
+            "paymentFees": "Payment fees",
+            "storageUsage": "Storage usage"
         },
         "emailTemplates": {
             "title": "Email templates",

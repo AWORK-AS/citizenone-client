@@ -244,10 +244,16 @@
 
                         <!-- Storage -->
                         <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-                            <h2 class="text-[13px] font-semibold text-[#1F2533] mb-3">{{
-                                $t('superadmin.dashboard.companyStorage.companyStorage') }}</h2>
+                            <div class="flex items-center justify-between mb-3">
+                                <h2 class="text-[13px] font-semibold text-[#1F2533]">{{
+                                    $t('superadmin.dashboard.companyStorage.companyStorage') }}</h2>
+                                <NuxtLink to="/superadmin/dashboard/company-storage"
+                                    class="text-[12px] text-[#42AED9] hover:underline">
+                                    {{ $t('superadmin.dashboard.companyStorage.seeAll') }}
+                                </NuxtLink>
+                            </div>
                             <div v-if="!state.companyStorage?.length" class="text-[12px] text-[#8891A4]">
-                                {{ $t('superadmin.dashboard.noCompaniesYet') }}
+                                {{ $t('superadmin.dashboard.companyStorage.notMeasuredYet') }}
                             </div>
                             <div v-else class="space-y-3">
                                 <div v-for="(storage, storageIndex) in state.companyStorage.slice(0, 5)"
@@ -256,14 +262,14 @@
                                         <span class="text-[#1F2533] font-medium truncate max-w-[140px]">
                                             {{ storage.name }}
                                         </span>
-                                        <span class="text-[#8891A4] ml-2">
-                                            {{ storage.used_storage ?? 0 }} GB
+                                        <span class="ml-2" :class="storageUsageClass(storage)">
+                                            {{ formatGb(storage.storage_used_gb) }} /
+                                            {{ formatGb(storage.storage_quota_gb) }} GB
                                         </span>
                                     </div>
                                     <div class="h-1.5 bg-[#F5F6F8] rounded-full overflow-hidden">
-                                        <div class="h-full rounded-full transition-all"
-                                            style="background:#42AED9;opacity:0.6"
-                                            :style="`width:${Math.min(100, ((storage.used_storage ?? 0) / 10) * 100)}%`">
+                                        <div class="h-full rounded-full transition-all" :class="storageBarClass(storage)"
+                                            :style="`width:${storagePercent(storage)}%`">
                                         </div>
                                     </div>
                                 </div>
@@ -327,6 +333,28 @@ const state = reactive({
     isLoading: false,
     error: {} as any,
 })
+
+const formatGb = (value: any) => Number(value ?? 0).toLocaleString('da-DK', { maximumFractionDigits: 2 })
+
+function storagePercent(storage: any) {
+    const quota = Number(storage?.storage_quota_gb ?? 0)
+    if (!quota) return 0
+    return Math.min(100, Math.round((Number(storage?.storage_used_gb ?? 0) / quota) * 100))
+}
+
+function storageUsageClass(storage: any) {
+    const percent = storagePercent(storage)
+    if (percent >= 100) return 'text-[#CC3B2D] font-semibold'
+    if (percent >= 80) return 'text-[#D4900A] font-semibold'
+    return 'text-[#8891A4]'
+}
+
+function storageBarClass(storage: any) {
+    const percent = storagePercent(storage)
+    if (percent >= 100) return 'bg-[#CC3B2D]'
+    if (percent >= 80) return 'bg-[#D4900A]'
+    return 'bg-[#42AED9]'
+}
 
 onMounted(() => {
     fetchDashboard()

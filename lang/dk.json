@@ -10496,7 +10496,8 @@
                 "name": "Navn",
                 "phone": "Telefon",
                 "status": "Status",
-                "website": "Websted"
+                "website": "Websted",
+                "storage": "Lagerforbrug"
             },
             "tabs": {
                 "accounts": "Kontoer",
@@ -10639,8 +10640,13 @@
                 "table": {
                     "name": "Navn",
                     "storagePaid": "Betalt lager",
-                    "storageUsed": "Brugt lager"
-                }
+                    "storageUsed": "Brugt lager",
+                    "storageQuota": "Kvote",
+                    "usage": "Forbrug",
+                    "measuredAt": "Målt"
+                },
+                "seeAll": "Se alle",
+                "notMeasuredYet": "Ingen målinger endnu"
             },
             "dashboard": "Dashboard",
             "numberOfNonpayingCompanies": "Antal ikke-betalende virksomheder",
@@ -11079,7 +11085,8 @@
             "clientRoles": "Roller & Rettigheder",
             "cancellations": "Opsigelser",
             "storagePackages": "Lagerpakker",
-            "paymentFees": "Betalingsgebyrer"
+            "paymentFees": "Betalingsgebyrer",
+            "storageUsage": "Lagerforbrug"
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",

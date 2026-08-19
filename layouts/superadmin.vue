@@ -349,6 +349,7 @@ const groupedNav = {
         // { name: 'Cancellations', label: 'superadmin.sidebar.cancellations', href: '/superadmin/compliance/cancellations', icon: 'ph:x-circle', routes: ['superadmin-compliance-cancellations'] },
         { name: 'Polls', label: 'superadmin.sidebar.polls', href: '/superadmin/polls', icon: 'ph:chart-bar-horizontal', routes: ['superadmin-polls', 'superadmin-polls-new', 'superadmin-polls-pollUuid', 'superadmin-polls-pollUuid-edit'] },
         { name: 'Coupons', label: 'superadmin.sidebar.coupons', href: '/superadmin/coupons', icon: 'ic:outline-discount', routes: ['superadmin-coupons', 'superadmin-coupons-new', 'superadmin-coupons-couponUuid-edit'] },
+        { name: 'StorageUsage', label: 'superadmin.sidebar.storageUsage', href: '/superadmin/dashboard/company-storage', icon: 'ph:hard-drives', routes: ['superadmin-dashboard-company-storage'] },
         { name: 'StoragePackages', label: 'superadmin.sidebar.storagePackages', href: '/superadmin/storage-packages', icon: 'ph:cloud', routes: ['superadmin-storage-packages'] },
         { name: 'EmailTemplates', label: 'superadmin.sidebar.emailTemplates', href: '/superadmin/email-templates', icon: 'ph:envelope-simple', routes: ['superadmin-email-templates'] },
         { name: 'ReleaseNotes', label: 'releaseNotes.title', href: '/superadmin/release-notes', icon: 'ph:sparkle', routes: ['superadmin-release-notes'] },
