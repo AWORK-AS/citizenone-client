@@ -128,7 +128,13 @@
                     <div class="co-stat-card" style="--accent:#42AED9">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.usersOnlineNow') }}</p>
+                                <div class="flex items-center gap-1">
+                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.usersOnlineNow') }}</p>
+                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.usersOnlineNow')"
+                                        position="bottom" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                    </Tooltip>
+                                </div>
                                 <p class="co-stat-value">{{ state.usersOnlineNow }}</p>
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.adoption.activeToday', { count: state.usersActiveToday }) }}
@@ -145,7 +151,13 @@
                     <div class="co-stat-card" style="--accent:#368F8B">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.companiesActiveToday') }}</p>
+                                <div class="flex items-center gap-1">
+                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.companiesActiveToday') }}</p>
+                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.companiesActiveToday')"
+                                        position="bottom" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                    </Tooltip>
+                                </div>
                                 <p class="co-stat-value">{{ state.companiesActiveToday }}</p>
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.adoption.activeThisWeek', { count: state.companiesActiveThisWeek }) }}
@@ -162,12 +174,18 @@
                     <div v-if="state.recurringRevenue" class="co-stat-card" style="--accent:#2E9E33">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.mrr') }}</p>
+                                <div class="flex items-center gap-1">
+                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.mrr') }}</p>
+                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.mrr')"
+                                        position="bottom" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                    </Tooltip>
+                                </div>
                                 <p class="co-stat-value text-[#2E9E33]">
-                                    {{ formatAmount(state.recurringRevenue.mrr) }}
+                                    {{ formatAmount(state.recurringRevenue.mrr, 'DKK') }}
                                 </p>
                                 <p class="co-stat-sub">
-                                    {{ $t('superadmin.dashboard.adoption.arr', { amount: formatAmount(state.recurringRevenue.arr) }) }}
+                                    {{ $t('superadmin.dashboard.adoption.arr', { amount: formatAmount(state.recurringRevenue.arr, 'DKK') }) }}
                                 </p>
                             </div>
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -181,9 +199,14 @@
                     <div v-if="state.churn" class="co-stat-card" style="--accent:#CC3B2D">
                         <div class="flex items-start justify-between">
                             <div>
-                                <p class="co-stat-label">
-                                    {{ $t('superadmin.dashboard.adoption.churn', { days: state.churn.window_days }) }}
-                                </p>
+                                <div class="flex items-center gap-1">
+                                    <p class="co-stat-label">
+                                        {{ $t('superadmin.dashboard.adoption.churn', { days: state.churn.window_days }) }}
+                                    </p>
+                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.churn')" position="bottom" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                    </Tooltip>
+                                </div>
                                 <p class="co-stat-value" :class="state.churn.churned > 0 ? 'text-[#CC3B2D]' : ''">
                                     {{ state.churn.rate === null ? '—' : `${state.churn.rate}%` }}
                                 </p>
@@ -315,7 +338,7 @@
                                     @change="fetchDashboard" />
                             </div>
                             <p class="text-[24px] font-bold text-[#1F2533]">
-                                {{ formatAmount(state.revenue) }}
+                                {{ formatAmount(state.revenue, 'DKK') }}
                             </p>
                             <p class="text-[11px] text-[#8891A4] mt-0.5">
                                 {{ $t('superadmin.dashboard.exclVat') }}
@@ -362,9 +385,15 @@
                 <div class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
                     <div class="flex items-center justify-between px-5 py-4 border-b border-[#EAECF0]">
                         <div>
-                            <h2 class="text-[13px] font-semibold text-[#1F2533]">
-                                {{ $t('superadmin.dashboard.adoption.quietCustomers') }}
-                            </h2>
+                            <div class="flex items-center gap-1.5">
+                                <h2 class="text-[13px] font-semibold text-[#1F2533]">
+                                    {{ $t('superadmin.dashboard.adoption.quietCustomers') }}
+                                </h2>
+                                <Tooltip :text="$t('superadmin.dashboard.adoption.help.quietCustomers')" position="bottom"
+                                    wrap>
+                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                </Tooltip>
+                            </div>
                             <p class="text-[11px] text-[#8891A4] mt-0.5">
                                 {{ $t('superadmin.dashboard.adoption.quietCustomersHint') }}
                             </p>

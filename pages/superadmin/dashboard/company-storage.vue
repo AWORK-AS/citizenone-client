@@ -53,7 +53,7 @@
                                         </div>
                                     </td>
                                     <td width="12%">
-                                        <span>{{ formatAmount(company?.storage_paid) }}</span>
+                                        <span>{{ formatAmount(company?.storage_paid, 'DKK') }}</span>
                                     </td>
                                     <td width="8%">
                                         <span class="text-[12px] text-[#8891A4]">

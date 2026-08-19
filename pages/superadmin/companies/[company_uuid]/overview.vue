@@ -220,8 +220,8 @@
                                     <p class="text-xs text-gray-500">Pris</p>
                                     <p class="font-semibold text-gray-900 mt-0.5">
                                         {{ ['monthly', 'custom_monthly'].includes(state.subscription?.data?.type)
-                                            ? formatAmount(state.subscription?.data?.deal?.monthly_price ?? 0)
-                                            : formatAmount(state.subscription?.data?.deal?.yearly_price ?? 0) }}
+                                            ? formatAmount(state.subscription?.data?.deal?.monthly_price ?? 0, 'DKK')
+                                            : formatAmount(state.subscription?.data?.deal?.yearly_price ?? 0, 'DKK') }}
                                         / {{ ['monthly', 'custom_monthly'].includes(state.subscription?.data?.type) ? 'md.' : 'år' }}
                                     </p>
                                 </div>

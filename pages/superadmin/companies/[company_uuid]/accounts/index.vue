@@ -230,11 +230,11 @@
                                                 {{ $t('superadmin.companies.accounts.free') }}
                                             </template>
                                             <template v-else-if="state.subscription.data.type?.includes('monthly')">
-                                                {{ formatAmount(state.subscription.data.deal.monthly_price) }}
+                                                {{ formatAmount(state.subscription.data.deal.monthly_price, 'DKK') }}
                                                 / {{ $t('superadmin.companies.accounts.monthly') }}
                                             </template>
                                             <template v-else>
-                                                {{ formatAmount(state.subscription.data.deal.yearly_price) }}
+                                                {{ formatAmount(state.subscription.data.deal.yearly_price, 'DKK') }}
                                                 / {{ $t('superadmin.companies.accounts.yearly') }}
                                             </template>
                                         </span>

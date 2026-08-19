@@ -90,9 +90,9 @@
                                         <p class="mt-4 flex items-baseline gap-x-2" v-if="canViewFinancials">
                                             <span class="text-3xl font-bold tracking-tight text-gray-900">
                                                 {{ ['monthly', 'custom_monthly'].includes(state?.subscriptions?.data?.type) ?
-                                                    formatAmount(state?.subscriptions?.data?.deal?.monthly_price ?? 0)
+                                                    formatAmount(state?.subscriptions?.data?.deal?.monthly_price ?? 0, 'DKK')
                                                     :
-                                                    formatAmount(state?.subscriptions?.data?.deal?.yearly_price ?? 0)
+                                                    formatAmount(state?.subscriptions?.data?.deal?.yearly_price ?? 0, 'DKK')
                                                 }}
                                             </span>
                                             <span class="text-base text-gray-500 lowercase">
@@ -383,19 +383,19 @@
                         <div class="rounded-lg bg-gray-50 p-3 space-y-1 text-sm">
                             <div class="flex justify-between text-gray-600">
                                 <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.unitPrice') }}</span>
-                                <span>{{ formatAmount(addSubscriptionUnitPrice) }}</span>
+                                <span>{{ formatAmount(addSubscriptionUnitPrice, 'DKK') }}</span>
                             </div>
                             <div class="flex justify-between text-gray-600">
                                 <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.tax') }}</span>
-                                <span>{{ formatAmount(addSubscriptionTax) }}</span>
+                                <span>{{ formatAmount(addSubscriptionTax, 'DKK') }}</span>
                             </div>
                             <div class="flex justify-between text-gray-600">
                                 <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.serviceFee') }}</span>
-                                <span>{{ formatAmount(addSubscriptionServiceFee) }}</span>
+                                <span>{{ formatAmount(addSubscriptionServiceFee, 'DKK') }}</span>
                             </div>
                             <div class="flex justify-between font-semibold text-gray-900 pt-1 border-t border-gray-200">
                                 <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.total') }}</span>
-                                <span>{{ formatAmount(addSubscriptionTotal) }}</span>
+                                <span>{{ formatAmount(addSubscriptionTotal, 'DKK') }}</span>
                             </div>
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
@@ -475,23 +475,23 @@
                         <div class="rounded-lg bg-gray-50 p-3 space-y-1 text-sm">
                             <div class="flex justify-between text-gray-600">
                                 <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.unitPrice') }}</span>
-                                <span>{{ formatAmount(editSubscriptionUnitPrice) }}</span>
+                                <span>{{ formatAmount(editSubscriptionUnitPrice, 'DKK') }}</span>
                             </div>
                             <div class="flex justify-between text-gray-600">
                                 <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.tax') }}</span>
-                                <span>{{ formatAmount(editSubscriptionTax) }}</span>
+                                <span>{{ formatAmount(editSubscriptionTax, 'DKK') }}</span>
                             </div>
                             <div class="flex justify-between text-gray-600">
                                 <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.serviceFee') }}</span>
-                                <span>{{ formatAmount(editSubscriptionServiceFee) }}</span>
+                                <span>{{ formatAmount(editSubscriptionServiceFee, 'DKK') }}</span>
                             </div>
                             <div v-if="editSubscriptionEstimatedCredit > 0" class="flex justify-between text-gray-600">
                                 <span>{{ $t('superadmin.companies.licenseOverview.editSubscription.estimatedCredit') }}</span>
-                                <span>-{{ formatAmount(editSubscriptionEstimatedCredit) }}</span>
+                                <span>-{{ formatAmount(editSubscriptionEstimatedCredit, 'DKK') }}</span>
                             </div>
                             <div class="flex justify-between font-semibold text-gray-900 pt-1 border-t border-gray-200">
                                 <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.total') }}</span>
-                                <span>{{ formatAmount(editSubscriptionTotal) }}</span>
+                                <span>{{ formatAmount(editSubscriptionTotal, 'DKK') }}</span>
                             </div>
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
@@ -674,7 +674,7 @@ const state = reactive({
 const grantStoragePackageOptions = computed(() =>
     state.grantStorage.packages.map((pkg: any) => ({
         value: pkg.uuid,
-        label: `${pkg.name} (${formatAmount(pkg.monthly_price)}/${t('superadmin.companies.licenseOverview.grant.monthly')})`,
+        label: `${pkg.name} (${formatAmount(pkg.monthly_price, 'DKK')}/${t('superadmin.companies.licenseOverview.grant.monthly')})`,
     }))
 )
 

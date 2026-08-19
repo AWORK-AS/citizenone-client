@@ -10724,7 +10724,14 @@
                 "neverActive": "Aldrig varit aktiv · skapad {date}",
                 "daysQuiet": "{days} dagar",
                 "today": "I dag",
-                "never": "Aldrig"
+                "never": "Aldrig",
+                "help": {
+                    "usersOnlineNow": "Användare med aktivitet i systemet de senaste 15 minuterna. Mäts från deras senaste anrop, inte från inloggning.",
+                    "companiesActiveToday": "Aktiva företag där minst en användare har varit i systemet det senaste dygnet.",
+                    "mrr": "Månatlig återkommande intäkt exkl. moms: alla aktiva löpande abonnemang hos aktiva företag, där årsavtal räknas som en tolftedel. Gratis- och engångsabonnemang räknas inte med. ARR är MRR gånger 12.",
+                    "churn": "Kunder som stängts ned de senaste 30 dagarna, av de kunder som var igång när perioden började. Endast registrerade nedstängningsdatum räknas; datum som uppskattats i efterhand för äldre kunder är exkluderade.",
+                    "quietCustomers": "Aktiva kunder sorterade efter hur länge sedan någon från företaget senast var i systemet. Kunder som aldrig loggat in ligger överst, eftersom det oftast är en onboarding som aldrig kom igång."
+                }
             }
         },
         "invoiceDetails": {

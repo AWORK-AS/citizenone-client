@@ -10724,7 +10724,14 @@
                 "neverActive": "Aldri vært aktiv · opprettet {date}",
                 "daysQuiet": "{days} dager",
                 "today": "I dag",
-                "never": "Aldri"
+                "never": "Aldri",
+                "help": {
+                    "usersOnlineNow": "Brukere med aktivitet i systemet de siste 15 minuttene. Måles fra deres siste kall til systemet, ikke fra innlogging.",
+                    "companiesActiveToday": "Aktive virksomheter der minst én bruker har vært i systemet det siste døgnet.",
+                    "mrr": "Månedlig gjentakende inntekt ekskl. mva.: alle aktive løpende abonnementer hos aktive virksomheter, der årsavtaler teller som en tolvdel. Gratis- og engangsabonnementer teller ikke med. ARR er MRR ganger 12.",
+                    "churn": "Kunder som er lagt ned de siste 30 dagene, av de kundene som var i drift da perioden startet. Bare registrerte nedleggingsdatoer teller med; datoer som er anslått i ettertid for gamle kunder er utelatt.",
+                    "quietCustomers": "Aktive kunder sortert etter hvor lenge det er siden noen fra virksomheten sist var i systemet. Kunder som aldri har logget inn ligger øverst, siden det som regel er en onboarding som aldri kom i gang."
+                }
             }
         },
         "invoiceDetails": {
