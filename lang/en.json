@@ -10707,7 +10707,25 @@
             "noCompaniesYet": "No companies yet",
             "active": "Active",
             "inactive": "Inactive",
-            "exclVat": "Excl. VAT"
+            "exclVat": "Excl. VAT",
+            "adoption": {
+                "usersOnlineNow": "Users right now",
+                "activeToday": "{count} active today",
+                "companiesActiveToday": "Companies active today",
+                "activeThisWeek": "{count} this week",
+                "mrr": "MRR",
+                "arr": "ARR {amount}",
+                "churn": "Churn ({days} days)",
+                "churnSub": "{churned} of {base} customers",
+                "quietCustomers": "Customers that have stalled",
+                "quietCustomersHint": "Longest since anyone logged in. Start at the top.",
+                "everyoneActive": "Every customer has been active recently",
+                "lastActive": "Last active {date}",
+                "neverActive": "Never active · created {date}",
+                "daysQuiet": "{days} days",
+                "today": "Today",
+                "never": "Never"
+            }
         },
         "invoiceDetails": {
             "billTo": "Bill to",

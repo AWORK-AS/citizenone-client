@@ -10707,7 +10707,25 @@
             "noCompaniesYet": "Inga företag ännu",
             "active": "Aktiv",
             "inactive": "Inaktiv",
-            "exclVat": "exkl. moms"
+            "exclVat": "exkl. moms",
+            "adoption": {
+                "usersOnlineNow": "Användare just nu",
+                "activeToday": "{count} aktiva i dag",
+                "companiesActiveToday": "Aktiva företag i dag",
+                "activeThisWeek": "{count} denna vecka",
+                "mrr": "MRR",
+                "arr": "ARR {amount}",
+                "churn": "Kundtapp ({days} dagar)",
+                "churnSub": "{churned} av {base} kunder",
+                "quietCustomers": "Kunder som har stannat av",
+                "quietCustomersHint": "Längst sedan någon var inloggad. Börja överst.",
+                "everyoneActive": "Alla kunder har varit aktiva nyligen",
+                "lastActive": "Senast aktiv {date}",
+                "neverActive": "Aldrig varit aktiv · skapad {date}",
+                "daysQuiet": "{days} dagar",
+                "today": "I dag",
+                "never": "Aldrig"
+            }
         },
         "invoiceDetails": {
             "billTo": "Faktureres till",

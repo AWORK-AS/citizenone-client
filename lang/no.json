@@ -10707,7 +10707,25 @@
             "noCompaniesYet": "Ingen bedrifter ennå",
             "active": "Aktiv",
             "inactive": "Inaktiv",
-            "exclVat": "ekskl. mva"
+            "exclVat": "ekskl. mva",
+            "adoption": {
+                "usersOnlineNow": "Brukere akkurat nå",
+                "activeToday": "{count} aktive i dag",
+                "companiesActiveToday": "Aktive virksomheter i dag",
+                "activeThisWeek": "{count} denne uken",
+                "mrr": "MRR",
+                "arr": "ARR {amount}",
+                "churn": "Kundefrafall ({days} dager)",
+                "churnSub": "{churned} av {base} kunder",
+                "quietCustomers": "Kunder som har stoppet opp",
+                "quietCustomersHint": "Lengst siden noen var innlogget. Start øverst.",
+                "everyoneActive": "Alle kunder har vært aktive nylig",
+                "lastActive": "Sist aktiv {date}",
+                "neverActive": "Aldri vært aktiv · opprettet {date}",
+                "daysQuiet": "{days} dager",
+                "today": "I dag",
+                "never": "Aldri"
+            }
         },
         "invoiceDetails": {
             "billTo": "Faktureres til",

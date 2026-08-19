@@ -10707,7 +10707,25 @@
             "noCompaniesYet": "Ingen virksomheder endnu",
             "active": "Aktiv",
             "inactive": "Inaktiv",
-            "exclVat": "Ekskl. moms"
+            "exclVat": "Ekskl. moms",
+            "adoption": {
+                "usersOnlineNow": "Brugere lige nu",
+                "activeToday": "{count} aktive i dag",
+                "companiesActiveToday": "Aktive virksomheder i dag",
+                "activeThisWeek": "{count} denne uge",
+                "mrr": "MRR",
+                "arr": "ARR {amount}",
+                "churn": "Kundeafgang ({days} dage)",
+                "churnSub": "{churned} af {base} kunder",
+                "quietCustomers": "Kunder der er gået i stå",
+                "quietCustomersHint": "Længst siden nogen var logget ind. Start øverst.",
+                "everyoneActive": "Alle kunder har været aktive nyligt",
+                "lastActive": "Sidst aktiv {date}",
+                "neverActive": "Aldrig været aktiv · oprettet {date}",
+                "daysQuiet": "{days} dage",
+                "today": "I dag",
+                "never": "Aldrig"
+            }
         },
         "invoiceDetails": {
             "billTo": "Faktureres til",
