@@ -10029,7 +10029,14 @@
         "upgrade-info-1": "På denna sida kan du opgradere din CitizenOne lagerplads. Välj den pakke där passer till ditt behov.",
         "upgrade-info-2": "Lagerplads i CitizenOne bruges till att gemme lokal dokument och filer. 1 GB svarer till cirka 5.000 filer.",
         "upgrade-info-3": "",
-        "upgradeOptions": "Opgradéringsmuligheder"
+        "upgradeOptions": "Opgradéringsmuligheder",
+        "notice": {
+            "warningTitle": "Lagringsutrymmet är nästan fullt",
+            "fullTitle": "Lagringsutrymmet är fullt",
+            "seeDetails": "Se lagringsutrymme",
+            "warningBody": "{percent}% av era {quota} GB är använt. När utrymmet tar slut går det inte att ladda upp fler filer.",
+            "fullBody": "{percent}% av era {quota} GB är använt. Nya filer kan inte laddas upp förrän ni frigör utrymme eller uppgraderar."
+        }
     },
     "submit": "Indsend",
     "subscription": {

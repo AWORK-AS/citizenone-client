@@ -10029,7 +10029,14 @@
         "upgrade-info-1": "On this page you can upgrade your CitizenOne storage. Choose the plan that fits your needs.",
         "upgrade-info-2": "Storage in CitizenOne is used to store local documents and files. 1 GB equals approximately 5,000 files.",
         "upgrade-info-3": "",
-        "upgradeOptions": "Upgrade options"
+        "upgradeOptions": "Upgrade options",
+        "notice": {
+            "warningTitle": "Storage is nearly full",
+            "fullTitle": "Storage is full",
+            "seeDetails": "See storage",
+            "warningBody": "{percent}% of your {quota} GB is used. When the space runs out, no more files can be uploaded.",
+            "fullBody": "{percent}% of your {quota} GB is used. New files cannot be uploaded until you free up space or upgrade."
+        }
     },
     "submit": "Submit",
     "subscription": {
