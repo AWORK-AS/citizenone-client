@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="modalTitle" :show="props.isModalOpen"
+        <Modal size="lg" :title="modalTitle" :show="props.isModalOpen && !state.isPouringEmptyOpen"
             @close="closeModal">
             <template #modal-body>
                 <div class="space-y-5">

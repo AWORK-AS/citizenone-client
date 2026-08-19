@@ -295,7 +295,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
+const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error', 'confirmationDialogToggle'])
 
 const { t } = useI18n()
 const language = useI18n()
@@ -362,6 +362,13 @@ onMounted(() => {
 
 watch(() => state.formMedicineHistory.date, (date: any) => {
     fetchMedicineHistoryPerMedicine(date)
+})
+
+// The parent's own Modal must not stay "open" while this confirmation dialog is
+// showing, or the two stacked HeadlessUI Dialogs fight over focus/outside-click
+// and a failed submit silently closes the whole form instead of showing the error.
+watch(() => state.modal.isMoreThanMedicineDailyConfirmationOpen, (isOpen: boolean) => {
+    emit('confirmationDialogToggle', isOpen)
 })
 
 const rules = computed(() => {

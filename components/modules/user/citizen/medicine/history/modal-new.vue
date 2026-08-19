@@ -1,13 +1,14 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('citizens.medicineJournals.history.giveMedicine')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="md" :title="$t('citizens.medicineJournals.history.giveMedicine')"
+            :show="props.isModalOpen && !state.modal.isPnWarningOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenMedicineHistoryForm formType="create" :selectedMedicine="props.selectedMedicine"
                         :selectedMedicineHistory="state.formMedicineHistory" :error="state.error" @error="setError"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="(details: any) => saveMedicineHistory(details)" />
+                        @submitForm="(details: any) => saveMedicineHistory(details)"
+                        @confirmationDialogToggle="(value: boolean) => state.modal.isChildConfirmationOpen = value" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -49,12 +50,19 @@ const state = reactive({
     },
     modal: {
         isPnWarningOpen: false,
+        // Tracked so closeModal() can ignore the outer Modal's own outside-click
+        // "close" while the form's nested daily-dose confirmation is open - two
+        // stacked HeadlessUI Dialogs otherwise fight, and a click landing on the
+        // confirmation (which sits outside the outer Dialog's panel) would
+        // silently close this whole modal before the confirmed save runs.
+        isChildConfirmationOpen: false,
     },
     pnWarningMessage: '',
     pendingSave: null as any,
 })
 
 function closeModal() {
+    if (state.modal.isChildConfirmationOpen) return
     emit('close')
 }
 

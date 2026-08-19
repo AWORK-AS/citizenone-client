@@ -7,7 +7,8 @@
                     <ModulesUserCitizenMedicineHistoryForm formType="update" :selectedMedicine="props.selectedMedicine"
                         :selectedMedicineHistory="props.selectedMedicineHistory" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
-                        @submitForm="updateMedicineHistory" />
+                        @submitForm="updateMedicineHistory"
+                        @confirmationDialogToggle="(value: boolean) => state.isChildConfirmationOpen = value" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -42,10 +43,17 @@ const emit = defineEmits(['close', 'refreshMedicineHistories'])
 
 const state = reactive({
     error: {} as Error,
-    isPageLoading: false
+    isPageLoading: false,
+    // Tracked so closeModal() can ignore the outer Modal's own outside-click
+    // "close" while the form's nested daily-dose confirmation is open - two
+    // stacked HeadlessUI Dialogs otherwise fight, and a click landing on the
+    // confirmation (which sits outside the outer Dialog's panel) would
+    // silently close this whole modal before the confirmed save runs.
+    isChildConfirmationOpen: false,
 })
 
 function closeModal() {
+    if (state.isChildConfirmationOpen) return
     emit('close')
 }
 
