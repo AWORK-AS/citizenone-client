@@ -12941,7 +12941,12 @@
         "approvalRequestSent": "Godkännandeförfrågan skickad till CTO {date}",
         "approvalRequestNotSent": "Ingen godkännandeförfrågan skickad ännu",
         "approvalRequestFailed": "Godkännandeförfrågan kunde inte skickas: {error}",
-        "remindApprover": "Skicka till CTO"
+        "remindApprover": "Skicka till CTO",
+        "image": "Bild",
+        "imageHint": "En skärmbild som visar vad som är nytt. PNG, JPG eller WebP, högst 4 MB.",
+        "removeImage": "Ta bort bild",
+        "videoUrl": "Video (länk)",
+        "videoHint": "YouTube, Vimeo eller Loom. Videon ligger hos tredje part, så spela aldrig in en skärm med klientdata."
     },
     "customSidebarLinks": {
         "title": "Egna länkar",

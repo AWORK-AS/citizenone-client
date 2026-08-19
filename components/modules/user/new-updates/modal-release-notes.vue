@@ -58,6 +58,12 @@
                                     :class="note.is_new ? 'text-gray-600' : 'text-gray-400'">
                                     {{ note.content }}
                                 </p>
+                                <img v-if="note.image_url" :src="note.image_url" alt="" loading="lazy"
+                                    class="mt-3 w-full rounded-lg border border-gray-200" />
+                                <div v-if="videoEmbedUrl(note.video_url)" class="mt-3 aspect-video w-full">
+                                    <iframe :src="videoEmbedUrl(note.video_url)" class="h-full w-full rounded-lg"
+                                        frameborder="0" allowfullscreen loading="lazy"></iframe>
+                                </div>
                             </li>
                         </ol>
 
@@ -76,6 +82,7 @@
 <script setup lang="ts">
 import { releaseNoteService } from '@/components/api/user/ReleaseNoteService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useVideoEmbed } from '@/composables/videoEmbed'
 
 const props = defineProps({
     isModalOpen: {
@@ -85,6 +92,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['close', 'marked-seen'])
 const { formatDateToReadable } = useDatetimeFormatter()
+const { videoEmbedUrl } = useVideoEmbed()
 
 const state = reactive({
     isLoading: false,

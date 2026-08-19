@@ -12941,7 +12941,12 @@
         "approvalRequestSent": "Godkendelsesanmodning sendt til CTO {date}",
         "approvalRequestNotSent": "Ingen godkendelsesanmodning sendt endnu",
         "approvalRequestFailed": "Godkendelsesanmodningen kunne ikke sendes: {error}",
-        "remindApprover": "Send til CTO"
+        "remindApprover": "Send til CTO",
+        "image": "Billede",
+        "imageHint": "Ét skærmbillede der viser hvad der er nyt. PNG, JPG eller WebP, højst 4 MB.",
+        "removeImage": "Fjern billede",
+        "videoUrl": "Video (link)",
+        "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så optag aldrig en skærm med borgerdata."
     },
     "customSidebarLinks": {
         "title": "Egne links",

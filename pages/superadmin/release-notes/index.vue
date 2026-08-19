@@ -118,6 +118,31 @@
                             <textarea v-model="state.form.content" rows="6"
                                 class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"></textarea>
                         </div>
+                        <!-- Screenshot -->
+                        <div class="space-y-1 text-left">
+                            <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.image') }}</label>
+                            <p class="text-xs text-gray-500">{{ $t('releaseNotes.imageHint') }}</p>
+                            <div v-if="imagePreview" class="mt-2 flex items-start gap-3">
+                                <img :src="imagePreview" alt=""
+                                    class="h-24 w-40 rounded-md border border-gray-200 object-cover" />
+                                <FormButton buttonStyle="cancel" buttonSize="sm" @click="removeImage">
+                                    {{ $t('releaseNotes.removeImage') }}
+                                </FormButton>
+                            </div>
+                            <input ref="imageInput" type="file" accept="image/png,image/jpeg,image/webp"
+                                class="mt-2 block w-full text-sm text-gray-600 file:mr-3 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-1.5 file:text-sm file:font-medium"
+                                @change="onImagePicked" />
+                        </div>
+
+                        <!-- Video -->
+                        <div class="space-y-1 text-left">
+                            <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.videoUrl') }}</label>
+                            <input v-model="state.form.video_url" type="url"
+                                placeholder="https://www.youtube.com/watch?v=..."
+                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                            <p class="text-xs text-gray-500">{{ $t('releaseNotes.videoHint') }}</p>
+                        </div>
+
                         <div class="flex justify-end gap-x-2 pb-6">
                             <FormButton buttonStyle="cancel" @click="closeForm">{{ $t('cancel') }}</FormButton>
                             <FormButton buttonStyle="primary" @click="saveDraft">{{ $t('releaseNotes.save') }}</FormButton>
@@ -135,6 +160,12 @@
                             <span class="text-xs text-gray-400">{{ formatNoteDate(state.readNote) }}</span>
                         </div>
                         <div class="whitespace-pre-line text-sm text-gray-700">{{ state.readNote?.content }}</div>
+                        <img v-if="state.readNote?.image_url" :src="state.readNote.image_url" alt=""
+                            class="w-full rounded-lg border border-gray-200" />
+                        <div v-if="videoEmbedUrl(state.readNote?.video_url)" class="aspect-video w-full">
+                            <iframe :src="videoEmbedUrl(state.readNote?.video_url)" class="h-full w-full rounded-lg"
+                                frameborder="0" allowfullscreen></iframe>
+                        </div>
                     </div>
                 </template>
             </Modal>
@@ -151,10 +182,14 @@
 <script setup lang="ts">
 import { releaseNoteService } from '@/components/api/superadmin/ReleaseNoteService'
 import { useAlert } from '@/composables/alert'
+import { useVideoEmbed } from '@/composables/videoEmbed'
 import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
+const { videoEmbedUrl } = useVideoEmbed()
+const imageInput = ref<HTMLInputElement | null>(null)
+const objectUrl = ref<string | null>(null)
 const { t } = useI18n()
 
 let currentPage = 1
@@ -164,7 +199,7 @@ const state = reactive({
     error: '',
     notes: {} as any,
     showForm: false,
-    form: { uuid: '', title: '', version: '', content: '' },
+    form: { uuid: '', title: '', version: '', content: '', video_url: '', image_url: '' as string | null, imageFile: null as File | null, removeImage: false },
     deleteOpen: false,
     deleteTarget: null as any,
     unpublishOpen: false,
@@ -212,19 +247,53 @@ function toggleFilter() {
 }
 
 function openForm(note: any = null) {
+    clearPickedImage()
     state.form = note
-        ? { uuid: note.uuid, title: note.title, version: note.version ?? '', content: note.content ?? '' }
-        : { uuid: '', title: '', version: '', content: '' }
+        ? {
+            uuid: note.uuid, title: note.title, version: note.version ?? '', content: note.content ?? '',
+            video_url: note.video_url ?? '', image_url: note.image_url ?? null, imageFile: null, removeImage: false,
+        }
+        : { uuid: '', title: '', version: '', content: '', video_url: '', image_url: null, imageFile: null, removeImage: false }
     state.showForm = true
 }
 
 function closeForm() {
+    clearPickedImage()
     state.showForm = false
+}
+
+function clearPickedImage() {
+    if (objectUrl.value) {
+        URL.revokeObjectURL(objectUrl.value)
+        objectUrl.value = null
+    }
+    if (imageInput.value) imageInput.value.value = ''
 }
 
 function openRead(note: any) {
     state.readNote = note
     state.readOpen = true
+}
+
+const imagePreview = computed(() => objectUrl.value ?? (state.form.removeImage ? null : state.form.image_url))
+
+function onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null
+    state.form.imageFile = file
+    state.form.removeImage = false
+
+    if (objectUrl.value) URL.revokeObjectURL(objectUrl.value)
+    objectUrl.value = file ? URL.createObjectURL(file) : null
+}
+
+function removeImage() {
+    state.form.imageFile = null
+    state.form.removeImage = true
+    if (objectUrl.value) {
+        URL.revokeObjectURL(objectUrl.value)
+        objectUrl.value = null
+    }
+    if (imageInput.value) imageInput.value.value = ''
 }
 
 function formatDateTime(value: string): string {
@@ -262,11 +331,21 @@ function formatNoteDate(note: any): string {
 async function saveDraft() {
     state.error = ''
     try {
-        const payload = { title: state.form.title, version: state.form.version, content: state.form.content }
+        // Multipart throughout: a note can carry a screenshot, and PUT with a
+        // file body is spoofed with _method the way Laravel expects.
+        const form = new FormData()
+        form.append('title', state.form.title ?? '')
+        form.append('version', state.form.version ?? '')
+        form.append('content', state.form.content ?? '')
+        form.append('video_url', state.form.video_url ?? '')
+        if (state.form.imageFile) form.append('image', state.form.imageFile)
+        if (state.form.removeImage) form.append('remove_image', '1')
+
         if (state.form.uuid) {
-            await releaseNoteService.updateReleaseNote(state.form.uuid, payload)
+            form.append('_method', 'PUT')
+            await releaseNoteService.updateReleaseNote(state.form.uuid, form)
         } else {
-            await releaseNoteService.createReleaseNote(payload)
+            await releaseNoteService.createReleaseNote(form)
             currentPage = 1
         }
         state.showForm = false
