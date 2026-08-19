@@ -11141,7 +11141,8 @@
             "cancellations": "Avslutningar",
             "storagePackages": "Lagringspaket",
             "paymentFees": "Betalningsavgifter",
-            "storageUsage": "Lagringsanvändning"
+            "storageUsage": "Lagringsanvändning",
+            "report": "Rapport"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -11742,6 +11743,53 @@
             "uncharged": {
                 "title": "Avslutade månader som väntar på att dras",
                 "waiting": "väntar {months} mån"
+            }
+        },
+        "report": {
+            "title": "Rapport",
+            "subtitle": "Så har verksamheten rört sig under den valda perioden.",
+            "from": "Från",
+            "to": "Till",
+            "granularity": {
+                "day": "Dag",
+                "week": "Vecka",
+                "month": "Månad",
+                "quarter": "Kvartal",
+                "year": "År"
+            },
+            "presets": {
+                "thisQuarter": "Detta kvartal",
+                "thisYear": "I år",
+                "lastTwelveMonths": "12 månader",
+                "lastYear": "Förra året"
+            },
+            "totals": {
+                "newCompanies": "Nya kunder",
+                "churnedCompanies": "Förlorade kunder",
+                "netCompanies": "Netto",
+                "newUsers": "Nya användare",
+                "revenue": "Fakturerat"
+            },
+            "charts": {
+                "customers": "Kunder till och från",
+                "customersHint": "Nya och förlorade kunder per period, med nettoförändringen som linje.",
+                "revenue": "Fakturerad omsättning",
+                "revenueHint": "Fakturarader exkl. moms, efter fakturadatum.",
+                "mrr": "MRR över tid",
+                "mrrHint": "Månatlig återkommande intäkt, mätt sista dygnet i perioden.",
+                "mrrSince": "Mätt dagligen sedan {date}. Perioder dessförinnan lämnas tomma.",
+                "mrrNotRecorded": "Mäts dagligen från och med i dag.",
+                "mrrEmpty": "MRR går inte att räkna bakåt, eftersom abonnemangen bara känner till sitt nuvarande tillstånd. Mätningen sparas nu en gång per dygn, så kurvan byggs upp härifrån.",
+                "users": "Nya användare",
+                "usersHint": "Användare skapade hos kunderna per period."
+            },
+            "series": {
+                "newCompanies": "Nya kunder",
+                "churnedCompanies": "Förlorade kunder",
+                "netCompanies": "Netto",
+                "revenue": "Fakturerat",
+                "mrr": "MRR",
+                "newUsers": "Nya användare"
             }
         }
     },

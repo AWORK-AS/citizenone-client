@@ -11141,7 +11141,8 @@
             "cancellations": "Cancellations",
             "storagePackages": "Storage packages",
             "paymentFees": "Payment fees",
-            "storageUsage": "Storage usage"
+            "storageUsage": "Storage usage",
+            "report": "Report"
         },
         "emailTemplates": {
             "title": "Email templates",
@@ -11742,6 +11743,53 @@
             "uncharged": {
                 "title": "Closed months waiting to be charged",
                 "waiting": "waiting {months} months"
+            }
+        },
+        "report": {
+            "title": "Report",
+            "subtitle": "How the business moved over the chosen period.",
+            "from": "From",
+            "to": "To",
+            "granularity": {
+                "day": "Day",
+                "week": "Week",
+                "month": "Month",
+                "quarter": "Quarter",
+                "year": "Year"
+            },
+            "presets": {
+                "thisQuarter": "This quarter",
+                "thisYear": "This year",
+                "lastTwelveMonths": "12 months",
+                "lastYear": "Last year"
+            },
+            "totals": {
+                "newCompanies": "New customers",
+                "churnedCompanies": "Lost customers",
+                "netCompanies": "Net",
+                "newUsers": "New users",
+                "revenue": "Invoiced"
+            },
+            "charts": {
+                "customers": "Customers won and lost",
+                "customersHint": "New and lost customers per period, with the net change as a line.",
+                "revenue": "Invoiced revenue",
+                "revenueHint": "Invoice lines excl. VAT, by invoice date.",
+                "mrr": "MRR over time",
+                "mrrHint": "Monthly recurring revenue, measured on the last day of each period.",
+                "mrrSince": "Measured daily since {date}. Earlier periods are left empty.",
+                "mrrNotRecorded": "Measured daily from today onwards.",
+                "mrrEmpty": "MRR cannot be reconstructed backwards, because subscriptions only know their current state. It is now recorded once a day, so the line builds up from here.",
+                "users": "New users",
+                "usersHint": "Users created at customers per period."
+            },
+            "series": {
+                "newCompanies": "New customers",
+                "churnedCompanies": "Lost customers",
+                "netCompanies": "Net",
+                "revenue": "Invoiced",
+                "mrr": "MRR",
+                "newUsers": "New users"
             }
         }
     },

@@ -11141,7 +11141,8 @@
             "cancellations": "Opsigelser",
             "storagePackages": "Lagerpakker",
             "paymentFees": "Betalingsgebyrer",
-            "storageUsage": "Lagerforbrug"
+            "storageUsage": "Lagerforbrug",
+            "report": "Rapport"
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
@@ -11742,6 +11743,53 @@
             "uncharged": {
                 "title": "Afsluttede måneder der venter på at blive trukket",
                 "waiting": "venter {months} md."
+            }
+        },
+        "report": {
+            "title": "Rapport",
+            "subtitle": "Sådan har forretningen bevæget sig i den valgte periode.",
+            "from": "Fra",
+            "to": "Til",
+            "granularity": {
+                "day": "Dag",
+                "week": "Uge",
+                "month": "Måned",
+                "quarter": "Kvartal",
+                "year": "År"
+            },
+            "presets": {
+                "thisQuarter": "Dette kvartal",
+                "thisYear": "I år",
+                "lastTwelveMonths": "12 måneder",
+                "lastYear": "Sidste år"
+            },
+            "totals": {
+                "newCompanies": "Nye kunder",
+                "churnedCompanies": "Mistede kunder",
+                "netCompanies": "Netto",
+                "newUsers": "Nye brugere",
+                "revenue": "Faktureret"
+            },
+            "charts": {
+                "customers": "Kunder til og fra",
+                "customersHint": "Nye og mistede kunder pr. periode, med nettoændringen som linje.",
+                "revenue": "Faktureret omsætning",
+                "revenueHint": "Fakturalinjer ekskl. moms, efter fakturadato.",
+                "mrr": "MRR over tid",
+                "mrrHint": "Månedlig tilbagevendende omsætning, målt ved periodens sidste døgn.",
+                "mrrSince": "Målt dagligt siden {date}. Perioder før da står tomme.",
+                "mrrNotRecorded": "Måles dagligt fra og med i dag.",
+                "mrrEmpty": "MRR kan ikke regnes bagudrettet, fordi abonnementer kun kender deres nuværende tilstand. Målingen gemmes nu én gang i døgnet, så kurven bygger sig op herfra.",
+                "users": "Nye brugere",
+                "usersHint": "Brugere oprettet hos kunderne pr. periode."
+            },
+            "series": {
+                "newCompanies": "Nye kunder",
+                "churnedCompanies": "Mistede kunder",
+                "netCompanies": "Netto",
+                "revenue": "Faktureret",
+                "mrr": "MRR",
+                "newUsers": "Nye brugere"
             }
         }
     },
