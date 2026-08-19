@@ -10732,6 +10732,10 @@
                     "churn": "Kunder som stängts ned de senaste 30 dagarna, av de kunder som var igång när perioden började. Endast registrerade nedstängningsdatum räknas; datum som uppskattats i efterhand för äldre kunder är exkluderade.",
                     "quietCustomers": "Aktiva kunder sorterade efter hur länge sedan någon från företaget senast var i systemet. Kunder som aldrig loggat in ligger överst, eftersom det oftast är en onboarding som aldrig kom igång."
                 }
+            },
+            "tabs": {
+                "overview": "Översikt",
+                "report": "Rapport"
             }
         },
         "invoiceDetails": {
@@ -11141,8 +11145,7 @@
             "cancellations": "Avslutningar",
             "storagePackages": "Lagringspaket",
             "paymentFees": "Betalningsavgifter",
-            "storageUsage": "Lagringsanvändning",
-            "report": "Rapport"
+            "storageUsage": "Lagringsanvändning"
         },
         "emailTemplates": {
             "title": "E-postmallar",

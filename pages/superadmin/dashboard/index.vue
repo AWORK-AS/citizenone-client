@@ -13,6 +13,8 @@
 
             <div class="p-1 space-y-5">
 
+                <ModulesSuperadminDashboardTab />
+
                 <!-- Header -->
                 <div class="flex items-center justify-between">
                     <div>

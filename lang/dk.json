@@ -10732,6 +10732,10 @@
                     "churn": "Kunder der er lukket ned inden for de sidste 30 dage, ud af de kunder der kørte da perioden startede. Kun registrerede lukkedatoer tæller med; datoer der er skønnet bagudrettet på gamle kunder er skruet fra.",
                     "quietCustomers": "Aktive kunder sorteret efter hvor længe der er gået siden nogen fra virksomheden sidst var i systemet. Kunder der aldrig har logget ind ligger øverst, da det typisk er en onboarding der aldrig kom i gang."
                 }
+            },
+            "tabs": {
+                "overview": "Overblik",
+                "report": "Rapport"
             }
         },
         "invoiceDetails": {
@@ -11141,8 +11145,7 @@
             "cancellations": "Opsigelser",
             "storagePackages": "Lagerpakker",
             "paymentFees": "Betalingsgebyrer",
-            "storageUsage": "Lagerforbrug",
-            "report": "Rapport"
+            "storageUsage": "Lagerforbrug"
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",

@@ -10732,6 +10732,10 @@
                     "churn": "Customers shut down within the last 30 days, out of the customers that were running when the period opened. Only recorded shutdown dates count; dates estimated after the fact for older customers are excluded.",
                     "quietCustomers": "Active customers ordered by how long it has been since anyone from the company was in the system. Customers that never logged in come first, as that is usually onboarding that never got going."
                 }
+            },
+            "tabs": {
+                "overview": "Overview",
+                "report": "Report"
             }
         },
         "invoiceDetails": {
@@ -11141,8 +11145,7 @@
             "cancellations": "Cancellations",
             "storagePackages": "Storage packages",
             "paymentFees": "Payment fees",
-            "storageUsage": "Storage usage",
-            "report": "Report"
+            "storageUsage": "Storage usage"
         },
         "emailTemplates": {
             "title": "Email templates",

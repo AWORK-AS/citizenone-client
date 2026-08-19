@@ -10732,6 +10732,10 @@
                     "churn": "Kunder som er lagt ned de siste 30 dagene, av de kundene som var i drift da perioden startet. Bare registrerte nedleggingsdatoer teller med; datoer som er anslått i ettertid for gamle kunder er utelatt.",
                     "quietCustomers": "Aktive kunder sortert etter hvor lenge det er siden noen fra virksomheten sist var i systemet. Kunder som aldri har logget inn ligger øverst, siden det som regel er en onboarding som aldri kom i gang."
                 }
+            },
+            "tabs": {
+                "overview": "Oversikt",
+                "report": "Rapport"
             }
         },
         "invoiceDetails": {
@@ -11141,8 +11145,7 @@
             "cancellations": "Oppsigelser",
             "storagePackages": "Lagringspakker",
             "paymentFees": "Betalingsgebyrer",
-            "storageUsage": "Lagerforbruk",
-            "report": "Rapport"
+            "storageUsage": "Lagerforbruk"
         },
         "emailTemplates": {
             "title": "E-postmaler",

@@ -9,6 +9,8 @@
 
             <div class="p-1 space-y-5">
 
+                <ModulesSuperadminDashboardTab />
+
                 <!-- Header + period controls -->
                 <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                     <div>

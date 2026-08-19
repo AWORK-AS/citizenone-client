@@ -329,10 +329,9 @@ const state = reactive({
 // ── Navigation groups matching Obiyen structure ──────────────────────────
 const groupedNav = {
     oversigt: [
-        { name: 'Dashboard', label: 'superadmin.sidebar.dashboard', href: '/superadmin/dashboard', icon: 'material-symbols:dashboard', routes: ['superadmin-dashboard'] },
+        { name: 'Dashboard', label: 'superadmin.sidebar.dashboard', href: '/superadmin/dashboard', icon: 'material-symbols:dashboard', routes: ['superadmin-dashboard', 'superadmin-analytics'] },
         { name: 'Companies', label: 'superadmin.sidebar.companies', href: '/superadmin/companies', icon: 'ph:buildings', routes: ['superadmin-companies', 'superadmin-companies-new', 'superadmin-companies-company_uuid-edit', 'superadmin-companies-company_uuid-accounts', 'superadmin-companies-company_uuid-accounts-new', 'superadmin-companies-company_uuid-accounts-account_uuid-edit', 'superadmin-companies-company_uuid-invoices', 'superadmin-companies-company_uuid-license-overview', 'superadmin-companies-company_uuid-apps', 'superadmin-companies-company_uuid-overview'] },
         { name: 'Users', label: 'superadmin.sidebar.users', href: '/superadmin/users', icon: 'ph:users-three', routes: ['superadmin-users', 'superadmin-users-new', 'superadmin-users-edit-uuid'] },
-        { name: 'Report', label: 'superadmin.sidebar.report', href: '/superadmin/analytics', icon: 'ph:chart-line-up', routes: ['superadmin-analytics'] },
     ],
     okonomi: [
         // { name: 'Finance', label: 'superadmin.sidebar.finance', href: '/superadmin/finance', icon: 'ph:chart-line-up', routes: ['superadmin-finance'] },
