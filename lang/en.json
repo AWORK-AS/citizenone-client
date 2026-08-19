@@ -1,4 +1,18 @@
 {
+    "compensatoryPayoutsReport": {
+        "export": "Export",
+        "filters": {
+            "dateEnd": "Date to",
+            "dateStart": "Date from"
+        },
+        "table": {
+            "account": "Time account",
+            "amount": "Hours paid out",
+            "date": "Date",
+            "employee": "Employee"
+        },
+        "title": "Compensatory time payouts"
+    },
     "inquiryPipeline": {
         "board": "Inquiry pipeline",
         "enableLabel": "Inquiry pipeline (kanban)",
@@ -4601,6 +4615,20 @@
             "info1": "The employee’s individual annual norm is always used.",
             "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",
             "info3": "Compensatory and vacation hours are calculated from that annual norm.",
+            "payout": {
+                "account": "Time account",
+                "accountRequired": "Select a time account",
+                "alert": {
+                    "registerSuccess": "Payout registered"
+                },
+                "amount": "Hours to pay out",
+                "amountRequired": "Enter a number of hours greater than 0",
+                "button": "Register payout",
+                "confirmation": "Are you sure you want to register a payout of {amount} hours for {employee}?",
+                "noAccountAssigned": "This employee has no active time account to register a payout against.",
+                "register": "Register payout",
+                "title": "Register payout"
+            },
             "period": {
                 "balance": "Plus/minus in period",
                 "basisWorkdays": "{days} of {total} workdays",
@@ -11846,6 +11874,7 @@
         "newTemplateAgreement": "New template agreement",
         "newTimeAccount": "New time account",
         "newTimeAccounts": "New time account",
+        "payoutReport": "Payout report",
         "table": {
             "actions": {
                 "assign": "Assign",

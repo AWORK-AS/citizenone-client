@@ -1,4 +1,18 @@
 {
+    "compensatoryPayoutsReport": {
+        "export": "Exportera",
+        "filters": {
+            "dateEnd": "Datum till",
+            "dateStart": "Datum från"
+        },
+        "table": {
+            "account": "Tidkonto",
+            "amount": "Utbetalda timmar",
+            "date": "Datum",
+            "employee": "Anställd"
+        },
+        "title": "Utbetalningar av kompensationstid"
+    },
     "inquiryPipeline": {
         "board": "Förfrågningspipeline",
         "enableLabel": "Förfrågningspipeline (kanban)",
@@ -4601,6 +4615,20 @@
             "info1": "Medarbejderens individuelle årlige norm anvendes alltid.",
             "info2": "Om den anställde är startet i löbet av året, beregnes den årlige norm forholdsmässigt ut från ansättelsesdatoen.",
             "info3": "Afspadserings- och ferietimer beregnes ut från denna årlige norm.",
+            "payout": {
+                "account": "Tidkonto",
+                "accountRequired": "Välj ett tidkonto",
+                "alert": {
+                    "registerSuccess": "Utbetalning registrerad"
+                },
+                "amount": "Timmar att betala ut",
+                "amountRequired": "Ange ett antal timmar större än 0",
+                "button": "Registrera utbetalning",
+                "confirmation": "Är du säker på att du vill registrera en utbetalning av {amount} timmar till {employee}?",
+                "noAccountAssigned": "Denna anställd har inget aktivt tidkonto att registrera en utbetalning mot.",
+                "register": "Registrera utbetalning",
+                "title": "Registrera utbetalning"
+            },
             "period": {
                 "balance": "Plus/minus i perioden",
                 "basisWorkdays": "{days} av {total} arbetsdagar",
@@ -11846,6 +11874,7 @@
         "newTemplateAgreement": "Ny skabelonaftale",
         "newTimeAccount": "Ny timekonto",
         "newTimeAccounts": "Ny timekonto",
+        "payoutReport": "Utbetalningsrapport",
         "table": {
             "actions": {
                 "assign": "Tilldela",

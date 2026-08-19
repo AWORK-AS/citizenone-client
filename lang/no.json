@@ -1,4 +1,18 @@
 {
+    "compensatoryPayoutsReport": {
+        "export": "Eksporter",
+        "filters": {
+            "dateEnd": "Dato til",
+            "dateStart": "Dato fra"
+        },
+        "table": {
+            "account": "Timekonto",
+            "amount": "Utbetalte timer",
+            "date": "Dato",
+            "employee": "Ansatt"
+        },
+        "title": "Utbetalinger av avspasering"
+    },
     "inquiryPipeline": {
         "board": "Henvendelses-pipeline",
         "enableLabel": "Henvendelses-pipeline (kanban)",
@@ -4601,6 +4615,20 @@
             "info1": "Medarbeiderens individuelle årlige norm anvendes alltid.",
             "info2": "Hvis medarbeideren er startet i løbet av året, beregnes den årlige norm forholdsmæssigt ut fra ansættelsesdatoen.",
             "info3": "Afspadserings- og ferietimer beregnes ut fra denne årlige norm.",
+            "payout": {
+                "account": "Timekonto",
+                "accountRequired": "Velg en timekonto",
+                "alert": {
+                    "registerSuccess": "Utbetaling registrert"
+                },
+                "amount": "Timer som utbetales",
+                "amountRequired": "Angi et antall timer større enn 0",
+                "button": "Registrer utbetaling",
+                "confirmation": "Er du sikker på at du vil registrere en utbetaling av {amount} timer til {employee}?",
+                "noAccountAssigned": "Denne ansatte har ingen aktiv timekonto å registrere en utbetaling på.",
+                "register": "Registrer utbetaling",
+                "title": "Registrer utbetaling"
+            },
             "period": {
                 "balance": "Pluss/minus i perioden",
                 "basisWorkdays": "{days} av {total} arbeidsdager",
@@ -11846,6 +11874,7 @@
         "newTemplateAgreement": "Ny malavtale",
         "newTimeAccount": "Ny timekonto",
         "newTimeAccounts": "Ny timekonto",
+        "payoutReport": "Utbetalingsrapport",
         "table": {
             "actions": {
                 "assign": "Tildel",

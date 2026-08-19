@@ -1,4 +1,18 @@
 {
+    "compensatoryPayoutsReport": {
+        "export": "Eksporter",
+        "filters": {
+            "dateEnd": "Dato til",
+            "dateStart": "Dato fra"
+        },
+        "table": {
+            "account": "Tidskonto",
+            "amount": "Udbetalte timer",
+            "date": "Dato",
+            "employee": "Medarbejder"
+        },
+        "title": "Udbetalinger af afspadsering"
+    },
     "inquiryPipeline": {
         "board": "Henvendelses-pipeline",
         "enableLabel": "Henvendelses-pipeline (kanban)",
@@ -4601,6 +4615,20 @@
             "info1": "Medarbejderens individuelle årlige norm anvendes altid.",
             "info2": "Hvis medarbejderen er startet i løbet af året, beregnes den årlige norm forholdsmæssigt ud fra ansættelsesdatoen.",
             "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm.",
+            "payout": {
+                "account": "Tidskonto",
+                "accountRequired": "Vælg en tidskonto",
+                "alert": {
+                    "registerSuccess": "Udbetaling registreret"
+                },
+                "amount": "Timer der udbetales",
+                "amountRequired": "Angiv et antal timer større end 0",
+                "button": "Registrer udbetaling",
+                "confirmation": "Er du sikker på, at du vil registrere en udbetaling af {amount} timer til {employee}?",
+                "noAccountAssigned": "Denne medarbejder har ingen aktiv tidskonto at registrere en udbetaling på.",
+                "register": "Registrer udbetaling",
+                "title": "Registrer udbetaling"
+            },
             "period": {
                 "balance": "Plus/minus i perioden",
                 "basisWorkdays": "{days} af {total} arbejdsdage",
@@ -11846,6 +11874,7 @@
         "newTemplateAgreement": "Ny skabelonaftale",
         "newTimeAccount": "Ny timekonto",
         "newTimeAccounts": "Ny timekonto",
+        "payoutReport": "Udbetalingsrapport",
         "table": {
             "actions": {
                 "assign": "Tildel",
