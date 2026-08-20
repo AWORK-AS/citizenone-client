@@ -52,7 +52,7 @@
                                 </p>
                             </td>
                             <td class="co-td text-[13px] font-semibold text-[#1F2533]">
-                                <span v-if="coupon?.unit === 'amount'">{{ formatAmount(coupon?.amount) }}</span>
+                                <span v-if="coupon?.unit === 'amount'">{{ formatAmount(coupon?.amount, 'DKK') }}</span>
                                 <span v-else-if="coupon?.unit === 'percentage'">{{ coupon?.amount }}%</span>
                             </td>
                             <td class="co-td text-[13px] text-[#5C6478]">

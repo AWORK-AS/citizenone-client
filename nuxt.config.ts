@@ -14,7 +14,9 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
   "connect-src 'self' https:",
-  "frame-src 'self' https://www.googletagmanager.com https://login.microsoftonline.com",
+  // The last three carry release-note videos, which are linked rather than
+  // uploaded; without them the embed breaks the day this policy is enforced.
+  "frame-src 'self' https://www.googletagmanager.com https://login.microsoftonline.com https://www.youtube.com https://player.vimeo.com https://www.loom.com",
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",

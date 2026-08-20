@@ -38,6 +38,8 @@
                             class="flex items-start justify-between gap-x-4 rounded-lg border border-gray-200 bg-white p-4">
                             <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                    <span v-if="note.number"
+                                        class="rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-semibold text-[#205E77]">#{{ note.number }}</span>
                                     <span class="font-semibold text-gray-900">{{ note.title }}</span>
                                     <span v-if="note.version"
                                         class="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">{{ note.version }}</span>
@@ -45,11 +47,28 @@
                                         :class="note.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'">
                                         {{ note.status === 'published' ? $t('releaseNotes.published') : $t('releaseNotes.draft') }}
                                     </span>
+                                    <span v-if="note.is_public"
+                                        class="inline-flex items-center gap-1 rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-medium text-[#205E77]">
+                                        <Icon name="ph:globe" class="h-3 w-3" />
+                                        {{ $t('releaseNotes.onWebsite') }}
+                                    </span>
                                 </div>
                                 <p v-if="note.content" class="mt-1 line-clamp-2 whitespace-pre-line text-sm text-gray-600">{{ note.content }}</p>
                                 <p class="mt-1 text-xs text-gray-400">{{ formatNoteDate(note) }}</p>
                                 <p v-if="note.status === 'published'" class="mt-1 text-xs text-gray-400">
                                     {{ $t('releaseNotes.publishedTo') }}
+                                </p>
+                                <p v-else-if="note.approver_notification_error"
+                                    class="mt-1 flex items-center gap-1 text-xs text-[#CC3B2D]">
+                                    <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0" />
+                                    {{ $t('releaseNotes.approvalRequestFailed', { error: note.approver_notification_error }) }}
+                                </p>
+                                <p v-else-if="note.approver_notified_at" class="mt-1 text-xs text-gray-400">
+                                    {{ $t('releaseNotes.approvalRequestSent', { date: formatDateTime(note.approver_notified_at) }) }}
+                                </p>
+                                <p v-else class="mt-1 flex items-center gap-1 text-xs text-[#D4900A]">
+                                    <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0" />
+                                    {{ $t('releaseNotes.approvalRequestNotSent') }}
                                 </p>
                             </div>
                             <div class="flex flex-none items-center gap-x-2">
@@ -58,6 +77,12 @@
                                 </FormButton>
                                 <FormButton buttonStyle="action" buttonSize="sm" @click="openForm(note)">
                                     <Icon name="ph:pencil-simple" class="h-4 w-4" />
+                                </FormButton>
+                                <FormButton v-if="note.status !== 'published'" buttonStyle="cancel" buttonSize="sm"
+                                    :disabled="state.notifyingUuid === note.uuid" @click="notifyApprover(note)">
+                                    <Icon name="ph:paper-plane-tilt" class="h-4 w-4"
+                                        :class="state.notifyingUuid === note.uuid ? 'animate-pulse' : ''" />
+                                    {{ $t('releaseNotes.remindApprover') }}
                                 </FormButton>
                                 <FormButton v-if="note.status !== 'published'" buttonStyle="success" buttonSize="sm"
                                     @click="publish(note)">
@@ -98,6 +123,40 @@
                             <textarea v-model="state.form.content" rows="6"
                                 class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"></textarea>
                         </div>
+                        <!-- Screenshot -->
+                        <div class="space-y-1 text-left">
+                            <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.image') }}</label>
+                            <p class="text-xs text-gray-500">{{ $t('releaseNotes.imageHint') }}</p>
+                            <div v-if="imagePreview" class="mt-2 flex items-start gap-3">
+                                <img :src="imagePreview" alt=""
+                                    class="h-24 w-40 rounded-md border border-gray-200 object-cover" />
+                                <FormButton buttonStyle="cancel" buttonSize="sm" @click="removeImage">
+                                    {{ $t('releaseNotes.removeImage') }}
+                                </FormButton>
+                            </div>
+                            <input ref="imageInput" type="file" accept="image/png,image/jpeg,image/webp"
+                                class="mt-2 block w-full text-sm text-gray-600 file:mr-3 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-1.5 file:text-sm file:font-medium"
+                                @change="onImagePicked" />
+                        </div>
+
+                        <!-- Video -->
+                        <div class="space-y-1 text-left">
+                            <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.videoUrl') }}</label>
+                            <input v-model="state.form.video_url" type="url"
+                                placeholder="https://www.youtube.com/watch?v=..."
+                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                            <p class="text-xs text-gray-500">{{ $t('releaseNotes.videoHint') }}</p>
+                        </div>
+
+                        <!-- Public web is a different audience from customers in the product -->
+                        <label class="flex cursor-pointer items-start gap-2 rounded-md border border-gray-200 bg-gray-50 p-3 text-left">
+                            <input v-model="state.form.is_public" type="checkbox" class="mt-0.5" />
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">{{ $t('releaseNotes.showOnWebsite') }}</span>
+                                <span class="block text-xs text-gray-500">{{ $t('releaseNotes.showOnWebsiteHint') }}</span>
+                            </span>
+                        </label>
+
                         <div class="flex justify-end gap-x-2 pb-6">
                             <FormButton buttonStyle="cancel" @click="closeForm">{{ $t('cancel') }}</FormButton>
                             <FormButton buttonStyle="primary" @click="saveDraft">{{ $t('releaseNotes.save') }}</FormButton>
@@ -115,6 +174,12 @@
                             <span class="text-xs text-gray-400">{{ formatNoteDate(state.readNote) }}</span>
                         </div>
                         <div class="whitespace-pre-line text-sm text-gray-700">{{ state.readNote?.content }}</div>
+                        <img v-if="state.readNote?.image_url" :src="state.readNote.image_url" alt=""
+                            class="w-full rounded-lg border border-gray-200" />
+                        <div v-if="videoEmbedUrl(state.readNote?.video_url)" class="aspect-video w-full">
+                            <iframe :src="videoEmbedUrl(state.readNote?.video_url)" class="h-full w-full rounded-lg"
+                                frameborder="0" allowfullscreen></iframe>
+                        </div>
                     </div>
                 </template>
             </Modal>
@@ -131,10 +196,14 @@
 <script setup lang="ts">
 import { releaseNoteService } from '@/components/api/superadmin/ReleaseNoteService'
 import { useAlert } from '@/composables/alert'
+import { useVideoEmbed } from '@/composables/videoEmbed'
 import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
+const { videoEmbedUrl } = useVideoEmbed()
+const imageInput = ref<HTMLInputElement | null>(null)
+const objectUrl = ref<string | null>(null)
 const { t } = useI18n()
 
 let currentPage = 1
@@ -144,7 +213,7 @@ const state = reactive({
     error: '',
     notes: {} as any,
     showForm: false,
-    form: { uuid: '', title: '', version: '', content: '' },
+    form: { uuid: '', title: '', version: '', content: '', video_url: '', image_url: '' as string | null, imageFile: null as File | null, removeImage: false, is_public: false },
     deleteOpen: false,
     deleteTarget: null as any,
     unpublishOpen: false,
@@ -156,6 +225,7 @@ const state = reactive({
     // published notes came before them, so "Next" only ever moves further
     // into the past. Pending review is normally a small, bounded set.
     filterStatus: 'draft' as 'draft' | 'all',
+    notifyingUuid: '' as string,
 })
 
 onMounted(() => fetchNotes())
@@ -191,19 +261,80 @@ function toggleFilter() {
 }
 
 function openForm(note: any = null) {
+    clearPickedImage()
     state.form = note
-        ? { uuid: note.uuid, title: note.title, version: note.version ?? '', content: note.content ?? '' }
-        : { uuid: '', title: '', version: '', content: '' }
+        ? {
+            uuid: note.uuid, title: note.title, version: note.version ?? '', content: note.content ?? '',
+            video_url: note.video_url ?? '', image_url: note.image_url ?? null, imageFile: null, removeImage: false,
+            is_public: !!note.is_public,
+        }
+        : { uuid: '', title: '', version: '', content: '', video_url: '', image_url: null, imageFile: null, removeImage: false, is_public: false }
     state.showForm = true
 }
 
 function closeForm() {
+    clearPickedImage()
     state.showForm = false
+}
+
+function clearPickedImage() {
+    if (objectUrl.value) {
+        URL.revokeObjectURL(objectUrl.value)
+        objectUrl.value = null
+    }
+    if (imageInput.value) imageInput.value.value = ''
 }
 
 function openRead(note: any) {
     state.readNote = note
     state.readOpen = true
+}
+
+const imagePreview = computed(() => objectUrl.value ?? (state.form.removeImage ? null : state.form.image_url))
+
+function onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0] ?? null
+    state.form.imageFile = file
+    state.form.removeImage = false
+
+    if (objectUrl.value) URL.revokeObjectURL(objectUrl.value)
+    objectUrl.value = file ? URL.createObjectURL(file) : null
+}
+
+function removeImage() {
+    state.form.imageFile = null
+    state.form.removeImage = true
+    if (objectUrl.value) {
+        URL.revokeObjectURL(objectUrl.value)
+        objectUrl.value = null
+    }
+    if (imageInput.value) imageInput.value.value = ''
+}
+
+function formatDateTime(value: string): string {
+    return new Date(value).toLocaleString('da-DK', {
+        day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit',
+    })
+}
+
+// The approval mail is sent when the note is created, including by the CI
+// ingest. If that attempt failed, this is how it gets asked again.
+async function notifyApprover(note: any) {
+    state.error = ''
+    state.notifyingUuid = note.uuid
+    try {
+        const response = await releaseNoteService.notifyApprover(note.uuid)
+        const failure = response?.data?.approver_notification_error ?? response?.approver_notification_error
+        if (failure) {
+            state.error = failure
+        } else {
+            successAlert(`${t('alert.success')}!`, '')
+        }
+        fetchNotes()
+    } catch (error: any) {
+        state.error = error?.message ?? 'Error'
+    }
+    state.notifyingUuid = ''
 }
 
 function formatNoteDate(note: any): string {
@@ -215,11 +346,22 @@ function formatNoteDate(note: any): string {
 async function saveDraft() {
     state.error = ''
     try {
-        const payload = { title: state.form.title, version: state.form.version, content: state.form.content }
+        // Multipart throughout: a note can carry a screenshot, and PUT with a
+        // file body is spoofed with _method the way Laravel expects.
+        const form = new FormData()
+        form.append('title', state.form.title ?? '')
+        form.append('version', state.form.version ?? '')
+        form.append('content', state.form.content ?? '')
+        form.append('video_url', state.form.video_url ?? '')
+        if (state.form.imageFile) form.append('image', state.form.imageFile)
+        if (state.form.removeImage) form.append('remove_image', '1')
+        form.append('is_public', state.form.is_public ? '1' : '0')
+
         if (state.form.uuid) {
-            await releaseNoteService.updateReleaseNote(state.form.uuid, payload)
+            form.append('_method', 'PUT')
+            await releaseNoteService.updateReleaseNote(state.form.uuid, form)
         } else {
-            await releaseNoteService.createReleaseNote(payload)
+            await releaseNoteService.createReleaseNote(form)
             currentPage = 1
         }
         state.showForm = false
