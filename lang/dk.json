@@ -2901,10 +2901,6 @@
                 "vitals": "Vitale værdier"
             }
         },
-        "purchaseEmail": {
-            "purchaseEmail": "Køb e-mail",
-            "youAreNowBeingRedirected": "Du bliver nu omdirigeret til en partner, hvor du kan købe en e-mail til borgeren"
-        },
         "rooms": "Værelser",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
