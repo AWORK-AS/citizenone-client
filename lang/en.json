@@ -104,7 +104,9 @@
         "modules": {
             "vagtplan": "Duty schedule",
             "medicin": "Medicine",
-            "dokumentation": "Documentation (plans, status, documents)"
+            "dokumentation": "Documentation (plans, status, documents)",
+            "useOfForce": "Use of force",
+            "predefinedContent": "Predefined note content"
         },
         "groups": {
             "migration": "Migration",
@@ -2445,6 +2447,35 @@
                         "not": "Not",
                         "notGiven": "Not given",
                         "type": "Type"
+                    }
+                },
+                "batchDispense": {
+                    "button": "Batch dispense",
+                    "modalTitle": "Batch dispense across a date range",
+                    "form": {
+                        "description": "Log the selected medicines as given across every date they're due within the chosen range.",
+                        "dateRangeLabel": "Date range",
+                        "typeLabel": "Type",
+                        "commentLabel": "Comment (optional, applied to every created entry)",
+                        "pnExcludedNotice": "{n} PN (as-needed) medicine(s) are excluded - batch dispense only applies to scheduled medicines.",
+                        "previewButton": "Preview"
+                    },
+                    "confirm": {
+                        "title": "Confirm batch dispense",
+                        "willCreate": "{n} dose(s) will be logged as given.",
+                        "willSkip": "{n} dose(s) already logged will be skipped.",
+                        "noneToCreate": "Every dose in this range is already logged - there is nothing to dispense.",
+                        "backButton": "Back",
+                        "confirmButton": "Confirm and log"
+                    },
+                    "result": {
+                        "title": "Batch dispense complete",
+                        "summary": "{created} dose(s) logged, {skipped} skipped.",
+                        "undoButton": "Undo this batch"
+                    },
+                    "undo": {
+                        "confirmMessage": "Delete all {n} entries created by this batch and restore stock?",
+                        "successMessage": "Batch undone."
                     }
                 },
                 "giveAllMedicines": "Give all medicines",

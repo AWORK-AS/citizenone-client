@@ -104,7 +104,9 @@
         "modules": {
             "vagtplan": "Schema",
             "medicin": "Medicin",
-            "dokumentation": "Dokumentation (planer, status, dokument)"
+            "dokumentation": "Dokumentation (planer, status, dokument)",
+            "useOfForce": "Våldsanvändning",
+            "predefinedContent": "Fördefinierat anteckningsinnehåll"
         },
         "groups": {
             "migration": "Migrering",
@@ -2445,6 +2447,35 @@
                         "not": "Inte",
                         "notGiven": "Inte given",
                         "type": "Typ"
+                    }
+                },
+                "batchDispense": {
+                    "button": "Registrera för period",
+                    "modalTitle": "Registrera medicin för en period",
+                    "form": {
+                        "description": "Registrera de valda läkemedlen som givna varje dag de är planerade under den valda perioden.",
+                        "dateRangeLabel": "Period",
+                        "typeLabel": "Typ",
+                        "commentLabel": "Kommentar (valfritt, läggs till på alla registreringar)",
+                        "pnExcludedNotice": "{n} PN-läkemedel (vid behov) är exkluderade - registrering för period gäller endast schemalagd medicin.",
+                        "previewButton": "Förhandsgranska"
+                    },
+                    "confirm": {
+                        "title": "Bekräfta registrering för period",
+                        "willCreate": "{n} dos(er) kommer att registreras som given.",
+                        "willSkip": "{n} redan registrerad(e) dos(er) hoppas över.",
+                        "noneToCreate": "Alla doser i denna period är redan registrerade - det finns inget att registrera.",
+                        "backButton": "Tillbaka",
+                        "confirmButton": "Bekräfta och registrera"
+                    },
+                    "result": {
+                        "title": "Registrering för period slutförd",
+                        "summary": "{created} dos(er) registrerade, {skipped} överhoppade.",
+                        "undoButton": "Ångra denna registrering"
+                    },
+                    "undo": {
+                        "confirmMessage": "Ta bort alla {n} registreringar från denna åtgärd och återställ lager?",
+                        "successMessage": "Registreringen har ångrats."
                     }
                 },
                 "giveAllMedicines": "Giv al medicin",

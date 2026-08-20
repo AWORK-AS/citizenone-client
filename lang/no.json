@@ -104,7 +104,9 @@
         "modules": {
             "vagtplan": "Vaktplan",
             "medicin": "Medisin",
-            "dokumentation": "Dokumentasjon (planer, status, dokumenter)"
+            "dokumentation": "Dokumentasjon (planer, status, dokumenter)",
+            "useOfForce": "Bruk av makt",
+            "predefinedContent": "Forhåndsdefinert notatinnhold"
         },
         "groups": {
             "migration": "Migrering",
@@ -2445,6 +2447,35 @@
                         "not": "Ikke",
                         "notGiven": "Ikke gitt",
                         "type": "Type"
+                    }
+                },
+                "batchDispense": {
+                    "button": "Registrer for periode",
+                    "modalTitle": "Registrer medisin for en periode",
+                    "form": {
+                        "description": "Registrer de valgte medisinene som gitt på hver dag de er planlagt i den valgte perioden.",
+                        "dateRangeLabel": "Periode",
+                        "typeLabel": "Type",
+                        "commentLabel": "Kommentar (valgfritt, legges til på alle registreringer)",
+                        "pnExcludedNotice": "{n} PN-medisin (ved behov) er ekskludert - registrering for periode gjelder kun planlagt medisin.",
+                        "previewButton": "Forhåndsvis"
+                    },
+                    "confirm": {
+                        "title": "Bekreft registrering for periode",
+                        "willCreate": "{n} dose(r) vil bli registrert som gitt.",
+                        "willSkip": "{n} allerede registrerte dose(r) hoppes over.",
+                        "noneToCreate": "Alle doser i denne perioden er allerede registrert - det er ingenting å registrere.",
+                        "backButton": "Tilbake",
+                        "confirmButton": "Bekreft og registrer"
+                    },
+                    "result": {
+                        "title": "Registrering for periode fullført",
+                        "summary": "{created} dose(r) registrert, {skipped} hoppet over.",
+                        "undoButton": "Angre denne registreringen"
+                    },
+                    "undo": {
+                        "confirmMessage": "Slett alle {n} registreringer fra denne handlingen og gjenopprett lager?",
+                        "successMessage": "Registreringen er angret."
                     }
                 },
                 "giveAllMedicines": "Gi al medisin",

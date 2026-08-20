@@ -104,7 +104,9 @@
         "modules": {
             "vagtplan": "Vagtplan",
             "medicin": "Medicin",
-            "dokumentation": "Dokumentation (planer, status, dokumenter)"
+            "dokumentation": "Dokumentation (planer, status, dokumenter)",
+            "useOfForce": "Magtanvendelse",
+            "predefinedContent": "Foruddefineret notatindhold"
         },
         "groups": {
             "migration": "Migrering",
@@ -2445,6 +2447,35 @@
                         "not": "Ikke",
                         "notGiven": "Ikke givet",
                         "type": "Type"
+                    }
+                },
+                "batchDispense": {
+                    "button": "Registrer for periode",
+                    "modalTitle": "Registrer medicin for en periode",
+                    "form": {
+                        "description": "Registrer de valgte medicintyper som givet på hver dag, de er planlagt i den valgte periode.",
+                        "dateRangeLabel": "Periode",
+                        "typeLabel": "Type",
+                        "commentLabel": "Kommentar (valgfri, tilføjes til alle registreringer)",
+                        "pnExcludedNotice": "{n} PN-medicin (efter behov) er udelukket - registrering for periode gælder kun planlagt medicin.",
+                        "previewButton": "Forhåndsvis"
+                    },
+                    "confirm": {
+                        "title": "Bekræft registrering for periode",
+                        "willCreate": "{n} dosis/doser vil blive registreret som givet.",
+                        "willSkip": "{n} allerede registrerede dosis/doser springes over.",
+                        "noneToCreate": "Alle doser i denne periode er allerede registreret - der er intet at registrere.",
+                        "backButton": "Tilbage",
+                        "confirmButton": "Bekræft og registrer"
+                    },
+                    "result": {
+                        "title": "Registrering for periode gennemført",
+                        "summary": "{created} dosis/doser registreret, {skipped} sprunget over.",
+                        "undoButton": "Fortryd denne registrering"
+                    },
+                    "undo": {
+                        "confirmMessage": "Slet alle {n} registreringer fra denne handling og gendan lager?",
+                        "successMessage": "Registreringen er fortrudt."
                     }
                 },
                 "giveAllMedicines": "Giv al medicin",
