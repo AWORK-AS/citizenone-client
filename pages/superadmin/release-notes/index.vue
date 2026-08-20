@@ -47,6 +47,11 @@
                                         :class="note.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'">
                                         {{ note.status === 'published' ? $t('releaseNotes.published') : $t('releaseNotes.draft') }}
                                     </span>
+                                    <span v-if="note.is_public"
+                                        class="inline-flex items-center gap-1 rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-medium text-[#205E77]">
+                                        <Icon name="ph:globe" class="h-3 w-3" />
+                                        {{ $t('releaseNotes.onWebsite') }}
+                                    </span>
                                 </div>
                                 <p v-if="note.content" class="mt-1 line-clamp-2 whitespace-pre-line text-sm text-gray-600">{{ note.content }}</p>
                                 <p class="mt-1 text-xs text-gray-400">{{ formatNoteDate(note) }}</p>
@@ -143,6 +148,15 @@
                             <p class="text-xs text-gray-500">{{ $t('releaseNotes.videoHint') }}</p>
                         </div>
 
+                        <!-- Public web is a different audience from customers in the product -->
+                        <label class="flex cursor-pointer items-start gap-2 rounded-md border border-gray-200 bg-gray-50 p-3 text-left">
+                            <input v-model="state.form.is_public" type="checkbox" class="mt-0.5" />
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">{{ $t('releaseNotes.showOnWebsite') }}</span>
+                                <span class="block text-xs text-gray-500">{{ $t('releaseNotes.showOnWebsiteHint') }}</span>
+                            </span>
+                        </label>
+
                         <div class="flex justify-end gap-x-2 pb-6">
                             <FormButton buttonStyle="cancel" @click="closeForm">{{ $t('cancel') }}</FormButton>
                             <FormButton buttonStyle="primary" @click="saveDraft">{{ $t('releaseNotes.save') }}</FormButton>
@@ -199,7 +213,7 @@ const state = reactive({
     error: '',
     notes: {} as any,
     showForm: false,
-    form: { uuid: '', title: '', version: '', content: '', video_url: '', image_url: '' as string | null, imageFile: null as File | null, removeImage: false },
+    form: { uuid: '', title: '', version: '', content: '', video_url: '', image_url: '' as string | null, imageFile: null as File | null, removeImage: false, is_public: false },
     deleteOpen: false,
     deleteTarget: null as any,
     unpublishOpen: false,
@@ -252,8 +266,9 @@ function openForm(note: any = null) {
         ? {
             uuid: note.uuid, title: note.title, version: note.version ?? '', content: note.content ?? '',
             video_url: note.video_url ?? '', image_url: note.image_url ?? null, imageFile: null, removeImage: false,
+            is_public: !!note.is_public,
         }
-        : { uuid: '', title: '', version: '', content: '', video_url: '', image_url: null, imageFile: null, removeImage: false }
+        : { uuid: '', title: '', version: '', content: '', video_url: '', image_url: null, imageFile: null, removeImage: false, is_public: false }
     state.showForm = true
 }
 
@@ -340,6 +355,7 @@ async function saveDraft() {
         form.append('video_url', state.form.video_url ?? '')
         if (state.form.imageFile) form.append('image', state.form.imageFile)
         if (state.form.removeImage) form.append('remove_image', '1')
+        form.append('is_public', state.form.is_public ? '1' : '0')
 
         if (state.form.uuid) {
             form.append('_method', 'PUT')

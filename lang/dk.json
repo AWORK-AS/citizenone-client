@@ -12946,7 +12946,10 @@
         "imageHint": "Ét skærmbillede der viser hvad der er nyt. PNG, JPG eller WebP, højst 4 MB.",
         "removeImage": "Fjern billede",
         "videoUrl": "Video (link)",
-        "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så optag aldrig en skærm med borgerdata."
+        "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så optag aldrig en skærm med borgerdata.",
+        "showOnWebsite": "Vis også på citizenone.dk",
+        "showOnWebsiteHint": "Noten bliver synlig for kommende kunder på hjemmesiden, ikke kun for dem der bruger systemet.",
+        "onWebsite": "På hjemmesiden"
     },
     "customSidebarLinks": {
         "title": "Egne links",

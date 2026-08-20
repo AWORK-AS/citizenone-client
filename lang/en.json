@@ -12946,7 +12946,10 @@
         "imageHint": "One screenshot showing what is new. PNG, JPG or WebP, 4 MB at most.",
         "removeImage": "Remove image",
         "videoUrl": "Video (link)",
-        "videoHint": "YouTube, Vimeo or Loom. The video is hosted by a third party, so never record a screen containing citizen data."
+        "videoHint": "YouTube, Vimeo or Loom. The video is hosted by a third party, so never record a screen containing citizen data.",
+        "showOnWebsite": "Also show on citizenone.dk",
+        "showOnWebsiteHint": "The note becomes visible to prospective customers on the website, not only to people using the system.",
+        "onWebsite": "On the website"
     },
     "customSidebarLinks": {
         "title": "Custom links",

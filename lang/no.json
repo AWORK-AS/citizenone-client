@@ -12946,7 +12946,10 @@
         "imageHint": "Ett skjermbilde som viser hva som er nytt. PNG, JPG eller WebP, høyst 4 MB.",
         "removeImage": "Fjern bilde",
         "videoUrl": "Video (lenke)",
-        "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så ta aldri opp en skjerm med brukerdata."
+        "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så ta aldri opp en skjerm med brukerdata.",
+        "showOnWebsite": "Vis også på citizenone.dk",
+        "showOnWebsiteHint": "Notatet blir synlig for kommende kunder på nettsiden, ikke bare for dem som bruker systemet.",
+        "onWebsite": "På nettsiden"
     },
     "customSidebarLinks": {
         "title": "Egne lenker",
