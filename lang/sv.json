@@ -13050,7 +13050,19 @@
         "noNotes": "Inga release notes än.",
         "noPendingNotes": "Inget väntar på godkännande.",
         "pendingReview": "Väntar på godkännande",
-        "allNotes": "Alla release notes"
+        "allNotes": "Alla release notes",
+        "approvalRequestSent": "Godkännandeförfrågan skickad till CTO {date}",
+        "approvalRequestNotSent": "Ingen godkännandeförfrågan skickad ännu",
+        "approvalRequestFailed": "Godkännandeförfrågan kunde inte skickas: {error}",
+        "remindApprover": "Skicka till CTO",
+        "image": "Bild",
+        "imageHint": "En skärmbild som visar vad som är nytt. PNG, JPG eller WebP, högst 4 MB.",
+        "removeImage": "Ta bort bild",
+        "videoUrl": "Video (länk)",
+        "videoHint": "YouTube, Vimeo eller Loom. Videon ligger hos tredje part, så spela aldrig in en skärm med klientdata.",
+        "showOnWebsite": "Visa även på citizenone.dk",
+        "showOnWebsiteHint": "Noten blir synlig för blivande kunder på webbplatsen, inte bara för dem som använder systemet.",
+        "onWebsite": "På webbplatsen"
     },
     "customSidebarLinks": {
         "title": "Egna länkar",
