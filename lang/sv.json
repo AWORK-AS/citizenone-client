@@ -13495,5 +13495,36 @@
             "revenue": "Omsättning",
             "billing": "Faktureringsunderlag"
         }
+    },
+    "socialWelfare": {
+        "billing": {
+            "fromDate": "Från datum",
+            "toDate": "Till datum",
+            "generate": "Generera",
+            "convert": "Omvandla till faktura",
+            "convertAll": "Omvandla alla",
+            "exportCsv": "Exportera CSV",
+            "selectPeriod": "Välj en period och tryck Generera.",
+            "noData": "Inga registrerade timmar under perioden.",
+            "citizen": "Medborgare",
+            "citizens": "medborgare",
+            "section": "Paragraf",
+            "usedHours": "Använda timmar",
+            "allocatedHours": "Tilldelade timmar",
+            "rate": "Timpris",
+            "contractPrice": "Kontraktspris",
+            "amount": "Belopp",
+            "municipality": "Betalande kommun",
+            "noMunicipality": "Ingen betalande kommun",
+            "invoiced": "Fakturerad",
+            "notInvoiced": "Inte fakturerad",
+            "alreadyInvoicedHours": "{hours} timmar redan fakturerade",
+            "totalForPeriod": "Totalt för perioden",
+            "noteFor": "Avräkning för",
+            "hoursFor": "timmar för",
+            "alert": {
+                "converted": "{count} faktura(or) skapade och klara i Fakturor."
+            }
+        }
     }
 }

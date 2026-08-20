@@ -13495,5 +13495,36 @@
             "revenue": "Omsætning",
             "billing": "Faktureringsudtræk"
         }
+    },
+    "socialWelfare": {
+        "billing": {
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generér",
+            "convert": "Omdan til faktura",
+            "convertAll": "Omdan alle",
+            "exportCsv": "Eksportér CSV",
+            "selectPeriod": "Vælg en periode og tryk Generér.",
+            "noData": "Ingen registrerede indsatstimer i perioden.",
+            "citizen": "Borger",
+            "citizens": "borgere",
+            "section": "Paragraf",
+            "usedHours": "Brugte timer",
+            "allocatedHours": "Tildelte timer",
+            "rate": "Timepris",
+            "contractPrice": "Kontraktpris",
+            "amount": "Beløb",
+            "municipality": "Betalende kommune",
+            "noMunicipality": "Ingen betalende kommune",
+            "invoiced": "Faktureret",
+            "notInvoiced": "Ikke faktureret",
+            "alreadyInvoicedHours": "{hours} timer allerede faktureret",
+            "totalForPeriod": "I alt for perioden",
+            "noteFor": "Afregning for",
+            "hoursFor": "indsatstimer for",
+            "alert": {
+                "converted": "{count} faktura(er) oprettet og klar i Fakturaer."
+            }
+        }
     }
 }
