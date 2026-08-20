@@ -1810,6 +1810,18 @@
         "editCitizenForm": "Rediger brukerskjema",
         "editMedicineForm": "Rediger medisinskjema",
         "emails": {
+            "bodyInOriginal": "Teksten kunne ikke vises her. Åpne originalen for å lese e-posten.",
+            "filters": {
+                "dateFrom": "Fra dato",
+                "dateTo": "Til dato",
+                "perPage": "Per side",
+                "reset": "Tøm",
+                "search": "Søk",
+                "searchPlaceholder": "Emne eller avsender"
+            },
+            "migrated": "Importert",
+            "noBody": "Denne e-posten har ingen tekst.",
+            "openOriginal": "Åpne originalen",
             "attachments": "Vedlegg",
             "confirmation": {
                 "untagConfirmation": "Er du sikker på at du vil fjerne denne e-posten fra brukerens profil"
