@@ -10029,7 +10029,14 @@
         "upgrade-info-1": "På denna sida kan du opgradere din CitizenOne lagerplads. Välj den pakke där passer till ditt behov.",
         "upgrade-info-2": "Lagerplads i CitizenOne bruges till att gemme lokal dokument och filer. 1 GB svarer till cirka 5.000 filer.",
         "upgrade-info-3": "",
-        "upgradeOptions": "Opgradéringsmuligheder"
+        "upgradeOptions": "Opgradéringsmuligheder",
+        "notice": {
+            "warningTitle": "Lagringsutrymmet är nästan fullt",
+            "fullTitle": "Lagringsutrymmet är fullt",
+            "seeDetails": "Se lagringsutrymme",
+            "warningBody": "{percent}% av era {quota} GB är använt. När utrymmet tar slut går det inte att ladda upp fler filer.",
+            "fullBody": "{percent}% av era {quota} GB är använt. Nya filer kan inte laddas upp förrän ni frigör utrymme eller uppgraderar."
+        }
     },
     "submit": "Indsend",
     "subscription": {
@@ -10496,7 +10503,8 @@
                 "name": "Namn",
                 "phone": "Telefon",
                 "status": "Status",
-                "website": "Websted"
+                "website": "Websted",
+                "storage": "Lagringsanvändning"
             },
             "tabs": {
                 "accounts": "Konton",
@@ -10567,6 +10575,29 @@
                 "undo": "Ångra",
                 "undoneCount": "{count} rader borttagna",
                 "refresh": "Uppdatera"
+            },
+            "storage": {
+                "title": "Lagringsutrymme",
+                "used": "{percent}% använt",
+                "breakdownTitle": "Lagringsanvändning",
+                "breakdownHint": "Vad fyller kundens data",
+                "measuredAt": "mätt {at}",
+                "recalculate": "Beräkna om",
+                "empty": "Kunden använder inget lagringsutrymme ännu",
+                "manualLimit": "Kvoten är satt manuellt till {limit} GB av en superadmin.",
+                "categories": {
+                    "citizen_files": "Klientfiler",
+                    "journal_attachments": "Journalbilagor",
+                    "news": "Nyheter",
+                    "assessments": "Bedömningar",
+                    "chat": "Meddelanden",
+                    "incidents": "Händelser",
+                    "employee_documents": "Medarbetardokument",
+                    "procedures": "Rutiner",
+                    "tasks": "Uppgifter",
+                    "company_files": "Företagsfiler",
+                    "nursing_areas": "Vårdområden"
+                }
             }
         },
         "coupons": {
@@ -10639,8 +10670,13 @@
                 "table": {
                     "name": "Namn",
                     "storagePaid": "Betald lager",
-                    "storageUsed": "Brugt lager"
-                }
+                    "storageUsed": "Brugt lager",
+                    "storageQuota": "Kvot",
+                    "usage": "Användning",
+                    "measuredAt": "Mätt"
+                },
+                "seeAll": "Se alla",
+                "notMeasuredYet": "Inga mätningar ännu"
             },
             "dashboard": "Dashboard",
             "numberOfNonpayingCompanies": "Antal inte-betalende företag",
@@ -10671,7 +10707,36 @@
             "noCompaniesYet": "Inga företag ännu",
             "active": "Aktiv",
             "inactive": "Inaktiv",
-            "exclVat": "exkl. moms"
+            "exclVat": "exkl. moms",
+            "adoption": {
+                "usersOnlineNow": "Användare just nu",
+                "activeToday": "{count} aktiva i dag",
+                "companiesActiveToday": "Aktiva företag i dag",
+                "activeThisWeek": "{count} denna vecka",
+                "mrr": "MRR",
+                "arr": "ARR {amount}",
+                "churn": "Kundtapp ({days} dagar)",
+                "churnSub": "{churned} av {base} kunder",
+                "quietCustomers": "Kunder som har stannat av",
+                "quietCustomersHint": "Längst sedan någon var inloggad. Börja överst.",
+                "everyoneActive": "Alla kunder har varit aktiva nyligen",
+                "lastActive": "Senast aktiv {date}",
+                "neverActive": "Aldrig varit aktiv · skapad {date}",
+                "daysQuiet": "{days} dagar",
+                "today": "I dag",
+                "never": "Aldrig",
+                "help": {
+                    "usersOnlineNow": "Användare med aktivitet i systemet de senaste 15 minuterna. Mäts från deras senaste anrop, inte från inloggning.",
+                    "companiesActiveToday": "Aktiva företag där minst en användare har varit i systemet det senaste dygnet.",
+                    "mrr": "Månatlig återkommande intäkt exkl. moms: alla aktiva löpande abonnemang hos aktiva företag, där årsavtal räknas som en tolftedel. Gratis- och engångsabonnemang räknas inte med. ARR är MRR gånger 12.",
+                    "churn": "Kunder som stängts ned de senaste 30 dagarna, av de kunder som var igång när perioden började. Endast registrerade nedstängningsdatum räknas; datum som uppskattats i efterhand för äldre kunder är exkluderade.",
+                    "quietCustomers": "Aktiva kunder sorterade efter hur länge sedan någon från företaget senast var i systemet. Kunder som aldrig loggat in ligger överst, eftersom det oftast är en onboarding som aldrig kom igång."
+                }
+            },
+            "tabs": {
+                "overview": "Översikt",
+                "report": "Rapport"
+            }
         },
         "invoiceDetails": {
             "billTo": "Faktureres till",
@@ -11079,7 +11144,8 @@
             "clientRoles": "Klientroller",
             "cancellations": "Avslutningar",
             "storagePackages": "Lagringspaket",
-            "paymentFees": "Betalningsavgifter"
+            "paymentFees": "Betalningsavgifter",
+            "storageUsage": "Lagringsanvändning"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -11680,6 +11746,53 @@
             "uncharged": {
                 "title": "Avslutade månader som väntar på att dras",
                 "waiting": "väntar {months} mån"
+            }
+        },
+        "report": {
+            "title": "Rapport",
+            "subtitle": "Så har verksamheten rört sig under den valda perioden.",
+            "from": "Från",
+            "to": "Till",
+            "granularity": {
+                "day": "Dag",
+                "week": "Vecka",
+                "month": "Månad",
+                "quarter": "Kvartal",
+                "year": "År"
+            },
+            "presets": {
+                "thisQuarter": "Detta kvartal",
+                "thisYear": "I år",
+                "lastTwelveMonths": "12 månader",
+                "lastYear": "Förra året"
+            },
+            "totals": {
+                "newCompanies": "Nya kunder",
+                "churnedCompanies": "Förlorade kunder",
+                "netCompanies": "Netto",
+                "newUsers": "Nya användare",
+                "revenue": "Fakturerat"
+            },
+            "charts": {
+                "customers": "Kunder till och från",
+                "customersHint": "Nya och förlorade kunder per period, med nettoförändringen som linje.",
+                "revenue": "Fakturerad omsättning",
+                "revenueHint": "Fakturarader exkl. moms, efter fakturadatum.",
+                "mrr": "MRR över tid",
+                "mrrHint": "Månatlig återkommande intäkt, mätt sista dygnet i perioden.",
+                "mrrSince": "Mätt dagligen sedan {date}. Perioder dessförinnan lämnas tomma.",
+                "mrrNotRecorded": "Mäts dagligen från och med i dag.",
+                "mrrEmpty": "MRR går inte att räkna bakåt, eftersom abonnemangen bara känner till sitt nuvarande tillstånd. Mätningen sparas nu en gång per dygn, så kurvan byggs upp härifrån.",
+                "users": "Nya användare",
+                "usersHint": "Användare skapade hos kunderna per period."
+            },
+            "series": {
+                "newCompanies": "Nya kunder",
+                "churnedCompanies": "Förlorade kunder",
+                "netCompanies": "Netto",
+                "revenue": "Fakturerat",
+                "mrr": "MRR",
+                "newUsers": "Nya användare"
             }
         }
     },

@@ -127,6 +127,20 @@
                                 </a>
                                 <span v-else class="text-[#8891A4] text-[13px]">—</span>
                             </td>
+                            <td class="co-td">
+                                <div v-if="company?.storage_used_gb !== null && company?.storage_used_gb !== undefined"
+                                    class="min-w-[110px]">
+                                    <p class="text-[13px]" :class="storageTextClass(company)">
+                                        {{ formatGb(company.storage_used_gb) }}
+                                        <span class="text-[#8891A4]">/ {{ formatGb(company.storage_quota_gb) }} GB</span>
+                                    </p>
+                                    <div class="mt-1 h-1 bg-[#F5F6F8] rounded-full overflow-hidden">
+                                        <div class="h-full rounded-full" :class="storageBarClass(company)"
+                                            :style="`width:${storagePercent(company)}%`"></div>
+                                    </div>
+                                </div>
+                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                            </td>
                             <td class="co-td" @click.stop>
                                 <div
                                     class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
@@ -184,6 +198,7 @@ const state = reactive({
         { key: 'phone', name: t('superadmin.companies.table.phone') },
         { key: 'cvr', name: t('superadmin.companies.table.cvr') },
         { key: 'website', name: t('superadmin.companies.table.website') },
+        { key: 'storage_used_bytes', name: t('superadmin.companies.table.storage'), sorter: true },
         { key: 'actions', name: '' },
     ]),
     companies: [] as any,
@@ -212,6 +227,30 @@ const tabs = computed(() => [
 const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
 const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]
 const initials = (name: string) => (name || '?').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)
+
+// Storage usage. The numbers are the nightly measurement cached on the company;
+// the company's own page recalculates on open.
+const formatGb = (value: any) => Number(value ?? 0).toLocaleString('da-DK', { maximumFractionDigits: 2 })
+
+function storagePercent(company: any) {
+    const quota = Number(company?.storage_quota_gb ?? 0)
+    if (!quota) return 0
+    return Math.min(100, Math.round((Number(company?.storage_used_gb ?? 0) / quota) * 100))
+}
+
+function storageTextClass(company: any) {
+    const percent = storagePercent(company)
+    if (percent >= 100) return 'text-[#CC3B2D] font-semibold'
+    if (percent >= 80) return 'text-[#D4900A] font-semibold'
+    return 'text-[#5C6478]'
+}
+
+function storageBarClass(company: any) {
+    const percent = storagePercent(company)
+    if (percent >= 100) return 'bg-[#CC3B2D]'
+    if (percent >= 80) return 'bg-[#D4900A]'
+    return 'bg-[#42AED9]'
+}
 
 onMounted(() => {
     if (router.currentRoute.value.query?.paying === 'true') {

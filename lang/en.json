@@ -10029,7 +10029,14 @@
         "upgrade-info-1": "On this page you can upgrade your CitizenOne storage. Choose the plan that fits your needs.",
         "upgrade-info-2": "Storage in CitizenOne is used to store local documents and files. 1 GB equals approximately 5,000 files.",
         "upgrade-info-3": "",
-        "upgradeOptions": "Upgrade options"
+        "upgradeOptions": "Upgrade options",
+        "notice": {
+            "warningTitle": "Storage is nearly full",
+            "fullTitle": "Storage is full",
+            "seeDetails": "See storage",
+            "warningBody": "{percent}% of your {quota} GB is used. When the space runs out, no more files can be uploaded.",
+            "fullBody": "{percent}% of your {quota} GB is used. New files cannot be uploaded until you free up space or upgrade."
+        }
     },
     "submit": "Submit",
     "subscription": {
@@ -10496,7 +10503,8 @@
                 "name": "Name",
                 "phone": "Phone",
                 "status": "Status",
-                "website": "Website"
+                "website": "Website",
+                "storage": "Storage usage"
             },
             "tabs": {
                 "accounts": "Accounts",
@@ -10567,6 +10575,29 @@
                 "undo": "Undo",
                 "undoneCount": "{count} rows deleted",
                 "refresh": "Refresh"
+            },
+            "storage": {
+                "title": "Storage",
+                "used": "{percent}% used",
+                "breakdownTitle": "Storage usage",
+                "breakdownHint": "What fills the customer's space",
+                "measuredAt": "measured {at}",
+                "recalculate": "Recalculate",
+                "empty": "This customer is not using storage yet",
+                "manualLimit": "The quota is set manually to {limit} GB by a superadmin.",
+                "categories": {
+                    "citizen_files": "Citizen files",
+                    "journal_attachments": "Journal attachments",
+                    "news": "News",
+                    "assessments": "Assessments",
+                    "chat": "Messages",
+                    "incidents": "Incidents",
+                    "employee_documents": "Employee documents",
+                    "procedures": "Procedures",
+                    "tasks": "Tasks",
+                    "company_files": "Company files",
+                    "nursing_areas": "Nursing areas"
+                }
             }
         },
         "coupons": {
@@ -10639,8 +10670,13 @@
                 "table": {
                     "name": "Name",
                     "storagePaid": "Storage paid",
-                    "storageUsed": "Storage used"
-                }
+                    "storageUsed": "Storage used",
+                    "storageQuota": "Quota",
+                    "usage": "Usage",
+                    "measuredAt": "Measured"
+                },
+                "seeAll": "See all",
+                "notMeasuredYet": "No measurements yet"
             },
             "dashboard": "Dashboard",
             "numberOfNonpayingCompanies": "Number of non-paying companies",
@@ -10671,7 +10707,36 @@
             "noCompaniesYet": "No companies yet",
             "active": "Active",
             "inactive": "Inactive",
-            "exclVat": "Excl. VAT"
+            "exclVat": "Excl. VAT",
+            "adoption": {
+                "usersOnlineNow": "Users right now",
+                "activeToday": "{count} active today",
+                "companiesActiveToday": "Companies active today",
+                "activeThisWeek": "{count} this week",
+                "mrr": "MRR",
+                "arr": "ARR {amount}",
+                "churn": "Churn ({days} days)",
+                "churnSub": "{churned} of {base} customers",
+                "quietCustomers": "Customers that have stalled",
+                "quietCustomersHint": "Longest since anyone logged in. Start at the top.",
+                "everyoneActive": "Every customer has been active recently",
+                "lastActive": "Last active {date}",
+                "neverActive": "Never active · created {date}",
+                "daysQuiet": "{days} days",
+                "today": "Today",
+                "never": "Never",
+                "help": {
+                    "usersOnlineNow": "Users with activity in the system within the last 15 minutes. Measured from their most recent request, not from login.",
+                    "companiesActiveToday": "Active companies where at least one user has been in the system within the last 24 hours.",
+                    "mrr": "Monthly recurring revenue excl. VAT: every active recurring subscription belonging to an active company, with yearly terms counted as one twelfth. Free and one-time subscriptions are excluded. ARR is MRR times 12.",
+                    "churn": "Customers shut down within the last 30 days, out of the customers that were running when the period opened. Only recorded shutdown dates count; dates estimated after the fact for older customers are excluded.",
+                    "quietCustomers": "Active customers ordered by how long it has been since anyone from the company was in the system. Customers that never logged in come first, as that is usually onboarding that never got going."
+                }
+            },
+            "tabs": {
+                "overview": "Overview",
+                "report": "Report"
+            }
         },
         "invoiceDetails": {
             "billTo": "Bill to",
@@ -11079,7 +11144,8 @@
             "clientRoles": "Roles & Rights",
             "cancellations": "Cancellations",
             "storagePackages": "Storage packages",
-            "paymentFees": "Payment fees"
+            "paymentFees": "Payment fees",
+            "storageUsage": "Storage usage"
         },
         "emailTemplates": {
             "title": "Email templates",
@@ -11680,6 +11746,53 @@
             "uncharged": {
                 "title": "Closed months waiting to be charged",
                 "waiting": "waiting {months} months"
+            }
+        },
+        "report": {
+            "title": "Report",
+            "subtitle": "How the business moved over the chosen period.",
+            "from": "From",
+            "to": "To",
+            "granularity": {
+                "day": "Day",
+                "week": "Week",
+                "month": "Month",
+                "quarter": "Quarter",
+                "year": "Year"
+            },
+            "presets": {
+                "thisQuarter": "This quarter",
+                "thisYear": "This year",
+                "lastTwelveMonths": "12 months",
+                "lastYear": "Last year"
+            },
+            "totals": {
+                "newCompanies": "New customers",
+                "churnedCompanies": "Lost customers",
+                "netCompanies": "Net",
+                "newUsers": "New users",
+                "revenue": "Invoiced"
+            },
+            "charts": {
+                "customers": "Customers won and lost",
+                "customersHint": "New and lost customers per period, with the net change as a line.",
+                "revenue": "Invoiced revenue",
+                "revenueHint": "Invoice lines excl. VAT, by invoice date.",
+                "mrr": "MRR over time",
+                "mrrHint": "Monthly recurring revenue, measured on the last day of each period.",
+                "mrrSince": "Measured daily since {date}. Earlier periods are left empty.",
+                "mrrNotRecorded": "Measured daily from today onwards.",
+                "mrrEmpty": "MRR cannot be reconstructed backwards, because subscriptions only know their current state. It is now recorded once a day, so the line builds up from here.",
+                "users": "New users",
+                "usersHint": "Users created at customers per period."
+            },
+            "series": {
+                "newCompanies": "New customers",
+                "churnedCompanies": "Lost customers",
+                "netCompanies": "Net",
+                "revenue": "Invoiced",
+                "mrr": "MRR",
+                "newUsers": "New users"
             }
         }
     },

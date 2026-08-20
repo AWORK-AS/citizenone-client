@@ -139,9 +139,9 @@ async function fetchApps() {
 
 function priceLabel(app: any) {
     if (app.is_one_time_fee) {
-        return formatAmount(app.price ?? 0)
+        return formatAmount(app.price ?? 0, 'DKK')
     }
-    return `${formatAmount(app.yearly_price ?? 0)}/yr`
+    return `${formatAmount(app.yearly_price ?? 0, 'DKK')}/yr`
 }
 
 function openGrantModal(app: any) {
