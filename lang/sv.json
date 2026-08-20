@@ -2963,10 +2963,6 @@
                 "vitals": "Vitale värden"
             }
         },
-        "purchaseEmail": {
-            "purchaseEmail": "Köp e-post",
-            "youAreNowBeingRedirected": "Du blir nu omdirigeret till en partner, var du kan köpa en e-post till klienten"
-        },
         "rooms": "Rum",
         "sections": {
             "citizenDetails": "Borgeroplysninger",
