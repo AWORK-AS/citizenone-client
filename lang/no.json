@@ -2901,10 +2901,6 @@
                 "vitals": "Vitale verdier"
             }
         },
-        "purchaseEmail": {
-            "purchaseEmail": "Kjøp e-post",
-            "youAreNowBeingRedirected": "Du blir nå omdirigeret til en partner, hvor du kan kjøpe en e-post til brukeren"
-        },
         "rooms": "Rom",
         "sections": {
             "citizenDetails": "Brukeroplysninger",
