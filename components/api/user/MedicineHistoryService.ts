@@ -21,6 +21,18 @@ class MedicineHistoryService extends BaseAPIService {
         return await this.request(`/user/citizen-medicine-histories/save/all`, 'POST', params)
     }
 
+    async previewBatchDispenseMedicineHistory(params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicine-histories/batch-dispense`, 'POST', { ...params, preview: true })
+    }
+
+    async saveBatchDispenseMedicineHistory(params: object): Promise<any> {
+        return await this.request(`/user/citizen-medicine-histories/batch-dispense`, 'POST', { ...params, preview: false })
+    }
+
+    async undoBatchDispenseMedicineHistory(batchUuid: string): Promise<any> {
+        return await this.request(`/user/citizen-medicine-histories/batch-dispense/${batchUuid}`, 'DELETE')
+    }
+
     async updateMedicineHistory(medicineHistoryUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-medicine-histories/${medicineHistoryUuid}`, 'PUT', params)
     }
