@@ -11,6 +11,11 @@ class SocialWelfareService extends BaseAPIService {
         return await this.request(`/user/social-welfare/billing-extraction`, 'GET', params)
     }
 
+    // The individual hour registrations behind one extraction row
+    async getBillingRegistrations(params: object): Promise<any> {
+        return await this.request(`/user/social-welfare/billing-extraction/registrations`, 'GET', params)
+    }
+
     // Turns extraction rows into client invoices, one per municipality
     async convertToInvoices(payload: object): Promise<any> {
         return await this.request(`/user/social-welfare/billing-extraction/invoices`, 'POST', payload)

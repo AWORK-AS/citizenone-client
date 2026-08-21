@@ -75,7 +75,9 @@
                             <table class="w-full">
                                 <thead class="bg-white border-b border-[#EAECF0]">
                                     <tr>
+                                        <th class="co-th w-8"></th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.citizen') }}</th>
+                                        <th class="co-th">{{ $t('socialWelfare.billing.stay') }}</th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.section') }}</th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.usedHours') }}</th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.allocatedHours') }}</th>
@@ -85,9 +87,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="row in group.rows" :key="row.citizen_uuid"
-                                        class="border-b border-[#EAECF0] last:border-0"
+                                    <template v-for="row in group.rows" :key="rowKey(row)">
+                                    <tr class="border-b border-[#EAECF0]"
                                         :class="row.is_fully_invoiced ? 'opacity-60' : ''">
+                                        <td class="co-td align-top">
+                                            <button type="button" @click="toggleRow(row)"
+                                                class="text-[#5C6478] hover:text-[#1D2433] transition"
+                                                :aria-expanded="isExpanded(row)"
+                                                :title="$t('socialWelfare.billing.showRegistrations')">
+                                                <Icon :name="isExpanded(row) ? 'ph:caret-down' : 'ph:caret-right'"
+                                                    class="w-4 h-4" />
+                                            </button>
+                                        </td>
                                         <td class="co-td">
                                             <p class="font-medium text-[#1D2433]">{{ row.citizen_name }}</p>
                                             <p v-if="row.is_fully_invoiced" class="co-badge co-badge-green text-[11px] mt-1 inline-block">
@@ -96,6 +107,12 @@
                                             <p v-else-if="row.invoiced_hours > 0" class="text-[12px] text-[#8891A4] mt-1">
                                                 {{ $t('socialWelfare.billing.alreadyInvoicedHours', { hours: formatHours(row.invoiced_hours) }) }}
                                             </p>
+                                        </td>
+                                        <td class="co-td">
+                                            <p class="text-[#1D2433]">
+                                                {{ row.stay_journal_number || (row.stay_uuid ? $t('socialWelfare.billing.stayWithoutNumber') : $t('socialWelfare.billing.outsideStay')) }}
+                                            </p>
+                                            <p class="text-[12px] text-[#8891A4]">{{ row.period_from }} - {{ row.period_to }}</p>
                                         </td>
                                         <td class="co-td text-[#5C6478]">{{ row.section || '-' }}</td>
                                         <td class="co-td">
@@ -122,6 +139,50 @@
                                             {{ formatAmount(rowAmount(row)) }}
                                         </td>
                                     </tr>
+
+                                    <!-- The registrations behind the total, so the number can be
+                                         checked against what was actually delivered. -->
+                                    <tr v-if="isExpanded(row)" class="border-b border-[#EAECF0] bg-[#F9FAFB]">
+                                        <td class="co-td" colspan="9">
+                                            <p v-if="registrationsOf(row) === undefined" class="text-[13px] text-[#8891A4]">
+                                                {{ $t('socialWelfare.billing.loadingRegistrations') }}
+                                            </p>
+                                            <p v-else-if="!registrationsOf(row).length" class="text-[13px] text-[#8891A4]">
+                                                {{ $t('socialWelfare.billing.noRegistrations') }}
+                                            </p>
+                                            <table v-else class="w-full">
+                                                <thead>
+                                                    <tr class="text-left text-[12px] uppercase text-[#8891A4]">
+                                                        <th class="py-1.5 pr-4 font-medium">{{ $t('socialWelfare.billing.date') }}</th>
+                                                        <th class="py-1.5 pr-4 font-medium">{{ $t('socialWelfare.billing.time') }}</th>
+                                                        <th class="py-1.5 pr-4 font-medium">{{ $t('socialWelfare.billing.hours') }}</th>
+                                                        <th class="py-1.5 pr-4 font-medium">{{ $t('socialWelfare.billing.employee') }}</th>
+                                                        <th class="py-1.5 pr-4 font-medium">{{ $t('socialWelfare.billing.note') }}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="reg in registrationsOf(row)" :key="reg.uuid"
+                                                        class="text-[13px] text-[#5C6478]"
+                                                        :class="reg.is_invoiced ? 'opacity-60' : ''">
+                                                        <td class="py-1.5 pr-4 whitespace-nowrap">{{ dateOf(reg) }}</td>
+                                                        <td class="py-1.5 pr-4 whitespace-nowrap">{{ timeOf(reg) }}</td>
+                                                        <td class="py-1.5 pr-4 whitespace-nowrap">{{ formatHours(reg.hours) }}</td>
+                                                        <td class="py-1.5 pr-4">
+                                                            {{ reg.employee_name || '-' }}
+                                                            <span v-if="reg.is_from_duty_schedule"
+                                                                class="text-[11px] text-[#8891A4]">({{ $t('socialWelfare.billing.fromDutySchedule') }})</span>
+                                                        </td>
+                                                        <td class="py-1.5 pr-4">
+                                                            {{ reg.note || '-' }}
+                                                            <span v-if="reg.is_invoiced"
+                                                                class="text-[11px] text-[#2E9E33]">({{ $t('socialWelfare.billing.invoiced') }})</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    </template>
                                 </tbody>
                             </table>
                         </div>
@@ -168,6 +229,67 @@ const state = reactive({
         to_date: '',
     },
 })
+
+// Registrations are fetched per row when it is opened, so a period with a
+// hundred citizens does not drag every registration along with it. undefined
+// means "still loading", an empty array means "loaded and there were none".
+const expanded = ref<string[]>([])
+const registrations = ref<Record<string, any[]>>({})
+
+// A row is one stay, so a citizen can appear more than once and the uuid alone
+// is not a key.
+function rowKey(row: any): string {
+    return `${row.citizen_uuid}:${row.stay_uuid ?? 'none'}`
+}
+
+function isExpanded(row: any): boolean {
+    return expanded.value.includes(rowKey(row))
+}
+
+function registrationsOf(row: any): any[] | undefined {
+    return registrations.value[rowKey(row)]
+}
+
+async function toggleRow(row: any) {
+    const key = rowKey(row)
+
+    if (isExpanded(row)) {
+        expanded.value = expanded.value.filter(k => k !== key)
+
+        return
+    }
+
+    expanded.value = [...expanded.value, key]
+
+    // Cached from a previous open, and the extraction clears the cache when it
+    // refetches, so there is nothing stale to show.
+    if (registrations.value[key]) return
+
+    try {
+        const response = await socialWelfareService.getBillingRegistrations({
+            citizen_uuid: row.citizen_uuid,
+            stay_uuid: row.stay_uuid ?? undefined,
+            from_date: state.filter.from_date,
+            to_date: state.filter.to_date,
+        })
+        const data = response?.data ?? response ?? {}
+        registrations.value = { ...registrations.value, [key]: data.rows ?? [] }
+    } catch (error: any) {
+        state.error = error
+        expanded.value = expanded.value.filter(k => k !== key)
+    }
+}
+
+function dateOf(reg: any): string {
+    return (reg.date_time_start ?? '').slice(0, 10)
+}
+
+function timeOf(reg: any): string {
+    const start = (reg.date_time_start ?? '').slice(11, 16)
+    const end = (reg.date_time_end ?? '').slice(11, 16)
+
+    return end ? `${start} - ${end}` : start
+}
 
 // Hours and rate are editable, so every amount is derived, never read back
 // from the server response.
@@ -225,6 +347,8 @@ async function fetchExtraction() {
         const data = response?.data ?? response ?? {}
         state.groups = data.groups ?? []
         state.hasFetched = true
+        expanded.value = []
+        registrations.value = {}
     } catch (error: any) {
         state.error = error
     }
@@ -237,9 +361,15 @@ function groupPayload(group: any) {
         note: `${t('socialWelfare.billing.noteFor')} ${state.filter.from_date} - ${state.filter.to_date}`,
         lines: billableRows(group).map((row: any) => ({
             citizen_uuid: row.citizen_uuid,
-            description: `${row.citizen_name} - ${t('socialWelfare.billing.hoursFor')} ${state.filter.from_date} - ${state.filter.to_date}`,
+            description: [row.citizen_name, row.stay_journal_number, `${t('socialWelfare.billing.hoursFor')} ${row.period_from} - ${row.period_to}`]
+                .filter(Boolean).join(' - '),
             quantity: Number(row.used_hours),
             price: Number(row.hourly_rate),
+            // The row's own window, not the filter's: a stay can be shorter
+            // than the period asked for, and stamping the whole period would
+            // take the other placement's hours with it.
+            period_from: row.period_from,
+            period_to: row.period_to,
         })),
     }
 }
@@ -281,6 +411,8 @@ function exportToCsv() {
     const header = [
         t('socialWelfare.billing.municipality'),
         t('socialWelfare.billing.citizen'),
+        t('socialWelfare.billing.stay'),
+        t('socialWelfare.billing.period'),
         t('socialWelfare.billing.section'),
         t('socialWelfare.billing.usedHours'),
         t('socialWelfare.billing.allocatedHours'),
@@ -293,6 +425,8 @@ function exportToCsv() {
     const lines = state.groups.flatMap((group: any) => group.rows.map((row: any) => [
         escape(group.municipality_name ?? ''),
         escape(row.citizen_name),
+        escape(row.stay_journal_number ?? ''),
+        escape(`${row.period_from} - ${row.period_to}`),
         escape(row.section ?? ''),
         escape(formatHours(row.used_hours)),
         escape(formatHours(row.allocated_hours)),

@@ -13524,7 +13524,20 @@
             "hoursFor": "timer for",
             "alert": {
                 "converted": "{count} faktura(er) opprettet og klar i Fakturaer."
-            }
+            },
+            "stay": "Opphold",
+            "stayWithoutNumber": "Opphold uten journalnr.",
+            "outsideStay": "Uten opphold",
+            "period": "Periode",
+            "showRegistrations": "Vis timeregistreringer",
+            "loadingRegistrations": "Henter timeregistreringer...",
+            "noRegistrations": "Ingen timeregistreringer på denne raden.",
+            "date": "Dato",
+            "time": "Tid",
+            "hours": "Timer",
+            "employee": "Ansatt",
+            "note": "Notat",
+            "fromDutySchedule": "fra vaktplan"
         }
     }
 }

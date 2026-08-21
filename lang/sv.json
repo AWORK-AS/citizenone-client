@@ -13524,7 +13524,20 @@
             "hoursFor": "timmar för",
             "alert": {
                 "converted": "{count} faktura(or) skapade och klara i Fakturor."
-            }
+            },
+            "stay": "Vistelse",
+            "stayWithoutNumber": "Vistelse utan journalnr.",
+            "outsideStay": "Utan vistelse",
+            "period": "Period",
+            "showRegistrations": "Visa timregistreringar",
+            "loadingRegistrations": "Hämtar timregistreringar...",
+            "noRegistrations": "Inga timregistreringar på denna rad.",
+            "date": "Datum",
+            "time": "Tid",
+            "hours": "Timmar",
+            "employee": "Medarbetare",
+            "note": "Anteckning",
+            "fromDutySchedule": "från schema"
         }
     }
 }
