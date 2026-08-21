@@ -13592,5 +13592,49 @@
         },
         "noPlansFound": "Det ble ikke funnet noen planer, mål eller delmål for de valgte innbyggerne.",
         "noPermission": "Du har ikke rettigheter til å eksportere planer og mål i bulk."
+    },
+    "socialWelfare": {
+        "billing": {
+            "fromDate": "Fra dato",
+            "toDate": "Til dato",
+            "generate": "Generer",
+            "convert": "Gjør om til faktura",
+            "convertAll": "Gjør om alle",
+            "exportCsv": "Eksporter CSV",
+            "selectPeriod": "Velg en periode og trykk Generer.",
+            "noData": "Ingen registrerte timer i perioden.",
+            "citizen": "Borger",
+            "citizens": "borgere",
+            "section": "Paragraf",
+            "usedHours": "Brukte timer",
+            "allocatedHours": "Tildelte timer",
+            "rate": "Timepris",
+            "contractPrice": "Kontraktpris",
+            "amount": "Beløp",
+            "municipality": "Betalende kommune",
+            "noMunicipality": "Ingen betalende kommune",
+            "invoiced": "Fakturert",
+            "notInvoiced": "Ikke fakturert",
+            "alreadyInvoicedHours": "{hours} timer allerede fakturert",
+            "totalForPeriod": "Totalt for perioden",
+            "noteFor": "Avregning for",
+            "hoursFor": "timer for",
+            "alert": {
+                "converted": "{count} faktura(er) opprettet og klar i Fakturaer."
+            },
+            "stay": "Opphold",
+            "stayWithoutNumber": "Opphold uten journalnr.",
+            "outsideStay": "Uten opphold",
+            "period": "Periode",
+            "showRegistrations": "Vis timeregistreringer",
+            "loadingRegistrations": "Henter timeregistreringer...",
+            "noRegistrations": "Ingen timeregistreringer på denne raden.",
+            "date": "Dato",
+            "time": "Tid",
+            "hours": "Timer",
+            "employee": "Ansatt",
+            "note": "Notat",
+            "fromDutySchedule": "fra vaktplan"
+        }
     }
 }
