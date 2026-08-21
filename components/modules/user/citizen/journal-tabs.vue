@@ -86,16 +86,12 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-medicine-journals'],
         })
     }
-    if (can('Plans and goals') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
+    if (can('Documents') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
         tabs.push({
-            name: 'citizens.tabs.plansAndGoals', icon: 'ph:target', isTranslateName: true,
-            category: 'care', primary: true,
-            href: `/citizens/${citizenUuid}/plans-and-goals/all`,
-            routeNames: [
-                'citizens-uuid-plans-and-goals-all',
-                'citizens-uuid-plans-and-goals-active',
-                'citizens-uuid-plans-and-goals-archived',
-            ],
+            name: 'citizens.tabs.documents', icon: 'ph:files', isTranslateName: true,
+            category: 'documentation', primary: true,
+            href: `/citizens/${citizenUuid}/documents`,
+            routeNames: ['citizens-uuid-documents'],
         })
     }
     if (can('Health')) {
@@ -110,12 +106,16 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             ],
         })
     }
-    if (can('Documents') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
+    if (can('Plans and goals') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
         tabs.push({
-            name: 'citizens.tabs.documents', icon: 'ph:files', isTranslateName: true,
-            category: 'documentation', primary: false,
-            href: `/citizens/${citizenUuid}/documents`,
-            routeNames: ['citizens-uuid-documents'],
+            name: 'citizens.tabs.plansAndGoals', icon: 'ph:target', isTranslateName: true,
+            category: 'care', primary: false,
+            href: `/citizens/${citizenUuid}/plans-and-goals/all`,
+            routeNames: [
+                'citizens-uuid-plans-and-goals-all',
+                'citizens-uuid-plans-and-goals-active',
+                'citizens-uuid-plans-and-goals-archived',
+            ],
         })
     }
     if (newValue?.is_surveys_active) {

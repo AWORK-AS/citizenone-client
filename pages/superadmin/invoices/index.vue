@@ -137,7 +137,7 @@
                             </td>
                             <td class="co-td">
                                 <span class="text-[14px] font-semibold text-[#1F2533]">
-                                    {{ formatAmount(invoice?.total_amount) }}
+                                    {{ formatAmount(invoice?.total_amount, 'DKK') }}
                                 </span>
                             </td>
                             <td class="co-td">

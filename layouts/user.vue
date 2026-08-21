@@ -414,6 +414,10 @@
             <!-- Page content -->
             <main class="py-6 lg:py-8">
                 <div class="px-4 sm:px-6 lg:px-6">
+                    <!-- Storage is nearly or completely full. Sits in the content flow rather than
+                         above the navbar so it never disturbs the measured sticky offsets. -->
+                    <ModulesUserStorageQuotaNotice />
+
                     <!-- On the schedules pages this toolbar carries the date navigation, so it pins
                          beneath the navbar - otherwise you have to scroll back to the top of a long
                          employee grid just to step one week forward. The negative margins absorb

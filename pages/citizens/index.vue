@@ -382,10 +382,6 @@
                                     </td>
                                     <td width="20%">
                                         <p v-if="citizen?.email">{{ citizen?.email }}</p>
-                                        <p v-else class="text-primary hover:text-primary-hover cursor-pointer"
-                                            @click="state.modal.isShowPurchaseEmail = true">
-                                            {{ $t('citizens.purchaseEmail.purchaseEmail') }}
-                                        </p>
                                     </td>
                                     <td width="15%">
                                         <span>{{ citizen?.social_security_number }}</span>
@@ -465,8 +461,6 @@
                 @close="state.modal.isImportCitizensOpen = false" />
             <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.isImportMapperOpen"
                 @close="state.modal.isImportMapperOpen = false" @imported="fetchCitizens()" />
-            <ModulesUserCitizenModalPurchaseEmail :isModalOpen="state.modal.isShowPurchaseEmail"
-                @close="state.modal.isShowPurchaseEmail = false" />
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.isShowNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.isShowNote = false" />
             <ModulesUserCitizenJournalShareModalView :isModalOpen="state.modal.isSharedJournalsOpen"
@@ -552,7 +546,6 @@ const state = reactive({
         isImportMapperOpen: false,
         isSharedJournalsOpen: false,
         isShowNote: false,
-        isShowPurchaseEmail: false,
         isTimeInTypeModalOpen: false,
         isTransportLoginOpen: false,
         isTransportLogoutOpen: false,

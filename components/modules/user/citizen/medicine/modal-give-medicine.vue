@@ -23,6 +23,10 @@
                                     · {{ props.selectedMedicine?.dosage?.dk_name }}
                                 </span>
                             </p>
+                            <p v-if="props.selectedMedicine?.treatment_reason" class="text-xs text-blue-700 mt-1">
+                                <span class="font-medium">{{ $t('citizens.medicineJournals.form.treatmentReason') }}:</span>
+                                {{ props.selectedMedicine?.treatment_reason }}
+                            </p>
                         </div>
                     </div>
 

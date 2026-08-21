@@ -270,6 +270,12 @@
                         <Icon name="ph:plus" class="h-4 w-4" />
                         {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
                     </FormButton>
+                    <FormButton buttonStyle="secondary" class="rounded-md"
+                        @click="state.modal.isBatchDispenseOpen = true"
+                        v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
+                        <Icon name="ph:calendar-plus" class="h-4 w-4" />
+                        {{ $t('citizens.medicineJournals.history.batchDispense.button') }}
+                    </FormButton>
                 </div>
 
                 <!-- DAY VIEW -->
@@ -385,6 +391,12 @@
                                             <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                 :wrap="true" class="shrink-0">
                                                 <Icon name="ph:info"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            </Tooltip>
+                                            <Tooltip v-if="medicine?.treatment_reason"
+                                                :text="`${$t('citizens.medicineJournals.form.treatmentReason')}: ${medicine.treatment_reason}`"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:clipboard-text"
                                                     class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
                                         </div>
@@ -544,6 +556,12 @@
                                                 <Icon name="ph:info"
                                                     class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
+                                            <Tooltip v-if="medicine?.treatment_reason"
+                                                :text="`${$t('citizens.medicineJournals.form.treatmentReason')}: ${medicine.treatment_reason}`"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:clipboard-text"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            </Tooltip>
                                         </div>
                                         <p class="text-xs text-gray-500">
                                             {{ medicine?.medicine?.ingredients }}
@@ -700,6 +718,12 @@
                                                 <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                     :wrap="true" class="shrink-0">
                                                     <Icon name="ph:info"
+                                                        class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                </Tooltip>
+                                                <Tooltip v-if="medicine?.treatment_reason"
+                                                    :text="`${$t('citizens.medicineJournals.form.treatmentReason')}: ${medicine.treatment_reason}`"
+                                                    :wrap="true" class="shrink-0">
+                                                    <Icon name="ph:clipboard-text"
                                                         class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                 </Tooltip>
                                             </div>
@@ -889,6 +913,12 @@
                                                         <Icon name="ph:info"
                                                             class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                     </Tooltip>
+                                                    <Tooltip v-if="medicine?.treatment_reason"
+                                                        :text="`${$t('citizens.medicineJournals.form.treatmentReason')}: ${medicine.treatment_reason}`"
+                                                        :wrap="true" class="shrink-0">
+                                                        <Icon name="ph:clipboard-text"
+                                                            class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                    </Tooltip>
                                                 </div>
                                                 <p class="text-xs text-gray-400 truncate mt-0.5">
                                                     {{ medicine?.medicine?.ingredients }}
@@ -1062,6 +1092,11 @@
                     :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false"
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }"
                     @openNewPouring="openNewPouringFromGiveMultiple" />
+                <ModulesUserCitizenMedicineHistoryModalBatchDispense
+                    :isModalOpen="state.modal.isBatchDispenseOpen" :citizenUuid="citizenUuid"
+                    :medicines="allMedicines" @close="state.modal.isBatchDispenseOpen = false"
+                    @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }"
+                    @refreshMedicineHistories="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false"
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
@@ -1210,6 +1245,7 @@ const state = reactive({
         isFilterMedicineOpen: false,
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
+        isBatchDispenseOpen: false,
         isGivePNMedicineOpen: false,
         isNewPouringOpen: false,
         isNewPlannedDeliveryOpen: false,

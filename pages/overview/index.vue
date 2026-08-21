@@ -475,11 +475,12 @@ const departmentStore = useDepartmentStore()
 // section so an empty header never shows.
 const showStatisticsSection = computed(() => {
     const f = overviewStore.getDailyOverviewFilter
+    const useOfForceEnabled = userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false
     return f.showCitizensAdmissionAndDischarged || f.showCitizensOrigin || f.showCitizensAddictions
         || f.showCitizensDiagnoses || f.showRiskAssessment || f.showGender
         || f.showStatusesScoreStatistics || f.showGoalsScoreStatistics || f.showIncidentStatistics
         || f.showMedicineDeviationStatistics || f.showJournalScoreStatistics || f.showSubgoalsScoreStatistics
-        || f.showUseOfForceStatistics
+        || (f.showUseOfForceStatistics && useOfForceEnabled)
 })
 const userStore = useUserStore() as any
 const handoverOpen = ref(false)

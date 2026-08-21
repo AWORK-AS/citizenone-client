@@ -108,7 +108,7 @@
                         </div>
 
                         <!-- Stats row -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                             <div class="bg-white rounded-xl border border-gray-200 p-4">
                                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Slutbrugere</p>
                                 <p class="text-2xl font-bold text-gray-900">
@@ -137,7 +137,10 @@
                                 <p class="text-2xl font-bold text-gray-900">{{ state.apps.length }}</p>
                                 <p class="text-xs text-gray-400 mt-0.5">moduler aktiveret</p>
                             </div>
+                            <SuperadminCompanyStorageStat :companyUuid="(companyUuid as string)" />
                         </div>
+
+                        <SuperadminCompanyStorageBreakdown :companyUuid="(companyUuid as string)" />
 
                         <!-- Details + apps row -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -217,8 +220,8 @@
                                     <p class="text-xs text-gray-500">Pris</p>
                                     <p class="font-semibold text-gray-900 mt-0.5">
                                         {{ ['monthly', 'custom_monthly'].includes(state.subscription?.data?.type)
-                                            ? formatAmount(state.subscription?.data?.deal?.monthly_price ?? 0)
-                                            : formatAmount(state.subscription?.data?.deal?.yearly_price ?? 0) }}
+                                            ? formatAmount(state.subscription?.data?.deal?.monthly_price ?? 0, 'DKK')
+                                            : formatAmount(state.subscription?.data?.deal?.yearly_price ?? 0, 'DKK') }}
                                         / {{ ['monthly', 'custom_monthly'].includes(state.subscription?.data?.type) ? 'md.' : 'år' }}
                                     </p>
                                 </div>

@@ -104,7 +104,9 @@
         "modules": {
             "vagtplan": "Vagtplan",
             "medicin": "Medicin",
-            "dokumentation": "Dokumentation (planer, status, dokumenter)"
+            "dokumentation": "Dokumentation (planer, status, dokumenter)",
+            "useOfForce": "Magtanvendelse",
+            "predefinedContent": "Foruddefineret notatindhold"
         },
         "groups": {
             "migration": "Migrering",
@@ -2447,6 +2449,35 @@
                         "type": "Type"
                     }
                 },
+                "batchDispense": {
+                    "button": "Registrer for periode",
+                    "modalTitle": "Registrer medicin for en periode",
+                    "form": {
+                        "description": "Registrer de valgte medicintyper som givet på hver dag, de er planlagt i den valgte periode.",
+                        "dateRangeLabel": "Periode",
+                        "typeLabel": "Type",
+                        "commentLabel": "Kommentar (valgfri, tilføjes til alle registreringer)",
+                        "pnExcludedNotice": "{n} PN-medicin (efter behov) er udelukket - registrering for periode gælder kun planlagt medicin.",
+                        "previewButton": "Forhåndsvis"
+                    },
+                    "confirm": {
+                        "title": "Bekræft registrering for periode",
+                        "willCreate": "{n} dosis/doser vil blive registreret som givet.",
+                        "willSkip": "{n} allerede registrerede dosis/doser springes over.",
+                        "noneToCreate": "Alle doser i denne periode er allerede registreret - der er intet at registrere.",
+                        "backButton": "Tilbage",
+                        "confirmButton": "Bekræft og registrer"
+                    },
+                    "result": {
+                        "title": "Registrering for periode gennemført",
+                        "summary": "{created} dosis/doser registreret, {skipped} sprunget over.",
+                        "undoButton": "Fortryd denne registrering"
+                    },
+                    "undo": {
+                        "confirmMessage": "Slet alle {n} registreringer fra denne handling og gendan lager?",
+                        "successMessage": "Registreringen er fortrudt."
+                    }
+                },
                 "giveAllMedicines": "Giv al medicin",
                 "giveMedicine": "Giv medicin",
                 "giveMedicineTo": "Giv medicin til {name}",
@@ -2931,10 +2962,6 @@
                 },
                 "vitals": "Vitale værdier"
             }
-        },
-        "purchaseEmail": {
-            "purchaseEmail": "Køb e-mail",
-            "youAreNowBeingRedirected": "Du bliver nu omdirigeret til en partner, hvor du kan købe en e-mail til borgeren"
         },
         "rooms": "Værelser",
         "sections": {
@@ -10079,7 +10106,14 @@
         "upgrade-info-1": "På denne side kan du opgradere din CitizenOne lagerplads. Vælg den pakke der passer til dit behov.",
         "upgrade-info-2": "Lagerplads i CitizenOne bruges til at gemme lokale dokumenter og filer. 1 GB svarer til cirka 5.000 filer.",
         "upgrade-info-3": "",
-        "upgradeOptions": "Opgradéringsmuligheder"
+        "upgradeOptions": "Opgradéringsmuligheder",
+        "notice": {
+            "warningTitle": "Lagerpladsen er næsten fuld",
+            "fullTitle": "Lagerpladsen er fuld",
+            "seeDetails": "Se lagerplads",
+            "warningBody": "{percent}% af jeres {quota} GB er brugt. Når pladsen er brugt op, kan der ikke uploades flere filer.",
+            "fullBody": "{percent}% af jeres {quota} GB er brugt. Nye filer kan ikke uploades, før I frigør plads eller opgraderer."
+        }
     },
     "submit": "Indsend",
     "subscription": {
@@ -10546,7 +10580,8 @@
                 "name": "Navn",
                 "phone": "Telefon",
                 "status": "Status",
-                "website": "Websted"
+                "website": "Websted",
+                "storage": "Lagerforbrug"
             },
             "tabs": {
                 "accounts": "Kontoer",
@@ -10617,6 +10652,29 @@
                 "undo": "Fortryd",
                 "undoneCount": "{count} rækker slettet",
                 "refresh": "Opdater"
+            },
+            "storage": {
+                "title": "Lagerplads",
+                "used": "{percent}% brugt",
+                "breakdownTitle": "Lagerforbrug",
+                "breakdownHint": "Hvad fylder kundens data",
+                "measuredAt": "målt {at}",
+                "recalculate": "Genberegn",
+                "empty": "Kunden bruger ikke lagerplads endnu",
+                "manualLimit": "Kvoten er sat manuelt til {limit} GB af en superadmin.",
+                "categories": {
+                    "citizen_files": "Borgerfiler",
+                    "journal_attachments": "Journalbilag",
+                    "news": "Nyheder",
+                    "assessments": "Vurderinger",
+                    "chat": "Beskeder",
+                    "incidents": "Hændelser",
+                    "employee_documents": "Medarbejderdokumenter",
+                    "procedures": "Procedurer",
+                    "tasks": "Opgaver",
+                    "company_files": "Virksomhedsfiler",
+                    "nursing_areas": "Plejeområder"
+                }
             }
         },
         "coupons": {
@@ -10689,8 +10747,13 @@
                 "table": {
                     "name": "Navn",
                     "storagePaid": "Betalt lager",
-                    "storageUsed": "Brugt lager"
-                }
+                    "storageUsed": "Brugt lager",
+                    "storageQuota": "Kvote",
+                    "usage": "Forbrug",
+                    "measuredAt": "Målt"
+                },
+                "seeAll": "Se alle",
+                "notMeasuredYet": "Ingen målinger endnu"
             },
             "dashboard": "Dashboard",
             "numberOfNonpayingCompanies": "Antal ikke-betalende virksomheder",
@@ -10721,7 +10784,36 @@
             "noCompaniesYet": "Ingen virksomheder endnu",
             "active": "Aktiv",
             "inactive": "Inaktiv",
-            "exclVat": "Ekskl. moms"
+            "exclVat": "Ekskl. moms",
+            "adoption": {
+                "usersOnlineNow": "Brugere lige nu",
+                "activeToday": "{count} aktive i dag",
+                "companiesActiveToday": "Aktive virksomheder i dag",
+                "activeThisWeek": "{count} denne uge",
+                "mrr": "MRR",
+                "arr": "ARR {amount}",
+                "churn": "Kundeafgang ({days} dage)",
+                "churnSub": "{churned} af {base} kunder",
+                "quietCustomers": "Kunder der er gået i stå",
+                "quietCustomersHint": "Længst siden nogen var logget ind. Start øverst.",
+                "everyoneActive": "Alle kunder har været aktive nyligt",
+                "lastActive": "Sidst aktiv {date}",
+                "neverActive": "Aldrig været aktiv · oprettet {date}",
+                "daysQuiet": "{days} dage",
+                "today": "I dag",
+                "never": "Aldrig",
+                "help": {
+                    "usersOnlineNow": "Brugere med aktivitet i systemet inden for de sidste 15 minutter. Måles på tidspunktet for deres seneste kald til systemet, ikke på login.",
+                    "companiesActiveToday": "Aktive virksomheder hvor mindst én bruger har været i systemet inden for det seneste døgn.",
+                    "mrr": "Månedlig tilbagevendende omsætning ekskl. moms: alle aktive løbende abonnementer hos aktive virksomheder, hvor årsaftaler tæller med en tolvtedel. Gratis- og engangsabonnementer tæller ikke med. ARR er MRR gange 12.",
+                    "churn": "Kunder der er lukket ned inden for de sidste 30 dage, ud af de kunder der kørte da perioden startede. Kun registrerede lukkedatoer tæller med; datoer der er skønnet bagudrettet på gamle kunder er skruet fra.",
+                    "quietCustomers": "Aktive kunder sorteret efter hvor længe der er gået siden nogen fra virksomheden sidst var i systemet. Kunder der aldrig har logget ind ligger øverst, da det typisk er en onboarding der aldrig kom i gang."
+                }
+            },
+            "tabs": {
+                "overview": "Overblik",
+                "report": "Rapport"
+            }
         },
         "invoiceDetails": {
             "billTo": "Faktureres til",
@@ -11129,7 +11221,8 @@
             "clientRoles": "Roller & Rettigheder",
             "cancellations": "Opsigelser",
             "storagePackages": "Lagerpakker",
-            "paymentFees": "Betalingsgebyrer"
+            "paymentFees": "Betalingsgebyrer",
+            "storageUsage": "Lagerforbrug"
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
@@ -11730,6 +11823,53 @@
             "uncharged": {
                 "title": "Afsluttede måneder der venter på at blive trukket",
                 "waiting": "venter {months} md."
+            }
+        },
+        "report": {
+            "title": "Rapport",
+            "subtitle": "Sådan har forretningen bevæget sig i den valgte periode.",
+            "from": "Fra",
+            "to": "Til",
+            "granularity": {
+                "day": "Dag",
+                "week": "Uge",
+                "month": "Måned",
+                "quarter": "Kvartal",
+                "year": "År"
+            },
+            "presets": {
+                "thisQuarter": "Dette kvartal",
+                "thisYear": "I år",
+                "lastTwelveMonths": "12 måneder",
+                "lastYear": "Sidste år"
+            },
+            "totals": {
+                "newCompanies": "Nye kunder",
+                "churnedCompanies": "Mistede kunder",
+                "netCompanies": "Netto",
+                "newUsers": "Nye brugere",
+                "revenue": "Faktureret"
+            },
+            "charts": {
+                "customers": "Kunder til og fra",
+                "customersHint": "Nye og mistede kunder pr. periode, med nettoændringen som linje.",
+                "revenue": "Faktureret omsætning",
+                "revenueHint": "Fakturalinjer ekskl. moms, efter fakturadato.",
+                "mrr": "MRR over tid",
+                "mrrHint": "Månedlig tilbagevendende omsætning, målt ved periodens sidste døgn.",
+                "mrrSince": "Målt dagligt siden {date}. Perioder før da står tomme.",
+                "mrrNotRecorded": "Måles dagligt fra og med i dag.",
+                "mrrEmpty": "MRR kan ikke regnes bagudrettet, fordi abonnementer kun kender deres nuværende tilstand. Målingen gemmes nu én gang i døgnet, så kurven bygger sig op herfra.",
+                "users": "Nye brugere",
+                "usersHint": "Brugere oprettet hos kunderne pr. periode."
+            },
+            "series": {
+                "newCompanies": "Nye kunder",
+                "churnedCompanies": "Mistede kunder",
+                "netCompanies": "Netto",
+                "revenue": "Faktureret",
+                "mrr": "MRR",
+                "newUsers": "Nye brugere"
             }
         }
     },
@@ -12988,7 +13128,19 @@
         "noNotes": "Ingen release notes endnu.",
         "noPendingNotes": "Intet afventer godkendelse.",
         "pendingReview": "Afventer godkendelse",
-        "allNotes": "Alle release notes"
+        "allNotes": "Alle release notes",
+        "approvalRequestSent": "Godkendelsesanmodning sendt til CTO {date}",
+        "approvalRequestNotSent": "Ingen godkendelsesanmodning sendt endnu",
+        "approvalRequestFailed": "Godkendelsesanmodningen kunne ikke sendes: {error}",
+        "remindApprover": "Send til CTO",
+        "image": "Billede",
+        "imageHint": "Ét skærmbillede der viser hvad der er nyt. PNG, JPG eller WebP, højst 4 MB.",
+        "removeImage": "Fjern billede",
+        "videoUrl": "Video (link)",
+        "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så optag aldrig en skærm med borgerdata.",
+        "showOnWebsite": "Vis også på citizenone.dk",
+        "showOnWebsiteHint": "Noten bliver synlig for kommende kunder på hjemmesiden, ikke kun for dem der bruger systemet.",
+        "onWebsite": "På hjemmesiden"
     },
     "customSidebarLinks": {
         "title": "Egne links",

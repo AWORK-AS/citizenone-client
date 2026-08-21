@@ -46,16 +46,11 @@ watch(() => userStore.getUser, (newValue: any) => {
             href: `${base}/medicine-journals`, routeNames: [rn('medicine-journals')],
         })
     }
-    if (can('Plans and goals')) {
+    if (can('Documents')) {
         tabs.push({
-            name: 'citizens.tabs.plansAndGoals', icon: 'ph:target', isTranslateName: true,
-            category: 'care', primary: true,
-            href: `${base}/plans-and-goals/all`,
-            routeNames: [
-                rn('plans-and-goals-all'),
-                rn('plans-and-goals-active'),
-                rn('plans-and-goals-archived'),
-            ],
+            name: 'citizens.tabs.documents', icon: 'ph:files', isTranslateName: true,
+            category: 'documentation', primary: true,
+            href: `${base}/documents`, routeNames: [rn('documents')],
         })
     }
     if (can('Health')) {
@@ -70,11 +65,16 @@ watch(() => userStore.getUser, (newValue: any) => {
             ],
         })
     }
-    if (can('Documents')) {
+    if (can('Plans and goals')) {
         tabs.push({
-            name: 'citizens.tabs.documents', icon: 'ph:files', isTranslateName: true,
-            category: 'documentation', primary: false,
-            href: `${base}/documents`, routeNames: [rn('documents')],
+            name: 'citizens.tabs.plansAndGoals', icon: 'ph:target', isTranslateName: true,
+            category: 'care', primary: false,
+            href: `${base}/plans-and-goals/all`,
+            routeNames: [
+                rn('plans-and-goals-all'),
+                rn('plans-and-goals-active'),
+                rn('plans-and-goals-archived'),
+            ],
         })
     }
     if (can('Attendance')) {
