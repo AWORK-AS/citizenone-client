@@ -455,6 +455,7 @@ const initials = (name: string) => (name || '?').split(' ').map((w: string) => w
 
 let accountsPage = 1
 let accountsSearchTimeout: any = null
+let isImpersonating = false
 
 onMounted(() => {
     fetchCompany()
@@ -465,6 +466,7 @@ onMounted(() => {
 })
 
 async function fetchCompany() {
+    if (isImpersonating) return
     state.error = {}
     state.isPageLoading = true
     try {
@@ -479,6 +481,7 @@ async function fetchCompany() {
 }
 
 async function fetchSubscription() {
+    if (isImpersonating) return
     state.error = {}
     state.isPageLoading = true
     try {
@@ -493,6 +496,7 @@ async function fetchSubscription() {
 }
 
 async function fetchLicensesCount() {
+    if (isImpersonating) return
     state.error = {}
     state.isPageLoading = true
     try {
@@ -507,6 +511,7 @@ async function fetchLicensesCount() {
 }
 
 async function fetchApps() {
+    if (isImpersonating) return
     state.error = {}
     state.isAppsLoading = true
     try {
@@ -524,6 +529,7 @@ async function fetchApps() {
 }
 
 function debouncedAccountsSearch() {
+    if (isImpersonating) return
     clearTimeout(accountsSearchTimeout)
     accountsSearchTimeout = setTimeout(() => {
         accountsPage = 1
@@ -540,6 +546,7 @@ function debouncedAccountsSearch() {
 }
 
 async function fetchAccounts() {
+    if (isImpersonating) return
     state.error = {}
     state.isAccountsLoading = true
     try {
@@ -591,17 +598,35 @@ async function toggleActive() {
     state.isPageLoading = false
 }
 
+function beginImpersonation() {
+    isImpersonating = true
+    clearTimeout(accountsSearchTimeout)
+}
+
+function recoverFromFailedImpersonation() {
+    isImpersonating = false
+    const originalToken = localStorage.getItem('_original_token')
+    if (originalToken) {
+        localStorage.setItem('_token', originalToken)
+        localStorage.removeItem('_original_token')
+    }
+}
+
 async function impersonateAccount(account: any) {
     state.error = {}
     state.isPageLoading = true
+    beginImpersonation()
     try {
         const response = await accountService.impersonateAccount(account.uuid)
         if (response?.impersonation_token) {
             localStorage.setItem('_original_token', localStorage.getItem('_token') ?? '')
             localStorage.setItem('_token', response.impersonation_token)
             navigateTo('/overview')
+        } else {
+            isImpersonating = false
         }
     } catch (error: any) {
+        recoverFromFailedImpersonation()
         state.error = error
     }
     state.isPageLoading = false
@@ -610,14 +635,18 @@ async function impersonateAccount(account: any) {
 async function impersonateCompany() {
     state.error = {}
     state.isPageLoading = true
+    beginImpersonation()
     try {
         const response = await companyService.impersonateCompany(companyUuid)
         if (response?.impersonation_token) {
             localStorage.setItem('_original_token', localStorage.getItem('_token') ?? '')
             localStorage.setItem('_token', response.impersonation_token)
             navigateTo('/overview')
+        } else {
+            isImpersonating = false
         }
     } catch (error: any) {
+        recoverFromFailedImpersonation()
         state.error = error
     }
     state.isPageLoading = false
