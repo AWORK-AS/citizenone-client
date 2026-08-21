@@ -335,9 +335,9 @@ async function fetchApps() {
 async function impersonateCompany() {
     try {
         const response = await companyService.impersonateCompany(companyUuid)
-        if (response?.data?.token) {
+        if (response?.impersonation_token) {
             const appUrl = runtimeConfig.public.appUserUrl || '/'
-            window.open(`${appUrl}?impersonate_token=${response.data.token}`, '_blank')
+            window.open(`${appUrl}?impersonate_token=${response.impersonation_token}`, '_blank')
         }
     } catch (_) {
         window.open(`/?company=${companyUuid}`, '_blank')
