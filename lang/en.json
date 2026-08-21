@@ -13495,5 +13495,49 @@
             "revenue": "Revenue",
             "billing": "Billing extraction"
         }
+    },
+    "socialWelfare": {
+        "billing": {
+            "fromDate": "From date",
+            "toDate": "To date",
+            "generate": "Generate",
+            "convert": "Convert to invoice",
+            "convertAll": "Convert all",
+            "exportCsv": "Export CSV",
+            "selectPeriod": "Pick a period and press Generate.",
+            "noData": "No hours registered in the period.",
+            "citizen": "Citizen",
+            "citizens": "citizens",
+            "section": "Paragraph",
+            "usedHours": "Hours used",
+            "allocatedHours": "Hours allocated",
+            "rate": "Hourly rate",
+            "contractPrice": "Contract price",
+            "amount": "Amount",
+            "municipality": "Paying municipality",
+            "noMunicipality": "No paying municipality",
+            "invoiced": "Invoiced",
+            "notInvoiced": "Not invoiced",
+            "alreadyInvoicedHours": "{hours} hours already invoiced",
+            "totalForPeriod": "Total for the period",
+            "noteFor": "Billing for",
+            "hoursFor": "hours for",
+            "alert": {
+                "converted": "{count} invoice(s) created and waiting in Invoices."
+            },
+            "stay": "Stay",
+            "stayWithoutNumber": "Stay without journal no.",
+            "outsideStay": "Outside any stay",
+            "period": "Period",
+            "showRegistrations": "Show hour registrations",
+            "loadingRegistrations": "Loading registrations...",
+            "noRegistrations": "No registrations on this row.",
+            "date": "Date",
+            "time": "Time",
+            "hours": "Hours",
+            "employee": "Employee",
+            "note": "Note",
+            "fromDutySchedule": "from duty schedule"
+        }
     }
 }
