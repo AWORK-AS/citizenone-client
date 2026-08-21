@@ -928,15 +928,6 @@ function generateSidebarLinks(user: any) {
             activeRouteNames: ['dental-recalls'],
         })
     }
-    // The module is switched on per company from the app store.
-    if (user?.has_invoice_app) {
-        nav.push({
-            name: 'Invoicing',
-            href: '/invoicing',
-            icon: 'ph:receipt',
-            activeRouteNames: ['invoicing', 'settings-services'],
-        })
-    }
     nav.push({
         name: 'Citizens',
         href: '/citizens',
@@ -1093,6 +1084,20 @@ function generateSidebarLinks(user: any) {
             icon: 'ph:chart-line-up',
             group: 'organisation',
             activeRouteNames: ['economy', 'management-economy', 'reports-employment-revenue', 'billing-employment'],
+        })
+    }
+
+    // Invoicing sits with Economy rather than in daily work. It is money, it is the
+    // same people, and it was landing above Citizens in the daily group only because
+    // it carried no group at all. The module is switched on per company from the app
+    // store.
+    if (user?.has_invoice_app) {
+        nav.push({
+            name: 'Invoicing',
+            href: '/invoicing',
+            icon: 'ph:receipt',
+            group: 'organisation',
+            activeRouteNames: ['invoicing', 'settings-services'],
         })
     }
 
