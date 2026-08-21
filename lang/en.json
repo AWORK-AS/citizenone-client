@@ -1826,6 +1826,18 @@
         "editCitizenForm": "Edit citizen form",
         "editMedicineForm": "Edit medication form",
         "emails": {
+            "bodyInOriginal": "The text could not be shown here. Open the original to read the mail.",
+            "filters": {
+                "dateFrom": "From date",
+                "dateTo": "To date",
+                "perPage": "Per page",
+                "reset": "Clear",
+                "search": "Search",
+                "searchPlaceholder": "Subject or sender"
+            },
+            "migrated": "Imported",
+            "noBody": "This email has no text.",
+            "openOriginal": "Open the original",
             "attachments": "Attachments",
             "confirmation": {
                 "untagConfirmation": "Are you sure you want to remove this email from the citizen's profile"

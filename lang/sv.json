@@ -1826,6 +1826,18 @@
         "editCitizenForm": "Redigera borgerformular",
         "editMedicineForm": "Redigera medicinformulär",
         "emails": {
+            "bodyInOriginal": "Texten kunde inte visas här. Öppna originalet för att läsa mejlet.",
+            "filters": {
+                "dateFrom": "Från datum",
+                "dateTo": "Till datum",
+                "perPage": "Per sida",
+                "reset": "Rensa",
+                "search": "Sök",
+                "searchPlaceholder": "Ämne eller avsändare"
+            },
+            "migrated": "Importerad",
+            "noBody": "Det här mejlet har ingen text.",
+            "openOriginal": "Öppna originalet",
             "attachments": "Bilagor",
             "confirmation": {
                 "untagConfirmation": "Är du säker på att du vill ta bort detta e-postmeddelande från klientens profil"

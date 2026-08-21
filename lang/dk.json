@@ -1826,6 +1826,18 @@
         "editCitizenForm": "Rediger borgerformular",
         "editMedicineForm": "Rediger medicinformular",
         "emails": {
+            "bodyInOriginal": "Teksten kunne ikke vises her. Åbn originalen for at læse mailen.",
+            "filters": {
+                "dateFrom": "Fra dato",
+                "dateTo": "Til dato",
+                "perPage": "Pr. side",
+                "reset": "Ryd",
+                "search": "Søg",
+                "searchPlaceholder": "Emne eller afsender"
+            },
+            "migrated": "Importeret",
+            "noBody": "Denne e-mail har ingen tekst.",
+            "openOriginal": "Åbn originalen",
             "attachments": "Vedhæftede filer",
             "confirmation": {
                 "untagConfirmation": "Er du sikker på, at du vil fjerne denne e-mail fra borgerens profil"

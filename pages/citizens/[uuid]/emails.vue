@@ -35,6 +35,45 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+
+                    <div class="flex flex-wrap items-end gap-3">
+                        <div class="grow min-w-64">
+                            <label class="block text-xs text-gray-500 mb-1" for="email-search">
+                                {{ $t('citizens.emails.filters.search') }}
+                            </label>
+                            <input id="email-search" v-model="state.filters.search" type="search"
+                                :placeholder="$t('citizens.emails.filters.searchPlaceholder')"
+                                class="w-full rounded-md border border-gray-200 px-3 py-2 text-sm" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1" for="email-from">
+                                {{ $t('citizens.emails.filters.dateFrom') }}
+                            </label>
+                            <input id="email-from" v-model="state.filters.dateFrom" type="date"
+                                class="rounded-md border border-gray-200 px-3 py-2 text-sm" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1" for="email-to">
+                                {{ $t('citizens.emails.filters.dateTo') }}
+                            </label>
+                            <input id="email-to" v-model="state.filters.dateTo" type="date"
+                                class="rounded-md border border-gray-200 px-3 py-2 text-sm" />
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1" for="email-per-page">
+                                {{ $t('citizens.emails.filters.perPage') }}
+                            </label>
+                            <select id="email-per-page" v-model.number="state.filters.perPage"
+                                class="rounded-md border border-gray-200 px-3 py-2 text-sm">
+                                <option v-for="size in [10, 25, 50, 100]" :key="size" :value="size">{{ size }}</option>
+                            </select>
+                        </div>
+                        <button v-if="hasFilters" type="button" @click="resetFilters"
+                            class="px-3 py-2 text-sm text-gray-500 underline hover:text-gray-700">
+                            {{ $t('citizens.emails.filters.reset') }}
+                        </button>
+                    </div>
+
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.emails"
                             :isLoading="state.isTableLoading" :sortData="state.sortData"
@@ -43,7 +82,11 @@
                                 <template v-for="(email, index) in state.emails?.data" :key="index">
                                     <tr class="cursor-pointer hover:bg-gray-50" @click="toggleExpanded(email.uuid)">
                                         <td width="30%">
-                                            <span class="truncate font-medium">{{ email?.subject || '—' }}</span>
+                                            <span class="truncate font-medium">{{ email?.subject || '-' }}</span>
+                                            <span v-if="email?.is_migrated"
+                                                class="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-xxs text-gray-600 align-middle">
+                                                {{ $t('citizens.emails.migrated') }}
+                                            </span>
                                         </td>
                                         <td width="20%">
                                             <span class="truncate">{{ email?.from_name || email?.from_email || '—' }}</span>
@@ -74,7 +117,23 @@
                                     <tr v-if="state.expandedUuid === email.uuid">
                                         <td colspan="5" class="bg-gray-50">
                                             <div class="p-4 space-y-3">
-                                                <div v-safe-html="email.body_html" class="prose max-w-none text-sm"></div>
+                                                <div v-if="email.body_html" v-safe-html="email.body_html"
+                                                    class="prose max-w-none text-sm"></div>
+                                                <!-- Outlook mails whose body is compressed RTF, and mails too large to
+                                                     read whole, arrive without text. An empty grey box reads as broken,
+                                                     so say where the text is. -->
+                                                <p v-else class="text-sm italic text-gray-500">
+                                                    {{ email?.source_document
+                                                        ? $t('citizens.emails.bodyInOriginal')
+                                                        : $t('citizens.emails.noBody') }}
+                                                </p>
+                                                <button v-if="email?.source_document?.has_file" type="button"
+                                                    @click="downloadOriginal(email.source_document)"
+                                                    class="text-tertiary hover:underline text-sm flex items-center gap-x-1">
+                                                    <Icon name="ph:file-arrow-down" class="size-4" />
+                                                    {{ $t('citizens.emails.openOriginal') }}
+                                                    <span class="text-gray-500">({{ email.source_document.name }})</span>
+                                                </button>
                                                 <div v-if="email.attachments?.length" class="space-y-1">
                                                     <p class="text-xs font-semibold text-gray-500">
                                                         {{ $t('citizens.emails.attachments') }}
@@ -93,7 +152,7 @@
                             </template>
                         </Table>
                     </div>
-                    <Pagination :data="state.emails" @previous="previous" @next="next" />
+                    <Pagination :data="state.emails" showPages @previous="previous" @next="next" @page="goToPage" />
                 </div>
 
                 <DialogConfirmation :isModalOpen="state.modal.isUntagOpen"
@@ -106,7 +165,9 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { saveAs } from 'file-saver'
 import { citizenEmailService } from '@/components/api/user/CitizenEmailService'
+import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -134,8 +195,8 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
-        { name: 'citizens.emails.table.subject', isTranslateName: true },
-        { name: 'citizens.emails.table.from', isTranslateName: true },
+        { name: 'citizens.emails.table.subject', isTranslateName: true, sorter: true, key: 'subject' },
+        { name: 'citizens.emails.table.from', isTranslateName: true, sorter: true, key: 'from_name' },
         { name: 'citizens.emails.table.date', isTranslateName: true, sorter: true, key: 'email_date' },
         { name: 'citizens.emails.table.visibleTo', isTranslateName: true },
         { name: '' },
@@ -147,11 +208,36 @@ const state = reactive({
     modal: {
         isUntagOpen: false,
     },
+    filters: {
+        search: '',
+        dateFrom: '',
+        dateTo: '',
+        perPage: 10,
+    },
     sortData: {
         sortField: 'email_date',
         sortOrder: 'descend',
     },
 })
+
+const hasFilters = computed(() =>
+    state.filters.search !== '' || state.filters.dateFrom !== '' || state.filters.dateTo !== '')
+
+// Typing should not fire a request per keystroke against a table this size. One
+// watcher for every filter, so clearing them all is a single reload rather than one
+// per field.
+let filterTimer: ReturnType<typeof setTimeout> | undefined
+
+watch(() => ({ ...state.filters }), () => {
+    clearTimeout(filterTimer)
+    filterTimer = setTimeout(() => {
+        currentTablePage = 1
+        state.expandedUuid = null
+        fetchEmails()
+    }, 350)
+})
+
+onBeforeUnmount(() => clearTimeout(filterTimer))
 
 onMounted(() => {
     fetchEmails()
@@ -161,12 +247,17 @@ async function fetchEmails() {
     state.error = {}
     state.isTableLoading = true
     try {
-        const params = {
+        const params: Record<string, string | number> = {
             citizen_uuid: citizenUuid,
             page: currentTablePage,
+            per_page: state.filters.perPage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
         }
+        // Empty strings are not a filter, and the backend rejects an empty date.
+        if (state.filters.search !== '') params.search = state.filters.search
+        if (state.filters.dateFrom !== '') params.date_from = state.filters.dateFrom
+        if (state.filters.dateTo !== '') params.date_to = state.filters.dateTo
         const response = await citizenEmailService.getCitizenEmails(params)
         if (response) {
             state.emails = response
@@ -189,6 +280,36 @@ function previous() {
 function next() {
     currentTablePage++
     fetchEmails()
+}
+
+function goToPage(page: number) {
+    currentTablePage = page
+    state.expandedUuid = null
+    fetchEmails()
+}
+
+/**
+ * The attachments of a migrated mail were never copied out of the original file, and
+ * for some of them the body is in there too. Fetched through the authenticated
+ * endpoint, the same way the Documents tab does it, rather than a bare file URL.
+ */
+async function downloadOriginal(document: any) {
+    state.error = {}
+    try {
+        const response = await citizenDocumentService.downloadCitizenFile(document?.uuid)
+        if (response) {
+            saveAs(response, document?.name)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+/** The watcher above reloads once, so this only clears. */
+function resetFilters() {
+    state.filters.search = ''
+    state.filters.dateFrom = ''
+    state.filters.dateTo = ''
 }
 
 function sort(sortingData: any) {
