@@ -1202,6 +1202,7 @@ const state = reactive({
 let clockInterval: any
 
 onMounted(() => {
+    citizenMedicineStore.resetFilterByActiveInactiveDeactivated()
     citizenMedicineStore.setFilterMedicationType('all')
     fetchCitizenMedicines()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
