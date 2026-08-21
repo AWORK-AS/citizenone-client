@@ -37,6 +37,10 @@ class PlanService extends BaseAPIService {
         return await this.request(`/user/citizen-plans/download/reports`, 'GET', params)
     }
 
+    async downloadBulkPlansAndGoals(citizenUuids: string[] = []): Promise<Blob | null> {
+        return await this.requestBlob(`/user/citizen-plans/download/bulk`, 'POST', { citizen_uuids: citizenUuids })
+    }
+
     async getAllPlans(citizenUuid: any): Promise<any> {
         return await this.request(`/user/citizen-plans/${citizenUuid}/all/list`, 'GET')
     }

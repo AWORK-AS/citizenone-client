@@ -10049,7 +10049,8 @@
         "forms": "Skjemaer",
         "dentalRecalls": "Innkallinger",
         "dentalOverview": "Klinikkoversikt",
-        "invoicing": "Fakturering"
+        "invoicing": "Fakturering",
+        "plansAndGoalsExport": "Eksport av planer og mål"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -13424,5 +13425,20 @@
             "revenue": "Omsetning",
             "billing": "Faktureringsuttrekk"
         }
+    },
+    "plansAndGoalsExport": {
+        "title": "Eksport av planer og mål",
+        "description": "Last ned planer, mål og delmål som en zip-fil med PDF-rapporter for mange innbyggere samtidig. La utvalget stå tomt for å eksportere hele selskapet.",
+        "selectedCount": "{count} innbygger(e) valgt",
+        "noneSelectedHint": "Ingen innbyggere valgt - hele selskapet eksporteres",
+        "clearSelection": "Fjern utvalg",
+        "download": "Last ned",
+        "downloading": "Forbereder nedlasting...",
+        "table": {
+            "name": "Navn",
+            "departments": "Avdelinger"
+        },
+        "noPlansFound": "Det ble ikke funnet noen planer, mål eller delmål for de valgte innbyggerne.",
+        "noPermission": "Du har ikke rettigheter til å eksportere planer og mål i bulk."
     }
 }
