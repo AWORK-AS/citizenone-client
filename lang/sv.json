@@ -1,4 +1,18 @@
 {
+    "compensatoryPayoutsReport": {
+        "export": "Exportera",
+        "filters": {
+            "dateEnd": "Datum till",
+            "dateStart": "Datum från"
+        },
+        "table": {
+            "account": "Tidkonto",
+            "amount": "Utbetalda timmar",
+            "date": "Datum",
+            "employee": "Anställd"
+        },
+        "title": "Utbetalningar av kompensationstid"
+    },
     "inquiryPipeline": {
         "board": "Förfrågningspipeline",
         "enableLabel": "Förfrågningspipeline (kanban)",
@@ -90,7 +104,9 @@
         "modules": {
             "vagtplan": "Schema",
             "medicin": "Medicin",
-            "dokumentation": "Dokumentation (planer, status, dokument)"
+            "dokumentation": "Dokumentation (planer, status, dokument)",
+            "useOfForce": "Våldsanvändning",
+            "predefinedContent": "Fördefinierat anteckningsinnehåll"
         },
         "groups": {
             "migration": "Migrering",
@@ -2445,6 +2461,35 @@
                         "type": "Typ"
                     }
                 },
+                "batchDispense": {
+                    "button": "Registrera för period",
+                    "modalTitle": "Registrera medicin för en period",
+                    "form": {
+                        "description": "Registrera de valda läkemedlen som givna varje dag de är planerade under den valda perioden.",
+                        "dateRangeLabel": "Period",
+                        "typeLabel": "Typ",
+                        "commentLabel": "Kommentar (valfritt, läggs till på alla registreringar)",
+                        "pnExcludedNotice": "{n} PN-läkemedel (vid behov) är exkluderade - registrering för period gäller endast schemalagd medicin.",
+                        "previewButton": "Förhandsgranska"
+                    },
+                    "confirm": {
+                        "title": "Bekräfta registrering för period",
+                        "willCreate": "{n} dos(er) kommer att registreras som given.",
+                        "willSkip": "{n} redan registrerad(e) dos(er) hoppas över.",
+                        "noneToCreate": "Alla doser i denna period är redan registrerade - det finns inget att registrera.",
+                        "backButton": "Tillbaka",
+                        "confirmButton": "Bekräfta och registrera"
+                    },
+                    "result": {
+                        "title": "Registrering för period slutförd",
+                        "summary": "{created} dos(er) registrerade, {skipped} överhoppade.",
+                        "undoButton": "Ångra denna registrering"
+                    },
+                    "undo": {
+                        "confirmMessage": "Ta bort alla {n} registreringar från denna åtgärd och återställ lager?",
+                        "successMessage": "Registreringen har ångrats."
+                    }
+                },
                 "giveAllMedicines": "Giv al medicin",
                 "giveMedicine": "Giv medicin",
                 "giveMedicineTo": "Ge medicin till {name}",
@@ -2543,7 +2588,11 @@
             },
             "newMedicine": "Ny medicin",
             "newPouring": "Ny dosering",
+            "newPlannedDelivery": "Planerad leverans",
             "givenViaPouringContainer": "Givet via doseringsbehållaren",
+            "deliveredViaPlannedDelivery": "Levererat via planerad leverans",
+            "createdOn": "Skapad",
+            "nextAdministrationDate": "Nästa dosering",
             "pouring": {
                 "activeIngredient": "Aktiv substans",
                 "amount": "Mängd uppmätt",
@@ -2557,6 +2606,19 @@
                 "periodStart": "Period start",
                 "alert": {
                     "successfullyAdded": "Dosering skapad"
+                }
+            },
+            "plannedDelivery": {
+                "activeIngredient": "Aktiv substans",
+                "amount": "Mängd levererad",
+                "amountExceedsStock": "Mängden får inte överstiga det aktuella huvudlagret",
+                "currentMainStock": "Aktuellt huvudlager",
+                "label": "Planerad leverans",
+                "periodEnd": "Period slut",
+                "periodEndBeforeStart": "Slutdatumet måste vara samma dag som eller efter startdatumet",
+                "periodStart": "Period start",
+                "alert": {
+                    "successfullyAdded": "Planerad leverans skapad"
                 }
             },
             "page": {
@@ -4592,6 +4654,20 @@
             "info1": "Medarbejderens individuelle årlige norm anvendes alltid.",
             "info2": "Om den anställde är startet i löbet av året, beregnes den årlige norm forholdsmässigt ut från ansättelsesdatoen.",
             "info3": "Afspadserings- och ferietimer beregnes ut från denna årlige norm.",
+            "payout": {
+                "account": "Tidkonto",
+                "accountRequired": "Välj ett tidkonto",
+                "alert": {
+                    "registerSuccess": "Utbetalning registrerad"
+                },
+                "amount": "Timmar att betala ut",
+                "amountRequired": "Ange ett antal timmar större än 0",
+                "button": "Registrera utbetalning",
+                "confirmation": "Är du säker på att du vill registrera en utbetalning av {amount} timmar till {employee}?",
+                "noAccountAssigned": "Denna anställd har inget aktivt tidkonto att registrera en utbetalning mot.",
+                "register": "Registrera utbetalning",
+                "title": "Registrera utbetalning"
+            },
             "period": {
                 "balance": "Plus/minus i perioden",
                 "basisWorkdays": "{days} av {total} arbetsdagar",
@@ -6766,6 +6842,10 @@
         "editForm": "Redigeringsformular",
         "entityType": "Entitetstype",
         "fieldVisibility": "Feltsynlighed",
+        "statusTypes": {
+            "title": "Läkemedelsstatustyper",
+            "description": "Välj vilka statusar personalen kan välja när de registrerar en dos. \"Given\" förblir alltid aktiverad."
+        },
         "fields": {
             "addictions": "Afhängigheder",
             "allocatedHours": "Tilldelade timmar",
@@ -10008,7 +10088,8 @@
         "forms": "Formulär",
         "dentalRecalls": "Kallelser",
         "dentalOverview": "Kliniköversikt",
-        "invoicing": "Fakturering"
+        "invoicing": "Fakturering",
+        "plansAndGoalsExport": "Export av planer och mål"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -11946,6 +12027,7 @@
         "newTemplateAgreement": "Ny skabelonaftale",
         "newTimeAccount": "Ny timekonto",
         "newTimeAccounts": "Ny timekonto",
+        "payoutReport": "Utbetalningsrapport",
         "table": {
             "actions": {
                 "assign": "Tilldela",
@@ -13507,6 +13589,21 @@
             "revenue": "Omsättning",
             "billing": "Faktureringsunderlag"
         }
+    },
+    "plansAndGoalsExport": {
+        "title": "Export av planer och mål",
+        "description": "Ladda ner planer, mål och delmål som en zip-fil med PDF-rapporter för många medborgare samtidigt. Lämna urvalet tomt för att exportera hela företaget.",
+        "selectedCount": "{count} medborgare valda",
+        "noneSelectedHint": "Inga medborgare valda - hela företaget exporteras",
+        "clearSelection": "Rensa urval",
+        "download": "Ladda ner",
+        "downloading": "Förbereder nedladdning...",
+        "table": {
+            "name": "Namn",
+            "departments": "Avdelningar"
+        },
+        "noPlansFound": "Inga planer, mål eller delmål hittades för de valda medborgarna.",
+        "noPermission": "Du har inte behörighet att exportera planer och mål i bulk."
     },
     "socialWelfare": {
         "billing": {

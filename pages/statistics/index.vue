@@ -76,7 +76,7 @@
                     overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
                     overviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
                     overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
+                    (overviewStore.getDailyOverviewFilter.showUseOfForceStatistics && userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false)">
                     <div v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
                         <ModulesUserDailyOverviewStatusesScoreStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
@@ -96,7 +96,7 @@
                     <div v-if="overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
                         <ModulesUserDailyOverviewSubgoalsScoreStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics">
+                    <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics && userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false">
                         <ModulesUserDailyOverviewUseOfForceStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
                 </div>

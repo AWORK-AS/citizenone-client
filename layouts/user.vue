@@ -810,6 +810,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Procedures') return t('sidebar.procedures') || 'Procedurer'
     if (item.name === 'Protocols') return t('sidebar.protocols')
     if (item.name === 'Reports') return t('sidebar.reports')
+    if (item.name === 'Plans And Goals Export') return t('sidebar.plansAndGoalsExport')
     if (item.name === 'Report Templates') return t('sidebar.reportTemplates')
     if (item.name === 'Documents') return t('sidebar.documents')
     if (item.name === 'Mail') return t('sidebar.mail')
@@ -1056,6 +1057,16 @@ function generateSidebarLinks(user: any) {
     // palette is built from the sidebar, so search could not find them either.
     // Shown only to whoever may actually manage them - everyone else reaches a
     // template through "Create report" on the citizen and never needs the page.
+    if (isAtLeast('Admin') || can('save_and_download_citizen_plan')) {
+        nav.push({
+            name: 'Plans And Goals Export',
+            href: '/reports/plans-and-goals-export',
+            icon: 'ph:download-simple',
+            group: 'documentation',
+            activeRouteNames: ['reports-plans-and-goals-export'],
+        })
+    }
+
     if (isAtLeast('Admin') || can('manage_status_reports')) {
         nav.push({
             name: 'Forms',

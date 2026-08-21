@@ -28,5 +28,13 @@ class TimeAccountService extends BaseAPIService {
     async unassignTargets(timeAccountUuid: any, params: any): Promise<any> {
         return await this.request(`/user/time-accounts/${timeAccountUuid}/unassign-targets`, 'POST', params);
     }
+
+    async registerPayout(timeAccountUuid: any, params: any): Promise<any> {
+        return await this.request(`/user/time-accounts/${timeAccountUuid}/payout`, 'POST', params);
+    }
+
+    async getAssignedAccounts(userUuid: any): Promise<any> {
+        return await this.request(`/user/time-accounts/assigned-to/${userUuid}`, 'GET');
+    }
 }
 export const timeAccountService = new TimeAccountService();

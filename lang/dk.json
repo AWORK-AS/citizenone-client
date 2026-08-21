@@ -1,4 +1,18 @@
 {
+    "compensatoryPayoutsReport": {
+        "export": "Eksporter",
+        "filters": {
+            "dateEnd": "Dato til",
+            "dateStart": "Dato fra"
+        },
+        "table": {
+            "account": "Tidskonto",
+            "amount": "Udbetalte timer",
+            "date": "Dato",
+            "employee": "Medarbejder"
+        },
+        "title": "Udbetalinger af afspadsering"
+    },
     "inquiryPipeline": {
         "board": "Henvendelses-pipeline",
         "enableLabel": "Henvendelses-pipeline (kanban)",
@@ -90,7 +104,9 @@
         "modules": {
             "vagtplan": "Vagtplan",
             "medicin": "Medicin",
-            "dokumentation": "Dokumentation (planer, status, dokumenter)"
+            "dokumentation": "Dokumentation (planer, status, dokumenter)",
+            "useOfForce": "Magtanvendelse",
+            "predefinedContent": "Foruddefineret notatindhold"
         },
         "groups": {
             "migration": "Migrering",
@@ -2445,6 +2461,35 @@
                         "type": "Type"
                     }
                 },
+                "batchDispense": {
+                    "button": "Registrer for periode",
+                    "modalTitle": "Registrer medicin for en periode",
+                    "form": {
+                        "description": "Registrer de valgte medicintyper som givet på hver dag, de er planlagt i den valgte periode.",
+                        "dateRangeLabel": "Periode",
+                        "typeLabel": "Type",
+                        "commentLabel": "Kommentar (valgfri, tilføjes til alle registreringer)",
+                        "pnExcludedNotice": "{n} PN-medicin (efter behov) er udelukket - registrering for periode gælder kun planlagt medicin.",
+                        "previewButton": "Forhåndsvis"
+                    },
+                    "confirm": {
+                        "title": "Bekræft registrering for periode",
+                        "willCreate": "{n} dosis/doser vil blive registreret som givet.",
+                        "willSkip": "{n} allerede registrerede dosis/doser springes over.",
+                        "noneToCreate": "Alle doser i denne periode er allerede registreret - der er intet at registrere.",
+                        "backButton": "Tilbage",
+                        "confirmButton": "Bekræft og registrer"
+                    },
+                    "result": {
+                        "title": "Registrering for periode gennemført",
+                        "summary": "{created} dosis/doser registreret, {skipped} sprunget over.",
+                        "undoButton": "Fortryd denne registrering"
+                    },
+                    "undo": {
+                        "confirmMessage": "Slet alle {n} registreringer fra denne handling og gendan lager?",
+                        "successMessage": "Registreringen er fortrudt."
+                    }
+                },
                 "giveAllMedicines": "Giv al medicin",
                 "giveMedicine": "Giv medicin",
                 "giveMedicineTo": "Giv medicin til {name}",
@@ -2543,7 +2588,11 @@
             },
             "newMedicine": "Ny medicin",
             "newPouring": "Ny dosering",
+            "newPlannedDelivery": "Planlagt udlevering",
             "givenViaPouringContainer": "Givet via doseringsæsken",
+            "deliveredViaPlannedDelivery": "Udleveret via planlagt udlevering",
+            "createdOn": "Oprettet",
+            "nextAdministrationDate": "Næste dosering",
             "pouring": {
                 "activeIngredient": "Aktivt stof",
                 "amount": "Mængde doseret",
@@ -2557,6 +2606,19 @@
                 "periodStart": "Periode start",
                 "alert": {
                     "successfullyAdded": "Dosering oprettet"
+                }
+            },
+            "plannedDelivery": {
+                "activeIngredient": "Aktivt stof",
+                "amount": "Mængde udleveret",
+                "amountExceedsStock": "Mængden må ikke overstige den aktuelle hovedbeholdning",
+                "currentMainStock": "Aktuel hovedbeholdning",
+                "label": "Planlagt udlevering",
+                "periodEnd": "Periode slut",
+                "periodEndBeforeStart": "Periodens slutdato skal være samme dag som eller efter startdatoen",
+                "periodStart": "Periode start",
+                "alert": {
+                    "successfullyAdded": "Planlagt udlevering oprettet"
                 }
             },
             "page": {
@@ -4592,6 +4654,20 @@
             "info1": "Medarbejderens individuelle årlige norm anvendes altid.",
             "info2": "Hvis medarbejderen er startet i løbet af året, beregnes den årlige norm forholdsmæssigt ud fra ansættelsesdatoen.",
             "info3": "Afspadserings- og ferietimer beregnes ud fra denne årlige norm.",
+            "payout": {
+                "account": "Tidskonto",
+                "accountRequired": "Vælg en tidskonto",
+                "alert": {
+                    "registerSuccess": "Udbetaling registreret"
+                },
+                "amount": "Timer der udbetales",
+                "amountRequired": "Angiv et antal timer større end 0",
+                "button": "Registrer udbetaling",
+                "confirmation": "Er du sikker på, at du vil registrere en udbetaling af {amount} timer til {employee}?",
+                "noAccountAssigned": "Denne medarbejder har ingen aktiv tidskonto at registrere en udbetaling på.",
+                "register": "Registrer udbetaling",
+                "title": "Registrer udbetaling"
+            },
             "period": {
                 "balance": "Plus/minus i perioden",
                 "basisWorkdays": "{days} af {total} arbejdsdage",
@@ -6766,6 +6842,10 @@
         "editForm": "Redigeringsformular",
         "entityType": "Entitetstype",
         "fieldVisibility": "Feltsynlighed",
+        "statusTypes": {
+            "title": "Medicinstatustyper",
+            "description": "Vælg hvilke statusser medarbejdere kan vælge, når de registrerer en dosis. \"Givet\" forbliver altid aktiveret."
+        },
         "fields": {
             "addictions": "Afhængigheder",
             "allocatedHours": "Tildelte timer",
@@ -10008,7 +10088,8 @@
         "forms": "Formularer",
         "dentalRecalls": "Indkaldelser",
         "dentalOverview": "Klinikoverblik",
-        "invoicing": "Fakturering"
+        "invoicing": "Fakturering",
+        "plansAndGoalsExport": "Eksport af planer og mål"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -11946,6 +12027,7 @@
         "newTemplateAgreement": "Ny skabelonaftale",
         "newTimeAccount": "Ny timekonto",
         "newTimeAccounts": "Ny timekonto",
+        "payoutReport": "Udbetalingsrapport",
         "table": {
             "actions": {
                 "assign": "Tildel",
@@ -13507,6 +13589,21 @@
             "revenue": "Omsætning",
             "billing": "Faktureringsudtræk"
         }
+    },
+    "plansAndGoalsExport": {
+        "title": "Eksport af planer og mål",
+        "description": "Download planer, mål og delmål som en zip-fil med PDF-rapporter for mange borgere på én gang. Lad valget stå tomt for at eksportere hele virksomheden.",
+        "selectedCount": "{count} borger(e) valgt",
+        "noneSelectedHint": "Ingen borgere valgt - hele virksomheden eksporteres",
+        "clearSelection": "Ryd valg",
+        "download": "Download",
+        "downloading": "Forbereder download...",
+        "table": {
+            "name": "Navn",
+            "departments": "Afdelinger"
+        },
+        "noPlansFound": "Der blev ikke fundet nogen planer, mål eller delmål for de valgte borgere.",
+        "noPermission": "Du har ikke rettigheder til at eksportere planer og mål i bulk."
     },
     "socialWelfare": {
         "billing": {

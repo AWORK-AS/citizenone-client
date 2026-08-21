@@ -203,6 +203,12 @@
                             {{ $t('citizens.medicineJournals.newPouring') }}
                         </FormButton>
                         <FormButton buttonStyle="action" class="rounded-md shrink-0"
+                            @click="state.modal.isNewPlannedDeliveryOpen = true"
+                            v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
+                            <Icon name="ph:package" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.newPlannedDelivery') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md shrink-0"
                             @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                             v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
                             <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
@@ -264,6 +270,12 @@
                         <Icon name="ph:plus" class="h-4 w-4" />
                         {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
                     </FormButton>
+                    <FormButton buttonStyle="secondary" class="rounded-md"
+                        @click="state.modal.isBatchDispenseOpen = true"
+                        v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
+                        <Icon name="ph:calendar-plus" class="h-4 w-4" />
+                        {{ $t('citizens.medicineJournals.history.batchDispense.button') }}
+                    </FormButton>
                 </div>
 
                 <!-- DAY VIEW -->
@@ -301,6 +313,12 @@
                                 v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
                                 <Icon name="ph:flask" class="h-4 w-4" />
                                 {{ $t('citizens.medicineJournals.newPouring') }}
+                            </FormButton>
+                            <FormButton buttonStyle="action" class="rounded-md"
+                                @click="state.modal.isNewPlannedDeliveryOpen = true"
+                                v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
+                                <Icon name="ph:package" class="h-4 w-4" />
+                                {{ $t('citizens.medicineJournals.newPlannedDelivery') }}
                             </FormButton>
                             <FormButton buttonStyle="action" class="rounded-md"
                                 @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
@@ -375,6 +393,12 @@
                                                 <Icon name="ph:info"
                                                     class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
+                                            <Tooltip v-if="medicine?.treatment_reason"
+                                                :text="`${$t('citizens.medicineJournals.form.treatmentReason')}: ${medicine.treatment_reason}`"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:clipboard-text"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            </Tooltip>
                                         </div>
                                         <p class="text-xs text-gray-500">
                                             {{ medicine?.medicine?.ingredients }}
@@ -389,6 +413,14 @@
                                         <p class="text-xs text-gray-500">
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
+                                        </p>
+                                        <p v-if="medicine?.created_at" class="text-xs text-gray-400">
+                                            {{ $t('citizens.medicineJournals.createdOn') }}:
+                                            {{ formatDateToReadable(medicine.created_at) }}
+                                        </p>
+                                        <p v-if="medicine?.next_administration_date" class="text-xs text-primary font-medium">
+                                            {{ $t('citizens.medicineJournals.nextAdministrationDate') }}:
+                                            {{ formatDateWithWeekdayToReadable(medicine.next_administration_date) }}
                                         </p>
                                         <div class="flex gap-1 flex-wrap mt-1">
                                             <Tooltip v-if="medicine?.is_expired"
@@ -524,6 +556,12 @@
                                                 <Icon name="ph:info"
                                                     class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                             </Tooltip>
+                                            <Tooltip v-if="medicine?.treatment_reason"
+                                                :text="`${$t('citizens.medicineJournals.form.treatmentReason')}: ${medicine.treatment_reason}`"
+                                                :wrap="true" class="shrink-0">
+                                                <Icon name="ph:clipboard-text"
+                                                    class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                            </Tooltip>
                                         </div>
                                         <p class="text-xs text-gray-500">
                                             {{ medicine?.medicine?.ingredients }}
@@ -538,6 +576,10 @@
                                         <p class="text-xs text-gray-500">
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
+                                        </p>
+                                        <p v-if="medicine?.created_at" class="text-xs text-gray-400">
+                                            {{ $t('citizens.medicineJournals.createdOn') }}:
+                                            {{ formatDateToReadable(medicine.created_at) }}
                                         </p>
                                         <!-- Dosage for PN -->
                                         <div v-if="medicine?.dosage_status_by_date?.[todayStr]?.length"
@@ -676,6 +718,12 @@
                                                 <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                     :wrap="true" class="shrink-0">
                                                     <Icon name="ph:info"
+                                                        class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                </Tooltip>
+                                                <Tooltip v-if="medicine?.treatment_reason"
+                                                    :text="`${$t('citizens.medicineJournals.form.treatmentReason')}: ${medicine.treatment_reason}`"
+                                                    :wrap="true" class="shrink-0">
+                                                    <Icon name="ph:clipboard-text"
                                                         class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                 </Tooltip>
                                             </div>
@@ -865,6 +913,12 @@
                                                         <Icon name="ph:info"
                                                             class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
                                                     </Tooltip>
+                                                    <Tooltip v-if="medicine?.treatment_reason"
+                                                        :text="`${$t('citizens.medicineJournals.form.treatmentReason')}: ${medicine.treatment_reason}`"
+                                                        :wrap="true" class="shrink-0">
+                                                        <Icon name="ph:clipboard-text"
+                                                            class="size-3.5 text-primary/60 hover:text-primary cursor-default" />
+                                                    </Tooltip>
                                                 </div>
                                                 <p class="text-xs text-gray-400 truncate mt-0.5">
                                                     {{ medicine?.medicine?.ingredients }}
@@ -1038,6 +1092,11 @@
                     :isModalOpen="state.modal.isGiveMedicinesOpen" @close="state.modal.isGiveMedicinesOpen = false"
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }"
                     @openNewPouring="openNewPouringFromGiveMultiple" />
+                <ModulesUserCitizenMedicineHistoryModalBatchDispense
+                    :isModalOpen="state.modal.isBatchDispenseOpen" :citizenUuid="citizenUuid"
+                    :medicines="allMedicines" @close="state.modal.isBatchDispenseOpen = false"
+                    @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }"
+                    @refreshMedicineHistories="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
                 <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineHistoryOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineHistoryOpen = false"
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
@@ -1046,6 +1105,9 @@
                 <ModulesUserCitizenMedicineModalNewPouring :isModalOpen="state.modal.isNewPouringOpen"
                     :medicines="allMedicines" :preselectedMedicineUuid="state.pouringPreselectedMedicineUuid"
                     @close="closeNewPouringModal" @refreshMedicines="fetchCitizenMedicines" />
+                <ModulesUserCitizenMedicineModalNewPlannedDelivery :isModalOpen="state.modal.isNewPlannedDeliveryOpen"
+                    :medicines="allMedicines"
+                    @close="state.modal.isNewPlannedDeliveryOpen = false" @refreshMedicines="fetchCitizenMedicines" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
                     @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
@@ -1097,12 +1159,14 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
+const { formatDateToReadable, formatDateWithWeekdayToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const citizenMedicineStore = useCitizenMedicineStore() as any
@@ -1181,8 +1245,10 @@ const state = reactive({
         isFilterMedicineOpen: false,
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
+        isBatchDispenseOpen: false,
         isGivePNMedicineOpen: false,
         isNewPouringOpen: false,
+        isNewPlannedDeliveryOpen: false,
         isViewMedicineOpen: false,
         isViewMedicineHistoryOpen: false,
     },
@@ -1467,6 +1533,7 @@ function getSlotTooltip(dosage: any, time: string): string {
     const s = dosage?.status
     if (s === 'given' && dosage?.given_via_pouring) return t('citizens.medicineJournals.givenViaPouringContainer')
     if (s === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.page.givenLegend')
+    if (s === 'delivered' && dosage?.delivered_via_planned_delivery) return t('citizens.medicineJournals.deliveredViaPlannedDelivery')
     if (s === 'delivered') return t('citizens.medicineJournals.history.form.type.delivered')
     if (s === 'deviated') return t('citizens.medicineJournals.history.form.type.deviated')
     if (isMissed(time)) return t('citizens.medicineJournals.page.slotOverdue', { time })
@@ -1523,10 +1590,11 @@ function getWeekSlotClass(dosage: any, day: any): string {
     return 'bg-gray-50 text-gray-400'
 }
 
-function getStatusLabel(dosage: { status?: string | null, given_via_pouring?: boolean } | null): string {
+function getStatusLabel(dosage: { status?: string | null, given_via_pouring?: boolean, delivered_via_planned_delivery?: boolean } | null): string {
     const status = dosage?.status ?? null
     if (status === 'given' && dosage?.given_via_pouring) return t('citizens.medicineJournals.givenViaPouringContainer')
     if (status === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.page.givenLegend')
+    if (status === 'delivered' && dosage?.delivered_via_planned_delivery) return t('citizens.medicineJournals.deliveredViaPlannedDelivery')
     if (status === 'delivered') return t('citizens.medicineJournals.history.form.type.delivered')
     if (status === 'deviated') return t('citizens.medicineJournals.history.form.type.deviated')
     return t('citizens.medicineJournals.page.notGivenStatus')
