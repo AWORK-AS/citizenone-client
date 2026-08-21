@@ -10076,7 +10076,8 @@
         "forms": "Forms",
         "dentalRecalls": "Recalls",
         "dentalOverview": "Clinic overview",
-        "invoicing": "Invoicing"
+        "invoicing": "Invoicing",
+        "plansAndGoalsExport": "Plans and goals export"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -13576,5 +13577,20 @@
             "revenue": "Revenue",
             "billing": "Billing extraction"
         }
+    },
+    "plansAndGoalsExport": {
+        "title": "Plans and goals export",
+        "description": "Download plans, goals and subgoals as a zip of PDF reports for many citizens at once. Leave the selection empty to export the whole company.",
+        "selectedCount": "{count} citizen(s) selected",
+        "noneSelectedHint": "No citizens selected - the whole company will be exported",
+        "clearSelection": "Clear selection",
+        "download": "Download",
+        "downloading": "Preparing download...",
+        "table": {
+            "name": "Name",
+            "departments": "Departments"
+        },
+        "noPlansFound": "No plans, goals or subgoals were found for the selected citizens.",
+        "noPermission": "You do not have permission to export plans and goals in bulk."
     }
 }

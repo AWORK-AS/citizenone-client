@@ -10076,7 +10076,8 @@
         "forms": "Formulär",
         "dentalRecalls": "Kallelser",
         "dentalOverview": "Kliniköversikt",
-        "invoicing": "Fakturering"
+        "invoicing": "Fakturering",
+        "plansAndGoalsExport": "Export av planer och mål"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -13576,5 +13577,20 @@
             "revenue": "Omsättning",
             "billing": "Faktureringsunderlag"
         }
+    },
+    "plansAndGoalsExport": {
+        "title": "Export av planer och mål",
+        "description": "Ladda ner planer, mål och delmål som en zip-fil med PDF-rapporter för många medborgare samtidigt. Lämna urvalet tomt för att exportera hela företaget.",
+        "selectedCount": "{count} medborgare valda",
+        "noneSelectedHint": "Inga medborgare valda - hela företaget exporteras",
+        "clearSelection": "Rensa urval",
+        "download": "Ladda ner",
+        "downloading": "Förbereder nedladdning...",
+        "table": {
+            "name": "Namn",
+            "departments": "Avdelningar"
+        },
+        "noPlansFound": "Inga planer, mål eller delmål hittades för de valda medborgarna.",
+        "noPermission": "Du har inte behörighet att exportera planer och mål i bulk."
     }
 }
