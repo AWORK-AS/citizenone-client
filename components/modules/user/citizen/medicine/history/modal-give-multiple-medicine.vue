@@ -18,6 +18,23 @@
                             <Alert type="danger" :text="$t('citizens.medicineJournals.history.form.noMedicineToday')"
                                 v-if="state.formGiveMedicine.medicines?.length === 0" />
 
+                            <div class="flex flex-wrap items-center gap-2"
+                                v-if="state.formGiveMedicine.medicines?.some((m: any) => !m.is_pn_medicine)">
+                                <span class="text-xs text-gray-500 mr-auto">
+                                    {{ $t('citizens.medicineJournals.history.dosesToRegister', {
+                                        n: pendingDosageCount
+                                    }) }}
+                                </span>
+                                <button type="button" @click="setAllDosageTypes('given')"
+                                    class="text-xs px-2.5 py-1 rounded-lg border border-green-700 text-green-700 font-medium hover:bg-green-50 transition-colors">
+                                    {{ $t('citizens.medicineJournals.history.markAllGiven') }}
+                                </button>
+                                <button type="button" @click="setAllDosageTypes('')"
+                                    class="text-xs px-2.5 py-1 rounded-lg border border-gray-300 text-gray-600 font-medium hover:bg-gray-50 transition-colors">
+                                    {{ $t('citizens.medicineJournals.history.clearAll') }}
+                                </button>
+                            </div>
+
                             <div class="max-h-[55vh] overflow-y-auto overflow-x-auto border border-gray-100 rounded-md"
                                 v-if="state.formGiveMedicine.medicines?.some((m: any) => !m.is_pn_medicine)">
                                 <table class="w-full border-collapse">
@@ -74,7 +91,7 @@
                                                                 state.formGiveMedicine.medicines[medicineIndex]
                                                                     .dosages[getDosageIndexByTime(Number(medicineIndex), time)].type
                                                             )
-                                                                ? '!bg-red-50'
+                                                                ? '!bg-gray-50/70'
                                                                 : 'bg-white'
                                                     ]">
                                                     <div v-if="getDosageIndexByTime(Number(medicineIndex), time) !== -1"
@@ -648,6 +665,7 @@ async function fetchAllSelectedMedicines(date: any) {
                         dosage_unit: doseUnit,
                         is_pn_medicine: selectedMedicine?.is_pn_medicine,
                         citizen_medicine_uuid: selectedMedicine?.uuid,
+                        max_daily_dose: selectedMedicine?.max_daily_dose ?? null,
                         dosages: generateDosage(selectedMedicine),
                     })
                 }
@@ -679,6 +697,7 @@ function generateDosage(selectedMedicine: any) {
             ? selectedMedicine?.dosage?.dk_name
             : selectedMedicine?.dosage?.en_name
     selectedMedicine?.max_dosage_per_time.forEach((dosage: any) => {
+        const isRegistered = !!dosage?.status
         dosages.push({
             medicine_uuid: selectedMedicine?.uuid,
             time: dosage?.time,
@@ -686,15 +705,75 @@ function generateDosage(selectedMedicine: any) {
             // planned_status: dosage?.status ?? null,
             dosage_unit: doseUnit,
             dosage: dosage?.dosage ?? '',
-            type: dosage?.status ?? '',
+            is_registered: isRegistered,
+            // Selecting the medicine in the list is the affirmative act, so an
+            // unregistered dose opens pre-set to "given" — the user only clears
+            // the exceptions. Self-administered medicines are never pre-filled.
+            type: isRegistered
+                ? dosage.status
+                : (dosage?.dosage && !selectedMedicine?.is_self_administered ? 'given' : ''),
             comment: dosage?.comment ?? '',
         })
     })
     return dosages
 }
 
+function setAllDosageTypes(type: string) {
+    state.formGiveMedicine.medicines?.forEach((medicine: any) => {
+        if (medicine.is_pn_medicine) return
+        medicine.dosages?.forEach((dosage: any) => {
+            if (dosage.is_registered || !dosage.dosage) return
+            dosage.type = type
+        })
+    })
+}
+
+const pendingDosageCount = computed(() => {
+    let count = 0
+    state.formGiveMedicine.medicines?.forEach((medicine: any) => {
+        if (medicine.is_pn_medicine) return
+        medicine.dosages?.forEach((dosage: any) => {
+            if (!dosage.is_registered && dosage.dosage && dosage.type) count++
+        })
+    })
+    return count
+})
+
+function toNumber(value: any) {
+    const parsed = parseFloat(String(value ?? '').replace(',', '.'))
+    return Number.isFinite(parsed) ? parsed : 0
+}
+
+// Only worth asking "is this the right daily dose?" when something actually
+// deviates from the plan — either a dose was edited away from the prescribed
+// amount, or the day's total exceeds the medicine's max daily dose. Prompting on
+// every save just costs a click on the answer the user already gave.
+function hasUnusualDosage() {
+    return state.formGiveMedicine.medicines?.some((medicine: any) => {
+        if (medicine.is_pn_medicine) {
+            return !!medicine.dosage
+        }
+        const pending = (medicine.dosages ?? []).filter((d: any) => !d.is_registered && d.dosage && d.type)
+        if (!pending.length) return false
+
+        const edited = pending.some((d: any) => toNumber(d.dosage) !== toNumber(d.required_dosage))
+        if (edited) return true
+
+        const maxDaily = toNumber(medicine.max_daily_dose)
+        if (!maxDaily) return false
+        const dayTotal = (medicine.dosages ?? [])
+            .filter((d: any) => d.dosage && d.type)
+            .reduce((sum: number, d: any) => sum + toNumber(d.dosage), 0)
+        return dayTotal > maxDaily
+    }) ?? false
+}
+
 function submitForm() {
-    state.modal.isMoreThanMedicineDailyConfirmationOpen = true
+    if (hasUnusualDosage()) {
+        state.modal.isMoreThanMedicineDailyConfirmationOpen = true
+        return
+    }
+    giveAllMedicines(false)
 }
 
 async function giveAllMedicines(force = false, forceMainStock = false) {

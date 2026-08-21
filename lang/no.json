@@ -2405,10 +2405,12 @@
                 "alert": {
                     "successfullyDeleted": "Medicinhistorik slettet vellykket"
                 },
+                "clearAll": "Tøm alle",
                 "confirmation": {
                     "deleteConfirmation": "Er du sikker på at du vil slette denne medicinhistorik",
                     "rightDailyDoseConfirmation": "Er du sikker på, at du har angivet den korrekte daglige dose"
                 },
+                "dosesToRegister": "{n} doser registreres",
                 "editMedicine": "Rediger medisin",
                 "form": {
                     "alert": {
@@ -2436,6 +2438,7 @@
                 "giveAllMedicines": "Gi al medisin",
                 "giveMedicine": "Gi medisin",
                 "giveMedicineTo": "Gi medisin til {name}",
+                "markAllGiven": "Merk alle som gitt",
                 "medicineHistory": "Medicinhistorik",
                 "table": {
                     "actions": {
@@ -2563,6 +2566,10 @@
                 "noActiveMedicines": "Ingen aktive mediciner på denne bruker",
                 "addMedicine": "Legg til medisin",
                 "medicinesSelected": "{n} medisin valgt",
+                "selectAll": "Velg alle",
+                "deselectAll": "Fravelg alle",
+                "giveAllDueNow": "Gi alt forfalt ({n})",
+                "giveAllDueConfirmation": "Vil du registrere {n} doser som gitt nå",
                 "medicineIsOverdue": "Medisinen er {time} forsinket. Gi straks eller registrér afvigelse.",
                 "dueInMinutes": "Forfaller om {minutes} minutter. Husk at gi til tiden.",
                 "expired": "Utløpt",

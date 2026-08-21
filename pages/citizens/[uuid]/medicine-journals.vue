@@ -249,21 +249,43 @@
                 </div>
 
                 <!-- Bulk give -->
-                <div v-if="citizenMedicineStore.getSelectedMedicines?.length > 0"
-                    class="flex items-center gap-3 p-3 bg-primary/5 border border-primary/20 rounded-xl">
-                    <Icon name="ph:check-square" class="size-5 text-primary" />
-                    <span class="text-sm text-primary font-medium">
+                <div v-if="selectableMedicines.length > 0 && (state.viewMode === 'day' || state.viewMode === 'list')"
+                    class="flex flex-wrap items-center gap-3 p-3 rounded-xl border"
+                    :class="citizenMedicineStore.getSelectedMedicines?.length > 0
+                        ? 'bg-primary/5 border-primary/20'
+                        : 'bg-gray-50 border-gray-200'">
+                    <button type="button" @click="toggleSelectAll"
+                        class="flex items-center gap-2 text-sm font-medium"
+                        :class="citizenMedicineStore.getSelectedMedicines?.length > 0 ? 'text-primary' : 'text-gray-600 hover:text-gray-800'">
+                        <FormCheckbox id="select_all_medicines" :value="isAllSelected" class="pointer-events-none" />
+                        {{ isAllSelected
+                            ? $t('citizens.medicineJournals.page.deselectAll')
+                            : $t('citizens.medicineJournals.page.selectAll') }}
+                    </button>
+
+                    <span v-if="citizenMedicineStore.getSelectedMedicines?.length > 0"
+                        class="text-sm text-primary font-medium">
                         {{ $t('citizens.medicineJournals.page.medicinesSelected', {
                             n: citizenMedicineStore.getSelectedMedicines.length
                         })
                         }}
                     </span>
-                    <FormButton buttonStyle="action" class="rounded-md ml-auto"
-                        @click="state.modal.isGiveMedicinesOpen = true"
+
+                    <div class="flex flex-wrap items-center gap-2 ml-auto"
                         v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                        <Icon name="ph:plus" class="h-4 w-4" />
-                        {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
-                    </FormButton>
+                        <FormButton buttonStyle="cancel" class="rounded-md"
+                            v-if="dueNowDoses.length > 0 && citizenMedicineStore.getSelectedMedicines?.length === 0"
+                            @click="state.modal.isGiveAllDueOpen = true">
+                            <Icon name="ph:lightning" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.page.giveAllDueNow', { n: dueNowDoses.length }) }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            v-if="citizenMedicineStore.getSelectedMedicines?.length > 0"
+                            @click="state.modal.isGiveMedicinesOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
+                        </FormButton>
+                    </div>
                 </div>
 
                 <!-- DAY VIEW -->
@@ -1050,6 +1072,10 @@
                     :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
                     @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
 
+                <DialogConfirmation :isModalOpen="state.modal.isGiveAllDueOpen"
+                    :message="$t('citizens.medicineJournals.page.giveAllDueConfirmation', { n: dueNowDoses.length }) + '?'"
+                    @close="state.modal.isGiveAllDueOpen = false" @confirm="giveAllDue" />
+
                 <!-- Missed medicine toast -->
                 <div v-if="state.missedWarning"
                     class="fixed bottom-6 right-6 z-50 max-w-sm bg-white border border-red-200 rounded-xl shadow-lg p-4">
@@ -1179,6 +1205,7 @@ const state = reactive({
         isDownloadMedicineOverviewOpen: false,
         isEditMedicineOpen: false,
         isFilterMedicineOpen: false,
+        isGiveAllDueOpen: false,
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
         isGivePNMedicineOpen: false,
@@ -1203,6 +1230,9 @@ let clockInterval: any
 
 onMounted(() => {
     citizenMedicineStore.setFilterMedicationType('all')
+    // The store is persisted, so a selection can outlive the page it was made on
+    // (another citizen, or a closed tab). Start clean.
+    citizenMedicineStore.resetSelectedMedicine()
     fetchCitizenMedicines()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
@@ -1791,6 +1821,90 @@ function givePNMedicine(medicine: any) {
     state.modal.isGivePNMedicineOpen = true
 }
 
+// ─── Bulk selection / bulk give ────────────────────────────────
+
+// Only what is actually on screen can be "all" — the list is paginated, so
+// selecting rows the user cannot see would be a lie. The two views render
+// different collections: day view shows filteredRegularMedicines + pnMedicines,
+// list view shows every loaded row.
+const selectableMedicines = computed(() =>
+    state.viewMode === 'list'
+        ? allMedicines.value
+        : [...filteredRegularMedicines.value, ...pnMedicines.value]
+)
+
+const isAllSelected = computed(() =>
+    selectableMedicines.value.length > 0 &&
+    selectableMedicines.value.every((m: any) => citizenMedicineStore.getSelectedMedicines?.includes(m.uuid))
+)
+
+function toggleSelectAll() {
+    if (isAllSelected.value) {
+        citizenMedicineStore.removeSelectedMedicines(selectableMedicines.value)
+    } else {
+        citizenMedicineStore.addSelectedMedicines(selectableMedicines.value)
+    }
+}
+
+// Every scheduled dose that is due or overdue today and not yet registered.
+// PN needs an evaluator and self-administered medicines are the citizen's own
+// responsibility, so neither belongs in a one-click bulk registration.
+const dueNowDoses = computed(() => {
+    const doses: any[] = []
+    filteredRegularMedicines.value.forEach((medicine: any) => {
+        if (medicine.is_self_administered || medicine.is_deactivated) return
+        const entries: any[] = medicine?.dosage_status_by_date?.[todayStr.value] ?? []
+        entries.forEach((d: any) => {
+            if (d?.status || !d?.dosage) return
+            if (isMissed(d?.time) || isDueSoon(d?.time)) doses.push({ medicine, dosage: d })
+        })
+    })
+    return doses
+})
+
+async function giveAllDue() {
+    state.modal.isGiveAllDueOpen = false
+    if (!dueNowDoses.value.length) return
+
+    const byMedicine = new Map<string, any>()
+    dueNowDoses.value.forEach(({ medicine, dosage }: any) => {
+        if (!byMedicine.has(medicine.uuid)) {
+            byMedicine.set(medicine.uuid, {
+                citizen_medicine_uuid: medicine.uuid,
+                is_pn_medicine: false,
+                dosages: [],
+            })
+        }
+        byMedicine.get(medicine.uuid).dosages.push({
+            medicine_uuid: medicine.uuid,
+            time: dosage.time,
+            dosage: dosage.dosage,
+            type: 'given',
+            comment: '',
+        })
+    })
+
+    state.isTableLoading = true
+    try {
+        const response = await medicineHistoryService.saveAllMedicineHistory({
+            date: todayStr.value,
+            medicines: Array.from(byMedicine.values()),
+        })
+        if (response?.warning) {
+            state.error = { message: response.message } as Error
+            return
+        }
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)
+            state.historyCache = {}
+            await fetchCitizenMedicines()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
 function openGiveMedicineOnDate(medicine: any, dosage: any, day: any) {
     if (!isMedicineActiveOnDate(medicine, day.dateStr)) return
     state.selectedMedicine = medicine
@@ -1801,11 +1915,18 @@ function openGiveMedicineOnDate(medicine: any, dosage: any, day: any) {
 
 function openGiveMedicine(medicine: any, dosage: any) {
     state.selectedMedicine = medicine
+    // Preselect the slot that was clicked, the same way the week/month views do.
+    // Without this the modal opens with nothing chosen and the user has to pick
+    // the dose again — which is what made the day view cost an extra click.
+    state.preselectedDate = todayStr.value
+    state.preselectedTime = dosage?.time ?? null
     state.modal.isGiveMedicineOpen = true
 }
 function quickGive(alarm: any) {
     if (alarm.medicine) {
         state.selectedMedicine = alarm.medicine
+        state.preselectedDate = todayStr.value
+        state.preselectedTime = alarm?.time ?? null
         state.modal.isGiveMedicineOpen = true
     }
 }

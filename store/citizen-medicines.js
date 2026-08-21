@@ -20,6 +20,17 @@ export const useCitizenMedicineStore = defineStore('citizenMedicineStore',
                     this.selectedMedicines.splice(index, 1)
                 }
             },
+            addSelectedMedicines(medicines) {
+                medicines?.forEach((medicine) => {
+                    if (medicine?.uuid && !this.selectedMedicines.includes(medicine.uuid)) {
+                        this.selectedMedicines.push(medicine.uuid)
+                    }
+                })
+            },
+            removeSelectedMedicines(medicines) {
+                const uuids = (medicines ?? []).map((medicine) => medicine?.uuid)
+                this.selectedMedicines = this.selectedMedicines.filter((uuid) => !uuids.includes(uuid))
+            },
             setFilterByActiveInactiveDeactivated(status) {
                 this.filterByActiveInactiveDeactivated = status
             },
