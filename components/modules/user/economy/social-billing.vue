@@ -116,7 +116,7 @@
                                         </td>
                                         <td class="co-td text-[#5C6478]">{{ row.section || '-' }}</td>
                                         <td class="co-td">
-                                            <FormNumberField :id="`hours-${row.citizen_uuid}`" name="used_hours"
+                                            <FormNumberField :id="`hours-${rowKey(row)}`" name="used_hours"
                                                 :min="0" :step="0.25" class="w-24"
                                                 :disabled="row.is_fully_invoiced" v-model="row.used_hours" />
                                         </td>
@@ -128,7 +128,7 @@
                                             </span>
                                         </td>
                                         <td class="co-td">
-                                            <FormNumberField :id="`rate-${row.citizen_uuid}`" name="hourly_rate"
+                                            <FormNumberField :id="`rate-${rowKey(row)}`" name="hourly_rate"
                                                 :min="0" :step="0.01" class="w-28"
                                                 :disabled="row.is_fully_invoiced" v-model="row.hourly_rate" />
                                         </td>
