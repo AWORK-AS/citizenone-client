@@ -1264,11 +1264,21 @@ async function logout() {
 
 async function stopImpersonation() {
     state.isPageLoading = true
-    const originalToken = localStorage.getItem('_original_token')
-    if (originalToken) {
-        localStorage.setItem('_token', originalToken)
-        localStorage.removeItem('_original_token')
+    try {
+        const response = await userService.stopImpersonation()
+        const restoredToken = response?.superadmin_token || localStorage.getItem('_original_token')
+        if (restoredToken) {
+            localStorage.setItem('_token', restoredToken)
+        }
+    } catch (error: any) {
+        // The impersonation token may already be gone server-side; fall back to
+        // the superadmin token we stashed client-side so the admin isn't stuck.
+        const originalToken = localStorage.getItem('_original_token')
+        if (originalToken) {
+            localStorage.setItem('_token', originalToken)
+        }
     }
+    localStorage.removeItem('_original_token')
     isImpersonating.value = false
     navigateTo('/superadmin/companies')
     state.isPageLoading = false

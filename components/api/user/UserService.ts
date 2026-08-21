@@ -9,6 +9,10 @@ class UserService extends BaseAPIService {
         return await this.request(`/user`, 'GET')
     }
 
+    async stopImpersonation(): Promise<any> {
+        return await this.request(`/user/impersonate/stop`, 'POST')
+    }
+
     async checkin(params: object): Promise<any> {
         return await this.request(`/user/time-logs/time/in`, 'POST', params)
     }
