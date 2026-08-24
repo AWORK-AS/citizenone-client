@@ -23,6 +23,9 @@
             <!-- Period -->
             <div class="bg-white border border-surface-200 rounded-xl p-5 shadow-sm">
                 <div class="flex flex-wrap items-center gap-2 mb-4">
+                    <Tooltip :text="$t('socialWelfare.billing.helpPeriod')" wrap position="bottom">
+                        <Icon name="ph:info" class="w-4 h-4 text-slate-400 hover:text-primary transition" />
+                    </Tooltip>
                     <button type="button" v-for="preset in presets" :key="preset.key" @click="applyPreset(preset.key)"
                         class="rounded-full border px-3 py-1 text-[13px] transition"
                         :class="state.preset === preset.key
@@ -113,12 +116,15 @@
                         <p class="text-[13px] text-slate-500">
                             {{ $t('socialWelfare.billing.selectedOfRows', { selected: selectedRowCount, total: billableRowCount }) }}
                         </p>
-                        <FormButton buttonStyle="primary" v-if="convertibleGroups.length > 1"
-                            :disabled="state.isLoading" @click="convert(convertibleGroups)">
-                            <Icon name="ph:files" class="w-4 h-4" />
-                            {{ $t('socialWelfare.billing.convertAllSelected') }}
-                            ({{ $t('socialWelfare.billing.invoiceCount', { count: convertibleGroups.length }) }})
-                        </FormButton>
+                        <Tooltip v-if="convertibleGroups.length > 1"
+                            :text="$t('socialWelfare.billing.helpConvert')" wrap position="left">
+                            <FormButton buttonStyle="primary" :disabled="state.isLoading"
+                                @click="convert(convertibleGroups)">
+                                <Icon name="ph:files" class="w-4 h-4" />
+                                {{ $t('socialWelfare.billing.convertAllSelected') }}
+                                ({{ $t('socialWelfare.billing.invoiceCount', { count: convertibleGroups.length }) }})
+                            </FormButton>
+                        </Tooltip>
                     </div>
 
                     <!-- One card per paying municipality, because that is what becomes one invoice -->
@@ -144,11 +150,13 @@
                                 <span class="text-sm font-semibold text-slate-900">
                                     {{ formatAmount(groupTotal(group)) }}
                                 </span>
-                                <FormButton buttonStyle="primary" :disabled="!groupIsConvertible(group) || state.isLoading"
-                                    @click="convert([group])">
-                                    <Icon name="ph:arrow-right" class="w-4 h-4" />
-                                    {{ $t('socialWelfare.billing.convertSelected') }}
-                                </FormButton>
+                                <Tooltip :text="$t('socialWelfare.billing.helpConvert')" wrap position="left">
+                                    <FormButton buttonStyle="primary" :disabled="!groupIsConvertible(group) || state.isLoading"
+                                        @click="convert([group])">
+                                        <Icon name="ph:arrow-right" class="w-4 h-4" />
+                                        {{ $t('socialWelfare.billing.convertSelected') }}
+                                    </FormButton>
+                                </Tooltip>
                             </div>
                         </div>
 
@@ -166,8 +174,22 @@
                                         <th class="co-th">{{ $t('socialWelfare.billing.citizen') }}</th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.stay') }}</th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.section') }}</th>
-                                        <th class="co-th">{{ $t('socialWelfare.billing.usedHours') }}</th>
-                                        <th class="co-th">{{ $t('socialWelfare.billing.agreedHours') }}</th>
+                                        <th class="co-th">
+                                            <span class="inline-flex items-center gap-1">
+                                                {{ $t('socialWelfare.billing.usedHours') }}
+                                                <Tooltip :text="$t('socialWelfare.billing.helpUsedHours')" wrap>
+                                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-slate-400 hover:text-primary transition" />
+                                                </Tooltip>
+                                            </span>
+                                        </th>
+                                        <th class="co-th">
+                                            <span class="inline-flex items-center gap-1">
+                                                {{ $t('socialWelfare.billing.agreedHours') }}
+                                                <Tooltip :text="$t('socialWelfare.billing.helpAgreedHours')" wrap>
+                                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-slate-400 hover:text-primary transition" />
+                                                </Tooltip>
+                                            </span>
+                                        </th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.rate') }}</th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.contractPrice') }}</th>
                                         <th class="co-th text-right">{{ $t('socialWelfare.billing.amount') }}</th>
@@ -246,12 +268,14 @@
                                             {{ formatAmount(rowAmount(row)) }}
                                         </td>
                                         <td class="co-td text-right">
-                                            <button type="button" v-if="isBillable(row)"
-                                                class="text-slate-400 hover:text-primary transition"
-                                                :title="$t('socialWelfare.billing.convertRow')"
-                                                @click="convertRow(group, row)">
-                                                <Icon name="ph:receipt" class="w-4 h-4" />
-                                            </button>
+                                            <Tooltip v-if="isBillable(row)"
+                                                :text="$t('socialWelfare.billing.convertRow')" position="left">
+                                                <button type="button"
+                                                    class="text-slate-400 hover:text-primary transition"
+                                                    @click="convertRow(group, row)">
+                                                    <Icon name="ph:receipt" class="w-4 h-4" />
+                                                </button>
+                                            </Tooltip>
                                         </td>
                                     </tr>
 

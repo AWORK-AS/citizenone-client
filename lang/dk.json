@@ -13692,7 +13692,11 @@
             "registrations": "Timeregistreringer",
             "invoiceCount": "{count} faktura(er)",
             "selectedOfRows": "{selected} af {total} valgt",
-            "writtenOff": "{hours} timer afskrives"
+            "writtenOff": "{hours} timer afskrives",
+            "helpPeriod": "Perioden bestemmer hvilke timeregistreringer der kommer med: alle registreringer der starter i perioden, og som ikke allerede er faktureret. Timer der er faktureret én gang dukker ikke op igen.",
+            "helpUsedHours": "Timerne fra timeregistreringerne bag rækken. Du kan sætte dem ned, hvis kontrakten kun dækker en del, og resten afskrives så på perioden. Du kan ikke sætte dem op over det registrerede - brug en diverse-linje til det, der ikke er timer.",
+            "helpAgreedHours": "Det leverede holdes op mod kontrakttimerne på indsatsen, hvis de er udfyldt, ellers mod borgerens tildelte timer. Timerne skaleres til rækkens periode, så et ophold der starter midt i måneden ikke ser underleveret ud. Kontrakttimer sættes på opholdet under borgerens stamkort.",
+            "helpConvert": "Omdanner de valgte indsatser til én faktura pr. betalende kommune, inklusive diverse-linjer. Ikonet på rækken laver en faktura med kun den ene indsats. Fakturaerne lander under Fakturering, klar til at sende."
         }
     }
 }
