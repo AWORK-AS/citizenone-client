@@ -896,18 +896,21 @@ function emergencyContactError(index: number, field: 'name' | 'phone' | 'email' 
     }
     const contact = state.formEmployee.emergencyInfo.emergency_contacts[index] as any
     const value = contact?.[field]
+    if (field === 'email') {
+        if (value && !EMAIL_REGEX.test(value)) {
+            return `${t('validation.invalidEmailAddress')}.`
+        }
+        return ''
+    }
     if (!value) {
         return `${t('validation.thisFieldIsRequired')}.`
-    }
-    if (field === 'email' && !EMAIL_REGEX.test(value)) {
-        return `${t('validation.invalidEmailAddress')}.`
     }
     return ''
 }
 
 function hasEmergencyContactErrors() {
     return state.formEmployee.emergencyInfo.emergency_contacts.some((contact: any) =>
-        !contact?.name || !contact?.phone || !contact?.email || !contact?.relation || !EMAIL_REGEX.test(contact.email)
+        !contact?.name || !contact?.phone || !contact?.relation || (contact?.email && !EMAIL_REGEX.test(contact.email))
     )
 }
 
@@ -920,18 +923,21 @@ function trusteeError(index: number, field: 'name' | 'phone' | 'email') {
     }
     const trustee = state.formEmployee.emergencyInfo.trustees[index] as any
     const value = trustee?.[field]
+    if (field === 'email') {
+        if (value && !EMAIL_REGEX.test(value)) {
+            return `${t('validation.invalidEmailAddress')}.`
+        }
+        return ''
+    }
     if (!value) {
         return `${t('validation.thisFieldIsRequired')}.`
-    }
-    if (field === 'email' && !EMAIL_REGEX.test(value)) {
-        return `${t('validation.invalidEmailAddress')}.`
     }
     return ''
 }
 
 function hasTrusteeErrors() {
     return state.formEmployee.emergencyInfo.trustees.some((trustee: any) =>
-        !trustee?.name || !trustee?.phone || !trustee?.email || !EMAIL_REGEX.test(trustee.email)
+        !trustee?.name || !trustee?.phone || (trustee?.email && !EMAIL_REGEX.test(trustee.email))
     )
 }
 
