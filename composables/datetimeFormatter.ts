@@ -66,5 +66,11 @@ export function useDatetimeFormatter() {
         return moment(time).format('HH:mm');
     }
 
-    return { formatDateToReadable, formatDateTimeToReadable, formatTimeToReadable }
+    function formatDateWithWeekdayToReadable(date: string): string {
+        const weekday = t(`calendar.days.${moment(date).format('dddd')}`)
+
+        return `${weekday}, ${formatDateToReadable(date)}`
+    }
+
+    return { formatDateToReadable, formatDateTimeToReadable, formatTimeToReadable, formatDateWithWeekdayToReadable }
 }

@@ -1,4 +1,18 @@
 {
+    "compensatoryPayoutsReport": {
+        "export": "Eksporter",
+        "filters": {
+            "dateEnd": "Dato til",
+            "dateStart": "Dato fra"
+        },
+        "table": {
+            "account": "Timekonto",
+            "amount": "Utbetalte timer",
+            "date": "Dato",
+            "employee": "Ansatt"
+        },
+        "title": "Utbetalinger av avspasering"
+    },
     "inquiryPipeline": {
         "board": "Henvendelses-pipeline",
         "enableLabel": "Henvendelses-pipeline (kanban)",
@@ -25,7 +39,11 @@
         "coordinatorSplit": "Omsetning per koordinator",
         "primary": "Primær",
         "secondary": "Sekundær",
-        "exportCsv": "Eksporter CSV"
+        "exportCsv": "Eksporter CSV",
+        "periodHint": "Perioden er satt til denne måneden. Bruk snarveiene, eller velg datoene selv.",
+        "presetThisMonth": "Denne måneden",
+        "presetLastMonth": "Forrige måned",
+        "presetThisYear": "I år"
     },
     "citizenRelations": {
         "addFirst": "Legg til første relasjon",
@@ -90,7 +108,9 @@
         "modules": {
             "vagtplan": "Vaktplan",
             "medicin": "Medisin",
-            "dokumentation": "Dokumentasjon (planer, status, dokumenter)"
+            "dokumentation": "Dokumentasjon (planer, status, dokumenter)",
+            "useOfForce": "Bruk av makt",
+            "predefinedContent": "Forhåndsdefinert notatinnhold"
         },
         "groups": {
             "migration": "Migrering",
@@ -2008,7 +2028,12 @@
                 "photo": "Foto",
                 "studentCollaboration": "Elevsamarbeide",
                 "contractPrice": "Kontraktpris",
-                "primarySplitPercentage": "Primær koordinator andel (%)"
+                "primarySplitPercentage": "Primær koordinator andel (%)",
+                "contractHours": "Kontrakttimer",
+                "contractHoursInterval": "Kontrakttimer pr.",
+                "contractHoursWeekly": "uke",
+                "contractHoursMonthly": "måned",
+                "contractHoursTotal": "hele oppholdet"
             },
             "dental": {
                 "isMemberOfSygeforsikringDanmark": "Medlem av Sygeforsikringen \"danmark\"",
@@ -2445,6 +2470,35 @@
                         "type": "Type"
                     }
                 },
+                "batchDispense": {
+                    "button": "Registrer for periode",
+                    "modalTitle": "Registrer medisin for en periode",
+                    "form": {
+                        "description": "Registrer de valgte medisinene som gitt på hver dag de er planlagt i den valgte perioden.",
+                        "dateRangeLabel": "Periode",
+                        "typeLabel": "Type",
+                        "commentLabel": "Kommentar (valgfritt, legges til på alle registreringer)",
+                        "pnExcludedNotice": "{n} PN-medisin (ved behov) er ekskludert - registrering for periode gjelder kun planlagt medisin.",
+                        "previewButton": "Forhåndsvis"
+                    },
+                    "confirm": {
+                        "title": "Bekreft registrering for periode",
+                        "willCreate": "{n} dose(r) vil bli registrert som gitt.",
+                        "willSkip": "{n} allerede registrerte dose(r) hoppes over.",
+                        "noneToCreate": "Alle doser i denne perioden er allerede registrert - det er ingenting å registrere.",
+                        "backButton": "Tilbake",
+                        "confirmButton": "Bekreft og registrer"
+                    },
+                    "result": {
+                        "title": "Registrering for periode fullført",
+                        "summary": "{created} dose(r) registrert, {skipped} hoppet over.",
+                        "undoButton": "Angre denne registreringen"
+                    },
+                    "undo": {
+                        "confirmMessage": "Slett alle {n} registreringer fra denne handlingen og gjenopprett lager?",
+                        "successMessage": "Registreringen er angret."
+                    }
+                },
                 "giveAllMedicines": "Gi al medisin",
                 "giveMedicine": "Gi medisin",
                 "giveMedicineTo": "Gi medisin til {name}",
@@ -2543,7 +2597,11 @@
             },
             "newMedicine": "Ny medisin",
             "newPouring": "Ny dosering",
+            "newPlannedDelivery": "Planlagt utlevering",
             "givenViaPouringContainer": "Gitt via doseringsboksen",
+            "deliveredViaPlannedDelivery": "Utlevert via planlagt utlevering",
+            "createdOn": "Opprettet",
+            "nextAdministrationDate": "Neste dosering",
             "pouring": {
                 "activeIngredient": "Virkestoff",
                 "amount": "Mengde helt opp",
@@ -2557,6 +2615,19 @@
                 "periodStart": "Periode start",
                 "alert": {
                     "successfullyAdded": "Dosering opprettet"
+                }
+            },
+            "plannedDelivery": {
+                "activeIngredient": "Virkestoff",
+                "amount": "Mengde utlevert",
+                "amountExceedsStock": "Mengden kan ikke overstige gjeldende hovedlager",
+                "currentMainStock": "Gjeldende hovedlager",
+                "label": "Planlagt utlevering",
+                "periodEnd": "Periode slutt",
+                "periodEndBeforeStart": "Sluttdato må være samme dag som eller etter startdato",
+                "periodStart": "Periode start",
+                "alert": {
+                    "successfullyAdded": "Planlagt utlevering opprettet"
                 }
             },
             "page": {
@@ -4592,6 +4663,20 @@
             "info1": "Medarbeiderens individuelle årlige norm anvendes alltid.",
             "info2": "Hvis medarbeideren er startet i løbet av året, beregnes den årlige norm forholdsmæssigt ut fra ansættelsesdatoen.",
             "info3": "Afspadserings- og ferietimer beregnes ut fra denne årlige norm.",
+            "payout": {
+                "account": "Timekonto",
+                "accountRequired": "Velg en timekonto",
+                "alert": {
+                    "registerSuccess": "Utbetaling registrert"
+                },
+                "amount": "Timer som utbetales",
+                "amountRequired": "Angi et antall timer større enn 0",
+                "button": "Registrer utbetaling",
+                "confirmation": "Er du sikker på at du vil registrere en utbetaling av {amount} timer til {employee}?",
+                "noAccountAssigned": "Denne ansatte har ingen aktiv timekonto å registrere en utbetaling på.",
+                "register": "Registrer utbetaling",
+                "title": "Registrer utbetaling"
+            },
             "period": {
                 "balance": "Pluss/minus i perioden",
                 "basisWorkdays": "{days} av {total} arbeidsdager",
@@ -6766,6 +6851,10 @@
         "editForm": "Redigeringsskjema",
         "entityType": "Entitetstype",
         "fieldVisibility": "Feltsynlighed",
+        "statusTypes": {
+            "title": "Medisinstatustyper",
+            "description": "Velg hvilke statuser ansatte kan velge når de registrerer en dose. \"Gitt\" forblir alltid aktivert."
+        },
         "fields": {
             "addictions": "Afhængigheder",
             "allocatedHours": "Tildelte timer",
@@ -10008,7 +10097,8 @@
         "forms": "Skjemaer",
         "dentalRecalls": "Innkallinger",
         "dentalOverview": "Klinikkoversikt",
-        "invoicing": "Fakturering"
+        "invoicing": "Fakturering",
+        "plansAndGoalsExport": "Eksport av planer og mål"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -11946,6 +12036,7 @@
         "newTemplateAgreement": "Ny malavtale",
         "newTimeAccount": "Ny timekonto",
         "newTimeAccounts": "Ny timekonto",
+        "payoutReport": "Utbetalingsrapport",
         "table": {
             "actions": {
                 "assign": "Tildel",
@@ -13508,6 +13599,21 @@
             "billing": "Faktureringsuttrekk"
         }
     },
+    "plansAndGoalsExport": {
+        "title": "Eksport av planer og mål",
+        "description": "Last ned planer, mål og delmål som en zip-fil med PDF-rapporter for mange innbyggere samtidig. La utvalget stå tomt for å eksportere hele selskapet.",
+        "selectedCount": "{count} innbygger(e) valgt",
+        "noneSelectedHint": "Ingen innbyggere valgt - hele selskapet eksporteres",
+        "clearSelection": "Fjern utvalg",
+        "download": "Last ned",
+        "downloading": "Forbereder nedlasting...",
+        "table": {
+            "name": "Navn",
+            "departments": "Avdelinger"
+        },
+        "noPlansFound": "Det ble ikke funnet noen planer, mål eller delmål for de valgte innbyggerne.",
+        "noPermission": "Du har ikke rettigheter til å eksportere planer og mål i bulk."
+    },
     "socialWelfare": {
         "billing": {
             "fromDate": "Fra dato",
@@ -13549,7 +13655,48 @@
             "hours": "Timer",
             "employee": "Ansatt",
             "note": "Notat",
-            "fromDutySchedule": "fra vaktplan"
+            "fromDutySchedule": "fra vaktplan",
+            "stepPeriod": "Velg periode",
+            "stepGenerate": "Generer",
+            "stepReview": "Gå gjennom tiltakene",
+            "stepConvert": "Omgjør til fakturaer",
+            "presetThisMonth": "Denne måneden",
+            "presetLastMonth": "Forrige måned",
+            "presetThisYear": "I år",
+            "agreedHours": "Avtalte timer",
+            "fromContract": "kontrakt",
+            "fromAllocation": "tildelt",
+            "noAgreedHours": "Ingen avtale registrert",
+            "overAgreed": "over avtalen",
+            "underAgreed": "under avtalen",
+            "matchesAgreed": "tilsvarer avtalen",
+            "summaryInterventions": "Tiltak",
+            "summaryHours": "Timer til fakturering",
+            "summaryAmount": "Beløp til fakturering",
+            "summaryInvoiced": "Timer allerede fakturert",
+            "selectAll": "Velg alle",
+            "convertSelected": "Omgjør valgte",
+            "convertRow": "Omgjør bare dette tiltaket",
+            "convertAllSelected": "Omgjør alle valgte",
+            "extras": "Diverse",
+            "addExtra": "Legg til diverse-linje",
+            "extraDescription": "Beskrivelse",
+            "extraQuantity": "Antall",
+            "extraPrice": "Pris",
+            "extraRemove": "Fjern linjen",
+            "lineDescription": "Tekst på fakturalinjen",
+            "invoiceNote": "Merknad på fakturaen",
+            "goToInvoices": "Gå til fakturaer",
+            "nothingSelected": "Velg minst ett tiltak, eller legg til en diverse-linje.",
+            "convertedBanner": "{count} faktura(er) er opprettet og ligger klar under Fakturering.",
+            "registrations": "Timeregistreringer",
+            "invoiceCount": "{count} faktura(er)",
+            "selectedOfRows": "{selected} av {total} valgt",
+            "writtenOff": "{hours} timer avskrives",
+            "helpPeriod": "Perioden bestemmer hvilke timeregistreringer som blir med: alle registreringer som starter i perioden, og som ikke allerede er fakturert. Timer som er fakturert én gang kommer ikke igjen.",
+            "helpUsedHours": "Timene fra timeregistreringene bak raden. Du kan sette dem ned hvis kontrakten bare dekker en del, og resten avskrives da for perioden. Du kan ikke sette dem opp over det registrerte - bruk en diverse-linje til det som ikke er timer.",
+            "helpAgreedHours": "Det leverte holdes opp mot kontrakttimene på tiltaket hvis de er fylt ut, ellers mot borgerens tildelte timer. Timene skaleres til radens periode, slik at et opphold som starter midt i måneden ikke ser underlevert ut. Kontrakttimer settes på oppholdet på borgerens stamkort.",
+            "helpConvert": "Omgjør de valgte tiltakene til én faktura per betalende kommune, diverse-linjer inkludert. Ikonet på raden lager en faktura med bare det ene tiltaket. Fakturaene ligger under Fakturering, klare til å sendes."
         }
     }
 }

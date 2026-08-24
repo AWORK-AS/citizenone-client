@@ -1,7 +1,7 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('dutySchedules.normHours.compensatoryHoursThisYear')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="lg" :title="$t('dutySchedules.normHours.compensatoryHoursThisYear')"
+            :show="props.isModalOpen && !state.modal.isPayoutOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state?.error?.message" class="mb-3"
@@ -65,7 +65,11 @@
                             </p>
                         </div>
                     </div>
-                    <div class="mt-5 flex justify-end">
+                    <div class="mt-5 flex justify-end gap-x-3">
+                        <FormButton v-if="canRegisterPayout" buttonStyle="action"
+                            @click="state.modal.isPayoutOpen = true">
+                            {{ $t('dutySchedules.normHours.payout.button') }}
+                        </FormButton>
                         <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
@@ -76,6 +80,9 @@
                     @filterDate="filterCompensatoryHours" />
             </template>
         </Modal>
+        <ModulesUserDutyScheduleNormHoursModalRegisterPayout :isModalOpen="state.modal.isPayoutOpen"
+            :selectedEmployee="props.selectedEmployee" @close="state.modal.isPayoutOpen = false"
+            @success="fetchCompensatoryVacationHours" />
     </div>
 </template>
 
@@ -84,6 +91,7 @@ import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -103,6 +111,9 @@ const language = useI18n()
 const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
+const { isAtLeast, can } = usePermissions()
+
+const canRegisterPayout = computed(() => isAtLeast('Admin') || can('register_time_account_payout'))
 
 const state = reactive({
     error: {} as Error,
@@ -115,6 +126,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isDateRangeOpen: false,
+        isPayoutOpen: false,
     },
     compensatoryHours: {} as any,
 })

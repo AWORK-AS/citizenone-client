@@ -63,6 +63,31 @@
                                     </FormButton>
                                 </div>
                             </div>
+
+                            <div
+                                class="mt-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6">
+                                <h3 class="text-sm font-semibold text-gray-900 mb-1">
+                                    {{ $t('formFieldConfig.statusTypes.title') }}
+                                </h3>
+                                <p class="text-xs text-gray-500 mb-4">
+                                    {{ $t('formFieldConfig.statusTypes.description') }}
+                                </p>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-x-2" v-for="statusType in statusTypeFields"
+                                        :key="statusType.key">
+                                        <FormSwitch :value="state.statusTypesConfig[statusType.key]"
+                                            :disabled="statusType.key === 'given'"
+                                            @toggleSwitch="state.statusTypesConfig[statusType.key] = !state.statusTypesConfig[statusType.key]" />
+                                        <p class="text-sm text-gray-700">{{ $t(statusType.label) }}</p>
+                                    </div>
+                                </div>
+                                <div class="mt-6">
+                                    <FormButton type="button" buttonStyle="primary" class="w-full"
+                                        @click="submitStatusTypesConfig()">
+                                        {{ $t('save') }}
+                                    </FormButton>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Form Preview -->
@@ -275,6 +300,18 @@ const defaultFields = () => ({
     mass_unit: true,
 })
 
+const defaultStatusTypes = () => ({
+    given: true,
+    delivered: true,
+    deviated: true,
+})
+
+const statusTypeFields = [
+    { key: 'given', label: 'citizens.medicineJournals.history.form.type.given' },
+    { key: 'delivered', label: 'citizens.medicineJournals.history.form.type.delivered' },
+    { key: 'deviated', label: 'citizens.medicineJournals.history.form.type.deviated' },
+]
+
 const medicineFormFields = [
     { key: 'is_self_administered', label: 'citizens.medicineJournals.form.selfAdminister' },
     { key: 'is_pn_medicine', label: 'citizens.medicineJournals.form.pnMedicine' },
@@ -302,6 +339,7 @@ const state = reactive({
         create: defaultFields(),
         edit: defaultFields(),
     } as Record<string, Record<string, boolean>>,
+    statusTypesConfig: defaultStatusTypes() as Record<string, boolean>,
 })
 
 function isFieldVisible(fieldKey: string): boolean {
@@ -315,6 +353,7 @@ onMounted(() => {
     }
 
     fetchFormFieldConfigs()
+    fetchStatusTypesConfig()
 })
 
 async function fetchFormFieldConfigs() {
@@ -337,6 +376,40 @@ async function fetchFormFieldConfigs() {
                 }
             })
         }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function fetchStatusTypesConfig() {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_medicine_history' })
+        const config = response?.data?.find((c: any) => c.form_type === 'status_types')
+        if (config?.form_fields) {
+            const types = defaultStatusTypes()
+            Object.keys(config.form_fields).forEach((key: string) => {
+                if (key in types) {
+                    (types as any)[key] = config.form_fields[key]
+                }
+            })
+            state.statusTypesConfig = types
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function submitStatusTypesConfig() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await formFieldConfigService.updateFormConfig({
+            entity_type: 'citizen_medicine_history',
+            form_type: 'status_types',
+            form_fields: state.statusTypesConfig,
+        })
+        successAlert(`${t('alert.success')}!`, `${t('formFieldConfig.alert.successfullyUpdated')}.`)
     } catch (error: any) {
         state.error = error
     }

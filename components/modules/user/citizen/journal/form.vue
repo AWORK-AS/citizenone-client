@@ -166,6 +166,7 @@
                     </p>
                     <div class="flex-1 flex flex-wrap items-center gap-2 justify-end">
                         <button type="button"
+                            v-if="userStore.getUser?.company?.onboarding_preferences?.modules?.predefinedContent !== false"
                             class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-200 transition-colors"
                             @click="state.modal.isSelectJournalContent = true">
                             <Icon name="ph:list-bullets" class="size-4" aria-hidden="true" />

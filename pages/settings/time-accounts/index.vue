@@ -28,6 +28,11 @@
                     </template>
                     <template v-if="state.activeView === 'timeAccounts'">
                         <div class="flex gap-2">
+                            <FormButton v-if="isAtLeast('Admin') || can('register_time_account_payout')"
+                                buttonStyle="action" @click="navigateTo('/reports/compensatory-payouts')">
+                                <Icon name="ph:file-text" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('timeAccounts.payoutReport') }}
+                            </FormButton>
                             <FormButton buttonStyle="action" @click="state.activeView = 'templateAgreements'">
                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('timeAccounts.templateAgreement') }}
@@ -166,7 +171,10 @@ import { timeAccountService } from '~/components/api/user/TimeAccountService'
 import { timeAccountTemplateAgreementService } from '~/components/api/user/TimeAccountTemplateAgreementService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
+
+const { isAtLeast, can } = usePermissions()
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
