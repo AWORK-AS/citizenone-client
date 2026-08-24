@@ -7772,9 +7772,11 @@
                 "alert": {
                     "securedMailSuccessfullySent": "Secured mail successfully sent"
                 },
+                "attachFile": "Attach file",
                 "message": "Message",
                 "password": "Password",
                 "readMessage": "Read message",
+                "removeFile": "Remove file",
                 "send": "Send"
             },
             "from": "From",

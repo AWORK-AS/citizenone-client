@@ -7772,9 +7772,11 @@
                 "alert": {
                     "securedMailSuccessfullySent": "Säker e-post skickad"
                 },
+                "attachFile": "Bifoga fil",
                 "message": "Meddelande",
                 "password": "Lösenord",
                 "readMessage": "Läs meddelande",
+                "removeFile": "Ta bort fil",
                 "send": "Skicka"
             },
             "from": "Från",
