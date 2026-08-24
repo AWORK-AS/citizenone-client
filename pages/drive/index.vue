@@ -492,7 +492,7 @@
                     <DialogConfirmation :isModalOpen="state.modal.isActiveGoogleDriveOpen"
                         :title="$t('drive.googleDrive')"
                         :message="$t('drive.googleDriveNotActivatedMessage') || 'Google Drive is not activated. Activate now?'"
-                        @close="state.modal.isActiveGoogleDriveOpen = false" @confirm="navigateToApps" />
+                        @close="state.modal.isActiveGoogleDriveOpen = false" @confirm="connectGoogleDrive" />
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteGoogleDriveFileOpen"
                         :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
                         @close="state.modal.isDeleteGoogleDriveFileOpen = false" @confirm="deleteGoogleDriveFile" />
@@ -991,9 +991,23 @@ async function toggleGoogleDriveView() {
     }
 }
 
-async function navigateToApps() {
+async function connectGoogleDrive() {
     state.modal.isActiveGoogleDriveOpen = false
-    await navigateTo('/apps')
+    try {
+        const response = await googledriveService.getGoogleDriveAuthUrl()
+        const authUrl = response?.authUrl || response?.auth_url
+        if (!authUrl) return
+        window.open(authUrl, 'Google Drive Authentication', 'width=500,height=600')
+        const handleAuthComplete = (event: MessageEvent) => {
+            if (event.data?.type === 'google-drive-auth-complete') {
+                window.removeEventListener('message', handleAuthComplete)
+                toggleGoogleDriveView()
+            }
+        }
+        window.addEventListener('message', handleAuthComplete)
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function openGoogleDriveFile(file: any) {
