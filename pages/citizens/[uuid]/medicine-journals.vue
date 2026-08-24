@@ -1119,6 +1119,7 @@ import { medicineJournalService } from '@/components/api/user/MedicineJournalSer
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { medicineDoseTiming } from '@/composables/medicineDoseTiming'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import { usePermissions } from '@/composables/usePermissions'
@@ -1428,36 +1429,28 @@ const alarmBanners = computed(() => {
 })
 
 // ─── Time helpers ─────────────────────────────────────────────
+// Thin wrappers over the shared composable, closing over state.now so every
+// existing call site below keeps its original single-argument signature.
+// See composables/medicineDoseTiming.ts for the range-time fix (2026-08-24) -
+// some dosage slots carry a "HH:mm - HH:mm" window instead of a point time,
+// which the old inline version silently mishandled (isMissed always false).
+
+const doseTiming = medicineDoseTiming()
 
 function isMissed(time: string): boolean {
-    if (!time) return false
-    const [h, m] = time.split(':').map(Number)
-    const scheduled = new Date(state.now)
-    scheduled.setHours(h, m, 0, 0)
-    return state.now > scheduled
+    return doseTiming.isMissed(time, state.now)
 }
 
 function isDueSoon(time: string): boolean {
-    if (!time) return false
-    const [h, m] = time.split(':').map(Number)
-    const scheduled = new Date(state.now)
-    scheduled.setHours(h, m, 0, 0)
-    const diff = scheduled.getTime() - state.now.getTime()
-    return diff > 0 && diff <= 60 * 60 * 1000
+    return doseTiming.isDueSoon(time, state.now)
 }
 
 function minutesSince(time: string): number {
-    const [h, m] = time.split(':').map(Number)
-    const scheduled = new Date(state.now)
-    scheduled.setHours(h, m, 0, 0)
-    return Math.round((state.now.getTime() - scheduled.getTime()) / 60000)
+    return doseTiming.minutesSince(time, state.now)
 }
 
 function minutesUntil(time: string): number {
-    const [h, m] = time.split(':').map(Number)
-    const scheduled = new Date(state.now)
-    scheduled.setHours(h, m, 0, 0)
-    return Math.round((scheduled.getTime() - state.now.getTime()) / 60000)
+    return doseTiming.minutesUntil(time, state.now)
 }
 
 function formatMinutesSince(mins: number): string {

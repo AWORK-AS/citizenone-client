@@ -6,7 +6,8 @@
   "scripts": {
     "test:email-templates": "node email-templates.mjs",
     "test:mileage-log": "node mileage-log.mjs",
-    "test:journal-note-survey": "node journal-note-survey.mjs"
+    "test:journal-note-survey": "node journal-note-survey.mjs",
+    "test:medicine-overdue-range-time": "node medicine-overdue-range-time.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"
