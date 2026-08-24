@@ -10,6 +10,16 @@
 
                 <!-- Filter -->
                 <div class="bg-white border border-surface-200 rounded-xl p-5 shadow-sm">
+                    <div class="flex flex-wrap items-center gap-2 mb-4">
+                        <button type="button" v-for="preset in presets" :key="preset.key"
+                            @click="applyPreset(preset.key); fetchReport()"
+                            class="rounded-full border px-3 py-1 text-[13px] transition"
+                            :class="state.preset === preset.key
+                                ? 'border-primary bg-primary/5 text-primary'
+                                : 'border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-700'">
+                            {{ preset.label }}
+                        </button>
+                    </div>
                     <div class="flex flex-wrap items-end gap-4">
                         <div class="space-y-1">
                             <FormLabel for="from_date" :label="$t('managementEconomy.fromDate')" />
@@ -90,26 +100,54 @@
 <script setup lang="ts">
 import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useEconomyPeriod } from '@/composables/economyPeriod'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const { formatAmount } = useAmountFormatter()
+const { presetRange, matchPreset } = useEconomyPeriod()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 
+// The screen opens on the running month with the figures already fetched: the
+// old empty state asked for two dates before it would say anything at all.
 onMounted(() => {
     if (userStore.getUser?.company?.industry?.system_name !== 'social_welfare') {
         navigateTo('/overview')
+
+        return
     }
+
+    applyPreset('thisMonth')
+    fetchReport()
 })
+
+const presets = computed(() => [
+    { key: 'thisMonth', label: t('managementEconomy.presetThisMonth') },
+    { key: 'lastMonth', label: t('managementEconomy.presetLastMonth') },
+    { key: 'thisYear', label: t('managementEconomy.presetThisYear') },
+])
 
 const state = reactive({
     error: {} as Error,
     hasFetched: false,
     isLoading: false,
     economy: { total_revenue: 0, case_count: 0, coordinators: [] as any[] },
+    preset: 'thisMonth' as string,
     filter: { from_date: '', to_date: '' },
+})
+
+function applyPreset(key: string) {
+    const range = presetRange(key)
+
+    state.preset = key
+    state.filter.from_date = range.from
+    state.filter.to_date = range.to
+}
+
+watch(() => [state.filter.from_date, state.filter.to_date], () => {
+    state.preset = matchPreset(state.filter.from_date, state.filter.to_date)
 })
 
 const economyChartOption = computed(() => {

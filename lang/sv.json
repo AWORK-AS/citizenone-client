@@ -39,7 +39,11 @@
         "coordinatorSplit": "Intäkt per koordinator",
         "primary": "Primär",
         "secondary": "Sekundär",
-        "exportCsv": "Exportera CSV"
+        "exportCsv": "Exportera CSV",
+        "periodHint": "Perioden är satt till denna månad. Använd genvägarna, eller välj datumen själv.",
+        "presetThisMonth": "Denna månad",
+        "presetLastMonth": "Förra månaden",
+        "presetThisYear": "I år"
     },
     "citizenRelations": {
         "addFirst": "Lägg till första relation",
@@ -2024,7 +2028,12 @@
                 "photo": "Foto",
                 "studentCollaboration": "Elevsamarbejde",
                 "contractPrice": "Kontraktpris",
-                "primarySplitPercentage": "Primär koordinator andel (%)"
+                "primarySplitPercentage": "Primär koordinator andel (%)",
+                "contractHours": "Kontraktstimmar",
+                "contractHoursInterval": "Kontraktstimmar per",
+                "contractHoursWeekly": "vecka",
+                "contractHoursMonthly": "månad",
+                "contractHoursTotal": "hela placeringen"
             },
             "dental": {
                 "isMemberOfSygeforsikringDanmark": "Medlem i Sygeforsikringen \"danmark\"",
@@ -13646,7 +13655,44 @@
             "hours": "Timmar",
             "employee": "Medarbetare",
             "note": "Anteckning",
-            "fromDutySchedule": "från schema"
+            "fromDutySchedule": "från schema",
+            "stepPeriod": "Välj period",
+            "stepGenerate": "Generera",
+            "stepReview": "Gå igenom insatserna",
+            "stepConvert": "Omvandla till fakturor",
+            "presetThisMonth": "Denna månad",
+            "presetLastMonth": "Förra månaden",
+            "presetThisYear": "I år",
+            "agreedHours": "Avtalade timmar",
+            "fromContract": "kontrakt",
+            "fromAllocation": "tilldelat",
+            "noAgreedHours": "Inget avtal registrerat",
+            "overAgreed": "över avtalet",
+            "underAgreed": "under avtalet",
+            "matchesAgreed": "motsvarar avtalet",
+            "summaryInterventions": "Insatser",
+            "summaryHours": "Timmar att fakturera",
+            "summaryAmount": "Belopp att fakturera",
+            "summaryInvoiced": "Timmar redan fakturerade",
+            "selectAll": "Välj alla",
+            "convertSelected": "Omvandla valda",
+            "convertRow": "Omvandla bara denna insats",
+            "convertAllSelected": "Omvandla alla valda",
+            "extras": "Övrigt",
+            "addExtra": "Lägg till övrig rad",
+            "extraDescription": "Beskrivning",
+            "extraQuantity": "Antal",
+            "extraPrice": "Pris",
+            "extraRemove": "Ta bort raden",
+            "lineDescription": "Text på fakturaraden",
+            "invoiceNote": "Notering på fakturan",
+            "goToInvoices": "Gå till fakturor",
+            "nothingSelected": "Välj minst en insats, eller lägg till en övrig rad.",
+            "convertedBanner": "{count} faktura(or) har skapats och ligger klara under Fakturering.",
+            "registrations": "Timregistreringar",
+            "invoiceCount": "{count} faktura(or)",
+            "selectedOfRows": "{selected} av {total} valda",
+            "writtenOff": "{hours} timmar skrivs av"
         }
     }
 }

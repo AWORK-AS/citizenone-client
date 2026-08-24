@@ -39,7 +39,11 @@
         "coordinatorSplit": "Revenue per coordinator",
         "primary": "Primary",
         "secondary": "Secondary",
-        "exportCsv": "Export CSV"
+        "exportCsv": "Export CSV",
+        "periodHint": "The period is set to this month. Use the shortcuts, or pick the dates yourself.",
+        "presetThisMonth": "This month",
+        "presetLastMonth": "Last month",
+        "presetThisYear": "This year"
     },
     "citizenRelations": {
         "addFirst": "Add first relation",
@@ -2024,7 +2028,12 @@
                 "photo": "Photo",
                 "studentCollaboration": "Student collaboration",
                 "contractPrice": "Contract price",
-                "primarySplitPercentage": "Primary coordinator share (%)"
+                "primarySplitPercentage": "Primary coordinator share (%)",
+                "contractHours": "Contracted hours",
+                "contractHoursInterval": "Contracted hours per",
+                "contractHoursWeekly": "week",
+                "contractHoursMonthly": "month",
+                "contractHoursTotal": "whole placement"
             },
             "dental": {
                 "isMemberOfSygeforsikringDanmark": "Member of Sygeforsikringen \"danmark\"",
@@ -13646,7 +13655,44 @@
             "hours": "Hours",
             "employee": "Employee",
             "note": "Note",
-            "fromDutySchedule": "from duty schedule"
+            "fromDutySchedule": "from duty schedule",
+            "stepPeriod": "Choose a period",
+            "stepGenerate": "Generate",
+            "stepReview": "Review the placements",
+            "stepConvert": "Convert to invoices",
+            "presetThisMonth": "This month",
+            "presetLastMonth": "Last month",
+            "presetThisYear": "This year",
+            "agreedHours": "Agreed hours",
+            "fromContract": "contract",
+            "fromAllocation": "allocated",
+            "noAgreedHours": "No agreement recorded",
+            "overAgreed": "over the agreement",
+            "underAgreed": "under the agreement",
+            "matchesAgreed": "matches the agreement",
+            "summaryInterventions": "Placements",
+            "summaryHours": "Hours to invoice",
+            "summaryAmount": "Amount to invoice",
+            "summaryInvoiced": "Hours already invoiced",
+            "selectAll": "Select all",
+            "convertSelected": "Convert selected",
+            "convertRow": "Convert this placement only",
+            "convertAllSelected": "Convert all selected",
+            "extras": "Extras",
+            "addExtra": "Add extra line",
+            "extraDescription": "Description",
+            "extraQuantity": "Quantity",
+            "extraPrice": "Price",
+            "extraRemove": "Remove the line",
+            "lineDescription": "Text on the invoice line",
+            "invoiceNote": "Note on the invoice",
+            "goToInvoices": "Go to invoices",
+            "nothingSelected": "Select at least one placement, or add an extra line.",
+            "convertedBanner": "{count} invoice(s) created and waiting under Invoicing.",
+            "registrations": "Hour registrations",
+            "invoiceCount": "{count} invoice(s)",
+            "selectedOfRows": "{selected} of {total} selected",
+            "writtenOff": "{hours} hours written off"
         }
     }
 }
