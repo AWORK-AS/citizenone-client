@@ -525,6 +525,26 @@
                         <FormError :error="props?.error?.errors?.primary_split_percentage?.[0]" />
                     </div>
                 </div>
+                <!-- The hours the placement was agreed on. The billing extraction
+                     holds delivery up against these; without them it can only
+                     compare with the citizen's own allocation. -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="contract_hours" :label="$t('citizens.form.stayData.contractHours')" />
+                        <FormNumberField id="contract_hours" name="contract_hours" :min="0"
+                            :placeholder="$t('citizens.form.stayData.contractHours')"
+                            v-model="state.formCitizen.stayData.contract_hours" />
+                        <FormError :error="props?.error?.errors?.contract_hours?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="contract_hours_interval"
+                            :label="$t('citizens.form.stayData.contractHoursInterval')" />
+                        <FormSelect id="contract_hours_interval" :options="state.options.contractHoursIntervals"
+                            :placeholder="$t('citizens.form.stayData.contractHoursInterval')"
+                            v-model="state.formCitizen.stayData.contract_hours_interval" />
+                        <FormError :error="props?.error?.errors?.contract_hours_interval?.[0]" />
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="accommodation_start_date"
@@ -1217,6 +1237,8 @@ const state = reactive({
             accommodation_start_date: '',
             journal_number: '',
             contract_price: '',
+            contract_hours: '',
+            contract_hours_interval: 'weekly',
             primary_split_percentage: '',
             accompanying_children: [{
                 name: '',
@@ -1306,6 +1328,11 @@ const state = reactive({
         employmentCaseTypes: [] as any,
         employmentStatusTypes: [] as any,
         consultants: [] as any,
+        contractHoursIntervals: [
+            { value: 'weekly', label: `${t('citizens.form.stayData.contractHoursWeekly')}`, },
+            { value: 'monthly', label: `${t('citizens.form.stayData.contractHoursMonthly')}`, },
+            { value: 'total', label: `${t('citizens.form.stayData.contractHoursTotal')}`, },
+        ],
         sygesikringGroups: [
             { value: 'group_1', label: `${t('citizens.form.dental.sygesikringGroup.group1')}`, },
             { value: 'group_2', label: `${t('citizens.form.dental.sygesikringGroup.group2')}`, },
@@ -1489,6 +1516,8 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 contract_price: selectedCitizen.stayData?.contract_price
                     ? formatPrice(selectedCitizen.stayData.contract_price, language.locale.value)
                     : '',
+                contract_hours: selectedCitizen.stayData?.contract_hours ?? '',
+                contract_hours_interval: selectedCitizen.stayData?.contract_hours_interval || 'weekly',
                 primary_split_percentage: selectedCitizen.stayData?.primary_split_percentage || '',
                 accompanying_children: selectedCitizen.stayData?.accompanying_children ?? [],
                 residence_before_uuid: selectedCitizen.stayData?.residence_before_uuid || '',

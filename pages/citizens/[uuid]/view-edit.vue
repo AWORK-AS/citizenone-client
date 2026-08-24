@@ -133,6 +133,8 @@ const state = reactive({
             accommodation_start_date: '',
             journal_number: '',
             contract_price: '',
+            contract_hours: '',
+            contract_hours_interval: 'weekly',
             primary_split_percentage: '',
             accompanying_children: [{
                 name: '',
@@ -228,6 +230,8 @@ async function fetchCitizen() {
                     accommodation_start_date: response?.data?.stay_data?.start_date ?? '',
                     journal_number: response?.data?.stay_data?.journal_number ?? '',
                     contract_price: response?.data?.stay_data?.contract_price ?? '',
+                    contract_hours: response?.data?.stay_data?.contract_hours ?? '',
+                    contract_hours_interval: response?.data?.stay_data?.contract_hours_interval || 'weekly',
                     primary_split_percentage: response?.data?.stay_data?.primary_split_percentage ?? '',
                     accompanying_children: response?.data?.stay_data?.accompanying_children ?? [{
                         name: '',
@@ -349,6 +353,8 @@ async function updateCitizen(citizenDetails: any) {
         params.append('start_date', citizenDetails.stayData.accommodation_start_date)
         params.append('journal_number', citizenDetails.stayData.journal_number)
         params.append('contract_price', citizenDetails.stayData.contract_price ? parseLocaleNumber(language.locale.value, citizenDetails.stayData.contract_price) : citizenDetails.stayData.contract_price)
+        params.append('contract_hours', citizenDetails.stayData.contract_hours ?? '')
+        params.append('contract_hours_interval', citizenDetails.stayData.contract_hours_interval ?? '')
         params.append('primary_split_percentage', citizenDetails.stayData.primary_split_percentage)
         params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
         if (citizenDetails.stayData.residence_before_uuid) {
