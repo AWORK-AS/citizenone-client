@@ -19,7 +19,7 @@
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserEmployeeForm formType="create" :selectedEmployee="state.formEmployee"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        :error="state.error" @isPageLoading="setPageLoading"
                         @submitForm="saveEmployee" />
                 </LoadingSpinner>
             </div>
@@ -96,9 +96,19 @@ const state = reactive({
     isPageLoading: false,
 })
 
+// The employee form fires several independent fetches on mount (departments,
+// roles, job titles, ...) that each toggle isPageLoading on/off around their
+// own request. A plain boolean lets whichever finishes first turn the
+// spinner off while others are still in flight, so track a count instead.
+let pageLoadingCount = 0
+function setPageLoading(value: boolean) {
+    pageLoadingCount = Math.max(0, pageLoadingCount + (value ? 1 : -1))
+    state.isPageLoading = pageLoadingCount > 0
+}
+
 async function saveEmployee(employeeDetails: any) {
     state.error = {}
-    state.isPageLoading = true
+    setPageLoading(true)
     try {
         let params = new FormData()
         params.append('profile_image', employeeDetails.profile_image)
@@ -150,6 +160,6 @@ async function saveEmployee(employeeDetails: any) {
             navigateTo(`/subscription?error=${error?.message}`)
         }
     }
-    state.isPageLoading = false
+    setPageLoading(false)
 }
 </script>

@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <ModulesUserEmployeeForm formType="update" :selectedEmployee="state.formEmployee"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        :error="state.error" @isPageLoading="setPageLoading"
                         @submitForm="updateEmployee" />
                 </LoadingSpinner>
             </div>
@@ -127,12 +127,24 @@ const state = reactive({
     },
 })
 
+// The employee form fires several independent fetches on mount (departments,
+// roles, job titles, ...) that each toggle isPageLoading on/off around their
+// own request. A plain boolean lets whichever of those finishes first turn
+// the spinner off while others (including our own employee fetch below) are
+// still in flight. Track a count of in-flight loads instead so the spinner
+// only clears once everything is actually done.
+let pageLoadingCount = 0
+function setPageLoading(value: boolean) {
+    pageLoadingCount = Math.max(0, pageLoadingCount + (value ? 1 : -1))
+    state.isPageLoading = pageLoadingCount > 0
+}
+
 onMounted(() => {
     fetchEmployee()
 })
 
 async function fetchEmployee() {
-    state.isPageLoading = true
+    setPageLoading(true)
     state.error = {}
     try {
         const response = await employeeService.getEmployee(employeeUuid)
@@ -218,12 +230,12 @@ async function fetchEmployee() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    setPageLoading(false)
 }
 
 async function updateEmployee(employeeDetails: any) {
     state.error = {}
-    state.isPageLoading = true
+    setPageLoading(true)
     try {
         let params = new FormData()
         params.append('profile_image', employeeDetails.profile_image)
@@ -276,7 +288,7 @@ async function updateEmployee(employeeDetails: any) {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    setPageLoading(false)
 }
 
 function confirmCitizenArchiving() {
@@ -289,7 +301,7 @@ function confirmEmployeeDeletion() {
 
 async function archiveEmployee() {
     state.error = {}
-    state.isPageLoading = true
+    setPageLoading(true)
     try {
         const response = await employeeService.archiveEmployee(employeeUuid)
         if (response.data) {
@@ -299,12 +311,12 @@ async function archiveEmployee() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    setPageLoading(false)
 }
 
 async function deleteEmployee() {
     state.error = {}
-    state.isPageLoading = true
+    setPageLoading(true)
     try {
         const response = await employeeService.deleteEmployee(employeeUuid)
         if (response?.message === 'Success.' || response?.message === 'Succes.') {
@@ -314,6 +326,6 @@ async function deleteEmployee() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
+    setPageLoading(false)
 }
 </script>
