@@ -157,6 +157,38 @@
                                 </div>
                             </div>
                             <div v-safe-html="history?.message"></div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <div v-for="(attachment, attachmentIndex) in history?.attachments"
+                                    :index="attachmentIndex" class="border border-gray-200 rounded-sm">
+                                    <div class="cursor-pointer flex items-center gap-x-2 p-2"
+                                        @click="downloadAttachment(attachment?.file_url, attachment?.file_name)">
+                                        <div class="flex items-center" v-if="isPdf(attachment?.file_name)">
+                                            <Icon name="ph:file-pdf" class="h-5 w-5 text-red-600" aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else-if="isWord(attachment?.file_name)">
+                                            <Icon name="ph:file-doc" class="h-5 w-5 text-blue-600" aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else-if="isExcel(attachment?.file_name)">
+                                            <Icon name="ph:file-xls" class="h-5 w-5 text-green-600"
+                                                aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else-if="isPpt(attachment?.file_name)">
+                                            <Icon name="ph:file-ppt" class="h-5 w-5 text-purple-600"
+                                                aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else-if="isImage(attachment?.file_name)">
+                                            <Icon name="ph:file-image" class="h-5 w-5 text-yellow-600"
+                                                aria-hidden="true" />
+                                        </div>
+                                        <div class="flex items-center" v-else>
+                                            <Icon name="ph:file" class="h-5 w-5 text-gray-600" aria-hidden="true" />
+                                        </div>
+                                        <p class="text-xs">
+                                            {{ attachment?.file_name }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                             <p class="flex items-center gap-x-1 text-xs">
                                 <span>
                                     {{ $t('mail.secured.sent.sentWith') }}
@@ -301,7 +333,7 @@ function identifyFlag() {
     return flags[selectedLanguage] ?? '/img/icons/flags/united-kingdom.svg'
 }
 
-async function downloadAttachment(attachment: any) {
+async function downloadAttachment(attachment: any, fileName?: string) {
     state.isPageLoading = true
     state.error = {}
     try {
@@ -310,7 +342,7 @@ async function downloadAttachment(attachment: any) {
         }
         const response = await securedMailService.downloadAttachmentWithoutAuthentication(params)
         if (response) {
-            saveAs(response, attachment?.split('/').pop())
+            saveAs(response, fileName || attachment?.split('/').pop())
         }
     } catch (error: any) {
         state.error.message = error?.message || 'An error occurred during the download.'

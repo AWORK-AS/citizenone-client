@@ -7772,9 +7772,11 @@
                 "alert": {
                     "securedMailSuccessfullySent": "Sikker mail sendt med succes"
                 },
+                "attachFile": "Vedhæft fil",
                 "message": "Besked",
                 "password": "Adgangskode",
                 "readMessage": "Læs besked",
+                "removeFile": "Fjern fil",
                 "send": "Send"
             },
             "from": "Fra",
