@@ -110,6 +110,7 @@
                             {{ $t('overview.filter.items.subgoalsStatistics') }}
                         </div>
                         <div class="w-fit flex items-center cursor-pointer text-sm"
+                            v-if="userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false"
                             @click="setDailyOverviewFilterShowUseOfForceStatistics()">
                             <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics" />
                             {{ $t('overview.filter.items.useOfForceStatistics') }}

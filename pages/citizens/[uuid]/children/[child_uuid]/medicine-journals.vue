@@ -355,6 +355,14 @@
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
                                         </p>
+                                        <p v-if="medicine?.created_at" class="text-xs text-gray-400">
+                                            {{ $t('citizens.medicineJournals.createdOn') }}:
+                                            {{ formatDateToReadable(medicine.created_at) }}
+                                        </p>
+                                        <p v-if="medicine?.next_administration_date" class="text-xs text-primary font-medium">
+                                            {{ $t('citizens.medicineJournals.nextAdministrationDate') }}:
+                                            {{ formatDateWithWeekdayToReadable(medicine.next_administration_date) }}
+                                        </p>
                                         <div class="flex gap-1 flex-wrap mt-1">
                                             <Tooltip v-if="medicine?.is_expired"
                                                 :text="$t('citizens.medicineJournals.page.expiredCheckDate')">
@@ -497,6 +505,10 @@
                                         <p class="text-xs text-gray-500">
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
+                                        </p>
+                                        <p v-if="medicine?.created_at" class="text-xs text-gray-400">
+                                            {{ $t('citizens.medicineJournals.createdOn') }}:
+                                            {{ formatDateToReadable(medicine.created_at) }}
                                         </p>
                                         <!-- Dosage for PN -->
                                         <div v-if="medicine?.dosage_status_by_date?.[todayStr]?.length"
@@ -996,6 +1008,7 @@ import { medicineDoseTiming } from '@/composables/medicineDoseTiming'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import { usePermissions } from '@/composables/usePermissions'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -1041,6 +1054,7 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const childUuid = router?.currentRoute?.value?.params?.child_uuid
 const { isAtLeast, can } = usePermissions()
+const { formatDateToReadable, formatDateWithWeekdayToReadable } = useDatetimeFormatter()
 let currentTablePage = 1
 
 const breadcrumbLinks = [

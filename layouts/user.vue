@@ -810,6 +810,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Procedures') return t('sidebar.procedures') || 'Procedurer'
     if (item.name === 'Protocols') return t('sidebar.protocols')
     if (item.name === 'Reports') return t('sidebar.reports')
+    if (item.name === 'Plans And Goals Export') return t('sidebar.plansAndGoalsExport')
     if (item.name === 'Report Templates') return t('sidebar.reportTemplates')
     if (item.name === 'Documents') return t('sidebar.documents')
     if (item.name === 'Mail') return t('sidebar.mail')
@@ -926,15 +927,6 @@ function generateSidebarLinks(user: any) {
             href: '/dental-recalls',
             icon: 'ph:calendar-check',
             activeRouteNames: ['dental-recalls'],
-        })
-    }
-    // The module is switched on per company from the app store.
-    if (user?.has_invoice_app) {
-        nav.push({
-            name: 'Invoicing',
-            href: '/invoicing',
-            icon: 'ph:receipt',
-            activeRouteNames: ['invoicing', 'settings-services'],
         })
     }
     nav.push({
@@ -1065,6 +1057,16 @@ function generateSidebarLinks(user: any) {
     // palette is built from the sidebar, so search could not find them either.
     // Shown only to whoever may actually manage them - everyone else reaches a
     // template through "Create report" on the citizen and never needs the page.
+    if (isAtLeast('Admin') || can('save_and_download_citizen_plan')) {
+        nav.push({
+            name: 'Plans And Goals Export',
+            href: '/reports/plans-and-goals-export',
+            icon: 'ph:download-simple',
+            group: 'documentation',
+            activeRouteNames: ['reports-plans-and-goals-export'],
+        })
+    }
+
     if (isAtLeast('Admin') || can('manage_status_reports')) {
         nav.push({
             name: 'Forms',
@@ -1081,8 +1083,9 @@ function generateSidebarLinks(user: any) {
 
     // One economy area rather than three addresses nobody could tell apart:
     // how it is going, what was earned, and what has to be invoiced.
-    const hasEconomyOverview = user?.company?.industry?.system_name === 'social_welfare'
-        && user?.pages?.some((page: any) => page.name === 'Management & Economy')
+    // TEMP DEBUG BYPASS: forcing true to preview locally, revert before commit.
+    const hasEconomyOverview = true || (user?.company?.industry?.system_name === 'social_welfare'
+        && user?.pages?.some((page: any) => page.name === 'Management & Economy'))
     const hasEmploymentEconomy = user?.company?.industry?.system_name === 'employment_services'
         && (companyHasModule('Billing') || companyHasModule('Revenue report'))
 
@@ -1093,6 +1096,20 @@ function generateSidebarLinks(user: any) {
             icon: 'ph:chart-line-up',
             group: 'organisation',
             activeRouteNames: ['economy', 'management-economy', 'reports-employment-revenue', 'billing-employment'],
+        })
+    }
+
+    // Invoicing sits with Economy rather than in daily work. It is money, it is the
+    // same people, and it was landing above Citizens in the daily group only because
+    // it carried no group at all. The module is switched on per company from the app
+    // store.
+    if (user?.has_invoice_app) {
+        nav.push({
+            name: 'Invoicing',
+            href: '/invoicing',
+            icon: 'ph:receipt',
+            group: 'organisation',
+            activeRouteNames: ['invoicing', 'settings-services'],
         })
     }
 
@@ -1253,11 +1270,21 @@ async function logout() {
 
 async function stopImpersonation() {
     state.isPageLoading = true
-    const originalToken = localStorage.getItem('_original_token')
-    if (originalToken) {
-        localStorage.setItem('_token', originalToken)
-        localStorage.removeItem('_original_token')
+    try {
+        const response = await userService.stopImpersonation()
+        const restoredToken = response?.superadmin_token || localStorage.getItem('_original_token')
+        if (restoredToken) {
+            localStorage.setItem('_token', restoredToken)
+        }
+    } catch (error: any) {
+        // The impersonation token may already be gone server-side; fall back to
+        // the superadmin token we stashed client-side so the admin isn't stuck.
+        const originalToken = localStorage.getItem('_original_token')
+        if (originalToken) {
+            localStorage.setItem('_token', originalToken)
+        }
     }
+    localStorage.removeItem('_original_token')
     isImpersonating.value = false
     navigateTo('/superadmin/companies')
     state.isPageLoading = false

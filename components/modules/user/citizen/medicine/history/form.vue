@@ -269,6 +269,7 @@ import moment from 'moment'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { userService } from '@/components/api/user/UserService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -294,7 +295,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error'])
+const emit = defineEmits(['closeModal', 'submitForm', 'isPageLoading', 'error', 'confirmationDialogToggle'])
 
 const { t } = useI18n()
 const language = useI18n()
@@ -339,6 +340,7 @@ const state = reactive({
 
 onMounted(() => {
     fetchAllUsers()
+    fetchStatusTypesConfig()
     fetchMedicineHistoryPerMedicine(moment(props.selectedMedicineHistory?.date).format('YYYY-MM-DD'))
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
@@ -360,6 +362,13 @@ onMounted(() => {
 
 watch(() => state.formMedicineHistory.date, (date: any) => {
     fetchMedicineHistoryPerMedicine(date)
+})
+
+// The parent's own Modal must not stay "open" while this confirmation dialog is
+// showing, or the two stacked HeadlessUI Dialogs fight over focus/outside-click
+// and a failed submit silently closes the whole form instead of showing the error.
+watch(() => state.modal.isMoreThanMedicineDailyConfirmationOpen, (isOpen: boolean) => {
+    emit('confirmationDialogToggle', isOpen)
 })
 
 const rules = computed(() => {
@@ -529,6 +538,25 @@ async function fetchAllUsers() {
         emit('error', error)
     }
     emit('isPageLoading', false)
+}
+
+async function fetchStatusTypesConfig() {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_medicine_history' })
+        const config = response?.data?.find((c: any) => c.form_type === 'status_types')
+        const formFields = config?.form_fields
+        if (!formFields) return
+
+        // Keep the current history entry's own type selectable even if the
+        // company has since disabled it - editing existing data shouldn't break.
+        const currentType = props.selectedMedicineHistory?.type
+        state.options.types = state.options.types.filter(
+            (type: any) => formFields[type.value] !== false || type.value === currentType
+        )
+    } catch (error: any) {
+        // Non-fatal: if this fails, keep showing all types rather than
+        // blocking the give-dose flow entirely.
+    }
 }
 
 generateEvaluationFrequenciesTimeIntervals()

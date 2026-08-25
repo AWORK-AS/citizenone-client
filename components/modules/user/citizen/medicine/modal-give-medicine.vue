@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="lg" :title="modalTitle" :show="props.isModalOpen"
+        <Modal size="lg" :title="modalTitle" :show="props.isModalOpen && !state.isPouringEmptyOpen"
             @close="closeModal">
             <template #modal-body>
                 <div class="space-y-5">
@@ -22,6 +22,10 @@
                                 <span v-if="props.selectedMedicine?.dosage?.dk_name">
                                     · {{ props.selectedMedicine?.dosage?.dk_name }}
                                 </span>
+                            </p>
+                            <p v-if="props.selectedMedicine?.treatment_reason" class="text-xs text-blue-700 mt-1">
+                                <span class="font-medium">{{ $t('citizens.medicineJournals.form.treatmentReason') }}:</span>
+                                {{ props.selectedMedicine?.treatment_reason }}
                             </p>
                         </div>
                     </div>

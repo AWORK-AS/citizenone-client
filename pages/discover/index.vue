@@ -302,9 +302,14 @@ const moduleOptions = [
     { key: 'vagtplan', icon: 'ph:calendar-dots' },
     { key: 'medicin', icon: 'ph:pill' },
     { key: 'dokumentation', icon: 'ph:files' },
+    { key: 'useOfForce', icon: 'ph:shield-warning' },
+    { key: 'predefinedContent', icon: 'ph:list-bullets' },
 ]
 
-const modules = reactive<Record<string, boolean>>({ vagtplan: true, medicin: true, dokumentation: true })
+const modules = reactive<Record<string, boolean>>({
+    vagtplan: true, medicin: true, dokumentation: true,
+    useOfForce: true, predefinedContent: true,
+})
 
 const state = reactive({
     open: { migration: true, komIGang: true } as Record<string, boolean>,
@@ -488,6 +493,13 @@ onMounted(async () => {
             }
         }
     }
+    // useOfForce/predefinedContent have no Page mapping, so the module_pages
+    // branch above never sets them - read them from onboarding_preferences
+    // directly, regardless of which branch ran, or a previously-saved "off"
+    // would silently show as "on" again next time this modal opens.
+    const savedModules = userStore.getUser?.company?.onboarding_preferences?.modules
+    if (typeof savedModules?.useOfForce === 'boolean') modules.useOfForce = savedModules.useOfForce
+    if (typeof savedModules?.predefinedContent === 'boolean') modules.predefinedContent = savedModules.predefinedContent
     // Data-derived completion (a few easy ones)
     try {
         const [d, u, c, tags] = await Promise.all([

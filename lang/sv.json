@@ -1,4 +1,18 @@
 {
+    "compensatoryPayoutsReport": {
+        "export": "Exportera",
+        "filters": {
+            "dateEnd": "Datum till",
+            "dateStart": "Datum från"
+        },
+        "table": {
+            "account": "Tidkonto",
+            "amount": "Utbetalda timmar",
+            "date": "Datum",
+            "employee": "Anställd"
+        },
+        "title": "Utbetalningar av kompensationstid"
+    },
     "inquiryPipeline": {
         "board": "Förfrågningspipeline",
         "enableLabel": "Förfrågningspipeline (kanban)",
@@ -25,7 +39,11 @@
         "coordinatorSplit": "Intäkt per koordinator",
         "primary": "Primär",
         "secondary": "Sekundär",
-        "exportCsv": "Exportera CSV"
+        "exportCsv": "Exportera CSV",
+        "periodHint": "Perioden är satt till denna månad. Använd genvägarna, eller välj datumen själv.",
+        "presetThisMonth": "Denna månad",
+        "presetLastMonth": "Förra månaden",
+        "presetThisYear": "I år"
     },
     "citizenRelations": {
         "addFirst": "Lägg till första relation",
@@ -90,7 +108,9 @@
         "modules": {
             "vagtplan": "Schema",
             "medicin": "Medicin",
-            "dokumentation": "Dokumentation (planer, status, dokument)"
+            "dokumentation": "Dokumentation (planer, status, dokument)",
+            "useOfForce": "Våldsanvändning",
+            "predefinedContent": "Fördefinierat anteckningsinnehåll"
         },
         "groups": {
             "migration": "Migrering",
@@ -1810,6 +1830,18 @@
         "editCitizenForm": "Redigera borgerformular",
         "editMedicineForm": "Redigera medicinformulär",
         "emails": {
+            "bodyInOriginal": "Texten kunde inte visas här. Öppna originalet för att läsa mejlet.",
+            "filters": {
+                "dateFrom": "Från datum",
+                "dateTo": "Till datum",
+                "perPage": "Per sida",
+                "reset": "Rensa",
+                "search": "Sök",
+                "searchPlaceholder": "Ämne eller avsändare"
+            },
+            "migrated": "Importerad",
+            "noBody": "Det här mejlet har ingen text.",
+            "openOriginal": "Öppna originalet",
             "attachments": "Bilagor",
             "confirmation": {
                 "untagConfirmation": "Är du säker på att du vill ta bort detta e-postmeddelande från klientens profil"
@@ -1996,7 +2028,12 @@
                 "photo": "Foto",
                 "studentCollaboration": "Elevsamarbejde",
                 "contractPrice": "Kontraktpris",
-                "primarySplitPercentage": "Primär koordinator andel (%)"
+                "primarySplitPercentage": "Primär koordinator andel (%)",
+                "contractHours": "Kontraktstimmar",
+                "contractHoursInterval": "Kontraktstimmar per",
+                "contractHoursWeekly": "vecka",
+                "contractHoursMonthly": "månad",
+                "contractHoursTotal": "hela placeringen"
             },
             "dental": {
                 "isMemberOfSygeforsikringDanmark": "Medlem i Sygeforsikringen \"danmark\"",
@@ -2435,6 +2472,35 @@
                         "type": "Typ"
                     }
                 },
+                "batchDispense": {
+                    "button": "Registrera för period",
+                    "modalTitle": "Registrera medicin för en period",
+                    "form": {
+                        "description": "Registrera de valda läkemedlen som givna varje dag de är planerade under den valda perioden.",
+                        "dateRangeLabel": "Period",
+                        "typeLabel": "Typ",
+                        "commentLabel": "Kommentar (valfritt, läggs till på alla registreringar)",
+                        "pnExcludedNotice": "{n} PN-läkemedel (vid behov) är exkluderade - registrering för period gäller endast schemalagd medicin.",
+                        "previewButton": "Förhandsgranska"
+                    },
+                    "confirm": {
+                        "title": "Bekräfta registrering för period",
+                        "willCreate": "{n} dos(er) kommer att registreras som given.",
+                        "willSkip": "{n} redan registrerad(e) dos(er) hoppas över.",
+                        "noneToCreate": "Alla doser i denna period är redan registrerade - det finns inget att registrera.",
+                        "backButton": "Tillbaka",
+                        "confirmButton": "Bekräfta och registrera"
+                    },
+                    "result": {
+                        "title": "Registrering för period slutförd",
+                        "summary": "{created} dos(er) registrerade, {skipped} överhoppade.",
+                        "undoButton": "Ångra denna registrering"
+                    },
+                    "undo": {
+                        "confirmMessage": "Ta bort alla {n} registreringar från denna åtgärd och återställ lager?",
+                        "successMessage": "Registreringen har ångrats."
+                    }
+                },
                 "giveAllMedicines": "Giv al medicin",
                 "giveMedicine": "Giv medicin",
                 "giveMedicineTo": "Ge medicin till {name}",
@@ -2534,7 +2600,11 @@
             },
             "newMedicine": "Ny medicin",
             "newPouring": "Ny dosering",
+            "newPlannedDelivery": "Planerad leverans",
             "givenViaPouringContainer": "Givet via doseringsbehållaren",
+            "deliveredViaPlannedDelivery": "Levererat via planerad leverans",
+            "createdOn": "Skapad",
+            "nextAdministrationDate": "Nästa dosering",
             "pouring": {
                 "activeIngredient": "Aktiv substans",
                 "amount": "Mängd uppmätt",
@@ -2548,6 +2618,19 @@
                 "periodStart": "Period start",
                 "alert": {
                     "successfullyAdded": "Dosering skapad"
+                }
+            },
+            "plannedDelivery": {
+                "activeIngredient": "Aktiv substans",
+                "amount": "Mängd levererad",
+                "amountExceedsStock": "Mängden får inte överstiga det aktuella huvudlagret",
+                "currentMainStock": "Aktuellt huvudlager",
+                "label": "Planerad leverans",
+                "periodEnd": "Period slut",
+                "periodEndBeforeStart": "Slutdatumet måste vara samma dag som eller efter startdatumet",
+                "periodStart": "Period start",
+                "alert": {
+                    "successfullyAdded": "Planerad leverans skapad"
                 }
             },
             "page": {
@@ -4587,6 +4670,20 @@
             "info1": "Medarbejderens individuelle årlige norm anvendes alltid.",
             "info2": "Om den anställde är startet i löbet av året, beregnes den årlige norm forholdsmässigt ut från ansättelsesdatoen.",
             "info3": "Afspadserings- och ferietimer beregnes ut från denna årlige norm.",
+            "payout": {
+                "account": "Tidkonto",
+                "accountRequired": "Välj ett tidkonto",
+                "alert": {
+                    "registerSuccess": "Utbetalning registrerad"
+                },
+                "amount": "Timmar att betala ut",
+                "amountRequired": "Ange ett antal timmar större än 0",
+                "button": "Registrera utbetalning",
+                "confirmation": "Är du säker på att du vill registrera en utbetalning av {amount} timmar till {employee}?",
+                "noAccountAssigned": "Denna anställd har inget aktivt tidkonto att registrera en utbetalning mot.",
+                "register": "Registrera utbetalning",
+                "title": "Registrera utbetalning"
+            },
             "period": {
                 "balance": "Plus/minus i perioden",
                 "basisWorkdays": "{days} av {total} arbetsdagar",
@@ -6761,6 +6858,10 @@
         "editForm": "Redigeringsformular",
         "entityType": "Entitetstype",
         "fieldVisibility": "Feltsynlighed",
+        "statusTypes": {
+            "title": "Läkemedelsstatustyper",
+            "description": "Välj vilka statusar personalen kan välja när de registrerar en dos. \"Given\" förblir alltid aktiverad."
+        },
         "fields": {
             "addictions": "Afhängigheder",
             "allocatedHours": "Tilldelade timmar",
@@ -10003,7 +10104,8 @@
         "forms": "Formulär",
         "dentalRecalls": "Kallelser",
         "dentalOverview": "Kliniköversikt",
-        "invoicing": "Fakturering"
+        "invoicing": "Fakturering",
+        "plansAndGoalsExport": "Export av planer och mål"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -11941,6 +12043,7 @@
         "newTemplateAgreement": "Ny skabelonaftale",
         "newTimeAccount": "Ny timekonto",
         "newTimeAccounts": "Ny timekonto",
+        "payoutReport": "Utbetalningsrapport",
         "table": {
             "actions": {
                 "assign": "Tilldela",
@@ -13501,6 +13604,106 @@
             "overview": "Översikt",
             "revenue": "Omsättning",
             "billing": "Faktureringsunderlag"
+        }
+    },
+    "plansAndGoalsExport": {
+        "title": "Export av planer och mål",
+        "description": "Ladda ner planer, mål och delmål som en zip-fil med PDF-rapporter för många medborgare samtidigt. Lämna urvalet tomt för att exportera hela företaget.",
+        "selectedCount": "{count} medborgare valda",
+        "noneSelectedHint": "Inga medborgare valda - hela företaget exporteras",
+        "clearSelection": "Rensa urval",
+        "download": "Ladda ner",
+        "downloading": "Förbereder nedladdning...",
+        "table": {
+            "name": "Namn",
+            "departments": "Avdelningar"
+        },
+        "noPlansFound": "Inga planer, mål eller delmål hittades för de valda medborgarna.",
+        "noPermission": "Du har inte behörighet att exportera planer och mål i bulk."
+    },
+    "socialWelfare": {
+        "billing": {
+            "fromDate": "Från datum",
+            "toDate": "Till datum",
+            "generate": "Generera",
+            "convert": "Omvandla till faktura",
+            "convertAll": "Omvandla alla",
+            "exportCsv": "Exportera CSV",
+            "selectPeriod": "Välj en period och tryck Generera.",
+            "noData": "Inga registrerade timmar under perioden.",
+            "citizen": "Medborgare",
+            "citizens": "medborgare",
+            "section": "Paragraf",
+            "usedHours": "Använda timmar",
+            "allocatedHours": "Tilldelade timmar",
+            "rate": "Timpris",
+            "contractPrice": "Kontraktspris",
+            "amount": "Belopp",
+            "municipality": "Betalande kommun",
+            "noMunicipality": "Ingen betalande kommun",
+            "invoiced": "Fakturerad",
+            "notInvoiced": "Inte fakturerad",
+            "alreadyInvoicedHours": "{hours} timmar redan fakturerade",
+            "totalForPeriod": "Totalt för perioden",
+            "noteFor": "Avräkning för",
+            "hoursFor": "timmar för",
+            "alert": {
+                "converted": "{count} faktura(or) skapade och klara i Fakturor."
+            },
+            "stay": "Vistelse",
+            "stayWithoutNumber": "Vistelse utan journalnr.",
+            "outsideStay": "Utan vistelse",
+            "period": "Period",
+            "showRegistrations": "Visa timregistreringar",
+            "loadingRegistrations": "Hämtar timregistreringar...",
+            "noRegistrations": "Inga timregistreringar på denna rad.",
+            "date": "Datum",
+            "time": "Tid",
+            "hours": "Timmar",
+            "employee": "Medarbetare",
+            "note": "Anteckning",
+            "fromDutySchedule": "från schema",
+            "stepPeriod": "Välj period",
+            "stepGenerate": "Generera",
+            "stepReview": "Gå igenom insatserna",
+            "stepConvert": "Omvandla till fakturor",
+            "presetThisMonth": "Denna månad",
+            "presetLastMonth": "Förra månaden",
+            "presetThisYear": "I år",
+            "agreedHours": "Avtalade timmar",
+            "fromContract": "kontrakt",
+            "fromAllocation": "tilldelat",
+            "noAgreedHours": "Inget avtal registrerat",
+            "overAgreed": "över avtalet",
+            "underAgreed": "under avtalet",
+            "matchesAgreed": "motsvarar avtalet",
+            "summaryInterventions": "Insatser",
+            "summaryHours": "Timmar att fakturera",
+            "summaryAmount": "Belopp att fakturera",
+            "summaryInvoiced": "Timmar redan fakturerade",
+            "selectAll": "Välj alla",
+            "convertSelected": "Omvandla valda",
+            "convertRow": "Omvandla bara denna insats",
+            "convertAllSelected": "Omvandla alla valda",
+            "extras": "Övrigt",
+            "addExtra": "Lägg till övrig rad",
+            "extraDescription": "Beskrivning",
+            "extraQuantity": "Antal",
+            "extraPrice": "Pris",
+            "extraRemove": "Ta bort raden",
+            "lineDescription": "Text på fakturaraden",
+            "invoiceNote": "Notering på fakturan",
+            "goToInvoices": "Gå till fakturor",
+            "nothingSelected": "Välj minst en insats, eller lägg till en övrig rad.",
+            "convertedBanner": "{count} faktura(or) har skapats och ligger klara under Fakturering.",
+            "registrations": "Timregistreringar",
+            "invoiceCount": "{count} faktura(or)",
+            "selectedOfRows": "{selected} av {total} valda",
+            "writtenOff": "{hours} timmar skrivs av",
+            "helpPeriod": "Perioden avgör vilka timregistreringar som kommer med: alla registreringar som börjar i perioden och som inte redan är fakturerade. Timmar som fakturerats en gång kommer inte tillbaka.",
+            "helpUsedHours": "Timmarna från timregistreringarna bakom raden. Du kan sänka dem när kontraktet bara täcker en del, och resten skrivs då av för perioden. Du kan inte höja dem över det registrerade - använd en övrig rad för det som inte är timmar.",
+            "helpAgreedHours": "Det levererade hålls upp mot kontraktstimmarna på insatsen om de är ifyllda, annars mot medborgarens tilldelade timmar. Timmarna skalas till radens period, så att en placering som börjar mitt i månaden inte ser underlevererad ut. Kontraktstimmar sätts på placeringen i medborgarens stamkort.",
+            "helpConvert": "Omvandlar de valda insatserna till en faktura per betalande kommun, övriga rader inkluderade. Ikonen på raden skapar en faktura med bara den insatsen. Fakturorna ligger under Fakturering, klara att skickas."
         }
     }
 }

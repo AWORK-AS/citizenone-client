@@ -12,6 +12,20 @@
     @apply py-3 px-4 align-middle;
 }
 
+/* Header cells were used everywhere but never defined, so every table header
+   fell back to the browser's centred bold. */
+.co-th {
+    @apply py-3 px-4 text-left text-[12px] font-semibold uppercase tracking-wide text-[#5C6478] whitespace-nowrap;
+}
+
+/* A field inside a table row: the same look as .co-input, but only as tall and
+   as wide as a cell can carry. */
+.co-cell-input {
+    @apply block px-3 h-9 text-sm text-[#1F2533] bg-white border border-[#D5D9E2] rounded-[10px] outline-none transition-all
+        focus:border-primary focus:ring-1 focus:ring-primary
+        disabled:bg-[#F5F6F8] disabled:text-[#8891A4];
+}
+
 /* ----------------------------------------------------------------------------------------------------
     Badge
 ---------------------------------------------------------------------------------------------------- */

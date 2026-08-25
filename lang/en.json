@@ -1,4 +1,18 @@
 {
+    "compensatoryPayoutsReport": {
+        "export": "Export",
+        "filters": {
+            "dateEnd": "Date to",
+            "dateStart": "Date from"
+        },
+        "table": {
+            "account": "Time account",
+            "amount": "Hours paid out",
+            "date": "Date",
+            "employee": "Employee"
+        },
+        "title": "Compensatory time payouts"
+    },
     "inquiryPipeline": {
         "board": "Inquiry pipeline",
         "enableLabel": "Inquiry pipeline (kanban)",
@@ -25,7 +39,11 @@
         "coordinatorSplit": "Revenue per coordinator",
         "primary": "Primary",
         "secondary": "Secondary",
-        "exportCsv": "Export CSV"
+        "exportCsv": "Export CSV",
+        "periodHint": "The period is set to this month. Use the shortcuts, or pick the dates yourself.",
+        "presetThisMonth": "This month",
+        "presetLastMonth": "Last month",
+        "presetThisYear": "This year"
     },
     "citizenRelations": {
         "addFirst": "Add first relation",
@@ -90,7 +108,9 @@
         "modules": {
             "vagtplan": "Duty schedule",
             "medicin": "Medicine",
-            "dokumentation": "Documentation (plans, status, documents)"
+            "dokumentation": "Documentation (plans, status, documents)",
+            "useOfForce": "Use of force",
+            "predefinedContent": "Predefined note content"
         },
         "groups": {
             "migration": "Migration",
@@ -1810,6 +1830,18 @@
         "editCitizenForm": "Edit citizen form",
         "editMedicineForm": "Edit medication form",
         "emails": {
+            "bodyInOriginal": "The text could not be shown here. Open the original to read the mail.",
+            "filters": {
+                "dateFrom": "From date",
+                "dateTo": "To date",
+                "perPage": "Per page",
+                "reset": "Clear",
+                "search": "Search",
+                "searchPlaceholder": "Subject or sender"
+            },
+            "migrated": "Imported",
+            "noBody": "This email has no text.",
+            "openOriginal": "Open the original",
             "attachments": "Attachments",
             "confirmation": {
                 "untagConfirmation": "Are you sure you want to remove this email from the citizen's profile"
@@ -1996,7 +2028,12 @@
                 "photo": "Photo",
                 "studentCollaboration": "Student collaboration",
                 "contractPrice": "Contract price",
-                "primarySplitPercentage": "Primary coordinator share (%)"
+                "primarySplitPercentage": "Primary coordinator share (%)",
+                "contractHours": "Contracted hours",
+                "contractHoursInterval": "Contracted hours per",
+                "contractHoursWeekly": "week",
+                "contractHoursMonthly": "month",
+                "contractHoursTotal": "whole placement"
             },
             "dental": {
                 "isMemberOfSygeforsikringDanmark": "Member of Sygeforsikringen \"danmark\"",
@@ -2435,6 +2472,35 @@
                         "type": "Type"
                     }
                 },
+                "batchDispense": {
+                    "button": "Batch dispense",
+                    "modalTitle": "Batch dispense across a date range",
+                    "form": {
+                        "description": "Log the selected medicines as given across every date they're due within the chosen range.",
+                        "dateRangeLabel": "Date range",
+                        "typeLabel": "Type",
+                        "commentLabel": "Comment (optional, applied to every created entry)",
+                        "pnExcludedNotice": "{n} PN (as-needed) medicine(s) are excluded - batch dispense only applies to scheduled medicines.",
+                        "previewButton": "Preview"
+                    },
+                    "confirm": {
+                        "title": "Confirm batch dispense",
+                        "willCreate": "{n} dose(s) will be logged as given.",
+                        "willSkip": "{n} dose(s) already logged will be skipped.",
+                        "noneToCreate": "Every dose in this range is already logged - there is nothing to dispense.",
+                        "backButton": "Back",
+                        "confirmButton": "Confirm and log"
+                    },
+                    "result": {
+                        "title": "Batch dispense complete",
+                        "summary": "{created} dose(s) logged, {skipped} skipped.",
+                        "undoButton": "Undo this batch"
+                    },
+                    "undo": {
+                        "confirmMessage": "Delete all {n} entries created by this batch and restore stock?",
+                        "successMessage": "Batch undone."
+                    }
+                },
                 "giveAllMedicines": "Give all medicines",
                 "giveMedicine": "Give medicine",
                 "giveMedicineTo": "Give medicine to {name}",
@@ -2534,7 +2600,11 @@
             },
             "newMedicine": "New medicine",
             "newPouring": "New pouring",
+            "newPlannedDelivery": "Planned delivery",
             "givenViaPouringContainer": "Given via the pouring container",
+            "deliveredViaPlannedDelivery": "Delivered via planned delivery",
+            "createdOn": "Created",
+            "nextAdministrationDate": "Next dose",
             "pouring": {
                 "activeIngredient": "Active ingredient",
                 "amount": "Amount poured",
@@ -2548,6 +2618,19 @@
                 "periodStart": "Period start",
                 "alert": {
                     "successfullyAdded": "Pouring successfully created"
+                }
+            },
+            "plannedDelivery": {
+                "activeIngredient": "Active ingredient",
+                "amount": "Amount delivered",
+                "amountExceedsStock": "Amount cannot exceed the current main stock",
+                "currentMainStock": "Current main stock",
+                "label": "Planned delivery",
+                "periodEnd": "Period end",
+                "periodEndBeforeStart": "Period end must be on or after the period start",
+                "periodStart": "Period start",
+                "alert": {
+                    "successfullyAdded": "Planned delivery successfully created"
                 }
             },
             "page": {
@@ -4587,6 +4670,20 @@
             "info1": "The employee’s individual annual norm is always used.",
             "info2": "If the employee has been employed partway through the year, the annual norm will be calculated proportionally based on the employment start date.",
             "info3": "Compensatory and vacation hours are calculated from that annual norm.",
+            "payout": {
+                "account": "Time account",
+                "accountRequired": "Select a time account",
+                "alert": {
+                    "registerSuccess": "Payout registered"
+                },
+                "amount": "Hours to pay out",
+                "amountRequired": "Enter a number of hours greater than 0",
+                "button": "Register payout",
+                "confirmation": "Are you sure you want to register a payout of {amount} hours for {employee}?",
+                "noAccountAssigned": "This employee has no active time account to register a payout against.",
+                "register": "Register payout",
+                "title": "Register payout"
+            },
             "period": {
                 "balance": "Plus/minus in period",
                 "basisWorkdays": "{days} of {total} workdays",
@@ -6761,6 +6858,10 @@
         "editForm": "Edit Form",
         "entityType": "Entity Type",
         "fieldVisibility": "Field Visibility",
+        "statusTypes": {
+            "title": "Medicine status types",
+            "description": "Choose which statuses staff can select when logging a dose. \"Given\" always stays enabled."
+        },
         "fields": {
             "addictions": "Dependencies",
             "allocatedHours": "Allocated Hours",
@@ -10003,7 +10104,8 @@
         "forms": "Forms",
         "dentalRecalls": "Recalls",
         "dentalOverview": "Clinic overview",
-        "invoicing": "Invoicing"
+        "invoicing": "Invoicing",
+        "plansAndGoalsExport": "Plans and goals export"
     },
     "somethingWentWrong": "Something went wrong",
     "storage": {
@@ -11941,6 +12043,7 @@
         "newTemplateAgreement": "New template agreement",
         "newTimeAccount": "New time account",
         "newTimeAccounts": "New time account",
+        "payoutReport": "Payout report",
         "table": {
             "actions": {
                 "assign": "Assign",
@@ -13501,6 +13604,106 @@
             "overview": "Overview",
             "revenue": "Revenue",
             "billing": "Billing extraction"
+        }
+    },
+    "plansAndGoalsExport": {
+        "title": "Plans and goals export",
+        "description": "Download plans, goals and subgoals as a zip of PDF reports for many citizens at once. Leave the selection empty to export the whole company.",
+        "selectedCount": "{count} citizen(s) selected",
+        "noneSelectedHint": "No citizens selected - the whole company will be exported",
+        "clearSelection": "Clear selection",
+        "download": "Download",
+        "downloading": "Preparing download...",
+        "table": {
+            "name": "Name",
+            "departments": "Departments"
+        },
+        "noPlansFound": "No plans, goals or subgoals were found for the selected citizens.",
+        "noPermission": "You do not have permission to export plans and goals in bulk."
+    },
+    "socialWelfare": {
+        "billing": {
+            "fromDate": "From date",
+            "toDate": "To date",
+            "generate": "Generate",
+            "convert": "Convert to invoice",
+            "convertAll": "Convert all",
+            "exportCsv": "Export CSV",
+            "selectPeriod": "Pick a period and press Generate.",
+            "noData": "No hours registered in the period.",
+            "citizen": "Citizen",
+            "citizens": "citizens",
+            "section": "Paragraph",
+            "usedHours": "Hours used",
+            "allocatedHours": "Hours allocated",
+            "rate": "Hourly rate",
+            "contractPrice": "Contract price",
+            "amount": "Amount",
+            "municipality": "Paying municipality",
+            "noMunicipality": "No paying municipality",
+            "invoiced": "Invoiced",
+            "notInvoiced": "Not invoiced",
+            "alreadyInvoicedHours": "{hours} hours already invoiced",
+            "totalForPeriod": "Total for the period",
+            "noteFor": "Billing for",
+            "hoursFor": "hours for",
+            "alert": {
+                "converted": "{count} invoice(s) created and waiting in Invoices."
+            },
+            "stay": "Stay",
+            "stayWithoutNumber": "Stay without journal no.",
+            "outsideStay": "Outside any stay",
+            "period": "Period",
+            "showRegistrations": "Show hour registrations",
+            "loadingRegistrations": "Loading registrations...",
+            "noRegistrations": "No registrations on this row.",
+            "date": "Date",
+            "time": "Time",
+            "hours": "Hours",
+            "employee": "Employee",
+            "note": "Note",
+            "fromDutySchedule": "from duty schedule",
+            "stepPeriod": "Choose a period",
+            "stepGenerate": "Generate",
+            "stepReview": "Review the placements",
+            "stepConvert": "Convert to invoices",
+            "presetThisMonth": "This month",
+            "presetLastMonth": "Last month",
+            "presetThisYear": "This year",
+            "agreedHours": "Agreed hours",
+            "fromContract": "contract",
+            "fromAllocation": "allocated",
+            "noAgreedHours": "No agreement recorded",
+            "overAgreed": "over the agreement",
+            "underAgreed": "under the agreement",
+            "matchesAgreed": "matches the agreement",
+            "summaryInterventions": "Placements",
+            "summaryHours": "Hours to invoice",
+            "summaryAmount": "Amount to invoice",
+            "summaryInvoiced": "Hours already invoiced",
+            "selectAll": "Select all",
+            "convertSelected": "Convert selected",
+            "convertRow": "Convert this placement only",
+            "convertAllSelected": "Convert all selected",
+            "extras": "Extras",
+            "addExtra": "Add extra line",
+            "extraDescription": "Description",
+            "extraQuantity": "Quantity",
+            "extraPrice": "Price",
+            "extraRemove": "Remove the line",
+            "lineDescription": "Text on the invoice line",
+            "invoiceNote": "Note on the invoice",
+            "goToInvoices": "Go to invoices",
+            "nothingSelected": "Select at least one placement, or add an extra line.",
+            "convertedBanner": "{count} invoice(s) created and waiting under Invoicing.",
+            "registrations": "Hour registrations",
+            "invoiceCount": "{count} invoice(s)",
+            "selectedOfRows": "{selected} of {total} selected",
+            "writtenOff": "{hours} hours written off",
+            "helpPeriod": "The period decides which hour registrations are included: every registration starting inside it that has not been invoiced already. Hours invoiced once do not come back.",
+            "helpUsedHours": "The hours from the registrations behind the row. You can lower them when the contract only covers part of the delivery, and the rest is written off for the period. You cannot raise them above what was recorded - use an extra line for what is not hours.",
+            "helpAgreedHours": "Delivery is held up against the contracted hours on the placement when they are filled in, and against the citizen's allocated hours otherwise. The hours are scaled to the row's period, so a placement starting mid-month does not look under-delivered. Contracted hours are set on the placement in the citizen record.",
+            "helpConvert": "Turns the selected placements into one invoice per paying municipality, extra lines included. The icon on a row makes an invoice with that placement alone. The invoices land under Invoicing, ready to send."
         }
     }
 }

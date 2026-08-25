@@ -32,6 +32,7 @@
                 <ModulesUserEconomyOverview v-if="state.tab === 'overview'" />
                 <ModulesUserEconomyRevenue v-else-if="state.tab === 'revenue'" />
                 <ModulesUserEconomyBilling v-else-if="state.tab === 'billing'" />
+                <ModulesUserEconomySocialBilling v-else-if="state.tab === 'social-billing'" />
             </div>
         </NuxtLayout>
     </div>
@@ -71,6 +72,13 @@ const tabs = computed(() => {
     if (industry.value === 'social_welfare'
         && userStore.getUser?.pages?.some((page: any) => page.name === 'Management & Economy')) {
         available.push({ value: 'overview', label: t('economy.tabs.overview') })
+    }
+
+    // The social sector bills delivered hours per citizen, so it gets its own
+    // extraction rather than the employment one, which counts weeks per case.
+    if (industry.value === 'social_welfare'
+        && userStore.getUser?.pages?.some((page: any) => page.name === 'Management & Economy')) {
+        available.push({ value: 'social-billing', label: t('economy.tabs.billing') })
     }
 
     if (industry.value === 'employment_services') {
