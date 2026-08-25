@@ -121,19 +121,24 @@
                         class="rounded-lg bg-[#fdf3df] px-3 py-2 text-xs font-medium text-[#8a6208]">
                         {{ $t('inquiryPipeline.tooManyToShow', { shown: boardShownCount, total: boardTotalCount }) }}
                     </p>
-                    <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto p-2 pr-6">
+                    <div v-if="pipelineEnabled" class="items-start gap-3.5 p-2"
+                        :class="boardScrolls ? 'flex overflow-x-auto pr-4' : 'grid'"
+                        :style="boardScrolls ? undefined : { gridTemplateColumns: `repeat(${state.pipelineStages.length}, minmax(0, 1fr))` }">
                         <div v-for="stage in state.pipelineStages" :key="stage.uuid"
-                            class="w-[300px] shrink-0 rounded-2xl bg-surface-50 p-3 transition-colors"
-                            :class="dragOverKey === stage.slug ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''"
+                            class="min-h-[200px] rounded-[13px] bg-surface-50 p-2.5 transition-colors"
+                            :class="[
+                                boardScrolls ? 'w-[272px] shrink-0' : '',
+                                dragOverKey === stage.slug ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''
+                            ]"
                             @dragover.prevent="dragOverKey = stage.slug" @dragleave="dragOverKey = null"
                             @drop="onDrop(stage.slug)">
-                            <div class="flex items-center gap-2 mb-3 px-1.5">
-                                <span class="size-2.5 rounded-full" :style="{ background: stage.color }"></span>
-                                <span class="text-[15px] font-bold text-slate-700">
+                            <div class="flex items-center gap-2 px-1.5 pb-2.5 pt-1">
+                                <span class="size-[9px] rounded-[3px]" :style="{ background: stage.color }"></span>
+                                <span class="truncate text-[12.5px] font-bold text-slate-700">
                                     {{ stage.name }}
                                 </span>
                                 <span
-                                    class="ml-auto rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold text-slate-400">
+                                    class="ml-auto rounded-full bg-white px-2 py-px text-[11px] font-semibold text-slate-400">
                                     {{ inquiriesByStage(stage.slug).length }}
                                 </span>
                             </div>
@@ -141,33 +146,33 @@
                                 <div v-for="inq in inquiriesByStage(stage.slug)" :key="inq.uuid" draggable="true"
                                     @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
                                     @click="editInquiry(inq)"
-                                    class="group cursor-pointer rounded-xl bg-white border border-surface-200 p-3.5 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover active:cursor-grabbing"
+                                    class="group cursor-pointer rounded-[11px] bg-white border border-surface-200 p-3 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-[#cfe3ea] hover:shadow-card-hover active:cursor-grabbing"
                                     :class="dragged?.uuid === inq.uuid ? 'opacity-40' : ''">
-                                    <p class="text-xs font-medium text-secondary">
+                                    <p class="text-[11px] font-bold text-secondary">
                                         {{ inq.inquirer_name || $t('inquiries.inquiries') }}
                                     </p>
-                                    <p class="mt-1 text-[15px] font-semibold leading-snug text-slate-900">
+                                    <p class="mt-0.5 text-[13.5px] font-bold leading-snug text-slate-900">
                                         {{ inqTitle(inq) }}
                                     </p>
-                                    <div class="mt-2 flex flex-wrap items-center gap-1.5">
+                                    <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
                                         <span v-if="inqSource(inq)"
-                                            class="inline-flex items-center rounded-full bg-surface-100 px-2 py-0.5 text-[11px] font-semibold text-slate-500">
+                                            class="inline-flex items-center rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-500">
                                             {{ inqSource(inq) }}
                                         </span>
                                         <span v-for="(dept, di) in inq.departments" :key="'d' + di"
-                                            class="inline-flex items-center rounded-full bg-[#dcf1f7] px-2 py-0.5 text-[11px] font-semibold text-[#1b6d8a]">
+                                            class="inline-flex items-center rounded-full bg-[#dcf1f7] px-2.5 py-[3px] text-[11.5px] font-bold text-[#1b6d8a]">
                                             {{ dept?.name }}
                                         </span>
                                         <span v-for="(topic, ti) in inq.topics" :key="'t' + ti"
-                                            class="inline-flex items-center rounded-full bg-surface-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">
+                                            class="inline-flex items-center rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-semibold text-slate-500">
                                             {{ topic?.name }}
                                         </span>
                                         <span v-if="inq.outcome"
-                                            class="inline-flex items-center rounded-full bg-[#fdf3df] px-2 py-0.5 text-[11px] font-semibold text-[#c98a12]">
+                                            class="inline-flex items-center rounded-full bg-[#fdf3df] px-2.5 py-[3px] text-[11.5px] font-bold text-[#c98a12]">
                                             {{ inq.outcome }}
                                         </span>
                                         <span v-if="inq.citizen_id"
-                                            class="inline-flex items-center gap-1 rounded-full bg-[#e6f6ee] px-2 py-0.5 text-[11px] font-bold text-[#1f9d6b]">
+                                            class="inline-flex items-center gap-1 rounded-full bg-[#e6f6ee] px-2.5 py-[3px] text-[11.5px] font-bold text-[#1f9d6b]">
                                             <Icon name="ph:check" class="size-3" /> {{
                                                 $t('inquiries.table.status.convertedAsCitizen') }}
                                         </span>
@@ -183,7 +188,7 @@
                                         class="mt-3 flex items-center justify-between border-t border-surface-100 pt-2.5">
                                         <div class="flex items-center gap-2">
                                             <div
-                                                class="grid size-6 place-items-center rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-[10px] font-bold text-white">
+                                                class="grid size-[22px] place-items-center rounded-[7px] bg-gradient-to-br from-[#8fd6ea] to-[#3aa7c4] text-[10px] font-bold text-white">
                                                 {{ inqInitials(inq) }}
                                             </div>
                                             <span class="text-[11px] text-slate-400">
@@ -323,6 +328,12 @@ const { t } = useI18n()
 
 // Inquiry pipeline (kanban) — opt-in per company.
 const pipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
+// The mockup's board shares the width between the columns rather than scrolling
+// sideways. Stages are configurable, though, so past six columns there is not
+// enough room to read a card and the row scrolls instead.
+const MAX_FITTED_COLUMNS = 6
+const boardScrolls = computed(() => state.pipelineStages.length > MAX_FITTED_COLUMNS)
+
 // The board asks for far more rows than the table's page size, since a column
 // with a missing card is worse than a slow first load.
 const BOARD_PAGE_LENGTH = 500
