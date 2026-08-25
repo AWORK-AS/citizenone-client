@@ -7344,6 +7344,10 @@
                 "forConversion": "For conversion",
                 "status": "Status"
             }
+        },
+        "unknownType": {
+            "title": "This inquiry has no type",
+            "hint": "It cannot be edited here until it is set to crisis centre or shelter. This typically happens with imported inquiries."
         }
     },
     "invitation": {

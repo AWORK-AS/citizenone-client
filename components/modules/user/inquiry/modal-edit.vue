@@ -8,6 +8,18 @@
                         @closeModal="closeModal" @submitForm="updateCrisisCenterInquiry" />
                     <ModulesUserInquiryModalShelterForm v-if="props.selectedInquiry.inquiry_type === 'shelter'" formType="update" :selectedInquiry="props.selectedInquiry" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateShelterInquiry" />
+                    <!-- Neither form fits: the inquiry has no type, which happens to
+                         imported rows and to anything created straight through the API.
+                         Say so instead of showing an empty box. -->
+                    <div v-if="!hasKnownType" class="py-6 text-center">
+                        <Icon name="ph:question" class="mx-auto size-8 text-gray-300" />
+                        <p class="mt-2 text-sm font-semibold text-gray-700">
+                            {{ $t('inquiries.unknownType.title') }}
+                        </p>
+                        <p class="mx-auto mt-1 max-w-sm text-xs text-gray-500">
+                            {{ $t('inquiries.unknownType.hint') }}
+                        </p>
+                    </div>
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -28,6 +40,10 @@ const customPagesStore = useCustomPagesStore() as any
 
 const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
 const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
+const hasKnownType = computed(() =>
+    ['shelter', 'crisis_center'].includes(props.selectedInquiry?.inquiry_type)
+)
+
 const modalTitle = computed(() => {
     if (props.selectedInquiry?.inquiry_type === 'shelter') return shelterName.value
     if (props.selectedInquiry?.inquiry_type === 'crisis_center') return crisisCenterName.value

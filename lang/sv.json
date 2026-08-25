@@ -7344,6 +7344,10 @@
                 "forConversion": "Till konvertering",
                 "status": "Status"
             }
+        },
+        "unknownType": {
+            "title": "Förfrågan saknar en typ",
+            "hint": "Den kan inte redigeras här förrän den är satt till kriscenter eller härbärge. Det händer vanligtvis med importerade förfrågningar."
         }
     },
     "invitation": {

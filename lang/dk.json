@@ -7344,6 +7344,10 @@
                 "forConversion": "Til konvertering",
                 "status": "Status"
             }
+        },
+        "unknownType": {
+            "title": "Henvendelsen mangler en type",
+            "hint": "Den kan ikke redigeres her, før den er sat til krisecenter eller herberg. Det sker typisk for importerede henvendelser."
         }
     },
     "invitation": {
