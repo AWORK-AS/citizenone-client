@@ -203,6 +203,7 @@ const sections = computed(() => {
                     : [{ label: t('inquiries.form.crisisCenter.fields.contactedBy'), value: option('contacted_by', inq.contacted_by) }]),
                 // Citizen-initiated or authority-initiated (paragraph 75).
                 { label: t('inquiryOrigin.label'), value: inq.origin ? t('inquiryOrigin.' + inq.origin) : '' },
+                { label: t('inquiryServiceTypes.single'), value: inq.service_type?.label ?? '' },
                 { label: t('inquiryContact.label'), value: contactSummary(inq.company_contact), wide: true },
                 { label: t('inquiries.table.inquirerName'), value: inq.inquirer_name },
             ],

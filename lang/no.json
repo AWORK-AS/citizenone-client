@@ -9910,7 +9910,8 @@
             "wageSupplementRules": "Tilleggsregler for lønn",
             "inquiryPipelineStages": "Faser i henvendelser",
             "inquiryFields": "Felter i henvendelser",
-            "consultantSkills": "Konsulentkompetanser"
+            "consultantSkills": "Konsulentkompetanser",
+            "inquiryServiceTypes": "Innsatstyper"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -13809,7 +13810,11 @@
             "helpTextPlaceholder": "Vises under feltet",
             "isRequired": "Påkrevd for å forlate fasen",
             "isRequiredHint": "Henvendelsen kan ikke flyttes framover før feltet er fylt ut.",
-            "isActive": "Aktivt"
+            "isActive": "Aktivt",
+            "source": "Slå opp i",
+            "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",
+            "serviceType": "Bare for innsatstype",
+            "serviceTypeHint": "Velg en type hvis feltet bare skal spørres der. Ellers spørres det uansett type."
         },
         "types": {
             "text": "Tekst",
@@ -13820,8 +13825,20 @@
             "select": "Nedtrekksliste",
             "multiselect": "Flere valg",
             "scale": "Skala",
-            "boolean": "Ja/nei"
-        }
+            "boolean": "Ja/nei",
+            "lookup": "Oppslag"
+        },
+        "sources": {
+            "municipalities": "Kommuner",
+            "regions": "Regioner",
+            "departments": "Avdelinger",
+            "company_contacts": "Kontakter",
+            "spoken_languages": "Talte språk",
+            "consultant_skills": "Konsulentkompetanser",
+            "inquiry_service_types": "Innsatstyper",
+            "employees": "Ansatte"
+        },
+        "allServiceTypes": "Alle innsatstyper"
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",
@@ -13942,5 +13959,27 @@
         },
         "moveHeading": "Flytt henvendelsen",
         "moveHint": "Framover krever at fasens påkrevde felter er fylt ut. Tilbake kan du alltid."
+    },
+    "inquiryServiceTypes": {
+        "title": "Innsatstyper",
+        "single": "Innsatstype",
+        "description": "De typene innsats dere leverer, med paragrafen de innvilges etter. Felter kan bindes til én type, så de bare spørres der.",
+        "hint": "Bestemmer hvilke typespesifikke felter som spørres om.",
+        "add": "Legg til",
+        "empty": "Det finnes ingen innsatstyper ennå.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Familiebehandling",
+            "paragraph": "Paragraf",
+            "paragraphPlaceholder": "F.eks. § 32"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på at du vil slette denne innsatstypen"
+        },
+        "alert": {
+            "deleted": "Innsatstypen er slettet",
+            "deleteFailed": "Innsatstypen kunne ikke slettes",
+            "saveFailed": "Kunne ikke lagres"
+        }
     }
 }

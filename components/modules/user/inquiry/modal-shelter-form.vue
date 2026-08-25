@@ -22,6 +22,16 @@
                                 v-model="state.formInquiry.department_uuid" />
                             <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
                         </div>
+                        <div class="space-y-1">
+                            <FormLabel for="inquiry_service_type"
+                                :label="$t('inquiryServiceTypes.single')" />
+                            <FormSelect id="inquiry_service_type" :options="state.options.serviceTypes"
+                                :modelValue="state.formInquiry.inquiry_service_type_uuid"
+                                @update:modelValue="(value: any) => state.formInquiry.inquiry_service_type_uuid = value" />
+                            <p class="text-[11px] text-slate-400">
+                                {{ $t('inquiryServiceTypes.hint') }}
+                            </p>
+                        </div>
                         <div class="space-y-1 sm:col-span-2">
                             <FormLabel for="company_contact" :label="$t('inquiryContact.label')" />
                             <ModulesUserInquiryContactPicker :contact="props.selectedInquiry?.company_contact"
@@ -196,6 +206,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
 import { customPagesService } from '@/components/api/user/CustomPagesService'
 
 const props = defineProps({
@@ -236,6 +247,7 @@ const state = reactive({
         department_uuid: [] as any,
         inquirer_name: '',
         company_contact_uuid: null as string | null,
+        inquiry_service_type_uuid: null as string | null,
         first_name: '',
         last_name: '',
         vacant_place_available: '',
@@ -252,6 +264,7 @@ const state = reactive({
     },
     options: {
         departments: [] as any,
+        serviceTypes: [] as any,
         inquiry_type: [
             { value: 'shelter', label: `${t('inquiries.form.options.inquiryType.shelter')}` },
             { value: 'crisis_center', label: `${t('inquiries.form.options.inquiryType.crisisCenter')}` }
@@ -400,6 +413,7 @@ watch([
 
 onMounted(() => {
     fetchDepartments()
+    fetchServiceTypes()
     fetchCustomPages()
     state.formInquiry = {
         inquiry_type: 'shelter',
@@ -409,6 +423,7 @@ onMounted(() => {
         department_uuid: props.selectedInquiry?.departments?.map((d: any) => d.uuid) || [],
         inquirer_name: props.selectedInquiry?.inquirer_name,
         company_contact_uuid: props.selectedInquiry?.company_contact?.uuid ?? null,
+        inquiry_service_type_uuid: props.selectedInquiry?.service_type?.uuid ?? null,
         first_name: props.selectedInquiry?.firstname,
         last_name: props.selectedInquiry?.lastname,
         vacant_place_available: props.formType === 'update' ? (props.selectedInquiry?.vacant_place_available ? 'yes' : 'no') : '',
@@ -434,7 +449,10 @@ watch(() => props.selectedInquiry, (newValue: any) => {
             department_uuid: props.selectedInquiry?.departments?.map((d: any) => d.uuid) || [],
             inquirer_name: props.selectedInquiry?.inquirer_name,
             company_contact_uuid: props.selectedInquiry?.company_contact?.uuid ?? null,
+            inquiry_service_type_uuid: props.selectedInquiry?.service_type?.uuid ?? null,
+        inquiry_service_type_uuid: props.selectedInquiry?.service_type?.uuid ?? null,
         company_contact_uuid: props.selectedInquiry?.company_contact?.uuid ?? null,
+        inquiry_service_type_uuid: props.selectedInquiry?.service_type?.uuid ?? null,
             first_name: props.selectedInquiry?.firstname,
             last_name: props.selectedInquiry?.lastname,
             vacant_place_available: props.selectedInquiry?.vacant_place_available || '',
@@ -468,6 +486,19 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+async function fetchServiceTypes() {
+    try {
+        const response = await inquiryServiceTypeService.getServiceTypes()
+        // Only what can still be chosen; a retired type stays on the inquiries
+        // that already carry it.
+        state.options.serviceTypes = (response?.data ?? [])
+            .filter((type: any) => type.is_active)
+            .map((type: any) => ({ value: type.uuid, label: type.label }))
+    } catch (_) {
+        state.options.serviceTypes = []
+    }
+}
 
 async function fetchDepartments() {
     try {

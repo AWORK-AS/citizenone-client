@@ -37,6 +37,12 @@
                             @toggleSwitch="setValue(field, !draft[field.uuid])" />
                     </div>
 
+                    <!-- A lookup points at a register the company already keeps, so
+                         the options come with the field rather than being typed here. -->
+                    <FormSelect v-else-if="field.type === 'lookup'" :modelValue="draft[field.uuid] ?? null"
+                        :options="lookupOptions(field)"
+                        @update:modelValue="(value: any) => setValue(field, value)" />
+
                     <FormSelect v-else-if="field.type === 'select'" :modelValue="draft[field.uuid] ?? null"
                         :options="choiceOptions(field)" :searchable="false"
                         @update:modelValue="(value: any) => setValue(field, value)" />
@@ -130,6 +136,10 @@ function normalisedDraft(source: Record<string, any>) {
 
 function isWide(field: any) {
     return WIDE_TYPES.includes(field.type)
+}
+
+function lookupOptions(field: any) {
+    return (field.lookup_options ?? []).map((option: any) => ({ value: option.uuid, label: option.label }))
 }
 
 function choiceOptions(field: any) {

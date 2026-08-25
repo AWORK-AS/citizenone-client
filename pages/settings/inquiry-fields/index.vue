@@ -56,6 +56,10 @@
                                 <span class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-semibold text-slate-500">
                                     {{ $t('inquiryFieldSettings.types.' + field.type) }}
                                 </span>
+                                <span v-if="field.service_type"
+                                    class="rounded-full bg-[#eee9fb] px-2 py-px text-[11px] font-semibold text-[#6b54c9]">
+                                    {{ field.service_type.label }}
+                                </span>
                                 <span v-if="field.is_required"
                                     class="rounded-full bg-[#fdf3df] px-2 py-px text-[11px] font-bold text-[#8a6208]">
                                     {{ $t('inquiryFields.required') }}
@@ -144,6 +148,25 @@
                             </div>
                         </div>
 
+                        <div v-if="state.form.type === 'lookup'">
+                            <FormLabel for="field-source" :label="$t('inquiryFieldSettings.form.source')" />
+                            <FormSelect id="field-source" v-model="state.form.source" :options="sourceOptions"
+                                :canClear="false" :searchable="false" />
+                            <p class="mt-1 text-[11px] text-gray-400">
+                                {{ $t('inquiryFieldSettings.form.sourceHint') }}
+                            </p>
+                        </div>
+
+                        <div>
+                            <FormLabel for="field-service-type"
+                                :label="$t('inquiryFieldSettings.form.serviceType')" />
+                            <FormSelect id="field-service-type" v-model="state.form.service_type_uuid"
+                                :options="serviceTypeOptions" :searchable="false" />
+                            <p class="mt-1 text-[11px] text-gray-400">
+                                {{ $t('inquiryFieldSettings.form.serviceTypeHint') }}
+                            </p>
+                        </div>
+
                         <div v-if="isChoiceType">
                             <FormLabel for="field-choices" :label="$t('inquiryFieldSettings.form.choices')" />
                             <FormTextArea id="field-choices" name="field-choices" v-model="state.form.choicesText"
@@ -211,6 +234,7 @@
 <script setup lang="ts">
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
+import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -227,7 +251,11 @@ const breadcrumbLinks = [
     },
 ]
 
-const TYPES = ['text', 'textarea', 'number', 'amount', 'date', 'select', 'multiselect', 'scale', 'boolean']
+const TYPES = ['text', 'textarea', 'number', 'amount', 'date', 'select', 'multiselect', 'scale', 'boolean', 'lookup']
+const LOOKUP_SOURCES = [
+    'municipalities', 'regions', 'departments', 'company_contacts',
+    'spoken_languages', 'consultant_skills', 'inquiry_service_types', 'employees',
+]
 const CHOICE_TYPES = ['select', 'multiselect']
 
 function emptyForm() {
@@ -240,6 +268,8 @@ function emptyForm() {
         choicesText: '',
         min: '1',
         max: '5',
+        source: 'municipalities',
+        service_type_uuid: null as string | null,
         is_required: false,
         is_active: true,
     }
@@ -250,6 +280,7 @@ const state = reactive({
     formError: {} as Error,
     fields: [] as any[],
     stages: [] as any[],
+    serviceTypes: [] as any[],
     isDeleteOpen: false,
     isFormOpen: false,
     selectedField: null as any,
@@ -267,11 +298,23 @@ const stageOptions = computed(() => [
 
 const isChoiceType = computed(() => CHOICE_TYPES.includes(state.form.type))
 
+const sourceOptions = computed(() =>
+    LOOKUP_SOURCES.map((source) => ({ value: source, label: t('inquiryFieldSettings.sources.' + source) }))
+)
+
+const serviceTypeOptions = computed(() => [
+    { value: null, label: t('inquiryFieldSettings.allServiceTypes') },
+    ...state.serviceTypes.map((type: any) => ({ value: type.uuid, label: type.label })),
+])
+
 const canSubmit = computed(() => {
     if (!state.form.label.trim()) return false
     // A choice field with no choices cannot be answered, so the server refuses
     // it too - no reason to let the request leave.
     if (isChoiceType.value && parsedChoices().length === 0) return false
+    // A lookup with no source would resolve to an empty list, so the server
+    // refuses it as well.
+    if (state.form.type === 'lookup' && !state.form.source) return false
 
     return true
 })
@@ -299,8 +342,18 @@ const groups = computed(() => {
 
 onMounted(() => {
     fetchStages()
+    fetchServiceTypes()
     fetchFields()
 })
+
+async function fetchServiceTypes() {
+    try {
+        const response = await inquiryServiceTypeService.getServiceTypes()
+        state.serviceTypes = (response?.data ?? []).filter((type: any) => type.is_active)
+    } catch (_) {
+        state.serviceTypes = []
+    }
+}
 
 function parsedChoices() {
     return state.form.choicesText
@@ -344,6 +397,8 @@ function openEdit(field: any) {
         choicesText: (field.options?.choices ?? []).join('\n'),
         min: String(field.options?.min ?? 1),
         max: String(field.options?.max ?? 5),
+        source: field.options?.source ?? 'municipalities',
+        service_type_uuid: field.service_type?.uuid ?? null,
         is_required: !!field.is_required,
         is_active: !!field.is_active,
     }
@@ -370,8 +425,12 @@ function payload() {
         body.type = state.form.type
     }
 
+    body.service_type_uuid = state.form.service_type_uuid
+
     if (isChoiceType.value) {
         body.options = { choices: parsedChoices() }
+    } else if (state.form.type === 'lookup') {
+        body.options = { source: state.form.source }
     } else if (state.form.type === 'scale') {
         body.options = { min: Number(state.form.min) || 1, max: Number(state.form.max) || 5 }
     }

@@ -9910,7 +9910,8 @@
             "wageSupplementRules": "Tilläggsregler för lön",
             "inquiryPipelineStages": "Faser för förfrågningar",
             "inquiryFields": "Fält för förfrågningar",
-            "consultantSkills": "Konsultkompetenser"
+            "consultantSkills": "Konsultkompetenser",
+            "inquiryServiceTypes": "Insatstyper"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -13809,7 +13810,11 @@
             "helpTextPlaceholder": "Visas under fältet",
             "isRequired": "Obligatoriskt för att lämna fasen",
             "isRequiredHint": "Förfrågan kan inte flyttas framåt förrän fältet är ifyllt.",
-            "isActive": "Aktivt"
+            "isActive": "Aktivt",
+            "source": "Slå upp i",
+            "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
+            "serviceType": "Endast för insatstyp",
+            "serviceTypeHint": "Välj en typ om fältet bara ska efterfrågas där. Annars efterfrågas det oavsett typ."
         },
         "types": {
             "text": "Text",
@@ -13820,8 +13825,20 @@
             "select": "Rullgardin",
             "multiselect": "Flera val",
             "scale": "Skala",
-            "boolean": "Ja/nej"
-        }
+            "boolean": "Ja/nej",
+            "lookup": "Uppslag"
+        },
+        "sources": {
+            "municipalities": "Kommuner",
+            "regions": "Regioner",
+            "departments": "Avdelningar",
+            "company_contacts": "Kontakter",
+            "spoken_languages": "Talade språk",
+            "consultant_skills": "Konsultkompetenser",
+            "inquiry_service_types": "Insatstyper",
+            "employees": "Medarbetare"
+        },
+        "allServiceTypes": "Alla insatstyper"
     },
     "inquiryOrigin": {
         "label": "Förfrågan kommer från",
@@ -13942,5 +13959,27 @@
         },
         "moveHeading": "Flytta förfrågan",
         "moveHint": "Framåt kräver att fasens obligatoriska fält är ifyllda. Bakåt går alltid."
+    },
+    "inquiryServiceTypes": {
+        "title": "Insatstyper",
+        "single": "Insatstyp",
+        "description": "De typer insats ni levererar, med den paragraf de beviljas enligt. Fält kan bindas till en enda typ så att de bara efterfrågas där.",
+        "hint": "Avgör vilka typspecifika fält som efterfrågas.",
+        "add": "Lägg till",
+        "empty": "Det finns inga insatstyper än.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Familjebehandling",
+            "paragraph": "Paragraf",
+            "paragraphPlaceholder": "T.ex. § 32"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här insatstypen"
+        },
+        "alert": {
+            "deleted": "Insatstypen har tagits bort",
+            "deleteFailed": "Insatstypen kunde inte tas bort",
+            "saveFailed": "Kunde inte sparas"
+        }
     }
 }
