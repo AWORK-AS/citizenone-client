@@ -25,7 +25,8 @@
             "won": "Vunnet",
             "lost": "Tapt"
         },
-        "tooManyToShow": "Viser {shown} av {total} henvendelser. Bruk listevisningen eller et avdelingsfilter for å se resten."
+        "tooManyToShow": "Viser {shown} av {total} henvendelser. Bruk listevisningen eller et avdelingsfilter for å se resten.",
+        "moveFailed": "Henvendelsen kunne ikke flyttes"
     },
     "managementEconomy": {
         "title": "Ledelse & økonomi",
@@ -7226,7 +7227,9 @@
         "form": {
             "alert": {
                 "inquirySuccessfullyUpdated": "Forespørgsel oppdatert",
-                "newInquirySuccessfullySaved": "Ny henvendelser er blitt lagret"
+                "newInquirySuccessfullySaved": "Ny henvendelser er blitt lagret",
+                "inquirySuccessfullyConverted": "Henvendelsen er konvertert",
+                "inquiryConversionFailed": "Henvendelsen kunne ikke konverteres"
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "Brukerens CPR-nummer",
@@ -13927,5 +13930,17 @@
             "skillsSaved": "Kompetansene er lagret",
             "saveFailed": "Kunne ikke lagres"
         }
+    },
+    "inquiryDetail": {
+        "markAsLost": "Merk som tapt",
+        "nextStepLocked": "Neste trinn ({stage}) er låst: {fields} mangler. Fyll ut feltene under for å fortsette.",
+        "parties": "Parter",
+        "noParties": "Det er ingen parter på henvendelsen ennå.",
+        "roles": {
+            "contact": "Kontakt",
+            "recipient": "Mottaker"
+        },
+        "moveHeading": "Flytt henvendelsen",
+        "moveHint": "Framover krever at fasens påkrevde felter er fylt ut. Tilbake kan du alltid."
     }
 }

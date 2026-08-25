@@ -29,6 +29,12 @@ class InquiryFieldService extends BaseAPIService {
     async saveFields(inquiryUuid: string, answers: Record<string, any>): Promise<any> {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}/fields`, 'PUT', { answers })
     }
+
+    // Which stage the inquiry is in, what comes next, and what is stopping it -
+    // read from the same gate that refuses the move.
+    async getStageGate(inquiryUuid: string): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/${inquiryUuid}/stage-gate`, 'GET')
+    }
 }
 
 export const inquiryFieldService = new InquiryFieldService()

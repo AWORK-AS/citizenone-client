@@ -25,7 +25,8 @@
             "won": "Vundet",
             "lost": "Tabt"
         },
-        "tooManyToShow": "Viser {shown} af {total} henvendelser. Brug listevisningen eller et afdelingsfilter for at se resten."
+        "tooManyToShow": "Viser {shown} af {total} henvendelser. Brug listevisningen eller et afdelingsfilter for at se resten.",
+        "moveFailed": "Henvendelsen kunne ikke flyttes"
     },
     "managementEconomy": {
         "title": "Ledelse & økonomi",
@@ -7226,7 +7227,9 @@
         "form": {
             "alert": {
                 "inquirySuccessfullyUpdated": "Forespørgsel opdateret",
-                "newInquirySuccessfullySaved": "Ny henvendelser er blevet gemt"
+                "newInquirySuccessfullySaved": "Ny henvendelser er blevet gemt",
+                "inquirySuccessfullyConverted": "Henvendelsen er konverteret",
+                "inquiryConversionFailed": "Henvendelsen kunne ikke konverteres"
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "Borgerens CPR-nummer",
@@ -13927,5 +13930,17 @@
             "skillsSaved": "Kompetencerne er gemt",
             "saveFailed": "Kunne ikke gemmes"
         }
+    },
+    "inquiryDetail": {
+        "markAsLost": "Marker som tabt",
+        "nextStepLocked": "Næste trin ({stage}) er låst: {fields} mangler. Udfyld felterne herunder for at fortsætte.",
+        "parties": "Parter",
+        "noParties": "Der er ingen parter på henvendelsen endnu.",
+        "roles": {
+            "contact": "Kontakt",
+            "recipient": "Modtager"
+        },
+        "moveHeading": "Flyt henvendelsen",
+        "moveHint": "Fremad kræver at fasens påkrævede felter er udfyldt. Tilbage kan du altid."
     }
 }

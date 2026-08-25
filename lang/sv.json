@@ -25,7 +25,8 @@
             "won": "Vunnen",
             "lost": "Förlorad"
         },
-        "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten."
+        "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten.",
+        "moveFailed": "Förfrågan kunde inte flyttas"
     },
     "managementEconomy": {
         "title": "Ledning & ekonomi",
@@ -7226,7 +7227,9 @@
         "form": {
             "alert": {
                 "inquirySuccessfullyUpdated": "Förfrågan uppdaterad",
-                "newInquirySuccessfullySaved": "Ny förfrågningar är blivit sparad"
+                "newInquirySuccessfullySaved": "Ny förfrågningar är blivit sparad",
+                "inquirySuccessfullyConverted": "Förfrågan har konverterats",
+                "inquiryConversionFailed": "Förfrågan kunde inte konverteras"
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "Klientens Personnummer",
@@ -13927,5 +13930,17 @@
             "skillsSaved": "Kompetenserna har sparats",
             "saveFailed": "Kunde inte sparas"
         }
+    },
+    "inquiryDetail": {
+        "markAsLost": "Markera som förlorad",
+        "nextStepLocked": "Nästa steg ({stage}) är låst: {fields} saknas. Fyll i fälten nedan för att fortsätta.",
+        "parties": "Parter",
+        "noParties": "Det finns inga parter på förfrågan än.",
+        "roles": {
+            "contact": "Kontakt",
+            "recipient": "Mottagare"
+        },
+        "moveHeading": "Flytta förfrågan",
+        "moveHint": "Framåt kräver att fasens obligatoriska fält är ifyllda. Bakåt går alltid."
     }
 }

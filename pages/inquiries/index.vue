@@ -145,7 +145,7 @@
                             <div class="space-y-2.5">
                                 <div v-for="inq in inquiriesByStage(stage.slug)" :key="inq.uuid" draggable="true"
                                     @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
-                                    @click="editInquiry(inq)"
+                                    @click="openInquiry(inq)"
                                     class="group cursor-pointer rounded-[11px] bg-white border border-surface-200 p-3 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-[#cfe3ea] hover:shadow-card-hover active:cursor-grabbing"
                                     :class="dragged?.uuid === inq.uuid ? 'opacity-40' : ''">
                                     <p class="text-[11px] font-bold text-secondary">
@@ -411,7 +411,7 @@ async function moveStage(inquiry: any, status: string) {
         // say it on the spot and offer the way to fix it.
         errorAlert(t('alert.warning'), error?.message ?? t('inquiryPipeline.moveFailed'))
         if (error?.missing_fields?.length) {
-            editInquiry(inquiry)
+            openInquiry(inquiry)
         }
     }
 }
@@ -541,6 +541,12 @@ function changePageLength(event: any) {
     inquiryStore.setCurrentPageNumber(1)
     inquiryStore.setCurrentPageLength(event.target.value)
     fetchInquiries()
+}
+
+// Opening a card means reading the case, which is a page of its own - the
+// stepper and the side panels do not belong in a modal.
+function openInquiry(inquiry: any) {
+    navigateTo(`/inquiries/${inquiry.uuid}`)
 }
 
 function editInquiry(inquiry: any) {

@@ -25,7 +25,8 @@
             "won": "Won",
             "lost": "Lost"
         },
-        "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest."
+        "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest.",
+        "moveFailed": "The inquiry could not be moved"
     },
     "managementEconomy": {
         "title": "Management & economy",
@@ -7226,7 +7227,9 @@
         "form": {
             "alert": {
                 "inquirySuccessfullyUpdated": "Inquiry successfully updated",
-                "newInquirySuccessfullySaved": "New inquiry successfully saved"
+                "newInquirySuccessfullySaved": "New inquiry successfully saved",
+                "inquirySuccessfullyConverted": "The inquiry was converted",
+                "inquiryConversionFailed": "The inquiry could not be converted"
             },
             "conversationSummary": "Conversation summary",
             "cpr": "Citizen's CPR number",
@@ -13927,5 +13930,17 @@
             "skillsSaved": "The skills were saved",
             "saveFailed": "Could not be saved"
         }
+    },
+    "inquiryDetail": {
+        "markAsLost": "Mark as lost",
+        "nextStepLocked": "The next step ({stage}) is locked: {fields} is missing. Fill in the fields below to continue.",
+        "parties": "Parties",
+        "noParties": "There are no parties on this inquiry yet.",
+        "roles": {
+            "contact": "Contact",
+            "recipient": "Recipient"
+        },
+        "moveHeading": "Move the inquiry",
+        "moveHint": "Moving forward needs the stage’s required fields filled in. Back is always allowed."
     }
 }
