@@ -9884,7 +9884,8 @@
             "messageTemplates": "Meldingsmaler",
             "timelineEventTypes": "Tidslinjetyper",
             "fst": "FST",
-            "wageSupplementRules": "Tilleggsregler for lønn"
+            "wageSupplementRules": "Tilleggsregler for lønn",
+            "inquiryPipelineStages": "Faser i henvendelser"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -13706,6 +13707,37 @@
             "helpUsedHours": "Timene fra timeregistreringene bak raden. Du kan sette dem ned hvis kontrakten bare dekker en del, og resten avskrives da for perioden. Du kan ikke sette dem opp over det registrerte - bruk en diverse-linje til det som ikke er timer.",
             "helpAgreedHours": "Det leverte holdes opp mot kontrakttimene på tiltaket hvis de er fylt ut, ellers mot borgerens tildelte timer. Timene skaleres til radens periode, slik at et opphold som starter midt i måneden ikke ser underlevert ut. Kontrakttimer settes på oppholdet på borgerens stamkort.",
             "helpConvert": "Omgjør de valgte tiltakene til én faktura per betalende kommune, diverse-linjer inkludert. Ikonet på raden lager en faktura med bare det ene tiltaket. Fakturaene ligger under Fakturering, klare til å sendes."
+        }
+    },
+    "inquiryPipelineStages": {
+        "title": "Faser i henvendelser",
+        "description": "Fasene styrer kolonnene i henvendelsesoversikten. Gi dem navnene dere bruker internt, legg til fasene dere mangler, og bestem rekkefølgen. Rollen avgjør hva systemet gjør med fasen: en fase kan være inngangen for nye henvendelser, fasen som gjør en henvendelse til en innsats, eller fasen der saken er tapt. Øvrige faser flytter bare henvendelsen videre.",
+        "addStage": "Legg til fase",
+        "empty": "Det finnes ingen faser ennå.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Avklaring",
+            "color": "Farge",
+            "role": "Rolle"
+        },
+        "roles": {
+            "neutral": "Vanlig fase",
+            "new": "Nye henvendelser",
+            "won": "Vunnet innsats",
+            "lost": "Tapt sak"
+        },
+        "actions": {
+            "moveUp": "Flytt opp",
+            "moveDown": "Flytt ned",
+            "delete": "Slett fase",
+            "deleteProtected": "Fasen kan ikke slettes fordi den har en rolle systemet er avhengig av"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på at du vil slette denne fasen"
+        },
+        "alert": {
+            "created": "Fasen er opprettet",
+            "deleted": "Fasen er slettet"
         }
     }
 }

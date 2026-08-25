@@ -126,6 +126,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             { group: 'journal', name: 'settings.tabs.journalContents', isTranslateName: true, href: `/settings/journal-contents`, routeNames: ['settings-journal-contents'] },
             { group: 'journal', name: 'settings.tabs.journalNoteTags', isTranslateName: true, href: `/settings/journal-note-tags`, routeNames: ['settings-journal-note-tags'] },
             { group: 'journal', name: 'settings.tabs.journalTitles', isTranslateName: true, href: `/settings/journal-titles`, routeNames: ['settings-journal-titles'] },
+            ...(newValue?.company?.inquiry_pipeline_enabled ? [{ group: 'citizens', name: 'settings.tabs.inquiryPipelineStages', isTranslateName: true, href: `/settings/inquiry-pipeline-stages`, routeNames: ['settings-inquiry-pipeline-stages'] }] : []),
             ...(newValue?.is_surveys_active !== false ? [{ group: 'journal', name: 'settings.tabs.surveys', isTranslateName: true, href: `/surveys`, routeNames: ['surveys', 'surveys-new', 'surveys-survey_uuid-edit', 'surveys-survey_uuid-assignments', 'surveys-survey_uuid-fill'] }] : []),
             { group: 'health', name: 'settings.tabs.massUnits', isTranslateName: true, href: `/settings/mass-units`, routeNames: ['settings-mass-units'] },
             { group: 'health', name: 'settings.tabs.medicationAllergies', isTranslateName: true, href: `/settings/medication-allergies`, routeNames: ['settings-medication-allergies'] },

@@ -118,23 +118,23 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <!-- Inquiry pipeline (kanban) — opt-in per company -->
                     <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto p-2">
-                        <div v-for="stage in pipelineStages" :key="stage.key"
+                        <div v-for="stage in state.pipelineStages" :key="stage.uuid"
                             class="w-[300px] shrink-0 rounded-2xl bg-surface-50 p-3 transition-colors"
-                            :class="dragOverKey === stage.key ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''"
-                            @dragover.prevent="dragOverKey = stage.key" @dragleave="dragOverKey = null"
-                            @drop="onDrop(stage.key)">
+                            :class="dragOverKey === stage.slug ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''"
+                            @dragover.prevent="dragOverKey = stage.slug" @dragleave="dragOverKey = null"
+                            @drop="onDrop(stage.slug)">
                             <div class="flex items-center gap-2 mb-3 px-1.5">
                                 <span class="size-2.5 rounded-full" :style="{ background: stage.color }"></span>
                                 <span class="text-[15px] font-bold text-slate-700">
-                                    {{ $t('inquiryPipeline.stages.' + stage.key) }}
+                                    {{ stage.name }}
                                 </span>
                                 <span
                                     class="ml-auto rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold text-slate-400">
-                                    {{ inquiriesByStage(stage.key).length }}
+                                    {{ inquiriesByStage(stage.slug).length }}
                                 </span>
                             </div>
                             <div class="space-y-2.5">
-                                <div v-for="inq in inquiriesByStage(stage.key)" :key="inq.uuid" draggable="true"
+                                <div v-for="inq in inquiriesByStage(stage.slug)" :key="inq.uuid" draggable="true"
                                     @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
                                     @click="editInquiry(inq)"
                                     class="group cursor-pointer rounded-xl bg-white border border-surface-200 p-3.5 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover active:cursor-grabbing"
@@ -169,7 +169,7 @@
                                         </span>
                                     </div>
                                     <!-- Won inquiry → create a citizen case directly from the card -->
-                                    <button v-if="stage.key === 'won' && !inq.citizen_id" type="button"
+                                    <button v-if="stage.system_role === 'won' && !inq.citizen_id" type="button"
                                         @click.stop="convertInquiryConfirmation(inq)"
                                         class="mt-3 w-full inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#1f9d6b] px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#1b8a5e]">
                                         <Icon name="ph:user-plus" class="size-4" />
@@ -190,7 +190,7 @@
                                             class="size-4 text-slate-300 opacity-0 transition-opacity group-hover:opacity-100" />
                                     </div>
                                 </div>
-                                <p v-if="inquiriesByStage(stage.key).length === 0"
+                                <p v-if="inquiriesByStage(stage.slug).length === 0"
                                     class="px-1.5 py-6 text-center text-xs text-slate-300">-</p>
                             </div>
                         </div>
@@ -296,6 +296,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useInquiryStore } from '@/store/inquiry'
 import { useDepartmentStore } from '@/store/department'
@@ -318,15 +319,23 @@ const { t } = useI18n()
 
 // Inquiry pipeline (kanban) — opt-in per company.
 const pipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
-const pipelineStages = [
-    { key: 'new', prev: null, next: 'clarification', color: '#2dbab2' },
-    { key: 'clarification', prev: 'new', next: 'offer', color: '#5bbfb5' },
-    { key: 'offer', prev: 'clarification', next: 'won', color: '#1b6d8a' },
-    { key: 'won', prev: 'offer', next: 'lost', color: '#1f9d6b' },
-    { key: 'lost', prev: 'won', next: null, color: '#d2553f' },
-]
-function inquiriesByStage(stage: string) {
-    return (state.inquiries?.data ?? []).filter((i: any) => (i.pipeline_status || 'new') === stage)
+// The stages are configured per company, so they come from the API. Renaming or
+// adding a stage in the settings shows up here without a release.
+const entryStageSlug = computed(() =>
+    state.pipelineStages.find((s: any) => s.system_role === 'new')?.slug
+    ?? state.pipelineStages[0]?.slug
+    ?? 'new'
+)
+
+function inquiriesByStage(slug: string) {
+    const known = state.pipelineStages.map((s: any) => s.slug)
+    return (state.inquiries?.data ?? []).filter((i: any) => {
+        const status = i.pipeline_status
+        // An inquiry with no status, or one left behind by a deleted stage,
+        // belongs in the entry column rather than nowhere.
+        const resolved = status && known.includes(status) ? status : entryStageSlug.value
+        return resolved === slug
+    })
 }
 function inqTitle(inq: any) {
     return inq?.purpose || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`.trim() || inq?.inquirer_name || '-'
@@ -346,12 +355,12 @@ const dragOverKey = ref<string | null>(null)
 function onDragStart(inq: any) {
     dragged.value = inq
 }
-function onDrop(stageKey: string) {
+function onDrop(stageSlug: string) {
     dragOverKey.value = null
     const inq = dragged.value
     dragged.value = null
-    if (inq && (inq.pipeline_status || 'new') !== stageKey) {
-        moveStage(inq, stageKey)
+    if (inq && (inq.pipeline_status || entryStageSlug.value) !== stageSlug) {
+        moveStage(inq, stageSlug)
     }
 }
 
@@ -413,12 +422,23 @@ const state = reactive({
     selectedInquiry: {} as any,
     inquiryTpe: '',
     exportInquiryType: '',
+    pipelineStages: [] as any[],
 })
 
 onMounted(() => {
     fetchDepartments()
     fetchInquiries()
+    if (pipelineEnabled.value) fetchPipelineStages()
 })
+
+async function fetchPipelineStages() {
+    try {
+        const response = await inquiryPipelineStageService.getStages()
+        state.pipelineStages = response?.data ?? []
+    } catch (_) {
+        state.pipelineStages = []
+    }
+}
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {

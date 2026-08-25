@@ -9884,7 +9884,8 @@
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
             "fst": "FST",
-            "wageSupplementRules": "Tilläggsregler för lön"
+            "wageSupplementRules": "Tilläggsregler för lön",
+            "inquiryPipelineStages": "Faser för förfrågningar"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -13706,6 +13707,37 @@
             "helpUsedHours": "Timmarna från timregistreringarna bakom raden. Du kan sänka dem när kontraktet bara täcker en del, och resten skrivs då av för perioden. Du kan inte höja dem över det registrerade - använd en övrig rad för det som inte är timmar.",
             "helpAgreedHours": "Det levererade hålls upp mot kontraktstimmarna på insatsen om de är ifyllda, annars mot medborgarens tilldelade timmar. Timmarna skalas till radens period, så att en placering som börjar mitt i månaden inte ser underlevererad ut. Kontraktstimmar sätts på placeringen i medborgarens stamkort.",
             "helpConvert": "Omvandlar de valda insatserna till en faktura per betalande kommun, övriga rader inkluderade. Ikonen på raden skapar en faktura med bara den insatsen. Fakturorna ligger under Fakturering, klara att skickas."
+        }
+    },
+    "inquiryPipelineStages": {
+        "title": "Faser för förfrågningar",
+        "description": "Faserna styr kolumnerna i förfrågningsöversikten. Ge dem de namn ni använder internt, lägg till de faser ni saknar och bestäm ordningen. Rollen avgör vad systemet gör med fasen: en fas kan vara ingången för nya förfrågningar, fasen som gör en förfrågan till en insats, eller fasen där ärendet är förlorat. Övriga faser flyttar bara förfrågan vidare.",
+        "addStage": "Lägg till fas",
+        "empty": "Det finns inga faser än.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Utredning",
+            "color": "Färg",
+            "role": "Roll"
+        },
+        "roles": {
+            "neutral": "Vanlig fas",
+            "new": "Nya förfrågningar",
+            "won": "Vunnen insats",
+            "lost": "Förlorat ärende"
+        },
+        "actions": {
+            "moveUp": "Flytta upp",
+            "moveDown": "Flytta ner",
+            "delete": "Ta bort fas",
+            "deleteProtected": "Fasen kan inte tas bort eftersom den har en roll som systemet är beroende av"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här fasen"
+        },
+        "alert": {
+            "created": "Fasen har skapats",
+            "deleted": "Fasen har tagits bort"
         }
     }
 }

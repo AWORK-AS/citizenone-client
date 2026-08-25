@@ -9884,7 +9884,8 @@
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
             "fst": "FST",
-            "wageSupplementRules": "Wage supplement rules"
+            "wageSupplementRules": "Wage supplement rules",
+            "inquiryPipelineStages": "Inquiry stages"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -13706,6 +13707,37 @@
             "helpUsedHours": "The hours from the registrations behind the row. You can lower them when the contract only covers part of the delivery, and the rest is written off for the period. You cannot raise them above what was recorded - use an extra line for what is not hours.",
             "helpAgreedHours": "Delivery is held up against the contracted hours on the placement when they are filled in, and against the citizen's allocated hours otherwise. The hours are scaled to the row's period, so a placement starting mid-month does not look under-delivered. Contracted hours are set on the placement in the citizen record.",
             "helpConvert": "Turns the selected placements into one invoice per paying municipality, extra lines included. The icon on a row makes an invoice with that placement alone. The invoices land under Invoicing, ready to send."
+        }
+    },
+    "inquiryPipelineStages": {
+        "title": "Inquiry stages",
+        "description": "The stages are the columns in the inquiry overview. Name them the way you name them internally, add the ones you are missing, and set the order. The role decides what the system does with a stage: it can be the entry point for new inquiries, the stage that turns an inquiry into an intervention, or the stage where the case is lost. Every other stage simply moves the inquiry along.",
+        "addStage": "Add stage",
+        "empty": "There are no stages yet.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Clarification",
+            "color": "Colour",
+            "role": "Role"
+        },
+        "roles": {
+            "neutral": "Regular stage",
+            "new": "New inquiries",
+            "won": "Won intervention",
+            "lost": "Lost case"
+        },
+        "actions": {
+            "moveUp": "Move up",
+            "moveDown": "Move down",
+            "delete": "Delete stage",
+            "deleteProtected": "This stage cannot be deleted because it holds a role the system depends on"
+        },
+        "confirmation": {
+            "delete": "Are you sure you want to delete this stage"
+        },
+        "alert": {
+            "created": "The stage was created",
+            "deleted": "The stage was deleted"
         }
     }
 }
