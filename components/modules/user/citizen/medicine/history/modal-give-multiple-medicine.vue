@@ -64,10 +64,10 @@
                                                             <span v-if="language.locale.value === 'en'">
                                                                 {{ medicine.medicine?.en_name }}
                                                             </span>
-                                                            <span v-if="language.locale.value === 'no'">
+                                                            <span v-else-if="language.locale.value === 'no'">
                                                                 {{ medicine.medicine?.no_name }}
                                                             </span>
-                                                            <span v-if="language.locale.value === 'sv'">
+                                                            <span v-else-if="language.locale.value === 'sv'">
                                                                 {{ medicine.medicine?.sv_name }}
                                                             </span>
                                                             <span v-else>
