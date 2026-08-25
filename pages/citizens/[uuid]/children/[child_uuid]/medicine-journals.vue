@@ -1239,19 +1239,26 @@ const stats = computed(() => {
 const alarmBanners = computed(() => {
     const banners: any[] = []
     const today = moment().format('YYYY-MM-DD')
-    regularMedicines.value.forEach((m: any) => {
-        const name = getMedicineName(m)
-        const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
-        entries.forEach((d: any) => {
-            if (d?.status) return
-            if (isMissed(d?.time)) {
-                const mins = minutesSince(d?.time)
-                banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
-            } else if (isDueSoon(d?.time)) {
-                banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
-            }
+    // Same active-on-date filter as `stats` below — without it, a medicine
+    // that isn't actually scheduled today (different recurrence day, ended
+    // treatment period) but still has a stale dosage_status_by_date[today]
+    // entry shows up as an alarm banner while being correctly excluded from
+    // the "X Overdue" count, so the two disagree.
+    regularMedicines.value
+        .filter((m: any) => isMedicineActiveOnDate(m, today))
+        .forEach((m: any) => {
+            const name = getMedicineName(m)
+            const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
+            entries.forEach((d: any) => {
+                if (d?.status) return
+                if (isMissed(d?.time)) {
+                    const mins = minutesSince(d?.time)
+                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
+                } else if (isDueSoon(d?.time)) {
+                    banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
+                }
+            })
         })
-    })
     return banners.slice(0, 4)
 })
 
