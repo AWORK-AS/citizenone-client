@@ -24,7 +24,8 @@
             "offer": "Erbjudande",
             "won": "Vunnen",
             "lost": "Förlorad"
-        }
+        },
+        "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten."
     },
     "managementEconomy": {
         "title": "Ledning & ekonomi",

@@ -24,7 +24,8 @@
             "offer": "Tilbud",
             "won": "Vunnet",
             "lost": "Tapt"
-        }
+        },
+        "tooManyToShow": "Viser {shown} av {total} henvendelser. Bruk listevisningen eller et avdelingsfilter for å se resten."
     },
     "managementEconomy": {
         "title": "Ledelse & økonomi",

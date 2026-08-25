@@ -20,7 +20,7 @@
 
             <div>
                 <div class="flex justify-between items-center mb-5">
-                    <div class="flex items-center gap-x-1">
+                    <div v-if="!pipelineEnabled" class="flex items-center gap-x-1">
                         <span>{{ $t('entriesPerPage') }}:</span>
                         <select class="focus:outline-none bg-transparent" @change="changePageLength"
                             id="inquiriesPageLength">
@@ -117,7 +117,11 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <!-- Inquiry pipeline (kanban) — opt-in per company -->
-                    <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto p-2">
+                    <p v-if="pipelineEnabled && boardOverflowCount > 0"
+                        class="rounded-lg bg-[#fdf3df] px-3 py-2 text-xs font-medium text-[#8a6208]">
+                        {{ $t('inquiryPipeline.tooManyToShow', { shown: boardShownCount, total: boardTotalCount }) }}
+                    </p>
+                    <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto p-2 pr-6">
                         <div v-for="stage in state.pipelineStages" :key="stage.uuid"
                             class="w-[300px] shrink-0 rounded-2xl bg-surface-50 p-3 transition-colors"
                             :class="dragOverKey === stage.slug ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''"
@@ -139,10 +143,10 @@
                                     @click="editInquiry(inq)"
                                     class="group cursor-pointer rounded-xl bg-white border border-surface-200 p-3.5 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover active:cursor-grabbing"
                                     :class="dragged?.uuid === inq.uuid ? 'opacity-40' : ''">
-                                    <p class="text-xs font-bold text-secondary">
+                                    <p class="text-xs font-medium text-secondary">
                                         {{ inq.inquirer_name || $t('inquiries.inquiries') }}
                                     </p>
-                                    <p class="mt-1 text-[15px] font-bold leading-snug text-slate-900">
+                                    <p class="mt-1 text-[15px] font-semibold leading-snug text-slate-900">
                                         {{ inqTitle(inq) }}
                                     </p>
                                     <div class="mt-2 flex flex-wrap items-center gap-1.5">
@@ -171,8 +175,8 @@
                                     <!-- Won inquiry → create a citizen case directly from the card -->
                                     <button v-if="stage.system_role === 'won' && !inq.citizen_id" type="button"
                                         @click.stop="convertInquiryConfirmation(inq)"
-                                        class="mt-3 w-full inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#1f9d6b] px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#1b8a5e]">
-                                        <Icon name="ph:user-plus" class="size-4" />
+                                        class="mt-2.5 inline-flex items-center gap-1.5 rounded-lg border border-[#1f9d6b]/30 bg-[#e6f6ee] px-2.5 py-1 text-[11px] font-semibold text-[#177a53] transition-colors hover:bg-[#d3efe1]">
+                                        <Icon name="ph:user-plus" class="size-3.5" />
                                         {{ $t('inquiries.table.actions.convertAsCitizen') }}
                                     </button>
                                     <div
@@ -319,6 +323,14 @@ const { t } = useI18n()
 
 // Inquiry pipeline (kanban) — opt-in per company.
 const pipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
+// The board asks for far more rows than the table's page size, since a column
+// with a missing card is worse than a slow first load.
+const BOARD_PAGE_LENGTH = 500
+
+const boardTotalCount = computed(() => state.inquiries?.meta?.total ?? 0)
+const boardShownCount = computed(() => state.inquiries?.data?.length ?? 0)
+const boardOverflowCount = computed(() => Math.max(0, boardTotalCount.value - boardShownCount.value))
+
 // The stages are configured per company, so they come from the API. Renaming or
 // adding a stage in the settings shows up here without a release.
 const entryStageSlug = computed(() =>
@@ -345,7 +357,9 @@ function inqSource(inq: any) {
 }
 function inqInitials(inq: any) {
     const src = (inq?.inquirer_name || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`).trim()
-    const parts = src.split(/\s+/).filter(Boolean)
+    // Only name-like words count: a trailing "(privat)" or "-" would otherwise
+    // become the second initial.
+    const parts = src.split(/\s+/).filter((word: string) => /^\p{L}/u.test(word))
     if (!parts.length) return '?'
     return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase()
 }
@@ -452,8 +466,11 @@ async function fetchInquiries() {
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            page: inquiryStore.getCurrentPageNumber,
-            page_length: inquiryStore.getCurrentPageLength,
+            // The board has no pages - every card has to be in its column, or a
+            // count is wrong and an inquiry is invisible. The table keeps its
+            // own paging.
+            page: pipelineEnabled.value ? 1 : inquiryStore.getCurrentPageNumber,
+            page_length: pipelineEnabled.value ? BOARD_PAGE_LENGTH : inquiryStore.getCurrentPageLength,
             sortField: inquiryStore.getSortData.sortField,
             sortOrder: inquiryStore.getSortData.sortOrder,
             ...state.dataFilter

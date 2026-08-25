@@ -24,7 +24,8 @@
             "offer": "Offer",
             "won": "Won",
             "lost": "Lost"
-        }
+        },
+        "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest."
     },
     "managementEconomy": {
         "title": "Management & economy",
