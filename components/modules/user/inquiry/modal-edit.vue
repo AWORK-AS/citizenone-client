@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserInquiryModalCrisisCenterForm v-if="props.selectedInquiry.inquiry_type === 'crisis_center'" formType="update" :selectedInquiry="props.selectedInquiry"

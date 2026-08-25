@@ -7312,6 +7312,12 @@
                     "referralDestination": "Var henvises klienten till i stedet?",
                     "vacantPlaceAvailable": "Är där ledig plats på herberget eller forsorgshjemmet mv.?"
                 }
+            },
+            "sections": {
+                "inquiry": "Förfrågan",
+                "citizen": "Medborgaren",
+                "assessment": "Bedömning",
+                "outcome": "Resultat och anteckningar"
             }
         },
         "inquiries": "Förfrågningar",

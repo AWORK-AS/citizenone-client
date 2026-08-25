@@ -7312,6 +7312,12 @@
                     "referralDestination": "Where is the citizen referred instead?",
                     "vacantPlaceAvailable": "Is there available space at the shelter or care home etc.?"
                 }
+            },
+            "sections": {
+                "inquiry": "The inquiry",
+                "citizen": "The citizen",
+                "assessment": "Assessment",
+                "outcome": "Outcome and notes"
             }
         },
         "inquiries": "Inquiries",

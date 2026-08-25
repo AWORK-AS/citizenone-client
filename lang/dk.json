@@ -7312,6 +7312,12 @@
                     "referralDestination": "Hvor henvises borgeren til i stedet?",
                     "vacantPlaceAvailable": "Er der ledig plads på herberget eller forsorgshjemmet mv.?"
                 }
+            },
+            "sections": {
+                "inquiry": "Henvendelsen",
+                "citizen": "Borgeren",
+                "assessment": "Vurdering",
+                "outcome": "Resultat og noter"
             }
         },
         "inquiries": "Henvendelser",

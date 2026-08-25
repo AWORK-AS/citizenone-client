@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="inquiryType === 'shelter' ? shelterName : crisisCenterName" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="inquiryType === 'shelter' ? shelterName : crisisCenterName" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserInquiryModalCrisisCenterForm v-if="inquiryType === 'crisis_center'" formType="create" :selectedInquiry="state.formInquiry"
