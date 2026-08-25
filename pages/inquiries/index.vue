@@ -323,7 +323,7 @@ const inquiryStore = useInquiryStore() as any
 const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 
 // Inquiry pipeline (kanban) — opt-in per company.
@@ -398,6 +398,13 @@ async function moveStage(inquiry: any, status: string) {
         }
     } catch (error: any) {
         state.error = error
+        // A move refused because the stage's required fields are unanswered is
+        // the common case, and the card is where the answer gets filled in - so
+        // say it on the spot and offer the way to fix it.
+        errorAlert(t('alert.warning'), error?.message ?? t('inquiryPipeline.moveFailed'))
+        if (error?.missing_fields?.length) {
+            editInquiry(inquiry)
+        }
     }
 }
 

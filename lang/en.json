@@ -9900,7 +9900,8 @@
             "timelineEventTypes": "Timeline types",
             "fst": "FST",
             "wageSupplementRules": "Wage supplement rules",
-            "inquiryPipelineStages": "Inquiry stages"
+            "inquiryPipelineStages": "Inquiry stages",
+            "inquiryFields": "Inquiry fields"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -13753,6 +13754,64 @@
         "alert": {
             "created": "The stage was created",
             "deleted": "The stage was deleted"
+        }
+    },
+    "inquiryFields": {
+        "required": "Required",
+        "appliesThroughout": "Applies throughout",
+        "saving": "Saving...",
+        "alert": {
+            "saved": "The fields were saved",
+            "saveFailed": "The fields could not be saved"
+        }
+    },
+    "inquiryFieldSettings": {
+        "title": "Inquiry fields",
+        "description": "Decide what has to be recorded, and which stage it belongs to. A required field has to be filled in before the inquiry can move on from its stage - moving back is always allowed.",
+        "addField": "Add field",
+        "editField": "Edit field",
+        "inactive": "Off",
+        "noFieldsInStage": "No fields in this stage.",
+        "fieldCount": "{count} fields",
+        "actions": {
+            "edit": "Edit"
+        },
+        "confirmation": {
+            "delete": "Are you sure you want to delete this field"
+        },
+        "alert": {
+            "saved": "The field was saved",
+            "deleted": "The field was deleted",
+            "deleteFailed": "The field could not be deleted"
+        },
+        "form": {
+            "label": "Name",
+            "labelPlaceholder": "E.g. Risk assessment",
+            "type": "Field type",
+            "typeLocked": "The type cannot be changed, because the answers already given are read through it. Create a new field instead.",
+            "stage": "Stage",
+            "stageHint": "Choose \"Applies throughout\" if the field should be fillable in any stage.",
+            "choices": "Choices",
+            "choicesPlaceholder": "One choice per line",
+            "choicesHint": "One per line. The order here is the order they are shown in.",
+            "min": "From",
+            "max": "To",
+            "helpText": "Help text",
+            "helpTextPlaceholder": "Shown below the field",
+            "isRequired": "Required to leave the stage",
+            "isRequiredHint": "The inquiry cannot move forward until the field is filled in.",
+            "isActive": "Active"
+        },
+        "types": {
+            "text": "Text",
+            "textarea": "Long text",
+            "number": "Number",
+            "amount": "Amount",
+            "date": "Date",
+            "select": "Dropdown",
+            "multiselect": "Multiple choice",
+            "scale": "Scale",
+            "boolean": "Yes/no"
         }
     }
 }

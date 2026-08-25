@@ -9900,7 +9900,8 @@
             "timelineEventTypes": "Tidslinjetyper",
             "fst": "FST",
             "wageSupplementRules": "Tilleggsregler for lønn",
-            "inquiryPipelineStages": "Faser i henvendelser"
+            "inquiryPipelineStages": "Faser i henvendelser",
+            "inquiryFields": "Felter i henvendelser"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -13753,6 +13754,64 @@
         "alert": {
             "created": "Fasen er opprettet",
             "deleted": "Fasen er slettet"
+        }
+    },
+    "inquiryFields": {
+        "required": "Påkrevd",
+        "appliesThroughout": "Gjelder hele forløpet",
+        "saving": "Lagrer...",
+        "alert": {
+            "saved": "Feltene er lagret",
+            "saveFailed": "Feltene kunne ikke lagres"
+        }
+    },
+    "inquiryFieldSettings": {
+        "title": "Felter i henvendelser",
+        "description": "Bestem selv hvilke opplysninger som skal registreres, og hvilken fase de hører til. Et påkrevd felt må være fylt ut før henvendelsen kan flyttes videre fra fasen sin - bakover kan man alltid.",
+        "addField": "Legg til felt",
+        "editField": "Rediger felt",
+        "inactive": "Slått av",
+        "noFieldsInStage": "Ingen felter i denne fasen.",
+        "fieldCount": "{count} felter",
+        "actions": {
+            "edit": "Rediger"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på at du vil slette dette feltet"
+        },
+        "alert": {
+            "saved": "Feltet er lagret",
+            "deleted": "Feltet er slettet",
+            "deleteFailed": "Feltet kunne ikke slettes"
+        },
+        "form": {
+            "label": "Navn",
+            "labelPlaceholder": "F.eks. Risikovurdering",
+            "type": "Felttype",
+            "typeLocked": "Typen kan ikke endres, fordi svarene som allerede er gitt leses gjennom den. Opprett et nytt felt i stedet.",
+            "stage": "Fase",
+            "stageHint": "Velg \"Gjelder hele forløpet\" hvis feltet skal kunne fylles ut uansett fase.",
+            "choices": "Valgmuligheter",
+            "choicesPlaceholder": "Én mulighet per linje",
+            "choicesHint": "Én per linje. Rekkefølgen her er rekkefølgen de vises i.",
+            "min": "Fra",
+            "max": "Til",
+            "helpText": "Hjelpetekst",
+            "helpTextPlaceholder": "Vises under feltet",
+            "isRequired": "Påkrevd for å forlate fasen",
+            "isRequiredHint": "Henvendelsen kan ikke flyttes framover før feltet er fylt ut.",
+            "isActive": "Aktivt"
+        },
+        "types": {
+            "text": "Tekst",
+            "textarea": "Langt tekstfelt",
+            "number": "Tall",
+            "amount": "Beløp",
+            "date": "Dato",
+            "select": "Nedtrekksliste",
+            "multiselect": "Flere valg",
+            "scale": "Skala",
+            "boolean": "Ja/nei"
         }
     }
 }

@@ -9900,7 +9900,8 @@
             "timelineEventTypes": "Tidslinjetyper",
             "fst": "FST",
             "wageSupplementRules": "Tilläggsregler för lön",
-            "inquiryPipelineStages": "Faser för förfrågningar"
+            "inquiryPipelineStages": "Faser för förfrågningar",
+            "inquiryFields": "Fält för förfrågningar"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -13753,6 +13754,64 @@
         "alert": {
             "created": "Fasen har skapats",
             "deleted": "Fasen har tagits bort"
+        }
+    },
+    "inquiryFields": {
+        "required": "Obligatoriskt",
+        "appliesThroughout": "Gäller hela förloppet",
+        "saving": "Sparar...",
+        "alert": {
+            "saved": "Fälten har sparats",
+            "saveFailed": "Fälten kunde inte sparas"
+        }
+    },
+    "inquiryFieldSettings": {
+        "title": "Fält för förfrågningar",
+        "description": "Bestäm själv vilka uppgifter som ska registreras och vilken fas de hör till. Ett obligatoriskt fält måste vara ifyllt innan förfrågan kan flyttas vidare från sin fas - bakåt går alltid.",
+        "addField": "Lägg till fält",
+        "editField": "Redigera fält",
+        "inactive": "Avstängt",
+        "noFieldsInStage": "Inga fält i den här fasen.",
+        "fieldCount": "{count} fält",
+        "actions": {
+            "edit": "Redigera"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort det här fältet"
+        },
+        "alert": {
+            "saved": "Fältet har sparats",
+            "deleted": "Fältet har tagits bort",
+            "deleteFailed": "Fältet kunde inte tas bort"
+        },
+        "form": {
+            "label": "Namn",
+            "labelPlaceholder": "T.ex. Riskbedömning",
+            "type": "Fälttyp",
+            "typeLocked": "Typen kan inte ändras, eftersom svaren som redan getts läses genom den. Skapa ett nytt fält i stället.",
+            "stage": "Fas",
+            "stageHint": "Välj \"Gäller hela förloppet\" om fältet ska kunna fyllas i oavsett fas.",
+            "choices": "Alternativ",
+            "choicesPlaceholder": "Ett alternativ per rad",
+            "choicesHint": "Ett per rad. Ordningen här är den ordning de visas i.",
+            "min": "Från",
+            "max": "Till",
+            "helpText": "Hjälptext",
+            "helpTextPlaceholder": "Visas under fältet",
+            "isRequired": "Obligatoriskt för att lämna fasen",
+            "isRequiredHint": "Förfrågan kan inte flyttas framåt förrän fältet är ifyllt.",
+            "isActive": "Aktivt"
+        },
+        "types": {
+            "text": "Text",
+            "textarea": "Långt textfält",
+            "number": "Tal",
+            "amount": "Belopp",
+            "date": "Datum",
+            "select": "Rullgardin",
+            "multiselect": "Flera val",
+            "scale": "Skala",
+            "boolean": "Ja/nej"
         }
     }
 }

@@ -6,7 +6,8 @@
                     <!-- Opening an inquiry is for reading it. Editing is a decision the
                          user makes after that, not the thing they land in. -->
                     <ModulesUserInquiryDetailReview v-if="!state.isEditing && hasKnownType"
-                        :inquiry="props.selectedInquiry" @edit="state.isEditing = true" />
+                        :inquiry="props.selectedInquiry" @edit="state.isEditing = true"
+                        @fieldsSaved="refreshInquiries" />
                     <ModulesUserInquiryModalCrisisCenterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'crisis_center'" formType="update" :selectedInquiry="props.selectedInquiry"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="stopEditing" @submitForm="updateCrisisCenterInquiry" />

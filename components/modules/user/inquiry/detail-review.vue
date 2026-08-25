@@ -41,6 +41,11 @@
                     </div>
                 </div>
             </section>
+
+            <!-- The fields this company has set up for its own pipeline. Editable
+                 in place: the usual reason for opening an inquiry is to fill one
+                 of these in so the case can move on. -->
+            <ModulesUserInquiryFieldsBlock :inquiryUuid="props.inquiry.uuid" @saved="emit('fieldsSaved')" />
         </div>
     </div>
 </template>
@@ -59,7 +64,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['edit'])
+const emit = defineEmits(['edit', 'fieldsSaved'])
 
 const { formatDateToReadable } = useDatetimeFormatter()
 
