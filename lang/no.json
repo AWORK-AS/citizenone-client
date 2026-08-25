@@ -14017,5 +14017,20 @@
             "min_step_assessment": "Trinnvurdering",
             "min_weekly_hours": "Timetall"
         }
+    },
+    "inquiryNotes": {
+        "title": "Notater",
+        "count": "{count} notater",
+        "add": "Legg til notat",
+        "placeholder": "Skriv hva som har skjedd, eller hva som er avtalt...",
+        "hint": "Notatet stemples med fasen henvendelsen står i, og følger med til borgerens journal ved konvertering.",
+        "empty": "Det finnes ingen notater på henvendelsen ennå.",
+        "inJournal": "I journalen",
+        "edit": "Rediger notat",
+        "delete": "Slett notat",
+        "confirmDelete": "Er du sikker på at du vil slette dette notatet",
+        "unknownAuthor": "Ukjent",
+        "saveFailed": "Notatet kunne ikke lagres",
+        "deleteFailed": "Notatet kunne ikke slettes"
     }
 }

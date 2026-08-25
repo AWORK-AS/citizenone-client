@@ -80,11 +80,16 @@
                 </div>
 
                 <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
-                    <!-- Left: what was recorded, and the fields this company asks for -->
+                    <!-- Left: what was recorded, the fields this company asks
+                         for, and the notes written along the way -->
                     <div class="space-y-5 lg:col-span-2">
                         <div class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryDetailReview v-if="state.inquiry?.uuid" :inquiry="state.inquiry"
                                 @edit="state.isEditOpen = true" @fieldsSaved="fetchAll" />
+                        </div>
+                        <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
+                            <ModulesUserInquiryNotesPanel :inquiryUuid="state.inquiry.uuid"
+                                :stages="state.stages" />
                         </div>
                     </div>
 

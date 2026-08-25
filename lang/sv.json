@@ -14017,5 +14017,20 @@
             "min_step_assessment": "Stegbedömning",
             "min_weekly_hours": "Timantal"
         }
+    },
+    "inquiryNotes": {
+        "title": "Anteckningar",
+        "count": "{count} anteckningar",
+        "add": "Lägg till anteckning",
+        "placeholder": "Skriv vad som har hänt, eller vad som är överenskommet...",
+        "hint": "Anteckningen stämplas med den fas förfrågan står i och följer med till medborgarens journal vid konvertering.",
+        "empty": "Det finns inga anteckningar på förfrågan än.",
+        "inJournal": "I journalen",
+        "edit": "Redigera anteckning",
+        "delete": "Ta bort anteckning",
+        "confirmDelete": "Är du säker på att du vill ta bort den här anteckningen",
+        "unknownAuthor": "Okänd",
+        "saveFailed": "Anteckningen kunde inte sparas",
+        "deleteFailed": "Anteckningen kunde inte tas bort"
     }
 }

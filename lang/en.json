@@ -14017,5 +14017,20 @@
             "min_step_assessment": "Step assessment",
             "min_weekly_hours": "Hours"
         }
+    },
+    "inquiryNotes": {
+        "title": "Notes",
+        "count": "{count} notes",
+        "add": "Add note",
+        "placeholder": "Write what happened, or what was agreed...",
+        "hint": "The note is stamped with the stage the inquiry is in, and follows to the citizen’s journal on conversion.",
+        "empty": "There are no notes on this inquiry yet.",
+        "inJournal": "In the journal",
+        "edit": "Edit note",
+        "delete": "Delete note",
+        "confirmDelete": "Are you sure you want to delete this note",
+        "unknownAuthor": "Unknown",
+        "saveFailed": "The note could not be saved",
+        "deleteFailed": "The note could not be deleted"
     }
 }
