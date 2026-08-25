@@ -3,11 +3,15 @@
         <Modal size="lg" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserInquiryModalCrisisCenterForm v-if="props.selectedInquiry.inquiry_type === 'crisis_center'" formType="update" :selectedInquiry="props.selectedInquiry"
+                    <!-- Opening an inquiry is for reading it. Editing is a decision the
+                         user makes after that, not the thing they land in. -->
+                    <ModulesUserInquiryDetailReview v-if="!state.isEditing && hasKnownType"
+                        :inquiry="props.selectedInquiry" @edit="state.isEditing = true" />
+                    <ModulesUserInquiryModalCrisisCenterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'crisis_center'" formType="update" :selectedInquiry="props.selectedInquiry"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateCrisisCenterInquiry" />
-                    <ModulesUserInquiryModalShelterForm v-if="props.selectedInquiry.inquiry_type === 'shelter'" formType="update" :selectedInquiry="props.selectedInquiry" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateShelterInquiry" />
+                        @closeModal="stopEditing" @submitForm="updateCrisisCenterInquiry" />
+                    <ModulesUserInquiryModalShelterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'shelter'" formType="update" :selectedInquiry="props.selectedInquiry" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="stopEditing" @submitForm="updateShelterInquiry" />
                     <!-- Neither form fits: the inquiry has no type, which happens to
                          imported rows and to anything created straight through the API.
                          Say so instead of showing an empty box. -->
@@ -64,8 +68,24 @@ const emit = defineEmits(['close', 'refreshInquiries'])
 
 const state = reactive({
     error: {} as Error,
+    isEditing: false,
     isPageLoading: false
 })
+
+// Every open starts on the review, including reopening the same inquiry.
+watch(() => props.isModalOpen, (open: boolean) => {
+    if (open) {
+        state.isEditing = false
+        state.error = {}
+    }
+})
+
+// Cancelling an edit returns to the review rather than throwing the user out of
+// the inquiry altogether.
+function stopEditing() {
+    state.isEditing = false
+    state.error = {}
+}
 
 function closeModal() {
     emit('close')
