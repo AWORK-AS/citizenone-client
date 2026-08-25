@@ -14016,7 +14016,10 @@
             "consultant_status": "Status",
             "min_step_assessment": "Stegbedömning",
             "min_weekly_hours": "Timantal"
-        }
+        },
+        "askSelected": "Fråga {count} valda",
+        "asked": "Konsulterna är tillfrågade",
+        "askFailed": "Konsulterna kunde inte tillfrågas"
     },
     "inquiryNotes": {
         "title": "Anteckningar",
@@ -14045,5 +14048,29 @@
         "confirmDelete": "Är du säker på att du vill ta bort det här dokumentet",
         "uploadFailed": "Dokumentet kunde inte laddas upp",
         "deleteFailed": "Dokumentet kunde inte tas bort"
+    },
+    "inquiryInvitations": {
+        "title": "Konsulter tillfrågade",
+        "empty": "Inga konsulter är tillfrågade än.",
+        "selected": "Vald",
+        "select": "Utse",
+        "markInterested": "Sa ja",
+        "markDeclined": "Sa nej",
+        "askedBy": "tillfrågad av {name}",
+        "answeredBy": "svar registrerat av {name}",
+        "unknownConsultant": "Okänd",
+        "failed": "Åtgärden kunde inte genomföras",
+        "statuses": {
+            "invited": "Väntar på svar",
+            "interested": "Intresserad",
+            "declined": "Sa nej"
+        },
+        "mine": {
+            "title": "Ärenden du har blivit tillfrågad om",
+            "empty": "Du har inte blivit tillfrågad om några ärenden.",
+            "yes": "Ja tack",
+            "no": "Nej tack",
+            "answered": "Du har svarat"
+        }
     }
 }

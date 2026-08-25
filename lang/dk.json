@@ -14016,7 +14016,10 @@
             "consultant_status": "Status",
             "min_step_assessment": "Trinvurdering",
             "min_weekly_hours": "Timetal"
-        }
+        },
+        "askSelected": "Spørg {count} valgte",
+        "asked": "Konsulenterne er spurgt",
+        "askFailed": "Konsulenterne kunne ikke spørges"
     },
     "inquiryNotes": {
         "title": "Notater",
@@ -14045,5 +14048,29 @@
         "confirmDelete": "Er du sikker på, at du vil slette dette dokument",
         "uploadFailed": "Dokumentet kunne ikke uploades",
         "deleteFailed": "Dokumentet kunne ikke slettes"
+    },
+    "inquiryInvitations": {
+        "title": "Konsulenter spurgt",
+        "empty": "Ingen konsulenter er spurgt endnu.",
+        "selected": "Valgt",
+        "select": "Udpeg",
+        "markInterested": "Sagde ja",
+        "markDeclined": "Sagde nej",
+        "askedBy": "spurgt af {name}",
+        "answeredBy": "svar registreret af {name}",
+        "unknownConsultant": "Ukendt",
+        "failed": "Handlingen kunne ikke gennemføres",
+        "statuses": {
+            "invited": "Afventer svar",
+            "interested": "Interesseret",
+            "declined": "Sagde nej"
+        },
+        "mine": {
+            "title": "Sager du er spurgt om",
+            "empty": "Du er ikke spurgt om nogen sager.",
+            "yes": "Ja tak",
+            "no": "Nej tak",
+            "answered": "Du har svaret"
+        }
     }
 }

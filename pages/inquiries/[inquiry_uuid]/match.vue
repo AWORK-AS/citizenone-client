@@ -110,13 +110,20 @@
 
                     <!-- Who fits, and how well -->
                     <div class="space-y-3 lg:col-span-2">
-                        <p v-if="state.hasSearched" class="text-xs text-slate-400">
-                            {{ $t('consultantMatch.resultSummary', {
-                                total: state.results.length,
-                                full: fullCount,
-                                criteria: state.criteriaAsked.length,
-                            }) }}
-                        </p>
+                        <div v-if="state.hasSearched" class="flex flex-wrap items-center justify-between gap-3">
+                            <p class="text-xs text-slate-400">
+                                {{ $t('consultantMatch.resultSummary', {
+                                    total: state.results.length,
+                                    full: fullCount,
+                                    criteria: state.criteriaAsked.length,
+                                }) }}
+                            </p>
+                            <FormButton v-if="state.picked.length" type="button" buttonStyle="primary"
+                                :disabled="state.isInviting" @click="invite">
+                                <Icon name="ph:paper-plane-tilt" class="size-4" />
+                                {{ $t('consultantMatch.askSelected', { count: state.picked.length }) }}
+                            </FormButton>
+                        </div>
 
                         <p v-if="state.hasSearched && !state.results.length"
                             class="rounded-lg border border-gray-200 bg-white px-4 py-6 text-sm text-gray-400">
@@ -127,7 +134,13 @@
                             class="rounded-lg border bg-white p-4"
                             :class="result.match === 'full' ? 'border-[#1f9d6b]/40' : 'border-gray-200'">
                             <div class="flex flex-wrap items-start justify-between gap-3">
-                                <div class="min-w-0">
+                                <div class="flex min-w-0 items-start gap-3">
+                                    <!-- Asking is a decision per consultant, so each
+                                         one is picked rather than the whole result set. -->
+                                    <div class="mt-0.5 shrink-0 cursor-pointer" @click="togglePick(result.uuid)">
+                                        <FormCheckbox :value="state.picked.includes(result.uuid)" />
+                                    </div>
+                                    <div class="min-w-0">
                                     <div class="flex flex-wrap items-center gap-2">
                                         <p class="text-sm font-semibold text-gray-900">
                                             {{ (result.firstname || '') + ' ' + (result.lastname || '') }}
@@ -144,7 +157,8 @@
                                             {{ $t('consultantMatch.notReady') }}
                                         </span>
                                     </div>
-                                    <p class="mt-1 text-xs text-slate-500">{{ profileLine(result) }}</p>
+                                        <p class="mt-1 text-xs text-slate-500">{{ profileLine(result) }}</p>
+                                    </div>
                                 </div>
                                 <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`"
                                     class="shrink-0 text-[13px] font-semibold text-secondary hover:underline">
@@ -180,15 +194,18 @@
 
 <script setup lang="ts">
 import { consultantSkillService } from '@/components/api/user/ConsultantSkillService'
+import { inquiryConsultantInvitationService } from '@/components/api/user/InquiryConsultantInvitationService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
 import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const { t } = useI18n()
+const { successAlert, errorAlert } = useAlert()
 
 const SKILL_TYPES = ['competence', 'course', 'topic']
 
@@ -231,6 +248,8 @@ const state = reactive({
     municipalities: [] as any[],
     regions: [] as any[],
     results: [] as any[],
+    picked: [] as string[],
+    isInviting: false,
     form: emptyForm(),
 })
 
@@ -269,6 +288,24 @@ function setSkills(type: string, uuids: string[]) {
         (uuid) => state.catalogue.find((skill: any) => skill.uuid === uuid)?.type !== type
     )
     state.form.skill_uuids = [...others, ...(uuids ?? [])]
+}
+
+function togglePick(uuid: string) {
+    state.picked = state.picked.includes(uuid)
+        ? state.picked.filter((picked) => picked !== uuid)
+        : [...state.picked, uuid]
+}
+
+async function invite() {
+    state.isInviting = true
+    try {
+        const response = await inquiryConsultantInvitationService.invite(inquiryUuid, state.picked)
+        state.picked = []
+        successAlert(`${t('alert.success')}!`, response?.message ?? t('consultantMatch.asked'))
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('consultantMatch.askFailed'))
+    }
+    state.isInviting = false
 }
 
 function matchClass(match: string) {
@@ -351,6 +388,8 @@ async function search() {
         state.results = response?.data ?? []
         state.criteriaAsked = response?.meta?.criteria_asked ?? []
         state.hasSearched = true
+        // A new result set makes an old selection meaningless.
+        state.picked = []
     } catch (error: any) {
         state.error = error
     }

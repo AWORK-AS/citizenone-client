@@ -14016,7 +14016,10 @@
             "consultant_status": "Status",
             "min_step_assessment": "Trinnvurdering",
             "min_weekly_hours": "Timetall"
-        }
+        },
+        "askSelected": "Spør {count} valgte",
+        "asked": "Konsulentene er spurt",
+        "askFailed": "Konsulentene kunne ikke spørres"
     },
     "inquiryNotes": {
         "title": "Notater",
@@ -14045,5 +14048,29 @@
         "confirmDelete": "Er du sikker på at du vil slette dette dokumentet",
         "uploadFailed": "Dokumentet kunne ikke lastes opp",
         "deleteFailed": "Dokumentet kunne ikke slettes"
+    },
+    "inquiryInvitations": {
+        "title": "Konsulenter spurt",
+        "empty": "Ingen konsulenter er spurt ennå.",
+        "selected": "Valgt",
+        "select": "Utpek",
+        "markInterested": "Sa ja",
+        "markDeclined": "Sa nei",
+        "askedBy": "spurt av {name}",
+        "answeredBy": "svar registrert av {name}",
+        "unknownConsultant": "Ukjent",
+        "failed": "Handlingen kunne ikke gjennomføres",
+        "statuses": {
+            "invited": "Avventer svar",
+            "interested": "Interessert",
+            "declined": "Sa nei"
+        },
+        "mine": {
+            "title": "Saker du er spurt om",
+            "empty": "Du er ikke spurt om noen saker.",
+            "yes": "Ja takk",
+            "no": "Nei takk",
+            "answered": "Du har svart"
+        }
     }
 }
