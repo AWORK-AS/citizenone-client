@@ -2442,10 +2442,12 @@
                 "alert": {
                     "successfullyDeleted": "Medicinhistorik raderad"
                 },
+                "clearAll": "Rensa alla",
                 "confirmation": {
                     "deleteConfirmation": "Är du säker på att du vill radera denna medicinhistorik",
                     "rightDailyDoseConfirmation": "Är du säker på, att du har angivet den korrekte daglige dos"
                 },
+                "dosesToRegister": "{n} doser registreras",
                 "editMedicine": "Redigera medicin",
                 "form": {
                     "alert": {
@@ -2502,6 +2504,7 @@
                 "giveAllMedicines": "Giv al medicin",
                 "giveMedicine": "Giv medicin",
                 "giveMedicineTo": "Ge medicin till {name}",
+                "markAllGiven": "Markera alla som givna",
                 "medicineHistory": "Medicinhistorik",
                 "table": {
                     "actions": {
@@ -2646,6 +2649,10 @@
                 "noActiveMedicines": "Inga aktiva mediciner på denna klient",
                 "addMedicine": "Lägg till medicin",
                 "medicinesSelected": "{n} medicin vald",
+                "selectAll": "Välj alla",
+                "deselectAll": "Avmarkera alla",
+                "giveAllDueNow": "Ge allt förfallet ({n})",
+                "giveAllDueConfirmation": "Vill du registrera {n} doser som givna nu",
                 "medicineIsOverdue": "Medicinen är {timme} försenad. Giv straks eller registrér avvikelse.",
                 "dueInMinutes": "Forfaldner om {minutes} minuter. Husk att ge till tiden.",
                 "expired": "Utgången",

@@ -2442,10 +2442,12 @@
                 "alert": {
                     "successfullyDeleted": "Medicine history successfully deleted"
                 },
+                "clearAll": "Clear all",
                 "confirmation": {
                     "deleteConfirmation": "Are you sure you want to delete this medicine history",
                     "rightDailyDoseConfirmation": "Are you sure you provided the correct daily dose"
                 },
+                "dosesToRegister": "{n} doses will be registered",
                 "editMedicine": "Edit medicine",
                 "form": {
                     "alert": {
@@ -2502,6 +2504,7 @@
                 "giveAllMedicines": "Give all medicines",
                 "giveMedicine": "Give medicine",
                 "giveMedicineTo": "Give medicine to {name}",
+                "markAllGiven": "Mark all as given",
                 "medicineHistory": "Medicine history",
                 "table": {
                     "actions": {
@@ -2646,6 +2649,10 @@
                 "noActiveMedicines": "No active medicines for this citizen",
                 "addMedicine": "Add medicine",
                 "medicinesSelected": "{n} medicine(s) selected",
+                "selectAll": "Select all",
+                "deselectAll": "Deselect all",
+                "giveAllDueNow": "Give all due ({n})",
+                "giveAllDueConfirmation": "Do you want to register {n} doses as given now",
                 "medicineIsOverdue": "Medicine is {time} overdue. Give immediately or register deviation.",
                 "dueInMinutes": "Due in {minutes} minutes. Remember to give on time.",
                 "expired": "Expired",
