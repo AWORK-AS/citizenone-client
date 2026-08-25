@@ -14032,5 +14032,18 @@
         "unknownAuthor": "Okänd",
         "saveFailed": "Anteckningen kunde inte sparas",
         "deleteFailed": "Anteckningen kunde inte tas bort"
+    },
+    "inquiryDocuments": {
+        "title": "Dokument",
+        "count": "{count} dokument",
+        "upload": "Ladda upp dokument",
+        "uploading": "Laddar upp...",
+        "empty": "Det finns inga dokument på förfrågan.",
+        "hint": "Papper som kommit med förfrågan. De följer med till medborgarens filer vid konvertering.",
+        "onCitizen": "På medborgaren",
+        "delete": "Ta bort dokument",
+        "confirmDelete": "Är du säker på att du vill ta bort det här dokumentet",
+        "uploadFailed": "Dokumentet kunde inte laddas upp",
+        "deleteFailed": "Dokumentet kunde inte tas bort"
     }
 }

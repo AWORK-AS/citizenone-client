@@ -14032,5 +14032,18 @@
         "unknownAuthor": "Unknown",
         "saveFailed": "The note could not be saved",
         "deleteFailed": "The note could not be deleted"
+    },
+    "inquiryDocuments": {
+        "title": "Documents",
+        "count": "{count} documents",
+        "upload": "Upload document",
+        "uploading": "Uploading...",
+        "empty": "There are no documents on this inquiry.",
+        "hint": "Paperwork that arrived with the inquiry. It follows to the citizen’s files on conversion.",
+        "onCitizen": "On the citizen",
+        "delete": "Delete document",
+        "confirmDelete": "Are you sure you want to delete this document",
+        "uploadFailed": "The document could not be uploaded",
+        "deleteFailed": "The document could not be deleted"
     }
 }

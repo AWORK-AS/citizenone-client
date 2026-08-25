@@ -14032,5 +14032,18 @@
         "unknownAuthor": "Ukendt",
         "saveFailed": "Notatet kunne ikke gemmes",
         "deleteFailed": "Notatet kunne ikke slettes"
+    },
+    "inquiryDocuments": {
+        "title": "Dokumenter",
+        "count": "{count} dokumenter",
+        "upload": "Upload dokument",
+        "uploading": "Uploader...",
+        "empty": "Der er ingen dokumenter på henvendelsen.",
+        "hint": "Papirer der er kommet med henvendelsen. De følger med til borgerens filer ved konvertering.",
+        "onCitizen": "På borgeren",
+        "delete": "Slet dokument",
+        "confirmDelete": "Er du sikker på, at du vil slette dette dokument",
+        "uploadFailed": "Dokumentet kunne ikke uploades",
+        "deleteFailed": "Dokumentet kunne ikke slettes"
     }
 }
