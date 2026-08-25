@@ -11570,7 +11570,9 @@
             "errorSelectFrequency": "Välj om denna licens är månadsvis eller årsvis",
             "errorGeneric": "Något gick fel vid tilldelning av licensen",
             "successTitle": "Licens tilldelad",
-            "successBody": "Licensen har tilldelats."
+            "successBody": "Licensen har tilldelats.",
+            "includedInAgreement": "Ingår i avtalet (ingen faktura)",
+            "includedInAgreementHint": "Ger åtkomst till appen utan att skapa en faktura. Använd den när appen ingår i kundens avtal."
         },
         "products": {
             "title": "Produkter",

@@ -11570,7 +11570,9 @@
             "errorSelectFrequency": "Select whether this license is monthly or yearly",
             "errorGeneric": "Something went wrong granting this license",
             "successTitle": "License granted",
-            "successBody": "The license has been granted successfully."
+            "successBody": "The license has been granted successfully.",
+            "includedInAgreement": "Included in the agreement (no invoice)",
+            "includedInAgreementHint": "Grants access to the app without creating an invoice. Use it when the app is part of the customer's agreement."
         },
         "products": {
             "title": "Products",
