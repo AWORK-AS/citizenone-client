@@ -131,6 +131,14 @@ function option(group: string, value: any) {
     return key ? t(key) : String(value)
 }
 
+function contactSummary(contact: any) {
+    if (!contact) return ''
+
+    const name = `${contact.firstname ?? ''} ${contact.lastname ?? ''}`.trim()
+
+    return [name, contact.company_name, contact.email, contact.phone].filter(Boolean).join(' · ')
+}
+
 function names(list: any) {
     return (list ?? []).map((item: any) => item?.name).filter(Boolean).join(', ')
 }
@@ -193,6 +201,9 @@ const sections = computed(() => {
                 ...(isShelter.value
                     ? []
                     : [{ label: t('inquiries.form.crisisCenter.fields.contactedBy'), value: option('contacted_by', inq.contacted_by) }]),
+                // Citizen-initiated or authority-initiated (paragraph 75).
+                { label: t('inquiryOrigin.label'), value: inq.origin ? t('inquiryOrigin.' + inq.origin) : '' },
+                { label: t('inquiryContact.label'), value: contactSummary(inq.company_contact), wide: true },
                 { label: t('inquiries.table.inquirerName'), value: inq.inquirer_name },
             ],
         },

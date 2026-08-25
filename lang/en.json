@@ -13817,5 +13817,23 @@
             "scale": "Scale",
             "boolean": "Yes/no"
         }
+    },
+    "inquiryOrigin": {
+        "label": "The inquiry comes from",
+        "citizen": "The citizen",
+        "authority": "An authority",
+        "other": "Other"
+    },
+    "inquiryContact": {
+        "label": "Caseworker or contact",
+        "hint": "Look them up in the contact register. If they are not there, create them here.",
+        "searchPlaceholder": "Search name, email or phone...",
+        "noResults": "No contacts match.",
+        "createNew": "Create new contact",
+        "clear": "Remove the contact",
+        "jobTitle": "Job title",
+        "organisation": "Organisation",
+        "email": "Email",
+        "phone": "Phone"
     }
 }

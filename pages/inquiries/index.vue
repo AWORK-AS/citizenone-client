@@ -155,6 +155,13 @@
                                         {{ inqTitle(inq) }}
                                     </p>
                                     <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
+                                        <span v-if="inq.origin"
+                                            class="inline-flex items-center rounded-full px-2.5 py-[3px] text-[11.5px] font-bold"
+                                            :class="inq.origin === 'authority'
+                                                ? 'bg-[#eee9fb] text-[#6b54c9]'
+                                                : 'bg-[#dcf1f7] text-[#1b6d8a]'">
+                                            {{ $t('inquiryOrigin.' + inq.origin) }}
+                                        </span>
                                         <span v-if="inqSource(inq)"
                                             class="inline-flex items-center rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-500">
                                             {{ inqSource(inq) }}

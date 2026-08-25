@@ -13817,5 +13817,23 @@
             "scale": "Skala",
             "boolean": "Ja/nei"
         }
+    },
+    "inquiryOrigin": {
+        "label": "Henvendelsen kommer fra",
+        "citizen": "Brukeren selv",
+        "authority": "Myndighet",
+        "other": "Annet"
+    },
+    "inquiryContact": {
+        "label": "Saksbehandler eller kontaktpart",
+        "hint": "Slå opp i kontaktregisteret. Finnes ikke personen, kan du opprette den her.",
+        "searchPlaceholder": "Søk navn, e-post eller telefon...",
+        "noResults": "Ingen kontakter samsvarer.",
+        "createNew": "Opprett ny kontakt",
+        "clear": "Fjern kontakten",
+        "jobTitle": "Stilling",
+        "organisation": "Organisasjon",
+        "email": "E-post",
+        "phone": "Telefon"
     }
 }

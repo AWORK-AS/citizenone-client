@@ -29,6 +29,14 @@
                             <FormError :error="v$?.formInquiry?.contacted_by?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.contacted_by?.[0]" />
                         </div>
+                        <div class="space-y-1 sm:col-span-2">
+                            <FormLabel for="company_contact" :label="$t('inquiryContact.label')" />
+                            <ModulesUserInquiryContactPicker :contact="props.selectedInquiry?.company_contact"
+                                @update:contactUuid="(uuid: any) => state.formInquiry.company_contact_uuid = uuid" />
+                            <p class="text-[11px] text-slate-400">
+                                {{ $t('inquiryContact.hint') }}
+                            </p>
+                        </div>
                         <div class="space-y-1">
                             <FormLabel for="inquirer_name" :label="completedByLabel" />
                             <FormTextField id="inquirer_name" name="inquirer_name"
@@ -211,6 +219,7 @@ const state = reactive({
         inquiry_date: '',
         department_uuid: [] as any,
         inquirer_name: '',
+        company_contact_uuid: null as string | null,
         first_name: '',
         last_name: '',
         contacted_by: '',
@@ -264,6 +273,7 @@ onMounted(() => {
         inquiry_date: props.selectedInquiry?.inquiry_date,
         department_uuid: props.selectedInquiry?.departments?.map((d: any) => d.uuid) || [],
         inquirer_name: props.selectedInquiry?.inquirer_name,
+        company_contact_uuid: props.selectedInquiry?.company_contact?.uuid ?? null,
         first_name: props.selectedInquiry?.firstname,
         last_name: props.selectedInquiry?.lastname,
         contacted_by: props.selectedInquiry?.contacted_by || '',
@@ -293,6 +303,7 @@ watch(() => props.selectedInquiry, (newValue: any) => {
             inquiry_date: newValue.inquiry_date,
             department_uuid: newValue.departments?.map((d: any) => d.uuid) || [],
             inquirer_name: newValue.inquirer_name,
+            company_contact_uuid: newValue.company_contact?.uuid ?? null,
             first_name: newValue.first_name,
             last_name: newValue.last_name,
             contacted_by: newValue.contacted_by || '',

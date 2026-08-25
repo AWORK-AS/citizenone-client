@@ -13817,5 +13817,23 @@
             "scale": "Skala",
             "boolean": "Ja/nej"
         }
+    },
+    "inquiryOrigin": {
+        "label": "Förfrågan kommer från",
+        "citizen": "Klienten själv",
+        "authority": "Myndighet",
+        "other": "Annat"
+    },
+    "inquiryContact": {
+        "label": "Handläggare eller kontaktperson",
+        "hint": "Sök i kontaktregistret. Finns personen inte kan du skapa den här.",
+        "searchPlaceholder": "Sök namn, e-post eller telefon...",
+        "noResults": "Inga kontakter matchar.",
+        "createNew": "Skapa ny kontakt",
+        "clear": "Ta bort kontakten",
+        "jobTitle": "Befattning",
+        "organisation": "Organisation",
+        "email": "E-post",
+        "phone": "Telefon"
     }
 }

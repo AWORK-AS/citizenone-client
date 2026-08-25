@@ -13817,5 +13817,23 @@
             "scale": "Skala",
             "boolean": "Ja/nej"
         }
+    },
+    "inquiryOrigin": {
+        "label": "Henvendelsen kommer fra",
+        "citizen": "Borgeren selv",
+        "authority": "Myndighed",
+        "other": "Andet"
+    },
+    "inquiryContact": {
+        "label": "Sagsbehandler eller kontaktpart",
+        "hint": "Slå op i kontaktregistret. Findes personen ikke, kan du oprette den her.",
+        "searchPlaceholder": "Søg navn, e-mail eller telefon...",
+        "noResults": "Ingen kontakter matcher.",
+        "createNew": "Opret ny kontakt",
+        "clear": "Fjern kontakten",
+        "jobTitle": "Stilling",
+        "organisation": "Organisation",
+        "email": "E-mail",
+        "phone": "Telefon"
     }
 }
