@@ -6357,7 +6357,8 @@
             "dutySchedule": "Duty schedule",
             "employeeInformations": "Employee informations",
             "mileageLog": "Mileage Log",
-            "timeLogs": "Time Logs"
+            "timeLogs": "Time Logs",
+            "consultantProfile": "Consultant profile"
         },
         "timeLogs": "Time Logs",
         "viewEmployee": "View employee",
@@ -9905,7 +9906,8 @@
             "fst": "FST",
             "wageSupplementRules": "Wage supplement rules",
             "inquiryPipelineStages": "Inquiry stages",
-            "inquiryFields": "Inquiry fields"
+            "inquiryFields": "Inquiry fields",
+            "consultantSkills": "Consultant skills"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -13835,5 +13837,95 @@
         "organisation": "Organisation",
         "email": "Email",
         "phone": "Phone"
+    },
+    "consultantSkills": {
+        "title": "Consultant skills",
+        "description": "Maintain the lists consultants are matched on. A competence is something they can do, a course is something they have taken, and a subject is something they have experience with.",
+        "add": "Add",
+        "addPlaceholder": "Type and press Add",
+        "empty": "The list is empty.",
+        "activate": "Turn on",
+        "deactivate": "Turn off",
+        "confirmation": {
+            "delete": "Are you sure you want to delete this"
+        },
+        "alert": {
+            "deleted": "Deleted",
+            "deleteFailed": "Could not be deleted",
+            "saveFailed": "Could not be saved"
+        },
+        "types": {
+            "competence": {
+                "title": "Competences",
+                "hint": "E.g. family therapy or contact person work"
+            },
+            "course": {
+                "title": "Courses",
+                "hint": "Can have an expiry per consultant"
+            },
+            "topic": {
+                "title": "Subjects",
+                "hint": "Experience with e.g. ADHD or self-harm"
+            }
+        }
+    },
+    "consultantProfile": {
+        "title": "Consultant profile",
+        "ready": "The consultant can be put forward for a case",
+        "notReady": "The consultant cannot be put forward yet",
+        "sections": {
+            "profile": "Profile",
+            "skills": "Competences, courses and subjects",
+            "documents": "Documents"
+        },
+        "skillsHint": "These are the lists the consultant is found on when a case is matched.",
+        "expiryHeading": "Course certificate expiry",
+        "noExpiry": "No expiry",
+        "expired": "Expired",
+        "expiringSoon": "Expiring soon",
+        "noDocuments": "There are no documents on this consultant.",
+        "form": {
+            "municipality": "Home municipality",
+            "region": "Region",
+            "status": "Consultant status",
+            "onboarding": "Onboarding",
+            "maxTravelKm": "Will travel up to (km)",
+            "desiredWeeklyHours": "Desired hours per week",
+            "stepAssessment": "Step assessment",
+            "hasCar": "Has a car"
+        },
+        "statuses": {
+            "available": "Available",
+            "partially_available": "Partly available",
+            "unavailable": "Unavailable",
+            "inactive": "Inactive"
+        },
+        "onboardingStatuses": {
+            "not_started": "Not started",
+            "in_progress": "In progress",
+            "completed": "Completed"
+        },
+        "documentTypes": {
+            "employment_contract": "Contract",
+            "criminal_record": "Criminal record",
+            "child_protection_certificate": "Child protection certificate",
+            "drivers_license": "Driving licence",
+            "miscellaneous": "Other",
+            "passport": "Passport",
+            "cv": "CV",
+            "education": "Education papers"
+        },
+        "findings": {
+            "document_missing": "{document} is missing",
+            "document_expired": "{document} expired {date}",
+            "document_expiring_soon": "{document} expires {date}",
+            "skill_expired": "The certificate for {skill} expired {date}",
+            "onboarding_incomplete": "Onboarding is not finished"
+        },
+        "alert": {
+            "saved": "The profile was saved",
+            "skillsSaved": "The skills were saved",
+            "saveFailed": "Could not be saved"
+        }
     }
 }

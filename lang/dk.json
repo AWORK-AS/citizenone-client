@@ -6357,7 +6357,8 @@
             "dutySchedule": "Vagtplan",
             "employeeInformations": "Medarbejderinformationer",
             "mileageLog": "Kørselsregnskab",
-            "timeLogs": "Tidslogfiler"
+            "timeLogs": "Tidslogfiler",
+            "consultantProfile": "Konsulentprofil"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se medarbejder",
@@ -9905,7 +9906,8 @@
             "fst": "FST",
             "wageSupplementRules": "Tillægsregler for løn",
             "inquiryPipelineStages": "Faser i henvendelser",
-            "inquiryFields": "Felter i henvendelser"
+            "inquiryFields": "Felter i henvendelser",
+            "consultantSkills": "Konsulentkompetencer"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -13835,5 +13837,95 @@
         "organisation": "Organisation",
         "email": "E-mail",
         "phone": "Telefon"
+    },
+    "consultantSkills": {
+        "title": "Konsulentkompetencer",
+        "description": "Vedligehold de lister konsulenterne matches på. En kompetence er noget de kan, et kursus er noget de har taget, og et emneord er noget de har erfaring med.",
+        "add": "Tilføj",
+        "addPlaceholder": "Skriv og tryk Tilføj",
+        "empty": "Listen er tom.",
+        "activate": "Slå til",
+        "deactivate": "Slå fra",
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne"
+        },
+        "alert": {
+            "deleted": "Slettet",
+            "deleteFailed": "Kunne ikke slettes",
+            "saveFailed": "Kunne ikke gemmes"
+        },
+        "types": {
+            "competence": {
+                "title": "Kompetencer",
+                "hint": "Fx familiebehandling eller kontaktpersonopgaver"
+            },
+            "course": {
+                "title": "Kurser",
+                "hint": "Kan have en udløbsdato pr. konsulent"
+            },
+            "topic": {
+                "title": "Emneord",
+                "hint": "Erfaring med fx ADHD eller selvskade"
+            }
+        }
+    },
+    "consultantProfile": {
+        "title": "Konsulentprofil",
+        "ready": "Konsulenten kan sættes på en sag",
+        "notReady": "Konsulenten kan ikke sættes på en sag endnu",
+        "sections": {
+            "profile": "Profil",
+            "skills": "Kompetencer, kurser og emneord",
+            "documents": "Dokumenter"
+        },
+        "skillsHint": "Det er de her lister konsulenten findes på, når en sag skal matches.",
+        "expiryHeading": "Udløb på kursusbeviser",
+        "noExpiry": "Uden udløb",
+        "expired": "Udløbet",
+        "expiringSoon": "Udløber snart",
+        "noDocuments": "Der er ingen dokumenter på konsulenten.",
+        "form": {
+            "municipality": "Bopælskommune",
+            "region": "Region",
+            "status": "Konsulentstatus",
+            "onboarding": "Onboarding",
+            "maxTravelKm": "Kører op til (km)",
+            "desiredWeeklyHours": "Ønsket timetal pr. uge",
+            "stepAssessment": "Trinvurdering",
+            "hasCar": "Har bil"
+        },
+        "statuses": {
+            "available": "Ledig",
+            "partially_available": "Delvist ledig",
+            "unavailable": "Ikke ledig",
+            "inactive": "Inaktiv"
+        },
+        "onboardingStatuses": {
+            "not_started": "Ikke startet",
+            "in_progress": "I gang",
+            "completed": "Gennemført"
+        },
+        "documentTypes": {
+            "employment_contract": "Kontrakt",
+            "criminal_record": "Straffeattest",
+            "child_protection_certificate": "Børneattest",
+            "drivers_license": "Kørekort",
+            "miscellaneous": "Øvrigt",
+            "passport": "Pas",
+            "cv": "CV",
+            "education": "Uddannelsespapirer"
+        },
+        "findings": {
+            "document_missing": "{document} mangler",
+            "document_expired": "{document} udløb {date}",
+            "document_expiring_soon": "{document} udløber {date}",
+            "skill_expired": "Kursusbeviset for {skill} udløb {date}",
+            "onboarding_incomplete": "Onboarding er ikke gennemført"
+        },
+        "alert": {
+            "saved": "Profilen er gemt",
+            "skillsSaved": "Kompetencerne er gemt",
+            "saveFailed": "Kunne ikke gemmes"
+        }
     }
 }

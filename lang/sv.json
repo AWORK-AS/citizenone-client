@@ -6357,7 +6357,8 @@
             "dutySchedule": "Tjänsteschema",
             "employeeInformations": "Medarbejderinformationer",
             "mileageLog": "Körjournal",
-            "timeLogs": "Tidslogfiler"
+            "timeLogs": "Tidslogfiler",
+            "consultantProfile": "Konsultprofil"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se anställd",
@@ -9905,7 +9906,8 @@
             "fst": "FST",
             "wageSupplementRules": "Tilläggsregler för lön",
             "inquiryPipelineStages": "Faser för förfrågningar",
-            "inquiryFields": "Fält för förfrågningar"
+            "inquiryFields": "Fält för förfrågningar",
+            "consultantSkills": "Konsultkompetenser"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -13835,5 +13837,95 @@
         "organisation": "Organisation",
         "email": "E-post",
         "phone": "Telefon"
+    },
+    "consultantSkills": {
+        "title": "Konsultkompetenser",
+        "description": "Underhåll de listor konsulterna matchas på. En kompetens är något de kan, en kurs är något de har gått, och ett ämnesord är något de har erfarenhet av.",
+        "add": "Lägg till",
+        "addPlaceholder": "Skriv och tryck Lägg till",
+        "empty": "Listan är tom.",
+        "activate": "Slå på",
+        "deactivate": "Stäng av",
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här"
+        },
+        "alert": {
+            "deleted": "Borttagen",
+            "deleteFailed": "Kunde inte tas bort",
+            "saveFailed": "Kunde inte sparas"
+        },
+        "types": {
+            "competence": {
+                "title": "Kompetenser",
+                "hint": "T.ex. familjebehandling eller kontaktpersonuppdrag"
+            },
+            "course": {
+                "title": "Kurser",
+                "hint": "Kan ha ett utgångsdatum per konsult"
+            },
+            "topic": {
+                "title": "Ämnesord",
+                "hint": "Erfarenhet av t.ex. ADHD eller självskada"
+            }
+        }
+    },
+    "consultantProfile": {
+        "title": "Konsultprofil",
+        "ready": "Konsulten kan sättas på ett ärende",
+        "notReady": "Konsulten kan inte sättas på ett ärende än",
+        "sections": {
+            "profile": "Profil",
+            "skills": "Kompetenser, kurser och ämnesord",
+            "documents": "Dokument"
+        },
+        "skillsHint": "Det är dessa listor konsulten hittas på när ett ärende ska matchas.",
+        "expiryHeading": "Utgång på kursbevis",
+        "noExpiry": "Utan utgång",
+        "expired": "Utgången",
+        "expiringSoon": "Går ut snart",
+        "noDocuments": "Det finns inga dokument på konsulten.",
+        "form": {
+            "municipality": "Bostadskommun",
+            "region": "Region",
+            "status": "Konsultstatus",
+            "onboarding": "Onboarding",
+            "maxTravelKm": "Kör upp till (km)",
+            "desiredWeeklyHours": "Önskat timantal per vecka",
+            "stepAssessment": "Stegbedömning",
+            "hasCar": "Har bil"
+        },
+        "statuses": {
+            "available": "Ledig",
+            "partially_available": "Delvis ledig",
+            "unavailable": "Inte ledig",
+            "inactive": "Inaktiv"
+        },
+        "onboardingStatuses": {
+            "not_started": "Inte startad",
+            "in_progress": "Pågår",
+            "completed": "Genomförd"
+        },
+        "documentTypes": {
+            "employment_contract": "Kontrakt",
+            "criminal_record": "Belastningsregisterutdrag",
+            "child_protection_certificate": "Barnintyg",
+            "drivers_license": "Körkort",
+            "miscellaneous": "Övrigt",
+            "passport": "Pass",
+            "cv": "CV",
+            "education": "Utbildningsbevis"
+        },
+        "findings": {
+            "document_missing": "{document} saknas",
+            "document_expired": "{document} gick ut {date}",
+            "document_expiring_soon": "{document} går ut {date}",
+            "skill_expired": "Kursbeviset för {skill} gick ut {date}",
+            "onboarding_incomplete": "Onboarding är inte genomförd"
+        },
+        "alert": {
+            "saved": "Profilen har sparats",
+            "skillsSaved": "Kompetenserna har sparats",
+            "saveFailed": "Kunde inte sparas"
+        }
     }
 }

@@ -45,6 +45,14 @@ const state = reactive({
                 'employees-employee_uuid-mileage-log',
             ]
         },
+        {
+            name: 'employees.tabs.consultantProfile',
+            isTranslateName: true,
+            href: `/employees/${employeeUuid}/consultant-profile`,
+            routeNames: [
+                'employees-employee_uuid-consultant-profile',
+            ]
+        },
     ] as any
 })
 
@@ -80,6 +88,14 @@ watch(() => language.locale.value, (language: any) => {
             href: `/employees/${employeeUuid}/mileage-log`,
             routeNames: [
                 'employees-employee_uuid-mileage-log',
+            ]
+        },
+        {
+            name: 'employees.tabs.consultantProfile',
+            isTranslateName: true,
+            href: `/employees/${employeeUuid}/consultant-profile`,
+            routeNames: [
+                'employees-employee_uuid-consultant-profile',
             ]
         },
     ]
