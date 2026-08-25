@@ -2769,7 +2769,7 @@
                 "indefinitely": "På obestämd tid"
             }
         },
-        "newCitizen": "Ny klient",
+        "newCitizen": "Ny {citizen}",
         "noDepartmentYet": "Ingen avdelning",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
@@ -7325,7 +7325,7 @@
         "shelterInquiry": "Herberger och forsorgshjem förfrågningar",
         "table": {
             "actions": {
-                "convertAsCitizen": "Konvertera till klient",
+                "convertAsCitizen": "Konvertera till {citizen}",
                 "delete": "Radera",
                 "edit": "Redigera"
             },
@@ -7346,7 +7346,7 @@
             "outcome": "Resultat (f.eks. tilbudt en plats, avvisad, videresendt)",
             "purpose": "Syfte",
             "status": {
-                "convertedAsCitizen": "Konverterad som klient",
+                "convertedAsCitizen": "Konverterad som {citizen}",
                 "forConversion": "Till konvertering",
                 "status": "Status"
             }
@@ -9778,7 +9778,11 @@
                 "portalNeverStaffNotes": "Interna anteckningar skrivna om dem",
                 "portalNeverJournalsAtAll": "Journaler och dokument, aldrig",
                 "portalNeverUnassignedStaff": "Medarbetare ni inte har kopplat till dem",
-                "portalAccessSeeWhoHasAccess": "Se vem som har åtkomst"
+                "portalAccessSeeWhoHasAccess": "Se vem som har åtkomst",
+                "termCitizen": "Klient (singular)",
+                "termCitizenDefinite": "Klienten (singular, bestämd)",
+                "termCitizens": "Klienter (plural)",
+                "termCitizensDefinite": "Klienterna (plural, bestämd)"
             }
         },
         "licenseOverview": {

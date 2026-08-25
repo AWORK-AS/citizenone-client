@@ -174,7 +174,7 @@
                                         <span v-if="inq.citizen_id"
                                             class="inline-flex items-center gap-1 rounded-full bg-[#e6f6ee] px-2.5 py-[3px] text-[11.5px] font-bold text-[#1f9d6b]">
                                             <Icon name="ph:check" class="size-3" /> {{
-                                                $t('inquiries.table.status.convertedAsCitizen') }}
+                                                tt('inquiries.table.status.convertedAsCitizen') }}
                                         </span>
                                     </div>
                                     <!-- Won inquiry → create a citizen case directly from the card -->
@@ -182,7 +182,7 @@
                                         @click.stop="convertInquiryConfirmation(inq)"
                                         class="mt-2.5 inline-flex items-center gap-1.5 rounded-lg border border-[#1f9d6b]/30 bg-[#e6f6ee] px-2.5 py-1 text-[11px] font-semibold text-[#177a53] transition-colors hover:bg-[#d3efe1]">
                                         <Icon name="ph:user-plus" class="size-3.5" />
-                                        {{ $t('inquiries.table.actions.convertAsCitizen') }}
+                                        {{ tt('inquiries.table.actions.convertAsCitizen') }}
                                     </button>
                                     <div
                                         class="mt-3 flex items-center justify-between border-t border-surface-100 pt-2.5">
@@ -219,7 +219,7 @@
                                             <Badge :type="inquiry?.citizen_id ? 'active' : 'primary'" class="w-fit">
                                                 <p class="text-xxs truncate">
                                                     {{ inquiry?.citizen_id ?
-                                                        $t('inquiries.table.status.convertedAsCitizen') :
+                                                        tt('inquiries.table.status.convertedAsCitizen') :
                                                         $t('inquiries.table.status.forConversion') }}
                                                 </p>
                                             </Badge>
@@ -258,9 +258,9 @@
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
-                                                <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')"
+                                                <Tooltip :text="tt('inquiries.table.actions.convertAsCitizen')"
                                                     v-if="!inquiry?.citizen_id">
-                                                    <FormButton :aria-label="$t('inquiries.table.actions.convertAsCitizen')" type="button" buttonStyle="action"
+                                                    <FormButton :aria-label="tt('inquiries.table.actions.convertAsCitizen')" type="button" buttonStyle="action"
                                                         @click="convertInquiryConfirmation(inquiry)">
                                                         <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
@@ -324,6 +324,7 @@ const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert, errorAlert } = useAlert()
+const { tt } = useTerminology()
 const { t } = useI18n()
 
 // Inquiry pipeline (kanban) — opt-in per company.

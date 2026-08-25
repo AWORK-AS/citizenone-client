@@ -3,7 +3,7 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.newCitizen') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ tt('citizens.newCitizen') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
@@ -21,7 +21,7 @@
                 </Breadcrumb>
             </template>
 
-            <template #header>{{ $t('citizens.newCitizen') }}</template>
+            <template #header>{{ tt('citizens.newCitizen') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
@@ -47,6 +47,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { tt } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()

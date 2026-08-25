@@ -2769,7 +2769,7 @@
                 "indefinitely": "På ubestemt tid"
             }
         },
-        "newCitizen": "Ny bruker",
+        "newCitizen": "Ny {citizen}",
         "noDepartmentYet": "Ingen avdeling",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
@@ -7325,7 +7325,7 @@
         "shelterInquiry": "Herberger og forsorgshjem henvendelser",
         "table": {
             "actions": {
-                "convertAsCitizen": "Konverter til bruker",
+                "convertAsCitizen": "Konverter til {citizen}",
                 "delete": "Slett",
                 "edit": "Rediger"
             },
@@ -7346,7 +7346,7 @@
             "outcome": "Resultat (f.eks. tilbudt en plads, avvist, videresendt)",
             "purpose": "Formål",
             "status": {
-                "convertedAsCitizen": "Konverteret som bruker",
+                "convertedAsCitizen": "Konverteret som {citizen}",
                 "forConversion": "Til konvertering",
                 "status": "Status"
             }
@@ -9778,7 +9778,11 @@
                 "portalNeverStaffNotes": "Interne merknader skrevet om dem",
                 "portalNeverJournalsAtAll": "Journaler og dokumenter, aldri",
                 "portalNeverUnassignedStaff": "Ansatte I ikke har tilknyttet dem",
-                "portalAccessSeeWhoHasAccess": "Se hvem som har tilgang"
+                "portalAccessSeeWhoHasAccess": "Se hvem som har tilgang",
+                "termCitizen": "Bruker (entall)",
+                "termCitizenDefinite": "Brukeren (entall, bestemt)",
+                "termCitizens": "Brukere (flertall)",
+                "termCitizensDefinite": "Brukerne (flertall, bestemt)"
             }
         },
         "licenseOverview": {

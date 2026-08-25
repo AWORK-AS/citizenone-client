@@ -2769,7 +2769,7 @@
                 "expiredTooltip": "This medication has expired"
             }
         },
-        "newCitizen": "New citizen",
+        "newCitizen": "New {citizen}",
         "noDepartmentYet": "No department",
         "note": {
             "latestJournalEntry": "Latest journal entry",
@@ -7325,7 +7325,7 @@
         "shelterInquiry": "Shelter inquiry",
         "table": {
             "actions": {
-                "convertAsCitizen": "Convert as citizen",
+                "convertAsCitizen": "Convert as {citizen}",
                 "delete": "Delete",
                 "edit": "Edit"
             },
@@ -7346,7 +7346,7 @@
             "outcome": "Outcome (e.g. offered a place, rejection, referral)",
             "purpose": "Purpose",
             "status": {
-                "convertedAsCitizen": "Converted as citizen",
+                "convertedAsCitizen": "Converted as {citizen}",
                 "forConversion": "For conversion",
                 "status": "Status"
             }
@@ -9778,7 +9778,11 @@
                 "portalNeverStaffNotes": "Internal notes written about them",
                 "portalNeverJournalsAtAll": "Journals and documents, ever",
                 "portalNeverUnassignedStaff": "Employees you did not assign to them",
-                "portalAccessSeeWhoHasAccess": "See who has access"
+                "portalAccessSeeWhoHasAccess": "See who has access",
+                "termCitizen": "Citizen (singular)",
+                "termCitizenDefinite": "The citizen (singular, definite)",
+                "termCitizens": "Citizens (plural)",
+                "termCitizensDefinite": "The citizens (plural, definite)"
             }
         },
         "licenseOverview": {
