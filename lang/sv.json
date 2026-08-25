@@ -13981,5 +13981,41 @@
             "deleteFailed": "Insatstypen kunde inte tas bort",
             "saveFailed": "Kunde inte sparas"
         }
+    },
+    "consultantMatch": {
+        "title": "Konsultmatchning",
+        "start": "Starta konsultmatchning",
+        "description": "Sök på flera parametrar samtidigt. Alla konsulter visas - även de som bara matchar delvis, med det de saknar, så att du själv kan bedöma om det är tillräckligt.",
+        "criteria": "Vad ärendet kräver",
+        "search": "Sök",
+        "searching": "Söker...",
+        "clear": "Nollställ",
+        "noConsultants": "Inga konsulter hittades.",
+        "notReady": "Kan inte sättas på ärende",
+        "openProfile": "Öppna profil",
+        "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
+        "matches": {
+            "full": "Full matchning",
+            "partial": "Delvis matchning ({met} av {asked})",
+            "none": "Ingen matchning"
+        },
+        "form": {
+            "spokenLanguages": "Talade språk",
+            "minTravelKm": "Måste köra minst (km)",
+            "minWeeklyHours": "Minst timmar per vecka",
+            "minStep": "Minst stegbedömning",
+            "needsCar": "Måste ha bil"
+        },
+        "criteriaNames": {
+            "skill_uuids": "Kompetenser",
+            "spoken_language_uuids": "Språk",
+            "municipality_uuid": "Bostadskommun",
+            "region_uuid": "Region",
+            "has_car": "Bil",
+            "min_travel_km": "Körsträcka",
+            "consultant_status": "Status",
+            "min_step_assessment": "Stegbedömning",
+            "min_weekly_hours": "Timantal"
+        }
     }
 }

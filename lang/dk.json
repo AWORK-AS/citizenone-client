@@ -13981,5 +13981,41 @@
             "deleteFailed": "Indsatstypen kunne ikke slettes",
             "saveFailed": "Kunne ikke gemmes"
         }
+    },
+    "consultantMatch": {
+        "title": "Konsulentmatch",
+        "start": "Start konsulentmatch",
+        "description": "Søg på flere parametre samtidig. Alle konsulenter vises - også dem der kun matcher delvist, med det de mangler, så du selv kan vurdere om det er godt nok.",
+        "criteria": "Hvad sagen kræver",
+        "search": "Søg",
+        "searching": "Søger...",
+        "clear": "Nulstil",
+        "noConsultants": "Ingen konsulenter fundet.",
+        "notReady": "Kan ikke sættes på sag",
+        "openProfile": "Åbn profil",
+        "resultSummary": "{total} konsulenter, heraf {full} med fuldt match på {criteria} kriterier.",
+        "matches": {
+            "full": "Fuldt match",
+            "partial": "Delvist match ({met} af {asked})",
+            "none": "Intet match"
+        },
+        "form": {
+            "spokenLanguages": "Talte sprog",
+            "minTravelKm": "Skal køre mindst (km)",
+            "minWeeklyHours": "Mindst timer pr. uge",
+            "minStep": "Mindst trinvurdering",
+            "needsCar": "Skal have bil"
+        },
+        "criteriaNames": {
+            "skill_uuids": "Kompetencer",
+            "spoken_language_uuids": "Sprog",
+            "municipality_uuid": "Bopælskommune",
+            "region_uuid": "Region",
+            "has_car": "Bil",
+            "min_travel_km": "Køreafstand",
+            "consultant_status": "Status",
+            "min_step_assessment": "Trinvurdering",
+            "min_weekly_hours": "Timetal"
+        }
     }
 }

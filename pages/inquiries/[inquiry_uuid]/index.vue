@@ -25,6 +25,11 @@
                             @click="moveTo(lostStage.slug)">
                             {{ $t('inquiryDetail.markAsLost') }}
                         </FormButton>
+                        <FormButton type="button" buttonStyle="action"
+                            @click="navigateTo(`/inquiries/${inquiryUuid}/match`)">
+                            <Icon name="ph:magnifying-glass" class="size-4" />
+                            {{ $t('consultantMatch.start') }}
+                        </FormButton>
                         <FormButton v-if="!state.inquiry?.citizen_id" type="button" buttonStyle="primary"
                             @click="state.isConvertOpen = true">
                             <Icon name="ph:user-plus" class="size-4" />

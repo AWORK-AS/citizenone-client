@@ -33,6 +33,12 @@ class ConsultantSkillService extends BaseAPIService {
     async saveProfile(userUuid: string, params: object): Promise<any> {
         return await this.request(`/user/consultant-skills/consultant/${userUuid}/profile`, 'PUT', params)
     }
+
+    // Consultants against what a case needs. Everyone comes back, with what
+    // each one meets and misses.
+    async match(criteria: object): Promise<any> {
+        return await this.request(`/user/consultant-skills/match`, 'POST', criteria)
+    }
 }
 
 export const consultantSkillService = new ConsultantSkillService()

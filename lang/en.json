@@ -13981,5 +13981,41 @@
             "deleteFailed": "The service type could not be deleted",
             "saveFailed": "Could not be saved"
         }
+    },
+    "consultantMatch": {
+        "title": "Consultant match",
+        "start": "Start consultant match",
+        "description": "Search on several parameters at once. Every consultant is shown - including partial matches, with what they are missing, so you can judge whether it is good enough.",
+        "criteria": "What the case needs",
+        "search": "Search",
+        "searching": "Searching...",
+        "clear": "Clear",
+        "noConsultants": "No consultants found.",
+        "notReady": "Cannot be put on a case",
+        "openProfile": "Open profile",
+        "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
+        "matches": {
+            "full": "Full match",
+            "partial": "Partial match ({met} of {asked})",
+            "none": "No match"
+        },
+        "form": {
+            "spokenLanguages": "Spoken languages",
+            "minTravelKm": "Must travel at least (km)",
+            "minWeeklyHours": "At least hours per week",
+            "minStep": "At least step assessment",
+            "needsCar": "Needs a car"
+        },
+        "criteriaNames": {
+            "skill_uuids": "Skills",
+            "spoken_language_uuids": "Languages",
+            "municipality_uuid": "Home municipality",
+            "region_uuid": "Region",
+            "has_car": "Car",
+            "min_travel_km": "Travel distance",
+            "consultant_status": "Status",
+            "min_step_assessment": "Step assessment",
+            "min_weekly_hours": "Hours"
+        }
     }
 }

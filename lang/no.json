@@ -13981,5 +13981,41 @@
             "deleteFailed": "Innsatstypen kunne ikke slettes",
             "saveFailed": "Kunne ikke lagres"
         }
+    },
+    "consultantMatch": {
+        "title": "Konsulentmatch",
+        "start": "Start konsulentmatch",
+        "description": "Søk på flere parametre samtidig. Alle konsulenter vises - også de som bare matcher delvis, med det de mangler, så du selv kan vurdere om det er godt nok.",
+        "criteria": "Hva saken krever",
+        "search": "Søk",
+        "searching": "Søker...",
+        "clear": "Nullstill",
+        "noConsultants": "Ingen konsulenter funnet.",
+        "notReady": "Kan ikke settes på sak",
+        "openProfile": "Åpne profil",
+        "resultSummary": "{total} konsulenter, hvorav {full} med fullt match på {criteria} kriterier.",
+        "matches": {
+            "full": "Fullt match",
+            "partial": "Delvis match ({met} av {asked})",
+            "none": "Ingen match"
+        },
+        "form": {
+            "spokenLanguages": "Talte språk",
+            "minTravelKm": "Må kjøre minst (km)",
+            "minWeeklyHours": "Minst timer per uke",
+            "minStep": "Minst trinnvurdering",
+            "needsCar": "Må ha bil"
+        },
+        "criteriaNames": {
+            "skill_uuids": "Kompetanser",
+            "spoken_language_uuids": "Språk",
+            "municipality_uuid": "Bostedskommune",
+            "region_uuid": "Region",
+            "has_car": "Bil",
+            "min_travel_km": "Kjøreavstand",
+            "consultant_status": "Status",
+            "min_step_assessment": "Trinnvurdering",
+            "min_weekly_hours": "Timetall"
+        }
     }
 }
