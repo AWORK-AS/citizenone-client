@@ -126,7 +126,7 @@ async function fetchJobTitles() {
 
 async function fetchJobSpecialties(jobTitleUuid: string[]) {
     try {
-        const response = await jobSpecialtyService.getAllJobSpecialties({ job_title_uuids: jobTitleUuid })
+        const response = await jobSpecialtyService.getAllJobSpecialties({ job_title_uuids: JSON.stringify(jobTitleUuid) })
         if (response) {
             state.options.jobSpecialties = response.data.map((item: any) => ({ value: item.uuid, label: item.title }))
         }
