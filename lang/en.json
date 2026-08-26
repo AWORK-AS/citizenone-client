@@ -4582,6 +4582,55 @@
                 }
             }
         },
+        "compensatoryTimeRequests": {
+            "alert": {
+                "requestSuccessfullySent": "Compensatory time request successfully sent"
+            },
+            "compensatoryTimeRequests": "Compensatory time requests",
+            "hours": "Hours",
+            "newRequest": "Request compensatory time",
+            "noAccount": "You do not have a compensatory time account.",
+            "selectAccount": "Please select a compensatory time account.",
+            "sendRequest": "Send request",
+            "shift": "Shift",
+            "timeAccount": "Time account",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "decline": "Decline",
+                    "reverse": "Reverse",
+                    "withdraw": "Withdraw"
+                },
+                "alert": {
+                    "successfullyApproved": "Compensatory time request successfully approved",
+                    "successfullyDeclined": "Compensatory time request successfully declined",
+                    "successfullyReversed": "Compensatory time request successfully reversed",
+                    "successfullyWithdrawn": "Compensatory time request successfully withdrawn"
+                },
+                "confirmation": {
+                    "approveConfirmation": "Are you sure you want to approve this compensatory time request",
+                    "declineComment": "Comment (optional)",
+                    "declineCommentPlaceholder": "Add a reason the employee will see",
+                    "declineConfirmation": "Are you sure you want to decline this compensatory time request",
+                    "reverseComment": "Comment (optional)",
+                    "reverseCommentPlaceholder": "Add a reason the employee will see",
+                    "reverseConfirmation": "Are you sure you want to reverse this approved compensatory time request",
+                    "withdrawConfirmation": "Are you sure you want to withdraw this compensatory time request"
+                },
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "declineComment": "Comment",
+                "hours": "Hours",
+                "status": {
+                    "approved": "Approved",
+                    "declined": "Declined",
+                    "pending": "Pending",
+                    "reversed": "Reversed",
+                    "status": "Status",
+                    "withdrawn": "Withdrawn"
+                }
+            }
+        },
         "shiftRequests": {
             "form": {
                 "alert": {

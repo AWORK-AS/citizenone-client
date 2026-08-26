@@ -4582,6 +4582,55 @@
                 }
             }
         },
+        "compensatoryTimeRequests": {
+            "alert": {
+                "requestSuccessfullySent": "Anmodning om afspadsering blev sendt"
+            },
+            "compensatoryTimeRequests": "Anmodninger om afspadsering",
+            "hours": "Timer",
+            "newRequest": "Anmod om afspadsering",
+            "noAccount": "Du har ingen afspadseringskonto.",
+            "selectAccount": "Vælg venligst en afspadseringskonto.",
+            "sendRequest": "Send anmodning",
+            "shift": "Vagt",
+            "timeAccount": "Tidskonto",
+            "table": {
+                "actions": {
+                    "approve": "Godkend",
+                    "decline": "Afvis",
+                    "reverse": "Fortryd",
+                    "withdraw": "Træk tilbage"
+                },
+                "alert": {
+                    "successfullyApproved": "Anmodning om afspadsering blev godkendt",
+                    "successfullyDeclined": "Anmodning om afspadsering blev afvist",
+                    "successfullyReversed": "Anmodning om afspadsering blev fortrudt",
+                    "successfullyWithdrawn": "Anmodning om afspadsering blev trukket tilbage"
+                },
+                "confirmation": {
+                    "approveConfirmation": "Er du sikker på, at du vil godkende denne anmodning om afspadsering?",
+                    "declineComment": "Kommentar (valgfri)",
+                    "declineCommentPlaceholder": "Tilføj en begrundelse, medarbejderen kan se",
+                    "declineConfirmation": "Er du sikker på, at du vil afvise denne anmodning om afspadsering?",
+                    "reverseComment": "Kommentar (valgfri)",
+                    "reverseCommentPlaceholder": "Tilføj en begrundelse, medarbejderen kan se",
+                    "reverseConfirmation": "Er du sikker på, at du vil fortryde denne godkendte anmodning om afspadsering?",
+                    "withdrawConfirmation": "Er du sikker på, at du vil trække denne anmodning om afspadsering tilbage?"
+                },
+                "dateTimeEnd": "Slutdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
+                "declineComment": "Kommentar",
+                "hours": "Timer",
+                "status": {
+                    "approved": "Godkendt",
+                    "declined": "Afvist",
+                    "pending": "Afventer",
+                    "reversed": "Fortrudt",
+                    "status": "Status",
+                    "withdrawn": "Trukket tilbage"
+                }
+            }
+        },
         "shiftRequests": {
             "form": {
                 "alert": {
