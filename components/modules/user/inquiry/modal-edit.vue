@@ -1,13 +1,30 @@
 <template>
     <div>
-        <Modal size="md" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserInquiryModalCrisisCenterForm v-if="props.selectedInquiry.inquiry_type === 'crisis_center'" formType="update" :selectedInquiry="props.selectedInquiry"
+                    <!-- Opening an inquiry is for reading it. Editing is a decision the
+                         user makes after that, not the thing they land in. -->
+                    <ModulesUserInquiryDetailReview v-if="!state.isEditing && hasKnownType"
+                        :inquiry="props.selectedInquiry" @edit="state.isEditing = true"
+                        @fieldsSaved="refreshInquiries" />
+                    <ModulesUserInquiryModalCrisisCenterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'crisis_center'" formType="update" :selectedInquiry="props.selectedInquiry"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateCrisisCenterInquiry" />
-                    <ModulesUserInquiryModalShelterForm v-if="props.selectedInquiry.inquiry_type === 'shelter'" formType="update" :selectedInquiry="props.selectedInquiry" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="updateShelterInquiry" />
+                        @closeModal="stopEditing" @submitForm="updateCrisisCenterInquiry" />
+                    <ModulesUserInquiryModalShelterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'shelter'" formType="update" :selectedInquiry="props.selectedInquiry" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="stopEditing" @submitForm="updateShelterInquiry" />
+                    <!-- Neither form fits: the inquiry has no type, which happens to
+                         imported rows and to anything created straight through the API.
+                         Say so instead of showing an empty box. -->
+                    <div v-if="!hasKnownType" class="py-6 text-center">
+                        <Icon name="ph:question" class="mx-auto size-8 text-gray-300" />
+                        <p class="mt-2 text-sm font-semibold text-gray-700">
+                            {{ $t('inquiries.unknownType.title') }}
+                        </p>
+                        <p class="mx-auto mt-1 max-w-sm text-xs text-gray-500">
+                            {{ $t('inquiries.unknownType.hint') }}
+                        </p>
+                    </div>
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -28,6 +45,10 @@ const customPagesStore = useCustomPagesStore() as any
 
 const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
 const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
+const hasKnownType = computed(() =>
+    ['shelter', 'crisis_center'].includes(props.selectedInquiry?.inquiry_type)
+)
+
 const modalTitle = computed(() => {
     if (props.selectedInquiry?.inquiry_type === 'shelter') return shelterName.value
     if (props.selectedInquiry?.inquiry_type === 'crisis_center') return crisisCenterName.value
@@ -48,8 +69,24 @@ const emit = defineEmits(['close', 'refreshInquiries'])
 
 const state = reactive({
     error: {} as Error,
+    isEditing: false,
     isPageLoading: false
 })
+
+// Every open starts on the review, including reopening the same inquiry.
+watch(() => props.isModalOpen, (open: boolean) => {
+    if (open) {
+        state.isEditing = false
+        state.error = {}
+    }
+})
+
+// Cancelling an edit returns to the review rather than throwing the user out of
+// the inquiry altogether.
+function stopEditing() {
+    state.isEditing = false
+    state.error = {}
+}
 
 function closeModal() {
     emit('close')
@@ -70,6 +107,8 @@ async function updateCrisisCenterInquiry(inquiryDetails: any) {
             inquiry_date: inquiryDetails.inquiry_date,
             department_uuid: inquiryDetails.department_uuid,
             inquirer_name: inquiryDetails.inquirer_name,
+            company_contact_uuid: inquiryDetails.company_contact_uuid ?? null,
+            inquiry_service_type_uuid: inquiryDetails.inquiry_service_type_uuid ?? null,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,
             contacted_by: inquiryDetails.contacted_by,
@@ -107,6 +146,8 @@ async function updateShelterInquiry(inquiryDetails: any) {
             inquiry_date: inquiryDetails.inquiry_date,
             department_uuid: inquiryDetails.department_uuid,
             inquirer_name: inquiryDetails.inquirer_name,
+            company_contact_uuid: inquiryDetails.company_contact_uuid ?? null,
+            inquiry_service_type_uuid: inquiryDetails.inquiry_service_type_uuid ?? null,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,
             vacant_place_available: inquiryDetails.vacant_place_available === 'yes',

@@ -33,7 +33,7 @@
                 <div class="flex justify-end items-center mb-5" v-if="isAtLeast('Admin')">
                     <FormButton buttonStyle="action" @click="navigateTo('/citizens/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('citizens.newCitizen') }}
+                        {{ tt('citizens.newCitizen') }}
                     </FormButton>
                 </div>
                 <div class="space-y-5">
@@ -101,6 +101,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { tt } = useTerminology()
 const departmentStore = useDepartmentStore()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any

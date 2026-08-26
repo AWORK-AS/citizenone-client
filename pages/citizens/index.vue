@@ -261,7 +261,7 @@
                         <FormButton v-if="isAtLeast('Admin') || can('create_citizen')" buttonStyle="primary"
                             @click="navigateTo('/citizens/new')">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.newCitizen') }}
+                            {{ tt('citizens.newCitizen') }}
                         </FormButton>
                     </div>
                 </div>
@@ -515,6 +515,7 @@ import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
+const { tt } = useTerminology()
 const departmentStore = useDepartmentStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
@@ -1089,7 +1090,7 @@ watchEffect(() => {
     const A = t('commandPalette.actions')
     const cmds: any[] = []
     if (isAtLeast('Admin') || can('create_citizen')) {
-        cmds.push({ id: 'new-citizen', group: A, icon: 'ph:user-plus', label: t('citizens.newCitizen'), run: () => navigateTo('/citizens/new') })
+        cmds.push({ id: 'new-citizen', group: A, icon: 'ph:user-plus', label: tt('citizens.newCitizen'), run: () => navigateTo('/citizens/new') })
     }
     if (isAtLeast('Admin')) {
         cmds.push({ id: 'import-citizens', group: A, icon: 'ph:upload-simple', label: t('citizens.importCitizens.importCitizens'), run: () => { state.modal.isImportCitizensOpen = true } })

@@ -167,7 +167,21 @@
                         {{ $t('superadmin.grantLicense.billingFixed', { frequency: fixedFrequencyLabel }) }}
                     </p>
 
-                    <div>
+                    <!-- Included in the customer's agreement: grants the app without
+                         raising an invoice. Only shown for paid apps, since a free app
+                         is never invoiced anyway. -->
+                    <div v-if="canBeIncludedInAgreement">
+                        <div class="w-fit flex items-center cursor-pointer"
+                            @click="state.form.isIncludedInAgreement = !state.form.isIncludedInAgreement">
+                            <FormCheckbox :value="state.form.isIncludedInAgreement" />
+                            {{ $t('superadmin.grantLicense.includedInAgreement') }}
+                        </div>
+                        <p class="text-[11px] text-[#8891A4] mt-1">
+                            {{ $t('superadmin.grantLicense.includedInAgreementHint') }}
+                        </p>
+                    </div>
+
+                    <div v-if="!state.form.isIncludedInAgreement">
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.form.paysViaLeverandorservice = !state.form.paysViaLeverandorservice">
                             <FormCheckbox :value="state.form.paysViaLeverandorservice" />
@@ -319,6 +333,7 @@ const state = reactive({
         quantity: 1 as number,
         frequency: 'monthly' as 'monthly' | 'yearly',
         paysViaLeverandorservice: false,
+        isIncludedInAgreement: false,
     },
     isSaving: false,
     seatCounts: null as null | { total: number; used: number; available: number },
@@ -359,6 +374,11 @@ function isAppPickable(app: any) {
     return app.is_quantifiable || !isAlreadyActivated(app)
 }
 
+// A free app is never invoiced, so "included in agreement" would be meaningless
+// there. For a paid app it is the way a customer who was promised the app as
+// part of their deal gets access without being billed for it.
+const canBeIncludedInAgreement = computed(() => !!selectedApp.value && !selectedApp.value.is_free)
+
 // Billing only matters when new seats are actually being purchased - quantity=0
 // means "assign an existing already-paid seat to this user", not a new
 // purchase, so there's no billing decision to make at all. Free apps and
@@ -366,12 +386,14 @@ function isAppPickable(app: any) {
 // recurring apps auto-derive the frequency from the company's active Deal
 // subscription when one exists, same as the Extra User/Department license grant.
 const needsFrequencyPicker = computed(() => {
+    if (state.form.isIncludedInAgreement) return false
     if (!selectedApp.value || !state.form.quantity || selectedApp.value.is_free || selectedApp.value.is_one_time_fee) return false
     const dealType = state.subscription?.data?.type
     return !['monthly', 'yearly', 'custom_monthly', 'custom_yearly'].includes(dealType)
 })
 
 const fixedFrequencyLabel = computed(() => {
+    if (state.form.isIncludedInAgreement) return null
     if (!selectedApp.value || !state.form.quantity || selectedApp.value.is_free || selectedApp.value.is_one_time_fee) return null
     const dealType = state.subscription?.data?.type
     return dealType?.includes('yearly')
@@ -393,7 +415,7 @@ function selectApp(app: any) {
 
 watch(() => props.open, (open: boolean) => {
     if (open) {
-        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly', paysViaLeverandorservice: false }
+        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly', paysViaLeverandorservice: false, isIncludedInAgreement: false }
         state.appSearch = ''
         state.assignEnabled = false
         state.errors = { application: '', quantity: '', user: '', frequency: '' }
@@ -553,7 +575,8 @@ async function submit() {
             application_uuid: state.form.application_uuid,
             quantity: state.form.quantity,
             assign_to_user_uuid: state.selectedUser?.uuid ?? null,
-            pays_via_leverandorservice: state.form.paysViaLeverandorservice,
+            pays_via_leverandorservice: state.form.isIncludedInAgreement ? false : state.form.paysViaLeverandorservice,
+            is_included_in_agreement: state.form.isIncludedInAgreement,
             ...(needsFrequencyPicker.value ? { frequency: state.form.frequency } : {}),
         })
         successAlert(t('superadmin.grantLicense.successTitle'), t('superadmin.grantLicense.successBody'))

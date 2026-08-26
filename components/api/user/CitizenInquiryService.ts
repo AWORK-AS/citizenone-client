@@ -29,6 +29,15 @@ class CitizenInquiryService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}/convert-inquiry`, 'POST')
     }
 
+    // Won cases that were converted but nobody has been put on yet.
+    async getUnassignedConverted(): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/unassigned/converted`, 'GET')
+    }
+
+    async assignSelf(inquiryUuids: string[]): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/assign/self`, 'POST', { inquiry_uuids: inquiryUuids })
+    }
+
     // Crisis Center inquiry specific endpoints
     async getAboutList(): Promise<any> {
         return await this.request(`/user/inquiry-topics/all/list`, 'GET')

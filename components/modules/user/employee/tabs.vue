@@ -5,11 +5,14 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 
 const language = useI18n()
 const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
+const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
 
 const state = reactive({
     tabs: [
@@ -45,6 +48,14 @@ const state = reactive({
                 'employees-employee_uuid-mileage-log',
             ]
         },
+        ...(isInquiryPipelineEnabled.value ? [{
+            name: 'employees.tabs.consultantProfile',
+            isTranslateName: true,
+            href: `/employees/${employeeUuid}/consultant-profile`,
+            routeNames: [
+                'employees-employee_uuid-consultant-profile',
+            ]
+        }] : []),
     ] as any
 })
 
@@ -82,6 +93,14 @@ watch(() => language.locale.value, (language: any) => {
                 'employees-employee_uuid-mileage-log',
             ]
         },
+        ...(isInquiryPipelineEnabled.value ? [{
+            name: 'employees.tabs.consultantProfile',
+            isTranslateName: true,
+            href: `/employees/${employeeUuid}/consultant-profile`,
+            routeNames: [
+                'employees-employee_uuid-consultant-profile',
+            ]
+        }] : []),
     ]
 })
 

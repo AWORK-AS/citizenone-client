@@ -24,6 +24,18 @@
             "offer": "Tilbud",
             "won": "Vundet",
             "lost": "Tabt"
+        },
+        "tooManyToShow": "Viser {shown} af {total} henvendelser. Brug listevisningen eller et afdelingsfilter for at se resten.",
+        "moveFailed": "Henvendelsen kunne ikke flyttes",
+        "unassignedConverted": {
+            "title": "Konverterede, uafklarede sager",
+            "empty": "Ingen konverterede sager venter på en sagsbehandler.",
+            "selectedOfTotal": "{selected} af {total} valgt",
+            "claimSelected": "Tag valgte sager",
+            "selectAll": "Vælg alle",
+            "banner": "{count} konverteret(e) sag(er) har endnu ingen sagsbehandler.",
+            "claimCases": "Tag sager",
+            "claimed": "1 sag tildelt | {count} sager tildelt"
         }
     },
     "managementEconomy": {
@@ -664,7 +676,8 @@
         "somethingWentWrong": "Noget gik galt",
         "success": "Succes",
         "successfullySubscribed": "Du har abonneret med succes",
-        "warning": "Advarsel"
+        "warning": "Advarsel",
+        "pageAccessDenied": "Du har ikke adgang til denne side."
     },
     "all": "Alle",
     "apps": {
@@ -2768,7 +2781,7 @@
                 "indefinitely": "Ubestemt tid"
             }
         },
-        "newCitizen": "Ny borger",
+        "newCitizen": "Ny {citizen}",
         "noDepartmentYet": "Ingen afdeling",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
@@ -6356,7 +6369,8 @@
             "dutySchedule": "Vagtplan",
             "employeeInformations": "Medarbejderinformationer",
             "mileageLog": "Kørselsregnskab",
-            "timeLogs": "Tidslogfiler"
+            "timeLogs": "Tidslogfiler",
+            "consultantProfile": "Konsulentprofil"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se medarbejder",
@@ -7224,7 +7238,9 @@
         "form": {
             "alert": {
                 "inquirySuccessfullyUpdated": "Forespørgsel opdateret",
-                "newInquirySuccessfullySaved": "Ny henvendelser er blevet gemt"
+                "newInquirySuccessfullySaved": "Ny henvendelser er blevet gemt",
+                "inquirySuccessfullyConverted": "Henvendelsen er konverteret",
+                "inquiryConversionFailed": "Henvendelsen kunne ikke konverteres"
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "Borgerens CPR-nummer",
@@ -7311,6 +7327,12 @@
                     "referralDestination": "Hvor henvises borgeren til i stedet?",
                     "vacantPlaceAvailable": "Er der ledig plads på herberget eller forsorgshjemmet mv.?"
                 }
+            },
+            "sections": {
+                "inquiry": "Henvendelsen",
+                "citizen": "Borgeren",
+                "assessment": "Vurdering",
+                "outcome": "Resultat og noter"
             }
         },
         "inquiries": "Henvendelser",
@@ -7318,7 +7340,7 @@
         "shelterInquiry": "Herberger og forsorgshjem henvendelser",
         "table": {
             "actions": {
-                "convertAsCitizen": "Konverter til borger",
+                "convertAsCitizen": "Konverter til {citizen}",
                 "delete": "Slet",
                 "edit": "Rediger"
             },
@@ -7339,10 +7361,18 @@
             "outcome": "Resultat (f.eks. tilbudt en plads, afvist, videresendt)",
             "purpose": "Formål",
             "status": {
-                "convertedAsCitizen": "Konverteret som borger",
+                "convertedAsCitizen": "Konverteret som {citizen}",
                 "forConversion": "Til konvertering",
                 "status": "Status"
             }
+        },
+        "unknownType": {
+            "title": "Henvendelsen mangler en type",
+            "hint": "Den kan ikke redigeres her, før den er sat til krisecenter eller herberg. Det sker typisk for importerede henvendelser."
+        },
+        "review": {
+            "edit": "Rediger",
+            "notFilled": "Ikke udfyldt"
         }
     },
     "invitation": {
@@ -9765,7 +9795,11 @@
                 "portalNeverStaffNotes": "Interne bemærkninger skrevet om dem",
                 "portalNeverJournalsAtAll": "Journaler og dokumenter, aldrig",
                 "portalNeverUnassignedStaff": "Medarbejdere I ikke har tilknyttet dem",
-                "portalAccessSeeWhoHasAccess": "Se hvem der har adgang"
+                "portalAccessSeeWhoHasAccess": "Se hvem der har adgang",
+                "termCitizen": "Borger (ental)",
+                "termCitizenDefinite": "Borgeren (ental, bestemt)",
+                "termCitizens": "Borgere (flertal)",
+                "termCitizensDefinite": "Borgerne (flertal, bestemt)"
             }
         },
         "licenseOverview": {
@@ -9886,7 +9920,11 @@
             "messageTemplates": "Beskedskabeloner",
             "timelineEventTypes": "Tidslinje-typer",
             "fst": "FST",
-            "wageSupplementRules": "Tillægsregler for løn"
+            "wageSupplementRules": "Tillægsregler for løn",
+            "inquiryPipelineStages": "Faser i henvendelser",
+            "inquiryFields": "Felter i henvendelser",
+            "consultantSkills": "Konsulentkompetencer",
+            "inquiryServiceTypes": "Indsatstyper"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -11572,7 +11610,9 @@
             "errorSelectFrequency": "Vælg om denne licens er månedlig eller årlig",
             "errorGeneric": "Der gik noget galt under tildeling af licensen",
             "successTitle": "Licens tildelt",
-            "successBody": "Licensen er blevet tildelt."
+            "successBody": "Licensen er blevet tildelt.",
+            "includedInAgreement": "Inkluderet i aftalen (ingen faktura)",
+            "includedInAgreementHint": "Giver adgang til app'en uden at oprette en faktura. Brug den, når app'en er en del af kundens aftale."
         },
         "products": {
             "title": "Produkter",
@@ -13706,6 +13746,344 @@
             "helpUsedHours": "Timerne fra timeregistreringerne bag rækken. Du kan sætte dem ned, hvis kontrakten kun dækker en del, og resten afskrives så på perioden. Du kan ikke sætte dem op over det registrerede - brug en diverse-linje til det, der ikke er timer.",
             "helpAgreedHours": "Det leverede holdes op mod kontrakttimerne på indsatsen, hvis de er udfyldt, ellers mod borgerens tildelte timer. Timerne skaleres til rækkens periode, så et ophold der starter midt i måneden ikke ser underleveret ud. Kontrakttimer sættes på opholdet under borgerens stamkort.",
             "helpConvert": "Omdanner de valgte indsatser til én faktura pr. betalende kommune, inklusive diverse-linjer. Ikonet på rækken laver en faktura med kun den ene indsats. Fakturaerne lander under Fakturering, klar til at sende."
+        }
+    },
+    "inquiryPipelineStages": {
+        "title": "Faser i henvendelser",
+        "description": "Faserne styrer kolonnerne i henvendelsesoversigten. Giv dem de navne, I bruger internt, tilføj de faser I mangler, og bestem rækkefølgen. Rollen afgør, hvad systemet gør ved fasen: en fase kan være indgangen for nye henvendelser, den fase der gør en henvendelse til en indsats, eller den fase hvor sagen er tabt. Øvrige faser flytter blot henvendelsen videre.",
+        "addStage": "Tilføj fase",
+        "empty": "Der er endnu ingen faser.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Afklaring",
+            "color": "Farve",
+            "role": "Rolle"
+        },
+        "roles": {
+            "neutral": "Almindelig fase",
+            "new": "Nye henvendelser",
+            "won": "Vundet indsats",
+            "lost": "Tabt sag"
+        },
+        "actions": {
+            "moveUp": "Flyt op",
+            "moveDown": "Flyt ned",
+            "delete": "Slet fase",
+            "deleteProtected": "Fasen kan ikke slettes, fordi den har en rolle systemet er afhængig af"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne fase"
+        },
+        "alert": {
+            "created": "Fasen er oprettet",
+            "deleted": "Fasen er slettet"
+        }
+    },
+    "inquiryFields": {
+        "required": "Påkrævet",
+        "appliesThroughout": "Gælder hele forløbet",
+        "saving": "Gemmer...",
+        "alert": {
+            "saved": "Felterne er gemt",
+            "saveFailed": "Felterne kunne ikke gemmes"
+        }
+    },
+    "inquiryFieldSettings": {
+        "title": "Felter i henvendelser",
+        "description": "Bestem selv hvilke oplysninger der skal registreres, og i hvilken fase de hører til. Et påkrævet felt skal være udfyldt, før henvendelsen kan flyttes videre fra sin fase - baglæns kan man altid.",
+        "addField": "Tilføj felt",
+        "editField": "Rediger felt",
+        "inactive": "Slået fra",
+        "noFieldsInStage": "Ingen felter i denne fase.",
+        "fieldCount": "{count} felter",
+        "actions": {
+            "edit": "Rediger"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette dette felt"
+        },
+        "alert": {
+            "saved": "Feltet er gemt",
+            "deleted": "Feltet er slettet",
+            "deleteFailed": "Feltet kunne ikke slettes"
+        },
+        "form": {
+            "label": "Navn",
+            "labelPlaceholder": "Fx Risikovurdering",
+            "type": "Felttype",
+            "typeLocked": "Typen kan ikke ændres, fordi de svar der allerede er givet læses gennem den. Opret et nyt felt i stedet.",
+            "stage": "Fase",
+            "stageHint": "Vælg \"Gælder hele forløbet\", hvis feltet skal kunne udfyldes uanset fase.",
+            "choices": "Valgmuligheder",
+            "choicesPlaceholder": "En mulighed pr. linje",
+            "choicesHint": "Én pr. linje. Rækkefølgen her er den rækkefølge de vises i.",
+            "min": "Fra",
+            "max": "Til",
+            "helpText": "Hjælpetekst",
+            "helpTextPlaceholder": "Vises under feltet",
+            "isRequired": "Påkrævet for at forlade fasen",
+            "isRequiredHint": "Henvendelsen kan ikke flyttes fremad, før feltet er udfyldt.",
+            "isActive": "Aktivt",
+            "source": "Slå op i",
+            "sourceHint": "Feltet henter sine valgmuligheder fra det register, I allerede vedligeholder.",
+            "serviceType": "Kun for indsatstype",
+            "serviceTypeHint": "Vælg en type, hvis feltet kun skal spørges der. Ellers spørges det uanset type."
+        },
+        "types": {
+            "text": "Tekst",
+            "textarea": "Langt tekstfelt",
+            "number": "Tal",
+            "amount": "Beløb",
+            "date": "Dato",
+            "select": "Dropdown",
+            "multiselect": "Flere valg",
+            "scale": "Skala",
+            "boolean": "Ja/nej",
+            "lookup": "Opslag"
+        },
+        "sources": {
+            "municipalities": "Kommuner",
+            "regions": "Regioner",
+            "departments": "Afdelinger",
+            "company_contacts": "Kontakter",
+            "spoken_languages": "Talte sprog",
+            "consultant_skills": "Konsulentkompetencer",
+            "inquiry_service_types": "Indsatstyper",
+            "employees": "Medarbejdere"
+        },
+        "allServiceTypes": "Alle indsatstyper"
+    },
+    "inquiryOrigin": {
+        "label": "Henvendelsen kommer fra",
+        "citizen": "Borgeren selv",
+        "authority": "Myndighed",
+        "other": "Andet"
+    },
+    "inquiryContact": {
+        "label": "Sagsbehandler eller kontaktpart",
+        "hint": "Slå op i kontaktregistret. Findes personen ikke, kan du oprette den her.",
+        "searchPlaceholder": "Søg navn, e-mail eller telefon...",
+        "noResults": "Ingen kontakter matcher.",
+        "createNew": "Opret ny kontakt",
+        "clear": "Fjern kontakten",
+        "jobTitle": "Stilling",
+        "organisation": "Organisation",
+        "email": "E-mail",
+        "phone": "Telefon"
+    },
+    "consultantSkills": {
+        "title": "Konsulentkompetencer",
+        "description": "Vedligehold de lister konsulenterne matches på. En kompetence er noget de kan, et kursus er noget de har taget, og et emneord er noget de har erfaring med.",
+        "add": "Tilføj",
+        "addPlaceholder": "Skriv og tryk Tilføj",
+        "empty": "Listen er tom.",
+        "activate": "Slå til",
+        "deactivate": "Slå fra",
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne"
+        },
+        "alert": {
+            "deleted": "Slettet",
+            "deleteFailed": "Kunne ikke slettes",
+            "saveFailed": "Kunne ikke gemmes"
+        },
+        "types": {
+            "competence": {
+                "title": "Kompetencer",
+                "hint": "Fx familiebehandling eller kontaktpersonopgaver"
+            },
+            "course": {
+                "title": "Kurser",
+                "hint": "Kan have en udløbsdato pr. konsulent"
+            },
+            "topic": {
+                "title": "Emneord",
+                "hint": "Erfaring med fx ADHD eller selvskade"
+            }
+        }
+    },
+    "consultantProfile": {
+        "title": "Konsulentprofil",
+        "ready": "Konsulenten kan sættes på en sag",
+        "notReady": "Konsulenten kan ikke sættes på en sag endnu",
+        "sections": {
+            "profile": "Profil",
+            "skills": "Kompetencer, kurser og emneord",
+            "documents": "Dokumenter"
+        },
+        "skillsHint": "Det er de her lister konsulenten findes på, når en sag skal matches.",
+        "expiryHeading": "Udløb på kursusbeviser",
+        "noExpiry": "Uden udløb",
+        "expired": "Udløbet",
+        "expiringSoon": "Udløber snart",
+        "noDocuments": "Der er ingen dokumenter på konsulenten.",
+        "form": {
+            "municipality": "Bopælskommune",
+            "region": "Region",
+            "status": "Konsulentstatus",
+            "onboarding": "Onboarding",
+            "maxTravelKm": "Kører op til (km)",
+            "desiredWeeklyHours": "Ønsket timetal pr. uge",
+            "stepAssessment": "Trinvurdering",
+            "hasCar": "Har bil"
+        },
+        "statuses": {
+            "available": "Ledig",
+            "partially_available": "Delvist ledig",
+            "unavailable": "Ikke ledig",
+            "inactive": "Inaktiv"
+        },
+        "onboardingStatuses": {
+            "not_started": "Ikke startet",
+            "in_progress": "I gang",
+            "completed": "Gennemført"
+        },
+        "documentTypes": {
+            "employment_contract": "Kontrakt",
+            "criminal_record": "Straffeattest",
+            "child_protection_certificate": "Børneattest",
+            "drivers_license": "Kørekort",
+            "miscellaneous": "Øvrigt",
+            "passport": "Pas",
+            "cv": "CV",
+            "education": "Uddannelsespapirer"
+        },
+        "findings": {
+            "document_missing": "{document} mangler",
+            "document_expired": "{document} udløb {date}",
+            "document_expiring_soon": "{document} udløber {date}",
+            "skill_expired": "Kursusbeviset for {skill} udløb {date}",
+            "onboarding_incomplete": "Onboarding er ikke gennemført"
+        },
+        "alert": {
+            "saved": "Profilen er gemt",
+            "skillsSaved": "Kompetencerne er gemt",
+            "saveFailed": "Kunne ikke gemmes"
+        }
+    },
+    "inquiryDetail": {
+        "markAsLost": "Marker som tabt",
+        "nextStepLocked": "Næste trin ({stage}) er låst: {fields} mangler. Udfyld felterne herunder for at fortsætte.",
+        "parties": "Parter",
+        "noParties": "Der er ingen parter på henvendelsen endnu.",
+        "roles": {
+            "contact": "Kontakt",
+            "recipient": "Modtager"
+        },
+        "moveHeading": "Flyt henvendelsen",
+        "moveHint": "Fremad kræver at fasens påkrævede felter er udfyldt. Tilbage kan du altid."
+    },
+    "inquiryServiceTypes": {
+        "title": "Indsatstyper",
+        "single": "Indsatstype",
+        "description": "De typer indsats I leverer, med den paragraf de bevilges efter. Felter kan bindes til en enkelt type, så de kun spørges der.",
+        "hint": "Bestemmer hvilke typespecifikke felter der spørges om.",
+        "add": "Tilføj",
+        "empty": "Der er ingen indsatstyper endnu.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Familiebehandling",
+            "paragraph": "Paragraf",
+            "paragraphPlaceholder": "Fx § 32"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne indsatstype"
+        },
+        "alert": {
+            "deleted": "Indsatstypen er slettet",
+            "deleteFailed": "Indsatstypen kunne ikke slettes",
+            "saveFailed": "Kunne ikke gemmes"
+        }
+    },
+    "consultantMatch": {
+        "title": "Konsulentmatch",
+        "start": "Start konsulentmatch",
+        "description": "Søg på flere parametre samtidig. Alle konsulenter vises - også dem der kun matcher delvist, med det de mangler, så du selv kan vurdere om det er godt nok.",
+        "criteria": "Hvad sagen kræver",
+        "search": "Søg",
+        "searching": "Søger...",
+        "clear": "Nulstil",
+        "noConsultants": "Ingen konsulenter fundet.",
+        "notReady": "Kan ikke sættes på sag",
+        "openProfile": "Åbn profil",
+        "resultSummary": "{total} konsulenter, heraf {full} med fuldt match på {criteria} kriterier.",
+        "matches": {
+            "full": "Fuldt match",
+            "partial": "Delvist match ({met} af {asked})",
+            "none": "Intet match"
+        },
+        "form": {
+            "spokenLanguages": "Talte sprog",
+            "minTravelKm": "Skal køre mindst (km)",
+            "minWeeklyHours": "Mindst timer pr. uge",
+            "minStep": "Mindst trinvurdering",
+            "needsCar": "Skal have bil"
+        },
+        "criteriaNames": {
+            "skill_uuids": "Kompetencer",
+            "spoken_language_uuids": "Sprog",
+            "municipality_uuid": "Bopælskommune",
+            "region_uuid": "Region",
+            "has_car": "Bil",
+            "min_travel_km": "Køreafstand",
+            "consultant_status": "Status",
+            "min_step_assessment": "Trinvurdering",
+            "min_weekly_hours": "Timetal"
+        },
+        "askSelected": "Spørg {count} valgte",
+        "asked": "Konsulenterne er spurgt",
+        "askFailed": "Konsulenterne kunne ikke spørges"
+    },
+    "inquiryNotes": {
+        "title": "Notater",
+        "count": "{count} notater",
+        "add": "Tilføj notat",
+        "placeholder": "Skriv hvad der er sket, eller hvad der er aftalt...",
+        "hint": "Notatet stemples med den fase henvendelsen står i, og følger med til borgerens journal ved konvertering.",
+        "empty": "Der er endnu ingen notater på henvendelsen.",
+        "inJournal": "I journalen",
+        "edit": "Rediger notat",
+        "delete": "Slet notat",
+        "confirmDelete": "Er du sikker på, at du vil slette dette notat",
+        "unknownAuthor": "Ukendt",
+        "saveFailed": "Notatet kunne ikke gemmes",
+        "deleteFailed": "Notatet kunne ikke slettes"
+    },
+    "inquiryDocuments": {
+        "title": "Dokumenter",
+        "count": "{count} dokumenter",
+        "upload": "Upload dokument",
+        "uploading": "Uploader...",
+        "empty": "Der er ingen dokumenter på henvendelsen.",
+        "hint": "Papirer der er kommet med henvendelsen. De følger med til borgerens filer ved konvertering.",
+        "onCitizen": "På borgeren",
+        "delete": "Slet dokument",
+        "confirmDelete": "Er du sikker på, at du vil slette dette dokument",
+        "uploadFailed": "Dokumentet kunne ikke uploades",
+        "deleteFailed": "Dokumentet kunne ikke slettes"
+    },
+    "inquiryInvitations": {
+        "title": "Konsulenter spurgt",
+        "empty": "Ingen konsulenter er spurgt endnu.",
+        "selected": "Valgt",
+        "select": "Udpeg",
+        "markInterested": "Sagde ja",
+        "markDeclined": "Sagde nej",
+        "askedBy": "spurgt af {name}",
+        "answeredBy": "svar registreret af {name}",
+        "unknownConsultant": "Ukendt",
+        "failed": "Handlingen kunne ikke gennemføres",
+        "statuses": {
+            "invited": "Afventer svar",
+            "interested": "Interesseret",
+            "declined": "Sagde nej"
+        },
+        "mine": {
+            "title": "Sager du er spurgt om",
+            "empty": "Du er ikke spurgt om nogen sager.",
+            "yes": "Ja tak",
+            "no": "Nej tak",
+            "answered": "Du har svaret"
         }
     }
 }
