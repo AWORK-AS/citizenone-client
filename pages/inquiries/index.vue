@@ -121,6 +121,13 @@
                         class="rounded-lg bg-[#fdf3df] px-3 py-2 text-xs font-medium text-[#8a6208]">
                         {{ $t('inquiryPipeline.tooManyToShow', { shown: boardShownCount, total: boardTotalCount }) }}
                     </p>
+                    <p v-if="pipelineEnabled && state.unassignedConvertedCount > 0"
+                        class="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#fdf3df] px-3 py-2 text-xs font-medium text-[#8a6208]">
+                        <span>{{ $t('inquiryPipeline.unassignedConverted.banner', { count: state.unassignedConvertedCount }) }}</span>
+                        <button type="button" class="font-semibold underline" @click="state.modal.isUnassignedConvertedOpen = true">
+                            {{ $t('inquiryPipeline.unassignedConverted.claimCases') }}
+                        </button>
+                    </p>
                     <div v-if="pipelineEnabled" class="items-start gap-3.5 p-2"
                         :class="boardScrolls ? 'flex overflow-x-auto pr-4' : 'grid'"
                         :style="boardScrolls ? undefined : { gridTemplateColumns: `repeat(${state.pipelineStages.length}, minmax(0, 1fr))` }">
@@ -295,6 +302,9 @@
                 :selectedInquiry="state.selectedInquiry" @close="state.modal.isEditInquiryOpen = false"
                 @refreshInquiries="fetchInquiries" />
 
+            <ModulesUserInquiryModalUnassignedConverted :isModalOpen="state.modal.isUnassignedConvertedOpen"
+                @close="state.modal.isUnassignedConvertedOpen = false" @claimed="fetchUnassignedConvertedCount" />
+
             <DialogConfirmation :isModalOpen="state.modal.isConvertInquiryOpen"
                 :message="$t('inquiries.table.confirmation.convertAsCitizenConfirmation') + '?'"
                 @close="state.modal.isConvertInquiryOpen = false" @confirm="convertInquiry" />
@@ -310,6 +320,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
@@ -458,18 +470,35 @@ const state = reactive({
         isEditInquiryOpen: false,
         isDeleteInquiryOpen: false,
         isExportDepartmentOpen: false,
+        isUnassignedConvertedOpen: false,
     },
     selectedInquiry: {} as any,
     inquiryTpe: '',
     exportInquiryType: '',
     pipelineStages: [] as any[],
+    unassignedConvertedCount: 0,
 })
 
 onMounted(() => {
     fetchDepartments()
     fetchInquiries()
-    if (pipelineEnabled.value) fetchPipelineStages()
+    if (pipelineEnabled.value) {
+        fetchPipelineStages()
+        fetchUnassignedConvertedCount()
+    }
 })
+
+async function fetchUnassignedConvertedCount() {
+    try {
+        const response = await citizenInquiryService.getUnassignedConverted()
+        state.unassignedConvertedCount = response?.data?.length ?? 0
+    } catch {
+        // The daily overview swallows this same call for the same reason: a
+        // company without the app should never see an error for a banner it
+        // was never going to show anyway.
+        state.unassignedConvertedCount = 0
+    }
+}
 
 async function fetchPipelineStages() {
     try {

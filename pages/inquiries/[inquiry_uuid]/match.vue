@@ -193,6 +193,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+
 import { consultantSkillService } from '@/components/api/user/ConsultantSkillService'
 import { inquiryConsultantInvitationService } from '@/components/api/user/InquiryConsultantInvitationService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'

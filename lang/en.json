@@ -26,7 +26,17 @@
             "lost": "Lost"
         },
         "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest.",
-        "moveFailed": "The inquiry could not be moved"
+        "moveFailed": "The inquiry could not be moved",
+        "unassignedConverted": {
+            "title": "Converted, unassigned cases",
+            "empty": "No converted cases are waiting for a caseworker.",
+            "selectedOfTotal": "{selected} of {total} selected",
+            "claimSelected": "Claim selected",
+            "selectAll": "Select all",
+            "banner": "{count} converted case(s) have no caseworker yet.",
+            "claimCases": "Claim cases",
+            "claimed": "1 case claimed | {count} cases claimed"
+        }
     },
     "managementEconomy": {
         "title": "Management & economy",
@@ -666,7 +676,8 @@
         "somethingWentWrong": "Something went wrong",
         "success": "Success",
         "successfullySubscribed": "You have successfully subscribed",
-        "warning": "Warning"
+        "warning": "Warning",
+        "pageAccessDenied": "You do not have access to this page."
     },
     "all": "All",
     "apps": {

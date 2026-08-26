@@ -118,7 +118,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             { group: 'health', name: 'settings.tabs.dosageForms', isTranslateName: true, href: `/settings/dosage-forms`, routeNames: ['settings-dosage-forms'] },
             { group: 'schedule', name: 'settings.tabs.dutyShiftRules', isTranslateName: true, href: `/settings/duty-shift-rules`, routeNames: ['settings-duty-shift-rules'] },
             { group: 'access', name: 'settings.tabs.employeeGroups', isTranslateName: true, href: `/settings/employee-groups`, routeNames: ['settings-employee-groups'] },
-            { group: 'access', name: 'settings.tabs.consultantSkills', isTranslateName: true, href: `/settings/consultant-skills`, routeNames: ['settings-consultant-skills'] },
+            ...(newValue?.company?.inquiry_pipeline_enabled ? [{ group: 'access', name: 'settings.tabs.consultantSkills', isTranslateName: true, href: `/settings/consultant-skills`, routeNames: ['settings-consultant-skills'] }] : []),
             { group: 'citizens', name: 'settings.tabs.expenseCategories', isTranslateName: true, href: `/settings/expense-categories`, routeNames: ['settings-expense-categories'] },
             { group: 'schedule', name: 'settings.tabs.extraHoursTags', isTranslateName: true, href: `/settings/extra-hours-tags`, routeNames: ['settings-extra-hours-tags'] },
             { group: 'citizens', name: 'settings.tabs.foreignCities', isTranslateName: true, href: `/settings/foreign-cities`, routeNames: ['settings-foreign-cities'] },

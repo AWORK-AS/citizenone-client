@@ -26,7 +26,17 @@
             "lost": "Förlorad"
         },
         "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten.",
-        "moveFailed": "Förfrågan kunde inte flyttas"
+        "moveFailed": "Förfrågan kunde inte flyttas",
+        "unassignedConverted": {
+            "title": "Konverterade, otilldelade ärenden",
+            "empty": "Inga konverterade ärenden väntar på en handläggare.",
+            "selectedOfTotal": "{selected} av {total} valda",
+            "claimSelected": "Ta valda ärenden",
+            "selectAll": "Välj alla",
+            "banner": "{count} konverterade ärende(n) har ännu ingen handläggare.",
+            "claimCases": "Ta ärenden",
+            "claimed": "1 ärende tilldelat | {count} ärenden tilldelade"
+        }
     },
     "managementEconomy": {
         "title": "Ledning & ekonomi",
@@ -666,7 +676,8 @@
         "somethingWentWrong": "Något gik galt",
         "success": "Lyckat",
         "successfullySubscribed": "Du har abonneret",
-        "warning": "Varning"
+        "warning": "Varning",
+        "pageAccessDenied": "Du har inte tillgång till den här sidan."
     },
     "all": "Alla",
     "apps": {

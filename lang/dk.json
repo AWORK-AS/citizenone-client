@@ -26,7 +26,17 @@
             "lost": "Tabt"
         },
         "tooManyToShow": "Viser {shown} af {total} henvendelser. Brug listevisningen eller et afdelingsfilter for at se resten.",
-        "moveFailed": "Henvendelsen kunne ikke flyttes"
+        "moveFailed": "Henvendelsen kunne ikke flyttes",
+        "unassignedConverted": {
+            "title": "Konverterede, uafklarede sager",
+            "empty": "Ingen konverterede sager venter på en sagsbehandler.",
+            "selectedOfTotal": "{selected} af {total} valgt",
+            "claimSelected": "Tag valgte sager",
+            "selectAll": "Vælg alle",
+            "banner": "{count} konverteret(e) sag(er) har endnu ingen sagsbehandler.",
+            "claimCases": "Tag sager",
+            "claimed": "1 sag tildelt | {count} sager tildelt"
+        }
     },
     "managementEconomy": {
         "title": "Ledelse & økonomi",
@@ -666,7 +676,8 @@
         "somethingWentWrong": "Noget gik galt",
         "success": "Succes",
         "successfullySubscribed": "Du har abonneret med succes",
-        "warning": "Advarsel"
+        "warning": "Advarsel",
+        "pageAccessDenied": "Du har ikke adgang til denne side."
     },
     "all": "Alle",
     "apps": {

@@ -180,6 +180,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { useAlert } from '@/composables/alert'
