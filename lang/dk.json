@@ -9922,7 +9922,9 @@
             "inquiryPipelineStages": "Faser i henvendelser",
             "inquiryFields": "Felter i henvendelser",
             "consultantSkills": "Konsulentkompetencer",
-            "inquiryServiceTypes": "Indsatstyper"
+            "inquiryServiceTypes": "Indsatstyper",
+            "taskTypes": "Opgavetyper",
+            "taskRules": "Opgaveregler"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -10143,7 +10145,8 @@
         "dentalRecalls": "Indkaldelser",
         "dentalOverview": "Klinikoverblik",
         "invoicing": "Fakturering",
-        "plansAndGoalsExport": "Eksport af planer og mål"
+        "plansAndGoalsExport": "Eksport af planer og mål",
+        "Tasks": "Opgavetavler"
     },
     "somethingWentWrong": "Noget gik galt",
     "storage": {
@@ -14082,6 +14085,118 @@
             "yes": "Ja tak",
             "no": "Nej tak",
             "answered": "Du har svaret"
+        }
+    },
+    "taskBoards": {
+        "title": "Opgavetavler",
+        "newTask": "Ny opgave",
+        "newBoard": "Ny tavle",
+        "overdue": "Overskredet",
+        "unassigned": "Ingen ansvarlig",
+        "actions": {
+            "edit": "Rediger opgave"
+        },
+        "empty": {
+            "title": "Der er ingen opgavetavler endnu",
+            "description": "En tavle samler det arbejde, der ikke hører til én borger. Opret kolonnerne I arbejder i, og placér opgaverne hos den, der skal løse dem.",
+            "action": "Opret den første tavle"
+        },
+        "form": {
+            "newTitle": "Ny opgave",
+            "editTitle": "Rediger opgave",
+            "title": "Titel",
+            "titlePlaceholder": "Hvad skal der gøres?",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Uddyb om nødvendigt",
+            "type": "Opgavetype",
+            "noType": "Ingen type",
+            "assignee": "Ansvarlig",
+            "nobody": "Ingen",
+            "dueDate": "Frist",
+            "column": "Kolonne"
+        },
+        "board": {
+            "newTitle": "Ny opgavetavle",
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Visitation",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Hvad bruges tavlen til?",
+            "columns": "Kolonner",
+            "columnsHint": "Adskil med komma. Den sidste kolonne regnes som færdig, så tavlen selv kan vise, hvad der er løst.",
+            "columnsPlaceholder": "Skal gøres, I gang, Færdig",
+            "defaults": {
+                "todo": "Skal gøres",
+                "doing": "I gang",
+                "done": "Færdig"
+            }
+        },
+        "mine": {
+            "title": "Mine opgaver",
+            "all": "Se alle"
+        },
+        "confirmation": {
+            "deleteTask": "Er du sikker på, at du vil slette denne opgave"
+        },
+        "alert": {
+            "saveFailed": "Opgaven kunne ikke gemmes",
+            "deleted": "Opgaven er slettet",
+            "deleteFailed": "Opgaven kunne ikke slettes",
+            "moveFailed": "Opgaven kunne ikke flyttes"
+        }
+    },
+    "taskTypes": {
+        "title": "Opgavetyper",
+        "description": "De typer opgaver I arbejder med. Typen giver opgaven en farve på tavlen og kan bruges i regler, så kun bestemte opgaver udløser en besked.",
+        "add": "Tilføj",
+        "empty": "Der er ingen opgavetyper endnu.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Rekruttering",
+            "color": "Farve"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne opgavetype"
+        },
+        "alert": {
+            "saveFailed": "Opgavetypen kunne ikke gemmes",
+            "deleted": "Opgavetypen er slettet",
+            "deleteFailed": "Opgavetypen kunne ikke slettes"
+        }
+    },
+    "taskRules": {
+        "title": "Opgaveregler",
+        "listTitle": "Regler",
+        "description": "Regler afgør, hvem der får besked, når der sker noget med en opgave. Uden regler kører tavlen stille, og man skal selv holde øje med den.",
+        "add": "Tilføj regel",
+        "empty": "Der er ingen regler endnu.",
+        "events": {
+            "created": "Når en opgave oprettes",
+            "entered_column": "Når en opgave lander i en kolonne",
+            "completed": "Når en opgave er løst",
+            "overdue": "Når fristen er overskredet"
+        },
+        "form": {
+            "newTitle": "Ny regel",
+            "editTitle": "Rediger regel",
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Giv ledelsen besked",
+            "event": "Hændelse",
+            "conditionsHint": "Lad et felt stå tomt for at lade reglen gælde alle. En regel uden betingelser dækker hele hændelsen.",
+            "any": "Alle",
+            "board": "Tavle",
+            "column": "Kolonne",
+            "type": "Opgavetype",
+            "role": "Rolle der får besked",
+            "noRole": "Ingen rolle",
+            "notifyAssignee": "Den ansvarlige får besked"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne regel"
+        },
+        "alert": {
+            "saveFailed": "Reglen kunne ikke gemmes",
+            "deleted": "Reglen er slettet",
+            "deleteFailed": "Reglen kunne ikke slettes"
         }
     }
 }
