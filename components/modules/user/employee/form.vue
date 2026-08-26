@@ -352,17 +352,17 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5" ref="jobTitleField">
-                            <FormLabel for="job_title_uuid" :label="$t('employees.form.employment.jobTitle')" />
+                            <FormLabel for="job_titles_uuid" :label="$t('employees.form.employment.jobTitle')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddJobTitleOpen = true">
                                 {{ $t('jobTitles.addNewJobTitle') }}
                             </span>
                         </div>
-                        <FormSelect id="job_title_uuid" :options="state.options.jobTitles"
-                            v-model="state.formEmployee.employment.job_title_uuid" @change="changeJobTitle" />
+                        <FormSelectMultiple id="job_titles_uuid" :options="state.options.jobTitles"
+                            v-model="state.formEmployee.employment.job_titles_uuid" @update:modelValue="changeJobTitle" />
                         <FormError
-                            :error="v$?.formEmployee?.employment?.job_title_uuid?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.employment?.job_title_uuid?.[0]" />
+                            :error="v$?.formEmployee?.employment?.job_titles_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.employment?.job_titles_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
@@ -659,7 +659,7 @@ const state = reactive({
             salary_id: '',
             employment_date: '',
             termination_date: '',
-            job_title_uuid: '',
+            job_titles_uuid: [],
             job_specialties: [],
             working_hours: '',
             employment_status: '',
@@ -767,8 +767,8 @@ watch(() => state.formEmployee.spoken_languages, (languages: any) => {
 watch(() => props.selectedEmployee, (newValue: any) => {
     if (newValue != null) {
         isPopulatingEmployee.value = true
-        if (newValue.employment.job_title_uuid) {
-            fetchJobSpecialties(newValue.employment.job_title_uuid)
+        if (newValue.employment.job_titles_uuid?.length) {
+            fetchJobSpecialties(newValue.employment.job_titles_uuid)
         }
         if (newValue.profile_image) {
             avatarUrl.value = newValue.profile_image
@@ -804,7 +804,7 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 salary_id: newValue.employment.salary_id,
                 employment_date: newValue.employment.employment_date,
                 termination_date: newValue.employment.termination_date,
-                job_title_uuid: newValue.employment.job_title_uuid,
+                job_titles_uuid: newValue.employment.job_titles_uuid ?? [],
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
@@ -1059,18 +1059,16 @@ async function fetchJobTitles() {
     emit('isPageLoading', false)
 }
 
-function changeJobTitle(jobTitleUuid: any) {
-    if (jobTitleUuid) {
-        fetchJobSpecialties(jobTitleUuid)
-    }
+function changeJobTitle(jobTitleUuids: any) {
+    fetchJobSpecialties(jobTitleUuids)
 }
 
-async function fetchJobSpecialties(jobTitleUuid: any) {
+async function fetchJobSpecialties(jobTitleUuids: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
-            job_title_uuid: jobTitleUuid
+            job_title_uuids: JSON.stringify(jobTitleUuids ?? [])
         }
         const response = await jobSpecialtyService.getAllJobSpecialties(params)
         if (response) {
@@ -1268,7 +1266,7 @@ function submitForm() {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.termination_date?.$error && terminationDateField.value) {
             terminationDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
+        } else if (v$.value.formEmployee.employment.job_titles_uuid?.$error && jobTitleField.value) {
             jobTitleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.working_hours?.$error && workingHoursField.value) {
             workingHoursField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
