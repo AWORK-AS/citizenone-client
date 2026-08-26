@@ -425,7 +425,7 @@ async function fetchJournals() {
 
 async function fetchAllCitizens() {
     try {
-        const response = await citizenService.getAllCitizens({})
+        const response = await citizenService.getAllCitizensPerCurrentUserAssignment({})
         if (response?.data) {
             state.citizenOptions = response.data.map((citizen: any) => ({
                 value: citizen?.uuid,
