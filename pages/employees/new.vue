@@ -81,7 +81,7 @@ const state = reactive({
             salary_id: '',
             employment_date: '',
             termination_date: '',
-            job_uuid: '',
+            job_titles_uuid: [],
             working_hours: '',
             employment_status: '',
             annual_norm_hours: '',
@@ -126,7 +126,7 @@ async function saveEmployee(employeeDetails: any) {
         params.append('salary_id', employeeDetails.employment.salary_id)
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('termination_date', employeeDetails.employment.termination_date)
-        params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
+        params.append('job_titles_uuid', JSON.stringify(employeeDetails.employment.job_titles_uuid ?? []))
         params.append('spoken_languages_uuid', JSON.stringify(employeeDetails.spoken_languages ?? []))
         params.append('primary_spoken_language_uuid', employeeDetails.primary_spoken_language ?? '')
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
