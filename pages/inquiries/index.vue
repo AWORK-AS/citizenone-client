@@ -20,7 +20,7 @@
 
             <div>
                 <div class="flex justify-between items-center mb-5">
-                    <div class="flex items-center gap-x-1">
+                    <div v-if="!pipelineEnabled" class="flex items-center gap-x-1">
                         <span>{{ $t('entriesPerPage') }}:</span>
                         <select class="focus:outline-none bg-transparent" @change="changePageLength"
                             id="inquiriesPageLength">
@@ -117,69 +117,92 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <!-- Inquiry pipeline (kanban) — opt-in per company -->
-                    <div v-if="pipelineEnabled" class="flex gap-4 overflow-x-auto p-2">
-                        <div v-for="stage in pipelineStages" :key="stage.key"
-                            class="w-[300px] shrink-0 rounded-2xl bg-surface-50 p-3 transition-colors"
-                            :class="dragOverKey === stage.key ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''"
-                            @dragover.prevent="dragOverKey = stage.key" @dragleave="dragOverKey = null"
-                            @drop="onDrop(stage.key)">
-                            <div class="flex items-center gap-2 mb-3 px-1.5">
-                                <span class="size-2.5 rounded-full" :style="{ background: stage.color }"></span>
-                                <span class="text-[15px] font-bold text-slate-700">
-                                    {{ $t('inquiryPipeline.stages.' + stage.key) }}
+                    <p v-if="pipelineEnabled && boardOverflowCount > 0"
+                        class="rounded-lg bg-[#fdf3df] px-3 py-2 text-xs font-medium text-[#8a6208]">
+                        {{ $t('inquiryPipeline.tooManyToShow', { shown: boardShownCount, total: boardTotalCount }) }}
+                    </p>
+                    <p v-if="pipelineEnabled && state.unassignedConvertedCount > 0"
+                        class="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#fdf3df] px-3 py-2 text-xs font-medium text-[#8a6208]">
+                        <span>{{ $t('inquiryPipeline.unassignedConverted.banner', { count: state.unassignedConvertedCount }) }}</span>
+                        <button type="button" class="font-semibold underline" @click="state.modal.isUnassignedConvertedOpen = true">
+                            {{ $t('inquiryPipeline.unassignedConverted.claimCases') }}
+                        </button>
+                    </p>
+                    <div v-if="pipelineEnabled" class="items-start gap-3.5 p-2"
+                        :class="boardScrolls ? 'flex overflow-x-auto pr-4' : 'grid'"
+                        :style="boardScrolls ? undefined : { gridTemplateColumns: `repeat(${state.pipelineStages.length}, minmax(0, 1fr))` }">
+                        <div v-for="stage in state.pipelineStages" :key="stage.uuid"
+                            class="min-h-[200px] rounded-[13px] bg-surface-50 p-2.5 transition-colors"
+                            :class="[
+                                boardScrolls ? 'w-[272px] shrink-0' : '',
+                                dragOverKey === stage.slug ? 'ring-2 ring-secondary/50 bg-[#f0faf9]' : ''
+                            ]"
+                            @dragover.prevent="dragOverKey = stage.slug" @dragleave="dragOverKey = null"
+                            @drop="onDrop(stage.slug)">
+                            <div class="flex items-center gap-2 px-1.5 pb-2.5 pt-1">
+                                <span class="size-[9px] rounded-[3px]" :style="{ background: stage.color }"></span>
+                                <span class="truncate text-[12.5px] font-bold text-slate-700">
+                                    {{ stage.name }}
                                 </span>
                                 <span
-                                    class="ml-auto rounded-full bg-white px-2.5 py-0.5 text-xs font-semibold text-slate-400">
-                                    {{ inquiriesByStage(stage.key).length }}
+                                    class="ml-auto rounded-full bg-white px-2 py-px text-[11px] font-semibold text-slate-400">
+                                    {{ inquiriesByStage(stage.slug).length }}
                                 </span>
                             </div>
                             <div class="space-y-2.5">
-                                <div v-for="inq in inquiriesByStage(stage.key)" :key="inq.uuid" draggable="true"
+                                <div v-for="inq in inquiriesByStage(stage.slug)" :key="inq.uuid" draggable="true"
                                     @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
-                                    @click="editInquiry(inq)"
-                                    class="group cursor-pointer rounded-xl bg-white border border-surface-200 p-3.5 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover active:cursor-grabbing"
+                                    @click="openInquiry(inq)"
+                                    class="group cursor-pointer rounded-[11px] bg-white border border-surface-200 p-3 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-[#cfe3ea] hover:shadow-card-hover active:cursor-grabbing"
                                     :class="dragged?.uuid === inq.uuid ? 'opacity-40' : ''">
-                                    <p class="text-xs font-bold text-secondary">
+                                    <p class="text-[11px] font-bold text-secondary">
                                         {{ inq.inquirer_name || $t('inquiries.inquiries') }}
                                     </p>
-                                    <p class="mt-1 text-[15px] font-bold leading-snug text-slate-900">
+                                    <p class="mt-0.5 text-[13.5px] font-bold leading-snug text-slate-900">
                                         {{ inqTitle(inq) }}
                                     </p>
-                                    <div class="mt-2 flex flex-wrap items-center gap-1.5">
+                                    <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
+                                        <span v-if="inq.origin"
+                                            class="inline-flex items-center rounded-full px-2.5 py-[3px] text-[11.5px] font-bold"
+                                            :class="inq.origin === 'authority'
+                                                ? 'bg-[#eee9fb] text-[#6b54c9]'
+                                                : 'bg-[#dcf1f7] text-[#1b6d8a]'">
+                                            {{ $t('inquiryOrigin.' + inq.origin) }}
+                                        </span>
                                         <span v-if="inqSource(inq)"
-                                            class="inline-flex items-center rounded-full bg-surface-100 px-2 py-0.5 text-[11px] font-semibold text-slate-500">
+                                            class="inline-flex items-center rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-500">
                                             {{ inqSource(inq) }}
                                         </span>
                                         <span v-for="(dept, di) in inq.departments" :key="'d' + di"
-                                            class="inline-flex items-center rounded-full bg-[#dcf1f7] px-2 py-0.5 text-[11px] font-semibold text-[#1b6d8a]">
+                                            class="inline-flex items-center rounded-full bg-[#dcf1f7] px-2.5 py-[3px] text-[11.5px] font-bold text-[#1b6d8a]">
                                             {{ dept?.name }}
                                         </span>
                                         <span v-for="(topic, ti) in inq.topics" :key="'t' + ti"
-                                            class="inline-flex items-center rounded-full bg-surface-100 px-2 py-0.5 text-[11px] font-medium text-slate-500">
+                                            class="inline-flex items-center rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-semibold text-slate-500">
                                             {{ topic?.name }}
                                         </span>
                                         <span v-if="inq.outcome"
-                                            class="inline-flex items-center rounded-full bg-[#fdf3df] px-2 py-0.5 text-[11px] font-semibold text-[#c98a12]">
+                                            class="inline-flex items-center rounded-full bg-[#fdf3df] px-2.5 py-[3px] text-[11.5px] font-bold text-[#c98a12]">
                                             {{ inq.outcome }}
                                         </span>
                                         <span v-if="inq.citizen_id"
-                                            class="inline-flex items-center gap-1 rounded-full bg-[#e6f6ee] px-2 py-0.5 text-[11px] font-bold text-[#1f9d6b]">
+                                            class="inline-flex items-center gap-1 rounded-full bg-[#e6f6ee] px-2.5 py-[3px] text-[11.5px] font-bold text-[#1f9d6b]">
                                             <Icon name="ph:check" class="size-3" /> {{
-                                                $t('inquiries.table.status.convertedAsCitizen') }}
+                                                tt('inquiries.table.status.convertedAsCitizen') }}
                                         </span>
                                     </div>
                                     <!-- Won inquiry → create a citizen case directly from the card -->
-                                    <button v-if="stage.key === 'won' && !inq.citizen_id" type="button"
+                                    <button v-if="stage.system_role === 'won' && !inq.citizen_id" type="button"
                                         @click.stop="convertInquiryConfirmation(inq)"
-                                        class="mt-3 w-full inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#1f9d6b] px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#1b8a5e]">
-                                        <Icon name="ph:user-plus" class="size-4" />
-                                        {{ $t('inquiries.table.actions.convertAsCitizen') }}
+                                        class="mt-2.5 inline-flex items-center gap-1.5 rounded-lg border border-[#1f9d6b]/30 bg-[#e6f6ee] px-2.5 py-1 text-[11px] font-semibold text-[#177a53] transition-colors hover:bg-[#d3efe1]">
+                                        <Icon name="ph:user-plus" class="size-3.5" />
+                                        {{ tt('inquiries.table.actions.convertAsCitizen') }}
                                     </button>
                                     <div
                                         class="mt-3 flex items-center justify-between border-t border-surface-100 pt-2.5">
                                         <div class="flex items-center gap-2">
                                             <div
-                                                class="grid size-6 place-items-center rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-[10px] font-bold text-white">
+                                                class="grid size-[22px] place-items-center rounded-[7px] bg-gradient-to-br from-[#8fd6ea] to-[#3aa7c4] text-[10px] font-bold text-white">
                                                 {{ inqInitials(inq) }}
                                             </div>
                                             <span class="text-[11px] text-slate-400">
@@ -190,7 +213,7 @@
                                             class="size-4 text-slate-300 opacity-0 transition-opacity group-hover:opacity-100" />
                                     </div>
                                 </div>
-                                <p v-if="inquiriesByStage(stage.key).length === 0"
+                                <p v-if="inquiriesByStage(stage.slug).length === 0"
                                     class="px-1.5 py-6 text-center text-xs text-slate-300">-</p>
                             </div>
                         </div>
@@ -210,7 +233,7 @@
                                             <Badge :type="inquiry?.citizen_id ? 'active' : 'primary'" class="w-fit">
                                                 <p class="text-xxs truncate">
                                                     {{ inquiry?.citizen_id ?
-                                                        $t('inquiries.table.status.convertedAsCitizen') :
+                                                        tt('inquiries.table.status.convertedAsCitizen') :
                                                         $t('inquiries.table.status.forConversion') }}
                                                 </p>
                                             </Badge>
@@ -249,9 +272,9 @@
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
-                                                <Tooltip :text="$t('inquiries.table.actions.convertAsCitizen')"
+                                                <Tooltip :text="tt('inquiries.table.actions.convertAsCitizen')"
                                                     v-if="!inquiry?.citizen_id">
-                                                    <FormButton :aria-label="$t('inquiries.table.actions.convertAsCitizen')" type="button" buttonStyle="action"
+                                                    <FormButton :aria-label="tt('inquiries.table.actions.convertAsCitizen')" type="button" buttonStyle="action"
                                                         @click="convertInquiryConfirmation(inquiry)">
                                                         <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
@@ -279,6 +302,9 @@
                 :selectedInquiry="state.selectedInquiry" @close="state.modal.isEditInquiryOpen = false"
                 @refreshInquiries="fetchInquiries" />
 
+            <ModulesUserInquiryModalUnassignedConverted :isModalOpen="state.modal.isUnassignedConvertedOpen"
+                @close="state.modal.isUnassignedConvertedOpen = false" @claimed="fetchUnassignedConvertedCount" />
+
             <DialogConfirmation :isModalOpen="state.modal.isConvertInquiryOpen"
                 :message="$t('inquiries.table.confirmation.convertAsCitizenConfirmation') + '?'"
                 @close="state.modal.isConvertInquiryOpen = false" @confirm="convertInquiry" />
@@ -294,8 +320,11 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useInquiryStore } from '@/store/inquiry'
 import { useDepartmentStore } from '@/store/department'
@@ -313,20 +342,43 @@ const inquiryStore = useInquiryStore() as any
 const departmentStore = useDepartmentStore()
 const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
+const { tt } = useTerminology()
 const { t } = useI18n()
 
 // Inquiry pipeline (kanban) — opt-in per company.
 const pipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
-const pipelineStages = [
-    { key: 'new', prev: null, next: 'clarification', color: '#2dbab2' },
-    { key: 'clarification', prev: 'new', next: 'offer', color: '#5bbfb5' },
-    { key: 'offer', prev: 'clarification', next: 'won', color: '#1b6d8a' },
-    { key: 'won', prev: 'offer', next: 'lost', color: '#1f9d6b' },
-    { key: 'lost', prev: 'won', next: null, color: '#d2553f' },
-]
-function inquiriesByStage(stage: string) {
-    return (state.inquiries?.data ?? []).filter((i: any) => (i.pipeline_status || 'new') === stage)
+// The mockup's board shares the width between the columns rather than scrolling
+// sideways. Stages are configurable, though, so past six columns there is not
+// enough room to read a card and the row scrolls instead.
+const MAX_FITTED_COLUMNS = 6
+const boardScrolls = computed(() => state.pipelineStages.length > MAX_FITTED_COLUMNS)
+
+// The board asks for far more rows than the table's page size, since a column
+// with a missing card is worse than a slow first load.
+const BOARD_PAGE_LENGTH = 500
+
+const boardTotalCount = computed(() => state.inquiries?.meta?.total ?? 0)
+const boardShownCount = computed(() => state.inquiries?.data?.length ?? 0)
+const boardOverflowCount = computed(() => Math.max(0, boardTotalCount.value - boardShownCount.value))
+
+// The stages are configured per company, so they come from the API. Renaming or
+// adding a stage in the settings shows up here without a release.
+const entryStageSlug = computed(() =>
+    state.pipelineStages.find((s: any) => s.system_role === 'new')?.slug
+    ?? state.pipelineStages[0]?.slug
+    ?? 'new'
+)
+
+function inquiriesByStage(slug: string) {
+    const known = state.pipelineStages.map((s: any) => s.slug)
+    return (state.inquiries?.data ?? []).filter((i: any) => {
+        const status = i.pipeline_status
+        // An inquiry with no status, or one left behind by a deleted stage,
+        // belongs in the entry column rather than nowhere.
+        const resolved = status && known.includes(status) ? status : entryStageSlug.value
+        return resolved === slug
+    })
 }
 function inqTitle(inq: any) {
     return inq?.purpose || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`.trim() || inq?.inquirer_name || '-'
@@ -336,7 +388,9 @@ function inqSource(inq: any) {
 }
 function inqInitials(inq: any) {
     const src = (inq?.inquirer_name || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`).trim()
-    const parts = src.split(/\s+/).filter(Boolean)
+    // Only name-like words count: a trailing "(privat)" or "-" would otherwise
+    // become the second initial.
+    const parts = src.split(/\s+/).filter((word: string) => /^\p{L}/u.test(word))
     if (!parts.length) return '?'
     return (parts[0][0] + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase()
 }
@@ -346,12 +400,12 @@ const dragOverKey = ref<string | null>(null)
 function onDragStart(inq: any) {
     dragged.value = inq
 }
-function onDrop(stageKey: string) {
+function onDrop(stageSlug: string) {
     dragOverKey.value = null
     const inq = dragged.value
     dragged.value = null
-    if (inq && (inq.pipeline_status || 'new') !== stageKey) {
-        moveStage(inq, stageKey)
+    if (inq && (inq.pipeline_status || entryStageSlug.value) !== stageSlug) {
+        moveStage(inq, stageSlug)
     }
 }
 
@@ -364,6 +418,13 @@ async function moveStage(inquiry: any, status: string) {
         }
     } catch (error: any) {
         state.error = error
+        // A move refused because the stage's required fields are unanswered is
+        // the common case, and the card is where the answer gets filled in - so
+        // say it on the spot and offer the way to fix it.
+        errorAlert(t('alert.warning'), error?.message ?? t('inquiryPipeline.moveFailed'))
+        if (error?.missing_fields?.length) {
+            openInquiry(inquiry)
+        }
     }
 }
 
@@ -409,16 +470,44 @@ const state = reactive({
         isEditInquiryOpen: false,
         isDeleteInquiryOpen: false,
         isExportDepartmentOpen: false,
+        isUnassignedConvertedOpen: false,
     },
     selectedInquiry: {} as any,
     inquiryTpe: '',
     exportInquiryType: '',
+    pipelineStages: [] as any[],
+    unassignedConvertedCount: 0,
 })
 
 onMounted(() => {
     fetchDepartments()
     fetchInquiries()
+    if (pipelineEnabled.value) {
+        fetchPipelineStages()
+        fetchUnassignedConvertedCount()
+    }
 })
+
+async function fetchUnassignedConvertedCount() {
+    try {
+        const response = await citizenInquiryService.getUnassignedConverted()
+        state.unassignedConvertedCount = response?.data?.length ?? 0
+    } catch {
+        // The daily overview swallows this same call for the same reason: a
+        // company without the app should never see an error for a banner it
+        // was never going to show anyway.
+        state.unassignedConvertedCount = 0
+    }
+}
+
+async function fetchPipelineStages() {
+    try {
+        const response = await inquiryPipelineStageService.getStages()
+        state.pipelineStages = response?.data ?? []
+    } catch (_) {
+        state.pipelineStages = []
+    }
+}
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
@@ -432,8 +521,11 @@ async function fetchInquiries() {
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            page: inquiryStore.getCurrentPageNumber,
-            page_length: inquiryStore.getCurrentPageLength,
+            // The board has no pages - every card has to be in its column, or a
+            // count is wrong and an inquiry is invisible. The table keeps its
+            // own paging.
+            page: pipelineEnabled.value ? 1 : inquiryStore.getCurrentPageNumber,
+            page_length: pipelineEnabled.value ? BOARD_PAGE_LENGTH : inquiryStore.getCurrentPageLength,
             sortField: inquiryStore.getSortData.sortField,
             sortOrder: inquiryStore.getSortData.sortOrder,
             ...state.dataFilter
@@ -478,6 +570,12 @@ function changePageLength(event: any) {
     inquiryStore.setCurrentPageNumber(1)
     inquiryStore.setCurrentPageLength(event.target.value)
     fetchInquiries()
+}
+
+// Opening a card means reading the case, which is a page of its own - the
+// stepper and the side panels do not belong in a modal.
+function openInquiry(inquiry: any) {
+    navigateTo(`/inquiries/${inquiry.uuid}`)
 }
 
 function editInquiry(inquiry: any) {

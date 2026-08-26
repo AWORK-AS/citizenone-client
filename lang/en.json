@@ -24,6 +24,18 @@
             "offer": "Offer",
             "won": "Won",
             "lost": "Lost"
+        },
+        "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest.",
+        "moveFailed": "The inquiry could not be moved",
+        "unassignedConverted": {
+            "title": "Converted, unassigned cases",
+            "empty": "No converted cases are waiting for a caseworker.",
+            "selectedOfTotal": "{selected} of {total} selected",
+            "claimSelected": "Claim selected",
+            "selectAll": "Select all",
+            "banner": "{count} converted case(s) have no caseworker yet.",
+            "claimCases": "Claim cases",
+            "claimed": "1 case claimed | {count} cases claimed"
         }
     },
     "managementEconomy": {
@@ -664,7 +676,8 @@
         "somethingWentWrong": "Something went wrong",
         "success": "Success",
         "successfullySubscribed": "You have successfully subscribed",
-        "warning": "Warning"
+        "warning": "Warning",
+        "pageAccessDenied": "You do not have access to this page."
     },
     "all": "All",
     "apps": {
@@ -2768,7 +2781,7 @@
                 "expiredTooltip": "This medication has expired"
             }
         },
-        "newCitizen": "New citizen",
+        "newCitizen": "New {citizen}",
         "noDepartmentYet": "No department",
         "note": {
             "latestJournalEntry": "Latest journal entry",
@@ -6356,7 +6369,8 @@
             "dutySchedule": "Duty schedule",
             "employeeInformations": "Employee informations",
             "mileageLog": "Mileage Log",
-            "timeLogs": "Time Logs"
+            "timeLogs": "Time Logs",
+            "consultantProfile": "Consultant profile"
         },
         "timeLogs": "Time Logs",
         "viewEmployee": "View employee",
@@ -7224,7 +7238,9 @@
         "form": {
             "alert": {
                 "inquirySuccessfullyUpdated": "Inquiry successfully updated",
-                "newInquirySuccessfullySaved": "New inquiry successfully saved"
+                "newInquirySuccessfullySaved": "New inquiry successfully saved",
+                "inquirySuccessfullyConverted": "The inquiry was converted",
+                "inquiryConversionFailed": "The inquiry could not be converted"
             },
             "conversationSummary": "Conversation summary",
             "cpr": "Citizen's CPR number",
@@ -7311,6 +7327,12 @@
                     "referralDestination": "Where is the citizen referred instead?",
                     "vacantPlaceAvailable": "Is there available space at the shelter or care home etc.?"
                 }
+            },
+            "sections": {
+                "inquiry": "The inquiry",
+                "citizen": "The citizen",
+                "assessment": "Assessment",
+                "outcome": "Outcome and notes"
             }
         },
         "inquiries": "Inquiries",
@@ -7318,7 +7340,7 @@
         "shelterInquiry": "Shelter inquiry",
         "table": {
             "actions": {
-                "convertAsCitizen": "Convert as citizen",
+                "convertAsCitizen": "Convert as {citizen}",
                 "delete": "Delete",
                 "edit": "Edit"
             },
@@ -7339,10 +7361,18 @@
             "outcome": "Outcome (e.g. offered a place, rejection, referral)",
             "purpose": "Purpose",
             "status": {
-                "convertedAsCitizen": "Converted as citizen",
+                "convertedAsCitizen": "Converted as {citizen}",
                 "forConversion": "For conversion",
                 "status": "Status"
             }
+        },
+        "unknownType": {
+            "title": "This inquiry has no type",
+            "hint": "It cannot be edited here until it is set to crisis centre or shelter. This typically happens with imported inquiries."
+        },
+        "review": {
+            "edit": "Edit",
+            "notFilled": "Not filled in"
         }
     },
     "invitation": {
@@ -9763,7 +9793,11 @@
                 "portalNeverStaffNotes": "Internal notes written about them",
                 "portalNeverJournalsAtAll": "Journals and documents, ever",
                 "portalNeverUnassignedStaff": "Employees you did not assign to them",
-                "portalAccessSeeWhoHasAccess": "See who has access"
+                "portalAccessSeeWhoHasAccess": "See who has access",
+                "termCitizen": "Citizen (singular)",
+                "termCitizenDefinite": "The citizen (singular, definite)",
+                "termCitizens": "Citizens (plural)",
+                "termCitizensDefinite": "The citizens (plural, definite)"
             }
         },
         "licenseOverview": {
@@ -9884,7 +9918,11 @@
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
             "fst": "FST",
-            "wageSupplementRules": "Wage supplement rules"
+            "wageSupplementRules": "Wage supplement rules",
+            "inquiryPipelineStages": "Inquiry stages",
+            "inquiryFields": "Inquiry fields",
+            "consultantSkills": "Consultant skills",
+            "inquiryServiceTypes": "Service types"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -11570,7 +11608,9 @@
             "errorSelectFrequency": "Select whether this license is monthly or yearly",
             "errorGeneric": "Something went wrong granting this license",
             "successTitle": "License granted",
-            "successBody": "The license has been granted successfully."
+            "successBody": "The license has been granted successfully.",
+            "includedInAgreement": "Included in the agreement (no invoice)",
+            "includedInAgreementHint": "Grants access to the app without creating an invoice. Use it when the app is part of the customer's agreement."
         },
         "products": {
             "title": "Products",
@@ -13704,6 +13744,344 @@
             "helpUsedHours": "The hours from the registrations behind the row. You can lower them when the contract only covers part of the delivery, and the rest is written off for the period. You cannot raise them above what was recorded - use an extra line for what is not hours.",
             "helpAgreedHours": "Delivery is held up against the contracted hours on the placement when they are filled in, and against the citizen's allocated hours otherwise. The hours are scaled to the row's period, so a placement starting mid-month does not look under-delivered. Contracted hours are set on the placement in the citizen record.",
             "helpConvert": "Turns the selected placements into one invoice per paying municipality, extra lines included. The icon on a row makes an invoice with that placement alone. The invoices land under Invoicing, ready to send."
+        }
+    },
+    "inquiryPipelineStages": {
+        "title": "Inquiry stages",
+        "description": "The stages are the columns in the inquiry overview. Name them the way you name them internally, add the ones you are missing, and set the order. The role decides what the system does with a stage: it can be the entry point for new inquiries, the stage that turns an inquiry into an intervention, or the stage where the case is lost. Every other stage simply moves the inquiry along.",
+        "addStage": "Add stage",
+        "empty": "There are no stages yet.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Clarification",
+            "color": "Colour",
+            "role": "Role"
+        },
+        "roles": {
+            "neutral": "Regular stage",
+            "new": "New inquiries",
+            "won": "Won intervention",
+            "lost": "Lost case"
+        },
+        "actions": {
+            "moveUp": "Move up",
+            "moveDown": "Move down",
+            "delete": "Delete stage",
+            "deleteProtected": "This stage cannot be deleted because it holds a role the system depends on"
+        },
+        "confirmation": {
+            "delete": "Are you sure you want to delete this stage"
+        },
+        "alert": {
+            "created": "The stage was created",
+            "deleted": "The stage was deleted"
+        }
+    },
+    "inquiryFields": {
+        "required": "Required",
+        "appliesThroughout": "Applies throughout",
+        "saving": "Saving...",
+        "alert": {
+            "saved": "The fields were saved",
+            "saveFailed": "The fields could not be saved"
+        }
+    },
+    "inquiryFieldSettings": {
+        "title": "Inquiry fields",
+        "description": "Decide what has to be recorded, and which stage it belongs to. A required field has to be filled in before the inquiry can move on from its stage - moving back is always allowed.",
+        "addField": "Add field",
+        "editField": "Edit field",
+        "inactive": "Off",
+        "noFieldsInStage": "No fields in this stage.",
+        "fieldCount": "{count} fields",
+        "actions": {
+            "edit": "Edit"
+        },
+        "confirmation": {
+            "delete": "Are you sure you want to delete this field"
+        },
+        "alert": {
+            "saved": "The field was saved",
+            "deleted": "The field was deleted",
+            "deleteFailed": "The field could not be deleted"
+        },
+        "form": {
+            "label": "Name",
+            "labelPlaceholder": "E.g. Risk assessment",
+            "type": "Field type",
+            "typeLocked": "The type cannot be changed, because the answers already given are read through it. Create a new field instead.",
+            "stage": "Stage",
+            "stageHint": "Choose \"Applies throughout\" if the field should be fillable in any stage.",
+            "choices": "Choices",
+            "choicesPlaceholder": "One choice per line",
+            "choicesHint": "One per line. The order here is the order they are shown in.",
+            "min": "From",
+            "max": "To",
+            "helpText": "Help text",
+            "helpTextPlaceholder": "Shown below the field",
+            "isRequired": "Required to leave the stage",
+            "isRequiredHint": "The inquiry cannot move forward until the field is filled in.",
+            "isActive": "Active",
+            "source": "Look up in",
+            "sourceHint": "The field takes its choices from a register you already maintain.",
+            "serviceType": "Only for service type",
+            "serviceTypeHint": "Pick a type if the field is only asked for there. Otherwise it is asked whatever the type is."
+        },
+        "types": {
+            "text": "Text",
+            "textarea": "Long text",
+            "number": "Number",
+            "amount": "Amount",
+            "date": "Date",
+            "select": "Dropdown",
+            "multiselect": "Multiple choice",
+            "scale": "Scale",
+            "boolean": "Yes/no",
+            "lookup": "Lookup"
+        },
+        "sources": {
+            "municipalities": "Municipalities",
+            "regions": "Regions",
+            "departments": "Departments",
+            "company_contacts": "Contacts",
+            "spoken_languages": "Spoken languages",
+            "consultant_skills": "Consultant skills",
+            "inquiry_service_types": "Service types",
+            "employees": "Employees"
+        },
+        "allServiceTypes": "All service types"
+    },
+    "inquiryOrigin": {
+        "label": "The inquiry comes from",
+        "citizen": "The citizen",
+        "authority": "An authority",
+        "other": "Other"
+    },
+    "inquiryContact": {
+        "label": "Caseworker or contact",
+        "hint": "Look them up in the contact register. If they are not there, create them here.",
+        "searchPlaceholder": "Search name, email or phone...",
+        "noResults": "No contacts match.",
+        "createNew": "Create new contact",
+        "clear": "Remove the contact",
+        "jobTitle": "Job title",
+        "organisation": "Organisation",
+        "email": "Email",
+        "phone": "Phone"
+    },
+    "consultantSkills": {
+        "title": "Consultant skills",
+        "description": "Maintain the lists consultants are matched on. A competence is something they can do, a course is something they have taken, and a subject is something they have experience with.",
+        "add": "Add",
+        "addPlaceholder": "Type and press Add",
+        "empty": "The list is empty.",
+        "activate": "Turn on",
+        "deactivate": "Turn off",
+        "confirmation": {
+            "delete": "Are you sure you want to delete this"
+        },
+        "alert": {
+            "deleted": "Deleted",
+            "deleteFailed": "Could not be deleted",
+            "saveFailed": "Could not be saved"
+        },
+        "types": {
+            "competence": {
+                "title": "Competences",
+                "hint": "E.g. family therapy or contact person work"
+            },
+            "course": {
+                "title": "Courses",
+                "hint": "Can have an expiry per consultant"
+            },
+            "topic": {
+                "title": "Subjects",
+                "hint": "Experience with e.g. ADHD or self-harm"
+            }
+        }
+    },
+    "consultantProfile": {
+        "title": "Consultant profile",
+        "ready": "The consultant can be put forward for a case",
+        "notReady": "The consultant cannot be put forward yet",
+        "sections": {
+            "profile": "Profile",
+            "skills": "Competences, courses and subjects",
+            "documents": "Documents"
+        },
+        "skillsHint": "These are the lists the consultant is found on when a case is matched.",
+        "expiryHeading": "Course certificate expiry",
+        "noExpiry": "No expiry",
+        "expired": "Expired",
+        "expiringSoon": "Expiring soon",
+        "noDocuments": "There are no documents on this consultant.",
+        "form": {
+            "municipality": "Home municipality",
+            "region": "Region",
+            "status": "Consultant status",
+            "onboarding": "Onboarding",
+            "maxTravelKm": "Will travel up to (km)",
+            "desiredWeeklyHours": "Desired hours per week",
+            "stepAssessment": "Step assessment",
+            "hasCar": "Has a car"
+        },
+        "statuses": {
+            "available": "Available",
+            "partially_available": "Partly available",
+            "unavailable": "Unavailable",
+            "inactive": "Inactive"
+        },
+        "onboardingStatuses": {
+            "not_started": "Not started",
+            "in_progress": "In progress",
+            "completed": "Completed"
+        },
+        "documentTypes": {
+            "employment_contract": "Contract",
+            "criminal_record": "Criminal record",
+            "child_protection_certificate": "Child protection certificate",
+            "drivers_license": "Driving licence",
+            "miscellaneous": "Other",
+            "passport": "Passport",
+            "cv": "CV",
+            "education": "Education papers"
+        },
+        "findings": {
+            "document_missing": "{document} is missing",
+            "document_expired": "{document} expired {date}",
+            "document_expiring_soon": "{document} expires {date}",
+            "skill_expired": "The certificate for {skill} expired {date}",
+            "onboarding_incomplete": "Onboarding is not finished"
+        },
+        "alert": {
+            "saved": "The profile was saved",
+            "skillsSaved": "The skills were saved",
+            "saveFailed": "Could not be saved"
+        }
+    },
+    "inquiryDetail": {
+        "markAsLost": "Mark as lost",
+        "nextStepLocked": "The next step ({stage}) is locked: {fields} is missing. Fill in the fields below to continue.",
+        "parties": "Parties",
+        "noParties": "There are no parties on this inquiry yet.",
+        "roles": {
+            "contact": "Contact",
+            "recipient": "Recipient"
+        },
+        "moveHeading": "Move the inquiry",
+        "moveHint": "Moving forward needs the stage’s required fields filled in. Back is always allowed."
+    },
+    "inquiryServiceTypes": {
+        "title": "Service types",
+        "single": "Service type",
+        "description": "The kinds of work you deliver, with the paragraph they are granted under. A field can be tied to a single type so it is only asked for there.",
+        "hint": "Decides which type-specific fields are asked for.",
+        "add": "Add",
+        "empty": "There are no service types yet.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Family therapy",
+            "paragraph": "Paragraph",
+            "paragraphPlaceholder": "E.g. § 32"
+        },
+        "confirmation": {
+            "delete": "Are you sure you want to delete this service type"
+        },
+        "alert": {
+            "deleted": "The service type was deleted",
+            "deleteFailed": "The service type could not be deleted",
+            "saveFailed": "Could not be saved"
+        }
+    },
+    "consultantMatch": {
+        "title": "Consultant match",
+        "start": "Start consultant match",
+        "description": "Search on several parameters at once. Every consultant is shown - including partial matches, with what they are missing, so you can judge whether it is good enough.",
+        "criteria": "What the case needs",
+        "search": "Search",
+        "searching": "Searching...",
+        "clear": "Clear",
+        "noConsultants": "No consultants found.",
+        "notReady": "Cannot be put on a case",
+        "openProfile": "Open profile",
+        "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
+        "matches": {
+            "full": "Full match",
+            "partial": "Partial match ({met} of {asked})",
+            "none": "No match"
+        },
+        "form": {
+            "spokenLanguages": "Spoken languages",
+            "minTravelKm": "Must travel at least (km)",
+            "minWeeklyHours": "At least hours per week",
+            "minStep": "At least step assessment",
+            "needsCar": "Needs a car"
+        },
+        "criteriaNames": {
+            "skill_uuids": "Skills",
+            "spoken_language_uuids": "Languages",
+            "municipality_uuid": "Home municipality",
+            "region_uuid": "Region",
+            "has_car": "Car",
+            "min_travel_km": "Travel distance",
+            "consultant_status": "Status",
+            "min_step_assessment": "Step assessment",
+            "min_weekly_hours": "Hours"
+        },
+        "askSelected": "Ask {count} selected",
+        "asked": "The consultants have been asked",
+        "askFailed": "The consultants could not be asked"
+    },
+    "inquiryNotes": {
+        "title": "Notes",
+        "count": "{count} notes",
+        "add": "Add note",
+        "placeholder": "Write what happened, or what was agreed...",
+        "hint": "The note is stamped with the stage the inquiry is in, and follows to the citizen’s journal on conversion.",
+        "empty": "There are no notes on this inquiry yet.",
+        "inJournal": "In the journal",
+        "edit": "Edit note",
+        "delete": "Delete note",
+        "confirmDelete": "Are you sure you want to delete this note",
+        "unknownAuthor": "Unknown",
+        "saveFailed": "The note could not be saved",
+        "deleteFailed": "The note could not be deleted"
+    },
+    "inquiryDocuments": {
+        "title": "Documents",
+        "count": "{count} documents",
+        "upload": "Upload document",
+        "uploading": "Uploading...",
+        "empty": "There are no documents on this inquiry.",
+        "hint": "Paperwork that arrived with the inquiry. It follows to the citizen’s files on conversion.",
+        "onCitizen": "On the citizen",
+        "delete": "Delete document",
+        "confirmDelete": "Are you sure you want to delete this document",
+        "uploadFailed": "The document could not be uploaded",
+        "deleteFailed": "The document could not be deleted"
+    },
+    "inquiryInvitations": {
+        "title": "Consultants asked",
+        "empty": "No consultants have been asked yet.",
+        "selected": "Chosen",
+        "select": "Choose",
+        "markInterested": "Said yes",
+        "markDeclined": "Said no",
+        "askedBy": "asked by {name}",
+        "answeredBy": "answer recorded by {name}",
+        "unknownConsultant": "Unknown",
+        "failed": "The action could not be completed",
+        "statuses": {
+            "invited": "Awaiting answer",
+            "interested": "Interested",
+            "declined": "Said no"
+        },
+        "mine": {
+            "title": "Cases you have been asked about",
+            "empty": "You have not been asked about any cases.",
+            "yes": "Yes please",
+            "no": "No thanks",
+            "answered": "You have answered"
         }
     }
 }

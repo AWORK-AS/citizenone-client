@@ -1,6 +1,23 @@
+import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 
+/**
+ * The words these locales already used, so switching the mechanism on does not
+ * quietly reword an app that had no override: no says bruker, sv says klient.
+ */
+const CITIZEN_DEFAULTS: Record<string, Record<string, string>> = {
+    dk: { citizen: 'borger', theCitizen: 'borgeren', citizens: 'borgere', theCitizens: 'borgerne' },
+    en: { citizen: 'citizen', theCitizen: 'the citizen', citizens: 'citizens', theCitizens: 'the citizens' },
+    no: { citizen: 'bruker', theCitizen: 'brukeren', citizens: 'brukere', theCitizens: 'brukerne' },
+    sv: { citizen: 'klient', theCitizen: 'klienten', citizens: 'klienter', theCitizens: 'klienterna' },
+}
+
+function upperFirst(value: string) {
+    return value ? value.charAt(0).toUpperCase() + value.slice(1) : value
+}
+
 type TermKey = 'journals' | 'journal' | 'journalNoteTag' | 'journalNotes' | 'caseworker' | 'case' | 'agreement' | 'jobcenter'
+    | 'citizen' | 'citizenDefinite' | 'citizens' | 'citizensDefinite'
 
 /**
  * Per-company terminology overrides for the journal word list.
@@ -21,10 +38,47 @@ export function useTerminology() {
             case: company?.term_case,
             agreement: company?.term_agreement,
             jobcenter: company?.term_jobcenter,
+            citizen: company?.term_citizen,
+            citizenDefinite: company?.term_citizen_definite,
+            citizens: company?.term_citizens,
+            citizensDefinite: company?.term_citizens_definite,
         }
         const custom = map[key]
         return custom && String(custom).trim() ? String(custom) : fallback
     }
 
-    return { term }
+    /**
+     * Translates a key and fills in the renameable words, so a string that
+     * mentions a citizen follows the company's own term. Both the lower-case and
+     * the capitalised form are offered, since the word can start a sentence or
+     * sit inside one. With no override set, the standard word is used and
+     * nothing changes.
+     *
+     * The inflected forms are stored rather than derived: Danish cannot be
+     * inflected from the singular (indsats / indsatsen / indsatser /
+     * indsatserne), and a wrong guess would land in the customer's own UI.
+     */
+    function tt(key: string, params: Record<string, any> = {}): string {
+        const { t, locale } = useI18n()
+        const defaults = CITIZEN_DEFAULTS[String(locale.value)] ?? CITIZEN_DEFAULTS.dk
+
+        const citizen = term('citizen', defaults.citizen)
+        const theCitizen = term('citizenDefinite', defaults.theCitizen)
+        const citizens = term('citizens', defaults.citizens)
+        const theCitizens = term('citizensDefinite', defaults.theCitizens)
+
+        return t(key, {
+            citizen,
+            theCitizen,
+            citizens,
+            theCitizens,
+            Citizen: upperFirst(citizen),
+            TheCitizen: upperFirst(theCitizen),
+            Citizens: upperFirst(citizens),
+            TheCitizens: upperFirst(theCitizens),
+            ...params,
+        })
+    }
+
+    return { term, tt }
 }

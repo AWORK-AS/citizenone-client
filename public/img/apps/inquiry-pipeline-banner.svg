@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <defs>
+    <linearGradient id="inquiryBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f4c75"/>
+      <stop offset="1" stop-color="#1b6d8a"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#inquiryBg)"/>
+  <circle cx="570" cy="50" r="120" fill="#ffffff" opacity="0.05"/>
+  <circle cx="70" cy="335" r="90" fill="#2dbab2" opacity="0.12"/>
+
+  <!-- three pipeline columns, each with cards, the last one won -->
+  <rect x="70" y="70" width="150" height="230" rx="14" fill="#ffffff" opacity="0.12"/>
+  <rect x="245" y="70" width="150" height="230" rx="14" fill="#ffffff" opacity="0.12"/>
+  <rect x="420" y="70" width="150" height="230" rx="14" fill="#ffffff" opacity="0.12"/>
+
+  <rect x="86" y="88" width="52" height="8" rx="4" fill="#ffffff" opacity="0.55"/>
+  <rect x="261" y="88" width="66" height="8" rx="4" fill="#ffffff" opacity="0.55"/>
+  <rect x="436" y="88" width="44" height="8" rx="4" fill="#ffffff" opacity="0.55"/>
+
+  <rect x="86" y="110" width="118" height="56" rx="10" fill="#ffffff"/>
+  <rect x="98" y="124" width="60" height="7" rx="3.5" fill="#2dbab2"/>
+  <rect x="98" y="139" width="84" height="7" rx="3.5" fill="#c8d6e5"/>
+  <rect x="98" y="152" width="46" height="7" rx="3.5" fill="#dfe6ee"/>
+
+  <rect x="86" y="178" width="118" height="56" rx="10" fill="#ffffff"/>
+  <rect x="98" y="192" width="48" height="7" rx="3.5" fill="#2dbab2"/>
+  <rect x="98" y="207" width="84" height="7" rx="3.5" fill="#c8d6e5"/>
+  <rect x="98" y="220" width="58" height="7" rx="3.5" fill="#dfe6ee"/>
+
+  <rect x="261" y="110" width="118" height="56" rx="10" fill="#ffffff"/>
+  <rect x="273" y="124" width="54" height="7" rx="3.5" fill="#2dbab2"/>
+  <rect x="273" y="139" width="84" height="7" rx="3.5" fill="#c8d6e5"/>
+  <rect x="273" y="152" width="40" height="7" rx="3.5" fill="#dfe6ee"/>
+
+  <rect x="436" y="110" width="118" height="56" rx="10" fill="#ffffff"/>
+  <rect x="448" y="124" width="58" height="7" rx="3.5" fill="#1f9d6b"/>
+  <rect x="448" y="139" width="84" height="7" rx="3.5" fill="#c8d6e5"/>
+  <circle cx="536" cy="152" r="10" fill="#1f9d6b"/>
+  <path d="M531 152l3.5 3.5 6.5-7" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- movement between the columns -->
+  <path d="M212 138h22" stroke="#2dbab2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M229 132l7 6-7 6" stroke="#2dbab2" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M387 138h22" stroke="#2dbab2" stroke-width="3" stroke-linecap="round"/>
+  <path d="M404 132l7 6-7 6" stroke="#2dbab2" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
