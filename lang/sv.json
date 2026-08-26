@@ -24,6 +24,18 @@
             "offer": "Erbjudande",
             "won": "Vunnen",
             "lost": "Förlorad"
+        },
+        "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten.",
+        "moveFailed": "Förfrågan kunde inte flyttas",
+        "unassignedConverted": {
+            "title": "Konverterade, otilldelade ärenden",
+            "empty": "Inga konverterade ärenden väntar på en handläggare.",
+            "selectedOfTotal": "{selected} av {total} valda",
+            "claimSelected": "Ta valda ärenden",
+            "selectAll": "Välj alla",
+            "banner": "{count} konverterade ärende(n) har ännu ingen handläggare.",
+            "claimCases": "Ta ärenden",
+            "claimed": "1 ärende tilldelat | {count} ärenden tilldelade"
         }
     },
     "managementEconomy": {
@@ -664,7 +676,8 @@
         "somethingWentWrong": "Något gik galt",
         "success": "Lyckat",
         "successfullySubscribed": "Du har abonneret",
-        "warning": "Varning"
+        "warning": "Varning",
+        "pageAccessDenied": "Du har inte tillgång till den här sidan."
     },
     "all": "Alla",
     "apps": {
@@ -2768,7 +2781,7 @@
                 "indefinitely": "På obestämd tid"
             }
         },
-        "newCitizen": "Ny klient",
+        "newCitizen": "Ny {citizen}",
         "noDepartmentYet": "Ingen avdelning",
         "note": {
             "latestJournalEntry": "Seneste journalnotat",
@@ -6356,7 +6369,8 @@
             "dutySchedule": "Tjänsteschema",
             "employeeInformations": "Medarbejderinformationer",
             "mileageLog": "Körjournal",
-            "timeLogs": "Tidslogfiler"
+            "timeLogs": "Tidslogfiler",
+            "consultantProfile": "Konsultprofil"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se anställd",
@@ -7224,7 +7238,9 @@
         "form": {
             "alert": {
                 "inquirySuccessfullyUpdated": "Förfrågan uppdaterad",
-                "newInquirySuccessfullySaved": "Ny förfrågningar är blivit sparad"
+                "newInquirySuccessfullySaved": "Ny förfrågningar är blivit sparad",
+                "inquirySuccessfullyConverted": "Förfrågan har konverterats",
+                "inquiryConversionFailed": "Förfrågan kunde inte konverteras"
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "Klientens Personnummer",
@@ -7311,6 +7327,12 @@
                     "referralDestination": "Var henvises klienten till i stedet?",
                     "vacantPlaceAvailable": "Är där ledig plats på herberget eller forsorgshjemmet mv.?"
                 }
+            },
+            "sections": {
+                "inquiry": "Förfrågan",
+                "citizen": "Medborgaren",
+                "assessment": "Bedömning",
+                "outcome": "Resultat och anteckningar"
             }
         },
         "inquiries": "Förfrågningar",
@@ -7318,7 +7340,7 @@
         "shelterInquiry": "Herberger och forsorgshjem förfrågningar",
         "table": {
             "actions": {
-                "convertAsCitizen": "Konvertera till klient",
+                "convertAsCitizen": "Konvertera till {citizen}",
                 "delete": "Radera",
                 "edit": "Redigera"
             },
@@ -7339,10 +7361,18 @@
             "outcome": "Resultat (f.eks. tilbudt en plats, avvisad, videresendt)",
             "purpose": "Syfte",
             "status": {
-                "convertedAsCitizen": "Konverterad som klient",
+                "convertedAsCitizen": "Konverterad som {citizen}",
                 "forConversion": "Till konvertering",
                 "status": "Status"
             }
+        },
+        "unknownType": {
+            "title": "Förfrågan saknar en typ",
+            "hint": "Den kan inte redigeras här förrän den är satt till kriscenter eller härbärge. Det händer vanligtvis med importerade förfrågningar."
+        },
+        "review": {
+            "edit": "Redigera",
+            "notFilled": "Inte ifylld"
         }
     },
     "invitation": {
@@ -9765,7 +9795,11 @@
                 "portalNeverStaffNotes": "Interna anteckningar skrivna om dem",
                 "portalNeverJournalsAtAll": "Journaler och dokument, aldrig",
                 "portalNeverUnassignedStaff": "Medarbetare ni inte har kopplat till dem",
-                "portalAccessSeeWhoHasAccess": "Se vem som har åtkomst"
+                "portalAccessSeeWhoHasAccess": "Se vem som har åtkomst",
+                "termCitizen": "Klient (singular)",
+                "termCitizenDefinite": "Klienten (singular, bestämd)",
+                "termCitizens": "Klienter (plural)",
+                "termCitizensDefinite": "Klienterna (plural, bestämd)"
             }
         },
         "licenseOverview": {
@@ -9886,7 +9920,11 @@
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
             "fst": "FST",
-            "wageSupplementRules": "Tilläggsregler för lön"
+            "wageSupplementRules": "Tilläggsregler för lön",
+            "inquiryPipelineStages": "Faser för förfrågningar",
+            "inquiryFields": "Fält för förfrågningar",
+            "consultantSkills": "Konsultkompetenser",
+            "inquiryServiceTypes": "Insatstyper"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -11572,7 +11610,9 @@
             "errorSelectFrequency": "Välj om denna licens är månadsvis eller årsvis",
             "errorGeneric": "Något gick fel vid tilldelning av licensen",
             "successTitle": "Licens tilldelad",
-            "successBody": "Licensen har tilldelats."
+            "successBody": "Licensen har tilldelats.",
+            "includedInAgreement": "Ingår i avtalet (ingen faktura)",
+            "includedInAgreementHint": "Ger åtkomst till appen utan att skapa en faktura. Använd den när appen ingår i kundens avtal."
         },
         "products": {
             "title": "Produkter",
@@ -13706,6 +13746,344 @@
             "helpUsedHours": "Timmarna från timregistreringarna bakom raden. Du kan sänka dem när kontraktet bara täcker en del, och resten skrivs då av för perioden. Du kan inte höja dem över det registrerade - använd en övrig rad för det som inte är timmar.",
             "helpAgreedHours": "Det levererade hålls upp mot kontraktstimmarna på insatsen om de är ifyllda, annars mot medborgarens tilldelade timmar. Timmarna skalas till radens period, så att en placering som börjar mitt i månaden inte ser underlevererad ut. Kontraktstimmar sätts på placeringen i medborgarens stamkort.",
             "helpConvert": "Omvandlar de valda insatserna till en faktura per betalande kommun, övriga rader inkluderade. Ikonen på raden skapar en faktura med bara den insatsen. Fakturorna ligger under Fakturering, klara att skickas."
+        }
+    },
+    "inquiryPipelineStages": {
+        "title": "Faser för förfrågningar",
+        "description": "Faserna styr kolumnerna i förfrågningsöversikten. Ge dem de namn ni använder internt, lägg till de faser ni saknar och bestäm ordningen. Rollen avgör vad systemet gör med fasen: en fas kan vara ingången för nya förfrågningar, fasen som gör en förfrågan till en insats, eller fasen där ärendet är förlorat. Övriga faser flyttar bara förfrågan vidare.",
+        "addStage": "Lägg till fas",
+        "empty": "Det finns inga faser än.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Utredning",
+            "color": "Färg",
+            "role": "Roll"
+        },
+        "roles": {
+            "neutral": "Vanlig fas",
+            "new": "Nya förfrågningar",
+            "won": "Vunnen insats",
+            "lost": "Förlorat ärende"
+        },
+        "actions": {
+            "moveUp": "Flytta upp",
+            "moveDown": "Flytta ner",
+            "delete": "Ta bort fas",
+            "deleteProtected": "Fasen kan inte tas bort eftersom den har en roll som systemet är beroende av"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här fasen"
+        },
+        "alert": {
+            "created": "Fasen har skapats",
+            "deleted": "Fasen har tagits bort"
+        }
+    },
+    "inquiryFields": {
+        "required": "Obligatoriskt",
+        "appliesThroughout": "Gäller hela förloppet",
+        "saving": "Sparar...",
+        "alert": {
+            "saved": "Fälten har sparats",
+            "saveFailed": "Fälten kunde inte sparas"
+        }
+    },
+    "inquiryFieldSettings": {
+        "title": "Fält för förfrågningar",
+        "description": "Bestäm själv vilka uppgifter som ska registreras och vilken fas de hör till. Ett obligatoriskt fält måste vara ifyllt innan förfrågan kan flyttas vidare från sin fas - bakåt går alltid.",
+        "addField": "Lägg till fält",
+        "editField": "Redigera fält",
+        "inactive": "Avstängt",
+        "noFieldsInStage": "Inga fält i den här fasen.",
+        "fieldCount": "{count} fält",
+        "actions": {
+            "edit": "Redigera"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort det här fältet"
+        },
+        "alert": {
+            "saved": "Fältet har sparats",
+            "deleted": "Fältet har tagits bort",
+            "deleteFailed": "Fältet kunde inte tas bort"
+        },
+        "form": {
+            "label": "Namn",
+            "labelPlaceholder": "T.ex. Riskbedömning",
+            "type": "Fälttyp",
+            "typeLocked": "Typen kan inte ändras, eftersom svaren som redan getts läses genom den. Skapa ett nytt fält i stället.",
+            "stage": "Fas",
+            "stageHint": "Välj \"Gäller hela förloppet\" om fältet ska kunna fyllas i oavsett fas.",
+            "choices": "Alternativ",
+            "choicesPlaceholder": "Ett alternativ per rad",
+            "choicesHint": "Ett per rad. Ordningen här är den ordning de visas i.",
+            "min": "Från",
+            "max": "Till",
+            "helpText": "Hjälptext",
+            "helpTextPlaceholder": "Visas under fältet",
+            "isRequired": "Obligatoriskt för att lämna fasen",
+            "isRequiredHint": "Förfrågan kan inte flyttas framåt förrän fältet är ifyllt.",
+            "isActive": "Aktivt",
+            "source": "Slå upp i",
+            "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
+            "serviceType": "Endast för insatstyp",
+            "serviceTypeHint": "Välj en typ om fältet bara ska efterfrågas där. Annars efterfrågas det oavsett typ."
+        },
+        "types": {
+            "text": "Text",
+            "textarea": "Långt textfält",
+            "number": "Tal",
+            "amount": "Belopp",
+            "date": "Datum",
+            "select": "Rullgardin",
+            "multiselect": "Flera val",
+            "scale": "Skala",
+            "boolean": "Ja/nej",
+            "lookup": "Uppslag"
+        },
+        "sources": {
+            "municipalities": "Kommuner",
+            "regions": "Regioner",
+            "departments": "Avdelningar",
+            "company_contacts": "Kontakter",
+            "spoken_languages": "Talade språk",
+            "consultant_skills": "Konsultkompetenser",
+            "inquiry_service_types": "Insatstyper",
+            "employees": "Medarbetare"
+        },
+        "allServiceTypes": "Alla insatstyper"
+    },
+    "inquiryOrigin": {
+        "label": "Förfrågan kommer från",
+        "citizen": "Klienten själv",
+        "authority": "Myndighet",
+        "other": "Annat"
+    },
+    "inquiryContact": {
+        "label": "Handläggare eller kontaktperson",
+        "hint": "Sök i kontaktregistret. Finns personen inte kan du skapa den här.",
+        "searchPlaceholder": "Sök namn, e-post eller telefon...",
+        "noResults": "Inga kontakter matchar.",
+        "createNew": "Skapa ny kontakt",
+        "clear": "Ta bort kontakten",
+        "jobTitle": "Befattning",
+        "organisation": "Organisation",
+        "email": "E-post",
+        "phone": "Telefon"
+    },
+    "consultantSkills": {
+        "title": "Konsultkompetenser",
+        "description": "Underhåll de listor konsulterna matchas på. En kompetens är något de kan, en kurs är något de har gått, och ett ämnesord är något de har erfarenhet av.",
+        "add": "Lägg till",
+        "addPlaceholder": "Skriv och tryck Lägg till",
+        "empty": "Listan är tom.",
+        "activate": "Slå på",
+        "deactivate": "Stäng av",
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här"
+        },
+        "alert": {
+            "deleted": "Borttagen",
+            "deleteFailed": "Kunde inte tas bort",
+            "saveFailed": "Kunde inte sparas"
+        },
+        "types": {
+            "competence": {
+                "title": "Kompetenser",
+                "hint": "T.ex. familjebehandling eller kontaktpersonuppdrag"
+            },
+            "course": {
+                "title": "Kurser",
+                "hint": "Kan ha ett utgångsdatum per konsult"
+            },
+            "topic": {
+                "title": "Ämnesord",
+                "hint": "Erfarenhet av t.ex. ADHD eller självskada"
+            }
+        }
+    },
+    "consultantProfile": {
+        "title": "Konsultprofil",
+        "ready": "Konsulten kan sättas på ett ärende",
+        "notReady": "Konsulten kan inte sättas på ett ärende än",
+        "sections": {
+            "profile": "Profil",
+            "skills": "Kompetenser, kurser och ämnesord",
+            "documents": "Dokument"
+        },
+        "skillsHint": "Det är dessa listor konsulten hittas på när ett ärende ska matchas.",
+        "expiryHeading": "Utgång på kursbevis",
+        "noExpiry": "Utan utgång",
+        "expired": "Utgången",
+        "expiringSoon": "Går ut snart",
+        "noDocuments": "Det finns inga dokument på konsulten.",
+        "form": {
+            "municipality": "Bostadskommun",
+            "region": "Region",
+            "status": "Konsultstatus",
+            "onboarding": "Onboarding",
+            "maxTravelKm": "Kör upp till (km)",
+            "desiredWeeklyHours": "Önskat timantal per vecka",
+            "stepAssessment": "Stegbedömning",
+            "hasCar": "Har bil"
+        },
+        "statuses": {
+            "available": "Ledig",
+            "partially_available": "Delvis ledig",
+            "unavailable": "Inte ledig",
+            "inactive": "Inaktiv"
+        },
+        "onboardingStatuses": {
+            "not_started": "Inte startad",
+            "in_progress": "Pågår",
+            "completed": "Genomförd"
+        },
+        "documentTypes": {
+            "employment_contract": "Kontrakt",
+            "criminal_record": "Belastningsregisterutdrag",
+            "child_protection_certificate": "Barnintyg",
+            "drivers_license": "Körkort",
+            "miscellaneous": "Övrigt",
+            "passport": "Pass",
+            "cv": "CV",
+            "education": "Utbildningsbevis"
+        },
+        "findings": {
+            "document_missing": "{document} saknas",
+            "document_expired": "{document} gick ut {date}",
+            "document_expiring_soon": "{document} går ut {date}",
+            "skill_expired": "Kursbeviset för {skill} gick ut {date}",
+            "onboarding_incomplete": "Onboarding är inte genomförd"
+        },
+        "alert": {
+            "saved": "Profilen har sparats",
+            "skillsSaved": "Kompetenserna har sparats",
+            "saveFailed": "Kunde inte sparas"
+        }
+    },
+    "inquiryDetail": {
+        "markAsLost": "Markera som förlorad",
+        "nextStepLocked": "Nästa steg ({stage}) är låst: {fields} saknas. Fyll i fälten nedan för att fortsätta.",
+        "parties": "Parter",
+        "noParties": "Det finns inga parter på förfrågan än.",
+        "roles": {
+            "contact": "Kontakt",
+            "recipient": "Mottagare"
+        },
+        "moveHeading": "Flytta förfrågan",
+        "moveHint": "Framåt kräver att fasens obligatoriska fält är ifyllda. Bakåt går alltid."
+    },
+    "inquiryServiceTypes": {
+        "title": "Insatstyper",
+        "single": "Insatstyp",
+        "description": "De typer insats ni levererar, med den paragraf de beviljas enligt. Fält kan bindas till en enda typ så att de bara efterfrågas där.",
+        "hint": "Avgör vilka typspecifika fält som efterfrågas.",
+        "add": "Lägg till",
+        "empty": "Det finns inga insatstyper än.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Familjebehandling",
+            "paragraph": "Paragraf",
+            "paragraphPlaceholder": "T.ex. § 32"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här insatstypen"
+        },
+        "alert": {
+            "deleted": "Insatstypen har tagits bort",
+            "deleteFailed": "Insatstypen kunde inte tas bort",
+            "saveFailed": "Kunde inte sparas"
+        }
+    },
+    "consultantMatch": {
+        "title": "Konsultmatchning",
+        "start": "Starta konsultmatchning",
+        "description": "Sök på flera parametrar samtidigt. Alla konsulter visas - även de som bara matchar delvis, med det de saknar, så att du själv kan bedöma om det är tillräckligt.",
+        "criteria": "Vad ärendet kräver",
+        "search": "Sök",
+        "searching": "Söker...",
+        "clear": "Nollställ",
+        "noConsultants": "Inga konsulter hittades.",
+        "notReady": "Kan inte sättas på ärende",
+        "openProfile": "Öppna profil",
+        "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
+        "matches": {
+            "full": "Full matchning",
+            "partial": "Delvis matchning ({met} av {asked})",
+            "none": "Ingen matchning"
+        },
+        "form": {
+            "spokenLanguages": "Talade språk",
+            "minTravelKm": "Måste köra minst (km)",
+            "minWeeklyHours": "Minst timmar per vecka",
+            "minStep": "Minst stegbedömning",
+            "needsCar": "Måste ha bil"
+        },
+        "criteriaNames": {
+            "skill_uuids": "Kompetenser",
+            "spoken_language_uuids": "Språk",
+            "municipality_uuid": "Bostadskommun",
+            "region_uuid": "Region",
+            "has_car": "Bil",
+            "min_travel_km": "Körsträcka",
+            "consultant_status": "Status",
+            "min_step_assessment": "Stegbedömning",
+            "min_weekly_hours": "Timantal"
+        },
+        "askSelected": "Fråga {count} valda",
+        "asked": "Konsulterna är tillfrågade",
+        "askFailed": "Konsulterna kunde inte tillfrågas"
+    },
+    "inquiryNotes": {
+        "title": "Anteckningar",
+        "count": "{count} anteckningar",
+        "add": "Lägg till anteckning",
+        "placeholder": "Skriv vad som har hänt, eller vad som är överenskommet...",
+        "hint": "Anteckningen stämplas med den fas förfrågan står i och följer med till medborgarens journal vid konvertering.",
+        "empty": "Det finns inga anteckningar på förfrågan än.",
+        "inJournal": "I journalen",
+        "edit": "Redigera anteckning",
+        "delete": "Ta bort anteckning",
+        "confirmDelete": "Är du säker på att du vill ta bort den här anteckningen",
+        "unknownAuthor": "Okänd",
+        "saveFailed": "Anteckningen kunde inte sparas",
+        "deleteFailed": "Anteckningen kunde inte tas bort"
+    },
+    "inquiryDocuments": {
+        "title": "Dokument",
+        "count": "{count} dokument",
+        "upload": "Ladda upp dokument",
+        "uploading": "Laddar upp...",
+        "empty": "Det finns inga dokument på förfrågan.",
+        "hint": "Papper som kommit med förfrågan. De följer med till medborgarens filer vid konvertering.",
+        "onCitizen": "På medborgaren",
+        "delete": "Ta bort dokument",
+        "confirmDelete": "Är du säker på att du vill ta bort det här dokumentet",
+        "uploadFailed": "Dokumentet kunde inte laddas upp",
+        "deleteFailed": "Dokumentet kunde inte tas bort"
+    },
+    "inquiryInvitations": {
+        "title": "Konsulter tillfrågade",
+        "empty": "Inga konsulter är tillfrågade än.",
+        "selected": "Vald",
+        "select": "Utse",
+        "markInterested": "Sa ja",
+        "markDeclined": "Sa nej",
+        "askedBy": "tillfrågad av {name}",
+        "answeredBy": "svar registrerat av {name}",
+        "unknownConsultant": "Okänd",
+        "failed": "Åtgärden kunde inte genomföras",
+        "statuses": {
+            "invited": "Väntar på svar",
+            "interested": "Intresserad",
+            "declined": "Sa nej"
+        },
+        "mine": {
+            "title": "Ärenden du har blivit tillfrågad om",
+            "empty": "Du har inte blivit tillfrågad om några ärenden.",
+            "yes": "Ja tack",
+            "no": "Nej tack",
+            "answered": "Du har svarat"
         }
     }
 }

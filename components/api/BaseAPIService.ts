@@ -238,9 +238,18 @@ class BaseAPIService {
             if (error?.name === 'AbortError') throw error
             switch (error.response?.status) {
                 case 400:
-                    // This app answers 400 with a generic message for server-side
-                    // failures it caught itself, so the id belongs here too.
-                    throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
+                    // A 400 here is usually a rule the server is enforcing on
+                    // purpose - a required field, a delete that would orphan
+                    // something - and that message is written for the user. An
+                    // error id appended to it reads as "we crashed, quote this to
+                    // support", which is the wrong thing to tell someone who just
+                    // forgot a field. The id is kept only when the body says
+                    // nothing useful, which is the case it was added for.
+                    throw new APIError(
+                        error.response._data?.message
+                            ? error.response._data
+                            : { ...error.response._data, errorId: BaseAPIService.errorIdOf(error) }
+                    )
                 case 404:
                 case 422:
                 case 429:
@@ -287,9 +296,18 @@ class BaseAPIService {
         } catch (error: any) {
             switch (error.response.status) {
                 case 400:
-                    // This app answers 400 with a generic message for server-side
-                    // failures it caught itself, so the id belongs here too.
-                    throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
+                    // A 400 here is usually a rule the server is enforcing on
+                    // purpose - a required field, a delete that would orphan
+                    // something - and that message is written for the user. An
+                    // error id appended to it reads as "we crashed, quote this to
+                    // support", which is the wrong thing to tell someone who just
+                    // forgot a field. The id is kept only when the body says
+                    // nothing useful, which is the case it was added for.
+                    throw new APIError(
+                        error.response._data?.message
+                            ? error.response._data
+                            : { ...error.response._data, errorId: BaseAPIService.errorIdOf(error) }
+                    )
                 case 404:
                 case 409:
                 case 422:
@@ -337,9 +355,18 @@ class BaseAPIService {
         } catch (error: any) {
             switch (error.response.status) {
                 case 400:
-                    // This app answers 400 with a generic message for server-side
-                    // failures it caught itself, so the id belongs here too.
-                    throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
+                    // A 400 here is usually a rule the server is enforcing on
+                    // purpose - a required field, a delete that would orphan
+                    // something - and that message is written for the user. An
+                    // error id appended to it reads as "we crashed, quote this to
+                    // support", which is the wrong thing to tell someone who just
+                    // forgot a field. The id is kept only when the body says
+                    // nothing useful, which is the case it was added for.
+                    throw new APIError(
+                        error.response._data?.message
+                            ? error.response._data
+                            : { ...error.response._data, errorId: BaseAPIService.errorIdOf(error) }
+                    )
                 case 404:
                 case 409:
                 case 422:

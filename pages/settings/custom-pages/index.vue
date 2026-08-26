@@ -61,6 +61,26 @@
                         <FormTextField id="term_jobcenter" name="term_jobcenter" placeholder="Jobcenter"
                             v-model="terms.term_jobcenter" />
                     </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_citizen" :label="$t('settings.company.form.termCitizen')" />
+                        <FormTextField id="term_citizen" name="term_citizen" placeholder="Borger"
+                            v-model="terms.term_citizen" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_citizen_definite" :label="$t('settings.company.form.termCitizenDefinite')" />
+                        <FormTextField id="term_citizen_definite" name="term_citizen_definite" placeholder="Borgeren"
+                            v-model="terms.term_citizen_definite" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_citizens" :label="$t('settings.company.form.termCitizens')" />
+                        <FormTextField id="term_citizens" name="term_citizens" placeholder="Borgere"
+                            v-model="terms.term_citizens" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="term_citizens_definite" :label="$t('settings.company.form.termCitizensDefinite')" />
+                        <FormTextField id="term_citizens_definite" name="term_citizens_definite" placeholder="Borgerne"
+                            v-model="terms.term_citizens_definite" />
+                    </div>
                 </div>
                 <div class="flex justify-end">
                     <FormButton type="button" buttonStyle="primary" :disabled="terms.saving" @click="saveTerms">
@@ -133,6 +153,10 @@ const terms = reactive({
     term_case: '',
     term_agreement: '',
     term_jobcenter: '',
+    term_citizen: '',
+    term_citizen_definite: '',
+    term_citizens: '',
+    term_citizens_definite: '',
     saving: false,
 })
 
@@ -146,6 +170,10 @@ function loadTerms() {
     terms.term_case = company?.term_case ?? ''
     terms.term_agreement = company?.term_agreement ?? ''
     terms.term_jobcenter = company?.term_jobcenter ?? ''
+    terms.term_citizen = company?.term_citizen ?? ''
+    terms.term_citizen_definite = company?.term_citizen_definite ?? ''
+    terms.term_citizens = company?.term_citizens ?? ''
+    terms.term_citizens_definite = company?.term_citizens_definite ?? ''
 }
 
 // The layout's own fetchUser() (GET /user) runs unawaited on mount, so on a
@@ -167,6 +195,10 @@ async function saveTerms() {
             term_case: terms.term_case,
             term_agreement: terms.term_agreement,
             term_jobcenter: terms.term_jobcenter,
+            term_citizen: terms.term_citizen,
+            term_citizen_definite: terms.term_citizen_definite,
+            term_citizens: terms.term_citizens,
+            term_citizens_definite: terms.term_citizens_definite,
         }
         const response = await userService.updateCompany(params)
         if (response?.data) {

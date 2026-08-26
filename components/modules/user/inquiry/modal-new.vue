@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="inquiryType === 'shelter' ? shelterName : crisisCenterName" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="inquiryType === 'shelter' ? shelterName : crisisCenterName" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserInquiryModalCrisisCenterForm v-if="inquiryType === 'crisis_center'" formType="create" :selectedInquiry="state.formInquiry"
@@ -84,6 +84,8 @@ async function saveCrisisCenterInquiry(inquiryDetails: any) {
             inquiry_date: inquiryDetails.inquiry_date,
             department_uuid: inquiryDetails.department_uuid,
             inquirer_name: inquiryDetails.inquirer_name,
+            company_contact_uuid: inquiryDetails.company_contact_uuid ?? null,
+            inquiry_service_type_uuid: inquiryDetails.inquiry_service_type_uuid ?? null,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,
             contacted_by: inquiryDetails.contacted_by,
@@ -120,6 +122,8 @@ async function saveShelterInquiry(inquiryDetails: any) {
             inquiry_date: inquiryDetails.inquiry_date,
             department_uuid: inquiryDetails.department_uuid,
             inquirer_name: inquiryDetails.inquirer_name,
+            company_contact_uuid: inquiryDetails.company_contact_uuid ?? null,
+            inquiry_service_type_uuid: inquiryDetails.inquiry_service_type_uuid ?? null,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,
             vacant_place_available: inquiryDetails.vacant_place_available === 'yes',
