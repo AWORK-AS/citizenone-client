@@ -14135,13 +14135,39 @@
             "all": "Se alle"
         },
         "confirmation": {
-            "deleteTask": "Er du sikker på at du vil slette denne oppgaven"
+            "deleteTask": "Er du sikker på at du vil slette denne oppgaven",
+            "deleteBoard": "Er du sikker på at du vil slette denne tavlen"
         },
         "alert": {
             "saveFailed": "Oppgaven kunne ikke lagres",
             "deleted": "Oppgaven er slettet",
             "deleteFailed": "Oppgaven kunne ikke slettes",
-            "moveFailed": "Oppgaven kunne ikke flyttes"
+            "moveFailed": "Oppgaven kunne ikke flyttes",
+            "boardUpdated": "Tavlen er oppdatert",
+            "boardUpdateFailed": "Tavlen kunne ikke oppdateres",
+            "boardDeleted": "Tavlen er slettet",
+            "boardDeleteFailed": "Tavlen kunne ikke slettes",
+            "columnUpdated": "Kolonnen er oppdatert",
+            "columnUpdateFailed": "Kolonnen kunne ikke oppdateres",
+            "columnSaveFailed": "Kolonnen kunne ikke lagres",
+            "columnDeleted": "Kolonnen er slettet",
+            "columnDeleteFailed": "Kolonnen kunne ikke slettes",
+            "reorderFailed": "Kolonnene kunne ikke omorganiseres"
+        },
+        "manage": {
+            "action": "Administrer tavle",
+            "title": "Administrer tavle",
+            "deleteColumnTitle": "Slett kolonne",
+            "doneColumn": "Markerer en oppgave som ferdig",
+            "noColumns": "Denne tavlen har ingen kolonner ennå",
+            "columnName": "Kolonnenavn",
+            "columnNamePlaceholder": "For eksempel Venter",
+            "columnColor": "Farge",
+            "addColumn": "Legg til kolonne",
+            "moveTasksHint": "\"{name}\" inneholder oppgaver. Velg hvilken kolonne de skal flyttes til.",
+            "moveTasksTarget": "Flytt til",
+            "leaveUnassigned": "Ikke flytt (la dem stå uten kolonne)",
+            "noOtherColumns": "Det finnes ingen andre kolonner å flytte oppgavene til - de blir stående uten en."
         }
     },
     "taskTypes": {

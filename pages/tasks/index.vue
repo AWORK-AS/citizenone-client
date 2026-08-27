@@ -23,6 +23,13 @@
                     {{ selectedBoard.name }}
                 </p>
 
+                <Tooltip v-if="isManager && selectedBoard" :text="$t('taskBoards.manage.action')">
+                    <FormButton type="button" buttonStyle="action" :aria-label="$t('taskBoards.manage.action')"
+                        @click="state.isManageBoardModalOpen = true">
+                        <Icon name="ph:gear-six" class="size-4" />
+                    </FormButton>
+                </Tooltip>
+
                 <div class="ml-auto flex items-center gap-2">
                     <FormButton v-if="selectedBoard" type="button" buttonStyle="action" @click="openNewTask()">
                         <Icon name="ph:plus" class="size-4" />
@@ -227,6 +234,9 @@
 
             <DialogConfirmation :isModalOpen="state.isDeleteOpen" :message="$t('taskBoards.confirmation.deleteTask') + '?'"
                 @close="state.isDeleteOpen = false" @confirm="deleteTask" />
+
+            <ModulesUserTasksBoardManageModal :show="state.isManageBoardModalOpen" :board="selectedBoard"
+                @close="state.isManageBoardModalOpen = false" @changed="handleBoardManaged" />
         </NuxtLayout>
     </div>
 </template>
@@ -262,6 +272,7 @@ const state = reactive({
     employees: [] as any[],
     isTaskModalOpen: false,
     isBoardModalOpen: false,
+    isManageBoardModalOpen: false,
     isDeleteOpen: false,
     editingTask: null as any,
     draft: {
@@ -452,6 +463,14 @@ async function saveBoard() {
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.errors?.name?.[0] ?? error?.message ?? t('taskBoards.alert.saveFailed'))
     }
+}
+
+// Renaming/deleting a board or its columns can change which column a
+// rendered task belongs to (or take the board away entirely), so both lists
+// are refreshed together rather than just the board shape.
+async function handleBoardManaged() {
+    await fetchBoards()
+    await fetchTasks()
 }
 
 function defaultColumnNames() {

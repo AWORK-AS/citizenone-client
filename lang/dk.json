@@ -14135,13 +14135,39 @@
             "all": "Se alle"
         },
         "confirmation": {
-            "deleteTask": "Er du sikker på, at du vil slette denne opgave"
+            "deleteTask": "Er du sikker på, at du vil slette denne opgave",
+            "deleteBoard": "Er du sikker på, at du vil slette denne tavle"
         },
         "alert": {
             "saveFailed": "Opgaven kunne ikke gemmes",
             "deleted": "Opgaven er slettet",
             "deleteFailed": "Opgaven kunne ikke slettes",
-            "moveFailed": "Opgaven kunne ikke flyttes"
+            "moveFailed": "Opgaven kunne ikke flyttes",
+            "boardUpdated": "Tavlen er opdateret",
+            "boardUpdateFailed": "Tavlen kunne ikke opdateres",
+            "boardDeleted": "Tavlen er slettet",
+            "boardDeleteFailed": "Tavlen kunne ikke slettes",
+            "columnUpdated": "Kolonnen er opdateret",
+            "columnUpdateFailed": "Kolonnen kunne ikke opdateres",
+            "columnSaveFailed": "Kolonnen kunne ikke gemmes",
+            "columnDeleted": "Kolonnen er slettet",
+            "columnDeleteFailed": "Kolonnen kunne ikke slettes",
+            "reorderFailed": "Kolonnerne kunne ikke omarrangeres"
+        },
+        "manage": {
+            "action": "Administrer tavle",
+            "title": "Administrer tavle",
+            "deleteColumnTitle": "Slet kolonne",
+            "doneColumn": "Markerer en opgave som færdig",
+            "noColumns": "Denne tavle har ingen kolonner endnu",
+            "columnName": "Kolonnenavn",
+            "columnNamePlaceholder": "F.eks. Venter",
+            "columnColor": "Farve",
+            "addColumn": "Tilføj kolonne",
+            "moveTasksHint": "\"{name}\" indeholder opgaver. Vælg hvilken kolonne de skal flyttes til.",
+            "moveTasksTarget": "Flyt til",
+            "leaveUnassigned": "Flyt ikke (lad dem stå uden kolonne)",
+            "noOtherColumns": "Der er ingen andre kolonner at flytte opgaverne til - de bliver stående uden en."
         }
     },
     "taskTypes": {

@@ -14135,13 +14135,39 @@
             "all": "Se alla"
         },
         "confirmation": {
-            "deleteTask": "Är du säker på att du vill ta bort den här uppgiften"
+            "deleteTask": "Är du säker på att du vill ta bort den här uppgiften",
+            "deleteBoard": "Är du säker på att du vill ta bort den här tavlan"
         },
         "alert": {
             "saveFailed": "Uppgiften kunde inte sparas",
             "deleted": "Uppgiften har tagits bort",
             "deleteFailed": "Uppgiften kunde inte tas bort",
-            "moveFailed": "Uppgiften kunde inte flyttas"
+            "moveFailed": "Uppgiften kunde inte flyttas",
+            "boardUpdated": "Tavlan har uppdaterats",
+            "boardUpdateFailed": "Tavlan kunde inte uppdateras",
+            "boardDeleted": "Tavlan har tagits bort",
+            "boardDeleteFailed": "Tavlan kunde inte tas bort",
+            "columnUpdated": "Kolumnen har uppdaterats",
+            "columnUpdateFailed": "Kolumnen kunde inte uppdateras",
+            "columnSaveFailed": "Kolumnen kunde inte sparas",
+            "columnDeleted": "Kolumnen har tagits bort",
+            "columnDeleteFailed": "Kolumnen kunde inte tas bort",
+            "reorderFailed": "Kolumnerna kunde inte ordnas om"
+        },
+        "manage": {
+            "action": "Hantera tavla",
+            "title": "Hantera tavla",
+            "deleteColumnTitle": "Ta bort kolumn",
+            "doneColumn": "Markerar en uppgift som klar",
+            "noColumns": "Den här tavlan har inga kolumner än",
+            "columnName": "Kolumnnamn",
+            "columnNamePlaceholder": "Till exempel Väntar",
+            "columnColor": "Färg",
+            "addColumn": "Lägg till kolumn",
+            "moveTasksHint": "\"{name}\" innehåller uppgifter. Välj vilken kolumn de ska flyttas till.",
+            "moveTasksTarget": "Flytta till",
+            "leaveUnassigned": "Flytta inte (låt dem stå utan kolumn)",
+            "noOtherColumns": "Det finns inga andra kolumner att flytta uppgifterna till - de blir stående utan en."
         }
     },
     "taskTypes": {
