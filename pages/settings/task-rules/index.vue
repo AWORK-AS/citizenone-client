@@ -24,7 +24,7 @@
                 <div class="rounded-lg border border-gray-200 bg-white">
                     <div class="flex items-center justify-between border-b border-gray-100 px-4 py-3">
                         <p class="text-sm font-semibold text-slate-700">{{ $t('taskRules.listTitle') }}</p>
-                        <FormButton type="button" buttonStyle="action" @click="openNew">
+                        <FormButton v-if="isManager" type="button" buttonStyle="action" @click="openNew">
                             <Icon name="ph:plus" class="size-4" />
                             {{ $t('taskRules.add') }}
                         </FormButton>
@@ -46,7 +46,7 @@
                             <p class="mt-0.5 text-xs text-gray-500">{{ ruleSummary(rule) }}</p>
                         </div>
 
-                        <div class="flex items-center gap-2">
+                        <div v-if="isManager" class="flex items-center gap-2">
                             <Tooltip
                                 :text="rule.is_active ? $t('consultantSkills.deactivate') : $t('consultantSkills.activate')">
                                 <FormButton type="button" buttonStyle="action"
@@ -132,15 +132,21 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-application', requiredApplication: 'tasks_workflow_enabled' })
+
 import { taskService } from '@/components/api/user/TaskService'
 import { roleService } from '@/components/api/user/RoleService'
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast } = usePermissions()
+
+const isManager = computed(() => isAtLeast('Manager'))
 
 const breadcrumbLinks = [{ name: 'taskRules.title', translate: true, href: '/settings/task-rules' }]
 

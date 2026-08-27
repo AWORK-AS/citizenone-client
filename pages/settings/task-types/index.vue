@@ -22,7 +22,7 @@
                 <p class="max-w-2xl text-sm text-gray-500">{{ $t('taskTypes.description') }}</p>
 
                 <div class="rounded-lg border border-gray-200 bg-white">
-                    <div class="flex flex-wrap items-end gap-3 border-b border-gray-100 px-4 py-3">
+                    <div v-if="isManager" class="flex flex-wrap items-end gap-3 border-b border-gray-100 px-4 py-3">
                         <div class="w-64">
                             <FormLabel for="new-name" :label="$t('taskTypes.form.name')" />
                             <FormTextField id="new-name" name="new-name" v-model="state.draft.name"
@@ -65,7 +65,7 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-2">
+                        <div v-if="isManager" class="flex items-center gap-2">
                             <template v-if="state.editing === type.uuid">
                                 <FormButton type="button" buttonStyle="cancel" @click="state.editing = ''">
                                     {{ $t('cancel') }}
@@ -118,14 +118,20 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-application', requiredApplication: 'tasks_workflow_enabled' })
+
 import { taskService } from '@/components/api/user/TaskService'
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast } = usePermissions()
+
+const isManager = computed(() => isAtLeast('Manager'))
 
 const breadcrumbLinks = [{ name: 'taskTypes.title', translate: true, href: '/settings/task-types' }]
 

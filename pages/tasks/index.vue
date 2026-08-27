@@ -232,6 +232,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-application', requiredApplication: 'tasks_workflow_enabled' })
+
 import { taskService } from '@/components/api/user/TaskService'
 import { userService } from '@/components/api/user/UserService'
 import { useAlert } from '@/composables/alert'
