@@ -14126,6 +14126,7 @@
             "columns": "Kolonner",
             "columnsHint": "Skill med komma. Den siste kolonnen regnes som ferdig, så tavlen selv kan vise hva som er løst.",
             "columnsPlaceholder": "Skal gjøres, I gang, Ferdig",
+            "inactiveSuffix": "Inaktiv",
             "defaults": {
                 "todo": "Skal gjøres",
                 "doing": "I gang",
@@ -14154,12 +14155,17 @@
             "columnSaveFailed": "Kolonnen kunne ikke lagres",
             "columnDeleted": "Kolonnen er slettet",
             "columnDeleteFailed": "Kolonnen kunne ikke slettes",
-            "reorderFailed": "Kolonnene kunne ikke omorganiseres"
+            "reorderFailed": "Kolonnene kunne ikke omorganiseres",
+            "boardDeactivated": "Tavlen er deaktivert",
+            "boardReactivated": "Tavlen er reaktivert",
+            "boardStatusUpdateFailed": "Tavlens status kunne ikke endres"
         },
         "manage": {
             "action": "Administrer tavle",
             "title": "Administrer tavle",
             "deleteColumnTitle": "Slett kolonne",
+            "deactivateBoard": "Deaktiver tavle",
+            "reactivateBoard": "Reaktiver tavle",
             "doneColumn": "Markerer en oppgave som ferdig",
             "noColumns": "Denne tavlen har ingen kolonner ennå",
             "columnName": "Kolonnenavn",

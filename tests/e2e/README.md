@@ -72,3 +72,52 @@ php artisan tinker --execute='
 CO_TOKEN='<admin-token>' CO_STAFF_TOKEN='<staff-token>' CO_CITIZEN_UUID='<uuid>' \
   npm run test:create-report-permission
 ```
+
+### `task-boards-permission-and-editor` — needs a Manager token, an assignee token, and a tasks-workflow grant
+
+Covers two Task Boards changes: `updateTask` now allows the task's current assignee (not just
+its creator or a Manager) to edit it, and boards gained a Deactivate/Reactivate action. Needs
+`CO_TOKEN` (a Manager or Admin) and `CO_ASSIGNEE_TOKEN`: a plain `User`-role employee in the same
+company, not a Manager, who will be assigned a task they didn't create.
+
+```bash
+php artisan tinker --execute='
+  $admin = App\Models\User::where("email","dev@awork.dk")->first();
+  $u = App\Models\User::firstOrCreate(
+    ["email" => "e2e-task-assignee@test.com"],
+    ["firstname" => "E2E", "lastname" => "Assignee", "phone" => "+4500000098",
+     "company_id" => $admin->company_id, "language_id" => $admin->language_id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false]
+  );
+  if (! $u->hasRole("User")) $u->assignRole("User");
+  echo $u->createToken("e2e-assignee")->plainTextToken;
+'
+```
+
+The `/tasks` page is gated by `definePageMeta({ requiredApplication: 'tasks_workflow_enabled' })`
+- there's no public API to grant that entitlement, so give the company an active subscription to
+the `tasks-workflow` app directly (idempotent - check for an existing active one first):
+
+```bash
+php artisan tinker --execute='
+  $app = App\Models\Application::where("generic_name","tasks-workflow")->first();
+  App\Models\UserSubscription::create([
+    "user_id" => null, "company_id" => 1, "invoice_id" => null,
+    "license" => "E2E-".Illuminate\Support\Str::upper(Illuminate\Support\Str::random(12)),
+    "deal_type" => App\Models\Application::class, "deal_id" => $app->id,
+    "type" => "included", "is_active" => 1, "is_taken" => 0,
+  ]);
+'
+```
+
+```bash
+CO_TOKEN='<manager-token>' CO_ASSIGNEE_TOKEN='<assignee-token>' \
+  npm run test:task-boards-permission-and-editor
+```
+
+Note: `/tasks` is a cold-boot SPA route gated on the user's company data, which isn't populated
+until the `/api/user` fetch completes. A plain `domcontentloaded` navigation resolves before that
+fetch finishes, so the middleware sees a null user and Nuxt renders a misleading client-side
+"Page Not Found" instead of the real redirect. The script waits for the specific `/api/user`
+response (not `networkidle`, which can hang on the app's persistent Pusher websocket) before
+treating any navigation to `/tasks` as safe to continue from.
