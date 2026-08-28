@@ -14124,6 +14124,7 @@
             "columns": "Kolumner",
             "columnsHint": "Separera med komma. Den sista kolumnen räknas som klar, så att tavlan själv kan visa vad som är gjort.",
             "columnsPlaceholder": "Att göra, Pågår, Klart",
+            "inactiveSuffix": "Inaktiv",
             "defaults": {
                 "todo": "Att göra",
                 "doing": "Pågår",
@@ -14152,12 +14153,17 @@
             "columnSaveFailed": "Kolumnen kunde inte sparas",
             "columnDeleted": "Kolumnen har tagits bort",
             "columnDeleteFailed": "Kolumnen kunde inte tas bort",
-            "reorderFailed": "Kolumnerna kunde inte ordnas om"
+            "reorderFailed": "Kolumnerna kunde inte ordnas om",
+            "boardDeactivated": "Tavlan har inaktiverats",
+            "boardReactivated": "Tavlan har återaktiverats",
+            "boardStatusUpdateFailed": "Tavlans status kunde inte ändras"
         },
         "manage": {
             "action": "Hantera tavla",
             "title": "Hantera tavla",
             "deleteColumnTitle": "Ta bort kolumn",
+            "deactivateBoard": "Inaktivera tavla",
+            "reactivateBoard": "Återaktivera tavla",
             "doneColumn": "Markerar en uppgift som klar",
             "noColumns": "Den här tavlan har inga kolumner än",
             "columnName": "Kolumnnamn",
