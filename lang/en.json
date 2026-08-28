@@ -14124,6 +14124,7 @@
             "columns": "Columns",
             "columnsHint": "Separate with commas. The last column counts as finished, so the board can show what is done by itself.",
             "columnsPlaceholder": "To do, Doing, Done",
+            "inactiveSuffix": "Inactive",
             "defaults": {
                 "todo": "To do",
                 "doing": "Doing",
@@ -14152,12 +14153,17 @@
             "columnSaveFailed": "The column could not be saved",
             "columnDeleted": "The column was deleted",
             "columnDeleteFailed": "The column could not be deleted",
-            "reorderFailed": "The columns could not be reordered"
+            "reorderFailed": "The columns could not be reordered",
+            "boardDeactivated": "The board was deactivated",
+            "boardReactivated": "The board was reactivated",
+            "boardStatusUpdateFailed": "The board's status could not be changed"
         },
         "manage": {
             "action": "Manage board",
             "title": "Manage board",
             "deleteColumnTitle": "Delete column",
+            "deactivateBoard": "Deactivate board",
+            "reactivateBoard": "Reactivate board",
             "doneColumn": "Marks a task as done",
             "noColumns": "This board has no columns yet",
             "columnName": "Column name",
