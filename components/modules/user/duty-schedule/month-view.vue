@@ -294,8 +294,7 @@
                                 <p>
                                     {{
                                         $t('dutySchedules.weeklyNormHours') }}: {{
-                                        (Math.round(Number(employee?.annual_norm_hours) / 52)) ??
-                                        0
+                                        calculateWeeklyNormHours(employee, currentDate.year())
                                     }}
                                 </p>
                                 <p>
@@ -1053,6 +1052,7 @@ import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useScheduleLock } from '@/composables/useScheduleLock'
+import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
