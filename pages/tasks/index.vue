@@ -31,7 +31,8 @@
                 </Tooltip>
 
                 <div class="ml-auto flex items-center gap-2">
-                    <FormButton v-if="selectedBoard" type="button" buttonStyle="action" @click="openNewTask()">
+                    <FormButton v-if="selectedBoard && selectedBoard.is_active" type="button" buttonStyle="action"
+                        @click="openNewTask()">
                         <Icon name="ph:plus" class="size-4" />
                         {{ $t('taskBoards.newTask') }}
                     </FormButton>
@@ -299,7 +300,10 @@ const selectedBoard = computed(() => state.boards.find((board: any) => board.uui
 const columns = computed(() => selectedBoard.value?.columns ?? [])
 const boardScrolls = computed(() => columns.value.length > MAX_FITTED_COLUMNS)
 
-const boardOptions = computed(() => state.boards.map((board: any) => ({ value: board.uuid, label: board.name })))
+const boardOptions = computed(() => state.boards.map((board: any) => ({
+    value: board.uuid,
+    label: board.is_active ? board.name : `${board.name} (${t('taskBoards.board.inactiveSuffix')})`,
+})))
 const columnOptions = computed(() => columns.value.map((column: any) => ({ value: column.uuid, label: column.name })))
 const typeOptions = computed(() => [
     { value: '', label: t('taskBoards.form.noType') },
@@ -329,9 +333,15 @@ async function fetchBoards() {
     state.error = {}
     try {
         const response = await taskService.getBoards()
-        state.boards = (response?.data ?? []).filter((board: any) => board.is_active)
+        const allBoards = response?.data ?? []
+        // A Manager needs a way back into an inactive board to reactivate it -
+        // otherwise deactivating one would be a one-way trip with no UI path
+        // to undo it. Everyone else only ever sees active boards.
+        state.boards = isManager.value
+            ? [...allBoards].sort((a: any, b: any) => Number(b.is_active) - Number(a.is_active))
+            : allBoards.filter((board: any) => board.is_active)
         if (!state.selectedBoardUuid || !state.boards.some((b: any) => b.uuid === state.selectedBoardUuid)) {
-            state.selectedBoardUuid = state.boards[0]?.uuid ?? ''
+            state.selectedBoardUuid = state.boards.find((b: any) => b.is_active)?.uuid ?? state.boards[0]?.uuid ?? ''
         }
     } catch (error: any) {
         state.error = error

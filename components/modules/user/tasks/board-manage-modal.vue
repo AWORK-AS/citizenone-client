@@ -4,7 +4,13 @@
             <div v-if="!pendingDeleteColumn" class="space-y-6 pb-6">
                 <div class="space-y-4">
                     <div>
-                        <FormLabel for="manage-board-name" :label="$t('taskBoards.board.name')" />
+                        <div class="flex items-center gap-2">
+                            <FormLabel for="manage-board-name" :label="$t('taskBoards.board.name')" />
+                            <span v-if="!props.board?.is_active"
+                                class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">
+                                {{ $t('taskBoards.board.inactiveSuffix') }}
+                            </span>
+                        </div>
                         <FormTextField id="manage-board-name" name="manage-board-name" v-model="boardDraft.name"
                             :placeholder="$t('taskBoards.board.namePlaceholder')" :maxLength="80" />
                     </div>
@@ -108,9 +114,14 @@
                 </div>
 
                 <div class="flex items-center justify-between border-t border-gray-100 pt-5">
-                    <FormButton type="button" buttonStyle="danger" @click="isDeleteBoardOpen = true">
-                        {{ $t('taskBoards.manage.deleteBoard') }}
-                    </FormButton>
+                    <div class="flex items-center gap-2">
+                        <FormButton type="button" buttonStyle="danger" @click="isDeleteBoardOpen = true">
+                            {{ $t('taskBoards.manage.deleteBoard') }}
+                        </FormButton>
+                        <FormButton type="button" buttonStyle="cancel" @click="toggleBoardActive">
+                            {{ $t(props.board?.is_active ? 'taskBoards.manage.deactivateBoard' : 'taskBoards.manage.reactivateBoard') }}
+                        </FormButton>
+                    </div>
                     <FormButton type="button" buttonStyle="cancel" @click="handleClose">
                         {{ $t('close') }}
                     </FormButton>
@@ -208,6 +219,22 @@ async function saveBoardDetails() {
             t('alert.warning'),
             error?.errors?.name?.[0] ?? error?.message ?? t('taskBoards.alert.boardUpdateFailed'),
         )
+    }
+}
+
+async function toggleBoardActive() {
+    if (!props.board) return
+
+    const wasActive = props.board.is_active
+    try {
+        await taskService.updateBoard(props.board.uuid, { is_active: !wasActive })
+        successAlert(
+            `${t('alert.success')}!`,
+            `${t(wasActive ? 'taskBoards.alert.boardDeactivated' : 'taskBoards.alert.boardReactivated')}.`,
+        )
+        emit('changed')
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('taskBoards.alert.boardStatusUpdateFailed'))
     }
 }
 
