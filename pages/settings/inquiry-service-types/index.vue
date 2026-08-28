@@ -126,6 +126,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+
 import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'

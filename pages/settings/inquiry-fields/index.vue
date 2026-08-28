@@ -232,6 +232,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
 import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
