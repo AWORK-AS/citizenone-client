@@ -9922,7 +9922,9 @@
             "inquiryPipelineStages": "Faser för förfrågningar",
             "inquiryFields": "Fält för förfrågningar",
             "consultantSkills": "Konsultkompetenser",
-            "inquiryServiceTypes": "Insatstyper"
+            "inquiryServiceTypes": "Insatstyper",
+            "taskTypes": "Uppgiftstyper",
+            "taskRules": "Uppgiftsregler"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -10143,7 +10145,8 @@
         "dentalRecalls": "Kallelser",
         "dentalOverview": "Kliniköversikt",
         "invoicing": "Fakturering",
-        "plansAndGoalsExport": "Export av planer och mål"
+        "plansAndGoalsExport": "Export av planer och mål",
+        "Tasks": "Uppgiftstavlor"
     },
     "somethingWentWrong": "Något gik galt",
     "storage": {
@@ -14082,6 +14085,144 @@
             "yes": "Ja tack",
             "no": "Nej tack",
             "answered": "Du har svarat"
+        }
+    },
+    "taskBoards": {
+        "title": "Uppgiftstavlor",
+        "newTask": "Ny uppgift",
+        "newBoard": "Ny tavla",
+        "overdue": "Försenad",
+        "unassigned": "Ingen ansvarig",
+        "actions": {
+            "edit": "Redigera uppgift"
+        },
+        "empty": {
+            "title": "Det finns inga uppgiftstavlor än",
+            "description": "En tavla samlar det arbete som inte hör till en enskild klient. Skapa de kolumner ni arbetar i och lägg uppgifterna hos den som ska utföra dem.",
+            "action": "Skapa den första tavlan"
+        },
+        "form": {
+            "newTitle": "Ny uppgift",
+            "editTitle": "Redigera uppgift",
+            "title": "Titel",
+            "titlePlaceholder": "Vad ska göras?",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Utveckla om det behövs",
+            "type": "Uppgiftstyp",
+            "noType": "Ingen typ",
+            "assignee": "Ansvarig",
+            "nobody": "Ingen",
+            "dueDate": "Sista dag",
+            "column": "Kolumn"
+        },
+        "board": {
+            "newTitle": "Ny uppgiftstavla",
+            "name": "Namn",
+            "namePlaceholder": "Till exempel Visitation",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Vad används tavlan till?",
+            "columns": "Kolumner",
+            "columnsHint": "Separera med komma. Den sista kolumnen räknas som klar, så att tavlan själv kan visa vad som är gjort.",
+            "columnsPlaceholder": "Att göra, Pågår, Klart",
+            "defaults": {
+                "todo": "Att göra",
+                "doing": "Pågår",
+                "done": "Klart"
+            }
+        },
+        "mine": {
+            "title": "Mina uppgifter",
+            "all": "Se alla"
+        },
+        "confirmation": {
+            "deleteTask": "Är du säker på att du vill ta bort den här uppgiften",
+            "deleteBoard": "Är du säker på att du vill ta bort den här tavlan"
+        },
+        "alert": {
+            "saveFailed": "Uppgiften kunde inte sparas",
+            "deleted": "Uppgiften har tagits bort",
+            "deleteFailed": "Uppgiften kunde inte tas bort",
+            "moveFailed": "Uppgiften kunde inte flyttas",
+            "boardUpdated": "Tavlan har uppdaterats",
+            "boardUpdateFailed": "Tavlan kunde inte uppdateras",
+            "boardDeleted": "Tavlan har tagits bort",
+            "boardDeleteFailed": "Tavlan kunde inte tas bort",
+            "columnUpdated": "Kolumnen har uppdaterats",
+            "columnUpdateFailed": "Kolumnen kunde inte uppdateras",
+            "columnSaveFailed": "Kolumnen kunde inte sparas",
+            "columnDeleted": "Kolumnen har tagits bort",
+            "columnDeleteFailed": "Kolumnen kunde inte tas bort",
+            "reorderFailed": "Kolumnerna kunde inte ordnas om"
+        },
+        "manage": {
+            "action": "Hantera tavla",
+            "title": "Hantera tavla",
+            "deleteColumnTitle": "Ta bort kolumn",
+            "doneColumn": "Markerar en uppgift som klar",
+            "noColumns": "Den här tavlan har inga kolumner än",
+            "columnName": "Kolumnnamn",
+            "columnNamePlaceholder": "Till exempel Väntar",
+            "columnColor": "Färg",
+            "addColumn": "Lägg till kolumn",
+            "moveTasksHint": "\"{name}\" innehåller uppgifter. Välj vilken kolumn de ska flyttas till.",
+            "moveTasksTarget": "Flytta till",
+            "leaveUnassigned": "Flytta inte (låt dem stå utan kolumn)",
+            "noOtherColumns": "Det finns inga andra kolumner att flytta uppgifterna till - de blir stående utan en."
+        }
+    },
+    "taskTypes": {
+        "title": "Uppgiftstyper",
+        "description": "De typer av uppgifter ni arbetar med. Typen ger uppgiften en färg på tavlan och kan användas i regler, så att bara vissa uppgifter utlöser ett meddelande.",
+        "add": "Lägg till",
+        "empty": "Det finns inga uppgiftstyper än.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "Till exempel Rekrytering",
+            "color": "Färg"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här uppgiftstypen"
+        },
+        "alert": {
+            "saveFailed": "Uppgiftstypen kunde inte sparas",
+            "deleted": "Uppgiftstypen har tagits bort",
+            "deleteFailed": "Uppgiftstypen kunde inte tas bort"
+        }
+    },
+    "taskRules": {
+        "title": "Uppgiftsregler",
+        "listTitle": "Regler",
+        "description": "Regler avgör vem som får besked när något händer med en uppgift. Utan regler är tavlan tyst, och någon måste hålla ett öga på den själv.",
+        "add": "Lägg till regel",
+        "empty": "Det finns inga regler än.",
+        "events": {
+            "created": "När en uppgift skapas",
+            "entered_column": "När en uppgift hamnar i en kolumn",
+            "completed": "När en uppgift är klar",
+            "overdue": "När sista dagen har passerat"
+        },
+        "form": {
+            "newTitle": "Ny regel",
+            "editTitle": "Redigera regel",
+            "name": "Namn",
+            "namePlaceholder": "Till exempel Meddela ledningen",
+            "event": "Händelse",
+            "conditionsHint": "Lämna ett fält tomt för att regeln ska gälla alla. En regel utan villkor täcker hela händelsen.",
+            "any": "Alla",
+            "board": "Tavla",
+            "column": "Kolumn",
+            "type": "Uppgiftstyp",
+            "role": "Roll som får besked",
+            "noRole": "Ingen roll",
+            "notifyAssignee": "Den ansvariga får besked"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här regeln"
+        },
+        "alert": {
+            "saveFailed": "Regeln kunde inte sparas",
+            "deleted": "Regeln har tagits bort",
+            "deleteFailed": "Regeln kunde inte tas bort"
         }
     }
 }

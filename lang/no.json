@@ -9922,7 +9922,9 @@
             "inquiryPipelineStages": "Faser i henvendelser",
             "inquiryFields": "Felter i henvendelser",
             "consultantSkills": "Konsulentkompetanser",
-            "inquiryServiceTypes": "Innsatstyper"
+            "inquiryServiceTypes": "Innsatstyper",
+            "taskTypes": "Oppgavetyper",
+            "taskRules": "Oppgaveregler"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -10143,7 +10145,8 @@
         "dentalRecalls": "Innkallinger",
         "dentalOverview": "Klinikkoversikt",
         "invoicing": "Fakturering",
-        "plansAndGoalsExport": "Eksport av planer og mål"
+        "plansAndGoalsExport": "Eksport av planer og mål",
+        "Tasks": "Oppgavetavler"
     },
     "somethingWentWrong": "Noe gik galt",
     "storage": {
@@ -14082,6 +14085,144 @@
             "yes": "Ja takk",
             "no": "Nei takk",
             "answered": "Du har svart"
+        }
+    },
+    "taskBoards": {
+        "title": "Oppgavetavler",
+        "newTask": "Ny oppgave",
+        "newBoard": "Ny tavle",
+        "overdue": "Overskredet",
+        "unassigned": "Ingen ansvarlig",
+        "actions": {
+            "edit": "Rediger oppgave"
+        },
+        "empty": {
+            "title": "Det finnes ingen oppgavetavler ennå",
+            "description": "En tavle samler arbeidet som ikke hører til én bruker. Sett opp kolonnene I arbeider i, og legg oppgavene hos den som skal løse dem.",
+            "action": "Opprett den første tavlen"
+        },
+        "form": {
+            "newTitle": "Ny oppgave",
+            "editTitle": "Rediger oppgave",
+            "title": "Tittel",
+            "titlePlaceholder": "Hva skal gjøres?",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Utdyp om nødvendig",
+            "type": "Oppgavetype",
+            "noType": "Ingen type",
+            "assignee": "Ansvarlig",
+            "nobody": "Ingen",
+            "dueDate": "Frist",
+            "column": "Kolonne"
+        },
+        "board": {
+            "newTitle": "Ny oppgavetavle",
+            "name": "Navn",
+            "namePlaceholder": "For eksempel Visitasjon",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Hva brukes tavlen til?",
+            "columns": "Kolonner",
+            "columnsHint": "Skill med komma. Den siste kolonnen regnes som ferdig, så tavlen selv kan vise hva som er løst.",
+            "columnsPlaceholder": "Skal gjøres, I gang, Ferdig",
+            "defaults": {
+                "todo": "Skal gjøres",
+                "doing": "I gang",
+                "done": "Ferdig"
+            }
+        },
+        "mine": {
+            "title": "Mine oppgaver",
+            "all": "Se alle"
+        },
+        "confirmation": {
+            "deleteTask": "Er du sikker på at du vil slette denne oppgaven",
+            "deleteBoard": "Er du sikker på at du vil slette denne tavlen"
+        },
+        "alert": {
+            "saveFailed": "Oppgaven kunne ikke lagres",
+            "deleted": "Oppgaven er slettet",
+            "deleteFailed": "Oppgaven kunne ikke slettes",
+            "moveFailed": "Oppgaven kunne ikke flyttes",
+            "boardUpdated": "Tavlen er oppdatert",
+            "boardUpdateFailed": "Tavlen kunne ikke oppdateres",
+            "boardDeleted": "Tavlen er slettet",
+            "boardDeleteFailed": "Tavlen kunne ikke slettes",
+            "columnUpdated": "Kolonnen er oppdatert",
+            "columnUpdateFailed": "Kolonnen kunne ikke oppdateres",
+            "columnSaveFailed": "Kolonnen kunne ikke lagres",
+            "columnDeleted": "Kolonnen er slettet",
+            "columnDeleteFailed": "Kolonnen kunne ikke slettes",
+            "reorderFailed": "Kolonnene kunne ikke omorganiseres"
+        },
+        "manage": {
+            "action": "Administrer tavle",
+            "title": "Administrer tavle",
+            "deleteColumnTitle": "Slett kolonne",
+            "doneColumn": "Markerer en oppgave som ferdig",
+            "noColumns": "Denne tavlen har ingen kolonner ennå",
+            "columnName": "Kolonnenavn",
+            "columnNamePlaceholder": "For eksempel Venter",
+            "columnColor": "Farge",
+            "addColumn": "Legg til kolonne",
+            "moveTasksHint": "\"{name}\" inneholder oppgaver. Velg hvilken kolonne de skal flyttes til.",
+            "moveTasksTarget": "Flytt til",
+            "leaveUnassigned": "Ikke flytt (la dem stå uten kolonne)",
+            "noOtherColumns": "Det finnes ingen andre kolonner å flytte oppgavene til - de blir stående uten en."
+        }
+    },
+    "taskTypes": {
+        "title": "Oppgavetyper",
+        "description": "Typene oppgaver I arbeider med. Typen gir oppgaven en farge på tavlen og kan brukes i regler, slik at bare bestemte oppgaver utløser en beskjed.",
+        "add": "Legg til",
+        "empty": "Det finnes ingen oppgavetyper ennå.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "For eksempel Rekruttering",
+            "color": "Farge"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på at du vil slette denne oppgavetypen"
+        },
+        "alert": {
+            "saveFailed": "Oppgavetypen kunne ikke lagres",
+            "deleted": "Oppgavetypen er slettet",
+            "deleteFailed": "Oppgavetypen kunne ikke slettes"
+        }
+    },
+    "taskRules": {
+        "title": "Oppgaveregler",
+        "listTitle": "Regler",
+        "description": "Regler avgjør hvem som får beskjed når det skjer noe med en oppgave. Uten regler er tavlen stille, og noen må holde øye med den selv.",
+        "add": "Legg til regel",
+        "empty": "Det finnes ingen regler ennå.",
+        "events": {
+            "created": "Når en oppgave opprettes",
+            "entered_column": "Når en oppgave lander i en kolonne",
+            "completed": "Når en oppgave er løst",
+            "overdue": "Når fristen er overskredet"
+        },
+        "form": {
+            "newTitle": "Ny regel",
+            "editTitle": "Rediger regel",
+            "name": "Navn",
+            "namePlaceholder": "For eksempel Gi ledelsen beskjed",
+            "event": "Hendelse",
+            "conditionsHint": "La et felt stå tomt for at regelen skal gjelde alle. En regel uten betingelser dekker hele hendelsen.",
+            "any": "Alle",
+            "board": "Tavle",
+            "column": "Kolonne",
+            "type": "Oppgavetype",
+            "role": "Rolle som får beskjed",
+            "noRole": "Ingen rolle",
+            "notifyAssignee": "Den ansvarlige får beskjed"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på at du vil slette denne regelen"
+        },
+        "alert": {
+            "saveFailed": "Regelen kunne ikke lagres",
+            "deleted": "Regelen er slettet",
+            "deleteFailed": "Regelen kunne ikke slettes"
         }
     }
 }
