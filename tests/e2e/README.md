@@ -41,3 +41,34 @@ Optional env: `CO_BASE_URL` (default `http://localhost:3001`),
 
 Screenshots are written to `tests/e2e/screenshots/`. The email-templates test is
 self-restoring (the one template it edits is reset via the API at the end).
+
+### `create-report-permission` — also needs a restricted staff token
+
+Covers AW-2026-4255: a staff member without save-and-download rights must
+still be able to create a report. Besides `CO_TOKEN` (Admin, used for API
+setup/teardown) and `CO_CITIZEN_UUID`, this test needs `CO_STAFF_TOKEN`: a
+token for a `User`-role staff member in the same company who has
+`create_citizen_document`/`create_citizen_plan` but explicitly **not**
+`save_and_download_citizen_document`/`save_and_download_citizen_plan` (the
+Birketoften ApS shape from the ticket). Mint it the same way as the superadmin
+token above:
+
+```bash
+php artisan tinker --execute='
+  $admin = App\Models\User::where("email","superadmin@test.com")->first();
+  $u = App\Models\User::firstOrCreate(
+    ["email" => "e2e-staff@test.com"],
+    ["firstname" => "E2E", "lastname" => "Staff", "phone" => "+4500000099",
+     "company_id" => $admin->company_id, "language_id" => $admin->language_id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false]
+  );
+  if (! $u->hasRole("User")) $u->assignRole("User");
+  $u->syncPermissions(["create_citizen_document", "create_citizen_plan"]);
+  echo $u->createToken("e2e-staff")->plainTextToken;
+'
+```
+
+```bash
+CO_TOKEN='<admin-token>' CO_STAFF_TOKEN='<staff-token>' CO_CITIZEN_UUID='<uuid>' \
+  npm run test:create-report-permission
+```
