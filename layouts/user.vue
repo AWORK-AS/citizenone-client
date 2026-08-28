@@ -823,6 +823,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Management & Economy') return language.t('managementEconomy.title')
     if (item.name === 'Economy') return language.t('economy.title')
     if (item.name === 'Inquiries') return language.t('inquiries.inquiries')
+    if (item.name === 'Tasks') return language.t('taskBoards.title')
     return item.name
 }
 
@@ -1047,6 +1048,12 @@ function generateSidebarLinks(user: any) {
 
     if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
         nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', group: 'organisation', activeRouteNames: ['inquiries'] })
+    }
+
+    // Task boards hold the work that belongs to nobody's citizen record, so they
+    // sit with the other organisation-wide pages rather than under a citizen.
+    if (user?.company?.tasks_workflow_enabled) {
+        nav.push({ name: 'Tasks', href: '/tasks', icon: 'ph:kanban', group: 'organisation', activeRouteNames: ['tasks'] })
     }
 
     if (userHasLeadsActive) {

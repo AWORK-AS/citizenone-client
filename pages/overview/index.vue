@@ -339,6 +339,7 @@
                         </div>
                         <div>
                             <ModulesUserDailyOverviewMyInquiryInvitations />
+                            <ModulesUserDailyOverviewMyTasks />
                             <ModulesUserDailyOverviewReminders />
                         </div>
                     </div>
