@@ -275,6 +275,11 @@ const state = reactive({
     isManageBoardModalOpen: false,
     isDeleteOpen: false,
     editingTask: null as any,
+    // The employee list (state.employees) excludes archived/deactivated/
+    // unverified users, but a task's assignee can be one of those - without
+    // this, the FormSelect can't display a value that isn't among its
+    // options and the field just renders blank.
+    editingTaskAssignee: null as any,
     draft: {
         title: '',
         description: '',
@@ -300,13 +305,17 @@ const typeOptions = computed(() => [
     { value: '', label: t('taskBoards.form.noType') },
     ...state.types.filter((type: any) => type.is_active).map((type: any) => ({ value: type.uuid, label: type.name })),
 ])
-const employeeOptions = computed(() => [
-    { value: '', label: t('taskBoards.form.nobody') },
-    ...state.employees.map((employee: any) => ({
+const employeeOptions = computed(() => {
+    const options = state.employees.map((employee: any) => ({
         value: employee.uuid,
         label: `${employee.firstname} ${employee.lastname}`,
-    })),
-])
+    }))
+    const assignee = state.editingTaskAssignee
+    if (assignee?.uuid && !options.some((option) => option.value === assignee.uuid)) {
+        options.push({ value: assignee.uuid, label: `${assignee.firstname} ${assignee.lastname}` })
+    }
+    return [{ value: '', label: t('taskBoards.form.nobody') }, ...options]
+})
 
 onMounted(async () => {
     await fetchBoards()
@@ -374,6 +383,7 @@ function assigneeInitials(assignee: any) {
 
 function openNewTask(columnUuid = '') {
     state.editingTask = null
+    state.editingTaskAssignee = null
     state.draft = {
         title: '',
         description: '',
@@ -387,6 +397,7 @@ function openNewTask(columnUuid = '') {
 
 function openEditTask(task: any) {
     state.editingTask = task
+    state.editingTaskAssignee = task.assignee ?? null
     state.draft = {
         title: task.title ?? '',
         description: task.description ?? '',

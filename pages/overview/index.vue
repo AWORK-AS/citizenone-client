@@ -338,7 +338,8 @@
                             </button>
                         </div>
                         <div>
-                            <ModulesUserDailyOverviewMyInquiryInvitations />
+                            <ModulesUserDailyOverviewMyInquiryInvitations
+                                v-if="userStore.getUser?.company?.inquiry_pipeline_enabled" />
                             <ModulesUserDailyOverviewMyTasks />
                             <ModulesUserDailyOverviewReminders />
                         </div>
