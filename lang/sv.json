@@ -3788,6 +3788,11 @@
             },
             "paymentLink": "Betalningslänk",
             "paymentLinkCopied": "Betalningslänken är kopierad"
+        },
+        "plansAndGoals": {
+            "report": {
+                "citizenName": "@.capitalize:terms.citizenDefinite{'s'} namn"
+            }
         }
     },
     "client": {
