@@ -3939,7 +3939,12 @@
             "name": "Name",
             "shiftTypes": "Shift types",
             "minimumStaffCount": "Minimum staff count",
-            "minimumStaffCountHint": "Minimum number of employees required to cover this department on any given day. Leave empty to disable the coverage warning."
+            "minimumStaffCountHint": "Minimum number of employees required to cover this department on any given day. Leave empty to disable the coverage warning.",
+            "street": "Street and number",
+            "postCode": "Post code",
+            "city": "City",
+            "phone": "Phone",
+            "clinicAddressHint": "Shown to patients in the patient portal as the clinic address and contact number."
         },
         "newDepartment": "New department",
         "table": {

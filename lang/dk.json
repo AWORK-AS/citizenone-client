@@ -3939,7 +3939,12 @@
             "name": "Navn",
             "shiftTypes": "Vagttyper",
             "minimumStaffCount": "Minimumsbemanding",
-            "minimumStaffCountHint": "Minimumsantal medarbejdere, der kræves for at dække denne afdeling på en given dag. Lad stå tomt for at deaktivere bemandingsadvarslen."
+            "minimumStaffCountHint": "Minimumsantal medarbejdere, der kræves for at dække denne afdeling på en given dag. Lad stå tomt for at deaktivere bemandingsadvarslen.",
+            "street": "Vejnavn og nr.",
+            "postCode": "Postnummer",
+            "city": "By",
+            "phone": "Telefon",
+            "clinicAddressHint": "Vises til patienterne i patientportalen som klinikkens adresse og kontaktnummer."
         },
         "newDepartment": "Ny afdeling",
         "table": {

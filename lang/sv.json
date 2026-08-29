@@ -3939,7 +3939,12 @@
             "name": "Namn",
             "shiftTypes": "Passtyper",
             "minimumStaffCount": "Minsta bemanning",
-            "minimumStaffCountHint": "Minsta antal medarbetare som krävs för att täcka denna avdelning en given dag. Lämna tomt för att inaktivera bemanningsvarningen."
+            "minimumStaffCountHint": "Minsta antal medarbetare som krävs för att täcka denna avdelning en given dag. Lämna tomt för att inaktivera bemanningsvarningen.",
+            "street": "Gatunamn och nr.",
+            "postCode": "Postnummer",
+            "city": "Ort",
+            "phone": "Telefon",
+            "clinicAddressHint": "Visas för patienterna i patientportalen som klinikens adress och kontaktnummer."
         },
         "newDepartment": "Ny avdelning",
         "table": {
