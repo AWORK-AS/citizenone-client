@@ -121,6 +121,7 @@ const state = reactive({
         red: '',
         has_system_access: false,
         has_chat_access: false,
+        has_patient_journal_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
@@ -255,6 +256,7 @@ async function fetchCitizen() {
                 red: response?.data?.red ?? '',
                 has_system_access: response?.data?.has_system_access ?? '',
                 has_chat_access: response?.data?.has_chat_access ?? '',
+                has_patient_journal_access: response?.data?.has_patient_journal_access ?? false,
                 has_duty_schedule_access: response?.data?.has_duty_schedule_access ?? '',
                 has_bullet_board_access: response?.data?.has_bullet_board_access ?? '',
                 inquiryData: {
@@ -427,6 +429,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('red', citizenDetails.red)
         params.append('has_system_access', citizenDetails.has_system_access)
         params.append('has_chat_access', citizenDetails.has_chat_access)
+        params.append('has_patient_journal_access', citizenDetails.has_patient_journal_access ?? false)
         params.append('has_duty_schedule_access', citizenDetails.has_duty_schedule_access)
         params.append('has_bullet_board_access', citizenDetails.has_bullet_board_access)
         params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)

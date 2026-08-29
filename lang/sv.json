@@ -9797,7 +9797,14 @@
                 "termCitizen": "Klient (singular)",
                 "termCitizenDefinite": "Klienten (singular, bestämd)",
                 "termCitizens": "Klienter (plural)",
-                "termCitizensDefinite": "Klienterna (plural, bestämd)"
+                "termCitizensDefinite": "Klienterna (plural, bestämd)",
+                "portalAudiencePatient": "Patient",
+                "portalSectionAppointments": "Bokningar",
+                "portalSectionBooking": "Onlinebokning",
+                "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
+                "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
+                "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
+                "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade"
             }
         },
         "licenseOverview": {
@@ -14229,6 +14236,73 @@
             "saveFailed": "Regeln kunde inte sparas",
             "deleted": "Regeln har tagits bort",
             "deleteFailed": "Regeln kunde inte tas bort"
+        }
+    },
+    "patient": {
+        "nav": {
+            "appointments": "Bokningar",
+            "journal": "Journal",
+            "documents": "Dokument"
+        },
+        "overview": {
+            "greeting": "Hej {name}",
+            "intro": "Välkommen till din översikt. Här ser du vad som väntar från kliniken.",
+            "waitingForYou": "Väntar på dig",
+            "unreadMessages": "{count} olästa meddelanden",
+            "upcomingAppointments": "{count} kommande bokningar",
+            "pendingSurveys": "{count} enkäter att besvara",
+            "yourClinic": "Din klinik"
+        },
+        "appointments": {
+            "upcoming": "Kommande",
+            "past": "Tidigare",
+            "empty": "Du har inga bokningar här.",
+            "appointment": "Bokning",
+            "detailTitle": "Bokning hos {clinic}",
+            "what": "Vad",
+            "when": "När",
+            "where": "Var",
+            "who": "Vem",
+            "duration": "Längd {minutes} minuter",
+            "online": "Online",
+            "joinOnline": "Anslut till onlinemötet",
+            "cancel": "Avbokning",
+            "cancelHelp": "Kontakta kliniken för att ändra eller avboka din tid.",
+            "writeToClinic": "Skriv till kliniken"
+        },
+        "booking": {
+            "bookTime": "Boka tid",
+            "noServices": "Kliniken har inga behandlingar öppna för onlinebokning just nu.",
+            "chooseTreatment": "Välj behandling",
+            "chooseDate": "Välj datum",
+            "noDates": "Inga lediga datum.",
+            "chooseTime": "Välj tid",
+            "noTimes": "Inga lediga tider det valda datumet.",
+            "note": "Meddelande till kliniken",
+            "notePlaceholder": "Skriv gärna vad ditt besök gäller",
+            "confirm": "Bekräfta bokning",
+            "summary": "{treatment} · {date} kl. {time}",
+            "booked": "Din tid är bokad"
+        },
+        "journal": {
+            "intro": "Här kan du läsa de journalanteckningar kliniken har delat med dig.",
+            "empty": "Kliniken har inte delat några journalanteckningar med dig än."
+        },
+        "documents": {
+            "upload": "Ladda upp fil",
+            "uploadHelp": "Endast DOC, DOCX, JPEG, JPG, PDF och PNG under 10 MB kan laddas upp.",
+            "saveFile": "Spara fil",
+            "empty": "Det finns inga filer till dig än.",
+            "download": "Hämta",
+            "uploaded": "Filen är sparad"
+        },
+        "staff": {
+            "journalAccess": "Patientens åtkomst till journalen",
+            "journalAccessHelp": "När den är på kan patienten läsa de anteckningar ni markerar som delade.",
+            "noteVisibleToPatient": "Dela anteckningen med patienten",
+            "noteVisibleToPatientHelp": "Anteckningen visas i patientportalen. Kräver att patienten har journalåtkomst.",
+            "surveyWritesToJournal": "Spara svaren i journalen",
+            "surveyWritesToJournalHelp": "När patienten returnerar enkäten skapas en journalanteckning med svaren."
         }
     }
 }

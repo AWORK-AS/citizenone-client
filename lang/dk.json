@@ -9797,7 +9797,14 @@
                 "termCitizen": "Borger (ental)",
                 "termCitizenDefinite": "Borgeren (ental, bestemt)",
                 "termCitizens": "Borgere (flertal)",
-                "termCitizensDefinite": "Borgerne (flertal, bestemt)"
+                "termCitizensDefinite": "Borgerne (flertal, bestemt)",
+                "portalAudiencePatient": "Patient",
+                "portalSectionAppointments": "Aftaler",
+                "portalSectionBooking": "Onlinebooking",
+                "portalPreviewAppointments": "Patienten ser sine kommende og tidligere aftaler hos klinikken.",
+                "portalPreviewBooking": "Patienten kan selv booke en ledig tid til de behandlinger, I har åbnet for onlinebooking.",
+                "portalPreviewPatientJournals": "Patienten ser kun de journalnotater, I har markeret som delt, og kun hvis patienten har journaladgang.",
+                "portalNeverUnsharedJournalNotes": "Journalnotater, der ikke er markeret som delt"
             }
         },
         "licenseOverview": {
@@ -14229,6 +14236,73 @@
             "saveFailed": "Reglen kunne ikke gemmes",
             "deleted": "Reglen er slettet",
             "deleteFailed": "Reglen kunne ikke slettes"
+        }
+    },
+    "patient": {
+        "nav": {
+            "appointments": "Aftaler",
+            "journal": "Journal",
+            "documents": "Dokumenter"
+        },
+        "overview": {
+            "greeting": "Hej {name}",
+            "intro": "Velkommen til din oversigt. Her kan du se, hvad der venter på dig fra klinikken.",
+            "waitingForYou": "Venter på dig",
+            "unreadMessages": "{count} ulæste beskeder",
+            "upcomingAppointments": "{count} kommende aftaler",
+            "pendingSurveys": "{count} spørgeskemaer at besvare",
+            "yourClinic": "Din klinik"
+        },
+        "appointments": {
+            "upcoming": "Kommende",
+            "past": "Tidligere",
+            "empty": "Du har ingen aftaler her.",
+            "appointment": "Aftale",
+            "detailTitle": "Aftale hos {clinic}",
+            "what": "Hvad",
+            "when": "Hvornår",
+            "where": "Hvor",
+            "who": "Hvem",
+            "duration": "Varighed {minutes} minutter",
+            "online": "Online",
+            "joinOnline": "Deltag i onlinemødet",
+            "cancel": "Afbud",
+            "cancelHelp": "Kontakt klinikken for at ændre eller aflyse din aftale.",
+            "writeToClinic": "Skriv til klinikken"
+        },
+        "booking": {
+            "bookTime": "Book tid",
+            "noServices": "Klinikken har ingen ledige behandlinger til onlinebooking lige nu.",
+            "chooseTreatment": "Vælg behandling",
+            "chooseDate": "Vælg dato",
+            "noDates": "Ingen ledige datoer.",
+            "chooseTime": "Vælg tidspunkt",
+            "noTimes": "Ingen ledige tider på den valgte dato.",
+            "note": "Besked til klinikken",
+            "notePlaceholder": "Skriv gerne, hvad din henvendelse handler om",
+            "confirm": "Bekræft booking",
+            "summary": "{treatment} · {date} kl. {time}",
+            "booked": "Din tid er booket"
+        },
+        "journal": {
+            "intro": "Her kan du se de journalnotater, klinikken har delt med dig.",
+            "empty": "Klinikken har ikke delt nogen journalnotater med dig endnu."
+        },
+        "documents": {
+            "upload": "Upload fil",
+            "uploadHelp": "Kun DOC, DOCX, JPEG, JPG, PDF og PNG under 10 MB kan uploades.",
+            "saveFile": "Gem fil",
+            "empty": "Der er ingen filer til dig endnu.",
+            "download": "Hent",
+            "uploaded": "Filen er gemt"
+        },
+        "staff": {
+            "journalAccess": "Patientadgang til journal",
+            "journalAccessHelp": "Når den er slået til, kan patienten se de journalnotater, I markerer som delt.",
+            "noteVisibleToPatient": "Del notatet med patienten",
+            "noteVisibleToPatientHelp": "Notatet vises i patientportalen. Kræver at patienten har adgang til journalen.",
+            "surveyWritesToJournal": "Gem besvarelsen i journalen",
+            "surveyWritesToJournalHelp": "Når patienten returnerer skemaet, oprettes et journalnotat med svarene."
         }
     }
 }

@@ -441,6 +441,15 @@
                         {{ $t('citizens.form.allowChatAccess') }}
                     </p>
                 </div>
+                <div v-if="isDentalClinic && isFieldVisible('system_access')"
+                    class="space-y-1 flex items-center gap-x-2">
+                    <FormSwitch :value="state.formCitizen.has_patient_journal_access"
+                        @toggleSwitch="state.formCitizen.has_patient_journal_access = !state.formCitizen.has_patient_journal_access" />
+                    <div>
+                        <p>{{ $t('patient.staff.journalAccess') }}</p>
+                        <p class="text-xs text-gray-500">{{ $t('patient.staff.journalAccessHelp') }}</p>
+                    </div>
+                </div>
                 <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_duty_schedule_access"
@@ -1113,6 +1122,7 @@ import ClassicEditor from '@/utils/editor'
 import { journalService } from '@/components/api/user/JournalService'
 
 const userStore = useUserStore() as any
+
 const { t } = useI18n()
 const { term } = useTerminology()
 const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
@@ -1223,6 +1233,7 @@ const state = reactive({
         red: '',
         has_system_access: false,
         has_chat_access: false,
+        has_patient_journal_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
@@ -1500,6 +1511,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             red: selectedCitizen.red,
             has_system_access: selectedCitizen.has_system_access,
             has_chat_access: selectedCitizen.has_chat_access,
+            has_patient_journal_access: selectedCitizen.has_patient_journal_access ?? false,
             has_duty_schedule_access: selectedCitizen.has_duty_schedule_access,
             has_bullet_board_access: selectedCitizen.has_bullet_board_access,
             inquiryData: {
