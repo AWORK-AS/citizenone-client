@@ -11291,7 +11291,8 @@
             "cancellations": "Avslutningar",
             "storagePackages": "Lagringspaket",
             "paymentFees": "Betalningsavgifter",
-            "storageUsage": "Lagringsanvändning"
+            "storageUsage": "Lagringsanvändning",
+            "industries": "Branscher"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -11941,6 +11942,50 @@
                 "revenue": "Fakturerat",
                 "mrr": "MRR",
                 "newUsers": "Nya användare"
+            }
+        },
+        "industries": {
+            "pageTitle": "Branscher",
+            "description": "Varje bransch ger ett nytt företag sina egna ord och sin egen uppsättning moduler. Är inget satt används standarden, och ett tomt fält betyder att språkets eget ord används. Ändringen gäller företag som skapas efteråt, inte de som redan finns.",
+            "configuredCount": "{configured} av {total} branscher är uppsatta",
+            "noIndustries": "Inga branscher hittades",
+            "colIndustry": "Bransch",
+            "colWord": "Ordet för klienter",
+            "colModules": "Moduler",
+            "colSource": "Källa",
+            "allModules": "Alla",
+            "someModules": "{count} av {total}",
+            "sourceSaved": "Satt",
+            "sourceDefault": "Standard",
+            "edit": "Redigera",
+            "cancel": "Avbryt",
+            "save": "Spara",
+            "saved": "Branschen har sparats",
+            "modalHelp": "Orden skrivs på företaget när det skapas. Lämna ett fält tomt för att använda standarden.",
+            "termsHint": "Skriv ordet som det står i en mening, alltså med liten bokstav. Systemet sätter själv stor bokstav där ordet inleder en rubrik.",
+            "modules": "Moduler",
+            "selectAll": "Ge alla moduler",
+            "modulesAll": "Branschen får alla moduler.",
+            "modulesNarrowed": "Branschen får {count} av {total} moduler.",
+            "locale": {
+                "dk": "Danska",
+                "en": "Engelska",
+                "no": "Norska",
+                "sv": "Svenska"
+            },
+            "terms": {
+                "term_citizen": "Klient (singular)",
+                "term_citizen_definite": "Klienten (singular, bestämd)",
+                "term_citizens": "Klienter (plural)",
+                "term_citizens_definite": "Klienterna (plural, bestämd)",
+                "term_caseworker": "Handläggare",
+                "term_case": "Ärende",
+                "term_journal": "Journal",
+                "term_journals": "Journaler",
+                "term_journal_notes": "Journalanteckningar",
+                "term_journal_note_tag": "Anteckningstyp",
+                "term_agreement": "Avtal",
+                "term_jobcenter": "Jobbcenter"
             }
         }
     },

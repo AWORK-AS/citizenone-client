@@ -11291,7 +11291,8 @@
             "cancellations": "Cancellations",
             "storagePackages": "Storage packages",
             "paymentFees": "Payment fees",
-            "storageUsage": "Storage usage"
+            "storageUsage": "Storage usage",
+            "industries": "Industries"
         },
         "emailTemplates": {
             "title": "Email templates",
@@ -11941,6 +11942,50 @@
                 "revenue": "Invoiced",
                 "mrr": "MRR",
                 "newUsers": "New users"
+            }
+        },
+        "industries": {
+            "pageTitle": "Industries",
+            "description": "Each industry gives a new company its own words and its own set of modules. With nothing set the default applies, and an empty field means the language's own word is used. The change applies to companies created afterwards, not to existing ones.",
+            "configuredCount": "{configured} of {total} industries are set up",
+            "noIndustries": "No industries found",
+            "colIndustry": "Industry",
+            "colWord": "Word for citizens",
+            "colModules": "Modules",
+            "colSource": "Source",
+            "allModules": "All",
+            "someModules": "{count} of {total}",
+            "sourceSaved": "Set",
+            "sourceDefault": "Default",
+            "edit": "Edit",
+            "cancel": "Cancel",
+            "save": "Save",
+            "saved": "Industry saved",
+            "modalHelp": "The words are written onto the company when it is created. Leave a field empty to use the default.",
+            "termsHint": "Write the word as it appears inside a sentence, in lower case. The system capitalises it where it starts a heading.",
+            "modules": "Modules",
+            "selectAll": "Give all modules",
+            "modulesAll": "The industry gets all modules.",
+            "modulesNarrowed": "The industry gets {count} of {total} modules.",
+            "locale": {
+                "dk": "Danish",
+                "en": "English",
+                "no": "Norwegian",
+                "sv": "Swedish"
+            },
+            "terms": {
+                "term_citizen": "Citizen (singular)",
+                "term_citizen_definite": "The citizen (singular, definite)",
+                "term_citizens": "Citizens (plural)",
+                "term_citizens_definite": "The citizens (plural, definite)",
+                "term_caseworker": "Caseworker",
+                "term_case": "Case",
+                "term_journal": "Journal",
+                "term_journals": "Journals",
+                "term_journal_notes": "Journal notes",
+                "term_journal_note_tag": "Note type",
+                "term_agreement": "Agreement",
+                "term_jobcenter": "Jobcenter"
             }
         }
     },

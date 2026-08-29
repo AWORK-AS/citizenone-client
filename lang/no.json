@@ -11291,7 +11291,8 @@
             "cancellations": "Oppsigelser",
             "storagePackages": "Lagringspakker",
             "paymentFees": "Betalingsgebyrer",
-            "storageUsage": "Lagerforbruk"
+            "storageUsage": "Lagerforbruk",
+            "industries": "Bransjer"
         },
         "emailTemplates": {
             "title": "E-postmaler",
@@ -11941,6 +11942,50 @@
                 "revenue": "Fakturert",
                 "mrr": "MRR",
                 "newUsers": "Nye brukere"
+            }
+        },
+        "industries": {
+            "pageTitle": "Bransjer",
+            "description": "Hver bransje gir et nytt firma sine egne ord og sitt eget sett moduler. Er ingenting satt, brukes standarden, og et tomt felt betyr at språkets eget ord brukes. Endringen gjelder firmaer som opprettes etterpå, ikke de som allerede finnes.",
+            "configuredCount": "{configured} av {total} bransjer er satt opp",
+            "noIndustries": "Ingen bransjer funnet",
+            "colIndustry": "Bransje",
+            "colWord": "Ordet for brukere",
+            "colModules": "Moduler",
+            "colSource": "Kilde",
+            "allModules": "Alle",
+            "someModules": "{count} av {total}",
+            "sourceSaved": "Satt",
+            "sourceDefault": "Standard",
+            "edit": "Rediger",
+            "cancel": "Avbryt",
+            "save": "Lagre",
+            "saved": "Bransjen er lagret",
+            "modalHelp": "Ordene skrives på firmaet når det opprettes. La et felt stå tomt for å bruke standarden.",
+            "termsHint": "Skriv ordet slik det står i en setning, altså med liten forbokstav. Systemet setter selv stor forbokstav der ordet starter en overskrift.",
+            "modules": "Moduler",
+            "selectAll": "Gi alle moduler",
+            "modulesAll": "Bransjen får alle moduler.",
+            "modulesNarrowed": "Bransjen får {count} av {total} moduler.",
+            "locale": {
+                "dk": "Dansk",
+                "en": "Engelsk",
+                "no": "Norsk",
+                "sv": "Svensk"
+            },
+            "terms": {
+                "term_citizen": "Bruker (entall)",
+                "term_citizen_definite": "Brukeren (entall, bestemt)",
+                "term_citizens": "Brukere (flertall)",
+                "term_citizens_definite": "Brukerne (flertall, bestemt)",
+                "term_caseworker": "Saksbehandler",
+                "term_case": "Sak",
+                "term_journal": "Journal",
+                "term_journals": "Journaler",
+                "term_journal_notes": "Journalnotater",
+                "term_journal_note_tag": "Notattype",
+                "term_agreement": "Avtale",
+                "term_jobcenter": "Jobbsenter"
             }
         }
     },
