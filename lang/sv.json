@@ -138,7 +138,7 @@
         "steps": {
             "departments": {
                 "title": "Skapa avdelningar",
-                "desc": "Avdelningar strukturerar personal, klienter och schema.",
+                "desc": "Avdelningar strukturerar personal, journaler och schema.",
                 "tip": "T.ex. \"Avdelning Nord\" och \"Avdelning Syd\".",
                 "cta": "Gå till Avdelningar"
             },
@@ -154,7 +154,7 @@
             },
             "import": {
                 "title": "Importera från ditt gamla system",
-                "desc": "Migrera klienter, personal, journaler och scheman från ditt nuvarande system (CSV eller Excel).",
+                "desc": "Migrera er data från det nuvarande systemet: personer, personal, journaler och scheman (CSV eller Excel).",
                 "cta": "Starta import"
             },
             "shiftTypes": {

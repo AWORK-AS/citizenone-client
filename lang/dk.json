@@ -138,7 +138,7 @@
         "steps": {
             "departments": {
                 "title": "Opret afdelinger",
-                "desc": "Afdelinger strukturerer personale, borgere og vagtplan.",
+                "desc": "Afdelinger strukturerer personale, journaler og vagtplan.",
                 "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".",
                 "cta": "Gå til Afdelinger"
             },
@@ -154,7 +154,7 @@
             },
             "import": {
                 "title": "Importér fra dit gamle system",
-                "desc": "Migrér borgere, ansatte, journaler og vagtplaner fra dit nuværende system (CSV eller Excel).",
+                "desc": "Migrér jeres data fra det nuværende system: personer, ansatte, journaler og vagtplaner (CSV eller Excel).",
                 "cta": "Start import"
             },
             "shiftTypes": {

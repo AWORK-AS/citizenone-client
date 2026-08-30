@@ -138,7 +138,7 @@
         "steps": {
             "departments": {
                 "title": "Opprett avdelinger",
-                "desc": "Avdelinger strukturerer personale, brukere og vaktplan.",
+                "desc": "Avdelinger strukturerer personale, journaler og vaktplan.",
                 "tip": "F.eks. \"Avdeling Nord\" og \"Avdeling Sør\".",
                 "cta": "Gå til Avdelinger"
             },
@@ -154,7 +154,7 @@
             },
             "import": {
                 "title": "Importer fra ditt gamle system",
-                "desc": "Migrer brukere, ansatte, journaler og vaktplaner fra ditt nåværende system (CSV eller Excel).",
+                "desc": "Migrer dataene deres fra det nåværende systemet: personer, ansatte, journaler og vaktplaner (CSV eller Excel).",
                 "cta": "Start import"
             },
             "shiftTypes": {

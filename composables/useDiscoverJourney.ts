@@ -109,6 +109,9 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
         },
         documentation,
         medicine,
+        // A clinic with employees runs a rota like anybody else. Page-gated, so
+        // it only shows up where the module is actually on.
+        dutySchedule,
     ],
 
     employment_services: [
@@ -129,6 +132,7 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
             ],
         },
         documentation,
+        dutySchedule,
     ],
 }
 
