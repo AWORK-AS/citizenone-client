@@ -1074,7 +1074,12 @@ function generateSidebarLinks(user: any) {
     // palette is built from the sidebar, so search could not find them either.
     // Shown only to whoever may actually manage them - everyone else reaches a
     // template through "Create report" on the citizen and never needs the page.
-    if (isAtLeast('Admin') || can('save_and_download_citizen_plan')) {
+    // Care plans are a module rather than a page - the follow-up bell and the
+    // journal score live inside the citizen screen - so nothing in the industry
+    // page set could reach this export. A dental clinic, which the industry
+    // defaults switch care plans off for, still met it in the menu.
+    const hasCarePlans = user?.company?.onboarding_preferences?.modules?.carePlans !== false
+    if (hasCarePlans && (isAtLeast('Admin') || can('save_and_download_citizen_plan'))) {
         nav.push({
             name: 'Plans And Goals Export',
             href: '/reports/plans-and-goals-export',
