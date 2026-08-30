@@ -95,5 +95,20 @@ export function useTerminology() {
         return value === fallback ? value : upperFirst(value)
     }
 
-    return { term, termTitle, tt }
+    /**
+     * What to call the person, given whatever the company's custom page name
+     * holds. Every company is seeded that name with the standard word, so
+     * taking it whenever it is set would mean the seed always beats the term a
+     * company or its industry actually chose. A name equal to the standard word
+     * is the seed, not a rename.
+     *
+     * Resolved once where the store is filled, so the seventy places that read
+     * the store get the right word without each having to know this rule.
+     */
+    function citizensLabel(customName: string | null | undefined, standard: string): string {
+        const renamed = (customName || '').trim()
+        return renamed && renamed !== standard ? renamed : termTitle('citizens', standard)
+    }
+
+    return { term, termTitle, citizensLabel, tt }
 }
