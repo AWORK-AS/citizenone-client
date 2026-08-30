@@ -79,6 +79,12 @@
                                             <span :class="recall.days_overdue > 0 ? 'text-red-600 font-medium' : ''">
                                                 {{ formatDate(recall.due_date) }}
                                             </span>
+                                            <!-- A date a clinician asked for says why on the list,
+                                                 so nobody has to open the patient to find out what
+                                                 the call is about. -->
+                                            <p class="text-xs text-primary" v-if="recall.is_manual_recall">
+                                                {{ recall.manual_recall_reason || $t('dentalRecalls.manualRecall') }}
+                                            </p>
                                             <p class="text-xs text-red-600" v-if="recall.days_overdue > 0">
                                                 {{ recall.days_overdue }} {{ $t('dentalRecalls.daysOverdue') }}
                                             </p>

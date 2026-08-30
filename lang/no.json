@@ -1215,7 +1215,8 @@
             "viewEvent": "Se arrangement",
             "viewFutureEvents": "Se fremtidige arrangementer",
             "viewSignUpForm": "Se tilmeldingsskjema"
-        }
+        },
+        "landsInCalendar": "Når en tid bookes, legges den automatisk i behandlerens kalender. Avlyses bookingen, forsvinner den igjen."
     },
     "bulletBoard": {
         "attachments": "Vedhæftede filer",
@@ -3664,7 +3665,11 @@
                 "neverRecalled": "Aldri innkalt",
                 "recallNow": "Innkall",
                 "recalled": "Innkallingen er registrert",
-                "bookTime": "Book tid"
+                "bookTime": "Book tid",
+                "manualRecallDate": "Innkall til",
+                "manualRecallReason": "Årsak",
+                "manualRecallReasonPlaceholder": "F.eks. følger fyllingen i 5-6",
+                "manualRecallHelp": "Sett en dato her for å innkalle pasienten før neste rutinekontroll. Årsaken vises bare for klinikken. Den bortfaller av seg selv når pasienten er sett."
             },
             "history": {
                 "label": "Vis en tidligere undersøkelse:",
@@ -13470,7 +13475,8 @@
         "empty": {
             "title": "Ingen innkallinger",
             "text": "Ingen pasienter skal innkalles i den valgte perioden."
-        }
+        },
+        "manualRecall": "Innkalt av behandler"
     },
     "dentalOverview": {
         "title": "Klinikkoversikt",

@@ -1215,7 +1215,8 @@
             "viewEvent": "View event",
             "viewFutureEvents": "View future events",
             "viewSignUpForm": "View sign up form"
-        }
+        },
+        "landsInCalendar": "A booked time is placed in the clinician's calendar automatically. Cancel the booking and it disappears again."
     },
     "bulletBoard": {
         "attachments": "Attachments",
@@ -3664,7 +3665,11 @@
                 "neverRecalled": "Never recalled",
                 "recallNow": "Recall",
                 "recalled": "The recall has been recorded",
-                "bookTime": "Book a time"
+                "bookTime": "Book a time",
+                "manualRecallDate": "Recall on",
+                "manualRecallReason": "Reason",
+                "manualRecallReasonPlaceholder": "e.g. watching the filling in 5-6",
+                "manualRecallHelp": "Set a date here to call the patient in before the next routine check-up. The reason is shown to the clinic only. It lapses on its own once the patient has been seen."
             },
             "history": {
                 "label": "Show an earlier examination:",
@@ -13470,7 +13475,8 @@
         "empty": {
             "title": "No recalls",
             "text": "No patients are due in the selected period."
-        }
+        },
+        "manualRecall": "Recalled by a clinician"
     },
     "dentalOverview": {
         "title": "Clinic overview",
