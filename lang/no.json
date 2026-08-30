@@ -14307,7 +14307,10 @@
             "noteVisibleToPatient": "Del notatet med pasienten",
             "noteVisibleToPatientHelp": "Notatet vises i pasientportalen. Krever at pasienten har journaltilgang.",
             "surveyWritesToJournal": "Lagre svarene i journalen",
-            "surveyWritesToJournalHelp": "Når pasienten returnerer skjemaet, opprettes et journalnotat med svarene."
+            "surveyWritesToJournalHelp": "Når pasienten returnerer skjemaet, opprettes et journalnotat med svarene.",
+            "portalAccess": "Tilgang til pasientportalen",
+            "portalAccessHelp": "Pasienten kan logge inn og se avtaler, meldinger og dokumenter.",
+            "messageAccess": "Kan sende meldinger til klinikken"
         }
     }
 }

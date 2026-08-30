@@ -425,23 +425,29 @@
                     <FormError :error="v$?.formCitizen?.red?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.red?.[0]" />
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                <!-- Portal login. The clinic may have bought the patient portal
+                     without citizen access, and then this switch still has to
+                     be here - it is what opens the portal for the patient. -->
+                <div v-if="canGrantPortalAccess && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_system_access"
                         @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
-                    <p>
-                        {{ $t('citizens.form.allowSystemAccess') }}
-                    </p>
+                    <div>
+                        <p>{{ hasPatientPortal ? $t('patient.staff.portalAccess') : $t('citizens.form.allowSystemAccess') }}</p>
+                        <p v-if="hasPatientPortal" class="text-xs text-gray-500">
+                            {{ $t('patient.staff.portalAccessHelp') }}
+                        </p>
+                    </div>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                <div v-if="canGrantPortalAccess && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_chat_access"
                         @toggleSwitch="state.formCitizen.has_chat_access = !state.formCitizen.has_chat_access" />
                     <p>
-                        {{ $t('citizens.form.allowChatAccess') }}
+                        {{ hasPatientPortal ? $t('patient.staff.messageAccess') : $t('citizens.form.allowChatAccess') }}
                     </p>
                 </div>
-                <div v-if="isDentalClinic && isFieldVisible('system_access')"
+                <div v-if="hasPatientPortal && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_patient_journal_access"
                         @toggleSwitch="state.formCitizen.has_patient_journal_access = !state.formCitizen.has_patient_journal_access" />
@@ -1996,6 +2002,11 @@ async function changeSelectedMunicipality(municipalityUuid: string) {
 // Every dental feature keys off the same rule: the industry's system name,
 // with the English industry name still counting until all installs are
 // migrated. The API enforces the same thing.
+// The patient portal is its own app; a dental clinic can have it without
+// citizen access, and both open a portal login for the person.
+const hasPatientPortal = computed(() => !!userStore.getUser?.has_patient_app)
+const canGrantPortalAccess = computed(() => !!userStore.getUser?.has_citizen_app || hasPatientPortal.value)
+
 const isDentalClinic = computed(() => {
     const industry = userStore.getUser?.company?.industry
 

@@ -14307,7 +14307,10 @@
             "noteVisibleToPatient": "Dela anteckningen med patienten",
             "noteVisibleToPatientHelp": "Anteckningen visas i patientportalen. Kräver att patienten har journalåtkomst.",
             "surveyWritesToJournal": "Spara svaren i journalen",
-            "surveyWritesToJournalHelp": "När patienten returnerar enkäten skapas en journalanteckning med svaren."
+            "surveyWritesToJournalHelp": "När patienten returnerar enkäten skapas en journalanteckning med svaren.",
+            "portalAccess": "Åtkomst till patientportalen",
+            "portalAccessHelp": "Patienten kan logga in och se sina bokningar, meddelanden och dokument.",
+            "messageAccess": "Får skicka meddelanden till kliniken"
         }
     }
 }

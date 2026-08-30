@@ -14307,7 +14307,10 @@
             "noteVisibleToPatient": "Share the note with the patient",
             "noteVisibleToPatientHelp": "The note appears in the patient portal. Requires that the patient has journal access.",
             "surveyWritesToJournal": "Save answers in the journal",
-            "surveyWritesToJournalHelp": "When the patient returns the questionnaire, a journal note with the answers is created."
+            "surveyWritesToJournalHelp": "When the patient returns the questionnaire, a journal note with the answers is created.",
+            "portalAccess": "Access to the patient portal",
+            "portalAccessHelp": "The patient can sign in and see their appointments, messages and documents.",
+            "messageAccess": "May send messages to the clinic"
         }
     }
 }
