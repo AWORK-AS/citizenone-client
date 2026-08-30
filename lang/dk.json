@@ -3108,7 +3108,8 @@
             "surveys": "Spørgeskemaer",
             "toothChart": "Tandkort",
             "priceEstimates": "Prisoverslag",
-            "invoices": "Fakturaer"
+            "invoices": "Fakturaer",
+            "patientForms": "Formularer til patienten"
         },
         "timeline": {
             "newEvent": "Ny hændelse",
@@ -14251,7 +14252,8 @@
             "appointments": "Aftaler",
             "journal": "Journal",
             "documents": "Dokumenter",
-            "priceEstimates": "Prisoverslag"
+            "priceEstimates": "Prisoverslag",
+            "forms": "Formularer"
         },
         "overview": {
             "greeting": "Hej {name}",
@@ -14342,6 +14344,41 @@
             "treatment": "Behandling",
             "quantity": "Antal",
             "price": "Pris"
+        },
+        "forms": {
+            "empty": "Klinikken har ikke sendt dig en formular endnu.",
+            "pending": "Skal udfyldes",
+            "noPending": "Du har ingen formularer, der venter.",
+            "completed": "Besvarede",
+            "received": "Modtaget",
+            "completedAt": "Besvaret",
+            "fillOut": "Udfyld",
+            "return": "Send til klinikken",
+            "returned": "Formularen er sendt",
+            "alreadyCompleted": "Du har allerede besvaret denne formular.",
+            "answerRequired": "Nogle spørgsmål mangler at blive besvaret",
+            "journalNotice": "Din besvarelse lægges i din journal hos klinikken."
+        }
+    },
+    "patientForms": {
+        "sendToPatient": "Send formular til patienten",
+        "sendHelp": "Patienten udfylder formularen i patientportalen, og besvarelsen lægges i journalen.",
+        "chooseForm": "Vælg formular",
+        "send": "Send",
+        "sentAlert": "Formularen er sendt til patienten",
+        "sent": "Sendt",
+        "answered": "Besvaret",
+        "withdraw": "Træk tilbage",
+        "withdrawConfirm": "Formularen fjernes fra patientens portal. Er du sikker?",
+        "withdrawnAlert": "Formularen er trukket tilbage",
+        "journalNotice": "Besvarelser lægges automatisk i patientens journal.",
+        "status": {
+            "answered": "Besvaret",
+            "waiting": "Afventer svar"
+        },
+        "empty": {
+            "title": "Ingen formularer sendt endnu",
+            "text": "Send en formular, som patienten udfylder hjemmefra. Besvarelsen lander i journalen."
         }
     }
 }

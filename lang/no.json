@@ -3108,7 +3108,8 @@
             "surveys": "Spørreskjemaer",
             "toothChart": "Tannkart",
             "priceEstimates": "Prisoverslag",
-            "invoices": "Fakturaer"
+            "invoices": "Fakturaer",
+            "patientForms": "Skjemaer til pasienten"
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -14251,7 +14252,8 @@
             "appointments": "Avtaler",
             "journal": "Journal",
             "documents": "Dokumenter",
-            "priceEstimates": "Prisoverslag"
+            "priceEstimates": "Prisoverslag",
+            "forms": "Skjemaer"
         },
         "overview": {
             "greeting": "Hei {name}",
@@ -14342,6 +14344,41 @@
             "treatment": "Behandling",
             "quantity": "Antall",
             "price": "Pris"
+        },
+        "forms": {
+            "empty": "Klinikken har ikke sendt deg et skjema ennå.",
+            "pending": "Skal fylles ut",
+            "noPending": "Du har ingen skjemaer som venter.",
+            "completed": "Besvarte",
+            "received": "Mottatt",
+            "completedAt": "Besvart",
+            "fillOut": "Fyll ut",
+            "return": "Send til klinikken",
+            "returned": "Skjemaet er sendt",
+            "alreadyCompleted": "Du har allerede besvart dette skjemaet.",
+            "answerRequired": "Noen spørsmål er ikke besvart",
+            "journalNotice": "Svarene dine legges i journalen din hos klinikken."
+        }
+    },
+    "patientForms": {
+        "sendToPatient": "Send skjema til pasienten",
+        "sendHelp": "Pasienten fyller ut skjemaet i portalen, og svarene legges i journalen.",
+        "chooseForm": "Velg skjema",
+        "send": "Send",
+        "sentAlert": "Skjemaet er sendt til pasienten",
+        "sent": "Sendt",
+        "answered": "Besvart",
+        "withdraw": "Trekk tilbake",
+        "withdrawConfirm": "Skjemaet fjernes fra pasientportalen. Er du sikker?",
+        "withdrawnAlert": "Skjemaet er trukket tilbake",
+        "journalNotice": "Svarene legges automatisk i pasientens journal.",
+        "status": {
+            "answered": "Besvart",
+            "waiting": "Venter på svar"
+        },
+        "empty": {
+            "title": "Ingen skjemaer sendt ennå",
+            "text": "Send et skjema som pasienten fyller ut hjemmefra. Svarene havner i journalen."
         }
     }
 }

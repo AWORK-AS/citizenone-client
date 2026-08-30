@@ -315,6 +315,16 @@ const navigation = ref([
         ]
     },
     {
+        name: 'Forms',
+        label: 'patient.nav.forms',
+        href: '/patient/forms',
+        icon: 'ph:note-pencil',
+        activeRouteNames: [
+            'patient-forms',
+            'patient-forms-assignment_uuid',
+        ]
+    },
+    {
         name: 'Journal',
         label: 'patient.nav.journal',
         href: '/patient/journal',
@@ -353,6 +363,7 @@ const visibleNavigation = computed(() => {
         Messages: 'messages',
         Appointments: 'appointments',
         Surveys: 'surveys',
+        Forms: 'forms',
         Journal: 'journals',
         PriceEstimates: 'price_estimates',
         Documents: 'documents',
