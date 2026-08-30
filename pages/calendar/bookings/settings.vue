@@ -117,6 +117,21 @@
                                     </p>
                                 </div>
                             </div>
+
+                            <!-- Off by default: a practice of twelve does not want
+                                 twelve notices per booking, and a practice of two
+                                 covering for each other does. -->
+                            <div class="mt-4 flex items-start gap-x-2 border-t border-gray-100 pt-4">
+                                <FormSwitch :value="state.formBookingSettings.notify_team_on_booking"
+                                    :label="$t('bookingSettings.form.notifyTeam')"
+                                    @toggleSwitch="state.formBookingSettings.notify_team_on_booking = !state.formBookingSettings.notify_team_on_booking" />
+                                <div>
+                                    <p>{{ $t('bookingSettings.form.notifyTeam') }}</p>
+                                    <p class="text-xs text-gray-500">
+                                        {{ $t('bookingSettings.form.notifyTeamHelp') }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -353,6 +368,7 @@ const state = reactive({
         description: '',
         image: '',
         is_address_enabled: false,
+        notify_team_on_booking: false,
         is_phone_enabled: false,
         language_uuid: '',
         fields: [] as any,
@@ -441,6 +457,7 @@ async function fetchBookingSettings() {
                 description: response.data?.description,
                 image: '',
                 is_address_enabled: response.data?.is_address_enabled ?? false,
+                notify_team_on_booking: response.data?.notify_team_on_booking ?? false,
                 is_phone_enabled: response.data?.is_phone_enabled ?? false,
                 language_uuid: response.data?.language?.uuid,
                 fields: response.data?.fields ? JSON.parse(response.data?.fields) : [],
@@ -529,6 +546,7 @@ async function submitForm() {
                 params.append('image', state.formBookingSettings.image)
             }
             params.append('is_address_enabled', state.formBookingSettings.is_address_enabled)
+            params.append('notify_team_on_booking', state.formBookingSettings.notify_team_on_booking ? 1 : 0)
             params.append('is_phone_enabled', state.formBookingSettings.is_phone_enabled)
             params.append('language_uuid', state.formBookingSettings.language_uuid)
             params.append('fields', JSON.stringify(state.formBookingSettings.fields))

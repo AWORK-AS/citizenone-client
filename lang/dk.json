@@ -948,7 +948,9 @@
             "linkCopied": "Kopieret!",
             "onlineBookingLink": "Online Booking-link",
             "onlineBookingLinkLabel": "Linket til din offentlige online booking-side",
-            "phone": "Telefon"
+            "phone": "Telefon",
+            "notifyTeam": "Giv hele klinikken besked",
+            "notifyTeamHelp": "Behandleren får altid besked. Slå til hvis kollegerne også skal, så de kan dække for hinanden."
         }
     },
     "bookingTags": {
