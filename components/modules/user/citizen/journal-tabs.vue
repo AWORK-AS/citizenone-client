@@ -52,7 +52,10 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-tooth-chart'],
         })
     }
-    if (isDental) {
+    // Quoting before treatment is a way of working rather than something every
+    // clinic does, so it follows the company's own choice like the medicine card
+    // and the documents tab do - not the industry alone.
+    if (isDental && newValue?.company?.onboarding_preferences?.modules?.priceEstimates !== false) {
         tabs.push({
             name: 'citizens.tabs.priceEstimates', icon: 'ph:receipt', isTranslateName: true,
             category: 'admin', primary: false,

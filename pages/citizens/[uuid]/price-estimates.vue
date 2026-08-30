@@ -199,6 +199,21 @@
                                     {{ $t('delete') }}
                                 </FormButton>
                             </div>
+
+                            <!-- An estimate is a quote and an invoice is the bill that follows
+                                 it. The two sit in tabs beside each other with nothing saying
+                                 they are two steps of one thing, so an accepted estimate says
+                                 where it goes next. -->
+                            <p class="mt-2 flex items-center gap-1.5 text-xs text-gray-500"
+                                v-if="nextStep(estimate)">
+                                <Icon name="ph:arrow-right" class="size-3.5 shrink-0" aria-hidden="true" />
+                                <span>{{ nextStep(estimate) }}</span>
+                                <button type="button" class="underline hover:text-gray-700"
+                                    v-if="estimate.status === 'accepted' && hasInvoicing && !hasBillableWork(estimate)"
+                                    @click="navigateTo(`/citizens/${citizenUuid}/invoices`)">
+                                    {{ $t('citizens.tabs.invoices') }}
+                                </button>
+                            </p>
                         </div>
                     </div>
                 </LoadingSpinner>
@@ -248,11 +263,16 @@ const state = reactive({
     error: '',
 })
 
-// Price estimates only exist for dental clinics, same rule as the tooth chart.
+// Price estimates exist for dental clinics, and only for the ones that quote:
+// a clinic that has switched the module off should not reach the page by URL
+// either, the same rule the tab follows.
 watch(() => userStore.getUser, (user: any) => {
-    if (user?.uuid && user?.company?.industry?.system_name !== 'dental') {
-        navigateTo(`/citizens/${citizenUuid}/journals`)
-    }
+    if (!user?.uuid) return
+
+    const isDental = user?.company?.industry?.system_name === 'dental'
+    const quotes = user?.company?.onboarding_preferences?.modules?.priceEstimates !== false
+
+    if (!isDental || !quotes) navigateTo(`/citizens/${citizenUuid}/journals`)
 }, { immediate: true })
 
 /**
@@ -266,6 +286,34 @@ function canSettle(estimate: any): boolean {
     return !!userStore.getUser?.has_invoice_app
         && estimate.status === 'accepted'
         && Number(estimate.billable_amount) > 0
+}
+
+const hasInvoicing = computed(() => !!userStore.getUser?.has_invoice_app)
+
+function hasBillableWork(estimate: any): boolean {
+    return Number(estimate.billable_amount) > 0
+}
+
+/**
+ * What happens to this estimate next, in one line.
+ *
+ * Nothing here is new behaviour - it is the sentence the screen never said. An
+ * accepted quote turns into an invoice by marking the treatments carried out,
+ * and until someone does that, the buttons that would do the billing are
+ * correctly absent and unexplained.
+ */
+function nextStep(estimate: any): string {
+    if (estimate.status !== 'accepted') return ''
+    if (!hasInvoicing.value) return ''
+
+    if (hasBillableWork(estimate)) return t('citizens.priceEstimates.nextStepSettle')
+
+    const allInvoiced = (estimate.lines || []).length > 0
+        && (estimate.lines || []).every((line: any) => line.is_invoiced)
+
+    return allInvoiced
+        ? t('citizens.priceEstimates.nextStepInvoiced')
+        : t('citizens.priceEstimates.nextStepMarkDone')
 }
 
 function openSettle(estimate: any) {

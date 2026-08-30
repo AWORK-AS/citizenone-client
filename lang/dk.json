@@ -122,7 +122,8 @@
             "medicin": "Medicin",
             "dokumentation": "Dokumentation (planer, status, dokumenter)",
             "useOfForce": "Magtanvendelse",
-            "predefinedContent": "Foruddefineret notatindhold"
+            "predefinedContent": "Foruddefineret notatindhold",
+            "priceEstimates": "Prisoverslag til patienter"
         },
         "groups": {
             "migration": "Migrering",
@@ -3728,7 +3729,10 @@
                 "terminal": "Terminal",
                 "mobilepay": "MobilePay",
                 "cash": "Kontant"
-            }
+            },
+            "nextStepMarkDone": "Markér behandlingerne som udført, når de er lavet, så kan de faktureres herfra.",
+            "nextStepSettle": "Behandlingen er udført og klar til afregning.",
+            "nextStepInvoiced": "Alt på dette overslag er faktureret. Se fakturaen under"
         },
         "invoices": {
             "newTitle": "Opret faktura",
