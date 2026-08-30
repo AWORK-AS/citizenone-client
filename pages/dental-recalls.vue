@@ -102,11 +102,21 @@
                                             {{ recall.last_reminder_sent_at ? formatDate(recall.last_reminder_sent_at) : '' }}
                                         </td>
                                         <td class="px-4 py-3 text-right">
-                                            <FormButton buttonStyle="action" buttonSize="xs"
-                                                @click="markContacted(recall)">
-                                                <Icon name="ph:check" class="size-4" />
-                                                {{ $t('dentalRecalls.markContacted') }}
-                                            </FormButton>
+                                            <div class="inline-flex items-center gap-2">
+                                                <FormButton buttonStyle="action" buttonSize="xs"
+                                                    @click="markContacted(recall)">
+                                                    <Icon name="ph:check" class="size-4" />
+                                                    {{ $t('dentalRecalls.markContacted') }}
+                                                </FormButton>
+                                                <!-- Marking someone contacted is half the job. The
+                                                     point of calling them in is to give them a time,
+                                                     and the list could only ever do the first half. -->
+                                                <FormButton buttonStyle="action" buttonSize="xs"
+                                                    @click="bookTime(recall)">
+                                                    <Icon name="ph:calendar-plus" class="size-4" />
+                                                    {{ $t('citizens.toothChart.strip.bookTime') }}
+                                                </FormButton>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -126,6 +136,7 @@ import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
+const { industryHasFeature } = useIndustryFeatures()
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
@@ -143,7 +154,7 @@ const state = reactive({
 
 // The recall list belongs to dental clinics, the same rule the API enforces.
 watch(() => userStore.getUser, (user: any) => {
-    if (user?.uuid && user?.company?.industry?.system_name !== 'dental') {
+    if (user?.uuid && !industryHasFeature('recalls')) {
         navigateTo('/overview')
     }
 }, { immediate: true })
@@ -185,6 +196,13 @@ async function load() {
 function setWindow(days: number) {
     state.withinDays = days
     load()
+}
+
+function bookTime(recall: any) {
+    navigateTo({
+        path: `/citizens/${recall.citizen_uuid}/calendar`,
+        query: { date: recall.due_date },
+    })
 }
 
 async function markContacted(recall: any) {

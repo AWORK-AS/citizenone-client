@@ -294,6 +294,7 @@ const { isAtLeast } = usePermissions()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const isAdmin = computed(() => isAtLeast('Admin'))
+const { industryHasFeature } = useIndustryFeatures()
 
 const firstName = computed(() => userStore.getUser?.firstname ?? '')
 
@@ -307,7 +308,7 @@ const moduleOptions = computed(() => [
     // Quoting before treatment is a way of working, not a thing every clinic
     // does, and it exists for no other industry - so it is only worth asking a
     // dental clinic about.
-    ...(userStore.getUser?.company?.industry?.system_name === 'dental'
+    ...(industryHasFeature('priceEstimates')
         ? [{ key: 'priceEstimates', icon: 'ph:receipt' }]
         : []),
 ])

@@ -42,6 +42,26 @@
                 <Icon name="ph:pencil-simple"
                     class="size-3.5 text-gray-300 transition group-hover:text-gray-500" />
             </button>
+            <!-- The recall work list has always known when this patient was last
+                 called in, and been the only place that could record it. From
+                 the patient's own screen a colleague who has just rung leaves no
+                 trace, and the natural next thing - a time in the book - was a
+                 tab away with the date typed in again. -->
+            <p class="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-gray-500"
+                v-if="props.patient.next_checkup_due">
+                <span v-if="props.patient.last_reminder_sent_at">
+                    {{ $t('citizens.toothChart.strip.lastRecalled') }}
+                    {{ formatDate(props.patient.last_reminder_sent_at) }}
+                </span>
+                <span v-else>{{ $t('citizens.toothChart.strip.neverRecalled') }}</span>
+                <button type="button" class="underline hover:text-gray-700"
+                    :disabled="state.isRecalling" @click="recall">
+                    {{ $t('citizens.toothChart.strip.recallNow') }}
+                </button>
+                <button type="button" class="underline hover:text-gray-700" @click="bookTime">
+                    {{ $t('citizens.toothChart.strip.bookTime') }}
+                </button>
+            </p>
         </div>
 
         <div v-if="props.lastExamination">
@@ -108,6 +128,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { toothChartService } from '@/components/api/user/ToothChartService'
+import { dentalRecallService } from '@/components/api/user/DentalRecallService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -120,11 +141,12 @@ const props = defineProps<{
 const emit = defineEmits<{ (event: 'saved'): void }>()
 
 const { t } = useI18n()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 
 const state = reactive({
     isEditing: false,
     isSaving: false,
+    isRecalling: false,
     error: '',
     form: {
         last_checkup_date: '',
@@ -233,5 +255,37 @@ function danmarkKey(value: string): string {
 
 function formatDate(date: string): string {
     return date ? moment(date).format('DD.MM.YYYY') : ''
+}
+
+/**
+ * Records that this patient has been called back in.
+ *
+ * The same act the recall work list performs, from the screen where the
+ * conversation actually happens. It stops the automatic reminder repeating what
+ * a colleague just did by hand, which is the whole reason the timestamp exists.
+ */
+async function recall() {
+    state.isRecalling = true
+
+    try {
+        await dentalRecallService.markContacted(props.citizenUuid)
+        successAlert(`${t('alert.success')}!`, `${t('citizens.toothChart.strip.recalled')}.`)
+        emit('saved')
+    } catch (error: any) {
+        errorAlert(`${t('alert.error')}!`, error?.message || '')
+    } finally {
+        state.isRecalling = false
+    }
+}
+
+/**
+ * Opens the patient's own calendar on the day they are due, because the point
+ * of calling someone in is to give them a time.
+ */
+function bookTime() {
+    navigateTo({
+        path: `/citizens/${props.citizenUuid}/calendar`,
+        query: { date: props.patient?.next_checkup_due },
+    })
 }
 </script>

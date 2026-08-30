@@ -15,7 +15,8 @@
     "test:sidebar-navigation": "node sidebar-navigation.mjs",
     "test:settings-switches": "node settings-switches.mjs",
     "test:console-smoke": "node console-smoke.mjs",
-    "test:price-estimate-settlement": "node price-estimate-settlement.mjs"
+    "test:price-estimate-settlement": "node price-estimate-settlement.mjs",
+    "test:dental-recalls": "node dental-recalls.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

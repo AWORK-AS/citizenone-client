@@ -592,6 +592,7 @@ const assistantStore = useAssistantStore()
 const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const { term, citizensLabel } = useTerminology()
+const { industryHasFeature } = useIndustryFeatures()
 const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
@@ -1003,7 +1004,7 @@ function generateSidebarLinks(user: any) {
     }
     // The recall list only exists for dental clinics, the same rule the tabs
     // and the API use.
-    if (user?.company?.industry?.system_name === 'dental') {
+    if (industryHasFeature('clinicOverview')) {
         nav.push({
             name: 'DentalOverview',
             href: '/dental-overview',
