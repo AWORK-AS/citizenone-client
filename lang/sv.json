@@ -14230,5 +14230,10 @@
             "deleted": "Regeln har tagits bort",
             "deleteFailed": "Regeln kunde inte tas bort"
         }
+    },
+    "pageSettings": {
+        "title": "Inställningar för den här sidan",
+        "forThisPage": "Inställningar för den här sidan",
+        "allSettings": "Alla inställningar"
     }
 }

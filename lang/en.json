@@ -14230,5 +14230,10 @@
             "deleted": "The rule was deleted",
             "deleteFailed": "The rule could not be deleted"
         }
+    },
+    "pageSettings": {
+        "title": "Settings for this page",
+        "forThisPage": "Settings for this page",
+        "allSettings": "All settings"
     }
 }

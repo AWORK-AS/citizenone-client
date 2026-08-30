@@ -287,6 +287,9 @@
                             </Badge>
                         </button>
 
+                        <!-- Settings behind the page currently open -->
+                        <ModulesUserNavbarPageSettings />
+
                         <!-- Bulletin board, release notes and support -->
                         <ModulesUserNavbarHelpMenu
                             :unreadNewsCount="!userStore.getUser?.is_read_news ? userStore?.getUnreadNewsCount : 0"

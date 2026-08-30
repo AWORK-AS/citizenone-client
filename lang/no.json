@@ -14230,5 +14230,10 @@
             "deleted": "Regelen er slettet",
             "deleteFailed": "Regelen kunne ikke slettes"
         }
+    },
+    "pageSettings": {
+        "title": "Innstillinger for denne siden",
+        "forThisPage": "Innstillinger for denne siden",
+        "allSettings": "Alle innstillinger"
     }
 }
