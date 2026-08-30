@@ -14315,7 +14315,10 @@
             "sectionHelp": "Bestem hvad denne patient kan se og gøre i patientportalen.",
             "portalActive": "Patientportal aktiv",
             "portalInactive": "Ingen portaladgang",
-            "portalBadgeHelp": "Klik for at ændre patientens adgang"
+            "portalBadgeHelp": "Klik for at ændre patientens adgang",
+            "teaserTitle": "Giv dine patienter adgang",
+            "teaserText": "Med Patientadgang kan patienterne selv booke tid, skrive til klinikken, besvare spørgeskemaer og se de journalnotater, I vælger at dele.",
+            "teaserAction": "Se Patientadgang"
         }
     }
 }

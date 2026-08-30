@@ -14315,7 +14315,10 @@
             "sectionHelp": "Bestem hva denne pasienten kan se og gjøre i pasientportalen.",
             "portalActive": "Pasientportal aktiv",
             "portalInactive": "Ingen portaltilgang",
-            "portalBadgeHelp": "Klikk for å endre pasientens tilgang"
+            "portalBadgeHelp": "Klikk for å endre pasientens tilgang",
+            "teaserTitle": "Gi pasientene dine tilgang",
+            "teaserText": "Med pasientportalen bestiller pasientene selv time, skriver til klinikken, besvarer spørreskjemaer og leser journalnotatene dere velger å dele.",
+            "teaserAction": "Se pasientportalen"
         }
     }
 }

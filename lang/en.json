@@ -14315,7 +14315,10 @@
             "sectionHelp": "Decide what this patient can see and do in the patient portal.",
             "portalActive": "Portal active",
             "portalInactive": "No portal access",
-            "portalBadgeHelp": "Click to change the patient access"
+            "portalBadgeHelp": "Click to change the patient access",
+            "teaserTitle": "Give your patients access",
+            "teaserText": "With the patient portal your patients book their own appointments, write to the clinic, answer questionnaires and read the journal notes you choose to share.",
+            "teaserAction": "See the patient portal"
         }
     }
 }

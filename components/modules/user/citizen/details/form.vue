@@ -483,6 +483,25 @@
                     </div>
                 </div>
         </FormSection>
+        <!-- The clinic cannot know the portal exists if nothing ever mentions
+             it, so a dental clinic without the app gets a quiet pointer here,
+             where they would have looked for the setting. -->
+        <FormSection v-if="isDentalClinic && !hasPatientPortal && isFieldVisible('system_access')"
+            :title="$t('patient.staff.sectionTitle')" :description="$t('patient.staff.sectionHelp')">
+                <div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-5 py-4 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-start gap-3">
+                        <Icon name="ph:device-mobile-speaker" class="h-6 w-6 text-primary shrink-0" aria-hidden="true" />
+                        <div>
+                            <p class="font-semibold text-gray-900">{{ $t('patient.staff.teaserTitle') }}</p>
+                            <p class="text-sm text-gray-600 max-w-xl">{{ $t('patient.staff.teaserText') }}</p>
+                        </div>
+                    </div>
+                    <FormButton type="button" buttonStyle="action"
+                        @click="navigateTo('/apps?type=other&generic_name=patient-access')">
+                        {{ $t('patient.staff.teaserAction') }}
+                    </FormButton>
+                </div>
+        </FormSection>
         <FormSection v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('inquiry_data')" :title="$t('citizens.sections.inquiryData')" :description="$t('citizens.sections.inquiryDataHelp')">
                 <div class="space-y-1">
                     <FormLabel for="inquiry_date" :label="$t('citizens.form.inquiryData.dateOfInquiry')" />

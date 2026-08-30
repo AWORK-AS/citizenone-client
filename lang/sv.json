@@ -14315,7 +14315,10 @@
             "sectionHelp": "Bestäm vad den här patienten kan se och göra i patientportalen.",
             "portalActive": "Patientportal aktiv",
             "portalInactive": "Ingen portalåtkomst",
-            "portalBadgeHelp": "Klicka för att ändra patientens åtkomst"
+            "portalBadgeHelp": "Klicka för att ändra patientens åtkomst",
+            "teaserTitle": "Ge dina patienter åtkomst",
+            "teaserText": "Med patientportalen bokar patienterna själva tid, skriver till kliniken, besvarar enkäter och läser de journalanteckningar ni väljer att dela.",
+            "teaserAction": "Se patientportalen"
         }
     }
 }
