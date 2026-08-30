@@ -14310,7 +14310,12 @@
             "surveyWritesToJournalHelp": "When the patient returns the questionnaire, a journal note with the answers is created.",
             "portalAccess": "Access to the patient portal",
             "portalAccessHelp": "The patient can sign in and see their appointments, messages and documents.",
-            "messageAccess": "May send messages to the clinic"
+            "messageAccess": "May send messages to the clinic",
+            "sectionTitle": "Patient portal",
+            "sectionHelp": "Decide what this patient can see and do in the patient portal.",
+            "portalActive": "Portal active",
+            "portalInactive": "No portal access",
+            "portalBadgeHelp": "Click to change the patient access"
         }
     }
 }

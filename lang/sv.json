@@ -14310,7 +14310,12 @@
             "surveyWritesToJournalHelp": "När patienten returnerar enkäten skapas en journalanteckning med svaren.",
             "portalAccess": "Åtkomst till patientportalen",
             "portalAccessHelp": "Patienten kan logga in och se sina bokningar, meddelanden och dokument.",
-            "messageAccess": "Får skicka meddelanden till kliniken"
+            "messageAccess": "Får skicka meddelanden till kliniken",
+            "sectionTitle": "Patientportal",
+            "sectionHelp": "Bestäm vad den här patienten kan se och göra i patientportalen.",
+            "portalActive": "Patientportal aktiv",
+            "portalInactive": "Ingen portalåtkomst",
+            "portalBadgeHelp": "Klicka för att ändra patientens åtkomst"
         }
     }
 }

@@ -14310,7 +14310,12 @@
             "surveyWritesToJournalHelp": "Når patienten returnerer skemaet, oprettes et journalnotat med svarene.",
             "portalAccess": "Adgang til patientportalen",
             "portalAccessHelp": "Patienten kan logge ind og se sine aftaler, beskeder og dokumenter.",
-            "messageAccess": "Må skrive beskeder til klinikken"
+            "messageAccess": "Må skrive beskeder til klinikken",
+            "sectionTitle": "Patientportal",
+            "sectionHelp": "Bestem hvad denne patient kan se og gøre i patientportalen.",
+            "portalActive": "Patientportal aktiv",
+            "portalInactive": "Ingen portaladgang",
+            "portalBadgeHelp": "Klik for at ændre patientens adgang"
         }
     }
 }
