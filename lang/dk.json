@@ -3698,7 +3698,7 @@
                 "validUntil": "Gyldigt til",
                 "lines": "Behandlinger",
                 "addLine": "Tilføj linje",
-                "code": "Ydelse",
+                "code": "Kode",
                 "description": "Behandling",
                 "quantity": "Antal",
                 "unitPrice": "Stykpris",
@@ -3707,11 +3707,28 @@
                 "noTooth": "Ingen tand",
                 "note": "Bemærkninger",
                 "notePlaceholder": "Fx hvad prisen forudsætter",
-                "needsALine": "Tilføj mindst én behandling"
+                "needsALine": "Tilføj mindst én behandling",
+                "service": "Ydelse",
+                "ownLine": "Egen linje"
             },
             "plan": "Plan",
             "markDone": "Markér udført",
-            "done": "Udført"
+            "done": "Udført",
+            "invoiced": "Faktureret",
+            "leftToSettle": "Til afregning",
+            "settleNow": "Afregn nu",
+            "createInvoice": "Opret faktura",
+            "settleTitle": "Afregn behandling",
+            "settleExplanation": "Opretter fakturaen for de udførte linjer og registrerer betalingen med det samme. Brug den når patienten betaler i klinikken.",
+            "paymentMethod": "Betalingsmåde",
+            "settled": "Afregnet",
+            "invoiceCreated": "Faktura oprettet",
+            "methods": {
+                "card": "Kort",
+                "terminal": "Terminal",
+                "mobilepay": "MobilePay",
+                "cash": "Kontant"
+            }
         },
         "invoices": {
             "newTitle": "Opret faktura",

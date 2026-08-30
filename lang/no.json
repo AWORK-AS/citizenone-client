@@ -3707,11 +3707,28 @@
                 "noTooth": "Ingen tann",
                 "note": "Merknader",
                 "notePlaceholder": "For eksempel hva prisen forutsetter",
-                "needsALine": "Legg til minst én behandling"
+                "needsALine": "Legg til minst én behandling",
+                "service": "Tjeneste",
+                "ownLine": "Egen linje"
             },
             "plan": "Plan",
             "markDone": "Merk utført",
-            "done": "Utført"
+            "done": "Utført",
+            "invoiced": "Fakturert",
+            "leftToSettle": "Til oppgjør",
+            "settleNow": "Gjør opp nå",
+            "createInvoice": "Opprett faktura",
+            "settleTitle": "Gjør opp behandling",
+            "settleExplanation": "Oppretter fakturaen for de utførte linjene og registrerer betalingen med en gang. Bruk den når pasienten betaler i klinikken.",
+            "paymentMethod": "Betalingsmåte",
+            "settled": "Gjort opp",
+            "invoiceCreated": "Faktura opprettet",
+            "methods": {
+                "card": "Kort",
+                "terminal": "Terminal",
+                "mobilepay": "MobilePay",
+                "cash": "Kontant"
+            }
         },
         "invoices": {
             "newTitle": "Opprett faktura",
