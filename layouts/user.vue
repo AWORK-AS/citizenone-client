@@ -576,7 +576,7 @@ const customSidebarLinksStore = useCustomSidebarLinksStore()
 const assistantStore = useAssistantStore()
 const { isAtLeast, can } = usePermissions()
 const language = useI18n()
-const { term } = useTerminology()
+const { term, termTitle } = useTerminology()
 const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
@@ -798,7 +798,14 @@ function getNavItemLabel(item: any) {
     if (item.rawLabel) return item.name
     if (item.name === 'Overview') return t('sidebar.overview')
     if (item.name === 'Discover') return t('sidebar.discover')
-    if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
+    if (item.name === 'Citizens') {
+        // Every company is seeded a custom page name holding the standard word,
+        // so taking it whenever it is set would mean the seed always beats the
+        // company's own term. A name equal to the standard one is not a rename.
+        const standard = t('sidebar.citizens')
+        const renamed = customPagesStore.getCustomPagesName?.citizens
+        return renamed && renamed !== standard ? renamed : termTitle('citizens', standard)
+    }
     if (item.name === 'Invoicing') return t('sidebar.invoicing')
     if (item.name === 'DentalOverview') return t('sidebar.dentalOverview')
     if (item.name === 'DentalRecalls') return t('sidebar.dentalRecalls')
@@ -1090,9 +1097,8 @@ function generateSidebarLinks(user: any) {
 
     // One economy area rather than three addresses nobody could tell apart:
     // how it is going, what was earned, and what has to be invoiced.
-    // TEMP DEBUG BYPASS: forcing true to preview locally, revert before commit.
-    const hasEconomyOverview = true || (user?.company?.industry?.system_name === 'social_welfare'
-        && user?.pages?.some((page: any) => page.name === 'Management & Economy'))
+    const hasEconomyOverview = user?.company?.industry?.system_name === 'social_welfare'
+        && user?.pages?.some((page: any) => page.name === 'Management & Economy')
     const hasEmploymentEconomy = user?.company?.industry?.system_name === 'employment_services'
         && (companyHasModule('Billing') || companyHasModule('Revenue report'))
 

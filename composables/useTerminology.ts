@@ -80,5 +80,16 @@ export function useTerminology() {
         })
     }
 
-    return { term, tt }
+    /**
+     * The company's word with a capital first letter, for places that name a
+     * thing rather than talk about it - a menu entry, a page heading, a tab.
+     * The terms are stored lower-case ("patienter"), so a raw term() there
+     * would read "patienter" in a list of otherwise capitalised labels.
+     */
+    function termTitle(key: TermKey, fallback: string): string {
+        const value = term(key, fallback)
+        return value === fallback ? value : upperFirst(value)
+    }
+
+    return { term, termTitle, tt }
 }
