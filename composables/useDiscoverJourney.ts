@@ -7,8 +7,8 @@
 // about patients, opening hours and dental journal templates, not about
 // "borgere", medicine cards and a duty schedule it does not run.
 //
-// So the journey is picked by the company's industry `system_name` — the same
-// field the rest of the product already branches on — and falls back to a
+// So the journey is picked by the company's industry `system_name`, the same
+// field the rest of the product already branches on, and falls back to a
 // neutral set for the 56 industries that have no journey of their own.
 //
 // Groups can also name a `page`. That is a real module name from the Page
