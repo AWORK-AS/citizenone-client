@@ -324,6 +324,15 @@ const navigation = ref([
         ]
     },
     {
+        name: 'PriceEstimates',
+        label: 'patient.nav.priceEstimates',
+        href: '/patient/price-estimates',
+        icon: 'ph:receipt',
+        activeRouteNames: [
+            'patient-price-estimates',
+        ]
+    },
+    {
         name: 'Documents',
         label: 'patient.nav.documents',
         href: '/patient/documents',
@@ -345,6 +354,7 @@ const visibleNavigation = computed(() => {
         Appointments: 'appointments',
         Surveys: 'surveys',
         Journal: 'journals',
+        PriceEstimates: 'price_estimates',
         Documents: 'documents',
     }
 

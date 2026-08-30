@@ -13357,7 +13357,8 @@
         "nobodyHasAccess": "Ingen har adgang endnu",
         "audience": {
             "relative": "Pårørende",
-            "third_party": "Tredjeparter"
+            "third_party": "Tredjeparter",
+            "patient": "Patienter"
         },
         "status": {
             "active": "Logget ind",
@@ -13370,7 +13371,9 @@
             "status": "Status",
             "grantedAt": "Adgang givet"
         },
-        "chooseWhatTheySee": "Vælg hvad de kan se"
+        "chooseWhatTheySee": "Vælg hvad de kan se",
+        "peopleWithAccess": "{count} har adgang",
+        "includedForTheClinic": "Med i klinikkens abonnement"
     },
     "wageSupplementRules": {
         "form": {
@@ -14247,7 +14250,8 @@
         "nav": {
             "appointments": "Aftaler",
             "journal": "Journal",
-            "documents": "Dokumenter"
+            "documents": "Dokumenter",
+            "priceEstimates": "Prisoverslag"
         },
         "overview": {
             "greeting": "Hej {name}",
@@ -14256,7 +14260,9 @@
             "unreadMessages": "{count} ulæste beskeder",
             "upcomingAppointments": "{count} kommende aftaler",
             "pendingSurveys": "{count} spørgeskemaer at besvare",
-            "yourClinic": "Din klinik"
+            "yourClinic": "Din klinik",
+            "fromTheClinic": "Fra klinikken",
+            "new": "Ny"
         },
         "appointments": {
             "upcoming": "Kommende",
@@ -14273,7 +14279,11 @@
             "joinOnline": "Deltag i onlinemødet",
             "cancel": "Afbud",
             "cancelHelp": "Kontakt klinikken for at ændre eller aflyse din aftale.",
-            "writeToClinic": "Skriv til klinikken"
+            "writeToClinic": "Skriv til klinikken",
+            "cancelOwnHelp": "Du har selv booket denne tid og kan aflyse den her.",
+            "cancelAppointment": "Aflys tiden",
+            "cancelConfirm": "Tiden bliver ledig igen, og klinikken får besked. Er du sikker?",
+            "cancelled": "Tiden er aflyst"
         },
         "booking": {
             "bookTime": "Book tid",
@@ -14319,6 +14329,19 @@
             "teaserTitle": "Giv dine patienter adgang",
             "teaserText": "Med Patientadgang kan patienterne selv booke tid, skrive til klinikken, besvare spørgeskemaer og se de journalnotater, I vælger at dele.",
             "teaserAction": "Se Patientadgang"
+        },
+        "priceEstimates": {
+            "intro": "Her kan du se de prisoverslag, klinikken har sendt dig.",
+            "empty": "Klinikken har ikke sendt dig et prisoverslag endnu.",
+            "total": "Samlet pris",
+            "subsidy": "Tilskud",
+            "yourShare": "Din egenbetaling",
+            "validUntil": "Gælder til {date}",
+            "showLines": "Vis behandlinger",
+            "hideLines": "Skjul behandlinger",
+            "treatment": "Behandling",
+            "quantity": "Antal",
+            "price": "Pris"
         }
     }
 }

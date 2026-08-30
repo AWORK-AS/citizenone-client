@@ -8,6 +8,10 @@ class PatientAppointmentService extends BaseAPIService {
     async getAppointment(uuid: string): Promise<any> {
         return await this.request(`/patient/appointments/${uuid}`, 'GET')
     }
+
+    async cancelAppointment(uuid: string): Promise<any> {
+        return await this.request(`/patient/appointments/${uuid}`, 'DELETE')
+    }
 }
 
 export const patientAppointmentService = new PatientAppointmentService()
