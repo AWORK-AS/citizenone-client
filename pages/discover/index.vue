@@ -303,12 +303,13 @@ const moduleOptions = [
     { key: 'medicin', icon: 'ph:pill' },
     { key: 'dokumentation', icon: 'ph:files' },
     { key: 'useOfForce', icon: 'ph:shield-warning' },
+    { key: 'carePlans', icon: 'ph:target' },
     { key: 'predefinedContent', icon: 'ph:list-bullets' },
 ]
 
 const modules = reactive<Record<string, boolean>>({
     vagtplan: true, medicin: true, dokumentation: true,
-    useOfForce: true, predefinedContent: true,
+    useOfForce: true, carePlans: true, predefinedContent: true,
 })
 
 const state = reactive({
