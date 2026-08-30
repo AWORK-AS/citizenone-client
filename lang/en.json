@@ -6624,7 +6624,8 @@
         "didYouKnowDismiss": "Got it",
         "empty": "No results",
         "navigate": "Go to",
-        "citizen": "Citizen"
+        "citizen": "Citizen",
+        "settings": "Settings"
     },
     "shortcuts": {
         "title": "Keyboard shortcuts",

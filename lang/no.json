@@ -6624,7 +6624,8 @@
         "empty": "Ingen resultater",
         "actions": "Handlinger",
         "navigate": "Gå til",
-        "citizen": "Innbygger"
+        "citizen": "Innbygger",
+        "settings": "Innstillinger"
     },
     "shortcuts": {
         "title": "Tastatursnarveier",

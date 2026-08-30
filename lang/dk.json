@@ -6624,7 +6624,8 @@
         "didYouKnowDismiss": "Forstået",
         "empty": "Ingen resultater",
         "navigate": "Gå til",
-        "citizen": "Borger"
+        "citizen": "Borger",
+        "settings": "Indstillinger"
     },
     "shortcuts": {
         "title": "Tastatur-genveje",

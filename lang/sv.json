@@ -6624,7 +6624,8 @@
         "empty": "Inga resultat",
         "actions": "Åtgärder",
         "navigate": "Gå till",
-        "citizen": "Medborgare"
+        "citizen": "Medborgare",
+        "settings": "Inställningar"
     },
     "shortcuts": {
         "title": "Tangentbordsgenvägar",
