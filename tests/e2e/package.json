@@ -11,7 +11,8 @@
     "test:medicine-overdue-range-time": "node medicine-overdue-range-time.mjs",
     "test:medicine-bulk-give-flow": "node medicine-bulk-give-flow.mjs",
     "test:task-boards-permission-and-editor": "node task-boards-permission-and-editor.mjs",
-    "test:page-settings-shortcut": "node page-settings-shortcut.mjs"
+    "test:page-settings-shortcut": "node page-settings-shortcut.mjs",
+    "test:import-employees": "node import-employees.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"
