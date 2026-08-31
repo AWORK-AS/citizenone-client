@@ -152,6 +152,7 @@ import { dentalDashboardService } from '@/components/api/user/DentalDashboardSer
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 
+const { industryHasFeature } = useIndustryFeatures()
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { locale } = useI18n()
@@ -166,7 +167,7 @@ const state = reactive({
 
 // The clinic overview belongs to dental clinics, the same rule the API enforces.
 watch(() => userStore.getUser, (user: any) => {
-    if (user?.uuid && user?.company?.industry?.system_name !== 'dental') {
+    if (user?.uuid && !industryHasFeature('clinicOverview')) {
         navigateTo('/overview')
     }
 }, { immediate: true })

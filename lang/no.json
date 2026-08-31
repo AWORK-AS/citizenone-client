@@ -122,7 +122,8 @@
             "medicin": "Medisin",
             "dokumentation": "Dokumentasjon (planer, status, dokumenter)",
             "useOfForce": "Bruk av makt",
-            "predefinedContent": "Forhåndsdefinert notatinnhold"
+            "predefinedContent": "Forhåndsdefinert notatinnhold",
+            "priceEstimates": "Prisoverslag til pasienter"
         },
         "groups": {
             "migration": "Migrering",
@@ -876,7 +877,7 @@
             "birthday": "Bursdager",
             "dutyShift": "Vaktregel",
             "incidents": "Hændelser",
-            "messages": "Meldinger",
+            "messages": "Chat",
             "notes": "Notater",
             "other": "Annet",
             "plansGoals": "Planer & Mål",
@@ -947,7 +948,9 @@
             "linkCopied": "Kopieret!",
             "onlineBookingLink": "Online Booking-link",
             "onlineBookingLinkLabel": "Linket til din offentlige online booking-side",
-            "phone": "Telefon"
+            "phone": "Telefon",
+            "notifyTeam": "Gi hele klinikken beskjed",
+            "notifyTeamHelp": "Behandleren får alltid beskjed. Slå på hvis kollegene også skal, så de kan dekke for hverandre."
         }
     },
     "bookingTags": {
@@ -1214,7 +1217,8 @@
             "viewEvent": "Se arrangement",
             "viewFutureEvents": "Se fremtidige arrangementer",
             "viewSignUpForm": "Se tilmeldingsskjema"
-        }
+        },
+        "landsInCalendar": "Når en tid bookes, legges den automatisk i behandlerens kalender. Avlyses bookingen, forsvinner den igjen."
     },
     "bulletBoard": {
         "attachments": "Vedhæftede filer",
@@ -1252,7 +1256,8 @@
         },
         "tabs": {
             "bookings": "Bookinger",
-            "events": "Arrangementer"
+            "events": "Arrangementer",
+            "appointments": "Bookede tider"
         },
         "today": "I dag",
         "view": {
@@ -3108,7 +3113,8 @@
             "surveys": "Spørreskjemaer",
             "toothChart": "Tannkart",
             "priceEstimates": "Prisoverslag",
-            "invoices": "Fakturaer"
+            "invoices": "Fakturaer",
+            "patientForms": "Skjemaer til pasienten"
         },
         "timeline": {
             "newEvent": "Ny hendelse",
@@ -3658,7 +3664,16 @@
                 "setCheckup": "Sett kontrolldato",
                 "everyMonths": "Hver {months}. måned",
                 "checkupSaved": "Kontrollen er oppdatert",
-                "checkupHelp": "Neste kontroll regnes ut fra siste kontroll pluss intervallet."
+                "checkupHelp": "Neste kontroll regnes ut fra siste kontroll pluss intervallet.",
+                "lastRecalled": "Sist innkalt",
+                "neverRecalled": "Aldri innkalt",
+                "recallNow": "Innkall",
+                "recalled": "Innkallingen er registrert",
+                "bookTime": "Book tid",
+                "manualRecallDate": "Innkall til",
+                "manualRecallReason": "Årsak",
+                "manualRecallReasonPlaceholder": "F.eks. følger fyllingen i 5-6",
+                "manualRecallHelp": "Sett en dato her for å innkalle pasienten før neste rutinekontroll. Årsaken vises bare for klinikken. Den bortfaller av seg selv når pasienten er sett."
             },
             "history": {
                 "label": "Vis en tidligere undersøkelse:",
@@ -3707,11 +3722,31 @@
                 "noTooth": "Ingen tann",
                 "note": "Merknader",
                 "notePlaceholder": "For eksempel hva prisen forutsetter",
-                "needsALine": "Legg til minst én behandling"
+                "needsALine": "Legg til minst én behandling",
+                "service": "Tjeneste",
+                "ownLine": "Egen linje"
             },
             "plan": "Plan",
             "markDone": "Merk utført",
-            "done": "Utført"
+            "done": "Utført",
+            "invoiced": "Fakturert",
+            "leftToSettle": "Til oppgjør",
+            "settleNow": "Gjør opp nå",
+            "createInvoice": "Opprett faktura",
+            "settleTitle": "Gjør opp behandling",
+            "settleExplanation": "Oppretter fakturaen for de utførte linjene og registrerer betalingen med en gang. Bruk den når pasienten betaler i klinikken.",
+            "paymentMethod": "Betalingsmåte",
+            "settled": "Gjort opp",
+            "invoiceCreated": "Faktura opprettet",
+            "methods": {
+                "card": "Kort",
+                "terminal": "Terminal",
+                "mobilepay": "MobilePay",
+                "cash": "Kontant"
+            },
+            "nextStepMarkDone": "Merk behandlingene som utført, så kan de faktureres herfra.",
+            "nextStepSettle": "Behandlingen er utført og klar til oppgjør.",
+            "nextStepInvoiced": "Alt på dette prisoverslaget er fakturert. Se fakturaen under"
         },
         "invoices": {
             "newTitle": "Opprett faktura",
@@ -3944,7 +3979,12 @@
             "name": "Navn",
             "shiftTypes": "Vakttyper",
             "minimumStaffCount": "Minimumsbemanning",
-            "minimumStaffCountHint": "Minimum antall ansatte som kreves for å dekke denne avdelingen på en gitt dag. La stå tomt for å deaktivere bemanningsvarselet."
+            "minimumStaffCountHint": "Minimum antall ansatte som kreves for å dekke denne avdelingen på en gitt dag. La stå tomt for å deaktivere bemanningsvarselet.",
+            "street": "Gatenavn og nr.",
+            "postCode": "Postnummer",
+            "city": "By",
+            "phone": "Telefon",
+            "clinicAddressHint": "Vises for pasientene i pasientportalen som klinikkens adresse og kontaktnummer."
         },
         "newDepartment": "Ny avdeling",
         "table": {
@@ -6629,7 +6669,8 @@
         "empty": "Ingen resultater",
         "actions": "Handlinger",
         "navigate": "Gå til",
-        "citizen": "@.capitalize:terms.citizen{''}"
+        "citizen": "@.capitalize:terms.citizen{''}",
+        "settings": "Innstillinger"
     },
     "shortcuts": {
         "title": "Tastatursnarveier",
@@ -9802,7 +9843,14 @@
                 "termCitizen": "Bruker (entall)",
                 "termCitizenDefinite": "Brukeren (entall, bestemt)",
                 "termCitizens": "Brukere (flertall)",
-                "termCitizensDefinite": "Brukerne (flertall, bestemt)"
+                "termCitizensDefinite": "Brukerne (flertall, bestemt)",
+                "portalAudiencePatient": "Pasient",
+                "portalSectionAppointments": "Avtaler",
+                "portalSectionBooking": "Nettbestilling",
+                "portalPreviewAppointments": "Pasienten ser sine kommende og tidligere avtaler hos klinikken.",
+                "portalPreviewBooking": "Pasienten kan selv bestille en ledig time for behandlingene dere har åpnet for nettbestilling.",
+                "portalPreviewPatientJournals": "Pasienten ser kun journalnotatene dere har merket som delt, og bare hvis pasienten har journaltilgang.",
+                "portalNeverUnsharedJournalNotes": "Journalnotater som ikke er merket som delt"
             }
         },
         "licenseOverview": {
@@ -10134,7 +10182,7 @@
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
         "mail": "E-post",
-        "messages": "Meldinger",
+        "messages": "Chat",
         "overview": "Oversigt",
         "protocols": "Protokoll",
         "reports": "Rapporter",
@@ -13395,7 +13443,8 @@
         "nobodyHasAccess": "Ingen har tilgang ennå",
         "audience": {
             "relative": "Pårørende",
-            "third_party": "Tredjeparter"
+            "third_party": "Tredjeparter",
+            "patient": "Pasienter"
         },
         "status": {
             "active": "Logget inn",
@@ -13408,7 +13457,9 @@
             "status": "Status",
             "grantedAt": "Tilgang gitt"
         },
-        "chooseWhatTheySee": "Velg hva de kan se"
+        "chooseWhatTheySee": "Velg hva de kan se",
+        "peopleWithAccess": "{count} har tilgang",
+        "includedForTheClinic": "Inkludert i klinikkens abonnement"
     },
     "wageSupplementRules": {
         "form": {
@@ -13493,7 +13544,8 @@
         "empty": {
             "title": "Ingen innkallinger",
             "text": "Ingen pasienter skal innkalles i den valgte perioden."
-        }
+        },
+        "manualRecall": "Innkalt av behandler"
     },
     "dentalOverview": {
         "title": "Klinikkoversikt",
@@ -14280,5 +14332,161 @@
             "deleted": "Regelen er slettet",
             "deleteFailed": "Regelen kunne ikke slettes"
         }
+    },
+    "patient": {
+        "nav": {
+            "appointments": "Avtaler",
+            "journal": "Journal",
+            "documents": "Dokumenter",
+            "priceEstimates": "Prisoverslag",
+            "forms": "Skjemaer"
+        },
+        "overview": {
+            "greeting": "Hei {name}",
+            "intro": "Velkommen til oversikten din. Her ser du hva som venter fra klinikken.",
+            "waitingForYou": "Venter på deg",
+            "unreadMessages": "{count} uleste meldinger",
+            "upcomingAppointments": "{count} kommende avtaler",
+            "pendingSurveys": "{count} spørreskjemaer å besvare",
+            "yourClinic": "Klinikken din",
+            "fromTheClinic": "Fra klinikken",
+            "new": "Ny"
+        },
+        "appointments": {
+            "upcoming": "Kommende",
+            "past": "Tidligere",
+            "empty": "Du har ingen avtaler her.",
+            "appointment": "Avtale",
+            "detailTitle": "Avtale hos {clinic}",
+            "what": "Hva",
+            "when": "Når",
+            "where": "Hvor",
+            "who": "Hvem",
+            "duration": "Varighet {minutes} minutter",
+            "online": "Online",
+            "joinOnline": "Bli med i nettmøtet",
+            "cancel": "Avbud",
+            "cancelHelp": "Kontakt klinikken for å endre eller avlyse avtalen.",
+            "writeToClinic": "Skriv til klinikken",
+            "cancelOwnHelp": "Du har selv bestilt denne timen og kan avlyse den her.",
+            "cancelAppointment": "Avlys timen",
+            "cancelConfirm": "Timen blir ledig igjen og klinikken får beskjed. Er du sikker?",
+            "cancelled": "Timen er avlyst"
+        },
+        "booking": {
+            "bookTime": "Bestill time",
+            "noServices": "Klinikken har ingen behandlinger åpne for nettbestilling nå.",
+            "chooseTreatment": "Velg behandling",
+            "chooseDate": "Velg dato",
+            "noDates": "Ingen ledige datoer.",
+            "chooseTime": "Velg tidspunkt",
+            "noTimes": "Ingen ledige tider på valgt dato.",
+            "note": "Melding til klinikken",
+            "notePlaceholder": "Skriv gjerne hva timen gjelder",
+            "confirm": "Bekreft bestilling",
+            "summary": "{treatment} · {date} kl. {time}",
+            "booked": "Timen din er bestilt"
+        },
+        "journal": {
+            "intro": "Her kan du lese journalnotatene klinikken har delt med deg.",
+            "empty": "Klinikken har ikke delt noen journalnotater med deg ennå."
+        },
+        "documents": {
+            "upload": "Last opp fil",
+            "uploadHelp": "Kun DOC, DOCX, JPEG, JPG, PDF og PNG under 10 MB kan lastes opp.",
+            "saveFile": "Lagre fil",
+            "empty": "Det finnes ingen filer til deg ennå.",
+            "download": "Last ned",
+            "uploaded": "Filen er lagret"
+        },
+        "staff": {
+            "journalAccess": "Pasientens tilgang til journalen",
+            "journalAccessHelp": "Når den er på, kan pasienten lese notatene dere merker som delt.",
+            "noteVisibleToPatient": "Del notatet med pasienten",
+            "noteVisibleToPatientHelp": "Notatet vises i pasientportalen. Krever at pasienten har journaltilgang.",
+            "surveyWritesToJournal": "Lagre svarene i journalen",
+            "surveyWritesToJournalHelp": "Når pasienten returnerer skjemaet, opprettes et journalnotat med svarene.",
+            "portalAccess": "Tilgang til pasientportalen",
+            "portalAccessHelp": "Pasienten kan logge inn og se avtaler, meldinger og dokumenter.",
+            "messageAccess": "Kan sende meldinger til klinikken",
+            "sectionTitle": "Pasientportal",
+            "sectionHelp": "Bestem hva denne pasienten kan se og gjøre i pasientportalen.",
+            "portalActive": "Pasientportal aktiv",
+            "portalInactive": "Ingen portaltilgang",
+            "portalBadgeHelp": "Klikk for å endre pasientens tilgang",
+            "teaserTitle": "Gi pasientene dine tilgang",
+            "teaserText": "Med pasientportalen bestiller pasientene selv time, skriver til klinikken, besvarer spørreskjemaer og leser journalnotatene dere velger å dele.",
+            "teaserAction": "Se pasientportalen"
+        },
+        "priceEstimates": {
+            "intro": "Her ser du prisoverslagene klinikken har sendt deg.",
+            "empty": "Klinikken har ikke sendt deg et prisoverslag ennå.",
+            "total": "Samlet pris",
+            "subsidy": "Tilskudd",
+            "yourShare": "Din egenandel",
+            "validUntil": "Gjelder til {date}",
+            "showLines": "Vis behandlinger",
+            "hideLines": "Skjul behandlinger",
+            "treatment": "Behandling",
+            "quantity": "Antall",
+            "price": "Pris"
+        },
+        "forms": {
+            "empty": "Klinikken har ikke sendt deg et skjema ennå.",
+            "pending": "Skal fylles ut",
+            "noPending": "Du har ingen skjemaer som venter.",
+            "completed": "Besvarte",
+            "received": "Mottatt",
+            "completedAt": "Besvart",
+            "fillOut": "Fyll ut",
+            "return": "Send til klinikken",
+            "returned": "Skjemaet er sendt",
+            "alreadyCompleted": "Du har allerede besvart dette skjemaet.",
+            "answerRequired": "Noen spørsmål er ikke besvart",
+            "journalNotice": "Svarene dine legges i journalen din hos klinikken."
+        }
+    },
+    "patientForms": {
+        "sendToPatient": "Send skjema til pasienten",
+        "sendHelp": "Pasienten fyller ut skjemaet i portalen, og svarene legges i journalen.",
+        "chooseForm": "Velg skjema",
+        "send": "Send",
+        "sentAlert": "Skjemaet er sendt til pasienten",
+        "sent": "Sendt",
+        "answered": "Besvart",
+        "withdraw": "Trekk tilbake",
+        "withdrawConfirm": "Skjemaet fjernes fra pasientportalen. Er du sikker?",
+        "withdrawnAlert": "Skjemaet er trukket tilbake",
+        "journalNotice": "Svarene legges automatisk i pasientens journal.",
+        "status": {
+            "answered": "Besvart",
+            "waiting": "Venter på svar"
+        },
+        "empty": {
+            "title": "Ingen skjemaer sendt ennå",
+            "text": "Send et skjema som pasienten fyller ut hjemmefra. Svarene havner i journalen."
+        }
+    },
+    "pageSettings": {
+        "title": "Innstillinger for denne siden",
+        "forThisPage": "Innstillinger for denne siden",
+        "allSettings": "Alle innstillinger"
+    },
+    "bookingAppointments": {
+        "intro": "Tider pasientene har tatt. Skal en kollega dekke, kan bookingen gis videre uten at pasienten må booke igjen.",
+        "when": "Når",
+        "who": "Hvem",
+        "treatment": "Behandling",
+        "with": "Hos",
+        "handOver": "Gi videre",
+        "handOverTitle": "Gi bookingen videre",
+        "handOverExplanation": "Pasienten beholder timen sin. Den flyttes til kollegaens kalender, og kollegaen får beskjed.",
+        "colleague": "Kollega",
+        "handedOver": "Bookingen er gitt videre",
+        "takenOver": "Overtatt",
+        "none": "Ingen bookede tider i perioden",
+        "from": "Fra",
+        "to": "Til",
+        "noColleagues": "Det er ingen andre i klinikken å gi bookingen videre til."
     }
 }
