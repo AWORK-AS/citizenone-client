@@ -118,7 +118,8 @@
                         :answers="state.surveyAnswers[assignment.uuid]" />
                 </div>
             </div>
-            <div class="space-y-1">
+            <!-- The level feeds the development graph, which is a care-plan measure. -->
+            <div class="space-y-1" v-if="hasCarePlans">
                 <FormLabel for="score" :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formJournal.score" />
                 <FormError :error="v$?.formJournal?.score?.$errors[0]?.$message.toString()" />
@@ -528,6 +529,9 @@ const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const citizenStore = useCitizenStore() as any
 const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
+
+// Same rule as the follow-up bell on the citizen header.
+const hasCarePlans = computed(() => userStore?.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
 const language = useI18n()
 
 const { t } = useI18n()

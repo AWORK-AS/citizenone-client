@@ -122,6 +122,7 @@
             "medicin": "Medisin",
             "dokumentation": "Dokumentasjon (planer, status, dokumenter)",
             "useOfForce": "Bruk av makt",
+            "carePlans": "Handlingsplaner",
             "predefinedContent": "Forhåndsdefinert notatinnhold"
         },
         "groups": {

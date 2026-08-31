@@ -122,6 +122,7 @@
             "medicin": "Medicin",
             "dokumentation": "Dokumentation (planer, status, dokumenter)",
             "useOfForce": "Magtanvendelse",
+            "carePlans": "Handleplaner",
             "predefinedContent": "Foruddefineret notatindhold"
         },
         "groups": {

@@ -18,6 +18,18 @@ class IndustryService extends BaseAPIService {
     async updateIndustryDefaults(uuid: string, params: any): Promise<any> {
         return await this.request(`/superadmin/industries/${uuid}/defaults`, 'PUT', params)
     }
+
+    async getCompanyIndustryDefaults(companyUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/industry-defaults`, 'GET')
+    }
+
+    async applyCompanyIndustryDefaults(companyUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/industry-defaults`, 'POST')
+    }
+
+    async revertCompanyIndustryDefaults(companyUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/industry-defaults`, 'DELETE')
+    }
 }
 
 export const industryService = new IndustryService()
