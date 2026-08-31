@@ -128,15 +128,18 @@
         "groups": {
             "migration": "Migrering",
             "komIGang": "Kom igång",
-            "born": "@.capitalize:terms.citizens{''}",
             "vagtplan": "Schema",
             "medicin": "Medicin",
-            "dokumentation": "Dokumentation"
+            "dokumentation": "Dokumentation",
+            "people": "Klienter",
+            "patients": "Patienter",
+            "clinic": "Klinik och bokning",
+            "cases": "Ärenden och jobbcenter"
         },
         "steps": {
             "departments": {
                 "title": "Skapa avdelningar",
-                "desc": "Avdelningar strukturerar personal, @:terms.citizens{''} och schema.",
+                "desc": "Avdelningar strukturerar personal, journaler och schema.",
                 "tip": "T.ex. \"Avdelning Nord\" och \"Avdelning Syd\".",
                 "cta": "Gå till Avdelningar"
             },
@@ -152,18 +155,8 @@
             },
             "import": {
                 "title": "Importera från ditt gamla system",
-                "desc": "Migrera @:terms.citizens{''}, personal, journaler och scheman från ditt nuvarande system (CSV eller Excel).",
+                "desc": "Migrera er data från det nuvarande systemet: personer, personal, journaler och scheman (CSV eller Excel).",
                 "cta": "Starta import"
-            },
-            "children": {
-                "title": "Skapa @:terms.citizens{''}",
-                "desc": "Lägg till @:terms.citizensDefinite{''} ni arbetar med.",
-                "cta": "Gå till @.capitalize:terms.citizens{''}"
-            },
-            "childData": {
-                "title": "Stamdata och kontaktpersoner",
-                "desc": "Fyll i stamdata, kontaktpersoner och handläggare.",
-                "cta": "Gå till @.capitalize:terms.citizens{''}"
             },
             "shiftTypes": {
                 "title": "Skapa skifttyper och regler",
@@ -185,13 +178,63 @@
                 "desc": "Lägg till medicintyper och doseringsformer.",
                 "cta": "Gå till Medicin"
             },
-            "templates": {
-                "title": "Statusmallar och planer",
-                "desc": "Ställ in mallar för status, planer och mål.",
-                "cta": "Gå till Inställningar"
+            "citizens": {
+                "title": "Skapa klienter",
+                "desc": "Lägg till klienterna ni arbetar med.",
+                "cta": "Gå till Klienter"
+            },
+            "citizenData": {
+                "title": "Stamdata och kontaktpersoner",
+                "desc": "Fyll i stamdata, kontaktpersoner och handläggare.",
+                "cta": "Gå till Klienter"
+            },
+            "patients": {
+                "title": "Skapa patienter",
+                "desc": "Lägg till era första patienter, eller importera dem från det gamla systemet.",
+                "cta": "Gå till Patienter"
+            },
+            "patientData": {
+                "title": "Stamdata och tandkarta",
+                "desc": "Fyll i stamdata, remitterande tandläkare och tandkarta.",
+                "cta": "Gå till Patienter"
+            },
+            "openingHours": {
+                "title": "Öppettider och behandlare",
+                "desc": "Ange klinikens öppettider och vem som tar patienter.",
+                "cta": "Gå till Företag"
+            },
+            "booking": {
+                "title": "Öppna för bokning",
+                "desc": "Lägg de första besöken, och låt patienterna boka själva.",
+                "cta": "Gå till Bokning"
+            },
+            "caseTypes": {
+                "title": "Skapa ärendetyper",
+                "desc": "Definiera de insatser och ärendetyper ni levererar.",
+                "cta": "Gå till Ärendetyper"
+            },
+            "jobcenters": {
+                "title": "Lägg till jobbcenter",
+                "desc": "Registrera de jobbcenter ni samarbetar med, så remisser kan kopplas på.",
+                "cta": "Gå till Jobbcenter"
+            },
+            "journalTitles": {
+                "title": "Journalmallar",
+                "desc": "Ställ in de titlar ni journalför på, så anteckningarna blir enhetliga.",
+                "cta": "Gå till Journaltitlar"
+            },
+            "journalContents": {
+                "title": "Fördefinierat anteckningsinnehåll",
+                "desc": "Skriv innehållet som återkommer, så det kan infogas med ett klick.",
+                "cta": "Gå till Journalinnehåll"
             }
         },
-        "title": "Utforska"
+        "title": "Utforska",
+        "appsPromo": {
+            "title": "Utöka med appar",
+            "desc": "Säker e-post, bokning, enkäter, FMK och resten av appbutiken kan slås på när ni behöver dem.",
+            "cta": "Öppna appbutiken"
+        }
     },
     "2fa": {
         "2fa": "Tvåfaktorsautentisering",

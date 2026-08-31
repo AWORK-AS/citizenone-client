@@ -128,15 +128,18 @@
         "groups": {
             "migration": "Migration",
             "komIGang": "Get started",
-            "born": "@.capitalize:terms.citizens{''}",
             "vagtplan": "Duty schedule",
             "medicin": "Medicine",
-            "dokumentation": "Documentation"
+            "dokumentation": "Documentation",
+            "people": "Citizens",
+            "patients": "Patients",
+            "clinic": "Clinic & booking",
+            "cases": "Cases & jobcentre"
         },
         "steps": {
             "departments": {
                 "title": "Create departments",
-                "desc": "Departments structure staff, @:terms.citizens{''} and the duty schedule.",
+                "desc": "Departments structure staff, journals and the duty schedule.",
                 "tip": "E.g. \"North department\" and \"South department\".",
                 "cta": "Go to Departments"
             },
@@ -152,18 +155,8 @@
             },
             "import": {
                 "title": "Import from your old system",
-                "desc": "Migrate @:terms.citizens{''}, staff, journals and schedules from your current system (CSV or Excel).",
+                "desc": "Migrate your data from the current system: people, staff, journals and schedules (CSV or Excel).",
                 "cta": "Start import"
-            },
-            "children": {
-                "title": "Create @:terms.citizens{''}",
-                "desc": "Add the @:terms.citizens{''} you work with.",
-                "cta": "Go to @.capitalize:terms.citizens{''}"
-            },
-            "childData": {
-                "title": "Master data & contacts",
-                "desc": "Fill in master data, contacts and caseworker.",
-                "cta": "Go to @.capitalize:terms.citizens{''}"
             },
             "shiftTypes": {
                 "title": "Create shift types & rules",
@@ -185,13 +178,63 @@
                 "desc": "Add medicine types and dosage forms.",
                 "cta": "Go to Medicine"
             },
-            "templates": {
-                "title": "Status templates & plans",
-                "desc": "Set up templates for status, plans and goals.",
-                "cta": "Go to Settings"
+            "citizens": {
+                "title": "Create citizens",
+                "desc": "Add the citizens you work with.",
+                "cta": "Go to Citizens"
+            },
+            "citizenData": {
+                "title": "Master data & contacts",
+                "desc": "Fill in master data, contacts and caseworker.",
+                "cta": "Go to Citizens"
+            },
+            "patients": {
+                "title": "Create patients",
+                "desc": "Add your first patients, or import them from the old system.",
+                "cta": "Go to Patients"
+            },
+            "patientData": {
+                "title": "Master data & tooth chart",
+                "desc": "Fill in master data, referring dentist and tooth chart.",
+                "cta": "Go to Patients"
+            },
+            "openingHours": {
+                "title": "Opening hours & practitioners",
+                "desc": "Set the clinic hours and who sees patients.",
+                "cta": "Go to Company"
+            },
+            "booking": {
+                "title": "Open for booking",
+                "desc": "Make the first appointments, and let patients book their own.",
+                "cta": "Go to Booking"
+            },
+            "caseTypes": {
+                "title": "Create case types",
+                "desc": "Define the services and case types you deliver.",
+                "cta": "Go to Case types"
+            },
+            "jobcenters": {
+                "title": "Add jobcentres",
+                "desc": "Register the jobcentres you work with, so referrals can be attached.",
+                "cta": "Go to Jobcentres"
+            },
+            "journalTitles": {
+                "title": "Journal templates",
+                "desc": "Set up the titles you record under, so notes come out consistent.",
+                "cta": "Go to Journal titles"
+            },
+            "journalContents": {
+                "title": "Predefined note content",
+                "desc": "Write the content that keeps recurring, so it can be inserted in one click.",
+                "cta": "Go to Journal content"
             }
         },
-        "title": "Discover"
+        "title": "Discover",
+        "appsPromo": {
+            "title": "Add apps",
+            "desc": "Secure Mail, booking, questionnaires, FMK and the rest of the app store can be switched on when you need them.",
+            "cta": "Open the app store"
+        }
     },
     "2fa": {
         "2fa": "Two factor authentication",

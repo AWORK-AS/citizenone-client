@@ -128,15 +128,18 @@
         "groups": {
             "migration": "Migrering",
             "komIGang": "Kom i gang",
-            "born": "@.capitalize:terms.citizens{''}",
             "vagtplan": "Vaktplan",
             "medicin": "Medisin",
-            "dokumentation": "Dokumentasjon"
+            "dokumentation": "Dokumentasjon",
+            "people": "Brukere",
+            "patients": "Pasienter",
+            "clinic": "Klinikk og booking",
+            "cases": "Saker og NAV"
         },
         "steps": {
             "departments": {
                 "title": "Opprett avdelinger",
-                "desc": "Avdelinger strukturerer personale, @:terms.citizens{''} og vaktplan.",
+                "desc": "Avdelinger strukturerer personale, journaler og vaktplan.",
                 "tip": "F.eks. \"Avdeling Nord\" og \"Avdeling Sør\".",
                 "cta": "Gå til Avdelinger"
             },
@@ -152,18 +155,8 @@
             },
             "import": {
                 "title": "Importer fra ditt gamle system",
-                "desc": "Migrer @:terms.citizens{''}, ansatte, journaler og vaktplaner fra ditt nåværende system (CSV eller Excel).",
+                "desc": "Migrer dataene deres fra det nåværende systemet: personer, ansatte, journaler og vaktplaner (CSV eller Excel).",
                 "cta": "Start import"
-            },
-            "children": {
-                "title": "Opprett @:terms.citizens{''}",
-                "desc": "Legg til @:terms.citizensDefinite{''} dere jobber med.",
-                "cta": "Gå til @.capitalize:terms.citizens{''}"
-            },
-            "childData": {
-                "title": "Stamdata og kontaktpersoner",
-                "desc": "Fyll inn stamdata, kontaktpersoner og saksbehandler.",
-                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "shiftTypes": {
                 "title": "Opprett vakttyper og regler",
@@ -185,13 +178,63 @@
                 "desc": "Legg til medisintyper og doseringsformer.",
                 "cta": "Gå til Medisin"
             },
-            "templates": {
-                "title": "Statusmaler og planer",
-                "desc": "Sett opp maler for status, planer og mål.",
-                "cta": "Gå til Innstillinger"
+            "citizens": {
+                "title": "Opprett brukere",
+                "desc": "Legg til brukerne dere jobber med.",
+                "cta": "Gå til Brukere"
+            },
+            "citizenData": {
+                "title": "Stamdata og kontaktpersoner",
+                "desc": "Fyll inn stamdata, kontaktpersoner og saksbehandler.",
+                "cta": "Gå til Brukere"
+            },
+            "patients": {
+                "title": "Opprett pasienter",
+                "desc": "Legg til de første pasientene, eller importer dem fra det gamle systemet.",
+                "cta": "Gå til Pasienter"
+            },
+            "patientData": {
+                "title": "Stamdata og tannkart",
+                "desc": "Fyll inn stamdata, henvisende tannlege og tannkart.",
+                "cta": "Gå til Pasienter"
+            },
+            "openingHours": {
+                "title": "Åpningstider og behandlere",
+                "desc": "Sett klinikkens åpningstider og hvem som tar pasienter.",
+                "cta": "Gå til Virksomhet"
+            },
+            "booking": {
+                "title": "Åpne for booking",
+                "desc": "Lag de første avtalene, og la pasientene booke selv.",
+                "cta": "Gå til Booking"
+            },
+            "caseTypes": {
+                "title": "Opprett sakstyper",
+                "desc": "Definer tilbudene og sakstypene dere leverer.",
+                "cta": "Gå til Sakstyper"
+            },
+            "jobcenters": {
+                "title": "Legg til NAV-kontorer",
+                "desc": "Registrer kontorene dere samarbeider med, så henvisninger kan kobles på.",
+                "cta": "Gå til NAV-kontorer"
+            },
+            "journalTitles": {
+                "title": "Journalmaler",
+                "desc": "Sett opp titlene dere journalfører på, så notatene blir like.",
+                "cta": "Gå til Journaltitler"
+            },
+            "journalContents": {
+                "title": "Forhåndsdefinert notatinnhold",
+                "desc": "Skriv innholdet som går igjen, så det kan settes inn med ett klikk.",
+                "cta": "Gå til Journalinnhold"
             }
         },
-        "title": "Utforsk"
+        "title": "Utforsk",
+        "appsPromo": {
+            "title": "Utvid med apper",
+            "desc": "Sikker e-post, booking, spørreskjemaer, FMK og resten av app-butikken kan slås på når dere trenger dem.",
+            "cta": "Se app-butikken"
+        }
     },
     "2fa": {
         "2fa": "To-faktor-godkendelse",
