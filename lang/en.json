@@ -122,7 +122,8 @@
             "medicin": "Medicine",
             "dokumentation": "Documentation (plans, status, documents)",
             "useOfForce": "Use of force",
-            "predefinedContent": "Predefined note content"
+            "predefinedContent": "Predefined note content",
+            "priceEstimates": "Price estimates for patients"
         },
         "groups": {
             "migration": "Migration",
@@ -3728,7 +3729,10 @@
                 "terminal": "Terminal",
                 "mobilepay": "MobilePay",
                 "cash": "Cash"
-            }
+            },
+            "nextStepMarkDone": "Mark the treatments as carried out, and they can be invoiced from here.",
+            "nextStepSettle": "The treatment is carried out and ready to settle.",
+            "nextStepInvoiced": "Everything on this estimate has been invoiced. See the invoice under"
         },
         "invoices": {
             "newTitle": "Create invoice",

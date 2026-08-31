@@ -65,10 +65,15 @@ const page = await browser.newPage({ viewport: { width: 1600, height: 1100 } })
 let serviceUuid = null
 let estimateUuid = null
 
+// The catalogue keeps codes unique per company and a service is soft-deleted
+// rather than removed, so a fixed code would block a re-run for good the first
+// time a run is interrupted before its cleanup.
+const CODE = `E2E-${Date.now().toString(36).toUpperCase()}`
+
 try {
   // A catalogue entry to quote from, removed again at the end.
   const service = await api('POST', '/user/services', {
-    code: 'E2E-1', name: 'E2E behandling', unit_price: 1200, vat_rate: 0, default_subsidy: 200,
+    code: CODE, name: 'E2E behandling', unit_price: 1200, vat_rate: 0, default_subsidy: 200,
   })
   serviceUuid = service.body?.data?.uuid
   if (!serviceUuid) {
@@ -105,7 +110,7 @@ try {
   await page.waitForTimeout(900)
 
   const values = await row.locator('input').evaluateAll((els) => els.map((el) => el.value))
-  check('picking a service fills the code', values.includes('E2E-1'), JSON.stringify(values))
+  check('picking a service fills the code', values.includes(CODE), JSON.stringify(values))
   check('picking a service fills the price', values.includes('1200'), JSON.stringify(values))
   check('picking a service fills the subsidy', values.includes('200'), JSON.stringify(values))
   await page.screenshot({ path: `${SHOT}/estimate-service-picker.png` })
@@ -117,7 +122,7 @@ try {
   // test is about the catalogue and the settlement, not about the buttons in
   // between, which the estimate suite already covers.
   const estimates = await api('GET', `/user/citizens/${CITIZEN}/price-estimates`)
-  const created = (estimates.body?.data || []).find((e) => (e.lines || []).some((l) => l.treatment_code === 'E2E-1'))
+  const created = (estimates.body?.data || []).find((e) => (e.lines || []).some((l) => l.treatment_code === CODE))
   estimateUuid = created?.uuid
   check('the estimate remembers the service it was quoted from', !!created?.lines?.[0]?.service_uuid)
 

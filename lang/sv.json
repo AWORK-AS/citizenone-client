@@ -122,7 +122,8 @@
             "medicin": "Medicin",
             "dokumentation": "Dokumentation (planer, status, dokument)",
             "useOfForce": "Våldsanvändning",
-            "predefinedContent": "Fördefinierat anteckningsinnehåll"
+            "predefinedContent": "Fördefinierat anteckningsinnehåll",
+            "priceEstimates": "Prisförslag till patienter"
         },
         "groups": {
             "migration": "Migrering",
@@ -3728,7 +3729,10 @@
                 "terminal": "Terminal",
                 "mobilepay": "MobilePay",
                 "cash": "Kontant"
-            }
+            },
+            "nextStepMarkDone": "Markera behandlingarna som utförda, så kan de faktureras härifrån.",
+            "nextStepSettle": "Behandlingen är utförd och klar att regleras.",
+            "nextStepInvoiced": "Allt på det här prisförslaget är fakturerat. Se fakturan under"
         },
         "invoices": {
             "newTitle": "Skapa faktura",
