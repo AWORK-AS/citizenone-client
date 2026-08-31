@@ -3113,7 +3113,8 @@
             "surveys": "Enkäter",
             "toothChart": "Tandkarta",
             "priceEstimates": "Prisuppskattningar",
-            "invoices": "Fakturor"
+            "invoices": "Fakturor",
+            "patientForms": "Formulär till patienten"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -14287,7 +14288,8 @@
             "appointments": "Bokningar",
             "journal": "Journal",
             "documents": "Dokument",
-            "priceEstimates": "Kostnadsförslag"
+            "priceEstimates": "Kostnadsförslag",
+            "forms": "Formulär"
         },
         "overview": {
             "greeting": "Hej {name}",
@@ -14378,6 +14380,41 @@
             "treatment": "Behandling",
             "quantity": "Antal",
             "price": "Pris"
+        },
+        "forms": {
+            "empty": "Kliniken har inte skickat något formulär än.",
+            "pending": "Att fylla i",
+            "noPending": "Du har inga formulär som väntar.",
+            "completed": "Besvarade",
+            "received": "Mottaget",
+            "completedAt": "Besvarat",
+            "fillOut": "Fyll i",
+            "return": "Skicka till kliniken",
+            "returned": "Formuläret är skickat",
+            "alreadyCompleted": "Du har redan besvarat det här formuläret.",
+            "answerRequired": "Några frågor är inte besvarade",
+            "journalNotice": "Dina svar läggs i din journal hos kliniken."
+        }
+    },
+    "patientForms": {
+        "sendToPatient": "Skicka formulär till patienten",
+        "sendHelp": "Patienten fyller i formuläret i portalen och svaren läggs i journalen.",
+        "chooseForm": "Välj formulär",
+        "send": "Skicka",
+        "sentAlert": "Formuläret är skickat till patienten",
+        "sent": "Skickat",
+        "answered": "Besvarat",
+        "withdraw": "Dra tillbaka",
+        "withdrawConfirm": "Formuläret tas bort från patientportalen. Är du säker?",
+        "withdrawnAlert": "Formuläret är tillbakadraget",
+        "journalNotice": "Svaren läggs automatiskt i patientens journal.",
+        "status": {
+            "answered": "Besvarat",
+            "waiting": "Väntar på svar"
+        },
+        "empty": {
+            "title": "Inga formulär skickade än",
+            "text": "Skicka ett formulär som patienten fyller i hemifrån. Svaren hamnar i journalen."
         }
     },
     "pageSettings": {

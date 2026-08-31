@@ -3113,7 +3113,8 @@
             "surveys": "Surveys",
             "toothChart": "Tooth chart",
             "priceEstimates": "Price estimates",
-            "invoices": "Invoices"
+            "invoices": "Invoices",
+            "patientForms": "Patient forms"
         },
         "timeline": {
             "newEvent": "New event",
@@ -14287,7 +14288,8 @@
             "appointments": "Appointments",
             "journal": "Journal",
             "documents": "Documents",
-            "priceEstimates": "Estimates"
+            "priceEstimates": "Estimates",
+            "forms": "Forms"
         },
         "overview": {
             "greeting": "Hi {name}",
@@ -14378,6 +14380,41 @@
             "treatment": "Treatment",
             "quantity": "Quantity",
             "price": "Price"
+        },
+        "forms": {
+            "empty": "The clinic has not sent you a form yet.",
+            "pending": "To fill in",
+            "noPending": "You have no forms waiting.",
+            "completed": "Answered",
+            "received": "Received",
+            "completedAt": "Answered",
+            "fillOut": "Fill in",
+            "return": "Send to the clinic",
+            "returned": "The form was sent",
+            "alreadyCompleted": "You have already answered this form.",
+            "answerRequired": "Some questions are not answered yet",
+            "journalNotice": "Your answers are placed in your journal at the clinic."
+        }
+    },
+    "patientForms": {
+        "sendToPatient": "Send a form to the patient",
+        "sendHelp": "The patient fills the form in the portal, and the answers are placed in the journal.",
+        "chooseForm": "Choose form",
+        "send": "Send",
+        "sentAlert": "The form was sent to the patient",
+        "sent": "Sent",
+        "answered": "Answered",
+        "withdraw": "Withdraw",
+        "withdrawConfirm": "The form is removed from the patient portal. Are you sure?",
+        "withdrawnAlert": "The form was withdrawn",
+        "journalNotice": "Answers are placed in the patient journal automatically.",
+        "status": {
+            "answered": "Answered",
+            "waiting": "Waiting"
+        },
+        "empty": {
+            "title": "No forms sent yet",
+            "text": "Send a form for the patient to fill in at home. The answers land in the journal."
         }
     },
     "pageSettings": {

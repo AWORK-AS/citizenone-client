@@ -33,6 +33,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     const can = (name: string) => companyHasModule(name) && pages.some((page: any) => page.name === name)
     const systemName = newValue?.company?.industry?.system_name
     const isEmploymentServices = systemName === 'employment_services'
+    const isDental = systemName === 'dental'
 
     const tabs: any[] = []
 
@@ -52,6 +53,17 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-tooth-chart'],
         })
     }
+    // Forms sent to the patient to fill in themselves. Only where there is a portal to send
+    // them to; a clinic without it would get a tab that cannot do anything.
+    if (isDental && newValue?.has_patient_app) {
+        tabs.push({
+            name: 'citizens.tabs.patientForms', icon: 'ph:note-pencil', isTranslateName: true,
+            href: `/citizens/${citizenUuid}/patient-forms`,
+            routeNames: ['citizens-uuid-patient-forms'],
+            category: 'documentation', primary: false,
+        })
+    }
+
     // Quoting before treatment is a way of working rather than something every
     // clinic does, so it follows the company's own choice like the medicine card
     // and the documents tab do - not the industry alone.
