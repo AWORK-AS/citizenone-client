@@ -5,6 +5,18 @@ class IndustryService extends BaseAPIService {
         return await this.request(`/superadmin/industries/all/list`, 'GET')
     }
 
+    async getCompanyIndustryDefaults(companyUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/industry-defaults`, 'GET')
+    }
+
+    async applyCompanyIndustryDefaults(companyUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/industry-defaults`, 'POST')
+    }
+
+    async revertCompanyIndustryDefaults(companyUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/industry-defaults`, 'DELETE')
+    }
+
     /**
      * Every industry with the words and page set superadmin has given it, plus the full page
      * list. The pages come along here rather than from /superadmin/pages, which paginates at a
@@ -17,18 +29,6 @@ class IndustryService extends BaseAPIService {
 
     async updateIndustryDefaults(uuid: string, params: any): Promise<any> {
         return await this.request(`/superadmin/industries/${uuid}/defaults`, 'PUT', params)
-    }
-
-    async getCompanyIndustryDefaults(companyUuid: string): Promise<any> {
-        return await this.request(`/superadmin/companies/${companyUuid}/industry-defaults`, 'GET')
-    }
-
-    async applyCompanyIndustryDefaults(companyUuid: string): Promise<any> {
-        return await this.request(`/superadmin/companies/${companyUuid}/industry-defaults`, 'POST')
-    }
-
-    async revertCompanyIndustryDefaults(companyUuid: string): Promise<any> {
-        return await this.request(`/superadmin/companies/${companyUuid}/industry-defaults`, 'DELETE')
     }
 }
 
