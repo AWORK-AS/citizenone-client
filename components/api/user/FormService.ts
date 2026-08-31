@@ -29,6 +29,18 @@ class FormService extends BaseAPIService {
     async previewForm(params: object): Promise<Blob | null> {
         return await this.requestBlob(`/user/forms/preview`, 'POST', params)
     }
+
+    async getFormAssignments(params: object): Promise<any> {
+        return await this.request(`/user/form-assignments`, 'GET', params)
+    }
+
+    async sendFormToPatient(formUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/forms/${formUuid}/assignments`, 'POST', params)
+    }
+
+    async withdrawFormAssignment(uuid: string): Promise<any> {
+        return await this.request(`/user/form-assignments/${uuid}`, 'DELETE')
+    }
 }
 
 export const formService = new FormService()

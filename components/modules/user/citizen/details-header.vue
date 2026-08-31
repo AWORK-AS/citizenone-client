@@ -59,6 +59,19 @@
                                                 <Icon name="ph:translate" class="h-4 w-4" aria-hidden="true" />
                                                 {{ $t('citizens.form.requiresInterpreter') }}
                                             </span>
+                                            <!-- Whether this patient can reach the portal, on the
+                                                 screen the clinician actually works from. -->
+                                            <button v-if="hasPatientPortal" type="button"
+                                                class="inline-flex items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-semibold ring-1"
+                                                :class="hasPortalAccess
+                                                    ? 'bg-green-50 text-green-800 ring-green-200 hover:bg-green-100'
+                                                    : 'bg-gray-50 text-gray-600 ring-gray-200 hover:bg-gray-100'"
+                                                :title="$t('patient.staff.portalBadgeHelp')"
+                                                @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)">
+                                                <Icon :name="hasPortalAccess ? 'ph:device-mobile-speaker' : 'ph:device-mobile-slash'"
+                                                    class="h-4 w-4" aria-hidden="true" />
+                                                {{ hasPortalAccess ? $t('patient.staff.portalActive') : $t('patient.staff.portalInactive') }}
+                                            </button>
 
                                         </div>
                                         <p class="text-sm font-medium text-gray-700"
@@ -503,6 +516,9 @@ const state = reactive({
     arrivalDistance: 0,
     workingMinutes: 0,
 })
+// Patient portal status, shown as a chip on the header for clinics that run it.
+const hasPatientPortal = computed(() => !!userStore.getUser?.has_patient_app)
+const hasPortalAccess = computed(() => !!state.selectedCitizen?.data?.has_system_access)
 
 const arrivalCheckState = reactive({
     hasShownPrompt: false,

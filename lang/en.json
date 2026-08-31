@@ -3109,7 +3109,8 @@
             "surveys": "Surveys",
             "toothChart": "Tooth chart",
             "priceEstimates": "Price estimates",
-            "invoices": "Invoices"
+            "invoices": "Invoices",
+            "patientForms": "Patient forms"
         },
         "timeline": {
             "newEvent": "New event",
@@ -3945,7 +3946,12 @@
             "name": "Name",
             "shiftTypes": "Shift types",
             "minimumStaffCount": "Minimum staff count",
-            "minimumStaffCountHint": "Minimum number of employees required to cover this department on any given day. Leave empty to disable the coverage warning."
+            "minimumStaffCountHint": "Minimum number of employees required to cover this department on any given day. Leave empty to disable the coverage warning.",
+            "street": "Street and number",
+            "postCode": "Post code",
+            "city": "City",
+            "phone": "Phone",
+            "clinicAddressHint": "Shown to patients in the patient portal as the clinic address and contact number."
         },
         "newDepartment": "New department",
         "table": {
@@ -9803,7 +9809,14 @@
                 "termCitizen": "Citizen (singular)",
                 "termCitizenDefinite": "The citizen (singular, definite)",
                 "termCitizens": "Citizens (plural)",
-                "termCitizensDefinite": "The citizens (plural, definite)"
+                "termCitizensDefinite": "The citizens (plural, definite)",
+                "portalAudiencePatient": "Patient",
+                "portalSectionAppointments": "Appointments",
+                "portalSectionBooking": "Online booking",
+                "portalPreviewAppointments": "The patient sees their upcoming and past appointments at the clinic.",
+                "portalPreviewBooking": "The patient can book a free time for the treatments you opened for online booking.",
+                "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
+                "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared"
             }
         },
         "licenseOverview": {
@@ -13396,7 +13409,8 @@
         "nobodyHasAccess": "Nobody has access yet",
         "audience": {
             "relative": "Relatives",
-            "third_party": "Third parties"
+            "third_party": "Third parties",
+            "patient": "Patients"
         },
         "status": {
             "active": "Signed in",
@@ -13409,7 +13423,9 @@
             "status": "Status",
             "grantedAt": "Access given"
         },
-        "chooseWhatTheySee": "Choose what they see"
+        "chooseWhatTheySee": "Choose what they see",
+        "peopleWithAccess": "{count} have access",
+        "includedForTheClinic": "Included in the clinic's subscription"
     },
     "wageSupplementRules": {
         "form": {
@@ -14280,6 +14296,140 @@
             "saveFailed": "The rule could not be saved",
             "deleted": "The rule was deleted",
             "deleteFailed": "The rule could not be deleted"
+        }
+    },
+    "patient": {
+        "nav": {
+            "appointments": "Appointments",
+            "journal": "Journal",
+            "documents": "Documents",
+            "priceEstimates": "Estimates",
+            "forms": "Forms"
+        },
+        "overview": {
+            "greeting": "Hi {name}",
+            "intro": "Welcome to your overview. Here you can see what is waiting for you from the clinic.",
+            "waitingForYou": "Waiting for you",
+            "unreadMessages": "{count} unread messages",
+            "upcomingAppointments": "{count} upcoming appointments",
+            "pendingSurveys": "{count} questionnaires to answer",
+            "yourClinic": "Your clinic",
+            "fromTheClinic": "From the clinic",
+            "new": "New"
+        },
+        "appointments": {
+            "upcoming": "Upcoming",
+            "past": "Past",
+            "empty": "You have no appointments here.",
+            "appointment": "Appointment",
+            "detailTitle": "Appointment at {clinic}",
+            "what": "What",
+            "when": "When",
+            "where": "Where",
+            "who": "Who",
+            "duration": "Duration {minutes} minutes",
+            "online": "Online",
+            "joinOnline": "Join the online meeting",
+            "cancel": "Cancellation",
+            "cancelHelp": "Contact the clinic to change or cancel your appointment.",
+            "writeToClinic": "Write to the clinic",
+            "cancelOwnHelp": "You booked this time yourself and can cancel it here.",
+            "cancelAppointment": "Cancel the appointment",
+            "cancelConfirm": "The time becomes free again and the clinic is told. Are you sure?",
+            "cancelled": "The appointment is cancelled"
+        },
+        "booking": {
+            "bookTime": "Book a time",
+            "noServices": "The clinic has no treatments open for online booking right now.",
+            "chooseTreatment": "Choose treatment",
+            "chooseDate": "Choose date",
+            "noDates": "No available dates.",
+            "chooseTime": "Choose time",
+            "noTimes": "No available times on the chosen date.",
+            "note": "Message to the clinic",
+            "notePlaceholder": "Tell the clinic what your visit is about",
+            "confirm": "Confirm booking",
+            "summary": "{treatment} · {date} at {time}",
+            "booked": "Your appointment is booked"
+        },
+        "journal": {
+            "intro": "Here you can read the journal notes the clinic has shared with you.",
+            "empty": "The clinic has not shared any journal notes with you yet."
+        },
+        "documents": {
+            "upload": "Upload file",
+            "uploadHelp": "Only DOC, DOCX, JPEG, JPG, PDF and PNG below 10 MB can be uploaded.",
+            "saveFile": "Save file",
+            "empty": "There are no files for you yet.",
+            "download": "Download",
+            "uploaded": "The file was saved"
+        },
+        "staff": {
+            "journalAccess": "Patient access to the journal",
+            "journalAccessHelp": "When on, the patient can read the journal notes you mark as shared.",
+            "noteVisibleToPatient": "Share the note with the patient",
+            "noteVisibleToPatientHelp": "The note appears in the patient portal. Requires that the patient has journal access.",
+            "surveyWritesToJournal": "Save answers in the journal",
+            "surveyWritesToJournalHelp": "When the patient returns the questionnaire, a journal note with the answers is created.",
+            "portalAccess": "Access to the patient portal",
+            "portalAccessHelp": "The patient can sign in and see their appointments, messages and documents.",
+            "messageAccess": "May send messages to the clinic",
+            "sectionTitle": "Patient portal",
+            "sectionHelp": "Decide what this patient can see and do in the patient portal.",
+            "portalActive": "Portal active",
+            "portalInactive": "No portal access",
+            "portalBadgeHelp": "Click to change the patient access",
+            "teaserTitle": "Give your patients access",
+            "teaserText": "With the patient portal your patients book their own appointments, write to the clinic, answer questionnaires and read the journal notes you choose to share.",
+            "teaserAction": "See the patient portal"
+        },
+        "priceEstimates": {
+            "intro": "The estimates the clinic has sent you.",
+            "empty": "The clinic has not sent you an estimate yet.",
+            "total": "Total",
+            "subsidy": "Subsidy",
+            "yourShare": "Your share",
+            "validUntil": "Valid until {date}",
+            "showLines": "Show treatments",
+            "hideLines": "Hide treatments",
+            "treatment": "Treatment",
+            "quantity": "Quantity",
+            "price": "Price"
+        },
+        "forms": {
+            "empty": "The clinic has not sent you a form yet.",
+            "pending": "To fill in",
+            "noPending": "You have no forms waiting.",
+            "completed": "Answered",
+            "received": "Received",
+            "completedAt": "Answered",
+            "fillOut": "Fill in",
+            "return": "Send to the clinic",
+            "returned": "The form was sent",
+            "alreadyCompleted": "You have already answered this form.",
+            "answerRequired": "Some questions are not answered yet",
+            "journalNotice": "Your answers are placed in your journal at the clinic."
+        }
+    },
+    "patientForms": {
+        "sendToPatient": "Send a form to the patient",
+        "sendHelp": "The patient fills the form in the portal, and the answers are placed in the journal.",
+        "chooseForm": "Choose form",
+        "send": "Send",
+        "sentAlert": "The form was sent to the patient",
+        "sent": "Sent",
+        "answered": "Answered",
+        "withdraw": "Withdraw",
+        "withdrawConfirm": "The form is removed from the patient portal. Are you sure?",
+        "withdrawnAlert": "The form was withdrawn",
+        "journalNotice": "Answers are placed in the patient journal automatically.",
+        "status": {
+            "answered": "Answered",
+            "waiting": "Waiting"
+        },
+        "empty": {
+            "title": "No forms sent yet",
+            "text": "Send a form for the patient to fill in at home. The answers land in the journal."
         }
     }
 }

@@ -112,6 +112,7 @@ const state = reactive({
         red: '',
         has_system_access: false,
         has_chat_access: false,
+        has_patient_journal_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {

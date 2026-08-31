@@ -647,37 +647,59 @@ const openSections = reactive({ access: true, communication: true, portals: true
 // Count of enabled toggles per group, for the header count chips (default-safe via filter(Boolean)).
 // Sections each external audience can open in its portal. Mirrors
 // PortalVisibilityService::SECTIONS on the backend.
-const portalAudiences = [
-    {
-        key: 'relative',
-        label: 'settings.company.form.portalAudienceRelative',
-        sections: [
-            { key: 'journals', label: 'settings.company.form.portalSectionJournals' },
-            { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
-            { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
-        ],
-    },
-    {
-        key: 'third_party',
-        label: 'settings.company.form.portalAudienceThirdParty',
-        sections: [
-            { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
-        ],
-    },
-    {
-        key: 'citizen',
-        label: 'settings.company.form.portalAudienceCitizen',
-        sections: [
-            { key: 'overview', label: 'settings.company.form.portalSectionOverview' },
-            { key: 'duty_schedules', label: 'settings.company.form.portalSectionDutySchedules' },
-            { key: 'surveys', label: 'settings.company.form.portalSectionSurveys' },
-            { key: 'protocols', label: 'settings.company.form.portalSectionProtocols' },
-            { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
-        ],
-    },
-]
+// The patient portal only exists for dental clinics, so its switches are only
+// offered there.
+const portalAudiences = computed(() => {
+    const audiences = [
+        {
+            key: 'relative',
+            label: 'settings.company.form.portalAudienceRelative',
+            sections: [
+                { key: 'journals', label: 'settings.company.form.portalSectionJournals' },
+                { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
+                { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+            ],
+        },
+        {
+            key: 'third_party',
+            label: 'settings.company.form.portalAudienceThirdParty',
+            sections: [
+                { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+            ],
+        },
+        {
+            key: 'citizen',
+            label: 'settings.company.form.portalAudienceCitizen',
+            sections: [
+                { key: 'overview', label: 'settings.company.form.portalSectionOverview' },
+                { key: 'duty_schedules', label: 'settings.company.form.portalSectionDutySchedules' },
+                { key: 'surveys', label: 'settings.company.form.portalSectionSurveys' },
+                { key: 'protocols', label: 'settings.company.form.portalSectionProtocols' },
+                { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+            ],
+        },
+    ] as any[]
 
-const totalSectionCount = portalAudiences.reduce((total, audience) => total + audience.sections.length, 0)
+    if (userStore.getUser?.company?.industry?.system_name === 'dental') {
+        audiences.push({
+            key: 'patient',
+            label: 'settings.company.form.portalAudiencePatient',
+            sections: [
+                { key: 'overview', label: 'settings.company.form.portalSectionOverview' },
+                { key: 'appointments', label: 'settings.company.form.portalSectionAppointments' },
+                { key: 'booking', label: 'settings.company.form.portalSectionBooking' },
+                { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
+                { key: 'journals', label: 'settings.company.form.portalSectionJournals' },
+                { key: 'surveys', label: 'settings.company.form.portalSectionSurveys' },
+                { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
+            ],
+        })
+    }
+
+    return audiences
+})
+
+const totalSectionCount = computed(() => portalAudiences.value.reduce((total: number, audience: any) => total + audience.sections.length, 0))
 
 // An unset section means visible, matching the backend default.
 function isSectionVisible(audience: string, section: string) {
@@ -691,7 +713,7 @@ const portalConfirm = reactive({ isOpen: false, audience: '', section: '' })
 const portalPreview = reactive({ isOpen: false, audience: '', label: '', visibility: {} as any })
 
 function openPortalPreview(audienceKey: string) {
-    const audience = portalAudiences.find((item) => item.key === audienceKey)
+    const audience = portalAudiences.value.find((item: any) => item.key === audienceKey)
 
     portalPreview.audience = audienceKey
     portalPreview.label = audience ? t(audience.label) : ''
@@ -705,7 +727,7 @@ function openPortalPreview(audienceKey: string) {
 const portalConfirmMessage = computed(() => {
     if (!portalConfirm.audience) return ''
 
-    const audience = portalAudiences.find((item) => item.key === portalConfirm.audience)
+    const audience = portalAudiences.value.find((item: any) => item.key === portalConfirm.audience)
     const section = audience?.sections.find((item) => item.key === portalConfirm.section)
 
     return t('settings.company.form.portalAccessConfirmMessage', {
@@ -739,14 +761,14 @@ function confirmOpenSection() {
     portalConfirm.section = ''
 }
 
-const openSummary = computed(() => portalAudiences.flatMap((audience) => {
-    const open = audience.sections.filter((section) => isSectionVisible(audience.key, section.key))
+const openSummary = computed(() => portalAudiences.value.flatMap((audience: any) => {
+    const open = audience.sections.filter((section: any) => isSectionVisible(audience.key, section.key))
 
-    return open.length ? [`${t(audience.label)}: ${open.map((section) => t(section.label)).join(', ')}`] : []
+    return open.length ? [`${t(audience.label)}: ${open.map((section: any) => t(section.label)).join(', ')}`] : []
 }))
 
-const visibleSectionCount = computed(() => portalAudiences.reduce((total, audience) =>
-    total + audience.sections.filter((section) => isSectionVisible(audience.key, section.key)).length, 0))
+const visibleSectionCount = computed(() => portalAudiences.value.reduce((total: number, audience: any) =>
+    total + audience.sections.filter((section: any) => isSectionVisible(audience.key, section.key)).length, 0))
 
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
 const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled].filter(Boolean).length)

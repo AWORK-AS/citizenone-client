@@ -3109,7 +3109,8 @@
             "surveys": "Enkäter",
             "toothChart": "Tandkarta",
             "priceEstimates": "Prisuppskattningar",
-            "invoices": "Fakturor"
+            "invoices": "Fakturor",
+            "patientForms": "Formulär till patienten"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -3945,7 +3946,12 @@
             "name": "Namn",
             "shiftTypes": "Passtyper",
             "minimumStaffCount": "Minsta bemanning",
-            "minimumStaffCountHint": "Minsta antal medarbetare som krävs för att täcka denna avdelning en given dag. Lämna tomt för att inaktivera bemanningsvarningen."
+            "minimumStaffCountHint": "Minsta antal medarbetare som krävs för att täcka denna avdelning en given dag. Lämna tomt för att inaktivera bemanningsvarningen.",
+            "street": "Gatunamn och nr.",
+            "postCode": "Postnummer",
+            "city": "Ort",
+            "phone": "Telefon",
+            "clinicAddressHint": "Visas för patienterna i patientportalen som klinikens adress och kontaktnummer."
         },
         "newDepartment": "Ny avdelning",
         "table": {
@@ -9803,7 +9809,14 @@
                 "termCitizen": "Klient (singular)",
                 "termCitizenDefinite": "Klienten (singular, bestämd)",
                 "termCitizens": "Klienter (plural)",
-                "termCitizensDefinite": "Klienterna (plural, bestämd)"
+                "termCitizensDefinite": "Klienterna (plural, bestämd)",
+                "portalAudiencePatient": "Patient",
+                "portalSectionAppointments": "Bokningar",
+                "portalSectionBooking": "Onlinebokning",
+                "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
+                "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
+                "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
+                "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade"
             }
         },
         "licenseOverview": {
@@ -13396,7 +13409,8 @@
         "nobodyHasAccess": "Ingen har åtkomst ännu",
         "audience": {
             "relative": "Anhöriga",
-            "third_party": "Tredjeparter"
+            "third_party": "Tredjeparter",
+            "patient": "Patienter"
         },
         "status": {
             "active": "Inloggad",
@@ -13409,7 +13423,9 @@
             "status": "Status",
             "grantedAt": "Åtkomst gavs"
         },
-        "chooseWhatTheySee": "Välj vad de ser"
+        "chooseWhatTheySee": "Välj vad de ser",
+        "peopleWithAccess": "{count} har åtkomst",
+        "includedForTheClinic": "Ingår i klinikens abonnemang"
     },
     "wageSupplementRules": {
         "form": {
@@ -14280,6 +14296,140 @@
             "saveFailed": "Regeln kunde inte sparas",
             "deleted": "Regeln har tagits bort",
             "deleteFailed": "Regeln kunde inte tas bort"
+        }
+    },
+    "patient": {
+        "nav": {
+            "appointments": "Bokningar",
+            "journal": "Journal",
+            "documents": "Dokument",
+            "priceEstimates": "Kostnadsförslag",
+            "forms": "Formulär"
+        },
+        "overview": {
+            "greeting": "Hej {name}",
+            "intro": "Välkommen till din översikt. Här ser du vad som väntar från kliniken.",
+            "waitingForYou": "Väntar på dig",
+            "unreadMessages": "{count} olästa meddelanden",
+            "upcomingAppointments": "{count} kommande bokningar",
+            "pendingSurveys": "{count} enkäter att besvara",
+            "yourClinic": "Din klinik",
+            "fromTheClinic": "Från kliniken",
+            "new": "Ny"
+        },
+        "appointments": {
+            "upcoming": "Kommande",
+            "past": "Tidigare",
+            "empty": "Du har inga bokningar här.",
+            "appointment": "Bokning",
+            "detailTitle": "Bokning hos {clinic}",
+            "what": "Vad",
+            "when": "När",
+            "where": "Var",
+            "who": "Vem",
+            "duration": "Längd {minutes} minuter",
+            "online": "Online",
+            "joinOnline": "Anslut till onlinemötet",
+            "cancel": "Avbokning",
+            "cancelHelp": "Kontakta kliniken för att ändra eller avboka din tid.",
+            "writeToClinic": "Skriv till kliniken",
+            "cancelOwnHelp": "Du har själv bokat den här tiden och kan avboka den här.",
+            "cancelAppointment": "Avboka tiden",
+            "cancelConfirm": "Tiden blir ledig igen och kliniken får besked. Är du säker?",
+            "cancelled": "Tiden är avbokad"
+        },
+        "booking": {
+            "bookTime": "Boka tid",
+            "noServices": "Kliniken har inga behandlingar öppna för onlinebokning just nu.",
+            "chooseTreatment": "Välj behandling",
+            "chooseDate": "Välj datum",
+            "noDates": "Inga lediga datum.",
+            "chooseTime": "Välj tid",
+            "noTimes": "Inga lediga tider det valda datumet.",
+            "note": "Meddelande till kliniken",
+            "notePlaceholder": "Skriv gärna vad ditt besök gäller",
+            "confirm": "Bekräfta bokning",
+            "summary": "{treatment} · {date} kl. {time}",
+            "booked": "Din tid är bokad"
+        },
+        "journal": {
+            "intro": "Här kan du läsa de journalanteckningar kliniken har delat med dig.",
+            "empty": "Kliniken har inte delat några journalanteckningar med dig än."
+        },
+        "documents": {
+            "upload": "Ladda upp fil",
+            "uploadHelp": "Endast DOC, DOCX, JPEG, JPG, PDF och PNG under 10 MB kan laddas upp.",
+            "saveFile": "Spara fil",
+            "empty": "Det finns inga filer till dig än.",
+            "download": "Hämta",
+            "uploaded": "Filen är sparad"
+        },
+        "staff": {
+            "journalAccess": "Patientens åtkomst till journalen",
+            "journalAccessHelp": "När den är på kan patienten läsa de anteckningar ni markerar som delade.",
+            "noteVisibleToPatient": "Dela anteckningen med patienten",
+            "noteVisibleToPatientHelp": "Anteckningen visas i patientportalen. Kräver att patienten har journalåtkomst.",
+            "surveyWritesToJournal": "Spara svaren i journalen",
+            "surveyWritesToJournalHelp": "När patienten returnerar enkäten skapas en journalanteckning med svaren.",
+            "portalAccess": "Åtkomst till patientportalen",
+            "portalAccessHelp": "Patienten kan logga in och se sina bokningar, meddelanden och dokument.",
+            "messageAccess": "Får skicka meddelanden till kliniken",
+            "sectionTitle": "Patientportal",
+            "sectionHelp": "Bestäm vad den här patienten kan se och göra i patientportalen.",
+            "portalActive": "Patientportal aktiv",
+            "portalInactive": "Ingen portalåtkomst",
+            "portalBadgeHelp": "Klicka för att ändra patientens åtkomst",
+            "teaserTitle": "Ge dina patienter åtkomst",
+            "teaserText": "Med patientportalen bokar patienterna själva tid, skriver till kliniken, besvarar enkäter och läser de journalanteckningar ni väljer att dela.",
+            "teaserAction": "Se patientportalen"
+        },
+        "priceEstimates": {
+            "intro": "Här ser du de kostnadsförslag kliniken har skickat dig.",
+            "empty": "Kliniken har inte skickat något kostnadsförslag än.",
+            "total": "Totalpris",
+            "subsidy": "Bidrag",
+            "yourShare": "Din del",
+            "validUntil": "Gäller till {date}",
+            "showLines": "Visa behandlingar",
+            "hideLines": "Dölj behandlingar",
+            "treatment": "Behandling",
+            "quantity": "Antal",
+            "price": "Pris"
+        },
+        "forms": {
+            "empty": "Kliniken har inte skickat något formulär än.",
+            "pending": "Att fylla i",
+            "noPending": "Du har inga formulär som väntar.",
+            "completed": "Besvarade",
+            "received": "Mottaget",
+            "completedAt": "Besvarat",
+            "fillOut": "Fyll i",
+            "return": "Skicka till kliniken",
+            "returned": "Formuläret är skickat",
+            "alreadyCompleted": "Du har redan besvarat det här formuläret.",
+            "answerRequired": "Några frågor är inte besvarade",
+            "journalNotice": "Dina svar läggs i din journal hos kliniken."
+        }
+    },
+    "patientForms": {
+        "sendToPatient": "Skicka formulär till patienten",
+        "sendHelp": "Patienten fyller i formuläret i portalen och svaren läggs i journalen.",
+        "chooseForm": "Välj formulär",
+        "send": "Skicka",
+        "sentAlert": "Formuläret är skickat till patienten",
+        "sent": "Skickat",
+        "answered": "Besvarat",
+        "withdraw": "Dra tillbaka",
+        "withdrawConfirm": "Formuläret tas bort från patientportalen. Är du säker?",
+        "withdrawnAlert": "Formuläret är tillbakadraget",
+        "journalNotice": "Svaren läggs automatiskt i patientens journal.",
+        "status": {
+            "answered": "Besvarat",
+            "waiting": "Väntar på svar"
+        },
+        "empty": {
+            "title": "Inga formulär skickade än",
+            "text": "Skicka ett formulär som patienten fyller i hemifrån. Svaren hamnar i journalen."
         }
     }
 }

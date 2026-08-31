@@ -52,6 +52,17 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-tooth-chart'],
         })
     }
+    // Forms sent to the patient to fill in themselves. Only where there is a portal to send
+    // them to; a clinic without it would get a tab that cannot do anything.
+    if (isDental && newValue?.has_patient_app) {
+        tabs.push({
+            name: 'citizens.tabs.patientForms', icon: 'ph:note-pencil', isTranslateName: true,
+            href: `/citizens/${citizenUuid}/patient-forms`,
+            routeNames: ['citizens-uuid-patient-forms'],
+            category: 'documentation', primary: false,
+        })
+    }
+
     if (isDental) {
         tabs.push({
             name: 'citizens.tabs.priceEstimates', icon: 'ph:receipt', isTranslateName: true,
