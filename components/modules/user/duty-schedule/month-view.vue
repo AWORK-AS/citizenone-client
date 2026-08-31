@@ -287,11 +287,13 @@
                                         </span>
                                         <span v-else>.</span></span>
                                 </p>
-                                <p>
+                                <!-- Left out entirely for staff marked as not using an
+                                     annual norm: a norm of zero is not information. -->
+                                <p v-if="employee?.uses_annual_norm_hours !== false">
                                     {{ $t('dutySchedules.annualNormHours') }}: {{ formatNumber(language.locale.value,
                                         employee?.annual_norm_hours ?? 0) }}
                                 </p>
-                                <p>
+                                <p v-if="employee?.uses_annual_norm_hours !== false">
                                     {{
                                         $t('dutySchedules.weeklyNormHours') }}: {{
                                         (Math.round(Number(employee?.annual_norm_hours) / 52)) ??

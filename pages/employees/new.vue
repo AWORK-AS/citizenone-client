@@ -85,6 +85,7 @@ const state = reactive({
             working_hours: '',
             employment_status: '',
             annual_norm_hours: '',
+            annual_norm_hours_disabled: false,
             vacation_days: '',
             hourly_rate: '',
         },
@@ -133,6 +134,7 @@ async function saveEmployee(employeeDetails: any) {
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
         params.append('annual_norm_hours', String(employeeDetails.employment.annual_norm_hours ?? '').replace(',', '.'))
+        params.append('annual_norm_hours_disabled', employeeDetails.employment.annual_norm_hours_disabled ? '1' : '0')
         params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('hourly_rate', String(employeeDetails.employment.hourly_rate ?? '').replace(',', '.'))
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))

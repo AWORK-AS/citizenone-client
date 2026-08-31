@@ -118,7 +118,7 @@
                         :answers="state.surveyAnswers[assignment.uuid]" />
                 </div>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="isFieldVisible('score')">
                 <FormLabel for="score" :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formJournal.score" />
                 <FormError :error="v$?.formJournal?.score?.$errors[0]?.$message.toString()" />
@@ -670,8 +670,8 @@ const state = reactive({
     usePredefinedJournalTitle: false,
     userPredefinedContents: false,
     formFieldConfig: {
-        create: { risk_assessment: true } as Record<string, boolean>,
-        edit: { risk_assessment: true } as Record<string, boolean>,
+        create: { risk_assessment: true, score: true } as Record<string, boolean>,
+        edit: { risk_assessment: true, score: true } as Record<string, boolean>,
     },
 })
 
