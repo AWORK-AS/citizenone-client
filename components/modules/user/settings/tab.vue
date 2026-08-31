@@ -105,7 +105,22 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.tabs = Object.values(T)
     } else {
         const r = router?.currentRoute?.value?.name as string
-        if (!['settings-profile', 'settings-time-logs', 'settings-mileage-log'].includes(r)) {
+        // Everywhere else on /settings is either Manager-or-permission gated on
+        // its own backend endpoint, or has no role check at all there - this
+        // list is only the pages that are genuinely Admin-only server-side.
+        // Redirecting anyone else away from them is correct; redirecting
+        // anyone else away from anywhere else was the bug (AW audit, 2026-08-28).
+        const adminOnly = [
+            'settings-company',
+            'settings-import',
+            'settings-power-bi',
+            'settings-economic',
+            'settings-gdpr-retention',
+            'settings-portal-access',
+            'settings-custom-links', 'settings-custom-links-new', 'settings-custom-links-uuid-edit',
+            'settings-wage-supplement-rules',
+        ]
+        if (adminOnly.includes(r)) {
             navigateTo('/settings/profile')
         }
         state.tabs = [

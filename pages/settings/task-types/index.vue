@@ -3,14 +3,14 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('inquiryServiceTypes.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ $t('taskTypes.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('inquiryServiceTypes.title') }}</template>
+            <template #header>{{ $t('taskTypes.title') }}</template>
 
             <ModulesUserSettingsTab />
             <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
@@ -19,57 +19,53 @@
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <p class="max-w-2xl text-sm text-gray-500">
-                    {{ $t('inquiryServiceTypes.description') }}
-                </p>
+                <p class="max-w-2xl text-sm text-gray-500">{{ $t('taskTypes.description') }}</p>
 
                 <div class="rounded-lg border border-gray-200 bg-white">
-                    <div class="flex flex-wrap items-end gap-3 border-b border-gray-100 px-4 py-3">
+                    <div v-if="isManager" class="flex flex-wrap items-end gap-3 border-b border-gray-100 px-4 py-3">
                         <div class="w-64">
-                            <FormLabel for="new-name" :label="$t('inquiryServiceTypes.form.name')" />
+                            <FormLabel for="new-name" :label="$t('taskTypes.form.name')" />
                             <FormTextField id="new-name" name="new-name" v-model="state.draft.name"
-                                :placeholder="$t('inquiryServiceTypes.form.namePlaceholder')" :maxLength="120" />
+                                :placeholder="$t('taskTypes.form.namePlaceholder')" :maxLength="60" />
                         </div>
-                        <div class="w-44">
-                            <FormLabel for="new-paragraph" :label="$t('inquiryServiceTypes.form.paragraph')" />
-                            <FormTextField id="new-paragraph" name="new-paragraph" v-model="state.draft.paragraph"
-                                :placeholder="$t('inquiryServiceTypes.form.paragraphPlaceholder')" :maxLength="60" />
+                        <div class="w-40">
+                            <FormLabel for="new-color" :label="$t('taskTypes.form.color')" />
+                            <FormColorPicker id="new-color" v-model="state.draft.color" />
                         </div>
-                        <FormButton type="button" buttonStyle="action" :disabled="!state.draft.name.trim()"
-                            @click="add">
+                        <FormButton type="button" buttonStyle="action" :disabled="!state.draft.name.trim()" @click="add">
                             <Icon name="ph:plus" class="size-4" />
-                            {{ $t('inquiryServiceTypes.add') }}
+                            {{ $t('taskTypes.add') }}
                         </FormButton>
                     </div>
 
                     <p v-if="!state.types.length" class="px-4 py-5 text-sm text-gray-400">
-                        {{ $t('inquiryServiceTypes.empty') }}
+                        {{ $t('taskTypes.empty') }}
                     </p>
 
                     <div v-for="(type, index) in state.types" :key="type.uuid"
                         class="flex flex-wrap items-center gap-3 border-b border-gray-50 px-4 py-2.5 last:border-b-0">
                         <div class="min-w-0 flex-1">
                             <template v-if="state.editing === type.uuid">
-                                <div class="flex flex-wrap gap-3">
+                                <div class="flex flex-wrap items-center gap-3">
                                     <div class="w-56">
                                         <FormTextField :id="`name-${type.uuid}`" :name="`name-${type.uuid}`"
-                                            v-model="state.edit.name" :placeholder="type.name" :maxLength="120" />
+                                            v-model="state.edit.name" :placeholder="type.name" :maxLength="60" />
                                     </div>
                                     <div class="w-40">
-                                        <FormTextField :id="`par-${type.uuid}`" :name="`par-${type.uuid}`"
-                                            v-model="state.edit.paragraph"
-                                            :placeholder="$t('inquiryServiceTypes.form.paragraphPlaceholder')"
-                                            :maxLength="60" />
+                                        <FormColorPicker :id="`color-${type.uuid}`" v-model="state.edit.color" />
                                     </div>
                                 </div>
                             </template>
-                            <p v-else class="text-sm font-medium text-gray-900"
-                                :class="!type.is_active && 'text-gray-400 line-through'">
-                                {{ type.label }}
-                            </p>
+                            <div v-else class="flex items-center gap-2">
+                                <span class="size-3 rounded-[4px]" :style="{ background: type.color }"></span>
+                                <p class="text-sm font-medium text-gray-900"
+                                    :class="!type.is_active && 'text-gray-400 line-through'">
+                                    {{ type.name }}
+                                </p>
+                            </div>
                         </div>
 
-                        <div class="flex items-center gap-2">
+                        <div v-if="isManager" class="flex items-center gap-2">
                             <template v-if="state.editing === type.uuid">
                                 <FormButton type="button" buttonStyle="cancel" @click="state.editing = ''">
                                     {{ $t('cancel') }}
@@ -95,13 +91,10 @@
                                         <Icon name="ph:arrow-down" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
-                                <Tooltip :text="type.is_active
-                                    ? $t('consultantSkills.deactivate')
-                                    : $t('consultantSkills.activate')">
+                                <Tooltip
+                                    :text="type.is_active ? $t('consultantSkills.deactivate') : $t('consultantSkills.activate')">
                                     <FormButton type="button" buttonStyle="action"
-                                        :aria-label="type.is_active
-                                            ? $t('consultantSkills.deactivate')
-                                            : $t('consultantSkills.activate')"
+                                        :aria-label="type.is_active ? $t('consultantSkills.deactivate') : $t('consultantSkills.activate')"
                                         @click="toggleActive(type)">
                                         <Icon :name="type.is_active ? 'ph:eye' : 'ph:eye-slash'" class="size-4" />
                                     </FormButton>
@@ -118,38 +111,37 @@
                 </div>
             </div>
 
-            <DialogConfirmation :isModalOpen="state.isDeleteOpen"
-                :message="$t('inquiryServiceTypes.confirmation.delete') + '?'" @close="state.isDeleteOpen = false"
-                @confirm="remove" />
+            <DialogConfirmation :isModalOpen="state.isDeleteOpen" :message="$t('taskTypes.confirmation.delete') + '?'"
+                @close="state.isDeleteOpen = false" @confirm="remove" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+definePageMeta({ middleware: 'require-application', requiredApplication: 'tasks_workflow_enabled' })
 
-import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
+import { taskService } from '@/components/api/user/TaskService'
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast } = usePermissions()
 
-const breadcrumbLinks = [
-    {
-        name: 'inquiryServiceTypes.title',
-        translate: true,
-        href: '/settings/inquiry-service-types',
-    },
-]
+const isManager = computed(() => isAtLeast('Manager'))
+
+const breadcrumbLinks = [{ name: 'taskTypes.title', translate: true, href: '/settings/task-types' }]
+
+const DEFAULT_COLOR = '#94a3b8'
 
 const state = reactive({
     error: {} as Error,
     types: [] as any[],
-    draft: { name: '', paragraph: '' },
-    edit: { name: '', paragraph: '' },
+    draft: { name: '', color: DEFAULT_COLOR },
+    edit: { name: '', color: DEFAULT_COLOR },
     editing: '',
     isDeleteOpen: false,
     selected: null as any,
@@ -162,7 +154,7 @@ onMounted(() => {
 async function fetchTypes() {
     state.error = {}
     try {
-        const response = await inquiryServiceTypeService.getServiceTypes()
+        const response = await taskService.getTypes()
         state.types = response?.data ?? []
     } catch (error: any) {
         state.error = error
@@ -171,38 +163,39 @@ async function fetchTypes() {
 
 async function add() {
     try {
-        await inquiryServiceTypeService.saveServiceType({
+        await taskService.saveType({
             name: state.draft.name.trim(),
-            paragraph: state.draft.paragraph.trim() || null,
+            color: state.draft.color || null,
         })
-        state.draft = { name: '', paragraph: '' }
+        state.draft = { name: '', color: DEFAULT_COLOR }
         await fetchTypes()
     } catch (error: any) {
-        errorAlert(t('alert.warning'), error?.errors?.name?.[0] ?? error?.message ?? t('inquiryServiceTypes.alert.saveFailed'))
+        // A duplicate name comes back as a field error, not a message.
+        errorAlert(t('alert.warning'), error?.errors?.name?.[0] ?? error?.message ?? t('taskTypes.alert.saveFailed'))
     }
 }
 
 function startEdit(type: any) {
     state.editing = type.uuid
-    state.edit = { name: type.name, paragraph: type.paragraph ?? '' }
+    state.edit = { name: type.name, color: type.color ?? DEFAULT_COLOR }
 }
 
 async function save(type: any) {
     try {
-        await inquiryServiceTypeService.updateServiceType(type.uuid, {
+        await taskService.updateType(type.uuid, {
             name: state.edit.name.trim(),
-            paragraph: state.edit.paragraph.trim() || null,
+            color: state.edit.color || null,
         })
         state.editing = ''
         await fetchTypes()
     } catch (error: any) {
-        errorAlert(t('alert.warning'), error?.message ?? t('inquiryServiceTypes.alert.saveFailed'))
+        errorAlert(t('alert.warning'), error?.errors?.name?.[0] ?? error?.message ?? t('taskTypes.alert.saveFailed'))
     }
 }
 
 async function toggleActive(type: any) {
     try {
-        await inquiryServiceTypeService.updateServiceType(type.uuid, { is_active: !type.is_active })
+        await taskService.updateType(type.uuid, { is_active: !type.is_active })
         await fetchTypes()
     } catch (error: any) {
         state.error = error
@@ -217,12 +210,13 @@ function confirmDelete(type: any) {
 async function remove() {
     state.isDeleteOpen = false
     try {
-        await inquiryServiceTypeService.deleteServiceType(state.selected.uuid)
+        await taskService.deleteType(state.selected.uuid)
         await fetchTypes()
-        successAlert(`${t('alert.success')}!`, `${t('inquiryServiceTypes.alert.deleted')}.`)
+        successAlert(`${t('alert.success')}!`, `${t('taskTypes.alert.deleted')}.`)
     } catch (error: any) {
-        // The refusal carries the counts and says to deactivate instead.
-        errorAlert(t('alert.warning'), error?.message ?? t('inquiryServiceTypes.alert.deleteFailed'))
+        // A type already on tasks is refused, and the refusal says to deactivate
+        // it instead so the history stays readable.
+        errorAlert(t('alert.warning'), error?.message ?? t('taskTypes.alert.deleteFailed'))
     }
 }
 
@@ -236,7 +230,7 @@ async function move(index: number, direction: number) {
     state.types = reordered
 
     try {
-        const response = await inquiryServiceTypeService.reorderServiceTypes(reordered.map((item: any) => item.uuid))
+        const response = await taskService.reorderTypes(reordered.map((item: any) => item.uuid))
         state.types = response?.data ?? reordered
     } catch (error: any) {
         state.error = error

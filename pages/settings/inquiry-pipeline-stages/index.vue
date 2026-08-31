@@ -109,6 +109,8 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+
 import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'

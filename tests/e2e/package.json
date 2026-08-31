@@ -7,9 +7,12 @@
     "test:email-templates": "node email-templates.mjs",
     "test:mileage-log": "node mileage-log.mjs",
     "test:journal-note-survey": "node journal-note-survey.mjs",
+    "test:create-report-permission": "node create-report-permission.mjs",
     "test:medicine-overdue-range-time": "node medicine-overdue-range-time.mjs",
     "test:medicine-bulk-give-flow": "node medicine-bulk-give-flow.mjs",
-    "test:compensatory-time-toggle": "node compensatory-time-toggle.mjs"
+    "test:compensatory-time-toggle": "node compensatory-time-toggle.mjs",
+    "test:task-boards-permission-and-editor": "node task-boards-permission-and-editor.mjs",
+    "test:import-employees": "node import-employees.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"
