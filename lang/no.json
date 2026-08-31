@@ -116,7 +116,7 @@
         "promoCta": "Hent appen",
         "appInfoMessage": "App Store- og Google Play-lenker kommer her i den ekte versjonen.",
         "appScanHint": "Skann QR-koden med telefonkameraet for å laste ned appen.",
-        "modalIntro": "Velg delene dere @:terms.citizen{''} - så viser vi bare de relevante trinnene.",
+        "modalIntro": "Velg delene dere bruker - så viser vi bare de relevante trinnene.",
         "modules": {
             "vagtplan": "Vaktplan",
             "medicin": "Medisin",
@@ -6713,7 +6713,7 @@
         "empty": "Ingen resultater",
         "actions": "Handlinger",
         "navigate": "Gå til",
-        "citizen": "Innbygger",
+        "citizen": "@.capitalize:terms.citizen{''}",
         "settings": "Innstillinger"
     },
     "shortcuts": {
@@ -7819,7 +7819,7 @@
                 "stayConnected": "CitizenOne oppdaterer tilkoblingen din automatisk. Du må kanskje koble til på nytt hvis du endrer Microsoft-passordet ditt, organisasjonen tilbakekaller apptilgang, eller kontoen din deaktiveres i Azure AD.",
                 "troubleshootTitle": "Feilsøking",
                 "troubleshoot1Q": "Feil etter innlogging",
-                "troubleshoot1A": "Sørg for at du @:terms.citizen{''} arbeidskontoen din (ikke en personlig Microsoft-konto) og at IT-administratoren din har godkjent CitizenOne.",
+                "troubleshoot1A": "Sørg for at du bruker arbeidskontoen din (ikke en personlig Microsoft-konto) og at IT-administratoren din har godkjent CitizenOne.",
                 "troubleshoot2Q": "Siden omdirigeres tilbake uten tilkobling",
                 "troubleshoot2A": "Nettleseren din kan ha blokkert omdirigeringen. Deaktiver popup-blokkere for dette nettstedet og prøv igjen.",
                 "troubleshoot3Q": "\"Du har ikke tillatelse til å få tilgang til dette\"",
@@ -13897,7 +13897,7 @@
     },
     "inquiryPipelineStages": {
         "title": "Faser i henvendelser",
-        "description": "Fasene styrer kolonnene i henvendelsesoversikten. Gi dem navnene dere @:terms.citizen{''} internt, legg til fasene dere mangler, og bestem rekkefølgen. Rollen avgjør hva systemet gjør med fasen: en fase kan være inngangen for nye henvendelser, fasen som gjør en henvendelse til en innsats, eller fasen der saken er tapt. Øvrige faser flytter bare henvendelsen videre.",
+        "description": "Fasene styrer kolonnene i henvendelsesoversikten. Gi dem navnene dere bruker internt, legg til fasene dere mangler, og bestem rekkefølgen. Rollen avgjør hva systemet gjør med fasen: en fase kan være inngangen for nye henvendelser, fasen som gjør en henvendelse til en innsats, eller fasen der saken er tapt. Øvrige faser flytter bare henvendelsen videre.",
         "addStage": "Legg til fase",
         "empty": "Det finnes ingen faser ennå.",
         "form": {
