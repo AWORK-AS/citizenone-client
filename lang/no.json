@@ -84,7 +84,7 @@
         "Contacts": "Kontakter",
         "Duty Schedule": "Vaktplan",
         "Employee Group": "Medarbeidergruppe",
-        "Emails": "Brukeres e-poster",
+        "Emails": "@.capitalize:terms.citizens{'s'} e-poster",
         "Reports": "Rapporter",
         "Inquiries": "Henvendelser",
         "Management & Economy": "Ledelse & økonomi",
@@ -98,12 +98,12 @@
         "stepsProgress": "{done} av {total} trinn fullført",
         "nextStep": "Neste steg",
         "demoData": {
-            "title": "Utforsk med demo-brukere",
-            "desc": "Vi har lagt til {count} fiktive brukere, så det er noe å klikke rundt i med en gang. Fjern dem når du er klar til å legge til dine egne.",
-            "remove": "Fjern demo-brukere",
+            "title": "Utforsk med demo-@:terms.citizens{''}",
+            "desc": "Vi har lagt til {count} fiktive @:terms.citizens{''}, så det er noe å klikke rundt i med en gang. Fjern dem når du er klar til å legge til dine egne.",
+            "remove": "Fjern demo-@:terms.citizens{''}",
             "removing": "Fjerner...",
-            "removed": "Demo-brukere fjernet",
-            "removeFailed": "Kunne ikke fjerne demo-brukere"
+            "removed": "Demo-@:terms.citizens{''} fjernet",
+            "removeFailed": "Kunne ikke fjerne demo-@:terms.citizens{''}"
         },
         "ready": {
             "title": "Du er klar til å gå live!",
@@ -128,7 +128,7 @@
         "groups": {
             "migration": "Migrering",
             "komIGang": "Kom i gang",
-            "born": "Brukere",
+            "born": "@.capitalize:terms.citizens{''}",
             "vagtplan": "Vaktplan",
             "medicin": "Medisin",
             "dokumentation": "Dokumentasjon"
@@ -136,7 +136,7 @@
         "steps": {
             "departments": {
                 "title": "Opprett avdelinger",
-                "desc": "Avdelinger strukturerer personale, brukere og vaktplan.",
+                "desc": "Avdelinger strukturerer personale, @:terms.citizens{''} og vaktplan.",
                 "tip": "F.eks. \"Avdeling Nord\" og \"Avdeling Sør\".",
                 "cta": "Gå til Avdelinger"
             },
@@ -152,18 +152,18 @@
             },
             "import": {
                 "title": "Importer fra ditt gamle system",
-                "desc": "Migrer brukere, ansatte, journaler og vaktplaner fra ditt nåværende system (CSV eller Excel).",
+                "desc": "Migrer @:terms.citizens{''}, ansatte, journaler og vaktplaner fra ditt nåværende system (CSV eller Excel).",
                 "cta": "Start import"
             },
             "children": {
-                "title": "Opprett brukere",
-                "desc": "Legg til brukerne dere jobber med.",
-                "cta": "Gå til Brukere"
+                "title": "Opprett @:terms.citizens{''}",
+                "desc": "Legg til @:terms.citizensDefinite{''} dere jobber med.",
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "childData": {
                 "title": "Stamdata og kontaktpersoner",
                 "desc": "Fyll inn stamdata, kontaktpersoner og saksbehandler.",
-                "cta": "Gå til Brukere"
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "shiftTypes": {
                 "title": "Opprett vakttyper og regler",
@@ -252,7 +252,7 @@
                 "delete": "Slett",
                 "edit": "Rediger"
             },
-            "assignedCitizens": "Tilknyttede brukere",
+            "assignedCitizens": "Tilknyttede @:terms.citizens{''}",
             "confirmation": {
                 "deleteContactConfirmation": "Er du sikker på at du vil slette denne kontakt",
                 "unassignContactConfirmation": "Er du sikker på at du vil fjerne tildelingen av denne kontakt"
@@ -439,51 +439,51 @@
             "aCalendarHasBeenCreated": "En kalender er blitt opprettet",
             "aCalendarHasBeenDeleted": "En kalender er blitt slettet",
             "aCalendarHasBeenUpdated": "En kalender er blitt oppdatert",
-            "aCitizenAddressHasBeenCreated": "En brukeradresse er blitt opprettet",
-            "aCitizenAddressHasBeenDeleted": "En brukeradresse er blitt slettet",
-            "aCitizenAddressHasBeenUpdated": "En brukeradresse er blitt oppdatert",
-            "aCitizenContactHasBeenCreated": "En brukerkontakt er blitt opprettet",
-            "aCitizenContactHasBeenDeleted": "En brukerkontakt er blitt slettet",
-            "aCitizenContactHasBeenUpdated": "En brukerkontakt er blitt oppdatert",
-            "aCitizenDocumentsFolderHasBeenCreated": "En brukerdokumentmappe er blitt opprettet",
-            "aCitizenDocumentsFolderHasBeenDeleted": "En brukerdokumentmappe er blitt slettet",
-            "aCitizenDocumentsFolderHasBeenUpdated": "En brukerdokumentmappe er blitt oppdatert",
-            "aCitizenGoalHasBeenCreated": "Et brukermål er blitt opprettet",
-            "aCitizenGoalHasBeenDeleted": "Et brukermål er blitt slettet",
-            "aCitizenGoalHasBeenUpdated": "Et brukermål er blitt oppdatert",
-            "aCitizenHasBeenCreated": "En bruker er blitt opprettet",
-            "aCitizenHasBeenDeleted": "En bruker er blitt slettet",
-            "aCitizenHasBeenUpdated": "En bruker er blitt oppdatert",
-            "aCitizenIncidentAttachmentHasBeenCreated": "Et vedlegg til brukerhændelse er blitt opprettet",
-            "aCitizenIncidentAttachmentHasBeenDeleted": "Et vedlegg til brukerhændelse er blitt slettet",
-            "aCitizenIncidentAttachmentHasBeenUpdated": "Et vedlegg til brukerhændelse er blitt oppdatert",
-            "aCitizenIncidentHasBeenCreated": "En brukerhændelse er blitt opprettet",
-            "aCitizenIncidentHasBeenDeleted": "En brukerhændelse er blitt slettet",
-            "aCitizenIncidentHasBeenUpdated": "En brukerhændelse er blitt oppdatert",
-            "aCitizenJournalHasBeenCreated": "En brukerjournal er blitt opprettet",
-            "aCitizenJournalHasBeenDeleted": "En brukerjournal er blitt slettet",
-            "aCitizenJournalHasBeenUpdated": "En brukerjournal er blitt oppdatert",
-            "aCitizenMedicineHasBeenCreated": "En brukermedicin er blitt opprettet",
-            "aCitizenMedicineHasBeenDeleted": "En brukermedicin er blitt slettet",
-            "aCitizenMedicineHasBeenUpdated": "En brukermedicin er blitt oppdatert",
-            "aCitizenMedicineHistoryHasBeenCreated": "En brukermedicinhistorik er blitt opprettet",
-            "aCitizenMedicineHistoryHasBeenDeleted": "En brukermedicinhistorik er blitt slettet",
-            "aCitizenMedicineHistoryHasBeenUpdated": "En brukermedicinhistorik er blitt oppdatert",
-            "aCitizenPlanHasBeenCreated": "En brukerplan er blitt opprettet",
-            "aCitizenPlanHasBeenDeleted": "En brukerplan er blitt slettet",
-            "aCitizenPlanHasBeenUpdated": "En brukerplan er blitt oppdatert",
-            "aCitizenProtocolHasBeenCreated": "Et brukerprotokol er blitt opprettet",
-            "aCitizenProtocolHasBeenDeleted": "Et brukerprotokol er blitt slettet",
-            "aCitizenProtocolHasBeenUpdated": "Et brukerprotokol er blitt oppdatert",
-            "aCitizenRiskAssessmentHasBeenCreated": "En bruker risikovurdering er blitt opprettet",
-            "aCitizenRiskAssessmentHasBeenDeleted": "En bruker risikovurdering er blitt slettet",
-            "aCitizenRiskAssessmentHasBeenUpdated": "En bruker risikovurdering er blitt oppdatert",
-            "aCitizenSubgoalHasBeenCreated": "Et bruker delmål er blitt opprettet",
-            "aCitizenSubgoalHasBeenDeleted": "Et bruker delmål er blitt slettet",
-            "aCitizenSubgoalHasBeenUpdated": "Et bruker delmål er blitt oppdatert",
-            "aCitizenWalletHasBeenCreated": "En brukerpung er blitt opprettet",
-            "aCitizenWalletHasBeenDeleted": "En brukerpung er blitt slettet",
-            "aCitizenWalletHasBeenUpdated": "En brukerpung er blitt oppdatert",
+            "aCitizenAddressHasBeenCreated": "En @:terms.citizen{'adresse'} er blitt opprettet",
+            "aCitizenAddressHasBeenDeleted": "En @:terms.citizen{'adresse'} er blitt slettet",
+            "aCitizenAddressHasBeenUpdated": "En @:terms.citizen{'adresse'} er blitt oppdatert",
+            "aCitizenContactHasBeenCreated": "En @:terms.citizen{'kontakt'} er blitt opprettet",
+            "aCitizenContactHasBeenDeleted": "En @:terms.citizen{'kontakt'} er blitt slettet",
+            "aCitizenContactHasBeenUpdated": "En @:terms.citizen{'kontakt'} er blitt oppdatert",
+            "aCitizenDocumentsFolderHasBeenCreated": "En @:terms.citizen{'dokumentmappe'} er blitt opprettet",
+            "aCitizenDocumentsFolderHasBeenDeleted": "En @:terms.citizen{'dokumentmappe'} er blitt slettet",
+            "aCitizenDocumentsFolderHasBeenUpdated": "En @:terms.citizen{'dokumentmappe'} er blitt oppdatert",
+            "aCitizenGoalHasBeenCreated": "Et @:terms.citizen{'mål'} er blitt opprettet",
+            "aCitizenGoalHasBeenDeleted": "Et @:terms.citizen{'mål'} er blitt slettet",
+            "aCitizenGoalHasBeenUpdated": "Et @:terms.citizen{'mål'} er blitt oppdatert",
+            "aCitizenHasBeenCreated": "En @:terms.citizen{''} er blitt opprettet",
+            "aCitizenHasBeenDeleted": "En @:terms.citizen{''} er blitt slettet",
+            "aCitizenHasBeenUpdated": "En @:terms.citizen{''} er blitt oppdatert",
+            "aCitizenIncidentAttachmentHasBeenCreated": "Et vedlegg til @:terms.citizen{'hændelse'} er blitt opprettet",
+            "aCitizenIncidentAttachmentHasBeenDeleted": "Et vedlegg til @:terms.citizen{'hændelse'} er blitt slettet",
+            "aCitizenIncidentAttachmentHasBeenUpdated": "Et vedlegg til @:terms.citizen{'hændelse'} er blitt oppdatert",
+            "aCitizenIncidentHasBeenCreated": "En @:terms.citizen{'hændelse'} er blitt opprettet",
+            "aCitizenIncidentHasBeenDeleted": "En @:terms.citizen{'hændelse'} er blitt slettet",
+            "aCitizenIncidentHasBeenUpdated": "En @:terms.citizen{'hændelse'} er blitt oppdatert",
+            "aCitizenJournalHasBeenCreated": "En @:terms.citizen{'journal'} er blitt opprettet",
+            "aCitizenJournalHasBeenDeleted": "En @:terms.citizen{'journal'} er blitt slettet",
+            "aCitizenJournalHasBeenUpdated": "En @:terms.citizen{'journal'} er blitt oppdatert",
+            "aCitizenMedicineHasBeenCreated": "En @:terms.citizen{'medicin'} er blitt opprettet",
+            "aCitizenMedicineHasBeenDeleted": "En @:terms.citizen{'medicin'} er blitt slettet",
+            "aCitizenMedicineHasBeenUpdated": "En @:terms.citizen{'medicin'} er blitt oppdatert",
+            "aCitizenMedicineHistoryHasBeenCreated": "En @:terms.citizen{'medicinhistorik'} er blitt opprettet",
+            "aCitizenMedicineHistoryHasBeenDeleted": "En @:terms.citizen{'medicinhistorik'} er blitt slettet",
+            "aCitizenMedicineHistoryHasBeenUpdated": "En @:terms.citizen{'medicinhistorik'} er blitt oppdatert",
+            "aCitizenPlanHasBeenCreated": "En @:terms.citizen{'plan'} er blitt opprettet",
+            "aCitizenPlanHasBeenDeleted": "En @:terms.citizen{'plan'} er blitt slettet",
+            "aCitizenPlanHasBeenUpdated": "En @:terms.citizen{'plan'} er blitt oppdatert",
+            "aCitizenProtocolHasBeenCreated": "Et @:terms.citizen{'protokol'} er blitt opprettet",
+            "aCitizenProtocolHasBeenDeleted": "Et @:terms.citizen{'protokol'} er blitt slettet",
+            "aCitizenProtocolHasBeenUpdated": "Et @:terms.citizen{'protokol'} er blitt oppdatert",
+            "aCitizenRiskAssessmentHasBeenCreated": "En @:terms.citizen{''} risikovurdering er blitt opprettet",
+            "aCitizenRiskAssessmentHasBeenDeleted": "En @:terms.citizen{''} risikovurdering er blitt slettet",
+            "aCitizenRiskAssessmentHasBeenUpdated": "En @:terms.citizen{''} risikovurdering er blitt oppdatert",
+            "aCitizenSubgoalHasBeenCreated": "Et @:terms.citizen{''} delmål er blitt opprettet",
+            "aCitizenSubgoalHasBeenDeleted": "Et @:terms.citizen{''} delmål er blitt slettet",
+            "aCitizenSubgoalHasBeenUpdated": "Et @:terms.citizen{''} delmål er blitt oppdatert",
+            "aCitizenWalletHasBeenCreated": "En @:terms.citizen{'pung'} er blitt opprettet",
+            "aCitizenWalletHasBeenDeleted": "En @:terms.citizen{'pung'} er blitt slettet",
+            "aCitizenWalletHasBeenUpdated": "En @:terms.citizen{'pung'} er blitt oppdatert",
             "aCompanyAddressHasBeenCreated": "En virksomhetsadresse er blitt opprettet",
             "aCompanyAddressHasBeenDeleted": "En virksomhetsadresse er blitt slettet",
             "aCompanyAddressHasBeenUpdated": "En virksomhetsadresse er blitt oppdatert",
@@ -548,9 +548,9 @@
             "aUseOfForceHasBeenCreated": "Bruk av makt er blitt opprettet",
             "aUseOfForceHasBeenDeleted": "Bruk av makt er blitt slettet",
             "aUseOfForceHasBeenUpdated": "Bruk av makt er blitt oppdatert",
-            "aUserHasBeenCreated": "En bruker er blitt opprettet",
-            "aUserHasBeenDeleted": "En bruker er blitt slettet",
-            "aUserHasBeenUpdated": "En bruker er blitt oppdatert",
+            "aUserHasBeenCreated": "En @:terms.citizen{''} er blitt opprettet",
+            "aUserHasBeenDeleted": "En @:terms.citizen{''} er blitt slettet",
+            "aUserHasBeenUpdated": "En @:terms.citizen{''} er blitt oppdatert",
             "aUserSubscriptionHasBeenCreated": "Et brugersubscription er blitt opprettet",
             "aUserSubscriptionHasBeenDeleted": "Et brugersubscription er blitt slettet",
             "aUserSubscriptionHasBeenUpdated": "Et brugersubscription er blitt oppdatert",
@@ -601,7 +601,7 @@
             },
             "createdAt": "Opprettet den",
             "data": {
-                "citizens": "Brukere",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "dateTimeEnd": "Dato og tid slutt",
                 "dateTimeStart": "Dato og tid start",
                 "departments": "Avdelinger",
@@ -614,7 +614,7 @@
             "ipAddress": "IP-adresse",
             "newData": "Nye data",
             "previousData": "Tidligere data",
-            "user": "Bruker"
+            "user": "@.capitalize:terms.citizen{''}"
         }
     },
     "addictions": {
@@ -780,7 +780,7 @@
     },
     "archived": {
         "alert": {
-            "citizenSuccessfullyUnarchive": "Bruker genåbnet vellykket",
+            "citizenSuccessfullyUnarchive": "@.capitalize:terms.citizen{''} genåbnet vellykket",
             "documentSuccessfullyUnarchive": "Dokument genåbnet vellykket",
             "employeeSuccessfullyUnarchive": "Medarbeider genåbnet vellykket",
             "goalSuccessfullyUnarchive": "Mål gjenopprettet vellykket",
@@ -788,7 +788,7 @@
             "subgoalSuccessfullyUnarchive": "Delmål gjenopprettet vellykket"
         },
         "confirmation": {
-            "unarchiveCitizen": "Er du sikker på at du vil genåbne denne bruker",
+            "unarchiveCitizen": "Er du sikker på at du vil genåbne denne @:terms.citizen{''}",
             "unarchiveDocument": "Er du sikker på at du vil genåbne dette dokument",
             "unarchiveEmployee": "Er du sikker på at du vil genåbne denne medarbeider",
             "unarchiveGoal": "Er du sikker på at du vil gjenopprette dette mål",
@@ -798,7 +798,7 @@
         "table": {
             "actions": {
                 "unarchive": "Genåbn",
-                "unarchiveCitizen": "Genåbn bruker",
+                "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
                 "unarchiveDocument": "Genåbn dokument",
                 "unarchiveEmployee": "Genåbn medarbeider"
             },
@@ -806,13 +806,13 @@
             "date": "Dato",
             "name": "Navn",
             "type": {
-                "citizen": "Bruker",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "employee": "Medarbeider",
                 "type": "Type"
             }
         },
         "tabs": {
-            "archivedCitizens": "Arkiverte brukere",
+            "archivedCitizens": "Arkiverte @:terms.citizens{''}",
             "archivedDocuments": "Arkiverte dokumenter",
             "archivedEmployees": "Arkiverte medarbeidere",
             "archivedGoals": "Arkiverte mål",
@@ -843,8 +843,8 @@
         "companyDataMissing": "Svaret er gitt uten tilgang til deres data. Søkeindeksen er ikke opprettet ennå.",
         "companyDataBuilding": "Svaret er gitt uten tilgang til deres data. Søkeindeksen bygges fortsatt.",
         "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
-        "mentionSomeone": "Nevn en bruker eller ansatt",
-        "searchScopeHint": "AI kan søke i alle bruker-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",
+        "mentionSomeone": "Nevn en @:terms.citizen{''} eller ansatt",
+        "searchScopeHint": "AI kan søke i alle @:terms.citizen{''}-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",
         "reviewNotice": "AI-generert innhold kan inneholde feil — se alltid gjennom det før du stoler på det",
         "dataGovernanceNotice": "Les hvordan CitizenOne beskytter dine opplysninger i vår",
         "previewBeforeSending": "Forhåndsvis før sending",
@@ -1198,14 +1198,14 @@
             },
             "participants": {
                 "actions": {
-                    "convertAsCitizen": "Konverter til bruker",
+                    "convertAsCitizen": "Konverter til @:terms.citizen{''}",
                     "resendEmailConfirmation": "Send e-mailbekræftelse igjen"
                 },
                 "alert": {
-                    "participantToCitizenConvertedSuccessfully": "Deltager konverteret til bruker vellykket"
+                    "participantToCitizenConvertedSuccessfully": "Deltager konverteret til @:terms.citizen{''} vellykket"
                 },
                 "confirmation": {
-                    "convertAsCitizenConfirmation": "Er du sikker på at du vil konvertere denne deltager til bruker?"
+                    "convertAsCitizenConfirmation": "Er du sikker på at du vil konvertere denne deltager til @:terms.citizen{''}?"
                 },
                 "participants": "Deltagere",
                 "table": {
@@ -1226,7 +1226,7 @@
         "featured": "Fremhævet"
     },
     "calendar": {
-        "citizens": "Brukere",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Fredag",
             "Monday": "Mandag",
@@ -1421,10 +1421,10 @@
         "addictions": "Rusmisbruk",
         "address": "Adresse",
         "alert": {
-            "citizenSuccessfullyArchived": "Bruker arkivert vellykket"
+            "citizenSuccessfullyArchived": "@.capitalize:terms.citizen{''} arkivert vellykket"
         },
-        "archiveCitizen": "Arkiver bruker",
-        "archivedCitizens": "Arkiverte brukere",
+        "archiveCitizen": "Arkiver @:terms.citizen{''}",
+        "archivedCitizens": "Arkiverte @:terms.citizens{''}",
         "attendance": {
             "protocol": "Protokoll"
         },
@@ -1476,12 +1476,12 @@
                 "unpinJournal": "{journal} festet fjernet vellykket"
             },
             "confirmation": {
-                "copyConfirmation": "Er du sikker på at du vil kopiere denne journal til den valgte bruker",
+                "copyConfirmation": "Er du sikker på at du vil kopiere denne journal til den valgte @:terms.citizen{''}",
                 "deleteConfirmation": "Er du sikker på at du vil slette denne journal",
-                "moveConfirmation": "Er du sikker på at du vil flytte denne journal til den valgte bruker"
+                "moveConfirmation": "Er du sikker på at du vil flytte denne journal til den valgte @:terms.citizen{''}"
             },
             "copy": {
-                "citizen": "Bruker",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "copy": "Kopier",
                 "copyJournal": "Kopier journal"
             },
@@ -1607,21 +1607,21 @@
                 "noAccessTitle": "Ingen tilgang"
             },
             "move": {
-                "citizen": "Bruker",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "move": "Flytt",
                 "moveJournal": "Flytt journal"
             },
             "newNote": "Nytt notat",
             "on": "Den",
             "shareJournals": {
-                "citizenJournal": "Brukerjournal",
+                "citizenJournal": "@.capitalize:terms.citizen{'journal'}",
                 "form": {
                     "alert": {
                         "enteredPasswordMismatched": "Skrevet inn passord stemmer ikke overens",
                         "journalSuccessfullyShared": "Journal ble delt vellykket",
                         "required8Characters": "Dette felt skal være minst 8 tegn langt"
                     },
-                    "citizen": "Bruker",
+                    "citizen": "@.capitalize:terms.citizen{''}",
                     "confirmPassword": "Bekreft passord",
                     "password": "Passord",
                     "unlock": "Lås opp",
@@ -1636,7 +1636,7 @@
                     "alert": {
                         "linkSuccessfullyDeleted": "Link ble slettet vellykket"
                     },
-                    "citizen": "Bruker",
+                    "citizen": "@.capitalize:terms.citizen{''}",
                     "confirmation": {
                         "deleteLinkConfirmation": "Er du sikker på at du vil slette dette link?"
                     },
@@ -1644,9 +1644,9 @@
                 }
             }
         },
-        "citizens": "Brukere",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "confirmation": {
-            "archiveConfirmation": "Er du sikker på at du vil arkivere denne bruker"
+            "archiveConfirmation": "Er du sikker på at du vil arkivere denne @:terms.citizen{''}"
         },
         "contacts": {
             "alert": {
@@ -1742,7 +1742,7 @@
                 },
                 "form": {
                     "giveAccess": "Gi tilgang",
-                    "user": "Bruker"
+                    "user": "@.capitalize:terms.citizen{''}"
                 },
                 "newAccess": "Ny tilgang",
                 "table": {
@@ -1844,8 +1844,8 @@
             "useTemplate": "Bruk mal",
             "viewDraftFile": "Vis udkastfiler"
         },
-        "editCitizen": "Rediger Bruker",
-        "editCitizenForm": "Rediger brukerskjema",
+        "editCitizen": "Rediger @.capitalize:terms.citizen{''}",
+        "editCitizenForm": "Rediger @:terms.citizen{'skjema'}",
         "editMedicineForm": "Rediger medisinskjema",
         "emails": {
             "bodyInOriginal": "Teksten kunne ikke vises her. Åpne originalen for å lese e-posten.",
@@ -1862,19 +1862,19 @@
             "openOriginal": "Åpne originalen",
             "attachments": "Vedlegg",
             "confirmation": {
-                "untagConfirmation": "Er du sikker på at du vil fjerne denne e-posten fra brukerens profil"
+                "untagConfirmation": "Er du sikker på at du vil fjerne denne e-posten fra @:terms.citizenDefinite{'s'} profil"
             },
-            "linkToCitizen": "Koble til bruker",
-            "linkedSuccessfully": "E-post koblet til bruker",
+            "linkToCitizen": "Koble til @:terms.citizen{''}",
+            "linkedSuccessfully": "E-post koblet til @:terms.citizen{''}",
             "noEmailsFound": "Ingen e-poster funnet",
             "roles": {
                 "admin": "Admin",
                 "manager": "Manager",
-                "user": "Bruker"
+                "user": "@.capitalize:terms.citizen{''}"
             },
             "saveAttachmentsToDocuments": "Lagre også vedlegg i Dokumenter",
             "savePdfToDocuments": "Lagre også som PDF i Dokumenter",
-            "selectCitizen": "Velg bruker",
+            "selectCitizen": "Velg @:terms.citizen{''}",
             "selectVisibility": "Hvem kan se denne e-posten",
             "table": {
                 "date": "Dato",
@@ -1951,12 +1951,12 @@
         },
         "actions": "Handlinger",
         "importFromOtherSystem": "Importer fra et annet system",
-        "exportCitizens": "Eksporter brukere",
+        "exportCitizens": "Eksporter @:terms.citizens{''}",
         "form": {
             "addictions": "Rusmisbruk",
             "alert": {
-                "successfullyAdded": "Nye brukere lagret vellykket",
-                "successfullyUpdate": "Bruker oppdatert vellykket"
+                "successfullyAdded": "Nye @:terms.citizens{''} lagret vellykket",
+                "successfullyUpdate": "@.capitalize:terms.citizen{''} oppdatert vellykket"
             },
             "allocatedHours": {
                 "allocatedDailyHours": "Tildelte daglige timer",
@@ -1969,7 +1969,7 @@
             "allowSystemAccess": "Tillat systemadgang",
             "assessmentMunicipality": "Visiteringskommune",
             "birthday": "Fødselsdag",
-            "citizenOrigin": "Brukerens oprindelse",
+            "citizenOrigin": "@.capitalize:terms.citizenDefinite{'s'} oprindelse",
             "city": "By",
             "country": "Land",
             "dateAdmitted": "Indskrivningsdato",
@@ -1993,7 +1993,7 @@
                 "purpose": "Formål"
             },
             "lastname": "Etternavn",
-            "locateCitizen": "Finn bruker",
+            "locateCitizen": "Finn @:terms.citizen{''}",
             "locateCitizenInstructions": "Klikk et sted på kortet for at fastgøre en plassering. Du kan også trække markøren for at justere positionen. Adressen hentes automatisk.",
             "medicationAllergies": "Medisinallergier (CAVE)",
             "motherTongue": "Morsmål",
@@ -2135,10 +2135,10 @@
         },
         "importCitizens": {
             "alert": {
-                "citizensSuccessfullyImported": "Brukere importeret vellykket"
+                "citizensSuccessfullyImported": "@.capitalize:terms.citizens{''} importeret vellykket"
             },
             "downloadTemplate": "Last ned mal",
-            "importCitizens": "Importer brukere",
+            "importCitizens": "Importer @:terms.citizens{''}",
             "importTemplate": "Importskabelon",
             "noFileSelected": "Ingen fil valgt"
         },
@@ -2276,7 +2276,7 @@
             "editInterventionHours": "Rediger innsatstimer",
             "filter": {
                 "allTypes": "Alle typer",
-                "citizens": "Brukere",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "departments": "Avdelinger",
                 "employees": "Medarbeidere",
                 "filterDate": "Filtrer dato",
@@ -2305,7 +2305,7 @@
                 "alert": {
                     "interventionHoursSuccessfullyDeleted": "Innsatstimer slettet vellykket"
                 },
-                "citizen": "Bruker",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "confirmation": {
                     "deleteInterventionHoursConfirmation": "Er du sikker på at du vil slette disse innsatstimer"
                 },
@@ -2328,7 +2328,7 @@
                 "weeklyAllocation": "Ukentlig tildeling"
             },
             "view": {
-                "citizen": "Bruker",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "createdBy": "Opprettet av",
                 "dateTimeEnd": "Dato og tid slutt",
                 "dateTimeStart": "Dato og tid start",
@@ -2423,17 +2423,17 @@
                 "otherInformationLabel": "Er der andre vigtige detaljer at fremhæve",
                 "packageLeafletLink": "Link til indlægsseddel",
                 "pnMedicine": "PN-medisin",
-                "scheduleFrequency": "Hvor tit skal bruker ha medisinen",
-                "scheduleUntil": "Inntil når skal bruker ha medisinen",
+                "scheduleFrequency": "Hvor tit skal @:terms.citizen{''} ha medisinen",
+                "scheduleUntil": "Inntil når skal @:terms.citizen{''} ha medisinen",
                 "selfAdminister": "Selvadministrerende medisin",
                 "startDate": "Dato for ordinering",
                 "strength": "Styrke",
                 "time": "Tid",
                 "treatmentReason": "Behandlingsårsag",
-                "treatmentReasonPlaceholder": "Hva er årsagen til, at brukeren får denne medisin",
+                "treatmentReasonPlaceholder": "Hva er årsagen til, at @:terms.citizenDefinite{''} får denne medisin",
                 "unit": "Enhed",
                 "advancedSchedule": "Avanceret skemaindstilling",
-                "advancedScheduleDesc": "Bruk disse innstillinger hvis brukeren skal ha medisinen i bestemte perioder eller på specifikke enkeltdage - ut over den faste hyppighed ovenfor.",
+                "advancedScheduleDesc": "Bruk disse innstillinger hvis @:terms.citizenDefinite{''} skal ha medisinen i bestemte perioder eller på specifikke enkeltdage - ut over den faste hyppighed ovenfor.",
                 "treatmentPeriods": "Behandlingsperioder",
                 "treatmentPeriodsDesc": "Angiv perioder hvor medisinen aktivt skal gives - f.eks. behandling i uke 1-3, pause i uke 4, behandling i uke 5-6.",
                 "addPeriod": "+ Legg til periode",
@@ -2441,7 +2441,7 @@
                 "to": "til",
                 "noPeriodsAdded": "Ingen perioder lagt til - medisinen følger hyppighedsindstillingen hele veien",
                 "extraIndividualDates": "Ekstra individuelle dager",
-                "extraIndividualDatesDesc": "Legg til specifikke enkeltdage hvor brukeren skal ha medisinen - selvom det ikke passer med den faste hyppighed. Klikk på en dato i kalenderen for at legge til den.",
+                "extraIndividualDatesDesc": "Legg til specifikke enkeltdage hvor @:terms.citizenDefinite{''} skal ha medisinen - selvom det ikke passer med den faste hyppighed. Klikk på en dato i kalenderen for at legge til den.",
                 "noExtraDaysSelected": "Ingen ekstra dager valgt",
                 "weeklyRotation": {
                     "label": "Ukentlig rotasjon",
@@ -2478,8 +2478,8 @@
                     "dose": "Dose",
                     "evaluationFrequency": "Når vil du evaluere",
                     "evaluator": "Evaluator",
-                    "maximumDosePerAdministrationForThisCitizenIs": "Maksimal dose pr. administration for denne bruker er {n} for dette PN-præparat.",
-                    "noMedicineToday": "Grunden til, at du ikke ser noen mulighet for at udlevere medisin, er, at brukeren ikke skal ha medisin i dag",
+                    "maximumDosePerAdministrationForThisCitizenIs": "Maksimal dose pr. administration for denne @:terms.citizen{''} er {n} for dette PN-præparat.",
+                    "noMedicineToday": "Grunden til, at du ikke ser noen mulighet for at udlevere medisin, er, at @:terms.citizenDefinite{''} ikke skal ha medisin i dag",
                     "time": "Tid",
                     "type": {
                         "delivered": "Udleveret",
@@ -2544,7 +2544,7 @@
                         "notGiven": "Ikke gitt",
                         "type": "Type"
                     },
-                    "user": "Bruker"
+                    "user": "@.capitalize:terms.citizen{''}"
                 }
             },
             "giveMedicineModal": {
@@ -2607,9 +2607,9 @@
                 "editEffectEvaluation": "Rediger effektevaluering",
                 "registerEffectEvaluation": "Registrér effektevaluering",
                 "scheduledAt": "Planlagt kl.",
-                "describeReaction": "Beskriv brukerens reaktion og effekt av medisinen siden den ble gitt",
+                "describeReaction": "Beskriv @:terms.citizenDefinite{'s'} reaktion og effekt av medisinen siden den ble gitt",
                 "observation": "Observation",
-                "evaluationPlaceholder": "F.eks.: God smertelindring etter 45 min. Bruker angiver smerteniveau 3/10 mot tidligere 8/10...",
+                "evaluationPlaceholder": "F.eks.: God smertelindring etter 45 min. @.capitalize:terms.citizen{''} angiver smerteniveau 3/10 mot tidligere 8/10...",
                 "saving": "Lagrer...",
                 "saveEvaluation": "Lagre evaluering",
                 "evaluationRegistered": "Effektevalueringen er registreret",
@@ -2664,7 +2664,7 @@
                 "clearFilter": "Ryd filter",
                 "today": "I dag",
                 "newPackageOpening": "Nytt åpning",
-                "noActiveMedicines": "Ingen aktive mediciner på denne bruker",
+                "noActiveMedicines": "Ingen aktive mediciner på denne @:terms.citizen{''}",
                 "addMedicine": "Legg til medisin",
                 "medicinesSelected": "{n} medisin valgt",
                 "selectAll": "Velg alle",
@@ -2852,7 +2852,7 @@
                     },
                     "chooseFromOurContactPerson": "Velg fra kontaktperson",
                     "date": "Dato",
-                    "illnessAndFunctionalImpairment1": "Hva er sykdommern og de funksjonelle nedsettelser brukeren har?",
+                    "illnessAndFunctionalImpairment1": "Hva er sykdommern og de funksjonelle nedsettelser @:terms.citizenDefinite{''} har?",
                     "whoIsTheResponsibleHealthcareProvider": "Hvem er den ansvarlige sundhedsudbyder?"
                 },
                 "illnessAndFunctionalImpairment": "Sykdom og funksjonelle nedsettelser",
@@ -3011,7 +3011,7 @@
         },
         "rooms": "Rom",
         "sections": {
-            "citizenDetails": "Brukeroplysninger",
+            "citizenDetails": "@.capitalize:terms.citizen{'oplysninger'}",
             "citizenDetailsHelp": "Navn, personnummer og kontaktopplysninger. CPR-nummeret fyller selv ut fødselsdag og kjønn.",
             "dentalProfile": "Tannprofil",
             "dentalProfileHelp": "Tannlege, pasientnummer, kommunalt tilskudd og siste kontroll.",
@@ -3441,12 +3441,12 @@
             "useOfForce": "Maktbruk"
         },
         "viewLocations": {
-            "citizensWithLocations": "brukere med placeringer",
+            "citizensWithLocations": "@:terms.citizens{''} med placeringer",
             "distance": "Afstand",
-            "instructions": "Blå streger kobleer din nåværende plassering med hver brukers adresse. Klikk på markører for at se detaljer.",
+            "instructions": "Blå streger kobleer din nåværende plassering med hver @:terms.citizen{'s'} adresse. Klikk på markører for at se detaljer.",
             "loading": "Laster placeringer",
             "locatingAddress": "Finder din plassering",
-            "noCitizensWithLocations": "Ingen brukere har placeringsdata tilgjengelige",
+            "noCitizensWithLocations": "Ingen @:terms.citizens{''} har placeringsdata tilgjengelige",
             "title": "Vis placeringer",
             "viewLocations": "Vis placeringer",
             "yourLocation": "Din plassering"
@@ -3823,6 +3823,11 @@
             },
             "paymentLink": "Betalingslenke",
             "paymentLinkCopied": "Betalingslenken er kopiert"
+        },
+        "plansAndGoals": {
+            "report": {
+                "citizenName": "@.capitalize:terms.citizenDefinite{'s'} navn"
+            }
         }
     },
     "client": {
@@ -3948,7 +3953,7 @@
                 "delete": "Slett",
                 "edit": "Rediger"
             },
-            "citizens": "Brukere",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "dutySchedules": "Vaktplaner",
             "nameDanish": "Navn (norsk)",
             "nameEnglish": "Navn (engelsk)",
@@ -4065,7 +4070,7 @@
             },
             "form": {
                 "giveAccess": "Gi tilgang",
-                "user": "Bruker"
+                "user": "@.capitalize:terms.citizen{''}"
             },
             "newAccess": "Ny tilgang",
             "table": {
@@ -4276,7 +4281,7 @@
                 "editDraftSchedulePreset": "Rediger vaktplankladd-forhåndsinnstilling",
                 "form": {
                     "affectedDepartments": "Berørte avdelinger",
-                    "affectedUsers": "Berørte brukere",
+                    "affectedUsers": "Berørte @:terms.citizens{''}",
                     "apply": "Bruk",
                     "dateEnd": "Kladde sluttdato",
                     "dateStart": "Kladde startdato",
@@ -4517,7 +4522,7 @@
         },
         "findEmployee": "Finn medarbeider",
         "form": {
-            "citizens": "Brukere",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "compensatoryTimeOff": "Afspadsering",
             "createMultipleSchedules": "Opprett flere vakter",
             "date": "Dato",
@@ -4536,7 +4541,7 @@
             "tags": "Etiketter",
             "title": "Tittel",
             "useCompensatoryTime": "Bruk afspadseringstid",
-            "users": "Brukere",
+            "users": "@.capitalize:terms.citizens{''}",
             "employeeMarkedUnavailable": "Denne medarbeideren har markert seg utilgjengelig på denne datoen"
         },
         "holidays": "Helligdage",
@@ -5021,7 +5026,7 @@
         "typeOfShifts": "Vakttyper",
         "viewCalendar": "Se kalender",
         "viewSchedule": {
-            "citizens": "Brukere",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Dato og tid slutt",
             "datetimeStart": "Dato og tid start",
             "departments": "Avdelinger",
@@ -5261,7 +5266,7 @@
                     "manualInvoice": "Manuell faktura",
                     "monthly": "md.",
                     "newAccount": "Ny konto",
-                    "noAccounts": "Ingen brukerkontoer",
+                    "noAccounts": "Ingen @:terms.citizen{'kontoer'}",
                     "noAppsActivated": "Ingen apper aktivert",
                     "paymentCard": "Betalingskort",
                     "sendCardLink": "Send kortlenke",
@@ -5274,7 +5279,7 @@
                     "tabs": {
                         "overview": "Oversikt"
                     },
-                    "userAccounts": "Brukerkontoer",
+                    "userAccounts": "@.capitalize:terms.citizen{'kontoer'}",
                     "yearly": "år"
                 },
                 "editCompany": "Rediger virksomhet",
@@ -5285,7 +5290,7 @@
                     "address": "Adresse",
                     "addressPlaceholder": "Veinavnsvei 1, 1234 By",
                     "adminUser": "Administratorbruker",
-                    "adminUserDesc": "Denne brukeren får admin-tilgang til virksomheten",
+                    "adminUserDesc": "Denne @:terms.citizenDefinite{''} får admin-tilgang til virksomheten",
                     "alert": {
                         "companySuccessfullyActivated": "Virksomheten er aktivert vellykket",
                         "companySuccessfullyDeactivated": "Virksomheten er deaktivert vellykket",
@@ -5330,7 +5335,7 @@
                     "licenses": "Lisenser",
                     "table": {
                         "license": "Lisens",
-                        "user": "Bruker",
+                        "user": "@.capitalize:terms.citizen{''}",
                         "department": "Avdeling"
                     },
                     "unusedLicense": "Ubrugt lisens",
@@ -5355,9 +5360,9 @@
                         "perfectForLargerCompanies": "Perfekt til større virksomheter",
                         "storageSpace": "lagerplads",
                         "telephoneSupport": "Support via telefon, chat og e-post",
-                        "unlimitedNumberOfCitizens": " Ubegrænset antall brukere",
-                        "user": "Bruker",
-                        "users": "Brukere",
+                        "unlimitedNumberOfCitizens": " Ubegrænset antall @:terms.citizens{''}",
+                        "user": "@.capitalize:terms.citizen{''}",
+                        "users": "@.capitalize:terms.citizens{''}",
                         "year": "År",
                         "youCanHaveMultipleAdmins": "Du kan godt ha flere admins"
                     },
@@ -5478,13 +5483,13 @@
                 "numberOfTotalActiveLincenses": "Antall aktive lisenser totalt",
                 "numberOfTotalCompanies": "Antall virksomheter totalt",
                 "numberOfUnusedLicenses": "Antall ubrugte lisenser",
-                "numberOfUsersWithLicenses": "Antall brukere med lisenser",
+                "numberOfUsersWithLicenses": "Antall @:terms.citizens{''} med lisenser",
                 "paying": "Betalende",
                 "recentCompanies": "Siste virksomheter",
-                "registeredUsers": "Registrerte brukere",
+                "registeredUsers": "Registrerte @:terms.citizens{''}",
                 "unusedLicenses": "Ubrukte lisenser",
-                "users": "Brukere",
-                "usersWithLicenses": "Brukere med lisenser",
+                "users": "@.capitalize:terms.citizens{''}",
+                "usersWithLicenses": "@.capitalize:terms.citizens{''} med lisenser",
                 "revenue": {
                     "filter": "Filtrer",
                     "filterDate": "Filtrer dato",
@@ -5591,7 +5596,7 @@
                 "colTotal": "Total",
                 "colStatus": "Status",
                 "colDate": "Dato",
-                "extraUsers": "brukere",
+                "extraUsers": "@:terms.citizens{''}",
                 "extraDepartments": "avdelinger",
                 "perYear": "/år",
                 "perMonth": "/md.",
@@ -5622,8 +5627,8 @@
                 "monthly": "Månedlig",
                 "yearly": "Årlig",
                 "addOns": "Tillegg til pakke",
-                "extraUsersLabel": "Ekstra brukere",
-                "extraUsersPrice": "+kr. 39/md. per bruker",
+                "extraUsersLabel": "Ekstra @:terms.citizens{''}",
+                "extraUsersPrice": "+kr. 39/md. per @:terms.citizen{''}",
                 "extraDepartmentsLabel": "Ekstra avdelinger",
                 "extraDepartmentsPrice": "+kr. 79/md. per avdeling",
                 "appsLabel": "Apper (App Store tillegg)",
@@ -5631,7 +5636,7 @@
                 "oneTime": "Én gang",
                 "orderSummary": "Ordresammendrag",
                 "selectAtLeastOne": "Velg minst ett produkt",
-                "extraUsersRow": "ekstra bruker(e)",
+                "extraUsersRow": "ekstra @:terms.citizen{''}(e)",
                 "extraDepartmentsRow": "ekstra avdeling(er)",
                 "oneTimeLower": "én gang",
                 "monthlyTotal": "Månedlig total",
@@ -5658,9 +5663,9 @@
                 "paymentInvoice": "Faktura",
                 "paymentFree": "Gratis",
                 "paymentOther": "Annet",
-                "planFreeDesc": "1 bruker, 1 avdeling, 1 GB",
-                "planBasisDesc": "1 bruker inkl., ubegrenset borgere",
-                "planProDesc": "3 brukere, 3 avdelinger, 3 GB, FMK",
+                "planFreeDesc": "1 @:terms.citizen{''}, 1 avdeling, 1 GB",
+                "planBasisDesc": "1 @:terms.citizen{''} inkl., ubegrenset borgere",
+                "planProDesc": "3 @:terms.citizens{''}, 3 avdelinger, 3 GB, FMK",
                 "errorSelectCompany": "Velg eller søk en bedrift",
                 "errorCompanyName": "Bedriftsnavn er påkrevd",
                 "errorSelectProduct": "Velg minst én pakke eller app",
@@ -5766,18 +5771,18 @@
                 "salesCampaign": "Salgskampanjer",
                 "superAdmin": "Super Admin",
                 "superAdminPanel": "Super admin panel",
-                "users": "Brukere"
+                "users": "@.capitalize:terms.citizens{''}"
             },
             "users": {
                 "confirmation": {
-                    "deleteUserConfirmation": "Er du sikker på at du vil slette denne bruker"
+                    "deleteUserConfirmation": "Er du sikker på at du vil slette denne @:terms.citizen{''}"
                 },
-                "editUser": "Rediger bruker",
+                "editUser": "Rediger @:terms.citizen{''}",
                 "form": {
                     "alert": {
-                        "newUserSuccessfullySaved": "Ny bruker er blitt lagret",
-                        "userSuccessfullyDeleted": "Bruker slettet vellykket",
-                        "userSuccessfullyUpdated": "Bruker er blitt oppdatert"
+                        "newUserSuccessfullySaved": "Ny @:terms.citizen{''} er blitt lagret",
+                        "userSuccessfullyDeleted": "@.capitalize:terms.citizen{''} slettet vellykket",
+                        "userSuccessfullyUpdated": "@.capitalize:terms.citizen{''} er blitt oppdatert"
                     },
                     "birthday": "Fødselsdag",
                     "emailAddress": "Emailadresse",
@@ -5785,7 +5790,7 @@
                     "lastname": "Etternavn",
                     "phone": "Telefon"
                 },
-                "newUser": "Ny bruker",
+                "newUser": "Ny @:terms.citizen{''}",
                 "table": {
                     "actions": {
                         "delete": "Slett",
@@ -5798,13 +5803,13 @@
                     "role": "Rolle",
                     "status": "Status"
                 },
-                "users": "Brukere",
-                "createFirstUser": "Opprett den første brukeren",
-                "createUser": "Opprett bruker",
-                "noUsersFound": "Ingen brukere funnet",
+                "users": "@.capitalize:terms.citizens{''}",
+                "createFirstUser": "Opprett den første @:terms.citizenDefinite{''}",
+                "createUser": "Opprett @:terms.citizen{''}",
+                "noUsersFound": "Ingen @:terms.citizens{''} funnet",
                 "searchPlaceholder": "Søk på navn, e-post eller selskap...",
                 "showing": "Viser {from}–{to} av {total}",
-                "totalUsers": "{count} brukere totalt",
+                "totalUsers": "{count} @:terms.citizens{''} totalt",
                 "tabs": {
                     "admins": "Admins",
                     "all": "Alle",
@@ -5825,11 +5830,11 @@
                     "minChars": "Min. 8 tegn",
                     "password": "Passord",
                     "roleAdmin": "Administrator",
-                    "roleUser": "Bruker",
+                    "roleUser": "@.capitalize:terms.citizen{''}",
                     "searchCompany": "Søk selskap...",
                     "searchToAttach": "Søk for å tilknytte et eksisterende selskap",
-                    "userCanLogin": "Brukeren kan logge inn",
-                    "userInfo": "Brukeropplysninger"
+                    "userCanLogin": "@.capitalize:terms.citizenDefinite{''} kan logge inn",
+                    "userInfo": "@.capitalize:terms.citizen{'opplysninger'}"
                 }
             },
             "finance": {
@@ -5933,7 +5938,7 @@
                 "revenue": "Inntekter",
                 "mrrFull": "Månedlig gjentakende inntekt",
                 "arrFull": "Årlig gjentakende inntekt",
-                "arpuFull": "Gj.snitt inntekt per bruker",
+                "arpuFull": "Gj.snitt inntekt per @:terms.citizen{''}",
                 "momFull": "Måned-over-måned",
                 "roasFull": "Avkastning på annonsering",
                 "ltvFull": "Livsverdi",
@@ -5974,7 +5979,7 @@
                 "subtitle": "Definer priser og lisensstrukturer per app",
                 "newLicense": "Ny lisens",
                 "licenseModelLabel": "Lisensmodell",
-                "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Prisen er per bruker/lisens med fleksible faktureringsintervaller - månedlig, årlig eller spesifikk avtale (f.eks. offentlig sektor med stort volum).",
+                "licenseModelDesc": "Bedrifter betaler per app de aktiverer, ikke en samlet plan. Prisen er per @:terms.citizen{''}/lisens med fleksible faktureringsintervaller - månedlig, årlig eller spesifikk avtale (f.eks. offentlig sektor med stort volum).",
                 "noAppsFound": "Ingen apper funnet",
                 "noAppsFoundSub": "Legg til apper fra Apps-siden først",
                 "licenseTypes": "lisenstyper",
@@ -5984,10 +5989,10 @@
                 "volume": "Volum",
                 "inactive": "Inaktiv",
                 "free": "Gratis",
-                "perUser": "/ bruker",
+                "perUser": "/ @:terms.citizen{''}",
                 "included": "inkl.",
                 "min": "min.",
-                "users": "brukere",
+                "users": "@:terms.citizens{''}",
                 "editLicense": "Rediger lisens",
                 "appLabel": "App",
                 "selectAppPlaceholder": "Velg app…",
@@ -5995,18 +6000,18 @@
                 "licenseNamePlaceholder": "f.eks. Standard, Enterprise, Offentlig",
                 "descriptionLabel": "Beskrivelse",
                 "descriptionPlaceholder": "Kort beskrivelse av lisenstypen",
-                "priceLabel": "Pris per bruker (kr)",
+                "priceLabel": "Pris per @:terms.citizen{''} (kr)",
                 "billingIntervalLabel": "Faktureringsintervall",
                 "monthly": "Månedlig",
                 "yearly": "Årlig",
                 "quarterly": "Kvartalsvis",
                 "custom": "Spesifikk avtale",
-                "includedSeatsLabel": "Inkluderte brukere",
+                "includedSeatsLabel": "Inkluderte @:terms.citizens{''}",
                 "includedSeatsHint": "Inkludert i basisprisen (0 = ingen)",
-                "minSeatsLabel": "Min. kjøp (brukere)",
+                "minSeatsLabel": "Min. kjøp (@:terms.citizens{''})",
                 "minSeatsHint": "Minimum som må kjøpes",
                 "volumeAgreement": "Volumavtale",
-                "volumeAgreementDesc": "Aktiver for f.eks. offentlige institusjoner med mange brukere (f.eks. 6 300 brukere til 29 kr/stk.)",
+                "volumeAgreementDesc": "Aktiver for f.eks. offentlige institusjoner med mange @:terms.citizens{''} (f.eks. 6 300 @:terms.citizens{''} til 29 kr/stk.)",
                 "activeLabel": "Aktiv",
                 "activeDesc": "Lisenstypen kan kjøpes av bedrifter",
                 "assignToCompany": "Tilknytt til bedrift (valgfritt)",
@@ -6090,7 +6095,7 @@
             "recipientType": "Mottakertype",
             "recipientTypes": {
                 "role": "Rolle",
-                "user": "Bruker"
+                "user": "@.capitalize:terms.citizen{''}"
             },
             "roles": "Roller",
             "scopeConditionTypes": {
@@ -6116,7 +6121,7 @@
             "status": "Status",
             "threshold": "Minimumsantal",
             "to": "til",
-            "users": "Brukere"
+            "users": "@.capitalize:terms.citizens{''}"
         },
         "newDutyShiftRule": "Ny vaktregel",
         "table": {
@@ -6141,14 +6146,14 @@
     "employeeGroups": {
         "citizens": {
             "alert": {
-                "citizenSuccessfullyAssigned": "Bruker tildelt vellykket",
-                "citizenSuccessfullyUnassigned": "Bruker fjernet vellykket"
+                "citizenSuccessfullyAssigned": "@.capitalize:terms.citizen{''} tildelt vellykket",
+                "citizenSuccessfullyUnassigned": "@.capitalize:terms.citizen{''} fjernet vellykket"
             },
-            "assignCitizen": "Tildel bruker",
-            "assignedCitizens": "Tildelte brukere",
-            "citizens": "Brukere",
+            "assignCitizen": "Tildel @:terms.citizen{''}",
+            "assignedCitizens": "Tildelte @:terms.citizens{''}",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "confirmation": {
-                "unassignConfirmation": "Er du sikker på at du vil fjerne denne bruker"
+                "unassignConfirmation": "Er du sikker på at du vil fjerne denne @:terms.citizen{''}"
             },
             "table": {
                 "actions": {
@@ -6173,7 +6178,7 @@
         "newEmployeeGroup": "Ny medarbeidergruppe",
         "table": {
             "actions": {
-                "citizens": "Brukere",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "delete": "Slett",
                 "edit": "Rediger"
             },
@@ -6195,18 +6200,18 @@
         "archivedEmployees": "Arkiverte medarbeidere",
         "citizens": {
             "assign": "Tildel",
-            "assignCitizens": "Tildel brukere",
-            "assignedCitizens": "Tildelte brukere",
-            "citizens": "Brukere",
+            "assignCitizens": "Tildel @:terms.citizens{''}",
+            "assignedCitizens": "Tildelte @:terms.citizens{''}",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "table": {
                 "actions": {
                     "delete": "Slett"
                 },
                 "alert": {
-                    "citizenSuccessfullyDeleted": "Bruker slettet vellykket"
+                    "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} slettet vellykket"
                 },
                 "confirmation": {
-                    "deleteCitizenConfirmation": "Er du sikker på at du vil slette denne bruker"
+                    "deleteCitizenConfirmation": "Er du sikker på at du vil slette denne @:terms.citizen{''}"
                 },
                 "firstname": "Fornavn",
                 "lastname": "Etternavn"
@@ -6373,7 +6378,7 @@
         },
         "roles": {
             "administrator": "Administrator",
-            "user": "Bruker"
+            "user": "@.capitalize:terms.citizen{''}"
         },
         "table": {
             "actions": {
@@ -6396,14 +6401,14 @@
                 "secureMailLicenseInstruction": "Du kan få flere Sikker E-post lisenser ved at klikke her"
             },
             "confirmation": {
-                "aiAccessConfirmation": "Er du sikker på at du vil gi denne bruker AI-tilgang?",
-                "bookingAccessConfirmation": "Er du sikker på at du vil gi denne bruker booking-tilgang?"
+                "aiAccessConfirmation": "Er du sikker på at du vil gi denne @:terms.citizen{''} AI-tilgang?",
+                "bookingAccessConfirmation": "Er du sikker på at du vil gi denne @:terms.citizen{''} booking-tilgang?"
             },
             "email": "E-post",
             "name": "Navn",
             "phone": "Telefon",
             "role": "Rolle",
-            "user": "Bruker"
+            "user": "@.capitalize:terms.citizen{''}"
         },
         "tabs": {
             "dutySchedule": "Vaktplan",
@@ -6438,7 +6443,7 @@
             "journalSuccessfullyCreated": "Journalnotat er opprettet"
         },
         "calendar": "Kalender",
-        "citizens": "Brukere",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Vis vakter",
         "shiftLabel": "Vakt",
         "confirmation": {
@@ -6453,7 +6458,7 @@
         "eventOwner": "Arrangementseier",
         "form": {
             "applyChangesToFutureEvents": "Bruk endringer på fremtidige arrangementer",
-            "citizens": "Brukere",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Slutt dato og tid",
             "datetimeStart": "Start dato og tid",
             "description": "Beskrivelse",
@@ -6567,7 +6572,7 @@
             },
             "amount": "Beløp",
             "category": "Kategori",
-            "citizen": "Bruker",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "clickToUpload": "Klikk for at laste opp",
             "date": "Dato",
             "description": "Beskrivelse",
@@ -6664,7 +6669,7 @@
         "empty": "Ingen resultater",
         "actions": "Handlinger",
         "navigate": "Gå til",
-        "citizen": "Innbygger",
+        "citizen": "@.capitalize:terms.citizen{''}",
         "settings": "Innstillinger"
     },
     "shortcuts": {
@@ -6941,7 +6946,7 @@
         },
         "medicineSubtitle": "Konfigurer hvilke felter som er synlige i medisinens opprettelses- og redigeringsskjemaer.",
         "medicineTitle": "Skjemafeltkonfigurasjon for medisin",
-        "subtitle": "Konfigurer hvilke felter der er synlige i brukerens opprettelses- og redigeringsskjemaer.",
+        "subtitle": "Konfigurer hvilke felter der er synlige i @:terms.citizenDefinite{'s'} opprettelses- og redigeringsskjemaer.",
         "title": "Skjemafeltkonfigurasjon"
     },
     "forms": {
@@ -7014,7 +7019,7 @@
         "formDescription": "Skjemabeskrivelse",
         "formTitle": "Skjematitel",
         "forms": "Skjemaer",
-        "formsSublabel": "Med skjemaer kan du opprette maler til rapporter på brukernes planer, mål og delmål samt til annen form for afrapportering i organisationen. Mulighederne er mange",
+        "formsSublabel": "Med skjemaer kan du opprette maler til rapporter på @:terms.citizensDefinite{'s'} planer, mål og delmål samt til annen form for afrapportering i organisationen. Mulighederne er mange",
         "newForm": "Ny skjema",
         "option": "Mulighet",
         "preview": "Forhåndsvisning",
@@ -7062,7 +7067,7 @@
             "newPredefinedEvent": "Ny forhåndsdefinert hendelse",
             "editPredefinedEvent": "Rediger forhåndsdefinert hendelse",
             "calendarTypes": {
-                "citizens": "Brukere",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "employees": "Ansatte"
             },
             "recurringTypes": {
@@ -7213,7 +7218,7 @@
         "attendance": "Fremmøde",
         "bookings": "Bookinger",
         "calendar": "Kalender",
-        "citizens": "Brukere",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "companies": "Virksomheter",
         "contacts": "Kontakter",
         "documents": "Dokumenter",
@@ -7226,7 +7231,7 @@
         "medicines": "Medisin",
         "noResults": "Ingen resultater funnet",
         "pages": "Sider",
-        "placeholder": "Søke på brukere, journaler, medisin og mer...",
+        "placeholder": "Søke på @:terms.citizens{''}, journaler, medisin og mer...",
         "plans": "Planer & Mål",
         "recent": "Seneste søgninger",
         "searching": "Søger...",
@@ -7284,21 +7289,21 @@
                 "inquiryConversionFailed": "Henvendelsen kunne ikke konverteres"
             },
             "conversationSummary": "Samtalesammenfatning",
-            "cpr": "Brukerens CPR-nummer",
+            "cpr": "@.capitalize:terms.citizenDefinite{'s'} CPR-nummer",
             "crisisCenter": {
                 "fields": {
-                    "assessment": "Vurderer du, at brukeren er inden for målgruppen av §109?",
+                    "assessment": "Vurderer du, at @:terms.citizenDefinite{''} er inden for målgruppen av §109?",
                     "contactedBy": "Hvem henvender sig til krisecentret?",
-                    "guidance": "Krisecenteret vejleder/anviser brukeren til:",
-                    "notOfferedInterview": "Hvorfor tilbydes brukeren ikke en visitationssamtale?",
-                    "receivedVisit": "Får brukeren en visitationssamtale/midlertidig indlogering?",
+                    "guidance": "Krisecenteret vejleder/anviser @:terms.citizenDefinite{''} til:",
+                    "notOfferedInterview": "Hvorfor tilbydes @:terms.citizenDefinite{''} ikke en visitationssamtale?",
+                    "receivedVisit": "Får @:terms.citizenDefinite{''} en visitationssamtale/midlertidig indlogering?",
                     "topic": "Hva handler henvendelsen om?"
                 }
             },
             "dateOfInquiry": "Dato for henvendelser",
-            "firstname": "Brukerens fornavn",
+            "firstname": "@.capitalize:terms.citizenDefinite{'s'} fornavn",
             "inquirerName": "Navn på spørger",
-            "lastname": "Brukerens etternavn",
+            "lastname": "@.capitalize:terms.citizenDefinite{'s'} etternavn",
             "notes": "Egne noter",
             "options": {
                 "assessment": {
@@ -7313,40 +7318,40 @@
                     "municipalEmployee": "Medarbeider i kommunen",
                     "other": "Andre",
                     "police": "Politiet/kriminalforsorgen",
-                    "theCitizenThemselves": "Brukeren selv"
+                    "theCitizenThemselves": "@.capitalize:terms.citizenDefinite{''} selv"
                 },
                 "cprMissingReason": {
-                    "citizenDoesNotHaveCprNumber": "Brukeren har ikke et CPR-nummer",
-                    "shelterDoesntHaveNumber": "Herberget eller forsorgshjemmet mv. har ikke kendskab til brukerens CPR-nummer"
+                    "citizenDoesNotHaveCprNumber": "@.capitalize:terms.citizenDefinite{''} har ikke et CPR-nummer",
+                    "shelterDoesntHaveNumber": "Herberget eller forsorgshjemmet mv. har ikke kendskab til @:terms.citizenDefinite{'s'} CPR-nummer"
                 },
                 "inquiryType": {
                     "crisisCenter": "Krisecenter",
                     "shelter": "Herberger og forsorgshjem"
                 },
                 "nonAdmissionReason": {
-                    "citizenDeclinedOffer": "Brukeren takkede selv nei til tilbudet",
-                    "expelledDueToViolentBehavior": "Brukeren er bortvist for voldelig opførsel eller lignende",
-                    "other": "Brukeren er av andre årsager ikke blitt indskrevet på tilbudet"
+                    "citizenDeclinedOffer": "@.capitalize:terms.citizenDefinite{''} takkede selv nei til tilbudet",
+                    "expelledDueToViolentBehavior": "@.capitalize:terms.citizenDefinite{''} er bortvist for voldelig opførsel eller lignende",
+                    "other": "@.capitalize:terms.citizenDefinite{''} er av andre årsager ikke blitt indskrevet på tilbudet"
                 },
                 "notInServiceTargetGroupReason": {
-                    "activeSubstanceAbuseProblem": "Brukeren har eller har haft et aktivt misbrug",
-                    "childrenAccompany": "Brukeren har barn, der medfølger",
-                    "exposeToViolence": "Brukeren er voldsudsat eller udsat for trusler om vold fra en nær relation",
-                    "inactiveSubstanceAbuseProblem": "Brukeren har ikke et aktivt misbrug",
-                    "mentalDifficulties": "Brukeren har psykiske vanskeligheder",
-                    "mentalFunctionalImpairment": "Brukeren har en psykisk funksjonsnedsettelse i form av intellektuel/kognitiv forstyrrelse",
-                    "notWithinAgeFramework": "Brukeren er ikke inden for tilbuddets ramme for alder",
-                    "notWithinGenderFramework": "Brukeren er ikke inden for tilbuddets ramme for kjønn",
-                    "notWithinServiceTargetGroup": "Brukeren er av andre årsager ikke inden for tilbuddets målgruppe eller ramme",
-                    "petsAccompany": "Brukeren har husdyr, der medfølger",
-                    "physicalFunctionalImpairment": "Brukeren har en fysisk funksjonsnedsettelse",
-                    "unexposeToViolence": "Brukeren er ikke voldsudsat eller udsat for trusler om vold fra en i nær relation"
+                    "activeSubstanceAbuseProblem": "@.capitalize:terms.citizenDefinite{''} har eller har haft et aktivt misbrug",
+                    "childrenAccompany": "@.capitalize:terms.citizenDefinite{''} har barn, der medfølger",
+                    "exposeToViolence": "@.capitalize:terms.citizenDefinite{''} er voldsudsat eller udsat for trusler om vold fra en nær relation",
+                    "inactiveSubstanceAbuseProblem": "@.capitalize:terms.citizenDefinite{''} har ikke et aktivt misbrug",
+                    "mentalDifficulties": "@.capitalize:terms.citizenDefinite{''} har psykiske vanskeligheder",
+                    "mentalFunctionalImpairment": "@.capitalize:terms.citizenDefinite{''} har en psykisk funksjonsnedsettelse i form av intellektuel/kognitiv forstyrrelse",
+                    "notWithinAgeFramework": "@.capitalize:terms.citizenDefinite{''} er ikke inden for tilbuddets ramme for alder",
+                    "notWithinGenderFramework": "@.capitalize:terms.citizenDefinite{''} er ikke inden for tilbuddets ramme for kjønn",
+                    "notWithinServiceTargetGroup": "@.capitalize:terms.citizenDefinite{''} er av andre årsager ikke inden for tilbuddets målgruppe eller ramme",
+                    "petsAccompany": "@.capitalize:terms.citizenDefinite{''} har husdyr, der medfølger",
+                    "physicalFunctionalImpairment": "@.capitalize:terms.citizenDefinite{''} har en fysisk funksjonsnedsettelse",
+                    "unexposeToViolence": "@.capitalize:terms.citizenDefinite{''} er ikke voldsudsat eller udsat for trusler om vold fra en i nær relation"
                 },
                 "referralDestination": {
                     "boardingHouseHostel": "Pensionat/vandrehjem",
                     "nightCafeWarmingCenter": "Natcafé/varmestue",
                     "other": "Annet",
-                    "selfSolution": "Selvløsning: Brukeren takker nei til hjelp om henvisning",
+                    "selfSolution": "Selvløsning: @.capitalize:terms.citizenDefinite{''} takker nei til hjelp om henvisning",
                     "shelterUnusedVacancyOverview": "Herberget eller forsorgshjem mv. etter § 110 i lov om social service, hvor pladsoversigten ikke er brukt",
                     "shelterViaVacancyOverview": "Herberget eller forsorgshjem mv. etter § 110 i lov om social service, som er funnet på pladsoversigten",
                     "womensCrisisCenter": "Kvindekrisecenter etter § 109 i lov om social service"
@@ -7361,11 +7366,11 @@
             "shelter": {
                 "fields": {
                     "cprMissingReason": "Ingenting CPR-nummer? Velg begrundelse:",
-                    "fitsInTargetGroup": "Passer brukeren til tilbuddets målgruppe?",
-                    "inShelterTargetGroup": "Er brukeren i målgruppen for § 110?",
-                    "nonAdmissionReason": "Hvorfor fik brukeren ikke en plads?",
-                    "notInServiceTargetGroupReason": "Hvorfor passer brukeren ikke til tilbuddets målgruppe eller rammer?",
-                    "referralDestination": "Hvor henvises brukeren til i stedet?",
+                    "fitsInTargetGroup": "Passer @:terms.citizenDefinite{''} til tilbuddets målgruppe?",
+                    "inShelterTargetGroup": "Er @:terms.citizenDefinite{''} i målgruppen for § 110?",
+                    "nonAdmissionReason": "Hvorfor fik @:terms.citizenDefinite{''} ikke en plads?",
+                    "notInServiceTargetGroupReason": "Hvorfor passer @:terms.citizenDefinite{''} ikke til tilbuddets målgruppe eller rammer?",
+                    "referralDestination": "Hvor henvises @:terms.citizenDefinite{''} til i stedet?",
                     "vacantPlaceAvailable": "Er der ledig plads på herberget eller forsorgshjemmet mv.?"
                 }
             },
@@ -7390,7 +7395,7 @@
                 "participantSuccessfullyConvertedAsCitizen": "Deltager ble vellykket statsbruker"
             },
             "confirmation": {
-                "convertAsCitizenConfirmation": "Er du sikker på at du vil konvertere denne deltager til bruker",
+                "convertAsCitizenConfirmation": "Er du sikker på at du vil konvertere denne deltager til @:terms.citizen{''}",
                 "deleteInquiryConfirmation": "Er du sikker på at du vil slette denne henvendelser?"
             },
             "conversationSummary": "Samtalesammenfatning",
@@ -7573,9 +7578,9 @@
             "successfullyUpdated": "Journalskjema konfigurasjon ble oppdatert"
         },
         "navLabel": "Rediger journalskjema",
-        "riskAssessmentDescription": "Når den er slått av, vil risikovurderingsdelen (vurderingsnivå, notat, tagger og mål-tilknytning) bli skjult i journalens opprett- og redigeringsskjemaer for alle brukere.",
+        "riskAssessmentDescription": "Når den er slått av, vil risikovurderingsdelen (vurderingsnivå, notat, tagger og mål-tilknytning) bli skjult i journalens opprett- og redigeringsskjemaer for alle @:terms.citizens{''}.",
         "riskAssessmentToggle": "Vis risikovurderingsdel i journalskjema",
-        "subtitle": "Konfigurer om risikovurderingsdelen er synlig i brukerens journal opprett- og redigeringsskjemaer.",
+        "subtitle": "Konfigurer om risikovurderingsdelen er synlig i @:terms.citizenDefinite{'s'} journal opprett- og redigeringsskjemaer.",
         "title": "Journalskjema konfigurasjon"
     },
     "journalNotes": {
@@ -7710,7 +7715,7 @@
         }
     },
     "login": {
-        "activeUsers": "Aktive brukere",
+        "activeUsers": "Aktive @:terms.citizens{''}",
         "description": "Alt fra journalnotater og handleplaner til vaktplanleggning og rapportering - samlet i én platform, bygget til dem der arbeider med mennesker.",
         "doYouNeedHelp": "Har du bruk for hjelp",
         "form": {
@@ -7799,13 +7804,13 @@
         "download": "Last ned",
         "downloadFile": {
             "alert": {
-                "fileSuccessfullyDownloadedToCitizensFolder": "Filen er blitt lastet ned til brukerens mappe",
+                "fileSuccessfullyDownloadedToCitizensFolder": "Filen er blitt lastet ned til @:terms.citizenDefinite{'s'} mappe",
                 "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen er blitt lastet ned til organisationens mappe"
             },
-            "citizen": "Bruker",
-            "citizenFolder": "Bruker mappe",
+            "citizen": "@.capitalize:terms.citizen{''}",
+            "citizenFolder": "@.capitalize:terms.citizen{''} mappe",
             "downloadFile": "Last ned fil",
-            "downloadFileToCitizensFolder": "Last ned fil til brukerens mappe",
+            "downloadFileToCitizensFolder": "Last ned fil til @:terms.citizenDefinite{'s'} mappe",
             "downloadFileToMyComputer": "Last ned fil til min computer",
             "downloadFileToOrganizationsFolder": "Last ned fil til organisationens mappe",
             "organizationFolder": "Organisationsmappe"
@@ -7818,12 +7823,12 @@
                 "enteredCodeMismatched": "Skrevet inn kode stemmer ikke overens"
             },
             "attachFiles": {
-                "attachFileFromCitizensFolder": "Legg ved fil fra brukerens mappe",
+                "attachFileFromCitizensFolder": "Legg ved fil fra @:terms.citizenDefinite{'s'} mappe",
                 "attachFileFromComputer": "Legg ved fil fra computeren",
                 "attachFileFromOrganizationsFolder": "Legg ved fil fra organisationens mappe",
                 "attachFiles": "Legg ved filer",
-                "citizen": "Bruker",
-                "citizenFiles": "Brukerfiler",
+                "citizen": "@.capitalize:terms.citizen{''}",
+                "citizenFiles": "@.capitalize:terms.citizen{'filer'}",
                 "organizationFiles": "Organisationsfiler"
             },
             "confirmCode": "Bekreft koden",
@@ -7887,7 +7892,7 @@
             "imapHost": "IMAP vært",
             "imapPassword": "IMAP passord",
             "imapPort": "IMAP port",
-            "imapUsername": "IMAP brukernavn",
+            "imapUsername": "IMAP @:terms.citizen{'navn'}",
             "portEncryption": "IMAP kryptering",
             "settings": "Innstillinger",
             "signatures": {
@@ -7929,9 +7934,9 @@
             "smtpHost": "SMTP vært",
             "smtpPassword": "SMTP passord",
             "smtpPort": "SMTP port",
-            "smtpUsername": "SMTP brukernavn",
+            "smtpUsername": "SMTP @:terms.citizen{'navn'}",
             "gmailGuide": {
-                "title": "Bruker du Gmail? Du trenger et apppassord",
+                "title": "@.capitalize:terms.citizen{''} du Gmail? Du trenger et apppassord",
                 "intro": "Google tillater ikke lenger vanlige passord for tredjeparts SMTP/IMAP-tilgang. Du må bruke et apppassord i stedet.",
                 "step1": "Gå til Google-kontoen din på myaccount.google.com",
                 "step2": "Sørg for at totrinnsbekreftelse er aktivert (Sikkerhet → Totrinnsbekreftelse)",
@@ -7939,7 +7944,7 @@
                 "step4": "Klikk på \"Opprett apppassord\", velg \"Annet (egendefinert navn)\", og gi det navnet \"CitizenOne\"",
                 "step5": "Google gir deg et passord med 16 tegn (f.eks. xxxx xxxx xxxx xxxx)",
                 "step6": "I CitizenOnes SMTP/IMAP-innstillinger, bruk:",
-                "step6Username": "Brukernavn: din fulle Gmail-adresse (deg(at)gmail.com)",
+                "step6Username": "@.capitalize:terms.citizen{'navn'}: din fulle Gmail-adresse (deg(at)gmail.com)",
                 "step6Password": "Passord: apppassordet med 16 tegn (uten mellomrom)",
                 "oauthNote": "Merk: XOAUTH2 krever en fullstendig OAuth2-flyt med tilgangstokens og støttes ikke her. Apppassord er riktig tilnærming for denne integrasjonen."
             }
@@ -8071,16 +8076,16 @@
         "editMessage": "Rediger melding",
         "groupChat": {
             "add": "Legg til",
-            "addUser": "Legg til bruker",
-            "addUsers": "Legg til brukere",
+            "addUser": "Legg til @:terms.citizen{''}",
+            "addUsers": "Legg til @:terms.citizens{''}",
             "alert": {
                 "groupNameSuccessfullyUpdated": "Gruppens navn oppdatert vellykket",
-                "userSuccessfullyAdded": "Bruker lagt til til gruppechatten vellykket",
-                "usersSuccessfullyAdded": "Brukere lagt til til gruppechatten vellykket",
-                "usersSuccessfullyRemoved": "Brukere fjernet fra gruppechatten vellykket"
+                "userSuccessfullyAdded": "@.capitalize:terms.citizen{''} lagt til til gruppechatten vellykket",
+                "usersSuccessfullyAdded": "@.capitalize:terms.citizens{''} lagt til til gruppechatten vellykket",
+                "usersSuccessfullyRemoved": "@.capitalize:terms.citizens{''} fjernet fra gruppechatten vellykket"
             },
             "confirmation": {
-                "removeConfirmation": "Er du sikker på at du vil fjerne denne bruker"
+                "removeConfirmation": "Er du sikker på at du vil fjerne denne @:terms.citizen{''}"
             },
             "editGroupName": "Rediger gruppenavn",
             "form": {
@@ -8088,7 +8093,7 @@
             },
             "groupMembers": "Gruppemedlemmer",
             "name": "Navn",
-            "removeUser": "Fjern bruker"
+            "removeUser": "Fjern @:terms.citizen{''}"
         },
         "loadingMessages": "Laster meldinger",
         "looksLikeYouHaventInitiatedAConversation": "Det ser ut til, at du ikke har startet en samtale",
@@ -8109,7 +8114,7 @@
         "typeAMessage": "Skriv en melding...",
         "unread": "ulæste",
         "unreadMessages": "Ulæste meldinger",
-        "users": "Brukere",
+        "users": "@.capitalize:terms.citizens{''}",
         "welcomeDescription": "Velg en samtale fra sidebjælken, eller opprett en ny for at komme i gang.",
         "welcomeToChat": "Velkommen til chat",
         "contactPerson": "Kontaktperson",
@@ -8152,11 +8157,11 @@
         "editTrip": "Rediger tur",
         "filter": {
             "allTrips": "Alle turer",
-            "citizenLink": "Brukertilknytning",
+            "citizenLink": "@.capitalize:terms.citizen{'tilknytning'}",
             "departments": "Avdelinger",
             "employees": "Medarbeidere",
             "filterDate": "Filtrer dato",
-            "linkedToCitizen": "Tilknyttet bruker",
+            "linkedToCitizen": "Tilknyttet @:terms.citizen{''}",
             "notLinked": "Ikke tilknyttet"
         },
         "form": {
@@ -8182,12 +8187,12 @@
             "dateTimeStart": "Dato og tidspunkt",
             "endAddress": "Sluttadresse",
             "estimatedDistance": "Distanse (beregnes automatisk)",
-            "linkToCitizen": "Knytt denne turen til en bruker som en indsatstime",
+            "linkToCitizen": "Knytt denne turen til en @:terms.citizen{''} som en indsatstime",
             "mapHint": "Klikk på kartet eller dra markøren for å justere plasseringen",
             "note": "Note",
             "pickOnMap": "Velg lokasjon",
             "searchOnMap": "Søk etter en adresse",
-            "selectCitizen": "Velg bruker",
+            "selectCitizen": "Velg @:terms.citizen{''}",
             "startAddress": "Startadresse",
             "stopAddress": "Stoppadresse",
             "useMyLocation": "Bruk min posisjon"
@@ -8212,7 +8217,7 @@
             "alert": {
                 "tripSuccessfullyDeleted": "Turen ble slettet"
             },
-            "citizen": "Bruker",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "confirmation": {
                 "deleteTripConfirmation": "Er du sikker på at du vil slette denne turen"
             },
@@ -8265,7 +8270,7 @@
             "dateTimeStart": "Dato og tidspunkt",
             "distance": "Distanse",
             "endAddress": "Sluttadresse",
-            "linkedCitizen": "Tilknyttet bruker",
+            "linkedCitizen": "Tilknyttet @:terms.citizen{''}",
             "note": "Note",
             "route": "Rute",
             "startAddress": "Startadresse",
@@ -8419,15 +8424,15 @@
         "bulletBoardAttachments": "Oppslagstavle vedhæftede filer",
         "calendar": "Kalender",
         "campaign": "Kampanje",
-        "citizens": "Brukere",
-        "citizensAddictions": "Brukers rusmisbruk",
+        "citizens": "@.capitalize:terms.citizens{''}",
+        "citizensAddictions": "@.capitalize:terms.citizen{'s'} rusmisbruk",
         "citizensAdmissionAndDischarged": {
-            "citizensAdmissionAndDischarged": "Brukernes indskrivning og udskrivning",
+            "citizensAdmissionAndDischarged": "@.capitalize:terms.citizensDefinite{'s'} indskrivning og udskrivning",
             "dateAdmitted": "Indskrivningsdato",
             "dateDischarged": "Udskrivningsdato"
         },
-        "citizensDiagnoses": "Brukernes diagnoser",
-        "citizensEvents": "Brukeres arrangementer",
+        "citizensDiagnoses": "@.capitalize:terms.citizensDefinite{'s'} diagnoser",
+        "citizensEvents": "@.capitalize:terms.citizens{'s'} arrangementer",
         "briefing": {
             "morning": "God morgen, {name}",
             "afternoon": "God ettermiddag, {name}",
@@ -8449,7 +8454,7 @@
             "staff": "Personale",
             "child": "Barn"
         },
-        "citizensOrigin": "Brukernes oprindelse",
+        "citizensOrigin": "@.capitalize:terms.citizensDefinite{'s'} oprindelse",
         "createdBy": "Opprettet av",
         "dailyOverview": "Daglig oversigt",
         "filter": {
@@ -8461,12 +8466,12 @@
             "items": {
                 "bulletBoard": "Oppslagstavle",
                 "calendar": "Kalender",
-                "citizensAddictions": "Brukers rusmisbruk",
-                "citizensAdmissionAndDischarged": "Brukernes indskrivning og udskrivning",
-                "citizensDiagnoses": "Brukernes diagnoser",
-                "citizensEvents": "Brukeres arrangementer",
+                "citizensAddictions": "@.capitalize:terms.citizen{'s'} rusmisbruk",
+                "citizensAdmissionAndDischarged": "@.capitalize:terms.citizensDefinite{'s'} indskrivning og udskrivning",
+                "citizensDiagnoses": "@.capitalize:terms.citizensDefinite{'s'} diagnoser",
+                "citizensEvents": "@.capitalize:terms.citizens{'s'} arrangementer",
                 "citizensFollowUpReminders": "Opfølgningspåminnelser",
-                "citizensOrigin": "Brukernes oprindelse",
+                "citizensOrigin": "@.capitalize:terms.citizensDefinite{'s'} oprindelse",
                 "gender": "Kjønn",
                 "goalsStatistics": "Målsstatistikk",
                 "incidentStatistics": "Hændelsesstatistikk",
@@ -8576,7 +8581,7 @@
             "form": {
                 "addNewJournalTitle": "Legg til ny journaltitel",
                 "attachFile": "Legg ved fil",
-                "citizen": "Bruker",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Dato",
                 "draft": "Udkast",
                 "enterJournalTitleManually": "Skriv inn journaltitel manuelt",
@@ -8604,10 +8609,10 @@
         },
         "scheduleSlots": "Udbyd vakter",
         "stats": {
-            "acrossCitizens": "På tværs av {n} brukere",
+            "acrossCitizens": "På tværs av {n} @:terms.citizens{''}",
             "activeTreatments": "Aktive behandlinger",
             "administered": "gitt",
-            "citizensOnShift": "Brukere på vakt",
+            "citizensOnShift": "@.capitalize:terms.citizens{''} på vakt",
             "completed": "avsluttet",
             "deviated": "Afvigelse",
             "journalEntries": "Journalnoter",
@@ -8905,7 +8910,7 @@
                 "dateTime": "Dato og tid",
                 "note": "Bemærkning",
                 "repeatNotification": "Gjenta varsel",
-                "users": "Brukere"
+                "users": "@.capitalize:terms.citizens{''}"
             },
             "newNotification": "Ny varsel",
             "notifications": "Varsler",
@@ -8922,7 +8927,7 @@
                 },
                 "dateTime": "Dato og tid",
                 "note": "Bemærkning",
-                "users": "Brukere"
+                "users": "@.capitalize:terms.citizens{''}"
             }
         },
         "plan": "Plan",
@@ -9020,7 +9025,7 @@
                 "newProtocolSuccessfullySaved": "Ny protokoll lagret vellykket",
                 "protocolSuccessfullyUpdated": "Protokoll oppdatert vellykket"
             },
-            "citizens": "Brukere",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "endDate": "Sluttdato",
             "every": "Hver",
             "excludeWeekends": "Udelad weekender",
@@ -9049,16 +9054,16 @@
                 "delete": "Slett",
                 "download": "Last ned",
                 "edit": "Rediger",
-                "markCitizenAsAbent": "Marker bruker som fraværende",
-                "markCitizenAsAttended": "Marker bruker som tilstede",
-                "removeCitizenForThisDate": "Fjern bruker for denne dato",
+                "markCitizenAsAbent": "Marker @:terms.citizen{''} som fraværende",
+                "markCitizenAsAttended": "Marker @:terms.citizen{''} som tilstede",
+                "removeCitizenForThisDate": "Fjern @:terms.citizen{''} for denne dato",
                 "view": "Se"
             },
             "alert": {
                 "protocolSuccessfullyDeleted": "Protokollen er slettet vellykket"
             },
             "citizens": {
-                "citizen": "Bruker",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Dato",
                 "status": "Status"
             },
@@ -9131,7 +9136,7 @@
             "body": "Innhold",
             "bodyTemplateHint": "La feltet stå tomt for å fylle automatisk fra valgt mal",
             "caseworker": "Saksbehandler",
-            "citizen": "Bruker",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "consultant": "Konsulent",
             "template": "Mal",
             "title": "Tittel"
@@ -9279,7 +9284,7 @@
             "termsAndConditions": "Vilkår og betingelser",
             "typeOfFacility": "Type av tilbud"
         },
-        "activeUsersNow": "Aktive brukere akkurat nå",
+        "activeUsersNow": "Aktive @:terms.citizens{''} akkurat nå",
         "noCommitment": "Der er ingen binding, og du behøver ikke tilknytte et betalingskort",
         "oauthBannerDescription": "Din {provider}-konto er ikke tilknyttet CitizenOne ennå. Udfyld skjemaet for at opprette din konto.",
         "oauthBannerTitle": "Vi fandt ikke din konto",
@@ -9423,46 +9428,46 @@
         },
         "newRole": "Ny rolle",
         "permissions": {
-            "createCitizen": "Opprett bruker",
-            "createCitizenCalendar": "Opprett brukerkalender",
-            "createCitizenChildren": "Opprett brukerbørn",
-            "createCitizenContact": "Opprett brukerkontakt",
-            "createCitizenDocument": "Opprett brukerdokument",
-            "createCitizenEconomy": "Opprett brukerøkonomi",
-            "createCitizenHealth": "Opprett brukersundhed",
-            "createCitizenJournal": "Opprett brukerjournal",
-            "createCitizenMedicine": "Opprett brukermedicin",
-            "createCitizenPlan": "Opprett brukerplan",
+            "createCitizen": "Opprett @:terms.citizen{''}",
+            "createCitizenCalendar": "Opprett @:terms.citizen{'kalender'}",
+            "createCitizenChildren": "Opprett @:terms.citizen{'børn'}",
+            "createCitizenContact": "Opprett @:terms.citizen{'kontakt'}",
+            "createCitizenDocument": "Opprett @:terms.citizen{'dokument'}",
+            "createCitizenEconomy": "Opprett @:terms.citizen{'økonomi'}",
+            "createCitizenHealth": "Opprett @:terms.citizen{'sundhed'}",
+            "createCitizenJournal": "Opprett @:terms.citizen{'journal'}",
+            "createCitizenMedicine": "Opprett @:terms.citizen{'medicin'}",
+            "createCitizenPlan": "Opprett @:terms.citizen{'plan'}",
             "createSchedule": "Opprett vaktplan",
             "deleteCalendar": "Slett kalender",
             "deleteCalendarEvent": "Slett kalenderhændelse",
-            "deleteCitizenCalendar": "Slett brukerkalender",
-            "deleteCitizenChildren": "Slett brukerbørn",
-            "deleteCitizenContact": "Slett brukerkontakt",
-            "deleteCitizenDocument": "Slett brukerdokument",
-            "deleteCitizenEconomy": "Slett brukerøkonomi",
-            "deleteCitizenHealth": "Slett brukersundhed",
-            "deleteCitizenJournal": "Slett brukerjournal",
-            "deleteCitizenMedicine": "Slett brukermedicin",
-            "deleteCitizenPlan": "Slett brukerplan",
+            "deleteCitizenCalendar": "Slett @:terms.citizen{'kalender'}",
+            "deleteCitizenChildren": "Slett @:terms.citizen{'børn'}",
+            "deleteCitizenContact": "Slett @:terms.citizen{'kontakt'}",
+            "deleteCitizenDocument": "Slett @:terms.citizen{'dokument'}",
+            "deleteCitizenEconomy": "Slett @:terms.citizen{'økonomi'}",
+            "deleteCitizenHealth": "Slett @:terms.citizen{'sundhed'}",
+            "deleteCitizenJournal": "Slett @:terms.citizen{'journal'}",
+            "deleteCitizenMedicine": "Slett @:terms.citizen{'medicin'}",
+            "deleteCitizenPlan": "Slett @:terms.citizen{'plan'}",
             "deleteSchedule": "Slett vaktplan",
             "readSchedule": "Se vaktplan",
             "scheduler": "Vaktplanleggger",
-            "updateCitizenCalendar": "Rediger brukerkalender",
-            "updateCitizenChildren": "Rediger brukerbørn",
-            "updateCitizenContact": "Rediger brukerkontakt",
-            "updateCitizenDocument": "Rediger brukerdokument",
-            "updateCitizenEconomy": "Rediger brukerøkonomi",
-            "updateCitizenHealth": "Rediger brukersundhed",
-            "updateCitizenJournal": "Rediger brukerjournal",
-            "updateCitizenMedicine": "Rediger brukermedicin",
-            "updateCitizenPlan": "Rediger brukerplan",
-            "updateCitizen": "Rediger bruker",
-            "updateFormFieldConfig": "Rediger brukerskjema feltkonfigurasjon",
+            "updateCitizenCalendar": "Rediger @:terms.citizen{'kalender'}",
+            "updateCitizenChildren": "Rediger @:terms.citizen{'børn'}",
+            "updateCitizenContact": "Rediger @:terms.citizen{'kontakt'}",
+            "updateCitizenDocument": "Rediger @:terms.citizen{'dokument'}",
+            "updateCitizenEconomy": "Rediger @:terms.citizen{'økonomi'}",
+            "updateCitizenHealth": "Rediger @:terms.citizen{'sundhed'}",
+            "updateCitizenJournal": "Rediger @:terms.citizen{'journal'}",
+            "updateCitizenMedicine": "Rediger @:terms.citizen{'medicin'}",
+            "updateCitizenPlan": "Rediger @:terms.citizen{'plan'}",
+            "updateCitizen": "Rediger @:terms.citizen{''}",
+            "updateFormFieldConfig": "Rediger @:terms.citizen{'skjema'} feltkonfigurasjon",
             "updateSchedule": "Rediger vaktplan",
-            "viewCitizenCalendar": "Se brukerkalender",
-            "viewCitizenHealth": "Se brukersundhed",
-            "viewCitizenJournal": "Se brukerjournal",
+            "viewCitizenCalendar": "Se @:terms.citizen{'kalender'}",
+            "viewCitizenHealth": "Se @:terms.citizen{'sundhed'}",
+            "viewCitizenJournal": "Se @:terms.citizen{'journal'}",
             "viewSchedule": "Se vaktplan"
         },
         "roles": "Roller",
@@ -9478,7 +9483,7 @@
             "name": "Navn",
             "permissions": "Tillatelser",
             "pages": "Sidetilgang",
-            "user": "Bruker",
+            "user": "@.capitalize:terms.citizen{''}",
             "referrer": "Henviser",
             "company": "Virksomhet",
             "level": "Level",
@@ -9495,7 +9500,7 @@
         "referrals": "Henvisninger",
         "newReferral": "Ny henvisning",
         "referral": "Henvisning",
-        "citizen": "Bruker",
+        "citizen": "@.capitalize:terms.citizen{''}",
         "department": "Avdeling",
         "municipality": "Kommune",
         "caseworkerName": "{term}s navn",
@@ -9516,7 +9521,7 @@
         "deleteReferral": "Slett henvisning",
         "deleteReferralConfirm": "Er du sikker på at du vil slette denne henvisningen?",
         "table": {
-            "citizen": "Bruker",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "municipality": "Kommune",
             "caseworker": "Saksbehandler",
             "startDate": "Startdato",
@@ -9549,11 +9554,11 @@
             "departmentsProOnly": "Tildeling av avdelinger er en del av Pro-profilen.",
             "name": "Navn"
         },
-        "addCitizen": "Legg til bruker",
-        "citizenAddedSuccessfully": "Bruker lagt til til rom",
-        "citizenRemovedSuccessfully": "Bruker fjernet fra rom",
+        "addCitizen": "Legg til @:terms.citizen{''}",
+        "citizenAddedSuccessfully": "@.capitalize:terms.citizen{''} lagt til til rom",
+        "citizenRemovedSuccessfully": "@.capitalize:terms.citizen{''} fjernet fra rom",
         "full": "Fuldt",
-        "noCitizens": "Ingen brukere på dette rom",
+        "noCitizens": "Ingen @:terms.citizens{''} på dette rom",
         "removeConfirmation": "Er du sikker på at du vil fjerne",
         "newRoom": "Nytt rom",
         "rooms": "Rom",
@@ -9642,7 +9647,7 @@
         "company": {
             "form": {
                 "2fa": "To-faktor-godkendelse",
-                "accountantEmail": "Revisor eller regnskabs e-post (brukernes wallet transaktioner)",
+                "accountantEmail": "Revisor eller regnskabs e-post (@:terms.citizensDefinite{'s'} wallet transaktioner)",
                 "alert": {
                     "successfullyUpdated": "Firma oppdatert vellykket"
                 },
@@ -9723,7 +9728,7 @@
                 "allowSubGoals": "Tillat medarbeidere at opprette delmål",
                 "checkinOut": "Sjekk inn/ut",
                 "chooseNotificationDepartments": "Velg hvilke avdelinger du vil motta varsler fra",
-                "citizensDisplay": "Brukerens visning",
+                "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
                 "city": "By",
                 "companyLogo": "Firmalogo",
                 "companyName": "Firmanavn",
@@ -9754,7 +9759,7 @@
                 "portalSectionProtocols": "Protokoller",
                 "interventionCheckinOut": "Sjekk inn/ut for innsats",
                 "relativeCanMessageAdmins": "Pårørende kan sende melding til ledelse/administratorer",
-                "relativeCanMessageContactPersons": "Pårørende kan sende melding til brukerens tildelte kontaktpersoner",
+                "relativeCanMessageContactPersons": "Pårørende kan sende melding til @:terms.citizenDefinite{'s'} tildelte kontaktpersoner",
                 "interventionNotificationHours": "Varslingstimer for innsats",
                 "employmentWeeklyHours": "Ukentlige arbeidstimer (fakturering for sysselsettingsinnsats)",
                 "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",
@@ -9853,7 +9858,7 @@
             "licenses": "Lisenser",
             "table": {
                 "license": "Lisens",
-                "user": "Bruker",
+                "user": "@.capitalize:terms.citizen{''}",
                 "department": "Avdeling"
             },
             "unusedLicense": "Ubrugt lisens",
@@ -9978,14 +9983,14 @@
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
         },
         "wallets": {
-            "citizenWalletTransactions": "Transaktioner for brukernes wallets",
+            "citizenWalletTransactions": "Transaktioner for @:terms.citizensDefinite{'s'} wallets",
             "form": {
                 "alert": {
-                    "successfullySent": "Transaktioner for brukernes wallets er sendt vellykket"
+                    "successfullySent": "Transaktioner for @:terms.citizensDefinite{'s'} wallets er sendt vellykket"
                 },
-                "citizens": "Brukere",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "send": "Send",
-                "sendCitizenWalletTransactions": "Send bruker tegnebogstransaktioner",
+                "sendCitizenWalletTransactions": "Send @:terms.citizen{''} tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
         },
@@ -10163,7 +10168,7 @@
     "sidebar": {
         "bulletBoard": "Oppslagstavle",
         "calendar": "Kalender",
-        "citizens": "Brukere",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "companyId": "Virksomhets-ID",
         "coupons": "Kuponer",
         "discover": "Kom i gang",
@@ -10235,10 +10240,10 @@
     "submit": "Indsend",
     "subscription": {
         "addOnDeals": {
-            "addOnDeals": "Ekstra brukere og avdelinger",
+            "addOnDeals": "Ekstra @:terms.citizens{''} og avdelinger",
             "checkout": "Betal og legg til",
             "extraDepartment": "Ekstra avdeling",
-            "extraUser": "Ekstra bruker",
+            "extraUser": "Ekstra @:terms.citizen{''}",
             "purchaseExtraLicenses": "Kjøp ekstra lisenser",
             "total": "Totalt"
         },
@@ -10265,7 +10270,7 @@
             "department": "Avdeling",
             "departments": "Avdelinger",
             "forExtraDepartment": "For ekstra avdeling",
-            "forExtraUser": "For ekstra bruker",
+            "forExtraUser": "For ekstra @:terms.citizen{''}",
             "goodForASmallTeam": "God til et mindre team",
             "included": "Inkl",
             "month": "Måned",
@@ -10275,9 +10280,9 @@
             "selectPackage": "Velg pakke",
             "storageSpace": "lagerplads",
             "telephoneSupport": "Support via telefon, chat og e-post",
-            "unlimitedNumberOfCitizens": "Ubegrænset antall brukere",
-            "user": "Bruker",
-            "users": "Brukere",
+            "unlimitedNumberOfCitizens": "Ubegrænset antall @:terms.citizens{''}",
+            "user": "@.capitalize:terms.citizen{''}",
+            "users": "@.capitalize:terms.citizens{''}",
             "year": "År",
             "youCanHaveMultipleAdmins": "Du kan godt ha flere admins"
         },
@@ -11339,7 +11344,8 @@
             "cancellations": "Oppsigelser",
             "storagePackages": "Lagringspakker",
             "paymentFees": "Betalingsgebyrer",
-            "storageUsage": "Lagerforbruk"
+            "storageUsage": "Lagerforbruk",
+            "industries": "Bransjer"
         },
         "emailTemplates": {
             "title": "E-postmaler",
@@ -11990,6 +11996,50 @@
                 "mrr": "MRR",
                 "newUsers": "Nye brukere"
             }
+        },
+        "industries": {
+            "pageTitle": "Bransjer",
+            "description": "Hver bransje gir et nytt firma sine egne ord og sitt eget sett moduler. Er ingenting satt, brukes standarden, og et tomt felt betyr at språkets eget ord brukes. Endringen gjelder firmaer som opprettes etterpå, ikke de som allerede finnes.",
+            "configuredCount": "{configured} av {total} bransjer er satt opp",
+            "noIndustries": "Ingen bransjer funnet",
+            "colIndustry": "Bransje",
+            "colWord": "Ordet for brukere",
+            "colModules": "Moduler",
+            "colSource": "Kilde",
+            "allModules": "Alle",
+            "someModules": "{count} av {total}",
+            "sourceSaved": "Satt",
+            "sourceDefault": "Standard",
+            "edit": "Rediger",
+            "cancel": "Avbryt",
+            "save": "Lagre",
+            "saved": "Bransjen er lagret",
+            "modalHelp": "Ordene skrives på firmaet når det opprettes. La et felt stå tomt for å bruke standarden.",
+            "termsHint": "Skriv ordet slik det står i en setning, altså med liten forbokstav. Systemet setter selv stor forbokstav der ordet starter en overskrift.",
+            "modules": "Moduler",
+            "selectAll": "Gi alle moduler",
+            "modulesAll": "Bransjen får alle moduler.",
+            "modulesNarrowed": "Bransjen får {count} av {total} moduler.",
+            "locale": {
+                "dk": "Dansk",
+                "en": "Engelsk",
+                "no": "Norsk",
+                "sv": "Svensk"
+            },
+            "terms": {
+                "term_citizen": "Bruker (entall)",
+                "term_citizen_definite": "Brukeren (entall, bestemt)",
+                "term_citizens": "Brukere (flertall)",
+                "term_citizens_definite": "Brukerne (flertall, bestemt)",
+                "term_caseworker": "Saksbehandler",
+                "term_case": "Sak",
+                "term_journal": "Journal",
+                "term_journals": "Journaler",
+                "term_journal_notes": "Journalnotater",
+                "term_journal_note_tag": "Notattype",
+                "term_agreement": "Avtale",
+                "term_jobcenter": "Jobbsenter"
+            }
         }
     },
     "support": {
@@ -11999,7 +12049,7 @@
         "getAGuidedTour": "Få en guided video-tour",
         "needACourse": "Bruk for et kurs",
         "newFeatureRequest": "Har du ønsker til nye funksjoner",
-        "newFeatureRequestDetails": "CitizenOne udvikles i tæt samarbeide med vores brukere. Har du forslag eller idéer til nye funksjoner? Så del dem med os - vi lytter og prioriterer løbende",
+        "newFeatureRequestDetails": "CitizenOne udvikles i tæt samarbeide med vores @:terms.citizens{''}. Har du forslag eller idéer til nye funksjoner? Så del dem med os - vi lytter og prioriterer løbende",
         "sendUsYourRequests": "Send os dine ønsker",
         "support": "Support",
         "viewCourses": "Se kurs",
@@ -12127,9 +12177,9 @@
             "currentlyAssigned": "Aktuelt tildelt",
             "departments": "Avdelinger",
             "noneAssigned": "Ingen tildelt",
-            "selectAtLeastOne": "Velg minst én bruker eller avdeling",
+            "selectAtLeastOne": "Velg minst én @:terms.citizen{''} eller avdeling",
             "unassign": "Fratildel",
-            "users": "Brukere"
+            "users": "@.capitalize:terms.citizens{''}"
         },
         "newTemplateAgreement": "Ny malavtale",
         "newTimeAccount": "Ny timekonto",
@@ -12205,7 +12255,7 @@
             "allCancellations": "Alle aflysninger",
             "heldSessionsOnly": "Kun afholdte sessioner",
             "onlyCancellationByEmployee": "Kun aflysninger av medarbeider",
-            "onlyCancellationsByCitizen": "Kun aflysninger av bruker",
+            "onlyCancellationsByCitizen": "Kun aflysninger av @:terms.citizen{''}",
             "status": "Status"
         },
         "form": {
@@ -12213,12 +12263,12 @@
                 "newTimeLogSuccessfullySaved": "Ny tidslogg ble lagret",
                 "timeLogSuccessfullyUpdated": "Tidslogg ble oppdatert"
             },
-            "citizen": "Bruker",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "dateTimeEnd": "Sluttdato og -tid",
             "dateTimeStart": "Startdato og -tid",
             "remarks": "Bemærkninger",
             "status": {
-                "cancelledByCitizen": "Aflyst av bruker",
+                "cancelledByCitizen": "Aflyst av @:terms.citizen{''}",
                 "cancelledByEmployee": "Aflyst av medarbeider",
                 "completed": "Afholdt (avsluttet)",
                 "status": "Status"
@@ -12240,7 +12290,7 @@
                 "timeLogSuccessfullyDeclined": "Tidslogg ble avvist",
                 "timeLogSuccessfullyDeleted": "Tidslogg ble slettet"
             },
-            "citizen": "Bruker",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "confirmation": {
                 "approveTimeLogConfirmation": "Er du sikker på at du vil godkjenne denne tidslogg",
                 "declineTimeLogConfirmation": "Er du sikker på at du vil avvise denne tidslogg",
@@ -12257,7 +12307,7 @@
                 "requestStatus": "Anmodningsstatus"
             },
             "status": {
-                "cancelledByCitizen": "Aflyst av bruker",
+                "cancelledByCitizen": "Aflyst av @:terms.citizen{''}",
                 "cancelledByEmployee": "Aflyst av medarbeider",
                 "completed": "Afholdt (avsluttet)",
                 "status": "Status"
@@ -12379,14 +12429,14 @@
         "title": "Godkendte enheder",
         "addDevice": "Legg til enhed",
         "editDevice": "Rediger enhed",
-        "user": "Bruker",
+        "user": "@.capitalize:terms.citizen{''}",
         "deviceUuid": "Enheds-UUID",
         "label": "Etikett",
         "isActive": "Aktiv",
         "active": "Aktiv",
         "inactive": "Inaktiv",
         "table": {
-            "user": "Bruker",
+            "user": "@.capitalize:terms.citizen{''}",
             "deviceUuid": "Enheds-UUID",
             "label": "Etikett",
             "isActive": "Status",
@@ -12893,7 +12943,7 @@
             "trigger": "Utløser",
             "allTriggers": "Alle utløsere",
             "triggerSystem": "System",
-            "triggerUser": "Bruker",
+            "triggerUser": "@.capitalize:terms.citizen{''}",
             "citizen": "Borger",
             "deletedAt": "Slettet den",
             "retentionMonths": "Oppbevaring",
@@ -12937,7 +12987,7 @@
                 "journalHint": "Rader uten treff i CitizenOne (ukjent CPR) sorteres automatisk ut under importen og vises i oppsummeringen.",
                 "scheduleHint": "Rader uten treff i CitizenOne (ukjent e-post eller vakttype) sorteres automatisk ut under importen og vises i oppsummeringen.",
                 "citizensHint": "Innbyggere som allerede finnes (samme CPR eller navn) hoppes over.",
-                "employeesHint": "Ansatte som allerede finnes (samme e-post eller navn) hoppes over. Hver ny ansatt bruker én brukerlisens - går dere tomme, opprettes resten ikke.",
+                "employeesHint": "Ansatte som allerede finnes (samme e-post eller navn) hoppes over. Hver ny ansatt @:terms.citizen{''} én @:terms.citizen{'lisens'} - går dere tomme, opprettes resten ikke.",
                 "noValidRows": "Ingen gyldige rader å importere. Gå tilbake og sjekk mapping og data.",
                 "systemCheck": "Kontroll mot systemet",
                 "runCheck": "Kjør kontroll",
@@ -12960,7 +13010,7 @@
                 "rowsSkipped": "{count} rad(er) kunne ikke matches og ble hoppet over.",
                 "allImported": "Alle rader ble importert.",
                 "alreadyExisted": "{count} fantes allerede og ble hoppet over.",
-                "licenseBlocked": "{count} ansatte kunne ikke opprettes - dere mangler brukerlisenser.",
+                "licenseBlocked": "{count} ansatte kunne ikke opprettes - dere mangler @:terms.citizen{'lisenser'}.",
                 "licenseHint": "Legg til minst {count} lisens(er) og kjør importen igjen - allerede opprettede hoppes over.",
                 "addLicenses": "Legg til lisenser",
                 "invitesSent": "Innloggings-e-poster er sendt til de opprettede ansatte.",
@@ -13256,9 +13306,9 @@
         "imageHint": "Ett skjermbilde som viser hva som er nytt. PNG, JPG eller WebP, høyst 4 MB.",
         "removeImage": "Fjern bilde",
         "videoUrl": "Video (lenke)",
-        "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så ta aldri opp en skjerm med brukerdata.",
+        "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så ta aldri opp en skjerm med @:terms.citizen{'data'}.",
         "showOnWebsite": "Vis også på citizenone.dk",
-        "showOnWebsiteHint": "Notatet blir synlig for kommende kunder på nettsiden, ikke bare for dem som bruker systemet.",
+        "showOnWebsiteHint": "Notatet blir synlig for kommende kunder på nettsiden, ikke bare for dem som @:terms.citizen{''} systemet.",
         "onWebsite": "På nettsiden"
     },
     "customSidebarLinks": {
@@ -13278,7 +13328,7 @@
         "visibility": {
             "both": "Alle",
             "admin": "Kun administratorer",
-            "user": "Kun brukere"
+            "user": "Kun @:terms.citizens{''}"
         },
         "table": {
             "label": "Etikett",
@@ -13296,7 +13346,7 @@
         },
         "tip": {
             "title": "Hva er egne lenker?",
-            "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet bruker. Velg om hver lenke vises for administratorer, brukere eller alle."
+            "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet @:terms.citizen{''}. Velg om hver lenke vises for administratorer, @:terms.citizens{''} eller alle."
         }
     },
     "myDay": {
@@ -13595,7 +13645,7 @@
             "saved": "Fakturaoppsettet er lagret",
             "design": "Design",
             "showLogo": "Vis logo på faktura",
-            "showLogoHelp": "Bruker klinikkens logo fra firmainnstillingene. Uten logo står avsenderen med navn og adresse.",
+            "showLogoHelp": "@.capitalize:terms.citizen{''} klinikkens logo fra firmainnstillingene. Uten logo står avsenderen med navn og adresse.",
             "accentColor": "Farge",
             "accentColorHelp": "Brukes på overskrift, tabellhode og streken ved beløpet til betaling.",
             "resetColor": "Nullstill",
@@ -13908,7 +13958,7 @@
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",
-        "citizen": "Brukeren selv",
+        "citizen": "@.capitalize:terms.citizenDefinite{''} selv",
         "authority": "Myndighet",
         "other": "Annet"
     },
@@ -14150,7 +14200,7 @@
         },
         "empty": {
             "title": "Det finnes ingen oppgavetavler ennå",
-            "description": "En tavle samler arbeidet som ikke hører til én bruker. Sett opp kolonnene I arbeider i, og legg oppgavene hos den som skal løse dem.",
+            "description": "En tavle samler arbeidet som ikke hører til én @:terms.citizen{''}. Sett opp kolonnene I arbeider i, og legg oppgavene hos den som skal løse dem.",
             "action": "Opprett den første tavlen"
         },
         "form": {

@@ -351,6 +351,7 @@ const groupedNav = {
         { name: 'Coupons', label: 'superadmin.sidebar.coupons', href: '/superadmin/coupons', icon: 'ic:outline-discount', routes: ['superadmin-coupons', 'superadmin-coupons-new', 'superadmin-coupons-couponUuid-edit'] },
         { name: 'StorageUsage', label: 'superadmin.sidebar.storageUsage', href: '/superadmin/dashboard/company-storage', icon: 'ph:hard-drives', routes: ['superadmin-dashboard-company-storage'] },
         { name: 'StoragePackages', label: 'superadmin.sidebar.storagePackages', href: '/superadmin/storage-packages', icon: 'ph:cloud', routes: ['superadmin-storage-packages'] },
+        { name: 'Industries', label: 'superadmin.sidebar.industries', href: '/superadmin/industries', icon: 'ph:buildings', routes: ['superadmin-industries'] },
         { name: 'EmailTemplates', label: 'superadmin.sidebar.emailTemplates', href: '/superadmin/email-templates', icon: 'ph:envelope-simple', routes: ['superadmin-email-templates'] },
         { name: 'ReleaseNotes', label: 'releaseNotes.title', href: '/superadmin/release-notes', icon: 'ph:sparkle', routes: ['superadmin-release-notes'] },
     ],
