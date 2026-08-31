@@ -1215,7 +1215,8 @@
             "viewEvent": "Se händelse",
             "viewFutureEvents": "Se fremtidige händelser",
             "viewSignUpForm": "Se tilmeldingsformular"
-        }
+        },
+        "landsInCalendar": "När en tid bokas läggs den automatiskt i behandlarens kalender. Avbokas tiden försvinner den igen."
     },
     "bulletBoard": {
         "attachments": "Bifogade filer",
@@ -3664,7 +3665,11 @@
                 "neverRecalled": "Aldrig kallad",
                 "recallNow": "Kalla",
                 "recalled": "Kallelsen är registrerad",
-                "bookTime": "Boka tid"
+                "bookTime": "Boka tid",
+                "manualRecallDate": "Kalla till",
+                "manualRecallReason": "Orsak",
+                "manualRecallReasonPlaceholder": "T.ex. följer fyllningen i 5-6",
+                "manualRecallHelp": "Sätt ett datum här för att kalla patienten före nästa rutinkontroll. Orsaken visas bara för kliniken. Den upphör av sig själv när patienten är sedd."
             },
             "history": {
                 "label": "Visa en tidigare undersökning:",
@@ -13470,7 +13475,8 @@
         "empty": {
             "title": "Inga kallelser",
             "text": "Inga patienter ska kallas under den valda perioden."
-        }
+        },
+        "manualRecall": "Kallad av behandlare"
     },
     "dentalOverview": {
         "title": "Kliniköversikt",
