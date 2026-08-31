@@ -948,7 +948,9 @@
             "linkCopied": "Copied!",
             "onlineBookingLink": "Online Booking link",
             "onlineBookingLinkLabel": "The link to your public online booking page",
-            "phone": "Phone"
+            "phone": "Phone",
+            "notifyTeam": "Tell the whole clinic",
+            "notifyTeamHelp": "The clinician is always told. Turn this on if colleagues should be too, so they can cover for each other."
         }
     },
     "bookingTags": {

@@ -948,7 +948,9 @@
             "linkCopied": "Kopierad!",
             "onlineBookingLink": "Online Bokning-länk",
             "onlineBookingLinkLabel": "Linket till din offentliga online bokning-sida",
-            "phone": "Telefon"
+            "phone": "Telefon",
+            "notifyTeam": "Meddela hela kliniken",
+            "notifyTeamHelp": "Behandlaren får alltid besked. Slå på om kollegorna också ska, så de kan täcka för varandra."
         }
     },
     "bookingTags": {
