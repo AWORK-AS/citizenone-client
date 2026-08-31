@@ -6629,7 +6629,7 @@
         "empty": "Inga resultat",
         "actions": "Åtgärder",
         "navigate": "Gå till",
-        "citizen": "Medborgare"
+        "citizen": "@.capitalize:terms.citizen{''}"
     },
     "shortcuts": {
         "title": "Tangentbordsgenvägar",
