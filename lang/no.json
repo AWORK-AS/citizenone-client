@@ -13392,7 +13392,8 @@
         "nobodyHasAccess": "Ingen har tilgang ennå",
         "audience": {
             "relative": "Pårørende",
-            "third_party": "Tredjeparter"
+            "third_party": "Tredjeparter",
+            "patient": "Pasienter"
         },
         "status": {
             "active": "Logget inn",
@@ -13405,7 +13406,9 @@
             "status": "Status",
             "grantedAt": "Tilgang gitt"
         },
-        "chooseWhatTheySee": "Velg hva de kan se"
+        "chooseWhatTheySee": "Velg hva de kan se",
+        "peopleWithAccess": "{count} har tilgang",
+        "includedForTheClinic": "Inkludert i klinikkens abonnement"
     },
     "wageSupplementRules": {
         "form": {
@@ -14283,7 +14286,8 @@
         "nav": {
             "appointments": "Avtaler",
             "journal": "Journal",
-            "documents": "Dokumenter"
+            "documents": "Dokumenter",
+            "priceEstimates": "Prisoverslag"
         },
         "overview": {
             "greeting": "Hei {name}",
@@ -14292,7 +14296,9 @@
             "unreadMessages": "{count} uleste meldinger",
             "upcomingAppointments": "{count} kommende avtaler",
             "pendingSurveys": "{count} spørreskjemaer å besvare",
-            "yourClinic": "Klinikken din"
+            "yourClinic": "Klinikken din",
+            "fromTheClinic": "Fra klinikken",
+            "new": "Ny"
         },
         "appointments": {
             "upcoming": "Kommende",
@@ -14309,7 +14315,11 @@
             "joinOnline": "Bli med i nettmøtet",
             "cancel": "Avbud",
             "cancelHelp": "Kontakt klinikken for å endre eller avlyse avtalen.",
-            "writeToClinic": "Skriv til klinikken"
+            "writeToClinic": "Skriv til klinikken",
+            "cancelOwnHelp": "Du har selv bestilt denne timen og kan avlyse den her.",
+            "cancelAppointment": "Avlys timen",
+            "cancelConfirm": "Timen blir ledig igjen og klinikken får beskjed. Er du sikker?",
+            "cancelled": "Timen er avlyst"
         },
         "booking": {
             "bookTime": "Bestill time",
@@ -14355,6 +14365,19 @@
             "teaserTitle": "Gi pasientene dine tilgang",
             "teaserText": "Med pasientportalen bestiller pasientene selv time, skriver til klinikken, besvarer spørreskjemaer og leser journalnotatene dere velger å dele.",
             "teaserAction": "Se pasientportalen"
+        },
+        "priceEstimates": {
+            "intro": "Her ser du prisoverslagene klinikken har sendt deg.",
+            "empty": "Klinikken har ikke sendt deg et prisoverslag ennå.",
+            "total": "Samlet pris",
+            "subsidy": "Tilskudd",
+            "yourShare": "Din egenandel",
+            "validUntil": "Gjelder til {date}",
+            "showLines": "Vis behandlinger",
+            "hideLines": "Skjul behandlinger",
+            "treatment": "Behandling",
+            "quantity": "Antall",
+            "price": "Pris"
         }
     },
     "pageSettings": {

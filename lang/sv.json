@@ -13392,7 +13392,8 @@
         "nobodyHasAccess": "Ingen har åtkomst ännu",
         "audience": {
             "relative": "Anhöriga",
-            "third_party": "Tredjeparter"
+            "third_party": "Tredjeparter",
+            "patient": "Patienter"
         },
         "status": {
             "active": "Inloggad",
@@ -13405,7 +13406,9 @@
             "status": "Status",
             "grantedAt": "Åtkomst gavs"
         },
-        "chooseWhatTheySee": "Välj vad de ser"
+        "chooseWhatTheySee": "Välj vad de ser",
+        "peopleWithAccess": "{count} har åtkomst",
+        "includedForTheClinic": "Ingår i klinikens abonnemang"
     },
     "wageSupplementRules": {
         "form": {
@@ -14283,7 +14286,8 @@
         "nav": {
             "appointments": "Bokningar",
             "journal": "Journal",
-            "documents": "Dokument"
+            "documents": "Dokument",
+            "priceEstimates": "Kostnadsförslag"
         },
         "overview": {
             "greeting": "Hej {name}",
@@ -14292,7 +14296,9 @@
             "unreadMessages": "{count} olästa meddelanden",
             "upcomingAppointments": "{count} kommande bokningar",
             "pendingSurveys": "{count} enkäter att besvara",
-            "yourClinic": "Din klinik"
+            "yourClinic": "Din klinik",
+            "fromTheClinic": "Från kliniken",
+            "new": "Ny"
         },
         "appointments": {
             "upcoming": "Kommande",
@@ -14309,7 +14315,11 @@
             "joinOnline": "Anslut till onlinemötet",
             "cancel": "Avbokning",
             "cancelHelp": "Kontakta kliniken för att ändra eller avboka din tid.",
-            "writeToClinic": "Skriv till kliniken"
+            "writeToClinic": "Skriv till kliniken",
+            "cancelOwnHelp": "Du har själv bokat den här tiden och kan avboka den här.",
+            "cancelAppointment": "Avboka tiden",
+            "cancelConfirm": "Tiden blir ledig igen och kliniken får besked. Är du säker?",
+            "cancelled": "Tiden är avbokad"
         },
         "booking": {
             "bookTime": "Boka tid",
@@ -14355,6 +14365,19 @@
             "teaserTitle": "Ge dina patienter åtkomst",
             "teaserText": "Med patientportalen bokar patienterna själva tid, skriver till kliniken, besvarar enkäter och läser de journalanteckningar ni väljer att dela.",
             "teaserAction": "Se patientportalen"
+        },
+        "priceEstimates": {
+            "intro": "Här ser du de kostnadsförslag kliniken har skickat dig.",
+            "empty": "Kliniken har inte skickat något kostnadsförslag än.",
+            "total": "Totalpris",
+            "subsidy": "Bidrag",
+            "yourShare": "Din del",
+            "validUntil": "Gäller till {date}",
+            "showLines": "Visa behandlingar",
+            "hideLines": "Dölj behandlingar",
+            "treatment": "Behandling",
+            "quantity": "Antal",
+            "price": "Pris"
         }
     },
     "pageSettings": {

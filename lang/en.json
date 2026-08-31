@@ -13392,7 +13392,8 @@
         "nobodyHasAccess": "Nobody has access yet",
         "audience": {
             "relative": "Relatives",
-            "third_party": "Third parties"
+            "third_party": "Third parties",
+            "patient": "Patients"
         },
         "status": {
             "active": "Signed in",
@@ -13405,7 +13406,9 @@
             "status": "Status",
             "grantedAt": "Access given"
         },
-        "chooseWhatTheySee": "Choose what they see"
+        "chooseWhatTheySee": "Choose what they see",
+        "peopleWithAccess": "{count} have access",
+        "includedForTheClinic": "Included in the clinic's subscription"
     },
     "wageSupplementRules": {
         "form": {
@@ -14283,7 +14286,8 @@
         "nav": {
             "appointments": "Appointments",
             "journal": "Journal",
-            "documents": "Documents"
+            "documents": "Documents",
+            "priceEstimates": "Estimates"
         },
         "overview": {
             "greeting": "Hi {name}",
@@ -14292,7 +14296,9 @@
             "unreadMessages": "{count} unread messages",
             "upcomingAppointments": "{count} upcoming appointments",
             "pendingSurveys": "{count} questionnaires to answer",
-            "yourClinic": "Your clinic"
+            "yourClinic": "Your clinic",
+            "fromTheClinic": "From the clinic",
+            "new": "New"
         },
         "appointments": {
             "upcoming": "Upcoming",
@@ -14309,7 +14315,11 @@
             "joinOnline": "Join the online meeting",
             "cancel": "Cancellation",
             "cancelHelp": "Contact the clinic to change or cancel your appointment.",
-            "writeToClinic": "Write to the clinic"
+            "writeToClinic": "Write to the clinic",
+            "cancelOwnHelp": "You booked this time yourself and can cancel it here.",
+            "cancelAppointment": "Cancel the appointment",
+            "cancelConfirm": "The time becomes free again and the clinic is told. Are you sure?",
+            "cancelled": "The appointment is cancelled"
         },
         "booking": {
             "bookTime": "Book a time",
@@ -14355,6 +14365,19 @@
             "teaserTitle": "Give your patients access",
             "teaserText": "With the patient portal your patients book their own appointments, write to the clinic, answer questionnaires and read the journal notes you choose to share.",
             "teaserAction": "See the patient portal"
+        },
+        "priceEstimates": {
+            "intro": "The estimates the clinic has sent you.",
+            "empty": "The clinic has not sent you an estimate yet.",
+            "total": "Total",
+            "subsidy": "Subsidy",
+            "yourShare": "Your share",
+            "validUntil": "Valid until {date}",
+            "showLines": "Show treatments",
+            "hideLines": "Hide treatments",
+            "treatment": "Treatment",
+            "quantity": "Quantity",
+            "price": "Price"
         }
     },
     "pageSettings": {

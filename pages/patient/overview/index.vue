@@ -44,6 +44,28 @@
                         </div>
                     </section>
 
+                    <section v-if="state.notifications.length > 0">
+                        <p class="mb-3 text-xs font-bold text-primary uppercase tracking-widest">
+                            {{ $t('patient.overview.fromTheClinic') }}
+                        </p>
+                        <div class="space-y-3">
+                            <button v-for="notification in state.notifications" :key="notification.id" type="button"
+                                class="w-full text-left bg-white rounded-2xl border px-5 py-4 transition"
+                                :class="notification.read_at ? 'border-gray-200' : 'border-primary/40 shadow-sm'"
+                                @click="markRead(notification)">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-semibold text-gray-900">{{ notification.label }}</span>
+                                    <span v-if="!notification.read_at"
+                                        class="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                                        {{ $t('patient.overview.new') }}
+                                    </span>
+                                    <span class="ml-auto text-xs text-gray-400">{{ formatDate(notification.created_at) }}</span>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-600">{{ notification.message }}</p>
+                            </button>
+                        </div>
+                    </section>
+
                     <section v-if="state.overview?.clinic">
                         <p class="mb-3 text-xs font-bold text-gray-400 uppercase tracking-widest">
                             {{ $t('patient.overview.yourClinic') }}
@@ -77,6 +99,7 @@ const state = reactive({
     error: {} as Error,
     isLoading: false,
     overview: null as any,
+    notifications: [] as any[],
 })
 
 const today = computed(() => moment().format('D. MMM YYYY'))
@@ -107,7 +130,34 @@ const cards = computed(() => [
     },
 ])
 
-onMounted(() => fetchOverview())
+function formatDate(date: any) {
+    return date ? moment(date).format('DD-MM-YYYY') : ''
+}
+
+onMounted(() => {
+    fetchOverview()
+    fetchNotifications()
+})
+
+async function fetchNotifications() {
+    try {
+        const response = await patientService.getNotifications()
+        state.notifications = response?.data ?? []
+    } catch (error: any) {
+        // The overview is still worth showing if the notices cannot be fetched.
+    }
+}
+
+async function markRead(notification: any) {
+    if (notification.read_at) return
+
+    try {
+        await patientService.markNotificationRead(notification.id)
+        notification.read_at = new Date().toISOString()
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 async function fetchOverview() {
     state.error = {}

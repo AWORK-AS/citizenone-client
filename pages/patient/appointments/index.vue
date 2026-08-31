@@ -85,11 +85,22 @@
                                     <div class="flex gap-4">
                                         <dt class="w-32 shrink-0 italic text-gray-400">{{ $t('patient.appointments.cancel') }}</dt>
                                         <dd class="text-gray-600">
-                                            {{ $t('patient.appointments.cancelHelp') }}
-                                            <button type="button" class="block mt-1 text-primary underline"
-                                                @click="navigateTo('/patient/messages')">
-                                                {{ $t('patient.appointments.writeToClinic') }}
-                                            </button>
+                                            <!-- A time the patient booked is theirs to cancel; one the
+                                                 clinic made is the clinic's to move. -->
+                                            <template v-if="selected.source === 'booking' && state.filter === 'upcoming'">
+                                                <p>{{ $t('patient.appointments.cancelOwnHelp') }}</p>
+                                                <FormButton type="button" buttonStyle="danger" class="mt-2"
+                                                    :disabled="state.isCancelling" @click="state.modal.isCancelOpen = true">
+                                                    {{ $t('patient.appointments.cancelAppointment') }}
+                                                </FormButton>
+                                            </template>
+                                            <template v-else>
+                                                {{ $t('patient.appointments.cancelHelp') }}
+                                                <button type="button" class="block mt-1 text-primary underline"
+                                                    @click="navigateTo('/patient/messages')">
+                                                    {{ $t('patient.appointments.writeToClinic') }}
+                                                </button>
+                                            </template>
                                         </dd>
                                     </div>
                                 </dl>
@@ -101,6 +112,11 @@
                         </div>
                     </div>
                 </LoadingSpinner>
+
+                <DialogConfirmation :isModalOpen="state.modal.isCancelOpen"
+                    :title="$t('patient.appointments.cancelAppointment')"
+                    :message="$t('patient.appointments.cancelConfirm')"
+                    @close="state.modal.isCancelOpen = false" @confirm="cancelAppointment" />
             </div>
         </NuxtLayout>
     </div>
@@ -110,12 +126,14 @@
 import moment from 'moment'
 import { patientAppointmentService } from '@/components/api/patient/AppointmentService'
 import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { t } = useI18n()
+const { successAlert } = useAlert()
 
 const state = reactive({
     error: {} as Error,
@@ -123,6 +141,8 @@ const state = reactive({
     filter: 'upcoming',
     appointments: [] as any[],
     selectedUuid: null as string | null,
+    isCancelling: false,
+    modal: { isCancelOpen: false },
 })
 
 const tabs = computed(() => [
@@ -141,6 +161,24 @@ function formatDateTime(value: any) {
 onMounted(() => fetchAppointments())
 
 watch(() => state.filter, () => fetchAppointments())
+
+async function cancelAppointment() {
+    if (!selected.value) return
+
+    state.error = {}
+    state.isCancelling = true
+    try {
+        const response = await patientAppointmentService.cancelAppointment(selected.value.uuid)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, t('patient.appointments.cancelled'))
+            await fetchAppointments()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isCancelling = false
+    state.modal.isCancelOpen = false
+}
 
 async function fetchAppointments() {
     state.error = {}
