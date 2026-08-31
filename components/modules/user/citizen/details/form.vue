@@ -1157,7 +1157,7 @@ import ClassicEditor from '@/utils/editor'
 import { journalService } from '@/components/api/user/JournalService'
 
 const userStore = useUserStore() as any
-
+const { industryHasFeature } = useIndustryFeatures()
 const { t } = useI18n()
 const { term } = useTerminology()
 const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
@@ -2028,19 +2028,15 @@ async function changeSelectedMunicipality(municipalityUuid: string) {
     }
 }
 
-// Every dental feature keys off the same rule: the industry's system name,
-// with the English industry name still counting until all installs are
-// migrated. The API enforces the same thing.
 // The patient portal is its own app; a dental clinic can have it without
 // citizen access, and both open a portal login for the person.
 const hasPatientPortal = computed(() => !!userStore.getUser?.has_patient_app)
 const canGrantPortalAccess = computed(() => !!userStore.getUser?.has_citizen_app || hasPatientPortal.value)
 
-const isDentalClinic = computed(() => {
-    const industry = userStore.getUser?.company?.industry
-
-    return industry?.system_name === 'dental' || industry?.en_name === 'Dentists and dental hygienists'
-})
+// Which industries the dental fields exist for lives in one place, so turning
+// them on for another kind of clinic is a word in that list. The API enforces
+// the same rule.
+const isDentalClinic = computed(() => industryHasFeature('toothChart'))
 
 const rules = computed(() => {
     return {

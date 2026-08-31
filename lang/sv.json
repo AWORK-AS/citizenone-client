@@ -122,7 +122,8 @@
             "medicin": "Medicin",
             "dokumentation": "Dokumentation (planer, status, dokument)",
             "useOfForce": "Våldsanvändning",
-            "predefinedContent": "Fördefinierat anteckningsinnehåll"
+            "predefinedContent": "Fördefinierat anteckningsinnehåll",
+            "priceEstimates": "Prisförslag till patienter"
         },
         "groups": {
             "migration": "Migrering",
@@ -876,7 +877,7 @@
             "birthday": "Födelsedagar",
             "dutyShift": "Vagtregel",
             "incidents": "Händelser",
-            "messages": "Meddelanden",
+            "messages": "Chatt",
             "notes": "Anteckningar",
             "other": "Annat",
             "plansGoals": "Planer & Mål",
@@ -947,7 +948,9 @@
             "linkCopied": "Kopierad!",
             "onlineBookingLink": "Online Bokning-länk",
             "onlineBookingLinkLabel": "Linket till din offentliga online bokning-sida",
-            "phone": "Telefon"
+            "phone": "Telefon",
+            "notifyTeam": "Meddela hela kliniken",
+            "notifyTeamHelp": "Behandlaren får alltid besked. Slå på om kollegorna också ska, så de kan täcka för varandra."
         }
     },
     "bookingTags": {
@@ -1214,7 +1217,8 @@
             "viewEvent": "Se händelse",
             "viewFutureEvents": "Se fremtidige händelser",
             "viewSignUpForm": "Se tilmeldingsformular"
-        }
+        },
+        "landsInCalendar": "När en tid bokas läggs den automatiskt i behandlarens kalender. Avbokas tiden försvinner den igen."
     },
     "bulletBoard": {
         "attachments": "Bifogade filer",
@@ -1252,7 +1256,8 @@
         },
         "tabs": {
             "bookings": "Bokningar",
-            "events": "Händelser"
+            "events": "Händelser",
+            "appointments": "Bokade tider"
         },
         "today": "Idag",
         "view": {
@@ -3658,7 +3663,16 @@
                 "setCheckup": "Ange kontrolldatum",
                 "everyMonths": "Var {months}:e månad",
                 "checkupSaved": "Kontrollen är uppdaterad",
-                "checkupHelp": "Nästa kontroll räknas från senaste kontrollen plus intervallet."
+                "checkupHelp": "Nästa kontroll räknas från senaste kontrollen plus intervallet.",
+                "lastRecalled": "Senast kallad",
+                "neverRecalled": "Aldrig kallad",
+                "recallNow": "Kalla",
+                "recalled": "Kallelsen är registrerad",
+                "bookTime": "Boka tid",
+                "manualRecallDate": "Kalla till",
+                "manualRecallReason": "Orsak",
+                "manualRecallReasonPlaceholder": "T.ex. följer fyllningen i 5-6",
+                "manualRecallHelp": "Sätt ett datum här för att kalla patienten före nästa rutinkontroll. Orsaken visas bara för kliniken. Den upphör av sig själv när patienten är sedd."
             },
             "history": {
                 "label": "Visa en tidigare undersökning:",
@@ -3707,11 +3721,31 @@
                 "noTooth": "Ingen tand",
                 "note": "Anmärkningar",
                 "notePlaceholder": "Till exempel vad priset förutsätter",
-                "needsALine": "Lägg till minst en behandling"
+                "needsALine": "Lägg till minst en behandling",
+                "service": "Tjänst",
+                "ownLine": "Egen rad"
             },
             "plan": "Plan",
             "markDone": "Markera utförd",
-            "done": "Utförd"
+            "done": "Utförd",
+            "invoiced": "Fakturerad",
+            "leftToSettle": "Att reglera",
+            "settleNow": "Reglera nu",
+            "createInvoice": "Skapa faktura",
+            "settleTitle": "Reglera behandling",
+            "settleExplanation": "Skapar fakturan för de utförda raderna och registrerar betalningen direkt. Använd den när patienten betalar i kliniken.",
+            "paymentMethod": "Betalsätt",
+            "settled": "Reglerad",
+            "invoiceCreated": "Faktura skapad",
+            "methods": {
+                "card": "Kort",
+                "terminal": "Terminal",
+                "mobilepay": "MobilePay",
+                "cash": "Kontant"
+            },
+            "nextStepMarkDone": "Markera behandlingarna som utförda, så kan de faktureras härifrån.",
+            "nextStepSettle": "Behandlingen är utförd och klar att regleras.",
+            "nextStepInvoiced": "Allt på det här prisförslaget är fakturerat. Se fakturan under"
         },
         "invoices": {
             "newTitle": "Skapa faktura",
@@ -6629,7 +6663,8 @@
         "empty": "Inga resultat",
         "actions": "Åtgärder",
         "navigate": "Gå till",
-        "citizen": "Medborgare"
+        "citizen": "Medborgare",
+        "settings": "Inställningar"
     },
     "shortcuts": {
         "title": "Tangentbordsgenvägar",
@@ -10141,7 +10176,7 @@
         "dutySchedules": "Tjänsteschema",
         "leads": "Leads",
         "mail": "E-post",
-        "messages": "Meddelanden",
+        "messages": "Chatt",
         "overview": "Översikt",
         "protocols": "Protokoll",
         "reports": "Rapporter",
@@ -13455,7 +13490,8 @@
         "empty": {
             "title": "Inga kallelser",
             "text": "Inga patienter ska kallas under den valda perioden."
-        }
+        },
+        "manualRecall": "Kallad av behandlare"
     },
     "dentalOverview": {
         "title": "Kliniköversikt",
@@ -14320,5 +14356,27 @@
             "teaserText": "Med patientportalen bokar patienterna själva tid, skriver till kliniken, besvarar enkäter och läser de journalanteckningar ni väljer att dela.",
             "teaserAction": "Se patientportalen"
         }
+    },
+    "pageSettings": {
+        "title": "Inställningar för den här sidan",
+        "forThisPage": "Inställningar för den här sidan",
+        "allSettings": "Alla inställningar"
+    },
+    "bookingAppointments": {
+        "intro": "Tider patienterna har tagit. Ska en kollega täcka kan bokningen lämnas över utan att patienten bokar om.",
+        "when": "När",
+        "who": "Vem",
+        "treatment": "Behandling",
+        "with": "Hos",
+        "handOver": "Lämna över",
+        "handOverTitle": "Lämna över bokningen",
+        "handOverExplanation": "Patienten behåller sin tid. Den flyttas till kollegans kalender, och kollegan får besked.",
+        "colleague": "Kollega",
+        "handedOver": "Bokningen är överlämnad",
+        "takenOver": "Övertagen",
+        "none": "Inga bokade tider i perioden",
+        "from": "Från",
+        "to": "Till",
+        "noColleagues": "Det finns ingen annan på kliniken att lämna över bokningen till."
     }
 }
