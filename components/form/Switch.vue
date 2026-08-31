@@ -1,6 +1,6 @@
 <template>
     <div @click="!props.disabled && $emit('toggleSwitch')" class="flex items-center">
-        <Switch :value="props.value.toString()" :class="[
+        <Switch :model-value="!!props.value" :class="[
             props.value ? 'bg-tertiary' : 'bg-gray-200', 'relative inline-flex flex-shrink-0 h-5 w-9 border-2 border-transparent rounded-full transition-colors ease-in-out duration-200',
             props.disabled ? 'cursor-not-allowed' : 'cursor-pointer'
         ]">
