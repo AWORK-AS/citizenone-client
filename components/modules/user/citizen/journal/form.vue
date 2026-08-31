@@ -688,6 +688,7 @@ async function fetchFormFieldConfig() {
                 if (config.form_type === 'create' || config.form_type === 'edit') {
                     state.formFieldConfig[config.form_type as 'create' | 'edit'] = {
                         risk_assessment: config.form_fields?.risk_assessment !== false,
+                        score: config.form_fields?.score !== false,
                     }
                 }
             })

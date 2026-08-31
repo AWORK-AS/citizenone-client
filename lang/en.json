@@ -7535,7 +7535,7 @@
         "navLabel": "Edit journal form",
         "riskAssessmentDescription": "When turned off, the risk assessment section (assessment level, note, tags and goal linking) will be hidden from the journal create and edit forms for all users.",
         "riskAssessmentToggle": "Show risk assessment section in journal form",
-        "subtitle": "Configure whether the risk assessment section is visible in the citizen journal create and edit forms.",
+        "subtitle": "Configure which fields are visible in the citizen journal create and edit forms.",
         "title": "Journal Form Configuration",
         "scoreToggle": "Show \"Current level\" in the journal form",
         "scoreDescription": "When switched off, the \"Current level\" field is hidden in the journal create and edit forms. The field starts empty, so a level is only there if someone chose it."

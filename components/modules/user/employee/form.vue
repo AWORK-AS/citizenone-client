@@ -759,6 +759,10 @@ watch(() => language.locale.value, (newValue: any) => {
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
             { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
         ]
+        // Relabelling the built-in options above drops the company's own entries,
+        // and this watcher also fires on the initial locale sync - which is what
+        // wiped them straight after the first fetch. Put them back.
+        fetchEmploymentOptions()
         // Language names are Danish or English depending on the locale, so relabel.
         fetchSpokenLanguages()
     }

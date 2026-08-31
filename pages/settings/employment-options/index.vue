@@ -18,8 +18,12 @@
             <ModulesUserSettingsTab />
             <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
 
-            <LoadingSpinner :isActive="state.isPageLoading">
-                <div class="mt-8 space-y-6 max-w-3xl">
+            <!-- The catalog rail floats left and positions the page beside it with
+                 `.catalog-shell + .mt-8`, so this wrapper has to be its immediate
+                 sibling or the content lands on top of the rail. -->
+            <div class="mt-8">
+                <LoadingSpinner :isActive="state.isPageLoading">
+                <div class="space-y-6 max-w-3xl">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
@@ -68,7 +72,8 @@
                         </div>
                     </section>
                 </div>
-            </LoadingSpinner>
+                </LoadingSpinner>
+            </div>
         </NuxtLayout>
     </div>
 </template>

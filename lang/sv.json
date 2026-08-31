@@ -7535,7 +7535,7 @@
         "navLabel": "Redigera journalformulär",
         "riskAssessmentDescription": "När den är avstängd döljs riskbedömningssektionen (bedömningsnivå, anteckning, taggar och mållänkning) i journalens skapa- och redigeringsformulär för alla användare.",
         "riskAssessmentToggle": "Visa riskbedömningssektion i journalformulär",
-        "subtitle": "Konfigurera om riskbedömningssektionen är synlig i medborgarens journal skapa- och redigeringsformulär.",
+        "subtitle": "Konfigurera vilka fält som är synliga i medborgarens journalformulär för att skapa och redigera.",
         "title": "Journalformulärets konfiguration",
         "scoreToggle": "Visa \"Nuvarande nivå\" i journalformuläret",
         "scoreDescription": "När den är avstängd visas inte fältet \"Nuvarande nivå\" i journalens skapa- och redigeringsformulär. Fältet är tomt från början, så en nivå står där bara om någon har valt den."

@@ -7535,7 +7535,7 @@
         "navLabel": "Rediger journalformular",
         "riskAssessmentDescription": "Når den er slået fra, vil risikovurderingssektionen (vurderingsniveau, note, tags og målforbindelse) blive skjult i journalens opret- og redigeringsformularer for alle brugere.",
         "riskAssessmentToggle": "Vis risikovurderingssektion i journalformular",
-        "subtitle": "Konfigurer om risikovurderingssektionen er synlig i borgerens journal opret- og redigeringsformularer.",
+        "subtitle": "Konfigurer hvilke felter der er synlige i borgerens journal opret- og redigeringsformularer.",
         "title": "Journalformular konfiguration",
         "scoreToggle": "Vis \"Nuværende niveau\" i journalformularen",
         "scoreDescription": "Når den er slået fra, vises feltet \"Nuværende niveau\" ikke i journalens opret- og redigeringsformularer. Feltet er tomt fra start, så et niveau kun står der, hvis nogen har valgt det."

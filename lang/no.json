@@ -7535,7 +7535,7 @@
         "navLabel": "Rediger journalskjema",
         "riskAssessmentDescription": "Når den er slått av, vil risikovurderingsdelen (vurderingsnivå, notat, tagger og mål-tilknytning) bli skjult i journalens opprett- og redigeringsskjemaer for alle brukere.",
         "riskAssessmentToggle": "Vis risikovurderingsdel i journalskjema",
-        "subtitle": "Konfigurer om risikovurderingsdelen er synlig i brukerens journal opprett- og redigeringsskjemaer.",
+        "subtitle": "Konfigurer hvilke felter som er synlige i innbyggerens journalskjema for oppretting og redigering.",
         "title": "Journalskjema konfigurasjon",
         "scoreToggle": "Vis \"Nåværende nivå\" i journalskjemaet",
         "scoreDescription": "Når den er slått av, vises ikke feltet \"Nåværende nivå\" i journalens opprett- og redigeringsskjema. Feltet er tomt fra start, så et nivå står der bare hvis noen har valgt det."
