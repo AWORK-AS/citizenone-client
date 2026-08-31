@@ -3973,7 +3973,12 @@
             "name": "Navn",
             "shiftTypes": "Vakttyper",
             "minimumStaffCount": "Minimumsbemanning",
-            "minimumStaffCountHint": "Minimum antall ansatte som kreves for å dekke denne avdelingen på en gitt dag. La stå tomt for å deaktivere bemanningsvarselet."
+            "minimumStaffCountHint": "Minimum antall ansatte som kreves for å dekke denne avdelingen på en gitt dag. La stå tomt for å deaktivere bemanningsvarselet.",
+            "street": "Gatenavn og nr.",
+            "postCode": "Postnummer",
+            "city": "By",
+            "phone": "Telefon",
+            "clinicAddressHint": "Vises for pasientene i pasientportalen som klinikkens adresse og kontaktnummer."
         },
         "newDepartment": "Ny avdeling",
         "table": {
@@ -9832,7 +9837,14 @@
                 "termCitizen": "Bruker (entall)",
                 "termCitizenDefinite": "Brukeren (entall, bestemt)",
                 "termCitizens": "Brukere (flertall)",
-                "termCitizensDefinite": "Brukerne (flertall, bestemt)"
+                "termCitizensDefinite": "Brukerne (flertall, bestemt)",
+                "portalAudiencePatient": "Pasient",
+                "portalSectionAppointments": "Avtaler",
+                "portalSectionBooking": "Nettbestilling",
+                "portalPreviewAppointments": "Pasienten ser sine kommende og tidligere avtaler hos klinikken.",
+                "portalPreviewBooking": "Pasienten kan selv bestille en ledig time for behandlingene dere har åpnet for nettbestilling.",
+                "portalPreviewPatientJournals": "Pasienten ser kun journalnotatene dere har merket som delt, og bare hvis pasienten har journaltilgang.",
+                "portalNeverUnsharedJournalNotes": "Journalnotater som ikke er merket som delt"
             }
         },
         "licenseOverview": {
@@ -14265,6 +14277,84 @@
             "saveFailed": "Regelen kunne ikke lagres",
             "deleted": "Regelen er slettet",
             "deleteFailed": "Regelen kunne ikke slettes"
+        }
+    },
+    "patient": {
+        "nav": {
+            "appointments": "Avtaler",
+            "journal": "Journal",
+            "documents": "Dokumenter"
+        },
+        "overview": {
+            "greeting": "Hei {name}",
+            "intro": "Velkommen til oversikten din. Her ser du hva som venter fra klinikken.",
+            "waitingForYou": "Venter på deg",
+            "unreadMessages": "{count} uleste meldinger",
+            "upcomingAppointments": "{count} kommende avtaler",
+            "pendingSurveys": "{count} spørreskjemaer å besvare",
+            "yourClinic": "Klinikken din"
+        },
+        "appointments": {
+            "upcoming": "Kommende",
+            "past": "Tidligere",
+            "empty": "Du har ingen avtaler her.",
+            "appointment": "Avtale",
+            "detailTitle": "Avtale hos {clinic}",
+            "what": "Hva",
+            "when": "Når",
+            "where": "Hvor",
+            "who": "Hvem",
+            "duration": "Varighet {minutes} minutter",
+            "online": "Online",
+            "joinOnline": "Bli med i nettmøtet",
+            "cancel": "Avbud",
+            "cancelHelp": "Kontakt klinikken for å endre eller avlyse avtalen.",
+            "writeToClinic": "Skriv til klinikken"
+        },
+        "booking": {
+            "bookTime": "Bestill time",
+            "noServices": "Klinikken har ingen behandlinger åpne for nettbestilling nå.",
+            "chooseTreatment": "Velg behandling",
+            "chooseDate": "Velg dato",
+            "noDates": "Ingen ledige datoer.",
+            "chooseTime": "Velg tidspunkt",
+            "noTimes": "Ingen ledige tider på valgt dato.",
+            "note": "Melding til klinikken",
+            "notePlaceholder": "Skriv gjerne hva timen gjelder",
+            "confirm": "Bekreft bestilling",
+            "summary": "{treatment} · {date} kl. {time}",
+            "booked": "Timen din er bestilt"
+        },
+        "journal": {
+            "intro": "Her kan du lese journalnotatene klinikken har delt med deg.",
+            "empty": "Klinikken har ikke delt noen journalnotater med deg ennå."
+        },
+        "documents": {
+            "upload": "Last opp fil",
+            "uploadHelp": "Kun DOC, DOCX, JPEG, JPG, PDF og PNG under 10 MB kan lastes opp.",
+            "saveFile": "Lagre fil",
+            "empty": "Det finnes ingen filer til deg ennå.",
+            "download": "Last ned",
+            "uploaded": "Filen er lagret"
+        },
+        "staff": {
+            "journalAccess": "Pasientens tilgang til journalen",
+            "journalAccessHelp": "Når den er på, kan pasienten lese notatene dere merker som delt.",
+            "noteVisibleToPatient": "Del notatet med pasienten",
+            "noteVisibleToPatientHelp": "Notatet vises i pasientportalen. Krever at pasienten har journaltilgang.",
+            "surveyWritesToJournal": "Lagre svarene i journalen",
+            "surveyWritesToJournalHelp": "Når pasienten returnerer skjemaet, opprettes et journalnotat med svarene.",
+            "portalAccess": "Tilgang til pasientportalen",
+            "portalAccessHelp": "Pasienten kan logge inn og se avtaler, meldinger og dokumenter.",
+            "messageAccess": "Kan sende meldinger til klinikken",
+            "sectionTitle": "Pasientportal",
+            "sectionHelp": "Bestem hva denne pasienten kan se og gjøre i pasientportalen.",
+            "portalActive": "Pasientportal aktiv",
+            "portalInactive": "Ingen portaltilgang",
+            "portalBadgeHelp": "Klikk for å endre pasientens tilgang",
+            "teaserTitle": "Gi pasientene dine tilgang",
+            "teaserText": "Med pasientportalen bestiller pasientene selv time, skriver til klinikken, besvarer spørreskjemaer og leser journalnotatene dere velger å dele.",
+            "teaserAction": "Se pasientportalen"
         }
     },
     "pageSettings": {
