@@ -159,7 +159,13 @@ const MODULE_OPTIONS = [
     { key: 'medicin', icon: 'ph:pill', industries: null },
     { key: 'dokumentation', icon: 'ph:files', industries: null },
     { key: 'useOfForce', icon: 'ph:shield-warning', industries: ['social_welfare', 'employment_services'] },
+    { key: 'carePlans', icon: 'ph:target', industries: null },
     { key: 'predefinedContent', icon: 'ph:list-bullets', industries: ['social_welfare', 'employment_services'] },
+    // Quoting before treatment is a way of working, not a thing every clinic
+    // does, and it exists for no other industry - so it is only worth asking a
+    // dental clinic about. Keep this in sync with FEATURE_INDUSTRIES.priceEstimates
+    // in useIndustryFeatures.ts.
+    { key: 'priceEstimates', icon: 'ph:receipt', industries: ['dental'] },
 ]
 
 export function useDiscoverJourney(systemName: () => string | null | undefined) {

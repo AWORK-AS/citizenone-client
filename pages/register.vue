@@ -620,7 +620,18 @@ async function register() {
                 if (response.data) {
                     pushSignUpEvent()
                     successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
-                    navigateTo('/')
+                    // Onboardingen frem for login-formularen.
+                    //
+                    // Registreringen sendte brugeren til '/', altså login-siden. Endepunktet
+                    // returnerer ingen token, så klienten kan ikke logge hende ind, og '/' var
+                    // derfor det eneste den kunne gøre. Men resultatet var at en ny kunde ramte
+                    // login-skærmen umiddelbart efter at have oprettet sin konto, og aldrig så
+                    // /discover medmindre hun selv fandt "Kom godt i gang" i sidebaren.
+                    //
+                    // `?redirect` findes og honoreres af login i forvejen, så det første hun ser
+                    // efter at have logget ind er checklisten med importen fra det gamle system
+                    // som første trin. E-mailverifikationen er urørt: hun logger stadig ind.
+                    navigateTo('/?redirect=/discover')
                 }
             } catch (error: any) {
                 state.error = error

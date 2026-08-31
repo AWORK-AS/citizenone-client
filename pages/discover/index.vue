@@ -326,7 +326,7 @@ const { journey, moduleOptions } = useDiscoverJourney(industrySystemName)
 
 const modules = reactive<Record<string, boolean>>({
     vagtplan: true, medicin: true, dokumentation: true,
-    useOfForce: true, predefinedContent: true,
+    useOfForce: true, carePlans: true, predefinedContent: true, priceEstimates: true,
 })
 
 const state = reactive({
@@ -492,6 +492,7 @@ onMounted(async () => {
     const savedModules = userStore.getUser?.company?.onboarding_preferences?.modules
     if (typeof savedModules?.useOfForce === 'boolean') modules.useOfForce = savedModules.useOfForce
     if (typeof savedModules?.predefinedContent === 'boolean') modules.predefinedContent = savedModules.predefinedContent
+    if (typeof savedModules?.priceEstimates === 'boolean') modules.priceEstimates = savedModules.priceEstimates
     // Data-derived completion (a few easy ones)
     try {
         const [d, u, c, tags] = await Promise.all([
