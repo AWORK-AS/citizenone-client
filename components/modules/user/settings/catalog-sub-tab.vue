@@ -66,12 +66,19 @@ const groupLabels: Record<string, Record<string, string>> = {
     health: { dk: 'Medicin & helbred', en: 'Medicine & health', no: 'Medisin & helse', sv: 'Medicin & hälsa' },
     schedule: { dk: 'Vagtplan & tid', en: 'Scheduling & time', no: 'Vaktplan & tid', sv: 'Schema & tid' },
     booking: { dk: 'Booking & kalender', en: 'Booking & calendar', no: 'Booking & kalender', sv: 'Bokning & kalender' },
-    citizens: { dk: 'Borgere & adresser', en: 'Citizens & addresses', no: 'Borgere & adresser', sv: 'Medborgare & adresser' },
+    citizens: { dk: '{Citizens} & adresser', en: '{Citizens} & addresses', no: '{Citizens} & adresser', sv: '{Citizens} & adresser' },
     employment: { dk: 'Jobcenter', en: 'Jobcenter', no: 'Jobbsenter', sv: 'Jobbcenter' },
 }
 function groupLabel(key: string): string {
     const byLocale = groupLabels[key] || {}
-    return byLocale[locale.value] || byLocale.en || key
+    const label = byLocale[locale.value] || byLocale.en || key
+
+    // The citizen word is the company's own, so it comes from i18n and not from the map above.
+    return label.replace('{Citizens}', upperFirst(t('terms.citizens')))
+}
+
+function upperFirst(value: string): string {
+    return value ? value.charAt(0).toUpperCase() + value.slice(1) : value
 }
 
 function isActive(tab: any): boolean {

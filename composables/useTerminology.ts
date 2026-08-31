@@ -12,6 +12,60 @@ const CITIZEN_DEFAULTS: Record<string, Record<string, string>> = {
     sv: { citizen: 'klient', theCitizen: 'klienten', citizens: 'klienter', theCitizens: 'klienterna' },
 }
 
+/**
+ * The four citizen words as i18n messages, so every Danish string that mentions
+ * a citizen can reach them as a link rather than spelling the word out.
+ *
+ * This exists because term() only ever reached the call sites that asked for it,
+ * and none of the citizen ones did: 401 Danish strings said borger outright, so
+ * a dental company that had already set term_citizen to patient still read
+ * Borgere in the sidebar. Rewriting those strings as links moves the
+ * substitution into vue-i18n itself, which needs the words to exist as messages
+ * under terms.*.
+ *
+ * Every locale gets its own words, since the locales whose strings have not been
+ * rewritten keep their own defaults: no says bruker, sv says klient.
+ */
+/**
+ * Characters vue-i18n's message compiler treats as syntax.
+ *
+ * Measured against 9.13.1 with the rewritten strings: a term of '@:terms.citizen' raises Maximum
+ * call stack size exceeded and takes the whole app down, '{count}' makes the word vanish, and
+ * 'a|b' is truncated to 'a' because the pipe separates plural forms.
+ */
+const COMPILER_SYNTAX = /[@{}|%<>$]/g
+
+export function terminologyMessages(company: any): Record<string, { terms: Record<string, string> }> {
+    /**
+     * The backend refuses these characters (App\Rules\TerminologyWord), and this strips them
+     * again. Not duplicated work: rows already in the database were written before that rule
+     * existed, and a stored '@:terms.citizen' would otherwise crash the app on load, which is
+     * exactly the situation where a validation error is no longer available to us.
+     */
+    const clean = (word: string) => word.replace(COMPILER_SYNTAX, '').trim()
+
+    const pick = (custom: unknown, fallback: string) => {
+        const word = custom ? clean(String(custom)) : ''
+
+        return word !== '' ? word : fallback
+    }
+
+    const messages: Record<string, { terms: Record<string, string> }> = {}
+
+    for (const [locale, defaults] of Object.entries(CITIZEN_DEFAULTS)) {
+        messages[locale] = {
+            terms: {
+                citizen: pick(company?.term_citizen, defaults.citizen),
+                citizenDefinite: pick(company?.term_citizen_definite, defaults.theCitizen),
+                citizens: pick(company?.term_citizens, defaults.citizens),
+                citizensDefinite: pick(company?.term_citizens_definite, defaults.theCitizens),
+            },
+        }
+    }
+
+    return messages
+}
+
 function upperFirst(value: string) {
     return value ? value.charAt(0).toUpperCase() + value.slice(1) : value
 }
