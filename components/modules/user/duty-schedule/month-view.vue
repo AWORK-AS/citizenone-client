@@ -448,23 +448,14 @@
                                     <div class="col-span-3 pl-1 font-bold">
                                         {{ $t('dutySchedules.total') }}:
                                     </div>
+                                    <!-- The API sends the totals rather than the browser
+                                         re-adding the rows, so this is the period figure
+                                         itself and cannot drift from it by a rounded øre. -->
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{
-                                            formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
-                                                t?.shift?.system_name !==
-                                                'time-filter')
-                                                .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
-                                                    t?.monthly_hours || t?.weekly_hours || '0'), 0))
-                                        }}
+                                        {{ employee?.period_hours_total ?? '0,00' }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{
-                                            formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
-                                                t?.shift?.system_name !==
-                                                'time-filter')
-                                                .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
-                                                    t?.yearly_hours ?? '0'), 0))
-                                        }}
+                                        {{ employee?.year_hours_total ?? '0,00' }}
                                     </div>
                                 </div>
                             </div>
