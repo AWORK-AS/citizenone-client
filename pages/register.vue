@@ -513,11 +513,19 @@ function animateAssets() {
 // before they reach this form, and links here with that answer attached. Matching
 // accepts a system name, a visible label or a uuid, so the site can link with
 // whichever of the three it has to hand.
+//
+// Both names are matched, not only the visible one. Three of the 59 industries
+// have a system name, so for the other 56 the site can only send a name, and the
+// name it has is Danish. Matching the label alone would have preselected nothing
+// for a visitor whose form happened to be in English, silently, which is the one
+// failure mode this preselection exists to avoid.
 function findOption(options: any[], wanted: string) {
     const needle = wanted.trim().toLowerCase()
+    const named = (option: any, key: string) => option[key]?.toLowerCase() === needle
 
-    return options.find((option: any) => option.system_name?.toLowerCase() === needle)
-        ?? options.find((option: any) => option.label?.toLowerCase() === needle)
+    return options.find((option: any) => named(option, 'system_name'))
+        ?? options.find((option: any) => named(option, 'label'))
+        ?? options.find((option: any) => named(option, 'dk_name') || named(option, 'en_name'))
         ?? options.find((option: any) => option.value?.toLowerCase() === needle)
 }
 
@@ -545,6 +553,8 @@ async function fetchAllIndustries() {
                     value: industry?.uuid,
                     label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
                     system_name: industry.system_name,
+                    dk_name: industry.dk_name,
+                    en_name: industry.en_name,
                 })
             )
             state.options.industries = options
@@ -567,6 +577,8 @@ async function fetchAllFacilityTypes() {
                 (item: any) => options.push({
                     value: item?.uuid,
                     label: language.locale.value === 'en' ? item.en_name : item.dk_name,
+                    dk_name: item.dk_name,
+                    en_name: item.en_name,
                 })
             )
             state.options.typeOfFacilities = options

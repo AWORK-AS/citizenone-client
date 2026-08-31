@@ -129,15 +129,18 @@
         "groups": {
             "migration": "Migrering",
             "komIGang": "Kom i gang",
-            "born": "@.capitalize:terms.citizens{''}",
             "vagtplan": "Vagtplan",
             "medicin": "Medicin",
-            "dokumentation": "Dokumentation"
+            "dokumentation": "Dokumentation",
+            "people": "Borgere",
+            "patients": "Patienter",
+            "clinic": "Klinik & booking",
+            "cases": "Sager & jobcenter"
         },
         "steps": {
             "departments": {
                 "title": "Opret afdelinger",
-                "desc": "Afdelinger strukturerer personale, @:terms.citizens{''} og vagtplan.",
+                "desc": "Afdelinger strukturerer personale, journaler og vagtplan.",
                 "tip": "Fx \"Afdeling Nord\" og \"Afdeling Syd\".",
                 "cta": "Gå til Afdelinger"
             },
@@ -153,18 +156,8 @@
             },
             "import": {
                 "title": "Importér fra dit gamle system",
-                "desc": "Migrér @:terms.citizens{''}, ansatte, journaler og vagtplaner fra dit nuværende system (CSV eller Excel).",
+                "desc": "Migrér jeres data fra det nuværende system: personer, ansatte, journaler og vagtplaner (CSV eller Excel).",
                 "cta": "Start import"
-            },
-            "children": {
-                "title": "Opret @:terms.citizens{''}",
-                "desc": "Opret de @:terms.citizens{''} I arbejder med.",
-                "cta": "Gå til @.capitalize:terms.citizens{''}"
-            },
-            "childData": {
-                "title": "Stamdata & kontaktpersoner",
-                "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.",
-                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "shiftTypes": {
                 "title": "Opret vagttyper & regler",
@@ -186,13 +179,63 @@
                 "desc": "Tilføj medicintyper og doseringsformer.",
                 "cta": "Gå til Medicin"
             },
-            "templates": {
-                "title": "Statusskabeloner & planer",
-                "desc": "Opsæt skabeloner til status, planer og mål.",
-                "cta": "Gå til Indstillinger"
+            "citizens": {
+                "title": "Opret borgere",
+                "desc": "Opret de borgere I arbejder med.",
+                "cta": "Gå til Borgere"
+            },
+            "citizenData": {
+                "title": "Stamdata & kontaktpersoner",
+                "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.",
+                "cta": "Gå til Borgere"
+            },
+            "patients": {
+                "title": "Opret patienter",
+                "desc": "Opret jeres første patienter, eller importér dem fra det gamle system.",
+                "cta": "Gå til Patienter"
+            },
+            "patientData": {
+                "title": "Stamdata & tandkort",
+                "desc": "Udfyld stamdata, henvisende tandlæge og tandkort.",
+                "cta": "Gå til Patienter"
+            },
+            "openingHours": {
+                "title": "Åbningstider & behandlere",
+                "desc": "Sæt klinikkens åbningstider og hvem der tager patienter.",
+                "cta": "Gå til Virksomhed"
+            },
+            "booking": {
+                "title": "Åbn for booking",
+                "desc": "Lav de første aftaler, og lad patienterne selv booke tid.",
+                "cta": "Gå til Booking"
+            },
+            "caseTypes": {
+                "title": "Opret sagstyper",
+                "desc": "Definér de tilbud og sagstyper I leverer.",
+                "cta": "Gå til Sagstyper"
+            },
+            "jobcenters": {
+                "title": "Tilføj jobcentre",
+                "desc": "Registrér de jobcentre I samarbejder med, så henvisninger kan kobles på.",
+                "cta": "Gå til Jobcentre"
+            },
+            "journalTitles": {
+                "title": "Journalskabeloner",
+                "desc": "Opsæt de titler I journaliserer på, så notater bliver ens.",
+                "cta": "Gå til Journaltitler"
+            },
+            "journalContents": {
+                "title": "Foruddefineret notatindhold",
+                "desc": "Skriv det indhold der går igen, så det kan sættes ind med ét klik.",
+                "cta": "Gå til Journalindhold"
             }
         },
-        "title": "Opdag"
+        "title": "Opdag",
+        "appsPromo": {
+            "title": "Udvid med apps",
+            "desc": "Sikker Mail, booking, spørgeskemaer, FMK og resten af app-butikken kan slås til, når I har brug for dem.",
+            "cta": "Se app-butikken"
+        }
     },
     "2fa": {
         "2fa": "To-faktor-godkendelse",
