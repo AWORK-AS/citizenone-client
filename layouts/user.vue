@@ -39,8 +39,15 @@
                                 <nav class="flex flex-1 flex-col px-3 mt-2">
                                     <ul role="list" class="flex flex-1 flex-col gap-y-1">
                                         <li v-for="group in navigationGroups" :key="group.key" class="mt-3 first:mt-0">
-                                            <p class="sidebar-section-label">{{ $t(group.label) }}</p>
-                                            <ul role="list" class="space-y-0.5">
+                                            <button type="button" @click="toggleGroup(group.key)"
+                                                class="sidebar-section-label flex w-full items-center gap-1"
+                                                :aria-expanded="groupIsOpen(group)">
+                                                <Icon name="ph:caret-down"
+                                                    :class="['h-3 w-3 shrink-0 transition-transform', groupIsOpen(group) ? '' : '-rotate-90']"
+                                                    aria-hidden="true" />
+                                                <span>{{ $t(group.label) }}</span>
+                                            </button>
+                                            <ul role="list" v-show="groupIsOpen(group)" class="space-y-0.5">
                                                 <li v-for="item in group.items" :key="item.name">
                                                     <div @click="openNavItem(item); sidebarOpen = false"
                                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive']">
@@ -106,11 +113,16 @@
                         <li v-for="group in navigationGroups" :key="group.key" class="mt-3 first:mt-0">
                             <!-- Collapsed rail has no room for a heading, so the groups are
                                  separated by a hairline instead. The first group needs neither. -->
-                            <p v-if="sidebarExpanded" class="sidebar-section-label">
-                                {{ $t(group.label) }}
-                            </p>
+                            <button v-if="sidebarExpanded" type="button" @click="toggleGroup(group.key)"
+                                class="sidebar-section-label flex w-full items-center gap-1 hover:text-blue-200 transition-colors"
+                                :aria-expanded="groupIsOpen(group)">
+                                <Icon name="ph:caret-down"
+                                    :class="['h-3 w-3 shrink-0 transition-transform', groupIsOpen(group) ? '' : '-rotate-90']"
+                                    aria-hidden="true" />
+                                <span>{{ $t(group.label) }}</span>
+                            </button>
                             <div v-else-if="group.key !== navigationGroups[0]?.key" class="mx-3 my-2 border-t border-current opacity-10" />
-                            <ul role="list" class="space-y-0.5">
+                            <ul role="list" v-show="!sidebarExpanded || groupIsOpen(group)" class="space-y-0.5">
                                 <li v-for="item in group.items" :key="item.name">
                                     <div @click="openNavItem(item)"
                                         :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
@@ -609,6 +621,50 @@ const navigationGroups = computed(() =>
 
 const footerNavigation = computed(() => navigation.value.filter((item: any) => item.group === 'footer'))
 
+// Collapsible sections. A hover-out menu was the other option and is the worse
+// one here: it is harder to hit, it does not survive a touch screen, and it
+// buries the entries one level deeper than they already are. Collapsing puts
+// the choice with the person instead - a nurse folds away documentation, a
+// manager folds away daily work - and the sections stay visible either way.
+//
+// The choice is a per-browser convenience rather than a setting worth a column,
+// so it lives where the palette hint lives.
+const COLLAPSED_GROUPS_KEY = 'co_sidebar_collapsed_groups'
+const collapsedGroups = ref<string[]>([])
+
+onMounted(() => {
+    if (typeof localStorage === 'undefined') return
+    try {
+        const stored = JSON.parse(localStorage.getItem(COLLAPSED_GROUPS_KEY) || '[]')
+        if (Array.isArray(stored)) collapsedGroups.value = stored.filter((key) => typeof key === 'string')
+    } catch {
+        // A browser that will not hand back what it stored is not a reason to
+        // render no sidebar; every section simply starts open.
+    }
+})
+
+function toggleGroup(key: string) {
+    collapsedGroups.value = collapsedGroups.value.includes(key)
+        ? collapsedGroups.value.filter((entry) => entry !== key)
+        : [...collapsedGroups.value, key]
+    try {
+        localStorage.setItem(COLLAPSED_GROUPS_KEY, JSON.stringify(collapsedGroups.value))
+    } catch {
+        // Private windows and blocked site data: the fold still works for this
+        // visit, it just is not remembered.
+    }
+}
+
+/**
+ * A folded section still opens when the page you are on lives inside it, so the
+ * sidebar never hides where you actually are.
+ */
+function groupIsOpen(group: any): boolean {
+    if (!collapsedGroups.value.includes(group.key)) return true
+    return group.items.some((item: any) => item.activeRouteNames?.includes(route.name as string))
+}
+
+
 // "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
 // per Allan's feedback, once onboarding is fully done it should disappear from
 // the sidebar too, not just the tab, so it doesn't look like something's still
@@ -840,6 +896,8 @@ function getNavItemLabel(item: any) {
 // Global command palette (⌘K): sidebar navigation + any commands the current
 // page contributes via useCommandPalette().
 const { pageCommands, open: openCommandPalette } = useCommandPalette()
+const { allItems: settingsCatalog } = useSettingsCatalog()
+const isAdmin = computed(() => userStore.getUser?.roles?.some((role: any) => role.name === 'Admin'))
 const commandPaletteItems = computed(() => {
     const _user = userStore.getUser // recompute when sidebar links rebuild
     const _locale = language.locale.value // recompute when labels change
@@ -850,7 +908,32 @@ const commandPaletteItems = computed(() => {
         label: getNavItemLabel(item),
         run: () => navigateTo(item.href),
     }))
-    return [...pageCommands.value, ...nav]
+
+    // The settings were unreachable by search: the palette was built from the
+    // sidebar, and the sidebar has one entry for some fifty settings pages. So
+    // the only way to a setting was already knowing its name and where the
+    // catalog keeps it. They stay out of the resting list and appear as soon as
+    // anything is typed, findable by the page they configure as well as by
+    // their own name.
+    const settings = isAdmin.value
+        ? settingsCatalog.value.map((entry: any) => {
+            const label = entry.isTranslateName ? language.t(entry.name) : entry.name
+            const pages = routeKeysForSettingsHref(entry.href)
+                .map((key) => (navigation.value || []).find((item: any) => item.activeRouteNames?.includes(key)))
+                .map((item: any) => item ? getNavItemLabel(item) : '')
+            return {
+                id: 'settings-' + entry.href,
+                group: language.t('commandPalette.settings'),
+                icon: 'ph:sliders-horizontal',
+                label,
+                keywords: [label, ...pages, ...routeKeysForSettingsHref(entry.href)].join(' '),
+                onlyWhenSearching: true,
+                run: () => navigateTo(entry.href),
+            }
+        })
+        : []
+
+    return [...pageCommands.value, ...nav, ...settings]
 })
 
 // One-time "did you know?" hint pointing at the ⌘K button.
