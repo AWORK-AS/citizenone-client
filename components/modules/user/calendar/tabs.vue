@@ -26,6 +26,16 @@ const state = reactive({
                 'calendar-bookings-settings',
             ]
         },
+        {
+            // The times patients have actually taken. The bookings tab beside
+            // it is what a clinic offers; this is what came back.
+            name: 'calendar.tabs.appointments',
+            isTranslateName: true,
+            href: `/calendar/bookings/appointments`,
+            routeNames: [
+                'calendar-bookings-appointments',
+            ]
+        },
     ] as any
 })
 
@@ -35,6 +45,9 @@ function changeTab(value: any) {
     }
     else if (value === t('calendar.tabs.bookings')) {
         navigateTo(`/calendar/bookings`)
+    }
+    else if (value === t('calendar.tabs.appointments')) {
+        navigateTo(`/calendar/bookings/appointments`)
     }
 }
 </script>

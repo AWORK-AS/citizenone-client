@@ -42,6 +42,29 @@
                 <Icon name="ph:pencil-simple"
                     class="size-3.5 text-gray-300 transition group-hover:text-gray-500" />
             </button>
+            <!-- The recall work list has always known when this patient was last
+                 called in, and been the only place that could record it. From
+                 the patient's own screen a colleague who has just rung leaves no
+                 trace, and the natural next thing - a time in the book - was a
+                 tab away with the date typed in again. -->
+            <p class="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-gray-500"
+                v-if="props.patient.next_checkup_due">
+                <span v-if="props.patient.last_reminder_sent_at">
+                    {{ $t('citizens.toothChart.strip.lastRecalled') }}
+                    {{ formatDate(props.patient.last_reminder_sent_at) }}
+                </span>
+                <span v-else>{{ $t('citizens.toothChart.strip.neverRecalled') }}</span>
+                <span v-if="props.patient.manual_recall_reason" class="text-gray-600">
+                    &middot; {{ props.patient.manual_recall_reason }}
+                </span>
+                <button type="button" class="underline hover:text-gray-700"
+                    :disabled="state.isRecalling" @click="recall">
+                    {{ $t('citizens.toothChart.strip.recallNow') }}
+                </button>
+                <button type="button" class="underline hover:text-gray-700" @click="bookTime">
+                    {{ $t('citizens.toothChart.strip.bookTime') }}
+                </button>
+            </p>
         </div>
 
         <div v-if="props.lastExamination">
@@ -90,6 +113,29 @@
                 </div>
             </div>
 
+            <!-- The routine interval was the only thing that could put a patient
+                 on the recall list, so "ring her in three weeks about that
+                 filling" lived on a note by the chair. -->
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-4 gap-3 items-end border-t border-slate-100 pt-3">
+                <div class="space-y-1">
+                    <FormLabel for="manual_recall_date"
+                        :label="$t('citizens.toothChart.strip.manualRecallDate')" />
+                    <FormDateField id="manual_recall_date" name="manual_recall_date"
+                        :placeholder="$t('citizens.toothChart.strip.manualRecallDate')"
+                        v-model="state.form.manual_recall_date" />
+                </div>
+                <div class="space-y-1 sm:col-span-3">
+                    <FormLabel for="manual_recall_reason"
+                        :label="$t('citizens.toothChart.strip.manualRecallReason')" />
+                    <FormTextField id="manual_recall_reason" name="manual_recall_reason"
+                        :placeholder="$t('citizens.toothChart.strip.manualRecallReasonPlaceholder')"
+                        v-model="state.form.manual_recall_reason" />
+                </div>
+            </div>
+            <p class="mt-1 text-xs text-gray-500">
+                {{ $t('citizens.toothChart.strip.manualRecallHelp') }}
+            </p>
+
             <p class="mt-2 text-xs text-gray-500">{{ $t('citizens.toothChart.strip.checkupHelp') }}</p>
 
             <div class="mt-3 flex items-center justify-end gap-2">
@@ -108,6 +154,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { toothChartService } from '@/components/api/user/ToothChartService'
+import { dentalRecallService } from '@/components/api/user/DentalRecallService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -120,17 +167,20 @@ const props = defineProps<{
 const emit = defineEmits<{ (event: 'saved'): void }>()
 
 const { t } = useI18n()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 
 const state = reactive({
     isEditing: false,
     isSaving: false,
+    isRecalling: false,
     error: '',
     form: {
         last_checkup_date: '',
         checkup_interval_months: null as number | null,
         recall_channel: null as string | null,
         auto_reminder: true,
+        manual_recall_date: '',
+        manual_recall_reason: '',
     },
 })
 
@@ -150,6 +200,8 @@ function fillForm() {
         checkup_interval_months: props.patient?.checkup_interval_months ?? null,
         recall_channel: props.patient?.recall_channel || null,
         auto_reminder: props.patient?.auto_reminder ?? true,
+        manual_recall_date: props.patient?.manual_recall_date || '',
+        manual_recall_reason: props.patient?.manual_recall_reason || '',
     }
 }
 
@@ -168,6 +220,8 @@ async function save() {
             checkup_interval_months: state.form.checkup_interval_months || null,
             recall_channel: state.form.recall_channel || null,
             auto_reminder: state.form.auto_reminder,
+            manual_recall_date: state.form.manual_recall_date || null,
+            manual_recall_reason: state.form.manual_recall_reason || null,
         })
 
         successAlert(`${t('alert.success')}!`, `${t('citizens.toothChart.strip.checkupSaved')}.`)
@@ -233,5 +287,37 @@ function danmarkKey(value: string): string {
 
 function formatDate(date: string): string {
     return date ? moment(date).format('DD.MM.YYYY') : ''
+}
+
+/**
+ * Records that this patient has been called back in.
+ *
+ * The same act the recall work list performs, from the screen where the
+ * conversation actually happens. It stops the automatic reminder repeating what
+ * a colleague just did by hand, which is the whole reason the timestamp exists.
+ */
+async function recall() {
+    state.isRecalling = true
+
+    try {
+        await dentalRecallService.markContacted(props.citizenUuid)
+        successAlert(`${t('alert.success')}!`, `${t('citizens.toothChart.strip.recalled')}.`)
+        emit('saved')
+    } catch (error: any) {
+        errorAlert(`${t('alert.error')}!`, error?.message || '')
+    } finally {
+        state.isRecalling = false
+    }
+}
+
+/**
+ * Opens the patient's own calendar on the day they are due, because the point
+ * of calling someone in is to give them a time.
+ */
+function bookTime() {
+    navigateTo({
+        path: `/citizens/${props.citizenUuid}/calendar`,
+        query: { date: props.patient?.next_checkup_due },
+    })
 }
 </script>
