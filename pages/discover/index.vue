@@ -304,6 +304,7 @@ const moduleOptions = computed(() => [
     { key: 'medicin', icon: 'ph:pill' },
     { key: 'dokumentation', icon: 'ph:files' },
     { key: 'useOfForce', icon: 'ph:shield-warning' },
+    { key: 'carePlans', icon: 'ph:target' },
     { key: 'predefinedContent', icon: 'ph:list-bullets' },
     // Quoting before treatment is a way of working, not a thing every clinic
     // does, and it exists for no other industry - so it is only worth asking a
@@ -315,7 +316,7 @@ const moduleOptions = computed(() => [
 
 const modules = reactive<Record<string, boolean>>({
     vagtplan: true, medicin: true, dokumentation: true,
-    useOfForce: true, predefinedContent: true, priceEstimates: true,
+    useOfForce: true, carePlans: true, predefinedContent: true, priceEstimates: true,
 })
 
 const state = reactive({

@@ -122,6 +122,7 @@
             "medicin": "Medicin",
             "dokumentation": "Dokumentation (planer, status, dokument)",
             "useOfForce": "Våldsanvändning",
+            "carePlans": "Handlingsplaner",
             "predefinedContent": "Fördefinierat anteckningsinnehåll",
             "priceEstimates": "Prisförslag till patienter"
         },

@@ -122,6 +122,7 @@
             "medicin": "Medicine",
             "dokumentation": "Documentation (plans, status, documents)",
             "useOfForce": "Use of force",
+            "carePlans": "Care plans",
             "predefinedContent": "Predefined note content",
             "priceEstimates": "Price estimates for patients"
         },

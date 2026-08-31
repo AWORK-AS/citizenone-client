@@ -37,7 +37,9 @@
                                                     class="w-6 h-6 cursor-pointer text-primary"
                                                     @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)" />
                                             </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.followUps')">
+                                            <!-- Follow-ups belong to care plans. A dental clinic
+                                                 writes none, and the bell sat on every patient. -->
+                                            <Tooltip :text="$t('plansandgoals.followUps')" v-if="hasCarePlans">
                                                 <div class="relative inline-flex mx-1 cursor-pointer"
                                                     @click="state.modal.isFollowUpNotificationsOpen = true">
                                                     <Icon name="ph:bell-ringing-light" class="w-6 h-6 text-primary" />
@@ -476,6 +478,9 @@ const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
 
+// Care plans, their follow-ups and the score that feeds the development graph. Off for an
+// industry that writes no care plans; the company can switch it back on under "What do you use?".
+const hasCarePlans = computed(() => userStore.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
 const { isAtLeast, can } = usePermissions()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
 
