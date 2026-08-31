@@ -25,6 +25,12 @@
                     </div>
                 </div>
 
+                <div class="flex justify-end mb-3" v-if="canRequestCompensatoryTime">
+                    <FormButton buttonStyle="action" @click="state.isRequestCompensatoryTimeOpen = true">
+                        {{ $t('dutySchedules.compensatoryTimeRequests.newRequest') }}
+                    </FormButton>
+                </div>
+
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="update" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
@@ -34,14 +40,19 @@
                 </LoadingSpinner>
             </template>
         </Modal>
+        <ModulesUserDutyScheduleCompensatoryTimeRequestsModalNew :isModalOpen="state.isRequestCompensatoryTimeOpen"
+            :schedule="props.selectedEmployeeSchedule" @close="state.isRequestCompensatoryTimeOpen = false"
+            @success="state.isRequestCompensatoryTimeOpen = false; closeModal()" />
     </div>
 </template>
 
 <script setup lang="ts">
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
+import { useUserStore } from '@/store/user'
 
 const { locale } = useI18n()
+const userStore = useUserStore() as any
 
 const props = defineProps({
     error: {
@@ -75,6 +86,7 @@ const emit = defineEmits(['close', 'updateShift', 'resetEditShiftError', 'resetS
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    isRequestCompensatoryTimeOpen: false,
     formShift: {
         shift_type: '',
         is_sleeping_sick_leave: false,
@@ -141,6 +153,17 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
         state.formShift.use_compensatory_time = selectedEmployeeSchedule?.use_compensatory_time
         state.formShift.recurring.is_recurring = selectedEmployeeSchedule?.recurring.is_recurring
     }
+})
+
+const canRequestCompensatoryTime = computed(() => {
+    if (!userStore.getUser?.company?.compensatory_time_enabled) return false
+
+    const schedule = props.selectedEmployeeSchedule
+    if (!schedule?.scheduleUuid) return false
+    if (userStore.getUser?.uuid !== schedule?.user_uuid) return false
+    if (schedule?.shift_type?.is_leave_shift_type) return false
+
+    return new Date(schedule?.date_time_start).getTime() > Date.now()
 })
 
 function closeModal() {

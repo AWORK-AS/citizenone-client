@@ -4582,6 +4582,55 @@
                 }
             }
         },
+        "compensatoryTimeRequests": {
+            "alert": {
+                "requestSuccessfullySent": "Forespørsel om avspasering ble sendt"
+            },
+            "compensatoryTimeRequests": "Forespørsler om avspasering",
+            "hours": "Timer",
+            "newRequest": "Be om avspasering",
+            "noAccount": "Du har ingen avspaseringskonto.",
+            "selectAccount": "Velg en avspaseringskonto.",
+            "sendRequest": "Send forespørsel",
+            "shift": "Vakt",
+            "timeAccount": "Tidskonto",
+            "table": {
+                "actions": {
+                    "approve": "Godkjenn",
+                    "decline": "Avslå",
+                    "reverse": "Reverser",
+                    "withdraw": "Trekk tilbake"
+                },
+                "alert": {
+                    "successfullyApproved": "Forespørsel om avspasering ble godkjent",
+                    "successfullyDeclined": "Forespørsel om avspasering ble avslått",
+                    "successfullyReversed": "Forespørsel om avspasering ble reversert",
+                    "successfullyWithdrawn": "Forespørsel om avspasering ble trukket tilbake"
+                },
+                "confirmation": {
+                    "approveConfirmation": "Er du sikker på at du vil godkjenne denne forespørselen om avspasering?",
+                    "declineComment": "Kommentar (valgfri)",
+                    "declineCommentPlaceholder": "Legg til en begrunnelse den ansatte kan se",
+                    "declineConfirmation": "Er du sikker på at du vil avslå denne forespørselen om avspasering?",
+                    "reverseComment": "Kommentar (valgfri)",
+                    "reverseCommentPlaceholder": "Legg til en begrunnelse den ansatte kan se",
+                    "reverseConfirmation": "Er du sikker på at du vil reversere denne godkjente forespørselen om avspasering?",
+                    "withdrawConfirmation": "Er du sikker på at du vil trekke tilbake denne forespørselen om avspasering?"
+                },
+                "dateTimeEnd": "Sluttdato og -tid",
+                "dateTimeStart": "Startdato og -tid",
+                "declineComment": "Kommentar",
+                "hours": "Timer",
+                "status": {
+                    "approved": "Godkjent",
+                    "declined": "Avslått",
+                    "pending": "Venter",
+                    "reversed": "Reversert",
+                    "status": "Status",
+                    "withdrawn": "Trukket tilbake"
+                }
+            }
+        },
         "shiftRequests": {
             "form": {
                 "alert": {
@@ -9720,6 +9769,7 @@
                 "employmentWeeklyHours": "Ukentlige arbeidstimer (fakturering for sysselsettingsinnsats)",
                 "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",
                 "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
+                "compensatoryTimeEnabled": "Aktiver avspasering",
                 "lockPastSchedules": "Lås tidligere vaktplaner",
                 "lockShiftsBeforeDate": "Lås vakter før dato",
                 "clearLockShiftsBeforeDate": "Fjern dato",
