@@ -39,8 +39,15 @@
                                 <nav class="flex flex-1 flex-col px-3 mt-2">
                                     <ul role="list" class="flex flex-1 flex-col gap-y-1">
                                         <li v-for="group in navigationGroups" :key="group.key" class="mt-3 first:mt-0">
-                                            <p class="sidebar-section-label">{{ $t(group.label) }}</p>
-                                            <ul role="list" class="space-y-0.5">
+                                            <button type="button" @click="toggleGroup(group.key)"
+                                                class="sidebar-section-label flex w-full items-center gap-1"
+                                                :aria-expanded="groupIsOpen(group)">
+                                                <Icon name="ph:caret-down"
+                                                    :class="['h-3 w-3 shrink-0 transition-transform', groupIsOpen(group) ? '' : '-rotate-90']"
+                                                    aria-hidden="true" />
+                                                <span>{{ $t(group.label) }}</span>
+                                            </button>
+                                            <ul role="list" v-show="groupIsOpen(group)" class="space-y-0.5">
                                                 <li v-for="item in group.items" :key="item.name">
                                                     <div @click="openNavItem(item); sidebarOpen = false"
                                                         :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive']">
@@ -106,11 +113,16 @@
                         <li v-for="group in navigationGroups" :key="group.key" class="mt-3 first:mt-0">
                             <!-- Collapsed rail has no room for a heading, so the groups are
                                  separated by a hairline instead. The first group needs neither. -->
-                            <p v-if="sidebarExpanded" class="sidebar-section-label">
-                                {{ $t(group.label) }}
-                            </p>
+                            <button v-if="sidebarExpanded" type="button" @click="toggleGroup(group.key)"
+                                class="sidebar-section-label flex w-full items-center gap-1 hover:text-blue-200 transition-colors"
+                                :aria-expanded="groupIsOpen(group)">
+                                <Icon name="ph:caret-down"
+                                    :class="['h-3 w-3 shrink-0 transition-transform', groupIsOpen(group) ? '' : '-rotate-90']"
+                                    aria-hidden="true" />
+                                <span>{{ $t(group.label) }}</span>
+                            </button>
                             <div v-else-if="group.key !== navigationGroups[0]?.key" class="mx-3 my-2 border-t border-current opacity-10" />
-                            <ul role="list" class="space-y-0.5">
+                            <ul role="list" v-show="!sidebarExpanded || groupIsOpen(group)" class="space-y-0.5">
                                 <li v-for="item in group.items" :key="item.name">
                                     <div @click="openNavItem(item)"
                                         :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
@@ -286,6 +298,9 @@
                                 {{ userStore.getUser?.unread_messages_count ?? 0 }}
                             </Badge>
                         </button>
+
+                        <!-- Settings behind the page currently open -->
+                        <ModulesUserNavbarPageSettings />
 
                         <!-- Bulletin board, release notes and support -->
                         <ModulesUserNavbarHelpMenu
@@ -576,7 +591,8 @@ const customSidebarLinksStore = useCustomSidebarLinksStore()
 const assistantStore = useAssistantStore()
 const { isAtLeast, can } = usePermissions()
 const language = useI18n()
-const { term } = useTerminology()
+const { term, citizensLabel } = useTerminology()
+const { industryHasFeature } = useIndustryFeatures()
 const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
@@ -605,6 +621,50 @@ const navigationGroups = computed(() =>
         .filter((group) => group.items.length > 0))
 
 const footerNavigation = computed(() => navigation.value.filter((item: any) => item.group === 'footer'))
+
+// Collapsible sections. A hover-out menu was the other option and is the worse
+// one here: it is harder to hit, it does not survive a touch screen, and it
+// buries the entries one level deeper than they already are. Collapsing puts
+// the choice with the person instead - a nurse folds away documentation, a
+// manager folds away daily work - and the sections stay visible either way.
+//
+// The choice is a per-browser convenience rather than a setting worth a column,
+// so it lives where the palette hint lives.
+const COLLAPSED_GROUPS_KEY = 'co_sidebar_collapsed_groups'
+const collapsedGroups = ref<string[]>([])
+
+onMounted(() => {
+    if (typeof localStorage === 'undefined') return
+    try {
+        const stored = JSON.parse(localStorage.getItem(COLLAPSED_GROUPS_KEY) || '[]')
+        if (Array.isArray(stored)) collapsedGroups.value = stored.filter((key) => typeof key === 'string')
+    } catch {
+        // A browser that will not hand back what it stored is not a reason to
+        // render no sidebar; every section simply starts open.
+    }
+})
+
+function toggleGroup(key: string) {
+    collapsedGroups.value = collapsedGroups.value.includes(key)
+        ? collapsedGroups.value.filter((entry) => entry !== key)
+        : [...collapsedGroups.value, key]
+    try {
+        localStorage.setItem(COLLAPSED_GROUPS_KEY, JSON.stringify(collapsedGroups.value))
+    } catch {
+        // Private windows and blocked site data: the fold still works for this
+        // visit, it just is not remembered.
+    }
+}
+
+/**
+ * A folded section still opens when the page you are on lives inside it, so the
+ * sidebar never hides where you actually are.
+ */
+function groupIsOpen(group: any): boolean {
+    if (!collapsedGroups.value.includes(group.key)) return true
+    return group.items.some((item: any) => item.activeRouteNames?.includes(route.name as string))
+}
+
 
 // "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
 // per Allan's feedback, once onboarding is fully done it should disappear from
@@ -798,6 +858,7 @@ function getNavItemLabel(item: any) {
     if (item.rawLabel) return item.name
     if (item.name === 'Overview') return t('sidebar.overview')
     if (item.name === 'Discover') return t('sidebar.discover')
+    // The store already holds the resolved word - see setCustomPageNames.
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Invoicing') return t('sidebar.invoicing')
     if (item.name === 'DentalOverview') return t('sidebar.dentalOverview')
@@ -830,6 +891,8 @@ function getNavItemLabel(item: any) {
 // Global command palette (⌘K): sidebar navigation + any commands the current
 // page contributes via useCommandPalette().
 const { pageCommands, open: openCommandPalette } = useCommandPalette()
+const { allItems: settingsCatalog } = useSettingsCatalog()
+const isAdmin = computed(() => userStore.getUser?.roles?.some((role: any) => role.name === 'Admin'))
 const commandPaletteItems = computed(() => {
     const _user = userStore.getUser // recompute when sidebar links rebuild
     const _locale = language.locale.value // recompute when labels change
@@ -840,7 +903,32 @@ const commandPaletteItems = computed(() => {
         label: getNavItemLabel(item),
         run: () => navigateTo(item.href),
     }))
-    return [...pageCommands.value, ...nav]
+
+    // The settings were unreachable by search: the palette was built from the
+    // sidebar, and the sidebar has one entry for some fifty settings pages. So
+    // the only way to a setting was already knowing its name and where the
+    // catalog keeps it. They stay out of the resting list and appear as soon as
+    // anything is typed, findable by the page they configure as well as by
+    // their own name.
+    const settings = isAdmin.value
+        ? settingsCatalog.value.map((entry: any) => {
+            const label = entry.isTranslateName ? language.t(entry.name) : entry.name
+            const pages = routeKeysForSettingsHref(entry.href)
+                .map((key) => (navigation.value || []).find((item: any) => item.activeRouteNames?.includes(key)))
+                .map((item: any) => item ? getNavItemLabel(item) : '')
+            return {
+                id: 'settings-' + entry.href,
+                group: language.t('commandPalette.settings'),
+                icon: 'ph:sliders-horizontal',
+                label,
+                keywords: [label, ...pages, ...routeKeysForSettingsHref(entry.href)].join(' '),
+                onlyWhenSearching: true,
+                run: () => navigateTo(entry.href),
+            }
+        })
+        : []
+
+    return [...pageCommands.value, ...nav, ...settings]
 })
 
 // One-time "did you know?" hint pointing at the ⌘K button.
@@ -916,7 +1004,7 @@ function generateSidebarLinks(user: any) {
     }
     // The recall list only exists for dental clinics, the same rule the tabs
     // and the API use.
-    if (user?.company?.industry?.system_name === 'dental') {
+    if (industryHasFeature('clinicOverview')) {
         nav.push({
             name: 'DentalOverview',
             href: '/dental-overview',
@@ -1064,7 +1152,12 @@ function generateSidebarLinks(user: any) {
     // palette is built from the sidebar, so search could not find them either.
     // Shown only to whoever may actually manage them - everyone else reaches a
     // template through "Create report" on the citizen and never needs the page.
-    if (isAtLeast('Admin') || can('save_and_download_citizen_plan')) {
+    // Care plans are a module rather than a page - the follow-up bell and the
+    // journal score live inside the citizen screen - so nothing in the industry
+    // page set could reach this export. A dental clinic, which the industry
+    // defaults switch care plans off for, still met it in the menu.
+    const hasCarePlans = user?.company?.onboarding_preferences?.modules?.carePlans !== false
+    if (hasCarePlans && (isAtLeast('Admin') || can('save_and_download_citizen_plan'))) {
         nav.push({
             name: 'Plans And Goals Export',
             href: '/reports/plans-and-goals-export',
@@ -1090,9 +1183,8 @@ function generateSidebarLinks(user: any) {
 
     // One economy area rather than three addresses nobody could tell apart:
     // how it is going, what was earned, and what has to be invoiced.
-    // TEMP DEBUG BYPASS: forcing true to preview locally, revert before commit.
-    const hasEconomyOverview = true || (user?.company?.industry?.system_name === 'social_welfare'
-        && user?.pages?.some((page: any) => page.name === 'Management & Economy'))
+    const hasEconomyOverview = user?.company?.industry?.system_name === 'social_welfare'
+        && user?.pages?.some((page: any) => page.name === 'Management & Economy')
     const hasEmploymentEconomy = user?.company?.industry?.system_name === 'employment_services'
         && (companyHasModule('Billing') || companyHasModule('Revenue report'))
 
@@ -1157,7 +1249,11 @@ function setCustomPageNames() {
     const cp = (p: string) => userStore.getUser?.custom_pages?.find((i: any) => i.page_type === p)
     const n = (p: any) => sl === 'en' ? p?.en_name : p?.dk_name
     customPagesStore.setAddictionsNaming(n(cp('addictions')))
-    customPagesStore.setCitizensNaming(n(cp('citizens')))
+    // Resolved here rather than at each of the seventy places that read it: a
+    // breadcrumb, a tab and a page heading all named the person, and all of them
+    // read the seeded standard word instead of the company's own term - so a
+    // dental clinic said Patienter in the menu and Borgere in the crumb above it.
+    customPagesStore.setCitizensNaming(citizensLabel(n(cp('citizens')), language.t('sidebar.citizens')))
     customPagesStore.setDepartmentNaming(n(cp('department')))
     customPagesStore.setDutySchedulesNaming(n(cp('duty_schedules')))
     customPagesStore.setRiskAssessmentNaming(n(cp('risk_assessment')))

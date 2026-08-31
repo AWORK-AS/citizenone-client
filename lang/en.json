@@ -123,7 +123,8 @@
             "dokumentation": "Documentation (plans, status, documents)",
             "useOfForce": "Use of force",
             "carePlans": "Care plans",
-            "predefinedContent": "Predefined note content"
+            "predefinedContent": "Predefined note content",
+            "priceEstimates": "Price estimates for patients"
         },
         "groups": {
             "migration": "Migration",
@@ -920,7 +921,7 @@
             "birthday": "Birthdays",
             "dutyShift": "Duty Shift Rule",
             "incidents": "Incidents",
-            "messages": "Messages",
+            "messages": "Chat",
             "notes": "Notes",
             "other": "Other",
             "plansGoals": "Plans & Goals",
@@ -991,7 +992,9 @@
             "linkCopied": "Copied!",
             "onlineBookingLink": "Online Booking link",
             "onlineBookingLinkLabel": "The link to your public online booking page",
-            "phone": "Phone"
+            "phone": "Phone",
+            "notifyTeam": "Tell the whole clinic",
+            "notifyTeamHelp": "The clinician is always told. Turn this on if colleagues should be too, so they can cover for each other."
         }
     },
     "bookingTags": {
@@ -1258,7 +1261,8 @@
             "viewEvent": "View event",
             "viewFutureEvents": "View future events",
             "viewSignUpForm": "View sign up form"
-        }
+        },
+        "landsInCalendar": "A booked time is placed in the clinician's calendar automatically. Cancel the booking and it disappears again."
     },
     "bulletBoard": {
         "attachments": "Attachments",
@@ -1296,7 +1300,8 @@
         },
         "tabs": {
             "bookings": "Bookings",
-            "events": "Events"
+            "events": "Events",
+            "appointments": "Booked times"
         },
         "today": "Today",
         "view": {
@@ -3703,7 +3708,16 @@
                 "setCheckup": "Set a check-up",
                 "everyMonths": "Every {months} months",
                 "checkupSaved": "Check-up updated",
-                "checkupHelp": "The next check-up is the last one plus the interval."
+                "checkupHelp": "The next check-up is the last one plus the interval.",
+                "lastRecalled": "Last recalled",
+                "neverRecalled": "Never recalled",
+                "recallNow": "Recall",
+                "recalled": "The recall has been recorded",
+                "bookTime": "Book a time",
+                "manualRecallDate": "Recall on",
+                "manualRecallReason": "Reason",
+                "manualRecallReasonPlaceholder": "e.g. watching the filling in 5-6",
+                "manualRecallHelp": "Set a date here to call the patient in before the next routine check-up. The reason is shown to the clinic only. It lapses on its own once the patient has been seen."
             },
             "history": {
                 "label": "Show an earlier examination:",
@@ -3752,11 +3766,31 @@
                 "noTooth": "No tooth",
                 "note": "Notes",
                 "notePlaceholder": "For example what the price assumes",
-                "needsALine": "Add at least one treatment"
+                "needsALine": "Add at least one treatment",
+                "service": "Service",
+                "ownLine": "Own line"
             },
             "plan": "Plan",
             "markDone": "Mark done",
-            "done": "Done"
+            "done": "Done",
+            "invoiced": "Invoiced",
+            "leftToSettle": "Left to settle",
+            "settleNow": "Settle now",
+            "createInvoice": "Create invoice",
+            "settleTitle": "Settle treatment",
+            "settleExplanation": "Raises the invoice for the completed lines and records the payment at once. Use it when the patient pays in the clinic.",
+            "paymentMethod": "Payment method",
+            "settled": "Settled",
+            "invoiceCreated": "Invoice created",
+            "methods": {
+                "card": "Card",
+                "terminal": "Terminal",
+                "mobilepay": "MobilePay",
+                "cash": "Cash"
+            },
+            "nextStepMarkDone": "Mark the treatments as carried out, and they can be invoiced from here.",
+            "nextStepSettle": "The treatment is carried out and ready to settle.",
+            "nextStepInvoiced": "Everything on this estimate has been invoiced. See the invoice under"
         },
         "invoices": {
             "newTitle": "Create invoice",
@@ -6679,7 +6713,8 @@
         "didYouKnowDismiss": "Got it",
         "empty": "No results",
         "navigate": "Go to",
-        "citizen": "@.capitalize:terms.citizen{''}"
+        "citizen": "@.capitalize:terms.citizen{''}",
+        "settings": "Settings"
     },
     "shortcuts": {
         "title": "Keyboard shortcuts",
@@ -10191,7 +10226,7 @@
         "dutySchedules": "Duty schedules",
         "leads": "Leads",
         "mail": "Mail",
-        "messages": "Messages",
+        "messages": "Chat",
         "overview": "Overview",
         "protocols": "Protocols",
         "reports": "Reports",
@@ -13553,7 +13588,8 @@
         "empty": {
             "title": "No recalls",
             "text": "No patients are due in the selected period."
-        }
+        },
+        "manualRecall": "Recalled by a clinician"
     },
     "dentalOverview": {
         "title": "Clinic overview",
@@ -14474,5 +14510,27 @@
             "title": "No forms sent yet",
             "text": "Send a form for the patient to fill in at home. The answers land in the journal."
         }
+    },
+    "pageSettings": {
+        "title": "Settings for this page",
+        "forThisPage": "Settings for this page",
+        "allSettings": "All settings"
+    },
+    "bookingAppointments": {
+        "intro": "Times patients have taken. If a colleague has to cover, the booking can be handed over without the patient booking again.",
+        "when": "When",
+        "who": "Who",
+        "treatment": "Treatment",
+        "with": "With",
+        "handOver": "Hand over",
+        "handOverTitle": "Hand the booking over",
+        "handOverExplanation": "The patient keeps their time. It moves to the colleague's calendar, and the colleague is told.",
+        "colleague": "Colleague",
+        "handedOver": "The booking has been handed over",
+        "takenOver": "Taken over",
+        "none": "No booked times in this period",
+        "from": "From",
+        "to": "To",
+        "noColleagues": "There is nobody else at the clinic to hand the booking to."
     }
 }

@@ -208,6 +208,7 @@ import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
+const { industryHasFeature } = useIndustryFeatures()
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
@@ -248,7 +249,7 @@ const state = reactive({
 // The chart only exists for dental clinics; anyone else is sent back to the
 // citizen's journals rather than shown an endless spinner.
 watch(() => userStore.getUser, (user: any) => {
-    if (user?.uuid && user?.company?.industry?.system_name !== 'dental') {
+    if (user?.uuid && !industryHasFeature('toothChart')) {
         navigateTo(`/citizens/${citizenUuid}/journals`)
     }
 }, { immediate: true })

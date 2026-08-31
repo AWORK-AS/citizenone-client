@@ -80,6 +80,11 @@ type TermKey = 'journals' | 'journal' | 'journalNoteTag' | 'journalNotes' | 'cas
  */
 export function useTerminology() {
     const userStore = useUserStore() as any
+    // useI18n() may only be called while a component is setting up. Calling it
+    // inside tt() meant every use from an event handler or a callback - a toast
+    // after saving, a confirm before deleting - threw instead of returning a
+    // sentence, and took the page down with it.
+    const { t: translate, locale } = useI18n()
 
     function term(key: TermKey, fallback: string): string {
         const company = userStore.getUser?.company
@@ -113,7 +118,6 @@ export function useTerminology() {
      * indsatserne), and a wrong guess would land in the customer's own UI.
      */
     function tt(key: string, params: Record<string, any> = {}): string {
-        const { t, locale } = useI18n()
         const defaults = CITIZEN_DEFAULTS[String(locale.value)] ?? CITIZEN_DEFAULTS.dk
 
         const citizen = term('citizen', defaults.citizen)
@@ -121,7 +125,7 @@ export function useTerminology() {
         const citizens = term('citizens', defaults.citizens)
         const theCitizens = term('citizensDefinite', defaults.theCitizens)
 
-        return t(key, {
+        return translate(key, {
             citizen,
             theCitizen,
             citizens,
@@ -134,5 +138,31 @@ export function useTerminology() {
         })
     }
 
-    return { term, tt }
+    /**
+     * The company's word with a capital first letter, for places that name a
+     * thing rather than talk about it - a menu entry, a page heading, a tab.
+     * The terms are stored lower-case ("patienter"), so a raw term() there
+     * would read "patienter" in a list of otherwise capitalised labels.
+     */
+    function termTitle(key: TermKey, fallback: string): string {
+        const value = term(key, fallback)
+        return value === fallback ? value : upperFirst(value)
+    }
+
+    /**
+     * What to call the person, given whatever the company's custom page name
+     * holds. Every company is seeded that name with the standard word, so
+     * taking it whenever it is set would mean the seed always beats the term a
+     * company or its industry actually chose. A name equal to the standard word
+     * is the seed, not a rename.
+     *
+     * Resolved once where the store is filled, so the seventy places that read
+     * the store get the right word without each having to know this rule.
+     */
+    function citizensLabel(customName: string | null | undefined, standard: string): string {
+        const renamed = (customName || '').trim()
+        return renamed && renamed !== standard ? renamed : termTitle('citizens', standard)
+    }
+
+    return { term, termTitle, citizensLabel, tt }
 }

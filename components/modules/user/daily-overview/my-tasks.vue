@@ -36,6 +36,7 @@
 <script setup lang="ts">
 import { taskService } from '@/components/api/user/TaskService'
 
+const { formatDateToReadable } = useDatetimeFormatter()
 const state = reactive({
     tasks: [] as any[],
 })
