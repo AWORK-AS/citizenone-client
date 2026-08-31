@@ -1256,7 +1256,8 @@
         },
         "tabs": {
             "bookings": "Bookings",
-            "events": "Events"
+            "events": "Events",
+            "appointments": "Booked times"
         },
         "today": "Today",
         "view": {
@@ -14270,5 +14271,21 @@
         "title": "Settings for this page",
         "forThisPage": "Settings for this page",
         "allSettings": "All settings"
+    },
+    "bookingAppointments": {
+        "intro": "Times patients have taken. If a colleague has to cover, the booking can be handed over without the patient booking again.",
+        "when": "When",
+        "who": "Who",
+        "treatment": "Treatment",
+        "with": "With",
+        "handOver": "Hand over",
+        "handOverTitle": "Hand the booking over",
+        "handOverExplanation": "The patient keeps their time. It moves to the colleague's calendar, and the colleague is told.",
+        "colleague": "Colleague",
+        "handedOver": "The booking has been handed over",
+        "takenOver": "Taken over",
+        "none": "No booked times in this period",
+        "from": "From",
+        "to": "To"
     }
 }

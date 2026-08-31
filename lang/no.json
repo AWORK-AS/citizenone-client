@@ -1256,7 +1256,8 @@
         },
         "tabs": {
             "bookings": "Bookinger",
-            "events": "Arrangementer"
+            "events": "Arrangementer",
+            "appointments": "Bookede tider"
         },
         "today": "I dag",
         "view": {
@@ -14270,5 +14271,21 @@
         "title": "Innstillinger for denne siden",
         "forThisPage": "Innstillinger for denne siden",
         "allSettings": "Alle innstillinger"
+    },
+    "bookingAppointments": {
+        "intro": "Tider pasientene har tatt. Skal en kollega dekke, kan bookingen gis videre uten at pasienten må booke igjen.",
+        "when": "Når",
+        "who": "Hvem",
+        "treatment": "Behandling",
+        "with": "Hos",
+        "handOver": "Gi videre",
+        "handOverTitle": "Gi bookingen videre",
+        "handOverExplanation": "Pasienten beholder timen sin. Den flyttes til kollegaens kalender, og kollegaen får beskjed.",
+        "colleague": "Kollega",
+        "handedOver": "Bookingen er gitt videre",
+        "takenOver": "Overtatt",
+        "none": "Ingen bookede tider i perioden",
+        "from": "Fra",
+        "to": "Til"
     }
 }
