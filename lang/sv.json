@@ -3707,11 +3707,28 @@
                 "noTooth": "Ingen tand",
                 "note": "Anmärkningar",
                 "notePlaceholder": "Till exempel vad priset förutsätter",
-                "needsALine": "Lägg till minst en behandling"
+                "needsALine": "Lägg till minst en behandling",
+                "service": "Tjänst",
+                "ownLine": "Egen rad"
             },
             "plan": "Plan",
             "markDone": "Markera utförd",
-            "done": "Utförd"
+            "done": "Utförd",
+            "invoiced": "Fakturerad",
+            "leftToSettle": "Att reglera",
+            "settleNow": "Reglera nu",
+            "createInvoice": "Skapa faktura",
+            "settleTitle": "Reglera behandling",
+            "settleExplanation": "Skapar fakturan för de utförda raderna och registrerar betalningen direkt. Använd den när patienten betalar i kliniken.",
+            "paymentMethod": "Betalsätt",
+            "settled": "Reglerad",
+            "invoiceCreated": "Faktura skapad",
+            "methods": {
+                "card": "Kort",
+                "terminal": "Terminal",
+                "mobilepay": "MobilePay",
+                "cash": "Kontant"
+            }
         },
         "invoices": {
             "newTitle": "Skapa faktura",

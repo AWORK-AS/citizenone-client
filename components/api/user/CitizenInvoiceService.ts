@@ -109,6 +109,15 @@ class CitizenInvoiceService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/invoices/from-estimate/${estimateUuid}`, 'POST')
     }
 
+    /**
+     * Bills the completed lines and takes the money for them in one step, for a
+     * patient paying at the desk. No amount is sent: what is owed comes from
+     * the estimate.
+     */
+    async settleEstimate(citizenUuid: string, estimateUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/invoices/settle-estimate/${estimateUuid}`, 'POST', params)
+    }
+
     async sendInvoice(uuid: string): Promise<any> {
         return await this.request(`/user/citizen-invoices/${uuid}/send`, 'POST')
     }

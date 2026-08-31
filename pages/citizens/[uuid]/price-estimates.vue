@@ -111,7 +111,12 @@
                                             <td class="py-1 pr-3 text-right tabular-nums">{{ formatAmount(line.subsidy_amount) }}</td>
                                             <td class="py-1 text-right tabular-nums">{{ formatAmount(line.line_total) }}</td>
                                             <td class="py-1 pl-3 text-right" v-if="estimate.status === 'accepted'">
-                                                <button type="button" @click="toggleLine(line)" :class="[
+                                                <span v-if="line.is_invoiced"
+                                                    class="inline-flex items-center gap-1 rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-500">
+                                                    <Icon name="ph:receipt" class="size-3.5" />
+                                                    {{ $t('citizens.priceEstimates.invoiced') }}
+                                                </span>
+                                                <button v-else type="button" @click="toggleLine(line)" :class="[
                                                     'inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium transition',
                                                     line.status === 'done'
                                                         ? 'border-green-600 bg-green-50 text-green-700'
@@ -146,6 +151,11 @@
                                         <dt>{{ $t('citizens.priceEstimates.patientPays') }}</dt>
                                         <dd class="tabular-nums">{{ formatAmount(estimate.patient_amount) }}</dd>
                                     </div>
+                                    <div class="flex justify-between text-primary"
+                                        v-if="estimate.status === 'accepted' && Number(estimate.billable_amount) > 0">
+                                        <dt>{{ $t('citizens.priceEstimates.leftToSettle') }}</dt>
+                                        <dd class="tabular-nums font-semibold">{{ formatAmount(estimate.billable_amount) }}</dd>
+                                    </div>
                                 </dl>
                             </div>
 
@@ -174,6 +184,16 @@
                                     <Icon name="ph:x" class="size-4" />
                                     {{ $t('citizens.priceEstimates.markDeclined') }}
                                 </FormButton>
+                                <FormButton buttonStyle="primary" buttonSize="xs" v-if="canSettle(estimate)"
+                                    @click="openSettle(estimate)">
+                                    <Icon name="ph:hand-coins" class="size-4" />
+                                    {{ $t('citizens.priceEstimates.settleNow') }}
+                                </FormButton>
+                                <FormButton buttonStyle="action" buttonSize="xs" v-if="canSettle(estimate)"
+                                    @click="raiseInvoice(estimate)">
+                                    <Icon name="ph:paper-plane-tilt" class="size-4" />
+                                    {{ $t('citizens.priceEstimates.createInvoice') }}
+                                </FormButton>
                                 <FormButton buttonStyle="action" buttonSize="xs" @click="remove(estimate)">
                                     <Icon name="ph:trash" class="size-4" />
                                     {{ $t('delete') }}
@@ -187,6 +207,9 @@
             <ModulesUserCitizenPriceEstimateModalForm :isModalOpen="state.isModalOpen" :citizenUuid="citizenUuid"
                 :estimate="state.selectedEstimate" :teeth="state.teeth" @close="state.isModalOpen = false"
                 @saved="onSaved" />
+
+            <ModulesUserCitizenPriceEstimateModalSettle :isModalOpen="state.isSettleOpen" :citizenUuid="citizenUuid"
+                :estimate="state.settlingEstimate" @close="state.isSettleOpen = false" @settled="onSettled" />
         </NuxtLayout>
     </div>
 </template>
@@ -195,6 +218,7 @@
 import moment from 'moment'
 import { saveAs } from 'file-saver'
 import { priceEstimateService } from '@/components/api/user/PriceEstimateService'
+import { citizenInvoiceService } from '@/components/api/user/CitizenInvoiceService'
 import { toothChartService } from '@/components/api/user/ToothChartService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
@@ -217,7 +241,9 @@ const state = reactive({
     estimates: [] as any[],
     teeth: [] as any[],
     selectedEstimate: null as any,
+    settlingEstimate: null as any,
     isModalOpen: false,
+    isSettleOpen: false,
     isPageLoading: true,
     error: '',
 })
@@ -228,6 +254,45 @@ watch(() => userStore.getUser, (user: any) => {
         navigateTo(`/citizens/${citizenUuid}/journals`)
     }
 }, { immediate: true })
+
+/**
+ * Whether there is anything to charge for yet.
+ *
+ * Money needs the invoicing app: without it there is nowhere for an invoice to
+ * live, so the estimate stays what it was. With it, an accepted estimate offers
+ * settlement as soon as a treatment has been marked carried out.
+ */
+function canSettle(estimate: any): boolean {
+    return !!userStore.getUser?.has_invoice_app
+        && estimate.status === 'accepted'
+        && Number(estimate.billable_amount) > 0
+}
+
+function openSettle(estimate: any) {
+    state.settlingEstimate = estimate
+    state.isSettleOpen = true
+}
+
+async function onSettled() {
+    state.isSettleOpen = false
+    successAlert(t('citizens.priceEstimates.settled'))
+    await loadEstimates()
+}
+
+/**
+ * Raises the invoice without taking the money, for a patient who will be sent
+ * a bill rather than paying on the way out. It lands on the invoices tab, where
+ * it can be sent with a payment link.
+ */
+async function raiseInvoice(estimate: any) {
+    try {
+        await citizenInvoiceService.createFromEstimate(citizenUuid, estimate.uuid)
+        successAlert(t('citizens.priceEstimates.invoiceCreated'))
+        await loadEstimates()
+    } catch (error: any) {
+        state.error = error?.message || ''
+    }
+}
 
 function isEditable(estimate: any): boolean {
     return estimate.status === 'draft' || estimate.status === 'sent' || estimate.status === 'expired'
