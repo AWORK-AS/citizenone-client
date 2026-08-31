@@ -99,10 +99,11 @@
 
                         <p class="text-sm text-gray-600">{{ $t('bookingAppointments.handOverExplanation') }}</p>
 
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="colleagueOptions.length">
                             <FormLabel for="colleague" :label="$t('bookingAppointments.colleague')" />
                             <FormSelect id="colleague" :options="colleagueOptions" v-model="state.colleagueUuid" />
                         </div>
+                        <Alert v-else type="info" :text="$t('bookingAppointments.noColleagues')" />
 
                         <div class="flex items-center justify-end gap-2 pt-2">
                             <FormButton buttonStyle="action" @click="state.isHandoverOpen = false"
@@ -153,10 +154,25 @@ const state = reactive({
     handoverError: '',
 })
 
-const colleagueOptions = computed(() => state.colleagues.map((colleague: any) => ({
-    value: colleague.uuid,
-    label: `${colleague.firstname} ${colleague.lastname}`.trim(),
-})))
+const currentHolderUuid = computed(() => state.selected?.assigned_user_uuid
+    || state.selected?.clinician_uuid
+    || null)
+
+/**
+ * Who this booking can be handed to.
+ *
+ * Not the person who already has it - handing a booking to whoever is holding
+ * it does nothing - and not the "all employees" entry the employee list carries
+ * for the places that filter by staff, which is not a person and cannot take an
+ * appointment.
+ */
+const colleagueOptions = computed(() => state.colleagues
+    .filter((colleague: any) => colleague.uuid && colleague.uuid !== currentHolderUuid.value)
+    .map((colleague: any) => ({
+        value: colleague.uuid,
+        label: `${colleague.firstname ?? ''} ${colleague.lastname ?? ''}`.trim(),
+    })))
+
 
 function formatDate(date: string): string {
     return date ? moment(date).format('DD.MM.YYYY') : ''
@@ -187,7 +203,10 @@ async function load() {
 
 async function loadColleagues() {
     try {
-        const response = await userService.getAllUsers({})
+        // The plain employee list carries an "all employees" entry for the
+        // screens that filter by staff. It is not a person, and a booking
+        // cannot be handed to it.
+        const response = await userService.getAllUsersWithoutAllUsersOption()
         state.colleagues = response?.data || []
     } catch {
         state.colleagues = []

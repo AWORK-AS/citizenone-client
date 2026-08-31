@@ -14286,6 +14286,7 @@
         "takenOver": "Taken over",
         "none": "No booked times in this period",
         "from": "From",
-        "to": "To"
+        "to": "To",
+        "noColleagues": "There is nobody else at the clinic to hand the booking to."
     }
 }

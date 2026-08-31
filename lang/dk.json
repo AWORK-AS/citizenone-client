@@ -14286,6 +14286,7 @@
         "takenOver": "Overtaget",
         "none": "Ingen bookede tider i perioden",
         "from": "Fra",
-        "to": "Til"
+        "to": "Til",
+        "noColleagues": "Der er ingen andre i klinikken at give bookingen videre til."
     }
 }
