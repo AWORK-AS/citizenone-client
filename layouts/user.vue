@@ -418,6 +418,10 @@
                          above the navbar so it never disturbs the measured sticky offsets. -->
                     <ModulesUserStorageQuotaNotice />
 
+                    <!-- Subscription payment outstanding. Renders a blocking wall for an
+                         admin (who can fix it) and a plain notice for everyone else. -->
+                    <ModulesUserBillingPaymentWall />
+
                     <!-- On the schedules pages this toolbar carries the date navigation, so it pins
                          beneath the navbar - otherwise you have to scroll back to the top of a long
                          employee grid just to step one week forward. The negative margins absorb

@@ -14230,5 +14230,33 @@
             "deleted": "The rule was deleted",
             "deleteFailed": "The rule could not be deleted"
         }
+    },
+    "paymentStatus": {
+        "amountDue": "Amount due",
+        "collecting": "Collecting the payment...",
+        "contactSupport": "Contact support",
+        "couldNotStart": "We could not start the card renewal. Try again, or contact support.",
+        "logOut": "Log out",
+        "pleaseWait": "Please wait...",
+        "stillUnpaid": "The card was updated, but the payment did not go through. Try again, or contact support.",
+        "updateCard": "Update payment card",
+        "wall": {
+            "pastDueTitle": "We could not collect your payment",
+            "pastDueBody": "We were unable to charge your subscription. Enter a valid payment card to continue. The account will close in {days} days if the payment is not completed.",
+            "suspendedTitle": "Your subscription is suspended",
+            "suspendedBody": "Your subscription is suspended because the payment could not be collected. Enter a valid payment card and we will reopen the account immediately."
+        },
+        "notice": {
+            "title": "Payment outstanding",
+            "body": "We were unable to charge your subscription. An administrator needs to update the payment card. The account will close in {days} days otherwise."
+        },
+        "renew": {
+            "title": "Renew your subscription",
+            "intro": "Enter a valid payment card and we will collect the outstanding amount and reopen {company}.",
+            "invalidToken": "This link has expired or is not valid. Contact support and we will send a new one.",
+            "successTitle": "Payment completed",
+            "successBody": "Your account is open again. You can log in now.",
+            "goToLogin": "Go to login"
+        }
     }
 }
