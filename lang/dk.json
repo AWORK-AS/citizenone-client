@@ -122,7 +122,8 @@
             "medicin": "Medicin",
             "dokumentation": "Dokumentation (planer, status, dokumenter)",
             "useOfForce": "Magtanvendelse",
-            "predefinedContent": "Foruddefineret notatindhold"
+            "predefinedContent": "Foruddefineret notatindhold",
+            "priceEstimates": "Prisoverslag til patienter"
         },
         "groups": {
             "migration": "Migrering",
@@ -876,7 +877,7 @@
             "birthday": "Fødselsdage",
             "dutyShift": "Vagtregel",
             "incidents": "Hændelser",
-            "messages": "Beskeder",
+            "messages": "Chat",
             "notes": "Notater",
             "other": "Andet",
             "plansGoals": "Planer & Mål",
@@ -947,7 +948,9 @@
             "linkCopied": "Kopieret!",
             "onlineBookingLink": "Online Booking-link",
             "onlineBookingLinkLabel": "Linket til din offentlige online booking-side",
-            "phone": "Telefon"
+            "phone": "Telefon",
+            "notifyTeam": "Giv hele klinikken besked",
+            "notifyTeamHelp": "Behandleren får altid besked. Slå til hvis kollegerne også skal, så de kan dække for hinanden."
         }
     },
     "bookingTags": {
@@ -1214,7 +1217,8 @@
             "viewEvent": "Se begivenhed",
             "viewFutureEvents": "Se fremtidige begivenheder",
             "viewSignUpForm": "Se tilmeldingsformular"
-        }
+        },
+        "landsInCalendar": "Når en tid bookes, lægges den automatisk i behandlerens kalender. Aflyses bookingen, forsvinder den igen."
     },
     "bulletBoard": {
         "attachments": "Vedhæftede filer",
@@ -1252,7 +1256,8 @@
         },
         "tabs": {
             "bookings": "Bookinger",
-            "events": "Begivenheder"
+            "events": "Begivenheder",
+            "appointments": "Bookede tider"
         },
         "today": "I dag",
         "view": {
@@ -3659,7 +3664,16 @@
                 "setCheckup": "Sæt kontroldato",
                 "everyMonths": "Hver {months}. måned",
                 "checkupSaved": "Kontrollen er opdateret",
-                "checkupHelp": "Næste kontrol regnes ud fra seneste kontrol plus intervallet."
+                "checkupHelp": "Næste kontrol regnes ud fra seneste kontrol plus intervallet.",
+                "lastRecalled": "Sidst indkaldt",
+                "neverRecalled": "Aldrig indkaldt",
+                "recallNow": "Indkald",
+                "recalled": "Indkaldelsen er registreret",
+                "bookTime": "Book tid",
+                "manualRecallDate": "Indkald til",
+                "manualRecallReason": "Årsag",
+                "manualRecallReasonPlaceholder": "F.eks. følger fyldningen i 5-6",
+                "manualRecallHelp": "Sæt en dato her for at indkalde patienten før det næste rutinetjek. Årsagen vises kun for klinikken. Den bortfalder af sig selv, når patienten er set."
             },
             "history": {
                 "label": "Vis tidligere undersøgelse:",
@@ -3699,7 +3713,7 @@
                 "validUntil": "Gyldigt til",
                 "lines": "Behandlinger",
                 "addLine": "Tilføj linje",
-                "code": "Ydelse",
+                "code": "Kode",
                 "description": "Behandling",
                 "quantity": "Antal",
                 "unitPrice": "Stykpris",
@@ -3708,11 +3722,31 @@
                 "noTooth": "Ingen tand",
                 "note": "Bemærkninger",
                 "notePlaceholder": "Fx hvad prisen forudsætter",
-                "needsALine": "Tilføj mindst én behandling"
+                "needsALine": "Tilføj mindst én behandling",
+                "service": "Ydelse",
+                "ownLine": "Egen linje"
             },
             "plan": "Plan",
             "markDone": "Markér udført",
-            "done": "Udført"
+            "done": "Udført",
+            "invoiced": "Faktureret",
+            "leftToSettle": "Til afregning",
+            "settleNow": "Afregn nu",
+            "createInvoice": "Opret faktura",
+            "settleTitle": "Afregn behandling",
+            "settleExplanation": "Opretter fakturaen for de udførte linjer og registrerer betalingen med det samme. Brug den når patienten betaler i klinikken.",
+            "paymentMethod": "Betalingsmåde",
+            "settled": "Afregnet",
+            "invoiceCreated": "Faktura oprettet",
+            "methods": {
+                "card": "Kort",
+                "terminal": "Terminal",
+                "mobilepay": "MobilePay",
+                "cash": "Kontant"
+            },
+            "nextStepMarkDone": "Markér behandlingerne som udført, når de er lavet, så kan de faktureres herfra.",
+            "nextStepSettle": "Behandlingen er udført og klar til afregning.",
+            "nextStepInvoiced": "Alt på dette overslag er faktureret. Se fakturaen under"
         },
         "invoices": {
             "newTitle": "Opret faktura",
@@ -6630,7 +6664,8 @@
         "didYouKnowDismiss": "Forstået",
         "empty": "Ingen resultater",
         "navigate": "Gå til",
-        "citizen": "Borger"
+        "citizen": "Borger",
+        "settings": "Indstillinger"
     },
     "shortcuts": {
         "title": "Tastatur-genveje",
@@ -10142,7 +10177,7 @@
         "dutySchedules": "Vagtskema",
         "leads": "Leads",
         "mail": "Mail",
-        "messages": "Beskeder",
+        "messages": "Chat",
         "overview": "Oversigt",
         "protocols": "Protokol",
         "reports": "Rapporter",
@@ -13459,7 +13494,8 @@
         "empty": {
             "title": "Ingen indkaldelser",
             "text": "Ingen patienter skal indkaldes i den valgte periode."
-        }
+        },
+        "manualRecall": "Indkaldt af behandler"
     },
     "dentalOverview": {
         "title": "Klinikoverblik",
@@ -14380,5 +14416,27 @@
             "title": "Ingen formularer sendt endnu",
             "text": "Send en formular, som patienten udfylder hjemmefra. Besvarelsen lander i journalen."
         }
+    },
+    "pageSettings": {
+        "title": "Indstillinger for denne side",
+        "forThisPage": "Indstillinger for denne side",
+        "allSettings": "Alle indstillinger"
+    },
+    "bookingAppointments": {
+        "intro": "Tider patienterne har taget. Skal en kollega dække, kan bookingen gives videre, uden at patienten skal booke igen.",
+        "when": "Hvornår",
+        "who": "Hvem",
+        "treatment": "Behandling",
+        "with": "Hos",
+        "handOver": "Giv videre",
+        "handOverTitle": "Giv bookingen videre",
+        "handOverExplanation": "Patienten beholder sin tid. Den flytter til kollegaens kalender, og kollegaen får besked.",
+        "colleague": "Kollega",
+        "handedOver": "Bookingen er givet videre",
+        "takenOver": "Overtaget",
+        "none": "Ingen bookede tider i perioden",
+        "from": "Fra",
+        "to": "Til",
+        "noColleagues": "Der er ingen andre i klinikken at give bookingen videre til."
     }
 }

@@ -35,7 +35,10 @@
 
 <script setup lang="ts">
 import { taskService } from '@/components/api/user/TaskService'
+import { useUserStore } from '@/store/user'
 
+const { formatDateToReadable } = useDatetimeFormatter()
+const userStore = useUserStore() as any
 const state = reactive({
     tasks: [] as any[],
 })
@@ -45,12 +48,15 @@ onMounted(() => {
 })
 
 async function fetchTasks() {
+    // A company without the tasks app is refused here every time, which is not
+    // worth a request - let alone the 400 it leaves in the console - on the
+    // daily overview of every single company that has not bought it.
+    if (!userStore.getUser?.company?.tasks_workflow_enabled) return
+
     try {
         const response = await taskService.getMyTasks()
         state.tasks = response?.data ?? []
     } catch (_) {
-        // A company without the tasks app is refused here, which is not worth an
-        // alert on the daily overview.
         state.tasks = []
     }
 }

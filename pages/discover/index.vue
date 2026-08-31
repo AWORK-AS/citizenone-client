@@ -294,21 +294,28 @@ const { isAtLeast } = usePermissions()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const isAdmin = computed(() => isAtLeast('Admin'))
+const { industryHasFeature } = useIndustryFeatures()
 
 const firstName = computed(() => userStore.getUser?.firstname ?? '')
 
 // --- "What do you need" personalisation (persisted to the company) ---
-const moduleOptions = [
+const moduleOptions = computed(() => [
     { key: 'vagtplan', icon: 'ph:calendar-dots' },
     { key: 'medicin', icon: 'ph:pill' },
     { key: 'dokumentation', icon: 'ph:files' },
     { key: 'useOfForce', icon: 'ph:shield-warning' },
     { key: 'predefinedContent', icon: 'ph:list-bullets' },
-]
+    // Quoting before treatment is a way of working, not a thing every clinic
+    // does, and it exists for no other industry - so it is only worth asking a
+    // dental clinic about.
+    ...(industryHasFeature('priceEstimates')
+        ? [{ key: 'priceEstimates', icon: 'ph:receipt' }]
+        : []),
+])
 
 const modules = reactive<Record<string, boolean>>({
     vagtplan: true, medicin: true, dokumentation: true,
-    useOfForce: true, predefinedContent: true,
+    useOfForce: true, predefinedContent: true, priceEstimates: true,
 })
 
 const state = reactive({
@@ -500,6 +507,7 @@ onMounted(async () => {
     const savedModules = userStore.getUser?.company?.onboarding_preferences?.modules
     if (typeof savedModules?.useOfForce === 'boolean') modules.useOfForce = savedModules.useOfForce
     if (typeof savedModules?.predefinedContent === 'boolean') modules.predefinedContent = savedModules.predefinedContent
+    if (typeof savedModules?.priceEstimates === 'boolean') modules.priceEstimates = savedModules.priceEstimates
     // Data-derived completion (a few easy ones)
     try {
         const [d, u, c, tags] = await Promise.all([

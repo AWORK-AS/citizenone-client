@@ -243,6 +243,7 @@
 </template>
 
 <script setup lang="ts">
+const { formatDateToReadable } = useDatetimeFormatter()
 definePageMeta({ middleware: 'require-application', requiredApplication: 'tasks_workflow_enabled' })
 
 import { taskService } from '@/components/api/user/TaskService'
