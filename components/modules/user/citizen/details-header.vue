@@ -938,100 +938,101 @@ function switchToInterventionHours() {
     state.modal.isViewPatienCareHoursOpen = true
 }
 
-// ... rest of your access control functions remain the same ...
+/**
+ * Which of the citizen's fields this company shows.
+ *
+ * Every one of these used to start with `isAtLeast('Admin') ||`, which meant the
+ * setting had no effect on the person most likely to be looking at it: an admin
+ * saw every field whatever the company had chosen, so a dental clinic met
+ * Indsats timer, EAN-nummer and Visitationskommune on every patient however it
+ * configured itself. An admin now sees what the company configured, and can
+ * change it in settings.
+ *
+ * A company that has never configured the list keeps exactly what it has today -
+ * admins see everything, everyone else sees nothing - because reading the empty
+ * list as "show everything" would hand social security numbers and diagnoses to
+ * staff who cannot see them now.
+ */
+function showsCitizenField(name: string): boolean {
+    const displays = userStore.getUser?.company?.citizen_displays
+    const configured = Array.isArray(displays) && displays.length > 0
+    if (!configured) return isAtLeast('Admin')
+    return displays.some((display: any) => display.en_name === name)
+}
 
 function hasSocialSecurityNumberAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Social security number')
+    return showsCitizenField('Social security number')
 }
 
 function hasAddressAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Address')
+    return showsCitizenField('Address')
 }
 
 function hasInterventionHoursAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Intervention hours')
+    return showsCitizenField('Intervention hours')
 }
 
 function hasBirthdayAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Birthday')
+    return showsCitizenField('Birthday')
 }
 
 function hasEmailAddressAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Email address')
+    return showsCitizenField('Email address')
 }
 
 function hasDateAdmittedAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Date admitted')
+    return showsCitizenField('Date admitted')
 }
 
 function hasDateDischargedAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Date discharged')
+    return showsCitizenField('Date discharged')
 }
 
 function hasEANNumberAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'EAN number')
+    return showsCitizenField('EAN number')
 }
 
 function hasPricingAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Pricing')
+    return showsCitizenField('Pricing')
 }
 
 function hasPayingMunicipalityAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Paying municipality')
+    return showsCitizenField('Paying municipality')
 }
 
 function hasAssessmentMunicipalityAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Assessment municipality')
+    return showsCitizenField('Assessment municipality')
 }
 
 function hasResponsibleMunicipalityAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Responsible municipality')
+    return showsCitizenField('Responsible municipality')
 }
 
 function hasTransportationAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Transportation')
+    return showsCitizenField('Transportation')
 }
 
 function hasDepartmentAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Department')
+    return showsCitizenField('Department')
 }
 
 function hasAddictionsAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Addictions')
+    return showsCitizenField('Addictions')
 }
 
 function hasDiagnosesAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Diagnoses')
+    return showsCitizenField('Diagnoses')
 }
 
 function hasMedicationAllergiesAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Medication allergies')
+    return showsCitizenField('Medication allergies')
 }
 
 function hasRoomsAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Rooms')
+    return showsCitizenField('Rooms')
 }
 
 function hasNoteAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Note')
+    return showsCitizenField('Note')
 }
 </script>

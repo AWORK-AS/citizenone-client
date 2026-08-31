@@ -16,6 +16,19 @@ function upperFirst(value: string) {
     return value ? value.charAt(0).toUpperCase() + value.slice(1) : value
 }
 
+/**
+ * The standard word `custom_pages.en_name` / `custom_pages.dk_name` was seeded
+ * with, capitalised. `custom_pages` only ever holds those two columns - there
+ * is no Norwegian or Swedish one - so whatever a caller reads for a
+ * non-English viewer is always the Danish seed, never the viewer's own word.
+ * Comparing that seed against anything other than its own language's standard
+ * (i.e. the Danish one, for every non-English reader) makes an untouched seed
+ * look like a rename that never happened.
+ */
+export function citizenSeedStandard(sourceLocale: 'en' | 'dk'): string {
+    return upperFirst(CITIZEN_DEFAULTS[sourceLocale].citizens)
+}
+
 type TermKey = 'journals' | 'journal' | 'journalNoteTag' | 'journalNotes' | 'caseworker' | 'case' | 'agreement' | 'jobcenter'
     | 'citizen' | 'citizenDefinite' | 'citizens' | 'citizensDefinite'
 
@@ -95,5 +108,31 @@ export function useTerminology() {
         return value === fallback ? value : upperFirst(value)
     }
 
-    return { term, termTitle, tt }
+    /**
+     * What to call the person, given whatever the company's custom page name
+     * holds. Every company is seeded that name with the standard word, so
+     * taking it whenever it is set would mean the seed always beats the term a
+     * company or its industry actually chose. A name equal to the standard word
+     * is the seed, not a rename.
+     *
+     * `seedStandard` and `viewerFallback` are deliberately two different words,
+     * not one: `customName` only ever comes from `custom_pages.en_name` or
+     * `.dk_name`, so "was this renamed" has to be judged against the seed in
+     * that same language (`seedStandard`, from citizenSeedStandard()) - but once
+     * a name is judged to be the untouched seed, what gets shown has to be this
+     * viewer's own word (`viewerFallback`, e.g. the Norwegian or Swedish
+     * default), not the seed's language. Collapsing the two into one argument
+     * means a Danish seed compared against a Norwegian standard never matches,
+     * so every Norwegian and Swedish viewer read the Danish word as if it were
+     * a real company customisation.
+     *
+     * Resolved once where the store is filled, so the seventy places that read
+     * the store get the right word without each having to know this rule.
+     */
+    function citizensLabel(customName: string | null | undefined, seedStandard: string, viewerFallback: string): string {
+        const renamed = (customName || '').trim()
+        return renamed && renamed !== seedStandard ? renamed : termTitle('citizens', viewerFallback)
+    }
+
+    return { term, termTitle, citizensLabel, tt }
 }

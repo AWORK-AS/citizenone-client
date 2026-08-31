@@ -591,7 +591,7 @@ const customSidebarLinksStore = useCustomSidebarLinksStore()
 const assistantStore = useAssistantStore()
 const { isAtLeast, can } = usePermissions()
 const language = useI18n()
-const { term, termTitle } = useTerminology()
+const { term, citizensLabel } = useTerminology()
 const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
@@ -857,14 +857,8 @@ function getNavItemLabel(item: any) {
     if (item.rawLabel) return item.name
     if (item.name === 'Overview') return t('sidebar.overview')
     if (item.name === 'Discover') return t('sidebar.discover')
-    if (item.name === 'Citizens') {
-        // Every company is seeded a custom page name holding the standard word,
-        // so taking it whenever it is set would mean the seed always beats the
-        // company's own term. A name equal to the standard one is not a rename.
-        const standard = t('sidebar.citizens')
-        const renamed = customPagesStore.getCustomPagesName?.citizens
-        return renamed && renamed !== standard ? renamed : termTitle('citizens', standard)
-    }
+    // The store already holds the resolved word - see setCustomPageNames.
+    if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Invoicing') return t('sidebar.invoicing')
     if (item.name === 'DentalOverview') return t('sidebar.dentalOverview')
     if (item.name === 'DentalRecalls') return t('sidebar.dentalRecalls')
@@ -1254,7 +1248,16 @@ function setCustomPageNames() {
     const cp = (p: string) => userStore.getUser?.custom_pages?.find((i: any) => i.page_type === p)
     const n = (p: any) => sl === 'en' ? p?.en_name : p?.dk_name
     customPagesStore.setAddictionsNaming(n(cp('addictions')))
-    customPagesStore.setCitizensNaming(n(cp('citizens')))
+    // Resolved here rather than at each of the seventy places that read it: a
+    // breadcrumb, a tab and a page heading all named the person, and all of them
+    // read the seeded standard word instead of the company's own term - so a
+    // dental clinic said Patienter in the menu and Borgere in the crumb above it.
+    // "Was this renamed" is judged against the seed's own language (English or
+    // Danish, `custom_pages`'s only two columns); what to show once it is judged
+    // to be untouched is still this viewer's own word - see citizensLabel().
+    customPagesStore.setCitizensNaming(
+        citizensLabel(n(cp('citizens')), citizenSeedStandard(sl === 'en' ? 'en' : 'dk'), language.t('sidebar.citizens'))
+    )
     customPagesStore.setDepartmentNaming(n(cp('department')))
     customPagesStore.setDutySchedulesNaming(n(cp('duty_schedules')))
     customPagesStore.setRiskAssessmentNaming(n(cp('risk_assessment')))
