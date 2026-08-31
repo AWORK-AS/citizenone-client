@@ -1253,7 +1253,12 @@ function setCustomPageNames() {
     // breadcrumb, a tab and a page heading all named the person, and all of them
     // read the seeded standard word instead of the company's own term - so a
     // dental clinic said Patienter in the menu and Borgere in the crumb above it.
-    customPagesStore.setCitizensNaming(citizensLabel(n(cp('citizens')), language.t('sidebar.citizens')))
+    // "Was this renamed" is judged against the seed's own language (English or
+    // Danish, `custom_pages`'s only two columns); what to show once it is judged
+    // to be untouched is still this viewer's own word - see citizensLabel().
+    customPagesStore.setCitizensNaming(
+        citizensLabel(n(cp('citizens')), citizenSeedStandard(sl === 'en' ? 'en' : 'dk'), language.t('sidebar.citizens'))
+    )
     customPagesStore.setDepartmentNaming(n(cp('department')))
     customPagesStore.setDutySchedulesNaming(n(cp('duty_schedules')))
     customPagesStore.setRiskAssessmentNaming(n(cp('risk_assessment')))
