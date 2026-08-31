@@ -9767,6 +9767,7 @@
                 "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
                 "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
+                "compensatoryTimeEnabled": "Aktivera kompensationsledighet",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
                 "lockShiftsBeforeDate": "Lås pass före datum",
                 "clearLockShiftsBeforeDate": "Rensa datum",

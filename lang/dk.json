@@ -9767,6 +9767,7 @@
                 "employmentWeeklyHours": "Ugentlige arbejdstimer (fakturering for beskæftigelsesindsats)",
                 "employmentWeeklyHoursHint": "Bruges til at omregne timepriser til en ugentlig pris. Lad stå tomt for at bruge standarden på 37 timer/uge.",
                 "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
+                "compensatoryTimeEnabled": "Aktivér afspadsering",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
                 "lockShiftsBeforeDate": "Lås vagter før dato",
                 "clearLockShiftsBeforeDate": "Ryd dato",

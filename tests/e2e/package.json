@@ -8,7 +8,8 @@
     "test:mileage-log": "node mileage-log.mjs",
     "test:journal-note-survey": "node journal-note-survey.mjs",
     "test:medicine-overdue-range-time": "node medicine-overdue-range-time.mjs",
-    "test:medicine-bulk-give-flow": "node medicine-bulk-give-flow.mjs"
+    "test:medicine-bulk-give-flow": "node medicine-bulk-give-flow.mjs",
+    "test:compensatory-time-toggle": "node compensatory-time-toggle.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"
