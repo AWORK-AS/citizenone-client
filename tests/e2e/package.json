@@ -12,7 +12,8 @@
     "test:medicine-bulk-give-flow": "node medicine-bulk-give-flow.mjs",
     "test:compensatory-time-toggle": "node compensatory-time-toggle.mjs",
     "test:task-boards-permission-and-editor": "node task-boards-permission-and-editor.mjs",
-    "test:import-employees": "node import-employees.mjs"
+    "test:import-employees": "node import-employees.mjs",
+    "test:treatment-status-area-type": "node treatment-status-area-type.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"
