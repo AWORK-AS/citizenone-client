@@ -14,6 +14,7 @@
     "test:page-settings-shortcut": "node page-settings-shortcut.mjs",
     "test:sidebar-navigation": "node sidebar-navigation.mjs",
     "test:settings-switches": "node settings-switches.mjs",
+    "test:console-smoke": "node console-smoke.mjs",
     "test:import-employees": "node import-employees.mjs"
   },
   "dependencies": {

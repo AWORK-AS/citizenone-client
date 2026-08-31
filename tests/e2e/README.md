@@ -122,6 +122,29 @@ fetch finishes, so the middleware sees a null user and Nuxt renders a misleading
 response (not `networkidle`, which can hang on the app's persistent Pusher websocket) before
 treating any navigation to `/tasks` as safe to continue from.
 
+### `console-smoke` - the one to run before merging
+
+Walks the sidebar to learn where this company's pages are, then loads each of
+them, plus a handful of settings pages, and fails on anything the browser
+throws: an uncaught exception, a console error, or a 5xx.
+
+```bash
+CO_TOKEN='<paste-token>' npm run test:console-smoke
+```
+
+It needs no setup beyond a token and touches nothing, so it is the cheapest
+guard against the class of defect that reaches dev most often - a composable
+called in the wrong place, a helper used in a template without being imported,
+a debug line left in. Three of those shipped in a row before this existed.
+
+Two things to know about it. The second pass loads each page for real rather
+than clicking to it: this is an SPA, and a render-time throw does not reach the
+browser as an uncaught error when you click your way there, so a click-only
+version passes against visibly broken code. And the API allows 120 requests a
+minute per user while one page spends a dozen or more, so the test paces itself
+and a full run takes a few minutes with pauses in it. That is the rate limit,
+not a hang.
+
 ### `import-employees` — needs a queue worker running and a spare employee license
 
 Covers the "Import employees" bug where imported employees never got a `company_users` row.
