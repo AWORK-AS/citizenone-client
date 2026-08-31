@@ -121,3 +121,69 @@ fetch finishes, so the middleware sees a null user and Nuxt renders a misleading
 "Page Not Found" instead of the real redirect. The script waits for the specific `/api/user`
 response (not `networkidle`, which can hang on the app's persistent Pusher websocket) before
 treating any navigation to `/tasks` as safe to continue from.
+
+### `console-smoke` - the one to run before merging
+
+Walks the sidebar to learn where this company's pages are, then loads each of
+them, plus a handful of settings pages, and fails on anything the browser
+throws: an uncaught exception, a console error, or a 5xx.
+
+```bash
+CO_TOKEN='<paste-token>' npm run test:console-smoke
+```
+
+It needs no setup beyond a token and touches nothing, so it is the cheapest
+guard against the class of defect that reaches dev most often - a composable
+called in the wrong place, a helper used in a template without being imported,
+a debug line left in. Three of those shipped in a row before this existed.
+
+Two things to know about it. The second pass loads each page for real rather
+than clicking to it: this is an SPA, and a render-time throw does not reach the
+browser as an uncaught error when you click your way there, so a click-only
+version passes against visibly broken code. And the API allows 120 requests a
+minute per user while one page spends a dozen or more, so the test paces itself
+and a full run takes a few minutes with pauses in it. That is the rate limit,
+not a hang.
+
+### `import-employees` — needs a queue worker running and a spare employee license
+
+Covers the "Import employees" bug where imported employees never got a `company_users` row.
+Only needs `CO_TOKEN` (an Admin/Manager who can manage employees). The .xlsx fixture it uploads
+is built on the fly by shelling out to the backend's own PHP/PhpSpreadsheet (via `php -r`), so it
+assumes a sibling `citizenone-backend` checkout next to this repo; override the path with
+`CO_BACKEND_PATH` if yours lives elsewhere.
+
+The import (`UserEmployeeImport`) is queued (`QUEUE_CONNECTION=database` in dev) - this script
+does not start a queue worker itself, since doing that against the shared dev database is a call
+the user should make, not something a test script does silently. Start one in another terminal
+before running this test:
+
+```bash
+php artisan queue:work --stop-when-empty
+```
+
+`UserEmployeeImport` also refuses to create anyone once the company has no unused employee seat
+left (`findCompanyEmployeeLicense` in `app/Imports/UserEmployeeImport.php`) - it fails the row
+silently (an `ImportReport` marked `failed`, no exception, no employee created) rather than
+erroring the request, so a company with 0 spare seats makes this test hang at the "employee
+appears in the list" step with no visible error. Give the company an extra spare seat once
+(idempotent to check for - see `findCompanyEmployeeLicense`'s join, which requires the
+subscription's `user_id` to belong to a user in that company, not just its own `company_id`
+column):
+
+```bash
+php artisan tinker --execute='
+  $admin = App\Models\User::where("email","dev@awork.dk")->first();
+  $deal = App\Models\AddOnDeal::where("type","user")->first();
+  App\Models\UserSubscription::create([
+    "uuid" => (string) Illuminate\Support\Str::uuid(), "user_id" => $admin->id,
+    "company_id" => $admin->company_id, "license" => "E2E-".Illuminate\Support\Str::upper(Illuminate\Support\Str::random(12)),
+    "deal_type" => App\Models\AddOnDeal::class, "deal_id" => $deal->id,
+    "type" => "included", "is_active" => 1, "is_taken" => 0,
+  ]);
+'
+```
+
+```bash
+CO_TOKEN='<admin-or-manager-token>' npm run test:import-employees
+```

@@ -253,9 +253,13 @@ const pageOptions = computed(() => {
 })
 
 // --- Permission grouping -------------------------------------------------
+function upperFirst(value: string): string {
+    return value ? value.charAt(0).toUpperCase() + value.slice(1) : value
+}
+
 const groupOrder = ['citizen', 'journal', 'health', 'plan', 'calendar', 'economy', 'contact', 'reports', 'other']
 const groupLabels: Record<string, Record<string, string>> = {
-    citizen: { dk: 'Borger', en: 'Citizen', no: 'Borger', sv: 'Medborgare' },
+    citizen: { dk: '{Citizen}', en: '{Citizen}', no: '{Citizen}', sv: '{Citizen}' },
     journal: { dk: 'Journal & dokumenter', en: 'Journals & documents', no: 'Journal & dokumenter', sv: 'Journal & dokument' },
     health: { dk: 'Helbred & medicin', en: 'Health & medicine', no: 'Helse & medisin', sv: 'Hälsa & medicin' },
     plan: { dk: 'Planer & mål', en: 'Plans & goals', no: 'Planer & mål', sv: 'Planer & mål' },
@@ -280,7 +284,10 @@ function permGroup(name: string): string {
 }
 function groupLabel(key: string): string {
     const byLocale = groupLabels[key] || {}
-    return byLocale[locale.value] || byLocale.en || key
+    const label = byLocale[locale.value] || byLocale.en || key
+
+    // The citizen word is the company's own, so it comes from i18n and not from the map above.
+    return label.replace('{Citizen}', upperFirst(t('terms.citizen')))
 }
 
 const allPermissionUuids = computed(() => state.permissions.map((p: any) => p.uuid))

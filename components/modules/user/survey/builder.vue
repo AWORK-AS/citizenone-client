@@ -17,6 +17,15 @@
                     v-model="state.survey.description" />
             </div>
 
+            <div class="space-y-1 flex items-center gap-x-2">
+                <FormSwitch :value="state.survey.writes_to_journal"
+                    @toggleSwitch="state.survey.writes_to_journal = !state.survey.writes_to_journal" />
+                <div>
+                    <p>{{ $t('patient.staff.surveyWritesToJournal') }}</p>
+                    <p class="text-xs text-gray-500">{{ $t('patient.staff.surveyWritesToJournalHelp') }}</p>
+                </div>
+            </div>
+
             <!-- Score interpretation ranges -->
             <div class="pt-2 space-y-3">
                 <div>
@@ -197,6 +206,7 @@ const state = reactive({
         title: '',
         description: '',
         is_active: true,
+        writes_to_journal: false,
         score_ranges: [] as any[],
         questions: [] as any[],
     },
@@ -208,6 +218,7 @@ watch(() => props.selectedSurvey, (survey: any) => {
     state.survey.title = survey.title ?? ''
     state.survey.description = survey.description ?? ''
     state.survey.is_active = survey.is_active ?? true
+    state.survey.writes_to_journal = survey.writes_to_journal ?? false
     state.survey.score_ranges = Array.isArray(survey.score_ranges)
         ? survey.score_ranges.map((r: any) => ({ ...r }))
         : []
@@ -311,6 +322,7 @@ function submitForm() {
         title: state.survey.title,
         description: state.survey.description,
         is_active: true,
+        writes_to_journal: state.survey.writes_to_journal,
         score_ranges: cleanScoreRanges(state.survey.score_ranges),
         questions: normalizeQuestions(state.survey.questions),
     })

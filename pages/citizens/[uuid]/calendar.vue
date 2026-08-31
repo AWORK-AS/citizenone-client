@@ -147,6 +147,26 @@ const state = reactive({
 })
 
 onMounted(() => {
+    // Arriving with a date means somebody came here to give this patient a
+    // time: the recall list and the patient's own screen both link here when a
+    // check-up falls due. Open the month it falls in and put the new-event form
+    // in front of them, rather than the calendar and the date typed again.
+    //
+    // A due date in the past means an overdue patient, and nobody books
+    // backwards, so the form opens on today instead.
+    const requested = router?.currentRoute?.value?.query?.date as string | undefined
+
+    if (requested && moment(requested, 'YYYY-MM-DD', true).isValid()) {
+        const day = moment.max(moment(requested, 'YYYY-MM-DD'), moment().startOf('day'))
+
+        state.selectedDate = {
+            start_date: day.clone().startOf('month').format('YYYY-MM-DD'),
+            end_date: day.clone().endOf('month').format('YYYY-MM-DD'),
+        }
+
+        openCreateEventModal(day.format('YYYY-MM-DD'))
+    }
+
     fetchMyCalendarEvents()
 })
 

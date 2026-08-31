@@ -298,7 +298,9 @@ async function setPassword() {
         try {
             await authService.setPassword(params)
             successAlert(`${t('alert.success')}!`, `${t('alert.setupPassword.passwordSetupSucessfully')}.`)
-            navigateTo('/')
+            // Samme sted som efter oprettelsen. Uden dette rammer en ny kunde login-skærmen
+            // to gange, først efter registreringen og igen efter at have sat sin adgangskode.
+            navigateTo('/?redirect=/discover')
         } catch (error) {
             const err = error as Error
             state.error = err
