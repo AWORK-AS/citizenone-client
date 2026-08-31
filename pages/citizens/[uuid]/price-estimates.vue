@@ -244,6 +244,7 @@ const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
+const { industryHasFeature } = useIndustryFeatures()
 const { t, locale } = useI18n()
 const route = useRoute()
 const citizenUuid = route?.params?.uuid as string
@@ -269,10 +270,10 @@ const state = reactive({
 watch(() => userStore.getUser, (user: any) => {
     if (!user?.uuid) return
 
-    const isDental = user?.company?.industry?.system_name === 'dental'
+    const quotesPrices = industryHasFeature('priceEstimates')
     const quotes = user?.company?.onboarding_preferences?.modules?.priceEstimates !== false
 
-    if (!isDental || !quotes) navigateTo(`/citizens/${citizenUuid}/journals`)
+    if (!quotesPrices || !quotes) navigateTo(`/citizens/${citizenUuid}/journals`)
 }, { immediate: true })
 
 /**

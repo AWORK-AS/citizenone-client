@@ -14,6 +14,7 @@ const userStore = useUserStore()
 const { t, locale } = useI18n()
 const { term } = useTerminology()
 const { errorAlert } = useAlert()
+const { industryHasFeature } = useIndustryFeatures()
 
 const state = reactive({
     tabs: [] as any[],
@@ -32,7 +33,6 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     const can = (name: string) => companyHasModule(name) && pages.some((page: any) => page.name === name)
     const systemName = newValue?.company?.industry?.system_name
     const isEmploymentServices = systemName === 'employment_services'
-    const isDental = systemName === 'dental'
 
     const tabs: any[] = []
 
@@ -44,7 +44,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-journals'],
         })
     }
-    if (isDental) {
+    if (industryHasFeature('toothChart')) {
         tabs.push({
             name: 'citizens.tabs.toothChart', icon: 'ph:tooth', isTranslateName: true,
             category: 'care', primary: true,
@@ -55,7 +55,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     // Quoting before treatment is a way of working rather than something every
     // clinic does, so it follows the company's own choice like the medicine card
     // and the documents tab do - not the industry alone.
-    if (isDental && newValue?.company?.onboarding_preferences?.modules?.priceEstimates !== false) {
+    if (industryHasFeature('priceEstimates') && newValue?.company?.onboarding_preferences?.modules?.priceEstimates !== false) {
         tabs.push({
             name: 'citizens.tabs.priceEstimates', icon: 'ph:receipt', isTranslateName: true,
             category: 'admin', primary: false,

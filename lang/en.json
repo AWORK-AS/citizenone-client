@@ -3659,7 +3659,12 @@
                 "setCheckup": "Set a check-up",
                 "everyMonths": "Every {months} months",
                 "checkupSaved": "Check-up updated",
-                "checkupHelp": "The next check-up is the last one plus the interval."
+                "checkupHelp": "The next check-up is the last one plus the interval.",
+                "lastRecalled": "Last recalled",
+                "neverRecalled": "Never recalled",
+                "recallNow": "Recall",
+                "recalled": "The recall has been recorded",
+                "bookTime": "Book a time"
             },
             "history": {
                 "label": "Show an earlier examination:",

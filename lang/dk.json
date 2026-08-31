@@ -3659,7 +3659,12 @@
                 "setCheckup": "Sæt kontroldato",
                 "everyMonths": "Hver {months}. måned",
                 "checkupSaved": "Kontrollen er opdateret",
-                "checkupHelp": "Næste kontrol regnes ud fra seneste kontrol plus intervallet."
+                "checkupHelp": "Næste kontrol regnes ud fra seneste kontrol plus intervallet.",
+                "lastRecalled": "Sidst indkaldt",
+                "neverRecalled": "Aldrig indkaldt",
+                "recallNow": "Indkald",
+                "recalled": "Indkaldelsen er registreret",
+                "bookTime": "Book tid"
             },
             "history": {
                 "label": "Vis tidligere undersøgelse:",

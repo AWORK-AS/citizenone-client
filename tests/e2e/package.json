@@ -16,6 +16,7 @@
     "test:settings-switches": "node settings-switches.mjs",
     "test:console-smoke": "node console-smoke.mjs",
     "test:price-estimate-settlement": "node price-estimate-settlement.mjs",
+    "test:dental-recalls": "node dental-recalls.mjs",
     "test:import-employees": "node import-employees.mjs"
   },
   "dependencies": {
