@@ -1256,7 +1256,8 @@
         },
         "tabs": {
             "bookings": "Bokningar",
-            "events": "Händelser"
+            "events": "Händelser",
+            "appointments": "Bokade tider"
         },
         "today": "Idag",
         "view": {
@@ -14270,5 +14271,22 @@
         "title": "Inställningar för den här sidan",
         "forThisPage": "Inställningar för den här sidan",
         "allSettings": "Alla inställningar"
+    },
+    "bookingAppointments": {
+        "intro": "Tider patienterna har tagit. Ska en kollega täcka kan bokningen lämnas över utan att patienten bokar om.",
+        "when": "När",
+        "who": "Vem",
+        "treatment": "Behandling",
+        "with": "Hos",
+        "handOver": "Lämna över",
+        "handOverTitle": "Lämna över bokningen",
+        "handOverExplanation": "Patienten behåller sin tid. Den flyttas till kollegans kalender, och kollegan får besked.",
+        "colleague": "Kollega",
+        "handedOver": "Bokningen är överlämnad",
+        "takenOver": "Övertagen",
+        "none": "Inga bokade tider i perioden",
+        "from": "Från",
+        "to": "Till",
+        "noColleagues": "Det finns ingen annan på kliniken att lämna över bokningen till."
     }
 }
