@@ -4671,6 +4671,55 @@
                 }
             }
         },
+        "compensatoryTimeRequests": {
+            "alert": {
+                "requestSuccessfullySent": "Compensatory time request successfully sent"
+            },
+            "compensatoryTimeRequests": "Compensatory time requests",
+            "hours": "Hours",
+            "newRequest": "Request compensatory time",
+            "noAccount": "You do not have a compensatory time account.",
+            "selectAccount": "Please select a compensatory time account.",
+            "sendRequest": "Send request",
+            "shift": "Shift",
+            "timeAccount": "Time account",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "decline": "Decline",
+                    "reverse": "Reverse",
+                    "withdraw": "Withdraw"
+                },
+                "alert": {
+                    "successfullyApproved": "Compensatory time request successfully approved",
+                    "successfullyDeclined": "Compensatory time request successfully declined",
+                    "successfullyReversed": "Compensatory time request successfully reversed",
+                    "successfullyWithdrawn": "Compensatory time request successfully withdrawn"
+                },
+                "confirmation": {
+                    "approveConfirmation": "Are you sure you want to approve this compensatory time request",
+                    "declineComment": "Comment (optional)",
+                    "declineCommentPlaceholder": "Add a reason the employee will see",
+                    "declineConfirmation": "Are you sure you want to decline this compensatory time request",
+                    "reverseComment": "Comment (optional)",
+                    "reverseCommentPlaceholder": "Add a reason the employee will see",
+                    "reverseConfirmation": "Are you sure you want to reverse this approved compensatory time request",
+                    "withdrawConfirmation": "Are you sure you want to withdraw this compensatory time request"
+                },
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "declineComment": "Comment",
+                "hours": "Hours",
+                "status": {
+                    "approved": "Approved",
+                    "declined": "Declined",
+                    "pending": "Pending",
+                    "reversed": "Reversed",
+                    "status": "Status",
+                    "withdrawn": "Withdrawn"
+                }
+            }
+        },
         "shiftRequests": {
             "form": {
                 "alert": {
@@ -6346,7 +6395,7 @@
                 "hoursPerYear": "hours per year",
                 "hourlyRate": "Hourly rate",
                 "jobSpecialty": "Job specialty",
-                "jobTitle": "Job title",
+                "jobTitle": "Job titles",
                 "salaryID": "Salary ID",
                 "terminationDate": "Termination date",
                 "vacationDays": "Vacation days",
@@ -7912,9 +7961,11 @@
                 "alert": {
                     "securedMailSuccessfullySent": "Secured mail successfully sent"
                 },
+                "attachFile": "Attach file",
                 "message": "Message",
                 "password": "Password",
                 "readMessage": "Read message",
+                "removeFile": "Remove file",
                 "send": "Send"
             },
             "from": "From",
@@ -9812,6 +9863,7 @@
                 "employmentWeeklyHours": "Weekly work hours (Employment Services billing)",
                 "employmentWeeklyHoursHint": "Used to convert hourly billing rates into a weekly price. Leave blank to use the default of 37 hours/week.",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
+                "compensatoryTimeEnabled": "Enable compensatory time requests",
                 "lockPastSchedules": "Lock past schedules",
                 "lockShiftsBeforeDate": "Lock shifts before date",
                 "clearLockShiftsBeforeDate": "Clear date",

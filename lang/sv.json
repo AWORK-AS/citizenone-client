@@ -4671,6 +4671,55 @@
                 }
             }
         },
+        "compensatoryTimeRequests": {
+            "alert": {
+                "requestSuccessfullySent": "Begäran om kompensationsledighet har skickats"
+            },
+            "compensatoryTimeRequests": "Begäran om kompensationsledighet",
+            "hours": "Timmar",
+            "newRequest": "Begär kompensationsledighet",
+            "noAccount": "Du har inget konto för kompensationsledighet.",
+            "selectAccount": "Välj ett konto för kompensationsledighet.",
+            "sendRequest": "Skicka förfrågan",
+            "shift": "Pass",
+            "timeAccount": "Tidskonto",
+            "table": {
+                "actions": {
+                    "approve": "Godkänn",
+                    "decline": "Avslå",
+                    "reverse": "Återställ",
+                    "withdraw": "Dra tillbaka"
+                },
+                "alert": {
+                    "successfullyApproved": "Begäran om kompensationsledighet har godkänts",
+                    "successfullyDeclined": "Begäran om kompensationsledighet har avslagits",
+                    "successfullyReversed": "Begäran om kompensationsledighet har återställts",
+                    "successfullyWithdrawn": "Begäran om kompensationsledighet har dragits tillbaka"
+                },
+                "confirmation": {
+                    "approveConfirmation": "Är du säker på att du vill godkänna denna begäran om kompensationsledighet?",
+                    "declineComment": "Kommentar (valfri)",
+                    "declineCommentPlaceholder": "Lägg till en motivering som medarbetaren kan se",
+                    "declineConfirmation": "Är du säker på att du vill avslå denna begäran om kompensationsledighet?",
+                    "reverseComment": "Kommentar (valfri)",
+                    "reverseCommentPlaceholder": "Lägg till en motivering som medarbetaren kan se",
+                    "reverseConfirmation": "Är du säker på att du vill återställa denna godkända begäran om kompensationsledighet?",
+                    "withdrawConfirmation": "Är du säker på att du vill dra tillbaka denna begäran om kompensationsledighet?"
+                },
+                "dateTimeEnd": "Slutdatum och -tid",
+                "dateTimeStart": "Startdatum och -tid",
+                "declineComment": "Kommentar",
+                "hours": "Timmar",
+                "status": {
+                    "approved": "Godkänd",
+                    "declined": "Avslagen",
+                    "pending": "Väntar",
+                    "reversed": "Återställd",
+                    "status": "Status",
+                    "withdrawn": "Tillbakadragen"
+                }
+            }
+        },
         "shiftRequests": {
             "form": {
                 "alert": {
@@ -6346,7 +6395,7 @@
                 "hoursPerYear": "Timmar per år",
                 "hourlyRate": "Timlön",
                 "jobSpecialty": "Jobspecialitet",
-                "jobTitle": "Jobbtitel",
+                "jobTitle": "Jobbtitlar",
                 "salaryID": "Lön-ID",
                 "terminationDate": "Opsigelsesdato",
                 "vacationDays": "Feriedage",
@@ -7912,9 +7961,11 @@
                 "alert": {
                     "securedMailSuccessfullySent": "Säker e-post skickad"
                 },
+                "attachFile": "Bifoga fil",
                 "message": "Meddelande",
                 "password": "Lösenord",
                 "readMessage": "Läs meddelande",
+                "removeFile": "Ta bort fil",
                 "send": "Skicka"
             },
             "from": "Från",
@@ -9812,6 +9863,7 @@
                 "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
                 "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
+                "compensatoryTimeEnabled": "Aktivera kompensationsledighet",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
                 "lockShiftsBeforeDate": "Lås pass före datum",
                 "clearLockShiftsBeforeDate": "Rensa datum",
