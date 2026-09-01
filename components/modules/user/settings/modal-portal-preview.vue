@@ -136,6 +136,43 @@ const SECTIONS: Record<string, any[]> = {
             preview: 'settings.company.form.portalPreviewMessagesCitizen',
         },
     ],
+    patient: [
+        {
+            key: 'overview', icon: 'material-symbols:dashboard',
+            label: 'settings.company.form.portalSectionOverview',
+            preview: 'settings.company.form.portalPreviewOverview',
+        },
+        {
+            key: 'appointments', icon: 'heroicons:clock',
+            label: 'settings.company.form.portalSectionAppointments',
+            preview: 'settings.company.form.portalPreviewAppointments',
+        },
+        {
+            key: 'booking', icon: 'ph:calendar-plus',
+            label: 'settings.company.form.portalSectionBooking',
+            preview: 'settings.company.form.portalPreviewBooking',
+        },
+        {
+            key: 'messages', icon: 'heroicons:chat-bubble-left-right',
+            label: 'settings.company.form.portalSectionMessages',
+            preview: 'settings.company.form.portalPreviewMessagesCitizen',
+        },
+        {
+            key: 'journals', icon: 'ph:notebook',
+            label: 'settings.company.form.portalSectionJournals',
+            preview: 'settings.company.form.portalPreviewPatientJournals',
+        },
+        {
+            key: 'surveys', icon: 'ph:clipboard-text',
+            label: 'settings.company.form.portalSectionSurveys',
+            preview: 'settings.company.form.portalPreviewSurveys',
+        },
+        {
+            key: 'documents', icon: 'ph:files',
+            label: 'settings.company.form.portalSectionDocuments',
+            preview: 'settings.company.form.portalPreviewDocuments',
+        },
+    ],
 }
 
 const NEVER_SEES: Record<string, string[]> = {
@@ -152,6 +189,12 @@ const NEVER_SEES: Record<string, string[]> = {
     ],
     citizen: [
         'settings.company.form.portalNeverDrafts',
+        'settings.company.form.portalNeverOtherCitizens',
+        'settings.company.form.portalNeverStaffNotes',
+    ],
+    patient: [
+        'settings.company.form.portalNeverDrafts',
+        'settings.company.form.portalNeverUnsharedJournalNotes',
         'settings.company.form.portalNeverOtherCitizens',
         'settings.company.form.portalNeverStaffNotes',
     ],

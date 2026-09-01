@@ -109,3 +109,12 @@ export function settingsHrefsForRoute(routeName?: string | null): string[] {
         .sort((a, b) => b.length - a.length)
     return keys.length ? PAGE_SETTINGS[keys[0]] : []
 }
+
+/**
+ * The routes a settings page is offered on, which is also the best set of words
+ * to find it by: someone looking for shift types searches "vagtplan", the page
+ * they want to change, rather than the name of the list itself.
+ */
+export function routeKeysForSettingsHref(href: string): string[] {
+    return Object.keys(PAGE_SETTINGS).filter((key) => PAGE_SETTINGS[key].includes(href))
+}

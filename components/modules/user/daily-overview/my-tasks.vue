@@ -37,6 +37,7 @@
 import { taskService } from '@/components/api/user/TaskService'
 import { useUserStore } from '@/store/user'
 
+const { formatDateToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
 const state = reactive({
     tasks: [] as any[],

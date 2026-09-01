@@ -12,7 +12,13 @@
     "test:medicine-bulk-give-flow": "node medicine-bulk-give-flow.mjs",
     "test:task-boards-permission-and-editor": "node task-boards-permission-and-editor.mjs",
     "test:page-settings-shortcut": "node page-settings-shortcut.mjs",
-    "test:import-employees": "node import-employees.mjs"
+    "test:sidebar-navigation": "node sidebar-navigation.mjs",
+    "test:settings-switches": "node settings-switches.mjs",
+    "test:console-smoke": "node console-smoke.mjs",
+    "test:price-estimate-settlement": "node price-estimate-settlement.mjs",
+    "test:dental-recalls": "node dental-recalls.mjs",
+    "test:import-employees": "node import-employees.mjs",
+    "test:forms-reorder-and-retype": "node forms-reorder-and-retype.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"
