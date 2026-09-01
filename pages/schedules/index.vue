@@ -179,7 +179,8 @@
             <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowDistributionOfShiftTypes"
                 @close="state.modal.isShowDistributionOfShiftTypes = false" />
             <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
-                :selectedDate="state.selectedDate" :filter="state.filter" @close="state.modal.isDownloadOpen = false" />
+                :selectedDate="state.selectedDate" :calendarView="state.calendarView" :filter="state.filter"
+                @close="state.modal.isDownloadOpen = false" />
             <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen" :dutySchedule="true"
                 @close="state.modal.isSubscribeOpen = false" />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"

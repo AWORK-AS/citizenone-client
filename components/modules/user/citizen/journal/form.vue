@@ -119,7 +119,7 @@
                 </div>
             </div>
             <!-- The level feeds the development graph, which is a care-plan measure. -->
-            <div class="space-y-1" v-if="hasCarePlans">
+            <div class="space-y-1" v-if="hasCarePlans && isFieldVisible('score')">
                 <FormLabel for="score" :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formJournal.score" />
                 <FormError :error="v$?.formJournal?.score?.$errors[0]?.$message.toString()" />
@@ -695,8 +695,8 @@ const state = reactive({
     usePredefinedJournalTitle: false,
     userPredefinedContents: false,
     formFieldConfig: {
-        create: { risk_assessment: true } as Record<string, boolean>,
-        edit: { risk_assessment: true } as Record<string, boolean>,
+        create: { risk_assessment: true, score: true } as Record<string, boolean>,
+        edit: { risk_assessment: true, score: true } as Record<string, boolean>,
     },
 })
 
@@ -713,6 +713,7 @@ async function fetchFormFieldConfig() {
                 if (config.form_type === 'create' || config.form_type === 'edit') {
                     state.formFieldConfig[config.form_type as 'create' | 'edit'] = {
                         risk_assessment: config.form_fields?.risk_assessment !== false,
+                        score: config.form_fields?.score !== false,
                     }
                 }
             })

@@ -6352,7 +6352,8 @@
                 "vacationDays": "Feriedage",
                 "weeklyNormHours": "Ugentlige normtimer",
                 "weeks": "Veckor",
-                "workingHours": "Arbejdstimer"
+                "workingHours": "Arbejdstimer",
+                "annualNormHoursNotUsed": "Ska inte användas"
             },
             "firstname": "Förnamn",
             "header": {
@@ -7625,8 +7626,10 @@
         "navLabel": "Redigera journalformulär",
         "riskAssessmentDescription": "När den är avstängd döljs riskbedömningssektionen (bedömningsnivå, anteckning, taggar och mållänkning) i journalens skapa- och redigeringsformulär för alla användare.",
         "riskAssessmentToggle": "Visa riskbedömningssektion i journalformulär",
-        "subtitle": "Konfigurera om riskbedömningssektionen är synlig i medborgarens journal skapa- och redigeringsformulär.",
-        "title": "Journalformulärets konfiguration"
+        "subtitle": "Konfigurera vilka fält som är synliga i medborgarens journalformulär för att skapa och redigera.",
+        "title": "Journalformulärets konfiguration",
+        "scoreToggle": "Visa \"Nuvarande nivå\" i journalformuläret",
+        "scoreDescription": "När den är avstängd visas inte fältet \"Nuvarande nivå\" i journalens skapa- och redigeringsformulär. Fältet är tomt från början, så en nivå står där bara om någon har valt den."
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -10022,7 +10025,8 @@
             "consultantSkills": "Konsultkompetenser",
             "inquiryServiceTypes": "Insatstyper",
             "taskTypes": "Uppgiftstyper",
-            "taskRules": "Uppgiftsregler"
+            "taskRules": "Uppgiftsregler",
+            "employmentOptions": "Anställningsval"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -14544,6 +14548,26 @@
         "title": "Inställningar för den här sidan",
         "forThisPage": "Inställningar för den här sidan",
         "allSettings": "Alla inställningar"
+    },
+    "employmentOptions": {
+        "title": "Anställningsval",
+        "subtitle": "Anpassa alternativen i fälten Arbetstimmar och Anställningsstatus på en medarbetare.",
+        "builtIn": "Systemval",
+        "newOption": "Nytt alternativ",
+        "add": "Lägg till",
+        "working_hours": {
+            "title": "Arbetstimmar",
+            "description": "Systemvalen kan varken döpas om eller tas bort: resten av systemet räknar på dem, bland annat omräkningen från semestertimmar till semesterdagar för deltidsanställda."
+        },
+        "employment_status": {
+            "title": "Anställningsstatus",
+            "description": "Lägg till de anställningsformer ni använder. Medarbetare som redan står på ett alternativ behåller det, även om ni döper om det."
+        },
+        "alert": {
+            "added": "Alternativet lades till",
+            "updated": "Alternativet uppdaterades",
+            "deleted": "Alternativet togs bort"
+        }
     },
     "bookingAppointments": {
         "intro": "Tider patienterna har tagit. Ska en kollega täcka kan bokningen lämnas över utan att patienten bokar om.",

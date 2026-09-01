@@ -6352,7 +6352,8 @@
                 "vacationDays": "Feriedager",
                 "weeklyNormHours": "Ukentlige normtimer",
                 "weeks": "Uker",
-                "workingHours": "Arbeidstimer"
+                "workingHours": "Arbeidstimer",
+                "annualNormHoursNotUsed": "Skal ikke brukes"
             },
             "firstname": "Fornavn",
             "header": {
@@ -7625,8 +7626,10 @@
         "navLabel": "Rediger journalskjema",
         "riskAssessmentDescription": "Når den er slått av, vil risikovurderingsdelen (vurderingsnivå, notat, tagger og mål-tilknytning) bli skjult i journalens opprett- og redigeringsskjemaer for alle @:terms.citizens{''}.",
         "riskAssessmentToggle": "Vis risikovurderingsdel i journalskjema",
-        "subtitle": "Konfigurer om risikovurderingsdelen er synlig i @:terms.citizenDefinite{'s'} journal opprett- og redigeringsskjemaer.",
-        "title": "Journalskjema konfigurasjon"
+        "subtitle": "Konfigurer hvilke felter som er synlige i @:terms.citizenDefinite{'s'} journalskjema for oppretting og redigering.",
+        "title": "Journalskjema konfigurasjon",
+        "scoreToggle": "Vis \"Nåværende nivå\" i journalskjemaet",
+        "scoreDescription": "Når den er slått av, vises ikke feltet \"Nåværende nivå\" i journalens opprett- og redigeringsskjema. Feltet er tomt fra start, så et nivå står der bare hvis noen har valgt det."
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -10022,7 +10025,8 @@
             "consultantSkills": "Konsulentkompetanser",
             "inquiryServiceTypes": "Innsatstyper",
             "taskTypes": "Oppgavetyper",
-            "taskRules": "Oppgaveregler"
+            "taskRules": "Oppgaveregler",
+            "employmentOptions": "Ansettelsesvalg"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -14544,6 +14548,26 @@
         "title": "Innstillinger for denne siden",
         "forThisPage": "Innstillinger for denne siden",
         "allSettings": "Alle innstillinger"
+    },
+    "employmentOptions": {
+        "title": "Ansettelsesvalg",
+        "subtitle": "Tilpass valgene i feltene Arbeidstimer og Ansettelsesstatus på en ansatt.",
+        "builtIn": "Systemvalg",
+        "newOption": "Nytt valg",
+        "add": "Legg til",
+        "working_hours": {
+            "title": "Arbeidstimer",
+            "description": "Systemvalgene kan verken gis nytt navn eller fjernes: resten av systemet regner på dem, blant annet omregningen fra ferietimer til feriedager for deltidsansatte."
+        },
+        "employment_status": {
+            "title": "Ansettelsesstatus",
+            "description": "Legg til ansettelsesformene dere bruker. Ansatte som allerede står på et valg beholder det, også hvis dere gir det nytt navn."
+        },
+        "alert": {
+            "added": "Valget ble lagt til",
+            "updated": "Valget ble oppdatert",
+            "deleted": "Valget ble slettet"
+        }
     },
     "bookingAppointments": {
         "intro": "Tider pasientene har tatt. Skal en kollega dekke, kan bookingen gis videre uten at pasienten må booke igjen.",

@@ -498,7 +498,11 @@
                                                         <div class="h-2 bg-gray-200 rounded animate-pulse w-2/3" />
                                                     </div>
                                                     <template v-else>
+                                                        <!-- Left out entirely for staff marked as not
+                                                             using an annual norm: a norm of zero is not
+                                                             information. -->
                                                         <div class="flex items-center gap-1 cursor-pointer"
+                                                            v-if="empStats(employee)?.uses_annual_norm_hours !== false"
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.annualNormHours') }}:
@@ -510,6 +514,7 @@
                                                         </div>
 
                                                         <div class="flex items-center gap-1 cursor-pointer"
+                                                            v-if="empStats(employee)?.uses_annual_norm_hours !== false"
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.weeklyNormHours') }}:

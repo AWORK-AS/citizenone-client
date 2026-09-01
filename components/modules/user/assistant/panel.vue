@@ -444,15 +444,30 @@ function onKeydown(event: KeyboardEvent) {
     assistantStore.close()
 }
 
+// The panel is 26rem wide and sits in the bottom-right corner - the same corner
+// the support chat bubble lives in, which is how the bubble ended up on top of
+// the prompt field while someone was typing (Birketoften 31/8). Move the bubble
+// clear for as long as the panel is open.
+const CHAT_BUBBLE_OFFSET_PX = 432
+
+function syncChatBubbleOffset(isOpen: boolean) {
+    useObiyenChat().setSideOffset(isOpen ? CHAT_BUBBLE_OFFSET_PX : 0)
+}
+
 onMounted(() => {
     document.addEventListener('keydown', onKeydown)
     // Reopening after a reload restores the panel, so its data has to load too.
     if (assistantStore.isOpen) initialisePanel()
+    syncChatBubbleOffset(assistantStore.isOpen)
 })
 
-onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
+onBeforeUnmount(() => {
+    document.removeEventListener('keydown', onKeydown)
+    syncChatBubbleOffset(false)
+})
 
 watch(() => assistantStore.isOpen, (isOpen: boolean) => {
+    syncChatBubbleOffset(isOpen)
     if (!isOpen) return
     initialisePanel()
     nextTick(() => promptTextarea.value?.focus())

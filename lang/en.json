@@ -6352,7 +6352,8 @@
                 "vacationDays": "Vacation days",
                 "weeklyNormHours": "Weekly norm hours",
                 "weeks": "Weeks",
-                "workingHours": "Working hours"
+                "workingHours": "Working hours",
+                "annualNormHoursNotUsed": "Not used"
             },
             "firstname": "First name",
             "header": {
@@ -7625,8 +7626,10 @@
         "navLabel": "Edit journal form",
         "riskAssessmentDescription": "When turned off, the risk assessment section (assessment level, note, tags and goal linking) will be hidden from the journal create and edit forms for all users.",
         "riskAssessmentToggle": "Show risk assessment section in journal form",
-        "subtitle": "Configure whether the risk assessment section is visible in the @:terms.citizen{''} journal create and edit forms.",
-        "title": "Journal Form Configuration"
+        "subtitle": "Configure which fields are visible in the @:terms.citizenDefinite{'s'} journal create and edit forms.",
+        "title": "Journal Form Configuration",
+        "scoreToggle": "Show \"Current level\" in the journal form",
+        "scoreDescription": "When switched off, the \"Current level\" field is hidden in the journal create and edit forms. The field starts empty, so a level is only there if someone chose it."
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -10022,7 +10025,8 @@
             "consultantSkills": "Consultant skills",
             "inquiryServiceTypes": "Service types",
             "taskTypes": "Task types",
-            "taskRules": "Task rules"
+            "taskRules": "Task rules",
+            "employmentOptions": "Employment options"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -14544,6 +14548,26 @@
         "title": "Settings for this page",
         "forThisPage": "Settings for this page",
         "allSettings": "All settings"
+    },
+    "employmentOptions": {
+        "title": "Employment options",
+        "subtitle": "Adjust the choices offered in the Working hours and Employment status fields on an employee.",
+        "builtIn": "Built-in",
+        "newOption": "New option",
+        "add": "Add",
+        "working_hours": {
+            "title": "Working hours",
+            "description": "The built-in options can neither be renamed nor removed: the rest of the system reasons about them, including how vacation hours convert to days for part-timers."
+        },
+        "employment_status": {
+            "title": "Employment status",
+            "description": "Add the employment types you use. Employees already on an option keep it, including when you rename it."
+        },
+        "alert": {
+            "added": "The option was added",
+            "updated": "The option was updated",
+            "deleted": "The option was deleted"
+        }
     },
     "bookingAppointments": {
         "intro": "Times patients have taken. If a colleague has to cover, the booking can be handed over without the patient booking again.",
