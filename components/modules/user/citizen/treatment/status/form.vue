@@ -15,7 +15,7 @@
                 <FormError :error="v$?.formStatus?.date?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date?.[0]" />
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="props.formType === 'update'">
                 <FormLabel for="area_type" :label="$t('citizens.treatments.statuses.areaTypes.areaType')" />
                 <FormSelect id="area_type" :options="state.options.area_types" v-model="state.formStatus.area_type" />
                 <FormError :error="v$?.formStatus?.area_type?.$errors[0]?.$message.toString()" />

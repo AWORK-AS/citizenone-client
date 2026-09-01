@@ -111,6 +111,7 @@ const state = reactive({
             working_hours: '',
             employment_status: '',
             annual_norm_hours: '',
+            annual_norm_hours_disabled: false,
             vacation_days: '',
             norm_period_uuid: '',
             hourly_rate: '',
@@ -167,11 +168,12 @@ async function fetchEmployee() {
                     salary_id: response?.data?.employee_detail?.salary_id ?? '',
                     employment_date: response?.data?.employee_detail?.date_of_employment ?? '',
                     termination_date: response?.data?.employee_detail?.termination_date ?? '',
-                    job_title_uuid: response?.data?.employee_detail?.job?.uuid ?? '',
+                    job_titles_uuid: response?.data?.job_titles?.map((jobTitle: any) => jobTitle.uuid) ?? [],
                     job_specialties: [],
                     working_hours: response?.data?.employee_detail?.working_hours ?? '',
                     employment_status: response?.data?.employee_detail?.status ?? '',
                     annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours?.toString() ?? '',
+                    annual_norm_hours_disabled: response?.data?.employee_detail?.annual_norm_hours_disabled ?? false,
                     vacation_days: response?.data?.employee_detail?.vacation_days?.toString() ?? '',
                     norm_period_uuid: response?.data?.employee_detail?.norm_period?.uuid ?? '',
                     hourly_rate: response?.data?.employee_detail?.hourly_rate?.toString() ?? '',
@@ -256,13 +258,14 @@ async function updateEmployee(employeeDetails: any) {
         params.append('salary_id', employeeDetails.employment.salary_id)
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('termination_date', employeeDetails.employment.termination_date)
-        params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
+        params.append('job_titles_uuid', JSON.stringify(employeeDetails.employment.job_titles_uuid ?? []))
         params.append('spoken_languages_uuid', JSON.stringify(employeeDetails.spoken_languages ?? []))
         params.append('primary_spoken_language_uuid', employeeDetails.primary_spoken_language ?? '')
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
         params.append('annual_norm_hours', String(employeeDetails.employment.annual_norm_hours ?? '').replace(',', '.'))
+        params.append('annual_norm_hours_disabled', employeeDetails.employment.annual_norm_hours_disabled ? '1' : '0')
         params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('norm_period_uuid', employeeDetails.employment.norm_period_uuid || 'default')
         params.append('hourly_rate', String(employeeDetails.employment.hourly_rate ?? '').replace(',', '.'))

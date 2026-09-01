@@ -85,8 +85,16 @@
             <div>
                 <div class="space-y-8 mt-5" v-if="state.form.fields?.length > 0">
                     <div v-for="(field, fieldIndex) in state.form.fields" :key="fieldIndex" class="space-y-3"
-                        :class="field.parentGroup && 'ml-8 border-l-2 border-dashed border-primary/40 pl-4'">
-                        <div class="bg-gray-100 rounded-md border-t-2 border-primary">
+                        :class="field.parentGroup && 'ml-8 border-l-2 border-dashed border-primary/40 pl-4'"
+                        @dragover.prevent="onFieldDragOver(fieldIndex)" @dragleave="onFieldDragLeave(fieldIndex)"
+                        @drop.prevent="onFieldDrop(fieldIndex)">
+                        <div class="bg-gray-100 rounded-md border-t-2"
+                            :class="state.dragOverFieldIndex === fieldIndex ? 'border-primary ring-2 ring-primary' : 'border-primary'">
+                            <div class="flex items-center justify-center py-1 text-gray-400 hover:text-gray-600 cursor-grab active:cursor-grabbing"
+                                draggable="true" :aria-label="$t('forms.fields.dragToReorder')"
+                                @dragstart="onFieldDragStart($event, fieldIndex)" @dragend="onFieldDragEnd">
+                                <Icon name="ph:dots-six-vertical" class="h-5 w-5" aria-hidden="true" />
+                            </div>
                             <div>
                                 <div v-if="field.type === 'textfield'" class="grow">
                                     <div class="p-5 space-y-3">
@@ -905,6 +913,7 @@ const state = reactive({
     addTarget: null as string | null,
     followUpNumber: '1',
     followUpUnit: 'Days',
+    dragOverFieldIndex: null as number | null,
 })
 
 const followUpUnits = [
@@ -1210,6 +1219,41 @@ function addGroup() {
 function aimAt(groupId: string | null) {
     state.addTarget = groupId
     state.showFieldsAdder = true
+}
+
+/**
+ * Handle-only drag (see the grip icon in the template): starting a drag from
+ * inside a field's own inputs is not possible, since they aren't draggable.
+ */
+let _dragFieldIndex: number | null = null
+
+function onFieldDragStart(e: DragEvent, fieldIndex: number) {
+    _dragFieldIndex = fieldIndex
+    if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move'
+}
+
+function onFieldDragEnd() {
+    _dragFieldIndex = null
+    state.dragOverFieldIndex = null
+}
+
+function onFieldDragOver(fieldIndex: number) {
+    if (_dragFieldIndex === null || _dragFieldIndex === fieldIndex) return
+    state.dragOverFieldIndex = fieldIndex
+}
+
+function onFieldDragLeave(fieldIndex: number) {
+    if (state.dragOverFieldIndex === fieldIndex) state.dragOverFieldIndex = null
+}
+
+function onFieldDrop(targetIndex: number) {
+    state.dragOverFieldIndex = null
+    if (_dragFieldIndex === null || _dragFieldIndex === targetIndex) return
+
+    const fields = state.form.fields
+    const [moved] = fields.splice(_dragFieldIndex, 1)
+    fields.splice(targetIndex, 0, moved)
+    _dragFieldIndex = null
 }
 
 function moveField(fieldIndex: number, direction: number) {

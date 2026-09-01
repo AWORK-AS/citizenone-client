@@ -181,7 +181,7 @@ const state = reactive({
         date_time_end: props.selectedScheduleSlot?.date_time_end,
         is_free_for_all: props.selectedScheduleSlot?.is_free_for_all ?? true,
         department_uuid: [],
-        job_title_uuid: props.selectedScheduleSlot?.job?.uuid || [],
+        job_title_uuid: [] as string[],
         job_specialty_uuid: [],
         available_slots: props.selectedScheduleSlot?.available_slots.toString(),
         shift_type: props.selectedScheduleSlot?.shift?.uuid,
@@ -321,7 +321,7 @@ async function fetchJobSpecialties(jobTitleUuid: any) {
     emit('isPageLoading', true)
     try {
         const params = {
-            job_title_uuids: Array(jobTitleUuid)
+            job_title_uuids: JSON.stringify(jobTitleUuid)
         }
         const response = await jobSpecialtyService.getAllJobSpecialties(params)
         if (response) {

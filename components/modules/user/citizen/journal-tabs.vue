@@ -14,6 +14,7 @@ const userStore = useUserStore()
 const { t, locale } = useI18n()
 const { term } = useTerminology()
 const { errorAlert } = useAlert()
+const { industryHasFeature } = useIndustryFeatures()
 
 const state = reactive({
     tabs: [] as any[],
@@ -44,7 +45,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-journals'],
         })
     }
-    if (isDental) {
+    if (industryHasFeature('toothChart')) {
         tabs.push({
             name: 'citizens.tabs.toothChart', icon: 'ph:tooth', isTranslateName: true,
             category: 'care', primary: true,
@@ -52,7 +53,21 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-tooth-chart'],
         })
     }
-    if (isDental) {
+    // Forms sent to the patient to fill in themselves. Only where there is a portal to send
+    // them to; a clinic without it would get a tab that cannot do anything.
+    if (isDental && newValue?.has_patient_app) {
+        tabs.push({
+            name: 'citizens.tabs.patientForms', icon: 'ph:note-pencil', isTranslateName: true,
+            href: `/citizens/${citizenUuid}/patient-forms`,
+            routeNames: ['citizens-uuid-patient-forms'],
+            category: 'documentation', primary: false,
+        })
+    }
+
+    // Quoting before treatment is a way of working rather than something every
+    // clinic does, so it follows the company's own choice like the medicine card
+    // and the documents tab do - not the industry alone.
+    if (industryHasFeature('priceEstimates') && newValue?.company?.onboarding_preferences?.modules?.priceEstimates !== false) {
         tabs.push({
             name: 'citizens.tabs.priceEstimates', icon: 'ph:receipt', isTranslateName: true,
             category: 'admin', primary: false,

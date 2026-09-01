@@ -23,6 +23,37 @@
                 <FormError :error="v$?.formDepartment?.color?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.color?.[0]" />
             </div>
+            <!-- A dental chain runs one clinic per department, and the patient
+                 portal shows the clinic's own address and phone. -->
+            <div class="space-y-3" v-if="isDentalClinic">
+                <div class="space-y-1">
+                    <FormLabel for="street" :label="$t('departments.form.street')" />
+                    <FormTextField id="street" name="street" :placeholder="$t('departments.form.street')"
+                        v-model="state.formDepartment.street" />
+                    <FormError :error="props?.error?.errors?.street?.[0]" />
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="post_code" :label="$t('departments.form.postCode')" />
+                        <FormTextField id="post_code" name="post_code" :placeholder="$t('departments.form.postCode')"
+                            v-model="state.formDepartment.post_code" />
+                        <FormError :error="props?.error?.errors?.post_code?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="city" :label="$t('departments.form.city')" />
+                        <FormTextField id="city" name="city" :placeholder="$t('departments.form.city')"
+                            v-model="state.formDepartment.city" />
+                        <FormError :error="props?.error?.errors?.city?.[0]" />
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="phone" :label="$t('departments.form.phone')" />
+                    <FormTextField id="phone" name="phone" :placeholder="$t('departments.form.phone')"
+                        v-model="state.formDepartment.phone" />
+                    <p class="text-xs text-gray-400">{{ $t('departments.form.clinicAddressHint') }}</p>
+                    <FormError :error="props?.error?.errors?.phone?.[0]" />
+                </div>
+            </div>
             <div class="space-y-1" v-if="userStore.getUser?.is_extended_duty_schedule_active">
                 <FormLabel for="minimum_staff_count" :label="$t('departments.form.minimumStaffCount')" />
                 <FormNumberField id="minimum_staff_count" name="minimum_staff_count" :min="0"
@@ -56,6 +87,14 @@ import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
 
+// Clinic details only make sense for dental clinics, where a department is a
+// clinic. Same rule as the other dental features.
+const isDentalClinic = computed(() => {
+    const industry = userStore.getUser?.company?.industry
+
+    return industry?.system_name === 'dental' || industry?.en_name === 'Dentists and dental hygienists'
+})
+
 const props = defineProps({
     error: {
         type: Object,
@@ -80,6 +119,10 @@ const state = reactive({
         name: '',
         shift_type_uuid: [],
         color: '#000000',
+        street: '',
+        post_code: '',
+        city: '',
+        phone: '',
         minimum_staff_count: '',
     } as any,
     options: {
@@ -93,6 +136,10 @@ watch(() => props.selectedDepartment, (newValue: any) => {
             name: newValue.name,
             shift_type_uuid: newValue.shift_type_uuid,
             color: newValue.color,
+            street: newValue.street ?? '',
+            post_code: newValue.post_code ?? '',
+            city: newValue.city ?? '',
+            phone: newValue.phone ?? '',
             minimum_staff_count: newValue.minimum_staff_count ?? '',
         }
     }
