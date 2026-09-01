@@ -56,6 +56,15 @@ interface Command {
     icon?: string
     hint?: string
     group?: string
+    /** Extra words the entry should be findable by, beyond its own label. */
+    keywords?: string
+    /**
+     * Kept out of the resting list and only offered once something is typed.
+     * The settings are the reason: there are some fifty of them, and an empty
+     * palette that opens on a wall of settings buries the six pages people
+     * actually navigate to.
+     */
+    onlyWhenSearching?: boolean
     run: () => void
 }
 
@@ -87,10 +96,9 @@ watch(isOpen, (v) => {
 
 const filtered = computed(() => {
     const q = query.value.trim().toLowerCase()
-    const list = q
-        ? props.commands.filter((c) => c.label.toLowerCase().includes(q))
-        : props.commands
-    return list
+    if (!q) return props.commands.filter((c) => !c.onlyWhenSearching)
+    return props.commands.filter((c) =>
+        c.label.toLowerCase().includes(q) || (c.keywords || '').toLowerCase().includes(q))
 })
 
 // group, and stamp a flat index for keyboard navigation
