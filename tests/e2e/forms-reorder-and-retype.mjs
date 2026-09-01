@@ -29,7 +29,8 @@
  *   4) The in-place type switch: converting a text field to a textarea via
  *      the dropdown must keep its title, its position, and - checked via the
  *      raw API, not just the DOM - the field row's uuid, so any response
- *      already saved against it isn't orphaned.
+ *      already saved against it isn't orphaned. Also checks that re-picking
+ *      the type a field already has is a no-op rather than blanking it.
  *
  * Order is asserted two ways: from the DOM after a fresh page load, and
  * independently via a raw API GET of the form - the latter is the real
@@ -316,8 +317,22 @@ try {
     !!fieldAAfter?.uuid && fieldAAfter.uuid === fieldABefore.uuid)
   ok('In-place retype actually saved the field as a textarea', fieldAAfter?.type === 'textarea')
 
+  // Re-picking the type a field already has must be a no-op. The underlying
+  // @vueform/multiselect deselects (and emits null) when you click the
+  // selected option unless canDeselect is off - a null type used to blank the
+  // whole card, with the type dropdown itself disappearing along with it.
+  await switchFieldType('Field A', 'textarea')
+  ok('Re-picking the current type leaves the field intact, not blanked',
+    JSON.stringify(await fieldTitles()) === JSON.stringify(['Field D', 'Field A', 'Field C', 'Field E (was text)']))
+
+  const titlesAfterReselect = await saveAndReload(4)
+  ok('Re-picking the current type persisted harmlessly (DOM)',
+    JSON.stringify(titlesAfterReselect) === JSON.stringify(['Field D', 'Field A', 'Field C', 'Field E (was text)']))
+  const fieldAAfterReselect = (await fetchFormFieldRowsFromApi()).find((f) => f.value === 'Field A')
+  ok('Re-picking the current type kept it a textarea, not null', fieldAAfterReselect?.type === 'textarea')
+
   const realConsoleErrors = consoleErrors.filter((e) => !e.includes('Obiyen script tag'))
-  ok('No console errors across all three scenarios', realConsoleErrors.length === 0)
+  ok('No console errors across all four scenarios', realConsoleErrors.length === 0)
   if (realConsoleErrors.length) console.log('  console errors:', realConsoleErrors.slice(0, 5))
 } catch (e) {
   ok('Unexpected error: ' + e.message, false)

@@ -94,15 +94,15 @@
                             :class="state.draggingFieldIndex === fieldIndex && 'opacity-50'">
                             <div class="flex items-center gap-x-3 py-1 px-2">
                                 <div class="flex items-center justify-center text-gray-400 hover:text-gray-600"
-                                    :class="field.type === 'group' || field.parentGroup ? 'cursor-not-allowed opacity-40' : 'cursor-grab active:cursor-grabbing'"
-                                    :draggable="!(field.type === 'group' || field.parentGroup)"
+                                    :class="isGroupBound(field) ? 'cursor-not-allowed opacity-40' : 'cursor-grab active:cursor-grabbing'"
+                                    :draggable="!isGroupBound(field)"
                                     :aria-label="$t('forms.fields.dragToReorder')"
                                     @dragstart="onFieldDragStart($event, fieldIndex)" @dragend="onFieldDragEnd">
                                     <Icon name="ph:dots-six-vertical" class="h-5 w-5" aria-hidden="true" />
                                 </div>
                                 <div v-if="INTERCHANGEABLE_FIELD_TYPES.includes(field.type)" class="w-40">
                                     <FormSelect :id="'field_type_' + fieldIndex" :options="fieldTypeOptions"
-                                        :canClear="false" :searchable="false"
+                                        :canClear="false" :canDeselect="false" :searchable="false"
                                         :aria-label="$t('forms.fields.changeType')" :modelValue="field.type"
                                         @update:modelValue="(v) => changeFieldType(fieldIndex, v)" />
                                 </div>
@@ -953,16 +953,19 @@ const citizenAutoFillDateOptions = citizenAutoFillOptions.filter((option) =>
 )
 
 /**
- * Types that share the same field shape (title, required, autoFillSource) and
- * differ only in the answer control, so switching between them can mutate the
- * field in place instead of delete + re-add.
+ * Types a field can be switched between in place. Deliberately just the two
+ * free-text ones: switching keeps the field's uuid, so answers already saved
+ * against it stay attached, and a text answer means the same thing in a
+ * single-line field as in a textarea. Date fields are left out on purpose -
+ * FormDateField can't parse an existing free-text answer, so it would blank
+ * the input and the next save of that report would overwrite the citizen's
+ * answer with an empty string.
  */
-const INTERCHANGEABLE_FIELD_TYPES = ['textfield', 'textarea', 'datefield']
+const INTERCHANGEABLE_FIELD_TYPES = ['textfield', 'textarea']
 
 const fieldTypeOptions = [
     { value: 'textfield', label: t('forms.fields.text') },
     { value: 'textarea', label: t('forms.fields.textarea') },
-    { value: 'datefield', label: t('forms.fields.date') },
 ]
 
 const citizenProfileFieldOptions = computed(() => [
@@ -1251,11 +1254,20 @@ function aimAt(groupId: string | null) {
 }
 
 /**
+ * Groups and their children stay out of drag-and-drop entirely - both as the
+ * thing being dragged and as a drop target. A drop relocates exactly one array
+ * entry, so dragging a group would leave its children behind, and dropping
+ * anything between them would break the "children sit right after their group"
+ * invariant that insertField and the group renderer both rely on. Up/Down still
+ * move them, as they always have.
+ */
+function isGroupBound(field: any): boolean {
+    return field?.type === 'group' || !!field?.parentGroup
+}
+
+/**
  * Handle-only drag (see the grip icon in the template): starting a drag from
  * inside a field's own inputs is not possible, since they aren't draggable.
- * Groups and their children can't be dragged (the handle isn't draggable for
- * them) - moving a group would otherwise leave its children behind, since a
- * drop only relocates the one array entry that was dragged.
  */
 let _dragFieldIndex: number | null = null
 
@@ -1285,6 +1297,13 @@ function onFieldDragEnd() {
 
 function onFieldDragOver(e: DragEvent, fieldIndex: number) {
     if (_dragFieldIndex === null || _dragFieldIndex === fieldIndex) return
+    if (isGroupBound(state.form.fields[fieldIndex])) {
+        state.dragOverFieldIndex = null
+        state.dropPosition = null
+
+        return
+    }
+
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
     state.dragOverFieldIndex = fieldIndex
     state.dropPosition = e.clientY - rect.top < rect.height / 2 ? 'before' : 'after'
@@ -1304,6 +1323,7 @@ function onFieldDrop(targetIndex: number) {
     state.dragOverFieldIndex = null
     state.dropPosition = null
     if (_dragFieldIndex === null || _dragFieldIndex === targetIndex) return
+    if (isGroupBound(state.form.fields[targetIndex])) return
 
     const fields = state.form.fields
     const [moved] = fields.splice(_dragFieldIndex, 1)
@@ -1318,15 +1338,16 @@ function onFieldDrop(targetIndex: number) {
  * required flag, position and - most importantly - the field's uuid all
  * survive. Any citizen answers already saved against this field hang off
  * that uuid, so recreating the field would orphan them.
+ *
+ * The type is validated rather than trusted: the select underneath emits null
+ * when an option is clicked while already selected, and a field left with no
+ * type at all renders as an empty card with no way back to a real type.
  */
 function changeFieldType(fieldIndex: number, type: string) {
     const field = state.form.fields[fieldIndex]
-    if (!field || field.type === type) return
+    if (!field || !INTERCHANGEABLE_FIELD_TYPES.includes(type)) return
 
     field.type = type
-    if (type === 'datefield' && !citizenAutoFillDateOptions.some((option) => option.value === field.autoFillSource)) {
-        field.autoFillSource = ''
-    }
 }
 
 function moveField(fieldIndex: number, direction: number) {
