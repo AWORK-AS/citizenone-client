@@ -133,7 +133,7 @@
                         {{ $t('overview.stats.acrossCitizens') }}
                     </div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" v-if="hasMedicineModule">
                     <div class="stat-label">
                         <span class="w-2 h-2 rounded-full bg-accent-orange"></span>
                         {{ $t('overview.stats.medicationsDue') || 'Medications due' }}
@@ -306,7 +306,8 @@
                     </div>
 
                     <!-- Medication overview panel -->
-                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
+                    <div class="card"
+                        v-if="hasMedicineModule && overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:camera-plus" class="h-5 w-5 text-primary" />
@@ -473,6 +474,21 @@ const breadcrumbLinks = [
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const departmentStore = useDepartmentStore()
+
+/**
+ * Whether this company works with medicine at all.
+ *
+ * Same two conditions the citizen's medicine tab uses: the page has to be
+ * granted, and the module has to be kept in the company's own module choices.
+ * A company that turned medicine off was still shown a doses-due card that
+ * could only ever read zero.
+ */
+const hasMedicineModule = computed(() => {
+    const pages = userStore.getUser?.pages ?? []
+    const hasPage = pages.some((page: any) => page.name === 'Medicine card')
+
+    return hasPage && userStore.getUser?.company?.onboarding_preferences?.modules?.medicin !== false
+})
 
 // True when any statistics widget is enabled — guards the collapsible Statistics
 // section so an empty header never shows.
@@ -769,6 +785,12 @@ async function fetchCitizensLatestJournal(dateRange: any) {
 }
 
 async function fetchCitizensMedicines(dateRange: any) {
+    // Nothing on the page reads it when the module is off: both the doses-due
+    // card and the medication panel are gone.
+    if (!hasMedicineModule.value) {
+        return
+    }
+
     state.error = {}
     state.isPageLoading = true
     try {

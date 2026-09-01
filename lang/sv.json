@@ -2175,7 +2175,9 @@
             },
             "transportation": "Transportere",
             "useThisLocation": "Använd denna placering",
-            "secondaryCaseworker": "Sekundär {term}"
+            "secondaryCaseworker": "Sekundär {term}",
+            "caseNumber": "Ärendenummer",
+            "caseNumberHint": "Numret ärendet har i systemet det kom från"
         },
         "importCitizens": {
             "alert": {
@@ -3129,7 +3131,8 @@
             "email": "E-post",
             "name": "Namn",
             "phone": "Telefon",
-            "ssn": "Personnummer"
+            "ssn": "Personnummer",
+            "caseNumber": "Ärendenummer"
         },
         "tabs": {
             "attendance": "Närvaro",
@@ -3872,7 +3875,36 @@
             "report": {
                 "citizenName": "@.capitalize:terms.citizenDefinite{'s'} namn"
             }
-        }
+        },
+        "searchPlaceholder": "Sök på namn, personnummer eller ärendenummer",
+        "emptyListHint": "Inga {citizens} hittades ännu. Använd \"Ny {citizen}\" ovan, eller importera från ett annat system.",
+        "coordinators": {
+            "badgePrimary": "Primär koordinator",
+            "badgeSecondary": "Sekundär koordinator",
+            "hint": "Medarbetaren du anger här visas under Kontakter på {theCitizen}, och {theCitizen} visas under medarbetarens tilldelade {citizens}.",
+            "notSet": "Inte angiven",
+            "primary": "Primär koordinator",
+            "saved": "Koordinatorerna har sparats",
+            "secondary": "Sekundär koordinator",
+            "selectEmployee": "Välj medarbetare",
+            "title": "Koordinatorer"
+        },
+        "filters": {
+            "any": "Alla",
+            "spokenLanguage": "Talat språk",
+            "coordinatorRole": "Koordinatorroll",
+            "riskLevel": "Risknivå",
+            "admittedFrom": "Inskriven från",
+            "admittedTo": "Inskriven till",
+            "requiresInterpreter": "Behöver tolk",
+            "activeFilters": "Aktiva filter",
+            "risk": {
+                "green": "Grön",
+                "yellow": "Gul",
+                "red": "Röd"
+            }
+        },
+        "emptyFiltered": "Inga {citizens} matchar filtren."
     },
     "client": {
         "appointments": "Möten",
@@ -6516,7 +6548,21 @@
         "workingHours": {
             "fulltime": "Fuldtid",
             "parttime": "Deltid"
-        }
+        },
+        "employeeGroups": {
+            "header": "Medarbetargrupper",
+            "headerHint": "Grupperna den här medarbetaren tillhör",
+            "hint": "Välj de grupper medarbetaren tillhör. En medarbetare kan tillhöra flera grupper.",
+            "none": "Inga grupper",
+            "saved": "Grupperna har sparats",
+            "selectGroups": "Välj grupper"
+        },
+        "filters": {
+            "state": "Status",
+            "active": "Aktiv",
+            "inactive": "Inaktiv"
+        },
+        "emptyFiltered": "Inga medarbetare matchar filtren."
     },
     "entriesPerPage": "Indläg pr. sida",
     "error": {
@@ -6534,7 +6580,7 @@
             "successfullyDeleted": "Händelse raderad",
             "successfullyUpdated": "Händelse har uppdaterats",
             "statusSuccessfullyUpdated": "Händelsestatus har uppdaterats",
-            "journalSuccessfullyCreated": "Journalanteckning har skapats"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} har skapats"
         },
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -6587,17 +6633,17 @@
             "yourCalendarUrl": "Din personliga kalender-URL",
             "addToCalendar": "Lägg till i kalender"
         },
-        "createJournalNote": "Skapa journalanteckning",
+        "createJournalNote": "Skapa @:terms.journalNote{''}",
         "markAsCompleted": "Markera som slutförd",
         "markAsNotCompleted": "Markera som inte slutförd",
-        "viewJournalNote": "Visa journalanteckning",
+        "viewJournalNote": "Visa @:terms.journalNote{''}",
         "status": {
             "completed": "Slutförd",
             "notCompleted": "Inte slutförd"
         },
         "journalNotePrompt": {
-            "title": "Journalanteckning",
-            "message": "Vill du skriva en journalanteckning om detta?"
+            "title": "@.capitalize:terms.journalNote{''}",
+            "message": "Vill du skriva en @:terms.journalNote{''} om detta?"
         },
         "journalNote": {
             "form": {
@@ -7302,7 +7348,7 @@
             "title": "Snabbåtgärder",
             "newCitizen": "Lägg till medborgare",
             "newEmployee": "Lägg till medarbetare",
-            "journalNotes": "Journalanteckningar",
+            "journalNotes": "@.capitalize:terms.journalNotes{''}",
             "statistics": "Statistik"
         },
         "footerHint": "Sök & agera snabbt",
@@ -7780,7 +7826,7 @@
             "optionsRequired": "Lägg till minst ett alternativ",
             "required": "Required",
             "contentTemplate": "Innehållsmall",
-            "contentTemplateHint": "Denna text infogas automatiskt i journalanteckningen när denna titel väljs."
+            "contentTemplateHint": "Denna text infogas automatiskt i @:terms.journalNote{''}en när denna titel väljs."
         },
         "journalTitles": "Journal titlar",
         "newJournalTitle": "Ny journal titel",
@@ -8237,7 +8283,10 @@
         "writeToUsContactPersons": "Går till {names}, som finns runt din anhöriga",
         "writeToUsManagement": "Går till ledningen",
         "seeAllConversations": "Se alla samtal",
-        "sending": "Skickar..."
+        "sending": "Skickar...",
+        "employeeGroups": "Medarbetargrupp",
+        "selectEmployeeGroups": "Välj medarbetargrupper",
+        "employeeGroupsHint": "Gruppens medlemmar läggs till som mottagare, och du kan ändra listan efteråt."
     },
     "map": {
         "layers": {
@@ -13135,7 +13184,7 @@
         "entities": {
             "citizens": "Barn / medborgare",
             "employees": "Anställda",
-            "journals": "Journalanteckningar",
+            "journals": "@.capitalize:terms.journalNotes{''}",
             "schedules": "Arbetsscheman"
         },
         "fields": {
@@ -13454,7 +13503,7 @@
         "brief": {
             "goals_running_out": "Ett mål går ut inom en vecka | {n} mål går ut inom en vecka",
             "heading": "Kräver din uppmärksamhet",
-            "journal_mentions": "Du har taggats i en journalanteckning | Du har taggats i {n} journalanteckningar",
+            "journal_mentions": "Du har taggats i en @:terms.journalNote{''} | Du har taggats i {n} @:terms.journalNotes{''}",
             "missed_doses": "En dos är inte registrerad som given | {n} doser är inte registrerade som givna",
             "reminders_due": "En påminnelse förfaller idag | {n} påminnelser förfaller idag"
         },
@@ -14637,5 +14686,8 @@
         "from": "Från",
         "to": "Till",
         "noColleagues": "Det finns ingen annan på kliniken att lämna över bokningen till."
+    },
+    "table": {
+        "clearFilters": "Rensa filter"
     }
 }

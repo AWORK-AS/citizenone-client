@@ -46,6 +46,13 @@
                         <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
                     </div>
                     <div class="space-y-1">
+                        <FormLabel for="case_number" :label="$t('citizens.form.caseNumber')" />
+                        <FormTextField id="case_number" name="case_number"
+                            v-model="state.formCitizen.case_number" />
+                        <p class="text-xs text-gray-500">{{ $t('citizens.form.caseNumberHint') }}</p>
+                        <FormError :error="props?.error?.errors?.case_number?.[0]" />
+                    </div>
+                    <div class="space-y-1">
                         <FormLabel for="birthday" :label="$t('citizens.form.birthday')" />
                         <FormDateField id="birthday" name="birthday" v-model="state.formCitizen.birthday" />
                         <p v-if="state.autoFilledFromSsn" class="flex items-center gap-x-1 text-xs text-tertiary">
@@ -1225,6 +1232,7 @@ const state = reactive({
         gender: '',
         email: '',
         social_security_number: '',
+        case_number: '',
         birthday: '',
         phone: '',
         departments: [],
@@ -1503,6 +1511,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             gender: selectedCitizen.gender,
             email: selectedCitizen.email,
             social_security_number: selectedCitizen.social_security_number,
+            case_number: selectedCitizen.case_number ?? '',
             birthday: selectedCitizen.birthday,
             phone: selectedCitizen.phone,
             departments: selectedCitizen.departments,

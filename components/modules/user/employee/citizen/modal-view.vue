@@ -23,6 +23,13 @@
                                         </td>
                                         <td width="40%">
                                             <span>{{ citizen.lastname }}</span>
+                                            <Badge type="active" class="w-fit mt-1 ml-1" v-if="citizen?.coordinator_role">
+                                                <p class="text-xxs px-2">
+                                                    {{ citizen.coordinator_role === 'primary'
+                                                        ? $t('citizens.coordinators.badgePrimary')
+                                                        : $t('citizens.coordinators.badgeSecondary') }}
+                                                </p>
+                                            </Badge>
                                         </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
