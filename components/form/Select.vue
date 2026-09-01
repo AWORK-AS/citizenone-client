@@ -1,7 +1,8 @@
 <template>
     <Multiselect :close-on-select="true" :searchable="props.searchable" :options="props.options"
         :placeholder="props.placeholder"
-        :canClear="props.canClear" :no-options-text="$t('theListIsEmpty')" :noResultsText="$t('noResultFound')"
+        :canClear="props.canClear" :canDeselect="props.canDeselect" :no-options-text="$t('theListIsEmpty')"
+        :noResultsText="$t('noResultFound')"
         :appendToBody="props.appendToBody"
         :modelValue="props.modelValue" @update:modelValue="$emit('update:modelValue', $event)" />
 </template>
@@ -16,6 +17,13 @@ const props = defineProps({
         default: false,
     },
     canClear: {
+        type: Boolean,
+        default: true
+    },
+    // Multiselect's own default. Set false where the field must always hold a
+    // value: otherwise clicking the already-selected option deselects it and
+    // emits null, which callers binding straight to a model rarely expect.
+    canDeselect: {
         type: Boolean,
         default: true
     },

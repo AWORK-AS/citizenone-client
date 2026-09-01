@@ -103,8 +103,10 @@ re-run against the same fixture shift repeatedly.
 ### `forms-reorder-and-retype` — only needs `CO_TOKEN`
 
 Covers the form-builder field-order fix (a delete+retype no longer jumps a field to the bottom
-on save) and the new drag-and-drop reordering. Creates its own throwaway form via the API, so no
-extra fixtures are needed beyond `CO_TOKEN`.
+on save), drag-and-drop reordering, and the in-place field type switch (converting a text field
+to a textarea keeps its title, position, and uuid, so any answer already saved against it isn't
+orphaned). Creates its own throwaway form via the API, so no extra fixtures are needed beyond
+`CO_TOKEN`.
 
 ```bash
 CO_TOKEN='<paste-token>' npm run test:forms-reorder-and-retype
@@ -189,6 +191,60 @@ fetch finishes, so the middleware sees a null user and Nuxt renders a misleading
 "Page Not Found" instead of the real redirect. The script waits for the specific `/api/user`
 response (not `networkidle`, which can hang on the app's persistent Pusher websocket) before
 treating any navigation to `/tasks` as safe to continue from.
+
+### `journal-note-notification-scope` — needs two admin tokens with different department opt-ins
+
+Covers the journal notification spam fix: an admin with the generic "Enable system notifications"
+profile toggle on used to receive a bell notification for every journal note written anywhere in
+the company, not just their own department/house. Needs `CO_TOKEN` (author, used to create the
+note and for API teardown), `CO_CITIZEN_UUID` (must belong to a known department - reuse an
+existing test citizen and note its department), `CO_OFFDEPT_TOKEN` (an Admin in a *different*
+department, with system notifications enabled, not opted into the citizen's department) and
+`CO_SAMEDEPT_TOKEN` (an Admin opted into the citizen's department via the notification-department
+picker). These two admin fixtures are `firstOrCreate`-idempotent - mint once, reuse across runs:
+
+```bash
+php artisan tinker --execute='
+  $admin = App\Models\User::where("email","dev@awork.dk")->first();
+  $citizen = App\Models\Citizen::where("uuid","<CO_CITIZEN_UUID>")->firstOrFail();
+  $citizenDeptId = $citizen->departments()->first()->id;
+  $otherDept = App\Models\Department::where("company_id", $admin->company_id)
+    ->where("id", "!=", $citizenDeptId)->first()
+    ?? App\Models\Department::create(["company_id" => $admin->company_id, "name" => "E2E Off Dept"]);
+
+  $off = App\Models\User::firstOrCreate(
+    ["email" => "e2e-notif-offdept@test.com"],
+    ["firstname" => "E2E", "lastname" => "OffDept", "phone" => "+4500000097",
+     "company_id" => $admin->company_id, "language_id" => $admin->language_id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false, "is_active" => true,
+     "is_email_verified" => true, "system_notifications_enabled" => true]
+  );
+  if (! $off->hasRole("Admin")) $off->assignRole("Admin");
+  $off->departments()->syncWithoutDetaching([$otherDept->id]);
+
+  $same = App\Models\User::firstOrCreate(
+    ["email" => "e2e-notif-samedept@test.com"],
+    ["firstname" => "E2E", "lastname" => "SameDept", "phone" => "+4500000096",
+     "company_id" => $admin->company_id, "language_id" => $admin->language_id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false, "is_active" => true,
+     "is_email_verified" => true, "system_notifications_enabled" => false]
+  );
+  if (! $same->hasRole("Admin")) $same->assignRole("Admin");
+  $same->department_notifications()->syncWithoutDetaching([$citizenDeptId]);
+
+  echo "off: " . $off->createToken("e2e-offdept")->plainTextToken . "\n";
+  echo "same: " . $same->createToken("e2e-samedept")->plainTextToken . "\n";
+'
+```
+
+```bash
+CO_TOKEN='<author-token>' CO_CITIZEN_UUID='<uuid>' \
+  CO_OFFDEPT_TOKEN='<off-token>' CO_SAMEDEPT_TOKEN='<same-token>' \
+  npm run test:journal-note-notification-scope
+```
+
+Only the journal note created during the run is deleted by the script (via its own uuid, in a
+`finally` block); the two admin fixtures are left in place for reuse on the next run.
 
 ### `import-employees` — needs a queue worker running and a spare employee license
 
