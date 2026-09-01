@@ -13209,7 +13209,8 @@
             "shift": "Shift type (name)",
             "start_time": "Start time (HH:MM)",
             "end_time": "End time (HH:MM)",
-            "email_employee": "Employee's email (match)"
+            "email_employee": "Employee's email (match)",
+            "case_number": "Case number"
         },
         "errors": {
             "emptyFile": "The file appears empty or has no data rows.",

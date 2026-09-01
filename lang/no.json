@@ -13209,7 +13209,8 @@
             "shift": "Vakttype (navn)",
             "start_time": "Starttid (TT:MM)",
             "end_time": "Sluttid (TT:MM)",
-            "email_employee": "Den ansattes e-post (match)"
+            "email_employee": "Den ansattes e-post (match)",
+            "case_number": "Saksnummer"
         },
         "errors": {
             "emptyFile": "Filen ser tom ut eller har ingen datarader.",

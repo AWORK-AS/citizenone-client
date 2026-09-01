@@ -13209,7 +13209,8 @@
             "shift": "Vagttype (navn)",
             "start_time": "Starttid (TT:MM)",
             "end_time": "Sluttid (TT:MM)",
-            "email_employee": "Medarbejderens e-mail (match)"
+            "email_employee": "Medarbejderens e-mail (match)",
+            "case_number": "Indsatsnummer"
         },
         "errors": {
             "emptyFile": "Filen ser tom ud eller har ingen datarækker.",

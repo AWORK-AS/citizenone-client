@@ -13209,7 +13209,8 @@
             "shift": "Skifttyp (namn)",
             "start_time": "Starttid (TT:MM)",
             "end_time": "Sluttid (TT:MM)",
-            "email_employee": "Anställds e-post (matchning)"
+            "email_employee": "Anställds e-post (matchning)",
+            "case_number": "Ärendenummer"
         },
         "errors": {
             "emptyFile": "Filen verkar tom eller saknar datarader.",
