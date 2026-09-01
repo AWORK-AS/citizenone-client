@@ -84,7 +84,7 @@ describe('exceededDoseLimit — the AW-2026-3581 regression', () => {
     test('falls back to max_daily_dose when per-administration is fine but the daily cap is not', () => {
         assert.deepEqual(
             exceededDoseLimit('8', { maxPerAdministration: '10', maxDaily: '6' }),
-            { limit: 'max_daily_dose', entered: 8, max: 6 }
+            { limit: 'max_daily_dose', entered: 8, max: 6, total: 8 }
         )
     })
     test('comma-decimal entered dose and limits are compared correctly', () => {
@@ -102,5 +102,43 @@ describe('exceededDoseLimit — the AW-2026-3581 regression', () => {
     })
     test('an unparseable entered dose returns null (that case is a required-field/validation error, not a limit warning)', () => {
         assert.equal(exceededDoseLimit('en halv', { maxPerAdministration: '2', maxDaily: '10' }), null)
+    })
+})
+
+describe('exceededDoseLimit — cumulative max_daily_dose (the manual-QA regression, repeated 2s against a 6 cap)', () => {
+    test('a dose that alone is fine still trips the daily cap once added to what was already given today', () => {
+        // The exact scenario a manual click-through caught: max_dose_per_administration
+        // 2, max_daily_dose 6, doses of 2 entered one after another. Each single
+        // dose is AT (not over) the per-administration cap, so that check never
+        // fires on its own -- only the cumulative daily total catches the 4th one.
+        assert.equal(exceededDoseLimit('2', { maxPerAdministration: '2', maxDaily: '6', alreadyGivenToday: 0 }), null)
+        assert.equal(exceededDoseLimit('2', { maxPerAdministration: '2', maxDaily: '6', alreadyGivenToday: 2 }), null)
+        assert.equal(exceededDoseLimit('2', { maxPerAdministration: '2', maxDaily: '6', alreadyGivenToday: 4 }), null)
+        assert.deepEqual(
+            exceededDoseLimit('2', { maxPerAdministration: '2', maxDaily: '6', alreadyGivenToday: 6 }),
+            { limit: 'max_daily_dose', entered: 2, max: 6, total: 8 }
+        )
+    })
+    test('total is exactly at the cap, not over it, when already-given plus entered equals max', () => {
+        assert.equal(exceededDoseLimit('2', { maxPerAdministration: '2', maxDaily: '6', alreadyGivenToday: 4 }), null)
+    })
+    test('a missing/absent alreadyGivenToday defaults to 0 (same as passing nothing at all)', () => {
+        assert.equal(
+            exceededDoseLimit('5', { maxPerAdministration: '10', maxDaily: '4' }).total,
+            5
+        )
+    })
+    test('max_dose_per_administration is still checked on the single dose alone, never accumulated', () => {
+        // A dose of 2 against a per-administration cap of 2 is fine no matter
+        // how much has already been given today -- that limit is per-event.
+        assert.equal(exceededDoseLimit('2', { maxPerAdministration: '2', maxDaily: '100', alreadyGivenToday: 50 }), null)
+    })
+    test('a negative alreadyGivenToday (defensive -- should never happen) is clamped to 0, not subtracted', () => {
+        // If -3 were subtracted instead of clamped, total would be 5 + -3 = 2,
+        // under the cap of 4, and this would wrongly return null.
+        assert.deepEqual(
+            exceededDoseLimit('5', { maxPerAdministration: '10', maxDaily: '4', alreadyGivenToday: -3 }),
+            { limit: 'max_daily_dose', entered: 5, max: 4, total: 5 }
+        )
     })
 })

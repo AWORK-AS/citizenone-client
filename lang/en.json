@@ -2458,7 +2458,7 @@
                 "clearAll": "Clear all",
                 "confirmation": {
                     "deleteConfirmation": "Are you sure you want to delete this medicine history",
-                    "doseExceedsMaxDaily": "The entered dose ({entered}) exceeds the maximum daily dose ({max}). Are you sure you want to register it?",
+                    "doseExceedsMaxDaily": "This dose ({entered}) would bring today's total to {total} of {max} for this PRN medication. Are you sure you want to register it?",
                     "doseExceedsMaxPerAdministration": "The entered dose ({entered}) exceeds the maximum dose per administration ({max}) for this PRN medication. Are you sure you want to register it?",
                     "givenTodayContext": "Given today: {total} of {max}.",
                     "lastGivenAtContext": "Last given at {time}.",

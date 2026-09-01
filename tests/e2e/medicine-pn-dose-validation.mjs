@@ -17,9 +17,16 @@
  *      This is the core regression proof.
  *   2) dose 5 (over max_dose_per_administration) -> the confirmation DOES
  *      appear, and its text names both the entered dose and the limit.
- *   3) dose "en halv" (non-numeric) -> blocked inline by the new Vuelidate
+ *   3) dose 2 (itself under every single-dose limit, but today's running
+ *      total -- 1 + 5 + 2 = 8 -- now exceeds max_daily_dose of 6) -> the
+ *      CUMULATIVE daily-cap dialog fires instead, naming the running total.
+ *      A manual click-through caught this one: max_daily_dose was only ever
+ *      compared against the single entered dose, never the day's total, so
+ *      repeated in-bounds doses could blow past the daily cap in total with
+ *      no warning at all.
+ *   4) dose "en halv" (non-numeric) -> blocked inline by the new Vuelidate
  *      rule, no submit, no confirmation.
- *   4) day view "select all" -> the PN row's own checkbox stays unchecked.
+ *   5) day view "select all" -> the PN row's own checkbox stays unchecked.
  * Self-restoring: deletes the created history rows and citizen_medicine in
  * `finally` regardless of outcome.
  *
@@ -75,6 +82,32 @@ page.on('pageerror', (err) => consoleErrors.push('pageerror: ' + err.message))
 
 let createdUuid = null
 
+const saveResponsePredicate = (r) =>
+  r.url().includes('/citizen-medicine-histories') &&
+  !r.url().includes('/save/all') &&
+  r.request().method() === 'POST'
+
+// Clicks Confirm on whatever dose-limit dialog is currently open, and -- since
+// this script fires several PN doses seconds apart -- transparently handles
+// the real backend 4-hour interval warning stacking behind it (a 200 with
+// `warning: true` that does NOT persist) by confirming that one too. Returns
+// the final response's parsed body once something actually saved.
+async function confirmDialogUntilSaved() {
+  const [firstResponse] = await Promise.all([
+    page.waitForResponse(saveResponsePredicate),
+    page.locator('button', { hasText: 'Confirm' }).click(),
+  ])
+  let json = await firstResponse.json().catch(() => null)
+  if (json?.warning) {
+    const [secondResponse] = await Promise.all([
+      page.waitForResponse(saveResponsePredicate),
+      page.locator('button', { hasText: 'Confirm' }).click(),
+    ])
+    json = await secondResponse.json().catch(() => null)
+  }
+  return json
+}
+
 // Opens "Give PN" for the test medicine's row, fills the dose (leaving type/
 // evaluator/evaluation-frequency filled in from any previous call in the
 // same run, since the modal is fully re-rendered fresh each open), and
@@ -82,7 +115,10 @@ let createdUuid = null
 // check for the confirmation dialog or a direct save themselves.
 async function openGivePnAndEnterDose(dose) {
   const row = page.locator(`[data-uuid="${createdUuid}"]`).first()
-  await row.locator('button', { hasText: 'Give PN' }).click()
+  // Locale-agnostic: this shared dev account's UI language can be switched
+  // by other testing (Danish/English/Norwegian/Swedish all ship on this
+  // page) between runs -- "Give PN" / "Giv PN" / "Gi PN" cover all four.
+  await row.locator('button', { hasText: /Giv(e)? PN|Gi PN/ }).click()
   await page.locator('#dosage').waitFor()
   await page.locator('#dosage').fill(String(dose))
 
@@ -142,7 +178,21 @@ try {
   ok('Test PN citizen medicine created via API', createRes.status >= 200 && createRes.status < 300 && !!createdUuid)
   if (!createdUuid) throw new Error(`Create failed: ${createRes.status} ${JSON.stringify(createRes.json)}`)
 
-  // 3) Auth, then the same cold-boot-safe navigation as the other medicine
+  // 3) This is a shared dev account -- other manual testing (including the
+  //    locale spot-check from the manual test script) can leave it in any
+  //    of the four UI languages, and every text assertion below is written
+  //    against English copy. Reset it explicitly rather than assuming.
+  const languages = await api('GET', '/languages')
+  const englishUuid = (languages.json?.data ?? languages.json ?? [])
+    .find((l) => l.code === 'en')?.uuid
+  if (englishUuid) {
+    const langReset = await api('PUT', '/user/employees/update/language', { language_uuid: englishUuid })
+    ok('Reset the shared test account to English before asserting on English copy', langReset.status >= 200 && langReset.status < 300)
+  } else {
+    ok('Resolved the English language_uuid to reset the account with', false)
+  }
+
+  // 4) Auth, then the same cold-boot-safe navigation as the other medicine
   //    e2e scripts: a direct deep-link to /medicine-journals bounces to
   //    /timeline before the citizen store hydrates.
   await page.goto(`${BASE}/settings/profile`, { waitUntil: 'domcontentloaded' })
@@ -154,9 +204,12 @@ try {
   const row = page.locator(`[data-uuid="${createdUuid}"]`).first()
   await row.waitFor()
 
-  const confirmationMessage = page.locator('text=/exceeds the maximum/i')
+  // Matches either of the two exceeded-limit messages -- "exceeds the
+  // maximum dose per administration" and "would bring today's total to" --
+  // both end the same way, on the same DialogConfirmation component.
+  const confirmationMessage = page.locator('text=/for this PRN medication\\. Are you sure/i')
 
-  // 4) Core regression proof: a dose well under both limits must save
+  // 5) Core regression proof: a dose well under both limits must save
   //    directly, with no "did you enter the right dose?" dialog at all.
   const [saveResponse] = await Promise.all([
     page.waitForResponse((r) =>
@@ -171,7 +224,7 @@ try {
 
   await page.screenshot({ path: path.join(SHOT, 'medicine-pn-dose-01-normal-dose-no-dialog.png'), fullPage: true }).catch(() => {})
 
-  // 5) A dose over max_dose_per_administration (2) DOES raise the
+  // 6) A dose over max_dose_per_administration (2) DOES raise the
   //    confirmation, and it names the real numbers -- not the old numberless
   //    generic message.
   await openGivePnAndEnterDose('5')
@@ -182,39 +235,40 @@ try {
 
   await page.screenshot({ path: path.join(SHOT, 'medicine-pn-dose-02-exceeded-limit-dialog.png'), fullPage: true }).catch(() => {})
 
-  const saveResponsePredicate = (r) =>
-    r.url().includes('/citizen-medicine-histories') &&
-    !r.url().includes('/save/all') &&
-    r.request().method() === 'POST'
-
-  const [firstConfirmResponse] = await Promise.all([
-    page.waitForResponse(saveResponsePredicate),
-    page.locator('button', { hasText: 'Confirm' }).click(),
-  ])
-  let finalJson = await firstConfirmResponse.json().catch(() => null)
-
   // A 2xx here can still be a non-save: the real backend 4-hour PN interval
   // warning (PN_MINIMUM_INTERVAL_MINUTES) returns 200 with `warning: true`
   // instead of persisting, and stacks its own DialogConfirmation behind this
   // one -- exactly the two-dialogs-in-a-row alarm-fatigue scenario from
-  // AW-2026-3581. Since this test fires two PN doses seconds apart, expect to
-  // hit it here and confirm it too before treating the save as real.
-  if (finalJson?.warning) {
-    ok('The real backend PN-interval warning stacked behind the dose-limit dialog, as expected', true)
-    const [secondConfirmResponse] = await Promise.all([
-      page.waitForResponse(saveResponsePredicate),
-      page.locator('button', { hasText: 'Confirm' }).click(),
-    ])
-    finalJson = await secondConfirmResponse.json().catch(() => null)
-  }
-  ok('Confirming through both dialogs actually persists the dose (no warning on the final response)', !finalJson?.warning)
+  // AW-2026-3581. confirmDialogUntilSaved() confirms through both when that
+  // happens (this script fires several PN doses seconds apart, so expect it).
+  const doseFiveResult = await confirmDialogUntilSaved()
+  ok('Confirming through both dialogs actually persists the dose (no warning on the final response)', !doseFiveResult?.warning)
 
   // A successful save closes the modal (see modal-new.vue's success branch),
   // but the HeadlessUI close transition can briefly leave its portal
   // intercepting clicks underneath -- give it a moment before the next open.
   await page.waitForTimeout(500)
 
-  // 6) A non-numeric dose is blocked inline -- no submit request at all, no
+  // 7) max_daily_dose is a CUMULATIVE cap on the day, not a per-dose one --
+  //    the manual-QA regression this script now also covers. Doses 1 and 5
+  //    just given put today's running total at 6, exactly at the cap. One
+  //    more dose of 2 (itself under max_dose_per_administration, so THAT
+  //    check stays silent) pushes the cumulative total to 8, over the cap of
+  //    6, and must raise the max_daily_dose dialog -- not the
+  //    max_dose_per_administration one, and not silence.
+  await openGivePnAndEnterDose('2')
+  await confirmationMessage.waitFor({ timeout: 5000 })
+  const dailyMessageText = await confirmationMessage.innerText()
+  ok(
+    `A dose that alone is fine still trips the cumulative daily cap (got "${dailyMessageText}")`,
+    dailyMessageText.includes('8') && dailyMessageText.includes('6') && !dailyMessageText.includes('per administration')
+  )
+  await page.screenshot({ path: path.join(SHOT, 'medicine-pn-dose-03-cumulative-daily-dialog.png'), fullPage: true }).catch(() => {})
+  const cumulativeResult = await confirmDialogUntilSaved()
+  ok('Confirming the cumulative daily-cap dialog persists the dose', !cumulativeResult?.warning)
+  await page.waitForTimeout(500)
+
+  // 8) A non-numeric dose is blocked inline -- no submit request at all, no
   //    confirmation dialog either.
   let nonNumericSubmitFired = false
   const watchSubmit = (r) => {
@@ -234,7 +288,7 @@ try {
   // Close whatever's left of the still-open "Give PN" modal before moving on.
   await page.keyboard.press('Escape').catch(() => {})
 
-  // 7) "Select all" must not sweep the PN row in -- it stays individually
+  // 9) "Select all" must not sweep the PN row in -- it stays individually
   //    selectable, but the toggle should not touch it.
   await page.locator('button', { hasText: /Select all|Vælg alle/ }).click()
   const pnCheckbox = page.locator(`#pn_${createdUuid}`)

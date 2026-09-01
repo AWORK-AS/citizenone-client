@@ -38,12 +38,20 @@ export function medicineDosage() {
     // dose is fine — including when there's nothing sensible to check against
     // (a missing, zero, or unparseable limit means "don't invent a warning").
     // max_dose_per_administration is checked first: it's the tighter,
-    // PN-specific limit, and a single dose bigger than the whole day's cap
-    // (max_daily_dose) is wrong regardless.
+    // PN-specific limit, and applies to this single dose alone.
+    //
+    // max_daily_dose is a CUMULATIVE cap on the whole day, not a per-dose one
+    // -- three doses of 2 against a max of 6 should trip on the third, not
+    // never. alreadyGivenToday (the medicine's given_today_total, minus the
+    // being-edited record's own quantity when editing an entry from today --
+    // see pnAlreadyGivenToday() in history/form.vue) plus the newly entered
+    // dose is what actually gets compared to maxDaily. Caller passes 0 (the
+    // default) when there's nothing reliable to add, e.g. backfilling a past
+    // date, which degrades to the old single-dose-only comparison.
     function exceededDoseLimit(
         entered: any,
-        limits: { maxPerAdministration?: any; maxDaily?: any }
-    ): { limit: 'max_dose_per_administration' | 'max_daily_dose'; entered: number; max: number } | null {
+        limits: { maxPerAdministration?: any; maxDaily?: any; alreadyGivenToday?: any }
+    ): { limit: 'max_dose_per_administration' | 'max_daily_dose'; entered: number; max: number; total?: number } | null {
         const enteredNumber = parseDosage(entered)
         if (!Number.isFinite(enteredNumber)) return null
 
@@ -53,8 +61,12 @@ export function medicineDosage() {
         }
 
         const maxDaily = parseDosage(limits?.maxDaily)
-        if (Number.isFinite(maxDaily) && maxDaily > 0 && enteredNumber > maxDaily) {
-            return { limit: 'max_daily_dose', entered: enteredNumber, max: maxDaily }
+        if (Number.isFinite(maxDaily) && maxDaily > 0) {
+            const alreadyGivenToday = Number(limits?.alreadyGivenToday ?? 0)
+            const total = enteredNumber + (Number.isFinite(alreadyGivenToday) ? Math.max(0, alreadyGivenToday) : 0)
+            if (total > maxDaily) {
+                return { limit: 'max_daily_dose', entered: enteredNumber, max: maxDaily, total }
+            }
         }
 
         return null

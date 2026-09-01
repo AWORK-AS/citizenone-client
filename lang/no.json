@@ -2458,7 +2458,7 @@
                 "clearAll": "Tøm alle",
                 "confirmation": {
                     "deleteConfirmation": "Er du sikker på at du vil slette denne medicinhistorik",
-                    "doseExceedsMaxDaily": "Den angitte dosen ({entered}) overstiger den maksimale daglige dosen ({max}). Er du sikker på at du vil registrere den?",
+                    "doseExceedsMaxDaily": "Denne dosen ({entered}) vil bringe dagens totale dose opp i {total} av {max} for dette PN-preparatet. Er du sikker på at du vil registrere den?",
                     "doseExceedsMaxPerAdministration": "Den angitte dosen ({entered}) overstiger den maksimale dosen pr. administrasjon ({max}) for dette PN-preparatet. Er du sikker på at du vil registrere den?",
                     "givenTodayContext": "Gitt i dag: {total} av {max}.",
                     "lastGivenAtContext": "Sist gitt kl. {time}.",
