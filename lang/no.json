@@ -2458,6 +2458,10 @@
                 "clearAll": "Tøm alle",
                 "confirmation": {
                     "deleteConfirmation": "Er du sikker på at du vil slette denne medicinhistorik",
+                    "doseExceedsMaxDaily": "Den angitte dosen ({entered}) overstiger den maksimale daglige dosen ({max}). Er du sikker på at du vil registrere den?",
+                    "doseExceedsMaxPerAdministration": "Den angitte dosen ({entered}) overstiger den maksimale dosen pr. administrasjon ({max}) for dette PN-preparatet. Er du sikker på at du vil registrere den?",
+                    "givenTodayContext": "Gitt i dag: {total} av {max}.",
+                    "lastGivenAtContext": "Sist gitt kl. {time}.",
                     "rightDailyDoseConfirmation": "Er du sikker på, at du har angivet den korrekte daglige dose"
                 },
                 "dosesToRegister": "{n} doser registreres",
@@ -2470,6 +2474,7 @@
                     "comment": "Kommentar",
                     "completed": "fullført",
                     "date": "Dato",
+                    "dosageMustBeANumber": "Dosen må være et tall større enn 0",
                     "dose": "Dose",
                     "evaluationFrequency": "Når vil du evaluere",
                     "evaluator": "Evaluator",

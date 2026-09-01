@@ -87,7 +87,7 @@
                     </div>
                     <FormTextField id="dosage" name="dosage"
                         :placeholder="$t('citizens.medicineJournals.history.form.dose')"
-                        v-model="state.formMedicineHistory.dosage" />
+                        v-model="state.formMedicineHistory.dosage" @input="handlePnDosageInput" />
                     <FormError :error="v$?.formMedicineHistory?.dosage?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.dosage?.[0]" />
                 </div>
@@ -259,8 +259,9 @@
             </div>
         </div>
         <DialogConfirmation :isModalOpen="state.modal.isMoreThanMedicineDailyConfirmationOpen"
-            :message="$t('citizens.medicineJournals.history.confirmation.rightDailyDoseConfirmation') + '?'"
-            @close="state.modal.isMoreThanMedicineDailyConfirmationOpen = false" @confirm="submitForm" />
+            :message="doseConfirmationMessage"
+            @close="state.modal.isMoreThanMedicineDailyConfirmationOpen = false; state.pendingLimit = null"
+            @confirm="submitForm" />
     </form>
 </template>
 
@@ -274,6 +275,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { euDecimalValidation } from "@/composables/euDecimalValidation"
+import { medicineDosage } from "@/composables/medicineDosage"
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 
@@ -301,6 +303,7 @@ const { t } = useI18n()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const { validateEuropeanDecimal } = euDecimalValidation()
+const { parseDosage, isValidDosage, exceededDoseLimit } = medicineDosage()
 const calendarDayHeaders = computed(() =>
     language.locale.value === 'dk'
         ? ['M', 'T', 'O', 'T', 'F', 'L', 'S']
@@ -327,6 +330,11 @@ const state = reactive({
     modal: {
         isMoreThanMedicineDailyConfirmationOpen: false,
     },
+    // Set by validateForm() for a PN save whose entered dose genuinely exceeds
+    // a limit, so the confirmation dialog can show which limit and by how
+    // much instead of the old numberless "did you enter the right dose?"
+    // (AW-2026-3581). null on the unchanged scheduled path.
+    pendingLimit: null as { limit: 'max_dose_per_administration' | 'max_daily_dose'; entered: number; max: number } | null,
     options: {
         evaluation_frequencies: [] as any,
         evaluators: [],
@@ -380,6 +388,15 @@ const rules = computed(() => {
                 },
                 dosage: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                    // AW-2026-3581: the PN dose input previously had no numeric
+                    // validation at all -- "en halv" would pass this rule and
+                    // get silently cast to 0 by the backend. !helpers.req(...)
+                    // defers to the required rule above on an empty value so
+                    // the two rules don't both fire at once.
+                    validDosage: helpers.withMessage(
+                        () => `${t('citizens.medicineJournals.history.form.dosageMustBeANumber')}.`,
+                        (value: any) => !helpers.req(value) || isValidDosage(value)
+                    ),
                 },
                 type: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -408,14 +425,34 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+// AW-2026-3581: PN and scheduled saves used to share this check, but it only
+// ever made sense for scheduled doses (computeAllEnteredQuantities() sums the
+// SCHEDULED-slot array) -- for PN that array is always empty, so the old
+// single check fired the confirmation on effectively every PN save. PN now
+// checks the dose the user actually typed (state.formMedicineHistory.dosage)
+// against the medicine's own limits via exceededDoseLimit(); the scheduled
+// branch below is unchanged.
 function validateForm() {
     v$.value.$validate()
-    if (!v$.value.$error) {
-        if (computeAllEnteredQuantities() !== parseInt(props.selectedMedicine?.max_daily_dose)) {
+    if (v$.value.$error) return
+
+    if (props.selectedMedicine.is_pn_medicine) {
+        state.pendingLimit = exceededDoseLimit(state.formMedicineHistory.dosage, {
+            maxPerAdministration: props.selectedMedicine?.max_dose_per_administration,
+            maxDaily: props.selectedMedicine?.max_daily_dose,
+        })
+        if (state.pendingLimit) {
             state.modal.isMoreThanMedicineDailyConfirmationOpen = true
         } else {
             submitForm()
         }
+        return
+    }
+
+    if (computeAllEnteredQuantities() !== parseInt(props.selectedMedicine?.max_daily_dose)) {
+        state.modal.isMoreThanMedicineDailyConfirmationOpen = true
+    } else {
+        submitForm()
     }
 }
 
@@ -489,6 +526,63 @@ function computeAllEnteredQuantities() {
     })
     return total
 }
+
+// Mirrors toLocaleDecimal() in components/modules/user/citizen/medicine/form.vue
+// -- numbers coming back out of state are always dot-decimal, so on the dk
+// locale they need the dot swapped for a comma to read naturally.
+function formatDose(value: number): string {
+    const str = String(value)
+    return language.locale.value === 'dk' ? str.replace('.', ',') : str
+}
+
+// AW-2026-3581 backend follow-up: given_today_total/last_given_at are now
+// available on props.selectedMedicine for PN medicine (previously
+// unavailable -- dosage_status_by_date is scheduled-medicine only). Appended
+// to the dialog when there's something real to say; a fresh PN medicine with
+// no history yet, or a medicine with no max_daily_dose configured, just gets
+// the plain exceeded-limit message with no context tacked on.
+function pnDosingContextText(): string {
+    const medicine = props.selectedMedicine
+    const parts: string[] = []
+
+    const maxDaily = parseDosage(medicine?.max_daily_dose)
+    if (Number.isFinite(maxDaily) && maxDaily > 0 && medicine?.given_today_total != null) {
+        parts.push(t('citizens.medicineJournals.history.confirmation.givenTodayContext', {
+            total: formatDose(Number(medicine.given_today_total)),
+            max: formatDose(maxDaily),
+        }))
+    }
+
+    if (medicine?.last_given_at) {
+        parts.push(t('citizens.medicineJournals.history.confirmation.lastGivenAtContext', {
+            time: moment(medicine.last_given_at).format('HH:mm'),
+        }))
+    }
+
+    return parts.join(' ')
+}
+
+// AW-2026-3581: with a real exceeded limit in hand (state.pendingLimit, set
+// by validateForm() for PN), show which limit and by how much instead of the
+// old numberless "did you enter the right dose?". The scheduled path never
+// sets pendingLimit, so it keeps the original generic message unchanged.
+const doseConfirmationMessage = computed(() => {
+    const pending = state.pendingLimit
+    if (!pending) {
+        return `${t('citizens.medicineJournals.history.confirmation.rightDailyDoseConfirmation')}?`
+    }
+    const key = pending.limit === 'max_dose_per_administration'
+        ? 'citizens.medicineJournals.history.confirmation.doseExceedsMaxPerAdministration'
+        : 'citizens.medicineJournals.history.confirmation.doseExceedsMaxDaily'
+    let message = t(key, { entered: formatDose(pending.entered), max: formatDose(pending.max) })
+
+    if (props.selectedMedicine.is_pn_medicine) {
+        const context = pnDosingContextText()
+        if (context) message += ` ${context}`
+    }
+
+    return message
+})
 
 function generateDosage() {
     (props.selectedMedicine?.max_dosage_per_time ?? []).forEach((dosage: any) => {
@@ -580,6 +674,18 @@ function handleQuantityInput(event: Event, index: number) {
         target.value = validateEuropeanDecimal(target.value)
     }
     state.formMedicineHistory.dosages[index].dosage = target.value
+}
+
+// Same sanitisation as handleQuantityInput() above, applied to the PN dose
+// field (AW-2026-3581). v-model still drives the field's value -- this only
+// strips non-decimal characters as the user types, same as the scheduled
+// input does.
+function handlePnDosageInput(event: Event) {
+    const target = event.target as HTMLInputElement
+    if (language.locale.value === 'dk') {
+        target.value = validateEuropeanDecimal(target.value)
+    }
+    state.formMedicineHistory.dosage = target.value
 }
 </script>
 

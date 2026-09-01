@@ -2458,6 +2458,10 @@
                 "clearAll": "Clear all",
                 "confirmation": {
                     "deleteConfirmation": "Are you sure you want to delete this medicine history",
+                    "doseExceedsMaxDaily": "The entered dose ({entered}) exceeds the maximum daily dose ({max}). Are you sure you want to register it?",
+                    "doseExceedsMaxPerAdministration": "The entered dose ({entered}) exceeds the maximum dose per administration ({max}) for this PRN medication. Are you sure you want to register it?",
+                    "givenTodayContext": "Given today: {total} of {max}.",
+                    "lastGivenAtContext": "Last given at {time}.",
                     "rightDailyDoseConfirmation": "Are you sure you provided the correct daily dose"
                 },
                 "dosesToRegister": "{n} doses will be registered",
@@ -2470,6 +2474,7 @@
                     "comment": "Comment",
                     "completed": "completed",
                     "date": "Date",
+                    "dosageMustBeANumber": "The dose must be a number greater than 0",
                     "dose": "Dose",
                     "evaluationFrequency": "What time do you want to evaluate",
                     "evaluator": "Evaluator",
