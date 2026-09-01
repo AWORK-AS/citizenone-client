@@ -6967,6 +6967,7 @@
             "scale": "Wellbeing scale",
             "moveUp": "Move up",
             "moveDown": "Move down",
+            "dragToReorder": "Drag to reorder",
             "duplicate": "Duplicate",
             "table": "Table"
         },

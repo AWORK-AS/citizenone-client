@@ -42,6 +42,16 @@ Optional env: `CO_BASE_URL` (default `http://localhost:3001`),
 Screenshots are written to `tests/e2e/screenshots/`. The email-templates test is
 self-restoring (the one template it edits is reset via the API at the end).
 
+### `forms-reorder-and-retype` — only needs `CO_TOKEN`
+
+Covers the form-builder field-order fix (a delete+retype no longer jumps a field to the bottom
+on save) and the new drag-and-drop reordering. Creates its own throwaway form via the API, so no
+extra fixtures are needed beyond `CO_TOKEN`.
+
+```bash
+CO_TOKEN='<paste-token>' npm run test:forms-reorder-and-retype
+```
+
 ### `create-report-permission` — also needs a restricted staff token
 
 Covers AW-2026-4255: a staff member without save-and-download rights must
