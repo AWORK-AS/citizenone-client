@@ -7057,6 +7057,7 @@
             "scale": "Trivselslineal",
             "moveUp": "Flyt op",
             "moveDown": "Flyt ned",
+            "dragToReorder": "Træk for at omarrangere",
             "duplicate": "Dupliker",
             "table": "Tabel"
         },

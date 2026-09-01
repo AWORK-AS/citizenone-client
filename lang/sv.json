@@ -7057,6 +7057,7 @@
             "scale": "Trivsellinjal",
             "moveUp": "Flytta upp",
             "moveDown": "Flytta ner",
+            "dragToReorder": "Dra för att ändra ordning",
             "duplicate": "Duplicera",
             "table": "Tabell"
         },
