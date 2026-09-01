@@ -7108,6 +7108,7 @@
             "moveUp": "Move up",
             "moveDown": "Move down",
             "dragToReorder": "Drag to reorder",
+            "changeType": "Change type",
             "duplicate": "Duplicate",
             "table": "Table"
         },

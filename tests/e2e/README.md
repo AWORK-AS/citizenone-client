@@ -103,8 +103,10 @@ re-run against the same fixture shift repeatedly.
 ### `forms-reorder-and-retype` — only needs `CO_TOKEN`
 
 Covers the form-builder field-order fix (a delete+retype no longer jumps a field to the bottom
-on save) and the new drag-and-drop reordering. Creates its own throwaway form via the API, so no
-extra fixtures are needed beyond `CO_TOKEN`.
+on save), drag-and-drop reordering, and the in-place field type switch (converting a text field
+to a textarea keeps its title, position, and uuid, so any answer already saved against it isn't
+orphaned). Creates its own throwaway form via the API, so no extra fixtures are needed beyond
+`CO_TOKEN`.
 
 ```bash
 CO_TOKEN='<paste-token>' npm run test:forms-reorder-and-retype
