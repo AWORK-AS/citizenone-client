@@ -62,9 +62,9 @@
         "tab": "Relations",
         "title": "Relations",
         "new": "Add relation",
-        "relatedCitizen": "Related citizen",
+        "relatedCitizen": "Related @:terms.citizen{''}",
         "relationshipType": "Relationship type",
-        "selectCitizen": "Select citizen",
+        "selectCitizen": "Select @:terms.citizen{''}",
         "name": "Name",
         "action": "Action",
         "empty": "No relations yet",
@@ -84,7 +84,7 @@
         "Contacts": "Contacts",
         "Duty Schedule": "Duty schedule",
         "Employee Group": "Employee group",
-        "Emails": "Citizen emails",
+        "Emails": "@.capitalize:terms.citizen{''} emails",
         "Reports": "Reports",
         "Inquiries": "Inquiries",
         "Management & Economy": "Management & economy",
@@ -98,12 +98,12 @@
         "stepsProgress": "{done} of {total} steps completed",
         "nextStep": "Next step",
         "demoData": {
-            "title": "Explore with demo citizens",
-            "desc": "We've added {count} fictional citizens so there's something to click around right away. Remove them whenever you're ready to add your own.",
-            "remove": "Remove demo citizens",
+            "title": "Explore with demo @:terms.citizens{''}",
+            "desc": "We've added {count} fictional @:terms.citizens{''} so there's something to click around right away. Remove them whenever you're ready to add your own.",
+            "remove": "Remove demo @:terms.citizens{''}",
             "removing": "Removing...",
-            "removed": "Demo citizens removed",
-            "removeFailed": "Could not remove demo citizens"
+            "removed": "Demo @:terms.citizens{''} removed",
+            "removeFailed": "Could not remove demo @:terms.citizens{''}"
         },
         "ready": {
             "title": "You're ready to go live!",
@@ -122,20 +122,25 @@
             "medicin": "Medicine",
             "dokumentation": "Documentation (plans, status, documents)",
             "useOfForce": "Use of force",
-            "predefinedContent": "Predefined note content"
+            "carePlans": "Care plans",
+            "predefinedContent": "Predefined note content",
+            "priceEstimates": "Price estimates for patients"
         },
         "groups": {
             "migration": "Migration",
             "komIGang": "Get started",
-            "born": "Citizens",
             "vagtplan": "Duty schedule",
             "medicin": "Medicine",
-            "dokumentation": "Documentation"
+            "dokumentation": "Documentation",
+            "people": "Citizens",
+            "patients": "Patients",
+            "clinic": "Clinic & booking",
+            "cases": "Cases & jobcentre"
         },
         "steps": {
             "departments": {
                 "title": "Create departments",
-                "desc": "Departments structure staff, citizens and the duty schedule.",
+                "desc": "Departments structure staff, journals and the duty schedule.",
                 "tip": "E.g. \"North department\" and \"South department\".",
                 "cta": "Go to Departments"
             },
@@ -151,18 +156,8 @@
             },
             "import": {
                 "title": "Import from your old system",
-                "desc": "Migrate citizens, staff, journals and schedules from your current system (CSV or Excel).",
+                "desc": "Migrate your data from the current system: people, staff, journals and schedules (CSV or Excel).",
                 "cta": "Start import"
-            },
-            "children": {
-                "title": "Create citizens",
-                "desc": "Add the citizens you work with.",
-                "cta": "Go to Citizens"
-            },
-            "childData": {
-                "title": "Master data & contacts",
-                "desc": "Fill in master data, contacts and caseworker.",
-                "cta": "Go to Citizens"
             },
             "shiftTypes": {
                 "title": "Create shift types & rules",
@@ -184,13 +179,63 @@
                 "desc": "Add medicine types and dosage forms.",
                 "cta": "Go to Medicine"
             },
-            "templates": {
-                "title": "Status templates & plans",
-                "desc": "Set up templates for status, plans and goals.",
-                "cta": "Go to Settings"
+            "citizens": {
+                "title": "Create citizens",
+                "desc": "Add the citizens you work with.",
+                "cta": "Go to Citizens"
+            },
+            "citizenData": {
+                "title": "Master data & contacts",
+                "desc": "Fill in master data, contacts and caseworker.",
+                "cta": "Go to Citizens"
+            },
+            "patients": {
+                "title": "Create patients",
+                "desc": "Add your first patients, or import them from the old system.",
+                "cta": "Go to Patients"
+            },
+            "patientData": {
+                "title": "Master data & tooth chart",
+                "desc": "Fill in master data, referring dentist and tooth chart.",
+                "cta": "Go to Patients"
+            },
+            "openingHours": {
+                "title": "Opening hours & practitioners",
+                "desc": "Set the clinic hours and who sees patients.",
+                "cta": "Go to Company"
+            },
+            "booking": {
+                "title": "Open for booking",
+                "desc": "Make the first appointments, and let patients book their own.",
+                "cta": "Go to Booking"
+            },
+            "caseTypes": {
+                "title": "Create case types",
+                "desc": "Define the services and case types you deliver.",
+                "cta": "Go to Case types"
+            },
+            "jobcenters": {
+                "title": "Add jobcentres",
+                "desc": "Register the jobcentres you work with, so referrals can be attached.",
+                "cta": "Go to Jobcentres"
+            },
+            "journalTitles": {
+                "title": "Journal templates",
+                "desc": "Set up the titles you record under, so notes come out consistent.",
+                "cta": "Go to Journal titles"
+            },
+            "journalContents": {
+                "title": "Predefined note content",
+                "desc": "Write the content that keeps recurring, so it can be inserted in one click.",
+                "cta": "Go to Journal content"
             }
         },
-        "title": "Discover"
+        "title": "Discover",
+        "appsPromo": {
+            "title": "Add apps",
+            "desc": "Secure Mail, booking, questionnaires, FMK and the rest of the app store can be switched on when you need them.",
+            "cta": "Open the app store"
+        }
     },
     "2fa": {
         "2fa": "Two factor authentication",
@@ -251,7 +296,7 @@
                 "delete": "Delete",
                 "edit": "Edit"
             },
-            "assignedCitizens": "Assigned citizens",
+            "assignedCitizens": "Assigned @:terms.citizens{''}",
             "confirmation": {
                 "deleteContactConfirmation": "Are you sure you want to delete this contact",
                 "unassignContactConfirmation": "Are you sure you want to unassign this contact"
@@ -293,7 +338,7 @@
     "attendance": {
         "absenceReason": "Absence reason",
         "absenceReasons": "Absence reasons",
-        "citizen": "Citizen",
+        "citizen": "@.capitalize:terms.citizen{''}",
         "checkIn": "Check-in",
         "checkInOut": "Check-in / Check-out",
         "date": "Date",
@@ -320,8 +365,8 @@
     "caseworkerSharing": {
         "cancel": "Cancel",
         "changePassword": "Change password",
-        "chooseCitizenToLoad": "Choose a citizen to load their folders",
-        "citizen": "Citizen",
+        "chooseCitizenToLoad": "Choose a @:terms.citizen{''} to load their folders",
+        "citizen": "@.capitalize:terms.citizen{''}",
         "configNotAvailable": "Configuration not available",
         "configureSharing": "Configure sharing",
         "configureSharingSubtitle": "Set up access and shared folders for this caseworker portal.",
@@ -345,7 +390,7 @@
         "selectedFoldersTitle": "Selected folders",
         "sharedFoldersTitle": "Shared folders",
         "sharingUpdated": "Sharing settings updated",
-        "unableToLoadCitizens": "Unable to load citizens",
+        "unableToLoadCitizens": "Unable to load @:terms.citizens{''}",
         "unableToLoadFolders": "Unable to load folders",
         "view": "View"
     },
@@ -438,51 +483,51 @@
             "aCalendarHasBeenCreated": "A calendar has been created",
             "aCalendarHasBeenDeleted": "A calendar has been deleted",
             "aCalendarHasBeenUpdated": "A calendar has been updated",
-            "aCitizenAddressHasBeenCreated": "A citizen address has been created",
-            "aCitizenAddressHasBeenDeleted": "A citizen address has been deleted",
-            "aCitizenAddressHasBeenUpdated": "A citizen address has been updated",
-            "aCitizenContactHasBeenCreated": "A citizen contact has been created",
-            "aCitizenContactHasBeenDeleted": "A citizen contact has been deleted",
-            "aCitizenContactHasBeenUpdated": "A citizen contact has been updated",
-            "aCitizenDocumentsFolderHasBeenCreated": "A citizen documents & folder has been created",
-            "aCitizenDocumentsFolderHasBeenDeleted": "A citizen documents & folder has been deleted",
-            "aCitizenDocumentsFolderHasBeenUpdated": "A citizen documents & folder has been updated",
-            "aCitizenGoalHasBeenCreated": "A citizen goal has been created",
-            "aCitizenGoalHasBeenDeleted": "A citizen goal has been deleted",
-            "aCitizenGoalHasBeenUpdated": "A citizen goal has been updated",
-            "aCitizenHasBeenCreated": "A citizen has been created",
-            "aCitizenHasBeenDeleted": "A citizen has been deleted",
-            "aCitizenHasBeenUpdated": "A citizen has been updated",
-            "aCitizenIncidentAttachmentHasBeenCreated": "A citizen incident attachment has been created",
-            "aCitizenIncidentAttachmentHasBeenDeleted": "A citizen incident attachment has been deleted",
-            "aCitizenIncidentAttachmentHasBeenUpdated": "A citizen incident attachment has been updated",
-            "aCitizenIncidentHasBeenCreated": "A citizen incident has been created",
-            "aCitizenIncidentHasBeenDeleted": "A citizen incident has been deleted",
-            "aCitizenIncidentHasBeenUpdated": "A citizen incident has been updated",
-            "aCitizenJournalHasBeenCreated": "A citizen journal has been created",
-            "aCitizenJournalHasBeenDeleted": "A citizen journal has been deleted",
-            "aCitizenJournalHasBeenUpdated": "A citizen journal has been updated",
-            "aCitizenMedicineHasBeenCreated": "A citizen medicine has been created",
-            "aCitizenMedicineHasBeenDeleted": "A citizen medicine has been deleted",
-            "aCitizenMedicineHasBeenUpdated": "A citizen medicine has been updated",
-            "aCitizenMedicineHistoryHasBeenCreated": "A citizen medicine history has been created",
-            "aCitizenMedicineHistoryHasBeenDeleted": "A citizen medicine history has been deleted",
-            "aCitizenMedicineHistoryHasBeenUpdated": "A citizen medicine history has been updated",
-            "aCitizenPlanHasBeenCreated": "A citizen plan has been created",
-            "aCitizenPlanHasBeenDeleted": "A citizen plan has been deleted",
-            "aCitizenPlanHasBeenUpdated": "A citizen plan has been updated",
-            "aCitizenProtocolHasBeenCreated": "A citizen protocol has been created",
-            "aCitizenProtocolHasBeenDeleted": "A citizen protocol has been deleted",
-            "aCitizenProtocolHasBeenUpdated": "A citizen protocol has been updated",
-            "aCitizenRiskAssessmentHasBeenCreated": "A citizen risk assessment has been created",
-            "aCitizenRiskAssessmentHasBeenDeleted": "A citizen risk assessment has been deleted",
-            "aCitizenRiskAssessmentHasBeenUpdated": "A citizen risk assessment has been updated",
-            "aCitizenSubgoalHasBeenCreated": "A citizen subgoal has been created",
-            "aCitizenSubgoalHasBeenDeleted": "A citizen subgoal has been deleted",
-            "aCitizenSubgoalHasBeenUpdated": "A citizen subgoal has been updated",
-            "aCitizenWalletHasBeenCreated": "A citizen wallet has been created",
-            "aCitizenWalletHasBeenDeleted": "A citizen wallet has been deleted",
-            "aCitizenWalletHasBeenUpdated": "A citizen wallet has been updated",
+            "aCitizenAddressHasBeenCreated": "A @:terms.citizen{''} address has been created",
+            "aCitizenAddressHasBeenDeleted": "A @:terms.citizen{''} address has been deleted",
+            "aCitizenAddressHasBeenUpdated": "A @:terms.citizen{''} address has been updated",
+            "aCitizenContactHasBeenCreated": "A @:terms.citizen{''} contact has been created",
+            "aCitizenContactHasBeenDeleted": "A @:terms.citizen{''} contact has been deleted",
+            "aCitizenContactHasBeenUpdated": "A @:terms.citizen{''} contact has been updated",
+            "aCitizenDocumentsFolderHasBeenCreated": "A @:terms.citizen{''} documents & folder has been created",
+            "aCitizenDocumentsFolderHasBeenDeleted": "A @:terms.citizen{''} documents & folder has been deleted",
+            "aCitizenDocumentsFolderHasBeenUpdated": "A @:terms.citizen{''} documents & folder has been updated",
+            "aCitizenGoalHasBeenCreated": "A @:terms.citizen{''} goal has been created",
+            "aCitizenGoalHasBeenDeleted": "A @:terms.citizen{''} goal has been deleted",
+            "aCitizenGoalHasBeenUpdated": "A @:terms.citizen{''} goal has been updated",
+            "aCitizenHasBeenCreated": "A @:terms.citizen{''} has been created",
+            "aCitizenHasBeenDeleted": "A @:terms.citizen{''} has been deleted",
+            "aCitizenHasBeenUpdated": "A @:terms.citizen{''} has been updated",
+            "aCitizenIncidentAttachmentHasBeenCreated": "A @:terms.citizen{''} incident attachment has been created",
+            "aCitizenIncidentAttachmentHasBeenDeleted": "A @:terms.citizen{''} incident attachment has been deleted",
+            "aCitizenIncidentAttachmentHasBeenUpdated": "A @:terms.citizen{''} incident attachment has been updated",
+            "aCitizenIncidentHasBeenCreated": "A @:terms.citizen{''} incident has been created",
+            "aCitizenIncidentHasBeenDeleted": "A @:terms.citizen{''} incident has been deleted",
+            "aCitizenIncidentHasBeenUpdated": "A @:terms.citizen{''} incident has been updated",
+            "aCitizenJournalHasBeenCreated": "A @:terms.citizen{''} journal has been created",
+            "aCitizenJournalHasBeenDeleted": "A @:terms.citizen{''} journal has been deleted",
+            "aCitizenJournalHasBeenUpdated": "A @:terms.citizen{''} journal has been updated",
+            "aCitizenMedicineHasBeenCreated": "A @:terms.citizen{''} medicine has been created",
+            "aCitizenMedicineHasBeenDeleted": "A @:terms.citizen{''} medicine has been deleted",
+            "aCitizenMedicineHasBeenUpdated": "A @:terms.citizen{''} medicine has been updated",
+            "aCitizenMedicineHistoryHasBeenCreated": "A @:terms.citizen{''} medicine history has been created",
+            "aCitizenMedicineHistoryHasBeenDeleted": "A @:terms.citizen{''} medicine history has been deleted",
+            "aCitizenMedicineHistoryHasBeenUpdated": "A @:terms.citizen{''} medicine history has been updated",
+            "aCitizenPlanHasBeenCreated": "A @:terms.citizen{''} plan has been created",
+            "aCitizenPlanHasBeenDeleted": "A @:terms.citizen{''} plan has been deleted",
+            "aCitizenPlanHasBeenUpdated": "A @:terms.citizen{''} plan has been updated",
+            "aCitizenProtocolHasBeenCreated": "A @:terms.citizen{''} protocol has been created",
+            "aCitizenProtocolHasBeenDeleted": "A @:terms.citizen{''} protocol has been deleted",
+            "aCitizenProtocolHasBeenUpdated": "A @:terms.citizen{''} protocol has been updated",
+            "aCitizenRiskAssessmentHasBeenCreated": "A @:terms.citizen{''} risk assessment has been created",
+            "aCitizenRiskAssessmentHasBeenDeleted": "A @:terms.citizen{''} risk assessment has been deleted",
+            "aCitizenRiskAssessmentHasBeenUpdated": "A @:terms.citizen{''} risk assessment has been updated",
+            "aCitizenSubgoalHasBeenCreated": "A @:terms.citizen{''} subgoal has been created",
+            "aCitizenSubgoalHasBeenDeleted": "A @:terms.citizen{''} subgoal has been deleted",
+            "aCitizenSubgoalHasBeenUpdated": "A @:terms.citizen{''} subgoal has been updated",
+            "aCitizenWalletHasBeenCreated": "A @:terms.citizen{''} wallet has been created",
+            "aCitizenWalletHasBeenDeleted": "A @:terms.citizen{''} wallet has been deleted",
+            "aCitizenWalletHasBeenUpdated": "A @:terms.citizen{''} wallet has been updated",
             "aCompanyAddressHasBeenCreated": "A company address has been created",
             "aCompanyAddressHasBeenDeleted": "A company address has been deleted",
             "aCompanyAddressHasBeenUpdated": "A company address has been updated",
@@ -600,7 +645,7 @@
             },
             "createdAt": "Created at",
             "data": {
-                "citizens": "Citizens",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "dateTimeEnd": "Date and time end",
                 "dateTimeStart": "Date and time start",
                 "departments": "Departments",
@@ -779,7 +824,7 @@
     },
     "archived": {
         "alert": {
-            "citizenSuccessfullyUnarchive": "Citizen successfully unarchive",
+            "citizenSuccessfullyUnarchive": "@.capitalize:terms.citizen{''} successfully unarchive",
             "documentSuccessfullyUnarchive": "Document successfully unarchive",
             "employeeSuccessfullyUnarchive": "Employee successfully unarchive",
             "goalSuccessfullyUnarchive": "Goal successfully unarchive",
@@ -787,7 +832,7 @@
             "subgoalSuccessfullyUnarchive": "Subgoal successfully unarchive"
         },
         "confirmation": {
-            "unarchiveCitizen": "Are you sure you want to unarchive this citizen",
+            "unarchiveCitizen": "Are you sure you want to unarchive this @:terms.citizen{''}",
             "unarchiveDocument": "Are you sure you want to unarchive this document",
             "unarchiveEmployee": "Are you sure you want to unarchive this employee",
             "unarchiveGoal": "Are you sure you want to unarchive this goal",
@@ -797,7 +842,7 @@
         "table": {
             "actions": {
                 "unarchive": "Unarchive",
-                "unarchiveCitizen": "Unarchive citizen",
+                "unarchiveCitizen": "Unarchive @:terms.citizen{''}",
                 "unarchiveDocument": "Unarchive document",
                 "unarchiveEmployee": "Unarchive employee"
             },
@@ -805,13 +850,13 @@
             "date": "Date",
             "name": "Name",
             "type": {
-                "citizen": "Citizen",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "employee": "Employee",
                 "type": "Type"
             }
         },
         "tabs": {
-            "archivedCitizens": "Archived citizens",
+            "archivedCitizens": "Archived @:terms.citizens{''}",
             "archivedDocuments": "Archived documents",
             "archivedEmployees": "Archived employees",
             "archivedGoals": "Archived goals",
@@ -842,8 +887,8 @@
         "companyDataMissing": "Answered without access to your data. The search index has not been created yet.",
         "companyDataBuilding": "Answered without access to your data. The search index is still being built.",
         "askAnything": "Ask anything, or type {'@'} to mention someone",
-        "mentionSomeone": "Mention a citizen or employee",
-        "searchScopeHint": "AI can search any citizen/employee record you have access to, unless you tag someone specific with {'@'}",
+        "mentionSomeone": "Mention a @:terms.citizen{''} or employee",
+        "searchScopeHint": "AI can search any @:terms.citizen{''}/employee record you have access to, unless you tag someone specific with {'@'}",
         "reviewNotice": "AI-generated content may contain errors — always review before relying on it",
         "dataGovernanceNotice": "Read how CitizenOne protects your data in our",
         "previewBeforeSending": "Preview what will be sent",
@@ -876,7 +921,7 @@
             "birthday": "Birthdays",
             "dutyShift": "Duty Shift Rule",
             "incidents": "Incidents",
-            "messages": "Messages",
+            "messages": "Chat",
             "notes": "Notes",
             "other": "Other",
             "plansGoals": "Plans & Goals",
@@ -947,7 +992,9 @@
             "linkCopied": "Copied!",
             "onlineBookingLink": "Online Booking link",
             "onlineBookingLinkLabel": "The link to your public online booking page",
-            "phone": "Phone"
+            "phone": "Phone",
+            "notifyTeam": "Tell the whole clinic",
+            "notifyTeamHelp": "The clinician is always told. Turn this on if colleagues should be too, so they can cover for each other."
         }
     },
     "bookingTags": {
@@ -1195,14 +1242,14 @@
             },
             "participants": {
                 "actions": {
-                    "convertAsCitizen": "Convert as citizen",
+                    "convertAsCitizen": "Convert as @:terms.citizen{''}",
                     "resendEmailConfirmation": "Resend email confirmation"
                 },
                 "alert": {
-                    "participantToCitizenConvertedSuccessfully": "Participant successfully converted as citizen"
+                    "participantToCitizenConvertedSuccessfully": "Participant successfully converted as @:terms.citizen{''}"
                 },
                 "confirmation": {
-                    "convertAsCitizenConfirmation": "Are you sure you want to convert this participant as citizen"
+                    "convertAsCitizenConfirmation": "Are you sure you want to convert this participant as @:terms.citizen{''}"
                 },
                 "participants": "Participants",
                 "table": {
@@ -1214,7 +1261,8 @@
             "viewEvent": "View event",
             "viewFutureEvents": "View future events",
             "viewSignUpForm": "View sign up form"
-        }
+        },
+        "landsInCalendar": "A booked time is placed in the clinician's calendar automatically. Cancel the booking and it disappears again."
     },
     "bulletBoard": {
         "attachments": "Attachments",
@@ -1222,7 +1270,7 @@
         "featured": "Featured"
     },
     "calendar": {
-        "citizens": "Citizens",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Friday",
             "Monday": "Monday",
@@ -1252,7 +1300,8 @@
         },
         "tabs": {
             "bookings": "Bookings",
-            "events": "Events"
+            "events": "Events",
+            "appointments": "Booked times"
         },
         "today": "Today",
         "view": {
@@ -1416,10 +1465,10 @@
         "addictions": "Substance abuse",
         "address": "Address",
         "alert": {
-            "citizenSuccessfullyArchived": "Citizen successfully archived"
+            "citizenSuccessfullyArchived": "@.capitalize:terms.citizen{''} successfully archived"
         },
-        "archiveCitizen": "Archive citizen",
-        "archivedCitizens": "Archived citizens",
+        "archiveCitizen": "Archive @:terms.citizen{''}",
+        "archivedCitizens": "Archived @:terms.citizens{''}",
         "attendance": {
             "protocol": "Protocol"
         },
@@ -1471,12 +1520,12 @@
                 "unpinJournal": "{journal} successfully unpinned"
             },
             "confirmation": {
-                "copyConfirmation": "Are you sure you want to copy this journal to the selected citizen",
+                "copyConfirmation": "Are you sure you want to copy this journal to the selected @:terms.citizen{''}",
                 "deleteConfirmation": "Are you sure you want to delete this journal",
-                "moveConfirmation": "Are you sure you want to move this journal to the selected citizen"
+                "moveConfirmation": "Are you sure you want to move this journal to the selected @:terms.citizen{''}"
             },
             "copy": {
-                "citizen": "Citizen",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "copy": "Copy",
                 "copyJournal": "Copy journal"
             },
@@ -1596,27 +1645,27 @@
                 "updatedBy": "Updated by"
             },
             "mentions": {
-                "hint": "Type {'@'} to tag a colleague or a citizen",
+                "hint": "Type {'@'} to tag a colleague or a @:terms.citizen{''}",
                 "noAccess": "no access",
-                "noAccessMessage": "You are not a contact person on this citizen, so you cannot open them.",
+                "noAccessMessage": "You are not a contact person on this @:terms.citizen{''}, so you cannot open them.",
                 "noAccessTitle": "No access"
             },
             "move": {
-                "citizen": "Citizen",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "move": "Move",
                 "moveJournal": "Move journal"
             },
             "newNote": "New note",
             "on": "On",
             "shareJournals": {
-                "citizenJournal": "Citizen journal",
+                "citizenJournal": "@.capitalize:terms.citizen{''} journal",
                 "form": {
                     "alert": {
                         "enteredPasswordMismatched": "Entered password mismatched",
                         "journalSuccessfullyShared": "Journal successfully shared",
                         "required8Characters": "This field should be at least 8 characters long"
                     },
-                    "citizen": "Citizen",
+                    "citizen": "@.capitalize:terms.citizen{''}",
                     "confirmPassword": "Confirm password",
                     "password": "Password",
                     "unlock": "Unlock",
@@ -1631,7 +1680,7 @@
                     "alert": {
                         "linkSuccessfullyDeleted": "Link successfully deleted"
                     },
-                    "citizen": "Citizen",
+                    "citizen": "@.capitalize:terms.citizen{''}",
                     "confirmation": {
                         "deleteLinkConfirmation": "Are you sure you want to delete this link"
                     },
@@ -1639,9 +1688,9 @@
                 }
             }
         },
-        "citizens": "Citizens",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "confirmation": {
-            "archiveConfirmation": "Are you sure you want to archive this citizen"
+            "archiveConfirmation": "Are you sure you want to archive this @:terms.citizen{''}"
         },
         "contacts": {
             "alert": {
@@ -1839,8 +1888,8 @@
             "useTemplate": "Use template",
             "viewDraftFile": "View draft files"
         },
-        "editCitizen": "Edit citizen",
-        "editCitizenForm": "Edit citizen form",
+        "editCitizen": "Edit @:terms.citizen{''}",
+        "editCitizenForm": "Edit @:terms.citizen{''} form",
         "editMedicineForm": "Edit medication form",
         "emails": {
             "bodyInOriginal": "The text could not be shown here. Open the original to read the mail.",
@@ -1857,10 +1906,10 @@
             "openOriginal": "Open the original",
             "attachments": "Attachments",
             "confirmation": {
-                "untagConfirmation": "Are you sure you want to remove this email from the citizen's profile"
+                "untagConfirmation": "Are you sure you want to remove this email from the @:terms.citizen{''}'s profile"
             },
-            "linkToCitizen": "Link to citizen",
-            "linkedSuccessfully": "Email successfully linked to citizen",
+            "linkToCitizen": "Link to @:terms.citizen{''}",
+            "linkedSuccessfully": "Email successfully linked to @:terms.citizen{''}",
             "noEmailsFound": "No emails found",
             "roles": {
                 "admin": "Admin",
@@ -1869,7 +1918,7 @@
             },
             "saveAttachmentsToDocuments": "Also save attachments to Documents",
             "savePdfToDocuments": "Also save as PDF in Documents",
-            "selectCitizen": "Select citizen",
+            "selectCitizen": "Select @:terms.citizen{''}",
             "selectVisibility": "Who can view this email",
             "table": {
                 "date": "Date",
@@ -1946,12 +1995,12 @@
         },
         "actions": "Actions",
         "importFromOtherSystem": "Import from another system",
-        "exportCitizens": "Export citizens",
+        "exportCitizens": "Export @:terms.citizens{''}",
         "form": {
             "addictions": "Substance abuse",
             "alert": {
-                "successfullyAdded": "New citizen successfully saved",
-                "successfullyUpdate": "Citizen successfully updated"
+                "successfullyAdded": "New @:terms.citizen{''} successfully saved",
+                "successfullyUpdate": "@.capitalize:terms.citizen{''} successfully updated"
             },
             "allocatedHours": {
                 "allocatedDailyHours": "Allocated daily hours",
@@ -1964,7 +2013,7 @@
             "allowSystemAccess": "Allow system access",
             "assessmentMunicipality": "Assessment municipality",
             "birthday": "Birthday",
-            "citizenOrigin": "Citizen origin",
+            "citizenOrigin": "@.capitalize:terms.citizen{''} origin",
             "city": "City",
             "country": "Country",
             "dateAdmitted": "Date admitted",
@@ -1988,7 +2037,7 @@
                 "purpose": "Purpose"
             },
             "lastname": "Last name",
-            "locateCitizen": "Locate Citizen",
+            "locateCitizen": "Locate @.capitalize:terms.citizen{''}",
             "locateCitizenInstructions": "Click anywhere on the map to pin a location. You can also drag the marker to adjust the position. The address will be automatically fetched.",
             "medicationAllergies": "Medication allergies (CAVE)",
             "motherTongue": "Mother tongue",
@@ -2002,7 +2051,7 @@
             "primaryCaseworker": "Primary caseworker",
             "region": "Region",
             "requiresInterpreter": "Interpreter required",
-            "requiresInterpreterDescription": "Tick this if an interpreter is needed for conversations with the citizen.",
+            "requiresInterpreterDescription": "Tick this if an interpreter is needed for conversations with the @:terms.citizen{''}.",
             "responsibleMunicipality": "Responsible municipality",
             "room": "Room",
             "section": "Section",
@@ -2010,8 +2059,8 @@
             "selectedLocation": "Selected Location",
             "autoFilledFromSsn": "Filled in from the CPR number",
             "selectGender": "Select gender",
-            "spokenLanguages": "Languages the citizen speaks",
-            "spokenLanguagesDescription": "Select the languages the citizen can speak. This is not the same as the system language.",
+            "spokenLanguages": "Languages the @:terms.citizen{''} speaks",
+            "spokenLanguagesDescription": "Select the languages the @:terms.citizen{''} can speak. This is not the same as the system language.",
             "ssnPlaceholder": "ddmmyy-xxxx",
             "ssn": "Social security number",
             "stayData": {
@@ -2130,10 +2179,10 @@
         },
         "importCitizens": {
             "alert": {
-                "citizensSuccessfullyImported": "Citizens successfully successfully imported"
+                "citizensSuccessfullyImported": "@.capitalize:terms.citizens{''} successfully successfully imported"
             },
             "downloadTemplate": "Download template",
-            "importCitizens": "Import citizens",
+            "importCitizens": "Import @:terms.citizens{''}",
             "importTemplate": "Import template",
             "noFileSelected": "No file selected"
         },
@@ -2271,7 +2320,7 @@
             "editInterventionHours": "Edit intervention hours",
             "filter": {
                 "allTypes": "All types",
-                "citizens": "Citizens",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "departments": "Departments",
                 "employees": "Employees",
                 "filterDate": "Filter date",
@@ -2300,7 +2349,7 @@
                 "alert": {
                     "interventionHoursSuccessfullyDeleted": "Intervention hours successfully deleted"
                 },
-                "citizen": "Citizen",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "confirmation": {
                     "deleteInterventionHoursConfirmation": "Are you sure you want to delete this intervention hours"
                 },
@@ -2323,7 +2372,7 @@
                 "weeklyAllocation": "Weekly allocation"
             },
             "view": {
-                "citizen": "Citizen",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "createdBy": "Created by",
                 "dateTimeEnd": "Date time end",
                 "dateTimeStart": "Date time start",
@@ -2402,7 +2451,7 @@
                     "pnMedicine": "PN medicine",
                     "regularMedicine": "Regular medicine"
                 },
-                "consentToPrescribe": "The citizen has given consent to be prescribed this medication",
+                "consentToPrescribe": "The @:terms.citizen{''} has given consent to be prescribed this medication",
                 "shelfLife": "Shelf life (after opening)",
                 "dateOpened": "Date opened",
                 "shelfLifeDays": "Shelf life (days after opening)",
@@ -2418,17 +2467,17 @@
                 "otherInformationLabel": "Are there any other important details to highlight",
                 "packageLeafletLink": "Package leaflet link",
                 "pnMedicine": "PN-medicine",
-                "scheduleFrequency": "How often should citizens take the medicine",
-                "scheduleUntil": "Until when should citizens take the medicine",
+                "scheduleFrequency": "How often should @:terms.citizens{''} take the medicine",
+                "scheduleUntil": "Until when should @:terms.citizens{''} take the medicine",
                 "selfAdminister": "Self-administer",
                 "startDate": "Date of prescription",
                 "strength": "Strength",
                 "time": "Time",
                 "treatmentReason": "Treatment reason",
-                "treatmentReasonPlaceholder": "What is the reason the citizen is receiving this medication",
+                "treatmentReasonPlaceholder": "What is the reason the @:terms.citizen{''} is receiving this medication",
                 "unit": "Unit",
                 "advancedSchedule": "Advanced schedule setting",
-                "advancedScheduleDesc": "Use these settings if the citizen needs to take medicine during specific periods or on specific individual dates - in addition to the fixed frequency above.",
+                "advancedScheduleDesc": "Use these settings if the @:terms.citizen{''} needs to take medicine during specific periods or on specific individual dates - in addition to the fixed frequency above.",
                 "treatmentPeriods": "Treatment periods",
                 "treatmentPeriodsDesc": "Enter periods when the medicine should be actively given - e.g. treatment in week 1-3, pause in week 4, treatment in week 5-6.",
                 "addPeriod": "+ Add period",
@@ -2436,7 +2485,7 @@
                 "to": "to",
                 "noPeriodsAdded": "No periods added - medicine follows the frequency setting throughout",
                 "extraIndividualDates": "Extra individual dates",
-                "extraIndividualDatesDesc": "Add specific individual dates when the citizen should receive the medicine - even if it doesn't align with the fixed frequency. Click on a date in the calendar to add it.",
+                "extraIndividualDatesDesc": "Add specific individual dates when the @:terms.citizen{''} should receive the medicine - even if it doesn't align with the fixed frequency. Click on a date in the calendar to add it.",
                 "noExtraDaysSelected": "No extra days selected",
                 "weeklyRotation": {
                     "label": "Weekly rotation",
@@ -2473,8 +2522,8 @@
                     "dose": "Dose",
                     "evaluationFrequency": "What time do you want to evaluate",
                     "evaluator": "Evaluator",
-                    "maximumDosePerAdministrationForThisCitizenIs": "Maximum dose per administration for this citizen is {n} for this PRN medication",
-                    "noMedicineToday": "The reason you do not see any availability to provide medicine, is that the citizen should not have medicine today",
+                    "maximumDosePerAdministrationForThisCitizenIs": "Maximum dose per administration for this @:terms.citizen{''} is {n} for this PRN medication",
+                    "noMedicineToday": "The reason you do not see any availability to provide medicine, is that the @:terms.citizen{''} should not have medicine today",
                     "time": "Time",
                     "type": {
                         "delivered": "Delivered",
@@ -2602,9 +2651,9 @@
                 "editEffectEvaluation": "Edit effect evaluation",
                 "registerEffectEvaluation": "Register effect evaluation",
                 "scheduledAt": "Scheduled at",
-                "describeReaction": "Describe the citizen's reaction and effect of the medicine since it was given",
+                "describeReaction": "Describe the @:terms.citizen{''}'s reaction and effect of the medicine since it was given",
                 "observation": "Observation",
-                "evaluationPlaceholder": "E.g.: Good pain relief after 45 min. Citizen reports pain level 3/10 compared to previous 8/10...",
+                "evaluationPlaceholder": "E.g.: Good pain relief after 45 min. @.capitalize:terms.citizen{''} reports pain level 3/10 compared to previous 8/10...",
                 "saving": "Saving...",
                 "saveEvaluation": "Save evaluation",
                 "evaluationRegistered": "The effect evaluation has been registered",
@@ -2659,7 +2708,7 @@
                 "clearFilter": "Clear filter",
                 "today": "Today",
                 "newPackageOpening": "New package opening",
-                "noActiveMedicines": "No active medicines for this citizen",
+                "noActiveMedicines": "No active medicines for this @:terms.citizen{''}",
                 "addMedicine": "Add medicine",
                 "medicinesSelected": "{n} medicine(s) selected",
                 "selectAll": "Select all",
@@ -2847,7 +2896,7 @@
                     },
                     "chooseFromOurContactPerson": "Choose from contact person",
                     "date": "Date",
-                    "illnessAndFunctionalImpairment1": "What is the illness and functional impairment the citizen has",
+                    "illnessAndFunctionalImpairment1": "What is the illness and functional impairment the @:terms.citizen{''} has",
                     "whoIsTheResponsibleHealthcareProvider": "Who is the responsible healthcare provider"
                 },
                 "illnessAndFunctionalImpairment": "Illness and functional impairment",
@@ -3006,7 +3055,7 @@
         },
         "rooms": "Rooms",
         "sections": {
-            "citizenDetails": "Citizen details",
+            "citizenDetails": "@.capitalize:terms.citizen{''} details",
             "citizenDetailsHelp": "Name, civil registration number and contact details. The CPR number fills in birthday and gender by itself.",
             "dentalProfile": "Dental profile",
             "dentalProfileHelp": "Dentist, patient number, municipal subsidy and the latest check-up.",
@@ -3062,8 +3111,8 @@
             "actions": {
                 "checkIn": "Check in",
                 "checkOut": "Check out",
-                "pin": "Pin citizen",
-                "unpin": "Unpin citizen",
+                "pin": "Pin @:terms.citizen{''}",
+                "unpin": "Unpin @:terms.citizen{''}",
                 "edit": "Edit",
                 "latestJournalEntry": "Latest journal entry",
                 "latestRiskAssessment": "Latest risk assessment",
@@ -3108,7 +3157,8 @@
             "surveys": "Surveys",
             "toothChart": "Tooth chart",
             "priceEstimates": "Price estimates",
-            "invoices": "Invoices"
+            "invoices": "Invoices",
+            "patientForms": "Patient forms"
         },
         "timeline": {
             "newEvent": "New event",
@@ -3435,12 +3485,12 @@
             "useOfForce": "Use of force"
         },
         "viewLocations": {
-            "citizensWithLocations": "citizens with locations",
+            "citizensWithLocations": "@:terms.citizens{''} with locations",
             "distance": "Distance",
-            "instructions": "Blue lines connect your current location to each citizen's address. Click on markers to see details.",
+            "instructions": "Blue lines connect your current location to each @:terms.citizen{''}'s address. Click on markers to see details.",
             "loading": "Loading locations",
             "locatingAddress": "Getting your location",
-            "noCitizensWithLocations": "No citizens have location data available",
+            "noCitizensWithLocations": "No @:terms.citizens{''} have location data available",
             "title": "View Locations",
             "viewLocations": "View Locations",
             "yourLocation": "Your Location"
@@ -3556,7 +3606,7 @@
             "edit": "Edit",
             "delete": "Delete"
         },
-        "noCitizensYet": "No citizens yet",
+        "noCitizensYet": "No @:terms.citizens{''} yet",
         "toothChart": {
             "title": "Tooth chart",
             "numbering": "Numbering",
@@ -3658,7 +3708,16 @@
                 "setCheckup": "Set a check-up",
                 "everyMonths": "Every {months} months",
                 "checkupSaved": "Check-up updated",
-                "checkupHelp": "The next check-up is the last one plus the interval."
+                "checkupHelp": "The next check-up is the last one plus the interval.",
+                "lastRecalled": "Last recalled",
+                "neverRecalled": "Never recalled",
+                "recallNow": "Recall",
+                "recalled": "The recall has been recorded",
+                "bookTime": "Book a time",
+                "manualRecallDate": "Recall on",
+                "manualRecallReason": "Reason",
+                "manualRecallReasonPlaceholder": "e.g. watching the filling in 5-6",
+                "manualRecallHelp": "Set a date here to call the patient in before the next routine check-up. The reason is shown to the clinic only. It lapses on its own once the patient has been seen."
             },
             "history": {
                 "label": "Show an earlier examination:",
@@ -3707,11 +3766,31 @@
                 "noTooth": "No tooth",
                 "note": "Notes",
                 "notePlaceholder": "For example what the price assumes",
-                "needsALine": "Add at least one treatment"
+                "needsALine": "Add at least one treatment",
+                "service": "Service",
+                "ownLine": "Own line"
             },
             "plan": "Plan",
             "markDone": "Mark done",
-            "done": "Done"
+            "done": "Done",
+            "invoiced": "Invoiced",
+            "leftToSettle": "Left to settle",
+            "settleNow": "Settle now",
+            "createInvoice": "Create invoice",
+            "settleTitle": "Settle treatment",
+            "settleExplanation": "Raises the invoice for the completed lines and records the payment at once. Use it when the patient pays in the clinic.",
+            "paymentMethod": "Payment method",
+            "settled": "Settled",
+            "invoiceCreated": "Invoice created",
+            "methods": {
+                "card": "Card",
+                "terminal": "Terminal",
+                "mobilepay": "MobilePay",
+                "cash": "Cash"
+            },
+            "nextStepMarkDone": "Mark the treatments as carried out, and they can be invoiced from here.",
+            "nextStepSettle": "The treatment is carried out and ready to settle.",
+            "nextStepInvoiced": "Everything on this estimate has been invoiced. See the invoice under"
         },
         "invoices": {
             "newTitle": "Create invoice",
@@ -3747,7 +3826,7 @@
             },
             "empty": {
                 "title": "No invoices",
-                "text": "Create an invoice when the citizen is to pay for a service."
+                "text": "Create an invoice when the @:terms.citizen{''} is to pay for a service."
             },
             "form": {
                 "issuedAt": "Invoice date",
@@ -3766,12 +3845,12 @@
                 "notePlaceholder": "For example what the invoice covers",
                 "needsALine": "Add at least one line",
                 "noServices": "The catalogue is empty. You can still write free lines.",
-                "citizen": "Citizen",
-                "citizenPlaceholder": "Choose a citizen",
-                "needsACitizen": "Choose the citizen the invoice belongs to."
+                "citizen": "@.capitalize:terms.citizen{''}",
+                "citizenPlaceholder": "Choose a @:terms.citizen{''}",
+                "needsACitizen": "Choose the @:terms.citizen{''} the invoice belongs to."
             },
             "downloadPdf": "Download PDF",
-            "send": "Send to citizen",
+            "send": "Send to @:terms.citizen{''}",
             "sendAgain": "Send again",
             "sent": "Invoice sent",
             "creditNote": "Credit note",
@@ -3788,6 +3867,11 @@
             },
             "paymentLink": "Payment link",
             "paymentLinkCopied": "The payment link is copied"
+        },
+        "plansAndGoals": {
+            "report": {
+                "citizenName": "@.capitalize:terms.citizenDefinite{''} name"
+            }
         }
     },
     "client": {
@@ -3913,7 +3997,7 @@
                 "delete": "Delete",
                 "edit": "Edit"
             },
-            "citizens": "Citizens",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "dutySchedules": "Duty schedules",
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
@@ -3939,7 +4023,12 @@
             "name": "Name",
             "shiftTypes": "Shift types",
             "minimumStaffCount": "Minimum staff count",
-            "minimumStaffCountHint": "Minimum number of employees required to cover this department on any given day. Leave empty to disable the coverage warning."
+            "minimumStaffCountHint": "Minimum number of employees required to cover this department on any given day. Leave empty to disable the coverage warning.",
+            "street": "Street and number",
+            "postCode": "Post code",
+            "city": "City",
+            "phone": "Phone",
+            "clinicAddressHint": "Shown to patients in the patient portal as the clinic address and contact number."
         },
         "newDepartment": "New department",
         "table": {
@@ -4477,7 +4566,7 @@
         },
         "findEmployee": "Find employee",
         "form": {
-            "citizens": "Citizens",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "compensatoryTimeOff": "Compensatory time off",
             "createMultipleSchedules": "Create multiple schedules",
             "date": "Date",
@@ -4579,6 +4668,55 @@
                     "sickLeave": "Sick leave",
                     "type": "Type",
                     "vacationLeave": "Vacation leave"
+                }
+            }
+        },
+        "compensatoryTimeRequests": {
+            "alert": {
+                "requestSuccessfullySent": "Compensatory time request successfully sent"
+            },
+            "compensatoryTimeRequests": "Compensatory time requests",
+            "hours": "Hours",
+            "newRequest": "Request compensatory time",
+            "noAccount": "You do not have a compensatory time account.",
+            "selectAccount": "Please select a compensatory time account.",
+            "sendRequest": "Send request",
+            "shift": "Shift",
+            "timeAccount": "Time account",
+            "table": {
+                "actions": {
+                    "approve": "Approve",
+                    "decline": "Decline",
+                    "reverse": "Reverse",
+                    "withdraw": "Withdraw"
+                },
+                "alert": {
+                    "successfullyApproved": "Compensatory time request successfully approved",
+                    "successfullyDeclined": "Compensatory time request successfully declined",
+                    "successfullyReversed": "Compensatory time request successfully reversed",
+                    "successfullyWithdrawn": "Compensatory time request successfully withdrawn"
+                },
+                "confirmation": {
+                    "approveConfirmation": "Are you sure you want to approve this compensatory time request",
+                    "declineComment": "Comment (optional)",
+                    "declineCommentPlaceholder": "Add a reason the employee will see",
+                    "declineConfirmation": "Are you sure you want to decline this compensatory time request",
+                    "reverseComment": "Comment (optional)",
+                    "reverseCommentPlaceholder": "Add a reason the employee will see",
+                    "reverseConfirmation": "Are you sure you want to reverse this approved compensatory time request",
+                    "withdrawConfirmation": "Are you sure you want to withdraw this compensatory time request"
+                },
+                "dateTimeEnd": "Date and time end",
+                "dateTimeStart": "Date and time start",
+                "declineComment": "Comment",
+                "hours": "Hours",
+                "status": {
+                    "approved": "Approved",
+                    "declined": "Declined",
+                    "pending": "Pending",
+                    "reversed": "Reversed",
+                    "status": "Status",
+                    "withdrawn": "Withdrawn"
                 }
             }
         },
@@ -4981,7 +5119,7 @@
         "typeOfShifts": "Type of shifts",
         "viewCalendar": "View calendar",
         "viewSchedule": {
-            "citizens": "Citizens",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Date time end",
             "datetimeStart": "Date time start",
             "departments": "Departments",
@@ -5315,7 +5453,7 @@
                         "perfectForLargerCompanies": "Perfect for larger companies",
                         "storageSpace": "Storage space",
                         "telephoneSupport": "Support via phone, chat, and email",
-                        "unlimitedNumberOfCitizens": "Unlimited number of citizens",
+                        "unlimitedNumberOfCitizens": "Unlimited number of @:terms.citizens{''}",
                         "user": "User",
                         "users": "Users",
                         "year": "Year",
@@ -5619,7 +5757,7 @@
                 "paymentFree": "Free",
                 "paymentOther": "Other",
                 "planFreeDesc": "1 user, 1 department, 1 GB",
-                "planBasisDesc": "1 user incl., unlimited citizens",
+                "planBasisDesc": "1 user incl., unlimited @:terms.citizens{''}",
                 "planProDesc": "3 users, 3 departments, 3 GB, FMK",
                 "errorSelectCompany": "Select or search a company",
                 "errorCompanyName": "Company name is required",
@@ -6101,14 +6239,14 @@
     "employeeGroups": {
         "citizens": {
             "alert": {
-                "citizenSuccessfullyAssigned": "Citizen successfully assigned",
-                "citizenSuccessfullyUnassigned": "Citizen successfully unassigned"
+                "citizenSuccessfullyAssigned": "@.capitalize:terms.citizen{''} successfully assigned",
+                "citizenSuccessfullyUnassigned": "@.capitalize:terms.citizen{''} successfully unassigned"
             },
-            "assignCitizen": "Assign citizen",
-            "assignedCitizens": "Assigned citizens",
-            "citizens": "Citizens",
+            "assignCitizen": "Assign @:terms.citizen{''}",
+            "assignedCitizens": "Assigned @:terms.citizens{''}",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "confirmation": {
-                "unassignConfirmation": "Are you sure you want to unassign this citizen"
+                "unassignConfirmation": "Are you sure you want to unassign this @:terms.citizen{''}"
             },
             "table": {
                 "actions": {
@@ -6133,7 +6271,7 @@
         "newEmployeeGroup": "New employee group",
         "table": {
             "actions": {
-                "citizens": "Citizens",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "delete": "Delete",
                 "edit": "Edit"
             },
@@ -6155,18 +6293,18 @@
         "archivedEmployees": "Archived employees",
         "citizens": {
             "assign": "Assign",
-            "assignCitizens": "Assign citizens",
-            "assignedCitizens": "Assigned citizens",
-            "citizens": "Citizens",
+            "assignCitizens": "Assign @:terms.citizens{''}",
+            "assignedCitizens": "Assigned @:terms.citizens{''}",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "table": {
                 "actions": {
                     "delete": "Delete"
                 },
                 "alert": {
-                    "citizenSuccessfullyDeleted": "Citizen successfully deleted"
+                    "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} successfully deleted"
                 },
                 "confirmation": {
-                    "deleteCitizenConfirmation": "Are you sure you want to delete this citizen"
+                    "deleteCitizenConfirmation": "Are you sure you want to delete this @:terms.citizen{''}"
                 },
                 "firstname": "First name",
                 "lastname": "Last name"
@@ -6257,13 +6395,14 @@
                 "hoursPerYear": "hours per year",
                 "hourlyRate": "Hourly rate",
                 "jobSpecialty": "Job specialty",
-                "jobTitle": "Job title",
+                "jobTitle": "Job titles",
                 "salaryID": "Salary ID",
                 "terminationDate": "Termination date",
                 "vacationDays": "Vacation days",
                 "weeklyNormHours": "Weekly norm hours",
                 "weeks": "Weeks",
-                "workingHours": "Working hours"
+                "workingHours": "Working hours",
+                "annualNormHoursNotUsed": "Not used"
             },
             "firstname": "First name",
             "header": {
@@ -6398,7 +6537,7 @@
             "journalSuccessfullyCreated": "Journal note successfully created"
         },
         "calendar": "Calendar",
-        "citizens": "Citizens",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Show shifts",
         "shiftLabel": "Shift",
         "confirmation": {
@@ -6413,7 +6552,7 @@
         "eventOwner": "Event owner",
         "form": {
             "applyChangesToFutureEvents": "Apply changes to future events",
-            "citizens": "Citizens",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Date time end",
             "datetimeStart": "Date time start",
             "description": "Description",
@@ -6527,7 +6666,7 @@
             },
             "amount": "Amount",
             "category": "Category",
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "clickToUpload": "Click to upload",
             "date": "Date",
             "description": "Description",
@@ -6624,7 +6763,8 @@
         "didYouKnowDismiss": "Got it",
         "empty": "No results",
         "navigate": "Go to",
-        "citizen": "Citizen"
+        "citizen": "@.capitalize:terms.citizen{''}",
+        "settings": "Settings"
     },
     "shortcuts": {
         "title": "Keyboard shortcuts",
@@ -6900,7 +7040,7 @@
         },
         "medicineSubtitle": "Configure which fields are visible in the medication create and edit forms.",
         "medicineTitle": "Medication Form Field Configuration",
-        "subtitle": "Configure which fields are visible in the citizen create and edit forms.",
+        "subtitle": "Configure which fields are visible in the @:terms.citizen{''} create and edit forms.",
         "title": "Form Field Configuration"
     },
     "forms": {
@@ -6915,7 +7055,7 @@
             "citizenBirthday": "Date of birth",
             "citizenCpr": "CPR number",
             "citizenEmail": "Email",
-            "citizenName": "Citizen name",
+            "citizenName": "@.capitalize:terms.citizen{''} name",
             "citizenPhone": "Phone",
             "payingMunicipality": "Paying municipality",
             "primaryCaseWorker": "Case worker"
@@ -6930,13 +7070,13 @@
         "enableFollowUp": "Enable Follow up",
         "fields": {
             "autoFill": {
-                "label": "Auto-fill from citizen data",
+                "label": "Auto-fill from @:terms.citizen{''} data",
                 "none": "None",
-                "citizenName": "Citizen name",
-                "citizenCpr": "Citizen CPR / social security number",
-                "citizenBirthday": "Citizen birthday",
-                "citizenAdmissionDate": "Citizen admission date",
-                "citizenDischargeDate": "Citizen discharge date"
+                "citizenName": "@.capitalize:terms.citizen{''} name",
+                "citizenCpr": "@.capitalize:terms.citizen{''} CPR / social security number",
+                "citizenBirthday": "@.capitalize:terms.citizen{''} birthday",
+                "citizenAdmissionDate": "@.capitalize:terms.citizen{''} admission date",
+                "citizenDischargeDate": "@.capitalize:terms.citizen{''} discharge date"
             },
             "checkbox": "Checkbox",
             "choice": "Choice",
@@ -6975,7 +7115,7 @@
         "formDescription": "Form description",
         "formTitle": "Form title",
         "forms": "Forms",
-        "formsSublabel": "With forms, you can create templates for reports on citizens' plans, goals, and sub-goals, as well as for other types of reporting within the organization. The possibilities are many",
+        "formsSublabel": "With forms, you can create templates for reports on @:terms.citizens{''}' plans, goals, and sub-goals, as well as for other types of reporting within the organization. The possibilities are many",
         "newForm": "New form",
         "option": "Option",
         "preview": "Preview",
@@ -6988,7 +7128,7 @@
                 "responses": "Responses"
             }
         },
-        "showCitizenProfileData": "Show citizen's profile data upon report generation",
+        "showCitizenProfileData": "Show @:terms.citizen{''}'s profile data upon report generation",
         "table": {
             "actions": {
                 "createResponse": "Create response",
@@ -7023,7 +7163,7 @@
             "newPredefinedEvent": "New predefined event",
             "editPredefinedEvent": "Edit predefined event",
             "calendarTypes": {
-                "citizens": "Citizens",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "employees": "Employees"
             },
             "recurringTypes": {
@@ -7074,7 +7214,7 @@
         "scale": {
             "question": "Question",
             "scaleKey": "Measurement key",
-            "scaleKeyHint": "Templates sharing a key share the citizen's history. Use wellbeing, for instance.",
+            "scaleKeyHint": "Templates sharing a key share the @:terms.citizen{''}'s history. Use wellbeing, for instance.",
             "maxScore": "Scale",
             "maxScoreHint": "0 to 5 or 0 to 10.",
             "preview": "How it looks",
@@ -7088,7 +7228,7 @@
             "addRater": "Add party",
             "showHistory": "Show earlier measurements",
             "perGoal": "Repeat the scale for each goal",
-            "perGoalHint": "When on, the scale is shown once per active goal on the citizen.",
+            "perGoalHint": "When on, the scale is shown once per active goal on the @:terms.citizen{''}.",
             "defaults": {
                 "threatened": "Threatened",
                 "atRisk": "At risk",
@@ -7099,7 +7239,7 @@
                 "caseworker": "Caseworker",
                 "mother": "Mother",
                 "father": "Father",
-                "citizen": "The citizen"
+                "citizen": "The @:terms.citizen{''}"
             },
             "clear": "Clear",
             "measuredAt": "Measured on",
@@ -7112,7 +7252,7 @@
             "insert": "Insert field",
             "personal": "Personal data",
             "none": "No fields available",
-            "hint": "The field is replaced with the citizen's data when the report is saved.",
+            "hint": "The field is replaced with the @:terms.citizen{''}'s data when the report is saved.",
             "loading": "Loading..."
         },
         "groups": {
@@ -7139,8 +7279,8 @@
             "blocksInside": "blocks inside",
             "addingInside": "The next block goes inside the group",
             "addAtEnd": "Put it at the end instead",
-            "hint": "Blocks inside the group repeat once per goal on the citizen. Insert the repetition name field where the goal's name should go.",
-            "noIterations": "The citizen has no goals yet, so this group is empty."
+            "hint": "Blocks inside the group repeat once per goal on the @:terms.citizen{''}. Insert the repetition name field where the goal's name should go.",
+            "noIterations": "The @:terms.citizen{''} has no goals yet, so this group is empty."
         }
     },
     "gender": {
@@ -7161,7 +7301,7 @@
     "globalSearch": {
         "actions": {
             "title": "Quick actions",
-            "newCitizen": "Add citizen",
+            "newCitizen": "Add @:terms.citizen{''}",
             "newEmployee": "Add employee",
             "journalNotes": "Journal notes",
             "statistics": "Statistics"
@@ -7174,20 +7314,20 @@
         "attendance": "Attendance",
         "bookings": "Bookings",
         "calendar": "Calendar",
-        "citizens": "Citizens",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "companies": "Companies",
         "contacts": "Contacts",
         "documents": "Documents",
         "economy": "Economy",
         "employees": "Employees",
         "health": "Health Records",
-        "hint": "Search for citizens, journals, medicine and more...",
+        "hint": "Search for @:terms.citizens{''}, journals, medicine and more...",
         "invoices": "Invoices",
         "journals": "Journals",
         "medicines": "Medicines",
         "noResults": "No results found",
         "pages": "Pages",
-        "placeholder": "Search for citizens, journals, medicine and more...",
+        "placeholder": "Search for @:terms.citizens{''}, journals, medicine and more...",
         "plans": "Plans & Goals",
         "recent": "Recent searches",
         "searching": "Searching...",
@@ -7245,21 +7385,21 @@
                 "inquiryConversionFailed": "The inquiry could not be converted"
             },
             "conversationSummary": "Conversation summary",
-            "cpr": "Citizen's CPR number",
+            "cpr": "@.capitalize:terms.citizen{''}'s CPR number",
             "crisisCenter": {
                 "fields": {
-                    "assessment": "Do you assess that the citizen falls within the target group under Section 109?",
+                    "assessment": "Do you assess that the @:terms.citizen{''} falls within the target group under Section 109?",
                     "contactedBy": "Who is contacting the crisis center?",
-                    "guidance": "The crisis center advises/refers the citizen to:",
-                    "notOfferedInterview": "Why is the citizen not offered an intake interview?",
-                    "receivedVisit": "Does the citizen receive an intake interview/temporary accommodation?",
+                    "guidance": "The crisis center advises/refers the @:terms.citizen{''} to:",
+                    "notOfferedInterview": "Why is the @:terms.citizen{''} not offered an intake interview?",
+                    "receivedVisit": "Does the @:terms.citizen{''} receive an intake interview/temporary accommodation?",
                     "topic": "What is the inquiry about?"
                 }
             },
             "dateOfInquiry": "Date of inquiry",
-            "firstname": "Citizen first name",
+            "firstname": "@.capitalize:terms.citizen{''} first name",
             "inquirerName": "Inquirer name",
-            "lastname": "Citizen last name",
+            "lastname": "@.capitalize:terms.citizen{''} last name",
             "notes": "Own notes",
             "options": {
                 "assessment": {
@@ -7274,40 +7414,40 @@
                     "municipalEmployee": "Municipal employee",
                     "other": "Other",
                     "police": "Police/Prison and Probation Service",
-                    "theCitizenThemselves": "The citizen themselves"
+                    "theCitizenThemselves": "The @:terms.citizen{''} themselves"
                 },
                 "cprMissingReason": {
-                    "citizenDoesNotHaveCprNumber": "The citizen does not have a CPR number",
-                    "shelterDoesntHaveNumber": "The shelter or care home etc. does not know the citizen’s CPR number"
+                    "citizenDoesNotHaveCprNumber": "The @:terms.citizen{''} does not have a CPR number",
+                    "shelterDoesntHaveNumber": "The shelter or care home etc. does not know the @:terms.citizen{''}’s CPR number"
                 },
                 "inquiryType": {
                     "crisisCenter": "Crisis center",
                     "shelter": "Shelter"
                 },
                 "nonAdmissionReason": {
-                    "citizenDeclinedOffer": "The citizen declined the offer themselves",
-                    "expelledDueToViolentBehavior": "The citizen has been expelled due to violent behavior or similar",
-                    "other": "For other reasons, the citizen was not admitted to the offer"
+                    "citizenDeclinedOffer": "The @:terms.citizen{''} declined the offer themselves",
+                    "expelledDueToViolentBehavior": "The @:terms.citizen{''} has been expelled due to violent behavior or similar",
+                    "other": "For other reasons, the @:terms.citizen{''} was not admitted to the offer"
                 },
                 "notInServiceTargetGroupReason": {
-                    "activeSubstanceAbuseProblem": "The citizen has or has had an active substance abuse problem",
-                    "childrenAccompany": "The citizen has children accompanying them",
-                    "exposeToViolence": "The citizen is exposed to violence or threats of violence from a close relation",
-                    "inactiveSubstanceAbuseProblem": "The citizen does not have an active substance abuse problem",
-                    "mentalDifficulties": "The citizen has mental difficulties",
-                    "mentalFunctionalImpairment": "The citizen has a mental functional impairment in the form of an intellectual/cognitive disorder",
-                    "notWithinAgeFramework": "The citizen is not within the offer’s age framework",
-                    "notWithinGenderFramework": "The citizen is not within the offer’s gender framework",
-                    "notWithinServiceTargetGroup": "For other reasons, the citizen is not within the offer’s target group or framework",
-                    "petsAccompany": "The citizen has pets accompanying them",
-                    "physicalFunctionalImpairment": "The citizen has a physical functional impairment",
-                    "unexposeToViolence": "The citizen is not exposed to violence or threats of violence from a close relation"
+                    "activeSubstanceAbuseProblem": "The @:terms.citizen{''} has or has had an active substance abuse problem",
+                    "childrenAccompany": "The @:terms.citizen{''} has children accompanying them",
+                    "exposeToViolence": "The @:terms.citizen{''} is exposed to violence or threats of violence from a close relation",
+                    "inactiveSubstanceAbuseProblem": "The @:terms.citizen{''} does not have an active substance abuse problem",
+                    "mentalDifficulties": "The @:terms.citizen{''} has mental difficulties",
+                    "mentalFunctionalImpairment": "The @:terms.citizen{''} has a mental functional impairment in the form of an intellectual/cognitive disorder",
+                    "notWithinAgeFramework": "The @:terms.citizen{''} is not within the offer’s age framework",
+                    "notWithinGenderFramework": "The @:terms.citizen{''} is not within the offer’s gender framework",
+                    "notWithinServiceTargetGroup": "For other reasons, the @:terms.citizen{''} is not within the offer’s target group or framework",
+                    "petsAccompany": "The @:terms.citizen{''} has pets accompanying them",
+                    "physicalFunctionalImpairment": "The @:terms.citizen{''} has a physical functional impairment",
+                    "unexposeToViolence": "The @:terms.citizen{''} is not exposed to violence or threats of violence from a close relation"
                 },
                 "referralDestination": {
                     "boardingHouseHostel": "Boarding house / hostel",
                     "nightCafeWarmingCenter": "Night café / warming center",
                     "other": "Other",
-                    "selfSolution": "Self-solution: The citizen declines help with referral",
+                    "selfSolution": "Self-solution: The @:terms.citizen{''} declines help with referral",
                     "shelterUnusedVacancyOverview": "Shelter or care home etc. under § 110 of the Social Services Act, where the capacity overview was not used",
                     "shelterViaVacancyOverview": "Shelter or care home etc. under § 110 of the Social Services Act, found via the capacity overview",
                     "womensCrisisCenter": "Women’s crisis center under § 109 of the Social Services Act"
@@ -7322,17 +7462,17 @@
             "shelter": {
                 "fields": {
                     "cprMissingReason": "No CPR number? Choose reason",
-                    "fitsInTargetGroup": "Does the citizen fit the offer’s target group?",
-                    "inShelterTargetGroup": "Is the citizen part of the target group under § 110?",
-                    "nonAdmissionReason": "Why did the citizen not get a place?",
-                    "notInServiceTargetGroupReason": "Why does the citizen not fit the offer’s target group or framework?",
-                    "referralDestination": "Where is the citizen referred instead?",
+                    "fitsInTargetGroup": "Does the @:terms.citizen{''} fit the offer’s target group?",
+                    "inShelterTargetGroup": "Is the @:terms.citizen{''} part of the target group under § 110?",
+                    "nonAdmissionReason": "Why did the @:terms.citizen{''} not get a place?",
+                    "notInServiceTargetGroupReason": "Why does the @:terms.citizen{''} not fit the offer’s target group or framework?",
+                    "referralDestination": "Where is the @:terms.citizen{''} referred instead?",
                     "vacantPlaceAvailable": "Is there available space at the shelter or care home etc.?"
                 }
             },
             "sections": {
                 "inquiry": "The inquiry",
-                "citizen": "The citizen",
+                "citizen": "The @:terms.citizen{''}",
                 "assessment": "Assessment",
                 "outcome": "Outcome and notes"
             }
@@ -7348,10 +7488,10 @@
             },
             "alert": {
                 "inquirySuccessfullyDeleted": "Inquiry successfully deleted",
-                "participantSuccessfullyConvertedAsCitizen": "Participant successfully converted as citizen"
+                "participantSuccessfullyConvertedAsCitizen": "Participant successfully converted as @:terms.citizen{''}"
             },
             "confirmation": {
-                "convertAsCitizenConfirmation": "Are you sure you want to convert this participant as citizen",
+                "convertAsCitizenConfirmation": "Are you sure you want to convert this participant as @:terms.citizen{''}",
                 "deleteInquiryConfirmation": "Are you sure you want to delete this inquiry"
             },
             "conversationSummary": "Conversation summary",
@@ -7536,16 +7676,18 @@
         "navLabel": "Edit journal form",
         "riskAssessmentDescription": "When turned off, the risk assessment section (assessment level, note, tags and goal linking) will be hidden from the journal create and edit forms for all users.",
         "riskAssessmentToggle": "Show risk assessment section in journal form",
-        "subtitle": "Configure whether the risk assessment section is visible in the citizen journal create and edit forms.",
-        "title": "Journal Form Configuration"
+        "subtitle": "Configure which fields are visible in the @:terms.citizenDefinite{'s'} journal create and edit forms.",
+        "title": "Journal Form Configuration",
+        "scoreToggle": "Show \"Current level\" in the journal form",
+        "scoreDescription": "When switched off, the \"Current level\" field is hidden in the journal create and edit forms. The field starts empty, so a level is only there if someone chose it."
     },
     "journalNotes": {
         "title": "Journal notes",
-        "citizen": "Citizen",
+        "citizen": "@.capitalize:terms.citizen{''}",
         "department": "Department",
         "newNote": "New note",
-        "selectCitizen": "Select citizen",
-        "citizenRequired": "Please select a citizen",
+        "selectCitizen": "Select @:terms.citizen{''}",
+        "citizenRequired": "Please select a @:terms.citizen{''}",
         "assessment": "Assessment"
     },
     "journalContents": {
@@ -7760,13 +7902,13 @@
         "download": "Download",
         "downloadFile": {
             "alert": {
-                "fileSuccessfullyDownloadedToCitizensFolder": "File successfully downloaded to citizen's folder",
+                "fileSuccessfullyDownloadedToCitizensFolder": "File successfully downloaded to @:terms.citizen{''}'s folder",
                 "fileSuccessfullyDownloadedToOrganizationsFolder": "File successfully downloaded to organization's folder"
             },
-            "citizen": "Citizen",
-            "citizenFolder": "Citizen folder",
+            "citizen": "@.capitalize:terms.citizen{''}",
+            "citizenFolder": "@.capitalize:terms.citizen{''} folder",
             "downloadFile": "download file",
-            "downloadFileToCitizensFolder": "Download file to citizen's folder",
+            "downloadFileToCitizensFolder": "Download file to @:terms.citizen{''}'s folder",
             "downloadFileToMyComputer": "Download file to my computer",
             "downloadFileToOrganizationsFolder": "Download file to organization's folder",
             "organizationFolder": "Organization folder"
@@ -7779,12 +7921,12 @@
                 "enteredCodeMismatched": "Entered code mismatched"
             },
             "attachFiles": {
-                "attachFileFromCitizensFolder": "Attach file from citizen's folder",
+                "attachFileFromCitizensFolder": "Attach file from @:terms.citizen{''}'s folder",
                 "attachFileFromComputer": "Attach file from computer",
                 "attachFileFromOrganizationsFolder": "Attach file from organization's folder",
                 "attachFiles": "Attach files",
-                "citizen": "Citizen",
-                "citizenFiles": "Citizen files",
+                "citizen": "@.capitalize:terms.citizen{''}",
+                "citizenFiles": "@.capitalize:terms.citizen{''} files",
                 "organizationFiles": "Organization files"
             },
             "confirmCode": "Confirm the code",
@@ -7820,9 +7962,11 @@
                 "alert": {
                     "securedMailSuccessfullySent": "Secured mail successfully sent"
                 },
+                "attachFile": "Attach file",
                 "message": "Message",
                 "password": "Password",
                 "readMessage": "Read message",
+                "removeFile": "Remove file",
                 "send": "Send"
             },
             "from": "From",
@@ -8113,11 +8257,11 @@
         "editTrip": "Edit trip",
         "filter": {
             "allTrips": "All trips",
-            "citizenLink": "Citizen link",
+            "citizenLink": "@.capitalize:terms.citizen{''} link",
             "departments": "Departments",
             "employees": "Employees",
             "filterDate": "Filter date",
-            "linkedToCitizen": "Linked to citizen",
+            "linkedToCitizen": "Linked to @:terms.citizen{''}",
             "notLinked": "Not linked"
         },
         "form": {
@@ -8143,12 +8287,12 @@
             "dateTimeStart": "Date and time",
             "endAddress": "End address",
             "estimatedDistance": "Distance (calculated automatically)",
-            "linkToCitizen": "Link this trip to a citizen as an Intervention Hour",
+            "linkToCitizen": "Link this trip to a @:terms.citizen{''} as an Intervention Hour",
             "mapHint": "Click the map or drag the marker to adjust the location",
             "note": "Note",
             "pickOnMap": "Select location",
             "searchOnMap": "Search for an address",
-            "selectCitizen": "Select citizen",
+            "selectCitizen": "Select @:terms.citizen{''}",
             "startAddress": "Start address",
             "stopAddress": "Stop address",
             "useMyLocation": "Use my location"
@@ -8173,7 +8317,7 @@
             "alert": {
                 "tripSuccessfullyDeleted": "Trip successfully deleted"
             },
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "confirmation": {
                 "deleteTripConfirmation": "Are you sure you want to delete this trip"
             },
@@ -8226,7 +8370,7 @@
             "dateTimeStart": "Date and time",
             "distance": "Distance",
             "endAddress": "End address",
-            "linkedCitizen": "Linked citizen",
+            "linkedCitizen": "Linked @:terms.citizen{''}",
             "note": "Note",
             "route": "Route",
             "startAddress": "Start address",
@@ -8380,15 +8524,15 @@
         "bulletBoardAttachments": "Bullet board attachments",
         "calendar": "Calendar",
         "campaign": "Campaign",
-        "citizens": "Citizens",
-        "citizensAddictions": "Citizens substance abuse",
+        "citizens": "@.capitalize:terms.citizens{''}",
+        "citizensAddictions": "@.capitalize:terms.citizens{''} substance abuse",
         "citizensAdmissionAndDischarged": {
-            "citizensAdmissionAndDischarged": "Citizens admission and discharged",
+            "citizensAdmissionAndDischarged": "@.capitalize:terms.citizens{''} admission and discharged",
             "dateAdmitted": "Date admitted",
             "dateDischarged": "Date discharged"
         },
-        "citizensDiagnoses": "Citizens diagnoses",
-        "citizensEvents": "Citizens' events",
+        "citizensDiagnoses": "@.capitalize:terms.citizens{''} diagnoses",
+        "citizensEvents": "@.capitalize:terms.citizens{''}' events",
         "briefing": {
             "morning": "Good morning, {name}",
             "afternoon": "Good afternoon, {name}",
@@ -8410,7 +8554,7 @@
             "staff": "Staff",
             "child": "Child"
         },
-        "citizensOrigin": "Citizens origin",
+        "citizensOrigin": "@.capitalize:terms.citizens{''} origin",
         "createdBy": "Created by",
         "dailyOverview": "Daily overview",
         "filter": {
@@ -8422,12 +8566,12 @@
             "items": {
                 "bulletBoard": "Bullet board",
                 "calendar": "Calendar",
-                "citizensAddictions": "Citizens substance abuse",
-                "citizensAdmissionAndDischarged": "Citizens admission and discharged",
-                "citizensDiagnoses": "Citizens diagnoses",
-                "citizensEvents": "Citizens' events",
+                "citizensAddictions": "@.capitalize:terms.citizens{''} substance abuse",
+                "citizensAdmissionAndDischarged": "@.capitalize:terms.citizens{''} admission and discharged",
+                "citizensDiagnoses": "@.capitalize:terms.citizens{''} diagnoses",
+                "citizensEvents": "@.capitalize:terms.citizens{''}' events",
                 "citizensFollowUpReminders": "Follow-up reminders",
-                "citizensOrigin": "Citizens origin",
+                "citizensOrigin": "@.capitalize:terms.citizens{''} origin",
                 "gender": "Gender",
                 "goalsStatistics": "Goals statistics",
                 "incidentStatistics": "Incident statistics",
@@ -8481,7 +8625,7 @@
             "title": "Needs action today",
             "deviated": "Deviations: {count}",
             "overdue": "Overdue: {count}",
-            "more": "+{count} citizens"
+            "more": "+{count} @:terms.citizens{''}"
         },
         "medsDone": {
             "title": "Nice! 🎉",
@@ -8537,7 +8681,7 @@
             "form": {
                 "addNewJournalTitle": "Add new journal title",
                 "attachFile": "Attach file",
-                "citizen": "Citizen",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Date",
                 "draft": "Draft",
                 "enterJournalTitleManually": "Enter journal title manually",
@@ -8565,10 +8709,10 @@
         },
         "scheduleSlots": "Schedule slots",
         "stats": {
-            "acrossCitizens": "Across {n} citizens",
+            "acrossCitizens": "Across {n} @:terms.citizens{''}",
             "activeTreatments": "Active treatments",
             "administered": "administered",
-            "citizensOnShift": "Citizens on shift",
+            "citizensOnShift": "@.capitalize:terms.citizens{''} on shift",
             "completed": "completed",
             "deviated": "Deviated",
             "journalEntries": "Journal entries",
@@ -8981,7 +9125,7 @@
                 "newProtocolSuccessfullySaved": "New protocol successfully saved",
                 "protocolSuccessfullyUpdated": "Protocol successfully updated"
             },
-            "citizens": "Citizens",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "endDate": "End date",
             "every": "Every",
             "excludeWeekends": "Exclude weekends",
@@ -9010,16 +9154,16 @@
                 "delete": "Delete",
                 "download": "Download",
                 "edit": "Edit",
-                "markCitizenAsAbent": "Mark citizen as absent",
-                "markCitizenAsAttended": "Mark citizen as attended",
-                "removeCitizenForThisDate": "Remove citizen for this date",
+                "markCitizenAsAbent": "Mark @:terms.citizen{''} as absent",
+                "markCitizenAsAttended": "Mark @:terms.citizen{''} as attended",
+                "removeCitizenForThisDate": "Remove @:terms.citizen{''} for this date",
                 "view": "View"
             },
             "alert": {
                 "protocolSuccessfullyDeleted": "Protocol successfully deleted"
             },
             "citizens": {
-                "citizen": "Citizen",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Date",
                 "status": "Status"
             },
@@ -9092,7 +9236,7 @@
             "body": "Body",
             "bodyTemplateHint": "Leave blank to auto-fill from the selected template",
             "caseworker": "Caseworker",
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "consultant": "Consultant",
             "template": "Template",
             "title": "Title"
@@ -9384,46 +9528,46 @@
         },
         "newRole": "New role",
         "permissions": {
-            "createCitizen": "Create citizen",
-            "createCitizenCalendar": "Create citizen calendar",
-            "createCitizenChildren": "Create citizen children",
-            "createCitizenContact": "Create citizen contact",
-            "createCitizenDocument": "Create citizen document",
-            "createCitizenEconomy": "Create citizen economy",
-            "createCitizenHealth": "Create citizen health",
-            "createCitizenJournal": "Create citizen journal",
-            "createCitizenMedicine": "Create citizen medicine",
-            "createCitizenPlan": "Create citizen plan",
+            "createCitizen": "Create @:terms.citizen{''}",
+            "createCitizenCalendar": "Create @:terms.citizen{''} calendar",
+            "createCitizenChildren": "Create @:terms.citizen{''} children",
+            "createCitizenContact": "Create @:terms.citizen{''} contact",
+            "createCitizenDocument": "Create @:terms.citizen{''} document",
+            "createCitizenEconomy": "Create @:terms.citizen{''} economy",
+            "createCitizenHealth": "Create @:terms.citizen{''} health",
+            "createCitizenJournal": "Create @:terms.citizen{''} journal",
+            "createCitizenMedicine": "Create @:terms.citizen{''} medicine",
+            "createCitizenPlan": "Create @:terms.citizen{''} plan",
             "createSchedule": "Create schedule",
             "deleteCalendar": "Delete calendar",
             "deleteCalendarEvent": "Delete calendar event",
-            "deleteCitizenCalendar": "Delete citizen calendar",
-            "deleteCitizenChildren": "Delete citizen children",
-            "deleteCitizenContact": "Delete citizen contact",
-            "deleteCitizenDocument": "Delete citizen document",
-            "deleteCitizenEconomy": "Delete citizen economy",
-            "deleteCitizenHealth": "Delete citizen health",
-            "deleteCitizenJournal": "Delete citizen journal",
-            "deleteCitizenMedicine": "Delete citizen medicine",
-            "deleteCitizenPlan": "Delete citizen plan",
+            "deleteCitizenCalendar": "Delete @:terms.citizen{''} calendar",
+            "deleteCitizenChildren": "Delete @:terms.citizen{''} children",
+            "deleteCitizenContact": "Delete @:terms.citizen{''} contact",
+            "deleteCitizenDocument": "Delete @:terms.citizen{''} document",
+            "deleteCitizenEconomy": "Delete @:terms.citizen{''} economy",
+            "deleteCitizenHealth": "Delete @:terms.citizen{''} health",
+            "deleteCitizenJournal": "Delete @:terms.citizen{''} journal",
+            "deleteCitizenMedicine": "Delete @:terms.citizen{''} medicine",
+            "deleteCitizenPlan": "Delete @:terms.citizen{''} plan",
             "deleteSchedule": "Delete schedule",
             "readSchedule": "View schedule",
             "scheduler": "Scheduler",
-            "updateCitizenCalendar": "Update citizen calendar",
-            "updateCitizenChildren": "Update citizen children",
-            "updateCitizenContact": "Update citizen contact",
-            "updateCitizenDocument": "Update citizen document",
-            "updateCitizenEconomy": "Update citizen economy",
-            "updateCitizenHealth": "Update citizen health",
-            "updateCitizenJournal": "Update citizen journal",
-            "updateCitizenMedicine": "Update citizen medicine",
-            "updateCitizenPlan": "Update citizen plan",
-            "updateCitizen": "Update citizen",
-            "updateFormFieldConfig": "Update citizen form field configuration",
+            "updateCitizenCalendar": "Update @:terms.citizen{''} calendar",
+            "updateCitizenChildren": "Update @:terms.citizen{''} children",
+            "updateCitizenContact": "Update @:terms.citizen{''} contact",
+            "updateCitizenDocument": "Update @:terms.citizen{''} document",
+            "updateCitizenEconomy": "Update @:terms.citizen{''} economy",
+            "updateCitizenHealth": "Update @:terms.citizen{''} health",
+            "updateCitizenJournal": "Update @:terms.citizen{''} journal",
+            "updateCitizenMedicine": "Update @:terms.citizen{''} medicine",
+            "updateCitizenPlan": "Update @:terms.citizen{''} plan",
+            "updateCitizen": "Update @:terms.citizen{''}",
+            "updateFormFieldConfig": "Update @:terms.citizen{''} form field configuration",
             "updateSchedule": "Update schedule",
-            "viewCitizenCalendar": "View citizen calendar",
-            "viewCitizenHealth": "View citizen health",
-            "viewCitizenJournal": "View citizen journal",
+            "viewCitizenCalendar": "View @:terms.citizen{''} calendar",
+            "viewCitizenHealth": "View @:terms.citizen{''} health",
+            "viewCitizenJournal": "View @:terms.citizen{''} journal",
             "viewSchedule": "View schedule"
         },
         "roles": "Roles",
@@ -9456,7 +9600,7 @@
         "referrals": "Referrals",
         "newReferral": "New referral",
         "referral": "Referral",
-        "citizen": "Citizen",
+        "citizen": "@.capitalize:terms.citizen{''}",
         "department": "Department",
         "municipality": "Municipality",
         "caseworkerName": "{term} name",
@@ -9477,7 +9621,7 @@
         "deleteReferral": "Delete referral",
         "deleteReferralConfirm": "Are you sure you want to delete this referral?",
         "table": {
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "municipality": "Municipality",
             "caseworker": "Caseworker",
             "startDate": "Start date",
@@ -9510,11 +9654,11 @@
             "departmentsProOnly": "Assigning departments is available on the Pro plan.",
             "name": "Name"
         },
-        "addCitizen": "Add citizen",
-        "citizenAddedSuccessfully": "Citizen successfully added to room",
-        "citizenRemovedSuccessfully": "Citizen successfully removed from room",
+        "addCitizen": "Add @:terms.citizen{''}",
+        "citizenAddedSuccessfully": "@.capitalize:terms.citizen{''} successfully added to room",
+        "citizenRemovedSuccessfully": "@.capitalize:terms.citizen{''} successfully removed from room",
         "full": "Full",
-        "noCitizens": "No citizens in this room",
+        "noCitizens": "No @:terms.citizens{''} in this room",
         "removeConfirmation": "Are you sure you want to remove",
         "newRoom": "New room",
         "rooms": "Rooms",
@@ -9603,7 +9747,7 @@
         "company": {
             "form": {
                 "2fa": "Two factor authentication",
-                "accountantEmail": "Auditor or accounting e-mail (citizens' wallet transactions)",
+                "accountantEmail": "Auditor or accounting e-mail (@:terms.citizens{''}' wallet transactions)",
                 "alert": {
                     "successfullyUpdated": "Company successfully updated"
                 },
@@ -9619,45 +9763,45 @@
                 },
                 "newRole": "New role",
                 "permissions": {
-                    "createCitizen": "Create citizen",
-                    "createCitizenCalendar": "Create citizen calendar",
-                    "createCitizenChildren": "Create citizen children",
-                    "createCitizenContact": "Create citizen contact",
-                    "createCitizenDocument": "Create citizen document",
-                    "createCitizenEconomy": "Create citizen economy",
-                    "createCitizenHealth": "Create citizen health",
-                    "createCitizenJournal": "Create citizen journal",
-                    "createCitizenMedicine": "Create citizen medicine",
-                    "createCitizenPlan": "Create citizen plan",
+                    "createCitizen": "Create @:terms.citizen{''}",
+                    "createCitizenCalendar": "Create @:terms.citizen{''} calendar",
+                    "createCitizenChildren": "Create @:terms.citizen{''} children",
+                    "createCitizenContact": "Create @:terms.citizen{''} contact",
+                    "createCitizenDocument": "Create @:terms.citizen{''} document",
+                    "createCitizenEconomy": "Create @:terms.citizen{''} economy",
+                    "createCitizenHealth": "Create @:terms.citizen{''} health",
+                    "createCitizenJournal": "Create @:terms.citizen{''} journal",
+                    "createCitizenMedicine": "Create @:terms.citizen{''} medicine",
+                    "createCitizenPlan": "Create @:terms.citizen{''} plan",
                     "createSchedule": "Create schedule",
                     "deleteCalendar": "Delete calendar",
-                    "deleteCitizenCalendar": "Delete citizen calendar",
-                    "deleteCitizenChildren": "Delete citizen children",
-                    "deleteCitizenContact": "Delete citizen contact",
-                    "deleteCitizenDocument": "Delete citizen document",
-                    "deleteCitizenEconomy": "Delete citizen economy",
-                    "deleteCitizenHealth": "Delete citizen health",
-                    "deleteCitizenJournal": "Delete citizen journal",
-                    "deleteCitizenMedicine": "Delete citizen medicine",
-                    "deleteCitizenPlan": "Delete citizen plan",
+                    "deleteCitizenCalendar": "Delete @:terms.citizen{''} calendar",
+                    "deleteCitizenChildren": "Delete @:terms.citizen{''} children",
+                    "deleteCitizenContact": "Delete @:terms.citizen{''} contact",
+                    "deleteCitizenDocument": "Delete @:terms.citizen{''} document",
+                    "deleteCitizenEconomy": "Delete @:terms.citizen{''} economy",
+                    "deleteCitizenHealth": "Delete @:terms.citizen{''} health",
+                    "deleteCitizenJournal": "Delete @:terms.citizen{''} journal",
+                    "deleteCitizenMedicine": "Delete @:terms.citizen{''} medicine",
+                    "deleteCitizenPlan": "Delete @:terms.citizen{''} plan",
                     "deleteSchedule": "Delete schedule",
                     "readSchedule": "View schedule",
                     "scheduler": "Scheduler",
-                    "updateCitizenCalendar": "Update citizen calendar",
-                    "updateCitizenChildren": "Update citizen children",
-                    "updateCitizenContact": "Update citizen contact",
-                    "updateCitizenDocument": "Update citizen document",
-                    "updateCitizenEconomy": "Update citizen economy",
-                    "updateCitizenHealth": "Update citizen health",
-                    "updateCitizenJournal": "Update citizen journal",
-                    "updateCitizenMedicine": "Update citizen medicine",
-                    "updateCitizenPlan": "Update citizen plan",
-                    "updateCitizen": "Update citizen",
-                    "updateFormFieldConfig": "Update citizen form field configuration",
+                    "updateCitizenCalendar": "Update @:terms.citizen{''} calendar",
+                    "updateCitizenChildren": "Update @:terms.citizen{''} children",
+                    "updateCitizenContact": "Update @:terms.citizen{''} contact",
+                    "updateCitizenDocument": "Update @:terms.citizen{''} document",
+                    "updateCitizenEconomy": "Update @:terms.citizen{''} economy",
+                    "updateCitizenHealth": "Update @:terms.citizen{''} health",
+                    "updateCitizenJournal": "Update @:terms.citizen{''} journal",
+                    "updateCitizenMedicine": "Update @:terms.citizen{''} medicine",
+                    "updateCitizenPlan": "Update @:terms.citizen{''} plan",
+                    "updateCitizen": "Update @:terms.citizen{''}",
+                    "updateFormFieldConfig": "Update @:terms.citizen{''} form field configuration",
                     "updateSchedule": "Update schedule",
-                    "viewCitizenCalendar": "View citizen calendar",
-                    "viewCitizenHealth": "View citizen health",
-                    "viewCitizenJournal": "View citizen journal",
+                    "viewCitizenCalendar": "View @:terms.citizen{''} calendar",
+                    "viewCitizenHealth": "View @:terms.citizen{''} health",
+                    "viewCitizenJournal": "View @:terms.citizen{''} journal",
                     "viewSchedule": "View schedule",
                     "deleteCalendarEvent": "Delete calendar event"
                 },
@@ -9684,7 +9828,7 @@
                 "allowSubGoals": "Allow employees to create subgoals",
                 "checkinOut": "Check in/out",
                 "chooseNotificationDepartments": "Choose which departments you want notifications from",
-                "citizensDisplay": "Citizen's display",
+                "citizensDisplay": "@.capitalize:terms.citizen{''}'s display",
                 "city": "City",
                 "companyLogo": "Company logo",
                 "companyName": "Company name",
@@ -9695,17 +9839,17 @@
                 "groupChat": "Group chat",
                 "relativeChat": "Chat with relatives",
                 "relativeChatManagement": "Relatives can write to management and administrators",
-                "relativeChatContactPersons": "Relatives can write to the citizen's assigned contact persons",
+                "relativeChatContactPersons": "Relatives can write to the @:terms.citizen{''}'s assigned contact persons",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
                 "groupPortalAccess": "Portal access",
-                "portalAccessHint": "Choose what relatives, third parties and citizens can see in their own portal",
-                "portalAccessNothingOpen": "No section is open. Relatives, third parties and citizens cannot see anything in their portal",
+                "portalAccessHint": "Choose what relatives, third parties and @:terms.citizens{''} can see in their own portal",
+                "portalAccessNothingOpen": "No section is open. Relatives, third parties and @:terms.citizens{''} cannot see anything in their portal",
                 "portalAccessOpenNow": "Open right now",
                 "portalAccessConfirmTitle": "Open access?",
                 "portalAccessConfirmMessage": "{audience} will be able to see {section} in their portal from now on. Everyone with an administrator role is notified by email about this change.",
                 "portalAudienceRelative": "Relatives",
                 "portalAudienceThirdParty": "Third parties",
-                "portalAudienceCitizen": "Citizens",
+                "portalAudienceCitizen": "@.capitalize:terms.citizens{''}",
                 "portalSectionJournals": "Journals",
                 "portalSectionDocuments": "Documents",
                 "portalSectionMessages": "Messages",
@@ -9715,11 +9859,12 @@
                 "portalSectionProtocols": "Protocols",
                 "interventionCheckinOut": "Intervention check in/out",
                 "relativeCanMessageAdmins": "Relatives can message management/administrators",
-                "relativeCanMessageContactPersons": "Relatives can message the citizen's assigned contact persons",
+                "relativeCanMessageContactPersons": "Relatives can message the @:terms.citizen{''}'s assigned contact persons",
                 "interventionNotificationHours": "Intervention notification hours",
                 "employmentWeeklyHours": "Weekly work hours (Employment Services billing)",
                 "employmentWeeklyHoursHint": "Used to convert hourly billing rates into a weekly price. Leave blank to use the default of 37 hours/week.",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
+                "compensatoryTimeEnabled": "Enable compensatory time requests",
                 "lockPastSchedules": "Lock past schedules",
                 "lockShiftsBeforeDate": "Lock shifts before date",
                 "clearLockShiftsBeforeDate": "Clear date",
@@ -9780,9 +9925,9 @@
                 "portalPreviewEmptyNav": "No sections",
                 "portalPreviewNothing": "With these choices the portal is empty",
                 "portalPreviewNeverSees": "They never see",
-                "portalPreviewJournals": "The citizen's journal notes, without drafts",
+                "portalPreviewJournals": "The @:terms.citizen{''}'s journal notes, without drafts",
                 "portalPreviewDocuments": "Only the files you have shared with them",
-                "portalPreviewMessagesRelative": "Conversations with management and the citizen's contact persons",
+                "portalPreviewMessagesRelative": "Conversations with management and the @:terms.citizen{''}'s contact persons",
                 "portalPreviewMessagesThirdParty": "Conversations with the employees you assigned to them",
                 "portalPreviewMessagesCitizen": "Conversations with the staff",
                 "portalPreviewOverview": "Daily overview with the notice board",
@@ -9791,7 +9936,7 @@
                 "portalPreviewProtocols": "Their own check-in and check-out",
                 "portalNeverDrafts": "Draft journal notes",
                 "portalNeverUnsharedDocuments": "Documents you have not shared",
-                "portalNeverOtherCitizens": "Anything about other citizens",
+                "portalNeverOtherCitizens": "Anything about other @:terms.citizens{''}",
                 "portalNeverStaffNotes": "Internal notes written about them",
                 "portalNeverJournalsAtAll": "Journals and documents, ever",
                 "portalNeverUnassignedStaff": "Employees you did not assign to them",
@@ -9799,7 +9944,14 @@
                 "termCitizen": "Citizen (singular)",
                 "termCitizenDefinite": "The citizen (singular, definite)",
                 "termCitizens": "Citizens (plural)",
-                "termCitizensDefinite": "The citizens (plural, definite)"
+                "termCitizensDefinite": "The citizens (plural, definite)",
+                "portalAudiencePatient": "Patient",
+                "portalSectionAppointments": "Appointments",
+                "portalSectionBooking": "Online booking",
+                "portalPreviewAppointments": "The patient sees their upcoming and past appointments at the clinic.",
+                "portalPreviewBooking": "The patient can book a free time for the treatments you opened for online booking.",
+                "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
+                "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared"
             }
         },
         "licenseOverview": {
@@ -9926,20 +10078,21 @@
             "consultantSkills": "Consultant skills",
             "inquiryServiceTypes": "Service types",
             "taskTypes": "Task types",
-            "taskRules": "Task rules"
+            "taskRules": "Task rules",
+            "employmentOptions": "Employment options"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
         },
         "wallets": {
-            "citizenWalletTransactions": "Citizen wallet transactions",
+            "citizenWalletTransactions": "@.capitalize:terms.citizen{''} wallet transactions",
             "form": {
                 "alert": {
-                    "successfullySent": "Citizen wallet transactions successfully sent"
+                    "successfullySent": "@.capitalize:terms.citizen{''} wallet transactions successfully sent"
                 },
-                "citizens": "Citizens",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "send": "Send",
-                "sendCitizenWalletTransactions": "Send citizen wallet transactions",
+                "sendCitizenWalletTransactions": "Send @:terms.citizen{''} wallet transactions",
                 "wallets": "Wallets"
             }
         },
@@ -9959,7 +10112,7 @@
             "feeds": "Feed URLs",
             "feedEconomy": "Coordinator economy",
             "feedInquiries": "Inquiries",
-            "feedCases": "Citizens / cases",
+            "feedCases": "@.capitalize:terms.citizens{''} / cases",
             "createdAt": "Created",
             "tokenEnds": "Token ends in",
             "howTitle": "How to connect Power BI",
@@ -10117,7 +10270,7 @@
     "sidebar": {
         "bulletBoard": "Bullet board",
         "calendar": "Calendar",
-        "citizens": "Citizens",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "companyId": "Company ID",
         "coupons": "Coupons",
         "discover": "Get started",
@@ -10131,7 +10284,7 @@
         "dutySchedules": "Duty schedules",
         "leads": "Leads",
         "mail": "Mail",
-        "messages": "Messages",
+        "messages": "Chat",
         "overview": "Overview",
         "protocols": "Protocols",
         "reports": "Reports",
@@ -10229,7 +10382,7 @@
             "selectPackage": "Select package",
             "storageSpace": "Storage space",
             "telephoneSupport": "Support via phone, chat, and email",
-            "unlimitedNumberOfCitizens": "Unlimited number of citizens",
+            "unlimitedNumberOfCitizens": "Unlimited number of @:terms.citizens{''}",
             "user": "User",
             "users": "Users",
             "year": "Year",
@@ -11293,7 +11446,8 @@
             "cancellations": "Cancellations",
             "storagePackages": "Storage packages",
             "paymentFees": "Payment fees",
-            "storageUsage": "Storage usage"
+            "storageUsage": "Storage usage",
+            "industries": "Industries"
         },
         "emailTemplates": {
             "title": "Email templates",
@@ -11944,6 +12098,50 @@
                 "mrr": "MRR",
                 "newUsers": "New users"
             }
+        },
+        "industries": {
+            "pageTitle": "Industries",
+            "description": "Each industry gives a new company its own words and its own set of modules. With nothing set the default applies, and an empty field means the language's own word is used. The change applies to companies created afterwards, not to existing ones.",
+            "configuredCount": "{configured} of {total} industries are set up",
+            "noIndustries": "No industries found",
+            "colIndustry": "Industry",
+            "colWord": "Word for citizens",
+            "colModules": "Modules",
+            "colSource": "Source",
+            "allModules": "All",
+            "someModules": "{count} of {total}",
+            "sourceSaved": "Set",
+            "sourceDefault": "Default",
+            "edit": "Edit",
+            "cancel": "Cancel",
+            "save": "Save",
+            "saved": "Industry saved",
+            "modalHelp": "The words are written onto the company when it is created. Leave a field empty to use the default.",
+            "termsHint": "Write the word as it appears inside a sentence, in lower case. The system capitalises it where it starts a heading.",
+            "modules": "Modules",
+            "selectAll": "Give all modules",
+            "modulesAll": "The industry gets all modules.",
+            "modulesNarrowed": "The industry gets {count} of {total} modules.",
+            "locale": {
+                "dk": "Danish",
+                "en": "English",
+                "no": "Norwegian",
+                "sv": "Swedish"
+            },
+            "terms": {
+                "term_citizen": "Citizen (singular)",
+                "term_citizen_definite": "The citizen (singular, definite)",
+                "term_citizens": "Citizens (plural)",
+                "term_citizens_definite": "The citizens (plural, definite)",
+                "term_caseworker": "Caseworker",
+                "term_case": "Case",
+                "term_journal": "Journal",
+                "term_journals": "Journals",
+                "term_journal_notes": "Journal notes",
+                "term_journal_note_tag": "Note type",
+                "term_agreement": "Agreement",
+                "term_jobcenter": "Jobcenter"
+            }
         }
     },
     "support": {
@@ -12159,7 +12357,7 @@
             "allCancellations": "All cancellations",
             "heldSessionsOnly": "Held sessions only",
             "onlyCancellationByEmployee": "Only cancellations by employee",
-            "onlyCancellationsByCitizen": "Only cancellations by citizen",
+            "onlyCancellationsByCitizen": "Only cancellations by @:terms.citizen{''}",
             "status": "Status"
         },
         "form": {
@@ -12167,12 +12365,12 @@
                 "newTimeLogSuccessfullySaved": "New time log successfully saved",
                 "timeLogSuccessfullyUpdated": "Time log successfully updated"
             },
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "dateTimeEnd": "Date time end",
             "dateTimeStart": "Date time start",
             "remarks": "Remarks",
             "status": {
-                "cancelledByCitizen": "Cancelled by citizen",
+                "cancelledByCitizen": "Cancelled by @:terms.citizen{''}",
                 "cancelledByEmployee": "Cancelled by employee",
                 "completed": "Held (completed)",
                 "status": "Status"
@@ -12194,7 +12392,7 @@
                 "timeLogSuccessfullyDeclined": "Time log successfully declined",
                 "timeLogSuccessfullyDeleted": "Time log successfully deleted"
             },
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "confirmation": {
                 "approveTimeLogConfirmation": "Are you sure you want to approve this time log",
                 "declineTimeLogConfirmation": "Are you sure you want to decline this time log",
@@ -12211,7 +12409,7 @@
                 "requestStatus": "Request status"
             },
             "status": {
-                "cancelledByCitizen": "Cancelled by citizen",
+                "cancelledByCitizen": "Cancelled by @:terms.citizen{''}",
                 "cancelledByEmployee": "Cancelled by employee",
                 "completed": "Held (completed)",
                 "status": "Status"
@@ -12548,7 +12746,7 @@
                 "hourlyRate": "Hourly rate",
                 "bonusAmount": "Bonus amount",
                 "bonusConditionMonths": "Trigger condition (months employed)",
-                "bonusConditionMonthsHint": "Bonus is triggered when the citizen has been employed for this many months",
+                "bonusConditionMonthsHint": "Bonus is triggered when the @:terms.citizen{''} has been employed for this many months",
                 "invoiceDataSection": "Invoice data",
                 "customerNumber": "Customer number",
                 "productNumber": "Product number",
@@ -12766,7 +12964,7 @@
             "markSelected": "Mark selected as invoiced",
             "invoiced": "Invoiced",
             "notInvoiced": "Not invoiced",
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "cpr": "CPR number",
             "period": "Billing period",
             "pricePerWeek": "Price / week",
@@ -12798,13 +12996,13 @@
             "billableWeeks": "billable weeks",
             "excludedWeeks": "excluded weeks",
             "exportCsv": "Export to e-conomic (CSV)",
-            "excludeReasonPlaceholder": "e.g. Citizen hospitalised"
+            "excludeReasonPlaceholder": "e.g. @.capitalize:terms.citizen{''} hospitalised"
         },
         "revenue": {
             "revenue": "Revenue",
             "report": "Revenue report",
             "consultant": "Consultant",
-            "citizens": "Citizens handled",
+            "citizens": "@.capitalize:terms.citizens{''} handled",
             "weeklyBilling": "Weekly billing",
             "hourlyBilling": "Hourly billing",
             "bonuses": "Bonuses",
@@ -12824,20 +13022,20 @@
             "months": "{n} months",
             "monthsShort": "mo.",
             "autoDelete": "Automatic deletion",
-            "autoDeleteHint": "Automatically schedule citizens for deletion when the retention period expires.",
+            "autoDeleteHint": "Automatically schedule @:terms.citizens{''} for deletion when the retention period expires.",
             "notifyBeforeDeletion": "Notify before deletion",
             "notifyBeforeDeletionHint": "Send a notification before a scheduled deletion is executed.",
             "settingsSaved": "Retention settings saved",
             "scheduledDeletions": "Scheduled deletions",
             "viewDeletionLog": "View deletion log",
-            "noScheduledDeletions": "No citizens are currently scheduled for deletion.",
-            "citizen": "Citizen",
+            "noScheduledDeletions": "No @:terms.citizens{''} are currently scheduled for deletion.",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "caseCompletedOn": "Case completed on",
             "scheduledFor": "Scheduled for",
             "daysRemaining": "Days remaining",
             "days": "days",
             "cancelDeletion": "Cancel deletion",
-            "cancelDeletionConfirmation": "Are you sure you want to cancel the scheduled deletion for this citizen",
+            "cancelDeletionConfirmation": "Are you sure you want to cancel the scheduled deletion for this @:terms.citizen{''}",
             "deletionCancelled": "Scheduled deletion cancelled"
         },
         "deletionLog": {
@@ -12848,14 +13046,14 @@
             "allTriggers": "All triggers",
             "triggerSystem": "System",
             "triggerUser": "User",
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "deletedAt": "Deleted at",
             "retentionMonths": "Retention",
             "deletedBy": "Deleted by",
             "noEntries": "No deletion log entries found.",
             "restore": "Restore",
-            "restoreConfirmation": "Are you sure you want to restore this citizen",
-            "citizenRestored": "Citizen successfully restored"
+            "restoreConfirmation": "Are you sure you want to restore this @:terms.citizen{''}",
+            "citizenRestored": "@.capitalize:terms.citizen{''} successfully restored"
         }
     },
     "selectAll": "Select all",
@@ -12890,7 +13088,7 @@
                 "whySkipped": "Why rows are skipped",
                 "journalHint": "Rows without a match in CitizenOne (unknown CPR) are automatically excluded during import and shown in the summary.",
                 "scheduleHint": "Rows without a match in CitizenOne (unknown email or shift type) are automatically excluded during import and shown in the summary.",
-                "citizensHint": "Citizens that already exist (same CPR or name) will be skipped.",
+                "citizensHint": "@.capitalize:terms.citizens{''} that already exist (same CPR or name) will be skipped.",
                 "employeesHint": "Employees that already exist (same email or name) will be skipped. Each new employee uses one user license - if you run out, the rest will not be created.",
                 "noValidRows": "No valid rows to import. Go back and check mapping and data.",
                 "systemCheck": "System check",
@@ -12936,7 +13134,7 @@
             "import": "Import {count} {entity}"
         },
         "entities": {
-            "citizens": "Children / citizens",
+            "citizens": "Children / @:terms.citizens{''}",
             "employees": "Employees",
             "journals": "Journal notes",
             "schedules": "Shift plans"
@@ -12955,7 +13153,7 @@
             "requires_interpreter": "Interpreter required (yes/no)",
             "seniority_date": "Seniority date",
             "section": "Paragraph",
-            "cpr": "Citizen's CPR number (match)",
+            "cpr": "@.capitalize:terms.citizen{''}'s CPR number (match)",
             "date": "Date (YYYY-MM-DD)",
             "spoken_languages": "Languages (separated by semicolon)",
             "title": "Title",
@@ -12978,7 +13176,7 @@
         },
         "page": {
             "title": "Import from another system",
-            "description": "Migrate citizens, employees, journals and shift plans from your current system via CSV or Excel. Upload the file, map the columns to CitizenOne, and import.",
+            "description": "Migrate @:terms.citizens{''}, employees, journals and shift plans from your current system via CSV or Excel. Upload the file, map the columns to CitizenOne, and import.",
             "startImport": "Start import",
             "adminOnly": "Only administrators can import data."
         },
@@ -13001,7 +13199,7 @@
         "settings": {
             "title": "SMS Notifications",
             "enableSms": "Enable SMS",
-            "enableSmsHint": "Send SMS notifications to citizens via Twilio.",
+            "enableSmsHint": "Send SMS notifications to @:terms.citizens{''} via Twilio.",
             "balance": "Balance",
             "notificationEvents": "Notification events",
             "notifyNewAppointment": "New appointment created",
@@ -13029,7 +13227,7 @@
         },
         "form": {
             "sendSmsNotification": "Send SMS notification",
-            "sendSmsNotificationHint": "The citizen will receive an SMS with appointment details."
+            "sendSmsNotificationHint": "The @:terms.citizen{''} will receive an SMS with appointment details."
         }
     },
     "recordHistory": {
@@ -13051,10 +13249,10 @@
         "editSurvey": "Edit survey",
         "results": "Results",
         "newSurveyShort": "Surveys",
-        "sendToCitizen": "Send to citizen",
+        "sendToCitizen": "Send to @:terms.citizen{''}",
         "fillInternally": "Fill out internally",
         "scoreOverTime": "Score over time",
-        "selectCitizen": "Select citizen",
+        "selectCitizen": "Select @:terms.citizen{''}",
         "selectSurvey": "Select survey",
         "assignSurvey": "Assign survey",
         "linkedTo": "Linked to",
@@ -13071,7 +13269,7 @@
             "title": "Title",
             "description": "Description",
             "survey": "Survey",
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "status": "Status",
             "source": "Source",
             "sent": "Sent",
@@ -13082,15 +13280,15 @@
         },
         "status": {
             "completed": "Completed",
-            "pending": "Awaiting citizen"
+            "pending": "Awaiting @:terms.citizen{''}"
         },
         "source": {
             "internal": "Filled out internally",
-            "citizen": "Filled out by citizen"
+            "citizen": "Filled out by @:terms.citizen{''}"
         },
         "empty": {
             "title": "No responses yet",
-            "text": "Send the survey to a citizen, or fill it out internally together with the citizen. Completed responses appear here with score and interpretation."
+            "text": "Send the survey to a @:terms.citizen{''}, or fill it out internally together with the @:terms.citizen{''}. Completed responses appear here with score and interpretation."
         },
         "confirmation": {
             "deleteSurvey": "Are you sure you want to delete this survey",
@@ -13100,7 +13298,7 @@
             "created": "Survey created",
             "updated": "Survey updated",
             "deleted": "Survey deleted",
-            "sent": "Survey sent to citizen",
+            "sent": "Survey sent to @:terms.citizen{''}",
             "assignmentDeleted": "Response deleted",
             "responseSaved": "Response saved"
         },
@@ -13112,7 +13310,7 @@
             "title": "Title",
             "titlePlaceholder": "Survey title",
             "description": "Introduction",
-            "descriptionPlaceholder": "Shown to the citizen before the questions",
+            "descriptionPlaceholder": "Shown to the @:terms.citizen{''} before the questions",
             "question": "Question",
             "questionPlaceholder": "Enter your question here",
             "option": "Option",
@@ -13167,15 +13365,15 @@
             },
             "step2": {
                 "title": "Send and see results here",
-                "text": "The Results button on each survey opens sending and results: send it to a citizen or fill it out internally during a consultation."
+                "text": "The Results button on each survey opens sending and results: send it to a @:terms.citizen{''} or fill it out internally during a consultation."
             },
             "step3": {
-                "title": "Everything gathered on the citizen",
-                "text": "Under Citizens, every citizen has a Surveys tab with all responses: score, interpretation and a graph of the development over time."
+                "title": "Everything gathered on the @:terms.citizen{''}",
+                "text": "Under @.capitalize:terms.citizens{''}, every @:terms.citizen{''} has a Surveys tab with all responses: score, interpretation and a graph of the development over time."
             },
             "step4": {
                 "title": "Get notified up here",
-                "text": "The notification bell tells you the moment a citizen returns a survey - one click takes you straight to the result."
+                "text": "The notification bell tells you the moment a @:terms.citizen{''} returns a survey - one click takes you straight to the result."
             }
         }
     },
@@ -13210,7 +13408,7 @@
         "imageHint": "One screenshot showing what is new. PNG, JPG or WebP, 4 MB at most.",
         "removeImage": "Remove image",
         "videoUrl": "Video (link)",
-        "videoHint": "YouTube, Vimeo or Loom. The video is hosted by a third party, so never record a screen containing citizen data.",
+        "videoHint": "YouTube, Vimeo or Loom. The video is hosted by a third party, so never record a screen containing @:terms.citizen{''} data.",
         "showOnWebsite": "Also show on citizenone.dk",
         "showOnWebsiteHint": "The note becomes visible to prospective customers on the website, not only to people using the system.",
         "onWebsite": "On the website"
@@ -13318,7 +13516,7 @@
     },
     "timelineEventTypes": {
         "timelineEventTypes": "Timeline event types",
-        "description": "Define event types for the citizen timeline (e.g. \"Aftercare\"). Statistics are counted per type.",
+        "description": "Define event types for the @:terms.citizen{''} timeline (e.g. \"Aftercare\"). Statistics are counted per type.",
         "addNew": "New type",
         "noTypes": "No types yet",
         "saved": "Type saved",
@@ -13347,7 +13545,8 @@
         "nobodyHasAccess": "Nobody has access yet",
         "audience": {
             "relative": "Relatives",
-            "third_party": "Third parties"
+            "third_party": "Third parties",
+            "patient": "Patients"
         },
         "status": {
             "active": "Signed in",
@@ -13356,11 +13555,13 @@
         "table": {
             "name": "Name",
             "email": "Email",
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "status": "Status",
             "grantedAt": "Access given"
         },
-        "chooseWhatTheySee": "Choose what they see"
+        "chooseWhatTheySee": "Choose what they see",
+        "peopleWithAccess": "{count} have access",
+        "includedForTheClinic": "Included in the clinic's subscription"
     },
     "wageSupplementRules": {
         "form": {
@@ -13445,7 +13646,8 @@
         "empty": {
             "title": "No recalls",
             "text": "No patients are due in the selected period."
-        }
+        },
+        "manualRecall": "Recalled by a clinician"
     },
     "dentalOverview": {
         "title": "Clinic overview",
@@ -13508,14 +13710,14 @@
         },
         "table": {
             "number": "No.",
-            "citizen": "Citizen",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "issued": "Invoice date",
             "due": "Due",
             "status": "Status"
         },
         "empty": {
             "title": "No invoices",
-            "text": "Invoices are created on the citizen and collected here."
+            "text": "Invoices are created on the @:terms.citizen{''} and collected here."
         },
         "tabs": {
             "invoices": "Invoices",
@@ -13551,16 +13753,16 @@
             "resetColor": "Reset",
             "preview": "Preview",
             "previewInvoice": "Preview invoice",
-            "previewHelp": "Opens a sample invoice as a PDF, exactly as the citizen receives it. Saves your changes first.",
+            "previewHelp": "Opens a sample invoice as a PDF, exactly as the @:terms.citizen{''} receives it. Saves your changes first.",
             "onlinePayment": "Online payment",
             "onlinePaymentUnavailable": "Online payment is not switched on in CitizenOne yet.",
-            "onlinePaymentHelp": "The citizen pays by card or MobilePay from the invoice. The money goes straight to your own account. {rate} % per payment.",
+            "onlinePaymentHelp": "The @:terms.citizen{''} pays by card or MobilePay from the invoice. The money goes straight to your own account. {rate} % per payment.",
             "paymentsReady": "Ready to take payments",
             "paymentsNotReady": "Setup is not finished",
             "connectPayments": "Connect payment account",
             "continueSetup": "Continue setup",
             "testMode": "Test mode: payments here are not real, and no money is charged.",
-            "onlinePaymentTooltip": "The citizen pays by card or MobilePay on a page hosted by the payment provider. The money goes straight into your own account, never through CitizenOne, and the invoice closes itself once the payment goes through. CitizenOne takes 1.49 % per payment, and the provider bills you for its own fee directly. A bank transfer costs nothing.",
+            "onlinePaymentTooltip": "The @:terms.citizen{''} pays by card or MobilePay on a page hosted by the payment provider. The money goes straight into your own account, never through CitizenOne, and the invoice closes itself once the payment goes through. CitizenOne takes 1.49 % per payment, and the provider bills you for its own fee directly. A bank transfer costs nothing.",
             "termsTitle": "Activate online payment",
             "termsFee": "CitizenOne takes {rate} % of every online payment. A bank transfer costs nothing.",
             "termsProvider": "The payment provider bills you for its own fee directly, and the money is paid out to your own account.",
@@ -13653,9 +13855,9 @@
     },
     "plansAndGoalsExport": {
         "title": "Plans and goals export",
-        "description": "Download plans, goals and subgoals as a zip of PDF reports for many citizens at once. Leave the selection empty to export the whole company.",
-        "selectedCount": "{count} citizen(s) selected",
-        "noneSelectedHint": "No citizens selected - the whole company will be exported",
+        "description": "Download plans, goals and subgoals as a zip of PDF reports for many @:terms.citizens{''} at once. Leave the selection empty to export the whole company.",
+        "selectedCount": "{count} @:terms.citizen{''}(s) selected",
+        "noneSelectedHint": "No @:terms.citizens{''} selected - the whole company will be exported",
         "clearSelection": "Clear selection",
         "download": "Download",
         "downloading": "Preparing download...",
@@ -13663,7 +13865,7 @@
             "name": "Name",
             "departments": "Departments"
         },
-        "noPlansFound": "No plans, goals or subgoals were found for the selected citizens.",
+        "noPlansFound": "No plans, goals or subgoals were found for the selected @:terms.citizens{''}.",
         "noPermission": "You do not have permission to export plans and goals in bulk."
     },
     "socialWelfare": {
@@ -13676,8 +13878,8 @@
             "exportCsv": "Export CSV",
             "selectPeriod": "Pick a period and press Generate.",
             "noData": "No hours registered in the period.",
-            "citizen": "Citizen",
-            "citizens": "citizens",
+            "citizen": "@.capitalize:terms.citizen{''}",
+            "citizens": "@:terms.citizens{''}",
             "section": "Paragraph",
             "usedHours": "Hours used",
             "allocatedHours": "Hours allocated",
@@ -13747,7 +13949,7 @@
             "writtenOff": "{hours} hours written off",
             "helpPeriod": "The period decides which hour registrations are included: every registration starting inside it that has not been invoiced already. Hours invoiced once do not come back.",
             "helpUsedHours": "The hours from the registrations behind the row. You can lower them when the contract only covers part of the delivery, and the rest is written off for the period. You cannot raise them above what was recorded - use an extra line for what is not hours.",
-            "helpAgreedHours": "Delivery is held up against the contracted hours on the placement when they are filled in, and against the citizen's allocated hours otherwise. The hours are scaled to the row's period, so a placement starting mid-month does not look under-delivered. Contracted hours are set on the placement in the citizen record.",
+            "helpAgreedHours": "Delivery is held up against the contracted hours on the placement when they are filled in, and against the @:terms.citizen{''}'s allocated hours otherwise. The hours are scaled to the row's period, so a placement starting mid-month does not look under-delivered. Contracted hours are set on the placement in the @:terms.citizen{''} record.",
             "helpConvert": "Turns the selected placements into one invoice per paying municipality, extra lines included. The icon on a row makes an invoice with that placement alone. The invoices land under Invoicing, ready to send."
         }
     },
@@ -13858,7 +14060,7 @@
     },
     "inquiryOrigin": {
         "label": "The inquiry comes from",
-        "citizen": "The citizen",
+        "citizen": "The @:terms.citizen{''}",
         "authority": "An authority",
         "other": "Other"
     },
@@ -14042,7 +14244,7 @@
         "count": "{count} notes",
         "add": "Add note",
         "placeholder": "Write what happened, or what was agreed...",
-        "hint": "The note is stamped with the stage the inquiry is in, and follows to the citizen’s journal on conversion.",
+        "hint": "The note is stamped with the stage the inquiry is in, and follows to the @:terms.citizen{''}’s journal on conversion.",
         "empty": "There are no notes on this inquiry yet.",
         "inJournal": "In the journal",
         "edit": "Edit note",
@@ -14058,8 +14260,8 @@
         "upload": "Upload document",
         "uploading": "Uploading...",
         "empty": "There are no documents on this inquiry.",
-        "hint": "Paperwork that arrived with the inquiry. It follows to the citizen’s files on conversion.",
-        "onCitizen": "On the citizen",
+        "hint": "Paperwork that arrived with the inquiry. It follows to the @:terms.citizen{''}’s files on conversion.",
+        "onCitizen": "On the @:terms.citizen{''}",
         "delete": "Delete document",
         "confirmDelete": "Are you sure you want to delete this document",
         "uploadFailed": "The document could not be uploaded",
@@ -14100,7 +14302,7 @@
         },
         "empty": {
             "title": "There are no task boards yet",
-            "description": "A board holds the work that does not belong to one citizen. Set up the columns you work in, and put each task with whoever is to do it.",
+            "description": "A board holds the work that does not belong to one @:terms.citizen{''}. Set up the columns you work in, and put each task with whoever is to do it.",
             "action": "Create the first board"
         },
         "form": {
@@ -14232,5 +14434,209 @@
             "deleted": "The rule was deleted",
             "deleteFailed": "The rule could not be deleted"
         }
+    },
+    "paymentStatus": {
+        "amountDue": "Amount due",
+        "collecting": "Collecting the payment...",
+        "contactSupport": "Contact support",
+        "couldNotStart": "We could not start the card renewal. Try again, or contact support.",
+        "logOut": "Log out",
+        "pleaseWait": "Please wait...",
+        "stillUnpaid": "The card was updated, but the payment did not go through. Try again, or contact support.",
+        "updateCard": "Update payment card",
+        "wall": {
+            "pastDueTitle": "We could not collect your payment",
+            "pastDueBody": "We were unable to charge your subscription. Enter a valid payment card to continue. The account will close in {days} days if the payment is not completed.",
+            "suspendedTitle": "Your subscription is suspended",
+            "suspendedBody": "Your subscription is suspended because the payment could not be collected. Enter a valid payment card and we will reopen the account immediately."
+        },
+        "notice": {
+            "title": "Payment outstanding",
+            "body": "We were unable to charge your subscription. An administrator needs to update the payment card. The account will close in {days} days otherwise."
+        },
+        "renew": {
+            "title": "Renew your subscription",
+            "intro": "Enter a valid payment card and we will collect the outstanding amount and reopen {company}.",
+            "invalidToken": "This link has expired or is not valid. Contact support and we will send a new one.",
+            "successTitle": "Payment completed",
+            "successBody": "Your account is open again. You can log in now.",
+            "goToLogin": "Go to login"
+        }
+    },
+    "patient": {
+        "nav": {
+            "appointments": "Appointments",
+            "journal": "Journal",
+            "documents": "Documents",
+            "priceEstimates": "Estimates",
+            "forms": "Forms"
+        },
+        "overview": {
+            "greeting": "Hi {name}",
+            "intro": "Welcome to your overview. Here you can see what is waiting for you from the clinic.",
+            "waitingForYou": "Waiting for you",
+            "unreadMessages": "{count} unread messages",
+            "upcomingAppointments": "{count} upcoming appointments",
+            "pendingSurveys": "{count} questionnaires to answer",
+            "yourClinic": "Your clinic",
+            "fromTheClinic": "From the clinic",
+            "new": "New"
+        },
+        "appointments": {
+            "upcoming": "Upcoming",
+            "past": "Past",
+            "empty": "You have no appointments here.",
+            "appointment": "Appointment",
+            "detailTitle": "Appointment at {clinic}",
+            "what": "What",
+            "when": "When",
+            "where": "Where",
+            "who": "Who",
+            "duration": "Duration {minutes} minutes",
+            "online": "Online",
+            "joinOnline": "Join the online meeting",
+            "cancel": "Cancellation",
+            "cancelHelp": "Contact the clinic to change or cancel your appointment.",
+            "writeToClinic": "Write to the clinic",
+            "cancelOwnHelp": "You booked this time yourself and can cancel it here.",
+            "cancelAppointment": "Cancel the appointment",
+            "cancelConfirm": "The time becomes free again and the clinic is told. Are you sure?",
+            "cancelled": "The appointment is cancelled"
+        },
+        "booking": {
+            "bookTime": "Book a time",
+            "noServices": "The clinic has no treatments open for online booking right now.",
+            "chooseTreatment": "Choose treatment",
+            "chooseDate": "Choose date",
+            "noDates": "No available dates.",
+            "chooseTime": "Choose time",
+            "noTimes": "No available times on the chosen date.",
+            "note": "Message to the clinic",
+            "notePlaceholder": "Tell the clinic what your visit is about",
+            "confirm": "Confirm booking",
+            "summary": "{treatment} · {date} at {time}",
+            "booked": "Your appointment is booked"
+        },
+        "journal": {
+            "intro": "Here you can read the journal notes the clinic has shared with you.",
+            "empty": "The clinic has not shared any journal notes with you yet."
+        },
+        "documents": {
+            "upload": "Upload file",
+            "uploadHelp": "Only DOC, DOCX, JPEG, JPG, PDF and PNG below 10 MB can be uploaded.",
+            "saveFile": "Save file",
+            "empty": "There are no files for you yet.",
+            "download": "Download",
+            "uploaded": "The file was saved"
+        },
+        "staff": {
+            "journalAccess": "Patient access to the journal",
+            "journalAccessHelp": "When on, the patient can read the journal notes you mark as shared.",
+            "noteVisibleToPatient": "Share the note with the patient",
+            "noteVisibleToPatientHelp": "The note appears in the patient portal. Requires that the patient has journal access.",
+            "surveyWritesToJournal": "Save answers in the journal",
+            "surveyWritesToJournalHelp": "When the patient returns the questionnaire, a journal note with the answers is created.",
+            "portalAccess": "Access to the patient portal",
+            "portalAccessHelp": "The patient can sign in and see their appointments, messages and documents.",
+            "messageAccess": "May send messages to the clinic",
+            "sectionTitle": "Patient portal",
+            "sectionHelp": "Decide what this patient can see and do in the patient portal.",
+            "portalActive": "Portal active",
+            "portalInactive": "No portal access",
+            "portalBadgeHelp": "Click to change the patient access",
+            "teaserTitle": "Give your patients access",
+            "teaserText": "With the patient portal your patients book their own appointments, write to the clinic, answer questionnaires and read the journal notes you choose to share.",
+            "teaserAction": "See the patient portal"
+        },
+        "priceEstimates": {
+            "intro": "The estimates the clinic has sent you.",
+            "empty": "The clinic has not sent you an estimate yet.",
+            "total": "Total",
+            "subsidy": "Subsidy",
+            "yourShare": "Your share",
+            "validUntil": "Valid until {date}",
+            "showLines": "Show treatments",
+            "hideLines": "Hide treatments",
+            "treatment": "Treatment",
+            "quantity": "Quantity",
+            "price": "Price"
+        },
+        "forms": {
+            "empty": "The clinic has not sent you a form yet.",
+            "pending": "To fill in",
+            "noPending": "You have no forms waiting.",
+            "completed": "Answered",
+            "received": "Received",
+            "completedAt": "Answered",
+            "fillOut": "Fill in",
+            "return": "Send to the clinic",
+            "returned": "The form was sent",
+            "alreadyCompleted": "You have already answered this form.",
+            "answerRequired": "Some questions are not answered yet",
+            "journalNotice": "Your answers are placed in your journal at the clinic."
+        }
+    },
+    "patientForms": {
+        "sendToPatient": "Send a form to the patient",
+        "sendHelp": "The patient fills the form in the portal, and the answers are placed in the journal.",
+        "chooseForm": "Choose form",
+        "send": "Send",
+        "sentAlert": "The form was sent to the patient",
+        "sent": "Sent",
+        "answered": "Answered",
+        "withdraw": "Withdraw",
+        "withdrawConfirm": "The form is removed from the patient portal. Are you sure?",
+        "withdrawnAlert": "The form was withdrawn",
+        "journalNotice": "Answers are placed in the patient journal automatically.",
+        "status": {
+            "answered": "Answered",
+            "waiting": "Waiting"
+        },
+        "empty": {
+            "title": "No forms sent yet",
+            "text": "Send a form for the patient to fill in at home. The answers land in the journal."
+        }
+    },
+    "pageSettings": {
+        "title": "Settings for this page",
+        "forThisPage": "Settings for this page",
+        "allSettings": "All settings"
+    },
+    "employmentOptions": {
+        "title": "Employment options",
+        "subtitle": "Adjust the choices offered in the Working hours and Employment status fields on an employee.",
+        "builtIn": "Built-in",
+        "newOption": "New option",
+        "add": "Add",
+        "working_hours": {
+            "title": "Working hours",
+            "description": "The built-in options can neither be renamed nor removed: the rest of the system reasons about them, including how vacation hours convert to days for part-timers."
+        },
+        "employment_status": {
+            "title": "Employment status",
+            "description": "Add the employment types you use. Employees already on an option keep it, including when you rename it."
+        },
+        "alert": {
+            "added": "The option was added",
+            "updated": "The option was updated",
+            "deleted": "The option was deleted"
+        }
+    },
+    "bookingAppointments": {
+        "intro": "Times patients have taken. If a colleague has to cover, the booking can be handed over without the patient booking again.",
+        "when": "When",
+        "who": "Who",
+        "treatment": "Treatment",
+        "with": "With",
+        "handOver": "Hand over",
+        "handOverTitle": "Hand the booking over",
+        "handOverExplanation": "The patient keeps their time. It moves to the colleague's calendar, and the colleague is told.",
+        "colleague": "Colleague",
+        "handedOver": "The booking has been handed over",
+        "takenOver": "Taken over",
+        "none": "No booked times in this period",
+        "from": "From",
+        "to": "To",
+        "noColleagues": "There is nobody else at the clinic to hand the booking to."
     }
 }

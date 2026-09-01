@@ -33,6 +33,9 @@
                             <thead>
                                 <tr class="text-left text-xs uppercase tracking-wide text-gray-500">
                                     <th class="py-1 pr-2 w-28">{{ $t('citizens.toothChart.tooth') }}</th>
+                                    <th class="py-1 pr-2 w-44" v-if="hasCatalogue">
+                                        {{ $t('citizens.priceEstimates.form.service') }}
+                                    </th>
                                     <th class="py-1 pr-2 w-24">{{ $t('citizens.priceEstimates.form.code') }}</th>
                                     <th class="py-1 pr-2">{{ $t('citizens.priceEstimates.form.description') }}</th>
                                     <th class="py-1 pr-2 w-20">{{ $t('citizens.priceEstimates.form.quantity') }}</th>
@@ -48,6 +51,12 @@
                                         <FormSelect :id="`tooth-${index}`" :options="toothOptions"
                                             v-model="line.tooth_uuid"
                                             :placeholder="$t('citizens.priceEstimates.form.noTooth')" />
+                                    </td>
+                                    <td class="py-1 pr-2" v-if="hasCatalogue">
+                                        <FormSelect :id="`service-${index}`" :options="serviceOptions"
+                                            :modelValue="line.service_uuid"
+                                            @update:modelValue="(value: any) => pickService(line, value)"
+                                            :placeholder="$t('citizens.priceEstimates.form.ownLine')" />
                                     </td>
                                     <td class="py-1 pr-2">
                                         <FormTextField :id="`code-${index}`" :name="`code-${index}`"
@@ -126,6 +135,8 @@
 
 <script setup lang="ts">
 import { priceEstimateService } from '@/components/api/user/PriceEstimateService'
+import { citizenInvoiceService } from '@/components/api/user/CitizenInvoiceService'
+import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
@@ -138,6 +149,7 @@ const props = defineProps<{
 const emit = defineEmits<{ (event: 'saved'): void; (event: 'close'): void }>()
 
 const { t, locale } = useI18n()
+const userStore = useUserStore() as any
 
 const state = reactive({
     form: emptyForm(),
@@ -155,7 +167,52 @@ function emptyForm() {
 }
 
 function newLine() {
-    return { tooth_uuid: null, treatment_code: '', description: '', quantity: '1', unit_price: '', subsidy_amount: '' }
+    return { tooth_uuid: null, service_uuid: null, treatment_code: '', description: '', quantity: '1', unit_price: '', subsidy_amount: '' }
+}
+
+// The service catalogue belongs to the invoicing app. A clinic without it types
+// its lines as before rather than being shown an empty picker, so the column
+// only appears when there is something in it to pick.
+const services = ref<any[]>([])
+const hasCatalogue = computed(() => services.value.length > 0)
+
+const serviceOptions = computed(() => services.value.map((service: any) => ({
+    value: service.uuid,
+    label: service.code ? `${service.code} - ${service.name}` : service.name,
+})))
+
+async function loadServices() {
+    if (!userStore.getUser?.has_invoice_app) return
+
+    try {
+        const response = await citizenInvoiceService.getServices()
+        services.value = (response?.data || []).filter((service: any) => service.is_active !== false)
+    } catch {
+        // No catalogue is the same as an empty one here: the line is typed by
+        // hand, which is what every estimate did before this existed.
+        services.value = []
+    }
+}
+
+/**
+ * Fills the line from the catalogue entry, and remembers which one it was.
+ *
+ * The words and the numbers are copied onto the line rather than read through
+ * the service, so raising a price later does not silently rewrite a quote the
+ * patient has already been given - and so a line can still be adjusted after
+ * it is picked.
+ */
+function pickService(line: any, uuid: any) {
+    line.service_uuid = uuid || null
+
+    const service = services.value.find((entry: any) => entry.uuid === uuid)
+
+    if (!service) return
+
+    line.treatment_code = service.code || ''
+    line.description = service.name || ''
+    line.unit_price = String(service.unit_price ?? '')
+    line.subsidy_amount = String(service.default_subsidy ?? '')
 }
 
 const toothOptions = computed(() => (props.teeth || []).map((tooth: any) => ({
@@ -198,6 +255,7 @@ async function save() {
         .filter((line: any) => (line.description || '').trim() !== '')
         .map((line: any) => ({
             tooth_uuid: line.tooth_uuid || null,
+            service_uuid: line.service_uuid || null,
             treatment_code: line.treatment_code || null,
             description: line.description,
             quantity: Number(line.quantity) || 0,
@@ -239,6 +297,7 @@ watch(() => [props.isModalOpen, props.estimate], () => {
     if (!props.isModalOpen) return
 
     state.error = ''
+    if (!hasCatalogue.value) loadServices()
 
     if (!props.estimate) {
         state.form = emptyForm()
@@ -252,6 +311,7 @@ watch(() => [props.isModalOpen, props.estimate], () => {
         note: props.estimate.note || '',
         lines: (props.estimate.lines || []).map((line: any) => ({
             tooth_uuid: line.tooth_uuid || null,
+            service_uuid: line.service_uuid || null,
             treatment_code: line.treatment_code || '',
             description: line.description || '',
             quantity: String(line.quantity ?? 1),

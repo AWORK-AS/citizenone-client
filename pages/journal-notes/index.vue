@@ -170,7 +170,7 @@
                                             </div>
                                         </div>
                                         <div class="text-sm text-muted-400"
-                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
+                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView) && journal.note">
                                             <p class="font-semibold">
                                                 {{ customPagesStore.getCustomPagesName?.riskAssessment }}:
                                             </p>

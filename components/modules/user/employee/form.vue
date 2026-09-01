@@ -295,7 +295,17 @@
                             <Icon name="ph:question" class="size-4 cursor-pointer text-gray-700" aria-hidden="true"
                                 @click="state.modal.isAnnualNormHoursInfoOpen = true" />
                         </div>
+                        <!-- Hourly-paid staff have no annual norm to be measured against;
+                             ticking this leaves the norm figures out of their schedule
+                             entirely instead of showing them a norm of nothing. -->
+                        <div class="w-fit flex items-center cursor-pointer gap-x-1 text-sm"
+                            @click="state.formEmployee.employment.annual_norm_hours_disabled = !state.formEmployee.employment.annual_norm_hours_disabled">
+                            <FormCheckbox id="annual_norm_hours_disabled"
+                                :value="state.formEmployee.employment.annual_norm_hours_disabled" />
+                            {{ $t('employees.form.employment.annualNormHoursNotUsed') }}
+                        </div>
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours" @input="onYearlyInput"
+                            v-if="!state.formEmployee.employment.annual_norm_hours_disabled"
                             v-model="state.formEmployee.employment.annual_norm_hours" />
                         <FormError
                             :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
@@ -352,17 +362,17 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5" ref="jobTitleField">
-                            <FormLabel for="job_title_uuid" :label="$t('employees.form.employment.jobTitle')" />
+                            <FormLabel for="job_titles_uuid" :label="$t('employees.form.employment.jobTitle')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddJobTitleOpen = true">
                                 {{ $t('jobTitles.addNewJobTitle') }}
                             </span>
                         </div>
-                        <FormSelect id="job_title_uuid" :options="state.options.jobTitles"
-                            v-model="state.formEmployee.employment.job_title_uuid" @change="changeJobTitle" />
+                        <FormSelectMultiple id="job_titles_uuid" :options="state.options.jobTitles"
+                            v-model="state.formEmployee.employment.job_titles_uuid" @update:modelValue="changeJobTitle" />
                         <FormError
-                            :error="v$?.formEmployee?.employment?.job_title_uuid?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.employment?.job_title_uuid?.[0]" />
+                            :error="v$?.formEmployee?.employment?.job_titles_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.employment?.job_titles_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
@@ -563,6 +573,7 @@
 </template>
 
 <script setup lang="ts">
+import { employmentOptionService } from '@/components/api/user/EmploymentOptionService'
 import { jobTitleService } from '@/components/api/user/JobTitleService'
 import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
 import { departmentService } from '@/components/api/user/DepartmentService'
@@ -659,11 +670,12 @@ const state = reactive({
             salary_id: '',
             employment_date: '',
             termination_date: '',
-            job_title_uuid: '',
+            job_titles_uuid: [],
             job_specialties: [],
             working_hours: '',
             employment_status: '',
             annual_norm_hours: '',
+            annual_norm_hours_disabled: false,
             weekly_norm_hours: '',
             vacation_days: '',
             norm_period_uuid: '',
@@ -696,6 +708,9 @@ const state = reactive({
     options: {
         cities: [],
         departments: [],
+        // Seeded with the built-in options so the form is usable before the
+        // company's own additions arrive; fetchEmploymentOptions() replaces both
+        // lists with system + company entries.
         employment_status: [
             { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
             { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
@@ -744,6 +759,10 @@ watch(() => language.locale.value, (newValue: any) => {
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
             { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
         ]
+        // Relabelling the built-in options above drops the company's own entries,
+        // and this watcher also fires on the initial locale sync - which is what
+        // wiped them straight after the first fetch. Put them back.
+        fetchEmploymentOptions()
         // Language names are Danish or English depending on the locale, so relabel.
         fetchSpokenLanguages()
     }
@@ -767,8 +786,8 @@ watch(() => state.formEmployee.spoken_languages, (languages: any) => {
 watch(() => props.selectedEmployee, (newValue: any) => {
     if (newValue != null) {
         isPopulatingEmployee.value = true
-        if (newValue.employment.job_title_uuid) {
-            fetchJobSpecialties(newValue.employment.job_title_uuid)
+        if (newValue.employment.job_titles_uuid?.length) {
+            fetchJobSpecialties(newValue.employment.job_titles_uuid)
         }
         if (newValue.profile_image) {
             avatarUrl.value = newValue.profile_image
@@ -804,11 +823,12 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 salary_id: newValue.employment.salary_id,
                 employment_date: newValue.employment.employment_date,
                 termination_date: newValue.employment.termination_date,
-                job_title_uuid: newValue.employment.job_title_uuid,
+                job_titles_uuid: newValue.employment.job_titles_uuid ?? [],
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
                 annual_norm_hours: localizeDecimalSeparator(newValue.employment.annual_norm_hours),
+                annual_norm_hours_disabled: newValue.employment.annual_norm_hours_disabled ?? false,
                 weekly_norm_hours: newValue.employment.annual_norm_hours
                     ? Math.round(Number(newValue.employment.annual_norm_hours) / 52)
                     : '',
@@ -941,6 +961,40 @@ function hasTrusteeErrors() {
     )
 }
 
+/**
+ * Both employment dropdowns: the built-in options (translated here, since the
+ * API deliberately does not pin them to one language) followed by whatever the
+ * company has added under Settings.
+ */
+const SYSTEM_OPTION_LABELS: Record<string, string> = {
+    full_time: 'employees.workingHours.fulltime',
+    part_time: 'employees.workingHours.parttime',
+    permanent: 'employees.employmentStatus.permanent',
+    temporary: 'employees.employmentStatus.temporary',
+    substitute: 'employees.employmentStatus.substitute',
+}
+
+async function fetchEmploymentOptions() {
+    try {
+        const response = await employmentOptionService.getOptions()
+        const data = response?.data
+
+        if (!data) return
+
+        const mapped = (entries: any[]) => (entries ?? []).map((entry: any) => ({
+            value: entry.value,
+            label: entry.is_system && SYSTEM_OPTION_LABELS[entry.value]
+                ? t(SYSTEM_OPTION_LABELS[entry.value])
+                : entry.label,
+        }))
+
+        if (data.working_hours?.length) state.options.working_hours = mapped(data.working_hours)
+        if (data.employment_status?.length) state.options.employment_status = mapped(data.employment_status)
+    } catch (_) {
+        // The built-in options are already seeded, so the form stays usable.
+    }
+}
+
 onMounted(() => {
     fetchMediaRisks()
     fetchSpokenLanguages()
@@ -950,6 +1004,7 @@ onMounted(() => {
     fetchPages()
     fetchRegions()
     fetchNormPeriods()
+    fetchEmploymentOptions()
 })
 
 function triggerFileInput() {
@@ -1059,18 +1114,16 @@ async function fetchJobTitles() {
     emit('isPageLoading', false)
 }
 
-function changeJobTitle(jobTitleUuid: any) {
-    if (jobTitleUuid) {
-        fetchJobSpecialties(jobTitleUuid)
-    }
+function changeJobTitle(jobTitleUuids: any) {
+    fetchJobSpecialties(jobTitleUuids)
 }
 
-async function fetchJobSpecialties(jobTitleUuid: any) {
+async function fetchJobSpecialties(jobTitleUuids: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
-            job_title_uuid: jobTitleUuid
+            job_title_uuids: JSON.stringify(jobTitleUuids ?? [])
         }
         const response = await jobSpecialtyService.getAllJobSpecialties(params)
         if (response) {
@@ -1268,7 +1321,7 @@ function submitForm() {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.termination_date?.$error && terminationDateField.value) {
             terminationDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
+        } else if (v$.value.formEmployee.employment.job_titles_uuid?.$error && jobTitleField.value) {
             jobTitleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.working_hours?.$error && workingHoursField.value) {
             workingHoursField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })

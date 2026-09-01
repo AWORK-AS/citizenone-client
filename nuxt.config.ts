@@ -145,6 +145,10 @@ export default defineNuxtConfig({
       // tokens are coming later, so this is env-overridable rather than
       // hard-coded so it can be swapped without a code change.
       adressevaelgerToken: process.env.ADRESSEVAELGER_TOKEN || 'adressevaelger123',
+      reverbAppKey: process.env.REVERB_APP_KEY,
+      reverbHost: process.env.REVERB_HOST,
+      reverbPort: process.env.REVERB_PORT,
+      reverbScheme: process.env.REVERB_SCHEME,
     },
   },
 

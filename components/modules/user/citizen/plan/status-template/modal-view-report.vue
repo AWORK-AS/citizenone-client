@@ -60,7 +60,7 @@
                             </svg>
                         </div>
                         <p v-if="report?.model?.citizen" class="text-lg font-semibold mb-2">
-                            Borgerens navn: {{ report?.model?.citizen?.firstname }} {{ report?.model?.citizen?.lastname
+                            {{ $t('citizens.plansAndGoals.report.citizenName') }}: {{ report?.model?.citizen?.firstname }} {{ report?.model?.citizen?.lastname
                             }}
                         </p>
                         <p class="font-semibold text-lg">{{ report?.form?.title }}</p>

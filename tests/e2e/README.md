@@ -42,6 +42,64 @@ Optional env: `CO_BASE_URL` (default `http://localhost:3001`),
 Screenshots are written to `tests/e2e/screenshots/`. The email-templates test is
 self-restoring (the one template it edits is reset via the API at the end).
 
+### `compensatory-time-toggle` — needs an Employee token and an existing future shift
+
+Covers task-478: the compensatory-time request feature was changed from a purchasable
+"app" entitlement to a plain on/off toggle under Settings > Company > "Vagtplan &
+arbejdstid". Needs `CO_TOKEN` (Admin, to flip the company toggle and approve requests)
+plus two more required env vars:
+
+- `CO_EMPLOYEE_TOKEN`: a plain `User`-role employee in the same company, with **exactly
+  one** compensatory-time account assigned (so the request modal auto-selects it instead
+  of requiring a dropdown pick).
+- `CO_SCHEDULE_UUID`: an existing **future**, non-leave shift belonging to that employee,
+  with no pending compensatory-time request already on it. Mint both in one pass:
+
+```bash
+php artisan tinker --execute='
+  $admin = App\Models\User::where("email","dev@awork.dk")->first();
+  $employee = App\Models\User::firstOrCreate(
+    ["email" => "e2e-comp-time@test.com"],
+    ["firstname" => "E2E", "lastname" => "CompTime", "phone" => "+4500000096",
+     "company_id" => $admin->company_id, "language_id" => $admin->language_id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false]
+  );
+  if (! $employee->hasRole("User")) $employee->assignRole("User");
+
+  $account = App\Models\TimeAccount::where("company_id", $admin->company_id)->first();
+  $account->targetUsers()->syncWithoutDetaching([$employee->id]);
+
+  $shiftType = App\Models\ShiftType::firstWhere(["company_id" => $admin->company_id, "system_name" => "regular-shift"])
+      ?? App\Models\ShiftType::where("company_id", $admin->company_id)->where("is_leave_shift_type", false)->first();
+
+  $start = now()->addWeek()->setTime(5, 5);
+  $schedule = new App\Models\Schedule;
+  $schedule->user_id = $employee->id;
+  $schedule->shift_type_id = $shiftType->id;
+  $schedule->date = $start->toDateString();
+  $schedule->date_time_start = $start;
+  $schedule->date_time_end = $start->copy()->addHours(8);
+  $schedule->save();
+
+  echo "CO_EMPLOYEE_TOKEN=".$employee->createToken("e2e-comp-time")->plainTextToken."\n";
+  echo "CO_SCHEDULE_UUID=".$schedule->uuid."\n";
+'
+```
+
+The `05:05` start time is deliberately distinctive - the script locates the shift block
+on `/schedules` by matching that exact "HH:mm" text within the employee's row, so picking
+an off-hours time avoids colliding with a normal 08:00-17:00 shift elsewhere in the same
+row/week.
+
+```bash
+CO_TOKEN='<admin-token>' CO_EMPLOYEE_TOKEN='<employee-token>' CO_SCHEDULE_UUID='<schedule-uuid>' \
+  npm run test:compensatory-time-toggle
+```
+
+The script is self-restoring: it reverses the compensatory-time request it creates and
+restores the company's toggle to whatever value it found at the start, so it can be
+re-run against the same fixture shift repeatedly.
+
 ### `forms-reorder-and-retype` — only needs `CO_TOKEN`
 
 Covers the form-builder field-order fix (a delete+retype no longer jumps a field to the bottom
@@ -134,6 +192,60 @@ fetch finishes, so the middleware sees a null user and Nuxt renders a misleading
 response (not `networkidle`, which can hang on the app's persistent Pusher websocket) before
 treating any navigation to `/tasks` as safe to continue from.
 
+### `journal-note-notification-scope` — needs two admin tokens with different department opt-ins
+
+Covers the journal notification spam fix: an admin with the generic "Enable system notifications"
+profile toggle on used to receive a bell notification for every journal note written anywhere in
+the company, not just their own department/house. Needs `CO_TOKEN` (author, used to create the
+note and for API teardown), `CO_CITIZEN_UUID` (must belong to a known department - reuse an
+existing test citizen and note its department), `CO_OFFDEPT_TOKEN` (an Admin in a *different*
+department, with system notifications enabled, not opted into the citizen's department) and
+`CO_SAMEDEPT_TOKEN` (an Admin opted into the citizen's department via the notification-department
+picker). These two admin fixtures are `firstOrCreate`-idempotent - mint once, reuse across runs:
+
+```bash
+php artisan tinker --execute='
+  $admin = App\Models\User::where("email","dev@awork.dk")->first();
+  $citizen = App\Models\Citizen::where("uuid","<CO_CITIZEN_UUID>")->firstOrFail();
+  $citizenDeptId = $citizen->departments()->first()->id;
+  $otherDept = App\Models\Department::where("company_id", $admin->company_id)
+    ->where("id", "!=", $citizenDeptId)->first()
+    ?? App\Models\Department::create(["company_id" => $admin->company_id, "name" => "E2E Off Dept"]);
+
+  $off = App\Models\User::firstOrCreate(
+    ["email" => "e2e-notif-offdept@test.com"],
+    ["firstname" => "E2E", "lastname" => "OffDept", "phone" => "+4500000097",
+     "company_id" => $admin->company_id, "language_id" => $admin->language_id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false, "is_active" => true,
+     "is_email_verified" => true, "system_notifications_enabled" => true]
+  );
+  if (! $off->hasRole("Admin")) $off->assignRole("Admin");
+  $off->departments()->syncWithoutDetaching([$otherDept->id]);
+
+  $same = App\Models\User::firstOrCreate(
+    ["email" => "e2e-notif-samedept@test.com"],
+    ["firstname" => "E2E", "lastname" => "SameDept", "phone" => "+4500000096",
+     "company_id" => $admin->company_id, "language_id" => $admin->language_id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false, "is_active" => true,
+     "is_email_verified" => true, "system_notifications_enabled" => false]
+  );
+  if (! $same->hasRole("Admin")) $same->assignRole("Admin");
+  $same->department_notifications()->syncWithoutDetaching([$citizenDeptId]);
+
+  echo "off: " . $off->createToken("e2e-offdept")->plainTextToken . "\n";
+  echo "same: " . $same->createToken("e2e-samedept")->plainTextToken . "\n";
+'
+```
+
+```bash
+CO_TOKEN='<author-token>' CO_CITIZEN_UUID='<uuid>' \
+  CO_OFFDEPT_TOKEN='<off-token>' CO_SAMEDEPT_TOKEN='<same-token>' \
+  npm run test:journal-note-notification-scope
+```
+
+Only the journal note created during the run is deleted by the script (via its own uuid, in a
+`finally` block); the two admin fixtures are left in place for reuse on the next run.
+
 ### `import-employees` — needs a queue worker running and a spare employee license
 
 Covers the "Import employees" bug where imported employees never got a `company_users` row.
@@ -176,3 +288,26 @@ php artisan tinker --execute='
 ```bash
 CO_TOKEN='<admin-or-manager-token>' npm run test:import-employees
 ```
+
+### `console-smoke` - the one to run before merging
+
+Walks the sidebar to learn where this company's pages are, then loads each of
+them, plus a handful of settings pages, and fails on anything the browser
+throws: an uncaught exception, a console error, or a 5xx.
+
+```bash
+CO_TOKEN='<paste-token>' npm run test:console-smoke
+```
+
+It needs no setup beyond a token and touches nothing, so it is the cheapest
+guard against the class of defect that reaches dev most often - a composable
+called in the wrong place, a helper used in a template without being imported,
+a debug line left in. Three of those shipped in a row before this existed.
+
+Two things to know about it. The second pass loads each page for real rather
+than clicking to it: this is an SPA, and a render-time throw does not reach the
+browser as an uncaught error when you click your way there, so a click-only
+version passes against visibly broken code. And the API allows 120 requests a
+minute per user while one page spends a dozen or more, so the test paces itself
+and a full run takes a few minutes with pauses in it. That is the rate limit,
+not a hang.

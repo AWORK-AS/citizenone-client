@@ -257,28 +257,29 @@
                                                         :index="attachmentIndex"
                                                         class="border border-gray-200 rounded-sm">
                                                         <div class="cursor-pointer flex items-center gap-x-2 p-2"
-                                                            @click="downloadAttachment(attachment)">
-                                                            <div class="flex items-center" v-if="isPdf(attachment)">
+                                                            @click="downloadAttachment(attachment?.file_url)">
+                                                            <div class="flex items-center"
+                                                                v-if="isPdf(attachment?.file_name)">
                                                                 <Icon name="ph:file-pdf" class="h-5 w-5 text-red-600"
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <div class="flex items-center"
-                                                                v-else-if="isWord(attachment)">
+                                                                v-else-if="isWord(attachment?.file_name)">
                                                                 <Icon name="ph:file-doc" class="h-5 w-5 text-blue-600"
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <div class="flex items-center"
-                                                                v-else-if="isExcel(attachment)">
+                                                                v-else-if="isExcel(attachment?.file_name)">
                                                                 <Icon name="ph:file-xls" class="h-5 w-5 text-green-600"
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <div class="flex items-center"
-                                                                v-else-if="isPpt(attachment)">
+                                                                v-else-if="isPpt(attachment?.file_name)">
                                                                 <Icon name="ph:file-ppt" class="h-5 w-5 text-purple-600"
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <div class="flex items-center"
-                                                                v-else-if="isImage(attachment)">
+                                                                v-else-if="isImage(attachment?.file_name)">
                                                                 <Icon name="ph:file-image"
                                                                     class="h-5 w-5 text-yellow-600"
                                                                     aria-hidden="true" />
@@ -288,7 +289,7 @@
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <p class="text-xs">
-                                                                {{ attachment?.split('/').pop() }}
+                                                                {{ attachment?.file_name }}
                                                             </p>
                                                         </div>
                                                     </div>

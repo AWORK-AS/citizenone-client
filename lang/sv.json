@@ -84,7 +84,7 @@
         "Contacts": "Kontakter",
         "Duty Schedule": "Schema",
         "Employee Group": "Medarbetargrupp",
-        "Emails": "Klienters e-post",
+        "Emails": "@.capitalize:terms.citizens{'s'} e-post",
         "Reports": "Rapporter",
         "Inquiries": "Förfrågningar",
         "Management & Economy": "Ledning & ekonomi",
@@ -98,12 +98,12 @@
         "stepsProgress": "{done} av {total} steg slutförda",
         "nextStep": "Nästa steg",
         "demoData": {
-            "title": "Utforska med demoklienter",
-            "desc": "Vi har lagt till {count} fiktiva klienter så att det finns något att klicka runt i direkt. Ta bort dem när du är redo att lägga till era egna.",
-            "remove": "Ta bort demoklienter",
+            "title": "Utforska med demo@:terms.citizens{''}",
+            "desc": "Vi har lagt till {count} fiktiva @:terms.citizens{''} så att det finns något att klicka runt i direkt. Ta bort dem när du är redo att lägga till era egna.",
+            "remove": "Ta bort demo@:terms.citizens{''}",
             "removing": "Tar bort...",
-            "removed": "Demoklienter borttagna",
-            "removeFailed": "Kunde inte ta bort demoklienter"
+            "removed": "Demo@:terms.citizens{''} borttagna",
+            "removeFailed": "Kunde inte ta bort demo@:terms.citizens{''}"
         },
         "ready": {
             "title": "Du är redo att gå live!",
@@ -122,20 +122,25 @@
             "medicin": "Medicin",
             "dokumentation": "Dokumentation (planer, status, dokument)",
             "useOfForce": "Våldsanvändning",
-            "predefinedContent": "Fördefinierat anteckningsinnehåll"
+            "carePlans": "Handlingsplaner",
+            "predefinedContent": "Fördefinierat anteckningsinnehåll",
+            "priceEstimates": "Prisförslag till patienter"
         },
         "groups": {
             "migration": "Migrering",
             "komIGang": "Kom igång",
-            "born": "Klienter",
             "vagtplan": "Schema",
             "medicin": "Medicin",
-            "dokumentation": "Dokumentation"
+            "dokumentation": "Dokumentation",
+            "people": "Klienter",
+            "patients": "Patienter",
+            "clinic": "Klinik och bokning",
+            "cases": "Ärenden och jobbcenter"
         },
         "steps": {
             "departments": {
                 "title": "Skapa avdelningar",
-                "desc": "Avdelningar strukturerar personal, klienter och schema.",
+                "desc": "Avdelningar strukturerar personal, journaler och schema.",
                 "tip": "T.ex. \"Avdelning Nord\" och \"Avdelning Syd\".",
                 "cta": "Gå till Avdelningar"
             },
@@ -151,18 +156,8 @@
             },
             "import": {
                 "title": "Importera från ditt gamla system",
-                "desc": "Migrera klienter, personal, journaler och scheman från ditt nuvarande system (CSV eller Excel).",
+                "desc": "Migrera er data från det nuvarande systemet: personer, personal, journaler och scheman (CSV eller Excel).",
                 "cta": "Starta import"
-            },
-            "children": {
-                "title": "Skapa klienter",
-                "desc": "Lägg till klienterna ni arbetar med.",
-                "cta": "Gå till Klienter"
-            },
-            "childData": {
-                "title": "Stamdata och kontaktpersoner",
-                "desc": "Fyll i stamdata, kontaktpersoner och handläggare.",
-                "cta": "Gå till Klienter"
             },
             "shiftTypes": {
                 "title": "Skapa skifttyper och regler",
@@ -184,13 +179,63 @@
                 "desc": "Lägg till medicintyper och doseringsformer.",
                 "cta": "Gå till Medicin"
             },
-            "templates": {
-                "title": "Statusmallar och planer",
-                "desc": "Ställ in mallar för status, planer och mål.",
-                "cta": "Gå till Inställningar"
+            "citizens": {
+                "title": "Skapa klienter",
+                "desc": "Lägg till klienterna ni arbetar med.",
+                "cta": "Gå till Klienter"
+            },
+            "citizenData": {
+                "title": "Stamdata och kontaktpersoner",
+                "desc": "Fyll i stamdata, kontaktpersoner och handläggare.",
+                "cta": "Gå till Klienter"
+            },
+            "patients": {
+                "title": "Skapa patienter",
+                "desc": "Lägg till era första patienter, eller importera dem från det gamla systemet.",
+                "cta": "Gå till Patienter"
+            },
+            "patientData": {
+                "title": "Stamdata och tandkarta",
+                "desc": "Fyll i stamdata, remitterande tandläkare och tandkarta.",
+                "cta": "Gå till Patienter"
+            },
+            "openingHours": {
+                "title": "Öppettider och behandlare",
+                "desc": "Ange klinikens öppettider och vem som tar patienter.",
+                "cta": "Gå till Företag"
+            },
+            "booking": {
+                "title": "Öppna för bokning",
+                "desc": "Lägg de första besöken, och låt patienterna boka själva.",
+                "cta": "Gå till Bokning"
+            },
+            "caseTypes": {
+                "title": "Skapa ärendetyper",
+                "desc": "Definiera de insatser och ärendetyper ni levererar.",
+                "cta": "Gå till Ärendetyper"
+            },
+            "jobcenters": {
+                "title": "Lägg till jobbcenter",
+                "desc": "Registrera de jobbcenter ni samarbetar med, så remisser kan kopplas på.",
+                "cta": "Gå till Jobbcenter"
+            },
+            "journalTitles": {
+                "title": "Journalmallar",
+                "desc": "Ställ in de titlar ni journalför på, så anteckningarna blir enhetliga.",
+                "cta": "Gå till Journaltitlar"
+            },
+            "journalContents": {
+                "title": "Fördefinierat anteckningsinnehåll",
+                "desc": "Skriv innehållet som återkommer, så det kan infogas med ett klick.",
+                "cta": "Gå till Journalinnehåll"
             }
         },
-        "title": "Utforska"
+        "title": "Utforska",
+        "appsPromo": {
+            "title": "Utöka med appar",
+            "desc": "Säker e-post, bokning, enkäter, FMK och resten av appbutiken kan slås på när ni behöver dem.",
+            "cta": "Öppna appbutiken"
+        }
     },
     "2fa": {
         "2fa": "Tvåfaktorsautentisering",
@@ -251,7 +296,7 @@
                 "delete": "Radera",
                 "edit": "Redigera"
             },
-            "assignedCitizens": "Tilldelade klienter",
+            "assignedCitizens": "Tilldelade @:terms.citizens{''}",
             "confirmation": {
                 "deleteContactConfirmation": "Är du säker på att du vill radera denna kontakt",
                 "unassignContactConfirmation": "Är du säker på att du vill ta bort tilldelningen av denna kontakt"
@@ -438,51 +483,51 @@
             "aCalendarHasBeenCreated": "En kalender har skapats",
             "aCalendarHasBeenDeleted": "En kalender har raderats",
             "aCalendarHasBeenUpdated": "En kalender har uppdaterats",
-            "aCitizenAddressHasBeenCreated": "En klientadress har skapats",
-            "aCitizenAddressHasBeenDeleted": "En klientadress har raderats",
-            "aCitizenAddressHasBeenUpdated": "En klientadress har uppdaterats",
-            "aCitizenContactHasBeenCreated": "En klientkontakt har skapats",
-            "aCitizenContactHasBeenDeleted": "En klientkontakt har raderats",
-            "aCitizenContactHasBeenUpdated": "En klientkontakt har uppdaterats",
-            "aCitizenDocumentsFolderHasBeenCreated": "En klientdokumentmapp har skapats",
-            "aCitizenDocumentsFolderHasBeenDeleted": "En klientdokumentmapp har raderats",
-            "aCitizenDocumentsFolderHasBeenUpdated": "En klientdokumentmapp har uppdaterats",
-            "aCitizenGoalHasBeenCreated": "Ett klientmål har skapats",
-            "aCitizenGoalHasBeenDeleted": "Ett klientmål har raderats",
-            "aCitizenGoalHasBeenUpdated": "Ett klientmål har uppdaterats",
-            "aCitizenHasBeenCreated": "En klient har skapats",
-            "aCitizenHasBeenDeleted": "En klient har raderats",
-            "aCitizenHasBeenUpdated": "En klient har uppdaterats",
-            "aCitizenIncidentAttachmentHasBeenCreated": "Ett bilaga till klienthändelse har skapats",
-            "aCitizenIncidentAttachmentHasBeenDeleted": "Ett bilaga till klienthändelse har raderats",
-            "aCitizenIncidentAttachmentHasBeenUpdated": "Ett bilaga till klienthändelse har uppdaterats",
-            "aCitizenIncidentHasBeenCreated": "En klienthändelse har skapats",
-            "aCitizenIncidentHasBeenDeleted": "En klienthändelse har raderats",
-            "aCitizenIncidentHasBeenUpdated": "En klienthändelse har uppdaterats",
-            "aCitizenJournalHasBeenCreated": "En klientjournal har skapats",
-            "aCitizenJournalHasBeenDeleted": "En klientjournal har raderats",
-            "aCitizenJournalHasBeenUpdated": "En klientjournal har uppdaterats",
-            "aCitizenMedicineHasBeenCreated": "En klientmedicin har skapats",
-            "aCitizenMedicineHasBeenDeleted": "En klientmedicin har raderats",
-            "aCitizenMedicineHasBeenUpdated": "En klientmedicin har uppdaterats",
-            "aCitizenMedicineHistoryHasBeenCreated": "En klientmedicinhistorik har skapats",
-            "aCitizenMedicineHistoryHasBeenDeleted": "En klientmedicinhistorik har raderats",
-            "aCitizenMedicineHistoryHasBeenUpdated": "En klientmedicinhistorik har uppdaterats",
-            "aCitizenPlanHasBeenCreated": "En klientplan har skapats",
-            "aCitizenPlanHasBeenDeleted": "En klientplan har raderats",
-            "aCitizenPlanHasBeenUpdated": "En klientplan har uppdaterats",
-            "aCitizenProtocolHasBeenCreated": "Ett klientprotokoll har skapats",
-            "aCitizenProtocolHasBeenDeleted": "Ett klientprotokoll har raderats",
-            "aCitizenProtocolHasBeenUpdated": "Ett klientprotokoll har uppdaterats",
-            "aCitizenRiskAssessmentHasBeenCreated": "En klient riskbedömning har skapats",
-            "aCitizenRiskAssessmentHasBeenDeleted": "En klient riskbedömning har raderats",
-            "aCitizenRiskAssessmentHasBeenUpdated": "En klient riskbedömning har uppdaterats",
-            "aCitizenSubgoalHasBeenCreated": "Ett klient delmål har skapats",
-            "aCitizenSubgoalHasBeenDeleted": "Ett klient delmål har raderats",
-            "aCitizenSubgoalHasBeenUpdated": "Ett klient delmål har uppdaterats",
-            "aCitizenWalletHasBeenCreated": "En klientplånbok har skapats",
-            "aCitizenWalletHasBeenDeleted": "En klientplånbok har raderats",
-            "aCitizenWalletHasBeenUpdated": "En klientplånbok har uppdaterats",
+            "aCitizenAddressHasBeenCreated": "En @:terms.citizen{'adress'} har skapats",
+            "aCitizenAddressHasBeenDeleted": "En @:terms.citizen{'adress'} har raderats",
+            "aCitizenAddressHasBeenUpdated": "En @:terms.citizen{'adress'} har uppdaterats",
+            "aCitizenContactHasBeenCreated": "En @:terms.citizen{'kontakt'} har skapats",
+            "aCitizenContactHasBeenDeleted": "En @:terms.citizen{'kontakt'} har raderats",
+            "aCitizenContactHasBeenUpdated": "En @:terms.citizen{'kontakt'} har uppdaterats",
+            "aCitizenDocumentsFolderHasBeenCreated": "En @:terms.citizen{'dokumentmapp'} har skapats",
+            "aCitizenDocumentsFolderHasBeenDeleted": "En @:terms.citizen{'dokumentmapp'} har raderats",
+            "aCitizenDocumentsFolderHasBeenUpdated": "En @:terms.citizen{'dokumentmapp'} har uppdaterats",
+            "aCitizenGoalHasBeenCreated": "Ett @:terms.citizen{'mål'} har skapats",
+            "aCitizenGoalHasBeenDeleted": "Ett @:terms.citizen{'mål'} har raderats",
+            "aCitizenGoalHasBeenUpdated": "Ett @:terms.citizen{'mål'} har uppdaterats",
+            "aCitizenHasBeenCreated": "En @:terms.citizen{''} har skapats",
+            "aCitizenHasBeenDeleted": "En @:terms.citizen{''} har raderats",
+            "aCitizenHasBeenUpdated": "En @:terms.citizen{''} har uppdaterats",
+            "aCitizenIncidentAttachmentHasBeenCreated": "Ett bilaga till @:terms.citizen{'händelse'} har skapats",
+            "aCitizenIncidentAttachmentHasBeenDeleted": "Ett bilaga till @:terms.citizen{'händelse'} har raderats",
+            "aCitizenIncidentAttachmentHasBeenUpdated": "Ett bilaga till @:terms.citizen{'händelse'} har uppdaterats",
+            "aCitizenIncidentHasBeenCreated": "En @:terms.citizen{'händelse'} har skapats",
+            "aCitizenIncidentHasBeenDeleted": "En @:terms.citizen{'händelse'} har raderats",
+            "aCitizenIncidentHasBeenUpdated": "En @:terms.citizen{'händelse'} har uppdaterats",
+            "aCitizenJournalHasBeenCreated": "En @:terms.citizen{'journal'} har skapats",
+            "aCitizenJournalHasBeenDeleted": "En @:terms.citizen{'journal'} har raderats",
+            "aCitizenJournalHasBeenUpdated": "En @:terms.citizen{'journal'} har uppdaterats",
+            "aCitizenMedicineHasBeenCreated": "En @:terms.citizen{'medicin'} har skapats",
+            "aCitizenMedicineHasBeenDeleted": "En @:terms.citizen{'medicin'} har raderats",
+            "aCitizenMedicineHasBeenUpdated": "En @:terms.citizen{'medicin'} har uppdaterats",
+            "aCitizenMedicineHistoryHasBeenCreated": "En @:terms.citizen{'medicinhistorik'} har skapats",
+            "aCitizenMedicineHistoryHasBeenDeleted": "En @:terms.citizen{'medicinhistorik'} har raderats",
+            "aCitizenMedicineHistoryHasBeenUpdated": "En @:terms.citizen{'medicinhistorik'} har uppdaterats",
+            "aCitizenPlanHasBeenCreated": "En @:terms.citizen{'plan'} har skapats",
+            "aCitizenPlanHasBeenDeleted": "En @:terms.citizen{'plan'} har raderats",
+            "aCitizenPlanHasBeenUpdated": "En @:terms.citizen{'plan'} har uppdaterats",
+            "aCitizenProtocolHasBeenCreated": "Ett @:terms.citizen{'protokoll'} har skapats",
+            "aCitizenProtocolHasBeenDeleted": "Ett @:terms.citizen{'protokoll'} har raderats",
+            "aCitizenProtocolHasBeenUpdated": "Ett @:terms.citizen{'protokoll'} har uppdaterats",
+            "aCitizenRiskAssessmentHasBeenCreated": "En @:terms.citizen{''} riskbedömning har skapats",
+            "aCitizenRiskAssessmentHasBeenDeleted": "En @:terms.citizen{''} riskbedömning har raderats",
+            "aCitizenRiskAssessmentHasBeenUpdated": "En @:terms.citizen{''} riskbedömning har uppdaterats",
+            "aCitizenSubgoalHasBeenCreated": "Ett @:terms.citizen{''} delmål har skapats",
+            "aCitizenSubgoalHasBeenDeleted": "Ett @:terms.citizen{''} delmål har raderats",
+            "aCitizenSubgoalHasBeenUpdated": "Ett @:terms.citizen{''} delmål har uppdaterats",
+            "aCitizenWalletHasBeenCreated": "En @:terms.citizen{'plånbok'} har skapats",
+            "aCitizenWalletHasBeenDeleted": "En @:terms.citizen{'plånbok'} har raderats",
+            "aCitizenWalletHasBeenUpdated": "En @:terms.citizen{'plånbok'} har uppdaterats",
             "aCompanyAddressHasBeenCreated": "En företagsadress har skapats",
             "aCompanyAddressHasBeenDeleted": "En företagsadress har raderats",
             "aCompanyAddressHasBeenUpdated": "En företagsadress har uppdaterats",
@@ -600,7 +645,7 @@
             },
             "createdAt": "Skapad den",
             "data": {
-                "citizens": "Klienter",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "dateTimeEnd": "Datum och tid slut",
                 "dateTimeStart": "Datum och tid start",
                 "departments": "Avdelningar",
@@ -779,7 +824,7 @@
     },
     "archived": {
         "alert": {
-            "citizenSuccessfullyUnarchive": "Klient genåbnet",
+            "citizenSuccessfullyUnarchive": "@.capitalize:terms.citizen{''} genåbnet",
             "documentSuccessfullyUnarchive": "Dokument genåbnet",
             "employeeSuccessfullyUnarchive": "Anställd genåbnet",
             "goalSuccessfullyUnarchive": "Mål gendannet",
@@ -787,7 +832,7 @@
             "subgoalSuccessfullyUnarchive": "Delmål gendannet"
         },
         "confirmation": {
-            "unarchiveCitizen": "Är du säker på att du vill genåbne denna klient",
+            "unarchiveCitizen": "Är du säker på att du vill genåbne denna @:terms.citizen{''}",
             "unarchiveDocument": "Är du säker på att du vill genåbne detta dokument",
             "unarchiveEmployee": "Är du säker på att du vill genåbne denna anställd",
             "unarchiveGoal": "Är du säker på att du vill gendanne detta mål",
@@ -797,7 +842,7 @@
         "table": {
             "actions": {
                 "unarchive": "Återöppna",
-                "unarchiveCitizen": "Återöppna klient",
+                "unarchiveCitizen": "Återöppna @:terms.citizen{''}",
                 "unarchiveDocument": "Återöppna dokument",
                 "unarchiveEmployee": "Återöppna anställd"
             },
@@ -805,13 +850,13 @@
             "date": "Datum",
             "name": "Namn",
             "type": {
-                "citizen": "Klient",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "employee": "Anställd",
                 "type": "Typ"
             }
         },
         "tabs": {
-            "archivedCitizens": "Arkiverade klienter",
+            "archivedCitizens": "Arkiverade @:terms.citizens{''}",
             "archivedDocuments": "Arkiverade dokument",
             "archivedEmployees": "Arkiverade anställda",
             "archivedGoals": "Arkiverade mål",
@@ -876,7 +921,7 @@
             "birthday": "Födelsedagar",
             "dutyShift": "Vagtregel",
             "incidents": "Händelser",
-            "messages": "Meddelanden",
+            "messages": "Chatt",
             "notes": "Anteckningar",
             "other": "Annat",
             "plansGoals": "Planer & Mål",
@@ -947,7 +992,9 @@
             "linkCopied": "Kopierad!",
             "onlineBookingLink": "Online Bokning-länk",
             "onlineBookingLinkLabel": "Linket till din offentliga online bokning-sida",
-            "phone": "Telefon"
+            "phone": "Telefon",
+            "notifyTeam": "Meddela hela kliniken",
+            "notifyTeamHelp": "Behandlaren får alltid besked. Slå på om kollegorna också ska, så de kan täcka för varandra."
         }
     },
     "bookingTags": {
@@ -1195,14 +1242,14 @@
             },
             "participants": {
                 "actions": {
-                    "convertAsCitizen": "Konvertera till klient",
+                    "convertAsCitizen": "Konvertera till @:terms.citizen{''}",
                     "resendEmailConfirmation": "Skicka e-mailbekräftelse igen"
                 },
                 "alert": {
-                    "participantToCitizenConvertedSuccessfully": "Deltagare konverterad till klient"
+                    "participantToCitizenConvertedSuccessfully": "Deltagare konverterad till @:terms.citizen{''}"
                 },
                 "confirmation": {
-                    "convertAsCitizenConfirmation": "Är du säker på att du vill konvertere denna deltagare till klient?"
+                    "convertAsCitizenConfirmation": "Är du säker på att du vill konvertere denna deltagare till @:terms.citizen{''}?"
                 },
                 "participants": "Deltagare",
                 "table": {
@@ -1214,7 +1261,8 @@
             "viewEvent": "Se händelse",
             "viewFutureEvents": "Se fremtidige händelser",
             "viewSignUpForm": "Se tilmeldingsformular"
-        }
+        },
+        "landsInCalendar": "När en tid bokas läggs den automatiskt i behandlarens kalender. Avbokas tiden försvinner den igen."
     },
     "bulletBoard": {
         "attachments": "Bifogade filer",
@@ -1222,7 +1270,7 @@
         "featured": "Framhävd"
     },
     "calendar": {
-        "citizens": "Klienter",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Fredag",
             "Monday": "Måndag",
@@ -1252,7 +1300,8 @@
         },
         "tabs": {
             "bookings": "Bokningar",
-            "events": "Händelser"
+            "events": "Händelser",
+            "appointments": "Bokade tider"
         },
         "today": "Idag",
         "view": {
@@ -1416,10 +1465,10 @@
         "addictions": "Substansmissbruk",
         "address": "Adress",
         "alert": {
-            "citizenSuccessfullyArchived": "Klient arkiverad"
+            "citizenSuccessfullyArchived": "@.capitalize:terms.citizen{''} arkiverad"
         },
-        "archiveCitizen": "Arkiver klient",
-        "archivedCitizens": "Arkiverade klienter",
+        "archiveCitizen": "Arkiver @:terms.citizen{''}",
+        "archivedCitizens": "Arkiverade @:terms.citizens{''}",
         "attendance": {
             "protocol": "Protokoll"
         },
@@ -1471,12 +1520,12 @@
                 "unpinJournal": "{journal} fästning borttagen"
             },
             "confirmation": {
-                "copyConfirmation": "Är du säker på att du vill kopiere denna journal till den valda klient",
+                "copyConfirmation": "Är du säker på att du vill kopiere denna journal till den valda @:terms.citizen{''}",
                 "deleteConfirmation": "Är du säker på att du vill radera denna journal",
-                "moveConfirmation": "Är du säker på att du vill flytte denna journal till den valda klient"
+                "moveConfirmation": "Är du säker på att du vill flytte denna journal till den valda @:terms.citizen{''}"
             },
             "copy": {
-                "citizen": "Klient",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "copy": "Kopiera",
                 "copyJournal": "Kopiera journal"
             },
@@ -1602,21 +1651,21 @@
                 "noAccessTitle": "Ingen åtkomst"
             },
             "move": {
-                "citizen": "Klient",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "move": "Flytta",
                 "moveJournal": "Flytta journal"
             },
             "newNote": "Nytt anteckning",
             "on": "Den",
             "shareJournals": {
-                "citizenJournal": "Klientjournal",
+                "citizenJournal": "@.capitalize:terms.citizen{'journal'}",
                 "form": {
                     "alert": {
                         "enteredPasswordMismatched": "Indtastet lösenord röster inte overens",
                         "journalSuccessfullyShared": "Journal har delats",
                         "required8Characters": "Detta fält ska vara minst 8 tegn långt"
                     },
-                    "citizen": "Klient",
+                    "citizen": "@.capitalize:terms.citizen{''}",
                     "confirmPassword": "Bekräfta lösenord",
                     "password": "Lösenord",
                     "unlock": "Lås upp",
@@ -1631,7 +1680,7 @@
                     "alert": {
                         "linkSuccessfullyDeleted": "Länk har raderats"
                     },
-                    "citizen": "Klient",
+                    "citizen": "@.capitalize:terms.citizen{''}",
                     "confirmation": {
                         "deleteLinkConfirmation": "Är du säker på att du vill radera detta länk?"
                     },
@@ -1639,9 +1688,9 @@
                 }
             }
         },
-        "citizens": "Klienter",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "confirmation": {
-            "archiveConfirmation": "Är du säker på att du vill arkivere denna klient"
+            "archiveConfirmation": "Är du säker på att du vill arkivere denna @:terms.citizen{''}"
         },
         "contacts": {
             "alert": {
@@ -1839,7 +1888,7 @@
             "useTemplate": "Använd mall",
             "viewDraftFile": "Visa udkastfiler"
         },
-        "editCitizen": "Redigera Klient",
+        "editCitizen": "Redigera @.capitalize:terms.citizen{''}",
         "editCitizenForm": "Redigera borgerformular",
         "editMedicineForm": "Redigera medicinformulär",
         "emails": {
@@ -1857,10 +1906,10 @@
             "openOriginal": "Öppna originalet",
             "attachments": "Bilagor",
             "confirmation": {
-                "untagConfirmation": "Är du säker på att du vill ta bort detta e-postmeddelande från klientens profil"
+                "untagConfirmation": "Är du säker på att du vill ta bort detta e-postmeddelande från @:terms.citizenDefinite{'s'} profil"
             },
-            "linkToCitizen": "Länka till klient",
-            "linkedSuccessfully": "E-post länkad till klient",
+            "linkToCitizen": "Länka till @:terms.citizen{''}",
+            "linkedSuccessfully": "E-post länkad till @:terms.citizen{''}",
             "noEmailsFound": "Inga e-postmeddelanden hittades",
             "roles": {
                 "admin": "Admin",
@@ -1869,7 +1918,7 @@
             },
             "saveAttachmentsToDocuments": "Spara även bilagor i Dokument",
             "savePdfToDocuments": "Spara även som PDF i Dokument",
-            "selectCitizen": "Välj klient",
+            "selectCitizen": "Välj @:terms.citizen{''}",
             "selectVisibility": "Vem kan se detta e-postmeddelande",
             "table": {
                 "date": "Datum",
@@ -1946,12 +1995,12 @@
         },
         "actions": "Åtgärder",
         "importFromOtherSystem": "Importera från ett annat system",
-        "exportCitizens": "Exportera klienter",
+        "exportCitizens": "Exportera @:terms.citizens{''}",
         "form": {
             "addictions": "Substansmissbruk",
             "alert": {
-                "successfullyAdded": "Nya klienter sparad",
-                "successfullyUpdate": "Klient uppdaterad"
+                "successfullyAdded": "Nya @:terms.citizens{''} sparad",
+                "successfullyUpdate": "@.capitalize:terms.citizen{''} uppdaterad"
             },
             "allocatedHours": {
                 "allocatedDailyHours": "Tilldelade daglige timmar",
@@ -1964,7 +2013,7 @@
             "allowSystemAccess": "Tillåt systemadgang",
             "assessmentMunicipality": "Visiteringskommune",
             "birthday": "Födelsedag",
-            "citizenOrigin": "Klientens ursprung",
+            "citizenOrigin": "@.capitalize:terms.citizenDefinite{'s'} ursprung",
             "city": "Stad",
             "country": "Land",
             "dateAdmitted": "Indskrivningsdato",
@@ -1988,7 +2037,7 @@
                 "purpose": "Syfte"
             },
             "lastname": "Efternamn",
-            "locateCitizen": "Hitta klient",
+            "locateCitizen": "Hitta @:terms.citizen{''}",
             "locateCitizenInstructions": "Klicka ett plats på kartan för att fastgöre en placering. Du kan också dra markören för att justere positionen. Adressen hentes automatiskt.",
             "medicationAllergies": "Medicinallergier (CAVE)",
             "motherTongue": "Modersmål",
@@ -2130,10 +2179,10 @@
         },
         "importCitizens": {
             "alert": {
-                "citizensSuccessfullyImported": "Klienter importeret"
+                "citizensSuccessfullyImported": "@.capitalize:terms.citizens{''} importeret"
             },
             "downloadTemplate": "Ladda ner mall",
-            "importCitizens": "Importera klienter",
+            "importCitizens": "Importera @:terms.citizens{''}",
             "importTemplate": "Importskabelon",
             "noFileSelected": "Inga fil vald"
         },
@@ -2271,7 +2320,7 @@
             "editInterventionHours": "Redigera indsatstimer",
             "filter": {
                 "allTypes": "Alla typer",
-                "citizens": "Klienter",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "departments": "Avdelningar",
                 "employees": "Anställda",
                 "filterDate": "Filtrera datum",
@@ -2300,7 +2349,7 @@
                 "alert": {
                     "interventionHoursSuccessfullyDeleted": "Indsatstimer raderad"
                 },
-                "citizen": "Klient",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "confirmation": {
                     "deleteInterventionHoursConfirmation": "Är du säker på att du vill radera dessa indsatstimer"
                 },
@@ -2323,7 +2372,7 @@
                 "weeklyAllocation": "Veckovis tilldelning"
             },
             "view": {
-                "citizen": "Klient",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "createdBy": "Skapad av",
                 "dateTimeEnd": "Datum och tid slut",
                 "dateTimeStart": "Datum och tid start",
@@ -2418,17 +2467,17 @@
                 "otherInformationLabel": "Är där andra viktiga detaljer att fremhäve",
                 "packageLeafletLink": "Länk till indlägsseddel",
                 "pnMedicine": "PN-medicin",
-                "scheduleFrequency": "Var tit ska klient have medicinen",
-                "scheduleUntil": "Tills när ska klient have medicinen",
+                "scheduleFrequency": "Var tit ska @:terms.citizen{''} have medicinen",
+                "scheduleUntil": "Tills när ska @:terms.citizen{''} have medicinen",
                 "selfAdminister": "Selvadministrerende medicin",
                 "startDate": "Datum för ordinering",
                 "strength": "Styrka",
                 "time": "Tid",
                 "treatmentReason": "Behandlingsårsag",
-                "treatmentReasonPlaceholder": "Vad är årsagen till, att klienten får denna medicin",
+                "treatmentReasonPlaceholder": "Vad är årsagen till, att @:terms.citizenDefinite{''} får denna medicin",
                 "unit": "Enhet",
                 "advancedSchedule": "Avanceret skemaindstilling",
-                "advancedScheduleDesc": "Använd dessa inställningar om klienten ska have medicinen i bestemte perioder eller på specifika enkeltdage - ut över den fasta hyppighed ovenfor.",
+                "advancedScheduleDesc": "Använd dessa inställningar om @:terms.citizenDefinite{''} ska have medicinen i bestemte perioder eller på specifika enkeltdage - ut över den fasta hyppighed ovenfor.",
                 "treatmentPeriods": "Behandlingsperioder",
                 "treatmentPeriodsDesc": "Angiv perioder var medicinen aktivt ska gives - fx behandling i vecka 1-3, paus i vecka 4, behandling i vecka 5-6.",
                 "addPeriod": "+ Lägg till period",
@@ -2436,7 +2485,7 @@
                 "to": "till",
                 "noPeriodsAdded": "Inga perioder tillagd - medicinen fölger hyppighedsindstillingen hele vejen",
                 "extraIndividualDates": "Extra individuelle dagar",
-                "extraIndividualDatesDesc": "Lägg till specifika enkeltdage var klienten ska have medicinen - selvom det inte passer med den fasta hyppighed. Klicka på en datum i kalendern för att lägga till den.",
+                "extraIndividualDatesDesc": "Lägg till specifika enkeltdage var @:terms.citizenDefinite{''} ska have medicinen - selvom det inte passer med den fasta hyppighed. Klicka på en datum i kalendern för att lägga till den.",
                 "noExtraDaysSelected": "Inga extra dagar vald",
                 "weeklyRotation": {
                     "label": "Veckorotation",
@@ -2473,8 +2522,8 @@
                     "dose": "Dos",
                     "evaluationFrequency": "När vill du evaluere",
                     "evaluator": "Evaluator",
-                    "maximumDosePerAdministrationForThisCitizenIs": "Maksimal dos pr. administration för denna klient är {n} för detta PN-präparat.",
-                    "noMedicineToday": "Grunden till, att du inte ser någon mulighed för att udlevere medicin, är, att klienten inte ska have medicin idag",
+                    "maximumDosePerAdministrationForThisCitizenIs": "Maksimal dos pr. administration för denna @:terms.citizen{''} är {n} för detta PN-präparat.",
+                    "noMedicineToday": "Grunden till, att du inte ser någon mulighed för att udlevere medicin, är, att @:terms.citizenDefinite{''} inte ska have medicin idag",
                     "time": "Tid",
                     "type": {
                         "delivered": "Udleveret",
@@ -2602,9 +2651,9 @@
                 "editEffectEvaluation": "Redigera effektevaluering",
                 "registerEffectEvaluation": "Registrér effektevaluering",
                 "scheduledAt": "Planlagt kl.",
-                "describeReaction": "Beskriv klientens reaktion och effekt av medicinen sedan den blev given",
+                "describeReaction": "Beskriv @:terms.citizenDefinite{'s'} reaktion och effekt av medicinen sedan den blev given",
                 "observation": "Observation",
-                "evaluationPlaceholder": "Fx: Bra smertelindring efter 45 min. Klient angiver smerteniveau 3/10 mod tidigare 8/10...",
+                "evaluationPlaceholder": "Fx: Bra smertelindring efter 45 min. @.capitalize:terms.citizen{''} angiver smerteniveau 3/10 mod tidigare 8/10...",
                 "saving": "Sparar...",
                 "saveEvaluation": "Spara utvärdering",
                 "evaluationRegistered": "Effektevalueringen är registrerad",
@@ -2659,7 +2708,7 @@
                 "clearFilter": "Ryd filter",
                 "today": "Idag",
                 "newPackageOpening": "Nytt anbrud",
-                "noActiveMedicines": "Inga aktiva mediciner på denna klient",
+                "noActiveMedicines": "Inga aktiva mediciner på denna @:terms.citizen{''}",
                 "addMedicine": "Lägg till medicin",
                 "medicinesSelected": "{n} medicin vald",
                 "selectAll": "Välj alla",
@@ -2847,7 +2896,7 @@
                     },
                     "chooseFromOurContactPerson": "Välj från kontaktperson",
                     "date": "Datum",
-                    "illnessAndFunctionalImpairment1": "Vad är sygdommen och de funktionelle nedsättningar klienten har?",
+                    "illnessAndFunctionalImpairment1": "Vad är sygdommen och de funktionelle nedsättningar @:terms.citizenDefinite{''} har?",
                     "whoIsTheResponsibleHealthcareProvider": "Vem är den ansvariga sundhedsudbyder?"
                 },
                 "illnessAndFunctionalImpairment": "Sjukdom och funktionelle nedsättningar",
@@ -3108,7 +3157,8 @@
             "surveys": "Enkäter",
             "toothChart": "Tandkarta",
             "priceEstimates": "Prisuppskattningar",
-            "invoices": "Fakturor"
+            "invoices": "Fakturor",
+            "patientForms": "Formulär till patienten"
         },
         "timeline": {
             "newEvent": "Ny händelse",
@@ -3435,12 +3485,12 @@
             "useOfForce": "Tvångsåtgärd"
         },
         "viewLocations": {
-            "citizensWithLocations": "klienter med placeringer",
+            "citizensWithLocations": "@:terms.citizens{''} med placeringer",
             "distance": "Avstånd",
             "instructions": "Blå streger forbinder din nuvarande placering med varje borgers adress. Klicka på markörer för att se detaljer.",
             "loading": "Laddar placeringer",
             "locatingAddress": "Finder din placering",
-            "noCitizensWithLocations": "Inga klienter har placeringsdata tillgängliga",
+            "noCitizensWithLocations": "Inga @:terms.citizens{''} har placeringsdata tillgängliga",
             "title": "Visa placeringer",
             "viewLocations": "Visa placeringer",
             "yourLocation": "Din placering"
@@ -3658,7 +3708,16 @@
                 "setCheckup": "Ange kontrolldatum",
                 "everyMonths": "Var {months}:e månad",
                 "checkupSaved": "Kontrollen är uppdaterad",
-                "checkupHelp": "Nästa kontroll räknas från senaste kontrollen plus intervallet."
+                "checkupHelp": "Nästa kontroll räknas från senaste kontrollen plus intervallet.",
+                "lastRecalled": "Senast kallad",
+                "neverRecalled": "Aldrig kallad",
+                "recallNow": "Kalla",
+                "recalled": "Kallelsen är registrerad",
+                "bookTime": "Boka tid",
+                "manualRecallDate": "Kalla till",
+                "manualRecallReason": "Orsak",
+                "manualRecallReasonPlaceholder": "T.ex. följer fyllningen i 5-6",
+                "manualRecallHelp": "Sätt ett datum här för att kalla patienten före nästa rutinkontroll. Orsaken visas bara för kliniken. Den upphör av sig själv när patienten är sedd."
             },
             "history": {
                 "label": "Visa en tidigare undersökning:",
@@ -3707,11 +3766,31 @@
                 "noTooth": "Ingen tand",
                 "note": "Anmärkningar",
                 "notePlaceholder": "Till exempel vad priset förutsätter",
-                "needsALine": "Lägg till minst en behandling"
+                "needsALine": "Lägg till minst en behandling",
+                "service": "Tjänst",
+                "ownLine": "Egen rad"
             },
             "plan": "Plan",
             "markDone": "Markera utförd",
-            "done": "Utförd"
+            "done": "Utförd",
+            "invoiced": "Fakturerad",
+            "leftToSettle": "Att reglera",
+            "settleNow": "Reglera nu",
+            "createInvoice": "Skapa faktura",
+            "settleTitle": "Reglera behandling",
+            "settleExplanation": "Skapar fakturan för de utförda raderna och registrerar betalningen direkt. Använd den när patienten betalar i kliniken.",
+            "paymentMethod": "Betalsätt",
+            "settled": "Reglerad",
+            "invoiceCreated": "Faktura skapad",
+            "methods": {
+                "card": "Kort",
+                "terminal": "Terminal",
+                "mobilepay": "MobilePay",
+                "cash": "Kontant"
+            },
+            "nextStepMarkDone": "Markera behandlingarna som utförda, så kan de faktureras härifrån.",
+            "nextStepSettle": "Behandlingen är utförd och klar att regleras.",
+            "nextStepInvoiced": "Allt på det här prisförslaget är fakturerat. Se fakturan under"
         },
         "invoices": {
             "newTitle": "Skapa faktura",
@@ -3788,6 +3867,11 @@
             },
             "paymentLink": "Betalningslänk",
             "paymentLinkCopied": "Betalningslänken är kopierad"
+        },
+        "plansAndGoals": {
+            "report": {
+                "citizenName": "@.capitalize:terms.citizenDefinite{'s'} namn"
+            }
         }
     },
     "client": {
@@ -3913,7 +3997,7 @@
                 "delete": "Radera",
                 "edit": "Redigera"
             },
-            "citizens": "Klienter",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "dutySchedules": "Tjänsteskeman",
             "nameDanish": "Namn (svenska)",
             "nameEnglish": "Namn (engelska)",
@@ -3939,7 +4023,12 @@
             "name": "Namn",
             "shiftTypes": "Passtyper",
             "minimumStaffCount": "Minsta bemanning",
-            "minimumStaffCountHint": "Minsta antal medarbetare som krävs för att täcka denna avdelning en given dag. Lämna tomt för att inaktivera bemanningsvarningen."
+            "minimumStaffCountHint": "Minsta antal medarbetare som krävs för att täcka denna avdelning en given dag. Lämna tomt för att inaktivera bemanningsvarningen.",
+            "street": "Gatunamn och nr.",
+            "postCode": "Postnummer",
+            "city": "Ort",
+            "phone": "Telefon",
+            "clinicAddressHint": "Visas för patienterna i patientportalen som klinikens adress och kontaktnummer."
         },
         "newDepartment": "Ny avdelning",
         "table": {
@@ -4477,7 +4566,7 @@
         },
         "findEmployee": "Hitta anställd",
         "form": {
-            "citizens": "Klienter",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "compensatoryTimeOff": "Afspadsering",
             "createMultipleSchedules": "Skapa fler pass",
             "date": "Datum",
@@ -4579,6 +4668,55 @@
                     "sickLeave": "Sjukfrånvaro",
                     "type": "Typ",
                     "vacationLeave": "Feriefravär"
+                }
+            }
+        },
+        "compensatoryTimeRequests": {
+            "alert": {
+                "requestSuccessfullySent": "Begäran om kompensationsledighet har skickats"
+            },
+            "compensatoryTimeRequests": "Begäran om kompensationsledighet",
+            "hours": "Timmar",
+            "newRequest": "Begär kompensationsledighet",
+            "noAccount": "Du har inget konto för kompensationsledighet.",
+            "selectAccount": "Välj ett konto för kompensationsledighet.",
+            "sendRequest": "Skicka förfrågan",
+            "shift": "Pass",
+            "timeAccount": "Tidskonto",
+            "table": {
+                "actions": {
+                    "approve": "Godkänn",
+                    "decline": "Avslå",
+                    "reverse": "Återställ",
+                    "withdraw": "Dra tillbaka"
+                },
+                "alert": {
+                    "successfullyApproved": "Begäran om kompensationsledighet har godkänts",
+                    "successfullyDeclined": "Begäran om kompensationsledighet har avslagits",
+                    "successfullyReversed": "Begäran om kompensationsledighet har återställts",
+                    "successfullyWithdrawn": "Begäran om kompensationsledighet har dragits tillbaka"
+                },
+                "confirmation": {
+                    "approveConfirmation": "Är du säker på att du vill godkänna denna begäran om kompensationsledighet?",
+                    "declineComment": "Kommentar (valfri)",
+                    "declineCommentPlaceholder": "Lägg till en motivering som medarbetaren kan se",
+                    "declineConfirmation": "Är du säker på att du vill avslå denna begäran om kompensationsledighet?",
+                    "reverseComment": "Kommentar (valfri)",
+                    "reverseCommentPlaceholder": "Lägg till en motivering som medarbetaren kan se",
+                    "reverseConfirmation": "Är du säker på att du vill återställa denna godkända begäran om kompensationsledighet?",
+                    "withdrawConfirmation": "Är du säker på att du vill dra tillbaka denna begäran om kompensationsledighet?"
+                },
+                "dateTimeEnd": "Slutdatum och -tid",
+                "dateTimeStart": "Startdatum och -tid",
+                "declineComment": "Kommentar",
+                "hours": "Timmar",
+                "status": {
+                    "approved": "Godkänd",
+                    "declined": "Avslagen",
+                    "pending": "Väntar",
+                    "reversed": "Återställd",
+                    "status": "Status",
+                    "withdrawn": "Tillbakadragen"
                 }
             }
         },
@@ -4981,7 +5119,7 @@
         "typeOfShifts": "Passtyper",
         "viewCalendar": "Se kalender",
         "viewSchedule": {
-            "citizens": "Klienter",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Datum och tid slut",
             "datetimeStart": "Datum och tid start",
             "departments": "Avdelningar",
@@ -5100,7 +5238,7 @@
                         "deactivate": "Deaktiver",
                         "delete": "Radera",
                         "edit": "Redigera",
-                        "impersonate": "Logga in som klient"
+                        "impersonate": "Logga in som @:terms.citizen{''}"
                     },
                     "email": "E-post",
                     "name": "Namn",
@@ -5176,7 +5314,7 @@
             "companies": {
                 "companies": "Företag",
                 "company": "Företag",
-                "createFirstClient": "Skapa din första klient",
+                "createFirstClient": "Skapa din första @:terms.citizen{''}",
                 "export": "Exportera",
                 "import": "Importera",
                 "noCompaniesFound": "Inga företag hittades",
@@ -5189,7 +5327,7 @@
                     "newestFirst": "Nyaste först",
                     "oldestFirst": "Äldsta först"
                 },
-                "totalClients": "{count} klienter totalt",
+                "totalClients": "{count} @:terms.citizens{''} totalt",
                 "companyApps": {
                     "alert": {
                         "appSuccessfullyActivated": "App aktiverad",
@@ -5315,7 +5453,7 @@
                         "perfectForLargerCompanies": "Perfekt till större företag",
                         "storageSpace": "lagerplads",
                         "telephoneSupport": "Support via telefon, chatt och e-post",
-                        "unlimitedNumberOfCitizens": "Ubegränset antal klienter",
+                        "unlimitedNumberOfCitizens": "Ubegränset antal @:terms.citizens{''}",
                         "user": "Användare",
                         "users": "Användare",
                         "year": "År",
@@ -5427,7 +5565,7 @@
                 "activeCompanies": "Aktiva företag",
                 "activeLicenses": "Aktiva licenser",
                 "activeSubscribers": "Aktiva prenumeranter",
-                "clients": "Klienter",
+                "clients": "@.capitalize:terms.citizens{''}",
                 "dashboard": "Dashboard",
                 "exclVat": "Exkl. moms",
                 "inactive": "Inaktiv",
@@ -6101,14 +6239,14 @@
     "employeeGroups": {
         "citizens": {
             "alert": {
-                "citizenSuccessfullyAssigned": "Klient tilldelad",
-                "citizenSuccessfullyUnassigned": "Klient borttagen"
+                "citizenSuccessfullyAssigned": "@.capitalize:terms.citizen{''} tilldelad",
+                "citizenSuccessfullyUnassigned": "@.capitalize:terms.citizen{''} borttagen"
             },
-            "assignCitizen": "Tilldela klient",
-            "assignedCitizens": "Tilldelade klienter",
-            "citizens": "Klienter",
+            "assignCitizen": "Tilldela @:terms.citizen{''}",
+            "assignedCitizens": "Tilldelade @:terms.citizens{''}",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "confirmation": {
-                "unassignConfirmation": "Är du säker på att du vill ta bort denna klient"
+                "unassignConfirmation": "Är du säker på att du vill ta bort denna @:terms.citizen{''}"
             },
             "table": {
                 "actions": {
@@ -6133,7 +6271,7 @@
         "newEmployeeGroup": "Ny anställdgrupp",
         "table": {
             "actions": {
-                "citizens": "Klienter",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "delete": "Radera",
                 "edit": "Redigera"
             },
@@ -6155,18 +6293,18 @@
         "archivedEmployees": "Arkiverade anställda",
         "citizens": {
             "assign": "Tilldela",
-            "assignCitizens": "Tilldela klienter",
-            "assignedCitizens": "Tilldelade klienter",
-            "citizens": "Klienter",
+            "assignCitizens": "Tilldela @:terms.citizens{''}",
+            "assignedCitizens": "Tilldelade @:terms.citizens{''}",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "table": {
                 "actions": {
                     "delete": "Radera"
                 },
                 "alert": {
-                    "citizenSuccessfullyDeleted": "Klient raderad"
+                    "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} raderad"
                 },
                 "confirmation": {
-                    "deleteCitizenConfirmation": "Är du säker på att du vill radera denna klient"
+                    "deleteCitizenConfirmation": "Är du säker på att du vill radera denna @:terms.citizen{''}"
                 },
                 "firstname": "Förnamn",
                 "lastname": "Efternamn"
@@ -6257,13 +6395,14 @@
                 "hoursPerYear": "Timmar per år",
                 "hourlyRate": "Timlön",
                 "jobSpecialty": "Jobspecialitet",
-                "jobTitle": "Jobbtitel",
+                "jobTitle": "Jobbtitlar",
                 "salaryID": "Lön-ID",
                 "terminationDate": "Opsigelsesdato",
                 "vacationDays": "Feriedage",
                 "weeklyNormHours": "Ugentlige normtimer",
                 "weeks": "Veckor",
-                "workingHours": "Arbejdstimer"
+                "workingHours": "Arbejdstimer",
+                "annualNormHoursNotUsed": "Ska inte användas"
             },
             "firstname": "Förnamn",
             "header": {
@@ -6398,7 +6537,7 @@
             "journalSuccessfullyCreated": "Journalanteckning har skapats"
         },
         "calendar": "Kalender",
-        "citizens": "Klienter",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Visa pass",
         "shiftLabel": "Pass",
         "confirmation": {
@@ -6413,7 +6552,7 @@
         "eventOwner": "Begivenhedsejer",
         "form": {
             "applyChangesToFutureEvents": "Använd ändringar på fremtidige händelser",
-            "citizens": "Klienter",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Slut datum och tid",
             "datetimeStart": "Start datum och tid",
             "description": "Beskrivning",
@@ -6527,7 +6666,7 @@
             },
             "amount": "Belopp",
             "category": "Kategori",
-            "citizen": "Klient",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "clickToUpload": "Klicka för att ladda upp",
             "date": "Datum",
             "description": "Beskrivning",
@@ -6624,7 +6763,8 @@
         "empty": "Inga resultat",
         "actions": "Åtgärder",
         "navigate": "Gå till",
-        "citizen": "Medborgare"
+        "citizen": "@.capitalize:terms.citizen{''}",
+        "settings": "Inställningar"
     },
     "shortcuts": {
         "title": "Tangentbordsgenvägar",
@@ -6900,7 +7040,7 @@
         },
         "medicineSubtitle": "Konfigurera vilka fält som är synliga i medicinens skapa- och redigeringsformulär.",
         "medicineTitle": "Formulärfältkonfiguration för medicin",
-        "subtitle": "Konfigurera hvilke fält där är synliga i klientens oprettelses- och redigeringsformularer.",
+        "subtitle": "Konfigurera hvilke fält där är synliga i @:terms.citizenDefinite{'s'} oprettelses- och redigeringsformularer.",
         "title": "Formularfeltkonfiguration"
     },
     "forms": {
@@ -7174,7 +7314,7 @@
         "attendance": "Närvaro",
         "bookings": "Bokningar",
         "calendar": "Kalender",
-        "citizens": "Klienter",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "companies": "Företag",
         "contacts": "Kontakter",
         "documents": "Dokument",
@@ -7187,7 +7327,7 @@
         "medicines": "Medicin",
         "noResults": "Inga resultat hittad",
         "pages": "Sidor",
-        "placeholder": "Söge på klienter, journaler, medicin och mer...",
+        "placeholder": "Söge på @:terms.citizens{''}, journaler, medicin och mer...",
         "plans": "Planer & Mål",
         "recent": "Seneste sögninger",
         "searching": "Söger...",
@@ -7245,21 +7385,21 @@
                 "inquiryConversionFailed": "Förfrågan kunde inte konverteras"
             },
             "conversationSummary": "Samtalesammenfatning",
-            "cpr": "Klientens Personnummer",
+            "cpr": "@.capitalize:terms.citizenDefinite{'s'} Personnummer",
             "crisisCenter": {
                 "fields": {
-                    "assessment": "Bedömer du, att klienten är innan för målgruppen av §109?",
+                    "assessment": "Bedömer du, att @:terms.citizenDefinite{''} är innan för målgruppen av §109?",
                     "contactedBy": "Vem henvender sig till krisecentret?",
-                    "guidance": "Krisecenteret vejleder/anviser klienten till:",
-                    "notOfferedInterview": "Varför tilbydes klienten inte en visitationssamtale?",
-                    "receivedVisit": "Får klienten en visitationssamtale/midlertidig indlogering?",
+                    "guidance": "Krisecenteret vejleder/anviser @:terms.citizenDefinite{''} till:",
+                    "notOfferedInterview": "Varför tilbydes @:terms.citizenDefinite{''} inte en visitationssamtale?",
+                    "receivedVisit": "Får @:terms.citizenDefinite{''} en visitationssamtale/midlertidig indlogering?",
                     "topic": "Vad handler henvendelsen om?"
                 }
             },
             "dateOfInquiry": "Datum för förfrågningar",
-            "firstname": "Klientens förnamn",
+            "firstname": "@.capitalize:terms.citizenDefinite{'s'} förnamn",
             "inquirerName": "Namn på spörger",
-            "lastname": "Klientens efternamn",
+            "lastname": "@.capitalize:terms.citizenDefinite{'s'} efternamn",
             "notes": "Egna anteckningar",
             "options": {
                 "assessment": {
@@ -7274,40 +7414,40 @@
                     "municipalEmployee": "Anställd i kommunen",
                     "other": "Andra",
                     "police": "Politiet/kriminalforsorgen",
-                    "theCitizenThemselves": "Klienten själv"
+                    "theCitizenThemselves": "@.capitalize:terms.citizenDefinite{''} själv"
                 },
                 "cprMissingReason": {
-                    "citizenDoesNotHaveCprNumber": "Klienten har inte ett Personnummer",
-                    "shelterDoesntHaveNumber": "Herberget eller forsorgshjemmet mv. har inte kendskab till klientens Personnummer"
+                    "citizenDoesNotHaveCprNumber": "@.capitalize:terms.citizenDefinite{''} har inte ett Personnummer",
+                    "shelterDoesntHaveNumber": "Herberget eller forsorgshjemmet mv. har inte kendskab till @:terms.citizenDefinite{'s'} Personnummer"
                 },
                 "inquiryType": {
                     "crisisCenter": "Krishem",
                     "shelter": "Herberger och forsorgshjem"
                 },
                 "nonAdmissionReason": {
-                    "citizenDeclinedOffer": "Klienten takkede själv nej till tilbuddet",
-                    "expelledDueToViolentBehavior": "Klienten är bortvist för voldelig opförsel eller lignende",
-                    "other": "Klienten är av andra orsaker inte blivit indskrevet på tilbuddet"
+                    "citizenDeclinedOffer": "@.capitalize:terms.citizenDefinite{''} takkede själv nej till tilbuddet",
+                    "expelledDueToViolentBehavior": "@.capitalize:terms.citizenDefinite{''} är bortvist för voldelig opförsel eller lignende",
+                    "other": "@.capitalize:terms.citizenDefinite{''} är av andra orsaker inte blivit indskrevet på tilbuddet"
                 },
                 "notInServiceTargetGroupReason": {
-                    "activeSubstanceAbuseProblem": "Klienten har eller har haft ett aktivt missbruk",
-                    "childrenAccompany": "Klienten har barn, där medfölger",
-                    "exposeToViolence": "Klienten är voldsudsat eller udsat för trusler om vold från en när relation",
-                    "inactiveSubstanceAbuseProblem": "Klienten har inte ett aktivt missbruk",
-                    "mentalDifficulties": "Klienten har psykiske vanskeligheder",
-                    "mentalFunctionalImpairment": "Klienten har en psykisk funktionsnedsättning i formulär av intellektuel/kognitiv forstyrrelse",
-                    "notWithinAgeFramework": "Klienten är inte innan för tilbuddets ramme för ålder",
-                    "notWithinGenderFramework": "Klienten är inte innan för tilbuddets ramme för kön",
-                    "notWithinServiceTargetGroup": "Klienten är av andra orsaker inte innan för tilbuddets målgruppe eller ramme",
-                    "petsAccompany": "Klienten har husdyr, där medfölger",
-                    "physicalFunctionalImpairment": "Klienten har en fysisk funktionsnedsättning",
-                    "unexposeToViolence": "Klienten är inte voldsudsat eller udsat för trusler om vold från en i när relation"
+                    "activeSubstanceAbuseProblem": "@.capitalize:terms.citizenDefinite{''} har eller har haft ett aktivt missbruk",
+                    "childrenAccompany": "@.capitalize:terms.citizenDefinite{''} har barn, där medfölger",
+                    "exposeToViolence": "@.capitalize:terms.citizenDefinite{''} är voldsudsat eller udsat för trusler om vold från en när relation",
+                    "inactiveSubstanceAbuseProblem": "@.capitalize:terms.citizenDefinite{''} har inte ett aktivt missbruk",
+                    "mentalDifficulties": "@.capitalize:terms.citizenDefinite{''} har psykiske vanskeligheder",
+                    "mentalFunctionalImpairment": "@.capitalize:terms.citizenDefinite{''} har en psykisk funktionsnedsättning i formulär av intellektuel/kognitiv forstyrrelse",
+                    "notWithinAgeFramework": "@.capitalize:terms.citizenDefinite{''} är inte innan för tilbuddets ramme för ålder",
+                    "notWithinGenderFramework": "@.capitalize:terms.citizenDefinite{''} är inte innan för tilbuddets ramme för kön",
+                    "notWithinServiceTargetGroup": "@.capitalize:terms.citizenDefinite{''} är av andra orsaker inte innan för tilbuddets målgruppe eller ramme",
+                    "petsAccompany": "@.capitalize:terms.citizenDefinite{''} har husdyr, där medfölger",
+                    "physicalFunctionalImpairment": "@.capitalize:terms.citizenDefinite{''} har en fysisk funktionsnedsättning",
+                    "unexposeToViolence": "@.capitalize:terms.citizenDefinite{''} är inte voldsudsat eller udsat för trusler om vold från en i när relation"
                 },
                 "referralDestination": {
                     "boardingHouseHostel": "Pensionat/vandrehjem",
                     "nightCafeWarmingCenter": "Natcafé/varmestue",
                     "other": "Annat",
-                    "selfSolution": "Selvlösning: Klienten takker nej till hjälp om remiss",
+                    "selfSolution": "Selvlösning: @.capitalize:terms.citizenDefinite{''} takker nej till hjälp om remiss",
                     "shelterUnusedVacancyOverview": "Herberget eller forsorgshjem mv. efter § 110 i lov om social tjänst, var pladsoversigten inte är använd",
                     "shelterViaVacancyOverview": "Herberget eller forsorgshjem mv. efter § 110 i lov om social tjänst, som är hittad på pladsoversigten",
                     "womensCrisisCenter": "Kvindekrisecenter efter § 109 i lov om social tjänst"
@@ -7322,11 +7462,11 @@
             "shelter": {
                 "fields": {
                     "cprMissingReason": "Inget Personnummer? Välj motivering:",
-                    "fitsInTargetGroup": "Passer klienten till tilbuddets målgruppe?",
-                    "inShelterTargetGroup": "Är klienten i målgruppen för § 110?",
-                    "nonAdmissionReason": "Varför fik klienten inte en plats?",
-                    "notInServiceTargetGroupReason": "Varför passer klienten inte till tilbuddets målgruppe eller rammer?",
-                    "referralDestination": "Var henvises klienten till i stedet?",
+                    "fitsInTargetGroup": "Passer @:terms.citizenDefinite{''} till tilbuddets målgruppe?",
+                    "inShelterTargetGroup": "Är @:terms.citizenDefinite{''} i målgruppen för § 110?",
+                    "nonAdmissionReason": "Varför fik @:terms.citizenDefinite{''} inte en plats?",
+                    "notInServiceTargetGroupReason": "Varför passer @:terms.citizenDefinite{''} inte till tilbuddets målgruppe eller rammer?",
+                    "referralDestination": "Var henvises @:terms.citizenDefinite{''} till i stedet?",
                     "vacantPlaceAvailable": "Är där ledig plats på herberget eller forsorgshjemmet mv.?"
                 }
             },
@@ -7351,7 +7491,7 @@
                 "participantSuccessfullyConvertedAsCitizen": "Deltagare blev statsborger"
             },
             "confirmation": {
-                "convertAsCitizenConfirmation": "Är du säker på att du vill konvertere denna deltagare till klient",
+                "convertAsCitizenConfirmation": "Är du säker på att du vill konvertere denna deltagare till @:terms.citizen{''}",
                 "deleteInquiryConfirmation": "Är du säker på att du vill radera denna förfrågningar?"
             },
             "conversationSummary": "Samtalesammenfatning",
@@ -7536,8 +7676,10 @@
         "navLabel": "Redigera journalformulär",
         "riskAssessmentDescription": "När den är avstängd döljs riskbedömningssektionen (bedömningsnivå, anteckning, taggar och mållänkning) i journalens skapa- och redigeringsformulär för alla användare.",
         "riskAssessmentToggle": "Visa riskbedömningssektion i journalformulär",
-        "subtitle": "Konfigurera om riskbedömningssektionen är synlig i medborgarens journal skapa- och redigeringsformulär.",
-        "title": "Journalformulärets konfiguration"
+        "subtitle": "Konfigurera vilka fält som är synliga i medborgarens journalformulär för att skapa och redigera.",
+        "title": "Journalformulärets konfiguration",
+        "scoreToggle": "Visa \"Nuvarande nivå\" i journalformuläret",
+        "scoreDescription": "När den är avstängd visas inte fältet \"Nuvarande nivå\" i journalens skapa- och redigeringsformulär. Fältet är tomt från början, så en nivå står där bara om någon har valt den."
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -7760,13 +7902,13 @@
         "download": "Ladda ner",
         "downloadFile": {
             "alert": {
-                "fileSuccessfullyDownloadedToCitizensFolder": "Filen är blivit nedladdat till klientens mapp",
+                "fileSuccessfullyDownloadedToCitizensFolder": "Filen är blivit nedladdat till @:terms.citizenDefinite{'s'} mapp",
                 "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen är blivit nedladdat till organisationens mapp"
             },
-            "citizen": "Klient",
-            "citizenFolder": "Klient mapp",
+            "citizen": "@.capitalize:terms.citizen{''}",
+            "citizenFolder": "@.capitalize:terms.citizen{''} mapp",
             "downloadFile": "Ladda ner fil",
-            "downloadFileToCitizensFolder": "Ladda ner fil till klientens mapp",
+            "downloadFileToCitizensFolder": "Ladda ner fil till @:terms.citizenDefinite{'s'} mapp",
             "downloadFileToMyComputer": "Ladda ner fil till min computer",
             "downloadFileToOrganizationsFolder": "Ladda ner fil till organisationens mapp",
             "organizationFolder": "Organisationsmappe"
@@ -7779,11 +7921,11 @@
                 "enteredCodeMismatched": "Indtastet kod röster inte overens"
             },
             "attachFiles": {
-                "attachFileFromCitizensFolder": "Bifoga fil från klientens mapp",
+                "attachFileFromCitizensFolder": "Bifoga fil från @:terms.citizenDefinite{'s'} mapp",
                 "attachFileFromComputer": "Bifoga fil från computeren",
                 "attachFileFromOrganizationsFolder": "Bifoga fil från organisationens mapp",
                 "attachFiles": "Bifoga filer",
-                "citizen": "Klient",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "citizenFiles": "Borgerfiler",
                 "organizationFiles": "Organisationsfiler"
             },
@@ -7820,9 +7962,11 @@
                 "alert": {
                     "securedMailSuccessfullySent": "Säker e-post skickad"
                 },
+                "attachFile": "Bifoga fil",
                 "message": "Meddelande",
                 "password": "Lösenord",
                 "readMessage": "Läs meddelande",
+                "removeFile": "Ta bort fil",
                 "send": "Skicka"
             },
             "from": "Från",
@@ -8261,8 +8405,8 @@
         "subscription": "Prenumeration",
         "switchLanguage": "Byt språk",
         "helpAndNews": "Hjälp och nytt",
-        "impersonating": "Inloggad som klient",
-        "stopImpersonation": "Logga ut som klient",
+        "impersonating": "Inloggad som @:terms.citizen{''}",
+        "stopImpersonation": "Logga ut som @:terms.citizen{''}",
         "surveys": "Enkäter"
     },
     "news": {
@@ -8380,7 +8524,7 @@
         "bulletBoardAttachments": "Anslagstavla bifogade filer",
         "calendar": "Kalender",
         "campaign": "Kampanj",
-        "citizens": "Klienter",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "citizensAddictions": "Borgers stofmisbrug",
         "citizensAdmissionAndDischarged": {
             "citizensAdmissionAndDischarged": "Borgernes inskrivning och utskrivning",
@@ -8388,7 +8532,7 @@
             "dateDischarged": "Udskrivningsdato"
         },
         "citizensDiagnoses": "Borgernes diagnoser",
-        "citizensEvents": "Klienters händelser",
+        "citizensEvents": "@.capitalize:terms.citizens{'s'} händelser",
         "briefing": {
             "morning": "God morgon, {name}",
             "afternoon": "God eftermiddag, {name}",
@@ -8425,7 +8569,7 @@
                 "citizensAddictions": "Borgers stofmisbrug",
                 "citizensAdmissionAndDischarged": "Borgernes inskrivning och utskrivning",
                 "citizensDiagnoses": "Borgernes diagnoser",
-                "citizensEvents": "Klienters händelser",
+                "citizensEvents": "@.capitalize:terms.citizens{'s'} händelser",
                 "citizensFollowUpReminders": "Opfölgningspåmindelser",
                 "citizensOrigin": "Borgernes ursprung",
                 "gender": "Kön",
@@ -8537,7 +8681,7 @@
             "form": {
                 "addNewJournalTitle": "Lägg till ny journaltitel",
                 "attachFile": "Bifoga fil",
-                "citizen": "Klient",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Datum",
                 "draft": "Utkast",
                 "enterJournalTitleManually": "Ange journaltitel manuelt",
@@ -8565,10 +8709,10 @@
         },
         "scheduleSlots": "Udbyd pass",
         "stats": {
-            "acrossCitizens": "På tvärs av {n} klienter",
+            "acrossCitizens": "På tvärs av {n} @:terms.citizens{''}",
             "activeTreatments": "Aktiva behandlingar",
             "administered": "given",
-            "citizensOnShift": "Klienter på pass",
+            "citizensOnShift": "@.capitalize:terms.citizens{''} på pass",
             "completed": "avslutad",
             "deviated": "Avvikelse",
             "journalEntries": "Journalnoter",
@@ -8981,7 +9125,7 @@
                 "newProtocolSuccessfullySaved": "Ny protokoll sparad",
                 "protocolSuccessfullyUpdated": "Protokoll uppdaterad"
             },
-            "citizens": "Klienter",
+            "citizens": "@.capitalize:terms.citizens{''}",
             "endDate": "Slutdatum",
             "every": "Var",
             "excludeWeekends": "Udelad weekender",
@@ -9010,16 +9154,16 @@
                 "delete": "Radera",
                 "download": "Ladda ner",
                 "edit": "Redigera",
-                "markCitizenAsAbent": "Markera klient som frånvarande",
-                "markCitizenAsAttended": "Markera klient som närvarande",
-                "removeCitizenForThisDate": "Ta bort klient för denna datum",
+                "markCitizenAsAbent": "Markera @:terms.citizen{''} som frånvarande",
+                "markCitizenAsAttended": "Markera @:terms.citizen{''} som närvarande",
+                "removeCitizenForThisDate": "Ta bort @:terms.citizen{''} för denna datum",
                 "view": "Se"
             },
             "alert": {
                 "protocolSuccessfullyDeleted": "Protokollen är raderad"
             },
             "citizens": {
-                "citizen": "Klient",
+                "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Datum",
                 "status": "Status"
             },
@@ -9092,7 +9236,7 @@
             "body": "Innehåll",
             "bodyTemplateHint": "Lämna tomt för att fylla i automatiskt från den valda mallen",
             "caseworker": "Handläggare",
-            "citizen": "Klient",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "consultant": "Konsult",
             "template": "Mall",
             "title": "Titel"
@@ -9384,46 +9528,46 @@
         },
         "newRole": "Ny roll",
         "permissions": {
-            "createCitizen": "Skapa klient",
+            "createCitizen": "Skapa @:terms.citizen{''}",
             "createCitizenCalendar": "Skapa borgerkalender",
-            "createCitizenChildren": "Skapa klientbarn",
-            "createCitizenContact": "Skapa klientkontakt",
+            "createCitizenChildren": "Skapa @:terms.citizen{'barn'}",
+            "createCitizenContact": "Skapa @:terms.citizen{'kontakt'}",
             "createCitizenDocument": "Skapa borgerdokument",
-            "createCitizenEconomy": "Skapa klientekonomi",
+            "createCitizenEconomy": "Skapa @:terms.citizen{'ekonomi'}",
             "createCitizenHealth": "Skapa borgersundhed",
-            "createCitizenJournal": "Skapa klientjournal",
-            "createCitizenMedicine": "Skapa klientmedicin",
-            "createCitizenPlan": "Skapa klientplan",
+            "createCitizenJournal": "Skapa @:terms.citizen{'journal'}",
+            "createCitizenMedicine": "Skapa @:terms.citizen{'medicin'}",
+            "createCitizenPlan": "Skapa @:terms.citizen{'plan'}",
             "createSchedule": "Skapa tjänsteschema",
             "deleteCalendar": "Radera kalender",
             "deleteCalendarEvent": "Radera kalenderhändelse",
             "deleteCitizenCalendar": "Radera borgerkalender",
-            "deleteCitizenChildren": "Radera klientbarn",
-            "deleteCitizenContact": "Radera klientkontakt",
+            "deleteCitizenChildren": "Radera @:terms.citizen{'barn'}",
+            "deleteCitizenContact": "Radera @:terms.citizen{'kontakt'}",
             "deleteCitizenDocument": "Radera borgerdokument",
-            "deleteCitizenEconomy": "Radera klientekonomi",
+            "deleteCitizenEconomy": "Radera @:terms.citizen{'ekonomi'}",
             "deleteCitizenHealth": "Radera borgersundhed",
-            "deleteCitizenJournal": "Radera klientjournal",
-            "deleteCitizenMedicine": "Radera klientmedicin",
-            "deleteCitizenPlan": "Radera klientplan",
+            "deleteCitizenJournal": "Radera @:terms.citizen{'journal'}",
+            "deleteCitizenMedicine": "Radera @:terms.citizen{'medicin'}",
+            "deleteCitizenPlan": "Radera @:terms.citizen{'plan'}",
             "deleteSchedule": "Radera tjänsteschema",
             "readSchedule": "Se tjänsteschema",
             "scheduler": "Vagtplanlägger",
             "updateCitizenCalendar": "Redigera borgerkalender",
-            "updateCitizenChildren": "Redigera klientbarn",
-            "updateCitizenContact": "Redigera klientkontakt",
+            "updateCitizenChildren": "Redigera @:terms.citizen{'barn'}",
+            "updateCitizenContact": "Redigera @:terms.citizen{'kontakt'}",
             "updateCitizenDocument": "Redigera borgerdokument",
-            "updateCitizenEconomy": "Redigera klientekonomi",
+            "updateCitizenEconomy": "Redigera @:terms.citizen{'ekonomi'}",
             "updateCitizenHealth": "Redigera borgersundhed",
-            "updateCitizenJournal": "Redigera klientjournal",
-            "updateCitizenMedicine": "Redigera klientmedicin",
-            "updateCitizenPlan": "Redigera klientplan",
-            "updateCitizen": "Redigera klient",
+            "updateCitizenJournal": "Redigera @:terms.citizen{'journal'}",
+            "updateCitizenMedicine": "Redigera @:terms.citizen{'medicin'}",
+            "updateCitizenPlan": "Redigera @:terms.citizen{'plan'}",
+            "updateCitizen": "Redigera @:terms.citizen{''}",
             "updateFormFieldConfig": "Redigera borgerformular feltkonfiguration",
             "updateSchedule": "Redigera tjänsteschema",
             "viewCitizenCalendar": "Se borgerkalender",
             "viewCitizenHealth": "Se borgersundhed",
-            "viewCitizenJournal": "Se klientjournal",
+            "viewCitizenJournal": "Se @:terms.citizen{'journal'}",
             "viewSchedule": "Se tjänsteschema"
         },
         "roles": "Roller",
@@ -9510,11 +9654,11 @@
             "departmentsProOnly": "Tilldelning av avdelningar ingår i Pro-profilen.",
             "name": "Namn"
         },
-        "addCitizen": "Lägg till klient",
-        "citizenAddedSuccessfully": "Klient tillagd till rum",
-        "citizenRemovedSuccessfully": "Klient borttagen från rum",
+        "addCitizen": "Lägg till @:terms.citizen{''}",
+        "citizenAddedSuccessfully": "@.capitalize:terms.citizen{''} tillagd till rum",
+        "citizenRemovedSuccessfully": "@.capitalize:terms.citizen{''} borttagen från rum",
         "full": "Fuldt",
-        "noCitizens": "Inga klienter på detta rum",
+        "noCitizens": "Inga @:terms.citizens{''} på detta rum",
         "removeConfirmation": "Är du säker på att du vill ta bort",
         "newRoom": "Nytt rum",
         "rooms": "Rum",
@@ -9684,7 +9828,7 @@
                 "allowSubGoals": "Tillåt anställda att skapa delmål",
                 "checkinOut": "Check in/ut",
                 "chooseNotificationDepartments": "Välj hvilke avdelningar du vill modtage notiser från",
-                "citizensDisplay": "Klientens visning",
+                "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
                 "city": "Stad",
                 "companyLogo": "Firmalogo",
                 "companyName": "Företagsnamn",
@@ -9720,6 +9864,7 @@
                 "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
                 "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
+                "compensatoryTimeEnabled": "Aktivera kompensationsledighet",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
                 "lockShiftsBeforeDate": "Lås pass före datum",
                 "clearLockShiftsBeforeDate": "Rensa datum",
@@ -9799,7 +9944,14 @@
                 "termCitizen": "Klient (singular)",
                 "termCitizenDefinite": "Klienten (singular, bestämd)",
                 "termCitizens": "Klienter (plural)",
-                "termCitizensDefinite": "Klienterna (plural, bestämd)"
+                "termCitizensDefinite": "Klienterna (plural, bestämd)",
+                "portalAudiencePatient": "Patient",
+                "portalSectionAppointments": "Bokningar",
+                "portalSectionBooking": "Onlinebokning",
+                "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
+                "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
+                "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
+                "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade"
             }
         },
         "licenseOverview": {
@@ -9926,7 +10078,8 @@
             "consultantSkills": "Konsultkompetenser",
             "inquiryServiceTypes": "Insatstyper",
             "taskTypes": "Uppgiftstyper",
-            "taskRules": "Uppgiftsregler"
+            "taskRules": "Uppgiftsregler",
+            "employmentOptions": "Anställningsval"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -9937,9 +10090,9 @@
                 "alert": {
                     "successfullySent": "Transaktioner för borgernes wallets är skickad"
                 },
-                "citizens": "Klienter",
+                "citizens": "@.capitalize:terms.citizens{''}",
                 "send": "Skicka",
-                "sendCitizenWalletTransactions": "Skicka klient tegnebogstransaktioner",
+                "sendCitizenWalletTransactions": "Skicka @:terms.citizen{''} tegnebogstransaktioner",
                 "wallets": "Wallets"
             }
         },
@@ -10117,7 +10270,7 @@
     "sidebar": {
         "bulletBoard": "Anslagstavla",
         "calendar": "Kalender",
-        "citizens": "Klienter",
+        "citizens": "@.capitalize:terms.citizens{''}",
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
         "discover": "Kom igång",
@@ -10131,7 +10284,7 @@
         "dutySchedules": "Tjänsteschema",
         "leads": "Leads",
         "mail": "E-post",
-        "messages": "Meddelanden",
+        "messages": "Chatt",
         "overview": "Översikt",
         "protocols": "Protokoll",
         "reports": "Rapporter",
@@ -10229,7 +10382,7 @@
             "selectPackage": "Välj pakke",
             "storageSpace": "lagerplads",
             "telephoneSupport": "Support via telefon, chatt och e-post",
-            "unlimitedNumberOfCitizens": "Ubegränset antal klienter",
+            "unlimitedNumberOfCitizens": "Ubegränset antal @:terms.citizens{''}",
             "user": "Användare",
             "users": "Användare",
             "year": "År",
@@ -11293,7 +11446,8 @@
             "cancellations": "Avslutningar",
             "storagePackages": "Lagringspaket",
             "paymentFees": "Betalningsavgifter",
-            "storageUsage": "Lagringsanvändning"
+            "storageUsage": "Lagringsanvändning",
+            "industries": "Branscher"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -11944,6 +12098,50 @@
                 "mrr": "MRR",
                 "newUsers": "Nya användare"
             }
+        },
+        "industries": {
+            "pageTitle": "Branscher",
+            "description": "Varje bransch ger ett nytt företag sina egna ord och sin egen uppsättning moduler. Är inget satt används standarden, och ett tomt fält betyder att språkets eget ord används. Ändringen gäller företag som skapas efteråt, inte de som redan finns.",
+            "configuredCount": "{configured} av {total} branscher är uppsatta",
+            "noIndustries": "Inga branscher hittades",
+            "colIndustry": "Bransch",
+            "colWord": "Ordet för klienter",
+            "colModules": "Moduler",
+            "colSource": "Källa",
+            "allModules": "Alla",
+            "someModules": "{count} av {total}",
+            "sourceSaved": "Satt",
+            "sourceDefault": "Standard",
+            "edit": "Redigera",
+            "cancel": "Avbryt",
+            "save": "Spara",
+            "saved": "Branschen har sparats",
+            "modalHelp": "Orden skrivs på företaget när det skapas. Lämna ett fält tomt för att använda standarden.",
+            "termsHint": "Skriv ordet som det står i en mening, alltså med liten bokstav. Systemet sätter själv stor bokstav där ordet inleder en rubrik.",
+            "modules": "Moduler",
+            "selectAll": "Ge alla moduler",
+            "modulesAll": "Branschen får alla moduler.",
+            "modulesNarrowed": "Branschen får {count} av {total} moduler.",
+            "locale": {
+                "dk": "Danska",
+                "en": "Engelska",
+                "no": "Norska",
+                "sv": "Svenska"
+            },
+            "terms": {
+                "term_citizen": "Klient (singular)",
+                "term_citizen_definite": "Klienten (singular, bestämd)",
+                "term_citizens": "Klienter (plural)",
+                "term_citizens_definite": "Klienterna (plural, bestämd)",
+                "term_caseworker": "Handläggare",
+                "term_case": "Ärende",
+                "term_journal": "Journal",
+                "term_journals": "Journaler",
+                "term_journal_notes": "Journalanteckningar",
+                "term_journal_note_tag": "Anteckningstyp",
+                "term_agreement": "Avtal",
+                "term_jobcenter": "Jobbcenter"
+            }
         }
     },
     "support": {
@@ -12159,7 +12357,7 @@
             "allCancellations": "Alla aflysninger",
             "heldSessionsOnly": "Endast afholdte sessioner",
             "onlyCancellationByEmployee": "Endast aflysninger av anställd",
-            "onlyCancellationsByCitizen": "Endast aflysninger av klient",
+            "onlyCancellationsByCitizen": "Endast aflysninger av @:terms.citizen{''}",
             "status": "Status"
         },
         "form": {
@@ -12167,12 +12365,12 @@
                 "newTimeLogSuccessfullySaved": "Ny tidslogg har sparats",
                 "timeLogSuccessfullyUpdated": "Tidslogg har uppdaterats"
             },
-            "citizen": "Klient",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "dateTimeEnd": "Slutdatum och -tid",
             "dateTimeStart": "Startdatum och -tid",
             "remarks": "Anmärkningar",
             "status": {
-                "cancelledByCitizen": "Aflyst av klient",
+                "cancelledByCitizen": "Aflyst av @:terms.citizen{''}",
                 "cancelledByEmployee": "Aflyst av anställd",
                 "completed": "Afholdt (avslutad)",
                 "status": "Status"
@@ -12194,7 +12392,7 @@
                 "timeLogSuccessfullyDeclined": "Tidslogg har avvisats",
                 "timeLogSuccessfullyDeleted": "Tidslogg har raderats"
             },
-            "citizen": "Klient",
+            "citizen": "@.capitalize:terms.citizen{''}",
             "confirmation": {
                 "approveTimeLogConfirmation": "Är du säker på att du vill godkänna denna tidslogg",
                 "declineTimeLogConfirmation": "Är du säker på att du vill afvise denna tidslogg",
@@ -12211,7 +12409,7 @@
                 "requestStatus": "Anmodningsstatus"
             },
             "status": {
-                "cancelledByCitizen": "Aflyst av klient",
+                "cancelledByCitizen": "Aflyst av @:terms.citizen{''}",
                 "cancelledByEmployee": "Aflyst av anställd",
                 "completed": "Afholdt (avslutad)",
                 "status": "Status"
@@ -12798,7 +12996,7 @@
             "billableWeeks": "faktureringsbara veckor",
             "excludedWeeks": "uteslutna veckor",
             "exportCsv": "Exportera till e-conomic (CSV)",
-            "excludeReasonPlaceholder": "t.ex. Klient inlagd"
+            "excludeReasonPlaceholder": "t.ex. @.capitalize:terms.citizen{''} inlagd"
         },
         "revenue": {
             "revenue": "Intäkt",
@@ -13210,7 +13408,7 @@
         "imageHint": "En skärmbild som visar vad som är nytt. PNG, JPG eller WebP, högst 4 MB.",
         "removeImage": "Ta bort bild",
         "videoUrl": "Video (länk)",
-        "videoHint": "YouTube, Vimeo eller Loom. Videon ligger hos tredje part, så spela aldrig in en skärm med klientdata.",
+        "videoHint": "YouTube, Vimeo eller Loom. Videon ligger hos tredje part, så spela aldrig in en skärm med @:terms.citizen{'data'}.",
         "showOnWebsite": "Visa även på citizenone.dk",
         "showOnWebsiteHint": "Noten blir synlig för blivande kunder på webbplatsen, inte bara för dem som använder systemet.",
         "onWebsite": "På webbplatsen"
@@ -13347,7 +13545,8 @@
         "nobodyHasAccess": "Ingen har åtkomst ännu",
         "audience": {
             "relative": "Anhöriga",
-            "third_party": "Tredjeparter"
+            "third_party": "Tredjeparter",
+            "patient": "Patienter"
         },
         "status": {
             "active": "Inloggad",
@@ -13360,7 +13559,9 @@
             "status": "Status",
             "grantedAt": "Åtkomst gavs"
         },
-        "chooseWhatTheySee": "Välj vad de ser"
+        "chooseWhatTheySee": "Välj vad de ser",
+        "peopleWithAccess": "{count} har åtkomst",
+        "includedForTheClinic": "Ingår i klinikens abonnemang"
     },
     "wageSupplementRules": {
         "form": {
@@ -13445,7 +13646,8 @@
         "empty": {
             "title": "Inga kallelser",
             "text": "Inga patienter ska kallas under den valda perioden."
-        }
+        },
+        "manualRecall": "Kallad av behandlare"
     },
     "dentalOverview": {
         "title": "Kliniköversikt",
@@ -13858,7 +14060,7 @@
     },
     "inquiryOrigin": {
         "label": "Förfrågan kommer från",
-        "citizen": "Klienten själv",
+        "citizen": "@.capitalize:terms.citizenDefinite{''} själv",
         "authority": "Myndighet",
         "other": "Annat"
     },
@@ -14100,7 +14302,7 @@
         },
         "empty": {
             "title": "Det finns inga uppgiftstavlor än",
-            "description": "En tavla samlar det arbete som inte hör till en enskild klient. Skapa de kolumner ni arbetar i och lägg uppgifterna hos den som ska utföra dem.",
+            "description": "En tavla samlar det arbete som inte hör till en enskild @:terms.citizen{''}. Skapa de kolumner ni arbetar i och lägg uppgifterna hos den som ska utföra dem.",
             "action": "Skapa den första tavlan"
         },
         "form": {
@@ -14232,5 +14434,209 @@
             "deleted": "Regeln har tagits bort",
             "deleteFailed": "Regeln kunde inte tas bort"
         }
+    },
+    "paymentStatus": {
+        "amountDue": "Utestående belopp",
+        "collecting": "Vi drar beloppet...",
+        "contactSupport": "Kontakta supporten",
+        "couldNotStart": "Vi kunde inte starta kortförnyelsen. Försök igen eller kontakta supporten.",
+        "logOut": "Logga ut",
+        "pleaseWait": "Vänta...",
+        "stillUnpaid": "Kortet är uppdaterat, men betalningen gick inte igenom. Försök igen eller kontakta supporten.",
+        "updateCard": "Uppdatera betalkort",
+        "wall": {
+            "pastDueTitle": "Betalningen kunde inte genomföras",
+            "pastDueBody": "Vi kunde inte dra betalningen för er prenumeration. Ange ett giltigt betalkort för att fortsätta. Kontot stängs om {days} dagar om betalningen inte genomförs.",
+            "suspendedTitle": "Prenumerationen är pausad",
+            "suspendedBody": "Er prenumeration är pausad eftersom betalningen inte kunde genomföras. Ange ett giltigt betalkort så öppnar vi kontot igen direkt."
+        },
+        "notice": {
+            "title": "Betalningen saknas",
+            "body": "Vi kunde inte dra betalningen för er prenumeration. En administratör behöver uppdatera betalkortet. Annars stängs kontot om {days} dagar."
+        },
+        "renew": {
+            "title": "Förnya er prenumeration",
+            "intro": "Ange ett giltigt betalkort så drar vi det utestående beloppet och öppnar {company} igen.",
+            "invalidToken": "Länken har gått ut eller är ogiltig. Kontakta supporten så skickar vi en ny.",
+            "successTitle": "Betalningen är genomförd",
+            "successBody": "Ert konto är öppet igen. Ni kan logga in nu.",
+            "goToLogin": "Gå till inloggningen"
+        }
+    },
+    "patient": {
+        "nav": {
+            "appointments": "Bokningar",
+            "journal": "Journal",
+            "documents": "Dokument",
+            "priceEstimates": "Kostnadsförslag",
+            "forms": "Formulär"
+        },
+        "overview": {
+            "greeting": "Hej {name}",
+            "intro": "Välkommen till din översikt. Här ser du vad som väntar från kliniken.",
+            "waitingForYou": "Väntar på dig",
+            "unreadMessages": "{count} olästa meddelanden",
+            "upcomingAppointments": "{count} kommande bokningar",
+            "pendingSurveys": "{count} enkäter att besvara",
+            "yourClinic": "Din klinik",
+            "fromTheClinic": "Från kliniken",
+            "new": "Ny"
+        },
+        "appointments": {
+            "upcoming": "Kommande",
+            "past": "Tidigare",
+            "empty": "Du har inga bokningar här.",
+            "appointment": "Bokning",
+            "detailTitle": "Bokning hos {clinic}",
+            "what": "Vad",
+            "when": "När",
+            "where": "Var",
+            "who": "Vem",
+            "duration": "Längd {minutes} minuter",
+            "online": "Online",
+            "joinOnline": "Anslut till onlinemötet",
+            "cancel": "Avbokning",
+            "cancelHelp": "Kontakta kliniken för att ändra eller avboka din tid.",
+            "writeToClinic": "Skriv till kliniken",
+            "cancelOwnHelp": "Du har själv bokat den här tiden och kan avboka den här.",
+            "cancelAppointment": "Avboka tiden",
+            "cancelConfirm": "Tiden blir ledig igen och kliniken får besked. Är du säker?",
+            "cancelled": "Tiden är avbokad"
+        },
+        "booking": {
+            "bookTime": "Boka tid",
+            "noServices": "Kliniken har inga behandlingar öppna för onlinebokning just nu.",
+            "chooseTreatment": "Välj behandling",
+            "chooseDate": "Välj datum",
+            "noDates": "Inga lediga datum.",
+            "chooseTime": "Välj tid",
+            "noTimes": "Inga lediga tider det valda datumet.",
+            "note": "Meddelande till kliniken",
+            "notePlaceholder": "Skriv gärna vad ditt besök gäller",
+            "confirm": "Bekräfta bokning",
+            "summary": "{treatment} · {date} kl. {time}",
+            "booked": "Din tid är bokad"
+        },
+        "journal": {
+            "intro": "Här kan du läsa de journalanteckningar kliniken har delat med dig.",
+            "empty": "Kliniken har inte delat några journalanteckningar med dig än."
+        },
+        "documents": {
+            "upload": "Ladda upp fil",
+            "uploadHelp": "Endast DOC, DOCX, JPEG, JPG, PDF och PNG under 10 MB kan laddas upp.",
+            "saveFile": "Spara fil",
+            "empty": "Det finns inga filer till dig än.",
+            "download": "Hämta",
+            "uploaded": "Filen är sparad"
+        },
+        "staff": {
+            "journalAccess": "Patientens åtkomst till journalen",
+            "journalAccessHelp": "När den är på kan patienten läsa de anteckningar ni markerar som delade.",
+            "noteVisibleToPatient": "Dela anteckningen med patienten",
+            "noteVisibleToPatientHelp": "Anteckningen visas i patientportalen. Kräver att patienten har journalåtkomst.",
+            "surveyWritesToJournal": "Spara svaren i journalen",
+            "surveyWritesToJournalHelp": "När patienten returnerar enkäten skapas en journalanteckning med svaren.",
+            "portalAccess": "Åtkomst till patientportalen",
+            "portalAccessHelp": "Patienten kan logga in och se sina bokningar, meddelanden och dokument.",
+            "messageAccess": "Får skicka meddelanden till kliniken",
+            "sectionTitle": "Patientportal",
+            "sectionHelp": "Bestäm vad den här patienten kan se och göra i patientportalen.",
+            "portalActive": "Patientportal aktiv",
+            "portalInactive": "Ingen portalåtkomst",
+            "portalBadgeHelp": "Klicka för att ändra patientens åtkomst",
+            "teaserTitle": "Ge dina patienter åtkomst",
+            "teaserText": "Med patientportalen bokar patienterna själva tid, skriver till kliniken, besvarar enkäter och läser de journalanteckningar ni väljer att dela.",
+            "teaserAction": "Se patientportalen"
+        },
+        "priceEstimates": {
+            "intro": "Här ser du de kostnadsförslag kliniken har skickat dig.",
+            "empty": "Kliniken har inte skickat något kostnadsförslag än.",
+            "total": "Totalpris",
+            "subsidy": "Bidrag",
+            "yourShare": "Din del",
+            "validUntil": "Gäller till {date}",
+            "showLines": "Visa behandlingar",
+            "hideLines": "Dölj behandlingar",
+            "treatment": "Behandling",
+            "quantity": "Antal",
+            "price": "Pris"
+        },
+        "forms": {
+            "empty": "Kliniken har inte skickat något formulär än.",
+            "pending": "Att fylla i",
+            "noPending": "Du har inga formulär som väntar.",
+            "completed": "Besvarade",
+            "received": "Mottaget",
+            "completedAt": "Besvarat",
+            "fillOut": "Fyll i",
+            "return": "Skicka till kliniken",
+            "returned": "Formuläret är skickat",
+            "alreadyCompleted": "Du har redan besvarat det här formuläret.",
+            "answerRequired": "Några frågor är inte besvarade",
+            "journalNotice": "Dina svar läggs i din journal hos kliniken."
+        }
+    },
+    "patientForms": {
+        "sendToPatient": "Skicka formulär till patienten",
+        "sendHelp": "Patienten fyller i formuläret i portalen och svaren läggs i journalen.",
+        "chooseForm": "Välj formulär",
+        "send": "Skicka",
+        "sentAlert": "Formuläret är skickat till patienten",
+        "sent": "Skickat",
+        "answered": "Besvarat",
+        "withdraw": "Dra tillbaka",
+        "withdrawConfirm": "Formuläret tas bort från patientportalen. Är du säker?",
+        "withdrawnAlert": "Formuläret är tillbakadraget",
+        "journalNotice": "Svaren läggs automatiskt i patientens journal.",
+        "status": {
+            "answered": "Besvarat",
+            "waiting": "Väntar på svar"
+        },
+        "empty": {
+            "title": "Inga formulär skickade än",
+            "text": "Skicka ett formulär som patienten fyller i hemifrån. Svaren hamnar i journalen."
+        }
+    },
+    "pageSettings": {
+        "title": "Inställningar för den här sidan",
+        "forThisPage": "Inställningar för den här sidan",
+        "allSettings": "Alla inställningar"
+    },
+    "employmentOptions": {
+        "title": "Anställningsval",
+        "subtitle": "Anpassa alternativen i fälten Arbetstimmar och Anställningsstatus på en medarbetare.",
+        "builtIn": "Systemval",
+        "newOption": "Nytt alternativ",
+        "add": "Lägg till",
+        "working_hours": {
+            "title": "Arbetstimmar",
+            "description": "Systemvalen kan varken döpas om eller tas bort: resten av systemet räknar på dem, bland annat omräkningen från semestertimmar till semesterdagar för deltidsanställda."
+        },
+        "employment_status": {
+            "title": "Anställningsstatus",
+            "description": "Lägg till de anställningsformer ni använder. Medarbetare som redan står på ett alternativ behåller det, även om ni döper om det."
+        },
+        "alert": {
+            "added": "Alternativet lades till",
+            "updated": "Alternativet uppdaterades",
+            "deleted": "Alternativet togs bort"
+        }
+    },
+    "bookingAppointments": {
+        "intro": "Tider patienterna har tagit. Ska en kollega täcka kan bokningen lämnas över utan att patienten bokar om.",
+        "when": "När",
+        "who": "Vem",
+        "treatment": "Behandling",
+        "with": "Hos",
+        "handOver": "Lämna över",
+        "handOverTitle": "Lämna över bokningen",
+        "handOverExplanation": "Patienten behåller sin tid. Den flyttas till kollegans kalender, och kollegan får besked.",
+        "colleague": "Kollega",
+        "handedOver": "Bokningen är överlämnad",
+        "takenOver": "Övertagen",
+        "none": "Inga bokade tider i perioden",
+        "from": "Från",
+        "to": "Till",
+        "noColleagues": "Det finns ingen annan på kliniken att lämna över bokningen till."
     }
 }
