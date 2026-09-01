@@ -7108,6 +7108,7 @@
             "moveUp": "Flytta upp",
             "moveDown": "Flytta ner",
             "dragToReorder": "Dra för att ändra ordning",
+            "changeType": "Ändra fälttyp",
             "duplicate": "Duplicera",
             "table": "Tabell"
         },
