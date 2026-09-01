@@ -100,6 +100,16 @@ The script is self-restoring: it reverses the compensatory-time request it creat
 restores the company's toggle to whatever value it found at the start, so it can be
 re-run against the same fixture shift repeatedly.
 
+### `forms-reorder-and-retype` — only needs `CO_TOKEN`
+
+Covers the form-builder field-order fix (a delete+retype no longer jumps a field to the bottom
+on save) and the new drag-and-drop reordering. Creates its own throwaway form via the API, so no
+extra fixtures are needed beyond `CO_TOKEN`.
+
+```bash
+CO_TOKEN='<paste-token>' npm run test:forms-reorder-and-retype
+```
+
 ### `create-report-permission` — also needs a restricted staff token
 
 Covers AW-2026-4255: a staff member without save-and-download rights must
@@ -222,3 +232,26 @@ php artisan tinker --execute='
 ```bash
 CO_TOKEN='<admin-or-manager-token>' npm run test:import-employees
 ```
+
+### `console-smoke` - the one to run before merging
+
+Walks the sidebar to learn where this company's pages are, then loads each of
+them, plus a handful of settings pages, and fails on anything the browser
+throws: an uncaught exception, a console error, or a 5xx.
+
+```bash
+CO_TOKEN='<paste-token>' npm run test:console-smoke
+```
+
+It needs no setup beyond a token and touches nothing, so it is the cheapest
+guard against the class of defect that reaches dev most often - a composable
+called in the wrong place, a helper used in a template without being imported,
+a debug line left in. Three of those shipped in a row before this existed.
+
+Two things to know about it. The second pass loads each page for real rather
+than clicking to it: this is an SPA, and a render-time throw does not reach the
+browser as an uncaught error when you click your way there, so a click-only
+version passes against visibly broken code. And the API allows 120 requests a
+minute per user while one page spends a dozen or more, so the test paces itself
+and a full run takes a few minutes with pauses in it. That is the rate limit,
+not a hang.

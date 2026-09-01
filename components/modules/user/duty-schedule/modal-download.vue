@@ -178,6 +178,14 @@ const props = defineProps({
     selectedDate: {
         type: String,
         required: true,
+    },
+    // Which calendar view the download was opened from. The date range defaults
+    // to that view's span: opening it from the month view and getting one week
+    // is not what anyone means by "download the schedule" (Birketoften 31/8).
+    calendarView: {
+        type: String,
+        required: false,
+        default: 'week',
     }
 })
 const { t } = useI18n()
@@ -232,6 +240,42 @@ const state = reactive({
     }
 })
 
+/**
+ * The span the active view shows, so the download covers what is on screen.
+ * Anything unrecognised falls back to the week, which is what it always was.
+ */
+function defaultRangeForView(): [string, string] {
+    const date = moment(props.selectedDate)
+
+    const unit = {
+        month: 'month',
+        year: 'year',
+    }[props.calendarView as string]
+
+    if (props.calendarView === 'half-year') {
+        const start = date.clone().month() < 6
+            ? date.clone().startOf('year')
+            : date.clone().month(6).startOf('month')
+
+        return [
+            start.format('YYYY-MM-DD'),
+            start.clone().add(5, 'months').endOf('month').format('YYYY-MM-DD'),
+        ]
+    }
+
+    if (unit) {
+        return [
+            date.clone().startOf(unit as any).format('YYYY-MM-DD'),
+            date.clone().endOf(unit as any).format('YYYY-MM-DD'),
+        ]
+    }
+
+    return [
+        date.clone().startOf('isoWeek').format('YYYY-MM-DD'),
+        date.clone().endOf('isoWeek').format('YYYY-MM-DD'),
+    ]
+}
+
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
         state.error = {}
@@ -241,12 +285,10 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
         state.options.downloadType[1].label = `${t('dutySchedules.download.downloadHoursInExcel')}`
         state.options.downloadType[2].label = `${t('dutySchedules.download.downloadOverview')}`
         state.formDownload.show_leaves_only = false
-        state.formDownload.date_start = moment(props.selectedDate).startOf('isoWeek').format('YYYY-MM-DD')
-        state.formDownload.date_end = moment(props.selectedDate).endOf('isoWeek').format('YYYY-MM-DD')
-        state.filter.date_range = [
-            moment(props.selectedDate).startOf('isoWeek').format('YYYY-MM-DD'),
-            moment(props.selectedDate).endOf('isoWeek').format('YYYY-MM-DD'),
-        ]
+        const [defaultStart, defaultEnd] = defaultRangeForView()
+        state.formDownload.date_start = defaultStart
+        state.formDownload.date_end = defaultEnd
+        state.filter.date_range = [defaultStart, defaultEnd]
         state.formDownload.time_from = props.filter?.time_from ?? ''
         state.formDownload.time_to = props.filter?.time_to ?? ''
         fetchDepartments()
@@ -356,6 +398,9 @@ async function downloadDutySchedule() {
         const params = {
             department_uuid: Array(state.formDownload.departments),
             download_type: state.formDownload.download_type,
+            // The overview PDF renders a calendar grid instead of a run of week
+            // tables when the download came from a month-or-longer view.
+            layout: ['month', 'half-year', 'year'].includes(props.calendarView as string) ? 'month' : 'week',
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
             show_leaves_only: state.formDownload.show_leaves_only,
