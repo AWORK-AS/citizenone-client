@@ -58,6 +58,7 @@ export function useSettingsCatalog() {
             item('health', 'settings.tabs.dosageForms', '/settings/dosage-forms', ['settings-dosage-forms']),
             item('schedule', 'settings.tabs.dutyShiftRules', '/settings/duty-shift-rules', ['settings-duty-shift-rules']),
             item('access', 'settings.tabs.employeeGroups', '/settings/employee-groups', ['settings-employee-groups']),
+            item('access', 'settings.tabs.employmentOptions', '/settings/employment-options', ['settings-employment-options']),
             ...when(hasInquiries, item('access', 'settings.tabs.consultantSkills', '/settings/consultant-skills', ['settings-consultant-skills'])),
             item('citizens', 'settings.tabs.expenseCategories', '/settings/expense-categories', ['settings-expense-categories']),
             item('schedule', 'settings.tabs.extraHoursTags', '/settings/extra-hours-tags', ['settings-extra-hours-tags']),

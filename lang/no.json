@@ -6401,7 +6401,8 @@
                 "vacationDays": "Feriedager",
                 "weeklyNormHours": "Ukentlige normtimer",
                 "weeks": "Uker",
-                "workingHours": "Arbeidstimer"
+                "workingHours": "Arbeidstimer",
+                "annualNormHoursNotUsed": "Skal ikke brukes"
             },
             "firstname": "Fornavn",
             "header": {
@@ -7674,8 +7675,10 @@
         "navLabel": "Rediger journalskjema",
         "riskAssessmentDescription": "Når den er slått av, vil risikovurderingsdelen (vurderingsnivå, notat, tagger og mål-tilknytning) bli skjult i journalens opprett- og redigeringsskjemaer for alle @:terms.citizens{''}.",
         "riskAssessmentToggle": "Vis risikovurderingsdel i journalskjema",
-        "subtitle": "Konfigurer om risikovurderingsdelen er synlig i @:terms.citizenDefinite{'s'} journal opprett- og redigeringsskjemaer.",
-        "title": "Journalskjema konfigurasjon"
+        "subtitle": "Konfigurer hvilke felter som er synlige i @:terms.citizenDefinite{'s'} journalskjema for oppretting og redigering.",
+        "title": "Journalskjema konfigurasjon",
+        "scoreToggle": "Vis \"Nåværende nivå\" i journalskjemaet",
+        "scoreDescription": "Når den er slått av, vises ikke feltet \"Nåværende nivå\" i journalens opprett- og redigeringsskjema. Feltet er tomt fra start, så et nivå står der bare hvis noen har valgt det."
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -10074,7 +10077,8 @@
             "consultantSkills": "Konsulentkompetanser",
             "inquiryServiceTypes": "Innsatstyper",
             "taskTypes": "Oppgavetyper",
-            "taskRules": "Oppgaveregler"
+            "taskRules": "Oppgaveregler",
+            "employmentOptions": "Ansettelsesvalg"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -14430,6 +14434,34 @@
             "deleteFailed": "Regelen kunne ikke slettes"
         }
     },
+    "paymentStatus": {
+        "amountDue": "Utestående beløp",
+        "collecting": "Vi trekker beløpet...",
+        "contactSupport": "Kontakt support",
+        "couldNotStart": "Vi kunne ikke starte kortfornyelsen. Prøv igjen, eller kontakt supporten.",
+        "logOut": "Logg ut",
+        "pleaseWait": "Vent litt...",
+        "stillUnpaid": "Kortet er oppdatert, men betalingen gikk ikke gjennom. Prøv igjen, eller kontakt supporten.",
+        "updateCard": "Oppdater betalingskort",
+        "wall": {
+            "pastDueTitle": "Betalingen kunne ikke gjennomføres",
+            "pastDueBody": "Vi klarte ikke å trekke betalingen for abonnementet deres. Legg inn et gyldig betalingskort for å fortsette. Kontoen stenges om {days} dager hvis betalingen ikke gjennomføres.",
+            "suspendedTitle": "Abonnementet er satt på pause",
+            "suspendedBody": "Abonnementet deres er satt på pause fordi betalingen ikke kunne gjennomføres. Legg inn et gyldig betalingskort, så åpner vi kontoen igjen med en gang."
+        },
+        "notice": {
+            "title": "Betalingen mangler",
+            "body": "Vi klarte ikke å trekke betalingen for abonnementet deres. En administrator må oppdatere betalingskortet. Ellers stenges kontoen om {days} dager."
+        },
+        "renew": {
+            "title": "Forny abonnementet deres",
+            "intro": "Legg inn et gyldig betalingskort, så trekker vi det utestående beløpet og åpner {company} igjen.",
+            "invalidToken": "Lenken er utløpt eller ugyldig. Kontakt supporten, så sender vi en ny.",
+            "successTitle": "Betalingen er gjennomført",
+            "successBody": "Kontoen deres er åpen igjen. Dere kan logge inn nå.",
+            "goToLogin": "Gå til innlogging"
+        }
+    },
     "patient": {
         "nav": {
             "appointments": "Avtaler",
@@ -14568,6 +14600,26 @@
         "title": "Innstillinger for denne siden",
         "forThisPage": "Innstillinger for denne siden",
         "allSettings": "Alle innstillinger"
+    },
+    "employmentOptions": {
+        "title": "Ansettelsesvalg",
+        "subtitle": "Tilpass valgene i feltene Arbeidstimer og Ansettelsesstatus på en ansatt.",
+        "builtIn": "Systemvalg",
+        "newOption": "Nytt valg",
+        "add": "Legg til",
+        "working_hours": {
+            "title": "Arbeidstimer",
+            "description": "Systemvalgene kan verken gis nytt navn eller fjernes: resten av systemet regner på dem, blant annet omregningen fra ferietimer til feriedager for deltidsansatte."
+        },
+        "employment_status": {
+            "title": "Ansettelsesstatus",
+            "description": "Legg til ansettelsesformene dere bruker. Ansatte som allerede står på et valg beholder det, også hvis dere gir det nytt navn."
+        },
+        "alert": {
+            "added": "Valget ble lagt til",
+            "updated": "Valget ble oppdatert",
+            "deleted": "Valget ble slettet"
+        }
     },
     "bookingAppointments": {
         "intro": "Tider pasientene har tatt. Skal en kollega dekke, kan bookingen gis videre uten at pasienten må booke igjen.",

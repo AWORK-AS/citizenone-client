@@ -668,7 +668,10 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
 
 watch(() => state.formShift.date_time_start, () => {
     if (!state.formShift.shift_type) return
-    if (isSleepingNightShift.value && selectedShiftOption.value?.end_time_day_offset != null) {
+    // Only while creating. On an existing shift the end time is whatever the
+    // planner put there, and moving the start by an hour must not silently
+    // drag the end back to the shift type's default (Birketoften 31/8).
+    if (props.formType === 'create' && isSleepingNightShift.value && selectedShiftOption.value?.end_time_day_offset != null) {
         const offset = selectedShiftOption.value.end_time_day_offset
         const timeOut = selectedShiftOption.value.time_out
         state.formShift.date_time_end = moment(

@@ -153,7 +153,9 @@ const state = reactive({
         assessment: null,
         risk_assessment_tags: [],
         note: '',
-        score: 1,
+        // Empty, not 1: a pre-filled level is a score nobody chose, and it
+        // reads as an assessment the author never made.
+        score: '',
         teeth_uuid: [],
     },
     modal: {

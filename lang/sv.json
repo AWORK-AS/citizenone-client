@@ -6401,7 +6401,8 @@
                 "vacationDays": "Feriedage",
                 "weeklyNormHours": "Ugentlige normtimer",
                 "weeks": "Veckor",
-                "workingHours": "Arbejdstimer"
+                "workingHours": "Arbejdstimer",
+                "annualNormHoursNotUsed": "Ska inte användas"
             },
             "firstname": "Förnamn",
             "header": {
@@ -7674,8 +7675,10 @@
         "navLabel": "Redigera journalformulär",
         "riskAssessmentDescription": "När den är avstängd döljs riskbedömningssektionen (bedömningsnivå, anteckning, taggar och mållänkning) i journalens skapa- och redigeringsformulär för alla användare.",
         "riskAssessmentToggle": "Visa riskbedömningssektion i journalformulär",
-        "subtitle": "Konfigurera om riskbedömningssektionen är synlig i medborgarens journal skapa- och redigeringsformulär.",
-        "title": "Journalformulärets konfiguration"
+        "subtitle": "Konfigurera vilka fält som är synliga i medborgarens journalformulär för att skapa och redigera.",
+        "title": "Journalformulärets konfiguration",
+        "scoreToggle": "Visa \"Nuvarande nivå\" i journalformuläret",
+        "scoreDescription": "När den är avstängd visas inte fältet \"Nuvarande nivå\" i journalens skapa- och redigeringsformulär. Fältet är tomt från början, så en nivå står där bara om någon har valt den."
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -10074,7 +10077,8 @@
             "consultantSkills": "Konsultkompetenser",
             "inquiryServiceTypes": "Insatstyper",
             "taskTypes": "Uppgiftstyper",
-            "taskRules": "Uppgiftsregler"
+            "taskRules": "Uppgiftsregler",
+            "employmentOptions": "Anställningsval"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -14430,6 +14434,34 @@
             "deleteFailed": "Regeln kunde inte tas bort"
         }
     },
+    "paymentStatus": {
+        "amountDue": "Utestående belopp",
+        "collecting": "Vi drar beloppet...",
+        "contactSupport": "Kontakta supporten",
+        "couldNotStart": "Vi kunde inte starta kortförnyelsen. Försök igen eller kontakta supporten.",
+        "logOut": "Logga ut",
+        "pleaseWait": "Vänta...",
+        "stillUnpaid": "Kortet är uppdaterat, men betalningen gick inte igenom. Försök igen eller kontakta supporten.",
+        "updateCard": "Uppdatera betalkort",
+        "wall": {
+            "pastDueTitle": "Betalningen kunde inte genomföras",
+            "pastDueBody": "Vi kunde inte dra betalningen för er prenumeration. Ange ett giltigt betalkort för att fortsätta. Kontot stängs om {days} dagar om betalningen inte genomförs.",
+            "suspendedTitle": "Prenumerationen är pausad",
+            "suspendedBody": "Er prenumeration är pausad eftersom betalningen inte kunde genomföras. Ange ett giltigt betalkort så öppnar vi kontot igen direkt."
+        },
+        "notice": {
+            "title": "Betalningen saknas",
+            "body": "Vi kunde inte dra betalningen för er prenumeration. En administratör behöver uppdatera betalkortet. Annars stängs kontot om {days} dagar."
+        },
+        "renew": {
+            "title": "Förnya er prenumeration",
+            "intro": "Ange ett giltigt betalkort så drar vi det utestående beloppet och öppnar {company} igen.",
+            "invalidToken": "Länken har gått ut eller är ogiltig. Kontakta supporten så skickar vi en ny.",
+            "successTitle": "Betalningen är genomförd",
+            "successBody": "Ert konto är öppet igen. Ni kan logga in nu.",
+            "goToLogin": "Gå till inloggningen"
+        }
+    },
     "patient": {
         "nav": {
             "appointments": "Bokningar",
@@ -14568,6 +14600,26 @@
         "title": "Inställningar för den här sidan",
         "forThisPage": "Inställningar för den här sidan",
         "allSettings": "Alla inställningar"
+    },
+    "employmentOptions": {
+        "title": "Anställningsval",
+        "subtitle": "Anpassa alternativen i fälten Arbetstimmar och Anställningsstatus på en medarbetare.",
+        "builtIn": "Systemval",
+        "newOption": "Nytt alternativ",
+        "add": "Lägg till",
+        "working_hours": {
+            "title": "Arbetstimmar",
+            "description": "Systemvalen kan varken döpas om eller tas bort: resten av systemet räknar på dem, bland annat omräkningen från semestertimmar till semesterdagar för deltidsanställda."
+        },
+        "employment_status": {
+            "title": "Anställningsstatus",
+            "description": "Lägg till de anställningsformer ni använder. Medarbetare som redan står på ett alternativ behåller det, även om ni döper om det."
+        },
+        "alert": {
+            "added": "Alternativet lades till",
+            "updated": "Alternativet uppdaterades",
+            "deleted": "Alternativet togs bort"
+        }
     },
     "bookingAppointments": {
         "intro": "Tider patienterna har tagit. Ska en kollega täcka kan bokningen lämnas över utan att patienten bokar om.",

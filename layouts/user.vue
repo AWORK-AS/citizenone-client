@@ -164,10 +164,12 @@
             </div>
         </div>
 
-        <!-- Main content -->
+        <!-- Main content.
+             No padding for the assistant panel: it is `fixed`, so it already floats
+             over the page, and padding the content as well shoved every page
+             sideways whenever it was opened (Birketoften 31/8). -->
         <div class="bg-surface-50 min-h-screen transition-all duration-300 ease-in-out" :class="[
-            sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]',
-            assistantStore.isOpen ? 'xl:pr-[26rem]' : ''
+            sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]'
         ]">
             <!-- Impersonation Banner -->
             <div v-if="isImpersonating" ref="bannerRef"
@@ -432,6 +434,10 @@
                     <!-- Storage is nearly or completely full. Sits in the content flow rather than
                          above the navbar so it never disturbs the measured sticky offsets. -->
                     <ModulesUserStorageQuotaNotice />
+
+                    <!-- Subscription payment outstanding. Renders a blocking wall for an
+                         admin (who can fix it) and a plain notice for everyone else. -->
+                    <ModulesUserBillingPaymentWall />
 
                     <!-- On the schedules pages this toolbar carries the date navigation, so it pins
                          beneath the navbar - otherwise you have to scroll back to the top of a long
