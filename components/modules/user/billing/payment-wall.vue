@@ -71,6 +71,7 @@
 
 <script setup lang="ts">
 import { billingService } from '@/components/api/user/BillingService'
+import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()

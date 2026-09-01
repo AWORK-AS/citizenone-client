@@ -56,6 +56,7 @@
 
 <script setup lang="ts">
 import { subscriptionRenewalService } from '@/components/api/SubscriptionRenewalService'
+import { useI18n } from 'vue-i18n'
 
 /**
  * Card renewal for a suspended company, reached from the suspension email.
