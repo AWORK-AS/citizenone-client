@@ -6968,6 +6968,7 @@
             "moveUp": "Flyt op",
             "moveDown": "Flyt ned",
             "dragToReorder": "Træk for at omarrangere",
+            "changeType": "Skift felttype",
             "duplicate": "Dupliker",
             "table": "Tabel"
         },

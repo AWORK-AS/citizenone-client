@@ -6968,6 +6968,7 @@
             "moveUp": "Flytt opp",
             "moveDown": "Flytt ned",
             "dragToReorder": "Dra for å endre rekkefølge",
+            "changeType": "Endre felttype",
             "duplicate": "Dupliser",
             "table": "Tabell"
         },

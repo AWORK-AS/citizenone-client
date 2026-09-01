@@ -1,25 +1,35 @@
 /**
- * Browser E2E for the form-builder field-order fix + drag-and-drop reordering.
+ * Browser E2E for the form-builder field-order fix + drag-and-drop reordering
+ * + in-place field type switching.
  *
  * Covers the Birketoften ApS bug report: reordering fields and changing a
- * field's type (implemented client-side as delete-old + add-new, since there
- * is no in-place type editor) used to save the changed field at the very
- * bottom of the form regardless of where it was left before saving. Root
- * cause was that `form_fields` had no persisted order column - order was
- * implicit DB insertion order, so a freshly re-created row always sorted
- * last. Fixed by adding `sort_order`, derived from each field's position in
- * the submitted array on every save. This test also exercises the new
- * drag-and-drop reordering (a grip-icon handle, the only draggable element
- * on the page) added alongside the pre-existing Up/Down buttons.
+ * field's type used to save the changed field at the very bottom of the form
+ * regardless of where it was left before saving. Root cause was twofold:
+ * `form_fields` had no persisted order column - order was implicit DB
+ * insertion order, so a freshly re-created row always sorted last (fixed by
+ * adding `sort_order`, derived from each field's position in the submitted
+ * array on every save) - and changing a field's type meant delete the old
+ * field + add a new one, which always appended at the end and, being a new
+ * row, dropped any citizen answers already saved against the old one. That
+ * second half is now a proper in-place type switch (a dropdown next to the
+ * drag handle) that mutates `field.type` and keeps the field's `uuid`. This
+ * test also exercises the drag-and-drop reordering (a grip-icon handle, the
+ * only draggable element on the page) added alongside the pre-existing
+ * Up/Down buttons.
  *
- * Three scenarios, each saving and then reloading the page (a hard
+ * Four scenarios, each saving and then reloading the page (a hard
  * navigation, not just re-reading in-memory state) so a regression to
  * "order isn't actually persisted" can't hide behind the client's own optimistic
  * array order:
  *   1) Pure drag-and-drop reorder of existing fields (no type change).
- *   2) The exact bug scenario: delete a field, add a different-typed field
- *      (which always lands at the end), drag it back into place, save.
+ *   2) The originally reported bug scenario: delete a field, add a
+ *      different-typed field (which always lands at the end), drag it back
+ *      into place, save.
  *   3) Regression guard: the pre-existing Up/Down buttons still work.
+ *   4) The in-place type switch: converting a text field to a textarea via
+ *      the dropdown must keep its title, its position, and - checked via the
+ *      raw API, not just the DOM - the field row's uuid, so any response
+ *      already saved against it isn't orphaned.
  *
  * Order is asserted two ways: from the DOM after a fresh page load, and
  * independently via a raw API GET of the form - the latter is the real
@@ -185,6 +195,27 @@ async function fetchFormFieldsFromApi() {
   return (res.json?.data?.form_fields || []).map((f) => JSON.parse(f.field))
 }
 
+// Same as fetchFormFieldsFromApi, but keeps each row's own uuid alongside its
+// parsed field data - needed to prove an in-place type switch reused the
+// existing backend row instead of creating a new one.
+async function fetchFormFieldRowsFromApi() {
+  const res = await api('GET', `/forms/${formUuid}`)
+  return (res.json?.data?.form_fields || []).map((f) => ({ uuid: f.uuid, ...JSON.parse(f.field) }))
+}
+
+// The field-type dropdown is a @vueform/multiselect (see selectFormAndFolder
+// in create-report-permission.mjs for the same pattern): open it by the
+// select's own id, then click the option by its value-keyed id. The select's
+// id is keyed by the field's current DOM index, so it's resolved by title
+// right before use rather than cached, in case an earlier step moved it.
+async function switchFieldType(title, toType) {
+  const titles = await fieldTitles()
+  const index = titles.indexOf(title)
+  if (index === -1) throw new Error(`Field titled "${title}" not found for a type switch (have: ${titles.join(', ')})`)
+  await page.locator(`#field_type_${index}`).click()
+  await page.locator(`#field_type_${index}-multiselect-option-${toType}`).click()
+}
+
 let formUuid = null
 
 try {
@@ -261,6 +292,29 @@ try {
   const apiFieldsAfterScenario3 = await fetchFormFieldsFromApi()
   ok('Up-button reorder persisted server-side (raw API)', JSON.stringify(apiFieldsAfterScenario3.map((f) => f.value)) === JSON.stringify(['Field D', 'Field A', 'Field C', 'Field E (was text)']))
   await page.screenshot({ path: `${SHOT}/forms-reorder-06-scenario3-reloaded.png`, fullPage: true })
+
+  // 5) Scenario 4 - the client's actual ask: switch a text field to a
+  // textarea in place, via the type dropdown, rather than delete + re-add.
+  // Current order is [D, A, C, E]; retype Field A.
+  const apiFieldsBeforeRetype = await fetchFormFieldRowsFromApi()
+  const fieldABefore = apiFieldsBeforeRetype.find((f) => f.value === 'Field A')
+  ok('Field A has a uuid before the in-place type switch', !!fieldABefore?.uuid)
+  ok('Field A starts as a textfield', fieldABefore?.type === 'textfield')
+
+  await switchFieldType('Field A', 'textarea')
+  ok('In-place type switch keeps every field\'s title and position in the DOM',
+    JSON.stringify(await fieldTitles()) === JSON.stringify(['Field D', 'Field A', 'Field C', 'Field E (was text)']))
+  await page.screenshot({ path: `${SHOT}/forms-reorder-07-inplace-retyped.png`, fullPage: true })
+
+  const titlesAfterScenario4 = await saveAndReload(4)
+  ok('In-place retype persisted after save + reload, still in position (DOM)',
+    JSON.stringify(titlesAfterScenario4) === JSON.stringify(['Field D', 'Field A', 'Field C', 'Field E (was text)']))
+
+  const apiFieldsAfterRetype = await fetchFormFieldRowsFromApi()
+  const fieldAAfter = apiFieldsAfterRetype.find((f) => f.value === 'Field A')
+  ok('In-place retype reused the same field row (uuid unchanged) - a saved answer would not be orphaned',
+    !!fieldAAfter?.uuid && fieldAAfter.uuid === fieldABefore.uuid)
+  ok('In-place retype actually saved the field as a textarea', fieldAAfter?.type === 'textarea')
 
   const realConsoleErrors = consoleErrors.filter((e) => !e.includes('Obiyen script tag'))
   ok('No console errors across all three scenarios', realConsoleErrors.length === 0)
