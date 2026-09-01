@@ -296,7 +296,7 @@ onMounted(() => {
 
 	const rememberMe = localStorage.getItem("rememberMe")
 	if (rememberMe) {
-		navigateTo(resolvePostLoginRedirect(userStore.getUser?.role))
+		navigateTo(resolvePostLoginRedirect(userStore.getUser?.role, userStore.getUser))
 	}
 	let deviceUuid = localStorage.getItem("device_uuid")
 	if (!deviceUuid) {
@@ -370,7 +370,7 @@ async function login() {
 					// A deep-link redirect (?redirect=) always wins; the first-login
 					// override only applies where resolvePostLoginRedirect() would
 					// otherwise have fallen back to the plain staff default.
-					const target = resolvePostLoginRedirect(response.data.user?.role)
+					const target = resolvePostLoginRedirect(response.data.user?.role, response.data.user)
 					if (target === '/overview' && response.data.user?.is_first_login) {
 						navigateTo(staffLandingRoute(response.data.user))
 					} else {

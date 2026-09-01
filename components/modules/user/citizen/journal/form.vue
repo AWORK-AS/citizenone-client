@@ -118,7 +118,8 @@
                         :answers="state.surveyAnswers[assignment.uuid]" />
                 </div>
             </div>
-            <div class="space-y-1">
+            <!-- The level feeds the development graph, which is a care-plan measure. -->
+            <div class="space-y-1" v-if="hasCarePlans && isFieldVisible('score')">
                 <FormLabel for="score" :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formJournal.score" />
                 <FormError :error="v$?.formJournal?.score?.$errors[0]?.$message.toString()" />
@@ -398,6 +399,14 @@
                     {{ $t('citizens.citizenJournals.form.draft') }}
                 </div>
             </div>
+            <div class="space-y-1" v-if="isDentalClinic">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formJournal.is_visible_to_patient = !state.formJournal.is_visible_to_patient">
+                    <FormCheckbox id="is_visible_to_patient" :value="state.formJournal.is_visible_to_patient" />
+                    {{ $t('patient.staff.noteVisibleToPatient') }}
+                </div>
+                <p class="text-xs text-gray-500">{{ $t('patient.staff.noteVisibleToPatientHelp') }}</p>
+            </div>
             <div class="space-y-3" v-if="userStore?.getUser?.industry === 'Dentists and dental hygienists'">
                 <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
@@ -528,6 +537,21 @@ const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const citizenStore = useCitizenStore() as any
 const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
+
+// Same rule as the follow-up bell on the citizen header.
+const hasCarePlans = computed(() => userStore?.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
+
+// The patient portal only exists for dental clinics, so the sharing switch is
+// only offered there. Same rule as the other dental features: the industry's
+// system name, with the English industry name still counting until every
+// install is migrated.
+const isDentalClinic = computed(() => {
+    const industry = userStore?.getUser?.company?.industry
+
+    return industry?.system_name === 'dental'
+        || industry?.en_name === 'Dentists and dental hygienists'
+        || userStore?.getUser?.industry === 'Dentists and dental hygienists'
+})
 const language = useI18n()
 
 const { t } = useI18n()
@@ -602,6 +626,7 @@ const state = reactive({
         risk_assessment_subgoal: '',
         title: '',
         is_draft: false,
+        is_visible_to_patient: false,
         is_ai_used: false,
         assessment: null,
         note: '',
@@ -670,8 +695,8 @@ const state = reactive({
     usePredefinedJournalTitle: false,
     userPredefinedContents: false,
     formFieldConfig: {
-        create: { risk_assessment: true } as Record<string, boolean>,
-        edit: { risk_assessment: true } as Record<string, boolean>,
+        create: { risk_assessment: true, score: true } as Record<string, boolean>,
+        edit: { risk_assessment: true, score: true } as Record<string, boolean>,
     },
 })
 
@@ -688,6 +713,7 @@ async function fetchFormFieldConfig() {
                 if (config.form_type === 'create' || config.form_type === 'edit') {
                     state.formFieldConfig[config.form_type as 'create' | 'edit'] = {
                         risk_assessment: config.form_fields?.risk_assessment !== false,
+                        score: config.form_fields?.score !== false,
                     }
                 }
             })
@@ -932,6 +958,7 @@ function setFormJournalFromSelected(journal: any) {
         risk_assessment_subgoal: '',
         title: journal.title,
         is_draft: journal.is_draft,
+        is_visible_to_patient: journal.is_visible_to_patient ?? false,
         is_ai_used: journal.is_ai_used ?? false,
         assessment: journal.assessment,
         note: journal.note === null ? '' : journal.note,

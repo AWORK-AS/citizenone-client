@@ -40,6 +40,20 @@
                             <p class="text-xs text-gray-500">
                                 {{ $t('journalFormConfig.riskAssessmentDescription') }}
                             </p>
+
+                            <div class="border-t border-gray-100 pt-4 space-y-2">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.isScoreVisible"
+                                        @toggleSwitch="state.isScoreVisible = !state.isScoreVisible" />
+                                    <p class="text-sm text-gray-700">
+                                        {{ $t('journalFormConfig.scoreToggle') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">
+                                    {{ $t('journalFormConfig.scoreDescription') }}
+                                </p>
+                            </div>
+
                             <div class="pt-2">
                                 <FormButton type="button" buttonStyle="primary" class="w-full"
                                     @click="submitFormFieldConfig()">
@@ -83,6 +97,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     isRiskAssessmentVisible: true,
+    isScoreVisible: true,
 })
 
 onMounted(() => {
@@ -104,6 +119,9 @@ async function fetchFormFieldConfigs() {
             const editConfig = response.data.find((config: any) => config.form_type === 'edit')
             const value = createConfig?.form_fields?.risk_assessment ?? editConfig?.form_fields?.risk_assessment
             state.isRiskAssessmentVisible = value !== false
+
+            const scoreValue = createConfig?.form_fields?.score ?? editConfig?.form_fields?.score
+            state.isScoreVisible = scoreValue !== false
         }
     } catch (error: any) {
         state.error = error
@@ -120,12 +138,12 @@ async function submitFormFieldConfig() {
         await formFieldConfigService.updateFormConfig({
             entity_type: 'citizen_journal',
             form_type: 'create',
-            form_fields: { risk_assessment: state.isRiskAssessmentVisible },
+            form_fields: { risk_assessment: state.isRiskAssessmentVisible, score: state.isScoreVisible },
         })
         await formFieldConfigService.updateFormConfig({
             entity_type: 'citizen_journal',
             form_type: 'edit',
-            form_fields: { risk_assessment: state.isRiskAssessmentVisible },
+            form_fields: { risk_assessment: state.isRiskAssessmentVisible, score: state.isScoreVisible },
         })
         successAlert(`${t('alert.success')}!`, `${t('journalFormConfig.alert.successfullyUpdated')}.`)
         navigateTo('/citizens')

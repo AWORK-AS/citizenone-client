@@ -13,6 +13,11 @@
             <template #header>{{ $t('events.calendar') }}</template>
 
             <ModulesUserCalendarTabs />
+            <!-- A booked time now lands in the clinician's calendar. Nobody
+                 would guess that from a screen of booking settings, and the
+                 whole point is that people stop keeping the two apart in their
+                 heads. -->
+            <Alert type="info" class="mt-4" :text="$t('bookings.landsInCalendar')" />
             <LoadingSpinner :isActive="state.isPageLoading">
                 <div class="mt-8 flex justify-end items-center mb-5 gap-x-2"
                     v-if="Object.keys(state.bookingSettings).length > 0">

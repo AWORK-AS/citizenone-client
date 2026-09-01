@@ -460,6 +460,18 @@
                                                             </button>
                                                         </Tooltip>
                                                         <Tooltip position="right"
+                                                            :text="$t('dutySchedules.compensatoryTimeRequests.compensatoryTimeRequests')"
+                                                            v-if="userStore.getUser?.company?.compensatory_time_enabled && (isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.uuid === employee?.uuid))">
+                                                            <button :aria-label="$t('dutySchedules.compensatoryTimeRequests.compensatoryTimeRequests')"
+                                                                class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
+                                                                @click="viewCompensatoryTimeRequests(employee)">
+                                                                <Icon name="mdi:clock-check-outline" class="h-3 w-3"
+                                                                    aria-hidden="true" />
+                                                <div v-if="employee?.pending_compensatory_time_requests > 0"
+                                                                    class="w-2 h-2 bg-red-400 rounded-full absolute -top-1 -right-1 pointer-events-none" />
+                                                            </button>
+                                                        </Tooltip>
+                                                        <Tooltip position="right"
                                                             :text="isFavorited(employee) ? $t('dutySchedules.favorites.removeFromFavorites') : $t('dutySchedules.favorites.addToFavorites')"
                                                             v-if="hasManageFavoritesAccess && userStore.getUser?.uuid !== employee?.uuid">
                                                             <button :aria-label="isFavorited(employee) ? $t('dutySchedules.favorites.removeFromFavorites') : $t('dutySchedules.favorites.addToFavorites')"
@@ -498,7 +510,11 @@
                                                         <div class="h-2 bg-gray-200 rounded animate-pulse w-2/3" />
                                                     </div>
                                                     <template v-else>
+                                                        <!-- Left out entirely for staff marked as not
+                                                             using an annual norm: a norm of zero is not
+                                                             information. -->
                                                         <div class="flex items-center gap-1 cursor-pointer"
+                                                            v-if="empStats(employee)?.uses_annual_norm_hours !== false"
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.annualNormHours') }}:
@@ -510,6 +526,7 @@
                                                         </div>
 
                                                         <div class="flex items-center gap-1 cursor-pointer"
+                                                            v-if="empStats(employee)?.uses_annual_norm_hours !== false"
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.weeklyNormHours') }}:
@@ -1420,6 +1437,10 @@
         <ModulesUserDutyScheduleShiftRequestsModalView :isModalOpen="state.modal.isManageShiftRequestsOpen"
             :selectedEmployee="state.manageShiftRequests.selectedEmployee"
             @close="state.modal.isManageShiftRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
+        <ModulesUserDutyScheduleCompensatoryTimeRequestsModalView
+            :isModalOpen="state.modal.isManageCompensatoryTimeRequestsOpen"
+            :selectedEmployee="state.manageCompensatoryTimeRequests.selectedEmployee"
+            @close="state.modal.isManageCompensatoryTimeRequestsOpen = false" @refreshDutySchedules="fetchDutySchedule()" />
         <ModulesUserDutyScheduleTimeRequestsModalRequests :isModalOpen="state.modal.isManageTimeAdjustmentRequestsOpen"
             :selectedDate="state.manageTimeRequest.selectedDate"
             :selectedEmployee="state.manageTimeRequest.selectedEmployee"
@@ -1601,6 +1622,9 @@ const state = reactive({
     manageShiftRequests: {
         selectedEmployee: {},
     },
+    manageCompensatoryTimeRequests: {
+        selectedEmployee: {},
+    },
     manageTimeRequest: {
         selectedDate: '',
         selectedEmployee: {},
@@ -1623,6 +1647,7 @@ const state = reactive({
         isManageLeaveRequestsOpen: false,
         isManageScheduleSlotOpen: false,
         isManageShiftRequestsOpen: false,
+        isManageCompensatoryTimeRequestsOpen: false,
         isManageTimeAdjustmentRequestsOpen: false,
         isManageSwapScheduleRequestsOpen: false,
         isRemoveShiftReasonOpen: false,
@@ -2561,6 +2586,11 @@ function handleShiftRequestDeepLink() {
 function viewShiftRequests(employee: any) {
     state.manageShiftRequests.selectedEmployee = employee
     state.modal.isManageShiftRequestsOpen = true
+}
+
+function viewCompensatoryTimeRequests(employee: any) {
+    state.manageCompensatoryTimeRequests.selectedEmployee = employee
+    state.modal.isManageCompensatoryTimeRequestsOpen = true
 }
 
 async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {

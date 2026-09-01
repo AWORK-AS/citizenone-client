@@ -75,6 +75,10 @@
                         </div>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">
+                        <FormButton buttonStyle="action" @click="state.isRequestCompensatoryTimeOpen = true"
+                            v-if="canRequestCompensatoryTime">
+                            {{ $t('dutySchedules.compensatoryTimeRequests.newRequest') }}
+                        </FormButton>
                         <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
@@ -82,11 +86,15 @@
                 </div>
             </template>
         </Modal>
+        <ModulesUserDutyScheduleCompensatoryTimeRequestsModalNew :isModalOpen="state.isRequestCompensatoryTimeOpen"
+            :schedule="props.selectedEmployeeSchedule" @close="state.isRequestCompensatoryTimeOpen = false"
+            @success="state.isRequestCompensatoryTimeOpen = false; closeModal()" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 
 const props = defineProps({
@@ -101,7 +109,23 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const language = useI18n()
+const userStore = useUserStore() as any
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+
+const state = reactive({
+    isRequestCompensatoryTimeOpen: false,
+})
+
+const canRequestCompensatoryTime = computed(() => {
+    if (!userStore.getUser?.company?.compensatory_time_enabled) return false
+
+    const schedule = props.selectedEmployeeSchedule
+    if (!schedule?.scheduleUuid) return false
+    if (userStore.getUser?.uuid !== schedule?.user_uuid) return false
+    if (schedule?.shift_type?.is_leave_shift_type) return false
+
+    return new Date(schedule?.date_time_start).getTime() > Date.now()
+})
 
 function closeModal() {
     emit('close')
