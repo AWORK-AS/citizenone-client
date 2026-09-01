@@ -14378,6 +14378,34 @@
             "deleteFailed": "Regelen kunne ikke slettes"
         }
     },
+    "paymentStatus": {
+        "amountDue": "Utestående beløp",
+        "collecting": "Vi trekker beløpet...",
+        "contactSupport": "Kontakt support",
+        "couldNotStart": "Vi kunne ikke starte kortfornyelsen. Prøv igjen, eller kontakt supporten.",
+        "logOut": "Logg ut",
+        "pleaseWait": "Vent litt...",
+        "stillUnpaid": "Kortet er oppdatert, men betalingen gikk ikke gjennom. Prøv igjen, eller kontakt supporten.",
+        "updateCard": "Oppdater betalingskort",
+        "wall": {
+            "pastDueTitle": "Betalingen kunne ikke gjennomføres",
+            "pastDueBody": "Vi klarte ikke å trekke betalingen for abonnementet deres. Legg inn et gyldig betalingskort for å fortsette. Kontoen stenges om {days} dager hvis betalingen ikke gjennomføres.",
+            "suspendedTitle": "Abonnementet er satt på pause",
+            "suspendedBody": "Abonnementet deres er satt på pause fordi betalingen ikke kunne gjennomføres. Legg inn et gyldig betalingskort, så åpner vi kontoen igjen med en gang."
+        },
+        "notice": {
+            "title": "Betalingen mangler",
+            "body": "Vi klarte ikke å trekke betalingen for abonnementet deres. En administrator må oppdatere betalingskortet. Ellers stenges kontoen om {days} dager."
+        },
+        "renew": {
+            "title": "Forny abonnementet deres",
+            "intro": "Legg inn et gyldig betalingskort, så trekker vi det utestående beløpet og åpner {company} igjen.",
+            "invalidToken": "Lenken er utløpt eller ugyldig. Kontakt supporten, så sender vi en ny.",
+            "successTitle": "Betalingen er gjennomført",
+            "successBody": "Kontoen deres er åpen igjen. Dere kan logge inn nå.",
+            "goToLogin": "Gå til innlogging"
+        }
+    },
     "patient": {
         "nav": {
             "appointments": "Avtaler",
