@@ -390,7 +390,7 @@ import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { shiftService } from '@/components/api/user/ShiftService'
 import { employeeAvailabilityService } from '@/components/api/user/EmployeeAvailabilityService'
 import { useDepartmentStore } from '@/store/department'
@@ -706,6 +706,14 @@ const selectedShiftOption = computed(() =>
     state.options.shifts.find((shift: any) => shift.value === state.formShift.shift_type) ?? null
 )
 
+// The department list always carries a synthetic "all departments" row (uuid
+// 'all-departments') prepended by the backend, so a non-empty options list does not
+// mean the company has any real departments. Mirrors ScheduleCreationTrait's own
+// companyHasDepartments() check, which only demands a department when one exists.
+const hasRealDepartments = computed(() =>
+    state.options.departments.some((department: any) => department.value !== 'all-departments')
+)
+
 const isSleepingNightShift = computed(() =>
     selectedShiftOption.value?.system_name === 'sleeping-night-shift'
 )
@@ -769,7 +777,10 @@ const rules = computed(() => {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 department_uuid: {
-                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                    required: helpers.withMessage(
+                        () => `${t('validation.thisFieldIsRequired')}.`,
+                        requiredIf(hasRealDepartments),
+                    ),
                 },
                 date_time_start: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -919,10 +930,13 @@ async function fetchAllDepartments() {
             )
             state.options.departments = options
             if (props.formType === 'create') {
-                state.formShift.department_uuid = []
-                if (!['All departments', 'Alle afdelinger'].includes(departmentStore.getSelectedDepartmentName)) {
-                    state.formShift.department_uuid.push(departmentStore.getSelectedDepartment?.uuid)
-                }
+                // Seed from the department switcher, comparing on uuid rather than on the
+                // rendered label: the label is locale-dependent ('Alle afdelinger',
+                // 'Alle avdelinger', 'Alla avdelningar', …), so a name comparison misses
+                // the sentinel on no/sv and seeds the form with 'all-departments'.
+                const selected = departmentStore.getSelectedDepartment
+                state.formShift.department_uuid =
+                    selected?.uuid && selected.uuid !== 'all-departments' ? [selected.uuid] : []
             }
         }
     } catch (error: any) {
