@@ -308,6 +308,11 @@ async function sendAllInvoices() {
     state.isSendAllInvoicesLoading = false
 }
 
+// A custom_monthly/custom_yearly invoice (never wired to auto-recur) paid
+// here always opts into auto-renewal - see InvoiceService::payInvoice()/
+// provisionInvoicePayment() on the backend, which promotes the invoice's
+// frequency to plain monthly/yearly once Nexi actually tokenizes the card.
+// Already-recurring/one-time/free invoices are unaffected either way.
 async function payInvoice(invoice: any) {
     state.error = {}
     try {
