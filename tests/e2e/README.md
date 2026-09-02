@@ -56,6 +56,31 @@ unchecked. Self-restoring.
 CO_TOKEN='<token>' CO_CITIZEN_UUID='<uuid>' npm run test:medicine-pn-dose-validation
 ```
 
+### `our-contact-person-save` — no extra setup beyond `CO_TOKEN`/`CO_CITIZEN_UUID`
+
+Covers AW-2026-3581 (2d): saving the responsible healthcare provider on a citizen's
+illness/functional-impairment record. The "our contact person" dropdown used to be a
+hard-required field switched on by default for every new record, but it is only ever
+populated by `citizen_contacts` rows written as a side effect of assigning an employee
+to the citizen - a citizen with none has zero options, so the form was silently
+unsavable (vuelidate blocked the submit before any request went out). Stubs
+`GET /citizen-contact-persons/all/list` via `page.route()` for the empty-list and
+label-fallback passes, so those don't depend on which employees happen to be assigned
+to `CO_CITIZEN_UUID` today; the real-contact pass removes the stub and assigns the
+`CO_TOKEN` user themselves via the real API. Proves: an empty contact list defaults a
+new record to free text with the picker disabled and explained, and it's savable;
+reopening a free-text record stays in free-text mode; a contact row named only on its
+linked employee renders that name, and one named nowhere is skipped rather than shown
+blank; a real assigned contact is selectable by name, and reopening the saved record
+shows the same person still selected; and a record with neither field set (only
+reachable via the raw API, since the UI itself always requires one) opens in free-text
+mode and is savable rather than trapped in contact-person mode. Self-restoring: deletes
+every illness record it creates, and the assigned contact only if this run created it.
+
+```bash
+CO_TOKEN='<token>' CO_CITIZEN_UUID='<uuid>' npm run test:our-contact-person-save
+```
+
 ### `compensatory-time-toggle` — needs an Employee token and an existing future shift
 
 Covers task-478: the compensatory-time request feature was changed from a purchasable
