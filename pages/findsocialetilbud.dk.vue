@@ -12,22 +12,82 @@
 
             <template #header>FindSocialeTilbud.dk</template>
 
-            <div
-                class="absolute top-10 right-4 transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right">
-                <button @click="toggleOverlay"
-                    class="items-center justify-center w-10 h-10 bg-tertiary text-white rounded-full shadow-lg">
-                    <span class="text-lg font-bold">?</span>
-                </button>
+            <NuxtLink v-if="connectionBanner" :to="connectionBanner.to"
+                class="max-w-5xl mx-auto mt-6 flex items-start gap-3 rounded-xl border p-4 transition-colors hover:opacity-90"
+                :class="connectionBanner.classes">
+                <span class="size-2.5 rounded-full mt-1 shrink-0" :class="connectionBanner.dotClass"></span>
+                <div class="flex-1">
+                    <p class="text-sm font-semibold">{{ connectionBanner.title }}</p>
+                    <p class="text-sm opacity-80">{{ connectionBanner.body }}</p>
+                </div>
+                <span class="text-sm font-medium underline shrink-0">{{ connectionBanner.linkText }}</span>
+            </NuxtLink>
 
+            <!-- Live data preview once the connection is fully active — same
+                 numbers as /settings/fst, shown here too since this is where a
+                 company first thinks to look for their FindSocialeTilbud.dk data. -->
+            <div v-if="fstStatus?.sync_eligible" class="max-w-5xl mx-auto mt-4">
+                <p class="text-xs font-medium uppercase tracking-wide text-slate-400 mb-2">
+                    {{ $t('findsocialetilbuddk.analytics.last30Days') }}
+                </p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="rounded-xl border border-surface-200 bg-white p-4 shadow-sm">
+                        <p class="text-xs text-slate-400">{{ $t('findsocialetilbuddk.analytics.uniqueVisitors') }}</p>
+                        <p class="mt-1 text-2xl font-semibold text-slate-900">{{ latestMetrics.unique_visitors ?? 0 }}</p>
+                    </div>
+                    <div class="rounded-xl border border-surface-200 bg-white p-4 shadow-sm">
+                        <p class="text-xs text-slate-400">{{ $t('findsocialetilbuddk.analytics.pageviews') }}</p>
+                        <p class="mt-1 text-2xl font-semibold text-slate-900">{{ latestMetrics.pageviews ?? 0 }}</p>
+                    </div>
+                    <div class="rounded-xl border border-surface-200 bg-white p-4 shadow-sm">
+                        <p class="text-xs text-slate-400">{{ $t('findsocialetilbuddk.analytics.profileVisits') }}</p>
+                        <p class="mt-1 text-2xl font-semibold text-slate-900">{{ latestMetrics.profile_visits ?? 0 }}</p>
+                    </div>
+                    <div class="rounded-xl border border-surface-200 bg-white p-4 shadow-sm">
+                        <p class="text-xs text-slate-400">{{ $t('findsocialetilbuddk.analytics.totalInquiries') }}</p>
+                        <p class="mt-1 text-2xl font-semibold text-slate-900">{{ totalInquiries }}</p>
+                    </div>
+                </div>
+
+                <div class="mt-3 rounded-xl border border-surface-200 bg-white p-4 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-semibold text-slate-900">{{ $t('findsocialetilbuddk.analytics.recentInquiries') }}</h3>
+                        <NuxtLink to="/settings/fst" class="text-sm font-medium text-primary hover:underline">
+                            {{ $t('findsocialetilbuddk.analytics.viewAll') }}
+                        </NuxtLink>
+                    </div>
+                    <p v-if="!fstInquiries.length" class="mt-2 text-sm text-slate-400">
+                        {{ $t('findsocialetilbuddk.analytics.noInquiriesYet') }}
+                    </p>
+                    <ul v-else class="mt-2 divide-y divide-surface-100">
+                        <li v-for="inquiry in fstInquiries.slice(0, 5)" :key="inquiry.uuid"
+                            class="py-2 text-sm flex justify-between">
+                            <span>{{ inquiry.inquirer_name || inquiry.fst_case_id }}</span>
+                            <span class="text-slate-400">{{ inquiry.status }}</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div v-if="state.modal.isOverlayVisible" :class="[
-                'fixed inset-0 bg-black bg-opacity-50',
-                state.modal.isModalZeroOpen ? 'z-40' : 'z-50'
-            ]">
-            </div>
 
+            <!-- Once the real integration is active, CitizenOne already has the data
+                 (see the preview above) — these onboarding prompts (complete your
+                 listing profile / opt in to inquiries), and the walkthrough that
+                 introduces them, would just be nagging about something already done. -->
+            <div v-if="fstStatus?.connection_status !== 'active'">
+                <div
+                    class="absolute top-10 right-4 transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right">
+                    <button @click="toggleOverlay"
+                        class="items-center justify-center w-10 h-10 bg-tertiary text-white rounded-full shadow-lg">
+                        <span class="text-lg font-bold">?</span>
+                    </button>
 
-            <div>
+                </div>
+                <div v-if="state.modal.isOverlayVisible" :class="[
+                    'fixed inset-0 bg-black bg-opacity-50',
+                    state.modal.isModalZeroOpen ? 'z-40' : 'z-50'
+                ]">
+                </div>
+
                 <div class="max-w-5xl mx-auto mt-22">
                     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4">
 
@@ -235,10 +295,118 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { fstService } from '@/components/api/user/FstService'
+import type { FstConnectionStatusResponse, FstInquiry, FstAnalyticsSnapshot } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
 const userStore = useUserStore()
+
+// Surfaces the real CitizenOne <-> FST data connection (managed at
+// /settings/fst) from this page too — this page itself only covers the
+// public FindSocialeTilbud.dk listing profile, a separate concern, so
+// without this a company could set both up without ever realizing they're
+// two different things.
+const fstStatus = ref<FstConnectionStatusResponse | null>(null)
+const fstInquiries = ref<FstInquiry[]>([])
+const fstAnalytics = ref<FstAnalyticsSnapshot[]>([])
+
+onMounted(async () => {
+    try {
+        fstStatus.value = await fstService.getStatus()
+
+        if (fstStatus.value?.sync_eligible) {
+            // No range passed — the backend defaults to the last 30 days and
+            // always reflects whatever has synced most recently.
+            const [inquiriesRes, analyticsRes] = await Promise.all([
+                fstService.getInquiries(),
+                fstService.getAnalytics(),
+            ])
+            fstInquiries.value = inquiriesRes?.data ?? []
+            fstAnalytics.value = analyticsRes?.data ?? []
+        }
+    } catch {
+        // Non-critical preview — the full picture is always available on /settings/fst.
+    }
+
+    // The walkthrough introduces the "complete your profile" / "receive
+    // inquiries" prompts, which are hidden once FST is active — walking a
+    // first-time visitor through UI they can't see would be worse than
+    // showing nothing.
+    if (fstStatus.value?.connection_status !== 'active') {
+        checkFirstTime()
+    }
+})
+
+// Sums across listings, so a multi-listing company gets one number per tile
+// instead of a tile per listing.
+const latestMetrics = computed(() => {
+    const totals: Record<string, number> = {}
+    for (const snapshot of fstAnalytics.value) {
+        totals[snapshot.metric_key] = (totals[snapshot.metric_key] ?? 0) + snapshot.metric_value
+    }
+    return totals
+})
+
+const totalInquiries = computed(() => fstInquiries.value.length)
+
+const connectionBanner = computed(() => {
+    const status = fstStatus.value
+    if (!status) return null
+
+    const base = 'findsocialetilbuddk.connectionBanner.'
+
+    if (!status.installed) {
+        return {
+            title: language.t(base + 'notInstalledTitle'),
+            body: language.t(base + 'notInstalledBody'),
+            classes: 'border-[#bfe4df] bg-[#e2f4f2] text-[#0d5850]',
+            dotClass: 'bg-[#14847a]',
+            to: '/apps',
+            linkText: language.t(base + 'activateLink'),
+        }
+    }
+
+    const manageLink = { to: '/settings/fst', linkText: language.t(base + 'manageLink') }
+
+    switch (status.connection_status) {
+        case 'active':
+            return {
+                title: language.t(base + 'activeTitle'),
+                body: language.t(base + 'activeBody'),
+                classes: 'border-green-200 bg-green-50 text-green-800',
+                dotClass: 'bg-green-500',
+                ...manageLink,
+            }
+        case 'pending':
+            return {
+                title: language.t(base + 'pendingTitle'),
+                body: language.t(base + 'pendingBody'),
+                classes: 'border-amber-200 bg-amber-50 text-amber-800',
+                dotClass: 'bg-amber-500',
+                ...manageLink,
+            }
+        case 'suspended':
+            return {
+                title: language.t(base + 'suspendedTitle'),
+                body: language.t(base + 'suspendedBody'),
+                classes: 'border-orange-200 bg-orange-50 text-orange-800',
+                dotClass: 'bg-orange-500',
+                ...manageLink,
+            }
+        case 'rejected':
+        case 'disconnected':
+            return null
+        default:
+            return {
+                title: language.t(base + 'installedTitle'),
+                body: language.t(base + 'installedBody'),
+                classes: 'border-surface-200 bg-surface-50 text-slate-700',
+                dotClass: 'bg-slate-400',
+                ...manageLink,
+            }
+    }
+})
 const breadcrumbLinks = [
     {
         name: 'FindSocialeTilbud.dk',
@@ -318,9 +486,6 @@ const closeModal3 = () => {
     localStorage.setItem('isFirstTime', 'false')
 }
 
-onMounted(() => {
-    checkFirstTime()
-})
 </script>
 
 <style scoped>
