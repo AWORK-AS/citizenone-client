@@ -11558,7 +11558,8 @@
             "storagePackages": "Storage packages",
             "paymentFees": "Payment fees",
             "storageUsage": "Storage usage",
-            "industries": "Industries"
+            "industries": "Industries",
+            "salesInquiries": "Inquiries"
         },
         "emailTemplates": {
             "title": "Email templates",
@@ -12252,6 +12253,59 @@
                 "term_journal_note_tag": "Note type",
                 "term_agreement": "Agreement",
                 "term_jobcenter": "Jobcenter"
+            }
+        },
+        "salesInquiries": {
+            "pageTitle": "Inquiries",
+            "description": "Contact and demo requests from citizenone.dk. Take one, call or write, and leave a note so the next colleague can see what happened.",
+            "searchPlaceholder": "Name, organisation, email, phone",
+            "refresh": "Refresh",
+            "empty": "No inquiries here",
+            "colWho": "Who",
+            "colType": "Type",
+            "colStatus": "Status",
+            "colOwner": "Owner",
+            "colReceived": "Received",
+            "open": "Open",
+            "nobody": "Nobody",
+            "unassigned": "Unassigned",
+            "mine": "Mine",
+            "previous": "Previous",
+            "next": "Next",
+            "tabs": {
+                "open": "Open",
+                "all": "All"
+            },
+            "statuses": {
+                "new": "New",
+                "contacted": "Contacted",
+                "qualified": "Qualified",
+                "demo_booked": "Demo booked",
+                "won": "Won",
+                "lost": "Lost"
+            },
+            "sources": {
+                "contact": "Contact form",
+                "book_demo": "Demo request",
+                "quick_ask": "Quick question",
+                "price_quote": "Price calculation",
+                "trial": "Trial request",
+                "other": "Inquiry"
+            },
+            "detail": {
+                "name": "Name",
+                "email": "Email",
+                "phone": "Phone",
+                "preferredAt": "Preferred time",
+                "source": "Type",
+                "page": "Page",
+                "campaign": "Campaign",
+                "message": "Message",
+                "lostReason": "Why was it lost",
+                "timeline": "Timeline",
+                "notePlaceholder": "What did you agree?",
+                "addNote": "Add note",
+                "noNotes": "Nothing written yet"
             }
         }
     },

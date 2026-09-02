@@ -11558,7 +11558,8 @@
             "storagePackages": "Lagringspakker",
             "paymentFees": "Betalingsgebyrer",
             "storageUsage": "Lagerforbruk",
-            "industries": "Bransjer"
+            "industries": "Bransjer",
+            "salesInquiries": "Henvendelser"
         },
         "emailTemplates": {
             "title": "E-postmaler",
@@ -12252,6 +12253,59 @@
                 "term_journal_note_tag": "Notattype",
                 "term_agreement": "Avtale",
                 "term_jobcenter": "Jobbsenter"
+            }
+        },
+        "salesInquiries": {
+            "pageTitle": "Henvendelser",
+            "description": "Kontakt- og demoforespørsler fra citizenone.dk. Ta en, ring eller skriv, og legg igjen et notat slik at neste kollega ser hva som har skjedd.",
+            "searchPlaceholder": "Navn, organisasjon, e-post, telefon",
+            "refresh": "Oppdater",
+            "empty": "Ingen henvendelser her",
+            "colWho": "Hvem",
+            "colType": "Type",
+            "colStatus": "Status",
+            "colOwner": "Eier",
+            "colReceived": "Mottatt",
+            "open": "Åpne",
+            "nobody": "Ingen",
+            "unassigned": "Uten eier",
+            "mine": "Mine",
+            "previous": "Forrige",
+            "next": "Neste",
+            "tabs": {
+                "open": "Åpne",
+                "all": "Alle"
+            },
+            "statuses": {
+                "new": "Ny",
+                "contacted": "Kontaktet",
+                "qualified": "Kvalifisert",
+                "demo_booked": "Demo booket",
+                "won": "Vunnet",
+                "lost": "Tapt"
+            },
+            "sources": {
+                "contact": "Kontaktskjema",
+                "book_demo": "Demoforespørsel",
+                "quick_ask": "Kort henvendelse",
+                "price_quote": "Prisberegning",
+                "trial": "Prøveforespørsel",
+                "other": "Henvendelse"
+            },
+            "detail": {
+                "name": "Navn",
+                "email": "E-post",
+                "phone": "Telefon",
+                "preferredAt": "Ønsket tidspunkt",
+                "source": "Type",
+                "page": "Side",
+                "campaign": "Kampanje",
+                "message": "Melding",
+                "lostReason": "Hvorfor ble den tapt",
+                "timeline": "Forløp",
+                "notePlaceholder": "Hva ble avtalt?",
+                "addNote": "Legg til notat",
+                "noNotes": "Ingenting skrevet ennå"
             }
         }
     },
