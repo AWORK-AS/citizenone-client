@@ -42,6 +42,20 @@ Optional env: `CO_BASE_URL` (default `http://localhost:3001`),
 Screenshots are written to `tests/e2e/screenshots/`. The email-templates test is
 self-restoring (the one template it edits is reset via the API at the end).
 
+### `medicine-pn-dose-validation` — no extra setup beyond `CO_TOKEN`/`CO_CITIZEN_UUID`
+
+Covers AW-2026-3581: the PN (as-needed) dose confirmation used to fire on
+effectively every save regardless of the dose entered, because it compared
+the wrong field. Creates its own PN `citizen_medicine` (`max_dose_per_administration: 2`,
+`max_daily_dose: 6`) and proves a normal dose (1) saves with no dialog at all,
+an over-limit dose (5) raises a dialog naming the real numbers, a non-numeric
+dose ("en halv") is rejected inline, and "select all" leaves the PN row
+unchecked. Self-restoring.
+
+```bash
+CO_TOKEN='<token>' CO_CITIZEN_UUID='<uuid>' npm run test:medicine-pn-dose-validation
+```
+
 ### `compensatory-time-toggle` — needs an Employee token and an existing future shift
 
 Covers task-478: the compensatory-time request feature was changed from a purchasable
