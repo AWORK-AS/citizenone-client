@@ -154,12 +154,6 @@ const rules = computed(() => {
                 date_time_end: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
-                citizen_uuid: {
-                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                status: {
-                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-                },
                 remarks: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
@@ -172,12 +166,6 @@ const rules = computed(() => {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 date_time_end: {
-                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                citizen_uuid: {
-                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                status: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 remarks: {
