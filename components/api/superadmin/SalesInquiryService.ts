@@ -16,6 +16,14 @@ class SalesInquiryService extends BaseAPIService {
     async addNote(uuid: string, params: object): Promise<any> {
         return await this.request(`/superadmin/sales-inquiries/${uuid}/notes`, 'POST', params)
     }
+
+    async getStatusSettings(): Promise<any> {
+        return await this.request('/superadmin/sales-inquiry-statuses', 'GET')
+    }
+
+    async saveStatusSettings(params: object): Promise<any> {
+        return await this.request('/superadmin/sales-inquiry-statuses', 'PUT', params)
+    }
 }
 
 export const salesInquiryService = new SalesInquiryService()

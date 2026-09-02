@@ -12314,7 +12314,15 @@
                 "list": "List",
                 "board": "Board"
             },
-            "dropHere": "Drop an inquiry here"
+            "dropHere": "Drop an inquiry here",
+            "columns": {
+                "button": "Columns",
+                "title": "Columns on the board",
+                "description": "What each stage is called, what colour it has, and the order it stands in. A name you write here is used everywhere, in every language; leave it empty to keep the translated one.",
+                "colour": "Colour",
+                "reset": "Back to defaults",
+                "save": "Save columns"
+            }
         }
     },
     "support": {

@@ -12314,7 +12314,15 @@
                 "list": "Liste",
                 "board": "Tavle"
             },
-            "dropHere": "Slip en henvendelse her"
+            "dropHere": "Slip en henvendelse her",
+            "columns": {
+                "button": "Kolonner",
+                "title": "Kolonner på tavlen",
+                "description": "Hvad hvert trin hedder, hvilken farve det har, og hvilken rækkefølge det står i. Et navn du skriver her bruges alle steder, på alle sprog; lad det stå tomt for at beholde det oversatte.",
+                "colour": "Farve",
+                "reset": "Tilbage til standard",
+                "save": "Gem kolonner"
+            }
         }
     },
     "support": {

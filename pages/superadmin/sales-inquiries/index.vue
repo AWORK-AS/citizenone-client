@@ -36,6 +36,10 @@
                                 :placeholder="$t('superadmin.salesInquiries.searchPlaceholder')"
                                 @keyup.enter="fetchInquiries" />
                         </div>
+                        <button class="co-action-btn" @click="openColumnSettings">
+                            <Icon name="ph:palette" class="w-3.5 h-3.5" />
+                            {{ $t('superadmin.salesInquiries.columns.button') }}
+                        </button>
                         <button class="co-action-btn" @click="fetchInquiries">
                             <Icon name="ph:arrows-clockwise" class="w-3.5 h-3.5" />
                             {{ $t('superadmin.salesInquiries.refresh') }}
@@ -57,7 +61,7 @@
                                 ? 'bg-[#205E77] text-white border-[#205E77]'
                                 : 'bg-white text-[#5C6478] border-[#D5D9E2] hover:bg-[#F5F6F8]',
                         ]">
-                            {{ $t(tab.label) }}
+                            {{ tabLabel(tab) }}
                             <span v-if="counts[tab.key] !== undefined" class="ml-1 opacity-70">{{ counts[tab.key] }}</span>
                         </button>
 
@@ -90,16 +94,23 @@
                 <!-- BOARD -->
                 <div v-else-if="state.view === 'board'" class="overflow-x-auto pb-3">
                     <div class="flex items-start gap-3 min-w-max">
-                        <div v-for="status in allStatuses" :key="status"
+                        <div v-for="status in orderedStatuses" :key="status"
                             class="w-[280px] shrink-0 rounded-xl border transition-colors"
                             :class="state.dragOverStatus === status
                                 ? 'border-[#42AED9] bg-[#F0F9FD]'
                                 : 'border-[#EAECF0] bg-[#F9FAFB]'"
                             @dragover.prevent="state.dragOverStatus = status" @dragleave="onDragLeave(status)"
                             @drop.prevent="dropOn(status)">
-                            <div class="flex items-center justify-between px-3 py-2.5 border-b border-[#EAECF0]">
-                                <span class="text-[13px] font-semibold text-[#1F2533]">
-                                    {{ $t('superadmin.salesInquiries.statuses.' + status) }}
+                            <!-- The colour is the column's, so a board scanned
+                                 from across the room still says which stage is
+                                 which. -->
+                            <div class="flex items-center justify-between px-3 py-2.5 border-b-2 rounded-t-xl"
+                                :style="`border-bottom-color: ${colorFor(status)}; background-color: ${colorFor(status)}14;`">
+                                <span class="text-[13px] font-semibold flex items-center gap-2"
+                                    :style="`color: ${colorFor(status)};`">
+                                    <span class="w-2 h-2 rounded-full inline-block"
+                                        :style="`background-color: ${colorFor(status)};`"></span>
+                                    {{ labelFor(status) }}
                                 </span>
                                 <span class="text-[12px] text-[#8891A4]">{{ (grouped[status] || []).length }}</span>
                             </div>
@@ -193,7 +204,7 @@
                                     <td class="co-td">
                                         <span class="px-2 py-0.5 rounded-full text-[12px] font-medium"
                                             :style="statusStyle(inquiry.status)">
-                                            {{ $t('superadmin.salesInquiries.statuses.' + inquiry.status) }}
+                                            {{ labelFor(inquiry.status) }}
                                         </span>
                                     </td>
                                     <td class="co-td text-[13px] text-[#5C6478]">
@@ -230,6 +241,65 @@
                     </button>
                 </div>
             </div>
+
+            <!-- COLUMNS: what each stage is called and what colour it has -->
+            <Modal size="md" :show="state.modal.isColumnsOpen" @close="state.modal.isColumnsOpen = false"
+                :title="$t('superadmin.salesInquiries.columns.title')">
+                <template #modal-body>
+                    <p class="text-[13px] text-[#5C6478] mb-4">
+                        {{ $t('superadmin.salesInquiries.columns.description') }}
+                    </p>
+
+                    <Alert type="danger" :text="state.columnsError?.message"
+                        v-if="state.columnsError?.message && state.columnsError?.message?.length > 0" />
+
+                    <ul class="space-y-2">
+                        <li v-for="(column, index) in state.columnsForm" :key="column.status"
+                            class="flex items-center gap-2 bg-[#F9FAFB] border border-[#EAECF0] rounded-lg p-2">
+                            <div class="flex flex-col">
+                                <button class="co-order-btn" :disabled="index === 0" @click="moveColumn(index, -1)">
+                                    <Icon name="ph:caret-up" class="w-3 h-3" />
+                                </button>
+                                <button class="co-order-btn" :disabled="index === state.columnsForm.length - 1"
+                                    @click="moveColumn(index, 1)">
+                                    <Icon name="ph:caret-down" class="w-3 h-3" />
+                                </button>
+                            </div>
+
+                            <input type="color" v-model="column.color" class="w-9 h-9 rounded-lg border border-[#D5D9E2] bg-white p-0.5 cursor-pointer shrink-0"
+                                :title="$t('superadmin.salesInquiries.columns.colour')" />
+
+                            <div class="flex-1 min-w-0">
+                                <input v-model="column.label" type="text" class="co-input"
+                                    :placeholder="$t('superadmin.salesInquiries.statuses.' + column.status)" />
+                            </div>
+
+                            <!-- `.co-input` carries `w-full`, so the width has to
+                                 be on a wrapper: a utility class on the input
+                                 itself loses to the global stylesheet. -->
+                            <div class="w-28 shrink-0">
+                                <input v-model="column.color" type="text" maxlength="7"
+                                    class="co-input font-mono text-[12px] uppercase" placeholder="#2E9E33" />
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="mt-5 flex items-center justify-between gap-2">
+                        <button class="co-action-btn" @click="resetColumns">
+                            <Icon name="ph:arrow-counter-clockwise" class="w-3.5 h-3.5" />
+                            {{ $t('superadmin.salesInquiries.columns.reset') }}
+                        </button>
+                        <div class="flex gap-2">
+                            <FormButton buttonStyle="cancel" @click="state.modal.isColumnsOpen = false">
+                                {{ $t('close') }}
+                            </FormButton>
+                            <FormButton :disabled="state.isSavingColumns" @click="saveColumns">
+                                {{ $t('superadmin.salesInquiries.columns.save') }}
+                            </FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
 
             <!-- DETAIL -->
             <Modal size="lg" :show="state.modal.isDetailOpen" @close="closeInquiry"
@@ -300,8 +370,8 @@
                             <div>
                                 <label class="co-detail-label">{{ $t('superadmin.salesInquiries.colStatus') }}</label>
                                 <select v-model="state.form.status" class="co-input mt-1" @change="saveInquiry">
-                                    <option v-for="status in allStatuses" :key="status" :value="status">
-                                        {{ $t('superadmin.salesInquiries.statuses.' + status) }}
+                                    <option v-for="status in orderedStatuses" :key="status" :value="status">
+                                        {{ labelFor(status) }}
                                     </option>
                                 </select>
                             </div>
@@ -362,11 +432,13 @@ import moment from 'moment'
 import { salesInquiryService } from '@/components/api/superadmin/SalesInquiryService'
 import { userService } from '@/components/api/superadmin/UserService'
 import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const { successAlert } = useAlert()
+const { t } = useI18n()
 
 const allStatuses = ['new', 'contacted', 'qualified', 'demo_booked', 'won', 'lost']
 
@@ -398,8 +470,14 @@ const state = reactive({
     page: 1,
     view: 'list' as 'list' | 'board',
     filters: { status: 'open', assigned: '', search: '' },
-    modal: { isDetailOpen: false },
+    modal: { isDetailOpen: false, isColumnsOpen: false },
     selected: null as any,
+    // How each stage is presented. Empty until the first fetch, and the
+    // fallbacks below are what the board draws in the meantime.
+    statusSettings: [] as any[],
+    columnsForm: [] as any[],
+    columnsError: {} as Error,
+    isSavingColumns: false,
     draggedUuid: null as string | null,
     dragOverStatus: null as string | null,
     form: {
@@ -442,7 +520,7 @@ onMounted(async () => {
         // A browser that refuses storage still gets the list.
     }
 
-    await Promise.all([fetchInquiries(), fetchUsers()])
+    await Promise.all([fetchInquiries(), fetchUsers(), fetchStatusSettings()])
 
     // The notification mail links straight to one inquiry, so the mail can be
     // acted on without hunting for it in the list.
@@ -466,16 +544,45 @@ function selectView(view: string) {
     fetchInquiries()
 }
 
+// What a stage looks like before the settings have loaded, and if they ever
+// fail to: a board with no colours is worse than a board with these.
+const FALLBACK_COLORS: Record<string, string> = {
+    new: '#42AED9',
+    contacted: '#205E77',
+    qualified: '#7C5CBF',
+    demo_booked: '#2E9E33',
+    won: '#2E9E33',
+    lost: '#8891A4',
+}
+
+const settingFor = (status: string) => state.statusSettings.find((s: any) => s.status === status)
+
+/** The columns in the order the team put them in. */
+const orderedStatuses = computed<string[]>(() =>
+    state.statusSettings.length
+        ? state.statusSettings.map((s: any) => s.status)
+        : allStatuses
+)
+
+/**
+ * A stage's name: what the team called it, or the translated default. A custom
+ * name is one name for everybody - somebody who renames New to "Ny" means it in
+ * every language, and inventing translations for their word would be worse.
+ */
+function labelFor(status: string) {
+    return settingFor(status)?.label || t('superadmin.salesInquiries.statuses.' + status)
+}
+
+function colorFor(status: string) {
+    return settingFor(status)?.color || FALLBACK_COLORS[status] || '#8891A4'
+}
+
+function tabLabel(tab: { key: string; label: string }) {
+    return allStatuses.includes(tab.key) ? labelFor(tab.key) : t(tab.label)
+}
+
 function statusStyle(status: string) {
-    const colors: Record<string, string> = {
-        new: '#42AED9',
-        contacted: '#205E77',
-        qualified: '#7C5CBF',
-        demo_booked: '#2E9E33',
-        won: '#2E9E33',
-        lost: '#8891A4',
-    }
-    const color = colors[status] ?? '#8891A4'
+    const color = colorFor(status)
 
     return `background-color: ${color}1A; color: ${color};`
 }
@@ -560,6 +667,67 @@ async function fetchUsers() {
         // inquiry: the assign control is simply empty.
         state.users = []
     }
+}
+
+async function fetchStatusSettings() {
+    try {
+        const response = await salesInquiryService.getStatusSettings()
+        state.statusSettings = response?.data ?? []
+    } catch (error: any) {
+        // The board still draws, in the default colours: a settings endpoint
+        // that is unavailable must not take the inbox with it.
+        state.statusSettings = []
+    }
+}
+
+function openColumnSettings() {
+    state.columnsError = {}
+    state.columnsForm = orderedStatuses.value.map((status) => ({
+        status,
+        label: settingFor(status)?.label ?? '',
+        color: colorFor(status),
+    }))
+    state.modal.isColumnsOpen = true
+}
+
+function moveColumn(index: number, direction: number) {
+    const target = index + direction
+    if (target < 0 || target >= state.columnsForm.length) return
+
+    const columns = state.columnsForm
+    ;[columns[index], columns[target]] = [columns[target], columns[index]]
+}
+
+/** Back to code's own names and colours: an empty label and the default hex. */
+function resetColumns() {
+    state.columnsForm = allStatuses.map((status) => ({
+        status,
+        label: '',
+        color: FALLBACK_COLORS[status],
+    }))
+}
+
+async function saveColumns() {
+    state.isSavingColumns = true
+    state.columnsError = {}
+    try {
+        const response = await salesInquiryService.saveStatusSettings({
+            statuses: state.columnsForm.map((column: any, index: number) => ({
+                status: column.status,
+                label: column.label,
+                color: (column.color || '').trim().toUpperCase(),
+                sort_order: index,
+            })),
+        })
+        if (response?.data) {
+            state.statusSettings = response.data
+            state.modal.isColumnsOpen = false
+            successAlert()
+        }
+    } catch (error: any) {
+        state.columnsError = error
+    }
+    state.isSavingColumns = false
 }
 
 function onDragLeave(status: string) {
@@ -674,6 +842,18 @@ async function saveNote() {
 
 .co-action-btn:disabled {
     @apply text-[#B4BAC7] cursor-not-allowed;
+}
+
+.co-order-btn {
+    @apply flex items-center justify-center w-5 h-4 text-[#8891A4] rounded transition-colors;
+}
+
+.co-order-btn:hover:not(:disabled) {
+    @apply text-[#205E77] bg-[#EAECF0];
+}
+
+.co-order-btn:disabled {
+    @apply text-[#DCE0E8] cursor-not-allowed;
 }
 
 .co-detail-label {

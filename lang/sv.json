@@ -12314,7 +12314,15 @@
                 "list": "Lista",
                 "board": "Tavla"
             },
-            "dropHere": "Släpp en förfrågan här"
+            "dropHere": "Släpp en förfrågan här",
+            "columns": {
+                "button": "Kolumner",
+                "title": "Kolumner på tavlan",
+                "description": "Vad varje steg heter, vilken färg det har och i vilken ordning det står. Ett namn du skriver här används överallt, på alla språk; lämna tomt för att behålla det översatta.",
+                "colour": "Färg",
+                "reset": "Tillbaka till standard",
+                "save": "Spara kolumner"
+            }
         }
     },
     "support": {
