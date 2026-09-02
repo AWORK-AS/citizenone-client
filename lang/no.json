@@ -12305,8 +12305,16 @@
                 "timeline": "Forløp",
                 "notePlaceholder": "Hva ble avtalt?",
                 "addNote": "Legg til notat",
-                "noNotes": "Ingenting skrevet ennå"
-            }
+                "noNotes": "Ingenting skrevet ennå",
+                "receivedAt": "Mottatt",
+                "referrer": "Kom fra"
+            },
+            "colPage": "Side",
+            "views": {
+                "list": "Liste",
+                "board": "Tavle"
+            },
+            "dropHere": "Slipp en henvendelse her"
         }
     },
     "support": {

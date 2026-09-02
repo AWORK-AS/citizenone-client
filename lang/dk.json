@@ -12305,8 +12305,16 @@
                 "timeline": "Forløb",
                 "notePlaceholder": "Hvad blev der aftalt?",
                 "addNote": "Tilføj note",
-                "noNotes": "Der er ikke skrevet noget endnu"
-            }
+                "noNotes": "Der er ikke skrevet noget endnu",
+                "receivedAt": "Modtaget",
+                "referrer": "Kom fra"
+            },
+            "colPage": "Side",
+            "views": {
+                "list": "Liste",
+                "board": "Tavle"
+            },
+            "dropHere": "Slip en henvendelse her"
         }
     },
     "support": {

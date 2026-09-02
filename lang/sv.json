@@ -12305,8 +12305,16 @@
                 "timeline": "Förlopp",
                 "notePlaceholder": "Vad kom ni överens om?",
                 "addNote": "Lägg till anteckning",
-                "noNotes": "Inget skrivet ännu"
-            }
+                "noNotes": "Inget skrivet ännu",
+                "receivedAt": "Mottagen",
+                "referrer": "Kom från"
+            },
+            "colPage": "Sida",
+            "views": {
+                "list": "Lista",
+                "board": "Tavla"
+            },
+            "dropHere": "Släpp en förfrågan här"
         }
     },
     "support": {

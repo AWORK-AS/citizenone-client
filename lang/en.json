@@ -12305,8 +12305,16 @@
                 "timeline": "Timeline",
                 "notePlaceholder": "What did you agree?",
                 "addNote": "Add note",
-                "noNotes": "Nothing written yet"
-            }
+                "noNotes": "Nothing written yet",
+                "receivedAt": "Received",
+                "referrer": "Came from"
+            },
+            "colPage": "Page",
+            "views": {
+                "list": "List",
+                "board": "Board"
+            },
+            "dropHere": "Drop an inquiry here"
         }
     },
     "support": {
