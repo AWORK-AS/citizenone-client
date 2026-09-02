@@ -78,8 +78,12 @@ const UPDATE_BUTTON = /^(Update|Opdater|Oppdater|Uppdatera)$/
 const CARD_SELECTOR = 'div.bg-white.ring-1.ring-gray-200.rounded-md.p-5.border-l-4.border-secondary'
 // The wrapping div around the checkbox always carries aria-disabled (true or
 // false); the explanation paragraph, when present, is its very next sibling.
-const CHECKBOX_ROW = 'div[aria-disabled]'
-const CHECKBOX_UNAVAILABLE_EXPLANATION = 'div[aria-disabled="true"] + p'
+// Anchored on the checkbox itself rather than by position: the modal is
+// portaled to the end of the body, and @vueform/multiselect puts aria-disabled
+// on its own root too, so a bare div[aria-disabled] is not unambiguous.
+const CHECKBOX_ROW = 'div[aria-disabled]:has(#choose_from_our_contact_person)'
+const CHECKBOX_ROW_UNAVAILABLE = 'div[aria-disabled="true"]:has(#choose_from_our_contact_person)'
+const CHECKBOX_UNAVAILABLE_EXPLANATION = `${CHECKBOX_ROW_UNAVAILABLE} + p`
 
 const browser = await chromium.launch({ channel: 'chrome', headless: true })
 const page = await browser.newPage()
@@ -107,11 +111,21 @@ async function openNursingAreasAndExpandIllness() {
   await page.getByText(SECTION_HEADER).first().click()
 }
 
+// The form fetches the contact list on mount, i.e. as an immediate
+// consequence of the click that opens the modal - so the waiter has to be
+// registered BEFORE the click. waitForResponse only sees responses that
+// arrive after it is called, and a stubbed fulfil in particular lands well
+// before any post-click step could register it.
+const contactListResponse = () =>
+  page.waitForResponse((r) => r.url().includes('/citizen-contact-persons/all/list'))
+
 async function openNewIllnessModal() {
   await openNursingAreasAndExpandIllness()
-  await page.getByRole('button', { name: NEW_BUTTON }).first().click()
+  await Promise.all([
+    contactListResponse(),
+    page.getByRole('button', { name: NEW_BUTTON }).first().click(),
+  ])
   await page.locator('#date').waitFor()
-  await page.waitForResponse((r) => r.url().includes('/citizen-contact-persons/all/list'))
 }
 
 // Opens the edit modal for the single record card whose visible text
@@ -120,9 +134,11 @@ async function openNewIllnessModal() {
 async function openEditModalFor(distinctiveText) {
   await openNursingAreasAndExpandIllness()
   const card = page.locator(CARD_SELECTOR).filter({ hasText: distinctiveText }).first()
-  await card.locator('button').first().click()
+  await Promise.all([
+    contactListResponse(),
+    card.locator('button').first().click(),
+  ])
   await page.locator('#date').waitFor()
-  await page.waitForResponse((r) => r.url().includes('/citizen-contact-persons/all/list'))
 }
 
 async function fillDateToday() {
@@ -154,8 +170,13 @@ try {
   ok('A: new record opens in free-text mode (text field visible)', await page.locator('#healthcare_provider').isVisible())
   ok('A: contact-person dropdown is not shown', await page.locator('#our_contact_person_uuid, form .multiselect').count() === 0)
 
+  // waitForResponse resolves when the response reaches Playwright; the app's
+  // own continuation (which flips hasFetchedOurContactPersons) runs a tick
+  // later, so wait for the settled state rather than sampling the attribute.
   const checkboxRowA = page.locator(CHECKBOX_ROW).first()
-  ok('A: checkbox row is marked unavailable', (await checkboxRowA.getAttribute('aria-disabled')) === 'true')
+  const wentUnavailable = await page.locator(CHECKBOX_ROW_UNAVAILABLE).first()
+    .waitFor({ timeout: 5000 }).then(() => true).catch(() => false)
+  ok('A: checkbox row is marked unavailable', wentUnavailable)
   const explanationA = page.locator(CHECKBOX_UNAVAILABLE_EXPLANATION).first()
   ok('A: an explanation is shown for why the picker is unavailable', ((await explanationA.innerText().catch(() => '')) || '').trim().length > 0)
 
