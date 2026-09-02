@@ -181,7 +181,27 @@
                         </p>
                     </div>
 
-                    <div v-if="!state.form.isIncludedInAgreement">
+                    <div v-if="!state.form.isIncludedInAgreement" class="space-y-1">
+                        <label class="co-label">
+                            {{ $t('superadmin.companies.licenseOverview.addSubscription.billingMethod') }}
+                        </label>
+                        <fieldset :aria-label="$t('superadmin.companies.licenseOverview.addSubscription.billingMethod')">
+                            <RadioGroup v-model="state.form.billingMethod" class="space-y-2">
+                                <RadioGroupOption as="template" v-for="option in [
+                                    { value: 'manual_invoice', label: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoice'), description: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoiceDescription') },
+                                    { value: 'payment_card', label: $t('superadmin.companies.licenseOverview.addSubscription.paymentCard'), description: $t('superadmin.companies.licenseOverview.addSubscription.paymentCardDescription') },
+                                ]" :key="option.value" :value="option.value" v-slot="{ checked }">
+                                    <div
+                                        :class="[checked ? 'ring-2 ring-tertiary' : 'ring-1 ring-gray-200', 'cursor-pointer rounded-lg p-3']">
+                                        <p class="text-sm font-semibold text-gray-900">{{ option.label }}</p>
+                                        <p class="text-xs text-gray-500 mt-0.5">{{ option.description }}</p>
+                                    </div>
+                                </RadioGroupOption>
+                            </RadioGroup>
+                        </fieldset>
+                    </div>
+
+                    <div v-if="!state.form.isIncludedInAgreement && state.form.billingMethod === 'manual_invoice'">
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.form.paysViaLeverandorservice = !state.form.paysViaLeverandorservice">
                             <FormCheckbox :value="state.form.paysViaLeverandorservice" />
@@ -332,6 +352,7 @@ const state = reactive({
         application_uuid: '',
         quantity: 1 as number,
         frequency: 'monthly' as 'monthly' | 'yearly',
+        billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card',
         paysViaLeverandorservice: false,
         isIncludedInAgreement: false,
     },
@@ -415,7 +436,7 @@ function selectApp(app: any) {
 
 watch(() => props.open, (open: boolean) => {
     if (open) {
-        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly', paysViaLeverandorservice: false, isIncludedInAgreement: false }
+        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly', billingMethod: 'manual_invoice', paysViaLeverandorservice: false, isIncludedInAgreement: false }
         state.appSearch = ''
         state.assignEnabled = false
         state.errors = { application: '', quantity: '', user: '', frequency: '' }
@@ -575,7 +596,8 @@ async function submit() {
             application_uuid: state.form.application_uuid,
             quantity: state.form.quantity,
             assign_to_user_uuid: state.selectedUser?.uuid ?? null,
-            pays_via_leverandorservice: state.form.isIncludedInAgreement ? false : state.form.paysViaLeverandorservice,
+            billing_method: state.form.isIncludedInAgreement ? 'manual_invoice' : state.form.billingMethod,
+            pays_via_leverandorservice: (state.form.isIncludedInAgreement || state.form.billingMethod !== 'manual_invoice') ? false : state.form.paysViaLeverandorservice,
             is_included_in_agreement: state.form.isIncludedInAgreement,
             ...(needsFrequencyPicker.value ? { frequency: state.form.frequency } : {}),
         })
