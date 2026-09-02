@@ -2507,6 +2507,10 @@
                 "clearAll": "Ryd alle",
                 "confirmation": {
                     "deleteConfirmation": "Er du sikker på, at du vil slette denne medicinhistorik",
+                    "doseExceedsMaxDaily": "Denne dosis ({entered}) vil bringe dagens samlede dosis op på {total} af {max} for dette PN-præparat. Er du sikker på, at du vil registrere den?",
+                    "doseExceedsMaxPerAdministration": "Den indtastede dosis ({entered}) overstiger den maksimale dosis pr. indgift ({max}) for dette PN-præparat. Er du sikker på, at du vil registrere den?",
+                    "givenTodayContext": "Givet i dag: {total} af {max}.",
+                    "lastGivenAtContext": "Sidst givet kl. {time}.",
                     "rightDailyDoseConfirmation": "Er du sikker på, at du har angivet den korrekte daglige dosis"
                 },
                 "dosesToRegister": "{n} doser registreres",
@@ -2519,6 +2523,7 @@
                     "comment": "Kommentar",
                     "completed": "fuldført",
                     "date": "Dato",
+                    "dosageMustBeANumber": "Dosis skal være et tal større end 0",
                     "dose": "Dosis",
                     "evaluationFrequency": "Hvornår vil du evaluere",
                     "evaluator": "Evaluator",

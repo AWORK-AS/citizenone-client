@@ -255,7 +255,7 @@
                 </div>
 
                 <!-- Bulk give -->
-                <div v-if="selectableMedicines.length > 0 && (state.viewMode === 'day' || state.viewMode === 'list')"
+                <div v-if="visibleMedicines.length > 0 && (state.viewMode === 'day' || state.viewMode === 'list')"
                     class="flex flex-wrap items-center gap-3 p-3 rounded-xl border"
                     :class="citizenMedicineStore.getSelectedMedicines?.length > 0
                         ? 'bg-primary/5 border-primary/20'
@@ -618,17 +618,14 @@
                                         <p class="text-xxs">PN</p>
                                     </Badge>
                                     <Tooltip
-                                        v-if="medicine?.last_given_minutes_ago !== null && medicine?.last_given_minutes_ago < 240"
-                                        :text="$t('citizens.medicineJournals.page.lastGivenHoursAgo', { hours: Math.round(medicine.last_given_minutes_ago / 60 * 10) / 10, remaining: Math.round((240 - medicine.last_given_minutes_ago) / 60 * 10) / 10 })">
+                                        v-if="pnMinutesRemaining(medicine) !== null"
+                                        :text="$t('citizens.medicineJournals.page.lastGivenHoursAgo', { hours: Math.round(pnMinutesSinceLastGiven(medicine) / 60 * 10) / 10, remaining: Math.round(pnMinutesRemaining(medicine) / 60 * 10) / 10 })">
                                         <span
                                             class="inline-flex items-center gap-1 text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-1 rounded-lg font-medium">
                                             <Icon name="ph:warning" class="size-3" />
                                             {{
                                                 $t('citizens.medicineJournals.page.hoursLeft',
-                                                    {
-                                                        hours: Math.round((240 -
-                                                            medicine.last_given_minutes_ago) / 60 * 10) / 10
-                                                    })
+                                                    { hours: Math.round(pnMinutesRemaining(medicine) / 60 * 10) / 10 })
                                             }}
                                         </span>
                                     </Tooltip>
@@ -1182,6 +1179,7 @@ import { medicineHistoryService } from '@/components/api/user/MedicineHistorySer
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { medicineDoseTiming } from '@/composables/medicineDoseTiming'
+import { medicinePnStatus } from '@/composables/medicinePnStatus'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import { usePermissions } from '@/composables/usePermissions'
@@ -1532,6 +1530,21 @@ function formatMinutesSince(mins: number): string {
     const h = Math.floor(mins / 60)
     const m = mins % 60
     return m > 0 ? `${h}h ${m}min` : `${h} hour${h !== 1 ? 's' : ''}`
+}
+
+// AW-2026-3581 backend follow-up: the PN row's "wait N more" badge used to
+// read medicine.last_given_minutes_ago, a field that never existed anywhere
+// in the API, so it never rendered. The backend now exposes last_given_at /
+// pn_minimum_interval_minutes instead -- these derive the same numbers from
+// the real fields (see composables/medicinePnStatus.ts).
+const pnStatus = medicinePnStatus()
+
+function pnMinutesSinceLastGiven(medicine: any): number | null {
+    return pnStatus.minutesSinceLastGiven(medicine?.last_given_at, state.now)
+}
+
+function pnMinutesRemaining(medicine: any): number | null {
+    return pnStatus.minutesRemainingInInterval(medicine?.last_given_at, medicine?.pn_minimum_interval_minutes, state.now)
 }
 
 // ─── Slot helpers ─────────────────────────────────────────────
@@ -1896,10 +1909,19 @@ function givePNMedicine(medicine: any) {
 // selecting rows the user cannot see would be a lie. The two views render
 // different collections: day view shows filteredRegularMedicines + pnMedicines,
 // list view shows every loaded row.
-const selectableMedicines = computed(() =>
+const visibleMedicines = computed(() =>
     state.viewMode === 'list'
         ? allMedicines.value
         : [...filteredRegularMedicines.value, ...pnMedicines.value]
+)
+
+// AW-2026-3581: "select all" used to sweep PN medicines in too, unlike the
+// one-click "give all due" (dueNowDoses below), which deliberately excludes
+// them since PN needs an evaluator picked per dose. PN rows stay individually
+// selectable -- the bulk-give modal already has a dedicated, working PN
+// section -- they're just not swept in/out by the "select all" toggle.
+const selectableMedicines = computed(() =>
+    visibleMedicines.value.filter((m: any) => !m.is_pn_medicine)
 )
 
 const isAllSelected = computed(() =>
