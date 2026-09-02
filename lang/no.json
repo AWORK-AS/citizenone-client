@@ -2902,6 +2902,8 @@
                     "chooseFromOurContactPerson": "Velg fra kontaktperson",
                     "date": "Dato",
                     "illnessAndFunctionalImpairment1": "Hva er sykdommern og de funksjonelle nedsettelser @:terms.citizenDefinite{''} har?",
+                    "noContactPersonsRegistered": "Det er ikke registrert noen kontaktpersoner på @:terms.citizenDefinite{''}.",
+                    "selectContactPerson": "Velg kontaktperson",
                     "whoIsTheResponsibleHealthcareProvider": "Hvem er den ansvarlige sundhedsudbyder?"
                 },
                 "illnessAndFunctionalImpairment": "Sykdom og funksjonelle nedsettelser",
