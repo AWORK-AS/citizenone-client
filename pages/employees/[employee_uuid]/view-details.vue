@@ -567,6 +567,7 @@ async function fetchEmployee() {
         if (response) {
             let concatenatedDepartments = ''
             let concatenatedJobSpecialties = ''
+            let concatenatedJobTitles = ''
             response?.data?.departments.forEach((department: any, index: number) => {
                 concatenatedDepartments += department?.name
                 if (index < response.data.departments.length - 1) {
@@ -581,6 +582,14 @@ async function fetchEmployee() {
                     concatenatedJobSpecialties += ', '
                 } else {
                     concatenatedJobSpecialties += '.'
+                }
+            })
+            response?.data?.job_titles?.forEach((jobTitle: any, index: number) => {
+                concatenatedJobTitles += jobTitle?.title
+                if (index < response.data.job_titles.length - 1) {
+                    concatenatedJobTitles += ', '
+                } else {
+                    concatenatedJobTitles += '.'
                 }
             })
             state.selectedEmployee = {
@@ -606,7 +615,7 @@ async function fetchEmployee() {
                     salary_id: response?.data?.employee_detail?.salary_id,
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     termination_date: response?.data?.employee_detail?.termination_date,
-                    job_title: response?.data?.employee_detail?.job?.title,
+                    job_title: concatenatedJobTitles,
                     employee_specialties: concatenatedJobSpecialties,
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,

@@ -55,6 +55,7 @@ async function updateScheduleSlot(scheduleSlotDetails: any) {
             date_time_start: scheduleSlotDetails.date_time_start,
             date_time_end: scheduleSlotDetails.date_time_end,
             department_uuid: scheduleSlotDetails.department_uuid,
+            is_free_for_all: scheduleSlotDetails.is_free_for_all,
             job_title_uuid: scheduleSlotDetails.job_title_uuid,
             job_specialty_uuid: scheduleSlotDetails.job_specialty_uuid,
             available_slots: scheduleSlotDetails.available_slots,

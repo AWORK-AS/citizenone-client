@@ -369,7 +369,11 @@
                                                 ]" />
                                             <div>
                                                 <CitizenHoverCard :uuid="citizen.uuid" :preset="citizen">
-                                                    <span>{{ citizen?.firstname }} {{ citizen?.lastname }}</span>
+                                                    <button type="button"
+                                                        class="text-left font-medium hover:text-primary hover:underline"
+                                                        @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
+                                                        {{ citizen?.firstname }} {{ citizen?.lastname }}
+                                                    </button>
                                                 </CitizenHoverCard>
                                                 <div class="text-xxs flex flex-wrap gap-1">
                                                     <span v-for="(department, index) in citizen?.departments" :key=index

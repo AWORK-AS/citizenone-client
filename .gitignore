@@ -40,3 +40,4 @@ tests/e2e/screenshots/
 
 .pnpm-store/
 pnpm-workspace.yaml
+__pycache__/

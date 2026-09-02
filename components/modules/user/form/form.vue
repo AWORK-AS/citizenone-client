@@ -85,8 +85,28 @@
             <div>
                 <div class="space-y-8 mt-5" v-if="state.form.fields?.length > 0">
                     <div v-for="(field, fieldIndex) in state.form.fields" :key="fieldIndex" class="space-y-3"
-                        :class="field.parentGroup && 'ml-8 border-l-2 border-dashed border-primary/40 pl-4'">
-                        <div class="bg-gray-100 rounded-md border-t-2 border-primary">
+                        :class="field.parentGroup && 'ml-8 border-l-2 border-dashed border-primary/40 pl-4'"
+                        @dragover.prevent="onFieldDragOver($event, fieldIndex)"
+                        @dragleave="onFieldDragLeave($event, fieldIndex)" @drop.prevent="onFieldDrop(fieldIndex)">
+                        <div v-if="state.dragOverFieldIndex === fieldIndex && state.dropPosition === 'before'"
+                            class="h-0.5 rounded-full bg-primary" aria-hidden="true" />
+                        <div data-field-card class="bg-gray-100 rounded-md border-t-2 border-primary transition-opacity"
+                            :class="state.draggingFieldIndex === fieldIndex && 'opacity-50'">
+                            <div class="flex items-center gap-x-3 py-1 px-2">
+                                <div class="flex items-center justify-center text-gray-400 hover:text-gray-600"
+                                    :class="isGroupBound(field) ? 'cursor-not-allowed opacity-40' : 'cursor-grab active:cursor-grabbing'"
+                                    :draggable="!isGroupBound(field)"
+                                    :aria-label="$t('forms.fields.dragToReorder')"
+                                    @dragstart="onFieldDragStart($event, fieldIndex)" @dragend="onFieldDragEnd">
+                                    <Icon name="ph:dots-six-vertical" class="h-5 w-5" aria-hidden="true" />
+                                </div>
+                                <div v-if="INTERCHANGEABLE_FIELD_TYPES.includes(field.type)" class="w-40">
+                                    <FormSelect :id="'field_type_' + fieldIndex" :options="fieldTypeOptions"
+                                        :canClear="false" :canDeselect="false" :searchable="false"
+                                        :aria-label="$t('forms.fields.changeType')" :modelValue="field.type"
+                                        @update:modelValue="(v) => changeFieldType(fieldIndex, v)" />
+                                </div>
+                            </div>
                             <div>
                                 <div v-if="field.type === 'textfield'" class="grow">
                                     <div class="p-5 space-y-3">
@@ -681,6 +701,8 @@
                                 </div>
                             </div>
                         </div>
+                        <div v-if="state.dragOverFieldIndex === fieldIndex && state.dropPosition === 'after'"
+                            class="h-0.5 rounded-full bg-primary" aria-hidden="true" />
                     </div>
                 </div>
 
@@ -905,6 +927,9 @@ const state = reactive({
     addTarget: null as string | null,
     followUpNumber: '1',
     followUpUnit: 'Days',
+    dragOverFieldIndex: null as number | null,
+    dropPosition: null as 'before' | 'after' | null,
+    draggingFieldIndex: null as number | null,
 })
 
 const followUpUnits = [
@@ -926,6 +951,22 @@ const citizenAutoFillOptions = [
 const citizenAutoFillDateOptions = citizenAutoFillOptions.filter((option) =>
     ['', 'citizen_birthday', 'citizen_admission_date', 'citizen_discharge_date'].includes(option.value)
 )
+
+/**
+ * Types a field can be switched between in place. Deliberately just the two
+ * free-text ones: switching keeps the field's uuid, so answers already saved
+ * against it stay attached, and a text answer means the same thing in a
+ * single-line field as in a textarea. Date fields are left out on purpose -
+ * FormDateField can't parse an existing free-text answer, so it would blank
+ * the input and the next save of that report would overwrite the citizen's
+ * answer with an empty string.
+ */
+const INTERCHANGEABLE_FIELD_TYPES = ['textfield', 'textarea']
+
+const fieldTypeOptions = [
+    { value: 'textfield', label: t('forms.fields.text') },
+    { value: 'textarea', label: t('forms.fields.textarea') },
+]
 
 const citizenProfileFieldOptions = computed(() => [
     { key: 'citizen_name', label: t('forms.citizenProfileFields.citizenName') },
@@ -1212,6 +1253,103 @@ function aimAt(groupId: string | null) {
     state.showFieldsAdder = true
 }
 
+/**
+ * Groups and their children stay out of drag-and-drop entirely - both as the
+ * thing being dragged and as a drop target. A drop relocates exactly one array
+ * entry, so dragging a group would leave its children behind, and dropping
+ * anything between them would break the "children sit right after their group"
+ * invariant that insertField and the group renderer both rely on. Up/Down still
+ * move them, as they always have.
+ */
+function isGroupBound(field: any): boolean {
+    return field?.type === 'group' || !!field?.parentGroup
+}
+
+/**
+ * Handle-only drag (see the grip icon in the template): starting a drag from
+ * inside a field's own inputs is not possible, since they aren't draggable.
+ */
+let _dragFieldIndex: number | null = null
+
+function onFieldDragStart(e: DragEvent, fieldIndex: number) {
+    _dragFieldIndex = fieldIndex
+    if (e.dataTransfer) {
+        e.dataTransfer.effectAllowed = 'move'
+        // Firefox refuses to start a drag with no data set on it.
+        e.dataTransfer.setData('text/plain', String(fieldIndex))
+
+        const card = (e.currentTarget as HTMLElement)?.closest('[data-field-card]') as HTMLElement | null
+        if (card) e.dataTransfer.setDragImage(card, 24, 24)
+    }
+    // Deferred a tick: fading the card before the drag image is captured bakes
+    // the faded look into the ghost too.
+    requestAnimationFrame(() => {
+        state.draggingFieldIndex = fieldIndex
+    })
+}
+
+function onFieldDragEnd() {
+    _dragFieldIndex = null
+    state.draggingFieldIndex = null
+    state.dragOverFieldIndex = null
+    state.dropPosition = null
+}
+
+function onFieldDragOver(e: DragEvent, fieldIndex: number) {
+    if (_dragFieldIndex === null || _dragFieldIndex === fieldIndex) return
+    if (isGroupBound(state.form.fields[fieldIndex])) {
+        state.dragOverFieldIndex = null
+        state.dropPosition = null
+
+        return
+    }
+
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    state.dragOverFieldIndex = fieldIndex
+    state.dropPosition = e.clientY - rect.top < rect.height / 2 ? 'before' : 'after'
+}
+
+function onFieldDragLeave(e: DragEvent, fieldIndex: number) {
+    if (state.dragOverFieldIndex !== fieldIndex) return
+    // A leave into a child element isn't really leaving the card - only clear
+    // once the pointer is outside it, or the indicator flickers while hovering.
+    if ((e.currentTarget as HTMLElement).contains(e.relatedTarget as Node)) return
+    state.dragOverFieldIndex = null
+    state.dropPosition = null
+}
+
+function onFieldDrop(targetIndex: number) {
+    const dropPosition = state.dropPosition
+    state.dragOverFieldIndex = null
+    state.dropPosition = null
+    if (_dragFieldIndex === null || _dragFieldIndex === targetIndex) return
+    if (isGroupBound(state.form.fields[targetIndex])) return
+
+    const fields = state.form.fields
+    const [moved] = fields.splice(_dragFieldIndex, 1)
+    let insertAt = dropPosition === 'after' ? targetIndex + 1 : targetIndex
+    if (_dragFieldIndex < insertAt) insertAt -= 1
+    fields.splice(insertAt, 0, moved)
+    _dragFieldIndex = null
+}
+
+/**
+ * Switches a field's type in place rather than delete + re-add, so the title,
+ * required flag, position and - most importantly - the field's uuid all
+ * survive. Any citizen answers already saved against this field hang off
+ * that uuid, so recreating the field would orphan them.
+ *
+ * The type is validated rather than trusted: the select underneath emits null
+ * when an option is clicked while already selected, and a field left with no
+ * type at all renders as an empty card with no way back to a real type.
+ */
+function changeFieldType(fieldIndex: number, type: string) {
+    const field = state.form.fields[fieldIndex]
+    if (!field || !INTERCHANGEABLE_FIELD_TYPES.includes(type)) return
+
+    field.type = type
+}
+
 function moveField(fieldIndex: number, direction: number) {
     const target = fieldIndex + direction
     if (target < 0 || target >= state.form.fields.length) return
@@ -1223,6 +1361,8 @@ function moveField(fieldIndex: number, direction: number) {
 
 function duplicateField(fieldIndex: number) {
     const copy = JSON.parse(JSON.stringify(state.form.fields[fieldIndex]))
+    // A duplicate is a new field, not the same backend row.
+    delete copy.uuid
     state.form.fields.splice(fieldIndex + 1, 0, copy)
 }
 

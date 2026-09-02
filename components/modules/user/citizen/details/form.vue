@@ -425,21 +425,19 @@
                     <FormError :error="v$?.formCitizen?.red?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.red?.[0]" />
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                <!-- Portal access has its own section when the clinic runs the
+                     patient portal; here it stays inline for citizen access. -->
+                <div v-if="userStore.getUser?.has_citizen_app && !hasPatientPortal && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_system_access"
                         @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
-                    <p>
-                        {{ $t('citizens.form.allowSystemAccess') }}
-                    </p>
+                    <p>{{ $t('citizens.form.allowSystemAccess') }}</p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                <div v-if="userStore.getUser?.has_citizen_app && !hasPatientPortal && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_chat_access"
                         @toggleSwitch="state.formCitizen.has_chat_access = !state.formCitizen.has_chat_access" />
-                    <p>
-                        {{ $t('citizens.form.allowChatAccess') }}
-                    </p>
+                    <p>{{ $t('citizens.form.allowChatAccess') }}</p>
                 </div>
                 <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
@@ -456,6 +454,52 @@
                     <p>
                         {{ $t('citizens.form.allowBulletBoardAccess') }}
                     </p>
+                </div>
+        </FormSection>
+        <!-- Own section: a dentist looking for "how do I give this patient
+             access" should not have to find a switch halfway down the master
+             data form. -->
+        <FormSection v-if="hasPatientPortal && isFieldVisible('system_access')"
+            :title="$t('patient.staff.sectionTitle')" :description="$t('patient.staff.sectionHelp')">
+                <div class="space-y-1 flex items-center gap-x-2">
+                    <FormSwitch :value="state.formCitizen.has_system_access"
+                        @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
+                    <div>
+                        <p>{{ $t('patient.staff.portalAccess') }}</p>
+                        <p class="text-xs text-gray-500">{{ $t('patient.staff.portalAccessHelp') }}</p>
+                    </div>
+                </div>
+                <div class="space-y-1 flex items-center gap-x-2">
+                    <FormSwitch :value="state.formCitizen.has_chat_access"
+                        @toggleSwitch="state.formCitizen.has_chat_access = !state.formCitizen.has_chat_access" />
+                    <p>{{ $t('patient.staff.messageAccess') }}</p>
+                </div>
+                <div class="space-y-1 flex items-center gap-x-2">
+                    <FormSwitch :value="state.formCitizen.has_patient_journal_access"
+                        @toggleSwitch="state.formCitizen.has_patient_journal_access = !state.formCitizen.has_patient_journal_access" />
+                    <div>
+                        <p>{{ $t('patient.staff.journalAccess') }}</p>
+                        <p class="text-xs text-gray-500">{{ $t('patient.staff.journalAccessHelp') }}</p>
+                    </div>
+                </div>
+        </FormSection>
+        <!-- The clinic cannot know the portal exists if nothing ever mentions
+             it, so a dental clinic without the app gets a quiet pointer here,
+             where they would have looked for the setting. -->
+        <FormSection v-if="isDentalClinic && !hasPatientPortal && isFieldVisible('system_access')"
+            :title="$t('patient.staff.sectionTitle')" :description="$t('patient.staff.sectionHelp')">
+                <div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-5 py-4 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-start gap-3">
+                        <Icon name="ph:device-mobile-speaker" class="h-6 w-6 text-primary shrink-0" aria-hidden="true" />
+                        <div>
+                            <p class="font-semibold text-gray-900">{{ $t('patient.staff.teaserTitle') }}</p>
+                            <p class="text-sm text-gray-600 max-w-xl">{{ $t('patient.staff.teaserText') }}</p>
+                        </div>
+                    </div>
+                    <FormButton type="button" buttonStyle="action"
+                        @click="navigateTo('/apps?type=other&generic_name=patient-access')">
+                        {{ $t('patient.staff.teaserAction') }}
+                    </FormButton>
                 </div>
         </FormSection>
         <FormSection v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('inquiry_data')" :title="$t('citizens.sections.inquiryData')" :description="$t('citizens.sections.inquiryDataHelp')">
@@ -1113,6 +1157,7 @@ import ClassicEditor from '@/utils/editor'
 import { journalService } from '@/components/api/user/JournalService'
 
 const userStore = useUserStore() as any
+const { industryHasFeature } = useIndustryFeatures()
 const { t } = useI18n()
 const { term } = useTerminology()
 const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
@@ -1223,6 +1268,7 @@ const state = reactive({
         red: '',
         has_system_access: false,
         has_chat_access: false,
+        has_patient_journal_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
@@ -1500,6 +1546,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             red: selectedCitizen.red,
             has_system_access: selectedCitizen.has_system_access,
             has_chat_access: selectedCitizen.has_chat_access,
+            has_patient_journal_access: selectedCitizen.has_patient_journal_access ?? false,
             has_duty_schedule_access: selectedCitizen.has_duty_schedule_access,
             has_bullet_board_access: selectedCitizen.has_bullet_board_access,
             inquiryData: {
@@ -1981,14 +2028,15 @@ async function changeSelectedMunicipality(municipalityUuid: string) {
     }
 }
 
-// Every dental feature keys off the same rule: the industry's system name,
-// with the English industry name still counting until all installs are
-// migrated. The API enforces the same thing.
-const isDentalClinic = computed(() => {
-    const industry = userStore.getUser?.company?.industry
+// The patient portal is its own app; a dental clinic can have it without
+// citizen access, and both open a portal login for the person.
+const hasPatientPortal = computed(() => !!userStore.getUser?.has_patient_app)
+const canGrantPortalAccess = computed(() => !!userStore.getUser?.has_citizen_app || hasPatientPortal.value)
 
-    return industry?.system_name === 'dental' || industry?.en_name === 'Dentists and dental hygienists'
-})
+// Which industries the dental fields exist for lives in one place, so turning
+// them on for another kind of clinic is a word in that list. The API enforces
+// the same rule.
+const isDentalClinic = computed(() => industryHasFeature('toothChart'))
 
 const rules = computed(() => {
     return {
