@@ -1223,7 +1223,7 @@ function generateSidebarLinks(user: any) {
 
     // Was rendered straight into the desktop template, which left it out of the
     // mobile sidebar entirely; as a nav item it now appears in both.
-    if (user?.industry === 'Social welfare services' && user?.role === 'Admin') {
+    if (user?.industry === 'Social welfare services' && user?.role === 'Admin' && companyHasModule('Findsocialetilbud')) {
         nav.push({
             name: 'FindSocialeTilbud.dk',
             href: '/findsocialetilbud.dk',

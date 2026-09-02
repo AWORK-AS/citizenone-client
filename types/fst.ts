@@ -12,6 +12,7 @@ export interface FstConnectionStatusResponse {
     connection_status: FstConnectionStatus
     sync_eligible: boolean
     unmet_conditions: string[]
+    fst_company_id: number | null
 }
 
 export interface FstInquiry {
@@ -33,6 +34,13 @@ export interface FstAnalyticsSnapshot {
     metric_key: string
     metric_value: number
     listing_ref: string | null
+}
+
+export interface FstPageMeta {
+    current_page: number
+    last_page: number
+    per_page: number
+    total: number
 }
 
 export interface FstSyncRun {

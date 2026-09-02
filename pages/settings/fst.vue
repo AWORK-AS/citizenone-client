@@ -19,7 +19,9 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
-                    <p class="text-sm text-slate-500">{{ $t('settings.fst.subtitle') }}</p>
+                    <p v-if="state.status.connection_status !== 'active'" class="text-sm text-slate-500">
+                        {{ $t('settings.fst.subtitle') }}
+                    </p>
 
                     <Alert v-if="!isAdmin" type="info" :text="$t('settings.fst.adminOnly')" />
 
@@ -40,21 +42,18 @@
                     </div>
 
                     <template v-else>
-                        <!-- Installed but never configured (co_activated_at is null) -->
+                        <!-- Installed but never configured (co_activated_at is null). The
+                             CVR itself is never entered here — it's always the company's
+                             own registered CVR (Company settings), verified against FST
+                             server-side, so there's nothing for the admin to type. -->
                         <div v-if="!state.status.co_activated_at && isAdmin"
                             class="rounded-xl border border-surface-200 bg-white p-5 shadow-sm">
                             <h3 class="text-sm font-semibold text-slate-900 mb-3">{{ $t('settings.fst.configureTitle') }}</h3>
-                            <div class="flex flex-wrap items-end gap-3">
-                                <div>
-                                    <label class="text-xs font-medium text-slate-500">{{ $t('settings.fst.cvrLabel') }}</label>
-                                    <input v-model="state.cvr" type="text" :placeholder="$t('settings.fst.cvrPlaceholder')"
-                                        class="mt-1 block rounded-md border border-surface-200 px-3 py-2 text-sm" />
-                                </div>
-                                <FormButton buttonStyle="primary" @click="activate">
-                                    <Icon name="ph:link" class="h-4 w-4" />
-                                    {{ $t('settings.fst.activate') }}
-                                </FormButton>
-                            </div>
+                            <p class="text-sm text-slate-500 mb-3">{{ $t('settings.fst.configureDescription') }}</p>
+                            <FormButton buttonStyle="primary" @click="activate">
+                                <Icon name="ph:link" class="h-4 w-4" />
+                                {{ $t('settings.fst.activate') }}
+                            </FormButton>
                         </div>
 
                         <!-- Status + actions once at least CO-side configuration exists -->
@@ -72,12 +71,25 @@
                                             — {{ $t('settings.fst.unmetConditions') }}: {{ state.status.unmet_conditions.join(', ') }}
                                         </span>
                                     </p>
+                                    <p v-if="state.status.fst_company_id" class="mt-1 text-xs text-slate-400">
+                                        {{ $t('settings.fst.fstCompanyId') }}: {{ state.status.fst_company_id }}
+                                    </p>
+                                    <p v-if="state.status.sync_eligible" class="mt-1 text-xs text-slate-400">
+                                        {{ $t('settings.fst.syncCadence') }}
+                                    </p>
                                 </div>
                                 <div class="flex items-center gap-2 flex-wrap" v-if="isAdmin">
+                                    <!-- Temporarily hidden pending further review — Disconnect and Sync
+                                         now stay as the actions available while this integration is new. -->
                                     <FormButton v-if="state.status.connection_status === 'active'" buttonStyle="primary"
                                         :disabled="!state.status.sync_eligible" @click="triggerSync">
                                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" />
                                         {{ $t('settings.fst.syncNow') }}
+                                    </FormButton>
+                                    <template v-if="false">
+                                    <FormButton buttonStyle="action" @click="refreshStatus">
+                                        <Icon name="ph:arrows-clockwise" class="h-4 w-4" />
+                                        {{ $t('settings.fst.refreshStatus') }}
                                     </FormButton>
                                     <FormButton v-if="state.status.connection_status === 'active'" buttonStyle="action"
                                         @click="state.modal.confirmDeactivate = true">
@@ -91,27 +103,40 @@
                                         <Icon name="ph:arrow-clockwise" class="h-4 w-4" />
                                         {{ $t('settings.fst.reconnect') }}
                                     </FormButton>
-                                    <template v-if="state.status.connection_status === 'rejected'">
-                                        <!-- The activate() handler submits state.cvr, but the CVR input above
-                                             is gated on !co_activated_at, which is already true by the time a
-                                             connection has been rejected -- without this input here, "reconnect"
-                                             submitted an empty/stale CVR and the backend correctly 422'd it. -->
-                                        <input v-model="state.cvr" type="text" :placeholder="$t('settings.fst.cvrPlaceholder')"
-                                            class="rounded-md border border-surface-200 px-3 py-2 text-sm" />
-                                        <FormButton buttonStyle="primary" @click="activate">
-                                            <Icon name="ph:arrow-clockwise" class="h-4 w-4" />
-                                            {{ $t('settings.fst.reconnect') }}
-                                        </FormButton>
+                                    <FormButton v-if="state.status.connection_status === 'rejected'"
+                                        buttonStyle="primary" @click="activate">
+                                        <Icon name="ph:arrow-clockwise" class="h-4 w-4" />
+                                        {{ $t('settings.fst.reconnect') }}
+                                    </FormButton>
                                     </template>
                                     <FormButton v-if="state.status.connection_status && state.status.connection_status !== 'disconnected'"
                                         buttonStyle="danger" @click="state.modal.confirmDisconnect = true">
                                         <Icon name="ph:plug" class="h-4 w-4" />
                                         {{ $t('settings.fst.disconnect') }}
                                     </FormButton>
-                                    <FormButton v-if="state.status.connection_status === 'active'" buttonStyle="action" @click="rotateSecret">
+                                    <FormButton v-if="false && state.status.connection_status === 'active'" buttonStyle="action" @click="rotateSecret">
                                         <Icon name="ph:key" class="h-4 w-4" />
                                         {{ $t('settings.fst.rotateSecret') }}
                                     </FormButton>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending: the approval itself happens outside CitizenOne, on FST's own
+                             site, so tell the admin exactly where to go and what to click. -->
+                        <div v-if="state.status.connection_status === 'pending'"
+                            class="rounded-xl border border-[#bfe4df] bg-[#e2f4f2] p-5">
+                            <div class="flex items-start gap-3">
+                                <Icon name="ph:info" class="h-5 w-5 shrink-0 mt-0.5 text-[#0d5850]" />
+                                <div>
+                                    <h3 class="text-sm font-semibold text-[#0d5850]">{{ $t('settings.fst.pendingGuideTitle') }}</h3>
+                                    <ol class="mt-2 space-y-1.5 text-sm text-slate-700 list-decimal list-inside">
+                                        <li>{{ $t('settings.fst.pendingGuideStep1') }}</li>
+                                        <li>{{ $t('settings.fst.pendingGuideStep2') }}</li>
+                                        <li>{{ $t('settings.fst.pendingGuideStep3') }}</li>
+                                        <li>{{ $t('settings.fst.pendingGuideStep4') }}</li>
+                                    </ol>
+                                    <p class="mt-3 text-xs text-[#0d5850]">{{ $t('settings.fst.pendingGuideNote') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -126,16 +151,36 @@
                                     <span class="text-slate-400">{{ inquiry.status }}</span>
                                 </li>
                             </ul>
+                            <div v-if="state.inquiriesMeta && state.inquiriesMeta.current_page < state.inquiriesMeta.last_page"
+                                class="mt-3 text-center">
+                                <FormButton buttonStyle="action" :disabled="state.isLoadingMoreInquiries" @click="loadMoreInquiries">
+                                    {{ $t('settings.fst.loadMore') }}
+                                </FormButton>
+                            </div>
                         </div>
 
                         <div v-if="state.status.sync_eligible" class="rounded-xl border border-surface-200 bg-white p-5 shadow-sm">
                             <h3 class="text-sm font-semibold text-slate-900 mb-3">{{ $t('settings.fst.syncHistory') }}</h3>
-                            <ul class="divide-y divide-surface-100 text-sm">
-                                <li v-for="run in state.syncHistory" :key="run.uuid" class="py-2 flex justify-between">
-                                    <span>{{ run.type }} ({{ run.direction }})</span>
-                                    <span :class="run.status === 'success' ? 'text-[#1f9d6b]' : 'text-slate-400'">{{ run.status }}</span>
+                            <p v-if="!state.syncHistory.length" class="text-sm text-slate-400">{{ $t('settings.fst.noSyncHistoryYet') }}</p>
+                            <ul v-else class="divide-y divide-surface-100 text-sm">
+                                <li v-for="run in state.syncHistory" :key="run.uuid" class="py-2.5 flex items-center justify-between gap-3">
+                                    <div>
+                                        <p class="text-slate-900">{{ syncRunLabel(run) }}</p>
+                                        <p class="text-xs text-slate-400">{{ formatSyncRunDate(run.started_at) }}</p>
+                                    </div>
+                                    <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium"
+                                        :class="syncRunStatusClass(run.status)">
+                                        <span class="size-1.5 rounded-full" :class="syncRunDotClass(run.status)"></span>
+                                        {{ syncRunStatusLabel(run.status) }}
+                                    </span>
                                 </li>
                             </ul>
+                            <div v-if="state.syncHistoryMeta && state.syncHistoryMeta.current_page < state.syncHistoryMeta.last_page"
+                                class="mt-3 text-center">
+                                <FormButton buttonStyle="action" :disabled="state.isLoadingMoreSyncHistory" @click="loadMoreSyncHistory">
+                                    {{ $t('settings.fst.loadMore') }}
+                                </FormButton>
+                            </div>
                         </div>
                     </template>
                 </div>
@@ -153,11 +198,12 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { fstService } from '@/components/api/user/FstService'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
-import type { Error, FstConnectionStatusResponse, FstInquiry, FstSyncRun } from '@/types'
+import type { Error, FstConnectionStatusResponse, FstInquiry, FstSyncRun, FstPageMeta } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
@@ -178,15 +224,19 @@ const defaultStatus: FstConnectionStatusResponse = {
     connection_status: null,
     sync_eligible: false,
     unmet_conditions: [],
+    fst_company_id: null,
 }
 
 const state = reactive({
     error: {} as Error,
     isLoading: false,
-    cvr: '',
     status: { ...defaultStatus } as FstConnectionStatusResponse,
     inquiries: [] as FstInquiry[],
+    inquiriesMeta: null as FstPageMeta | null,
+    isLoadingMoreInquiries: false,
     syncHistory: [] as FstSyncRun[],
+    syncHistoryMeta: null as FstPageMeta | null,
+    isLoadingMoreSyncHistory: false,
     modal: { confirmDisconnect: false, confirmDeactivate: false },
 })
 
@@ -203,7 +253,83 @@ const statusLabel = computed(() => {
 
 const statusDotClass = computed(() => (state.status.connection_status === 'active' ? 'bg-[#1f9d6b]' : 'bg-slate-300'))
 
+function syncRunLabel(run: FstSyncRun): string {
+    if (run.type === 'inquiries') return t('settings.fst.syncRunInquiries')
+    if (run.type === 'analytics') return t('settings.fst.syncRunAnalytics')
+    if (run.type === 'profile_push') return t('settings.fst.syncRunProfilePush')
+    return run.type
+}
+
+function syncRunStatusLabel(status: string): string {
+    switch (status) {
+        case 'success': return t('settings.fst.syncRunSuccess')
+        case 'partial': return t('settings.fst.syncRunPartial')
+        case 'failed': return t('settings.fst.syncRunFailed')
+        case 'skipped_ineligible': return t('settings.fst.syncRunSkipped')
+        default: return status
+    }
+}
+
+function syncRunStatusClass(status: string): string {
+    switch (status) {
+        case 'success': return 'bg-[#e2f4f2] text-[#0d5850]'
+        case 'partial': return 'bg-amber-100 text-amber-700'
+        case 'failed': return 'bg-red-100 text-red-700'
+        default: return 'bg-slate-100 text-slate-500'
+    }
+}
+
+function syncRunDotClass(status: string): string {
+    switch (status) {
+        case 'success': return 'bg-[#1f9d6b]'
+        case 'partial': return 'bg-amber-500'
+        case 'failed': return 'bg-red-500'
+        default: return 'bg-slate-400'
+    }
+}
+
+function formatSyncRunDate(startedAt: string | null): string {
+    return startedAt ? moment(startedAt).format('DD.MM.YYYY HH:mm') : ''
+}
+
 onMounted(() => fetchStatus())
+
+async function loadFirstPageOfLists() {
+    const [inquiriesRes, historyRes] = await Promise.all([
+        fstService.getInquiries(),
+        fstService.getSyncHistory(),
+    ])
+    state.inquiries = inquiriesRes?.data ?? []
+    state.inquiriesMeta = inquiriesRes?.meta ?? null
+    state.syncHistory = historyRes?.data ?? []
+    state.syncHistoryMeta = historyRes?.meta ?? null
+}
+
+async function loadMoreInquiries() {
+    if (!state.inquiriesMeta) return
+    state.isLoadingMoreInquiries = true
+    try {
+        const res = await fstService.getInquiries(state.inquiriesMeta.current_page + 1)
+        state.inquiries = [...state.inquiries, ...(res?.data ?? [])]
+        state.inquiriesMeta = res?.meta ?? null
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoadingMoreInquiries = false
+}
+
+async function loadMoreSyncHistory() {
+    if (!state.syncHistoryMeta) return
+    state.isLoadingMoreSyncHistory = true
+    try {
+        const res = await fstService.getSyncHistory(state.syncHistoryMeta.current_page + 1)
+        state.syncHistory = [...state.syncHistory, ...(res?.data ?? [])]
+        state.syncHistoryMeta = res?.meta ?? null
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoadingMoreSyncHistory = false
+}
 
 async function fetchStatus() {
     state.error = {}
@@ -211,12 +337,7 @@ async function fetchStatus() {
     try {
         state.status = await fstService.getStatus()
         if (state.status.sync_eligible) {
-            const [inquiriesRes, historyRes] = await Promise.all([
-                fstService.getInquiries(),
-                fstService.getSyncHistory(),
-            ])
-            state.inquiries = inquiriesRes?.data ?? []
-            state.syncHistory = historyRes?.data ?? []
+            await loadFirstPageOfLists()
         }
     } catch (error: any) {
         state.error = error
@@ -228,8 +349,22 @@ async function activate() {
     state.error = {}
     state.isLoading = true
     try {
-        state.status = await fstService.activate(state.cvr)
+        state.status = await fstService.activate()
         successAlert(`${t('alert.success')}!`, t('settings.fst.activate'))
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoading = false
+}
+
+async function refreshStatus() {
+    state.error = {}
+    state.isLoading = true
+    try {
+        state.status = await fstService.refreshRemoteStatus()
+        if (state.status.sync_eligible) {
+            await loadFirstPageOfLists()
+        }
     } catch (error: any) {
         state.error = error
     }
@@ -267,7 +402,9 @@ async function disconnect() {
     try {
         state.status = await fstService.disconnect()
         state.inquiries = []
+        state.inquiriesMeta = null
         state.syncHistory = []
+        state.syncHistoryMeta = null
     } catch (error: any) {
         state.error = error
     }
