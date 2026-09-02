@@ -22,7 +22,11 @@ class InvoiceService extends BaseAPIService {
     }
 
     async payInvoice(invoiceUuid: any): Promise<any> {
-        return await this.request(`/user/invoices/${invoiceUuid}/pay`, 'POST')
+        // A custom_monthly/custom_yearly invoice paid this way always opts
+        // into auto-renewal - the backend only acts on this flag for those
+        // frequencies (see InvoiceService::provisionInvoicePayment()); an
+        // already-recurring/one-time/free invoice ignores it either way.
+        return await this.request(`/user/invoices/${invoiceUuid}/pay`, 'POST', { auto_renew: true })
     }
 
     async verifyInvoicePayment(invoiceUuid: any, paymentId: any): Promise<any> {
