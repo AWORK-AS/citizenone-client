@@ -2902,6 +2902,8 @@
                     "chooseFromOurContactPerson": "Choose from contact person",
                     "date": "Date",
                     "illnessAndFunctionalImpairment1": "What is the illness and functional impairment the @:terms.citizen{''} has",
+                    "noContactPersonsRegistered": "No contact persons are registered for this citizen.",
+                    "selectContactPerson": "Select a contact person",
                     "whoIsTheResponsibleHealthcareProvider": "Who is the responsible healthcare provider"
                 },
                 "illnessAndFunctionalImpairment": "Illness and functional impairment",

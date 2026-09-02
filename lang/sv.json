@@ -2902,6 +2902,8 @@
                     "chooseFromOurContactPerson": "Välj från kontaktperson",
                     "date": "Datum",
                     "illnessAndFunctionalImpairment1": "Vad är sygdommen och de funktionelle nedsättningar @:terms.citizenDefinite{''} har?",
+                    "noContactPersonsRegistered": "Det finns inga registrerade kontaktpersoner för @:terms.citizenDefinite{''}.",
+                    "selectContactPerson": "Välj kontaktperson",
                     "whoIsTheResponsibleHealthcareProvider": "Vem är den ansvariga sundhedsudbyder?"
                 },
                 "illnessAndFunctionalImpairment": "Sjukdom och funktionelle nedsättningar",

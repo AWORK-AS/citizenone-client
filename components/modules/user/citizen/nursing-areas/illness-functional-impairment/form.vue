@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <form @submit.prevent="submitForm()">
             <Alert type="danger" :text="state?.error?.message"
@@ -30,19 +30,25 @@
                     <FormError :error="props?.error?.errors?.illness_functional_impairment?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <div class="w-fit flex items-center cursor-pointer"
-                        @click="state.formIllnessFunctionalImpairment.choose_from_our_contact_person = !state.formIllnessFunctionalImpairment.choose_from_our_contact_person">
+                    <div class="w-fit flex items-center"
+                        :class="contactPersonModeUnavailable ? 'opacity-50 pointer-events-none' : 'cursor-pointer'"
+                        :aria-disabled="contactPersonModeUnavailable"
+                        @click="toggleContactPersonMode()">
                         <FormCheckbox id="choose_from_our_contact_person"
                             :value="state.formIllnessFunctionalImpairment.choose_from_our_contact_person" />
                         {{
                             $t('citizens.nursingAreas.illnessAndFunctionalImpairment.form.chooseFromOurContactPerson')
                         }}
                     </div>
+                    <p class="text-sm text-gray-600" v-if="contactPersonModeUnavailable">
+                        {{ $t('citizens.nursingAreas.illnessAndFunctionalImpairment.form.noContactPersonsRegistered') }}
+                    </p>
                 </div>
                 <div class="space-y-1" v-if="state.formIllnessFunctionalImpairment.choose_from_our_contact_person">
                     <FormLabel for="our_contact_person_uuid"
                         :label="$t('citizens.nursingAreas.illnessAndFunctionalImpairment.form.whoIsTheResponsibleHealthcareProvider')" />
                     <FormSelect id="our_contact_person_uuid" :options="state.options.ourContactPersons"
+                        :placeholder="$t('citizens.nursingAreas.illnessAndFunctionalImpairment.form.selectContactPerson')"
                         v-model="state.formIllnessFunctionalImpairment.our_contact_person_uuid" />
                     <FormError
                         :error="v$?.formIllnessFunctionalImpairment?.our_contact_person_uuid?.$errors[0]?.$message.toString()" />
@@ -76,6 +82,7 @@
 
 <script setup lang="ts">
 import { citizenContactService } from '@/components/api/user/CitizenContactService'
+import { illnessHealthcareProvider } from '@/composables/illnessHealthcareProvider'
 import ClassicEditor from '@/utils/editor'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -117,6 +124,7 @@ const editorDescriptionConfig = ref({
 }) as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
+const { contactPersonModeFor, contactPersonOptions } = illnessHealthcareProvider()
 
 const state = reactive({
     error: {} as Error,
@@ -132,8 +140,22 @@ const state = reactive({
     isPageLoading: false,
     options: {
         ourContactPersons: [],
-    }
+    },
+    // false until fetchOurContactPersons() settles, so the empty-state
+    // message/disable can't flash on for the split second before the
+    // request has even gone out.
+    hasFetchedOurContactPersons: false,
 })
+
+const contactPersonModeUnavailable = computed(() =>
+    state.hasFetchedOurContactPersons && state.options.ourContactPersons.length === 0
+)
+
+function toggleContactPersonMode() {
+    if (contactPersonModeUnavailable.value) return
+    state.formIllnessFunctionalImpairment.choose_from_our_contact_person =
+        !state.formIllnessFunctionalImpairment.choose_from_our_contact_person
+}
 
 onMounted(() => {
     fetchOurContactPersons()
@@ -142,14 +164,12 @@ onMounted(() => {
         uuid: props.selectedIllnessFunctionalImpairment.uuid,
         date: props.selectedIllnessFunctionalImpairment.date,
         illness_functional_impairment: props.selectedIllnessFunctionalImpairment.illness_functional_impairment,
-        choose_from_our_contact_person: false,
+        choose_from_our_contact_person: contactPersonModeFor(
+            props.selectedIllnessFunctionalImpairment,
+            state.options.ourContactPersons.length > 0
+        ),
         healthcare_provider: props.selectedIllnessFunctionalImpairment.healthcare_provider,
         our_contact_person_uuid: props.selectedIllnessFunctionalImpairment?.healthcare?.uuid ?? '',
-    }
-    if (props.selectedIllnessFunctionalImpairment?.healthcare_provider) {
-        state.formIllnessFunctionalImpairment.choose_from_our_contact_person = false
-    } else {
-        state.formIllnessFunctionalImpairment.choose_from_our_contact_person = true
     }
 })
 
@@ -160,14 +180,12 @@ watch(() => props.selectedIllnessFunctionalImpairment, (newValue: any) => {
             uuid: newValue.uuid,
             date: newValue.date,
             illness_functional_impairment: newValue.illness_functional_impairment,
-            choose_from_our_contact_person: false,
+            choose_from_our_contact_person: contactPersonModeFor(
+                newValue,
+                state.options.ourContactPersons.length > 0
+            ),
             healthcare_provider: newValue.healthcare_provider,
-            our_contact_person_uuid: props.selectedIllnessFunctionalImpairment?.healthcare?.uuid ?? '',
-        }
-        if (newValue?.healthcare_provider) {
-            state.formIllnessFunctionalImpairment.choose_from_our_contact_person = false
-        } else {
-            state.formIllnessFunctionalImpairment.choose_from_our_contact_person = true
+            our_contact_person_uuid: newValue?.healthcare?.uuid ?? '',
         }
     }
 })
@@ -213,18 +231,23 @@ async function fetchOurContactPersons() {
         }
         const response = await citizenContactService.getAllCitizenContactPersons(params)
         if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
-                    value: item?.uuid,
-                    label: item?.firstname + " " + (item?.lastname ?? ''),
-                })
-            )
-            state.options.ourContactPersons = options
+            state.options.ourContactPersons = contactPersonOptions(response.data)
         }
     } catch (error: any) {
         state.error = error
     }
+    state.hasFetchedOurContactPersons = true
+    // Re-derive with the real option count now that it's known -- the form
+    // is dimmed and non-interactive (LoadingSpinner's pointer-events-none)
+    // for the whole fetch, so there is no user toggle here to clobber. This
+    // is what both forces an unsatisfiable contact-person mode off (empty
+    // list) and turns it on for a record whose linked contact only became
+    // known once the list came back (the synchronous derivation in
+    // onMounted/watch always runs before this fetch can have resolved).
+    state.formIllnessFunctionalImpairment.choose_from_our_contact_person = contactPersonModeFor(
+        props.selectedIllnessFunctionalImpairment,
+        state.options.ourContactPersons.length > 0
+    )
     state.isPageLoading = false
 }
 
