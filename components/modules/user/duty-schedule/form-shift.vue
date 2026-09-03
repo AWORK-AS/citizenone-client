@@ -641,12 +641,16 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
         if (isVacationLeave.value) {
             state.formShift.date_time_start = startDate.format('YYYY-MM-DD')
             state.formShift.date_time_end = endDate.format('YYYY-MM-DD')
-        } else if (shiftOption?.system_name === 'sleeping-night-shift' && shiftOption?.end_time_day_offset != null) {
+        } else if (crossesMidnight(shiftOption)) {
             state.formShift.date_time_start = moment(
                 startDate.format('YYYY-MM-DD') + ' ' + shiftOption.time_in,
                 'YYYY-MM-DD HH:mm:ss'
             ).format('YYYY-MM-DD H:mm')
-            const offset = shiftOption.end_time_day_offset
+            // end_time_day_offset is configured as 0 on every crossing-midnight
+            // shift type in production, so it is treated as an override (only
+            // applied when it is actually set to something meaningful), not as
+            // the precondition for rolling the end date over at all.
+            const offset = shiftOption.end_time_day_offset || 1
             state.formShift.date_time_end = moment(
                 startDate.clone().add(offset, 'days').format('YYYY-MM-DD') + ' ' + shiftOption.time_out,
                 'YYYY-MM-DD HH:mm:ss'
@@ -671,8 +675,8 @@ watch(() => state.formShift.date_time_start, () => {
     // Only while creating. On an existing shift the end time is whatever the
     // planner put there, and moving the start by an hour must not silently
     // drag the end back to the shift type's default (Birketoften 31/8).
-    if (props.formType === 'create' && isSleepingNightShift.value && selectedShiftOption.value?.end_time_day_offset != null) {
-        const offset = selectedShiftOption.value.end_time_day_offset
+    if (props.formType === 'create' && isMidnightCrossingShift.value) {
+        const offset = selectedShiftOption.value.end_time_day_offset || 1
         const timeOut = selectedShiftOption.value.time_out
         state.formShift.date_time_end = moment(
             moment(state.formShift.date_time_start, 'YYYY-MM-DD H:mm').clone().add(offset, 'days').format('YYYY-MM-DD') + ' ' + timeOut,
@@ -714,9 +718,15 @@ const hasRealDepartments = computed(() =>
     state.options.departments.some((department: any) => department.value !== 'all-departments')
 )
 
-const isSleepingNightShift = computed(() =>
-    selectedShiftOption.value?.system_name === 'sleeping-night-shift'
-)
+// Any shift type whose time_out is earlier than its time_in crosses midnight.
+// Not name-based: this repo's shift types crossing midnight include
+// 'Nattevagt', 'NV', 'NV 12t', 'Døgnvagt', 'Tilkøbsdag' and 'Bruges ikke'
+// across tenants, alongside 'sleeping-night-shift' and 'awake-night-shift'.
+function crossesMidnight(option: any) {
+    return !!(option?.time_in && option?.time_out && option.time_out < option.time_in)
+}
+
+const isMidnightCrossingShift = computed(() => crossesMidnight(selectedShiftOption.value))
 
 const selectedEmployeeHourlyRate = computed(() => {
     const uuid = props.formType === 'create' ? state.formShift.user_uuid : props.selectedEmployee?.uuid
