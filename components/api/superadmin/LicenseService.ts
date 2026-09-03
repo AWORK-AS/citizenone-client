@@ -45,7 +45,7 @@ class LicenseService extends BaseAPIService {
     // currently has none - creates a pending Invoice + InvoiceDetail + UserSubscription.
     async addDealSubscription(
         companyUuid: string,
-        params: { package: string; frequency: 'monthly' | 'yearly'; billing_method: 'manual_invoice' | 'payment_card' },
+        params: { package: string; frequency: 'monthly' | 'yearly'; billing_method: 'manual_invoice' | 'payment_card' | 'assigned_payment_card' },
     ): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/subscription`, 'POST', params)
     }

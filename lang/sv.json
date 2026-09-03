@@ -10759,6 +10759,8 @@
                     "manualInvoiceDescription": "Vi fakturerar detta företag separat.",
                     "paymentCard": "Kunden betalar med kort",
                     "paymentCardDescription": "Kunden betalar via sin egen sida Inställningar → Fakturor.",
+                    "assignedPaymentCard": "Betala via registrerat betalkort",
+                    "assignedPaymentCardDescription": "Debiterar omedelbart kortet företaget redan har registrerat. Endast tillgängligt när företaget har betalat minst en faktura med kort.",
                     "unitPrice": "Planpris",
                     "tax": "Moms (25%)",
                     "serviceFee": "Serviceavgift",
