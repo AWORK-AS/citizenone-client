@@ -257,6 +257,14 @@
                                 </MenuItems>
                             </transition>
                         </Menu>
+                        <FormButton buttonStyle="action" @click="state.modal.isFilterOpen = true">
+                            <Icon name="ic:outline-filter-list" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('filter') }}
+                            <span v-if="activeFilterCount > 0"
+                                class="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xxs font-semibold text-white">
+                                {{ activeFilterCount }}
+                            </span>
+                        </FormButton>
                         <!-- Primary call-to-action -->
                         <FormButton v-if="isAtLeast('Admin') || can('create_citizen')" buttonStyle="primary"
                             @click="navigateTo('/citizens/new')">
@@ -275,7 +283,20 @@
                         </span>
                         <span class="text-sm font-medium text-slate-500">{{ $t('citizens.citizens') }}</span>
                     </div>
-                    <TableSearch @search="handleSearch" />
+                    <TableSearch @search="handleSearch" :placeholder="$t('citizens.searchPlaceholder')" />
+                    <div class="flex flex-wrap items-center gap-2" v-if="activeFilterCount > 0">
+                        <span class="text-xs font-medium text-slate-500">{{ $t('citizens.filters.activeFilters') }}:</span>
+                        <button type="button" v-for="chip in activeFilterChips" :key="chip.key"
+                            class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700 hover:bg-slate-200"
+                            @click="removeFilter(chip.key)">
+                            {{ chip.label }}
+                            <Icon name="ph:x" class="size-3" aria-hidden="true" />
+                        </button>
+                        <button type="button" class="text-xs font-medium text-tertiary hover:underline"
+                            @click="clearFilters">
+                            {{ $t('table.clearFilters') }}
+                        </button>
+                    </div>
                     <!-- Phone: the table shows two of six columns and pushes every
                          row action off screen, so below md the same data is a list
                          of cards instead. Staff on the floor carry a phone. -->
@@ -343,7 +364,7 @@
                         <Table :columnHeaders="state.columnHeaders" :data="state.citizens"
                             :isLoading="state.isTableLoading" :sortData="citizenStore.getSortData" @sort="sort"
                             emptyIcon="heroicons:user-group"
-                            emptyMessage="Ingen borgere fundet endnu — brug “Ny borger” øverst, eller importér fra et andet system.">
+                            :emptyMessage="tt('citizens.emptyListHint')">
                             <template #body v-if="!(state.isTableLoading || (state.citizens?.data?.length === 0))">
                                 <tr v-for="(citizen, index) in state.citizens?.data" :key="index">
                                     <td width="30%">
@@ -389,6 +410,13 @@
                                     </td>
                                     <td width="15%">
                                         <span>{{ citizen?.social_security_number }}</span>
+                                        <!-- The case number sits under the CPR rather than in a column
+                                             of its own: only the customers who migrated from another
+                                             system have one, and an always-empty column costs every
+                                             other customer a column's width. -->
+                                        <p v-if="citizen?.case_number" class="text-xxs text-gray-500">
+                                            {{ $t('citizens.table.caseNumber') }}: {{ citizen.case_number }}
+                                        </p>
                                     </td>
                                     <td width="15%">
                                         <span>{{ citizen?.phone }}</span>
@@ -461,6 +489,8 @@
                 </div>
             </div>
 
+            <ModulesUserCitizenModalFilter :isModalOpen="state.modal.isFilterOpen" :filter="state.propertyFilter"
+                @close="state.modal.isFilterOpen = false" @setFilter="applyFilter" />
             <ModulesUserCitizenModalImport :isModalOpen="state.modal.isImportCitizensOpen"
                 @close="state.modal.isImportCitizensOpen = false" />
             <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.isImportMapperOpen"
@@ -542,10 +572,14 @@ const state = reactive({
     dataFilter: {
         search: ''
     },
+    // The property filters, kept apart from the free-text search so clearing one
+    // does not clear the other.
+    propertyFilter: {} as Record<string, any>,
     error: {} as Error,
     isTableLoading: false,
     citizens: [] as any,
     modal: {
+        isFilterOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
         isImportMapperOpen: false,
@@ -799,7 +833,8 @@ async function fetchCitizens() {
             page_length: citizenStore.getCurrentPageLength,
             sortField: citizenStore.getSortData.sortField,
             sortOrder: citizenStore.getSortData.sortOrder,
-            ...state.dataFilter
+            ...state.dataFilter,
+            ...activeFilterParams.value,
         }
         const response = await citizenService.getCitizens(params)
         if (response) {
@@ -853,6 +888,63 @@ function handleSearch(value: any) {
     citizenStore.setCurrentPageNumber(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchCitizens()
+}
+
+/**
+ * Only the properties that are actually set are sent, so an untouched filter
+ * costs nothing and the query string stays readable.
+ */
+const activeFilterParams = computed(() => {
+    const params: Record<string, any> = {}
+    for (const [key, value] of Object.entries(state.propertyFilter)) {
+        if (value === null || value === undefined || value === '') continue
+        params[key] = value
+    }
+
+    return params
+})
+
+const activeFilterCount = computed(() => Object.keys(activeFilterParams.value).length)
+
+/** Whether the list is narrowed at all, free-text search included. */
+const isFiltered = computed(() => {
+    const search = state.dataFilter.search as any
+
+    return activeFilterCount.value > 0 || (Array.isArray(search) ? search.length > 0 : !!search)
+})
+
+const emptyFilteredMessage = computed(() => tt('citizens.emptyFiltered'))
+
+const activeFilterChips = computed(() => {
+    const labels: Record<string, string> = {
+        admitted_from: t('citizens.filters.admittedFrom'),
+        admitted_to: t('citizens.filters.admittedTo'),
+        coordinator: t('citizens.coordinators.title'),
+        coordinator_role: t('citizens.filters.coordinatorRole'),
+        gender: t('citizens.form.gender'),
+        requires_interpreter: t('citizens.filters.requiresInterpreter'),
+        risk_level: t('citizens.filters.riskLevel'),
+        spoken_language: t('citizens.filters.spokenLanguage'),
+    }
+
+    return Object.keys(activeFilterParams.value).map((key) => ({ key, label: labels[key] ?? key }))
+})
+
+function applyFilter(filter: Record<string, any>) {
+    state.propertyFilter = { ...filter }
+    citizenStore.setCurrentPageNumber(1)
+    fetchCitizens()
+}
+
+function removeFilter(key: string) {
+    const filter = { ...state.propertyFilter }
+    delete filter[key]
+    applyFilter(filter)
+}
+
+function clearFilters() {
+    state.dataFilter.search = ''
+    applyFilter({})
 }
 
 function changePageLength(event: any) {

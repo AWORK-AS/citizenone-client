@@ -49,6 +49,14 @@
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.exportEmployees') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="state.modal.isFilterOpen = true">
+                            <Icon name="ic:outline-filter-list" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('filter') }}
+                            <span v-if="activeFilterCount > 0"
+                                class="ml-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xxs font-semibold text-white">
+                                {{ activeFilterCount }}
+                            </span>
+                        </FormButton>
                     </div>
                 </div>
                 <div class="space-y-5">
@@ -75,6 +83,19 @@
                         <Alert type="danger" :text="state?.error?.message" v-else />
                     </div>
                     <TableSearch @search="handleSearch" />
+                    <div class="flex flex-wrap items-center gap-2" v-if="activeFilterCount > 0">
+                        <span class="text-xs font-medium text-slate-500">{{ $t('citizens.filters.activeFilters') }}:</span>
+                        <button type="button" v-for="chip in activeFilterChips" :key="chip.key"
+                            class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700 hover:bg-slate-200"
+                            @click="removeFilter(chip.key)">
+                            {{ chip.label }}
+                            <Icon name="ph:x" class="size-3" aria-hidden="true" />
+                        </button>
+                        <button type="button" class="text-xs font-medium text-tertiary hover:underline"
+                            @click="clearFilters">
+                            {{ $t('table.clearFilters') }}
+                        </button>
+                    </div>
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.employees"
                             :isLoading="state.isTableLoading" :sortData="employeeStore.getSortData" @sort="sort">
@@ -182,6 +203,9 @@
                 :message="$t('employees.table.confirmation.bookingAccessConfirmation') + '?'"
                 @close="state.modal.isGiveBookingAccessOpen = false" @confirm="giveBookingAccess" />
 
+            <ModulesUserEmployeeModalFilter :isModalOpen="state.modal.isFilterOpen" :filter="state.propertyFilter"
+                @close="state.modal.isFilterOpen = false" @setFilter="applyFilter" />
+
             <ModulesUserEmployeeInviteModalNew :isModalOpen="state.modal.isInviteEmployeeOpen"
                 @close="state.modal.isInviteEmployeeOpen = false" @refreshEmployees="fetchEmployees" />
             <ModulesUserEmployeeModalImport :isModalOpen="state.modal.isImportEmployeesOpen"
@@ -229,10 +253,13 @@ const state = reactive({
     dataFilter: {
         search: ''
     },
+    // The property filters, kept apart from the free-text search.
+    propertyFilter: {} as Record<string, any>,
     employees: [] as any,
     error: {} as Error,
     isTableLoading: false,
     modal: {
+        isFilterOpen: false,
         isImportEmployeesOpen: false,
         isInviteEmployeeOpen: false,
         isGiveAIAccessOpen: false,
@@ -266,7 +293,8 @@ async function fetchEmployees() {
             page_length: employeeStore.getCurrentPageLength,
             sortField: employeeStore.getSortData.sortField,
             sortOrder: employeeStore.getSortData.sortOrder,
-            ...state.dataFilter
+            ...state.dataFilter,
+            ...activeFilterParams.value,
         }
         const response = await employeeService.getEmployees(params)
         if (response) {
@@ -302,6 +330,47 @@ function handleSearch(value: any) {
     employeeStore.setCurrentPageNumber(1)
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchEmployees()
+}
+
+/** Only the properties that are actually set are sent. */
+const activeFilterParams = computed(() => {
+    const params: Record<string, any> = {}
+    for (const [key, value] of Object.entries(state.propertyFilter)) {
+        if (value === null || value === undefined || value === '') continue
+        params[key] = value
+    }
+
+    return params
+})
+
+const activeFilterCount = computed(() => Object.keys(activeFilterParams.value).length)
+
+const activeFilterChips = computed(() => {
+    const labels: Record<string, string> = {
+        employee_group: t('employees.employeeGroups.header'),
+        is_active: t('employees.filters.state'),
+        role: t('employees.form.role'),
+        spoken_language: t('citizens.filters.spokenLanguage'),
+    }
+
+    return Object.keys(activeFilterParams.value).map((key) => ({ key, label: labels[key] ?? key }))
+})
+
+function applyFilter(filter: Record<string, any>) {
+    state.propertyFilter = { ...filter }
+    employeeStore.setCurrentPageNumber(1)
+    fetchEmployees()
+}
+
+function removeFilter(key: string) {
+    const filter = { ...state.propertyFilter }
+    delete filter[key]
+    applyFilter(filter)
+}
+
+function clearFilters() {
+    state.dataFilter.search = ''
+    applyFilter({})
 }
 
 function changePageLength(event: any) {

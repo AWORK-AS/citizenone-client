@@ -1399,7 +1399,7 @@ async function transcribeAndStructure() {
 // The panel never touches the editor: it only asks, and the answer lands here.
 const assistantStore = useAssistantStore()
 
-onMounted(() => assistantStore.offerInsertTarget(term('journalNotes', t('sidebar.journalNotes'))))
+onMounted(() => assistantStore.offerInsertTarget(t('sidebar.journalNotes')))
 onBeforeUnmount(() => assistantStore.withdrawInsertTarget())
 
 watch(() => assistantStore.pendingInsert, (html: string | null) => {
