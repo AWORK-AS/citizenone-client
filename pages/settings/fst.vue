@@ -19,11 +19,20 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
-                    <p v-if="state.status.connection_status !== 'active'" class="text-sm text-slate-500">
+                    <p v-if="state.status.connection_status !== 'active' && !notInstalledCoversError"
+                        class="text-sm text-slate-500">
                         {{ $t('settings.fst.subtitle') }}
                     </p>
 
                     <Alert v-if="!isAdmin" type="info" :text="$t('settings.fst.adminOnly')" />
+
+                    <!-- Shown regardless of installed/co_activated_at — a failed automatic
+                         activation attempt (CompanyService::tryActivateFstConnection) uninstalls
+                         the app again, so this can't be nested under the "installed" branch below
+                         without becoming unreachable. Suppressed whenever the "not installed" card's
+                         own message already covers the same error (see notInstalledCoversError). -->
+                    <Alert v-if="isAdmin && state.status.last_activation_error_code && !notInstalledCoversError"
+                        type="danger" :text="$t(`settings.fst.activationError.${state.status.last_activation_error_code}`)" />
 
                     <!-- Not installed: point to the Apps marketplace (plan §9/§14 — -->
                     <!-- installation happens there, this page is the manage screen). -->
@@ -32,11 +41,11 @@
                         <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-[#f0faf9] text-[#2dbab2]">
                             <Icon name="ph:plugs-connected" class="size-6" />
                         </div>
-                        <p class="mt-3 text-sm text-slate-500">{{ $t('settings.fst.notInstalled') }}</p>
+                        <p class="mt-3 text-sm text-slate-500">{{ notInstalledCard.message }}</p>
                         <div class="mt-4 flex justify-center">
-                            <FormButton buttonStyle="primary" @click="navigateTo('/apps')">
+                            <FormButton buttonStyle="primary" @click="goToNotInstalledCardTarget">
                                 <Icon name="ph:storefront" class="h-4 w-4" />
-                                {{ $t('settings.fst.goToApps') }}
+                                {{ notInstalledCard.buttonLabel }}
                             </FormButton>
                         </div>
                     </div>
@@ -225,6 +234,7 @@ const defaultStatus: FstConnectionStatusResponse = {
     sync_eligible: false,
     unmet_conditions: [],
     fst_company_id: null,
+    last_activation_error_code: null,
 }
 
 const state = reactive({
@@ -252,6 +262,36 @@ const statusLabel = computed(() => {
 })
 
 const statusDotClass = computed(() => (state.status.connection_status === 'active' ? 'bg-[#1f9d6b]' : 'bg-slate-300'))
+
+// The "not installed" card's copy and CTA depend on why a prior automatic
+// activation attempt failed (CompanyService::tryActivateFstConnection uninstalls
+// the app again on any failure, so this card is what an admin actually sees).
+const notInstalledCard = computed(() => {
+    switch (state.status.last_activation_error_code) {
+        case 'fst_cvr_no_qualified_subscription':
+            return { message: t('settings.fst.needsSubscription'), buttonLabel: t('settings.fst.goToApps'), to: '/apps?category=fst', external: false }
+        case 'fst_company_cvr_missing':
+            return { message: t('settings.fst.needsCvr'), buttonLabel: t('settings.fst.goToCompanySettings'), to: '/settings/company', external: false }
+        case 'fst_cvr_not_found':
+            return { message: t('settings.fst.needsProfile'), buttonLabel: t('settings.fst.goToPartner'), to: 'https://findsocialetilbud.dk', external: true }
+        default:
+            return { message: t('settings.fst.notInstalled'), buttonLabel: t('settings.fst.goToApps'), to: '/apps?category=integrations', external: false }
+    }
+})
+
+// Whether the "not installed" card's own message already explains the stored
+// error — used to suppress the redundant standalone danger Alert + subtitle.
+const notInstalledCoversError = computed(() => (
+    ['fst_cvr_no_qualified_subscription', 'fst_company_cvr_missing', 'fst_cvr_not_found'].includes(state.status.last_activation_error_code ?? '')
+))
+
+async function goToNotInstalledCardTarget() {
+    if (notInstalledCard.value.external) {
+        await navigateTo(notInstalledCard.value.to, { external: true, open: { target: '_blank' } })
+    } else {
+        await navigateTo(notInstalledCard.value.to)
+    }
+}
 
 function syncRunLabel(run: FstSyncRun): string {
     if (run.type === 'inquiries') return t('settings.fst.syncRunInquiries')
