@@ -878,7 +878,7 @@
         "starters": {
             "title": "Prøv for eksempel",
             "overview": "Giv mig et overblik over forløbet for ",
-            "summary": "Opsummer de seneste journalnotater for ",
+            "summary": "Opsummer de seneste @:terms.journalNotes{''} for ",
             "report": "Skriv et udkast til en rapport til sagsbehandleren om ",
             "organisation": "Hvad står der i vores retningslinjer om "
         },
@@ -1549,7 +1549,7 @@
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
-                "journalNoteView": "Journalnotatvisning",
+                "journalNoteView": "@.capitalize:terms.journalNote{''}visning",
                 "newestFirst": "Nyeste øverst",
                 "oldestFirst": "Ældste øverst",
                 "resetFilters": "Nulstil filtre",
@@ -2176,7 +2176,9 @@
             },
             "transportation": "Transportere",
             "useThisLocation": "Brug denne placering",
-            "secondaryCaseworker": "Sekundær {term}"
+            "secondaryCaseworker": "Sekundær {term}",
+            "caseNumber": "Indsatsnummer",
+            "caseNumberHint": "Nummeret indsatsen har i det system, den kom fra"
         },
         "importCitizens": {
             "alert": {
@@ -2839,7 +2841,7 @@
         "newCitizen": "Ny {citizen}",
         "noDepartmentYet": "Ingen afdeling",
         "note": {
-            "latestJournalEntry": "Seneste journalnotat",
+            "latestJournalEntry": "Seneste @:terms.journalNote{''}",
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "nursingAreas": {
@@ -3122,7 +3124,7 @@
                 "pin": "Fastgør @:terms.citizen{''}",
                 "unpin": "Fjern fastgørelse",
                 "edit": "Rediger",
-                "latestJournalEntry": "Seneste journalnotat",
+                "latestJournalEntry": "Seneste @:terms.journalNote{''}",
                 "latestRiskAssessment": "Seneste risikovurdering",
                 "medicationOverview": "Medicinoversigt",
                 "plansAndGoals": {
@@ -3137,7 +3139,8 @@
             "email": "E-mail",
             "name": "Navn",
             "phone": "Telefon",
-            "ssn": "CPR-nummer"
+            "ssn": "CPR-nummer",
+            "caseNumber": "Indsatsnummer"
         },
         "tabs": {
             "attendance": "Fremmøde",
@@ -3880,7 +3883,36 @@
             "report": {
                 "citizenName": "@.capitalize:terms.citizenDefinite{'s'} navn"
             }
-        }
+        },
+        "searchPlaceholder": "Søg på navn, CPR eller indsatsnummer",
+        "emptyListHint": "Ingen {citizens} fundet endnu. Brug \"Ny {citizen}\" øverst, eller importér fra et andet system.",
+        "coordinators": {
+            "badgePrimary": "Primær koordinator",
+            "badgeSecondary": "Sekundær koordinator",
+            "hint": "Den medarbejder du sætter her vises under Kontakter på {theCitizen} og {theCitizen} vises under medarbejderens tildelte {citizens}.",
+            "notSet": "Ikke sat",
+            "primary": "Primær koordinator",
+            "saved": "Koordinatorerne er gemt",
+            "secondary": "Sekundær koordinator",
+            "selectEmployee": "Vælg medarbejder",
+            "title": "Koordinatorer"
+        },
+        "filters": {
+            "any": "Alle",
+            "spokenLanguage": "Talt sprog",
+            "coordinatorRole": "Koordinatorrolle",
+            "riskLevel": "Risikoniveau",
+            "admittedFrom": "Indskrevet fra",
+            "admittedTo": "Indskrevet til",
+            "requiresInterpreter": "Kræver tolk",
+            "activeFilters": "Aktive filtre",
+            "risk": {
+                "green": "Grøn",
+                "yellow": "Gul",
+                "red": "Rød"
+            }
+        },
+        "emptyFiltered": "Ingen {citizens} matcher filtrene."
     },
     "client": {
         "appointments": "Aftaler",
@@ -6524,7 +6556,21 @@
         "workingHours": {
             "fulltime": "Fuldtid",
             "parttime": "Deltid"
-        }
+        },
+        "employeeGroups": {
+            "header": "Medarbejdergrupper",
+            "headerHint": "Grupperne denne medarbejder hører til",
+            "hint": "Vælg de grupper medarbejderen hører til. En medarbejder kan være i flere grupper.",
+            "none": "Ingen grupper",
+            "saved": "Grupperne er gemt",
+            "selectGroups": "Vælg grupper"
+        },
+        "filters": {
+            "state": "Status",
+            "active": "Aktiv",
+            "inactive": "Inaktiv"
+        },
+        "emptyFiltered": "Ingen medarbejdere matcher filtrene."
     },
     "entriesPerPage": "Indlæg pr. side",
     "error": {
@@ -6542,7 +6588,7 @@
             "successfullyDeleted": "Begivenhed slettet med succes",
             "successfullyUpdated": "Begivenhed blev opdateret med succes",
             "statusSuccessfullyUpdated": "Begivenhedsstatus opdateret med succes",
-            "journalSuccessfullyCreated": "Journalnotat oprettet med succes"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} oprettet med succes"
         },
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -6595,17 +6641,17 @@
             "yourCalendarUrl": "Din personlige kalender-URL",
             "addToCalendar": "Tilføj til kalender"
         },
-        "createJournalNote": "Opret journalnotat",
+        "createJournalNote": "Opret @:terms.journalNote{''}",
         "markAsCompleted": "Markér som gennemført",
         "markAsNotCompleted": "Markér som ikke gennemført",
-        "viewJournalNote": "Se journalnotat",
+        "viewJournalNote": "Se @:terms.journalNote{''}",
         "status": {
             "completed": "Gennemført",
             "notCompleted": "Ikke gennemført"
         },
         "journalNotePrompt": {
-            "title": "Journalnotat",
-            "message": "Vil du skrive et journalnotat om dette?"
+            "title": "@.capitalize:terms.journalNote{''}",
+            "message": "Vil du skrive et @:terms.journalNote{''} om dette?"
         },
         "journalNote": {
             "form": {
@@ -7336,7 +7382,7 @@
             "title": "Hurtige handlinger",
             "newCitizen": "Tilføj @:terms.citizen{''}",
             "newEmployee": "Tilføj medarbejder",
-            "journalNotes": "Journalnotater",
+            "journalNotes": "@.capitalize:terms.journalNotes{''}",
             "statistics": "Statistik"
         },
         "footerHint": "Søg & handl hurtigt",
@@ -7715,7 +7761,7 @@
         "scoreDescription": "Når den er slået fra, vises feltet \"Nuværende niveau\" ikke i journalens opret- og redigeringsformularer. Feltet er tomt fra start, så et niveau kun står der, hvis nogen har valgt det."
     },
     "journalNotes": {
-        "title": "Journalnotater",
+        "title": "@.capitalize:terms.journalNotes{''}",
         "citizen": "@.capitalize:terms.citizen{''}",
         "department": "Afdeling",
         "newNote": "Ny note",
@@ -7786,8 +7832,8 @@
     "journalNotifications": {
         "createdBy": "Oprettet af",
         "markAllAsRead": "Markér alle som læst",
-        "unreadJournalNotes": "Ulæste journalnotater",
-        "youDontHaveUnreadJournalNotes": "Du har ingen ulæste journalnotater"
+        "unreadJournalNotes": "Ulæste @:terms.journalNotes{''}",
+        "youDontHaveUnreadJournalNotes": "Du har ingen ulæste @:terms.journalNotes{''}"
     },
     "journalTitles": {
         "addNewJournalTitle": "Tilføj ny journal titel",
@@ -7814,7 +7860,7 @@
             "optionsRequired": "Tilføj mindst én mulighed",
             "required": "Påkrævet",
             "contentTemplate": "Indholdsskabelon",
-            "contentTemplateHint": "Denne tekst indsættes automatisk i journalnotatet, når denne titel vælges."
+            "contentTemplateHint": "Denne tekst indsættes automatisk i @:terms.journalNote{''}et, når denne titel vælges."
         },
         "journalTitles": "Journal titler",
         "newJournalTitle": "Ny journal titel",
@@ -8271,7 +8317,10 @@
         "writeToUsContactPersons": "Går til {names}, der er omkring din pårørende",
         "writeToUsManagement": "Går til ledelsen",
         "seeAllConversations": "Se alle samtaler",
-        "sending": "Sender..."
+        "sending": "Sender...",
+        "employeeGroups": "Medarbejdergruppe",
+        "selectEmployeeGroups": "Vælg medarbejdergrupper",
+        "employeeGroupsHint": "Gruppens medlemmer lægges ind som modtagere, og du kan rette listen bagefter."
     },
     "map": {
         "layers": {
@@ -8609,7 +8658,7 @@
                 "goalsStatistics": "Målsstatistik",
                 "incidentStatistics": "Hændelsesstatistik",
                 "journalStatistics": "Journalstatistik",
-                "latestJournal": "Seneste journalnotater",
+                "latestJournal": "Seneste @:terms.journalNotes{''}",
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medicin afveget",
                 "myDailyEvents": "Mine daglige begivenheder",
@@ -8649,9 +8698,9 @@
             "moderateRisk": "Moderat risiko"
         },
         "journalStatistics": "Journalstatistik",
-        "journalSummaries": "Journalnotater",
+        "journalSummaries": "@.capitalize:terms.journalNotes{''}",
         "latestJournal": {
-            "latestJournal": "Seneste journalnotater",
+            "latestJournal": "Seneste @:terms.journalNotes{''}",
             "score": "Score"
         },
         "medicineAction": {
@@ -8748,7 +8797,7 @@
             "citizensOnShift": "@.capitalize:terms.citizens{''} på vagt",
             "completed": "afsluttet",
             "deviated": "Afvigelse",
-            "journalEntries": "Journalnoter",
+            "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medicin der skal gives",
             "ongoing": "Igangværende",
             "overdue": "forsinket",
@@ -10350,7 +10399,7 @@
         "protocols": "Protokol",
         "reports": "Rapporter",
         "reportTemplates": "Rapportskabeloner",
-        "journalNotes": "Journalnotater",
+        "journalNotes": "@.capitalize:terms.journalNotes{''}",
         "pinSidebar": "Fastgør sidebar",
         "unpinSidebar": "Frigør sidebar",
         "surveys": "Spørgeskemaer",
@@ -13199,7 +13248,7 @@
         "entities": {
             "citizens": "Børn / @:terms.citizens{''}",
             "employees": "Ansatte",
-            "journals": "Journalnotater",
+            "journals": "@.capitalize:terms.journalNotes{''}",
             "schedules": "Vagtplaner"
         },
         "fields": {
@@ -13224,7 +13273,8 @@
             "shift": "Vagttype (navn)",
             "start_time": "Starttid (TT:MM)",
             "end_time": "Sluttid (TT:MM)",
-            "email_employee": "Medarbejderens e-mail (match)"
+            "email_employee": "Medarbejderens e-mail (match)",
+            "case_number": "Indsatsnummer"
         },
         "errors": {
             "emptyFile": "Filen ser tom ud eller har ingen datarækker.",
@@ -13518,7 +13568,7 @@
         "brief": {
             "goals_running_out": "Et mål udløber inden for en uge | {n} mål udløber inden for en uge",
             "heading": "Kræver din opmærksomhed",
-            "journal_mentions": "Du er tagget i et journalnotat | Du er tagget i {n} journalnotater",
+            "journal_mentions": "Du er tagget i et @:terms.journalNote{''} | Du er tagget i {n} @:terms.journalNotes{''}",
             "missed_doses": "En dosis er ikke registreret som givet | {n} doser er ikke registreret som givet",
             "reminders_due": "En påmindelse forfalder i dag | {n} påmindelser forfalder i dag"
         },
@@ -14701,5 +14751,8 @@
         "from": "Fra",
         "to": "Til",
         "noColleagues": "Der er ingen andre i klinikken at give bookingen videre til."
+    },
+    "table": {
+        "clearFilters": "Ryd filtre"
     }
 }

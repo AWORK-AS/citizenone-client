@@ -70,6 +70,7 @@ const state = reactive({
         gender: '',
         email: '',
         social_security_number: '',
+        case_number: '',
         birthday: '',
         phone: '',
         departments: [],
@@ -198,6 +199,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('gender', citizenDetails.gender)
         params.append('email', citizenDetails.email)
         params.append('social_security_number', citizenDetails.social_security_number)
+        params.append('case_number', citizenDetails.case_number ?? '')
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))

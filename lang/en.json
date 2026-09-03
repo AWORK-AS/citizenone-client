@@ -878,7 +878,7 @@
         "starters": {
             "title": "For example",
             "overview": "Give me an overview of the case for ",
-            "summary": "Summarise the latest journal notes for ",
+            "summary": "Summarise the latest @:terms.journalNotes{''} for ",
             "report": "Draft a report for the caseworker about ",
             "organisation": "What do our guidelines say about "
         },
@@ -1549,7 +1549,7 @@
             "filter": {
                 "date": "Date",
                 "filterDate": "Filter date",
-                "journalNoteView": "Journal note view",
+                "journalNoteView": "@.capitalize:terms.journalNote{''} view",
                 "newestFirst": "Newest first",
                 "oldestFirst": "Oldest first",
                 "resetFilters": "Reset filters",
@@ -2176,7 +2176,9 @@
             },
             "transportation": "Transportation",
             "useThisLocation": "Use This Location",
-            "secondaryCaseworker": "Secondary {term}"
+            "secondaryCaseworker": "Secondary {term}",
+            "caseNumber": "Case number",
+            "caseNumberHint": "The number the case carries in the system it came from"
         },
         "importCitizens": {
             "alert": {
@@ -3137,7 +3139,8 @@
             "email": "Email",
             "name": "Name",
             "phone": "Phone",
-            "ssn": "Social security number"
+            "ssn": "Social security number",
+            "caseNumber": "Case number"
         },
         "tabs": {
             "attendance": "Attendance",
@@ -3880,7 +3883,36 @@
             "report": {
                 "citizenName": "@.capitalize:terms.citizenDefinite{''} name"
             }
-        }
+        },
+        "searchPlaceholder": "Search by name, CPR or case number",
+        "emptyListHint": "No {citizens} yet. Use \"New {citizen}\" above, or import from another system.",
+        "coordinators": {
+            "badgePrimary": "Primary coordinator",
+            "badgeSecondary": "Secondary coordinator",
+            "hint": "The employee you set here appears under Contacts on {theCitizen}, and {theCitizen} appears under that employee’s assigned {citizens}.",
+            "notSet": "Not set",
+            "primary": "Primary coordinator",
+            "saved": "The coordinators have been saved",
+            "secondary": "Secondary coordinator",
+            "selectEmployee": "Select employee",
+            "title": "Coordinators"
+        },
+        "filters": {
+            "any": "Any",
+            "spokenLanguage": "Spoken language",
+            "coordinatorRole": "Coordinator role",
+            "riskLevel": "Risk level",
+            "admittedFrom": "Admitted from",
+            "admittedTo": "Admitted to",
+            "requiresInterpreter": "Needs an interpreter",
+            "activeFilters": "Active filters",
+            "risk": {
+                "green": "Green",
+                "yellow": "Yellow",
+                "red": "Red"
+            }
+        },
+        "emptyFiltered": "No {citizens} match the filters."
     },
     "client": {
         "appointments": "Appointments",
@@ -6524,7 +6556,21 @@
         "workingHours": {
             "fulltime": "Full time",
             "parttime": "Part time"
-        }
+        },
+        "employeeGroups": {
+            "header": "Employee groups",
+            "headerHint": "The groups this employee belongs to",
+            "hint": "Choose the groups the employee belongs to. An employee can be in several groups.",
+            "none": "No groups",
+            "saved": "The groups have been saved",
+            "selectGroups": "Select groups"
+        },
+        "filters": {
+            "state": "State",
+            "active": "Active",
+            "inactive": "Inactive"
+        },
+        "emptyFiltered": "No employees match the filters."
     },
     "entriesPerPage": "Entries per page",
     "error": {
@@ -6542,7 +6588,7 @@
             "successfullyDeleted": "Event successfully deleted",
             "successfullyUpdated": "Event successfully updated",
             "statusSuccessfullyUpdated": "Event status successfully updated",
-            "journalSuccessfullyCreated": "Journal note successfully created"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} successfully created"
         },
         "calendar": "Calendar",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -6595,17 +6641,17 @@
             "yourCalendarUrl": "Your personal calendar URL",
             "addToCalendar": "Add to calendar"
         },
-        "createJournalNote": "Create journal note",
+        "createJournalNote": "Create @:terms.journalNote{''}",
         "markAsCompleted": "Mark as completed",
         "markAsNotCompleted": "Mark as not completed",
-        "viewJournalNote": "View journal note",
+        "viewJournalNote": "View @:terms.journalNote{''}",
         "status": {
             "completed": "Completed",
             "notCompleted": "Not completed"
         },
         "journalNotePrompt": {
-            "title": "Journal note",
-            "message": "Do you want to write a journal note about this?"
+            "title": "@.capitalize:terms.journalNote{''}",
+            "message": "Do you want to write a @:terms.journalNote{''} about this?"
         },
         "journalNote": {
             "form": {
@@ -7336,7 +7382,7 @@
             "title": "Quick actions",
             "newCitizen": "Add @:terms.citizen{''}",
             "newEmployee": "Add employee",
-            "journalNotes": "Journal notes",
+            "journalNotes": "@.capitalize:terms.journalNotes{''}",
             "statistics": "Statistics"
         },
         "footerHint": "Search & act fast",
@@ -7715,7 +7761,7 @@
         "scoreDescription": "When switched off, the \"Current level\" field is hidden in the journal create and edit forms. The field starts empty, so a level is only there if someone chose it."
     },
     "journalNotes": {
-        "title": "Journal notes",
+        "title": "@.capitalize:terms.journalNotes{''}",
         "citizen": "@.capitalize:terms.citizen{''}",
         "department": "Department",
         "newNote": "New note",
@@ -7786,8 +7832,8 @@
     "journalNotifications": {
         "createdBy": "Created by",
         "markAllAsRead": "Mark all as read",
-        "unreadJournalNotes": "Unread journal notes",
-        "youDontHaveUnreadJournalNotes": "You don't have unread journal notes"
+        "unreadJournalNotes": "Unread @:terms.journalNotes{''}",
+        "youDontHaveUnreadJournalNotes": "You don't have unread @:terms.journalNotes{''}"
     },
     "journalTitles": {
         "addNewJournalTitle": "Add new journal title",
@@ -7814,7 +7860,7 @@
             "optionsRequired": "Add at least one option",
             "required": "Required",
             "contentTemplate": "Content template",
-            "contentTemplateHint": "This text is inserted into the journal note automatically when this title is selected."
+            "contentTemplateHint": "This text is inserted into the @:terms.journalNote{''} automatically when this title is selected."
         },
         "journalTitles": "Journal titles",
         "newJournalTitle": "New journal title",
@@ -8271,7 +8317,10 @@
         "writeToUsContactPersons": "Goes to {names}, who look after your relative",
         "writeToUsManagement": "Goes to the management",
         "seeAllConversations": "See all conversations",
-        "sending": "Sending..."
+        "sending": "Sending...",
+        "employeeGroups": "Employee group",
+        "selectEmployeeGroups": "Select employee groups",
+        "employeeGroupsHint": "The group members are added as recipients, and you can adjust the list afterwards."
     },
     "map": {
         "layers": {
@@ -8609,7 +8658,7 @@
                 "goalsStatistics": "Goals statistics",
                 "incidentStatistics": "Incident statistics",
                 "journalStatistics": "Journal statistics",
-                "latestJournal": "Latest journal notes",
+                "latestJournal": "Latest @:terms.journalNotes{''}",
                 "medicationOverview": "Medication overview",
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
@@ -8651,7 +8700,7 @@
         "journalStatistics": "Journal statistics",
         "journalSummaries": "Journal summaries",
         "latestJournal": {
-            "latestJournal": "Latest journal notes",
+            "latestJournal": "Latest @:terms.journalNotes{''}",
             "score": "Score"
         },
         "medicineAction": {
@@ -8748,7 +8797,7 @@
             "citizensOnShift": "@.capitalize:terms.citizens{''} on shift",
             "completed": "completed",
             "deviated": "Deviated",
-            "journalEntries": "Journal entries",
+            "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medications due",
             "ongoing": "Ongoing",
             "overdue": "overdue",
@@ -10350,7 +10399,7 @@
         "protocols": "Protocols",
         "reports": "Reports",
         "reportTemplates": "Report templates",
-        "journalNotes": "Journal notes",
+        "journalNotes": "@.capitalize:terms.journalNotes{''}",
         "pinSidebar": "Pin sidebar",
         "unpinSidebar": "Unpin sidebar",
         "surveys": "Surveys",
@@ -13199,7 +13248,7 @@
         "entities": {
             "citizens": "Children / @:terms.citizens{''}",
             "employees": "Employees",
-            "journals": "Journal notes",
+            "journals": "@.capitalize:terms.journalNotes{''}",
             "schedules": "Shift plans"
         },
         "fields": {
@@ -13224,7 +13273,8 @@
             "shift": "Shift type (name)",
             "start_time": "Start time (HH:MM)",
             "end_time": "End time (HH:MM)",
-            "email_employee": "Employee's email (match)"
+            "email_employee": "Employee's email (match)",
+            "case_number": "Case number"
         },
         "errors": {
             "emptyFile": "The file appears empty or has no data rows.",
@@ -13518,7 +13568,7 @@
         "brief": {
             "goals_running_out": "One goal is due within a week | {n} goals are due within a week",
             "heading": "Needs your attention",
-            "journal_mentions": "You were tagged in a journal note | You were tagged in {n} journal notes",
+            "journal_mentions": "You were tagged in a @:terms.journalNote{''} | You were tagged in {n} @:terms.journalNotes{''}",
             "missed_doses": "One dose is not registered as given | {n} doses are not registered as given",
             "reminders_due": "One reminder is due today | {n} reminders are due today"
         },
@@ -14701,5 +14751,8 @@
         "from": "From",
         "to": "To",
         "noColleagues": "There is nobody else at the clinic to hand the booking to."
+    },
+    "table": {
+        "clearFilters": "Clear filters"
     }
 }

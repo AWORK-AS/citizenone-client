@@ -13,6 +13,33 @@ const CITIZEN_DEFAULTS: Record<string, Record<string, string>> = {
 }
 
 /**
+ * The journal words, per locale, on the same footing as the citizen ones.
+ *
+ * They were renameable long before the citizen word was, but only through
+ * term() at the four call sites that asked for it, so a company that wrote
+ * Dagbogsnotater in the word list still read Journalnotater everywhere else.
+ * Publishing them as messages moves the substitution into vue-i18n, so any
+ * string that names them follows the company's own word.
+ */
+const JOURNAL_DEFAULTS: Record<string, Record<string, string>> = {
+    dk: { journals: 'journaler', journal: 'journal', journalNotes: 'journalnotater', journalNote: 'journalnotat' },
+    en: { journals: 'journals', journal: 'journal', journalNotes: 'journal notes', journalNote: 'journal note' },
+    no: { journals: 'journaler', journal: 'journal', journalNotes: 'journalnotater', journalNote: 'journalnotat' },
+    sv: { journals: 'journaler', journal: 'journal', journalNotes: 'journalanteckningar', journalNote: 'journalanteckning' },
+}
+
+/**
+ * The singular is derived from the company's plural only when the plural is the
+ * Danish-style '...notater', which is the shape every one of these words has
+ * had so far (Dagbogsnotater, Dagsbodsnotater, Journalnotater). Anything else
+ * keeps its own default rather than being guessed at, because a wrong singular
+ * would land in the customer's own screens.
+ */
+function journalNoteSingular(plural: string, fallback: string): string {
+    return /notater$/i.test(plural) ? plural.replace(/er$/i, '') : fallback
+}
+
+/**
  * The four citizen words as i18n messages, so every Danish string that mentions
  * a citizen can reach them as a link rather than spelling the word out.
  *
@@ -53,12 +80,19 @@ export function terminologyMessages(company: any): Record<string, { terms: Recor
     const messages: Record<string, { terms: Record<string, string> }> = {}
 
     for (const [locale, defaults] of Object.entries(CITIZEN_DEFAULTS)) {
+        const journalDefaults = JOURNAL_DEFAULTS[locale] ?? JOURNAL_DEFAULTS.dk
+        const journalNotes = pick(company?.term_journal_notes, journalDefaults.journalNotes)
+
         messages[locale] = {
             terms: {
                 citizen: pick(company?.term_citizen, defaults.citizen),
                 citizenDefinite: pick(company?.term_citizen_definite, defaults.theCitizen),
                 citizens: pick(company?.term_citizens, defaults.citizens),
                 citizensDefinite: pick(company?.term_citizens_definite, defaults.theCitizens),
+                journals: pick(company?.term_journals, journalDefaults.journals),
+                journal: pick(company?.term_journal, journalDefaults.journal),
+                journalNotes,
+                journalNote: journalNoteSingular(journalNotes, journalDefaults.journalNote),
             },
         }
     }
