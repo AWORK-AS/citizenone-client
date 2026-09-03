@@ -13,6 +13,7 @@ export interface FstConnectionStatusResponse {
     sync_eligible: boolean
     unmet_conditions: string[]
     fst_company_id: number | null
+    last_activation_error_code: 'fst_cvr_not_found' | 'fst_cvr_no_qualified_subscription' | 'fst_cvr_already_connected' | 'fst_company_cvr_missing' | null
 }
 
 export interface FstInquiry {
