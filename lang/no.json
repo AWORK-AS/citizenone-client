@@ -10916,7 +10916,9 @@
                 "phone": "Telefon",
                 "status": "Status",
                 "website": "Websted",
-                "storage": "Lagerforbruk"
+                "storage": "Lagerforbruk",
+                "nextPayment": "Neste betaling",
+                "perYear": "{amount} per år"
             },
             "tabs": {
                 "accounts": "Kontoer",
@@ -11142,8 +11144,16 @@
                     "companiesActiveToday": "Aktive virksomheter der minst én bruker har vært i systemet det siste døgnet.",
                     "mrr": "Månedlig gjentakende inntekt ekskl. mva.: alle aktive løpende abonnementer hos aktive virksomheter, der årsavtaler teller som en tolvdel. Gratis- og engangsabonnementer teller ikke med. ARR er MRR ganger 12.",
                     "churn": "Kunder som er lagt ned de siste 30 dagene, av de kundene som var i drift da perioden startet. Bare registrerte nedleggingsdatoer teller med; datoer som er anslått i ettertid for gamle kunder er utelatt.",
-                    "quietCustomers": "Aktive kunder sortert etter hvor lenge det er siden noen fra virksomheten sist var i systemet. Kunder som aldri har logget inn ligger øverst, siden det som regel er en onboarding som aldri kom i gang."
-                }
+                    "quietCustomers": "Aktive kunder sortert etter hvor lenge det er siden noen fra virksomheten sist var i systemet. Kunder som aldri har logget inn ligger øverst, siden det som regel er en onboarding som aldri kom i gang.",
+                    "cmrr": "Den delen av MRR som faktisk blir trukket: en avtale der kortet feiler er fortsatt en avtale, men det er ikke sikrede penger. Det finnes ingen bindingstid i dataene, så sikret betyr i kraft og betalende.",
+                    "contracted": "Hva avtalene vi har i kraft er satt opp til å trekke de neste 12 månedene - på de virkelige trekkdatoene, så en årsfornyelse teller i måneden den trekkes. Forutsetter at ingen sier opp, og at prisene blir som de er."
+                },
+                "cmrr": "Sikret MRR (CMRR)",
+                "carr": "CARR {amount}",
+                "contracted": "Avtalt, neste 12 mnd.",
+                "contractedThreeYears": "3 år: {amount}",
+                "seeForecast": "Se prognosen",
+                "notCollecting": "{count} avtale(r) betaler ikke"
             },
             "tabs": {
                 "overview": "Oversikt",
@@ -12208,6 +12218,20 @@
                 "revenue": "Fakturert",
                 "mrr": "MRR",
                 "newUsers": "Nye brukere"
+            },
+            "forecast": {
+                "title": "Omsetningsprognose",
+                "hint": "Hva dagens avtaler er satt opp til å trekke, måned for måned.",
+                "years": "{count} år",
+                "totalLabel": "Totalt, {count} år",
+                "nextTwelve": "Neste 12 mnd.",
+                "renewalShare": "Herav årsfornyelser",
+                "assumption": "Forutsetter at ingen sier opp, og at prisene ikke endres. Årsfornyelser telles i måneden de trekkes, ut fra trekkdatoen på den opprinnelige fakturaen.",
+                "series": {
+                    "recurring": "Månedlige trekk",
+                    "renewals": "Årsfornyelser",
+                    "cumulative": "Akkumulert"
+                }
             }
         },
         "industries": {

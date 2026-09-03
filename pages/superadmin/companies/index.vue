@@ -141,6 +141,20 @@
                                 </div>
                                 <span v-else class="text-[#8891A4] text-[13px]">—</span>
                             </td>
+                            <td v-if="hasPaymentData" class="co-td">
+                                <div v-if="company?.next_payment_at" class="min-w-[130px]">
+                                    <p class="text-[13px] text-[#1F2533]">
+                                        {{ formatAmount(company.next_payment_amount, 'DKK') }}
+                                    </p>
+                                    <p class="text-[11px] text-[#8891A4]">
+                                        {{ formatDay(company.next_payment_at) }}
+                                        · {{ $t('superadmin.companies.table.perYear', {
+                                            amount: formatAmount(company.payments_next_12_months, 'DKK')
+                                        }) }}
+                                    </p>
+                                </div>
+                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                            </td>
                             <td class="co-td" @click.stop>
                                 <div
                                     class="flex items-center gap-1.5 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
@@ -171,7 +185,9 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { companyService } from '@/components/api/superadmin/CompanyService'
+import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { saveAs } from 'file-saver'
@@ -180,6 +196,20 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { formatAmount } = useAmountFormatter()
+
+/**
+ * Whether this superadmin is being told about payments at all. The fields are
+ * absent rather than null without `view_financials`, so one row is enough to
+ * tell - and an empty list is nothing to show a column for either way.
+ */
+const hasPaymentData = computed(() =>
+    (state.companies?.data ?? []).some((company: any) => company?.next_payment_at !== undefined)
+)
+
+function formatDay(date: string) {
+    return date ? moment(date).format('D. MMM YYYY') : '—'
+}
 const router = useRouter()
 
 let currentTablePage = 1
@@ -199,6 +229,10 @@ const state = reactive({
         { key: 'cvr', name: t('superadmin.companies.table.cvr') },
         { key: 'website', name: t('superadmin.companies.table.website') },
         { key: 'storage_used_bytes', name: t('superadmin.companies.table.storage'), sorter: true },
+        // Future payments are only in the response for a superadmin with
+        // `view_financials`, so the column comes and goes with the data rather
+        // than standing there empty for everybody else.
+        ...(hasPaymentData.value ? [{ key: 'next_payment', name: t('superadmin.companies.table.nextPayment') }] : []),
         { key: 'actions', name: '' },
     ]),
     companies: [] as any,

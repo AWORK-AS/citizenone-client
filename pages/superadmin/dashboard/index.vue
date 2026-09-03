@@ -197,6 +197,63 @@
                         </div>
                     </div>
 
+                    <!-- Committed: the part of the run rate that is collecting -->
+                    <div v-if="state.recurringRevenue?.cmrr !== undefined" class="co-stat-card" style="--accent:#205E77">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.cmrr') }}</p>
+                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.cmrr')" position="bottom" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                    </Tooltip>
+                                </div>
+                                <p class="co-stat-value text-[#205E77]">
+                                    {{ formatAmount(state.recurringRevenue.cmrr, 'DKK') }}
+                                </p>
+                                <p class="co-stat-sub">
+                                    {{ $t('superadmin.dashboard.adoption.carr', { amount: formatAmount(state.recurringRevenue.carr, 'DKK') }) }}
+                                </p>
+                                <p v-if="state.recurringRevenue.agreements?.not_collecting" class="co-stat-sub text-[#CC3B2D]">
+                                    {{ $t('superadmin.dashboard.adoption.notCollecting', { count: state.recurringRevenue.agreements.not_collecting }) }}
+                                </p>
+                            </div>
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                style="background:#E4F1F6">
+                                <Icon name="ph:shield-check" class="w-5 h-5 text-[#205E77]" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contracted: what the agreements are scheduled to bill -->
+                    <div v-if="state.recurringRevenue?.contracted_next_12_months !== undefined" class="co-stat-card"
+                        style="--accent:#42AED9">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.contracted') }}</p>
+                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.contracted')" position="bottom" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
+                                    </Tooltip>
+                                </div>
+                                <p class="co-stat-value text-[#42AED9]">
+                                    {{ formatAmount(state.recurringRevenue.contracted_next_12_months, 'DKK') }}
+                                </p>
+                                <p class="co-stat-sub">
+                                    {{ $t('superadmin.dashboard.adoption.contractedThreeYears', { amount: formatAmount(state.recurringRevenue.contracted_next_36_months, 'DKK') }) }}
+                                </p>
+                                <NuxtLink to="/superadmin/analytics"
+                                    class="co-stat-sub text-[#205E77] inline-flex items-center gap-1 hover:underline">
+                                    {{ $t('superadmin.dashboard.adoption.seeForecast') }}
+                                    <Icon name="ph:arrow-right" class="w-3 h-3" />
+                                </NuxtLink>
+                            </div>
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                style="background:#E8F6FC">
+                                <Icon name="ph:calendar-check" class="w-5 h-5 text-[#42AED9]" />
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Churn -->
                     <div v-if="state.churn" class="co-stat-card" style="--accent:#CC3B2D">
                         <div class="flex items-start justify-between">
