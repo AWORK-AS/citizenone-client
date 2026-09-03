@@ -29,6 +29,14 @@ class EmployeeGroupService extends BaseAPIService {
         return await this.request(`/user/employee-groups/${employeeGroupUuid}/assign-citizens`, 'POST', params)
     }
 
+    async getGroupsForEmployee(employeeUuid: any): Promise<any> {
+        return await this.request(`/user/employees/${employeeUuid}/employee-groups`, 'GET')
+    }
+
+    async setGroupsForEmployee(employeeUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/employees/${employeeUuid}/employee-groups`, 'PUT', params)
+    }
+
     async unassignCitizen(employeeGroupUuid: any, citizenUuid: any): Promise<any> {
         return await this.request(`/user/employee-groups/${employeeGroupUuid}/unassign-citizen/${citizenUuid}`, 'DELETE')
     }

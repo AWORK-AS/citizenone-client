@@ -15,6 +15,18 @@
                         </div>
 
                         <div class="space-y-4">
+                            <!-- Writing to a whole employee group: picking one fills the
+                                 recipients with its members, which stays editable
+                                 afterwards, so the group is a shortcut and not a
+                                 second kind of conversation. -->
+                            <div class="space-y-1" v-if="userStore.getUser?.company?.group_chat_enabled">
+                                <FormLabel for="employee_groups" :label="$t('messages.employeeGroups')" />
+                                <FormSelectMultiple id="employee_groups" :options="state.options.employeeGroups"
+                                    :placeholder="$t('messages.selectEmployeeGroups')"
+                                    v-model="state.formChat.employeeGroups" />
+                                <p class="text-xs text-gray-500">{{ $t('messages.employeeGroupsHint') }}</p>
+                            </div>
+
                             <div class="space-y-1">
                                 <FormLabel for="receivers" :label="$t('messages.recipients')" />
                                 <FormSelectMultiple id="receivers" :options="state.options.receivers"
@@ -75,6 +87,7 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { userService } from '@/components/api/user/UserService'
 import { useDepartmentStore } from '@/store/department'
+import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
 
 const props = defineProps({
     isModalOpen: {
@@ -92,6 +105,7 @@ const userUuid = router?.currentRoute?.value?.query?.user_uuid
 const state = reactive({
     error: {} as Error,
     formChat: {
+        employeeGroups: [] as string[],
         message: '',
         receivers: [] as any,
         subject: '',
@@ -99,8 +113,12 @@ const state = reactive({
     isPageLoading: false,
     isSending: false,
     options: {
-        receivers: []
-    }
+        employeeGroups: [] as any[],
+        receivers: [] as any[],
+    },
+    // The group's members, so deselecting a group takes its members out again
+    // without touching anyone who was picked by hand.
+    groupMembers: {} as Record<string, string[]>,
 })
 
 const canSend = computed(() => {
@@ -112,9 +130,24 @@ const canSend = computed(() => {
 
 onMounted(() => {
     fetchAllAvailableChatUsers()
+    if (userStore.getUser?.company?.group_chat_enabled) {
+        fetchEmployeeGroups()
+    }
     if (userUuid) {
         state.formChat.receivers.push(userUuid)
     }
+})
+
+watch(() => [...state.formChat.employeeGroups], (selected, previous) => {
+    const members = (uuids: string[]) => uuids.flatMap((uuid) => state.groupMembers[uuid] ?? [])
+    const added = members(selected.filter((uuid) => !(previous ?? []).includes(uuid)))
+    const removed = members((previous ?? []).filter((uuid) => !selected.includes(uuid)))
+    const stillWanted = new Set(members(selected))
+
+    const receivers = Array.isArray(state.formChat.receivers) ? state.formChat.receivers : []
+    const kept = receivers.filter((uuid: string) => !removed.includes(uuid) || stillWanted.has(uuid))
+
+    state.formChat.receivers = Array.from(new Set([...kept, ...added]))
 })
 
 const rules = computed(() => {
@@ -167,6 +200,22 @@ async function fetchAllAvailableChatUsers() {
     state.isPageLoading = false
 }
 
+async function fetchEmployeeGroups() {
+    try {
+        const response = await employeeGroupService.getEmployeeGroups({ per_page: 200 })
+        const groups = response?.data ?? []
+        state.options.employeeGroups = groups.map((group: any) => ({
+            value: group.uuid,
+            label: group.department?.name ? `${group.name} (${group.department.name})` : group.name,
+        }))
+        state.groupMembers = Object.fromEntries(
+            groups.map((group: any) => [group.uuid, (group.users ?? []).map((member: any) => member.uuid)])
+        )
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
 async function sendMessage() {
     v$.value.$validate()
     if (!v$.value.$error) {
@@ -183,6 +232,7 @@ async function sendMessage() {
             if (response) {
                 const chatUuid = response?.data?.chat?.uuid
                 state.formChat.receivers = []
+                state.formChat.employeeGroups = []
                 state.formChat.subject = ''
                 state.formChat.message = ''
                 v$.value.$reset()

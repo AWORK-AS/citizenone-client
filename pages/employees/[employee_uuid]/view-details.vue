@@ -289,6 +289,20 @@
                             class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
                             <div>
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                    {{ $t('employees.employeeGroups.header') }}
+                                </h2>
+                                <p class="mt-1 text-sm leading-6 text-gray-600">
+                                    {{ $t('employees.employeeGroups.headerHint') }}.
+                                </p>
+                            </div>
+                            <div class="md:col-span-2 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
+                                <ModulesUserEmployeeGroupMembership :employeeUuid="String(employeeUuid)" />
+                            </div>
+                        </div>
+                        <div
+                            class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
+                            <div>
+                                <h2 class="text-base font-semibold leading-7 text-gray-900">
                                     {{ $t('employees.form.header.emergencyInfo') }}
                                 </h2>
                                 <p class="mt-1 text-sm leading-6 text-gray-600">
