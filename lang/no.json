@@ -10759,6 +10759,8 @@
                     "manualInvoiceDescription": "Vi fakturerer dette firmaet separat.",
                     "paymentCard": "Kunden betaler med kort",
                     "paymentCardDescription": "Kunden betaler via sin egen side Innstillinger → Fakturaer.",
+                    "assignedPaymentCard": "Betal via registrert betalingskort",
+                    "assignedPaymentCardDescription": "Trekker umiddelbart fra kortet firmaet allerede har registrert. Kun tilgjengelig når firmaet har betalt minst én faktura med kort.",
                     "unitPrice": "Planpris",
                     "tax": "MVA (25%)",
                     "serviceFee": "Servicegebyr",
