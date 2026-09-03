@@ -1968,17 +1968,20 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
     }
 }
 
-async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string, shiftTypeUuid?: string) {
     try {
         const params: any = {
             date_time_start: newDateTimeStart,
             date_time_end: newDateTimeEnd,
             user_uuid: employeeUuid,
             ...(shiftSpanPosition && { shift_span_position: shiftSpanPosition }),
+            ...(shiftTypeUuid && { shift_type_uuid: shiftTypeUuid }),
         }
         const response = await draftScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
             state.shiftWarnings = response.data.warnings
+        } else {
+            state.shiftWarnings = []
         }
     } catch (error: any) {
 
