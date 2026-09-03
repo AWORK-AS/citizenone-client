@@ -723,7 +723,27 @@ const hasRealDepartments = computed(() =>
 // 'Nattevagt', 'NV', 'NV 12t', 'Døgnvagt', 'Tilkøbsdag' and 'Bruges ikke'
 // across tenants, alongside 'sleeping-night-shift' and 'awake-night-shift'.
 function crossesMidnight(option: any) {
-    return !!(option?.time_in && option?.time_out && option.time_out < option.time_in)
+    if (!option) return false
+    // Leave types never get the next-day rollover, even when their configured
+    // times happen to cross midnight - Hava Nord (company 1422) has Ferie, Syg
+    // and Doegnvagt all set to 09:00-00:00, which tests as crossing.
+    //
+    // Observed: creating a Syg shift there with defaults produced 09:00 -> next
+    // day 00:00, split into a start/end pair. Sick leave was never excluded
+    // (isVacationLeave covers 'vacation-leave' only), and the previous
+    // sleeping-night-shift gate could not match it, so this was a new behaviour
+    // change - leave hours feed the norm-hours calculations.
+    //
+    // Vacation is excluded defensively rather than from an observed failure:
+    // isVacationLeave already short-circuits it in the shift_type watcher, but
+    // nothing stopped the date_time_start watcher below from overwriting that
+    // all-day row afterwards. Not reproduced, but cheap to rule out.
+    //
+    // Mirrors the backend's isLeaveShiftType() (AW-2026-4263 #6): the
+    // is_leave_shift_type checkbox OR a known leave system_name.
+    if (option.is_leave_shift_type === true) return false
+    if (['vacation-leave', 'sick-leave'].includes(option.system_name)) return false
+    return !!(option.time_in && option.time_out && option.time_out < option.time_in)
 }
 
 const isMidnightCrossingShift = computed(() => crossesMidnight(selectedShiftOption.value))
@@ -909,6 +929,7 @@ async function fetchAllShifts() {
                             language.locale.value === 'sv' ? shift?.sv_name :
                                 shift?.dk_name,
                     system_name: shift?.system_name,
+                    is_leave_shift_type: shift?.is_leave_shift_type,
                     time_in: shift?.time_in,
                     time_out: shift?.time_out,
                     end_time_day_offset: shift?.end_time_day_offset,
