@@ -171,8 +171,8 @@ function closeModal() {
     emit('close')
 }
 
-function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
-    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd, props.selectedEmployeeSchedule?.shift_span_position)
+function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftTypeUuid?: string) {
+    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd, props.selectedEmployeeSchedule?.shift_span_position, shiftTypeUuid)
 }
 
 async function updateShift(shiftDetails: any) {

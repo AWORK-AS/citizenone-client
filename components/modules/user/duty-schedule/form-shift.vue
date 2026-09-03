@@ -663,7 +663,7 @@ watch(() => state.formShift.shift_type, (selectedShift) => {
         }
     }
 
-    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end, state.formShift.shift_type)
 })
 
 watch(() => state.formShift.date_time_start, () => {
@@ -679,12 +679,12 @@ watch(() => state.formShift.date_time_start, () => {
             'YYYY-MM-DD HH:mm:ss'
         ).format('YYYY-MM-DD H:mm')
     }
-    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end, state.formShift.shift_type)
 })
 
 watch(() => state.formShift.date_time_end, () => {
     if (!state.formShift.shift_type) return
-    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end)
+    emit('dateTimeChange', props.selectedEmployee.uuid, state.formShift.date_time_start, state.formShift.date_time_end, state.formShift.shift_type)
 })
 
 watch(() => state.formShift.is_override_vacation_hours, (isOverride) => {

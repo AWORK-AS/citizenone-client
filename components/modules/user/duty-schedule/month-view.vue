@@ -2117,18 +2117,21 @@ function isPreviousMonthDisabled() {
     return selectedMonth.isSame(cutoffMonth, 'month')
 }
 
-async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string, shiftTypeUuid?: string) {
     try {
         const params: any = {
             date_time_start: newDateTimeStart,
             date_time_end: newDateTimeEnd,
             user_uuid: employeeUuid,
             ...(shiftSpanPosition && { shift_span_position: shiftSpanPosition }),
+            ...(shiftTypeUuid && { shift_type_uuid: shiftTypeUuid }),
         }
         const response = await dutyScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
             state.shiftWarnings = response.data.warnings
             state.showWarningDialog = true
+        } else {
+            state.shiftWarnings = []
         }
     } catch (error: any) { }
 }
