@@ -10759,6 +10759,8 @@
                     "manualInvoiceDescription": "We invoice this company separately.",
                     "paymentCard": "Customer pays by card",
                     "paymentCardDescription": "The customer pays via their own Settings → Invoices page.",
+                    "assignedPaymentCard": "Pay via assigned payment card",
+                    "assignedPaymentCardDescription": "Charges the card the company already has on file immediately. Only available once the company has paid at least one invoice by card.",
                     "unitPrice": "Plan price",
                     "tax": "VAT (25%)",
                     "serviceFee": "Service fee",

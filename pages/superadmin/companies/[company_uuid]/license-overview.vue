@@ -363,6 +363,7 @@
                                     <RadioGroupOption as="template" v-for="option in [
                                         { value: 'manual_invoice', label: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoice'), description: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoiceDescription') },
                                         { value: 'payment_card', label: $t('superadmin.companies.licenseOverview.addSubscription.paymentCard'), description: $t('superadmin.companies.licenseOverview.addSubscription.paymentCardDescription') },
+                                        { value: 'assigned_payment_card', label: $t('superadmin.companies.licenseOverview.addSubscription.assignedPaymentCard'), description: $t('superadmin.companies.licenseOverview.addSubscription.assignedPaymentCardDescription') },
                                     ]" :key="option.value" :value="option.value" v-slot="{ checked }">
                                         <div
                                             :class="[checked ? 'ring-2 ring-tertiary' : 'ring-1 ring-gray-200', 'cursor-pointer rounded-lg p-3']">
@@ -635,7 +636,7 @@ const state = reactive({
         deals: [] as any[],
         package: '' as string,
         frequency: 'monthly' as 'monthly' | 'yearly',
-        billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card',
+        billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card' | 'assigned_payment_card',
         paysViaLeverandorservice: false,
     },
     editSubscription: {
