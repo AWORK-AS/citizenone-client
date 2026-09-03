@@ -8796,7 +8796,7 @@
             "citizensOnShift": "@.capitalize:terms.citizens{''} på pass",
             "completed": "avslutad",
             "deviated": "Avvikelse",
-            "journalEntries": "Journalnoter",
+            "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medicin där ska gives",
             "ongoing": "Pågående",
             "overdue": "försenad",
