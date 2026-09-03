@@ -13,6 +13,17 @@
         },
         "title": "Compensatory time payouts"
     },
+    "staffWorkloadReport": {
+        "title": "Staff workload",
+        "description": "Number of risk assessments logged per employee in the selected period. Many yellow or red assessments over time can signal work strain, not only the citizen's situation.",
+        "table": {
+            "employee": "Employee",
+            "noRisk": "No risk",
+            "increasedRisk": "Increased risk",
+            "acuteIncreasedRisk": "Acute increased risk",
+            "total": "Total"
+        }
+    },
     "inquiryPipeline": {
         "board": "Inquiry pipeline",
         "enableLabel": "Inquiry pipeline (kanban)",
@@ -1462,6 +1473,16 @@
             "sessions": "Sessions",
             "thisMonth": "This month",
             "thisYear": "This year"
+        },
+        "riskHistory": {
+            "title": "Risk assessment over time",
+            "period1": "Last month",
+            "period3": "Last 3 months",
+            "period6": "Last 6 months",
+            "noRisk": "No risk",
+            "increasedRisk": "Increased risk",
+            "acuteIncreasedRisk": "Acute increased risk",
+            "notEnoughData": "Not enough data yet to show a trend."
         },
         "addictions": "Substance abuse",
         "address": "Address",

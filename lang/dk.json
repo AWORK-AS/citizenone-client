@@ -13,6 +13,17 @@
         },
         "title": "Udbetalinger af afspadsering"
     },
+    "staffWorkloadReport": {
+        "title": "Medarbejderbelastning",
+        "description": "Antal risikovurderinger registreret pr. medarbejder i den valgte periode. Mange gule eller røde vurderinger over tid kan være et tegn på arbejdspres, ikke kun borgerens situation.",
+        "table": {
+            "employee": "Medarbejder",
+            "noRisk": "Ingen risiko",
+            "increasedRisk": "Øget risiko",
+            "acuteIncreasedRisk": "Akut øget risiko",
+            "total": "I alt"
+        }
+    },
     "inquiryPipeline": {
         "board": "Henvendelses-pipeline",
         "enableLabel": "Henvendelses-pipeline (kanban)",
@@ -1462,6 +1473,16 @@
             "sessions": "Sessioner",
             "thisMonth": "Denne måned",
             "thisYear": "Dette år"
+        },
+        "riskHistory": {
+            "title": "Risikovurdering over tid",
+            "period1": "Sidste måned",
+            "period3": "Sidste 3 måneder",
+            "period6": "Sidste 6 måneder",
+            "noRisk": "Ingen risiko",
+            "increasedRisk": "Øget risiko",
+            "acuteIncreasedRisk": "Akut øget risiko",
+            "notEnoughData": "Ikke nok data til at vise en udvikling endnu."
         },
         "addictions": "Stofmisbrug",
         "address": "Adresse",

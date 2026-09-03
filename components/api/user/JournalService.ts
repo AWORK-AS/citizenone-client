@@ -84,6 +84,14 @@ class JournalService extends BaseAPIService {
     async permanentDeleteJournalLog(changeLogUuid: any): Promise<any> {
         return await this.request(`/user/citizen-journals/${changeLogUuid}/delete`, 'DELETE')
     }
+
+    async getRiskAssessmentHistory(citizenUuid: string, period: number): Promise<any> {
+        return await this.request(`/user/citizen-journals/${citizenUuid}/risk-assessments/history`, 'GET', { period })
+    }
+
+    async getRiskAssessmentHistoryByEmployee(period: number): Promise<any> {
+        return await this.request(`/user/citizen-journals/risk-assessments/employee-history`, 'GET', { period })
+    }
 }
 
 export const journalService = new JournalService()
