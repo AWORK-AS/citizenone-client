@@ -1152,7 +1152,7 @@
                                                         </div>
                                                         <div class="mx-1.5 sm:mx-2.5 border-t border-white/20 mb-1">
                                                         </div>
-                                                        <div v-if="shift?.shift_span_position"
+                                                        <div v-if="shift?.shift_span_position && shift?.shift_span_position !== 'single'"
                                                             class="flex items-center gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5">
                                                             <div v-if="shift.shift_span_position === 'start'"
                                                                 class="flex items-center flex-col xl:flex-row gap-1 bg-white/20 rounded-full px-2 py-0.5">

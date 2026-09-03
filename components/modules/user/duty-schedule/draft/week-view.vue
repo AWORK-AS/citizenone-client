@@ -749,7 +749,7 @@
                                                             </div>
                                                             <div class="mx-2.5 border-t border-white/20 mb-1.5"></div>
                                                             <div class="flex items-center gap-1 px-2.5 pb-1.5"
-                                                                v-if="shift?.shift_span_position">
+                                                                v-if="shift?.shift_span_position && shift?.shift_span_position !== 'single'">
                                                                 <div v-if="shift.shift_span_position === 'start'"
                                                                     class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
                                                                     <Icon name="ph:arrow-right"
