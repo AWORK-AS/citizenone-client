@@ -165,8 +165,8 @@ function closeModal() {
     emit('close')
 }
 
-function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
-    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd)
+function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftTypeUuid?: string) {
+    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd, undefined, shiftTypeUuid)
 }
 
 async function saveShift(shiftDetails: any) {
