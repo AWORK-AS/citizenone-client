@@ -8796,7 +8796,7 @@
             "citizensOnShift": "@.capitalize:terms.citizens{''} på vakt",
             "completed": "avsluttet",
             "deviated": "Afvigelse",
-            "journalEntries": "Journalnoter",
+            "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medisin der skal gives",
             "ongoing": "Igangværende",
             "overdue": "forsinket",

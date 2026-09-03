@@ -8796,7 +8796,7 @@
             "citizensOnShift": "@.capitalize:terms.citizens{''} on shift",
             "completed": "completed",
             "deviated": "Deviated",
-            "journalEntries": "Journal entries",
+            "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medications due",
             "ongoing": "Ongoing",
             "overdue": "overdue",
