@@ -6910,6 +6910,7 @@
             "getInquiriesViaFindSocialeTilbudDk": "Get inquiries via FindSocialeTilbud.dk",
             "showInterest": "Show interest"
         },
+        "goToFstAccount": "Go to your FindSocialeTilbud.dk account",
         "connectionBanner": {
             "notInstalledTitle": "Bring FindSocialeTilbud.dk inquiries into CitizenOne",
             "notInstalledBody": "Activate the FST integration to receive inquiries and analytics here automatically.",

@@ -64,6 +64,12 @@ class FstService extends BaseAPIService {
     async updateSharedFields(fields: Array<{ field_key: string; is_enabled: boolean }>): Promise<any> {
         return await this.request('/user/fst/shared-fields', 'PUT', { fields })
     }
+
+    // "Go to your FindSocialeTilbud.dk account" — auto-login handoff, keyed by
+    // the current user's own email (no separate FST password step).
+    async getSsoLink(): Promise<{ redirect_url: string }> {
+        return await this.request('/user/fst/sso-link', 'POST')
+    }
 }
 
 export const fstService = new FstService()
