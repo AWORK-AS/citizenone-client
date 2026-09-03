@@ -255,6 +255,13 @@ onMounted(async () => {
         successAlert(`${t('alert.success')}!`, 'OneDrive forbindelse opdateret.')
     }
 
+    // Lets another page link straight into a category (e.g. /apps?category=integrations)
+    // instead of landing on "All apps" and making the admin find it themselves.
+    const categoryQuery = router.currentRoute.value.query.category
+    if (typeof categoryQuery === 'string' && categoryQuery) {
+        state.filter.type = categoryQuery
+    }
+
     await fetchCategories()
     fetchApps()
 })

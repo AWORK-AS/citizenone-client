@@ -362,7 +362,7 @@ const connectionBanner = computed(() => {
             body: language.t(base + 'notInstalledBody'),
             classes: 'border-[#bfe4df] bg-[#e2f4f2] text-[#0d5850]',
             dotClass: 'bg-[#14847a]',
-            to: '/apps',
+            to: '/apps?category=integrations',
             linkText: language.t(base + 'activateLink'),
         }
     }
