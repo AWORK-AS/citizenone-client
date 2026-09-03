@@ -12322,6 +12322,11 @@
                 "colour": "Färg",
                 "reset": "Tillbaka till standard",
                 "save": "Spara kolumner"
+            },
+            "alert": {
+                "updated": "Förfrågan har uppdaterats",
+                "noteAdded": "Anteckningen har lagts till",
+                "columnsSaved": "Kolumnerna har sparats"
             }
         }
     },

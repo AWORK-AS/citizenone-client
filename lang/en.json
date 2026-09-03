@@ -12322,6 +12322,11 @@
                 "colour": "Colour",
                 "reset": "Back to defaults",
                 "save": "Save columns"
+            },
+            "alert": {
+                "updated": "The inquiry has been updated",
+                "noteAdded": "The note has been added",
+                "columnsSaved": "The columns have been saved"
             }
         }
     },

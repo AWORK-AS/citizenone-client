@@ -29,12 +29,17 @@
                                 {{ $t('superadmin.salesInquiries.views.' + view) }}
                             </button>
                         </div>
-                        <div class="relative">
+                        <!-- `.co-input` carries `w-full` and its own horizontal
+                             padding, so the width comes from this wrapper and the
+                             room for the icon from an inline value: a utility
+                             class on the input loses to the global stylesheet. -->
+                        <div class="relative w-80 shrink-0">
                             <Icon name="ph:magnifying-glass"
-                                class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8891A4]" />
-                            <input v-model="state.filters.search" type="text" class="co-input pl-9 w-64"
+                                class="w-4 h-4 absolute left-[13px] top-1/2 -translate-y-1/2 text-[#8891A4] pointer-events-none" />
+                            <input v-model="state.filters.search" type="search" class="co-input"
+                                style="padding-left: 38px"
                                 :placeholder="$t('superadmin.salesInquiries.searchPlaceholder')"
-                                @keyup.enter="fetchInquiries" />
+                                @keyup.enter="fetchInquiries" @search="fetchInquiries" />
                         </div>
                         <button class="co-action-btn" @click="openColumnSettings">
                             <Icon name="ph:palette" class="w-3.5 h-3.5" />
@@ -555,6 +560,15 @@ const FALLBACK_COLORS: Record<string, string> = {
     lost: '#8891A4',
 }
 
+/**
+ * A toast that says which thing was saved. `successAlert` takes a title and a
+ * text, and calling it with neither - as this page first did - draws an empty
+ * green bar.
+ */
+function saved(key: 'updated' | 'noteAdded' | 'columnsSaved') {
+    successAlert(`${t('alert.success')}!`, `${t('superadmin.salesInquiries.alert.' + key)}.`)
+}
+
 const settingFor = (status: string) => state.statusSettings.find((s: any) => s.status === status)
 
 /** The columns in the order the team put them in. */
@@ -722,7 +736,7 @@ async function saveColumns() {
         if (response?.data) {
             state.statusSettings = response.data
             state.modal.isColumnsOpen = false
-            successAlert()
+            saved('columnsSaved')
         }
     } catch (error: any) {
         state.columnsError = error
@@ -757,7 +771,7 @@ async function dropOn(status: string) {
 
     try {
         await salesInquiryService.updateInquiry(uuid, { status })
-        successAlert()
+        saved('updated')
         fetchInquiries()
     } catch (error: any) {
         card.status = previous
@@ -800,7 +814,7 @@ async function saveInquiry() {
         })
         if (response?.data) {
             state.selected = response.data
-            successAlert()
+            saved('updated')
             fetchInquiries()
         }
     } catch (error: any) {
@@ -820,7 +834,7 @@ async function saveNote() {
             state.form.note = ''
             const refreshed = await salesInquiryService.getInquiry(state.selected.uuid)
             state.selected = refreshed?.data ?? state.selected
-            successAlert()
+            saved('noteAdded')
         }
     } catch (error: any) {
         state.detailError = error

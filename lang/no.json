@@ -12322,6 +12322,11 @@
                 "colour": "Farge",
                 "reset": "Tilbake til standard",
                 "save": "Lagre kolonner"
+            },
+            "alert": {
+                "updated": "Henvendelsen er oppdatert",
+                "noteAdded": "Notatet er lagt til",
+                "columnsSaved": "Kolonnene er lagret"
             }
         }
     },
