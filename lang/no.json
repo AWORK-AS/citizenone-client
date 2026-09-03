@@ -6956,6 +6956,7 @@
             "getInquiriesViaFindSocialeTilbudDk": "Udfyld skjemaet for at få henvendelser fra sagsbehandlere",
             "showInterest": "Vis interesse"
         },
+        "goToFstAccount": "Gå til kontoen deres på FindSocialeTilbud.dk",
         "connectionBanner": {
             "notInstalledTitle": "Få FindSocialeTilbud.dk-henvendelser inn i CitizenOne",
             "notInstalledBody": "Aktiver FST-integrasjonen for å motta henvendelser og statistikk her automatisk.",

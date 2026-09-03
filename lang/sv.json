@@ -6956,6 +6956,7 @@
             "getInquiriesViaFindSocialeTilbudDk": "Fyll i formuläret för att få förfrågningar från handläggare",
             "showInterest": "Visa interesse"
         },
+        "goToFstAccount": "Gå till ert FindSocialeTilbud.dk-konto",
         "connectionBanner": {
             "notInstalledTitle": "Få FindSocialeTilbud.dk-förfrågningar in i CitizenOne",
             "notInstalledBody": "Aktivera FST-integrationen för att automatiskt ta emot förfrågningar och statistik här.",

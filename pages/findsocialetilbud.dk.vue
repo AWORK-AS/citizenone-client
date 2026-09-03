@@ -23,6 +23,13 @@
                 <span class="text-sm font-medium underline shrink-0">{{ connectionBanner.linkText }}</span>
             </NuxtLink>
 
+            <div v-if="fstStatus?.connection_status === 'active'" class="max-w-5xl mx-auto mt-3">
+                <FormButton buttonStyle="action" :disabled="state.isSsoLoading" @click="goToFstAccount">
+                    <Icon name="ph:arrow-square-out" class="h-4 w-4" />
+                    {{ language.t('findsocialetilbuddk.goToFstAccount') }}
+                </FormButton>
+            </div>
+
             <!-- Live data preview once the connection is fully active — same
                  numbers as /settings/fst, shown here too since this is where a
                  company first thinks to look for their FindSocialeTilbud.dk data. -->
@@ -296,11 +303,13 @@
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { fstService } from '@/components/api/user/FstService'
+import { useAlert } from '@/composables/alert'
 import type { FstConnectionStatusResponse, FstInquiry, FstAnalyticsSnapshot } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
 const userStore = useUserStore()
+const { errorAlert } = useAlert()
 
 // Surfaces the real CitizenOne <-> FST data connection (managed at
 // /settings/fst) from this page too — this page itself only covers the
@@ -426,6 +435,7 @@ const state = reactive({
         isModalTwoVisible: false,
         isModalThreeVisible: false,
     },
+    isSsoLoading: false,
 })
 
 const checkFirstTime = () => {
@@ -437,6 +447,17 @@ const checkFirstTime = () => {
     } else {
         userStore.setInTutorial(false)
     }
+}
+
+const goToFstAccount = async () => {
+    state.isSsoLoading = true
+    try {
+        const response = await fstService.getSsoLink()
+        await navigateTo(response.redirect_url, { external: true, open: { target: '_blank' } })
+    } catch (error: any) {
+        errorAlert(`${language.t('alert.error')}!`, error?.message)
+    }
+    state.isSsoLoading = false
 }
 
 const toggleOverlay = () => {
