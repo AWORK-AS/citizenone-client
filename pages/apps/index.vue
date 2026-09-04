@@ -124,9 +124,13 @@
                             </h3>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <ModulesUserAppCard v-for="(app, index) in recommendedApps" :key="`rec-${index}`"
-                                :app="app" @readMore="readMore" @goToPartner="navigateToExternalLink"
-                                @activate="confirmTACAcceptance" />
+                            <div v-for="(app, index) in recommendedApps" :key="`rec-${index}`" class="relative">
+                                <ModulesUserAppSettingsMenu v-if="app.generic_name === 'danlon' && app.user_activated"
+                                    app-generic-name="danlon"
+                                    @disconnect="openDanlonDisconnectModal(app)" />
+                                <ModulesUserAppCard :app="app" @readMore="readMore"
+                                    @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
+                            </div>
                         </div>
                     </div>
 
@@ -144,9 +148,13 @@
                     </div>
 
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <ModulesUserAppCard v-for="(app, index) in visibleApps" :key="index" :app="app"
-                            @readMore="readMore" @goToPartner="navigateToExternalLink"
-                            @activate="confirmTACAcceptance" />
+                        <div v-for="(app, index) in visibleApps" :key="index" class="relative">
+                            <ModulesUserAppSettingsMenu v-if="app.generic_name === 'danlon' && app.user_activated"
+                                app-generic-name="danlon"
+                                @disconnect="openDanlonDisconnectModal(app)" />
+                            <ModulesUserAppCard :app="app" @readMore="readMore"
+                                @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
+                        </div>
                     </div>
                     <div class="mt-8 rounded-xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center"
                         v-if="state.filter.onlyActivated && visibleApps.length === 0">

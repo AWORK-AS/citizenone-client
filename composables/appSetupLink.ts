@@ -21,6 +21,7 @@ const APP_LINKS: Record<string, AppDestination> = {
     'secure-mail': { path: '/mail/inbox', open: true },
     'regular-mail': { path: '/mail/inbox', open: true },
     'google-drive': { path: '/drive', open: true },
+    'danlon': { path: '/schedules', open: true },
 }
 
 export function appDestinationFor(app: any): AppDestination | null {
