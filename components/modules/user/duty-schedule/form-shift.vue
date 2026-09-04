@@ -772,6 +772,10 @@ const selectedEmployeeUuidForAvailability = computed(() => {
     return state.formShift.user_uuid || props.selectedEmployee?.uuid || null
 })
 
+watch(selectedEmployeeUuidForAvailability, () => {
+    fetchAllCitizensPerUserDepartment()
+})
+
 let availabilityCheckToken = 0
 watchEffect(() => {
     const uuid = selectedEmployeeUuidForAvailability.value
@@ -1001,11 +1005,14 @@ async function fetchAllScheduleTags() {
 }
 
 async function fetchAllCitizensPerUserDepartment() {
+    const uuid = selectedEmployeeUuidForAvailability.value
+    if (!uuid) return
+
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
-            user_uuid: props.selectedEmployee?.uuid
+            user_uuid: uuid
         }
         const response = await citizenService.getAllCitizensPerUserDepartment(params)
         if (response.data) {
