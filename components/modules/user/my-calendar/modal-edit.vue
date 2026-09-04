@@ -15,7 +15,7 @@
                     </div>
                     <ModulesUserMyCalendarModalDelete :isModalOpen="state.modal.isDeleteScheduleOpen"
                         :selectedSchedule="props.selectedSchedule" @deleteMyCalendarEvent="deleteMyCalendarEvent"
-                        @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
+                        @close="state.modal.isDeleteScheduleOpen = false" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -56,6 +56,7 @@ function closeModal() {
 }
 
 function deleteMyCalendarEvent(isDeleteFuture: boolean) {
+    state.modal.isDeleteScheduleOpen = false
     emit('deleteMyCalendarEvent', props.selectedSchedule, isDeleteFuture)
 }
 
