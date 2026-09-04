@@ -213,7 +213,7 @@
                                 <p>{{ $t('dutySchedules.annualNormHours') }}: {{ formatNumber(language.locale.value,
                                     employee?.annual_norm_hours ?? 0) }}</p>
                                 <p>{{ $t('dutySchedules.weeklyNormHours') }}: {{
-                                    (Math.round(Number(employee?.annual_norm_hours) / 52)) ?? 0 }}</p>
+                                    calculateWeeklyNormHours(employee, currentYear) }}</p>
                                 <p>{{ $t('dutySchedules.totalHours') }}: {{ employee?.total_hours ?? 0 }}</p>
                                 <p
                                     :class="[employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' : employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' : 'text-red-700']">
@@ -856,6 +856,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
+import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
