@@ -1,16 +1,8 @@
 <template>
-    <DialogGeneric
-        :isModalOpen="isModalOpen"
-        modalTitle=""
-        modalSize="2xl"
-        @close="handleClose">
-        <template #content>
-            <div class="p-6">
-                <!-- Header -->
-                <div class="mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900">{{ $t('dutySchedules.danlon_sync') }}</h2>
-                    <p class="mt-2 text-sm text-gray-600">{{ $t('dutySchedules.danlon_sync_description') }}</p>
-                </div>
+    <Modal size="xl" :title="$t('dutySchedules.danlon_sync')" :show="isModalOpen" @close="handleClose">
+        <template #modal-body>
+            <div>
+                <p class="mt-2 text-sm text-gray-600 mb-6">{{ $t('dutySchedules.danlon_sync_description') }}</p>
 
                 <!-- Step Indicator -->
                 <div class="mb-8">
@@ -484,7 +476,7 @@
                 </div>
             </div>
         </template>
-    </DialogGeneric>
+    </Modal>
 </template>
 
 <script setup lang="ts">
