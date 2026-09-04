@@ -56,4 +56,13 @@ const state = reactive({
     isPageLoading: false,
     isDeleteFutureEvents: false,
 })
+
+// The parent keeps this component mounted and only toggles isModalOpen, so the
+// checkbox would otherwise stay ticked from a previous delete and silently take
+// the whole future series with the next single-occurrence delete.
+watch(() => props.isModalOpen, (isOpen) => {
+    if (isOpen) {
+        state.isDeleteFutureEvents = false
+    }
+})
 </script>
