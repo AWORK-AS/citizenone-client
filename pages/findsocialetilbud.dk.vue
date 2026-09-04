@@ -80,7 +80,7 @@
                  (see the preview above) — these onboarding prompts (complete your
                  listing profile / opt in to inquiries), and the walkthrough that
                  introduces them, would just be nagging about something already done. -->
-            <div v-if="fstStatus?.connection_status !== 'active'">
+            <div v-if="fstStatus && fstStatus.connection_status !== 'active'">
                 <div
                     class="absolute top-10 right-4 transition-transform duration-1000 ease-out transform translate-x-[-100%] animate-slide-in-right">
                     <button @click="toggleOverlay"
