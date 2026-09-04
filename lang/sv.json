@@ -10918,7 +10918,8 @@
                 "website": "Websted",
                 "storage": "Lagringsanvändning",
                 "nextPayment": "Nästa betalning",
-                "perYear": "{amount} per år"
+                "perYear": "{amount} per år",
+                "notCollecting": "Betalar inte"
             },
             "tabs": {
                 "accounts": "Konton",

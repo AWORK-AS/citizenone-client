@@ -10918,7 +10918,8 @@
                 "website": "Websted",
                 "storage": "Lagerforbrug",
                 "nextPayment": "Næste betaling",
-                "perYear": "{amount} pr. år"
+                "perYear": "{amount} pr. år",
+                "notCollecting": "Betaler ikke"
             },
             "tabs": {
                 "accounts": "Kontoer",

@@ -152,6 +152,9 @@
                                             amount: formatAmount(company.payments_next_12_months, 'DKK')
                                         }) }}
                                     </p>
+                                    <p v-if="company.is_collecting === false" class="text-[11px] text-[#CC3B2D]">
+                                        {{ $t('superadmin.companies.table.notCollecting') }}
+                                    </p>
                                 </div>
                                 <span v-else class="text-[#8891A4] text-[13px]">—</span>
                             </td>

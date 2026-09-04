@@ -10918,7 +10918,8 @@
                 "website": "Website",
                 "storage": "Storage usage",
                 "nextPayment": "Next payment",
-                "perYear": "{amount} per year"
+                "perYear": "{amount} per year",
+                "notCollecting": "Not collecting"
             },
             "tabs": {
                 "accounts": "Accounts",
