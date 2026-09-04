@@ -1383,6 +1383,16 @@ watch(() => language.locale.value, () => fetchCitizenMedicines())
 // ─── Medicine schedule helpers ────────────────────────────────
 
 function isMedicineActiveOnDate(medicine: any, dateStr: string): boolean {
+    // 0. Day-of-week / recurrence gate — backend computes exactly which dates
+    //    in the fetched range this medicine is actually due on (e.g. a
+    //    weekly medicine scheduled for Thursdays only lists Thursdays), so a
+    //    non-daily medicine no longer shows as an empty row every day.
+    //    `occurs_dates` is null for PN medicines (always available, no fixed
+    //    schedule) - only gate when the backend actually computed it.
+    if (Array.isArray(medicine?.occurs_dates) && !medicine.occurs_dates.includes(dateStr)) {
+        return false
+    }
+
     // 1. Check recurring_until — if set, it is the true end of the schedule
     if (medicine?.recurring_until && dateStr > medicine.recurring_until) return false
 
@@ -1730,6 +1740,7 @@ function toggleStatsFilter(filter: string) {
 }
 
 function getMonthDosagesForDay(medicine: any, dateStr: string): any[] {
+    if (!isMedicineActiveOnDate(medicine, dateStr)) return []
     return medicine?.dosage_status_by_date?.[dateStr] ?? []
 }
 
