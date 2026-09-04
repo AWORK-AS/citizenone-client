@@ -9979,6 +9979,14 @@
                     "half": "Halv",
                     "off": "Fra"
                 },
+                "holidayDeductionHours": "Timer der fratrækkes pr. helligdag",
+                "holidayDeductionHoursHint": "Lad feltet stå tomt for at beregne automatisk ud fra den enkelte medarbejders årsnorm",
+                "applySpecialWorkedHolidayRule": "Anvend særlig regel hvis medarbejderen arbejder på en helligdag",
+                "workedHolidayRule": {
+                    "no_deduction": "Ingen automatisk fratrækning",
+                    "deduction_applies": "Fratrækning gælder stadig",
+                    "custom": "Brugerdefineret (konfigureres separat)"
+                },
                 "terminology": "Ordliste",
                 "terminologyHint": "Tilpas betegnelserne for journaler. Tomt felt = standardbetegnelse.",
                 "termJournals": "Journaler",
