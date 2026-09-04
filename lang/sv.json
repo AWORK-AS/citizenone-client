@@ -9979,6 +9979,14 @@
                     "half": "Halv",
                     "off": "Av"
                 },
+                "holidayDeductionHours": "Timmar som dras av per helgdag",
+                "holidayDeductionHoursHint": "Lämna tomt för att beräkna automatiskt utifrån varje anställds årsnorm",
+                "applySpecialWorkedHolidayRule": "Använd specialregel om medarbetaren arbetar på en helgdag",
+                "workedHolidayRule": {
+                    "no_deduction": "Inget automatiskt avdrag",
+                    "deduction_applies": "Avdrag gäller fortfarande",
+                    "custom": "Anpassad (konfigureras separat)"
+                },
                 "terminology": "Ordlista",
                 "terminologyHint": "Anpassa termerna för journaler. Lämna tomt för standard.",
                 "termJournals": "Journaler",

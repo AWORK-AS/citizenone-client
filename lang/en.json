@@ -9979,6 +9979,14 @@
                     "half": "Half",
                     "off": "Off"
                 },
+                "holidayDeductionHours": "Hours deducted per public holiday",
+                "holidayDeductionHoursHint": "Leave blank to calculate automatically from each employee's annual norm hours",
+                "applySpecialWorkedHolidayRule": "Apply special rule if employee works on a public holiday",
+                "workedHolidayRule": {
+                    "no_deduction": "No automatic deduction",
+                    "deduction_applies": "Deduction still applies",
+                    "custom": "Custom (configured separately)"
+                },
                 "terminology": "Word list",
                 "terminologyHint": "Customise the journal terms. Leave a field blank to use the default.",
                 "termJournals": "Journals",

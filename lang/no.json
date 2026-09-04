@@ -9979,6 +9979,14 @@
                     "half": "Halv",
                     "off": "Av"
                 },
+                "holidayDeductionHours": "Timer som trekkes fra per helligdag",
+                "holidayDeductionHoursHint": "La stå tomt for å beregne automatisk ut fra den enkelte ansattes årsnorm",
+                "applySpecialWorkedHolidayRule": "Bruk spesialregel hvis den ansatte jobber på en helligdag",
+                "workedHolidayRule": {
+                    "no_deduction": "Ingen automatisk fratrekk",
+                    "deduction_applies": "Fratrekk gjelder fortsatt",
+                    "custom": "Egendefinert (konfigureres separat)"
+                },
                 "terminology": "Ordliste",
                 "terminologyHint": "Tilpass betegnelsene for journaler. Tomt felt = standard.",
                 "termJournals": "Journaler",

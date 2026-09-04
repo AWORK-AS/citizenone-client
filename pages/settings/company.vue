@@ -386,7 +386,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupSchedule') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ scheduleCount }} / 9</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ scheduleCount }} / 10</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.schedule }" />
                             </span>
                         </button>
@@ -502,6 +502,36 @@
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div v-if="state.formCompany.holiday_non_sunday_hours_enabled" class="ml-12 mt-3 space-y-3">
+                            <div class="space-y-1 max-w-xs">
+                                <FormLabel for="holiday_deduction_hours"
+                                    :label="$t('settings.company.form.holidayDeductionHours')" />
+                                <FormNumberField id="holiday_deduction_hours" :min="0" :max="24" :step="0.1"
+                                    :placeholder="$t('settings.company.form.holidayDeductionHours')"
+                                    v-model="state.formCompany.holiday_deduction_hours" />
+                                <p class="text-xs text-gray-500">
+                                    {{ $t('settings.company.form.holidayDeductionHoursHint') }}
+                                </p>
+                                <FormError :error="state?.error?.errors?.holiday_deduction_hours?.[0]" />
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.holiday_worked_rule_enabled"
+                                    @toggleSwitch="state.formCompany.holiday_worked_rule_enabled = !state.formCompany.holiday_worked_rule_enabled" :label="$t('settings.company.form.applySpecialWorkedHolidayRule')" />
+                                <p>
+                                    {{ $t('settings.company.form.applySpecialWorkedHolidayRule') }}
+                                </p>
+                            </div>
+                            <div v-if="state.formCompany.holiday_worked_rule_enabled" class="ml-12 space-y-1 max-w-xs">
+                                <FormSelect
+                                    :options="[
+                                        { value: 'no_deduction', label: $t('settings.company.form.workedHolidayRule.no_deduction') },
+                                        { value: 'deduction_applies', label: $t('settings.company.form.workedHolidayRule.deduction_applies') },
+                                        { value: 'custom', label: $t('settings.company.form.workedHolidayRule.custom') },
+                                    ]"
+                                    :appendToBody="true" :canDeselect="false" :canClear="false"
+                                    v-model="state.formCompany.holiday_worked_rule" />
                             </div>
                         </div>
                         </div>
@@ -783,7 +813,7 @@ const visibleSectionCount = computed(() => portalAudiences.value.reduce((total: 
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
 const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled].filter(Boolean).length)
 const plansCount = computed(() => [state.formCompany.plans_enabled, state.formCompany.goals_enabled, state.formCompany.subgoals_enabled].filter(Boolean).length)
-const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled].filter(Boolean).length)
+const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
 const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen].filter(Boolean).length)
 const companyStore = useCompanyStore()
 const language = useI18n()
@@ -882,6 +912,9 @@ const state = reactive({
         absence_counts_in_norm_hours_enabled: false,
         excluded_holiday_names: [] as string[],
         half_holiday_names: [] as string[],
+        holiday_deduction_hours: '' as string,
+        holiday_worked_rule_enabled: false,
+        holiday_worked_rule: 'deduction_applies' as string,
     },
     isPageLoading: false,
     options: {
@@ -994,6 +1027,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             absence_counts_in_norm_hours_enabled: newValue?.company?.absence_counts_in_norm_hours_enabled ? true : false,
             excluded_holiday_names: Array.isArray(newValue?.company?.excluded_holiday_names) ? [...newValue.company.excluded_holiday_names] : [],
             half_holiday_names: Array.isArray(newValue?.company?.half_holiday_names) ? [...newValue.company.half_holiday_names] : [],
+            holiday_deduction_hours: newValue?.company?.holiday_deduction_hours != null ? String(parseFloat(newValue.company.holiday_deduction_hours)) : '',
+            holiday_worked_rule_enabled: newValue?.company?.holiday_worked_rule_enabled ? true : false,
+            holiday_worked_rule: newValue?.company?.holiday_worked_rule ?? 'deduction_applies',
             logo: null,
             should_delete_logo: false,
         }
@@ -1199,6 +1235,9 @@ async function submitForm() {
                 absence_counts_in_norm_hours_enabled: state.formCompany.absence_counts_in_norm_hours_enabled,
                 excluded_holiday_names: state.formCompany.excluded_holiday_names,
                 half_holiday_names: state.formCompany.half_holiday_names,
+                holiday_deduction_hours: state.formCompany.holiday_deduction_hours || null,
+                holiday_worked_rule_enabled: state.formCompany.holiday_worked_rule_enabled,
+                holiday_worked_rule: state.formCompany.holiday_worked_rule,
             }
 
             const response = await userService.updateCompany(params)
