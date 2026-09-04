@@ -436,8 +436,7 @@
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.weeklyNormHours') }}:
-                                                                {{ (Math.round(Number(employee?.annual_norm_hours) /
-                                                                    52)) ?? 0 }}
+                                                                {{ calculateWeeklyNormHours(employee, currentDate.year()) }}
                                                             </p>
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
@@ -961,6 +960,7 @@ import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
