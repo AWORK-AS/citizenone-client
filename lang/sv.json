@@ -11559,7 +11559,8 @@
             "storagePackages": "Lagringspaket",
             "paymentFees": "Betalningsavgifter",
             "storageUsage": "Lagringsanvändning",
-            "industries": "Branscher"
+            "industries": "Branscher",
+            "salesInquiries": "Förfrågningar"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -12253,6 +12254,80 @@
                 "term_journal_note_tag": "Anteckningstyp",
                 "term_agreement": "Avtal",
                 "term_jobcenter": "Jobbcenter"
+            }
+        },
+        "salesInquiries": {
+            "pageTitle": "Förfrågningar",
+            "description": "Kontakt- och demoförfrågningar från citizenone.dk. Ta en, ring eller skriv, och lämna en anteckning så nästa kollega ser vad som hänt.",
+            "searchPlaceholder": "Namn, organisation, e-post, telefon",
+            "refresh": "Uppdatera",
+            "empty": "Inga förfrågningar här",
+            "colWho": "Vem",
+            "colType": "Typ",
+            "colStatus": "Status",
+            "colOwner": "Ägare",
+            "colReceived": "Mottagen",
+            "open": "Öppna",
+            "nobody": "Ingen",
+            "unassigned": "Utan ägare",
+            "mine": "Mina",
+            "previous": "Föregående",
+            "next": "Nästa",
+            "tabs": {
+                "open": "Öppna",
+                "all": "Alla"
+            },
+            "statuses": {
+                "new": "Ny",
+                "contacted": "Kontaktad",
+                "qualified": "Kvalificerad",
+                "demo_booked": "Demo bokad",
+                "won": "Vunnen",
+                "lost": "Förlorad"
+            },
+            "sources": {
+                "contact": "Kontaktformulär",
+                "book_demo": "Demoförfrågan",
+                "quick_ask": "Kort fråga",
+                "price_quote": "Prisberäkning",
+                "trial": "Provförfrågan",
+                "other": "Förfrågan"
+            },
+            "detail": {
+                "name": "Namn",
+                "email": "E-post",
+                "phone": "Telefon",
+                "preferredAt": "Önskad tid",
+                "source": "Typ",
+                "page": "Sida",
+                "campaign": "Kampanj",
+                "message": "Meddelande",
+                "lostReason": "Varför förlorades den",
+                "timeline": "Förlopp",
+                "notePlaceholder": "Vad kom ni överens om?",
+                "addNote": "Lägg till anteckning",
+                "noNotes": "Inget skrivet ännu",
+                "receivedAt": "Mottagen",
+                "referrer": "Kom från"
+            },
+            "colPage": "Sida",
+            "views": {
+                "list": "Lista",
+                "board": "Tavla"
+            },
+            "dropHere": "Släpp en förfrågan här",
+            "columns": {
+                "button": "Kolumner",
+                "title": "Kolumner på tavlan",
+                "description": "Vad varje steg heter, vilken färg det har och i vilken ordning det står. Ett namn du skriver här används överallt, på alla språk; lämna tomt för att behålla det översatta.",
+                "colour": "Färg",
+                "reset": "Tillbaka till standard",
+                "save": "Spara kolumner"
+            },
+            "alert": {
+                "updated": "Förfrågan har uppdaterats",
+                "noteAdded": "Anteckningen har lagts till",
+                "columnsSaved": "Kolumnerna har sparats"
             }
         }
     },

@@ -11559,7 +11559,8 @@
             "storagePackages": "Lagerpakker",
             "paymentFees": "Betalingsgebyrer",
             "storageUsage": "Lagerforbrug",
-            "industries": "Brancher"
+            "industries": "Brancher",
+            "salesInquiries": "Henvendelser"
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
@@ -12253,6 +12254,80 @@
                 "term_journal_note_tag": "Notattype",
                 "term_agreement": "Aftale",
                 "term_jobcenter": "Jobcenter"
+            }
+        },
+        "salesInquiries": {
+            "pageTitle": "Henvendelser",
+            "description": "Kontakt- og demoforespørgsler fra citizenone.dk. Tag en, ring eller skriv, og læg en note så næste kollega kan se hvad der er sket.",
+            "searchPlaceholder": "Navn, organisation, e-mail, telefon",
+            "refresh": "Opdater",
+            "empty": "Ingen henvendelser her",
+            "colWho": "Hvem",
+            "colType": "Type",
+            "colStatus": "Status",
+            "colOwner": "Ejer",
+            "colReceived": "Modtaget",
+            "open": "Åbn",
+            "nobody": "Ingen",
+            "unassigned": "Uden ejer",
+            "mine": "Mine",
+            "previous": "Forrige",
+            "next": "Næste",
+            "tabs": {
+                "open": "Åbne",
+                "all": "Alle"
+            },
+            "statuses": {
+                "new": "Ny",
+                "contacted": "Kontaktet",
+                "qualified": "Kvalificeret",
+                "demo_booked": "Demo booket",
+                "won": "Vundet",
+                "lost": "Tabt"
+            },
+            "sources": {
+                "contact": "Kontaktformular",
+                "book_demo": "Demoforespørgsel",
+                "quick_ask": "Kort henvendelse",
+                "price_quote": "Prisberegning",
+                "trial": "Prøveanmodning",
+                "other": "Henvendelse"
+            },
+            "detail": {
+                "name": "Navn",
+                "email": "E-mail",
+                "phone": "Telefon",
+                "preferredAt": "Ønsket tidspunkt",
+                "source": "Type",
+                "page": "Side",
+                "campaign": "Kampagne",
+                "message": "Besked",
+                "lostReason": "Hvorfor blev den tabt",
+                "timeline": "Forløb",
+                "notePlaceholder": "Hvad blev der aftalt?",
+                "addNote": "Tilføj note",
+                "noNotes": "Der er ikke skrevet noget endnu",
+                "receivedAt": "Modtaget",
+                "referrer": "Kom fra"
+            },
+            "colPage": "Side",
+            "views": {
+                "list": "Liste",
+                "board": "Tavle"
+            },
+            "dropHere": "Slip en henvendelse her",
+            "columns": {
+                "button": "Kolonner",
+                "title": "Kolonner på tavlen",
+                "description": "Hvad hvert trin hedder, hvilken farve det har, og hvilken rækkefølge det står i. Et navn du skriver her bruges alle steder, på alle sprog; lad det stå tomt for at beholde det oversatte.",
+                "colour": "Farve",
+                "reset": "Tilbage til standard",
+                "save": "Gem kolonner"
+            },
+            "alert": {
+                "updated": "Henvendelsen er opdateret",
+                "noteAdded": "Noten er tilføjet",
+                "columnsSaved": "Kolonnerne er gemt"
             }
         }
     },
