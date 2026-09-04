@@ -4,7 +4,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="flex justify-end">
-                        <FormButton type="button" buttonStyle="danger" @click="state.modal.isDeleteScheduleOpen = true">
+                        <FormButton type="button" buttonStyle="danger" @click="openDeleteConfirmation">
                             {{ $t('citizens.calendar.delete') }}
                         </FormButton>
                     </div>
@@ -63,7 +63,17 @@
                 </LoadingSpinner>
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
                     :message="$t('citizens.calendar.confirmation.deleteConfirmation') + '?'"
-                    @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent" />
+                    @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent">
+                    <template #extra>
+                        <div class="py-4" v-if="props.selectedSchedule.is_recurring">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.isDeleteFutureEvents = !state.isDeleteFutureEvents">
+                                <FormCheckbox id="delete_future_events" :value="state.isDeleteFutureEvents" />
+                                {{ $t('events.confirmation.deleteFutureEvents') }}
+                            </div>
+                        </div>
+                    </template>
+                </DialogConfirmation>
             </template>
         </Modal>
     </div>
@@ -93,13 +103,21 @@ const state = reactive({
     modal: {
         isDeleteScheduleOpen: false,
     },
+    isDeleteFutureEvents: false,
 })
 
 function closeModal() {
+    state.modal.isDeleteScheduleOpen = false
     emit('close')
 }
 
+function openDeleteConfirmation() {
+    state.isDeleteFutureEvents = false
+    state.modal.isDeleteScheduleOpen = true
+}
+
 function deleteMyCalendarEvent() {
-    emit('deleteMyCalendarEvent', props.selectedSchedule)
+    state.modal.isDeleteScheduleOpen = false
+    emit('deleteMyCalendarEvent', props.selectedSchedule, state.isDeleteFutureEvents)
 }
 </script>
