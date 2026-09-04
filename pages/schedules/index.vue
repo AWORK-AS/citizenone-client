@@ -89,6 +89,11 @@
                         @click="openZenegySyncModal">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                     </FormButton>
+                    <FormButton v-if="state.isDanlonConnected" size="sm"
+                        class="rounded-lg !py-1 !px-3 !h-[32px] !bg-blue-600 !border-blue-600 !text-white hover:!bg-blue-700"
+                        @click="state.modal.isDanlonSyncOpen = true">
+                        <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                    </FormButton>
 
                     <!-- Icon-only actions -->
                     <div class="flex items-center gap-0.5">
@@ -191,6 +196,12 @@
             <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
+            <ModulesUserDutyScheduleModalDanlonSync
+                :isModalOpen="state.modal.isDanlonSyncOpen"
+                :scheduleEmployees="weekViewRef?.getScheduleEmployees() ?? []"
+                :departmentName="departmentStore.getSelectedDepartmentName"
+                @close="state.modal.isDanlonSyncOpen = false"
+            />
 
             <Teleport to="body">
                 <div v-if="state.noMatchTooltip.visible"
@@ -660,6 +671,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 // import { zenegyService } from '@/components/api/user/ZenegyService'
+import { danlonService } from '@/components/api/user/DanlonService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { extraHoursService } from '@/components/api/user/ExtraHoursService'
 import { departmentService } from '@/components/api/user/DepartmentService'
@@ -679,6 +691,7 @@ const state = reactive({
     calendarView: 'week',
     isSyncing: false,
     isZenegyConnected: false,
+    isDanlonConnected: false,
     isLoadingModalData: false,
     filter: {
         department_uuids: [],
@@ -696,6 +709,7 @@ const state = reactive({
         isViewSharedDutyScheduleOpen: false,
         isZenegySyncOpen: false,
         isSubscribeOpen: false,
+        isDanlonSyncOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),
     activityLogDate: null as string | null,
@@ -890,6 +904,13 @@ onMounted(async () => {
     // } catch {
     //     state.isZenegyConnected = false
     // }
+
+    try {
+        const danlonStatus = await danlonService.getStatus()
+        state.isDanlonConnected = danlonStatus?.connected || false
+    } catch {
+        state.isDanlonConnected = false
+    }
 })
 
 function setCalendarView(view: any) {

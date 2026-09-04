@@ -166,6 +166,13 @@
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirmAppActivation="activateApp" />
+                <DialogConfirmation
+                    :isModalOpen="state.modal.isDanlonDisconnectOpen"
+                    :message="$t('apps.danlon.disconnectConfirmation')"
+                    :title="$t('apps.danlon.disconnectTitle')"
+                    @close="state.modal.isDanlonDisconnectOpen = false"
+                    @confirm="disconnectDanlon"
+                />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -176,6 +183,7 @@ import { appService } from '@/components/api/user/AppService'
 import { googledriveService } from '@/components/api/user/GoogleDriveService'
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 const onedriveService = new OneDriveService()
+import { danlonService } from '@/components/api/user/DanlonService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -215,6 +223,7 @@ const state = reactive({
     modal: {
         isAcceptTACOpen: false,
         showAppDetails: false,
+        isDanlonDisconnectOpen: false,
     },
     selectedApp: [] as any,
 })
@@ -228,11 +237,15 @@ const recommendedApps = computed(() =>
 )
 
 onMounted(async () => {
-    // Set up message listener for Google Drive popup callback
+    // Set up message listener for Google Drive and Danløn popup callbacks
     const handlePopupMessage = (event: MessageEvent) => {
         if (event.data?.type === 'google-drive-auth-complete') {
             fetchApps()
             successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
+        }
+        if (event.data?.type === 'danlon-auth-complete') {
+            fetchApps()
+            successAlert(`${t('alert.success')}!`, t('apps.danlon.connected'))
         }
     }
 
@@ -298,6 +311,10 @@ async function fetchApps() {
         state.error = error
     }
     state.isPageLoading = false
+
+    // Check connection statuses after loading indicator is cleared
+    updateGoogleDriveStatus()
+    updateDanlonStatus()
 }
 
 function previous() {
@@ -359,7 +376,20 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        if (state.selectedApp?.generic_name === 'google-drive') {
+        if (state.selectedApp?.generic_name === 'danlon') {
+            state.modal.isAcceptTACOpen = false
+
+            const response = await danlonService.authorize()
+            if (response?.url) {
+                const popup = window.open(
+                    response.url,
+                    'DanlonAuth',
+                    'width=600,height=700,left=200,top=100'
+                )
+            }
+            state.isPageLoading = false
+            return
+        } else if (state.selectedApp?.generic_name === 'google-drive') {
             const response = await googledriveService.getGoogleDriveAuthUrl()
             if (response?.authUrl || response?.auth_url) {
                 const authUrl = response?.authUrl || response?.auth_url
@@ -447,4 +477,52 @@ async function navigateToExternalLink(link: any) {
     }
 }
 
+async function updateGoogleDriveStatus() {
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        const isConnected = status?.connected || false
+
+        const googleDriveApp = state.apps?.data?.find(
+            (app: any) => app.generic_name === 'google-drive'
+        )
+        if (googleDriveApp) {
+            googleDriveApp.user_activated = isConnected
+        }
+    } catch (error) {
+        // Silently fail - if status check fails, rely on database value
+        console.error('Failed to check Google Drive status:', error)
+    }
+}
+
+async function updateDanlonStatus() {
+    try {
+        const status = await danlonService.getStatus()
+        const isConnected = status?.connected || false
+        const app = state.apps?.data?.find(
+            (a: any) => a.generic_name === 'danlon'
+        )
+        if (app) app.user_activated = isConnected
+    } catch {
+        // Silently fail
+    }
+}
+
+function openDanlonDisconnectModal(app: any) {
+    state.selectedApp = app
+    state.modal.isDanlonDisconnectOpen = true
+}
+
+async function disconnectDanlon() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await danlonService.disconnect()
+        successAlert(`${t('alert.success')}!`, t('apps.danlon.disconnected'))
+        state.modal.isDanlonDisconnectOpen = false
+        fetchApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>
