@@ -124,9 +124,13 @@
                             </h3>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <ModulesUserAppCard v-for="(app, index) in recommendedApps" :key="`rec-${index}`"
-                                :app="app" @readMore="readMore" @goToPartner="navigateToExternalLink"
-                                @activate="confirmTACAcceptance" />
+                            <div v-for="(app, index) in recommendedApps" :key="`rec-${index}`" class="relative">
+                                <ModulesUserAppSettingsMenu v-if="app.generic_name === 'salary.dk' && app.user_activated"
+                                    app-generic-name="salary.dk"
+                                    @disconnect="openSalaryDkDisconnectModal(app)" />
+                                <ModulesUserAppCard :app="app" @readMore="readMore"
+                                    @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
+                            </div>
                         </div>
                     </div>
 
@@ -144,9 +148,13 @@
                     </div>
 
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <ModulesUserAppCard v-for="(app, index) in visibleApps" :key="index" :app="app"
-                            @readMore="readMore" @goToPartner="navigateToExternalLink"
-                            @activate="confirmTACAcceptance" />
+                        <div v-for="(app, index) in visibleApps" :key="index" class="relative">
+                            <ModulesUserAppSettingsMenu v-if="app.generic_name === 'salary.dk' && app.user_activated"
+                                app-generic-name="salary.dk"
+                                @disconnect="openSalaryDkDisconnectModal(app)" />
+                            <ModulesUserAppCard :app="app" @readMore="readMore"
+                                @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
+                        </div>
                     </div>
                     <div class="mt-8 rounded-xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center"
                         v-if="state.filter.onlyActivated && visibleApps.length === 0">
@@ -166,6 +174,39 @@
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirmAppActivation="activateApp" />
+
+                <!-- Salary.dk Connect Modal (API key input) -->
+                <Modal size="sm" :title="$t('apps.salaryDk.connectTitle')" :show="state.modal.isSalaryDkConnectOpen"
+                    @close="state.modal.isSalaryDkConnectOpen = false">
+                    <template #modal-body>
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-500">{{ $t('apps.salaryDk.connectDescription') }}</p>
+                            <div class="space-y-1">
+                                <FormLabel :label="$t('apps.salaryDk.apiKey')" />
+                                <FormTextField name="salary_dk_api_key" :placeholder="$t('apps.salaryDk.apiKeyPlaceholder')"
+                                    v-model="state.salaryDkApiKey" />
+                            </div>
+                            <Alert type="danger" :text="state.salaryDkConnectError"
+                                v-if="state.salaryDkConnectError" />
+                            <div class="grid grid-cols-2 gap-3">
+                                <FormButton buttonStyle="cancel"
+                                    @click="state.modal.isSalaryDkConnectOpen = false">
+                                    {{ $t('cancel') }}
+                                </FormButton>
+                                <FormButton buttonStyle="primary" :disabled="!state.salaryDkApiKey.trim()"
+                                    @click="connectSalaryDk">
+                                    {{ $t('apps.salaryDk.connect') }}
+                                </FormButton>
+                            </div>
+                        </div>
+                    </template>
+                </Modal>
+
+                <!-- Salary.dk Disconnect Dialog -->
+                <DialogConfirmation :isModalOpen="state.modal.isSalaryDkDisconnectOpen"
+                    :message="$t('apps.salaryDk.disconnectConfirmation')"
+                    :title="$t('apps.salaryDk.disconnectTitle')"
+                    @close="state.modal.isSalaryDkDisconnectOpen = false" @confirm="disconnectSalaryDk" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -176,6 +217,7 @@ import { appService } from '@/components/api/user/AppService'
 import { googledriveService } from '@/components/api/user/GoogleDriveService'
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 const onedriveService = new OneDriveService()
+import { salaryDkService } from '@/components/api/user/SalaryDkService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -215,8 +257,12 @@ const state = reactive({
     modal: {
         isAcceptTACOpen: false,
         showAppDetails: false,
+        isSalaryDkConnectOpen: false,
+        isSalaryDkDisconnectOpen: false,
     },
     selectedApp: [] as any,
+    salaryDkApiKey: '' as string,
+    salaryDkConnectError: '' as string,
 })
 
 const activeCategoryName = computed(() =>
@@ -298,6 +344,8 @@ async function fetchApps() {
         state.error = error
     }
     state.isPageLoading = false
+
+    updateSalaryDkStatus()
 }
 
 function previous() {
@@ -359,7 +407,14 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        if (state.selectedApp?.generic_name === 'google-drive') {
+        if (state.selectedApp?.generic_name === 'salary.dk') {
+            state.modal.isAcceptTACOpen = false
+            state.salaryDkApiKey = ''
+            state.salaryDkConnectError = ''
+            state.modal.isSalaryDkConnectOpen = true
+            state.isPageLoading = false
+            return
+        } else if (state.selectedApp?.generic_name === 'google-drive') {
             const response = await googledriveService.getGoogleDriveAuthUrl()
             if (response?.authUrl || response?.auth_url) {
                 const authUrl = response?.authUrl || response?.auth_url
@@ -432,6 +487,53 @@ async function activateApp(formApp: any) {
         }
     } catch (error: any) {
         state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function updateSalaryDkStatus() {
+    try {
+        const status = await salaryDkService.getSalaryDkStatus()
+        const isConnected = status?.connected || false
+        const app = state.apps?.data?.find(
+            (a: any) => a.generic_name === 'salary.dk'
+        )
+        if (app) app.user_activated = isConnected
+    } catch {
+        // Silently fail
+    }
+}
+
+function openSalaryDkDisconnectModal(app: any) {
+    state.selectedApp = app
+    state.modal.isSalaryDkDisconnectOpen = true
+}
+
+async function disconnectSalaryDk() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await salaryDkService.disconnectSalaryDk()
+        successAlert(`${t('alert.success')}!`, t('apps.salaryDk.disconnected'))
+        state.modal.isSalaryDkDisconnectOpen = false
+        fetchApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function connectSalaryDk() {
+    state.salaryDkConnectError = ''
+    state.isPageLoading = true
+    try {
+        await salaryDkService.connect(state.salaryDkApiKey.trim())
+        state.modal.isSalaryDkConnectOpen = false
+        state.salaryDkApiKey = ''
+        successAlert(`${t('alert.success')}!`, t('apps.salaryDk.connected'))
+        fetchApps()
+    } catch (error: any) {
+        state.salaryDkConnectError = error?.data?.message || error?.message || t('apps.salaryDk.connectError')
     }
     state.isPageLoading = false
 }
