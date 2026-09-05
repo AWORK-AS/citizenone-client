@@ -197,8 +197,9 @@
                     </button>
                 </div>
 
-                <!-- Promo: mobile app -->
-                <div
+                <!-- Promo: mobile app - doesn't make sense to someone already
+                     running the dedicated desktop app. -->
+                <div v-if="!isDesktopApp"
                     class="rounded-2xl bg-slate-800 text-white p-6 flex items-center justify-between gap-x-4 overflow-hidden relative">
                     <div class="relative z-10">
                         <h3 class="text-lg font-semibold">{{ $t('discover.promoTitle') }}</h3>
@@ -306,8 +307,10 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
 
 const runtimeConfig = useRuntimeConfig()
+const isDesktopApp = useIsDesktopApp()
 const userStore = useUserStore() as any
 const { isAtLeast } = usePermissions()
 const { successAlert, errorAlert } = useAlert()

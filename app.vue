@@ -46,6 +46,14 @@ onMounted(() => {
 	if (!bridge?.isDesktop) return
 	unsubscribeDeepLink = bridge.onDeepLink((url: string) => {
 		const path = url.replace(/^citizenone:\/\//, '/')
+		// Belt-and-suspenders: navigateTo() without { external: true } won't
+		// actually leave the app for a bare string (Nuxt requires that flag
+		// before treating anything as an external redirect), but this
+		// shouldn't depend on that framework behaviour rather than validating
+		// its own input - reject anything that isn't a plain single-leading-
+		// slash path (rules out a crafted citizenone:///evil.com producing
+		// a protocol-relative //evil.com after the prefix strip).
+		if (!/^\/[^/]/.test(path)) return
 		navigateTo(path)
 	})
 })

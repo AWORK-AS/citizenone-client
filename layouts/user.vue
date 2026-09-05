@@ -870,12 +870,10 @@ const sidebarOpen = ref(false)
 const sidebarPinned = ref(localStorage.getItem('sidebarPinned') !== 'false')
 const sidebarHovered = ref(false)
 
-// Set by the Electron preload bridge (citizenone-desktop) - undefined in a
-// regular browser tab. The hover-to-expand/collapse sidebar below is a web
-// space-saving trick for a browser window; a real app window has room, so
-// Desktop gets a fixed, always-expanded sidebar instead. Web is unaffected -
-// this only ever reads true inside the desktop shell.
-const isDesktopApp = !!(typeof window !== 'undefined' && (window as any).citizenOneDesktop?.isDesktop)
+// The hover-to-expand/collapse sidebar below is a web space-saving trick for
+// a browser window; a real app window has room, so Desktop gets a fixed,
+// always-expanded sidebar instead. Web is unaffected.
+const isDesktopApp = useIsDesktopApp()
 
 const sidebarExpanded = computed(() => isDesktopApp || sidebarPinned.value || sidebarHovered.value)
 
