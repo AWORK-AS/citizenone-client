@@ -14754,5 +14754,18 @@
     },
     "table": {
         "clearFilters": "Rensa filter"
+    },
+    "desktopLock": {
+        "title": "CitizenOne är låst",
+        "passwordLabel": "Lösenord",
+        "unlock": "Lås upp",
+        "verifying": "Verifierar…",
+        "wrongPassword": "Fel lösenord"
+    },
+    "desktopNotifications": {
+        "newMessage": "Nytt meddelande",
+        "newMessageBody": "Du har fått ett nytt meddelande i CitizenOne.",
+        "newNotification": "Ny avisering",
+        "newNotificationBody": "Det finns en ny avisering i CitizenOne."
     }
 }

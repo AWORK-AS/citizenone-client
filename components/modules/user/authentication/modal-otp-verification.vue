@@ -119,7 +119,7 @@ async function verifyOtp() {
             })
         }
         if (response.data) {
-            localStorage.setItem("_token", response.data?.token)
+            setSessionToken(response.data?.token)
             departmentStore.resetSelectedDepartmentName()
             userStore.setUser(response?.data?.user)
             userStore.setLanguage(response?.data?.user?.language?.code)

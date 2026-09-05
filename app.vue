@@ -35,4 +35,19 @@ useHead({
 		},
 	],
 })
+
+// Desktop only: citizenone://citizens/<uuid>/journals etc. maps 1:1 onto our
+// own routes (same path, just a custom-protocol prefix instead of https://
+// app.citizenone.dk), so a link from an email/calendar invite opens straight
+// into the already-running app instead of another browser tab.
+let unsubscribeDeepLink: (() => void) | null = null
+onMounted(() => {
+	const bridge = (window as any).citizenOneDesktop
+	if (!bridge?.isDesktop) return
+	unsubscribeDeepLink = bridge.onDeepLink((url: string) => {
+		const path = url.replace(/^citizenone:\/\//, '/')
+		navigateTo(path)
+	})
+})
+onUnmounted(() => unsubscribeDeepLink?.())
 </script>

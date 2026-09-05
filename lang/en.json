@@ -14754,5 +14754,18 @@
     },
     "table": {
         "clearFilters": "Clear filters"
+    },
+    "desktopLock": {
+        "title": "CitizenOne is locked",
+        "passwordLabel": "Password",
+        "unlock": "Unlock",
+        "verifying": "Verifying…",
+        "wrongPassword": "Incorrect password"
+    },
+    "desktopNotifications": {
+        "newMessage": "New message",
+        "newMessageBody": "You have a new message in CitizenOne.",
+        "newNotification": "New notification",
+        "newNotificationBody": "There is a new notification in CitizenOne."
     }
 }

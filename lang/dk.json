@@ -14754,5 +14754,18 @@
     },
     "table": {
         "clearFilters": "Ryd filtre"
+    },
+    "desktopLock": {
+        "title": "CitizenOne er låst",
+        "passwordLabel": "Adgangskode",
+        "unlock": "Lås op",
+        "verifying": "Bekræfter…",
+        "wrongPassword": "Forkert adgangskode"
+    },
+    "desktopNotifications": {
+        "newMessage": "Ny besked",
+        "newMessageBody": "Du har modtaget en ny besked i CitizenOne.",
+        "newNotification": "Ny notifikation",
+        "newNotificationBody": "Der er en ny notifikation i CitizenOne."
     }
 }
