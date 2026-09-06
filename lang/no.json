@@ -10917,7 +10917,10 @@
                 "phone": "Telefon",
                 "status": "Status",
                 "website": "Websted",
-                "storage": "Lagerforbruk"
+                "storage": "Lagerforbruk",
+                "nextPayment": "Neste betaling",
+                "perYear": "{amount} per år",
+                "notCollecting": "Betaler ikke"
             },
             "tabs": {
                 "accounts": "Kontoer",
@@ -11143,8 +11146,16 @@
                     "companiesActiveToday": "Aktive virksomheter der minst én bruker har vært i systemet det siste døgnet.",
                     "mrr": "Månedlig gjentakende inntekt ekskl. mva.: alle aktive løpende abonnementer hos aktive virksomheter, der årsavtaler teller som en tolvdel. Gratis- og engangsabonnementer teller ikke med. ARR er MRR ganger 12.",
                     "churn": "Kunder som er lagt ned de siste 30 dagene, av de kundene som var i drift da perioden startet. Bare registrerte nedleggingsdatoer teller med; datoer som er anslått i ettertid for gamle kunder er utelatt.",
-                    "quietCustomers": "Aktive kunder sortert etter hvor lenge det er siden noen fra virksomheten sist var i systemet. Kunder som aldri har logget inn ligger øverst, siden det som regel er en onboarding som aldri kom i gang."
-                }
+                    "quietCustomers": "Aktive kunder sortert etter hvor lenge det er siden noen fra virksomheten sist var i systemet. Kunder som aldri har logget inn ligger øverst, siden det som regel er en onboarding som aldri kom i gang.",
+                    "cmrr": "Den delen av MRR som faktisk blir trukket: en avtale der kortet feiler er fortsatt en avtale, men det er ikke sikrede penger. Det finnes ingen bindingstid i dataene, så sikret betyr i kraft og betalende.",
+                    "contracted": "Hva avtalene vi har i kraft er satt opp til å trekke de neste 12 månedene - på de virkelige trekkdatoene, så en årsfornyelse teller i måneden den trekkes. Forutsetter at ingen sier opp, og at prisene blir som de er."
+                },
+                "cmrr": "Sikret MRR (CMRR)",
+                "carr": "CARR {amount}",
+                "contracted": "Avtalt, neste 12 mnd.",
+                "contractedThreeYears": "3 år: {amount}",
+                "seeForecast": "Se prognosen",
+                "notCollecting": "{count} avtale(r) betaler ikke"
             },
             "tabs": {
                 "overview": "Oversikt",
@@ -11559,7 +11570,8 @@
             "storagePackages": "Lagringspakker",
             "paymentFees": "Betalingsgebyrer",
             "storageUsage": "Lagerforbruk",
-            "industries": "Bransjer"
+            "industries": "Bransjer",
+            "salesInquiries": "Henvendelser"
         },
         "emailTemplates": {
             "title": "E-postmaler",
@@ -12209,6 +12221,20 @@
                 "revenue": "Fakturert",
                 "mrr": "MRR",
                 "newUsers": "Nye brukere"
+            },
+            "forecast": {
+                "title": "Omsetningsprognose",
+                "hint": "Hva dagens avtaler er satt opp til å trekke, måned for måned.",
+                "years": "{count} år",
+                "totalLabel": "Totalt, {count} år",
+                "nextTwelve": "Neste 12 mnd.",
+                "renewalShare": "Herav årsfornyelser",
+                "assumption": "Forutsetter at ingen sier opp, og at prisene ikke endres. Årsfornyelser telles i måneden de trekkes, ut fra trekkdatoen på den opprinnelige fakturaen.",
+                "series": {
+                    "recurring": "Månedlige trekk",
+                    "renewals": "Årsfornyelser",
+                    "cumulative": "Akkumulert"
+                }
             }
         },
         "industries": {
@@ -12253,6 +12279,80 @@
                 "term_journal_note_tag": "Notattype",
                 "term_agreement": "Avtale",
                 "term_jobcenter": "Jobbsenter"
+            }
+        },
+        "salesInquiries": {
+            "pageTitle": "Henvendelser",
+            "description": "Kontakt- og demoforespørsler fra citizenone.dk. Ta en, ring eller skriv, og legg igjen et notat slik at neste kollega ser hva som har skjedd.",
+            "searchPlaceholder": "Navn, organisasjon, e-post, telefon",
+            "refresh": "Oppdater",
+            "empty": "Ingen henvendelser her",
+            "colWho": "Hvem",
+            "colType": "Type",
+            "colStatus": "Status",
+            "colOwner": "Eier",
+            "colReceived": "Mottatt",
+            "open": "Åpne",
+            "nobody": "Ingen",
+            "unassigned": "Uten eier",
+            "mine": "Mine",
+            "previous": "Forrige",
+            "next": "Neste",
+            "tabs": {
+                "open": "Åpne",
+                "all": "Alle"
+            },
+            "statuses": {
+                "new": "Ny",
+                "contacted": "Kontaktet",
+                "qualified": "Kvalifisert",
+                "demo_booked": "Demo booket",
+                "won": "Vunnet",
+                "lost": "Tapt"
+            },
+            "sources": {
+                "contact": "Kontaktskjema",
+                "book_demo": "Demoforespørsel",
+                "quick_ask": "Kort henvendelse",
+                "price_quote": "Prisberegning",
+                "trial": "Prøveforespørsel",
+                "other": "Henvendelse"
+            },
+            "detail": {
+                "name": "Navn",
+                "email": "E-post",
+                "phone": "Telefon",
+                "preferredAt": "Ønsket tidspunkt",
+                "source": "Type",
+                "page": "Side",
+                "campaign": "Kampanje",
+                "message": "Melding",
+                "lostReason": "Hvorfor ble den tapt",
+                "timeline": "Forløp",
+                "notePlaceholder": "Hva ble avtalt?",
+                "addNote": "Legg til notat",
+                "noNotes": "Ingenting skrevet ennå",
+                "receivedAt": "Mottatt",
+                "referrer": "Kom fra"
+            },
+            "colPage": "Side",
+            "views": {
+                "list": "Liste",
+                "board": "Tavle"
+            },
+            "dropHere": "Slipp en henvendelse her",
+            "columns": {
+                "button": "Kolonner",
+                "title": "Kolonner på tavlen",
+                "description": "Hva hvert trinn heter, hvilken farge det har, og hvilken rekkefølge det står i. Et navn du skriver her brukes overalt, på alle språk; la det stå tomt for å beholde det oversatte.",
+                "colour": "Farge",
+                "reset": "Tilbake til standard",
+                "save": "Lagre kolonner"
+            },
+            "alert": {
+                "updated": "Henvendelsen er oppdatert",
+                "noteAdded": "Notatet er lagt til",
+                "columnsSaved": "Kolonnene er lagret"
             }
         }
     },

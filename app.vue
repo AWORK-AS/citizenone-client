@@ -1,7 +1,8 @@
 <template>
 	<NuxtLayout>
 		<NuxtPage />
-		<notifications class="mt-24" />
+		<!-- `classes` names the element the toast rules in main.css style. -->
+		<notifications class="mt-24" classes="co-toast" />
 	</NuxtLayout>
 </template>
 
