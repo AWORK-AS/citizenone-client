@@ -350,3 +350,22 @@ version passes against visibly broken code. And the API allows 120 requests a
 minute per user while one page spends a dozen or more, so the test paces itself
 and a full run takes a few minutes with pauses in it. That is the rate limit,
 not a hang.
+
+### `danlon-connect` — needs `CO_DANLON_USERNAME`/`CO_DANLON_PASSWORD`
+
+Covers the Danløn payroll integration's real (non-mock) OAuth connect flow
+against Danløn/Lessor's test-environment Keycloak realm
+(`danlon-integration-demo`). Injects a token, opens the Apps marketplace,
+activates the Danløn card (opens a popup to the real Keycloak login), logs in
+with the provided demo account, and confirms the popup's postMessage flips the
+card to connected. Then calls the live (non-mock) employees/salary-types/
+supplement-types endpoints to prove the backend resolved a real
+`danlon_company_id` via `currentCompany` rather than the callback-query-param
+approach that never actually receives one from a real OAuth redirect.
+Self-restoring: disconnects at the end. Requires the backend's `.env` to have
+real `DANLON_CLIENT_ID`/`DANLON_CLIENT_SECRET`/`DANLON_REDIRECT_URI` set and
+`DANLON_MOCK=false` (never commit these — local `.env` only).
+
+```bash
+CO_TOKEN='<token>' CO_DANLON_USERNAME='<demo-username>' CO_DANLON_PASSWORD='<demo-password>' npm run test:danlon-connect
+```
