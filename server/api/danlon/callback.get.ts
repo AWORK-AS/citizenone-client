@@ -7,9 +7,14 @@ export default defineEventHandler(async (event) => {
   const state = query.state as string
   const error = query.error as string
 
-  // Extract token from cookie
-  const authCookie = getCookie(event, '_token')
-  const token = authCookie || ''
+  // This is a full-page browser redirect from Keycloak, so there's no
+  // Authorization header and no `_token` cookie to read (the app only ever
+  // stores the Sanctum token in localStorage, which a server route can't
+  // reach) - the backend's `/danlon/callback` route doesn't require one
+  // either: it's excluded from auth:sanctum/EnsureStaffPrincipal and instead
+  // authenticates via the company_id embedded in `state`, which only our
+  // own authorize() endpoint could have produced for an already-authenticated
+  // company.
 
   // Handle OAuth errors
   if (error || !code) {
@@ -39,10 +44,9 @@ export default defineEventHandler(async (event) => {
 
   try {
     // Exchange code with backend
-    await $fetch(`${baseURL}/danlon/callback`, {
+    await $fetch(`${baseURL}/user/danlon/callback`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,
         'Accept': 'application/json',
       },
       query: { code, state },
