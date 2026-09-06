@@ -174,6 +174,14 @@
              real app window can give to the workspace instead. -->
         <div v-else class="hidden lg:fixed lg:inset-y-0 lg:z-[55] lg:flex">
             <div class="flex flex-col items-center w-[4.5rem] bg-white border-r border-[#e8eaef] py-3">
+                <!-- macOS hiddenInset title bar (see citizenone-desktop's main.ts):
+                     the traffic lights float at the window's true top-left corner,
+                     which is exactly this rail's top strip (the rail is the same
+                     ~72px width the three lights need). Reserves that space so
+                     they don't sit on top of the logo below, and doubles as the
+                     window's drag handle - there's no separate system title bar
+                     to drag from any more. -->
+                <div v-if="isMacDesktopApp" class="app-drag-region w-full h-9 shrink-0" aria-hidden="true" />
                 <span @click="navigateTo('/overview')" title="CitizenOne™"
                     class="cursor-pointer flex items-center justify-center w-11 h-11 mb-2 shrink-0">
                     <img src="/img/icons/asset-app.png" alt="CitizenOne" class="h-7 w-7 object-contain" />
@@ -874,6 +882,10 @@ const sidebarHovered = ref(false)
 // a browser window; a real app window has room, so Desktop gets a fixed,
 // always-expanded sidebar instead. Web is unaffected.
 const isDesktopApp = useIsDesktopApp()
+// Only macOS gets a hiddenInset title bar today (see citizenone-desktop's
+// main.ts) - Windows/Linux still get a normal system title bar, so the
+// navbar there needs no reserved space or drag region.
+const isMacDesktopApp = isDesktopApp && useDesktopPlatform() === 'darwin'
 
 const sidebarExpanded = computed(() => isDesktopApp || sidebarPinned.value || sidebarHovered.value)
 
