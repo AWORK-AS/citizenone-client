@@ -140,7 +140,9 @@
                                         </p>
 
                                         <!-- The answer used to be a dead end: read it, then retype it
-                                        somewhere else. Copy takes the markdown as written. -->
+                                        somewhere else. Copy takes the rendered answer as plain text,
+                                        matching what's actually shown in the bubble above (not the
+                                        raw HTML string the backend returned). -->
                                         <div v-if="index > 0" class="flex items-center gap-1 mt-2 -ml-1.5">
                                             <button type="button" @click="copyAnswer(message, index)"
                                                 :title="$t('assistants.actions.copy')"
@@ -779,7 +781,9 @@ function formatMessage(messageText: string) {
 
 async function copyAnswer(message: any, index: number) {
     try {
-        await navigator.clipboard.writeText(message?.text ?? '')
+        const { $sanitizeHtml } = useNuxtApp()
+        const sanitized = $sanitizeHtml(formatMessage(message?.text))
+        await navigator.clipboard.writeText(htmlToPlainText(sanitized))
         state.copiedIndex = index
         setTimeout(() => {
             if (state.copiedIndex === index) state.copiedIndex = null
