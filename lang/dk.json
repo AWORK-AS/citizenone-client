@@ -7962,6 +7962,8 @@
         "compose": "Send e-mail",
         "connectYourMail": "Forbind din mail",
         "connectYourMessage": "Forbind din mail til systemet, så du kan se dine modtagne og sendte mails",
+        "reconnect": "Forbind igen",
+        "reconnectMessage": "Din Microsoft-forbindelse skal fornyes. Forbind igen for at se din mail.",
         "content": {
             "from": "Fra",
             "on": "Den",

@@ -7962,6 +7962,8 @@
         "compose": "Compose",
         "connectYourMail": "Connect your mail",
         "connectYourMessage": "Connect your mail to the system, so that you can see your received and sent mails",
+        "reconnect": "Reconnect",
+        "reconnectMessage": "Your Microsoft connection needs renewing. Reconnect to see your mail.",
         "content": {
             "from": "From",
             "on": "On",
