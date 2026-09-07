@@ -8025,6 +8025,8 @@
         "compose": "Skicka e-post",
         "connectYourMail": "Anslut din e-post",
         "connectYourMessage": "Anslut din e-post till systemet, så du kan se dina modtagne och sendte mails",
+        "reconnect": "Anslut igen",
+        "reconnectMessage": "Din Microsoft-anslutning behöver förnyas. Anslut igen för att se din e-post.",
         "content": {
             "from": "Från",
             "on": "Den",
