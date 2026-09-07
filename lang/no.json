@@ -7962,6 +7962,7 @@
         "compose": "Send e-post",
         "connectYourMail": "Koble din e-post",
         "connectYourMessage": "Koble din e-post til systemet, så du kan se dine mottatte og sendte mails",
+        "reconnect": "Koble til igjen",
         "content": {
             "from": "Fra",
             "on": "Den",

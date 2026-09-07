@@ -7962,6 +7962,7 @@
         "compose": "Skicka e-post",
         "connectYourMail": "Anslut din e-post",
         "connectYourMessage": "Anslut din e-post till systemet, så du kan se dina modtagne och sendte mails",
+        "reconnect": "Anslut igen",
         "content": {
             "from": "Från",
             "on": "Den",

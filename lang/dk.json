@@ -7962,6 +7962,7 @@
         "compose": "Send e-mail",
         "connectYourMail": "Forbind din mail",
         "connectYourMessage": "Forbind din mail til systemet, så du kan se dine modtagne og sendte mails",
+        "reconnect": "Forbind igen",
         "content": {
             "from": "Fra",
             "on": "Den",

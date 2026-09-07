@@ -48,25 +48,37 @@
             </div>
 
             <template v-else>
-                <Alert type="danger" :text="state?.error?.message" class="m-3"
-                    v-if="state.error?.message && state.error.message.length > 0" />
-
-                <div v-if="!visibleEmails.length"
-                    class="grow flex flex-col items-center justify-center text-center text-gray-400 gap-2 px-6">
-                    <Icon name="ph:tray" class="h-9 w-9" aria-hidden="true" />
-                    <p class="text-sm font-medium text-gray-500">
-                        {{
-                            searchTerm
-                                ? ($te('mail.search.noResults') ?
-                                    $t('mail.search.noResults') : 'Ingen beskeder matcher dinsøgning')
-                                : (activeFilter === 'unread'
-                                    ? ($te('mail.filter.noUnread') ?
-                                        $t('mail.filter.noUnread') : 'Ingen ulæste beskeder') :
-                                    $t('mail.inbox')) }}
-                    </p>
+                <div v-if="state.reconnectRequired"
+                    class="m-3 grow flex flex-col items-center justify-center text-center gap-3 px-6 py-8 border border-dashed border-gray-300 rounded-md">
+                    <span class="flex items-center justify-center w-14 h-14 rounded-full bg-primary/5 text-primary">
+                        <Icon name="ph:plug" class="h-6 w-6" aria-hidden="true" />
+                    </span>
+                    <p class="text-sm text-gray-600">{{ state.error?.message }}</p>
+                    <FormButton buttonStyle="primary" @click="emit('requestReconnect')">
+                        {{ $t('mail.reconnect') }}
+                    </FormButton>
                 </div>
 
-                <div v-else class="grow overflow-y-auto scroll-smooth">
+                <template v-else>
+                    <Alert type="danger" :text="state?.error?.message" class="m-3"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+
+                    <div v-if="!visibleEmails.length"
+                        class="grow flex flex-col items-center justify-center text-center text-gray-400 gap-2 px-6">
+                        <Icon name="ph:tray" class="h-9 w-9" aria-hidden="true" />
+                        <p class="text-sm font-medium text-gray-500">
+                            {{
+                                searchTerm
+                                    ? ($te('mail.search.noResults') ?
+                                        $t('mail.search.noResults') : 'Ingen beskeder matcher dinsøgning')
+                                    : (activeFilter === 'unread'
+                                        ? ($te('mail.filter.noUnread') ?
+                                            $t('mail.filter.noUnread') : 'Ingen ulæste beskeder') :
+                                        $t('mail.inbox')) }}
+                        </p>
+                    </div>
+
+                    <div v-else class="grow overflow-y-auto scroll-smooth">
                     <button v-for="(email, emailIndex) in visibleEmails" :key="email?.id ?? emailIndex"
                         :data-uid="email?.id" :style="{ animationDelay: (emailIndex * 40) + 'ms' }"
                         @click="setSelectedEmail(email)"
@@ -111,7 +123,8 @@
                             {{ $t('mail.loadMore') }}
                         </button>
                     </div>
-                </div>
+                    </div>
+                </template>
             </template>
         </div>
 
@@ -211,7 +224,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { fileHelper } from '@/composables/fileHelper'
 import type { Error } from '@/types'
 
-const emit = defineEmits(['setUnreadEmailsCount'])
+const emit = defineEmits(['setUnreadEmailsCount', 'requestReconnect'])
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { isImage, isExcel, isPdf, isPpt, isWord } = fileHelper()
 const { sanitizeEmailHtml } = useSanitizeHtml()
@@ -222,8 +235,15 @@ const searchInput = ref('')
 const searchTerm = ref('')
 let searchTimer: ReturnType<typeof setTimeout> | null = null
 
+// The backend answers these with 409 rather than 401 specifically so a stale
+// Microsoft token doesn't read as "the CitizenOne session is invalid" - see
+// BaseAPIService. That also makes them the one error worth a dedicated,
+// actionable state here instead of a raw alert.
+const RECONNECT_ERROR_CODES = ['entra_not_connected', 'entra_reauthorization_required']
+
 const state = reactive({
     error: {} as Error,
+    reconnectRequired: false,
     emails: [] as any,
     loading: {
         isEmailsLoading: false,
@@ -356,6 +376,7 @@ onBeforeUnmount(() => {
 
 async function fetchEmails(page: any) {
     state.error = {}
+    state.reconnectRequired = false
     state.nextPageLink = ''
     if (page === null) {
         state.loading.isEmailsLoading = true
@@ -385,6 +406,7 @@ async function fetchEmails(page: any) {
         }
     } catch (error: any) {
         state.error = error
+        state.reconnectRequired = RECONNECT_ERROR_CODES.includes(error?.error_code)
     } finally {
         state.loading.isEmailsLoading = false
         state.loading.isEmailsLoadingMore = false
@@ -397,6 +419,7 @@ async function setSelectedEmail(email: any) {
     state.showForwardForm = false
     if (!email?.isRead) {
         state.error = {}
+        state.reconnectRequired = false
         email.isRead = true
         try {
             const response = await mailEntraService.readMail(email?.id)
@@ -413,6 +436,7 @@ async function setSelectedEmail(email: any) {
             }
         } catch (error: any) {
             state.error = error
+            state.reconnectRequired = RECONNECT_ERROR_CODES.includes(error?.error_code)
         }
     }
 }
