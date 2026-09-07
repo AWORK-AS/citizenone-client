@@ -53,7 +53,7 @@
                     <span class="flex items-center justify-center w-14 h-14 rounded-full bg-primary/5 text-primary">
                         <Icon name="ph:plug" class="h-6 w-6" aria-hidden="true" />
                     </span>
-                    <p class="text-sm text-gray-600">{{ state.error?.message }}</p>
+                    <p class="text-sm text-gray-600">{{ $t('mail.reconnectMessage') }}</p>
                     <FormButton buttonStyle="primary" @click="emit('requestReconnect')">
                         {{ $t('mail.reconnect') }}
                     </FormButton>
@@ -238,7 +238,11 @@ let searchTimer: ReturnType<typeof setTimeout> | null = null
 // The backend answers these with 409 rather than 401 specifically so a stale
 // Microsoft token doesn't read as "the CitizenOne session is invalid" - see
 // BaseAPIService. That also makes them the one error worth a dedicated,
-// actionable state here instead of a raw alert.
+// actionable state here instead of a raw alert. The card's text is the
+// frontend's own mail.reconnectMessage, not the backend's error.message:
+// confirmed in testing that the backend's message did not switch language
+// when the frontend's language switcher did, so it does not reliably follow
+// the viewer's chosen UI locale.
 const RECONNECT_ERROR_CODES = ['entra_not_connected', 'entra_reauthorization_required']
 
 const state = reactive({

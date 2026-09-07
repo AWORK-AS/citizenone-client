@@ -7963,6 +7963,7 @@
         "connectYourMail": "Koble din e-post",
         "connectYourMessage": "Koble din e-post til systemet, så du kan se dine mottatte og sendte mails",
         "reconnect": "Koble til igjen",
+        "reconnectMessage": "Din Microsoft-tilkobling må fornyes. Koble til igjen for å se e-posten din.",
         "content": {
             "from": "Fra",
             "on": "Den",
