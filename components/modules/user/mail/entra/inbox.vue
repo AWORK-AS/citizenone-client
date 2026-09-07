@@ -240,9 +240,10 @@ let searchTimer: ReturnType<typeof setTimeout> | null = null
 // BaseAPIService. That also makes them the one error worth a dedicated,
 // actionable state here instead of a raw alert. The card's text is the
 // frontend's own mail.reconnectMessage, not the backend's error.message:
-// confirmed in testing that the backend's message did not switch language
-// when the frontend's language switcher did, so it does not reliably follow
-// the viewer's chosen UI locale.
+// confirmed in testing that this endpoint answers in Danish regardless of
+// the viewer's language - the backend route never sets a request locale, so
+// trans() falls back to the app's boot-time default rather than the user's
+// choice (see backend/dev-entra-reconnect-message-wrong-locale.md).
 const RECONNECT_ERROR_CODES = ['entra_not_connected', 'entra_reauthorization_required']
 
 const state = reactive({
