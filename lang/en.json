@@ -8591,6 +8591,7 @@
         "summary": {
             "allTime": "All time",
             "byEmployee": "By employee",
+            "flaggedTrips": "{count} flagged for review",
             "period": "Period",
             "totalKm": "Total km",
             "totalKmAllEmployees": "Total km (all employees)",
@@ -8611,7 +8612,10 @@
             },
             "date": "Date",
             "distance": "Distance",
+            "distanceSourceUnknown": "Unknown source",
             "employee": "Employee",
+            "flagged": "Flagged",
+            "needsReview": "Needs review",
             "route": "Route"
         },
         "tracking": {

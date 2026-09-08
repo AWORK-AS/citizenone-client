@@ -87,7 +87,27 @@
                         <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
                             <p class="text-xs text-tertiary">{{ $t('mileageLog.form.estimatedDistance') }}</p>
                             <p class="text-sm font-semibold text-gray-700">{{ Number(tracking.activeTrip.value.kilometers ?? 0).toFixed(2) }} km</p>
+                            <!-- A flagged 0.00 km trip here is a legitimate answer (the only
+                                 leg was impossible), not "nothing recorded" -- the warning
+                                 box below is what tells the driver that, not this line. -->
+                            <p class="text-xs text-gray-400 mt-1" v-if="tracking.activeTrip.value.distance_source_label">
+                                {{ tracking.activeTrip.value.distance_source_label }}
+                            </p>
                         </div>
+
+                        <!-- Tell the driver right now rather than letting them discover it
+                             later on the list/detail view. -->
+                        <div class="p-3 bg-red-50 border border-red-200 rounded-md flex items-start gap-x-2"
+                            v-if="tracking.activeTrip.value.needs_review">
+                            <Icon name="ph:warning-circle" class="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                            <div>
+                                <p class="text-sm font-semibold text-red-700">{{ $t('mileageLog.table.needsReview') }}</p>
+                                <p class="text-xs text-red-700 mt-0.5" v-if="tracking.activeTrip.value.review_reason_label">
+                                    {{ tracking.activeTrip.value.review_reason_label }}
+                                </p>
+                            </div>
+                        </div>
+
                         <div class="flex justify-end">
                             <FormButton buttonStyle="primary" @click="onCloseSummary">
                                 {{ $t('close') }}

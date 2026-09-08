@@ -8591,6 +8591,7 @@
         "summary": {
             "allTime": "All tid",
             "byEmployee": "Per medarbeider",
+            "flaggedTrips": "{count} merket for gjennomgang",
             "period": "Periode",
             "totalKm": "Total km",
             "totalKmAllEmployees": "Total km (alle medarbeidere)",
@@ -8611,7 +8612,10 @@
             },
             "date": "Dato",
             "distance": "Distanse",
+            "distanceSourceUnknown": "Ukjent kilde",
             "employee": "Medarbeider",
+            "flagged": "Merket",
+            "needsReview": "Må gjennomgås",
             "route": "Rute"
         },
         "tracking": {
