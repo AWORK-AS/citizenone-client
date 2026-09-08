@@ -128,6 +128,9 @@
                                 <ModulesUserAppSettingsMenu v-if="app.generic_name === 'salary.dk' && app.user_activated"
                                     app-generic-name="salary.dk" disconnect-label-key="apps.salaryDk.disconnect"
                                     @disconnect="openSalaryDkDisconnectModal(app)" />
+                                <ModulesUserAppSettingsMenu v-if="app.generic_name === 'danlon' && app.user_activated"
+                                    app-generic-name="danlon"
+                                    @disconnect="openDanlonDisconnectModal(app)" />
                                 <ModulesUserAppCard :app="app" @readMore="readMore"
                                     @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
                             </div>
@@ -152,6 +155,9 @@
                             <ModulesUserAppSettingsMenu v-if="app.generic_name === 'salary.dk' && app.user_activated"
                                 app-generic-name="salary.dk" disconnect-label-key="apps.salaryDk.disconnect"
                                 @disconnect="openSalaryDkDisconnectModal(app)" />
+                            <ModulesUserAppSettingsMenu v-if="app.generic_name === 'danlon' && app.user_activated"
+                                app-generic-name="danlon"
+                                @disconnect="openDanlonDisconnectModal(app)" />
                             <ModulesUserAppCard :app="app" @readMore="readMore"
                                 @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
                         </div>
@@ -207,6 +213,15 @@
                     :message="$t('apps.salaryDk.disconnectConfirmation')"
                     :title="$t('apps.salaryDk.disconnectTitle')"
                     @close="state.modal.isSalaryDkDisconnectOpen = false" @confirm="disconnectSalaryDk" />
+
+                <!-- Danløn Disconnect Dialog -->
+                <DialogConfirmation
+                    :isModalOpen="state.modal.isDanlonDisconnectOpen"
+                    :message="$t('apps.danlon.disconnectConfirmation')"
+                    :title="$t('apps.danlon.disconnectTitle')"
+                    @close="state.modal.isDanlonDisconnectOpen = false"
+                    @confirm="disconnectDanlon"
+                />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -218,6 +233,7 @@ import { googledriveService } from '@/components/api/user/GoogleDriveService'
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 const onedriveService = new OneDriveService()
 import { salaryDkService } from '@/components/api/user/SalaryDkService'
+import { danlonService } from '@/components/api/user/DanlonService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -259,6 +275,7 @@ const state = reactive({
         showAppDetails: false,
         isSalaryDkConnectOpen: false,
         isSalaryDkDisconnectOpen: false,
+        isDanlonDisconnectOpen: false,
     },
     selectedApp: [] as any,
     salaryDkApiKey: '' as string,
@@ -274,11 +291,15 @@ const recommendedApps = computed(() =>
 )
 
 onMounted(async () => {
-    // Set up message listener for Google Drive popup callback
+    // Set up message listener for Google Drive and Danløn popup callbacks
     const handlePopupMessage = (event: MessageEvent) => {
         if (event.data?.type === 'google-drive-auth-complete') {
             fetchApps()
             successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
+        }
+        if (event.data?.type === 'danlon-auth-complete') {
+            fetchApps()
+            successAlert(`${t('alert.success')}!`, t('apps.danlon.connected'))
         }
     }
 
@@ -345,6 +366,9 @@ async function fetchApps() {
     }
     state.isPageLoading = false
 
+    // Check connection statuses after loading indicator is cleared
+    updateGoogleDriveStatus()
+    updateDanlonStatus()
     updateSalaryDkStatus()
 }
 
@@ -412,6 +436,19 @@ async function activateApp(formApp: any) {
             state.salaryDkApiKey = ''
             state.salaryDkConnectError = ''
             state.modal.isSalaryDkConnectOpen = true
+            state.isPageLoading = false
+            return
+        } else if (state.selectedApp?.generic_name === 'danlon') {
+            state.modal.isAcceptTACOpen = false
+
+            const response = await danlonService.authorize()
+            if (response?.url) {
+                const popup = window.open(
+                    response.url,
+                    'DanlonAuth',
+                    'width=600,height=700,left=200,top=100'
+                )
+            }
             state.isPageLoading = false
             return
         } else if (state.selectedApp?.generic_name === 'google-drive') {
@@ -549,4 +586,52 @@ async function navigateToExternalLink(link: any) {
     }
 }
 
+async function updateGoogleDriveStatus() {
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        const isConnected = status?.connected || false
+
+        const googleDriveApp = state.apps?.data?.find(
+            (app: any) => app.generic_name === 'google-drive'
+        )
+        if (googleDriveApp) {
+            googleDriveApp.user_activated = isConnected
+        }
+    } catch (error) {
+        // Silently fail - if status check fails, rely on database value
+        console.error('Failed to check Google Drive status:', error)
+    }
+}
+
+async function updateDanlonStatus() {
+    try {
+        const status = await danlonService.getStatus()
+        const isConnected = status?.connected || false
+        const app = state.apps?.data?.find(
+            (a: any) => a.generic_name === 'danlon'
+        )
+        if (app) app.user_activated = isConnected
+    } catch {
+        // Silently fail
+    }
+}
+
+function openDanlonDisconnectModal(app: any) {
+    state.selectedApp = app
+    state.modal.isDanlonDisconnectOpen = true
+}
+
+async function disconnectDanlon() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await danlonService.disconnect()
+        successAlert(`${t('alert.success')}!`, t('apps.danlon.disconnected'))
+        state.modal.isDanlonDisconnectOpen = false
+        fetchApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>
