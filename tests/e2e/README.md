@@ -102,6 +102,23 @@ periods to exercise the chart meaningfully.
 CO_TOKEN='<company-1 token>' CO_LOWPRIV_TOKEN='<dept-scoped token>' CO_CITIZEN_UUID='<uuid>' npm run test:risk-assessment-trend-graph
 ```
 
+### `google-drive-overview-tab` — needs only a token
+
+Covers the "Google Drive" tab added to the Overview/"Daily Operations" tab row
+(`feat/google-drive-daily-operations-tab`): tab visibility/navigation, sidebar
+highlighting, the real (unstubbed) disconnected-state connect CTA opening a
+popup pointed at Google, and - via `page.route()` stubbing of the Google
+Drive API responses, since there's no mock mode for this integration - the
+connected-state file/folder table, folder drill-down, upload, the
+new-folder/rename/move/delete modals, and the error state. Stubbing avoids
+needing a real Google account/OAuth round trip for most of the test; the
+real popup-opens-correctly assertion is the one part that exercises actual
+(pre-existing, unchanged) OAuth config.
+
+```bash
+CO_TOKEN='<any token>' npm run test:google-drive-overview-tab
+```
+
 ### `compensatory-time-toggle` — needs an Employee token and an existing future shift
 
 Covers task-478: the compensatory-time request feature was changed from a purchasable
