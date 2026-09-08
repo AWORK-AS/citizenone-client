@@ -20,7 +20,7 @@
                 <p class="text-sm font-medium text-gray-500">{{ $t('citizens.riskHistory.notEnoughData') }}</p>
             </div>
 
-            <VChart v-else-if="!state.isLoading" :option="state.chartOption" style="height: 400px; width: 100%;" />
+            <VChart v-else-if="!state.isLoading && !state.error?.message" :option="state.chartOption" style="height: 400px; width: 100%;" />
         </LoadingSpinner>
     </div>
 </template>
@@ -77,7 +77,7 @@ function buildChartOption() {
             trigger: 'item',
             formatter: (params: any) => `${params.name}<br />${categoryLabels[params.value[1]]}`,
         },
-        grid: { left: 90, right: 30, top: 20, bottom: 40 },
+        grid: { left: 90, right: 30, top: 20, bottom: 40, containLabel: true },
         xAxis: {
             type: 'category',
             data: state.entries.map((entry) => entry.date),

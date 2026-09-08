@@ -23,7 +23,8 @@
     "test:dental-recalls": "node dental-recalls.mjs",
     "test:import-employees": "node import-employees.mjs",
     "test:forms-reorder-and-retype": "node forms-reorder-and-retype.mjs",
-    "test:our-contact-person-save": "node our-contact-person-save.mjs"
+    "test:our-contact-person-save": "node our-contact-person-save.mjs",
+    "test:risk-assessment-trend-graph": "node risk-assessment-trend-graph.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"
