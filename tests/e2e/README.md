@@ -328,6 +328,24 @@ php artisan tinker --execute='
 CO_TOKEN='<admin-or-manager-token>' npm run test:import-employees
 ```
 
+### `salary-dk-connect` — needs `SALARY_DK_MOCK=true` on the backend
+
+Drives the whole Salary.dk payroll integration through a real browser:
+activate the app card, accept the TAC, enter an API key (not validated
+against the real API in mock mode), connect, confirm the `/schedules` sync
+button appears, open the 4-step sync wizard as far as real schedule data
+allows, then disconnect. Self-restoring: disconnects in a `finally` block
+regardless of outcome.
+
+```bash
+CO_TOKEN='<admin-token>' npm run test:salary-dk-connect
+```
+
+No real per-company Salary.dk API key is required for this test — connecting
+a real company additionally needs one typed into the same form, which is
+separate from the app-level `SALARY_DK_API_CLIENT_ID`/`_SECRET` and is out of
+scope for mock-mode testing.
+
 ### `console-smoke` - the one to run before merging
 
 Walks the sidebar to learn where this company's pages are, then loads each of
