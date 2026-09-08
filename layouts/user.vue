@@ -997,6 +997,7 @@ function generateSidebarLinks(user: any) {
             'overview',
             'my-day',
             'statistics',
+            'overview-google-drive',
         ]
     })
     if (isAtLeast('Admin') && !discoverCompleted.value) {
