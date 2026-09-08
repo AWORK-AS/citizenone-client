@@ -13,7 +13,7 @@
                         <button
                             :class="[active && 'bg-gray-100', 'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-red-600']"
                             @click="emit('disconnect')">
-                            {{ $t(`apps.${appGenericName}.disconnect`) }}
+                            {{ $t(disconnectLabelKey ?? `apps.${appGenericName}.disconnect`) }}
                         </button>
                     </MenuItem>
                 </div>
@@ -29,6 +29,10 @@
 // shared card's contract stays the same for every other app.
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
-defineProps<{ appGenericName: string }>()
+// `apps.${appGenericName}.disconnect` breaks for any generic_name containing
+// a literal dot (e.g. "salary.dk" -> the nonexistent key
+// "apps.salary.dk.disconnect", since translation keys nest on dots) - pass
+// disconnectLabelKey explicitly for those instead of relying on interpolation.
+defineProps<{ appGenericName: string; disconnectLabelKey?: string }>()
 const emit = defineEmits(['disconnect'])
 </script>

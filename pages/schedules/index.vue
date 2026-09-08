@@ -89,6 +89,11 @@
                         @click="openZenegySyncModal">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                     </FormButton>
+                    <FormButton v-if="state.isSalaryDkConnected" size="sm"
+                        class="rounded-lg !py-1 !px-3 !h-[32px] !bg-blue-600 !border-blue-600 !text-white hover:!bg-blue-700"
+                        @click="state.modal.isSalaryDkSyncOpen = true">
+                        <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                    </FormButton>
                     <FormButton v-if="state.isDanlonConnected" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-blue-600 !border-blue-600 !text-white hover:!bg-blue-700"
                         @click="state.modal.isDanlonSyncOpen = true">
@@ -188,6 +193,12 @@
                 @close="state.modal.isDownloadOpen = false" />
             <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen" :dutySchedule="true"
                 @close="state.modal.isSubscribeOpen = false" />
+            <ModulesUserDutyScheduleModalSalaryDkSync
+                :isModalOpen="state.modal.isSalaryDkSyncOpen"
+                :scheduleEmployees="weekViewRef?.getScheduleEmployees() ?? []"
+                :departmentName="departmentStore.getSelectedDepartmentName"
+                @close="state.modal.isSalaryDkSyncOpen = false"
+            />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 :date="state.activityLogDate"
                 @close="state.modal.isActivityLogsOpen = false; state.activityLogDate = null" />
@@ -675,6 +686,7 @@ import { danlonService } from '@/components/api/user/DanlonService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { extraHoursService } from '@/components/api/user/ExtraHoursService'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { salaryDkService } from '@/components/api/user/SalaryDkService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -691,6 +703,7 @@ const state = reactive({
     calendarView: 'week',
     isSyncing: false,
     isZenegyConnected: false,
+    isSalaryDkConnected: false,
     isDanlonConnected: false,
     isLoadingModalData: false,
     filter: {
@@ -709,6 +722,7 @@ const state = reactive({
         isViewSharedDutyScheduleOpen: false,
         isZenegySyncOpen: false,
         isSubscribeOpen: false,
+        isSalaryDkSyncOpen: false,
         isDanlonSyncOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),
@@ -904,6 +918,13 @@ onMounted(async () => {
     // } catch {
     //     state.isZenegyConnected = false
     // }
+
+    try {
+        const salaryDkStatus = await salaryDkService.getSalaryDkStatus()
+        state.isSalaryDkConnected = salaryDkStatus?.connected || false
+    } catch {
+        state.isSalaryDkConnected = false
+    }
 
     try {
         const danlonStatus = await danlonService.getStatus()
