@@ -373,9 +373,24 @@ function setFilter(filter: any) {
     fetchSummary()
 }
 
-function viewMileageLog(log: any) {
+async function viewMileageLog(log: any) {
     state.selectedMileageLog = log
     state.modal.isViewOpen = true
+
+    // The list row doesn't carry location_logs (GPS breadcrumbs) -- see
+    // backend/dev-mileage-log-locationlogs-whenloaded-bug.md -- so fetch the
+    // single-trip record for the map to draw the actual path driven.
+    try {
+        const response = await mileageLogService.getMileageLogByUuid(log.uuid)
+        // Guard against a slower response landing after the user already
+        // moved on to a different row.
+        if (response?.data && state.selectedMileageLog?.uuid === log.uuid) {
+            state.selectedMileageLog = response.data
+        }
+    } catch {
+        // Keep the list row already shown -- the map still renders, just
+        // without the GPS breadcrumbs (falls back to the straight line).
+    }
 }
 
 function editMileageLog(log: any) {
