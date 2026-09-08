@@ -126,7 +126,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div v-for="(app, index) in recommendedApps" :key="`rec-${index}`" class="relative">
                                 <ModulesUserAppSettingsMenu v-if="app.generic_name === 'salary.dk' && app.user_activated"
-                                    app-generic-name="salary.dk"
+                                    app-generic-name="salary.dk" disconnect-label-key="apps.salaryDk.disconnect"
                                     @disconnect="openSalaryDkDisconnectModal(app)" />
                                 <ModulesUserAppCard :app="app" @readMore="readMore"
                                     @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
@@ -150,7 +150,7 @@
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div v-for="(app, index) in visibleApps" :key="index" class="relative">
                             <ModulesUserAppSettingsMenu v-if="app.generic_name === 'salary.dk' && app.user_activated"
-                                app-generic-name="salary.dk"
+                                app-generic-name="salary.dk" disconnect-label-key="apps.salaryDk.disconnect"
                                 @disconnect="openSalaryDkDisconnectModal(app)" />
                             <ModulesUserAppCard :app="app" @readMore="readMore"
                                 @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
