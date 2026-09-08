@@ -283,18 +283,20 @@ function viewMyCalendarEvent(selectedCalendarEvent: any) {
         start: selectedCalendarEvent.date_time_start,
         end: selectedCalendarEvent.date_time_end,
         is_private: selectedCalendarEvent.is_private ? true : false,
+        is_recurring: selectedCalendarEvent.is_recurring ? true : false,
     }
     state.modal.isViewEventOpen = true
 }
 
-async function deleteMyCalendarEvent(selectedCalendarEvent: any) {
+async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture?: boolean) {
     state.error = {}
     state.isPageLoading = true
     state.modal.isViewEventOpen = false
     try {
         const scheduleUuid = selectedCalendarEvent?.uuid
         const params = {
-            citizen_uuid: citizenUuid
+            citizen_uuid: citizenUuid,
+            is_delete_future: isDeleteFuture,
         }
         const response = await citizenService.deleteCitizenCalendarEvent(scheduleUuid, params)
         if (response) {

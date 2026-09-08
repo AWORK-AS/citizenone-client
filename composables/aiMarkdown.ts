@@ -191,3 +191,24 @@ export function renderMarkdown(source: string): string {
 
     return html.join('')
 }
+
+/**
+ * Plain text as the user actually sees it, for anything that leaves the chat
+ * bubble (copy). The bubble renders `renderMarkdown()`'s HTML through
+ * DOMPurify - reading `innerText` off that same rendered markup, rather than
+ * the raw source string, is what turns `<strong>`/`<br>` into real emphasis
+ * and line breaks instead of literal tag text.
+ *
+ * `html` must already be sanitized (e.g. via `$sanitizeHtml`/`v-safe-html`'s
+ * DOMPurify pass) - this function assigns it to `innerHTML` as-is and does
+ * no sanitizing of its own.
+ */
+export function htmlToPlainText(html: string): string {
+    if (!html) return ''
+    if (typeof document === 'undefined') return html
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+
+    return container.innerText.trim()
+}

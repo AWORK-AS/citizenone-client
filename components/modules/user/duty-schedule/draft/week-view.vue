@@ -436,8 +436,7 @@
                                                             @click="state.modal.isAnnualNormHoursInfoOpen = true">
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.weeklyNormHours') }}:
-                                                                {{ (Math.round(Number(employee?.annual_norm_hours) /
-                                                                    52)) ?? 0 }}
+                                                                {{ calculateWeeklyNormHours(employee, currentDate.year()) }}
                                                             </p>
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
@@ -749,7 +748,7 @@
                                                             </div>
                                                             <div class="mx-2.5 border-t border-white/20 mb-1.5"></div>
                                                             <div class="flex items-center gap-1 px-2.5 pb-1.5"
-                                                                v-if="shift?.shift_span_position">
+                                                                v-if="shift?.shift_span_position && shift?.shift_span_position !== 'single'">
                                                                 <div v-if="shift.shift_span_position === 'start'"
                                                                     class="flex items-center gap-1 bg-white/20 rounded-full px-2 py-0.5">
                                                                     <Icon name="ph:arrow-right"
@@ -961,6 +960,7 @@ import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 

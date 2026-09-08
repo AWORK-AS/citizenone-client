@@ -40,6 +40,38 @@ class BaseAPIService {
         }
     }
 
+    /**
+     * The one 401 body that means "this session is over". The backend's global
+     * AuthenticationException handler (bootstrap/app.php) is the only thing that
+     * answers with exactly this literal - it is not translated, so matching it is
+     * stable across locales. Integration endpoints (Microsoft/Google token
+     * refresh, OneDrive, a customer's own OpenAI key) answer 401 with their own
+     * body, and those must not end the session: the request failed, the login
+     * did not.
+     */
+    private static readonly UNAUTHENTICATED_MESSAGE = 'Unauthenticated.'
+
+    private static isSessionExpired(data: any): boolean {
+        return data?.message === BaseAPIService.UNAUTHENTICATED_MESSAGE
+    }
+
+    /**
+     * With responseType 'blob' ofetch parses the *error* body as a Blob too, so
+     * an error body arrives as bytes rather than as an object. Read it back as
+     * JSON so a 401 there can be told apart like any other.
+     */
+    private static async errorBodyOf(data: any): Promise<any> {
+        if (typeof Blob !== 'undefined' && data instanceof Blob) {
+            try {
+                return JSON.parse(await data.text())
+            } catch {
+                return {}
+            }
+        }
+
+        return data ?? {}
+    }
+
     async request(url: string, method: string, params: object = [], signal?: AbortSignal): Promise<any> {
         const key = `${method}:${url}:${JSON.stringify(params)}`
 
@@ -147,8 +179,16 @@ class BaseAPIService {
         })
 
         if (response.status === 401) {
-            this.revokeAccess()
-            throw new APIError({ message: 'Unauthorized' })
+            // Named apart from this method's own `body` parameter.
+            const errorBody = await response.json().catch(() => ({}))
+            if (BaseAPIService.isSessionExpired(errorBody)) {
+                this.revokeAccess()
+            }
+            throw new APIError({
+                ...errorBody,
+                status: 401,
+                message: errorBody?.message ?? 'Unauthorized',
+            })
         }
 
         if (!response.ok) {
@@ -261,8 +301,14 @@ class BaseAPIService {
                     // check unambiguous instead of relying on message text.
                     throw new APIError({ ...error.response._data, status: error.response.status })
                 case 401:
-                    this.revokeAccess()
-                    throw new APIError(error.response._data || { message: 'Unauthorized' })
+                    if (BaseAPIService.isSessionExpired(error.response._data)) {
+                        this.revokeAccess()
+                    }
+                    throw new APIError({
+                        ...error.response._data,
+                        status: 401,
+                        message: error.response._data?.message ?? 'Unauthorized',
+                    })
                 case 403:
                     throw new APIError(error.response._data)
                 case 500:
@@ -314,8 +360,14 @@ class BaseAPIService {
                 case 429:
                     throw new APIError(error.response._data)
                 case 401:
-                    this.revokeAccess()
-                    throw new APIError(error.response._data || { message: 'Unauthorized' })
+                    if (BaseAPIService.isSessionExpired(error.response._data)) {
+                        this.revokeAccess()
+                    }
+                    throw new APIError({
+                        ...error.response._data,
+                        status: 401,
+                        message: error.response._data?.message ?? 'Unauthorized',
+                    })
                 case 403:
                     throw new APIError(error.response._data)
                 case 500:
@@ -372,9 +424,19 @@ class BaseAPIService {
                 case 422:
                 case 429:
                     throw new APIError(error.response._data)
-                case 401:
-                    this.revokeAccess()
-                    throw new APIError(error.response._data || { message: 'Unauthorized' })
+                case 401: {
+                    // Not error.response._data directly: this call asked for a blob,
+                    // so ofetch handed the error body back as one too.
+                    const errorBody = await BaseAPIService.errorBodyOf(error.response._data)
+                    if (BaseAPIService.isSessionExpired(errorBody)) {
+                        this.revokeAccess()
+                    }
+                    throw new APIError({
+                        ...errorBody,
+                        status: 401,
+                        message: errorBody?.message ?? 'Unauthorized',
+                    })
+                }
                 case 403:
                     throw new APIError(error.response._data)
                 case 500:

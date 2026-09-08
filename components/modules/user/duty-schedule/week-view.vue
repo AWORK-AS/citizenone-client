@@ -531,9 +531,12 @@
                                                             <p class="text-xxs">
                                                                 {{ $t('dutySchedules.weeklyNormHours') }}:
                                                                 {{
-                                                                    (Math.round(Number(empStats(employee)?.annual_norm_hours)
-                                                                        /
-                                                                        52)) ?? 0 }}
+                                                                    calculateWeeklyNormHours({
+                                                                        annual_norm_hours: empStats(employee)?.annual_norm_hours,
+                                                                        employee_detail: employee?.employee_detail,
+                                                                        norm_period: empStats(employee)?.norm_period,
+                                                                    }, currentDate.year())
+                                                                }}
                                                             </p>
                                                             <Icon name="ph:question" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
@@ -1152,7 +1155,7 @@
                                                         </div>
                                                         <div class="mx-1.5 sm:mx-2.5 border-t border-white/20 mb-1">
                                                         </div>
-                                                        <div v-if="shift?.shift_span_position"
+                                                        <div v-if="shift?.shift_span_position && shift?.shift_span_position !== 'single'"
                                                             class="flex items-center gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5">
                                                             <div v-if="shift.shift_span_position === 'start'"
                                                                 class="flex items-center flex-col xl:flex-row gap-1 bg-white/20 rounded-full px-2 py-0.5">
@@ -1497,6 +1500,7 @@ import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useScheduleLock } from '@/composables/useScheduleLock'
+import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'

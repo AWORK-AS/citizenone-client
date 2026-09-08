@@ -349,6 +349,24 @@ php artisan tinker --execute='
 CO_TOKEN='<admin-or-manager-token>' npm run test:import-employees
 ```
 
+### `salary-dk-connect` — needs `SALARY_DK_MOCK=true` on the backend
+
+Drives the whole Salary.dk payroll integration through a real browser:
+activate the app card, accept the TAC, enter an API key (not validated
+against the real API in mock mode), connect, confirm the `/schedules` sync
+button appears, open the 4-step sync wizard as far as real schedule data
+allows, then disconnect. Self-restoring: disconnects in a `finally` block
+regardless of outcome.
+
+```bash
+CO_TOKEN='<admin-token>' npm run test:salary-dk-connect
+```
+
+No real per-company Salary.dk API key is required for this test — connecting
+a real company additionally needs one typed into the same form, which is
+separate from the app-level `SALARY_DK_API_CLIENT_ID`/`_SECRET` and is out of
+scope for mock-mode testing.
+
 ### `console-smoke` - the one to run before merging
 
 Walks the sidebar to learn where this company's pages are, then loads each of
@@ -371,3 +389,22 @@ version passes against visibly broken code. And the API allows 120 requests a
 minute per user while one page spends a dozen or more, so the test paces itself
 and a full run takes a few minutes with pauses in it. That is the rate limit,
 not a hang.
+
+### `danlon-connect` — needs `CO_DANLON_USERNAME`/`CO_DANLON_PASSWORD`
+
+Covers the Danløn payroll integration's real (non-mock) OAuth connect flow
+against Danløn/Lessor's test-environment Keycloak realm
+(`danlon-integration-demo`). Injects a token, opens the Apps marketplace,
+activates the Danløn card (opens a popup to the real Keycloak login), logs in
+with the provided demo account, and confirms the popup's postMessage flips the
+card to connected. Then calls the live (non-mock) employees/salary-types/
+supplement-types endpoints to prove the backend resolved a real
+`danlon_company_id` via `currentCompany` rather than the callback-query-param
+approach that never actually receives one from a real OAuth redirect.
+Self-restoring: disconnects at the end. Requires the backend's `.env` to have
+real `DANLON_CLIENT_ID`/`DANLON_CLIENT_SECRET`/`DANLON_REDIRECT_URI` set and
+`DANLON_MOCK=false` (never commit these — local `.env` only).
+
+```bash
+CO_TOKEN='<token>' CO_DANLON_USERNAME='<demo-username>' CO_DANLON_PASSWORD='<demo-password>' npm run test:danlon-connect
+```

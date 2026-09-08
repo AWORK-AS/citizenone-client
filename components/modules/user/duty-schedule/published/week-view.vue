@@ -627,7 +627,7 @@ function calculateShiftWidth(shift: any, weekIndex: string) {
 
     let dayDifference = visibleEnd.diff(visibleStart, 'days')
 
-    const endsAtMidnight = moment(shift.date_time_end).format('HH:mm: ss') === '00:00:00'
+    const endsAtMidnight = moment(shift.date_time_end).format('HH:mm:ss') === '00:00:00'
     if (endsAtMidnight) {
         dayDifference--
     }

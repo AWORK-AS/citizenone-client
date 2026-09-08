@@ -87,7 +87,8 @@
                                 <ModulesUserMailSmtpInbox v-if="emailConfigurationType === 'smtp'"
                                     @setUnreadEmailsCount="setUnreadEmailsCount" />
                                 <ModulesUserMailEntraInbox v-else-if="emailConfigurationType === 'entra'"
-                                    @setUnreadEmailsCount="setUnreadEmailsCount" />
+                                    @setUnreadEmailsCount="setUnreadEmailsCount"
+                                    @requestReconnect="state.modal.isChooseEmailConfiguration = true" />
                                 <!-- TODO(i18n): add mail.unsupportedConfiguration to lang/{en,dk,sv,no}.json -->
                                 <div v-else class="grow mt-44 flex items-center justify-center text-center px-8">
                                     <p class="text-gray-500">
