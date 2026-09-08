@@ -8387,6 +8387,7 @@
         "summary": {
             "allTime": "Al tid",
             "byEmployee": "Pr. medarbejder",
+            "flaggedTrips": "{count} markeret til gennemgang",
             "period": "Periode",
             "totalKm": "Total km",
             "totalKmAllEmployees": "Total km (alle medarbejdere)",
@@ -8407,7 +8408,10 @@
             },
             "date": "Dato",
             "distance": "Distance",
+            "distanceSourceUnknown": "Ukendt kilde",
             "employee": "Medarbejder",
+            "flagged": "Markeret",
+            "needsReview": "Skal gennemgås",
             "route": "Rute"
         },
         "tracking": {

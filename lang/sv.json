@@ -8387,6 +8387,7 @@
         "summary": {
             "allTime": "All tid",
             "byEmployee": "Per medarbetare",
+            "flaggedTrips": "{count} flaggade för granskning",
             "period": "Period",
             "totalKm": "Totalt km",
             "totalKmAllEmployees": "Totalt km (alla medarbetare)",
@@ -8407,7 +8408,10 @@
             },
             "date": "Datum",
             "distance": "Avstånd",
+            "distanceSourceUnknown": "Okänd källa",
             "employee": "Medarbetare",
+            "flagged": "Flaggad",
+            "needsReview": "Behöver granskas",
             "route": "Rutt"
         },
         "tracking": {
