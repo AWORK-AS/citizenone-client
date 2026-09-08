@@ -81,6 +81,27 @@ every illness record it creates, and the assigned contact only if this run creat
 CO_TOKEN='<token>' CO_CITIZEN_UUID='<uuid>' npm run test:our-contact-person-save
 ```
 
+### `risk-assessment-trend-graph` — needs a company-1 token, `CO_CITIZEN_UUID`, and (optionally) `CO_LOWPRIV_TOKEN`
+
+Covers the risk-assessment trend graph (`feat/risk-assessment-trend-graph`): a
+color-coded (green/yellow/red) history chart reachable both from the citizens list's
+"Latest risk assessment" action button and from a citizen's detail-header avatar,
+backed by `GET citizen-journals/{uuid}/risk-assessments/history?period={1|3|6}`.
+Drives both entry points, switches between all three periods asserting a fresh
+request and the expected entry count each time, and stubs the endpoint via
+`page.route()` to exercise the empty ("not enough data") and error states without
+depending on specific local data existing for those cases. `CO_LOWPRIV_TOKEN`
+(a department-scoped, non-admin user) is optional and only used for a read-only
+access-control probe via the direct API - it documents current behavior (matches
+the pre-existing `/citizens/{uuid}` endpoint's own lack of department scoping) and
+does not assert a particular outcome. `CO_CITIZEN_UUID` must belong to the same
+company as `CO_TOKEN` and have risk-assessment journal entries across all three
+periods to exercise the chart meaningfully.
+
+```bash
+CO_TOKEN='<company-1 token>' CO_LOWPRIV_TOKEN='<dept-scoped token>' CO_CITIZEN_UUID='<uuid>' npm run test:risk-assessment-trend-graph
+```
+
 ### `compensatory-time-toggle` — needs an Employee token and an existing future shift
 
 Covers task-478: the compensatory-time request feature was changed from a purchasable

@@ -13,6 +13,17 @@
         },
         "title": "Utbetalinger av avspasering"
     },
+    "staffWorkloadReport": {
+        "title": "Medarbeiderbelastning",
+        "description": "Antall risikovurderinger registrert per ansatt i den valgte perioden. Mange gule eller røde vurderinger over tid kan være et tegn på arbeidspress, ikke bare brukerens situasjon.",
+        "table": {
+            "employee": "Ansatt",
+            "noRisk": "Ingen risiko",
+            "increasedRisk": "Økt risiko",
+            "acuteIncreasedRisk": "Akutt økt risiko",
+            "total": "Totalt"
+        }
+    },
     "inquiryPipeline": {
         "board": "Henvendelses-pipeline",
         "enableLabel": "Henvendelses-pipeline (kanban)",
@@ -1483,6 +1494,16 @@
             "sessions": "Økter",
             "thisMonth": "Denne måneden",
             "thisYear": "Dette året"
+        },
+        "riskHistory": {
+            "title": "Risikovurdering over tid",
+            "period1": "Siste måned",
+            "period3": "Siste 3 måneder",
+            "period6": "Siste 6 måneder",
+            "noRisk": "Ingen risiko",
+            "increasedRisk": "Økt risiko",
+            "acuteIncreasedRisk": "Akutt økt risiko",
+            "notEnoughData": "Ikke nok data til å vise en utvikling ennå."
         },
         "addictions": "Rusmisbruk",
         "address": "Adresse",

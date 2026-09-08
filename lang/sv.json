@@ -13,6 +13,17 @@
         },
         "title": "Utbetalningar av kompensationstid"
     },
+    "staffWorkloadReport": {
+        "title": "Personalbelastning",
+        "description": "Antal riskbedömningar registrerade per medarbetare under vald period. Många gula eller röda bedömningar över tid kan vara ett tecken på arbetsbelastning, inte bara klientens situation.",
+        "table": {
+            "employee": "Medarbetare",
+            "noRisk": "Ingen risk",
+            "increasedRisk": "Ökad risk",
+            "acuteIncreasedRisk": "Akut ökad risk",
+            "total": "Totalt"
+        }
+    },
     "inquiryPipeline": {
         "board": "Förfrågningspipeline",
         "enableLabel": "Förfrågningspipeline (kanban)",
@@ -1483,6 +1494,16 @@
             "sessions": "Sessioner",
             "thisMonth": "Denna månad",
             "thisYear": "Detta år"
+        },
+        "riskHistory": {
+            "title": "Riskbedömning över tid",
+            "period1": "Senaste månaden",
+            "period3": "Senaste 3 månaderna",
+            "period6": "Senaste 6 månaderna",
+            "noRisk": "Ingen risk",
+            "increasedRisk": "Ökad risk",
+            "acuteIncreasedRisk": "Akut ökad risk",
+            "notEnoughData": "Inte tillräckligt med data för att visa en utveckling ännu."
         },
         "addictions": "Substansmissbruk",
         "address": "Adress",
