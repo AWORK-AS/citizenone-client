@@ -2463,6 +2463,36 @@
                 "recordDosageChange": "Trappa upp/ner dosering",
                 "type": "Ändringstyp"
             },
+            "taperingSchedule": {
+                "alert": {
+                    "successfullyCreated": "Nedtrappningsplan skapad",
+                    "successfullyDeleted": "Nedtrappningsplan borttagen",
+                    "successfullyDeletedStep": "Steg borttaget"
+                },
+                "addStep": "Lägg till steg",
+                "buildSchedule": "Skapa nedtrappningsplan",
+                "confirmDeleteSchedule": "Är du säker på att du vill ta bort denna nedtrappningsplan",
+                "confirmDeleteStep": "Är du säker på att du vill ta bort detta steg",
+                "generateSteps": "Generera steg",
+                "intervalWeeks": "Intervall (veckor)",
+                "noSchedulesRecorded": "Inga nedtrappningsplaner registrerade ännu",
+                "noStepsAdded": "Inga steg tillagda ännu",
+                "planReason": "Anledning",
+                "planReasonPlaceholder": "Varför skapas denna nedtrappningsplan?",
+                "statusApplied": "Tillämpad",
+                "statusCompleted": "Slutförd",
+                "statusInProgress": "Pågår",
+                "statusPending": "Väntar",
+                "stepEffectiveDate": "Ikraftträdandedatum",
+                "stepMaxDailyDose": "Ny maximal daglig dos",
+                "stepNumber": "Steg",
+                "stepReason": "Anledning",
+                "stepStrength": "Ny styrka",
+                "stepType": "Ändringstyp",
+                "steps": "Steg",
+                "totalDurationWeeks": "Total varaktighet (veckor)",
+                "viewSchedule": "Visa plan"
+            },
             "download": "Ladda ner",
             "downloadOverview": "Ladda ner översikt",
             "editMedicine": "Redigera Medicin",
@@ -2877,7 +2907,8 @@
                 "weeklyRotation": "Veckorotationsschema",
                 "startWeekday": "Börjar på",
                 "repeatsUntil": "Upprepas till",
-                "indefinitely": "På obestämd tid"
+                "indefinitely": "På obestämd tid",
+                "taperingSchedule": "Nedtrappningsplan"
             }
         },
         "newCitizen": "Ny {citizen}",

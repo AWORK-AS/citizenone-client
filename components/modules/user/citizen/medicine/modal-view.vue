@@ -90,6 +90,10 @@
                                 @click="state.modal.isDosageHistoryOpen = true">
                                 {{ $t('citizens.medicineJournals.dosageChange.dosageHistory') }}
                             </button>
+                            <button type="button" class="text-xs text-tertiary hover:text-tertiary-800 underline"
+                                @click="state.modal.isTaperingHistoryOpen = true">
+                                {{ $t('citizens.medicineJournals.taperingSchedule.viewSchedule') }}
+                            </button>
                         </p>
                         <p>
                             <span class="font-semibold">
@@ -193,6 +197,27 @@
                             </div>
                         </div>
 
+                        <!-- Tapering schedule -->
+                        <div v-if="state.activeTaperingSchedule?.steps?.length > 0"
+                            class="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-2">
+                            <p class="text-xs font-semibold text-primary flex items-center gap-1.5">
+                                <Icon name="ph:calendar-check" class="size-4" />
+                                {{ $t('citizens.medicineJournals.viewModal.taperingSchedule') }}
+                            </p>
+                            <div class="space-y-1.5">
+                                <div v-for="(step, idx) in state.activeTaperingSchedule.steps" :key="idx"
+                                    class="flex items-center gap-2 text-xs text-gray-700 bg-white rounded-lg px-3 py-2 border border-gray-200">
+                                    <Icon :name="step.status === 'applied' ? 'ph:check-circle' : 'ph:clock'"
+                                        :class="step.status === 'applied' ? 'text-green-500' : 'text-gray-400'"
+                                        class="size-4 shrink-0" />
+                                    <span class="font-medium">
+                                        {{ formatDateToReadable(step.effective_date) }}
+                                    </span>
+                                    <span v-if="step.strength" class="text-gray-500">{{ step.strength }}</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Extra individual dates #549 -->
                         <div v-if="state.selectedMedicine?.extra_dates?.length > 0"
                             class="rounded-xl border border-primary/20 bg-primary/5 p-3 space-y-2">
@@ -283,6 +308,11 @@
                                 <Icon name="ph:trend-up" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.medicineJournals.dosageChange.recordDosageChange') }}
                             </FormButton>
+                            <FormButton v-if="isAtLeast('Admin') || can('update_citizen_medicine')" type="button"
+                                buttonStyle="action" class="w-full" @click="state.modal.isTaperingScheduleOpen = true">
+                                <Icon name="ph:calendar-check" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.medicineJournals.taperingSchedule.buildSchedule') }}
+                            </FormButton>
                             <FormButton type="button" buttonStyle="cancel" @click="closeModal()">
                                 {{ $t('close') }}
                             </FormButton>
@@ -298,6 +328,12 @@
                 <ModulesUserCitizenMedicineDosageChangeModalHistory :isModalOpen="state.modal.isDosageHistoryOpen"
                     :selectedMedicine="state.selectedMedicine" @close="state.modal.isDosageHistoryOpen = false"
                     @refreshMedicines="fetchCitizenMedicines" />
+                <ModulesUserCitizenMedicineTaperingScheduleModalNew :isModalOpen="state.modal.isTaperingScheduleOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isTaperingScheduleOpen = false"
+                    @refreshMedicines="fetchCitizenMedicines" @refreshTaperingSchedules="fetchActiveTaperingSchedule" />
+                <ModulesUserCitizenMedicineTaperingScheduleModalHistory :isModalOpen="state.modal.isTaperingHistoryOpen"
+                    :selectedMedicine="state.selectedMedicine" @close="state.modal.isTaperingHistoryOpen = false"
+                    @refreshMedicines="fetchCitizenMedicines" />
             </template>
         </Modal>
     </div>
@@ -306,6 +342,7 @@
 
 <script setup lang="ts">
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
+import { medicineTaperingScheduleService } from '@/components/api/user/MedicineTaperingScheduleService'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
@@ -334,9 +371,12 @@ const state = reactive({
     modal: {
         isEditMedicineOpen: false,
         isDosageChangeOpen: false,
-        isDosageHistoryOpen: false
+        isDosageHistoryOpen: false,
+        isTaperingScheduleOpen: false,
+        isTaperingHistoryOpen: false
     },
     selectedMedicine: {} as any,
+    activeTaperingSchedule: {} as any,
 })
 
 function closeModal() {
@@ -371,6 +411,18 @@ async function fetchSelectedMedicine() {
         state.error = error
     }
     state.isPageLoading = false
+    fetchActiveTaperingSchedule()
+}
+
+async function fetchActiveTaperingSchedule() {
+    try {
+        const medicineUuid = props.selectedMedicine?.uuid
+        const response = await medicineTaperingScheduleService.getTaperingSchedules(medicineUuid)
+        const schedules = response?.data ?? []
+        state.activeTaperingSchedule = schedules.find((schedule: any) => schedule.status !== 'completed') ?? schedules[0] ?? {}
+    } catch (error: any) {
+        state.activeTaperingSchedule = {}
+    }
 }
 
 async function downloadAndPrintMedicine() {
