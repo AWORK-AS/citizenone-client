@@ -2463,6 +2463,36 @@
                 "recordDosageChange": "Op- / nedtrap dosering",
                 "type": "Ændringstype"
             },
+            "taperingSchedule": {
+                "alert": {
+                    "successfullyCreated": "Nedtrapningsplan oprettet",
+                    "successfullyDeleted": "Nedtrapningsplan slettet",
+                    "successfullyDeletedStep": "Trin slettet"
+                },
+                "addStep": "Tilføj trin",
+                "buildSchedule": "Opret nedtrapningsplan",
+                "confirmDeleteSchedule": "Er du sikker på, at du vil slette denne nedtrapningsplan",
+                "confirmDeleteStep": "Er du sikker på, at du vil slette dette trin",
+                "generateSteps": "Generer trin",
+                "intervalWeeks": "Interval (uger)",
+                "noSchedulesRecorded": "Ingen nedtrapningsplaner registreret endnu",
+                "noStepsAdded": "Ingen trin tilføjet endnu",
+                "planReason": "Årsag",
+                "planReasonPlaceholder": "Hvorfor oprettes denne nedtrapningsplan?",
+                "statusApplied": "Anvendt",
+                "statusCompleted": "Afsluttet",
+                "statusInProgress": "I gang",
+                "statusPending": "Afventer",
+                "stepEffectiveDate": "Ikrafttrædelsesdato",
+                "stepMaxDailyDose": "Ny maksimal daglig dosis",
+                "stepNumber": "Trin",
+                "stepReason": "Årsag",
+                "stepStrength": "Ny styrke",
+                "stepType": "Ændringstype",
+                "steps": "Trin",
+                "totalDurationWeeks": "Samlet varighed (uger)",
+                "viewSchedule": "Se plan"
+            },
             "download": "Download",
             "downloadOverview": "Download oversigt",
             "editMedicine": "Rediger Medicin",
@@ -2877,7 +2907,8 @@
                 "weeklyRotation": "Ugentligt rotationsskema",
                 "startWeekday": "Starter på",
                 "repeatsUntil": "Gentages til",
-                "indefinitely": "Ubestemt tid"
+                "indefinitely": "Ubestemt tid",
+                "taperingSchedule": "Nedtrapningsplan"
             }
         },
         "newCitizen": "Ny {citizen}",
