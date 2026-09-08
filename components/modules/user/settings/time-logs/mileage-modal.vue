@@ -7,6 +7,14 @@
                         <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
                             <p class="text-xs">{{ $t('mileageLog.summary.totalKmAllEmployees') }}</p>
                             <p class="text-sm">{{ formatNumber(language.locale.value, state.summary?.data?.total_kilometers || 0) }} km</p>
+                            <!-- Flagged trips are still summed into total_kilometers above
+                                 (not subtracted) -- this count exists to make that visible,
+                                 not to imply the total needs correcting first. -->
+                            <p class="mt-1 flex items-center gap-x-1 text-xs font-medium text-red-600"
+                                v-if="flaggedTripsCount > 0">
+                                <Icon name="ph:warning-circle" class="h-3.5 w-3.5" aria-hidden="true" />
+                                {{ $t('mileageLog.summary.flaggedTrips', { count: flaggedTripsCount }) }}
+                            </p>
                         </div>
                     </LoadingSpinner>
                     <LoadingSpinner :isActive="state.isSummaryLoading">
@@ -29,6 +37,7 @@
                                         <th class="text-left px-4 py-2">{{ $t('mileageLog.table.employee') }}</th>
                                         <th class="text-right px-4 py-2">{{ $t('mileageLog.summary.totalKm') }}</th>
                                         <th class="text-right px-4 py-2">{{ $t('mileageLog.summary.totalTrips') }}</th>
+                                        <th class="text-right px-4 py-2">{{ $t('mileageLog.table.flagged') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,6 +48,10 @@
                                             {{ formatNumber(language.locale.value, employee.total_kilometers) }} km
                                         </td>
                                         <td class="px-4 py-2 text-right">{{ employee.total_trips }}</td>
+                                        <td class="px-4 py-2 text-right"
+                                            :class="(employee.flagged_trips ?? 0) > 0 ? 'text-red-600 font-semibold' : 'text-gray-400'">
+                                            {{ employee.flagged_trips ?? 0 }}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -82,7 +95,13 @@
                                         <span class="block truncate max-w-xs" :title="routeSummary(log)">{{ routeSummary(log) }}</span>
                                     </td>
                                     <td width="10%">
-                                        {{ formatNumber(language.locale.value, log?.kilometers) }} km
+                                        <p>{{ formatNumber(language.locale.value, log?.kilometers) }} km</p>
+                                        <p class="text-xs text-gray-400">{{ distanceSourceLabel(log) }}</p>
+                                        <div class="mt-1 inline-flex items-center gap-x-1 rounded-full bg-red-50 border border-red-200 px-2 py-0.5 text-xs font-semibold text-red-600"
+                                            v-if="log?.needs_review" :title="log?.review_reason_label || undefined">
+                                            <Icon name="ph:warning-circle" class="h-3.5 w-3.5" aria-hidden="true" />
+                                            {{ $t('mileageLog.table.needsReview') }}
+                                        </div>
                                     </td>
                                     <td width="15%">
                                         <div v-if="log?.citizen"
@@ -189,6 +208,17 @@ const employeeSummaries = computed(() => {
     const employees = state.summary?.data?.employees ?? []
     return [...employees].sort((a: any, b: any) => Number(b.total_kilometers) - Number(a.total_kilometers))
 })
+
+// meta.flagged_trips only arrives on the summary response while the
+// transportation filter is active (see backend/dev-mileage-distance-provenance-frontend.md),
+// so it's undefined rather than 0 outside of that -- treat both as "nothing to show".
+const flaggedTripsCount = computed(() => state.summary?.data?.flagged_trips ?? 0)
+
+// distance_source_label is null on every row created before this deploy --
+// render that as unknown provenance, never blank and never as "GPS".
+function distanceSourceLabel(log: any) {
+    return log?.distance_source_label || language.t('mileageLog.table.distanceSourceUnknown')
+}
 
 function routeSummary(log: any) {
     const middle = (log?.stops ?? []).slice().sort((a: any, b: any) => (a.sequence_order ?? 0) - (b.sequence_order ?? 0))

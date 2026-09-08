@@ -44,6 +44,23 @@
                         <p class="text-sm font-semibold text-gray-700">
                             {{ formatNumber(locale, props.selectedMileageLog?.kilometers) }} km
                         </p>
+                        <!-- distance_source_label is null on every row created before this
+                             deploy -- render that as unknown provenance, never blank and
+                             never as "GPS". A flagged 0.00 km trip is a legitimate answer
+                             (the only leg was impossible), not "nothing recorded". -->
+                        <p class="text-xs text-gray-400">{{ distanceSourceLabel }}</p>
+                    </div>
+
+                    <div class="space-y-1 my-2" v-if="props.selectedMileageLog?.needs_review">
+                        <div class="flex items-start gap-x-2 p-3 bg-red-50 border border-red-200 rounded-md">
+                            <Icon name="ph:warning-circle" class="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                            <div>
+                                <p class="text-sm font-semibold text-red-700">{{ $t('mileageLog.table.needsReview') }}</p>
+                                <p class="text-xs text-red-700 mt-0.5" v-if="props.selectedMileageLog?.review_reason_label">
+                                    {{ props.selectedMileageLog.review_reason_label }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="space-y-1 my-2">
@@ -93,6 +110,10 @@ const { formatNumber } = useNumberFormatter()
 function closeModal() {
     emit('close')
 }
+
+const distanceSourceLabel = computed(() => {
+    return props.selectedMileageLog?.distance_source_label || t('mileageLog.table.distanceSourceUnknown')
+})
 
 const mapRef = ref<any>(null)
 const mapCenter = ref<[number, number]>([55.6761, 12.5683])
