@@ -13,6 +13,13 @@ class MileageLogService extends BaseAPIService {
         return await this.request(`/user/mileage-logs/employee/${employeeUuid}`, 'GET', params)
     }
 
+    // The list endpoints above don't eager-load location_logs (GPS breadcrumbs)
+    // -- see backend/dev-mileage-log-locationlogs-whenloaded-bug.md -- so the
+    // detail modal fetches the single-trip record separately to get them.
+    async getMileageLogByUuid(mileageLogUuid: string): Promise<any> {
+        return await this.request(`/user/mileage-logs/${mileageLogUuid}`, 'GET')
+    }
+
     async getMileageSummary(params: object): Promise<any> {
         return await this.request(`/user/mileage-logs/summary`, 'GET', params)
     }
