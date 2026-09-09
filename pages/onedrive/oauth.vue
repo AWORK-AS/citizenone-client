@@ -54,7 +54,7 @@ onMounted(async () => {
 
     if (data && (data.sanctum_token || data.token?.sanctum_token)) {
       const sanctumToken = data.sanctum_token || data.token?.sanctum_token
-      localStorage.setItem('_token', sanctumToken)
+      setSessionToken(sanctumToken)
     }
 
     // Send bruger tilbage til apps-siden med success-markering

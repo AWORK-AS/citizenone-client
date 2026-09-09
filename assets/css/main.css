@@ -125,6 +125,19 @@ input:disabled {
 }
 
 /* ----------------------------------------------------------------------------------------------------
+    Desktop app: window drag regions (macOS hiddenInset title bar - see
+    citizenone-desktop's main.ts). No-op on web - these properties don't
+    exist outside Electron's Chromium, so they're harmless there.
+---------------------------------------------------------------------------------------------------- */
+.app-drag-region {
+    -webkit-app-region: drag;
+}
+
+.app-no-drag-region {
+    -webkit-app-region: no-drag;
+}
+
+/* ----------------------------------------------------------------------------------------------------
     Scrollbar
 ---------------------------------------------------------------------------------------------------- */
 .custom-scrollbar ::-webkit-scrollbar {

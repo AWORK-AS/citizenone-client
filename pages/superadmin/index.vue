@@ -129,7 +129,7 @@ async function login() {
             }
             const response = await authService.login(params)
             if (response.data) {
-                localStorage.setItem("_token", response.data?.token)
+                setSessionToken(response.data?.token)
                 userStore.setUser(response?.data?.user)
                 userStore.setLanguage(response?.data?.user?.language?.code)
                 language.locale.value = response?.data?.user?.language?.code

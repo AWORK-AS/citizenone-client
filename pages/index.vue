@@ -360,7 +360,7 @@ async function login() {
 				if (response.data?.user?.is_google_2fa_enabled) {
 					state.modal.isGoogle2faVerificationOpen = true
 				} else {
-					localStorage.setItem("_token", response.data?.token)
+					setSessionToken(response.data?.token)
 					departmentStore.resetSelectedDepartment()
 					departmentStore.resetSelectedDepartmentColor()
 					departmentStore.resetSelectedDepartmentName()
