@@ -399,7 +399,7 @@ async function logout() {
     try {
         const response = await authService.logout()
         if (response) {
-            localStorage.removeItem('_token')
+            clearSessionToken()
             userStore.resetUser()
             navigateTo('/superadmin')
         }

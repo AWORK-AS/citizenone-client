@@ -1,0 +1,85 @@
+<template>
+    <Transition name="lock-fade">
+        <div v-if="isLocked" class="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80 backdrop-blur-md">
+            <form @submit.prevent="unlock" class="w-full max-w-sm bg-white rounded-2xl border border-surface-200 shadow-2xl p-8 mx-4">
+                <div class="flex flex-col items-center mb-6">
+                    <div class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mb-4">
+                        {{ initials }}
+                    </div>
+                    <h2 class="text-lg font-semibold text-gray-900">{{ $t('desktopLock.title') }}</h2>
+                    <p class="text-sm text-gray-500 mt-1">{{ userStore.getUser?.firstname }} {{ userStore.getUser?.lastname }}</p>
+                </div>
+                <FormLabel for="lock-password" :label="$t('desktopLock.passwordLabel')" />
+                <input id="lock-password" ref="passwordInput" v-model="password" type="password" autofocus
+                    class="w-full border border-surface-200 rounded-lg px-3 py-2.5 text-sm mt-1 mb-2 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary" />
+                <p v-if="error" class="text-sm text-red-600 mb-2">{{ error }}</p>
+                <button type="submit" :disabled="isVerifying"
+                    class="w-full bg-primary text-white rounded-lg py-2.5 text-sm font-semibold disabled:opacity-60 mt-2">
+                    {{ isVerifying ? $t('desktopLock.verifying') : $t('desktopLock.unlock') }}
+                </button>
+            </form>
+        </div>
+    </Transition>
+</template>
+
+<script setup lang="ts">
+import { authService } from '@/components/api/user/AuthService'
+import { useUserStore } from '@/store/user'
+import { useI18n } from 'vue-i18n'
+
+const userStore = useUserStore() as any
+const { t: $t } = useI18n()
+const isLocked = ref(false)
+const password = ref('')
+const error = ref('')
+const isVerifying = ref(false)
+const passwordInput = ref<HTMLInputElement | null>(null)
+
+const initials = computed(() => {
+    const user = userStore.getUser
+    return `${user?.firstname?.[0] ?? ''}${user?.lastname?.[0] ?? ''}`.toUpperCase()
+})
+
+let unsubscribe: (() => void) | null = null
+
+onMounted(() => {
+    const bridge = (window as any).citizenOneDesktop
+    if (!bridge?.isDesktop) return
+    unsubscribe = bridge.onLockRequested(() => {
+        isLocked.value = true
+        password.value = ''
+        error.value = ''
+        nextTick(() => passwordInput.value?.focus())
+    })
+})
+onUnmounted(() => unsubscribe?.())
+
+// Verify-only: reuses the real login endpoint to check the password against
+// the signed-in user's own email, but never touches the existing session
+// token - a correct password just dismisses the overlay. Not a second login.
+async function unlock() {
+    error.value = ''
+    if (!password.value) return
+    isVerifying.value = true
+    try {
+        const deviceUuid = localStorage.getItem('device_uuid') || ''
+        const response: any = await authService.login({
+            email: userStore.getUser?.email,
+            password: password.value,
+            device_uuid: deviceUuid,
+        })
+        if (response?.data || response?.requires_ip_otp || response?.requires_device_otp) {
+            // Any of these confirms the password itself was correct (an OTP
+            // step would follow on a real login, but that's not what this is).
+            isLocked.value = false
+            password.value = ''
+            ;(window as any).citizenOneDesktop?.notifyUnlocked()
+        } else {
+            error.value = $t('desktopLock.wrongPassword') as unknown as string
+        }
+    } catch (err: any) {
+        error.value = err?.message?.message || err?.message || ($t('desktopLock.wrongPassword') as unknown as string)
+    }
+    isVerifying.value = false
+}
+</script>

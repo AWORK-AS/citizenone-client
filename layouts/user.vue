@@ -6,6 +6,9 @@
         <!-- Global Search -->
         <ModulesUserNavbarGlobalSearch ref="globalSearch" />
 
+        <!-- Desktop only: re-authentication lock after idle/screen-lock -->
+        <DesktopLockOverlay />
+
         <!-- Mobile sidebar -->
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
@@ -84,8 +87,8 @@
             </Dialog>
         </TransitionRoot>
 
-        <!-- Desktop sidebar: collapsible -->
-        <div class="hidden lg:fixed lg:inset-y-0 lg:z-[55] lg:flex lg:flex-col lg:w-[17rem] pointer-events-none">
+        <!-- Desktop sidebar: collapsible (web only) -->
+        <div v-if="!isDesktopApp" class="hidden lg:fixed lg:inset-y-0 lg:z-[55] lg:flex lg:flex-col lg:w-[17rem] pointer-events-none">
             <div class="flex grow flex-col overflow-y-auto overflow-x-hidden bg-gradient-to-b from-sidebar to-sidebar-dark shadow-sidebar transition-all duration-300 ease-in-out pointer-events-auto"
                 :class="sidebarExpanded ? 'w-[17rem]' : 'w-[4.5rem]'">
                 <!-- Logo + Pin -->
@@ -164,12 +167,87 @@
             </div>
         </div>
 
+        <!-- Desktop app shell: icon rail + context panel (Electron only).
+             Replaces the single wide web sidebar with two narrower fixed
+             panels - a rail with one icon per group, and a list of that
+             group's items - so the primary nav stops eating the width a
+             real app window can give to the workspace instead. -->
+        <div v-else class="hidden lg:fixed lg:inset-y-0 lg:z-[55] lg:flex">
+            <div class="flex flex-col items-center w-[4.5rem] bg-white border-r border-[#e8eaef] py-3">
+                <!-- macOS hiddenInset title bar (see citizenone-desktop's main.ts):
+                     the traffic lights float at the window's true top-left corner,
+                     which is exactly this rail's top strip (the rail is the same
+                     ~72px width the three lights need). Reserves that space so
+                     they don't sit on top of the logo below, and doubles as the
+                     window's drag handle - there's no separate system title bar
+                     to drag from any more. -->
+                <div v-if="isMacDesktopApp" class="app-drag-region w-full h-9 shrink-0" aria-hidden="true" />
+                <span @click="navigateTo('/overview')" title="CitizenOne™"
+                    class="cursor-pointer flex items-center justify-center w-11 h-11 mb-2 shrink-0">
+                    <img src="/img/icons/asset-app.png" alt="CitizenOne" class="h-7 w-7 object-contain" />
+                </span>
+                <nav role="tablist" aria-orientation="vertical" aria-label="Navigation"
+                    class="flex flex-col items-center gap-1 overflow-y-auto custom-scrollbar">
+                    <button v-for="group in navigationGroups" :key="group.key" type="button" role="tab"
+                        :id="`nav-tab-${group.key}`" :aria-controls="`nav-panel-${group.key}`"
+                        @click="activeGroupKey = group.key" :title="$t(group.label)"
+                        :aria-label="$t(group.label)" :aria-selected="activeContextGroup?.key === group.key"
+                        :class="['flex items-center justify-center w-11 h-11 rounded-xl transition-colors shrink-0',
+                            'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                            activeContextGroup?.key === group.key
+                                ? 'bg-[#eff6ff] text-primary'
+                                : 'text-[#6b7280] hover:bg-[#f3f4f6] hover:text-[#0f1a2e]']">
+                        <Icon :name="group.icon" class="h-5 w-5" aria-hidden="true" />
+                    </button>
+                </nav>
+                <div class="mt-auto flex flex-col items-center gap-2 pt-2 shrink-0">
+                    <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
+                </div>
+            </div>
+            <div class="flex flex-col w-[14rem] bg-white border-r border-[#e8eaef] overflow-y-auto custom-scrollbar"
+                role="tabpanel" :id="`nav-panel-${activeContextGroup?.key}`" :aria-labelledby="`nav-tab-${activeContextGroup?.key}`">
+                <div class="h-16 flex items-center px-4 shrink-0">
+                    <span class="text-primary font-semibold text-lg truncate">
+                        {{ activeContextGroup ? $t(activeContextGroup.label) : 'CitizenOne™' }}
+                    </span>
+                </div>
+                <nav class="flex-1 px-3">
+                    <ul role="list" class="space-y-0.5">
+                        <li v-for="item in activeContextGroup?.items || []" :key="item.name">
+                            <div @click="openNavItem(item)"
+                                :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
+                                :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null">
+                                <img v-if="item.image" :src="item.image" :alt="item.name" class="h-5 w-5 shrink-0" />
+                                <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
+                                <span class="whitespace-nowrap overflow-hidden">{{ getNavItemLabel(item) }}</span>
+                                <Icon v-if="item.external" name="ph:arrow-square-out"
+                                    class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="px-3 pb-4 space-y-2 shrink-0">
+                    <div v-for="item in footerNavigation" :key="item.name" @click="openNavItem(item)"
+                        :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'">
+                        <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
+                        <span>{{ getNavItemLabel(item) }}</span>
+                    </div>
+                    <ModulesUserSidebarCompanyId />
+                </div>
+            </div>
+        </div>
+
         <!-- Main content.
              No padding for the assistant panel: it is `fixed`, so it already floats
              over the page, and padding the content as well shoved every page
-             sideways whenever it was opened (Birketoften 31/8). -->
-        <div class="bg-surface-50 min-h-screen transition-all duration-300 ease-in-out" :class="[
-            sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]'
+             sideways whenever it was opened (Birketoften 31/8).
+             Desktop: this div becomes the one scrolling surface (h-screen +
+             overflow-y-auto) instead of letting the whole document/window
+             scroll - a real app window's chrome (rail, topbar) should never
+             move, only its content pane. Web keeps min-h-screen unchanged. -->
+        <div class="bg-surface-50 transition-all duration-300 ease-in-out" :class="[
+            isDesktopApp ? 'h-screen overflow-y-auto' : 'min-h-screen',
+            isDesktopApp ? 'lg:pl-[18.5rem]' : (sidebarExpanded ? 'lg:pl-[17rem]' : 'lg:pl-[4.5rem]')
         ]">
             <!-- Impersonation Banner -->
             <div v-if="isImpersonating" ref="bannerRef"
@@ -585,6 +663,8 @@ import { useCustomSidebarLinksStore } from '@/store/custom-sidebar-links'
 import { useAssistantStore } from '@/store/assistant'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
+import { useCitizenStore } from '@/store/citizen'
+import { useEmployeeStore } from '@/store/employee'
 import { useI18n } from "vue-i18n"
 import { usePermissions } from '@/composables/usePermissions'
 import { useAppTours } from '@/composables/useAppTours'
@@ -592,6 +672,8 @@ import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
+const citizenStore = useCitizenStore()
+const employeeStore = useEmployeeStore()
 const customPagesStore = useCustomPagesStore() as any
 const customSidebarLinksStore = useCustomSidebarLinksStore()
 const assistantStore = useAssistantStore()
@@ -612,10 +694,10 @@ const navigation = shallowRef<any[]>([])
 // with few modules never sees a heading over nothing. `footer` entries (only
 // onboarding today) sit at the bottom, away from the daily work.
 const NAV_GROUPS = [
-    { key: 'daily', label: 'sidebar.groups.daily' },
-    { key: 'documentation', label: 'sidebar.groups.documentation' },
-    { key: 'organisation', label: 'sidebar.groups.organisation' },
-    { key: 'shortcuts', label: 'sidebar.groups.shortcuts' },
+    { key: 'daily', label: 'sidebar.groups.daily', icon: 'ph:house' },
+    { key: 'documentation', label: 'sidebar.groups.documentation', icon: 'ph:notebook' },
+    { key: 'organisation', label: 'sidebar.groups.organisation', icon: 'ph:buildings' },
+    { key: 'shortcuts', label: 'sidebar.groups.shortcuts', icon: 'ph:star' },
 ]
 
 const navigationGroups = computed(() =>
@@ -627,6 +709,20 @@ const navigationGroups = computed(() =>
         .filter((group) => group.items.length > 0))
 
 const footerNavigation = computed(() => navigation.value.filter((item: any) => item.group === 'footer'))
+
+// Desktop shell only (see isDesktopApp): which group's items the context panel
+// currently shows. Defaults to whichever group contains the active route, so
+// landing on e.g. a documentation page opens with that panel already showing.
+const activeGroupKey = ref<string | null>(null)
+const activeContextGroup = computed(() => {
+    if (activeGroupKey.value) {
+        const explicit = navigationGroups.value.find((group) => group.key === activeGroupKey.value)
+        if (explicit) return explicit
+    }
+    const forCurrentRoute = navigationGroups.value.find((group) =>
+        group.items.some((item: any) => item.activeRouteNames?.includes(route.name as string)))
+    return forCurrentRoute || navigationGroups.value[0] || null
+})
 
 // Collapsible sections. A hover-out menu was the other option and is the worse
 // one here: it is harder to hit, it does not survive a touch screen, and it
@@ -781,7 +877,51 @@ const searchShortcut = computed(() => {
 const sidebarOpen = ref(false)
 const sidebarPinned = ref(localStorage.getItem('sidebarPinned') !== 'false')
 const sidebarHovered = ref(false)
-const sidebarExpanded = computed(() => sidebarPinned.value || sidebarHovered.value)
+
+// The hover-to-expand/collapse sidebar below is a web space-saving trick for
+// a browser window; a real app window has room, so Desktop gets a fixed,
+// always-expanded sidebar instead. Web is unaffected.
+const isDesktopApp = useIsDesktopApp()
+// Only macOS gets a hiddenInset title bar today (see citizenone-desktop's
+// main.ts) - Windows/Linux still get a normal system title bar, so the
+// navbar there needs no reserved space or drag region.
+const isMacDesktopApp = isDesktopApp && useDesktopPlatform() === 'darwin'
+
+const sidebarExpanded = computed(() => isDesktopApp || sidebarPinned.value || sidebarHovered.value)
+
+// Desktop only: mirror unread counts onto the Dock badge, and surface a
+// native OS notification for a genuinely new message/notification arriving
+// while the window isn't focused - the in-app badges above already cover
+// the focused case. Compares against the previous value rather than firing
+// on every poll, since the count itself doesn't tell us what's new.
+if (isDesktopApp) {
+    let previousMessages = userStore.getUser?.unread_messages_count ?? 0
+    let previousNotifications = userStore.getUser?.unread_notification_count ?? 0
+
+    if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+        Notification.requestPermission()
+    }
+
+    watch(() => [userStore.getUser?.unread_messages_count, userStore.getUser?.unread_notification_count], ([messages, notifications]) => {
+        const total = (messages ?? 0) + (notifications ?? 0)
+        ;(window as any).citizenOneDesktop?.setBadgeCount(total)
+
+        if (document.hidden || !document.hasFocus()) {
+            if ((messages ?? 0) > previousMessages) {
+                new Notification(language.t('desktopNotifications.newMessage'), {
+                    body: language.t('desktopNotifications.newMessageBody'),
+                })
+            } else if ((notifications ?? 0) > previousNotifications) {
+                new Notification(language.t('desktopNotifications.newNotification'), {
+                    body: language.t('desktopNotifications.newNotificationBody'),
+                })
+            }
+        }
+
+        previousMessages = messages ?? 0
+        previousNotifications = notifications ?? 0
+    })
+}
 
 // Use global mousemove on raw clientX — immune to DOM event propagation issues
 // caused by CSS transitions triggering spurious mouseleave events on the sidebar
@@ -799,10 +939,23 @@ function handleMouseLeaveWindow() {
     if (!sidebarPinned.value) sidebarHovered.value = false
 }
 onMounted(() => {
+    // sidebarExpanded is already permanently true on Desktop; these listeners
+    // would just track a hover state nothing ever reads.
+    if (isDesktopApp) {
+        // Belt-and-suspenders: the main-content div above is the one scrolling
+        // surface on Desktop (h-screen + overflow-y-auto); locking the actual
+        // document/window here rules out the whole-window scroll/rubber-band
+        // bounce a real app window shouldn't have, even if some page's own
+        // markup pushes past the viewport height.
+        document.documentElement.style.overflow = 'hidden'
+        document.body.style.overflow = 'hidden'
+        return
+    }
     document.addEventListener('mousemove', handleGlobalMouseMove)
     document.addEventListener('mouseleave', handleMouseLeaveWindow)
 })
 onUnmounted(() => {
+    if (isDesktopApp) return
     document.removeEventListener('mousemove', handleGlobalMouseMove)
     document.removeEventListener('mouseleave', handleMouseLeaveWindow)
 })
@@ -1376,8 +1529,25 @@ async function logout() {
     try {
         const response = await authService.logout()
         if (response) {
-            localStorage.removeItem("_token")
+            clearSessionToken()
             localStorage.removeItem("rememberMe")
+            // A plain logout should end any impersonation state along with the
+            // session too, not just leave it for the next login on this browser
+            // to inherit.
+            localStorage.removeItem("_original_token")
+            // Defense-in-depth (Phase 1 security): these fields aren't persisted
+            // to localStorage any more (see store/citizen.js, store/employee.js),
+            // but ssr:false navigateTo() below is a client-side route change, not
+            // a reload - the in-memory store instances survive it. Clearing them
+            // here stops the previous user's data lingering in memory into the
+            // next login on the same tab (e.g. a shared/kiosk machine).
+            userStore.resetUser()
+            userStore.resetIsLoggedIn()
+            citizenStore.setSelectedCitizen({})
+            employeeStore.setSelectedEmployee({})
+            departmentStore.resetSelectedDepartment()
+            departmentStore.resetSelectedDepartmentColor()
+            departmentStore.resetSelectedDepartmentName()
             // So the Obiyen chat bubble starts hidden again on next login, even
             // within the same tab (logout navigates client-side, so the plugin's
             // one-time boot logic doesn't get a chance to re-run and hide it).

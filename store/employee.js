@@ -2,7 +2,14 @@ import { defineStore } from 'pinia'
 
 export const useEmployeeStore = defineStore('employeeStore',
     {
-        persist: true,
+        // selectedEmployee deliberately excluded (Phase 1 security fix): it holds
+        // the full employee record - email/phone/address/emergency contact/
+        // permissions - fetched fresh whenever a profile is opened, with no
+        // product requirement to survive a browser restart. Only the list-view
+        // UI prefs below are worth persisting.
+        persist: {
+            paths: ['currentPageLength', 'currentPageNumber', 'sortData'],
+        },
         state: () => ({
             currentPageLength: 10,
             currentPageNumber: 1,

@@ -360,7 +360,12 @@ async function login() {
 				if (response.data?.user?.is_google_2fa_enabled) {
 					state.modal.isGoogle2faVerificationOpen = true
 				} else {
-					localStorage.setItem("_token", response.data?.token)
+					setSessionToken(response.data?.token)
+					// A stray _original_token from a past impersonation session that
+					// never went through "Log out as client" (plain logout, a 401,
+					// closing the tab) must not carry over into a fresh, non-impersonated
+					// login and make the impersonation banner show for the wrong session.
+					localStorage.removeItem("_original_token")
 					departmentStore.resetSelectedDepartment()
 					departmentStore.resetSelectedDepartmentColor()
 					departmentStore.resetSelectedDepartmentName()

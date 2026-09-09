@@ -1,4 +1,5 @@
 import APIError from '@/components/api/user/APIError'
+import { clearSessionToken } from '@/composables/useDesktopToken'
 
 class BaseAPIService {
     // Shared across every service instance, so two different services asking for
@@ -454,8 +455,13 @@ class BaseAPIService {
     }
 
     revokeAccess() {
-        localStorage.removeItem("_token")
+        clearSessionToken()
         localStorage.removeItem("rememberMe")
+        // If this 401 happened mid-impersonation (e.g. the backend revoked all of
+        // the impersonated user's tokens), don't leave _original_token stranded -
+        // it would make the impersonation banner show for whoever logs in next
+        // on this browser, impersonated or not.
+        localStorage.removeItem("_original_token")
 
         // A page fires several requests in parallel (sidebar counts, lists, the
         // page's own data), so an expired session 401s several times at once.
