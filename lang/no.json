@@ -8437,7 +8437,9 @@
                 "permissionDenied": "Tilgang til posisjon ble avvist. Tillat posisjon i nettleserens innstillinger.",
                 "startFailed": "Turen kunne ikke startes",
                 "stopFailed": "Turen kunne ikke avsluttes — prøv igjen",
-                "unsupported": "Nettleseren din støtter ikke posisjonstjenester"
+                "unsupported": "Nettleseren din støtter ikke posisjonstjenester",
+                "uploadDegraded": "Noen GPS-punkter er ennå ikke lagret — hold denne fanen åpen",
+                "uploadIncomplete": "Noen GPS-punkter ble ikke lagret — distansen for denne turen kan være lavere enn du kjørte"
             },
             "gpsPaused": "GPS pauset",
             "gpsPausedHint": "Ingen posisjon på {minutes} min. Åpne appen igjen for å fortsette.",

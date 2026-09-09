@@ -55,6 +55,8 @@ const LOG_INTERVAL_MS = 30000
 const MIN_MOVEMENT_METERS = 10
 const MAX_ACCURACY_METERS = 50 // drop fixes worse than this — the highest-leverage jitter fix
 const GPS_STALE_AFTER_MS = 90000 // no fix for this long -> "GPS paused" chip
+const MAX_POINTS_PER_BATCH = 500 // CitizenCareHourLocationLogBatchStoreRequest caps `points` at 500
+const MAX_CONSECUTIVE_FLUSH_FAILURES = 3 // after this many failed flushes in a row, surface it
 
 // --- module-level singleton state -----------------------------------------
 const status = ref<TrackingStatus>('idle')
@@ -68,6 +70,10 @@ const startAddress = ref<string | null>(null)
 const citizenUuid = ref<string | null>(null)
 const trackingError = ref<string | null>(null)
 const isBusy = ref(false) // true while start()/stop()/cancel() are in flight
+// Consecutive failed flushBuffer() calls. Reset to 0 on the first success;
+// once it reaches MAX_CONSECUTIVE_FLUSH_FAILURES, status flips to
+// 'tracking-degraded' with a localized trackingError — see flushBuffer().
+let consecutiveFlushFailures = 0
 // Bumped at the start of start()/stop()/cancel(). reconcile() snapshots this
 // before its GET /active call and discards its result if the number has
 // since moved on — otherwise a reconcile() issued on page load (before any
@@ -107,6 +113,11 @@ let clockIntervalId: ReturnType<typeof setInterval> | null = null
 let lastLoggedPoint: { lat: number; lng: number } | null = null
 let wakeLock: any = null
 let listenersBound = false
+// Set from the most recent useMileageTracking(t) call. flushBuffer() runs off
+// a module-level setInterval (see startWatching()), outside any component's
+// setup context, so it has no `t` of its own to localize trackingError with —
+// this is the same t every mounted component already passes in.
+let activeTranslate: ((key: string) => string) | undefined
 
 function persist() {
     if (typeof window === 'undefined') return
@@ -172,6 +183,7 @@ function resetState() {
     citizenUuid.value = null
     trackingError.value = null
     lastKnownPosition.value = null
+    consecutiveFlushFailures = 0
     clearPersisted()
 }
 
@@ -196,6 +208,14 @@ function releaseWakeLock() {
     wakeLock = null
 }
 
+function localizeGlobal(key: string, fallback: string) {
+    try {
+        return activeTranslate ? activeTranslate(key) : fallback
+    } catch {
+        return fallback
+    }
+}
+
 function distanceTrackedMeters(): number {
     if (points.value.length < 2) return 0
     let total = 0
@@ -205,22 +225,72 @@ function distanceTrackedMeters(): number {
     return total
 }
 
-async function flushBuffer() {
-    if (!activeTrip.value?.uuid) return
-    const unflushed = points.value.slice(lastFlushedIndex.value)
-    if (unflushed.length === 0) return
-
-    try {
-        await citizenCareHourLocationLogService.logLocationBatch({
-            citizen_care_hour_uuid: activeTrip.value.uuid,
-            points: unflushed.map((p) => ({ latitude: p.lat, longitude: p.lng, recorded_at: p.recordedAt })),
-        })
-        lastFlushedIndex.value = points.value.length
-        persist()
-    } catch {
-        // Left in the buffer — will retry on the next flush trigger (interval,
-        // visibility change, or online event).
+/**
+ * Uploads `batch` in chronological 500-point slices (the server rejects the
+ * whole request over that cap — CitizenCareHourLocationLogBatchStoreRequest).
+ * Stops at the first slice that fails rather than skipping ahead: the points
+ * are chronological, and sending a later slice after a failed one would punch
+ * a hole in the middle of the trail the backend sums into a distance. Returns
+ * how many leading points were actually accepted, so the caller can advance
+ * its watermark by exactly that — never by the buffer's current length.
+ */
+async function uploadPoints(tripUuid: string, batch: BufferedPoint[]): Promise<number> {
+    let accepted = 0
+    for (let i = 0; i < batch.length; i += MAX_POINTS_PER_BATCH) {
+        const slice = batch.slice(i, i + MAX_POINTS_PER_BATCH)
+        try {
+            await citizenCareHourLocationLogService.logLocationBatch({
+                citizen_care_hour_uuid: tripUuid,
+                points: slice.map((p) => ({ latitude: p.lat, longitude: p.lng, recorded_at: p.recordedAt })),
+            })
+        } catch {
+            return accepted
+        }
+        accepted += slice.length
     }
+    return accepted
+}
+
+async function flushBuffer(): Promise<number> {
+    if (!activeTrip.value?.uuid) return 0
+    // Snapshotted here, before the await below — onPosition() keeps pushing
+    // into points.value for as long as the request is in flight, since the
+    // geolocation watcher is still running. Advancing the watermark by
+    // `accepted` (what uploadPoints() actually sent) rather than by
+    // points.value.length afterwards is what keeps those points from being
+    // marked flushed without ever having been uploaded.
+    const unflushed = points.value.slice(lastFlushedIndex.value)
+    if (unflushed.length === 0) return 0
+
+    const accepted = await uploadPoints(activeTrip.value.uuid, unflushed)
+    lastFlushedIndex.value += accepted
+    persist()
+
+    if (accepted === unflushed.length) {
+        // Only clear status/trackingError if this flush is the thing that had
+        // set them — a stale upload alert must go, but an unrelated error
+        // (e.g. a failed stop()) sitting in the same ref must not be wiped by
+        // an unrelated background flush succeeding underneath it.
+        if (consecutiveFlushFailures >= MAX_CONSECUTIVE_FLUSH_FAILURES) {
+            if (status.value === 'tracking-degraded') status.value = 'tracking'
+            trackingError.value = null
+        }
+        consecutiveFlushFailures = 0
+    } else {
+        // Left in the buffer — will retry on the next flush trigger (interval,
+        // visibility change, or online event). Don't alert on a single miss:
+        // one dropped request on a mobile connection is normal and self-heals.
+        consecutiveFlushFailures++
+        if (consecutiveFlushFailures >= MAX_CONSECUTIVE_FLUSH_FAILURES) {
+            status.value = 'tracking-degraded'
+            trackingError.value = localizeGlobal(
+                'mileageLog.tracking.errors.uploadDegraded',
+                "Some GPS points haven't been saved yet — keep this tab open"
+            )
+        }
+    }
+
+    return accepted
 }
 
 function onPosition(position: GeolocationPosition) {
@@ -330,6 +400,7 @@ function bindLifecycleListeners() {
 
 export function useMileageTracking(t?: (key: string) => string) {
     bindLifecycleListeners()
+    if (t) activeTranslate = t // see activeTranslate's declaration — flushBuffer() needs this outside setup context
 
     const { getPosition, reverseGeocode, getLocationAndAddress } = useLocationHelper(t)
 
@@ -547,7 +618,17 @@ export function useMileageTracking(t?: (key: string) => string) {
         status.value = 'stopping'
 
         try {
-            await flushBuffer()
+            const pendingBeforeFinalFlush = points.value.length - lastFlushedIndex.value
+            const accepted = await flushBuffer()
+            if (accepted < pendingBeforeFinalFlush) {
+                // Mirrors the mobile app's toast on a failed final flush before
+                // /stop — the trip is still saved, just with a shorter tracked
+                // distance than what was actually driven.
+                trackingError.value = localize(
+                    'mileageLog.tracking.errors.uploadIncomplete',
+                    'Some GPS points were not saved — the distance for this trip may be lower than you drove'
+                )
+            }
             const position = await getPosition({ enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 }).catch(() => null)
             const lat = position?.coords.latitude ?? startCoords.value?.lat
             const lng = position?.coords.longitude ?? startCoords.value?.lng
