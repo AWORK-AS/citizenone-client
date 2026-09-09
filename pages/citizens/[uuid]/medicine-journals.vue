@@ -489,6 +489,13 @@
                                                 <Icon name="ph:files" class="size-4" />
                                             </button>
                                         </Tooltip>
+                                        <Tooltip :text="$t('citizens.medicineJournals.table.actions.pouringHistory')">
+                                            <button :aria-label="$t('citizens.medicineJournals.table.actions.pouringHistory')" type="button"
+                                                class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                                @click="viewPouringHistory(medicine)">
+                                                <Icon name="ph:clock-counter-clockwise" class="size-4" />
+                                            </button>
+                                        </Tooltip>
                                         <Tooltip v-if="medicine?.is_editable && (isAtLeast('Admin') || can('update_citizen_medicine'))"
                                             :text="$t('citizens.medicineJournals.table.actions.edit')">
                                             <button :aria-label="$t('citizens.medicineJournals.table.actions.edit')" type="button"
@@ -634,11 +641,25 @@
                                         <Icon name="ph:plus" class="size-3" />
                                         {{ $t('citizens.medicineJournals.page.givePN') }}
                                     </FormButton>
+                                    <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')">
+                                        <button :aria-label="$t('citizens.medicineJournals.table.actions.view')" type="button"
+                                            class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                            @click="viewMedicine(medicine)">
+                                            <Icon name="ph:eye" class="size-4" />
+                                        </button>
+                                    </Tooltip>
                                     <button type="button"
                                         class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                                         @click="viewMedicineHistory(medicine)">
                                         <Icon name="ph:files" class="size-4" />
                                     </button>
+                                    <Tooltip :text="$t('citizens.medicineJournals.table.actions.pouringHistory')">
+                                        <button :aria-label="$t('citizens.medicineJournals.table.actions.pouringHistory')" type="button"
+                                            class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                            @click="viewPouringHistory(medicine)">
+                                            <Icon name="ph:clock-counter-clockwise" class="size-4" />
+                                        </button>
+                                    </Tooltip>
                                     <button v-if="medicine?.is_editable && (isAtLeast('Admin') || can('update_citizen_medicine'))" type="button"
                                         class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                                         @click="editMedicine(medicine)">
@@ -1042,6 +1063,13 @@
                                                     <Icon name="ph:files" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('citizens.medicineJournals.table.actions.pouringHistory')"
+                                                position="left">
+                                                <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.pouringHistory')" type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewPouringHistory(medicine)">
+                                                    <Icon name="ph:clock-counter-clockwise" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip v-if="medicine?.is_editable && (isAtLeast('Admin') || can('update_citizen_medicine'))"
                                                 :text="$t('citizens.medicineJournals.table.actions.edit')"
                                                 position="left">
@@ -1121,6 +1149,9 @@
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
                     @close="state.modal.isDownloadMedicineOverviewOpen = false" />
+                <ModulesUserCitizenMedicinePouringModalPouringHistory
+                    :isModalOpen="state.modal.isViewPouringHistoryOpen" :selectedMedicine="state.selectedMedicine"
+                    @close="state.modal.isViewPouringHistoryOpen = false" />
                 <ModulesUserCitizenMedicineModalNewPouring :isModalOpen="state.modal.isNewPouringOpen"
                     :medicines="allMedicines" :preselectedMedicineUuid="state.pouringPreselectedMedicineUuid"
                     @close="closeNewPouringModal" @refreshMedicines="fetchCitizenMedicines" />
@@ -1277,6 +1308,7 @@ const state = reactive({
         isNewPlannedDeliveryOpen: false,
         isViewMedicineOpen: false,
         isViewMedicineHistoryOpen: false,
+        isViewPouringHistoryOpen: false,
     },
     pouringPreselectedMedicineUuid: null as string | null,
     selectedMedicine: {} as any,
@@ -2041,6 +2073,11 @@ function giveFromWarning() {
 function viewMedicineHistory(medicine: any) {
     state.selectedMedicine = medicine
     state.modal.isViewMedicineHistoryOpen = true
+}
+
+function viewPouringHistory(medicine: any) {
+    state.selectedMedicine = medicine
+    state.modal.isViewPouringHistoryOpen = true
 }
 
 function editMedicine(medicine: any) {

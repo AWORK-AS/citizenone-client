@@ -101,7 +101,11 @@
                             <span class="font-semibold">
                                 {{ $t('citizens.medicineJournals.form.packageLeafletLink') }}:
                             </span>
-                            {{ state.selectedMedicine?.package_leaflet_link }}
+                            <a v-if="state.selectedMedicine?.package_leaflet_link"
+                                :href="state.selectedMedicine?.package_leaflet_link" target="_blank"
+                                rel="noopener" class="text-tertiary hover:text-tertiary-800 underline">
+                                {{ state.selectedMedicine?.package_leaflet_link }}
+                            </a>
                         </p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
                             <p>
