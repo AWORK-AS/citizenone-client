@@ -1913,8 +1913,10 @@
                     "access": "Access",
                     "archive": "Archive",
                     "delete": "Delete",
+                    "download": "Download",
                     "edit": "Edit",
                     "move": "Move",
+                    "openSelected": "Open selected",
                     "share": "Share",
                     "statuses": "Statuses",
                     "unshare": "Unshare",
@@ -2095,6 +2097,7 @@
             "region": "Region",
             "requiresInterpreter": "Interpreter required",
             "requiresInterpreterDescription": "Tick this if an interpreter is needed for conversations with the @:terms.citizen{''}.",
+            "interventionType": "Intervention type",
             "responsibleMunicipality": "Responsible municipality",
             "room": "Room",
             "section": "Section",
@@ -3215,6 +3218,10 @@
                     "plansAndGoals": "Plans and goals"
                 },
                 "view": "View"
+            },
+            "columns": {
+                "columns": "Columns",
+                "hint": "Choose which columns to show in the overview."
             },
             "department": "Department",
             "email": "Email",
@@ -6614,6 +6621,22 @@
             "substitute": "​Substitute",
             "temporary": "​Temporary"
         },
+        "certificates": {
+            "certificates": "Certificates",
+            "columns": {
+                "employee": "Employee",
+                "type": "Type",
+                "expiresAt": "Expires",
+                "status": "Status"
+            },
+            "statuses": {
+                "expired": "Expired",
+                "expiring_soon": "Expiring soon",
+                "valid": "Valid",
+                "no_expiry": "No expiry date"
+            },
+            "empty": "No certificates found"
+        },
         "exportEmployees": "Export employees",
         "form": {
             "address": "Address",
@@ -9827,7 +9850,9 @@
             "level": "Level",
             "selectAll": "Select all",
             "clearAll": "Clear all",
-            "noPermissionsMatch": "No permissions match \"{search}\"."
+            "noPermissionsMatch": "No permissions match \"{search}\".",
+            "employeeGroups": "Employee groups",
+            "noEmployeeGroups": "No employee groups created yet."
         },
         "newRole": "New role",
         "permissions": {

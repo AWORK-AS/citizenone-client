@@ -518,8 +518,11 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
+import { documentBlobViewer } from '@/composables/documentBlobViewer'
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 import { useOneDriveCache } from '@/composables/useOneDriveCache'
+
+const { openBlobInNewTab } = documentBlobViewer()
 const oneDriveService = new OneDriveService()
 const runtimeConfig = useRuntimeConfig()
 
@@ -1322,9 +1325,29 @@ function viewDownloadDocument(document: any) {
     if (['docx', 'pages'].includes(extension)) {
         state.selectedDocument = document
         state.modal.isViewDocumentOpen = true
-    } else {
+    } else if (document?.is_onedrive) {
         downloadFile(document)
+    } else {
+        viewFile(document)
     }
+}
+
+// GDPR ask from the 2026-09-03 superbrugermøde: opening a company document
+// should not force it to disk. Only for locally-hosted files - OneDrive keeps
+// its existing download flow above, which already deals with its own
+// PDF-conversion/webUrl fallbacks.
+async function viewFile(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await documentService.downloadFile(document?.uuid)
+        if (response) {
+            openBlobInNewTab(response)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function openDownloadDocumentPdfDialog(document: any) {

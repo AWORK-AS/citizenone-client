@@ -66,6 +66,7 @@ async function saveRole(roleDetails: any) {
             level: roleDetails.level,
             permission_uuid: roleDetails.permissions,
             page_uuid: roleDetails.page_uuid ?? [],
+            employee_group_uuid: roleDetails.employee_group_uuid ?? [],
         }
         const response = await roleService.saveRole(params)
         if (response.data) {
