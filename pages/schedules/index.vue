@@ -88,16 +88,19 @@
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-green-700 !border-green-700 !text-white hover:!bg-green-800"
                         @click="openZenegySyncModal">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                        <span class="hidden xl:inline">{{ $t('dutySchedules.zenegy_sync') }}</span>
                     </FormButton>
                     <FormButton v-if="state.isSalaryDkConnected" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-blue-600 !border-blue-600 !text-white hover:!bg-blue-700"
                         @click="state.modal.isSalaryDkSyncOpen = true">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                        <span class="hidden xl:inline">{{ $t('dutySchedules.salaryDk_sync') }}</span>
                     </FormButton>
                     <FormButton v-if="state.isDanlonConnected" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-blue-600 !border-blue-600 !text-white hover:!bg-blue-700"
                         @click="state.modal.isDanlonSyncOpen = true">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                        <span class="hidden xl:inline">{{ $t('dutySchedules.danlon_sync') }}</span>
                     </FormButton>
 
                     <!-- Icon-only actions -->
