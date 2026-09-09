@@ -9845,7 +9845,9 @@
             "level": "Niveau",
             "selectAll": "Vælg alle",
             "clearAll": "Ryd alle",
-            "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\"."
+            "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
+            "employeeGroups": "Medarbejdergrupper",
+            "noEmployeeGroups": "Ingen medarbejdergrupper oprettet endnu."
         },
         "newRole": "Ny rolle",
         "permissions": {

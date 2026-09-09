@@ -9845,7 +9845,9 @@
             "level": "Level",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
-            "noPermissionsMatch": "Inga behörigheter matchar \"{search}\"."
+            "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
+            "employeeGroups": "Medarbetargrupper",
+            "noEmployeeGroups": "Inga medarbetargrupper skapade än."
         },
         "newRole": "Ny roll",
         "permissions": {

@@ -9845,7 +9845,9 @@
             "level": "Level",
             "selectAll": "Select all",
             "clearAll": "Clear all",
-            "noPermissionsMatch": "No permissions match \"{search}\"."
+            "noPermissionsMatch": "No permissions match \"{search}\".",
+            "employeeGroups": "Employee groups",
+            "noEmployeeGroups": "No employee groups created yet."
         },
         "newRole": "New role",
         "permissions": {
