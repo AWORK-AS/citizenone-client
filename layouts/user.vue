@@ -1046,6 +1046,7 @@ function getNavItemLabel(item: any) {
     if (item.name === 'Economy') return language.t('economy.title')
     if (item.name === 'Inquiries') return language.t('inquiries.inquiries')
     if (item.name === 'Tasks') return language.t('taskBoards.title')
+    if (item.name === 'Staff workload') return language.t('staffWorkloadReport.title')
     return item.name
 }
 
@@ -1149,6 +1150,7 @@ function generateSidebarLinks(user: any) {
             'overview',
             'my-day',
             'statistics',
+            'overview-google-drive',
         ]
     })
     if (isAtLeast('Admin') && !discoverCompleted.value) {
@@ -1289,6 +1291,10 @@ function generateSidebarLinks(user: any) {
                 'reports-uuid-edit',
             ]
         })
+    }
+
+    if (isAtLeast('Admin') && user?.pages?.some((page: any) => page.name === 'Staff workload')) {
+        nav.push({ name: 'Staff workload', href: '/reports/staff-workload', icon: 'ph:chart-bar', group: 'documentation', activeRouteNames: ['reports-staff-workload'] })
     }
 
     // The board announces things to the whole house, so it gets a megaphone

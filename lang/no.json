@@ -13,6 +13,17 @@
         },
         "title": "Utbetalinger av avspasering"
     },
+    "staffWorkloadReport": {
+        "title": "Medarbeiderbelastning",
+        "description": "Antall risikovurderinger registrert per ansatt i den valgte perioden. Mange gule eller røde vurderinger over tid kan være et tegn på arbeidspress, ikke bare brukerens situasjon.",
+        "table": {
+            "employee": "Ansatt",
+            "noRisk": "Ingen risiko",
+            "increasedRisk": "Økt risiko",
+            "acuteIncreasedRisk": "Akutt økt risiko",
+            "total": "Totalt"
+        }
+    },
     "inquiryPipeline": {
         "board": "Henvendelses-pipeline",
         "enableLabel": "Henvendelses-pipeline (kanban)",
@@ -1484,6 +1495,16 @@
             "thisMonth": "Denne måneden",
             "thisYear": "Dette året"
         },
+        "riskHistory": {
+            "title": "Risikovurdering over tid",
+            "period1": "Siste måned",
+            "period3": "Siste 3 måneder",
+            "period6": "Siste 6 måneder",
+            "noRisk": "Ingen risiko",
+            "increasedRisk": "Økt risiko",
+            "acuteIncreasedRisk": "Akutt økt risiko",
+            "notEnoughData": "Ikke nok data til å vise en utvikling ennå."
+        },
         "addictions": "Rusmisbruk",
         "address": "Adresse",
         "alert": {
@@ -2442,6 +2463,36 @@
                 "recordDosageChange": "Opp- / nedtrapp dosering",
                 "type": "Endringstype"
             },
+            "taperingSchedule": {
+                "alert": {
+                    "successfullyCreated": "Nedtrappingsplan opprettet",
+                    "successfullyDeleted": "Nedtrappingsplan slettet",
+                    "successfullyDeletedStep": "Trinn slettet"
+                },
+                "addStep": "Legg til trinn",
+                "buildSchedule": "Opprett nedtrappingsplan",
+                "confirmDeleteSchedule": "Er du sikker på at du vil slette denne nedtrappingsplanen",
+                "confirmDeleteStep": "Er du sikker på at du vil slette dette trinnet",
+                "generateSteps": "Generer trinn",
+                "intervalWeeks": "Intervall (uker)",
+                "noSchedulesRecorded": "Ingen nedtrappingsplaner registrert ennå",
+                "noStepsAdded": "Ingen trinn lagt til ennå",
+                "planReason": "Årsak",
+                "planReasonPlaceholder": "Hvorfor opprettes denne nedtrappingsplanen?",
+                "statusApplied": "Anvendt",
+                "statusCompleted": "Fullført",
+                "statusInProgress": "Pågår",
+                "statusPending": "Venter",
+                "stepEffectiveDate": "Ikrafttredelsesdato",
+                "stepMaxDailyDose": "Ny maksimal daglig dose",
+                "stepNumber": "Trinn",
+                "stepReason": "Årsak",
+                "stepStrength": "Ny styrke",
+                "stepType": "Endringstype",
+                "steps": "Trinn",
+                "totalDurationWeeks": "Total varighet (uker)",
+                "viewSchedule": "Se plan"
+            },
             "download": "Last ned",
             "downloadOverview": "Last ned oversigt",
             "editMedicine": "Rediger Medisin",
@@ -2864,7 +2915,8 @@
                 "weeklyRotation": "Ukentlig rotasjonsplan",
                 "startWeekday": "Starter på",
                 "repeatsUntil": "Gjentas til",
-                "indefinitely": "På ubestemt tid"
+                "indefinitely": "På ubestemt tid",
+                "taperingSchedule": "Nedtrappingsplan"
             }
         },
         "newCitizen": "Ny {citizen}",
@@ -8912,6 +8964,7 @@
         "overview": "Oversigt",
         "previousDay": "Forrige dag",
         "statisticsTab": "Statistikk",
+        "googleDriveTab": "Google Drive",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistikk",
             "plansAndGoals": "Planer og mål",
@@ -10146,6 +10199,14 @@
                     "full": "Full",
                     "half": "Halv",
                     "off": "Av"
+                },
+                "holidayDeductionHours": "Timer som trekkes fra per helligdag",
+                "holidayDeductionHoursHint": "La stå tomt for å beregne automatisk ut fra den enkelte ansattes årsnorm",
+                "applySpecialWorkedHolidayRule": "Bruk spesialregel hvis den ansatte jobber på en helligdag",
+                "workedHolidayRule": {
+                    "no_deduction": "Ingen automatisk fratrekk",
+                    "deduction_applies": "Fratrekk gjelder fortsatt",
+                    "custom": "Egendefinert (konfigureres separat)"
                 },
                 "terminology": "Ordliste",
                 "terminologyHint": "Tilpass betegnelsene for journaler. Tomt felt = standard.",

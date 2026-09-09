@@ -13,6 +13,17 @@
         },
         "title": "Compensatory time payouts"
     },
+    "staffWorkloadReport": {
+        "title": "Staff workload",
+        "description": "Number of risk assessments logged per employee in the selected period. Many yellow or red assessments over time can signal work strain, not only the citizen's situation.",
+        "table": {
+            "employee": "Employee",
+            "noRisk": "No risk",
+            "increasedRisk": "Increased risk",
+            "acuteIncreasedRisk": "Acute increased risk",
+            "total": "Total"
+        }
+    },
     "inquiryPipeline": {
         "board": "Inquiry pipeline",
         "enableLabel": "Inquiry pipeline (kanban)",
@@ -1484,6 +1495,16 @@
             "thisMonth": "This month",
             "thisYear": "This year"
         },
+        "riskHistory": {
+            "title": "Risk assessment over time",
+            "period1": "Last month",
+            "period3": "Last 3 months",
+            "period6": "Last 6 months",
+            "noRisk": "No risk",
+            "increasedRisk": "Increased risk",
+            "acuteIncreasedRisk": "Acute increased risk",
+            "notEnoughData": "Not enough data yet to show a trend."
+        },
         "addictions": "Substance abuse",
         "address": "Address",
         "alert": {
@@ -2442,6 +2463,36 @@
                 "recordDosageChange": "Escalate / de-escalate dosage",
                 "type": "Change type"
             },
+            "taperingSchedule": {
+                "alert": {
+                    "successfullyCreated": "Tapering schedule created",
+                    "successfullyDeleted": "Tapering schedule deleted",
+                    "successfullyDeletedStep": "Step deleted"
+                },
+                "addStep": "Add step",
+                "buildSchedule": "Build tapering schedule",
+                "confirmDeleteSchedule": "Are you sure you want to delete this tapering schedule",
+                "confirmDeleteStep": "Are you sure you want to delete this step",
+                "generateSteps": "Generate steps",
+                "intervalWeeks": "Interval (weeks)",
+                "noSchedulesRecorded": "No tapering schedules recorded yet",
+                "noStepsAdded": "No steps added yet",
+                "planReason": "Reason",
+                "planReasonPlaceholder": "Why is this tapering schedule being created?",
+                "statusApplied": "Applied",
+                "statusCompleted": "Completed",
+                "statusInProgress": "In progress",
+                "statusPending": "Pending",
+                "stepEffectiveDate": "Effective date",
+                "stepMaxDailyDose": "New max daily dose",
+                "stepNumber": "Step",
+                "stepReason": "Reason",
+                "stepStrength": "New strength",
+                "stepType": "Change type",
+                "steps": "Steps",
+                "totalDurationWeeks": "Total duration (weeks)",
+                "viewSchedule": "View schedule"
+            },
             "download": "Download",
             "downloadOverview": "Download overview",
             "editMedicine": "Edit medicine",
@@ -2864,7 +2915,8 @@
                 "repeatsUntil": "Repeats until",
                 "indefinitely": "Indefinitely",
                 "expired": "Expired",
-                "expiredTooltip": "This medication has expired"
+                "expiredTooltip": "This medication has expired",
+                "taperingSchedule": "Tapering schedule"
             }
         },
         "newCitizen": "New {citizen}",
@@ -8912,6 +8964,7 @@
         "overview": "Overview",
         "previousDay": "Previous day",
         "statisticsTab": "Statistics",
+        "googleDriveTab": "Google Drive",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Goals statistics",
             "plansAndGoals": "Plans and goals",
@@ -10146,6 +10199,14 @@
                     "full": "Full",
                     "half": "Half",
                     "off": "Off"
+                },
+                "holidayDeductionHours": "Hours deducted per public holiday",
+                "holidayDeductionHoursHint": "Leave blank to calculate automatically from each employee's annual norm hours",
+                "applySpecialWorkedHolidayRule": "Apply special rule if employee works on a public holiday",
+                "workedHolidayRule": {
+                    "no_deduction": "No automatic deduction",
+                    "deduction_applies": "Deduction still applies",
+                    "custom": "Custom (configured separately)"
                 },
                 "terminology": "Word list",
                 "terminologyHint": "Customise the journal terms. Leave a field blank to use the default.",

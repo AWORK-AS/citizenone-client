@@ -20,10 +20,15 @@
             @click="active !== 'discover' && navigateTo('/discover')">
             {{ $t('discover.title') }}
         </span>
+        <span class="transition-colors"
+            :class="active === 'google-drive' ? 'text-primary border-b-2 border-primary pb-1 font-semibold cursor-default' : 'text-slate-400 hover:text-slate-600 cursor-pointer mb-1.5'"
+            @click="active !== 'google-drive' && navigateTo('/overview/google-drive')">
+            {{ $t('overview.googleDriveTab') }}
+        </span>
     </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{ active: 'overview' | 'my-day' | 'statistics' | 'discover' }>()
+defineProps<{ active: 'overview' | 'my-day' | 'statistics' | 'discover' | 'google-drive' }>()
 const { completed: discoverCompleted } = useDiscoverDone()
 </script>

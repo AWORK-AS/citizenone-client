@@ -13,6 +13,17 @@
         },
         "title": "Utbetalningar av kompensationstid"
     },
+    "staffWorkloadReport": {
+        "title": "Personalbelastning",
+        "description": "Antal riskbedömningar registrerade per medarbetare under vald period. Många gula eller röda bedömningar över tid kan vara ett tecken på arbetsbelastning, inte bara klientens situation.",
+        "table": {
+            "employee": "Medarbetare",
+            "noRisk": "Ingen risk",
+            "increasedRisk": "Ökad risk",
+            "acuteIncreasedRisk": "Akut ökad risk",
+            "total": "Totalt"
+        }
+    },
     "inquiryPipeline": {
         "board": "Förfrågningspipeline",
         "enableLabel": "Förfrågningspipeline (kanban)",
@@ -1484,6 +1495,16 @@
             "thisMonth": "Denna månad",
             "thisYear": "Detta år"
         },
+        "riskHistory": {
+            "title": "Riskbedömning över tid",
+            "period1": "Senaste månaden",
+            "period3": "Senaste 3 månaderna",
+            "period6": "Senaste 6 månaderna",
+            "noRisk": "Ingen risk",
+            "increasedRisk": "Ökad risk",
+            "acuteIncreasedRisk": "Akut ökad risk",
+            "notEnoughData": "Inte tillräckligt med data för att visa en utveckling ännu."
+        },
         "addictions": "Substansmissbruk",
         "address": "Adress",
         "alert": {
@@ -2442,6 +2463,36 @@
                 "recordDosageChange": "Trappa upp/ner dosering",
                 "type": "Ändringstyp"
             },
+            "taperingSchedule": {
+                "alert": {
+                    "successfullyCreated": "Nedtrappningsplan skapad",
+                    "successfullyDeleted": "Nedtrappningsplan borttagen",
+                    "successfullyDeletedStep": "Steg borttaget"
+                },
+                "addStep": "Lägg till steg",
+                "buildSchedule": "Skapa nedtrappningsplan",
+                "confirmDeleteSchedule": "Är du säker på att du vill ta bort denna nedtrappningsplan",
+                "confirmDeleteStep": "Är du säker på att du vill ta bort detta steg",
+                "generateSteps": "Generera steg",
+                "intervalWeeks": "Intervall (veckor)",
+                "noSchedulesRecorded": "Inga nedtrappningsplaner registrerade ännu",
+                "noStepsAdded": "Inga steg tillagda ännu",
+                "planReason": "Anledning",
+                "planReasonPlaceholder": "Varför skapas denna nedtrappningsplan?",
+                "statusApplied": "Tillämpad",
+                "statusCompleted": "Slutförd",
+                "statusInProgress": "Pågår",
+                "statusPending": "Väntar",
+                "stepEffectiveDate": "Ikraftträdandedatum",
+                "stepMaxDailyDose": "Ny maximal daglig dos",
+                "stepNumber": "Steg",
+                "stepReason": "Anledning",
+                "stepStrength": "Ny styrka",
+                "stepType": "Ändringstyp",
+                "steps": "Steg",
+                "totalDurationWeeks": "Total varaktighet (veckor)",
+                "viewSchedule": "Visa plan"
+            },
             "download": "Ladda ner",
             "downloadOverview": "Ladda ner översikt",
             "editMedicine": "Redigera Medicin",
@@ -2864,7 +2915,8 @@
                 "weeklyRotation": "Veckorotationsschema",
                 "startWeekday": "Börjar på",
                 "repeatsUntil": "Upprepas till",
-                "indefinitely": "På obestämd tid"
+                "indefinitely": "På obestämd tid",
+                "taperingSchedule": "Nedtrappningsplan"
             }
         },
         "newCitizen": "Ny {citizen}",
@@ -8912,6 +8964,7 @@
         "overview": "Översikt",
         "previousDay": "Föregående dag",
         "statisticsTab": "Statistik",
+        "googleDriveTab": "Google Drive",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistik",
             "plansAndGoals": "Planer och mål",
@@ -10146,6 +10199,14 @@
                     "full": "Hel",
                     "half": "Halv",
                     "off": "Av"
+                },
+                "holidayDeductionHours": "Timmar som dras av per helgdag",
+                "holidayDeductionHoursHint": "Lämna tomt för att beräkna automatiskt utifrån varje anställds årsnorm",
+                "applySpecialWorkedHolidayRule": "Använd specialregel om medarbetaren arbetar på en helgdag",
+                "workedHolidayRule": {
+                    "no_deduction": "Inget automatiskt avdrag",
+                    "deduction_applies": "Avdrag gäller fortfarande",
+                    "custom": "Anpassad (konfigureras separat)"
                 },
                 "terminology": "Ordlista",
                 "terminologyHint": "Anpassa termerna för journaler. Lämna tomt för standard.",

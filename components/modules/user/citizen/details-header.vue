@@ -10,17 +10,19 @@
                 ]">
                     <div class="md:flex md:items-start md:gap-x-8">
                         <div class="flex justify-center flex-shrink-0">
-                            <div class="relative">
-                                <img :src="state.selectedCitizen?.data?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`"
-                                    :class="[
-                                        state.selectedCitizen?.data?.latest_risk_assessment === null && 'border-secondary',
-                                        state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
-                                        state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
-                                        state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
-                                        'rounded-full w-28 h-28 object-cover border-2'
-                                    ]" />
-                                <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
-                            </div>
+                            <Tooltip :text="$t('citizens.riskHistory.title')">
+                                <button type="button" class="relative" @click="state.modal.isRiskHistoryOpen = true">
+                                    <img :src="state.selectedCitizen?.data?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`"
+                                        :class="[
+                                            state.selectedCitizen?.data?.latest_risk_assessment === null && 'border-secondary',
+                                            state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
+                                            state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
+                                            state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
+                                            'rounded-full w-28 h-28 object-cover border-2'
+                                        ]" />
+                                    <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
+                                </button>
+                            </Tooltip>
                         </div>
                         <div class="w-full pt-1.5 space-y-3">
                             <div class="text-center md:text-left">
@@ -423,6 +425,8 @@
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
             <ModulesUserCitizenDevelopmentGraphModalView :isModalOpen="state.modal.isDevelopmentGraphOpen"
                 @close="state.modal.isDevelopmentGraphOpen = false" />
+            <ModulesUserCitizenRiskHistoryModalView :isModalOpen="state.modal.isRiskHistoryOpen"
+                :citizenUuid="citizenUuid" @close="state.modal.isRiskHistoryOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
                 @open-work="workLogin" />
@@ -506,6 +510,7 @@ const state = reactive({
         isConfirmWorkingOpen: false,
         isDevelopmentGraphOpen: false,
         isEmploymentProgramOpen: false,
+        isRiskHistoryOpen: false,
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,
