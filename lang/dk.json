@@ -2520,6 +2520,8 @@
                 "maxDailyDose": "Maksimal daglig dosis",
                 "maxDosagePerTime": "Maksimal dosis pr. gang",
                 "maximumDosePerAdministration": "Maksimal dosis pr. administration",
+                "pnMinimumIntervalMinutes": "Minimumsinterval mellem doser (minutter)",
+                "pnMinimumIntervalMinutesPlaceholder": "Lad stå tomt for at bruge standarden (4 timer)",
                 "medicationTypes": {
                     "all": "Alle",
                     "medicationType": "Medicin type",
@@ -2762,6 +2764,11 @@
                     "successfullyAdded": "Dosering oprettet"
                 }
             },
+            "pouringHistory": {
+                "title": "Doseringshistorik",
+                "noPourings": "Der er endnu ikke registreret nogen doseringer for denne medicin.",
+                "remainingStock": "Resterende i beholder"
+            },
             "plannedDelivery": {
                 "activeIngredient": "Aktivt stof",
                 "amount": "Mængde udleveret",
@@ -2878,6 +2885,7 @@
                     "giveMedicine": "Giv medicin",
                     "givePNMedicine": "Giv PN-medicin",
                     "medicineHistory": "Medicinhistorik",
+                    "pouringHistory": "Doseringshistorik",
                     "view": "Se"
                 },
                 "activeIngredients": "Indholdsstoffer",

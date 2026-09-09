@@ -2520,6 +2520,8 @@
                 "maxDailyDose": "Max daily dose",
                 "maxDosagePerTime": "Max dosage per time",
                 "maximumDosePerAdministration": "Maximum dose per administration",
+                "pnMinimumIntervalMinutes": "Minimum interval between doses (minutes)",
+                "pnMinimumIntervalMinutesPlaceholder": "Leave blank to use the default (4 hours)",
                 "medicationTypes": {
                     "all": "All",
                     "medicationType": "Medication type",
@@ -2762,6 +2764,11 @@
                     "successfullyAdded": "Pouring successfully created"
                 }
             },
+            "pouringHistory": {
+                "title": "Pouring history",
+                "noPourings": "No pourings have been registered for this medicine yet.",
+                "remainingStock": "Remaining in container"
+            },
             "plannedDelivery": {
                 "activeIngredient": "Active ingredient",
                 "amount": "Amount delivered",
@@ -2878,6 +2885,7 @@
                     "giveMedicine": "Give medicine",
                     "givePNMedicine": "Give PN medicine",
                     "medicineHistory": "Medicine history",
+                    "pouringHistory": "Pouring history",
                     "view": "View"
                 },
                 "activeIngredients": "Active ingredients",

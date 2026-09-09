@@ -2520,6 +2520,8 @@
                 "maxDailyDose": "Maksimal daglig dos",
                 "maxDosagePerTime": "Maksimal dos pr. gang",
                 "maximumDosePerAdministration": "Maksimal dos pr. administration",
+                "pnMinimumIntervalMinutes": "Minimiintervall mellan doser (minuter)",
+                "pnMinimumIntervalMinutesPlaceholder": "Lämna tomt för att använda standarden (4 timmar)",
                 "medicationTypes": {
                     "all": "Alla",
                     "medicationType": "Medicin typ",
@@ -2762,6 +2764,11 @@
                     "successfullyAdded": "Dosering skapad"
                 }
             },
+            "pouringHistory": {
+                "title": "Doseringshistorik",
+                "noPourings": "Det finns ännu inga registrerade doseringar för denna medicin.",
+                "remainingStock": "Kvar i behållare"
+            },
             "plannedDelivery": {
                 "activeIngredient": "Aktiv substans",
                 "amount": "Mängd levererad",
@@ -2878,6 +2885,7 @@
                     "giveMedicine": "Giv medicin",
                     "givePNMedicine": "Giv PN-medicin",
                     "medicineHistory": "Medicinhistorik",
+                    "pouringHistory": "Doseringshistorik",
                     "view": "Se"
                 },
                 "activeIngredients": "Indholdsstoffer",
