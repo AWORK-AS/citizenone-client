@@ -1372,6 +1372,10 @@ async function logout() {
         if (response) {
             localStorage.removeItem("_token")
             localStorage.removeItem("rememberMe")
+            // A plain logout should end any impersonation state along with the
+            // session too, not just leave it for the next login on this browser
+            // to inherit.
+            localStorage.removeItem("_original_token")
             // So the Obiyen chat bubble starts hidden again on next login, even
             // within the same tab (logout navigates client-side, so the plugin's
             // one-time boot logic doesn't get a chance to re-run and hide it).
