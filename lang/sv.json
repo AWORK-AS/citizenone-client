@@ -8593,7 +8593,9 @@
                 "permissionDenied": "Åtkomst till plats nekades. Tillåt plats i webbläsarens inställningar.",
                 "startFailed": "Resan kunde inte startas",
                 "stopFailed": "Resan kunde inte avslutas — försök igen",
-                "unsupported": "Din webbläsare stöder inte platstjänster"
+                "unsupported": "Din webbläsare stöder inte platstjänster",
+                "uploadDegraded": "Vissa GPS-punkter har ännu inte sparats — håll fliken öppen",
+                "uploadIncomplete": "Vissa GPS-punkter sparades inte — sträckan för denna resa kan vara lägre än du körde"
             },
             "gpsPaused": "GPS pausad",
             "gpsPausedHint": "Ingen plats på {minutes} min. Öppna appen igen för att fortsätta.",

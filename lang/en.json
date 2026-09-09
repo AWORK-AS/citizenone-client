@@ -8593,7 +8593,9 @@
                 "permissionDenied": "Location access was denied. Allow location in your browser settings.",
                 "startFailed": "Could not start the trip",
                 "stopFailed": "Could not stop the trip — try again",
-                "unsupported": "Your browser does not support geolocation"
+                "unsupported": "Your browser does not support geolocation",
+                "uploadDegraded": "Some GPS points haven't been saved yet — keep this tab open",
+                "uploadIncomplete": "Some GPS points were not saved — the distance for this trip may be lower than you drove"
             },
             "gpsPaused": "GPS paused",
             "gpsPausedHint": "No position for {minutes} min. Reopen the app to continue.",
