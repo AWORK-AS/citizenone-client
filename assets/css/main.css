@@ -125,6 +125,19 @@ input:disabled {
 }
 
 /* ----------------------------------------------------------------------------------------------------
+    Desktop app: window drag regions (macOS hiddenInset title bar - see
+    citizenone-desktop's main.ts). No-op on web - these properties don't
+    exist outside Electron's Chromium, so they're harmless there.
+---------------------------------------------------------------------------------------------------- */
+.app-drag-region {
+    -webkit-app-region: drag;
+}
+
+.app-no-drag-region {
+    -webkit-app-region: no-drag;
+}
+
+/* ----------------------------------------------------------------------------------------------------
     Scrollbar
 ---------------------------------------------------------------------------------------------------- */
 .custom-scrollbar ::-webkit-scrollbar {
@@ -1265,4 +1278,69 @@ input.appearance-none.border-primary {
     padding: 0.05rem 0.4rem;
     font-size: 0.7rem;
     font-weight: 600;
+}
+
+/* ----------------------------------------------------------------------------------------------------
+    Toasts
+
+    The app's toasts were whatever @kyvg/vue3-notification draws by default: a
+    square block flush against the window edge, in the library's own green and
+    red, with the title in the same weight as the text. It read as a browser
+    warning rather than as part of the product.
+
+    This is the same toast in the product's own shapes: our success and error
+    colours, the 10px radius used everywhere else, a border and a shadow so it
+    sits above the page instead of being painted onto it, and room from the
+    edge. `.co-toast` is applied in `app.vue`, so nothing else on a page can
+    pick these rules up by accident.
+---------------------------------------------------------------------------------------------------- */
+
+.co-toast {
+    margin: 0 14px 10px 0;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #D5D9E2;
+    border-left-width: 4px;
+    background-color: #ffffff;
+    color: #1F2533;
+    font-size: 13px;
+    line-height: 1.45;
+    box-shadow: 0 8px 24px rgba(31, 37, 51, 0.12);
+}
+
+.co-toast .notification-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.co-toast .notification-content {
+    color: #5C6478;
+}
+
+/* The type is carried by the left edge and the title, not by a full green
+   panel: a toast that only says something was saved does not need to be the
+   loudest thing on the screen. */
+.co-toast.success {
+    border-left-color: #2E9E33;
+}
+
+.co-toast.success .notification-title {
+    color: #227526;
+}
+
+.co-toast.error {
+    border-left-color: #CC3B2D;
+}
+
+.co-toast.error .notification-title {
+    color: #CC3B2D;
+}
+
+.co-toast.warn {
+    border-left-color: #E9A23B;
+}
+
+.co-toast.warn .notification-title {
+    color: #B4761F;
 }

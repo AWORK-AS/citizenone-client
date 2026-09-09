@@ -39,5 +39,4 @@ tests/e2e/screenshots/
 .gitignore
 
 .pnpm-store/
-pnpm-workspace.yaml
 __pycache__/

@@ -155,7 +155,7 @@ async function collectOutstanding() {
 }
 
 function logout() {
-    localStorage.removeItem('_token')
+    clearSessionToken()
     localStorage.removeItem('rememberMe')
     navigateTo('/')
 }

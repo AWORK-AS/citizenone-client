@@ -14,6 +14,10 @@ class GoogleDriveService extends BaseAPIService {
         return await this.request('/user/google-drive/status', 'GET')
     }
 
+    async disconnectGoogleDrive(): Promise<any> {
+        return await this.request('/user/google-drive/disconnect', 'POST')
+    }
+
     async getGoogleDriveFiles(parentFolderId?: string, search?: string): Promise<any> {
         return await this.request('/user/google-drive/files', 'GET', {
             ...(parentFolderId && { folder_id: parentFolderId }),

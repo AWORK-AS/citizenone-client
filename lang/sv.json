@@ -13,6 +13,17 @@
         },
         "title": "Utbetalningar av kompensationstid"
     },
+    "staffWorkloadReport": {
+        "title": "Personalbelastning",
+        "description": "Antal riskbedömningar registrerade per medarbetare under vald period. Många gula eller röda bedömningar över tid kan vara ett tecken på arbetsbelastning, inte bara klientens situation.",
+        "table": {
+            "employee": "Medarbetare",
+            "noRisk": "Ingen risk",
+            "increasedRisk": "Ökad risk",
+            "acuteIncreasedRisk": "Akut ökad risk",
+            "total": "Totalt"
+        }
+    },
     "inquiryPipeline": {
         "board": "Förfrågningspipeline",
         "enableLabel": "Förfrågningspipeline (kanban)",
@@ -821,7 +832,28 @@
         "myAppsHint": "Apparna ni har köpt. Öppna en app för att komma till dess inställningar",
         "myAppsEmpty": "Ni har inte aktiverat några appar ännu",
         "myAppsBrowse": "Se app-butiken",
-        "openApp": "Öppna app"
+        "openApp": "Öppna app",
+        "salaryDk": {
+            "connect": "Anslut",
+            "connected": "Salary.dk-konto ansluten",
+            "connectTitle": "Anslut Salary.dk",
+            "connectDescription": "Ange din Salary.dk API-nyckel för att ansluta ditt konto.",
+            "apiKey": "API-nyckel",
+            "apiKeyPlaceholder": "Ange din API-nyckel...",
+            "connectError": "Det gick inte att ansluta till Salary.dk. Kontrollera din API-nyckel.",
+            "disconnect": "Koppla från",
+            "disconnectTitle": "Koppla från Salary.dk",
+            "disconnectConfirmation": "Är du säker på att du vill koppla från ditt Salary.dk-konto? Detta tar bort kopplingen mellan dina CitizenOne- och Salary.dk-konton.",
+            "disconnected": "Salary.dk-konto frånkopplad"
+        },
+        "danlon": {
+            "connect": "Anslut till Danløn",
+            "connected": "Ansluten till Danløn",
+            "disconnect": "Koppla från",
+            "disconnected": "Frånkopplad från Danløn",
+            "disconnectTitle": "Koppla från Danløn",
+            "disconnectConfirmation": "Är du säker på att du vill koppla från din Danløn-integration? Du måste godkänna igen för att synkronisera scheman igen."
+        }
     },
     "archived": {
         "alert": {
@@ -1462,6 +1494,16 @@
             "sessions": "Sessioner",
             "thisMonth": "Denna månad",
             "thisYear": "Detta år"
+        },
+        "riskHistory": {
+            "title": "Riskbedömning över tid",
+            "period1": "Senaste månaden",
+            "period3": "Senaste 3 månaderna",
+            "period6": "Senaste 6 månaderna",
+            "noRisk": "Ingen risk",
+            "increasedRisk": "Ökad risk",
+            "acuteIncreasedRisk": "Akut ökad risk",
+            "notEnoughData": "Inte tillräckligt med data för att visa en utveckling ännu."
         },
         "addictions": "Substansmissbruk",
         "address": "Adress",
@@ -2421,6 +2463,36 @@
                 "recordDosageChange": "Trappa upp/ner dosering",
                 "type": "Ändringstyp"
             },
+            "taperingSchedule": {
+                "alert": {
+                    "successfullyCreated": "Nedtrappningsplan skapad",
+                    "successfullyDeleted": "Nedtrappningsplan borttagen",
+                    "successfullyDeletedStep": "Steg borttaget"
+                },
+                "addStep": "Lägg till steg",
+                "buildSchedule": "Skapa nedtrappningsplan",
+                "confirmDeleteSchedule": "Är du säker på att du vill ta bort denna nedtrappningsplan",
+                "confirmDeleteStep": "Är du säker på att du vill ta bort detta steg",
+                "generateSteps": "Generera steg",
+                "intervalWeeks": "Intervall (veckor)",
+                "noSchedulesRecorded": "Inga nedtrappningsplaner registrerade ännu",
+                "noStepsAdded": "Inga steg tillagda ännu",
+                "planReason": "Anledning",
+                "planReasonPlaceholder": "Varför skapas denna nedtrappningsplan?",
+                "statusApplied": "Tillämpad",
+                "statusCompleted": "Slutförd",
+                "statusInProgress": "Pågår",
+                "statusPending": "Väntar",
+                "stepEffectiveDate": "Ikraftträdandedatum",
+                "stepMaxDailyDose": "Ny maximal daglig dos",
+                "stepNumber": "Steg",
+                "stepReason": "Anledning",
+                "stepStrength": "Ny styrka",
+                "stepType": "Ändringstyp",
+                "steps": "Steg",
+                "totalDurationWeeks": "Total varaktighet (veckor)",
+                "viewSchedule": "Visa plan"
+            },
             "download": "Ladda ner",
             "downloadOverview": "Ladda ner översikt",
             "editMedicine": "Redigera Medicin",
@@ -2843,7 +2915,8 @@
                 "weeklyRotation": "Veckorotationsschema",
                 "startWeekday": "Börjar på",
                 "repeatsUntil": "Upprepas till",
-                "indefinitely": "På obestämd tid"
+                "indefinitely": "På obestämd tid",
+                "taperingSchedule": "Nedtrappningsplan"
             }
         },
         "newCitizen": "Ny {citizen}",
@@ -6187,7 +6260,138 @@
                 "updated": "Uppdaterad",
                 "deleted": "Raderad"
             }
-        }
+        },
+        "salaryDk_sync": "Synkronisera till Salary",
+        "salaryDk_sync_description": "Överför schemalagda timmar, tillägg och avdrag från dina scheman direkt till Salary.dk lön. Välj anställda, välj ett datumintervall och koppla passtyper till lönetyper innan synkronisering.",
+        "salaryDk_step_configure": "Konfigurera",
+        "salaryDk_step_assign_rates": "Tilldela typer",
+        "salaryDk_step_review": "Granska",
+        "salaryDk_step_result": "Resultat",
+        "salaryDk_date_range": "Datumintervall",
+        "salaryDk_select_date_range": "Välj datumintervall",
+        "salaryDk_select_employees": "Välj anställda",
+        "salaryDk_select_all": "Välj alla",
+        "salaryDk_search_employees": "Sök anställda...",
+        "salaryDk_selected_only": "Endast valda",
+        "salaryDk_no_employees_found": "Inga anställda matchar din sökning.",
+        "salaryDk_no_employees": "Inga anställda hittades i schemat.",
+        "salaryDk_no_match": "Dessa anställda kunde inte matchas mot din Salary.dk-profil",
+        "salaryDk_no_match_badge": "Ingen matchning",
+        "salaryDk_no_match_info": "Dessa anställda kunde inte matchas med en anställd i din Salary.dk-profil. Kontrollera att namn och e-post är identiska i både CitizenOne och Salary.dk.",
+        "salaryDk_no_matched_employees": "Inga matchade anställda valda.",
+        "salaryDk_select_rate": "Välj lönetyp",
+        "salaryDk_unknown_shift": "Okänt pass",
+        "salaryDk_assign_rates_description": "Tilldela en lönetyp till varje passtyp per anställd.",
+        "salaryDk_assign_rates_info": "Koppla varje passtyp i dina scheman till motsvarande Salary.dk-lönetyp.",
+        "salaryDk_supplement_rates_title": "Tillägg- och avdragstyper",
+        "salaryDk_supplement_rates_description": "Tilldela en lönetyp för varje extra timtyp per anställd.",
+        "salaryDk_supplement": "Tillägg",
+        "salaryDk_deduction": "Avdrag",
+        "salaryDk_supplements": "tillägg/avdrag",
+        "salaryDk_entry": "registrering",
+        "salaryDk_entries": "registreringar",
+        "salaryDk_hours_let": "t",
+        "salaryDk_shifts": "pass",
+        "salaryDk_review": "Granska",
+        "salaryDk_review_description": "{count} registrering(ar) kommer att skickas till Salary.dk.",
+        "salaryDk_registrations": "passregistreringar",
+        "salaryDk_supplement_registrations": "tilläggs-/avdragsregistreringar",
+        "salaryDk_no_registrations": "Inga registreringar hittades för de valda kriterierna.",
+        "salaryDk_sync_success": "Synkroniserades till Salary.dk",
+        "salaryDk_sync_failed": "Det gick inte att synkronisera till Salary.dk. Försök igen.",
+        "salaryDk_sync_partial": "Vissa registreringar synkroniserades, men andra misslyckades. Se detaljer nedan.",
+        "salaryDk_sync_sending_hours": "Skickar timmar...",
+        "salaryDk_sync_sending_supplements": "Skickar tillägg...",
+        "salaryDk_sync_sending_leave": "Skickar frånvaro...",
+        "salaryDk_presets": "Förinställningar",
+        "salaryDk_no_preset": "Ingen förinställning vald",
+        "salaryDk_save_preset": "+ Spara som förinställning",
+        "salaryDk_update_preset": "Uppdatera förinställning",
+        "salaryDk_preset_name_placeholder": "Namn på förinställning...",
+        "salaryDk_pay_period": "Löneperiod",
+        "salaryDk_custom_period": "Anpassat datumintervall",
+        "salaryDk_period_monthly": "Månadsvis (innevarande månad)",
+        "salaryDk_period_weekly": "Veckovis (innevarande vecka)",
+        "salaryDk_period_biweekly": "Varannan vecka (innevarande 2-veckorsperiod)",
+        "salaryDk_validation_date_range": "Välj ett datumintervall.",
+        "salaryDk_validation_select_employee": "Välj minst en anställd.",
+        "salaryDk_validation_assign_rates": "Tilldela en lönetyp för alla passtyper och tillägg.",
+        "salaryDk_error_already_exists": "En eller flera registreringar finns redan i Salary.dk för de valda datumen.",
+        "salaryDk_error_invalid_period": "Ett eller flera datum ligger utanför den öppna löneperioden i Salary.dk.",
+        "salaryDk_error_employee_not_found": "En eller flera anställda kunde inte hittas i Salary.dk.",
+        "salaryDk_error_salary_type_not_found": "Den valda löne-/tilläggstypen är inte kopplad till den anställdas avtal i Salary.dk.",
+        "salaryDk_error_leave_type_not_found": "Den valda frånvarotypen är inte kopplad till den anställdas avtal i Salary.dk.",
+        "salaryDk_leave_registrations": "frånvaroregistreringar",
+        "salaryDk_leaveType_DenmarkLeaveDay": "Ledig dag",
+        "salaryDk_leaveType_DenmarkPersonalTimeAccrual": "Personlig tid (intjäning)",
+        "salaryDk_leaveType_DenmarkFlexTime": "Flextid",
+        "salaryDk_leaveType_DenmarkVacationPaidAdditional": "Betald semester (extra)",
+        "salaryDk_leaveType_DenmarkDayOff": "Ledig dag",
+        "salaryDk_leaveType_DenmarkPersonalDay": "Personlig ledig dag",
+        "salaryDk_leaveType_DenmarkVacationFundWithPension": "Semesterfond (med pension)",
+        "salaryDk_leaveType_DenmarkOptionalVacation": "Valfri semester",
+        "salaryDk_leaveType_DenmarkRemoteWorkDay": "Distansarbetsdag",
+        "salaryDk_leaveType_DenmarkVacationAccrual": "Semester (intjäning)",
+        "salaryDk_leaveType_DenmarkUnpaidDayOff": "Obetald ledig dag",
+        "salaryDk_leaveType_DenmarkVacationFund": "Semesterfond",
+        "salaryDk_leaveType_DenmarkSickDayPaid": "Sjukdag (betald)",
+        "salaryDk_leaveType_DenmarkOvertime": "Övertid",
+        "salaryDk_leaveType_DenmarkExtraVacationAccrual": "Extra semester (intjäning)",
+        "danlon_sync": "Synkronisera till Danløn",
+        "danlon_sync_description": "Överför planerade timmar och tillägg från dina scheman till Danløn lönesystem. Välj anställda, välj ett datumintervall och koppla passtyper till Danløn-koder innan synkronisering.",
+        "danlon_step_configure": "Konfigurera",
+        "danlon_step_assign_rates": "Tilldela typer",
+        "danlon_step_review": "Granska",
+        "danlon_step_result": "Resultat",
+        "danlon_date_range": "Datumintervall",
+        "danlon_select_date_range": "Välj datumintervall",
+        "danlon_select_employees": "Välj anställda",
+        "danlon_select_all": "Välj alla",
+        "danlon_search_employees": "Sök anställda...",
+        "danlon_selected_only": "Endast valda",
+        "danlon_no_employees_found": "Inga anställda hittades",
+        "danlon_no_employees": "Inga anställda tillgängliga för denna period",
+        "danlon_no_match": "Ej matchad",
+        "danlon_no_match_badge": "Ingen matchning",
+        "danlon_no_match_info": "Dessa anställda kunde inte matchas med en anställd i ditt Danløn-konto. Kontrollera att namn och e-post stämmer exakt överens.",
+        "danlon_no_matched_employees": "Inga matchade anställda hittades",
+        "danlon_presets": "Förinställningar",
+        "danlon_no_preset": "-- Välj en förinställning --",
+        "danlon_save_preset": "Spara aktuellt urval som förinställning",
+        "danlon_update_preset": "Uppdatera vald förinställning",
+        "danlon_preset_name_placeholder": "Ange namn på förinställning...",
+        "danlon_pay_period": "Löneperiod",
+        "danlon_custom_period": "Anpassad period",
+        "danlon_period_monthly": "Månadsvis",
+        "danlon_period_weekly": "Veckovis",
+        "danlon_period_biweekly": "Varannan vecka",
+        "danlon_select_rate": "-- Välj typ --",
+        "danlon_assign_rates_description": "Tilldela Danløn lönekoder till varje passtyp och tillägg som hittats i schemat.",
+        "danlon_assign_rates_info": "Varje passtyp måste kopplas till en Danløn lönekod. Tillägg är valfria extra utbetalningar.",
+        "danlon_supplement_rates_title": "Tilläggstyper",
+        "danlon_supplement_rates_description": "Koppla godkända tillägg till Danløn tilläggskoder.",
+        "danlon_supplement": "Tillägg",
+        "danlon_entry": "post",
+        "danlon_entries": "poster",
+        "danlon_hours_let": "t",
+        "danlon_review": "Granska",
+        "danlon_review_description": "Granska {count} registreringar innan synkronisering till Danløn.",
+        "danlon_shifts": "pass",
+        "danlon_supplements": "tillägg",
+        "danlon_registrations": "registreringar",
+        "danlon_supplement_registrations": "tillägg",
+        "danlon_no_registrations": "Inga registreringar att synkronisera",
+        "danlon_unknown_shift": "Okänd passtyp",
+        "danlon_sync_sending": "Skickar registreringar till Danløn...",
+        "danlon_sync_success": "Alla registreringar synkroniserade till Danløn",
+        "danlon_sync_failed": "Det gick inte att synkronisera till Danløn",
+        "danlon_sync_partial": "Vissa registreringar synkroniserades, andra misslyckades",
+        "danlon_validation_date_range": "Välj ett datumintervall",
+        "danlon_validation_select_employee": "Välj minst en anställd",
+        "danlon_validation_assign_rates": "Tilldela typer till alla passtyper och tillägg",
+        "danlon_error_invalid_employee": "Anställd hittades inte i Danløn",
+        "danlon_error_invalid_code": "Ogiltig löne- eller tilläggskod",
+        "danlon_error_duplicate": "Registrering finns redan för denna period"
     },
     "dutyShiftRuleNotifications": {
         "empty": "Du har inga vagtregel notiser",
@@ -8395,6 +8599,7 @@
         "summary": {
             "allTime": "All tid",
             "byEmployee": "Per medarbetare",
+            "flaggedTrips": "{count} flaggade för granskning",
             "period": "Period",
             "totalKm": "Totalt km",
             "totalKmAllEmployees": "Totalt km (alla medarbetare)",
@@ -8415,7 +8620,10 @@
             },
             "date": "Datum",
             "distance": "Avstånd",
+            "distanceSourceUnknown": "Okänd källa",
             "employee": "Medarbetare",
+            "flagged": "Flaggad",
+            "needsReview": "Behöver granskas",
             "route": "Rutt"
         },
         "tracking": {
@@ -8437,7 +8645,9 @@
                 "permissionDenied": "Åtkomst till plats nekades. Tillåt plats i webbläsarens inställningar.",
                 "startFailed": "Resan kunde inte startas",
                 "stopFailed": "Resan kunde inte avslutas — försök igen",
-                "unsupported": "Din webbläsare stöder inte platstjänster"
+                "unsupported": "Din webbläsare stöder inte platstjänster",
+                "uploadDegraded": "Vissa GPS-punkter har ännu inte sparats — håll fliken öppen",
+                "uploadIncomplete": "Vissa GPS-punkter sparades inte — sträckan för denna resa kan vara lägre än du körde"
             },
             "gpsPaused": "GPS pausad",
             "gpsPausedHint": "Ingen plats på {minutes} min. Öppna appen igen för att fortsätta.",
@@ -8754,6 +8964,7 @@
         "overview": "Översikt",
         "previousDay": "Föregående dag",
         "statisticsTab": "Statistik",
+        "googleDriveTab": "Google Drive",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistik",
             "plansAndGoals": "Planer och mål",
@@ -9989,6 +10200,14 @@
                     "half": "Halv",
                     "off": "Av"
                 },
+                "holidayDeductionHours": "Timmar som dras av per helgdag",
+                "holidayDeductionHoursHint": "Lämna tomt för att beräkna automatiskt utifrån varje anställds årsnorm",
+                "applySpecialWorkedHolidayRule": "Använd specialregel om medarbetaren arbetar på en helgdag",
+                "workedHolidayRule": {
+                    "no_deduction": "Inget automatiskt avdrag",
+                    "deduction_applies": "Avdrag gäller fortfarande",
+                    "custom": "Anpassad (konfigureras separat)"
+                },
                 "terminology": "Ordlista",
                 "terminologyHint": "Anpassa termerna för journaler. Lämna tomt för standard.",
                 "termJournals": "Journaler",
@@ -10927,7 +11146,10 @@
                 "phone": "Telefon",
                 "status": "Status",
                 "website": "Websted",
-                "storage": "Lagringsanvändning"
+                "storage": "Lagringsanvändning",
+                "nextPayment": "Nästa betalning",
+                "perYear": "{amount} per år",
+                "notCollecting": "Betalar inte"
             },
             "tabs": {
                 "accounts": "Konton",
@@ -11153,8 +11375,16 @@
                     "companiesActiveToday": "Aktiva företag där minst en användare har varit i systemet det senaste dygnet.",
                     "mrr": "Månatlig återkommande intäkt exkl. moms: alla aktiva löpande abonnemang hos aktiva företag, där årsavtal räknas som en tolftedel. Gratis- och engångsabonnemang räknas inte med. ARR är MRR gånger 12.",
                     "churn": "Kunder som stängts ned de senaste 30 dagarna, av de kunder som var igång när perioden började. Endast registrerade nedstängningsdatum räknas; datum som uppskattats i efterhand för äldre kunder är exkluderade.",
-                    "quietCustomers": "Aktiva kunder sorterade efter hur länge sedan någon från företaget senast var i systemet. Kunder som aldrig loggat in ligger överst, eftersom det oftast är en onboarding som aldrig kom igång."
-                }
+                    "quietCustomers": "Aktiva kunder sorterade efter hur länge sedan någon från företaget senast var i systemet. Kunder som aldrig loggat in ligger överst, eftersom det oftast är en onboarding som aldrig kom igång.",
+                    "cmrr": "Den del av MRR som faktiskt debiteras: ett avtal där kortet nekas är fortfarande ett avtal, men det är inte säkrade pengar. Det finns ingen bindningstid i data, så säkrad betyder i kraft och betalande.",
+                    "contracted": "Vad avtalen i kraft är satta att debitera de nästa 12 månaderna - på de verkliga debiteringsdatumen, så en årsförnyelse räknas den månad den dras. Förutsätter att ingen säger upp och att priserna står kvar."
+                },
+                "cmrr": "Säkrad MRR (CMRR)",
+                "carr": "CARR {amount}",
+                "contracted": "Avtalat, nästa 12 mån.",
+                "contractedThreeYears": "3 år: {amount}",
+                "seeForecast": "Se prognosen",
+                "notCollecting": "{count} avtal betalar inte"
             },
             "tabs": {
                 "overview": "Översikt",
@@ -11569,7 +11799,8 @@
             "storagePackages": "Lagringspaket",
             "paymentFees": "Betalningsavgifter",
             "storageUsage": "Lagringsanvändning",
-            "industries": "Branscher"
+            "industries": "Branscher",
+            "salesInquiries": "Förfrågningar"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -12219,6 +12450,20 @@
                 "revenue": "Fakturerat",
                 "mrr": "MRR",
                 "newUsers": "Nya användare"
+            },
+            "forecast": {
+                "title": "Intäktsprognos",
+                "hint": "Vad dagens avtal är satta att debitera, månad för månad.",
+                "years": "{count} år",
+                "totalLabel": "Totalt, {count} år",
+                "nextTwelve": "Nästa 12 mån.",
+                "renewalShare": "Varav årsförnyelser",
+                "assumption": "Förutsätter att ingen säger upp och att priserna inte ändras. Årsförnyelser räknas den månad de dras, utifrån debiteringsdatumet på den ursprungliga fakturan.",
+                "series": {
+                    "recurring": "Månadsdebiteringar",
+                    "renewals": "Årsförnyelser",
+                    "cumulative": "Ackumulerat"
+                }
             }
         },
         "industries": {
@@ -12263,6 +12508,80 @@
                 "term_journal_note_tag": "Anteckningstyp",
                 "term_agreement": "Avtal",
                 "term_jobcenter": "Jobbcenter"
+            }
+        },
+        "salesInquiries": {
+            "pageTitle": "Förfrågningar",
+            "description": "Kontakt- och demoförfrågningar från citizenone.dk. Ta en, ring eller skriv, och lämna en anteckning så nästa kollega ser vad som hänt.",
+            "searchPlaceholder": "Namn, organisation, e-post, telefon",
+            "refresh": "Uppdatera",
+            "empty": "Inga förfrågningar här",
+            "colWho": "Vem",
+            "colType": "Typ",
+            "colStatus": "Status",
+            "colOwner": "Ägare",
+            "colReceived": "Mottagen",
+            "open": "Öppna",
+            "nobody": "Ingen",
+            "unassigned": "Utan ägare",
+            "mine": "Mina",
+            "previous": "Föregående",
+            "next": "Nästa",
+            "tabs": {
+                "open": "Öppna",
+                "all": "Alla"
+            },
+            "statuses": {
+                "new": "Ny",
+                "contacted": "Kontaktad",
+                "qualified": "Kvalificerad",
+                "demo_booked": "Demo bokad",
+                "won": "Vunnen",
+                "lost": "Förlorad"
+            },
+            "sources": {
+                "contact": "Kontaktformulär",
+                "book_demo": "Demoförfrågan",
+                "quick_ask": "Kort fråga",
+                "price_quote": "Prisberäkning",
+                "trial": "Provförfrågan",
+                "other": "Förfrågan"
+            },
+            "detail": {
+                "name": "Namn",
+                "email": "E-post",
+                "phone": "Telefon",
+                "preferredAt": "Önskad tid",
+                "source": "Typ",
+                "page": "Sida",
+                "campaign": "Kampanj",
+                "message": "Meddelande",
+                "lostReason": "Varför förlorades den",
+                "timeline": "Förlopp",
+                "notePlaceholder": "Vad kom ni överens om?",
+                "addNote": "Lägg till anteckning",
+                "noNotes": "Inget skrivet ännu",
+                "receivedAt": "Mottagen",
+                "referrer": "Kom från"
+            },
+            "colPage": "Sida",
+            "views": {
+                "list": "Lista",
+                "board": "Tavla"
+            },
+            "dropHere": "Släpp en förfrågan här",
+            "columns": {
+                "button": "Kolumner",
+                "title": "Kolumner på tavlan",
+                "description": "Vad varje steg heter, vilken färg det har och i vilken ordning det står. Ett namn du skriver här används överallt, på alla språk; lämna tomt för att behålla det översatta.",
+                "colour": "Färg",
+                "reset": "Tillbaka till standard",
+                "save": "Spara kolumner"
+            },
+            "alert": {
+                "updated": "Förfrågan har uppdaterats",
+                "noteAdded": "Anteckningen har lagts till",
+                "columnsSaved": "Kolumnerna har sparats"
             }
         }
     },
@@ -14764,5 +15083,18 @@
     },
     "table": {
         "clearFilters": "Rensa filter"
+    },
+    "desktopLock": {
+        "title": "CitizenOne är låst",
+        "passwordLabel": "Lösenord",
+        "unlock": "Lås upp",
+        "verifying": "Verifierar…",
+        "wrongPassword": "Fel lösenord"
+    },
+    "desktopNotifications": {
+        "newMessage": "Nytt meddelande",
+        "newMessageBody": "Du har fått ett nytt meddelande i CitizenOne.",
+        "newNotification": "Ny avisering",
+        "newNotificationBody": "Det finns en ny avisering i CitizenOne."
     }
 }

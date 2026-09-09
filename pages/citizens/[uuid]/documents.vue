@@ -29,7 +29,17 @@
                 </Tooltip>
             </template>
 
-            <div class="space-y-5">
+            <div class="space-y-5 relative"
+                @dragenter.prevent="canUploadDocuments && (isDraggingFile = true)"
+                @dragover.prevent="canUploadDocuments && (isDraggingFile = true)"
+                @dragleave.prevent="isDraggingFile = false"
+                @drop.prevent="handleFileDrop">
+                <div v-if="isDraggingFile"
+                    class="absolute inset-0 z-40 flex items-center justify-center bg-primary/5 border-2 border-dashed border-primary rounded-xl pointer-events-none">
+                    <span class="bg-white px-4 py-2 rounded-lg shadow-lg text-primary font-semibold text-sm">
+                        {{ $t('citizens.documents.uploadFile') }}
+                    </span>
+                </div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
                     <Icon name="ph:arrow-left" size="20" class="text-black" />
                     <span>{{ $t('back') }}</span>
@@ -394,11 +404,17 @@ function triggerFileInput() {
 }
 
 async function uploadFile(event: any) {
+    await uploadFiles(event.target.files)
+}
+
+// Split out so a Finder drag-and-drop (handleFileDrop below) can feed the
+// exact same upload path as the file-picker input, rather than duplicating
+// the FormData/error handling around it.
+async function uploadFiles(files: FileList | File[] | null) {
     state.error = {}
     state.isPageLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid as any
-        const files = event.target.files
 
         if (!files || files.length === 0) return
 
@@ -430,6 +446,18 @@ async function uploadFile(event: any) {
         }
     }
     state.isPageLoading = false
+}
+
+// Same gate as the upload button (line ~54) - a drop zone that accepted
+// files from someone without upload permission would just 403 silently.
+const canUploadDocuments = computed(() => isAtLeast('Admin') || can('create_citizen_document'))
+const isDraggingFile = ref(false)
+
+async function handleFileDrop(event: DragEvent) {
+    isDraggingFile.value = false
+    if (!canUploadDocuments.value) return
+    const files = event.dataTransfer?.files
+    if (files && files.length > 0) await uploadFiles(files)
 }
 
 const resetFileInput = () => {

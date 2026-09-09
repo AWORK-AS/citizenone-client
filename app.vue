@@ -1,7 +1,8 @@
 <template>
 	<NuxtLayout>
 		<NuxtPage />
-		<notifications class="mt-24" />
+		<!-- `classes` names the element the toast rules in main.css style. -->
+		<notifications class="mt-24" classes="co-toast" />
 	</NuxtLayout>
 </template>
 
@@ -35,4 +36,27 @@ useHead({
 		},
 	],
 })
+
+// Desktop only: citizenone://citizens/<uuid>/journals etc. maps 1:1 onto our
+// own routes (same path, just a custom-protocol prefix instead of https://
+// app.citizenone.dk), so a link from an email/calendar invite opens straight
+// into the already-running app instead of another browser tab.
+let unsubscribeDeepLink: (() => void) | null = null
+onMounted(() => {
+	const bridge = (window as any).citizenOneDesktop
+	if (!bridge?.isDesktop) return
+	unsubscribeDeepLink = bridge.onDeepLink((url: string) => {
+		const path = url.replace(/^citizenone:\/\//, '/')
+		// Belt-and-suspenders: navigateTo() without { external: true } won't
+		// actually leave the app for a bare string (Nuxt requires that flag
+		// before treating anything as an external redirect), but this
+		// shouldn't depend on that framework behaviour rather than validating
+		// its own input - reject anything that isn't a plain single-leading-
+		// slash path (rules out a crafted citizenone:///evil.com producing
+		// a protocol-relative //evil.com after the prefix strip).
+		if (!/^\/[^/]/.test(path)) return
+		navigateTo(path)
+	})
+})
+onUnmounted(() => unsubscribeDeepLink?.())
 </script>

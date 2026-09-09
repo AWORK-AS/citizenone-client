@@ -332,6 +332,7 @@ const groupedNav = {
         { name: 'Dashboard', label: 'superadmin.sidebar.dashboard', href: '/superadmin/dashboard', icon: 'material-symbols:dashboard', routes: ['superadmin-dashboard', 'superadmin-analytics'] },
         { name: 'Companies', label: 'superadmin.sidebar.companies', href: '/superadmin/companies', icon: 'ph:buildings', routes: ['superadmin-companies', 'superadmin-companies-new', 'superadmin-companies-company_uuid-edit', 'superadmin-companies-company_uuid-accounts', 'superadmin-companies-company_uuid-accounts-new', 'superadmin-companies-company_uuid-accounts-account_uuid-edit', 'superadmin-companies-company_uuid-invoices', 'superadmin-companies-company_uuid-license-overview', 'superadmin-companies-company_uuid-apps', 'superadmin-companies-company_uuid-overview'] },
         { name: 'Users', label: 'superadmin.sidebar.users', href: '/superadmin/users', icon: 'ph:users-three', routes: ['superadmin-users', 'superadmin-users-new', 'superadmin-users-edit-uuid'] },
+        { name: 'SalesInquiries', label: 'superadmin.sidebar.salesInquiries', href: '/superadmin/sales-inquiries', icon: 'ph:tray', routes: ['superadmin-sales-inquiries'] },
     ],
     okonomi: [
         // { name: 'Finance', label: 'superadmin.sidebar.finance', href: '/superadmin/finance', icon: 'ph:chart-line-up', routes: ['superadmin-finance'] },
@@ -398,7 +399,7 @@ async function logout() {
     try {
         const response = await authService.logout()
         if (response) {
-            localStorage.removeItem('_token')
+            clearSessionToken()
             userStore.resetUser()
             navigateTo('/superadmin')
         }

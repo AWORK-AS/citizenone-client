@@ -475,7 +475,7 @@
                                                         citizen.latest_risk_assessment?.assessment === 'no risk' && 'no-risk' ||
                                                         citizen.latest_risk_assessment?.assessment === 'increased risk' && 'increased-risk' ||
                                                         citizen.latest_risk_assessment?.assessment === 'acute increased risk' && 'acute-increased-risk' || 'action'"
-                                                    @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
+                                                    @click="showRiskHistory(citizen)">
                                                     <Icon name="ph:shield-warning" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
@@ -497,6 +497,8 @@
                 @close="state.modal.isImportMapperOpen = false" @imported="fetchCitizens()" />
             <ModulesUserCitizenModalLatestJournal :isModalOpen="state.modal.isShowNote"
                 :selectedCitizen="state.selectedCitizen" @close="state.modal.isShowNote = false" />
+            <ModulesUserCitizenRiskHistoryModalView :isModalOpen="state.modal.isRiskHistoryOpen"
+                :citizenUuid="state.selectedCitizen?.uuid" @close="state.modal.isRiskHistoryOpen = false" />
             <ModulesUserCitizenJournalShareModalView :isModalOpen="state.modal.isSharedJournalsOpen"
                 @close="state.modal.isSharedJournalsOpen = false" />
 
@@ -583,6 +585,7 @@ const state = reactive({
         isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
         isImportMapperOpen: false,
+        isRiskHistoryOpen: false,
         isSharedJournalsOpen: false,
         isShowNote: false,
         isTimeInTypeModalOpen: false,
@@ -956,6 +959,11 @@ function changePageLength(event: any) {
 function showCitizenNote(citizen: any) {
     state.selectedCitizen = citizen
     state.modal.isShowNote = true
+}
+
+function showRiskHistory(citizen: any) {
+    state.selectedCitizen = citizen
+    state.modal.isRiskHistoryOpen = true
 }
 
 async function fetchExportDepartments() {

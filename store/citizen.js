@@ -2,7 +2,14 @@ import { defineStore } from 'pinia'
 
 export const useCitizenStore = defineStore('citizenStore',
     {
-        persist: true,
+        // selectedCitizen deliberately excluded (Phase 1 security fix): it holds
+        // the full citizen record - CPR/social security number, diagnoses,
+        // medication allergies, address - fetched fresh on every profile load,
+        // with no product requirement to survive a browser restart. Only the
+        // list-view UI prefs below are worth persisting.
+        persist: {
+            paths: ['currentPageLength', 'currentPageNumber', 'sortData'],
+        },
         state: () => ({
             currentPageLength: 10,
             currentPageNumber: 1,

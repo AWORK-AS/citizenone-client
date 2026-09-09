@@ -383,7 +383,7 @@ async function logout() {
     try {
         const response = await authService.logout()
         if (response) {
-            localStorage.removeItem("_token")
+            clearSessionToken()
             userStore.resetUser()
             // So the Obiyen chat bubble starts hidden again on next login, even
             // within the same tab (logout navigates client-side, so the plugin's

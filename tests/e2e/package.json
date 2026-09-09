@@ -24,7 +24,11 @@
     "test:import-employees": "node import-employees.mjs",
     "test:forms-reorder-and-retype": "node forms-reorder-and-retype.mjs",
     "test:our-contact-person-save": "node our-contact-person-save.mjs",
-    "test:night-shift-span-display": "node night-shift-span-display.mjs"
+    "test:night-shift-span-display": "node night-shift-span-display.mjs",
+    "test:salary-dk-connect": "node salary-dk-connect.mjs",
+    "test:danlon-connect": "node danlon-connect.mjs",
+    "test:risk-assessment-trend-graph": "node risk-assessment-trend-graph.mjs",
+    "test:google-drive-overview-tab": "node google-drive-overview-tab.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

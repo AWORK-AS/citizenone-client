@@ -13,6 +13,17 @@
         },
         "title": "Udbetalinger af afspadsering"
     },
+    "staffWorkloadReport": {
+        "title": "Medarbejderbelastning",
+        "description": "Antal risikovurderinger registreret pr. medarbejder i den valgte periode. Mange gule eller røde vurderinger over tid kan være et tegn på arbejdspres, ikke kun borgerens situation.",
+        "table": {
+            "employee": "Medarbejder",
+            "noRisk": "Ingen risiko",
+            "increasedRisk": "Øget risiko",
+            "acuteIncreasedRisk": "Akut øget risiko",
+            "total": "I alt"
+        }
+    },
     "inquiryPipeline": {
         "board": "Henvendelses-pipeline",
         "enableLabel": "Henvendelses-pipeline (kanban)",
@@ -821,7 +832,28 @@
         "myAppsHint": "De apps I har købt. Åbn en app for at komme til dens opsætning",
         "myAppsEmpty": "I har ikke aktiveret nogen apps endnu",
         "myAppsBrowse": "Se app-butikken",
-        "openApp": "Åbn app"
+        "openApp": "Åbn app",
+        "salaryDk": {
+            "connect": "Forbind",
+            "connected": "Salary.dk-konto er succesfuldt forbundet",
+            "connectTitle": "Forbind Salary.dk",
+            "connectDescription": "Indtast din Salary.dk API-nøgle for at forbinde din konto.",
+            "apiKey": "API-nøgle",
+            "apiKeyPlaceholder": "Indtast din API-nøgle...",
+            "connectError": "Kunne ikke oprette forbindelse til Salary.dk. Kontrollér venligst din API-nøgle.",
+            "disconnect": "Afbryd forbindelse",
+            "disconnectTitle": "Afbryd Salary.dk",
+            "disconnectConfirmation": "Er du sikker på, at du vil afbryde forbindelsen til din Salary.dk-konto? Dette vil fjerne forbindelsen mellem dine CitizenOne- og Salary.dk-konti.",
+            "disconnected": "Salary.dk-konto er succesfuldt afbrudt"
+        },
+        "danlon": {
+            "connect": "Forbind til Danløn",
+            "connected": "Succesfuldt forbundet til Danløn",
+            "disconnect": "Afbryd forbindelse",
+            "disconnected": "Succesfuldt afbrudt fra Danløn",
+            "disconnectTitle": "Afbryd Danløn",
+            "disconnectConfirmation": "Er du sikker på, at du vil afbryde din Danløn-integration? Du skal godkende igen for at synkronisere vagter."
+        }
     },
     "archived": {
         "alert": {
@@ -1462,6 +1494,16 @@
             "sessions": "Sessioner",
             "thisMonth": "Denne måned",
             "thisYear": "Dette år"
+        },
+        "riskHistory": {
+            "title": "Risikovurdering over tid",
+            "period1": "Sidste måned",
+            "period3": "Sidste 3 måneder",
+            "period6": "Sidste 6 måneder",
+            "noRisk": "Ingen risiko",
+            "increasedRisk": "Øget risiko",
+            "acuteIncreasedRisk": "Akut øget risiko",
+            "notEnoughData": "Ikke nok data til at vise en udvikling endnu."
         },
         "addictions": "Stofmisbrug",
         "address": "Adresse",
@@ -2421,6 +2463,36 @@
                 "recordDosageChange": "Op- / nedtrap dosering",
                 "type": "Ændringstype"
             },
+            "taperingSchedule": {
+                "alert": {
+                    "successfullyCreated": "Nedtrapningsplan oprettet",
+                    "successfullyDeleted": "Nedtrapningsplan slettet",
+                    "successfullyDeletedStep": "Trin slettet"
+                },
+                "addStep": "Tilføj trin",
+                "buildSchedule": "Opret nedtrapningsplan",
+                "confirmDeleteSchedule": "Er du sikker på, at du vil slette denne nedtrapningsplan",
+                "confirmDeleteStep": "Er du sikker på, at du vil slette dette trin",
+                "generateSteps": "Generer trin",
+                "intervalWeeks": "Interval (uger)",
+                "noSchedulesRecorded": "Ingen nedtrapningsplaner registreret endnu",
+                "noStepsAdded": "Ingen trin tilføjet endnu",
+                "planReason": "Årsag",
+                "planReasonPlaceholder": "Hvorfor oprettes denne nedtrapningsplan?",
+                "statusApplied": "Anvendt",
+                "statusCompleted": "Afsluttet",
+                "statusInProgress": "I gang",
+                "statusPending": "Afventer",
+                "stepEffectiveDate": "Ikrafttrædelsesdato",
+                "stepMaxDailyDose": "Ny maksimal daglig dosis",
+                "stepNumber": "Trin",
+                "stepReason": "Årsag",
+                "stepStrength": "Ny styrke",
+                "stepType": "Ændringstype",
+                "steps": "Trin",
+                "totalDurationWeeks": "Samlet varighed (uger)",
+                "viewSchedule": "Se plan"
+            },
             "download": "Download",
             "downloadOverview": "Download oversigt",
             "editMedicine": "Rediger Medicin",
@@ -2843,7 +2915,8 @@
                 "weeklyRotation": "Ugentligt rotationsskema",
                 "startWeekday": "Starter på",
                 "repeatsUntil": "Gentages til",
-                "indefinitely": "Ubestemt tid"
+                "indefinitely": "Ubestemt tid",
+                "taperingSchedule": "Nedtrapningsplan"
             }
         },
         "newCitizen": "Ny {citizen}",
@@ -4288,6 +4361,61 @@
         "viewDraftFile": "Se udkastfiler"
     },
     "dutySchedules": {
+        "danlon_sync": "Synkroniser til Danløn",
+        "danlon_sync_description": "Overfør planlagte timer og tillæg fra dine vagtplaner til Danløn lønsystem. Vælg medarbejdere, vælg en datoperiode og kortlæg vagttyper til Danløn-koder før synkronisering.",
+        "danlon_step_configure": "Konfigurer",
+        "danlon_step_assign_rates": "Tildel typer",
+        "danlon_step_review": "Gennemse",
+        "danlon_step_result": "Resultat",
+        "danlon_date_range": "Datointerval",
+        "danlon_select_date_range": "Vælg datointerval",
+        "danlon_select_employees": "Vælg medarbejdere",
+        "danlon_select_all": "Vælg alle",
+        "danlon_search_employees": "Søg medarbejdere...",
+        "danlon_selected_only": "Kun valgte",
+        "danlon_no_employees_found": "Ingen medarbejdere fundet",
+        "danlon_no_employees": "Ingen medarbejdere tilgængelige for denne periode",
+        "danlon_no_match": "Ikke matchet",
+        "danlon_no_match_badge": "Intet match",
+        "danlon_no_match_info": "Disse medarbejdere kunne ikke matches med en medarbejder i din Danløn-konto. Kontroller venligst, at navn og e-mail stemmer nøjagtigt overens.",
+        "danlon_no_matched_employees": "Ingen matchede medarbejdere fundet",
+        "danlon_presets": "Forudindstillinger",
+        "danlon_no_preset": "-- Vælg en forudindstilling --",
+        "danlon_save_preset": "Gem aktuel udvælgelse som forudindstilling",
+        "danlon_update_preset": "Opdater valgt forudindstilling",
+        "danlon_preset_name_placeholder": "Indtast navn på forudindstilling...",
+        "danlon_pay_period": "Lønperiode",
+        "danlon_custom_period": "Brugerdefineret periode",
+        "danlon_period_monthly": "Månedlig",
+        "danlon_period_weekly": "Ugentlig",
+        "danlon_period_biweekly": "Hver anden uge",
+        "danlon_select_rate": "-- Vælg type --",
+        "danlon_assign_rates_description": "Tildel Danløn lønkoder til hver vagttype og tillæg fundet i planen.",
+        "danlon_assign_rates_info": "Hver vagttype skal kortlægges til en Danløn lønkode. Tillæg er valgfrie ekstra betalinger.",
+        "danlon_supplement_rates_title": "Tillægstyper",
+        "danlon_supplement_rates_description": "Kortlæg godkendte tillæg til Danløn tillægskoder.",
+        "danlon_supplement": "Tillæg",
+        "danlon_entry": "post",
+        "danlon_entries": "poster",
+        "danlon_hours_let": "t",
+        "danlon_review": "Gennemse",
+        "danlon_review_description": "Gennemse {count} registreringer før synkronisering til Danløn.",
+        "danlon_shifts": "vagter",
+        "danlon_supplements": "tillæg",
+        "danlon_registrations": "registreringer",
+        "danlon_supplement_registrations": "tillæg",
+        "danlon_no_registrations": "Ingen registreringer at synkronisere",
+        "danlon_unknown_shift": "Ukendt vagttype",
+        "danlon_sync_sending": "Sender registreringer til Danløn...",
+        "danlon_sync_success": "Alle registreringer synkroniseret til Danløn",
+        "danlon_sync_failed": "Kunne ikke synkronisere til Danløn",
+        "danlon_sync_partial": "Nogle registreringer blev synkroniseret, andre fejlede",
+        "danlon_validation_date_range": "Vælg venligst et datointerval",
+        "danlon_validation_select_employee": "Vælg venligst mindst én medarbejder",
+        "danlon_validation_assign_rates": "Tildel venligst typer til alle vagttyper og tillæg",
+        "danlon_error_invalid_employee": "Medarbejder ikke fundet i Danløn",
+        "danlon_error_invalid_code": "Ugyldig løn- eller tillægskode",
+        "danlon_error_duplicate": "Registrering findes allerede for denne periode",
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslog for {date}",
         "viewActivityLogForDay": "Se aktivitetslog for denne dag",
@@ -6187,7 +6315,83 @@
                 "updated": "Opdateret",
                 "deleted": "Slettet"
             }
-        }
+        },
+        "salaryDk_sync": "Synkroniser til Salary",
+        "salaryDk_sync_description": "Overfør planlagte timer, tillæg og fradrag fra dine vagtplaner direkte til Salary.dk løn. Vælg medarbejdere, vælg et datointerval, og tildel vagttyper til løntyper før synkronisering.",
+        "salaryDk_step_configure": "Konfigurer",
+        "salaryDk_step_assign_rates": "Tildel typer",
+        "salaryDk_step_review": "Gennemse",
+        "salaryDk_step_result": "Resultat",
+        "salaryDk_date_range": "Datointerval",
+        "salaryDk_select_date_range": "Vælg datointerval",
+        "salaryDk_select_employees": "Vælg medarbejdere",
+        "salaryDk_select_all": "Vælg alle",
+        "salaryDk_search_employees": "Søg medarbejdere...",
+        "salaryDk_selected_only": "Kun valgte",
+        "salaryDk_no_employees_found": "Ingen medarbejdere matcher din søgning.",
+        "salaryDk_no_employees": "Ingen medarbejdere fundet i vagtplan.",
+        "salaryDk_no_match": "Disse medarbejdere matchede ikke på din Salary.dk-profil",
+        "salaryDk_no_match_badge": "Ingen match",
+        "salaryDk_no_match_info": "Disse medarbejdere kunne ikke matches med en medarbejder i din Salary.dk-profil. Kontrollér venligst at navn og e-mail er ens i både CitizenOne og Salary.dk.",
+        "salaryDk_no_matched_employees": "Ingen matchede medarbejdere valgt.",
+        "salaryDk_select_rate": "Vælg løntype",
+        "salaryDk_unknown_shift": "Ukendt vagt",
+        "salaryDk_assign_rates_description": "Tildel en løntype til hver vagttype pr. medarbejder.",
+        "salaryDk_assign_rates_info": "Tildel hver vagttype i dine vagtplaner til den tilsvarende Salary.dk løntype.",
+        "salaryDk_supplement_rates_title": "Tillægs- og fradragstyper",
+        "salaryDk_supplement_rates_description": "Tildel en løntype for hver ekstra timetype pr. medarbejder.",
+        "salaryDk_supplement": "Tillæg",
+        "salaryDk_deduction": "Fradrag",
+        "salaryDk_supplements": "tillæg/fradrag",
+        "salaryDk_entry": "registrering",
+        "salaryDk_entries": "registreringer",
+        "salaryDk_hours_let": "t",
+        "salaryDk_shifts": "vagter",
+        "salaryDk_review": "Gennemse",
+        "salaryDk_review_description": "{count} registrering(er) vil blive sendt til Salary.dk.",
+        "salaryDk_registrations": "vagtregistreringer",
+        "salaryDk_supplement_registrations": "tillægs-/fradragsregistreringer",
+        "salaryDk_no_registrations": "Ingen registreringer fundet for de valgte kriterier.",
+        "salaryDk_sync_success": "Succesfuldt synkroniseret til Salary.dk",
+        "salaryDk_sync_failed": "Synkronisering til Salary.dk mislykkedes. Prøv venligst igen.",
+        "salaryDk_sync_partial": "Nogle registreringer blev synkroniseret, men andre fejlede. Se detaljer nedenfor.",
+        "salaryDk_sync_sending_hours": "Sender timer...",
+        "salaryDk_sync_sending_supplements": "Sender tillæg...",
+        "salaryDk_sync_sending_leave": "Sender fravær...",
+        "salaryDk_presets": "Forudindstillinger",
+        "salaryDk_no_preset": "Ingen forudindstilling valgt",
+        "salaryDk_save_preset": "+ Gem som forudindstilling",
+        "salaryDk_update_preset": "Opdater forudindstilling",
+        "salaryDk_preset_name_placeholder": "Navn på forudindstilling...",
+        "salaryDk_pay_period": "Lønperiode",
+        "salaryDk_custom_period": "Brugerdefineret datointerval",
+        "salaryDk_period_monthly": "Månedlig (indeværende måned)",
+        "salaryDk_period_weekly": "Ugentlig (indeværende uge)",
+        "salaryDk_period_biweekly": "Hver 14. dag (indeværende 2-ugers periode)",
+        "salaryDk_validation_date_range": "Vælg venligst et datointerval.",
+        "salaryDk_validation_select_employee": "Vælg venligst mindst én medarbejder.",
+        "salaryDk_validation_assign_rates": "Tildel venligst en løntype for alle vagttyper og tillæg.",
+        "salaryDk_error_already_exists": "En eller flere registreringer findes allerede i Salary.dk for de valgte datoer.",
+        "salaryDk_error_invalid_period": "En eller flere datoer ligger uden for den åbne lønperiode i Salary.dk.",
+        "salaryDk_error_employee_not_found": "En eller flere medarbejdere kunne ikke findes i Salary.dk.",
+        "salaryDk_error_salary_type_not_found": "Den valgte løn-/tillægstype er ikke tildelt medarbejderens kontrakt i Salary.dk.",
+        "salaryDk_error_leave_type_not_found": "Den valgte fraværstype er ikke tildelt medarbejderens kontrakt i Salary.dk.",
+        "salaryDk_leave_registrations": "fraværsregistreringer",
+        "salaryDk_leaveType_DenmarkLeaveDay": "Fridag",
+        "salaryDk_leaveType_DenmarkPersonalTimeAccrual": "Personlig tid (optjening)",
+        "salaryDk_leaveType_DenmarkFlexTime": "Flextid",
+        "salaryDk_leaveType_DenmarkVacationPaidAdditional": "Betalt ferie (ekstra)",
+        "salaryDk_leaveType_DenmarkDayOff": "Fridag",
+        "salaryDk_leaveType_DenmarkPersonalDay": "Personlig fridag",
+        "salaryDk_leaveType_DenmarkVacationFundWithPension": "Feriefond (med pension)",
+        "salaryDk_leaveType_DenmarkOptionalVacation": "Valgfri ferie",
+        "salaryDk_leaveType_DenmarkRemoteWorkDay": "Hjemmearbejdsdag",
+        "salaryDk_leaveType_DenmarkVacationAccrual": "Ferie (optjening)",
+        "salaryDk_leaveType_DenmarkUnpaidDayOff": "Ubetalt fridag",
+        "salaryDk_leaveType_DenmarkVacationFund": "Feriefond",
+        "salaryDk_leaveType_DenmarkSickDayPaid": "Sygedag (betalt)",
+        "salaryDk_leaveType_DenmarkOvertime": "Overtid",
+        "salaryDk_leaveType_DenmarkExtraVacationAccrual": "Ekstra ferie (optjening)"
     },
     "dutyShiftRuleNotifications": {
         "empty": "Du har ingen vagtregel notifikationer",
@@ -8395,6 +8599,7 @@
         "summary": {
             "allTime": "Al tid",
             "byEmployee": "Pr. medarbejder",
+            "flaggedTrips": "{count} markeret til gennemgang",
             "period": "Periode",
             "totalKm": "Total km",
             "totalKmAllEmployees": "Total km (alle medarbejdere)",
@@ -8415,7 +8620,10 @@
             },
             "date": "Dato",
             "distance": "Distance",
+            "distanceSourceUnknown": "Ukendt kilde",
             "employee": "Medarbejder",
+            "flagged": "Markeret",
+            "needsReview": "Skal gennemgås",
             "route": "Rute"
         },
         "tracking": {
@@ -8437,7 +8645,9 @@
                 "permissionDenied": "Adgang til lokation blev afvist. Tillad lokation i browserens indstillinger.",
                 "startFailed": "Turen kunne ikke startes",
                 "stopFailed": "Turen kunne ikke afsluttes — prøv igen",
-                "unsupported": "Din browser understøtter ikke lokation"
+                "unsupported": "Din browser understøtter ikke lokation",
+                "uploadDegraded": "Nogle GPS-punkter er endnu ikke gemt — hold denne fane åben",
+                "uploadIncomplete": "Nogle GPS-punkter blev ikke gemt — distancen for denne tur kan være lavere end du kørte"
             },
             "gpsPaused": "GPS pauset",
             "gpsPausedHint": "Ingen position i {minutes} min. Åbn appen igen for at fortsætte.",
@@ -8754,6 +8964,7 @@
         "overview": "Oversigt",
         "previousDay": "Forrige dag",
         "statisticsTab": "Statistik",
+        "googleDriveTab": "Google Drive",
         "plansGoalsAndSubgoals": {
             "goalsStatistics": "Målsstatistik",
             "plansAndGoals": "Planer og mål",
@@ -9989,6 +10200,14 @@
                     "half": "Halv",
                     "off": "Fra"
                 },
+                "holidayDeductionHours": "Timer der fratrækkes pr. helligdag",
+                "holidayDeductionHoursHint": "Lad feltet stå tomt for at beregne automatisk ud fra den enkelte medarbejders årsnorm",
+                "applySpecialWorkedHolidayRule": "Anvend særlig regel hvis medarbejderen arbejder på en helligdag",
+                "workedHolidayRule": {
+                    "no_deduction": "Ingen automatisk fratrækning",
+                    "deduction_applies": "Fratrækning gælder stadig",
+                    "custom": "Brugerdefineret (konfigureres separat)"
+                },
                 "terminology": "Ordliste",
                 "terminologyHint": "Tilpas betegnelserne for journaler. Tomt felt = standardbetegnelse.",
                 "termJournals": "Journaler",
@@ -10927,7 +11146,10 @@
                 "phone": "Telefon",
                 "status": "Status",
                 "website": "Websted",
-                "storage": "Lagerforbrug"
+                "storage": "Lagerforbrug",
+                "nextPayment": "Næste betaling",
+                "perYear": "{amount} pr. år",
+                "notCollecting": "Betaler ikke"
             },
             "tabs": {
                 "accounts": "Kontoer",
@@ -11153,8 +11375,16 @@
                     "companiesActiveToday": "Aktive virksomheder hvor mindst én bruger har været i systemet inden for det seneste døgn.",
                     "mrr": "Månedlig tilbagevendende omsætning ekskl. moms: alle aktive løbende abonnementer hos aktive virksomheder, hvor årsaftaler tæller med en tolvtedel. Gratis- og engangsabonnementer tæller ikke med. ARR er MRR gange 12.",
                     "churn": "Kunder der er lukket ned inden for de sidste 30 dage, ud af de kunder der kørte da perioden startede. Kun registrerede lukkedatoer tæller med; datoer der er skønnet bagudrettet på gamle kunder er skruet fra.",
-                    "quietCustomers": "Aktive kunder sorteret efter hvor længe der er gået siden nogen fra virksomheden sidst var i systemet. Kunder der aldrig har logget ind ligger øverst, da det typisk er en onboarding der aldrig kom i gang."
-                }
+                    "quietCustomers": "Aktive kunder sorteret efter hvor længe der er gået siden nogen fra virksomheden sidst var i systemet. Kunder der aldrig har logget ind ligger øverst, da det typisk er en onboarding der aldrig kom i gang.",
+                    "cmrr": "Den del af MRR der faktisk bliver opkrævet: en aftale hvor kortet fejler er stadig en aftale, men det er ikke sikrede penge. Der er ingen bindingsperiode i data, så sikret betyder i kraft og betalende.",
+                    "contracted": "Hvad de aftaler, vi har i kraft, er sat til at opkræve de næste 12 måneder - på de rigtige opkrævningsdatoer, så en årsfornyelse tæller i den måned den trækkes. Forudsætter at ingen opsiger, og at priserne bliver som de er."
+                },
+                "cmrr": "Sikret MRR (CMRR)",
+                "carr": "CARR {amount}",
+                "contracted": "Aftalt, næste 12 mdr.",
+                "contractedThreeYears": "3 år: {amount}",
+                "seeForecast": "Se prognosen",
+                "notCollecting": "{count} aftale(r) betaler ikke"
             },
             "tabs": {
                 "overview": "Overblik",
@@ -11569,7 +11799,8 @@
             "storagePackages": "Lagerpakker",
             "paymentFees": "Betalingsgebyrer",
             "storageUsage": "Lagerforbrug",
-            "industries": "Brancher"
+            "industries": "Brancher",
+            "salesInquiries": "Henvendelser"
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
@@ -12219,6 +12450,20 @@
                 "revenue": "Faktureret",
                 "mrr": "MRR",
                 "newUsers": "Nye brugere"
+            },
+            "forecast": {
+                "title": "Omsætningsprognose",
+                "hint": "Hvad dagens aftaler er sat til at opkræve, måned for måned.",
+                "years": "{count} år",
+                "totalLabel": "I alt, {count} år",
+                "nextTwelve": "Næste 12 mdr.",
+                "renewalShare": "Heraf årsfornyelser",
+                "assumption": "Forudsætter at ingen opsiger, og at priserne ikke ændres. Årsfornyelser tælles i den måned de trækkes, ud fra opkrævningsdatoen på den oprindelige faktura.",
+                "series": {
+                    "recurring": "Månedlige opkrævninger",
+                    "renewals": "Årsfornyelser",
+                    "cumulative": "Akkumuleret"
+                }
             }
         },
         "industries": {
@@ -12263,6 +12508,80 @@
                 "term_journal_note_tag": "Notattype",
                 "term_agreement": "Aftale",
                 "term_jobcenter": "Jobcenter"
+            }
+        },
+        "salesInquiries": {
+            "pageTitle": "Henvendelser",
+            "description": "Kontakt- og demoforespørgsler fra citizenone.dk. Tag en, ring eller skriv, og læg en note så næste kollega kan se hvad der er sket.",
+            "searchPlaceholder": "Navn, organisation, e-mail, telefon",
+            "refresh": "Opdater",
+            "empty": "Ingen henvendelser her",
+            "colWho": "Hvem",
+            "colType": "Type",
+            "colStatus": "Status",
+            "colOwner": "Ejer",
+            "colReceived": "Modtaget",
+            "open": "Åbn",
+            "nobody": "Ingen",
+            "unassigned": "Uden ejer",
+            "mine": "Mine",
+            "previous": "Forrige",
+            "next": "Næste",
+            "tabs": {
+                "open": "Åbne",
+                "all": "Alle"
+            },
+            "statuses": {
+                "new": "Ny",
+                "contacted": "Kontaktet",
+                "qualified": "Kvalificeret",
+                "demo_booked": "Demo booket",
+                "won": "Vundet",
+                "lost": "Tabt"
+            },
+            "sources": {
+                "contact": "Kontaktformular",
+                "book_demo": "Demoforespørgsel",
+                "quick_ask": "Kort henvendelse",
+                "price_quote": "Prisberegning",
+                "trial": "Prøveanmodning",
+                "other": "Henvendelse"
+            },
+            "detail": {
+                "name": "Navn",
+                "email": "E-mail",
+                "phone": "Telefon",
+                "preferredAt": "Ønsket tidspunkt",
+                "source": "Type",
+                "page": "Side",
+                "campaign": "Kampagne",
+                "message": "Besked",
+                "lostReason": "Hvorfor blev den tabt",
+                "timeline": "Forløb",
+                "notePlaceholder": "Hvad blev der aftalt?",
+                "addNote": "Tilføj note",
+                "noNotes": "Der er ikke skrevet noget endnu",
+                "receivedAt": "Modtaget",
+                "referrer": "Kom fra"
+            },
+            "colPage": "Side",
+            "views": {
+                "list": "Liste",
+                "board": "Tavle"
+            },
+            "dropHere": "Slip en henvendelse her",
+            "columns": {
+                "button": "Kolonner",
+                "title": "Kolonner på tavlen",
+                "description": "Hvad hvert trin hedder, hvilken farve det har, og hvilken rækkefølge det står i. Et navn du skriver her bruges alle steder, på alle sprog; lad det stå tomt for at beholde det oversatte.",
+                "colour": "Farve",
+                "reset": "Tilbage til standard",
+                "save": "Gem kolonner"
+            },
+            "alert": {
+                "updated": "Henvendelsen er opdateret",
+                "noteAdded": "Noten er tilføjet",
+                "columnsSaved": "Kolonnerne er gemt"
             }
         }
     },
@@ -14764,5 +15083,18 @@
     },
     "table": {
         "clearFilters": "Ryd filtre"
+    },
+    "desktopLock": {
+        "title": "CitizenOne er låst",
+        "passwordLabel": "Adgangskode",
+        "unlock": "Lås op",
+        "verifying": "Bekræfter…",
+        "wrongPassword": "Forkert adgangskode"
+    },
+    "desktopNotifications": {
+        "newMessage": "Ny besked",
+        "newMessageBody": "Du har modtaget en ny besked i CitizenOne.",
+        "newNotification": "Ny notifikation",
+        "newNotificationBody": "Der er en ny notifikation i CitizenOne."
     }
 }

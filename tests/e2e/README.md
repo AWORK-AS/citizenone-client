@@ -81,6 +81,44 @@ every illness record it creates, and the assigned contact only if this run creat
 CO_TOKEN='<token>' CO_CITIZEN_UUID='<uuid>' npm run test:our-contact-person-save
 ```
 
+### `risk-assessment-trend-graph` — needs a company-1 token, `CO_CITIZEN_UUID`, and (optionally) `CO_LOWPRIV_TOKEN`
+
+Covers the risk-assessment trend graph (`feat/risk-assessment-trend-graph`): a
+color-coded (green/yellow/red) history chart reachable both from the citizens list's
+"Latest risk assessment" action button and from a citizen's detail-header avatar,
+backed by `GET citizen-journals/{uuid}/risk-assessments/history?period={1|3|6}`.
+Drives both entry points, switches between all three periods asserting a fresh
+request and the expected entry count each time, and stubs the endpoint via
+`page.route()` to exercise the empty ("not enough data") and error states without
+depending on specific local data existing for those cases. `CO_LOWPRIV_TOKEN`
+(a department-scoped, non-admin user) is optional and only used for a read-only
+access-control probe via the direct API - it documents current behavior (matches
+the pre-existing `/citizens/{uuid}` endpoint's own lack of department scoping) and
+does not assert a particular outcome. `CO_CITIZEN_UUID` must belong to the same
+company as `CO_TOKEN` and have risk-assessment journal entries across all three
+periods to exercise the chart meaningfully.
+
+```bash
+CO_TOKEN='<company-1 token>' CO_LOWPRIV_TOKEN='<dept-scoped token>' CO_CITIZEN_UUID='<uuid>' npm run test:risk-assessment-trend-graph
+```
+
+### `google-drive-overview-tab` — needs only a token
+
+Covers the "Google Drive" tab added to the Overview/"Daily Operations" tab row
+(`feat/google-drive-daily-operations-tab`): tab visibility/navigation, sidebar
+highlighting, the real (unstubbed) disconnected-state connect CTA opening a
+popup pointed at Google, and - via `page.route()` stubbing of the Google
+Drive API responses, since there's no mock mode for this integration - the
+connected-state file/folder table, folder drill-down, upload, the
+new-folder/rename/move/delete modals, and the error state. Stubbing avoids
+needing a real Google account/OAuth round trip for most of the test; the
+real popup-opens-correctly assertion is the one part that exercises actual
+(pre-existing, unchanged) OAuth config.
+
+```bash
+CO_TOKEN='<any token>' npm run test:google-drive-overview-tab
+```
+
 ### `compensatory-time-toggle` — needs an Employee token and an existing future shift
 
 Covers task-478: the compensatory-time request feature was changed from a purchasable
@@ -328,6 +366,24 @@ php artisan tinker --execute='
 CO_TOKEN='<admin-or-manager-token>' npm run test:import-employees
 ```
 
+### `salary-dk-connect` — needs `SALARY_DK_MOCK=true` on the backend
+
+Drives the whole Salary.dk payroll integration through a real browser:
+activate the app card, accept the TAC, enter an API key (not validated
+against the real API in mock mode), connect, confirm the `/schedules` sync
+button appears, open the 4-step sync wizard as far as real schedule data
+allows, then disconnect. Self-restoring: disconnects in a `finally` block
+regardless of outcome.
+
+```bash
+CO_TOKEN='<admin-token>' npm run test:salary-dk-connect
+```
+
+No real per-company Salary.dk API key is required for this test — connecting
+a real company additionally needs one typed into the same form, which is
+separate from the app-level `SALARY_DK_API_CLIENT_ID`/`_SECRET` and is out of
+scope for mock-mode testing.
+
 ### `console-smoke` - the one to run before merging
 
 Walks the sidebar to learn where this company's pages are, then loads each of
@@ -350,3 +406,22 @@ version passes against visibly broken code. And the API allows 120 requests a
 minute per user while one page spends a dozen or more, so the test paces itself
 and a full run takes a few minutes with pauses in it. That is the rate limit,
 not a hang.
+
+### `danlon-connect` — needs `CO_DANLON_USERNAME`/`CO_DANLON_PASSWORD`
+
+Covers the Danløn payroll integration's real (non-mock) OAuth connect flow
+against Danløn/Lessor's test-environment Keycloak realm
+(`danlon-integration-demo`). Injects a token, opens the Apps marketplace,
+activates the Danløn card (opens a popup to the real Keycloak login), logs in
+with the provided demo account, and confirms the popup's postMessage flips the
+card to connected. Then calls the live (non-mock) employees/salary-types/
+supplement-types endpoints to prove the backend resolved a real
+`danlon_company_id` via `currentCompany` rather than the callback-query-param
+approach that never actually receives one from a real OAuth redirect.
+Self-restoring: disconnects at the end. Requires the backend's `.env` to have
+real `DANLON_CLIENT_ID`/`DANLON_CLIENT_SECRET`/`DANLON_REDIRECT_URI` set and
+`DANLON_MOCK=false` (never commit these — local `.env` only).
+
+```bash
+CO_TOKEN='<token>' CO_DANLON_USERNAME='<demo-username>' CO_DANLON_PASSWORD='<demo-password>' npm run test:danlon-connect
+```

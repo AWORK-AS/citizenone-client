@@ -1,4 +1,5 @@
 import APIError from '@/components/api/user/APIError'
+import { clearSessionToken } from '@/composables/useDesktopToken'
 
 class BaseAPIService {
     // Shared across every service instance, so two different services asking for
@@ -454,7 +455,7 @@ class BaseAPIService {
     }
 
     revokeAccess() {
-        localStorage.removeItem("_token")
+        clearSessionToken()
         localStorage.removeItem("rememberMe")
         // If this 401 happened mid-impersonation (e.g. the backend revoked all of
         // the impersonated user's tokens), don't leave _original_token stranded -
