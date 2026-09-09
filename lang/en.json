@@ -2097,6 +2097,7 @@
             "region": "Region",
             "requiresInterpreter": "Interpreter required",
             "requiresInterpreterDescription": "Tick this if an interpreter is needed for conversations with the @:terms.citizen{''}.",
+            "interventionType": "Intervention type",
             "responsibleMunicipality": "Responsible municipality",
             "room": "Room",
             "section": "Section",

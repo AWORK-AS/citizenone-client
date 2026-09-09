@@ -2097,6 +2097,7 @@
             "region": "Region",
             "requiresInterpreter": "Tolk kreves",
             "requiresInterpreterDescription": "Kryss av hvis det trengs tolk ved samtaler med borgeren.",
+            "interventionType": "Tiltakstype",
             "responsibleMunicipality": "Handlekommune",
             "room": "Rom",
             "section": "Paragraf",

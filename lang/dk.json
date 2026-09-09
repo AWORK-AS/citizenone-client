@@ -2097,6 +2097,7 @@
             "region": "Region",
             "requiresInterpreter": "Tolk påkrævet",
             "requiresInterpreterDescription": "Markér, hvis der skal bruges tolk ved samtaler med @:terms.citizenDefinite{''}.",
+            "interventionType": "Indsatstype",
             "responsibleMunicipality": "Handlekommune",
             "room": "Værelse",
             "section": "Paragraf",

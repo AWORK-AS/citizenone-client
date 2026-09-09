@@ -2097,6 +2097,7 @@
             "region": "Region",
             "requiresInterpreter": "Tolk krävs",
             "requiresInterpreterDescription": "Kryssa i om det behövs tolk vid samtal med medborgaren.",
+            "interventionType": "Insatstyp",
             "responsibleMunicipality": "Handlekommune",
             "room": "Rum",
             "section": "Paragraf",
