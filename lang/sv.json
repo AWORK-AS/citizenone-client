@@ -6616,6 +6616,22 @@
             "substitute": "Vikar​",
             "temporary": "Tidsbestemt​"
         },
+        "certificates": {
+            "certificates": "Intyg",
+            "columns": {
+                "employee": "Anställd",
+                "type": "Typ",
+                "expiresAt": "Går ut",
+                "status": "Status"
+            },
+            "statuses": {
+                "expired": "Utgånget",
+                "expiring_soon": "Går snart ut",
+                "valid": "Giltigt",
+                "no_expiry": "Inget utgångsdatum"
+            },
+            "empty": "Inga intyg hittades"
+        },
         "exportEmployees": "Exportera anställda",
         "form": {
             "address": "Adress",

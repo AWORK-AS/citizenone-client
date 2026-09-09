@@ -6616,6 +6616,22 @@
             "substitute": "Vikar​",
             "temporary": "Tidsbestemt​"
         },
+        "certificates": {
+            "certificates": "Attester",
+            "columns": {
+                "employee": "Medarbejder",
+                "type": "Type",
+                "expiresAt": "Udløber",
+                "status": "Status"
+            },
+            "statuses": {
+                "expired": "Udløbet",
+                "expiring_soon": "Udløber snart",
+                "valid": "Gyldig",
+                "no_expiry": "Ingen udløbsdato"
+            },
+            "empty": "Ingen attester fundet"
+        },
         "exportEmployees": "Eksporter medarbejdere",
         "form": {
             "address": "Adresse",

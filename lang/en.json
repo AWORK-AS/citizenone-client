@@ -6616,6 +6616,22 @@
             "substitute": "​Substitute",
             "temporary": "​Temporary"
         },
+        "certificates": {
+            "certificates": "Certificates",
+            "columns": {
+                "employee": "Employee",
+                "type": "Type",
+                "expiresAt": "Expires",
+                "status": "Status"
+            },
+            "statuses": {
+                "expired": "Expired",
+                "expiring_soon": "Expiring soon",
+                "valid": "Valid",
+                "no_expiry": "No expiry date"
+            },
+            "empty": "No certificates found"
+        },
         "exportEmployees": "Export employees",
         "form": {
             "address": "Address",
