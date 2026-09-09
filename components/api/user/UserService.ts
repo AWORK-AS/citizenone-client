@@ -37,6 +37,10 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/public-holidays`, 'GET')
     }
 
+    async updateCitizensListColumns(columns: string[]): Promise<any> {
+        return await this.request(`/user/citizens-list-columns`, 'PUT', { citizens_list_columns: columns })
+    }
+
     async getAllUsers(params: object): Promise<any> {
         return await this.request(`/user/employees/all/list`, 'GET', params)
     }
