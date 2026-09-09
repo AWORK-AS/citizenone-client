@@ -1525,6 +1525,10 @@ async function logout() {
         if (response) {
             clearSessionToken()
             localStorage.removeItem("rememberMe")
+            // A plain logout should end any impersonation state along with the
+            // session too, not just leave it for the next login on this browser
+            // to inherit.
+            localStorage.removeItem("_original_token")
             // Defense-in-depth (Phase 1 security): these fields aren't persisted
             // to localStorage any more (see store/citizen.js, store/employee.js),
             // but ssr:false navigateTo() below is a client-side route change, not
