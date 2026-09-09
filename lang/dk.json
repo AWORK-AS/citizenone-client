@@ -8645,7 +8645,9 @@
                 "permissionDenied": "Adgang til lokation blev afvist. Tillad lokation i browserens indstillinger.",
                 "startFailed": "Turen kunne ikke startes",
                 "stopFailed": "Turen kunne ikke afsluttes — prøv igen",
-                "unsupported": "Din browser understøtter ikke lokation"
+                "unsupported": "Din browser understøtter ikke lokation",
+                "uploadDegraded": "Nogle GPS-punkter er endnu ikke gemt — hold denne fane åben",
+                "uploadIncomplete": "Nogle GPS-punkter blev ikke gemt — distancen for denne tur kan være lavere end du kørte"
             },
             "gpsPaused": "GPS pauset",
             "gpsPausedHint": "Ingen position i {minutes} min. Åbn appen igen for at fortsætte.",
