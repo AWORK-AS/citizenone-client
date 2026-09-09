@@ -2,81 +2,31 @@ import BaseAPIService from '@/components/api/BaseAPIService'
 
 class DanlonService extends BaseAPIService {
     async authorize(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/danlon/authorize', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/danlon/authorize', 'GET')
     }
 
     async getStatus(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/danlon/status', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/danlon/status', 'GET')
     }
 
     async getEmployees(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/danlon/employees', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/danlon/employees', 'GET')
     }
 
     async getSalaryTypes(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/danlon/salary-types', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/danlon/salary-types', 'GET')
     }
 
     async getSupplementTypes(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/danlon/supplement-types', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/danlon/supplement-types', 'GET')
     }
 
     async syncTimeRegistrations(registrations: any[]): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/danlon/time-registrations/bulk', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-            body: { registrations },
-        })
+        return await this.request('/user/danlon/time-registrations/bulk', 'POST', { registrations })
     }
 
     async disconnect(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/danlon/disconnect', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/danlon/disconnect', 'POST')
     }
 }
 
