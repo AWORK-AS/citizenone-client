@@ -3218,6 +3218,10 @@
                 },
                 "view": "View"
             },
+            "columns": {
+                "columns": "Columns",
+                "hint": "Choose which columns to show in the overview."
+            },
             "department": "Department",
             "email": "Email",
             "name": "Name",

@@ -265,6 +265,10 @@
                                 {{ activeFilterCount }}
                             </span>
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="state.modal.isColumnsOpen = true">
+                            <Icon name="ph:columns" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.table.columns.columns') }}
+                        </FormButton>
                         <!-- Primary call-to-action -->
                         <FormButton v-if="isAtLeast('Admin') || can('create_citizen')" buttonStyle="primary"
                             @click="navigateTo('/citizens/new')">
@@ -405,10 +409,10 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="20%" v-if="state.visibleColumns.includes('email')">
                                         <p v-if="citizen?.email">{{ citizen?.email }}</p>
                                     </td>
-                                    <td width="15%">
+                                    <td width="15%" v-if="state.visibleColumns.includes('ssn')">
                                         <span>{{ citizen?.social_security_number }}</span>
                                         <!-- The case number sits under the CPR rather than in a column
                                              of its own: only the customers who migrated from another
@@ -418,7 +422,7 @@
                                             {{ $t('citizens.table.caseNumber') }}: {{ citizen.case_number }}
                                         </p>
                                     </td>
-                                    <td width="15%">
+                                    <td width="15%" v-if="state.visibleColumns.includes('phone')">
                                         <span>{{ citizen?.phone }}</span>
                                     </td>
                                     <td width="20%">
@@ -491,6 +495,8 @@
 
             <ModulesUserCitizenModalFilter :isModalOpen="state.modal.isFilterOpen" :filter="state.propertyFilter"
                 @close="state.modal.isFilterOpen = false" @setFilter="applyFilter" />
+            <ModulesUserCitizenModalColumns :isModalOpen="state.modal.isColumnsOpen" :modelValue="state.visibleColumns"
+                @close="state.modal.isColumnsOpen = false" @save="saveVisibleColumns" />
             <ModulesUserCitizenModalImport :isModalOpen="state.modal.isImportCitizensOpen"
                 @close="state.modal.isImportCitizensOpen = false" />
             <ModulesUserCitizenModalImportMapper :isModalOpen="state.modal.isImportMapperOpen"
@@ -538,6 +544,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { userService } from '@/components/api/user/UserService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -564,13 +571,10 @@ const locationTracking = useLocationTracking()
 const workTimeTracking = useWorkTimeTracking()
 
 const state = reactive({
-    columnHeaders: [
-        { name: 'citizens.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
-        { name: 'citizens.table.email', isTranslateName: true, sorter: true, key: 'email' },
-        { name: 'citizens.table.ssn', isTranslateName: true, sorter: true, key: 'social_security_number' },
-        { name: 'citizens.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
-        { name: '' },
-    ],
+    columnHeaders: [] as any[],
+    // Memox feedback: which optional columns are shown; Name and Actions are
+    // always there. Persisted via users.citizens_list_columns.
+    visibleColumns: ['email', 'ssn', 'phone'] as string[],
     dataFilter: {
         search: ''
     },
@@ -582,6 +586,7 @@ const state = reactive({
     citizens: [] as any,
     modal: {
         isFilterOpen: false,
+        isColumnsOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
         isImportMapperOpen: false,
@@ -642,7 +647,39 @@ const isDokumentationEnabled = computed(() => {
     return userStore.getUser?.company?.onboarding_preferences?.modules?.dokumentation !== false
 })
 
+const OPTIONAL_COLUMN_HEADERS: Record<string, any> = {
+    email: { name: 'citizens.table.email', isTranslateName: true, sorter: true, key: 'email' },
+    ssn: { name: 'citizens.table.ssn', isTranslateName: true, sorter: true, key: 'social_security_number' },
+    phone: { name: 'citizens.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
+}
+
+function rebuildColumnHeaders() {
+    state.columnHeaders = [
+        { name: 'citizens.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
+        ...state.visibleColumns.map((key) => OPTIONAL_COLUMN_HEADERS[key]).filter(Boolean),
+        { name: '' },
+    ]
+}
+
+async function saveVisibleColumns(columns: string[]) {
+    state.visibleColumns = columns
+    rebuildColumnHeaders()
+    state.modal.isColumnsOpen = false
+    try {
+        await userService.updateCitizensListColumns(columns)
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
 onMounted(() => {
+    const saved = userStore.getUser?.citizens_list_columns
+    const parsed = typeof saved === 'string' ? JSON.parse(saved || '[]') : saved
+    if (Array.isArray(parsed) && parsed.length) {
+        state.visibleColumns = parsed
+    }
+    rebuildColumnHeaders()
+
     fetchCitizens()
     ensurePinnedLoaded()
     fetchExportDepartments()

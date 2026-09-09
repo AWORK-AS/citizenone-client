@@ -3218,6 +3218,10 @@
                 },
                 "view": "Se"
             },
+            "columns": {
+                "columns": "Kolonner",
+                "hint": "Velg hvilke kolonner som skal vises i oversikten."
+            },
             "department": "Avdeling",
             "email": "E-post",
             "name": "Navn",
