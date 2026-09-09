@@ -2,117 +2,43 @@ import BaseAPIService from '@/components/api/BaseAPIService'
 
 class SalaryDkService extends BaseAPIService {
     async connect(apiKey: string): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/connect', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-            body: { api_key: apiKey },
-        })
+        return await this.request('/user/salary-dk/connect', 'POST', { api_key: apiKey })
     }
 
     async getSalaryDkStatus(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/status', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/salary-dk/status', 'GET')
     }
 
     async getEmployees(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/employees', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/salary-dk/employees', 'GET')
     }
 
     async getSalaryTypes(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/salary-types', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/salary-dk/salary-types', 'GET')
     }
 
     async getSupplementTypes(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/supplement-types', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/salary-dk/supplement-types', 'GET')
     }
 
     async getLeaveTypes(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/leave-types', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/salary-dk/leave-types', 'GET')
     }
 
     async syncTimeRegistrations(registrations: any[]): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/time-registrations', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-            body: { registrations },
-        })
+        return await this.request('/user/salary-dk/time-registrations', 'POST', { registrations })
     }
 
     async createLeaveRegistration(payload: any): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/leave-registrations', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-            body: payload,
-        })
+        return await this.request('/user/salary-dk/leave-registrations', 'POST', payload)
     }
 
     async createSupplementRegistration(payload: any): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/supplement-registrations', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-            body: payload,
-        })
+        return await this.request('/user/salary-dk/supplement-registrations', 'POST', payload)
     }
 
     async disconnectSalaryDk(): Promise<any> {
-        const token = localStorage.getItem('_token')
-        return await $fetch('/api/user/salary-dk/disconnect', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/json',
-            },
-        })
+        return await this.request('/user/salary-dk/disconnect', 'POST')
     }
 }
 
