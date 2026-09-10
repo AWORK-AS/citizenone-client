@@ -6,6 +6,10 @@
 .cache
 dist
 
+# Standalone widget bundle (built by `pnpm build:widget`, see
+# vite.widget.config.ts) — generated, not checked in.
+public/widget.js
+
 # Node dependencies
 node_modules
 
