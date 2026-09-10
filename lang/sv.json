@@ -1913,8 +1913,10 @@
                     "access": "Åtkomst",
                     "archive": "Arkiv",
                     "delete": "Radera",
+                    "download": "Ladda ner",
                     "edit": "Redigera",
                     "move": "Flytta",
+                    "openSelected": "Öppna valda",
                     "share": "Dela",
                     "statuses": "Statusar",
                     "unshare": "Ta bort delning",
@@ -2095,6 +2097,7 @@
             "region": "Region",
             "requiresInterpreter": "Tolk krävs",
             "requiresInterpreterDescription": "Kryssa i om det behövs tolk vid samtal med medborgaren.",
+            "interventionType": "Insatstyp",
             "responsibleMunicipality": "Handlekommune",
             "room": "Rum",
             "section": "Paragraf",
@@ -3215,6 +3218,10 @@
                     "plansAndGoals": "Planer och mål"
                 },
                 "view": "Se"
+            },
+            "columns": {
+                "columns": "Kolumner",
+                "hint": "Välj vilka kolumner som ska visas i översikten."
             },
             "department": "Avdelning",
             "email": "E-post",
@@ -6614,6 +6621,22 @@
             "substitute": "Vikar​",
             "temporary": "Tidsbestemt​"
         },
+        "certificates": {
+            "certificates": "Intyg",
+            "columns": {
+                "employee": "Anställd",
+                "type": "Typ",
+                "expiresAt": "Går ut",
+                "status": "Status"
+            },
+            "statuses": {
+                "expired": "Utgånget",
+                "expiring_soon": "Går snart ut",
+                "valid": "Giltigt",
+                "no_expiry": "Inget utgångsdatum"
+            },
+            "empty": "Inga intyg hittades"
+        },
         "exportEmployees": "Exportera anställda",
         "form": {
             "address": "Adress",
@@ -9827,7 +9850,9 @@
             "level": "Level",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
-            "noPermissionsMatch": "Inga behörigheter matchar \"{search}\"."
+            "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
+            "employeeGroups": "Medarbetargrupper",
+            "noEmployeeGroups": "Inga medarbetargrupper skapade än."
         },
         "newRole": "Ny roll",
         "permissions": {

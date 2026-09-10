@@ -93,7 +93,14 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
         href: `/citizens/${citizenUuid}/timeline`,
         routeNames: ['citizens-uuid-timeline'],
     })
-    if (can('Medicine card') && newValue?.company?.onboarding_preferences?.modules?.medicin !== false) {
+    // can('Medicine card') already reflects the company's real module_pages
+    // choice (what Settings -> Company actually manages). A redundant check
+    // against onboarding_preferences.modules.medicin used to also gate this -
+    // but Settings -> Company updates module_pages without ever touching
+    // onboarding_preferences, so a company that answered "no" during initial
+    // onboarding and later turned Medicine card on via Settings kept this tab
+    // permanently hidden despite the module being genuinely enabled and used.
+    if (can('Medicine card')) {
         tabs.push({
             name: 'citizens.tabs.medicineCard', icon: 'ph:pill', isTranslateName: true,
             category: 'care', primary: true,
@@ -101,7 +108,9 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-medicine-journals'],
         })
     }
-    if (can('Documents') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
+    // Same stale-flag issue as Medicine card above - can('Documents') is
+    // already the authoritative, up-to-date check.
+    if (can('Documents')) {
         tabs.push({
             name: 'citizens.tabs.documents', icon: 'ph:files', isTranslateName: true,
             category: 'documentation', primary: true,
@@ -121,7 +130,8 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             ],
         })
     }
-    if (can('Plans and goals') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
+    // Same stale-flag issue as Medicine card/Documents above.
+    if (can('Plans and goals')) {
         tabs.push({
             name: 'citizens.tabs.plansAndGoals', icon: 'ph:target', isTranslateName: true,
             category: 'care', primary: false,

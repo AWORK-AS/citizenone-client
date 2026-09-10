@@ -49,6 +49,11 @@
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.exportEmployees') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="navigateTo('/employees/certificates')"
+                            v-if="isAtLeast('Admin')">
+                            <Icon name="ph:seal-check" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('employees.certificates.certificates') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="state.modal.isFilterOpen = true">
                             <Icon name="ic:outline-filter-list" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('filter') }}
@@ -225,6 +230,7 @@ import { useEmployeeStore } from '@/store/employee'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 
@@ -233,6 +239,7 @@ const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
+const { isAtLeast } = usePermissions()
 const { t } = useI18n()
 const breadcrumbLinks = [
     {
