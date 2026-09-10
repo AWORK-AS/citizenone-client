@@ -28,7 +28,8 @@
     "test:salary-dk-connect": "node salary-dk-connect.mjs",
     "test:danlon-connect": "node danlon-connect.mjs",
     "test:risk-assessment-trend-graph": "node risk-assessment-trend-graph.mjs",
-    "test:google-drive-overview-tab": "node google-drive-overview-tab.mjs"
+    "test:google-drive-overview-tab": "node google-drive-overview-tab.mjs",
+    "test:multi-year-subscription-terms": "node multi-year-subscription-terms.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

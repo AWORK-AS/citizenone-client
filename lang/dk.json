@@ -11080,6 +11080,8 @@
                     "tax": "Moms (25%)",
                     "serviceFee": "Servicegebyr",
                     "paysViaLeverandorservice": "Betales via Leverandørservice",
+                    "termYears": "Kontraktlængde (år)",
+                    "termYearsHint": "Ved en flerårig aftale ganges prisen ovenfor med dette antal år.",
                     "total": "Total",
                     "added": "Abonnement tilføjet",
                     "failed": "Kunne ikke tilføje abonnement"
