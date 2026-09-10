@@ -479,15 +479,21 @@ const departmentStore = useDepartmentStore()
  * Whether this company works with medicine at all.
  *
  * Same two conditions the citizen's medicine tab uses: the page has to be
- * granted, and the module has to be kept in the company's own module choices.
- * A company that turned medicine off was still shown a doses-due card that
- * could only ever read zero.
+ * granted, and the company's real module_pages choice (what Settings ->
+ * Company manages) has to include it - not onboarding_preferences, which is
+ * only ever written by the one-time onboarding wizard and goes stale the
+ * moment the module is toggled from Settings instead. That staleness used
+ * to leave this doses-due card hidden (or shown reading zero) even when the
+ * company had genuinely enabled and was actively using medicine.
  */
 const hasMedicineModule = computed(() => {
     const pages = userStore.getUser?.pages ?? []
     const hasPage = pages.some((page: any) => page.name === 'Medicine card')
 
-    return hasPage && userStore.getUser?.company?.onboarding_preferences?.modules?.medicin !== false
+    const companyModulePages = userStore.getUser?.company?.module_pages
+    const companyHasModule = !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes('Medicine card')
+
+    return hasPage && companyHasModule
 })
 
 // True when any statistics widget is enabled — guards the collapsible Statistics
