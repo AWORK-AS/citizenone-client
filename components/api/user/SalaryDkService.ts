@@ -26,7 +26,7 @@ class SalaryDkService extends BaseAPIService {
     }
 
     async syncTimeRegistrations(registrations: any[]): Promise<any> {
-        return await this.request('/user/salary-dk/time-registrations', 'POST', { registrations })
+        return await this.request('/user/salary-dk/time-registrations/bulk', 'POST', { registrations })
     }
 
     async createLeaveRegistration(payload: any): Promise<any> {
