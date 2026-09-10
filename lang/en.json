@@ -15096,5 +15096,40 @@
         "newMessageBody": "You have a new message in CitizenOne.",
         "newNotification": "New notification",
         "newNotificationBody": "There is a new notification in CitizenOne."
+    },
+    "websiteBookingSettings": {
+        "websiteBooking": "Website booking",
+        "alert": {
+            "websiteBookingSuccessfullySaved": "Website booking settings successfully saved"
+        },
+        "form": {
+            "enable": "Enable online booking on your website",
+            "enableLabel": "Let visitors on your own website book directly into this calendar",
+            "branding": "Branding",
+            "brandingLabel": "Customize how the booking widget looks",
+            "primaryColor": "Primary color",
+            "secondaryColor": "Secondary color",
+            "welcomeText": "Welcome text",
+            "welcomeTextLabel": "Shown at the top of the booking widget",
+            "confirmationText": "Confirmation text",
+            "confirmationTextLabel": "Shown after a visitor completes a booking",
+            "services": "Services",
+            "servicesLabel": "Choose which services can be booked from your website",
+            "departments": "Departments",
+            "departmentsLabel": "Choose which departments are shown to visitors",
+            "allowedDomains": "Allowed websites",
+            "allowedDomainsLabel": "Only these websites are allowed to embed your booking widget",
+            "addDomain": "Add",
+            "domainPlaceholder": "www.yourwebsite.com",
+            "embedCode": "Embed code",
+            "embedCodeLabel": "Paste this code into your website to show the booking widget",
+            "hostedLink": "Booking page link",
+            "hostedLinkLabel": "Share this link directly, e.g. in emails or on social media",
+            "copyCode": "Copy code",
+            "codeCopied": "Copied!",
+            "copyLink": "Copy link",
+            "linkCopied": "Copied!",
+            "preview": "Preview"
+        }
     }
 }

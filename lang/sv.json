@@ -15096,5 +15096,40 @@
         "newMessageBody": "Du har fått ett nytt meddelande i CitizenOne.",
         "newNotification": "Ny avisering",
         "newNotificationBody": "Det finns en ny avisering i CitizenOne."
+    },
+    "websiteBookingSettings": {
+        "websiteBooking": "Webbplatsbokning",
+        "alert": {
+            "websiteBookingSuccessfullySaved": "Inställningar för webbplatsbokning sparades"
+        },
+        "form": {
+            "enable": "Aktivera onlinebokning på din webbplats",
+            "enableLabel": "Låt besökare på din egen webbplats boka direkt i den här kalendern",
+            "branding": "Varumärke",
+            "brandingLabel": "Anpassa hur bokningswidgeten ser ut",
+            "primaryColor": "Primärfärg",
+            "secondaryColor": "Sekundärfärg",
+            "welcomeText": "Välkomsttext",
+            "welcomeTextLabel": "Visas högst upp i bokningswidgeten",
+            "confirmationText": "Bekräftelsetext",
+            "confirmationTextLabel": "Visas när en besökare har slutfört en bokning",
+            "services": "Tjänster",
+            "servicesLabel": "Välj vilka tjänster som kan bokas från din webbplats",
+            "departments": "Avdelningar",
+            "departmentsLabel": "Välj vilka avdelningar som visas för besökare",
+            "allowedDomains": "Tillåtna webbplatser",
+            "allowedDomainsLabel": "Endast dessa webbplatser får bädda in din bokningswidget",
+            "addDomain": "Lägg till",
+            "domainPlaceholder": "www.dinwebbplats.se",
+            "embedCode": "Inbäddningskod",
+            "embedCodeLabel": "Klistra in den här koden på din webbplats för att visa bokningswidgeten",
+            "hostedLink": "Länk till bokningssida",
+            "hostedLinkLabel": "Dela den här länken direkt, t.ex. i e-post eller på sociala medier",
+            "copyCode": "Kopiera kod",
+            "codeCopied": "Kopierat!",
+            "copyLink": "Kopiera länk",
+            "linkCopied": "Kopierat!",
+            "preview": "Förhandsgranskning"
+        }
     }
 }
