@@ -11825,7 +11825,28 @@
             "paymentFees": "Betalingsgebyrer",
             "storageUsage": "Lagerforbrug",
             "industries": "Brancher",
-            "salesInquiries": "Henvendelser"
+            "salesInquiries": "Henvendelser",
+            "teamRoles": "Roller"
+        },
+        "teamRoles": {
+            "pageTitle": "Roller",
+            "header": "Roller",
+            "subtitle": "Hvad hver rolle må se i superadminen. Rollen er levende: udvider du den her, får alle i den området med. Undtagelser for den enkelte kollega sættes under Brugere.",
+            "newRole": "Ny rolle",
+            "namePlaceholder": "Navn på rollen",
+            "locked": "Kan ikke ændres",
+            "lockedHint": "Superadmin har al adgang. Den kan ikke redigeres, fordi det er den rolle der kan rette de andre.",
+            "members": "{count} kollegaer",
+            "loading": "Henter roller",
+            "saved": "Adgangen er gemt",
+            "person": {
+                "role": "Rolle",
+                "roleHint": "Pakken af områder denne kollega får. Vælg tilvalg og fravalg nedenfor, hvis de er en undtagelse.",
+                "extra": "Ekstra adgang ud over rollen",
+                "revoked": "Fjernet, selv om rollen giver den",
+                "fromRole": "fra rollen",
+                "none": "Ingen rolle"
+            }
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
