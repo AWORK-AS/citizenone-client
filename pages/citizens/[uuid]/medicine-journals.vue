@@ -154,11 +154,11 @@
                 </div>
 
                 <!-- TOOLBAR -->
-                <div class="flex flex-col-reverse lg:flex-row justify-between gap-3">
+                <div class="flex flex-col-reverse xl:flex-row justify-between gap-3">
                     <div class="flex items-center gap-2 flex-wrap">
-                        <div class="flex items-center bg-gray-100 rounded-lg p-1 gap-1">
+                        <div class="flex items-center bg-gray-100 rounded-lg p-1 gap-1 max-w-full overflow-x-auto">
                             <button v-for="mode in viewModes" :key="mode.key" @click="state.viewMode = mode.key"
-                                :class="['flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-all', state.viewMode === mode.key ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-gray-700']">
+                                :class="['shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-all', state.viewMode === mode.key ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-gray-700']">
                                 <Icon :name="mode.icon" class="size-4" />
                                 {{ mode.label }}
                             </button>
@@ -180,7 +180,7 @@
                         </div>
                     </div>
                     <!-- Find + actions: search flexes/shrinks, buttons stay on one line -->
-                    <div class="flex items-center gap-2 flex-wrap lg:flex-nowrap lg:flex-1 lg:min-w-0 lg:justify-end">
+                    <div class="flex items-center gap-2 flex-wrap xl:flex-nowrap xl:flex-1 xl:min-w-0 xl:justify-end">
                         <div class="w-full sm:flex-1 sm:min-w-0 lg:flex-none lg:w-64">
                             <TableSearch @search="handleSearch" />
                         </div>
@@ -196,9 +196,10 @@
                             <Icon name="ph:plus" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.newMedicine') }}
                         </FormButton>
-                        <!-- Secondary actions: buttons on desktop, folded into the "..." menu
-                             below lg so the toolbar does not stack four rows deep on a phone. -->
-                        <div class="hidden lg:flex items-center gap-2">
+                        <!-- Secondary actions: buttons on wide screens, folded into the "..."
+                             menu below xl - they only fit inline from ~1220px up, and below that
+                             they pushed search and filter off the edge of the toolbar. -->
+                        <div class="hidden xl:flex items-center gap-2">
                             <FormButton buttonStyle="action" class="rounded-md shrink-0"
                                 @click="state.modal.isNewPouringOpen = true"
                                 v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
@@ -234,8 +235,8 @@
                                 <MenuItems
                                     class="absolute right-0 z-20 mt-2 w-60 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <!-- Mirrors the secondary action buttons, which are hidden below
-                                         lg so the toolbar does not stack four rows deep on a phone. -->
-                                    <div class="py-1 lg:hidden border-b border-gray-100">
+                                         xl so the toolbar does not stack four rows deep on a phone. -->
+                                    <div class="py-1 xl:hidden border-b border-gray-100">
                                         <MenuItem v-if="isAtLeast('Admin') || can('create_citizen_medicine')"
                                             v-slot="{ active }">
                                         <button type="button" @click="state.modal.isNewPouringOpen = true"
