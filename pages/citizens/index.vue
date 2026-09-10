@@ -639,13 +639,19 @@ const isInterventionCheckinEnabled = computed(() => {
     return userStore.getUser?.company?.intervention_checkin_enabled === true
 })
 
-const isMedicineEnabled = computed(() => {
-    return userStore.getUser?.company?.onboarding_preferences?.modules?.medicin !== false
-})
+// Reads the company's real, current module choice (module_pages - what
+// Settings -> Company actually manages), not onboarding_preferences: that
+// flag is only ever written by the one-time onboarding wizard and goes
+// stale the moment a module is toggled from Settings instead, which used to
+// leave these buttons hidden even when the module was genuinely enabled.
+function companyHasModule(pageName: string): boolean {
+    const companyModulePages = userStore.getUser?.company?.module_pages
+    return !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(pageName)
+}
 
-const isDokumentationEnabled = computed(() => {
-    return userStore.getUser?.company?.onboarding_preferences?.modules?.dokumentation !== false
-})
+const isMedicineEnabled = computed(() => companyHasModule('Medicine card'))
+
+const isDokumentationEnabled = computed(() => companyHasModule('Plans and goals'))
 
 const OPTIONAL_COLUMN_HEADERS: Record<string, any> = {
     email: { name: 'citizens.table.email', isTranslateName: true, sorter: true, key: 'email' },
