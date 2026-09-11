@@ -29,7 +29,8 @@
     "test:danlon-connect": "node danlon-connect.mjs",
     "test:risk-assessment-trend-graph": "node risk-assessment-trend-graph.mjs",
     "test:google-drive-overview-tab": "node google-drive-overview-tab.mjs",
-    "test:economy-any-industry": "node economy-any-industry.mjs"
+    "test:economy-any-industry": "node economy-any-industry.mjs",
+    "test:invoices-redirect-to-invoicing": "node invoices-redirect-to-invoicing.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

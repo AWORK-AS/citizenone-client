@@ -457,7 +457,7 @@
                                         </div>
                                     </MenuItem>
                                     <MenuItem v-if="userStore.getUser?.has_invoice_app">
-                                        <div @click="navigateTo('/invoices')"
+                                        <div @click="navigateTo('/invoicing')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:receipt" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.invoices') }}
