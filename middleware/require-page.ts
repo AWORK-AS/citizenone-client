@@ -1,17 +1,24 @@
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { userService } from '@/components/api/user/UserService'
+import { canOpenPage } from '@/composables/pageAccess'
 
 /**
  * Enforces the page a route was granted access under (definePageMeta({
  * middleware: 'require-page', requiredPage: 'Inquiries' })) rather than only
- * hiding its nav link. Mirrors the same three checks layouts/user.vue already
- * uses to decide whether to show the link at all - this just runs them again
- * before the page itself loads, since the backend gates the data but nothing
- * used to gate the route.
+ * hiding its nav link. Mirrors the same checks layouts/user.vue already uses to
+ * decide whether to show the link at all - this just runs them again before the
+ * page itself loads, since the backend gates the data but nothing used to gate
+ * the route.
+ *
+ * A page that also needs a company flag names it: `requiredCompanyFlag:
+ * 'inquiry_pipeline_enabled'`. It used to be demanded of every page, which was
+ * harmless while Inquiries was the only user of this middleware and would have
+ * refused any second page to every company without the inquiry pipeline.
  */
 export default defineNuxtRouteMiddleware(async (to) => {
     const requiredPage = to.meta?.requiredPage as string | undefined
+    const requiredCompanyFlag = to.meta?.requiredCompanyFlag as string | undefined
 
     if (!requiredPage) {
         return
@@ -38,13 +45,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
     const user = userStore.getUser
 
-    const companyModulePages = user?.company?.module_pages
-    const companyHasModule = (name: string) =>
-        !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(name)
-
-    const hasAccess = !!user?.company?.inquiry_pipeline_enabled
-        && companyHasModule(requiredPage)
-        && user?.pages?.some((page: any) => page.name === requiredPage)
+    const hasAccess = canOpenPage(user, requiredPage, requiredCompanyFlag)
 
     if (!hasAccess) {
         const { errorAlert } = useAlert()
