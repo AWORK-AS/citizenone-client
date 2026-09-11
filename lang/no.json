@@ -1913,8 +1913,10 @@
                     "access": "Tilgang",
                     "archive": "Arkiv",
                     "delete": "Slett",
+                    "download": "Last ned",
                     "edit": "Rediger",
                     "move": "Flytt",
+                    "openSelected": "Åpne valgte",
                     "share": "Del",
                     "statuses": "Statuser",
                     "unshare": "Fjern deling",
@@ -2095,6 +2097,7 @@
             "region": "Region",
             "requiresInterpreter": "Tolk kreves",
             "requiresInterpreterDescription": "Kryss av hvis det trengs tolk ved samtaler med borgeren.",
+            "interventionType": "Tiltakstype",
             "responsibleMunicipality": "Handlekommune",
             "room": "Rom",
             "section": "Paragraf",
@@ -3215,6 +3218,10 @@
                     "plansAndGoals": "Planer og mål"
                 },
                 "view": "Se"
+            },
+            "columns": {
+                "columns": "Kolonner",
+                "hint": "Velg hvilke kolonner som skal vises i oversikten."
             },
             "department": "Avdeling",
             "email": "E-post",
@@ -6614,6 +6621,22 @@
             "substitute": "Vikar​",
             "temporary": "Tidsbestemt​"
         },
+        "certificates": {
+            "certificates": "Attester",
+            "columns": {
+                "employee": "Medarbeider",
+                "type": "Type",
+                "expiresAt": "Utløper",
+                "status": "Status"
+            },
+            "statuses": {
+                "expired": "Utløpt",
+                "expiring_soon": "Utløper snart",
+                "valid": "Gyldig",
+                "no_expiry": "Ingen utløpsdato"
+            },
+            "empty": "Ingen attester funnet"
+        },
         "exportEmployees": "Eksporter medarbeidere",
         "form": {
             "address": "Adresse",
@@ -9827,7 +9850,9 @@
             "level": "Level",
             "selectAll": "Velg alle",
             "clearAll": "Tøm alle",
-            "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\"."
+            "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
+            "employeeGroups": "Medarbeidergrupper",
+            "noEmployeeGroups": "Ingen medarbeidergrupper opprettet ennå."
         },
         "newRole": "Ny rolle",
         "permissions": {

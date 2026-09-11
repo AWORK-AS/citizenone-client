@@ -35,15 +35,30 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch @search="handleSearch" />
+                    <div class="flex items-center gap-x-2">
+                        <TableSearch @search="handleSearch" class="flex-1" />
+                        <FormButton buttonStyle="action" :disabled="!state.selectedDocuments.length"
+                            @click="openSelectedDocuments">
+                            <Icon name="ph:arrow-square-out" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.documents.table.actions.openSelected') }} ({{ state.selectedDocuments.length }})
+                        </FormButton>
+                    </div>
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.documents"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
+                            :isLoading="state.isTableLoading" :sortData="state.sortData" :selection="true"
+                            rowKey="uuid" @sort="sort" @selection-change="onSelectionChange">
+                            <template #body="{ selectedRows, handleRowSelect }"
+                                v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
                                 <tr v-for="(document, index) in state.documents?.data" :key="index">
+                                    <td width="50">
+                                        <input v-if="document?.file_url" type="checkbox"
+                                            :checked="selectedRows.some((row: any) => row.uuid === document.uuid)"
+                                            @change="handleRowSelect(document)"
+                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
+                                    </td>
                                     <td width="25%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                            v-if="document?.file_url" @click="downloadFile(document)">
+                                            v-if="document?.file_url" @click="viewFile(document)">
                                             <Icon name="ph:file" class="size-6" />
                                             <span>{{ document?.name }}</span>
                                         </div>
@@ -74,6 +89,11 @@
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('citizens.documents.table.actions.view') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="action"
+                                                @click="downloadFile(document)" v-if="document?.file_url">
+                                                <Icon name="ph:download-simple" class="size-4" />
+                                                {{ $t('citizens.documents.table.actions.download') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -91,8 +111,11 @@
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { citizenDocumentService } from '@/components/api/relative/CitizenDocumentService'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { documentBlobViewer } from '@/composables/documentBlobViewer'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
+
+const { openBlobInNewTab } = documentBlobViewer()
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
@@ -122,6 +145,7 @@ const state = reactive({
     error: {} as Error,
     isTableLoading: false,
     documents: [] as any,
+    selectedDocuments: [] as any[],
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -201,6 +225,31 @@ async function downloadFile(document: any) {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+async function viewFile(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await citizenDocumentService.downloadCitizenFile(document?.uuid)
+        if (response) {
+            openBlobInNewTab(response)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function onSelectionChange(rows: any[]) {
+    state.selectedDocuments = rows
+}
+
+async function openSelectedDocuments() {
+    for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
+        await viewFile(document)
+    }
+    state.selectedDocuments = []
 }
 
 async function viewDirectory(document: any) {

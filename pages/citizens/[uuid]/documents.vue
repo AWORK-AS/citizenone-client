@@ -83,7 +83,14 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch @search="handleSearch" />
+                    <div class="flex items-center gap-x-2">
+                        <TableSearch @search="handleSearch" class="flex-1" />
+                        <FormButton buttonStyle="action" :disabled="!state.selectedDocuments.length"
+                            @click="openSelectedDocuments">
+                            <Icon name="ph:arrow-square-out" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.documents.table.actions.openSelected') }} ({{ state.selectedDocuments.length }})
+                        </FormButton>
+                    </div>
                     <div class="table-responsive">
                         <!-- <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                             @click="$router.back()" v-if="router?.currentRoute?.value?.query?.folder_uuid">
@@ -91,12 +98,20 @@
                             <span class="text-sm">{{ $t('back') }}</span>
                         </div> -->
                         <Table :columnHeaders="state.columnHeaders" :data="state.documents"
-                            :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
+                            :isLoading="state.isTableLoading" :sortData="state.sortData" :selection="true"
+                            rowKey="uuid" @sort="sort" @selection-change="onSelectionChange">
+                            <template #body="{ selectedRows, handleRowSelect }"
+                                v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
                                 <tr v-for="(document, index) in state.documents?.data" :key="index" :data-uuid="document.uuid">
+                                    <td width="50">
+                                        <input v-if="document?.file_url" type="checkbox"
+                                            :checked="selectedRows.some((row: any) => row.uuid === document.uuid)"
+                                            @change="handleRowSelect(document)"
+                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
+                                    </td>
                                     <td width="25%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                            v-if="document?.file_url" @click="downloadFile(document)">
+                                            v-if="document?.file_url" @click="viewFile(document)">
                                             <Icon name="ph:file" class="size-6" />
                                             <Tooltip :text="$t('citizens.documents.form.forAdministratorsOnly')"
                                                 class="flex items-center" v-if="document?.is_admin_access">
@@ -135,6 +150,13 @@
                                                 <FormButton :aria-label="$t('citizens.documents.table.actions.view')" type="button" buttonStyle="primary"
                                                     @click="viewDirectory(document)" v-if="document?.type === 'folder'">
                                                     <Icon name="ph:eye" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.download')"
+                                                v-if="document?.file_url">
+                                                <FormButton :aria-label="$t('citizens.documents.table.actions.download')" type="button" buttonStyle="primary"
+                                                    @click="downloadFile(document)">
+                                                    <Icon name="ph:download-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="document?.is_shared ? $t('citizens.documents.table.actions.unshare') :
@@ -245,8 +267,11 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { documentBlobViewer } from '@/composables/documentBlobViewer'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
+
+const { openBlobInNewTab } = documentBlobViewer()
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
@@ -285,6 +310,7 @@ const state = reactive({
     isPageLoading: false,
     isTableLoading: false,
     documents: [] as any,
+    selectedDocuments: [] as any[],
     modal: {
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
@@ -397,6 +423,39 @@ async function downloadFile(document: any) {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+// GDPR ask from the 2026-09-03 superbrugermøde: opening a document should not
+// force it to disk. Same authenticated download call as downloadFile, but the
+// blob is shown in a new tab instead of saved - no local copy is written.
+async function viewFile(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await citizenDocumentService.downloadCitizenFile(document?.uuid)
+        if (response) {
+            openBlobInNewTab(response)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function onSelectionChange(rows: any[]) {
+    state.selectedDocuments = rows
+}
+
+// Best-effort: browsers block more than a couple of window.open calls that
+// aren't the direct result of a click, so only the first few tabs are
+// guaranteed to open - same limitation the customer already flagged themselves.
+async function openSelectedDocuments() {
+    // "Select all" in the table header also grabs folder rows, which have no
+    // file_url and nothing to view.
+    for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
+        await viewFile(document)
+    }
+    state.selectedDocuments = []
 }
 
 function triggerFileInput() {

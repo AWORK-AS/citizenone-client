@@ -119,7 +119,7 @@
                         </section>
 
                         <!-- Meds due -->
-                        <section :id="`card-meds`" class="rounded-xl bg-white ring-1 ring-gray-200 p-5">
+                        <section v-if="hasMedicineModule" :id="`card-meds`" class="rounded-xl bg-white ring-1 ring-gray-200 p-5">
                             <div class="flex items-center gap-2 mb-3">
                                 <Icon name="solar:jar-of-pills-2-linear" class="size-5 text-tertiary" />
                                 <h3 class="font-semibold text-gray-900">{{ $t('myDay.medsDue') }}</h3>
@@ -298,6 +298,14 @@ const showDutyScheduleLink = computed(() => {
         !!userStore.getUser?.pages?.some((p: any) => p.name === 'Duty Schedule')
 })
 
+// Same two conditions as the /overview page's doses-due card: the page has to
+// be granted, and the module has to be kept in the company's own module choices.
+// A company that turned medicine off still saw this card since it wasn't gated.
+const hasMedicineModule = computed(() => {
+    const hasPage = userStore.getUser?.pages?.some((page: any) => page.name === 'Medicine card')
+    return hasPage && userStore.getUser?.company?.onboarding_preferences?.modules?.medicin !== false
+})
+
 const firstName = computed(() => userStore.getUser?.firstname ?? '')
 
 // moment's locale formats don't match the wording each language actually
@@ -409,7 +417,7 @@ function onMedicineGiven() {
 const stats = computed(() => [
     { key: 'shifts', icon: 'ph:clock', label: t('myDay.shifts'), value: state.shifts.length },
     { key: 'events', icon: 'ph:calendar-blank', label: t('myDay.events'), value: state.events.length },
-    { key: 'meds', icon: 'solar:jar-of-pills-2-linear', label: t('myDay.medsDue'), value: pendingMedsCount.value },
+    ...(hasMedicineModule.value ? [{ key: 'meds', icon: 'solar:jar-of-pills-2-linear', label: t('myDay.medsDue'), value: pendingMedsCount.value }] : []),
     { key: 'reminders', icon: 'ph:check-square', label: t('myDay.reminders'), value: state.reminders.filter((r) => !isReminderDone(r)).length },
 ])
 
@@ -457,7 +465,11 @@ async function fetchAll() {
     const results = await Promise.allSettled([
         myCalendarService.getCalendarShifts({ date: JSON.stringify(dateRange) }),
         dailyOverviewService.getMyDailyEvents(dateRange),
-        dailyOverviewService.getCitizenDailyMedicineOverview({ department: dept, ...dateRange }),
+        // Nothing on the page reads it when the module is off: mirrors the
+        // /overview page's fetchCitizensMedicines guard.
+        hasMedicineModule.value
+            ? dailyOverviewService.getCitizenDailyMedicineOverview({ department: dept, ...dateRange })
+            : Promise.resolve(null),
         reminderService.getReminders(),
     ])
     const [shifts, events, meds, reminders] = results.map((r: any) => (r.status === 'fulfilled' ? r.value : null))
