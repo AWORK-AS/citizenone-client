@@ -4761,6 +4761,7 @@
             "doNotCountWeekends": "Do not count weekends",
             "estimatedPayrollCost": "Estimated payroll cost",
             "forSleepingNightShift": "For sleeping night shift",
+            "hours": "Hours",
             "inMeeting": "In Meeting",
             "note": "Note",
             "overrideVacationHours": "Override default vacation hours",
@@ -5306,6 +5307,7 @@
             "dateTimeEnd": "Date time end",
             "datetimeStart": "Date time start",
             "departments": "Departments",
+            "hours": "Hours",
             "note": "Note",
             "typeOfShift": "Type of shift",
             "viewSchedule": "View schedule"
