@@ -29,6 +29,15 @@
                                 {{ formatDateTimeToReadable(props?.selectedEmployeeSchedule?.date_time_end) }}
                             </p>
                         </div>
+                        <div class="flex items-center gap-x-1"
+                            v-if="props?.selectedEmployeeSchedule?.hours !== null && props?.selectedEmployeeSchedule?.hours !== undefined">
+                            <p class="text-sm text-gray-600">
+                                {{ $t('dutySchedules.viewSchedule.hours') }}:
+                            </p>
+                            <p class="text-sm">
+                                {{ props?.selectedEmployeeSchedule?.hours }}
+                            </p>
+                        </div>
                         <div class="space-y-1">
                             <p class="text-sm text-gray-600">
                                 {{ $t('dutySchedules.viewSchedule.citizens') }}:

@@ -4706,6 +4706,7 @@
             "doNotCountWeekends": "Tæl ikke weekender med",
             "estimatedPayrollCost": "Estimert lønnskostnad",
             "forSleepingNightShift": "For sovende nattevagt",
+            "hours": "Timer",
             "inMeeting": "I møde",
             "note": "Bemærkning",
             "overrideVacationHours": "Overskriv standard ferietimer",
@@ -5251,6 +5252,7 @@
             "dateTimeEnd": "Dato og tid slutt",
             "datetimeStart": "Dato og tid start",
             "departments": "Avdelinger",
+            "hours": "Timer",
             "note": "Bemærkning",
             "typeOfShift": "Type av vakt",
             "viewSchedule": "Se tidsplan"

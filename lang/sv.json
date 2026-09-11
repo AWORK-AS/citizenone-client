@@ -4706,6 +4706,7 @@
             "doNotCountWeekends": "Täl inte weekender med",
             "estimatedPayrollCost": "Uppskattad lönekostnad",
             "forSleepingNightShift": "För sovende nattpass",
+            "hours": "Timmar",
             "inMeeting": "I möte",
             "note": "Anmärkning",
             "overrideVacationHours": "Overskriv standard ferietimer",
@@ -5251,6 +5252,7 @@
             "dateTimeEnd": "Datum och tid slut",
             "datetimeStart": "Datum och tid start",
             "departments": "Avdelningar",
+            "hours": "Timmar",
             "note": "Anmärkning",
             "typeOfShift": "Typ av pass",
             "viewSchedule": "Se schema"
