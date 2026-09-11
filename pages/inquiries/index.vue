@@ -320,7 +320,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', requiredCompanyFlag: 'inquiry_pipeline_enabled' })
 
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'

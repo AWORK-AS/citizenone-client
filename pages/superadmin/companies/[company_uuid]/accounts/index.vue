@@ -384,6 +384,12 @@
                 @close="state.modal.isDeleteAccountOpen = false" @confirm="deleteAccount" />
         </NuxtLayout>
     </div>
+
+        <!-- Bank-på-adgangen. Åbnes af den 403 der siger at kunden ikke har sagt ja
+             endnu, så formularen først kommer når den er nødvendig. -->
+        <ModulesSuperadminSupportAccessRequestDialog :isOpen="state.supportAccess.isOpen"
+            :accountUuid="state.supportAccess.accountUuid" :accountName="state.supportAccess.accountName"
+            @close="state.supportAccess.isOpen = false" @requested="state.supportAccess.isOpen = false" />
 </template>
 
 <script setup lang="ts">
@@ -418,6 +424,14 @@ const state = reactive({
     ]),
     accounts: [] as any,
     apps: [] as any,
+
+    // Bank-på-adgangen. Kontoen huskes her, fordi dialogen åbnes fra fejlsvaret på et
+    // forsøg og ikke fra knappen - så den skal vide hvilken konto forsøget gjaldt.
+    supportAccess: {
+        isOpen: false,
+        accountUuid: null as string | null,
+        accountName: '',
+    },
     company: null as any,
     dataFilter: {
         search: '',
@@ -612,6 +626,19 @@ function recoverFromFailedImpersonation() {
     }
 }
 
+/**
+ * Beder kunden om lov, hvis de ikke allerede har sagt ja.
+ *
+ * `support_access_required` er backendens svar på "du må godt spørge, men der er ikke
+ * sagt ja til netop denne konto endnu". Det er ikke en fejl at vise som en fejl: det er
+ * en anmodning der skal sendes, så dialogen åbnes med kontoen udfyldt.
+ */
+function askForAccess(account: any) {
+    state.supportAccess.accountUuid = account.uuid
+    state.supportAccess.accountName = [account.firstname, account.lastname].filter(Boolean).join(' ')
+    state.supportAccess.isOpen = true
+}
+
 async function impersonateAccount(account: any) {
     state.error = {}
     state.isPageLoading = true
@@ -627,7 +654,12 @@ async function impersonateAccount(account: any) {
         }
     } catch (error: any) {
         recoverFromFailedImpersonation()
-        state.error = error
+
+        if (error?.code === 'support_access_required') {
+            askForAccess(account)
+        } else {
+            state.error = error
+        }
     }
     state.isPageLoading = false
 }

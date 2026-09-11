@@ -426,6 +426,79 @@ real `DANLON_CLIENT_ID`/`DANLON_CLIENT_SECRET`/`DANLON_REDIRECT_URI` set and
 CO_TOKEN='<token>' CO_DANLON_USERNAME='<demo-username>' CO_DANLON_PASSWORD='<demo-password>' npm run test:danlon-connect
 ```
 
+### `multi-year-subscription-terms` — needs a dedicated superadmin fixture company + app
+
+Covers the multi-year (`term_years`) contract-length feature in superadmin: a
+client bought a 3-year Pro subscription, 6 extra user licenses, and 8 AI
+license seats, all on a 3-year term, but superadmin could previously only
+ever create 1-year deals. Drives the real "Add subscription", "Grant
+licenses" and "Grant AI license" flows through the browser, checks that the
+"Contract length (years)" field only appears for Yearly + Manual invoice (not
+Monthly, not card billing), checks the on-screen price preview math (unit
+price × years, VAT, service fee, total) before submitting, then verifies via
+the API that the created invoice and license rows actually stored `term_years`
+and the multiplied price.
+
+There is no API to create or delete a `Company`, and no list endpoint for a
+non-storage `AddOnDeal`'s price - both gaps are filled once via `tinker`. This
+fixture company is meant to be **reused** across runs (the script's own
+cleanup, described below, restores it to "no active subscription" every
+time), so mint it once and keep the printed values:
+
+```bash
+php artisan tinker --execute='
+  $company = App\Models\Company::firstOrCreate(["name" => "E2E MultiYear Co"]);
+  $language = App\Models\Language::firstOrCreate(["code" => "en"], ["uuid" => (string) Illuminate\Support\Str::uuid(), "name" => "English"]);
+  $admin = App\Models\User::firstOrCreate(
+    ["email" => "e2e-multiyear-admin@test.com"],
+    ["firstname" => "E2E", "lastname" => "MultiYear", "phone" => "+4500000095",
+     "company_id" => $company->id, "language_id" => $language->id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false, "is_active" => true]
+  );
+  if (! $admin->hasRole("Admin")) $admin->assignRole("Admin");
+
+  $app = App\Models\Application::firstOrCreate(
+    ["generic_name" => "e2e-ai-app"],
+    ["name" => "E2E AI App", "description" => "E2E fixture", "price" => 0, "type" => "Other",
+     "logo" => "logo.png", "image" => "image.png", "is_quantifiable" => true,
+     "is_free" => false, "is_one_time_fee" => false, "monthly_price" => 100, "yearly_price" => 1000]
+  );
+
+  $extraUser = App\Models\AddOnDeal::where("type", "user")->first();
+
+  echo "CO_COMPANY_UUID=".$company->uuid."\n";
+  echo "CO_APPLICATION_UUID=".$app->uuid."\n";
+  echo "CO_EXTRA_USER_YEARLY_PRICE=".($extraUser->new_yearly_price ?? $extraUser->yearly_price)."\n";
+'
+```
+
+Use the same superadmin token-minting one-liner from the top of this file for
+`CO_TOKEN` (needs `manage_licenses` and `view_financials`).
+
+```bash
+CO_TOKEN='<superadmin-token>' CO_COMPANY_UUID='<uuid>' CO_APPLICATION_UUID='<uuid>' \
+  CO_EXTRA_USER_YEARLY_PRICE='<price>' npm run test:multi-year-subscription-terms
+```
+
+Self-restoring, but not via deletion - there's no API to hard-delete a
+`Company`, `Invoice`, or the base plan's own subscription row. Instead the
+script's `finally` block reverses every grant through the real product
+actions: `adjustApplicationLicenseQuantity` (negative delta) for the 8 pool
+AI seats (they have no `user_id`, so they never show up in the `/licenses`
+listing the other seats do), and `DELETE .../licenses/{uuid}` (the real
+"remove license" action, which also works on the base Deal-type row) for the
+6 extra-user seats and the Pro subscription itself, in that order. This
+leaves small credit/revoke invoices behind each run - an accepted side effect
+of using the real revoke path, same category as other tests' invoice trails -
+but leaves the fixture company genuinely reusable: run the script twice in a
+row and the second run's "Add subscription" step should succeed exactly like
+the first.
+
+If a run is interrupted before cleanup finishes, the next run's first check
+will fail fast with a clear message rather than silently hitting the "company
+already has a subscription" rejection - revoke whatever's left via superadmin
+before re-running.
+
 ### `economy-any-industry` — needs a `CO_TOKEN` whose company has the Economy page/modules granted
 
 Covers opening the Economy nav item and its four tabs (overview,
