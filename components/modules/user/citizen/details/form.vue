@@ -294,6 +294,13 @@
                     <FormSelect id="section" :options="state.options.sections" v-model="state.formCitizen.section" />
                     <FormError :error="v$?.formCitizen?.section?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.section?.[0]" />
+                    <!-- Customer feedback: no field named after the intervention type
+                         (indsatstype) exists separately from the paragraph - the
+                         paragraph's own name IS that type, so it's surfaced under
+                         both labels rather than duplicating the catalogue. -->
+                    <p v-if="selectedSectionLabel" class="text-xs text-gray-500">
+                        {{ $t('citizens.form.interventionType') }}: {{ selectedSectionLabel }}
+                    </p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('pricing')">
                     <div class="space-y-1">
@@ -1214,6 +1221,10 @@ function isFieldVisible(fieldKey: string): boolean {
     if (Object.keys(formConfig.value).length === 0) return true
     return formConfig.value[fieldKey] !== false
 }
+
+const selectedSectionLabel = computed(() => {
+    return state.options.sections.find((option: any) => option.value === state.formCitizen.section)?.label ?? ''
+})
 
 const { parse: parseCpr } = useDanishCpr()
 
