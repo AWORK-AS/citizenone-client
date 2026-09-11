@@ -425,3 +425,20 @@ real `DANLON_CLIENT_ID`/`DANLON_CLIENT_SECRET`/`DANLON_REDIRECT_URI` set and
 ```bash
 CO_TOKEN='<token>' CO_DANLON_USERNAME='<demo-username>' CO_DANLON_PASSWORD='<demo-password>' npm run test:danlon-connect
 ```
+
+### `economy-any-industry` — needs a `CO_TOKEN` whose company has the Economy page/modules granted
+
+Covers opening the Economy nav item and its four tabs (overview,
+social-billing, revenue, billing) to any company industry, not just
+`social_welfare`/`employment_services`. Confirms the Economy nav item is
+visible and all four tabs render for a company whose industry is something
+else entirely (e.g. `dental`), as long as it still has the "Management &
+Economy" page and the "Billing"/"Revenue report" company modules granted -
+those are the only gates left. Read-only; writes nothing itself (the token's
+company should be a disposable one set up via tinker, since granting those
+modules is easiest done there - see `EconomyAnyIndustryTest.php` on the
+backend for the equivalent page/module setup).
+
+```bash
+CO_TOKEN='<token>' npm run test:economy-any-industry
+```
