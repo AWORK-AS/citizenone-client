@@ -100,6 +100,24 @@
                 </div>
                 <FormError :error="props?.error?.errors?.page_uuid?.[0]" />
             </div>
+
+            <!-- Employee groups a user assigned this role automatically joins (Customer feedback) -->
+            <div class="space-y-2">
+                <FormLabel for="employee_groups" :label="$t('roles.form.employeeGroups')" />
+                <div class="rounded-xl border border-slate-200 p-4">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1.5" v-if="employeeGroupOptions.length">
+                        <label v-for="group in employeeGroupOptions" :key="group.value"
+                            class="flex items-center gap-2.5 text-sm text-slate-700 cursor-pointer rounded-md px-1.5 py-1 hover:bg-slate-50">
+                            <input type="checkbox"
+                                class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
+                                :value="group.value" v-model="state.formRole.employee_group_uuid" />
+                            {{ group.label }}
+                        </label>
+                    </div>
+                    <p v-else class="text-sm text-slate-400">{{ $t('roles.form.noEmployeeGroups') }}</p>
+                </div>
+                <FormError :error="props?.error?.errors?.employee_group_uuid?.[0]" />
+            </div>
         </div>
 
         <div class="mt-6 max-w-xl">
@@ -118,6 +136,7 @@
 <script setup lang="ts">
 import { permissionService } from '@/components/api/user/PermissionService'
 import { pageService } from '@/components/api/user/PageService'
+import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
 import { getPermissionLabel } from '@/composables/usePermissions'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -158,11 +177,13 @@ const state = reactive({
         predefined: false,
         permissions: [] as any[],
         page_uuid: [] as any[],
+        employee_group_uuid: [] as any[],
         is_name_editable: true,
         level: '20',
     },
     permissions: [] as any[],
     pages: [] as any[],
+    employeeGroups: [] as any[],
 })
 
 const permSearch = ref('')
@@ -176,6 +197,7 @@ const isInitializing = ref(true)
 
 onMounted(() => {
     fetchAllPages()
+    fetchAllEmployeeGroups()
     if (props.formType === 'create') {
         fetchAllPermissions()
     }
@@ -190,6 +212,7 @@ watch(() => props.selectedRole, (newValue: any) => {
             predefined: newValue.predefined || false,
             permissions: newValue.permissions || [],
             page_uuid: Array.isArray(newValue.pages) ? newValue.pages.map((p: any) => p.uuid) : [],
+            employee_group_uuid: Array.isArray(newValue.employee_groups) ? newValue.employee_groups.map((g: any) => g.uuid) : [],
             is_name_editable: newValue.is_name_editable || false,
             level: String(newValue.level ?? 20),
         }
@@ -249,6 +272,24 @@ async function fetchAllPages() {
 const pageOptions = computed(() => {
     return state.pages
         .map((page: any) => ({ value: page.uuid, label: page.name }))
+        .sort((a: any, b: any) => a.label.localeCompare(b.label))
+})
+
+async function fetchAllEmployeeGroups() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        const response = await employeeGroupService.getEmployeeGroups({ per_page: 200 })
+        state.employeeGroups = response?.data ?? []
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+const employeeGroupOptions = computed(() => {
+    return state.employeeGroups
+        .map((group: any) => ({ value: group.uuid, label: group.name }))
         .sort((a: any, b: any) => a.label.localeCompare(b.label))
 })
 
