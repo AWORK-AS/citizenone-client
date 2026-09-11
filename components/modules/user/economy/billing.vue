@@ -174,9 +174,16 @@ const { t } = useI18n()
 const userStore = useUserStore() as any
 const router = useRouter()
 
-// Guard: employment_services only
+// Company-level module enablement: no list means every module is on.
+function companyHasModule(name: string): boolean {
+    const pages = userStore.getUser?.company?.module_pages
+
+    return !Array.isArray(pages) || pages.length === 0 || pages.includes(name)
+}
+
+// Guard: requires the "Billing" module
 onMounted(() => {
-    if (userStore.getUser?.company?.industry?.system_name !== 'employment_services') {
+    if (!companyHasModule('Billing')) {
         navigateTo('/overview')
     }
 })
