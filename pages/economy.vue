@@ -53,8 +53,6 @@ const state = reactive({
     tab: (route.query.tab as string) || '',
 })
 
-const industry = computed(() => userStore.getUser?.company?.industry?.system_name)
-
 // Company-level module enablement: no list means every module is on.
 const modulePages = computed(() => userStore.getUser?.company?.module_pages)
 
@@ -69,26 +67,20 @@ function hasModule(name: string): boolean {
 const tabs = computed(() => {
     const available: Array<{ value: string; label: string }> = []
 
-    if (industry.value === 'social_welfare'
-        && userStore.getUser?.pages?.some((page: any) => page.name === 'Management & Economy')) {
+    if (userStore.getUser?.pages?.some((page: any) => page.name === 'Management & Economy')) {
         available.push({ value: 'overview', label: t('economy.tabs.overview') })
-    }
 
-    // The social sector bills delivered hours per citizen, so it gets its own
-    // extraction rather than the employment one, which counts weeks per case.
-    if (industry.value === 'social_welfare'
-        && userStore.getUser?.pages?.some((page: any) => page.name === 'Management & Economy')) {
+        // The social sector bills delivered hours per citizen, so it gets its own
+        // extraction rather than the employment one, which counts weeks per case.
         available.push({ value: 'social-billing', label: t('economy.tabs.billing') })
     }
 
-    if (industry.value === 'employment_services') {
-        if (hasModule('Revenue report')) {
-            available.push({ value: 'revenue', label: t('economy.tabs.revenue') })
-        }
+    if (hasModule('Revenue report')) {
+        available.push({ value: 'revenue', label: t('economy.tabs.revenue') })
+    }
 
-        if (hasModule('Billing')) {
-            available.push({ value: 'billing', label: t('economy.tabs.billing') })
-        }
+    if (hasModule('Billing')) {
+        available.push({ value: 'billing', label: t('economy.tabs.billing') })
     }
 
     return available

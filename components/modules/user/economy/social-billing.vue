@@ -412,9 +412,9 @@ const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 
-// Guard: social_welfare only, same as the rest of this area
+// Guard: requires the "Management & Economy" page, same as the rest of this area
 onMounted(() => {
-    if (userStore.getUser?.company?.industry?.system_name !== 'social_welfare') {
+    if (!userStore.getUser?.pages?.some((page: any) => page.name === 'Management & Economy')) {
         navigateTo('/overview')
 
         return

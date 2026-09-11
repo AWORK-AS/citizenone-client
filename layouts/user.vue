@@ -1350,10 +1350,8 @@ function generateSidebarLinks(user: any) {
 
     // One economy area rather than three addresses nobody could tell apart:
     // how it is going, what was earned, and what has to be invoiced.
-    const hasEconomyOverview = user?.company?.industry?.system_name === 'social_welfare'
-        && user?.pages?.some((page: any) => page.name === 'Management & Economy')
-    const hasEmploymentEconomy = user?.company?.industry?.system_name === 'employment_services'
-        && (companyHasModule('Billing') || companyHasModule('Revenue report'))
+    const hasEconomyOverview = user?.pages?.some((page: any) => page.name === 'Management & Economy')
+    const hasEmploymentEconomy = companyHasModule('Billing') || companyHasModule('Revenue report')
 
     if (hasEconomyOverview || hasEmploymentEconomy) {
         nav.push({

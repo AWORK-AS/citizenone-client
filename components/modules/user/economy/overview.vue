@@ -113,7 +113,7 @@ const userStore = useUserStore() as any
 // The screen opens on the running month with the figures already fetched: the
 // old empty state asked for two dates before it would say anything at all.
 onMounted(() => {
-    if (userStore.getUser?.company?.industry?.system_name !== 'social_welfare') {
+    if (!userStore.getUser?.pages?.some((page: any) => page.name === 'Management & Economy')) {
         navigateTo('/overview')
 
         return
