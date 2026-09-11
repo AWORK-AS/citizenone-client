@@ -11827,7 +11827,28 @@
             "paymentFees": "Payment fees",
             "storageUsage": "Storage usage",
             "industries": "Industries",
-            "salesInquiries": "Inquiries"
+            "salesInquiries": "Inquiries",
+            "teamRoles": "Roles"
+        },
+        "teamRoles": {
+            "pageTitle": "Roles",
+            "header": "Roles",
+            "subtitle": "What each role may see in the superadmin panel. A role is live: widen it here and everybody in it gets the area. Exceptions for one colleague are set under Users.",
+            "newRole": "New role",
+            "namePlaceholder": "Name of the role",
+            "locked": "Cannot be changed",
+            "lockedHint": "Superadmin has every permission. It cannot be edited, because it is the role that can change the others.",
+            "members": "{count} colleagues",
+            "loading": "Loading roles",
+            "saved": "Access saved",
+            "person": {
+                "role": "Role",
+                "roleHint": "The package of areas this colleague gets. Use the additions and removals below if they are an exception.",
+                "extra": "Extra access beyond the role",
+                "revoked": "Removed, even though the role grants it",
+                "fromRole": "from the role",
+                "none": "No role"
+            }
         },
         "emailTemplates": {
             "title": "Email templates",
