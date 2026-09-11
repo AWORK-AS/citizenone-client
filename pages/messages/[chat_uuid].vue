@@ -294,7 +294,10 @@ const { t } = useI18n()
 const { successAlert } = useAlert()
 const userStore = useUserStore() as any
 const router = useRouter()
-const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
+// Reassigned (not a computed ref) on purpose - every function below reads this
+// as a plain value at call time, same style as currentPage/scrollHeight below.
+let chatUuid = router?.currentRoute?.value?.params?.chat_uuid as string
+let channel: any = null
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
 let scrollHeight = 0
@@ -326,17 +329,45 @@ const state = reactive({
     selectedChatIndex: '',
 })
 
-onMounted(() => {
-    const channel = pusher.subscribe('citizenone.' + chatUuid)
+function subscribeToChat() {
+    channel = pusher.subscribe('citizenone.' + chatUuid)
     channel.bind('chat-message', (response: any) => {
         state.messages.push(response?.data)
         scrollToBottom()
     })
+}
+
+function loadChat() {
+    state.messages = []
+    state.isLastPage = false
+    currentPage = 1
+    subscribeToChat()
     fetchChat()
     fetchChatHistory().then(autoFillChatHistory)
     readChat()
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
+}
+
+onMounted(loadChat)
+
+onBeforeUnmount(() => {
+    if (chatUuid) pusher.unsubscribe('citizenone.' + chatUuid)
 })
+
+// Vue Router reuses this component instance when only the dynamic segment
+// changes (same route record) - clicking a different conversation in the
+// sidebar does NOT remount the page, so without this the pusher channel and
+// every fetch/send/read call below stayed pointed at whichever chat was
+// opened first, no matter which one was actually on screen.
+watch(
+    () => router.currentRoute.value.params.chat_uuid,
+    (newUuid) => {
+        if (!newUuid || newUuid === chatUuid) return
+        pusher.unsubscribe('citizenone.' + chatUuid)
+        chatUuid = newUuid as string
+        loadChat()
+    },
+)
 
 function toggleMessageMenu(index: any) {
     state.openMessageMenuIndex = state.openMessageMenuIndex === index ? null : index
@@ -537,12 +568,12 @@ async function sendMessage() {
             if (response) {
                 fetchChats?.()
                 scrollToBottom()
+                state.message = ''
             }
         } catch (error: any) {
             state.error = error
         }
         state.isChatHistoryDividerLoading = false
-        state.message = ''
     }
 }
 
