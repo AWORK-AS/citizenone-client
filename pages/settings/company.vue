@@ -225,7 +225,7 @@
                                     {{ $t('settings.company.form.interventionCheckinOut') }}
                                 </p>
                             </div>
-                            <div class="space-y-1 flex items-center gap-x-2">
+                            <div v-if="hasInquiryPipelineApp" class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.inquiry_pipeline_enabled"
                                     @toggleSwitch="state.formCompany.inquiry_pipeline_enabled = !state.formCompany.inquiry_pipeline_enabled" :label="$t('inquiryPipeline.enableLabel')" />
                                 <p>
@@ -682,6 +682,10 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 // Counting absence toward norm hours is a Pro-plan feature.
 const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
+// Inquiry pipeline (kanban) is a licensed app - the toggle only makes sense,
+// and only persists, for a company that already has it (see CompanyResource's
+// inquiry_pipeline_activated vs inquiry_pipeline_enabled split on the backend).
+const hasInquiryPipelineApp = computed(() => !!(userStore.getUser as any)?.company?.inquiry_pipeline_activated)
 // Collapsible (accordion) open-state for the grouped toggle sections (default all open).
 const openSections = reactive({ access: true, communication: true, portals: true, plans: true, schedule: true, other: true })
 // Count of enabled toggles per group, for the header count chips (default-safe via filter(Boolean)).
