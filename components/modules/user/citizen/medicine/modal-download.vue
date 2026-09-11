@@ -106,7 +106,7 @@ async function downloadMedicineOverview() {
     try {
         const params = {
             citizen_uuid: citizenUuid,
-            citizen_medicine_uuid: Array(citizenMedicineStore.getSelectedMedicines),
+            citizen_medicine_uuid: citizenMedicineStore.getSelectedMedicines,
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
         }
