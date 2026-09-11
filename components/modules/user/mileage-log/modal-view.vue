@@ -90,6 +90,7 @@
 import { useI18n } from 'vue-i18n'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useRoutePreview } from '@/composables/routePreview'
 
 const props = defineProps({
     isModalOpen: {
@@ -205,6 +206,43 @@ const locationLogs = computed(() => {
 // would throw away a perfectly good stops-derived line for a degenerate one.
 const hasLocationLogs = computed(() => locationLogs.value.length >= 2)
 
+// Full ordered chain (start, then middle stops, then end) as sent to
+// /route-preview -- unfiltered, unlike routeStops above, since the endpoint
+// needs every entry resolved or none of it.
+const rawRouteStops = computed(() => {
+    const log = props.selectedMileageLog
+    if (!log) return []
+
+    return [
+        { lat: log.geo_start_lat, lng: log.geo_start_lng },
+        ...middleStops.value.map((s: any) => ({ lat: s.latitude, lng: s.longitude })),
+        { lat: log.geo_end_lat, lng: log.geo_end_lng },
+    ]
+})
+
+const canFetchRoadRoute = computed(() => {
+    return !hasLocationLogs.value
+        && rawRouteStops.value.length >= 2
+        && rawRouteStops.value.every((s) => validCoord(s.lat, s.lng))
+})
+
+// This trip was manually entered (no GPS breadcrumbs) -- ask the backend for
+// the same OSRM road geometry the stored kilometres were calculated from,
+// rather than drawing a straight line between the typed addresses (see
+// composables/tripDistance.ts for why that under-reports distance badly).
+// Nothing is stored on the trip itself, so a saved trip re-asks
+// /route-preview same as the entry form; polylinePoints below falls back to
+// the straight-line approximation while this is loading or if it fails.
+const { state: roadRoute, request: requestRoadRoute, reset: resetRoadRoute } = useRoutePreview(t)
+
+watch(() => props.selectedMileageLog, () => {
+    if (!canFetchRoadRoute.value) {
+        resetRoadRoute()
+        return
+    }
+    requestRoadRoute(rawRouteStops.value.map((s) => ({ lat: Number(s.lat), lng: Number(s.lng) })))
+}, { immediate: true })
+
 const startPoint = computed<[number, number] | null>(() => {
     const log = props.selectedMileageLog
     return log && validCoord(log.geo_start_lat, log.geo_start_lng)
@@ -219,22 +257,35 @@ const endPoint = computed<[number, number] | null>(() => {
         : null
 })
 
-const polylinePoints = computed(() => {
+// Straight line between the typed stops -- the old behaviour, kept only as a
+// fallback for while the road route is loading or if the lookup fails. The
+// trip's stored `kilometers` (with its own provenance label) is authoritative
+// either way; this map is illustrative, so an approximate line beats a blank
+// one.
+const straightLinePoints = computed(() => {
     const points: Array<[number, number]> = []
-
     if (startPoint.value) points.push(startPoint.value)
+    middleStops.value
+        .filter((s: any) => validCoord(s.latitude, s.longitude))
+        .forEach((s: any) => points.push([Number(s.latitude), Number(s.longitude)]))
+    if (endPoint.value) points.push(endPoint.value)
+    return points.length > 1 ? points : []
+})
 
+const polylinePoints = computed(() => {
     if (hasLocationLogs.value) {
+        const points: Array<[number, number]> = []
+        if (startPoint.value) points.push(startPoint.value)
         locationLogs.value.forEach((log: any) => points.push([Number(log.latitude), Number(log.longitude)]))
-    } else {
-        middleStops.value
-            .filter((s: any) => validCoord(s.latitude, s.longitude))
-            .forEach((s: any) => points.push([Number(s.latitude), Number(s.longitude)]))
+        if (endPoint.value) points.push(endPoint.value)
+        return points.length > 1 ? points : []
     }
 
-    if (endPoint.value) points.push(endPoint.value)
-
-    return points.length > 1 ? points : []
+    // No GPS breadcrumbs -- prefer the actual road geometry once it arrives.
+    if (roadRoute.value.status === 'ready' && roadRoute.value.coordinates && roadRoute.value.coordinates.length > 1) {
+        return roadRoute.value.coordinates
+    }
+    return straightLinePoints.value
 })
 
 function onMapReady(mapObj: any) {
@@ -250,6 +301,13 @@ function fitMapBounds() {
                 mapInstance.value.fitBounds(polylinePoints.value, { padding: [50, 50], maxZoom: 15 })
             } else if (polylinePoints.value.length === 1) {
                 mapInstance.value.setView(polylinePoints.value[0], 15)
+            } else if (extraMarkers.value.length > 1) {
+                // No line at all (e.g. a GPS trip with < 2 usable fixes and no
+                // resolvable stops) -- fall back to framing the stop markers
+                // so the map isn't stuck on the default Denmark-wide view.
+                mapInstance.value.fitBounds(extraMarkers.value.map((m) => [m.lat, m.lng]), { padding: [50, 50], maxZoom: 15 })
+            } else if (extraMarkers.value.length === 1) {
+                mapInstance.value.setView([extraMarkers.value[0].lat, extraMarkers.value[0].lng], 15)
             }
         } catch (err) {
             // ignore map fit errors (e.g. map not fully ready)
@@ -261,11 +319,20 @@ watch(() => props.selectedMileageLog, async () => {
     await nextTick()
     if (polylinePoints.value.length > 0) {
         mapCenter.value = polylinePoints.value[0]
+    } else if (extraMarkers.value.length > 0) {
+        mapCenter.value = [extraMarkers.value[0].lat, extraMarkers.value[0].lng]
     }
     if (mapInstance.value) {
         fitMapBounds()
     }
 }, { immediate: true })
+
+// The road route above resolves asynchronously (debounced + a network round
+// trip), after this file's other selectedMileageLog watcher already ran --
+// this is what re-fits the map once that response actually lands.
+watch(() => roadRoute.value.status, () => {
+    if (mapInstance.value) fitMapBounds()
+})
 
 watch(() => props.isModalOpen, (isOpen) => {
     if (isOpen && mapInstance.value) {

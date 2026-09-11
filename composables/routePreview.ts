@@ -14,6 +14,28 @@ export interface RoutePreviewState {
     hasFerry: boolean
     ferryKilometers: number
     message: string | null
+    /** Road geometry as [lat, lng] pairs, ready to hand straight to MapLocation's polylinePoints. Only set once status is 'ready'. */
+    coordinates: Array<[number, number]> | null
+}
+
+/**
+ * The backend returns [lat, lng] pairs (flipped from GeoJSON's [lng, lat] on
+ * that side, since Leaflet -- the only consumer -- wants [lat, lng]).
+ * Re-validated here rather than trusted blindly: a malformed pair would
+ * otherwise crash Leaflet's polyline renderer instead of just omitting a line.
+ */
+function parseCoordinates(raw: any): Array<[number, number]> | null {
+    if (!Array.isArray(raw)) return null
+
+    const points: Array<[number, number]> = []
+    for (const pair of raw) {
+        if (!Array.isArray(pair) || pair.length < 2) return null
+        const lat = Number(pair[0])
+        const lng = Number(pair[1])
+        if (Number.isNaN(lat) || Number.isNaN(lng)) return null
+        points.push([lat, lng])
+    }
+    return points
 }
 
 const DEBOUNCE_MS = 400
@@ -36,6 +58,7 @@ export function useRoutePreview(t?: (key: string) => string) {
         hasFerry: false,
         ferryKilometers: 0,
         message: null,
+        coordinates: null,
     })
 
     let seq = 0
@@ -63,7 +86,7 @@ export function useRoutePreview(t?: (key: string) => string) {
         clearTimer()
         abortController?.abort()
         abortController = null
-        state.value = { status: 'idle', kilometers: null, hasFerry: false, ferryKilometers: 0, message: null }
+        state.value = { status: 'idle', kilometers: null, hasFerry: false, ferryKilometers: 0, message: null, coordinates: null }
     }
 
     /**
@@ -76,7 +99,10 @@ export function useRoutePreview(t?: (key: string) => string) {
         abortController?.abort()
 
         const mySeq = ++seq
-        state.value = { ...state.value, status: 'calculating' }
+        // A full reset, not just the status: a stale route (or distance) left
+        // over from the previous answer must never sit on screen next to
+        // stops it no longer corresponds to.
+        state.value = { status: 'calculating', kilometers: null, hasFerry: false, ferryKilometers: 0, message: null, coordinates: null }
 
         timer = setTimeout(async () => {
             if (mySeq !== seq) return
@@ -96,6 +122,7 @@ export function useRoutePreview(t?: (key: string) => string) {
                     hasFerry: !!data.has_ferry,
                     ferryKilometers: data.ferry_kilometers ?? 0,
                     message: null,
+                    coordinates: parseCoordinates(data.coordinates),
                 }
             } catch (err: any) {
                 if (err?.name === 'AbortError' || mySeq !== seq) return
@@ -107,6 +134,7 @@ export function useRoutePreview(t?: (key: string) => string) {
                     kilometers: null,
                     hasFerry: false,
                     ferryKilometers: 0,
+                    coordinates: null,
                     message: err?.message || localize('mileageLog.form.distanceUnavailable', 'Distance could not be calculated.'),
                 }
             }

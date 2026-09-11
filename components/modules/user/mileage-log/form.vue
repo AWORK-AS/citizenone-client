@@ -31,6 +31,10 @@
                 <p class="text-xs text-tertiary" v-if="routePreview.status === 'ready' && routePreview.hasFerry">
                     {{ $t('mileageLog.form.ferryNote', { km: formatNumber(locale, routePreview.ferryKilometers) }) }}
                 </p>
+                <div class="h-48 w-full rounded-md overflow-hidden border mt-1" v-if="allStopsResolved">
+                    <MapLocation ref="mapRef" :center="mapCenter" :extraMarkers="routeMarkers"
+                        :polylinePoints="routePreview.coordinates ?? []" @map-ready="onMapReady" />
+                </div>
             </div>
 
             <div class="space-y-1">
@@ -125,6 +129,8 @@ const state = reactive({
 
 const { state: routePreview, request: requestRoutePreview, reset: resetRoutePreview } = useRoutePreview(t)
 
+const allStopsResolved = computed(() => state.stops.length >= 2 && state.stops.every((s) => s.lat !== null && s.lng !== null))
+
 // Fires on every add/remove/reorder of a stop and on every coordinate change
 // -- including address keystrokes, since MapTripStopsInput replaces the whole
 // state.stops array on each edit. The composable's own debounce (not this
@@ -132,16 +138,66 @@ const { state: routePreview, request: requestRoutePreview, reset: resetRoutePrev
 watch(
     () => state.stops.map((s) => ({ lat: s.lat, lng: s.lng })),
     () => {
-        const coords = state.stops.map((s) => ({ lat: s.lat, lng: s.lng }))
-        const allResolved = coords.length >= 2 && coords.every((c) => c.lat !== null && c.lng !== null)
-        if (!allResolved) {
+        if (!allStopsResolved.value) {
             resetRoutePreview()
             return
         }
-        requestRoutePreview(coords as { lat: number; lng: number }[])
+        requestRoutePreview(state.stops.map((s) => ({ lat: s.lat as number, lng: s.lng as number })))
     },
     { immediate: true }
 )
+
+// Lettered pins for the resolved stops, matching MapTripStopsInput's own
+// A/B/C labelling -- context to check the road-route line against, same idea
+// as modal-view.vue's extraMarkers for a saved trip.
+function letterFor(index: number) {
+    return index < 26 ? String.fromCharCode(65 + index) : `#${index + 1}`
+}
+
+const routeMarkers = computed(() => {
+    return state.stops
+        .map((stop, index) => ({ stop, index }))
+        .filter(({ stop }) => stop.lat !== null && stop.lng !== null)
+        .map(({ stop, index }) => ({ lat: Number(stop.lat), lng: Number(stop.lng), popup: `${letterFor(index)}. ${stop.address ?? ''}` }))
+})
+
+const mapRef = ref<any>(null)
+const mapCenter = ref<[number, number]>([55.6761, 12.5683])
+const mapInstance = ref<any>(null)
+
+function fitMapBounds() {
+    if (!mapInstance.value) return
+    nextTick(() => {
+        try {
+            const points = routePreview.value.coordinates
+            if (points && points.length > 1) {
+                mapInstance.value.fitBounds(points, { padding: [50, 50], maxZoom: 15 })
+            } else if (routeMarkers.value.length > 1) {
+                mapInstance.value.fitBounds(routeMarkers.value.map((m) => [m.lat, m.lng]), { padding: [50, 50], maxZoom: 15 })
+            } else if (routeMarkers.value.length === 1) {
+                mapInstance.value.setView([routeMarkers.value[0].lat, routeMarkers.value[0].lng], 15)
+            }
+        } catch (err) {
+            // ignore map fit errors (e.g. map not fully ready)
+        }
+    })
+}
+
+function onMapReady(mapObj: any) {
+    mapInstance.value = mapObj
+    fitMapBounds()
+}
+
+// Refit whenever the road route arrives (or a new one replaces it) -- the
+// watcher above only re-requests it, this is what re-centers the map once
+// the response actually lands.
+watch(() => routePreview.value.status, (status) => {
+    if (status !== 'ready' && status !== 'unavailable') return
+    if (routeMarkers.value.length > 0) {
+        mapCenter.value = [routeMarkers.value[0].lat, routeMarkers.value[0].lng]
+    }
+    fitMapBounds()
+})
 
 watch(() => props.selectedMileageLog, (selected: any) => {
     if (selected != null) {
