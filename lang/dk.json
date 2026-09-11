@@ -8869,6 +8869,11 @@
             "appointments": "{count} aftaler",
             "allCalm": "Alt ser roligt ud lige nu"
         },
+        "continuity": {
+            "continueOnCitizen": "Fortsæt hvor du slap: {label}",
+            "continueOnChat": "Fortsæt samtalen med {label}",
+            "goTo": "Gå til"
+        },
         "birthdays": {
             "title": "Fødselsdage denne uge",
             "todayTitle": "Fødselsdage i dag",
