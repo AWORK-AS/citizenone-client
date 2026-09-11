@@ -210,6 +210,18 @@
                         </div>
                     </div>
 
+                    <!-- Multi-year contract term - only meaningful for a one-off manual
+                         invoice billed yearly (see needsTermYears below). -->
+                    <div v-if="needsTermYears">
+                        <label for="grant_app_license_term_years" class="co-label">
+                            {{ $t('superadmin.companies.licenseOverview.addSubscription.termYears') }}
+                        </label>
+                        <input id="grant_app_license_term_years" v-model.number="state.form.termYears" type="number" min="1" max="10" class="co-input" />
+                        <p class="text-[11px] text-[#8891A4] mt-1">
+                            {{ $t('superadmin.companies.licenseOverview.addSubscription.termYearsHint') }}
+                        </p>
+                    </div>
+
                     <!-- Assign directly to a user (only for apps sold as multiple seats -
                          a single-toggle app like Mail/OneDrive is a company-wide grant,
                          not a per-user seat, so there's nothing to assign) -->
@@ -356,6 +368,7 @@ const state = reactive({
         billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card' | 'assigned_payment_card',
         paysViaLeverandorservice: false,
         isIncludedInAgreement: false,
+        termYears: 1 as number,
     },
     isSaving: false,
     seatCounts: null as null | { total: number; used: number; available: number },
@@ -423,6 +436,19 @@ const fixedFrequencyLabel = computed(() => {
         : t('superadmin.grantLicense.monthly')
 })
 
+// A multi-year term only applies to a genuinely new, one-off manual-invoice
+// yearly grant - never included-in-agreement (unbilled), never free/one-time
+// apps, and never a real card-recurring subscription (Nexi charges those per
+// cycle, so "3 years upfront" doesn't apply - mirrors the backend guard in
+// CompanyRepository::grantApplicationLicense()).
+const needsTermYears = computed(() => {
+    if (state.form.isIncludedInAgreement || state.form.billingMethod !== 'manual_invoice') return false
+    if (!selectedApp.value || !state.form.quantity || selectedApp.value.is_free || selectedApp.value.is_one_time_fee) return false
+    const dealType = state.subscription?.data?.type
+    const isYearly = needsFrequencyPicker.value ? state.form.frequency === 'yearly' : !!dealType?.includes('yearly')
+    return isYearly
+})
+
 function selectApp(app: any) {
     if (!isAppPickable(app)) return
     state.form.application_uuid = app.uuid ?? app.id
@@ -437,7 +463,7 @@ function selectApp(app: any) {
 
 watch(() => props.open, (open: boolean) => {
     if (open) {
-        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly', billingMethod: 'manual_invoice', paysViaLeverandorservice: false, isIncludedInAgreement: false }
+        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly', billingMethod: 'manual_invoice', paysViaLeverandorservice: false, isIncludedInAgreement: false, termYears: 1 }
         state.appSearch = ''
         state.assignEnabled = false
         state.errors = { application: '', quantity: '', user: '', frequency: '' }
@@ -585,6 +611,9 @@ function validate() {
         state.errors.frequency = t('superadmin.grantLicense.errorSelectFrequency')
         valid = false
     }
+    if (needsTermYears.value && (!state.form.termYears || state.form.termYears < 1)) {
+        valid = false
+    }
     return valid
 }
 
@@ -601,6 +630,7 @@ async function submit() {
             pays_via_leverandorservice: (state.form.isIncludedInAgreement || state.form.billingMethod !== 'manual_invoice') ? false : state.form.paysViaLeverandorservice,
             is_included_in_agreement: state.form.isIncludedInAgreement,
             ...(needsFrequencyPicker.value ? { frequency: state.form.frequency } : {}),
+            ...(needsTermYears.value ? { term_years: state.form.termYears } : {}),
         })
         successAlert(t('superadmin.grantLicense.successTitle'), t('superadmin.grantLicense.successBody'))
         emit('granted')
