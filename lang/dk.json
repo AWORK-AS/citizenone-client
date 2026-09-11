@@ -10544,6 +10544,38 @@
             "sharedFieldsSubtitle": "Kapacitet, ledighed og certificeringsmærker vises her, når det er aktiveret for jeres organisation."
         }
     },
+    "supportAccess": {
+        "title": "CitizenOne's adgang",
+        "intro": "Her godkender I, når CitizenOne beder om at gå ind på en af jeres brugeres konti. Ingen kommer ind uden et ja fra jer. Et ja gælder i fire timer og lukker derefter af sig selv, I kan trække det tilbage undervejs, og nederst står hver gang nogen har været inde.",
+        "pending": {
+            "heading": "Venter på jeres svar",
+            "empty": "Der er ingen anmodninger lige nu.",
+            "wantsAccessTo": "Beder om adgang til {name}s konto",
+            "answerBefore": "Svar inden",
+            "approve": "Godkend",
+            "deny": "Afvis"
+        },
+        "active": {
+            "heading": "Adgang lige nu",
+            "until": "Er inde på {name}s konto til {time}",
+            "revoke": "Træk adgangen tilbage"
+        },
+        "history": {
+            "heading": "Hvem har været inde",
+            "when": "Tidspunkt",
+            "who": "Fra CitizenOne",
+            "account": "Konto",
+            "basis": "Grundlag",
+            "reason": "Begrundelse",
+            "approved": "Godkendt af jer",
+            "breakGlass": "Uden godkendelse"
+        },
+        "alert": {
+            "approved": "Adgangen er godkendt",
+            "denied": "Anmodningen er afvist",
+            "revoked": "Adgangen er trukket tilbage"
+        }
+    },
     "setupPassword": {
         "form": {
             "confirmPassword": "Bekræft adgangskode",
@@ -11828,7 +11860,8 @@
             "storageUsage": "Lagerforbrug",
             "industries": "Brancher",
             "salesInquiries": "Henvendelser",
-            "teamRoles": "Roller"
+            "teamRoles": "Roller",
+            "supportAccess": "Adgang hos kunder"
         },
         "teamRoles": {
             "pageTitle": "Roller",
@@ -11848,6 +11881,43 @@
                 "revoked": "Fjernet, selv om rollen giver den",
                 "fromRole": "fra rollen",
                 "none": "Ingen rolle"
+            }
+        },
+        "supportAccess": {
+            "pageTitle": "Adgang hos kunder",
+            "header": "Adgang hos kunder",
+            "subtitle": "Anmodninger om at gå ind på en kundes konto. Kunden svarer, og et ja gælder i fire timer. Svarer de ikke inden for tolv timer, bortfalder anmodningen.",
+            "loading": "Henter anmodninger",
+            "empty": "Du har ikke bedt om adgang til nogen konti.",
+            "status": {
+                "pending": "Afventer svar",
+                "approved": "Godkendt",
+                "denied": "Afvist",
+                "revoked": "Trukket tilbage",
+                "expired": "Udløbet"
+            },
+            "table": {
+                "status": "Status",
+                "account": "Konto",
+                "company": "Virksomhed",
+                "reason": "Begrundelse",
+                "deadline": "Frist",
+                "accessUntil": "Adgang til",
+                "answerBefore": "Svar inden"
+            },
+            "dialog": {
+                "heading": "Bed kunden om adgang",
+                "intro": "Kunden har ikke godkendt adgang til {name}. De får en mail og kan svare med det samme.",
+                "reason": "Begrundelse",
+                "reasonPlaceholder": "Hvad skal du undersøge, og hvorfor kræver det adgang til denne konto?",
+                "reasonHint": "Kunden læser den ordret. Mindst 10 tegn.",
+                "caseReference": "Sagsnummer",
+                "caseReferencePlaceholder": "Valgfrit",
+                "send": "Send anmodning",
+                "terms": "Siger kunden ja, gælder adgangen i fire timer og lukker derefter af sig selv. De kan trække den tilbage undervejs, og alt hvad der sker imens, står i deres log."
+            },
+            "alert": {
+                "requested": "Anmodningen er sendt til kunden"
             }
         },
         "emailTemplates": {

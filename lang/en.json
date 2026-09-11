@@ -10544,6 +10544,38 @@
             "sharedFieldsSubtitle": "Capacity, availability and certification badges will appear here once enabled for your organisation."
         }
     },
+    "supportAccess": {
+        "title": "CitizenOne's access",
+        "intro": "This is where you approve it when CitizenOne asks to enter one of your users' accounts. Nobody gets in without a yes from you. A yes lasts four hours and then closes by itself, you can pull it back in the meantime, and every time somebody has been inside is listed below.",
+        "pending": {
+            "heading": "Waiting for your answer",
+            "empty": "There are no requests right now.",
+            "wantsAccessTo": "Asks for access to {name}'s account",
+            "answerBefore": "Answer before",
+            "approve": "Approve",
+            "deny": "Deny"
+        },
+        "active": {
+            "heading": "Access right now",
+            "until": "Is inside {name}'s account until {time}",
+            "revoke": "Pull the access back"
+        },
+        "history": {
+            "heading": "Who has been inside",
+            "when": "When",
+            "who": "From CitizenOne",
+            "account": "Account",
+            "basis": "Basis",
+            "reason": "Reason",
+            "approved": "Approved by you",
+            "breakGlass": "Without approval"
+        },
+        "alert": {
+            "approved": "The access is approved",
+            "denied": "The request was denied",
+            "revoked": "The access was pulled back"
+        }
+    },
     "setupPassword": {
         "form": {
             "confirmPassword": "Confirm password",
@@ -11828,7 +11860,8 @@
             "storageUsage": "Storage usage",
             "industries": "Industries",
             "salesInquiries": "Inquiries",
-            "teamRoles": "Roles"
+            "teamRoles": "Roles",
+            "supportAccess": "Customer access"
         },
         "teamRoles": {
             "pageTitle": "Roles",
@@ -11848,6 +11881,43 @@
                 "revoked": "Removed, even though the role grants it",
                 "fromRole": "from the role",
                 "none": "No role"
+            }
+        },
+        "supportAccess": {
+            "pageTitle": "Customer access",
+            "header": "Customer access",
+            "subtitle": "Requests to enter a customer's account. The customer answers, and a yes lasts four hours. If they do not answer within twelve hours, the request lapses.",
+            "loading": "Loading requests",
+            "empty": "You have not asked for access to any account.",
+            "status": {
+                "pending": "Awaiting answer",
+                "approved": "Approved",
+                "denied": "Denied",
+                "revoked": "Revoked",
+                "expired": "Lapsed"
+            },
+            "table": {
+                "status": "Status",
+                "account": "Account",
+                "company": "Company",
+                "reason": "Reason",
+                "deadline": "Deadline",
+                "accessUntil": "Access until",
+                "answerBefore": "Answer before"
+            },
+            "dialog": {
+                "heading": "Ask the customer for access",
+                "intro": "The customer has not approved access to {name}. They get an email and can answer straight away.",
+                "reason": "Reason",
+                "reasonPlaceholder": "What are you investigating, and why does it need this account?",
+                "reasonHint": "The customer reads it verbatim. At least 10 characters.",
+                "caseReference": "Case reference",
+                "caseReferencePlaceholder": "Optional",
+                "send": "Send request",
+                "terms": "If the customer says yes, the access lasts four hours and then closes by itself. They can pull it back in the meantime, and everything that happens is in their log."
+            },
+            "alert": {
+                "requested": "The request was sent to the customer"
             }
         },
         "emailTemplates": {
