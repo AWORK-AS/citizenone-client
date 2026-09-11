@@ -15121,5 +15121,40 @@
         "newMessageBody": "Du har modtaget en ny besked i CitizenOne.",
         "newNotification": "Ny notifikation",
         "newNotificationBody": "Der er en ny notifikation i CitizenOne."
+    },
+    "websiteBookingSettings": {
+        "websiteBooking": "Website booking",
+        "alert": {
+            "websiteBookingSuccessfullySaved": "Indstillinger for website booking gemt"
+        },
+        "form": {
+            "enable": "Aktiver online booking på din hjemmeside",
+            "enableLabel": "Lad besøgende på din egen hjemmeside booke direkte i denne kalender",
+            "branding": "Branding",
+            "brandingLabel": "Tilpas hvordan booking-widgetten ser ud",
+            "primaryColor": "Primær farve",
+            "secondaryColor": "Sekundær farve",
+            "welcomeText": "Velkomsttekst",
+            "welcomeTextLabel": "Vises øverst i booking-widgetten",
+            "confirmationText": "Bekræftelsestekst",
+            "confirmationTextLabel": "Vises når en besøgende har gennemført en booking",
+            "services": "Ydelser",
+            "servicesLabel": "Vælg hvilke ydelser der kan bookes fra din hjemmeside",
+            "departments": "Afdelinger",
+            "departmentsLabel": "Vælg hvilke afdelinger der vises for besøgende",
+            "allowedDomains": "Tilladte hjemmesider",
+            "allowedDomainsLabel": "Kun disse hjemmesider må indlejre din booking-widget",
+            "addDomain": "Tilføj",
+            "domainPlaceholder": "www.dinhjemmeside.dk",
+            "embedCode": "Indlejringskode",
+            "embedCodeLabel": "Indsæt denne kode på din hjemmeside for at vise booking-widgetten",
+            "hostedLink": "Link til bookingside",
+            "hostedLinkLabel": "Del dette link direkte, fx i emails eller på sociale medier",
+            "copyCode": "Kopiér kode",
+            "codeCopied": "Kopieret!",
+            "copyLink": "Kopiér link",
+            "linkCopied": "Kopieret!",
+            "preview": "Forhåndsvisning"
+        }
     }
 }

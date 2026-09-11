@@ -15121,5 +15121,40 @@
         "newMessageBody": "Du har mottatt en ny melding i CitizenOne.",
         "newNotification": "Ny varsel",
         "newNotificationBody": "Det er et nytt varsel i CitizenOne."
+    },
+    "websiteBookingSettings": {
+        "websiteBooking": "Nettstedbooking",
+        "alert": {
+            "websiteBookingSuccessfullySaved": "Innstillinger for nettstedbooking lagret"
+        },
+        "form": {
+            "enable": "Aktiver nettbasert booking på nettstedet ditt",
+            "enableLabel": "La besøkende på ditt eget nettsted bestille direkte i denne kalenderen",
+            "branding": "Merkevare",
+            "brandingLabel": "Tilpass hvordan booking-widgeten ser ut",
+            "primaryColor": "Primærfarge",
+            "secondaryColor": "Sekundærfarge",
+            "welcomeText": "Velkomsttekst",
+            "welcomeTextLabel": "Vises øverst i booking-widgeten",
+            "confirmationText": "Bekreftelsestekst",
+            "confirmationTextLabel": "Vises når en besøkende har fullført en booking",
+            "services": "Tjenester",
+            "servicesLabel": "Velg hvilke tjenester som kan bestilles fra nettstedet ditt",
+            "departments": "Avdelinger",
+            "departmentsLabel": "Velg hvilke avdelinger som vises for besøkende",
+            "allowedDomains": "Tillatte nettsteder",
+            "allowedDomainsLabel": "Kun disse nettstedene får lov til å bygge inn booking-widgeten din",
+            "addDomain": "Legg til",
+            "domainPlaceholder": "www.dittnettsted.no",
+            "embedCode": "Innbyggingskode",
+            "embedCodeLabel": "Lim inn denne koden på nettstedet ditt for å vise booking-widgeten",
+            "hostedLink": "Lenke til bookingside",
+            "hostedLinkLabel": "Del denne lenken direkte, f.eks. i e-poster eller på sosiale medier",
+            "copyCode": "Kopier kode",
+            "codeCopied": "Kopiert!",
+            "copyLink": "Kopier lenke",
+            "linkCopied": "Kopiert!",
+            "preview": "Forhåndsvisning"
+        }
     }
 }
