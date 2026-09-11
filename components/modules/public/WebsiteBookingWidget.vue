@@ -132,12 +132,12 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { PublicWebsiteBookingClient } from '@/components/api/public/PublicWebsiteBookingClient'
 
 const props = defineProps<{
-    apiBaseURL: string
+    apiBaseUrl: string
     embedToken: string
     locale?: string
 }>()
 
-const client = new PublicWebsiteBookingClient(props.apiBaseURL, props.embedToken)
+const client = new PublicWebsiteBookingClient(props.apiBaseUrl, props.embedToken)
 
 const LABELS: Record<string, Record<string, string>> = {
     en: {

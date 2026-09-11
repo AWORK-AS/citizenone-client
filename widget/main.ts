@@ -26,7 +26,7 @@ function mount() {
         return
     }
 
-    const apiBaseURL = currentScript?.getAttribute('data-api-base') || 'https://app.citizenone.dk/api'
+    const apiBaseUrl = currentScript?.getAttribute('data-api-base') || 'https://app.citizenone.dk/api'
     const locale = currentScript?.getAttribute('data-locale') || 'en'
 
     const host = document.createElement('div')
@@ -46,7 +46,7 @@ function mount() {
     const mountPoint = document.createElement('div')
     shadowRoot.appendChild(mountPoint)
 
-    createApp(WebsiteBookingWidget, { apiBaseURL, embedToken, locale }).mount(mountPoint)
+    createApp(WebsiteBookingWidget, { apiBaseUrl, embedToken, locale }).mount(mountPoint)
 }
 
 mount()
