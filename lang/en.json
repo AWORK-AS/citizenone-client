@@ -8603,9 +8603,12 @@
                 "tripSuccessfullyAdded": "Trip successfully added",
                 "tripSuccessfullyUpdated": "Trip successfully updated"
             },
+            "calculatingDistance": "Calculating…",
             "dateTimeStart": "Date and time",
+            "distanceUnavailable": "The road distance could not be calculated right now. Try again in a moment.",
             "endAddress": "End address",
             "estimatedDistance": "Distance (calculated automatically)",
+            "ferryNote": "incl. {km} km ferry, not counted",
             "linkToCitizen": "Link this trip to a @:terms.citizen{''} as an Intervention Hour",
             "mapHint": "Click the map or drag the marker to adjust the location",
             "note": "Note",

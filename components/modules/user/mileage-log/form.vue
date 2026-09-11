@@ -19,8 +19,17 @@
 
             <div class="space-y-1">
                 <FormLabel :label="$t('mileageLog.form.estimatedDistance')" />
-                <p class="text-sm font-semibold text-gray-700">
-                    {{ formatNumber(locale, estimatedDistanceKm) }} km
+                <p class="text-sm font-semibold text-gray-700" v-if="routePreview.status === 'ready'">
+                    {{ formatNumber(locale, routePreview.kilometers ?? 0) }} km
+                </p>
+                <p class="text-sm text-gray-500 italic" v-else-if="routePreview.status === 'calculating'">
+                    {{ $t('mileageLog.form.calculatingDistance') }}
+                </p>
+                <p class="text-sm text-red-600" v-else-if="routePreview.status === 'unavailable'">
+                    {{ routePreview.message || $t('mileageLog.form.distanceUnavailable') }}
+                </p>
+                <p class="text-xs text-tertiary" v-if="routePreview.status === 'ready' && routePreview.hasFerry">
+                    {{ $t('mileageLog.form.ferryNote', { km: formatNumber(locale, routePreview.ferryKilometers) }) }}
                 </p>
             </div>
 
@@ -51,7 +60,7 @@
                 <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary">
+                <FormButton type="submit" buttonStyle="primary" :disabled="routePreview.status === 'calculating'">
                     {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>
@@ -65,7 +74,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
-import { computeTripDistanceKm } from '@/composables/tripDistance'
+import { useRoutePreview } from '@/composables/routePreview'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -114,7 +123,25 @@ const state = reactive({
     ] as Array<{ address: string; lat: number | null; lng: number | null; key?: string }>,
 })
 
-const estimatedDistanceKm = computed(() => computeTripDistanceKm(state.stops))
+const { state: routePreview, request: requestRoutePreview, reset: resetRoutePreview } = useRoutePreview(t)
+
+// Fires on every add/remove/reorder of a stop and on every coordinate change
+// -- including address keystrokes, since MapTripStopsInput replaces the whole
+// state.stops array on each edit. The composable's own debounce (not this
+// watcher) is what keeps that from hammering the route-preview endpoint.
+watch(
+    () => state.stops.map((s) => ({ lat: s.lat, lng: s.lng })),
+    () => {
+        const coords = state.stops.map((s) => ({ lat: s.lat, lng: s.lng }))
+        const allResolved = coords.length >= 2 && coords.every((c) => c.lat !== null && c.lng !== null)
+        if (!allResolved) {
+            resetRoutePreview()
+            return
+        }
+        requestRoutePreview(coords as { lat: number; lng: number }[])
+    },
+    { immediate: true }
+)
 
 watch(() => props.selectedMileageLog, (selected: any) => {
     if (selected != null) {

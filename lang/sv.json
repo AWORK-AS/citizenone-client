@@ -8603,9 +8603,12 @@
                 "tripSuccessfullyAdded": "Resan har lagts till",
                 "tripSuccessfullyUpdated": "Resan har uppdaterats"
             },
+            "calculatingDistance": "Beräknar…",
             "dateTimeStart": "Datum och tid",
+            "distanceUnavailable": "Vägavståndet kunde inte beräknas just nu. Försök igen om en stund.",
             "endAddress": "Slutadress",
             "estimatedDistance": "Avstånd (beräknas automatiskt)",
+            "ferryNote": "inkl. {km} km färja, räknas inte med",
             "linkToCitizen": "Koppla denna resa till en brukare som en insatstimme",
             "mapHint": "Klicka på kartan eller dra markören för att justera platsen",
             "note": "Anteckning",
