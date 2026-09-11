@@ -24,6 +24,10 @@ class EmployeeDocumentService extends BaseAPIService {
     async downloadDocument(documentUuid: any): Promise<any> {
         return await this.request(`/user/employee-documents/${documentUuid}/download`, 'GET')
     }
+
+    async getExpiryOverview(): Promise<any> {
+        return await this.request(`/user/certificates/expiry-overview`, 'GET')
+    }
 }
 
 export const employeeDocumentService = new EmployeeDocumentService()
