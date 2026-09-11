@@ -11080,6 +11080,8 @@
                     "tax": "MVA (25%)",
                     "serviceFee": "Servicegebyr",
                     "paysViaLeverandorservice": "Betales via leverandørservice",
+                    "termYears": "Kontraktlengde (år)",
+                    "termYearsHint": "For en flerårig avtale blir prisen ovenfor multiplisert med dette antall år.",
                     "total": "Totalt",
                     "added": "Abonnement lagt til",
                     "failed": "Kunne ikke legge til abonnement"

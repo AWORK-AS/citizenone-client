@@ -11080,6 +11080,8 @@
                     "tax": "Moms (25%)",
                     "serviceFee": "Serviceavgift",
                     "paysViaLeverandorservice": "Betalas via leverantörsservice",
+                    "termYears": "Avtalslängd (år)",
+                    "termYearsHint": "För ett flerårigt avtal multipliceras priset ovan med detta antal år.",
                     "total": "Totalt",
                     "added": "Prenumeration tillagd",
                     "failed": "Kunde inte lägga till prenumeration"

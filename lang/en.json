@@ -11080,6 +11080,8 @@
                     "tax": "VAT (25%)",
                     "serviceFee": "Service fee",
                     "paysViaLeverandorservice": "Paid via Supplier Service",
+                    "termYears": "Contract length (years)",
+                    "termYearsHint": "For a multi-year deal, the price above is multiplied by this many years.",
                     "total": "Total",
                     "added": "Subscription added",
                     "failed": "Could not add subscription"

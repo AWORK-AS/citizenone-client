@@ -299,6 +299,15 @@
                         <p v-else class="text-sm text-gray-600">
                             {{ $t('superadmin.companies.licenseOverview.grant.billingFixed', { frequency: fixedFrequencyLabel }) }}
                         </p>
+                        <div v-if="grantIsYearly" class="space-y-1">
+                            <FormLabel for="grant_term_years"
+                                :label="$t('superadmin.companies.licenseOverview.addSubscription.termYears')" />
+                            <input id="grant_term_years" type="number" min="1" max="10" v-model.number="state.grant.termYears"
+                                class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
+                            <p class="text-xs text-gray-500">
+                                {{ $t('superadmin.companies.licenseOverview.addSubscription.termYearsHint') }}
+                            </p>
+                        </div>
                         <div class="space-y-1">
                             <div class="w-fit flex items-center cursor-pointer"
                                 @click="state.grant.paysViaLeverandorservice = !state.grant.paysViaLeverandorservice">
@@ -311,7 +320,7 @@
                                 {{ $t('cancel') }}
                             </FormButton>
                             <FormButton buttonStyle="primary"
-                                :disabled="state.grant.isSaving || !state.grant.quantity || state.grant.quantity < 1 || (needsFrequencyPicker && !state.grant.frequency)"
+                                :disabled="state.grant.isSaving || !state.grant.quantity || state.grant.quantity < 1 || (needsFrequencyPicker && !state.grant.frequency) || (grantIsYearly && (!state.grant.termYears || state.grant.termYears < 1))"
                                 @click="submitGrant">
                                 {{ $t('save') }}
                             </FormButton>
@@ -381,6 +390,16 @@
                                 {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
                             </div>
                         </div>
+                        <div v-if="addSubscriptionNeedsTermYears" class="space-y-1">
+                            <FormLabel for="add_subscription_term_years"
+                                :label="$t('superadmin.companies.licenseOverview.addSubscription.termYears')" />
+                            <input id="add_subscription_term_years" type="number" min="1" max="10"
+                                v-model.number="state.addSubscription.termYears"
+                                class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
+                            <p class="text-xs text-gray-500">
+                                {{ $t('superadmin.companies.licenseOverview.addSubscription.termYearsHint') }}
+                            </p>
+                        </div>
                         <div class="rounded-lg bg-gray-50 p-3 space-y-1 text-sm">
                             <div class="flex justify-between text-gray-600">
                                 <span>{{ $t('superadmin.companies.licenseOverview.addSubscription.unitPrice') }}</span>
@@ -404,7 +423,7 @@
                                 {{ $t('cancel') }}
                             </FormButton>
                             <FormButton buttonStyle="primary"
-                                :disabled="state.addSubscription.isSaving || !state.addSubscription.package"
+                                :disabled="state.addSubscription.isSaving || !state.addSubscription.package || (addSubscriptionNeedsTermYears && (!state.addSubscription.termYears || state.addSubscription.termYears < 1))"
                                 @click="submitAddSubscription">
                                 {{ $t('save') }}
                             </FormButton>
@@ -628,6 +647,7 @@ const state = reactive({
         quantity: 1 as number,
         frequency: 'monthly' as 'monthly' | 'yearly',
         paysViaLeverandorservice: false,
+        termYears: 1 as number,
     },
     addSubscription: {
         isOpen: false,
@@ -638,6 +658,7 @@ const state = reactive({
         frequency: 'monthly' as 'monthly' | 'yearly',
         billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card' | 'assigned_payment_card',
         paysViaLeverandorservice: false,
+        termYears: 1 as number,
     },
     editSubscription: {
         isOpen: false,
@@ -682,10 +703,21 @@ const grantStoragePackageOptions = computed(() =>
 const addSubscriptionSelectedDeal = computed(() =>
     state.addSubscription.deals.find((deal: any) => deal.name === state.addSubscription.package)
 )
+// A multi-year contract term only makes sense for a one-off manual invoice
+// billed yearly - a card-recurring subscription is charged per cycle by
+// Nexi, so "3 years upfront via card" isn't supported (mirrors the backend's
+// addDealSubscription()/grantLicenses()/grantApplicationLicense() guard).
+const addSubscriptionNeedsTermYears = computed(() =>
+    state.addSubscription.frequency === 'yearly' && state.addSubscription.billingMethod === 'manual_invoice'
+)
+const addSubscriptionEffectiveTermYears = computed(() =>
+    addSubscriptionNeedsTermYears.value ? Math.max(1, Number(state.addSubscription.termYears) || 1) : 1
+)
 const addSubscriptionUnitPrice = computed(() => {
     const deal = addSubscriptionSelectedDeal.value
     if (!deal) return 0
-    return state.addSubscription.frequency === 'yearly' ? Number(deal.yearly_price ?? 0) : Number(deal.monthly_price ?? 0)
+    const yearlyPrice = state.addSubscription.frequency === 'yearly' ? Number(deal.yearly_price ?? 0) : Number(deal.monthly_price ?? 0)
+    return yearlyPrice * addSubscriptionEffectiveTermYears.value
 })
 const addSubscriptionTax = computed(() => addSubscriptionUnitPrice.value * 0.25)
 const addSubscriptionServiceFee = computed(() =>
@@ -755,6 +787,14 @@ const fixedFrequencyLabel = computed(() => {
         : t('superadmin.companies.licenseOverview.grant.monthly')
 })
 
+// grantLicenses() always persists a manual-invoice frequency (custom_monthly/
+// custom_yearly), regardless of whether the frequency came from the picker
+// above or from the company's existing deal - so a term-years field only
+// needs to check "yearly", not billing method (there is none to pick here).
+const grantIsYearly = computed(() =>
+    needsFrequencyPicker.value ? state.grant.frequency === 'yearly' : !!state.subscriptions?.data?.type?.includes('yearly')
+)
+
 watch(() => state.activeLicenseType, () => {
     currentTablePage = 1
     fetchLicenses()
@@ -765,21 +805,26 @@ function openGrantModal() {
     state.grant.quantity = 1
     state.grant.frequency = 'monthly'
     state.grant.paysViaLeverandorservice = false
+    state.grant.termYears = 1
     state.grant.isOpen = true
 }
 
 async function submitGrant() {
     if (!state.grant.quantity || state.grant.quantity < 1) return
     if (needsFrequencyPicker.value && !state.grant.frequency) return
+    if (grantIsYearly.value && (!state.grant.termYears || state.grant.termYears < 1)) return
     state.grant.isSaving = true
     try {
-        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly', pays_via_leverandorservice: boolean } = {
+        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly', pays_via_leverandorservice: boolean, term_years?: number } = {
             quantity: state.grant.quantity,
             type: state.activeLicenseType,
             pays_via_leverandorservice: state.grant.paysViaLeverandorservice,
         }
         if (needsFrequencyPicker.value) {
             params.frequency = state.grant.frequency
+        }
+        if (grantIsYearly.value) {
+            params.term_years = state.grant.termYears
         }
         await licenseService.grantLicenses(companyUuid as string, params)
         state.grant.isOpen = false
@@ -796,6 +841,7 @@ async function openAddSubscriptionModal() {
     state.addSubscription.frequency = 'monthly'
     state.addSubscription.billingMethod = 'manual_invoice'
     state.addSubscription.paysViaLeverandorservice = false
+    state.addSubscription.termYears = 1
     state.addSubscription.isOpen = true
 
     if (state.addSubscription.deals.length === 0) {
@@ -815,6 +861,7 @@ async function openAddSubscriptionModal() {
 
 async function submitAddSubscription() {
     if (!state.addSubscription.package) return
+    if (addSubscriptionNeedsTermYears.value && (!state.addSubscription.termYears || state.addSubscription.termYears < 1)) return
     state.addSubscription.isSaving = true
     try {
         await licenseService.addDealSubscription(companyUuid as string, {
@@ -822,6 +869,7 @@ async function submitAddSubscription() {
             frequency: state.addSubscription.frequency,
             billing_method: state.addSubscription.billingMethod,
             pays_via_leverandorservice: state.addSubscription.paysViaLeverandorservice,
+            ...(addSubscriptionNeedsTermYears.value ? { term_years: state.addSubscription.termYears } : {}),
         })
         state.addSubscription.isOpen = false
         successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.addSubscription.added')}.`)
