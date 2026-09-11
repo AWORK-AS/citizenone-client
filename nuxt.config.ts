@@ -176,6 +176,12 @@ export default defineNuxtConfig({
     '/fst-register': {
       redirect: { to: '/register', statusCode: 301 },
     },
+    '/fst-login': {
+      redirect: { to: '/', statusCode: 301 },
+    },
+    '/fst-forgot-password': {
+      redirect: { to: '/forgot-password', statusCode: 301 },
+    },
     '/.well-known/apple-app-site-association': {
       headers: { 'content-type': 'application/json' },
     },
