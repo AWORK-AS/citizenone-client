@@ -56,6 +56,7 @@ const exclude = (route.query.exclude as string) || ''
 // Apps with an in-product setup page the user can jump to after activation
 const appSetupRoutes: Record<string, string> = {
     'surveys': '/surveys',
+    'invoicing': '/invoicing',
 }
 
 const { getTour } = useAppTours()
