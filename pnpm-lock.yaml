@@ -93,6 +93,9 @@ importers:
       '@types/node':
         specifier: ^25.2.3
         version: 25.3.5
+      '@vitejs/plugin-vue':
+        specifier: ^5.0.5
+        version: 5.0.5(vite@5.3.5(@types/node@25.3.5)(terser@5.31.1))(vue@3.4.34)
       '@vueform/multiselect':
         specifier: ^2.6.9
         version: 2.6.9
@@ -132,6 +135,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.7
         version: 3.4.7
+      vite:
+        specifier: ^5.3.5
+        version: 5.3.5(@types/node@25.3.5)(terser@5.31.1)
       vue-flatpickr-component:
         specifier: ^11.0.5
         version: 11.0.5(vue@3.4.34)

@@ -30,6 +30,7 @@
     "test:risk-assessment-trend-graph": "node risk-assessment-trend-graph.mjs",
     "test:google-drive-overview-tab": "node google-drive-overview-tab.mjs",
     "test:economy-any-industry": "node economy-any-industry.mjs",
+    "test:multi-year-subscription-terms": "node multi-year-subscription-terms.mjs",
     "test:invoices-redirect-to-invoicing": "node invoices-redirect-to-invoicing.mjs"
   },
   "dependencies": {

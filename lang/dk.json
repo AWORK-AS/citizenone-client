@@ -4761,6 +4761,7 @@
             "doNotCountWeekends": "Tæl ikke weekender med",
             "estimatedPayrollCost": "Estimeret lønomkostning",
             "forSleepingNightShift": "For sovende nattevagt",
+            "hours": "Timer",
             "inMeeting": "I møde",
             "note": "Bemærkning",
             "overrideVacationHours": "Overskriv standard ferietimer",
@@ -5306,6 +5307,7 @@
             "dateTimeEnd": "Dato og tid slut",
             "datetimeStart": "Dato og tid start",
             "departments": "Afdelinger",
+            "hours": "Timer",
             "note": "Bemærkning",
             "typeOfShift": "Type af vagt",
             "viewSchedule": "Se tidsplan"
@@ -10544,6 +10546,38 @@
             "sharedFieldsSubtitle": "Kapacitet, ledighed og certificeringsmærker vises her, når det er aktiveret for jeres organisation."
         }
     },
+    "supportAccess": {
+        "title": "CitizenOne's adgang",
+        "intro": "Her godkender I, når CitizenOne beder om at gå ind på en af jeres brugeres konti. Ingen kommer ind uden et ja fra jer. Et ja gælder i fire timer og lukker derefter af sig selv, I kan trække det tilbage undervejs, og nederst står hver gang nogen har været inde.",
+        "pending": {
+            "heading": "Venter på jeres svar",
+            "empty": "Der er ingen anmodninger lige nu.",
+            "wantsAccessTo": "Beder om adgang til {name}s konto",
+            "answerBefore": "Svar inden",
+            "approve": "Godkend",
+            "deny": "Afvis"
+        },
+        "active": {
+            "heading": "Adgang lige nu",
+            "until": "Er inde på {name}s konto til {time}",
+            "revoke": "Træk adgangen tilbage"
+        },
+        "history": {
+            "heading": "Hvem har været inde",
+            "when": "Tidspunkt",
+            "who": "Fra CitizenOne",
+            "account": "Konto",
+            "basis": "Grundlag",
+            "reason": "Begrundelse",
+            "approved": "Godkendt af jer",
+            "breakGlass": "Uden godkendelse"
+        },
+        "alert": {
+            "approved": "Adgangen er godkendt",
+            "denied": "Anmodningen er afvist",
+            "revoked": "Adgangen er trukket tilbage"
+        }
+    },
     "setupPassword": {
         "form": {
             "confirmPassword": "Bekræft adgangskode",
@@ -11080,6 +11114,8 @@
                     "tax": "Moms (25%)",
                     "serviceFee": "Servicegebyr",
                     "paysViaLeverandorservice": "Betales via Leverandørservice",
+                    "termYears": "Kontraktlængde (år)",
+                    "termYearsHint": "Ved en flerårig aftale ganges prisen ovenfor med dette antal år.",
                     "total": "Total",
                     "added": "Abonnement tilføjet",
                     "failed": "Kunne ikke tilføje abonnement"
@@ -11825,7 +11861,66 @@
             "paymentFees": "Betalingsgebyrer",
             "storageUsage": "Lagerforbrug",
             "industries": "Brancher",
-            "salesInquiries": "Henvendelser"
+            "salesInquiries": "Henvendelser",
+            "teamRoles": "Roller",
+            "supportAccess": "Adgang hos kunder"
+        },
+        "teamRoles": {
+            "pageTitle": "Roller",
+            "header": "Roller",
+            "subtitle": "Hvad hver rolle må se i superadminen. Rollen er levende: udvider du den her, får alle i den området med. Undtagelser for den enkelte kollega sættes under Brugere.",
+            "newRole": "Ny rolle",
+            "namePlaceholder": "Navn på rollen",
+            "locked": "Kan ikke ændres",
+            "lockedHint": "Superadmin har al adgang. Den kan ikke redigeres, fordi det er den rolle der kan rette de andre.",
+            "members": "{count} kollegaer",
+            "loading": "Henter roller",
+            "saved": "Adgangen er gemt",
+            "person": {
+                "role": "Rolle",
+                "roleHint": "Pakken af områder denne kollega får. Vælg tilvalg og fravalg nedenfor, hvis de er en undtagelse.",
+                "extra": "Ekstra adgang ud over rollen",
+                "revoked": "Fjernet, selv om rollen giver den",
+                "fromRole": "fra rollen",
+                "none": "Ingen rolle"
+            }
+        },
+        "supportAccess": {
+            "pageTitle": "Adgang hos kunder",
+            "header": "Adgang hos kunder",
+            "subtitle": "Anmodninger om at gå ind på en kundes konto. Kunden svarer, og et ja gælder i fire timer. Svarer de ikke inden for tolv timer, bortfalder anmodningen.",
+            "loading": "Henter anmodninger",
+            "empty": "Du har ikke bedt om adgang til nogen konti.",
+            "status": {
+                "pending": "Afventer svar",
+                "approved": "Godkendt",
+                "denied": "Afvist",
+                "revoked": "Trukket tilbage",
+                "expired": "Udløbet"
+            },
+            "table": {
+                "status": "Status",
+                "account": "Konto",
+                "company": "Virksomhed",
+                "reason": "Begrundelse",
+                "deadline": "Frist",
+                "accessUntil": "Adgang til",
+                "answerBefore": "Svar inden"
+            },
+            "dialog": {
+                "heading": "Bed kunden om adgang",
+                "intro": "Kunden har ikke godkendt adgang til {name}. De får en mail og kan svare med det samme.",
+                "reason": "Begrundelse",
+                "reasonPlaceholder": "Hvad skal du undersøge, og hvorfor kræver det adgang til denne konto?",
+                "reasonHint": "Kunden læser den ordret. Mindst 10 tegn.",
+                "caseReference": "Sagsnummer",
+                "caseReferencePlaceholder": "Valgfrit",
+                "send": "Send anmodning",
+                "terms": "Siger kunden ja, gælder adgangen i fire timer og lukker derefter af sig selv. De kan trække den tilbage undervejs, og alt hvad der sker imens, står i deres log."
+            },
+            "alert": {
+                "requested": "Anmodningen er sendt til kunden"
+            }
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
@@ -15121,5 +15216,40 @@
         "newMessageBody": "Du har modtaget en ny besked i CitizenOne.",
         "newNotification": "Ny notifikation",
         "newNotificationBody": "Der er en ny notifikation i CitizenOne."
+    },
+    "websiteBookingSettings": {
+        "websiteBooking": "Website booking",
+        "alert": {
+            "websiteBookingSuccessfullySaved": "Indstillinger for website booking gemt"
+        },
+        "form": {
+            "enable": "Aktiver online booking på din hjemmeside",
+            "enableLabel": "Lad besøgende på din egen hjemmeside booke direkte i denne kalender",
+            "branding": "Branding",
+            "brandingLabel": "Tilpas hvordan booking-widgetten ser ud",
+            "primaryColor": "Primær farve",
+            "secondaryColor": "Sekundær farve",
+            "welcomeText": "Velkomsttekst",
+            "welcomeTextLabel": "Vises øverst i booking-widgetten",
+            "confirmationText": "Bekræftelsestekst",
+            "confirmationTextLabel": "Vises når en besøgende har gennemført en booking",
+            "services": "Ydelser",
+            "servicesLabel": "Vælg hvilke ydelser der kan bookes fra din hjemmeside",
+            "departments": "Afdelinger",
+            "departmentsLabel": "Vælg hvilke afdelinger der vises for besøgende",
+            "allowedDomains": "Tilladte hjemmesider",
+            "allowedDomainsLabel": "Kun disse hjemmesider må indlejre din booking-widget",
+            "addDomain": "Tilføj",
+            "domainPlaceholder": "www.dinhjemmeside.dk",
+            "embedCode": "Indlejringskode",
+            "embedCodeLabel": "Indsæt denne kode på din hjemmeside for at vise booking-widgetten",
+            "hostedLink": "Link til bookingside",
+            "hostedLinkLabel": "Del dette link direkte, fx i emails eller på sociale medier",
+            "copyCode": "Kopiér kode",
+            "codeCopied": "Kopieret!",
+            "copyLink": "Kopiér link",
+            "linkCopied": "Kopieret!",
+            "preview": "Forhåndsvisning"
+        }
     }
 }

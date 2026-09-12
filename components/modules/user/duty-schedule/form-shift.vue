@@ -159,6 +159,11 @@
                     <span class="text-gray-600">{{ $t('dutySchedules.form.estimatedPayrollCost') }}</span>
                     <span class="font-semibold">{{ estimatedPayrollCost }}</span>
                 </div>
+                <div class="rounded-lg bg-gray-50 px-3 py-2 text-sm flex justify-between items-center"
+                    v-if="props.formType === 'update' && props.selectedShift?.hours !== null && props.selectedShift?.hours !== undefined">
+                    <span class="text-gray-600">{{ $t('dutySchedules.form.hours') }}</span>
+                    <span class="font-semibold">{{ props.selectedShift.hours }}</span>
+                </div>
                 <div class="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm flex items-start gap-2"
                     v-if="state.selectedEmployeeUnavailability">
                     <Icon name="ph:warning-circle" class="size-5 text-red-500 shrink-0 mt-0.5" aria-hidden="true" />

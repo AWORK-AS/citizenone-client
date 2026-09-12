@@ -126,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', requiredCompanyFlag: 'inquiry_pipeline_enabled' })
 
 import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
 import { useAlert } from '@/composables/alert'

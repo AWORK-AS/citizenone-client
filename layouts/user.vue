@@ -996,10 +996,16 @@ const state = reactive({
     slideOver: { isLanguageSwitcherOpen: false, isSupportOpen: false },
 })
 
+// immediate: true because userStore.getUser is routinely already populated
+// by the time this watcher registers - the login page sets it before
+// navigating here, and a page reload restores it from persisted storage
+// before this layout mounts. Without immediate, the watcher only fires on a
+// transition it observes itself, which never happens in either case, and
+// generateSidebarLinks() never runs - leaving the sidebar permanently empty.
 watch(() => userStore.getUser, (user: any) => {
     if (user) { setCustomPageNames(); state.showSubscribeButton = true; generateSidebarLinks(user) }
     if (user?.company?.is_2fa_enabled && !user?.is_google_2fa_enabled) { state.modal.is2faRequiredOpen = true }
-})
+}, { immediate: true })
 
 watch(() => userStore.getUser?.company?.onboarding_preferences?.modules?.vagtplan, () => {
     const user = userStore.getUser
@@ -1132,6 +1138,7 @@ function openNavItem(item: any) {
 
 function generateSidebarLinks(user: any) {
     const nav: any[] = []
+    try {
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
     // Company-level module enablement: no list (empty) = every module on (default).
@@ -1404,6 +1411,14 @@ function generateSidebarLinks(user: any) {
             rawLabel: true,
         })
     })
+    } catch (error) {
+        // Whatever throws here used to silently zero the whole sidebar, since
+        // navigation.value was only ever assigned once, at the very end, from
+        // a local array built by a ~250-line function with no error handling.
+        // Logging (and keeping whatever was pushed before the throw) turns a
+        // silent, hard-to-diagnose "empty sidebar" into a visible, debuggable one.
+        console.error('generateSidebarLinks failed partway through', error)
+    }
 
     navigation.value = nav
     state.isSidebarLoading = false
