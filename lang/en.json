@@ -15214,7 +15214,11 @@
         "passwordLabel": "Password",
         "unlock": "Unlock",
         "verifying": "Verifying…",
-        "wrongPassword": "Incorrect password"
+        "wrongPassword": "Incorrect password",
+        "unlockWithTouchId": "Unlock with Touch ID",
+        "touchIdPrompting": "Waiting for Touch ID…",
+        "touchIdReason": "unlock CitizenOne",
+        "or": "Or"
     },
     "desktopNotifications": {
         "newMessage": "New message",
