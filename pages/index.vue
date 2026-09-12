@@ -360,7 +360,7 @@ async function login() {
 				if (response.data?.user?.is_google_2fa_enabled) {
 					state.modal.isGoogle2faVerificationOpen = true
 				} else {
-					setSessionToken(response.data?.token)
+					await setSessionToken(response.data?.token)
 					// A stray _original_token from a past impersonation session that
 					// never went through "Log out as client" (plain logout, a 401,
 					// closing the tab) must not carry over into a fresh, non-impersonated
