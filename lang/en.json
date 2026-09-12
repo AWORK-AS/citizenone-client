@@ -1495,6 +1495,7 @@
             "thisMonth": "This month",
             "thisYear": "This year"
         },
+        "openInNewWindow": "Open in new window",
         "riskHistory": {
             "title": "Risk assessment over time",
             "period1": "Last month",
@@ -8492,6 +8493,7 @@
         "deleteChat": "Delete chat",
         "directMessage": "Direct Message",
         "editMessage": "Edit message",
+        "openInNewWindow": "Open in new window",
         "groupChat": {
             "add": "Add",
             "addUser": "Add user",
@@ -15221,6 +15223,28 @@
         "newMessageBody": "You have a new message in CitizenOne.",
         "newNotification": "New notification",
         "newNotificationBody": "There is a new notification in CitizenOne."
+    },
+    "desktopTrayPopover": {
+        "loading": "Loading…",
+        "appointmentsToday": "{count} appointments today",
+        "birthdaysToday": "{count} birthdays today",
+        "openMessages": "Open messages",
+        "allCalm": "Looks calm right now",
+        "openApp": "Open CitizenOne"
+    },
+    "desktopQuickCapture": {
+        "note": "Note",
+        "message": "Message",
+        "citizen": "Citizen",
+        "selectCitizen": "Select a citizen",
+        "title": "Title",
+        "content": "Content",
+        "to": "To",
+        "selectColleague": "Select a colleague",
+        "subject": "Subject",
+        "saved": "Saved",
+        "missingNoteFields": "Select a citizen and write a title",
+        "missingMessageFields": "Select a colleague and write a message"
     },
     "websiteBookingSettings": {
         "websiteBooking": "Website booking",
