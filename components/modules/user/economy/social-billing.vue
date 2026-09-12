@@ -64,7 +64,7 @@
                     <Icon name="ph:check-circle" class="w-5 h-5" />
                     {{ $t('socialWelfare.billing.convertedBanner', { count: state.convertedCount }) }}
                 </p>
-                <FormButton buttonStyle="success" @click="navigateTo('/invoices')" v-if="hasInvoiceApp">
+                <FormButton buttonStyle="success" @click="navigateTo('/invoicing')" v-if="hasInvoiceApp">
                     <Icon name="ph:arrow-right" class="w-4 h-4" />
                     {{ $t('socialWelfare.billing.goToInvoices') }}
                 </FormButton>

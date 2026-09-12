@@ -88,6 +88,7 @@ const state = reactive({
 // Apps with an in-product setup page the user can jump to after purchase
 const appSetupRoutes: Record<string, string> = {
     'surveys': '/surveys',
+    'invoicing': '/invoicing',
 }
 
 const { getTour } = useAppTours()

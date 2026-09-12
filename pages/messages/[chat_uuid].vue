@@ -1,8 +1,18 @@
 <template>
-    <div class="relative w-full h-full flex flex-col overflow-hidden">
+    <div class="relative w-full h-full flex flex-col overflow-hidden"
+        @dragenter.prevent="isDraggingFile = true" @dragover.prevent="isDraggingFile = true"
+        @dragleave.prevent="isDraggingFile = false" @drop.prevent="handleFileDrop">
 
         <Alert type="danger" :text="state?.error?.message" v-if="state.error?.message && state.error.message.length > 0"
             class="mb-3" />
+
+        <!-- Same drag-and-drop pattern as citizens/[uuid]/documents.vue -->
+        <div v-if="isDraggingFile"
+            class="absolute inset-0 z-40 flex items-center justify-center bg-primary/5 border-2 border-dashed border-primary rounded-xl pointer-events-none">
+            <span class="bg-white px-4 py-2 rounded-lg shadow-lg text-primary font-semibold text-sm">
+                {{ $t('messages.attachFile') }}
+            </span>
+        </div>
 
         <!-- Loading overlay -->
         <div v-if="state.isChatHistoryDividerLoading"
@@ -285,6 +295,7 @@ import { messageService } from '@/components/api/user/MessageService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from 'vue-i18n'
 import { useAlert } from '@/composables/alert'
+import { useContinuity } from '@/composables/useContinuity'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
@@ -292,9 +303,13 @@ import type { Error } from '@/types'
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { successAlert } = useAlert()
+const { reportContinuity } = useContinuity()
 const userStore = useUserStore() as any
 const router = useRouter()
-const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
+// Reassigned (not a computed ref) on purpose - every function below reads this
+// as a plain value at call time, same style as currentPage/scrollHeight below.
+let chatUuid = router?.currentRoute?.value?.params?.chat_uuid as string
+let channel: any = null
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
 let scrollHeight = 0
@@ -326,17 +341,72 @@ const state = reactive({
     selectedChatIndex: '',
 })
 
-onMounted(() => {
-    const channel = pusher.subscribe('citizenone.' + chatUuid)
+function subscribeToChat() {
+    channel = pusher.subscribe('citizenone.' + chatUuid)
     channel.bind('chat-message', (response: any) => {
         state.messages.push(response?.data)
         scrollToBottom()
+        notifyIfBackgrounded(response?.data)
     })
+}
+
+// Only for the chat currently open - a full "any new message anywhere"
+// notification needs a per-user backend broadcast channel that doesn't
+// exist yet (the inbox list has no live subscription at all today). This
+// covers the common case for free: a message arrives while this thread is
+// open but the app/tab isn't in front. Plain web Notification API - works
+// in both a browser tab and the desktop app's renderer, no IPC needed.
+function notifyIfBackgrounded(message: any) {
+    if (!message || !document.hidden) return
+    if (message?.sender?.id === userStore.getUser?.id) return
+    if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return
+
+    const notification = new Notification(senderDisplayName(message), {
+        body: message?.message ?? '',
+        icon: '/img/icons/asset-app.png',
+    })
+    notification.onclick = () => window.focus()
+}
+
+function loadChat() {
+    state.messages = []
+    state.isLastPage = false
+    currentPage = 1
+    subscribeToChat()
     fetchChat()
     fetchChatHistory().then(autoFillChatHistory)
     readChat()
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
+
+    // Ask once, on opening a chat rather than at app launch, so the OS
+    // permission prompt has an obvious reason attached to it. 'default'
+    // means never asked - Electron's own content is granted this by
+    // default already, so this branch is mainly for the plain-browser case.
+    if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+        Notification.requestPermission()
+    }
+}
+
+onMounted(loadChat)
+
+onBeforeUnmount(() => {
+    if (chatUuid) pusher.unsubscribe('citizenone.' + chatUuid)
 })
+
+// Vue Router reuses this component instance when only the dynamic segment
+// changes (same route record) - clicking a different conversation in the
+// sidebar does NOT remount the page, so without this the pusher channel and
+// every fetch/send/read call below stayed pointed at whichever chat was
+// opened first, no matter which one was actually on screen.
+watch(
+    () => router.currentRoute.value.params.chat_uuid,
+    (newUuid) => {
+        if (!newUuid || newUuid === chatUuid) return
+        pusher.unsubscribe('citizenone.' + chatUuid)
+        chatUuid = newUuid as string
+        loadChat()
+    },
+)
 
 function toggleMessageMenu(index: any) {
     state.openMessageMenuIndex = state.openMessageMenuIndex === index ? null : index
@@ -476,7 +546,10 @@ async function fetchChat() {
     state.isPageLoading = true
     try {
         const response = await messageService.fetchChat(chatUuid)
-        if (response) state.chat = response
+        if (response) {
+            state.chat = response
+            reportContinuity('chat', chatUuid, getChatHeaderName() || state.chat?.data?.name || '')
+        }
     } catch (error: any) {
         state.error = { message: error.message }
     }
@@ -537,12 +610,12 @@ async function sendMessage() {
             if (response) {
                 fetchChats?.()
                 scrollToBottom()
+                state.message = ''
             }
         } catch (error: any) {
             state.error = error
         }
         state.isChatHistoryDividerLoading = false
-        state.message = ''
     }
 }
 
@@ -573,6 +646,14 @@ function handleScroll() {
 const triggerFileInput = () => fileInput.value?.click()
 
 const handleFileChange = (event: any) => uploadFiles(event.target.files)
+
+const isDraggingFile = ref(false)
+
+async function handleFileDrop(event: DragEvent) {
+    isDraggingFile.value = false
+    const droppedFiles = event.dataTransfer?.files
+    if (droppedFiles && droppedFiles.length > 0) await uploadFiles(droppedFiles)
+}
 
 const uploadFiles = async (files: any) => {
     state.isChatHistoryDividerLoading = true

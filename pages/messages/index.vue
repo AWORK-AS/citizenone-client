@@ -24,8 +24,21 @@
 
 <script setup lang="ts">
 const fetchChats = inject('fetchChats') as any
+const route = useRoute()
+const router = useRouter()
 
 const state = reactive({
     isNewChatOpen: false,
+})
+
+// Desktop Dock quick action ("Ny samtale") arrives as citizenone://messages?action=new,
+// which app.vue turns into a normal navigation with this query param - see
+// citizenone-desktop's Dock menu (main.ts). Cleared via replace so a later
+// refresh/back doesn't reopen the modal.
+onMounted(() => {
+    if (route.query.action === 'new') {
+        state.isNewChatOpen = true
+        router.replace({ query: {} })
+    }
 })
 </script>
