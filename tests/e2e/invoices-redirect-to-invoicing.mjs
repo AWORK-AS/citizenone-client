@@ -56,7 +56,7 @@ function check(label, condition, detail = '') {
   }
 }
 
-const browser = await chromium.launch({ headless: true })
+const browser = await chromium.launch({ channel: 'chrome', headless: true })
 const page = await browser.newPage({ viewport: { width: 1500, height: 1000 } })
 
 async function bootAndReload() {
