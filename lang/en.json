@@ -8869,6 +8869,11 @@
             "appointments": "{count} appointments",
             "allCalm": "Looks calm right now"
         },
+        "continuity": {
+            "continueOnCitizen": "Continue where you left off: {label}",
+            "continueOnChat": "Continue the conversation with {label}",
+            "goTo": "Go to"
+        },
         "birthdays": {
             "title": "Birthdays this week",
             "todayTitle": "Birthdays today",

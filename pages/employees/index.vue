@@ -18,7 +18,7 @@
             </template>
 
             <div>
-                <div class="flex-none lg:flex justify-between items-center space-y-3 mb-5">
+                <div class="flex-none lg:flex lg:flex-wrap justify-between items-center space-y-3 lg:space-y-0 lg:gap-y-3 mb-5">
                     <div class="flex items-center gap-x-1">
                         <span>{{ $t('entriesPerPage') }}:</span>
                         <select class="focus:outline-none bg-transparent" @change="changePageLength"

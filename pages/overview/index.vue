@@ -59,6 +59,27 @@
                 </div>
             </div>
 
+            <!-- "Fortsæt hvor du slap" - last citizen/chat viewed on any device -->
+            <div v-if="state.continuity"
+                class="mb-4 flex items-center justify-between gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
+                <div class="flex items-center gap-2 text-sm text-slate-700 min-w-0">
+                    <Icon name="ph:arrow-clockwise" class="w-4 h-4 text-primary shrink-0" />
+                    <span class="truncate">
+                        {{ $t(state.continuity.type === 'chat' ? 'overview.continuity.continueOnChat' : 'overview.continuity.continueOnCitizen', { label: state.continuity.label }) }}
+                    </span>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                    <button class="text-sm font-medium text-primary hover:text-primary-600 px-2 py-1"
+                        @click="goToContinuity">
+                        {{ $t('overview.continuity.goTo') }} →
+                    </button>
+                    <button class="text-slate-400 hover:text-slate-600 p-1" :aria-label="$t('close')"
+                        @click="state.continuity = null">
+                        <Icon name="ph:x" class="w-4 h-4" />
+                    </button>
+                </div>
+            </div>
+
             <!-- Action bar -->
             <div class="flex items-center justify-between gap-3 flex-wrap">
                 <div class="flex items-center gap-x-3">
@@ -456,6 +477,7 @@ import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { continuityService } from '@/components/api/user/ContinuityService'
 import { useCommandPalette } from '@/composables/useCommandPalette'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDepartmentStore } from '@/store/department'
@@ -513,6 +535,7 @@ const { celebrate } = useConfetti()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const route = useRoute()
+const router = useRouter()
 const newsSection = ref<HTMLElement | null>(null)
 
 const state = reactive({
@@ -523,6 +546,7 @@ const state = reactive({
             end_date: moment().endOf('isoWeek').format('YYYY-MM-DD'),
         },
     } as any,
+    continuity: null as { type: 'citizen' | 'chat'; subject_uuid: string; label: string } | null,
     error: {} as Error,
     isPageLoading: false,
     citizenOptions: [] as any,
@@ -603,10 +627,38 @@ const todaysEventsCount = computed(() => state.stats.citizenCalendarEvents?.data
 
 const { setPageCommands, clearPageCommands } = useCommandPalette()
 
+// "Fortsæt hvor du slap" - failure is silent on purpose, this is a
+// nice-to-have prompt, never worth an error banner over.
+async function fetchContinuity() {
+    try {
+        const response = await continuityService.get()
+        if (response?.data) state.continuity = response.data
+    } catch {
+        // Silent - see comment above.
+    }
+}
+
+function goToContinuity() {
+    if (!state.continuity) return
+    const path = state.continuity.type === 'chat'
+        ? `/messages/${state.continuity.subject_uuid}`
+        : `/citizens/${state.continuity.subject_uuid}/journals`
+    navigateTo(path)
+}
+
 onMounted(() => {
+    // Desktop Dock quick action ("Ny note") arrives as
+    // citizenone://overview?action=new-note - see citizenone-desktop's Dock
+    // menu (main.ts). Cleared via replace so a later refresh/back doesn't
+    // reopen the modal.
+    if (route.query.action === 'new-note') {
+        state.modal.isCreateJournalOpen = true
+        router.replace({ query: {} })
+    }
     scrollToNewsIfNeeded()
     fetchUpcomingBirthdays()
     fetchAllCitizens()
+    fetchContinuity()
     setPageCommands([
         {
             id: 'overview-new-journal',

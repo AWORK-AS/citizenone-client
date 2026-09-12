@@ -3,6 +3,8 @@
         <Modal size="md" :title="$t('messages.newConversation')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <Alert type="danger" :text="state?.error?.message" class="mb-4"
+                        v-if="state.error?.message && state.error.message.length > 0 && !state.error?.errors" />
                     <form @submit.prevent="sendMessage">
                         <div class="flex items-start gap-3 mb-5">
                             <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary">
