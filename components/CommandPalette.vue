@@ -70,16 +70,11 @@ interface Command {
 
 const props = defineProps<{ commands: Command[] }>()
 
-const { isOpen, close, toggle } = useCommandPalette()
-
-function onKeydown(e: KeyboardEvent) {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault()
-        toggle()
-    }
-}
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onUnmounted(() => window.removeEventListener('keydown', onKeydown))
+// ⌘K/Ctrl+K now opens ModulesUserNavbarGlobalSearch instead (it merges in
+// this same pageCommands list - see its actionResults/visibleActions - and
+// additionally searches citizens/journals/medicines/etc. live). This palette
+// stays reachable via its own explicit button in the top bar.
+const { isOpen, close } = useCommandPalette()
 const query = ref('')
 const activeIndex = ref(0)
 const inputRef = ref<HTMLInputElement | null>(null)
