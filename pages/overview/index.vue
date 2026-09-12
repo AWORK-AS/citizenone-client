@@ -642,7 +642,7 @@ function goToContinuity() {
     if (!state.continuity) return
     const path = state.continuity.type === 'chat'
         ? `/messages/${state.continuity.subject_uuid}`
-        : `/citizens/${state.continuity.subject_uuid}`
+        : `/citizens/${state.continuity.subject_uuid}/journals`
     navigateTo(path)
 }
 
