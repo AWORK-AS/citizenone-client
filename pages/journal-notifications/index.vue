@@ -33,7 +33,8 @@
                             <li class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary mt cursor-pointer"
                                 v-for="(notification, index) in state.notifications?.data" :key="index"
                                 @click="viewNotification(notification)">
-                                <Badge type="primary" class="w-fit">
+                                <Badge type="primary" class="w-fit"
+                                    v-if="notification?.data?.citizen?.firstname || notification?.data?.citizen?.lastname">
                                     <p class="text-xs px-2">
                                         {{ notification?.data?.citizen?.firstname }}
                                         {{ notification?.data?.citizen?.lastname }}

@@ -466,6 +466,7 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useConfetti } from '@/composables/useConfetti'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
+import { useContinuity } from '@/composables/useContinuity'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useTerminology } from '@/composables/useTerminology'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
@@ -550,6 +551,7 @@ const primaryCaseworkerName = computed(() => {
 
 const { celebrate } = useConfetti()
 const { recordVisit } = useRecentCitizens()
+const { reportContinuity } = useContinuity()
 let birthdayCelebrated = false
 
 function isTodaysBirthday(birthday?: string | null) {
@@ -750,6 +752,7 @@ async function fetchCitizen() {
             state.selectedCitizen = response
             citizenStore.setSelectedCitizen(response?.data)
             recordVisit(response?.data)
+            reportContinuity('citizen', response?.data?.uuid, `${response?.data?.firstname ?? ''} ${response?.data?.lastname ?? ''}`)
             celebrateBirthdayIfToday(response?.data?.birthday)
             await nextTick()
             state.noteOverflows = noteContentRef.value
