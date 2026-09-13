@@ -111,23 +111,45 @@
                         </span>
                     </div>
                 </div>
-                <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-x-3">
-                    <div>
-                        <FormLabel for="citizens_uuid" :label="$t('calendar.citizens')" />:
-                        <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
-                            v-model="state.formCalendar.citizens_uuid" @change="changeCitizensUuid" />
-                    </div>
-                    <div>
-                        <FormLabel for="users_uuid" :label="$t('calendar.employees')" />:
-                        <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
-                            v-model="state.formCalendar.users_uuid" @change="changeUsersUuid" />
-                    </div>
-                    <div>
-                        <FormLabel for="employee_group_uuid" :label="$t('calendar.employeeGroups')" />:
-                        <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid"
-                            :options="state.options.employeeGroups" v-model="state.formCalendar.employee_group_uuid"
-                            @change="changeEmployeeGroupUuid" />
-                    </div>
+                <div class="lg:col-span-3 flex justify-start lg:justify-end">
+                    <Menu as="div" class="relative inline-block text-left">
+                        <MenuButton
+                            class="inline-flex items-center gap-x-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
+                            <Icon name="ph:funnel" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                            {{ $t('calendar.participants') }}
+                            <span v-if="activeParticipantFilterCount > 0"
+                                class="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[11px] font-semibold text-white">
+                                {{ activeParticipantFilterCount }}
+                            </span>
+                        </MenuButton>
+                        <transition enter-active-class="transition duration-100 ease-out"
+                            enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-75 ease-in"
+                            leave-from-class="transform scale-100 opacity-100"
+                            leave-to-class="transform scale-95 opacity-0">
+                            <MenuItems
+                                class="absolute right-0 z-20 mt-2 w-80 origin-top-right space-y-3 rounded-lg bg-white p-4 shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                <div @click.stop>
+                                    <FormLabel for="citizens_uuid" :label="$t('calendar.citizens')" />
+                                    <FormSelectMultiple id="citizens_uuid" name="citizens_uuid"
+                                        :options="state.options.citizens" v-model="state.formCalendar.citizens_uuid"
+                                        @change="changeCitizensUuid" />
+                                </div>
+                                <div @click.stop>
+                                    <FormLabel for="users_uuid" :label="$t('calendar.employees')" />
+                                    <FormSelectMultiple id="users_uuid" name="users_uuid" :options="state.options.users"
+                                        v-model="state.formCalendar.users_uuid" @change="changeUsersUuid" />
+                                </div>
+                                <div @click.stop>
+                                    <FormLabel for="employee_group_uuid" :label="$t('calendar.employeeGroups')" />
+                                    <FormSelectMultiple id="employee_group_uuid" name="employee_group_uuid"
+                                        :options="state.options.employeeGroups"
+                                        v-model="state.formCalendar.employee_group_uuid"
+                                        @change="changeEmployeeGroupUuid" />
+                                </div>
+                            </MenuItems>
+                        </transition>
+                    </Menu>
                 </div>
             </div>
 
@@ -302,6 +324,14 @@ const state = reactive({
         employeeGroups: [] as any,
         calendarTags: [] as any,
     }
+})
+
+const activeParticipantFilterCount = computed(() => {
+    return [
+        state.formCalendar.citizens_uuid,
+        state.formCalendar.users_uuid,
+        state.formCalendar.employee_group_uuid,
+    ].filter((selection: any) => Array.isArray(selection) && selection.length > 0).length
 })
 
 onMounted(() => {

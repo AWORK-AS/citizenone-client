@@ -1303,6 +1303,7 @@
         "featured": "Framhävd"
     },
     "calendar": {
+        "participants": "Deltagare",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Fredag",

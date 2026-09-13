@@ -1303,6 +1303,7 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "participants": "Deltagere",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Fredag",

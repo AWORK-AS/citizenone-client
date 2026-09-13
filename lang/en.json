@@ -1303,6 +1303,7 @@
         "featured": "Featured"
     },
     "calendar": {
+        "participants": "Participants",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Friday",
