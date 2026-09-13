@@ -78,7 +78,7 @@
                             <div>
                                 <FormLabel for="crit-step" :label="$t('consultantMatch.form.minStep')" />
                                 <div class="flex flex-wrap gap-1.5">
-                                    <button v-for="step in 5" :key="step" type="button"
+                                    <button v-for="step in stepAssessmentMax" :key="step" type="button"
                                         class="size-9 rounded-lg border text-[13px] font-bold transition-colors"
                                         :class="Number(state.form.min_step_assessment) === step
                                             ? 'border-secondary bg-secondary text-white'
@@ -202,12 +202,21 @@ import { regionService } from '@/components/api/user/RegionService'
 import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const { t } = useI18n()
 const { successAlert, errorAlert } = useAlert()
+const userStore = useUserStore() as any
+
+// Same reasoning as the consultant profile page: a company's step scale
+// isn't always 5.
+const stepAssessmentMax = computed(() => {
+    const max = Number(userStore.getUser?.company?.onboarding_preferences?.consultant_step_count)
+    return Number.isInteger(max) && max >= 1 && max <= 10 ? max : 5
+})
 
 const SKILL_TYPES = ['competence', 'course', 'topic']
 
