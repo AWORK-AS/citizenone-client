@@ -14558,6 +14558,10 @@
         "required": "Påkrævet",
         "appliesThroughout": "Gælder hele forløbet",
         "saving": "Gemmer...",
+        "additionalDetails": "Yderligere oplysninger",
+        "createNew": "Opret ny",
+        "jobcenterName": "Jobcenterets navn",
+        "add": "Tilføj",
         "alert": {
             "saved": "Felterne er gemt",
             "saveFailed": "Felterne kunne ikke gemmes"
@@ -14614,7 +14618,8 @@
             "multiselect": "Flere valg",
             "scale": "Skala",
             "boolean": "Ja/nej",
-            "lookup": "Opslag"
+            "lookup": "Opslag",
+            "risk": "Risikovurdering"
         },
         "sources": {
             "municipalities": "Kommuner",
@@ -14624,9 +14629,13 @@
             "spoken_languages": "Talte sprog",
             "consultant_skills": "Konsulentkompetencer",
             "inquiry_service_types": "Indsatstyper",
-            "employees": "Medarbejdere"
+            "employees": "Medarbejdere",
+            "jobcenters": "Jobcentre",
+            "focus_areas": "Fokusområder"
         },
-        "allServiceTypes": "Alle indsatstyper"
+        "allServiceTypes": "Alle indsatstyper",
+        "allowMultiple": "Tillad mere end ét svar",
+        "allowHalfSteps": "Tillad halve trin (fx 4,5)"
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",

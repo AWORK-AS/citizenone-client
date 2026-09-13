@@ -14558,6 +14558,10 @@
         "required": "Required",
         "appliesThroughout": "Applies throughout",
         "saving": "Saving...",
+        "additionalDetails": "Additional details",
+        "createNew": "Create new",
+        "jobcenterName": "Jobcenter name",
+        "add": "Add",
         "alert": {
             "saved": "The fields were saved",
             "saveFailed": "The fields could not be saved"
@@ -14614,7 +14618,8 @@
             "multiselect": "Multiple choice",
             "scale": "Scale",
             "boolean": "Yes/no",
-            "lookup": "Lookup"
+            "lookup": "Lookup",
+            "risk": "Risk assessment"
         },
         "sources": {
             "municipalities": "Municipalities",
@@ -14624,9 +14629,13 @@
             "spoken_languages": "Spoken languages",
             "consultant_skills": "Consultant skills",
             "inquiry_service_types": "Service types",
-            "employees": "Employees"
+            "employees": "Employees",
+            "jobcenters": "Jobcenters",
+            "focus_areas": "Focus areas"
         },
-        "allServiceTypes": "All service types"
+        "allServiceTypes": "All service types",
+        "allowMultiple": "Allow more than one answer",
+        "allowHalfSteps": "Allow half steps (e.g. 4.5)"
     },
     "inquiryOrigin": {
         "label": "The inquiry comes from",
