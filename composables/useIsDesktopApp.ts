@@ -18,3 +18,17 @@ export function useDesktopPlatform(): string | undefined {
     if (typeof window === 'undefined') return undefined
     return (window as any).citizenOneDesktop?.platform
 }
+
+/** Opens `path` in a new, independent desktop window. No-op outside the
+ *  desktop shell - callers gate the button itself on useIsDesktopApp(). */
+export function openInNewDesktopWindow(path: string): void {
+    if (typeof window === 'undefined') return
+    ;(window as any).citizenOneDesktop?.openInNewWindow(path)
+}
+
+/** Reports a citizen/chat visit for the Dock's "Seneste" (recently viewed)
+ *  menu. Fire-and-forget, no-op outside the desktop shell. */
+export function reportRecentDesktopItem(item: { type: string; uuid: string; label: string }): void {
+    if (typeof window === 'undefined') return
+    ;(window as any).citizenOneDesktop?.reportRecentItem(item)
+}

@@ -1303,6 +1303,7 @@
         "featured": "Framhävd"
     },
     "calendar": {
+        "participants": "Deltagare",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Fredag",
@@ -1495,6 +1496,7 @@
             "thisMonth": "Denna månad",
             "thisYear": "Detta år"
         },
+        "openInNewWindow": "Öppna i nytt fönster",
         "riskHistory": {
             "title": "Riskbedömning över tid",
             "period1": "Senaste månaden",
@@ -8492,6 +8494,7 @@
         "deleteChat": "Radera chatt",
         "directMessage": "Direkte meddelande",
         "editMessage": "Redigera meddelande",
+        "openInNewWindow": "Öppna i nytt fönster",
         "groupChat": {
             "add": "Lägg till",
             "addUser": "Lägg till användare",
@@ -15118,13 +15121,39 @@
         "passwordLabel": "Lösenord",
         "unlock": "Lås upp",
         "verifying": "Verifierar…",
-        "wrongPassword": "Fel lösenord"
+        "wrongPassword": "Fel lösenord",
+        "unlockWithTouchId": "Lås upp med Touch ID",
+        "touchIdPrompting": "Väntar på Touch ID…",
+        "touchIdReason": "låsa upp CitizenOne",
+        "or": "Eller"
     },
     "desktopNotifications": {
         "newMessage": "Nytt meddelande",
         "newMessageBody": "Du har fått ett nytt meddelande i CitizenOne.",
         "newNotification": "Ny avisering",
         "newNotificationBody": "Det finns en ny avisering i CitizenOne."
+    },
+    "desktopTrayPopover": {
+        "loading": "Laddar…",
+        "appointmentsToday": "{count} bokningar idag",
+        "birthdaysToday": "{count} fyller år idag",
+        "openMessages": "Öppna meddelanden",
+        "allCalm": "Allt ser lugnt ut just nu",
+        "openApp": "Öppna CitizenOne"
+    },
+    "desktopQuickCapture": {
+        "note": "Anteckning",
+        "message": "Meddelande",
+        "citizen": "Klient",
+        "selectCitizen": "Välj en klient",
+        "title": "Titel",
+        "content": "Innehåll",
+        "to": "Till",
+        "selectColleague": "Välj en kollega",
+        "subject": "Ämne",
+        "saved": "Sparat",
+        "missingNoteFields": "Välj en klient och skriv en titel",
+        "missingMessageFields": "Välj en kollega och skriv ett meddelande"
     },
     "websiteBookingSettings": {
         "websiteBooking": "Webbplatsbokning",

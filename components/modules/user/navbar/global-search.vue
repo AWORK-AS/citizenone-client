@@ -31,7 +31,7 @@
                                             class="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                                             <Icon :name="action.icon" class="h-4 w-4 text-primary" />
                                         </div>
-                                        {{ $t(action.titleKey) }}
+                                        {{ actionLabel(action) }}
                                     </button>
                                 </div>
                                 <!-- Pinned citizens -->
@@ -155,6 +155,7 @@ import { useSearchHighlightStore } from '@/store/searchHighlight'
 import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
+import { useCommandPalette } from '@/composables/useCommandPalette'
 
 const RECENT_SEARCHES_KEY = 'globalSearch_recent'
 const MAX_RECENT = 5
@@ -173,6 +174,11 @@ const userStore = useUserStore()
 const highlightStore = useSearchHighlightStore()
 const { t } = useI18n()
 const { isAtLeast } = usePermissions()
+// Whichever page is open contributes its own quick actions here (Calendar,
+// Overview, Citizens list, Relations, Medicine journals) - merged into the
+// same actions list as the fixed ACTIONS below, so ⌘K stays a superset of
+// the old CommandPalette rather than a step down from it.
+const { pageCommands } = useCommandPalette()
 
 const shortcutLabel = computed(() => {
     const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad|iPod/.test(navigator.platform)
@@ -251,19 +257,47 @@ const ACTIONS: QuickAction[] = [
     { uuid: 'action-statistics', titleKey: 'globalSearch.actions.statistics', keywords: ['statistics', 'statistik', 'reports', 'rapporter', 'news', 'nyheder'], icon: 'heroicons:chart-bar', href: '/statistics', adminOnly: false },
 ]
 
-const visibleActions = computed(() => ACTIONS.filter(a => !a.adminOnly || isAtLeast('Admin')))
+// pageCommands already carry a translated label (not an i18n key) and their
+// own run() rather than a plain href - actionLabel/runAction below handle
+// both shapes so this list can mix static ACTIONS with per-page commands.
+interface MergedAction extends Omit<QuickAction, 'titleKey'> {
+    titleKey: string
+    label?: string
+    run?: () => void
+}
+
+const pageActions = computed<MergedAction[]>(() => pageCommands.value.map((cmd) => ({
+    uuid: cmd.id,
+    titleKey: '',
+    label: cmd.label,
+    keywords: (cmd.keywords ?? '').split(/\s+/).filter(Boolean),
+    icon: cmd.icon ?? 'heroicons:bolt',
+    href: '',
+    adminOnly: false,
+    run: cmd.run,
+})))
+
+const visibleActions = computed<MergedAction[]>(() => [
+    ...ACTIONS.filter(a => !a.adminOnly || isAtLeast('Admin')),
+    ...pageActions.value,
+])
+
+function actionLabel(action: MergedAction): string {
+    return action.titleKey ? t(action.titleKey) : (action.label ?? '')
+}
 
 const actionResults = computed(() => {
     const query = state.searchQuery.trim().toLowerCase()
     if (!query || query.length < 2) return []
-    return visibleActions.value.filter(a =>
-        a.keywords.some(k => k.toLowerCase().includes(query)) || t(a.titleKey).toLowerCase().includes(query)
+    return visibleActions.value.filter((a) =>
+        a.keywords.some(k => k.toLowerCase().includes(query)) || actionLabel(a).toLowerCase().includes(query)
     )
 })
 
-function runAction(action: QuickAction) {
+function runAction(action: MergedAction) {
     close()
-    navigateTo(action.href)
+    if (action.run) action.run()
+    else navigateTo(action.href)
 }
 
 const citizenName = (item: any) => [item.citizen?.firstname, item.citizen?.lastname].filter(Boolean).join(' ')
@@ -292,7 +326,7 @@ const resultGroups = computed(() => [
         iconBg: 'bg-primary/10',
         iconColor: 'text-primary',
         items: actionResults.value,
-        primaryLabel: (i: any) => t(i.titleKey),
+        primaryLabel: (i: any) => actionLabel(i),
         secondaryLabel: (_i: any) => '',
     },
     {
@@ -531,6 +565,12 @@ watch(() => state.searchQuery, (val) => {
 onMounted(() => {
     const handler = (e: KeyboardEvent) => {
         if (e.key === 'Escape' && state.isOpen) { close() }
+        // ⌘K/Ctrl+K opens this rather than the plainer CommandPalette - see
+        // that component for why (it merges pageCommands in here instead).
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault()
+            if (state.isOpen) close(); else open()
+        }
     }
     window.addEventListener('keydown', handler)
     onUnmounted(() => {

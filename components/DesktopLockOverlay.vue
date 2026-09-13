@@ -9,6 +9,18 @@
                     <h2 class="text-lg font-semibold text-gray-900">{{ $t('desktopLock.title') }}</h2>
                     <p class="text-sm text-gray-500 mt-1">{{ userStore.getUser?.firstname }} {{ userStore.getUser?.lastname }}</p>
                 </div>
+                <template v-if="touchIdAvailable">
+                    <button type="button" @click="unlockWithTouchId" :disabled="isPromptingTouchId"
+                        class="w-full flex items-center justify-center gap-x-2 rounded-lg border border-surface-200 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-60 mb-4">
+                        <Icon name="ph:fingerprint" class="h-5 w-5 text-primary" aria-hidden="true" />
+                        {{ isPromptingTouchId ? $t('desktopLock.touchIdPrompting') : $t('desktopLock.unlockWithTouchId') }}
+                    </button>
+                    <div class="flex items-center gap-x-3 mb-4">
+                        <div class="h-px flex-1 bg-surface-200"></div>
+                        <span class="text-xs uppercase tracking-wide text-gray-400">{{ $t('desktopLock.or') }}</span>
+                        <div class="h-px flex-1 bg-surface-200"></div>
+                    </div>
+                </template>
                 <FormLabel for="lock-password" :label="$t('desktopLock.passwordLabel')" />
                 <input id="lock-password" ref="passwordInput" v-model="password" type="password" autofocus
                     class="w-full border border-surface-200 rounded-lg px-3 py-2.5 text-sm mt-1 mb-2 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary" />
@@ -34,6 +46,8 @@ const password = ref('')
 const error = ref('')
 const isVerifying = ref(false)
 const passwordInput = ref<HTMLInputElement | null>(null)
+const touchIdAvailable = ref(false)
+const isPromptingTouchId = ref(false)
 
 const initials = computed(() => {
     const user = userStore.getUser
@@ -42,17 +56,42 @@ const initials = computed(() => {
 
 let unsubscribe: (() => void) | null = null
 
-onMounted(() => {
+onMounted(async () => {
     const bridge = (window as any).citizenOneDesktop
     if (!bridge?.isDesktop) return
+    touchIdAvailable.value = !!(await bridge.touchId?.isAvailable())
     unsubscribe = bridge.onLockRequested(() => {
         isLocked.value = true
         password.value = ''
         error.value = ''
-        nextTick(() => passwordInput.value?.focus())
+        nextTick(() => {
+            passwordInput.value?.focus()
+            // Prompt immediately, same as the OS's own lock screen - a
+            // cancelled/failed prompt just leaves the password field ready.
+            if (touchIdAvailable.value) unlockWithTouchId()
+        })
     })
 })
 onUnmounted(() => unsubscribe?.())
+
+async function unlockWithTouchId() {
+    if (!touchIdAvailable.value || isPromptingTouchId.value) return
+    isPromptingTouchId.value = true
+    try {
+        const bridge = (window as any).citizenOneDesktop
+        const reason = $t('desktopLock.touchIdReason') as unknown as string
+        const confirmed = await bridge?.touchId?.prompt(reason)
+        if (confirmed) {
+            isLocked.value = false
+            password.value = ''
+            bridge?.notifyUnlocked()
+        }
+        // A cancelled/failed prompt isn't an error worth showing - the
+        // password field is already focused and ready.
+    } finally {
+        isPromptingTouchId.value = false
+    }
+}
 
 // Verify-only: reuses the real login endpoint to check the password against
 // the signed-in user's own email, but never touches the existing session
