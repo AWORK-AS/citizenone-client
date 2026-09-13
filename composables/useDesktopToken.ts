@@ -21,20 +21,29 @@ function bridge() {
     return (typeof window !== 'undefined' ? (window as any).citizenOneDesktop : undefined)
 }
 
-export function setSessionToken(token: string): void {
+/**
+ * Awaited on purpose: desktop.auth.setToken() is an async IPC round-trip to
+ * main (which is what actually starts rewriting the placeholder header into
+ * the real one). A caller that didn't await this and immediately triggered
+ * an authenticated request - the very next thing every login call site does
+ * - could have that request go out before main had registered the real
+ * token, taking a genuine 401 from the real backend and logging straight
+ * back out right after logging in.
+ */
+export async function setSessionToken(token: string): Promise<void> {
     const desktop = bridge()
     if (desktop?.isDesktop) {
-        desktop.auth.setToken(token)
+        await desktop.auth.setToken(token)
         localStorage.setItem('_token', DESKTOP_PLACEHOLDER)
         return
     }
     localStorage.setItem('_token', token)
 }
 
-export function clearSessionToken(): void {
+export async function clearSessionToken(): Promise<void> {
     const desktop = bridge()
     if (desktop?.isDesktop) {
-        desktop.auth.clearToken()
+        await desktop.auth.clearToken()
     }
     localStorage.removeItem('_token')
 }
