@@ -64,6 +64,13 @@
 
                 <!-- Header Actions -->
                 <div class="flex items-center gap-1">
+                    <Tooltip :text="$t('messages.openInNewWindow')" position="left" v-if="isDesktopApp">
+                        <button :aria-label="$t('messages.openInNewWindow')"
+                            class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
+                            @click="openInNewDesktopWindow($route.fullPath)">
+                            <Icon name="ph:arrow-square-out" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                        </button>
+                    </Tooltip>
                     <Tooltip :text="$t('messages.groupChat.editGroupName')" position="left"
                         v-if="state.chat?.data?.type === 'group'">
                         <button :aria-label="$t('messages.groupChat.editGroupName')"
@@ -296,6 +303,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from 'vue-i18n'
 import { useAlert } from '@/composables/alert'
 import { useContinuity } from '@/composables/useContinuity'
+import { useIsDesktopApp, openInNewDesktopWindow } from '@/composables/useIsDesktopApp'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
@@ -304,6 +312,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const { reportContinuity } = useContinuity()
+const isDesktopApp = useIsDesktopApp()
 const userStore = useUserStore() as any
 const router = useRouter()
 // Reassigned (not a computed ref) on purpose - every function below reads this

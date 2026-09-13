@@ -218,7 +218,7 @@ async function unlockPortal() {
         }
         const response = await caseworkerService.authenticateCaseworker(sharedCaseworkerUuid, params)
         if (response) {
-            setSessionToken(response.token)
+            await setSessionToken(response.token)
             state.form.password = ""
             await loadPortalData()
             state.isAuthenticated = true
