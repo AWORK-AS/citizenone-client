@@ -15215,7 +15215,11 @@
         "passwordLabel": "Adgangskode",
         "unlock": "Lås op",
         "verifying": "Bekræfter…",
-        "wrongPassword": "Forkert adgangskode"
+        "wrongPassword": "Forkert adgangskode",
+        "unlockWithTouchId": "Lås op med Touch ID",
+        "touchIdPrompting": "Venter på Touch ID…",
+        "touchIdReason": "låse CitizenOne op",
+        "or": "Eller"
     },
     "desktopNotifications": {
         "newMessage": "Ny besked",

@@ -15119,7 +15119,11 @@
         "passwordLabel": "Lösenord",
         "unlock": "Lås upp",
         "verifying": "Verifierar…",
-        "wrongPassword": "Fel lösenord"
+        "wrongPassword": "Fel lösenord",
+        "unlockWithTouchId": "Lås upp med Touch ID",
+        "touchIdPrompting": "Väntar på Touch ID…",
+        "touchIdReason": "låsa upp CitizenOne",
+        "or": "Eller"
     },
     "desktopNotifications": {
         "newMessage": "Nytt meddelande",
