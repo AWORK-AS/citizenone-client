@@ -1496,6 +1496,7 @@
             "thisMonth": "Denne måneden",
             "thisYear": "Dette året"
         },
+        "openInNewWindow": "Åpne i nytt vindu",
         "riskHistory": {
             "title": "Risikovurdering over tid",
             "period1": "Siste måned",
@@ -8493,6 +8494,7 @@
         "deleteChat": "Slett chat",
         "directMessage": "Direkte melding",
         "editMessage": "Rediger melding",
+        "openInNewWindow": "Åpne i nytt vindu",
         "groupChat": {
             "add": "Legg til",
             "addUser": "Legg til @:terms.citizen{''}",
@@ -15130,6 +15132,28 @@
         "newMessageBody": "Du har mottatt en ny melding i CitizenOne.",
         "newNotification": "Ny varsel",
         "newNotificationBody": "Det er et nytt varsel i CitizenOne."
+    },
+    "desktopTrayPopover": {
+        "loading": "Laster…",
+        "appointmentsToday": "{count} avtaler i dag",
+        "birthdaysToday": "{count} har bursdag i dag",
+        "openMessages": "Åpne meldinger",
+        "allCalm": "Alt ser rolig ut akkurat nå",
+        "openApp": "Åpne CitizenOne"
+    },
+    "desktopQuickCapture": {
+        "note": "Notat",
+        "message": "Melding",
+        "citizen": "Bruker",
+        "selectCitizen": "Velg en bruker",
+        "title": "Tittel",
+        "content": "Innhold",
+        "to": "Til",
+        "selectColleague": "Velg en kollega",
+        "subject": "Emne",
+        "saved": "Lagret",
+        "missingNoteFields": "Velg en bruker og skriv en tittel",
+        "missingMessageFields": "Velg en kollega og skriv en melding"
     },
     "websiteBookingSettings": {
         "websiteBooking": "Nettstedbooking",

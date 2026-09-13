@@ -173,7 +173,8 @@
              group's items - so the primary nav stops eating the width a
              real app window can give to the workspace instead. -->
         <div v-else class="hidden lg:fixed lg:inset-y-0 lg:z-[55] lg:flex">
-            <div class="flex flex-col items-center w-[4.5rem] bg-white border-r border-[#e8eaef] py-3">
+            <div :class="['flex flex-col items-center w-[4.5rem] border-r border-[#e8eaef] py-3',
+                isMacDesktopApp ? 'bg-white/70 backdrop-blur-xl' : 'bg-white']">
                 <!-- macOS hiddenInset title bar (see citizenone-desktop's main.ts):
                      the traffic lights float at the window's true top-left corner,
                      which is exactly this rail's top strip (the rail is the same
@@ -204,7 +205,8 @@
                     <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
                 </div>
             </div>
-            <div class="flex flex-col w-[14rem] bg-white border-r border-[#e8eaef] overflow-y-auto custom-scrollbar"
+            <div :class="['flex flex-col w-[14rem] border-r border-[#e8eaef] overflow-y-auto custom-scrollbar',
+                    isMacDesktopApp ? 'bg-white/70 backdrop-blur-xl' : 'bg-white']"
                 role="tabpanel" :id="`nav-panel-${activeContextGroup?.key}`" :aria-labelledby="`nav-tab-${activeContextGroup?.key}`">
                 <div class="h-16 flex items-center px-4 shrink-0">
                     <span class="text-primary font-semibold text-lg truncate">
