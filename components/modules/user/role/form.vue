@@ -101,7 +101,7 @@
                 <FormError :error="props?.error?.errors?.page_uuid?.[0]" />
             </div>
 
-            <!-- Employee groups a user assigned this role automatically joins (Memox feedback 7/9) -->
+            <!-- Employee groups a user assigned this role automatically joins (customer feedback) -->
             <div class="space-y-2">
                 <FormLabel for="employee_groups" :label="$t('roles.form.employeeGroups')" />
                 <div class="rounded-xl border border-slate-200 p-4">
