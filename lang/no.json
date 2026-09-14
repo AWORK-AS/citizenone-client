@@ -10992,6 +10992,9 @@
                     "decreaseConfirm": "Fjern en {name}-lisens? Hvis alle lisenser for øyeblikket er i bruk, vil dette fjerne tilgangen for en ansatt.",
                     "increaseSuccess": "Lisens lagt til",
                     "decreaseSuccess": "Lisens fjernet"
+                },
+                "editTerm": {
+                    "appliesToAllSeats": "Gjelder for alle {count} aktive lisens(er) av denne appen for denne bedriften."
                 }
             },
             "editCompany": "Rediger virksomhet",
@@ -11097,6 +11100,17 @@
                     "estimatedCredit": "Anslått kreditt for ubrukt tid",
                     "updated": "Abonnement oppdatert",
                     "failed": "Kunne ikke oppdatere abonnement"
+                },
+                "editTerm": {
+                    "editTerm": "Rediger bindingstid",
+                    "title": "Rediger bindingstid",
+                    "currentTermHint": "Er for tiden på {years} års bindingstid",
+                    "startDate": "Abonnementets startdato",
+                    "additionalYears": "{years} ekstra år",
+                    "fewerYears": "{years} færre år",
+                    "credit": "Kreditt",
+                    "updated": "Bindingstid oppdatert",
+                    "failed": "Kunne ikke oppdatere bindingstid"
                 },
                 "removeLicense": {
                     "remove": "Fjern",

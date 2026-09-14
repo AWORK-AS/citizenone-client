@@ -10992,6 +10992,9 @@
                     "decreaseConfirm": "Ta bort en {name}-licens? Om alla licenser för närvarande används kommer detta att ta bort åtkomsten för en anställd.",
                     "increaseSuccess": "Licens tillagd",
                     "decreaseSuccess": "Licens borttagen"
+                },
+                "editTerm": {
+                    "appliesToAllSeats": "Gäller alla {count} aktiva licens(er) av denna app för detta företag."
                 }
             },
             "editCompany": "Redigera företag",
@@ -11097,6 +11100,17 @@
                     "estimatedCredit": "Uppskattad kredit för outnyttjad tid",
                     "updated": "Prenumeration uppdaterad",
                     "failed": "Kunde inte uppdatera prenumeration"
+                },
+                "editTerm": {
+                    "editTerm": "Redigera bindningstid",
+                    "title": "Redigera bindningstid",
+                    "currentTermHint": "Är för närvarande på {years} års bindningstid",
+                    "startDate": "Prenumerationens startdatum",
+                    "additionalYears": "{years} extra år",
+                    "fewerYears": "{years} färre år",
+                    "credit": "Kredit",
+                    "updated": "Bindningstid uppdaterad",
+                    "failed": "Det gick inte att uppdatera bindningstiden"
                 },
                 "removeLicense": {
                     "remove": "Ta bort",
