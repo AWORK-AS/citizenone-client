@@ -7897,7 +7897,9 @@
             "actions": {
                 "pay": "Betal",
                 "sendInvoice": "Send faktura",
-                "view": "Se"
+                "view": "Se",
+                "viewReceipt": "Se kvittering",
+                "viewInvoice": "Se faktura"
             },
             "alert": {
                 "invoicePaidSuccessfully": "Faktura betalt vellykket",
@@ -10559,6 +10561,138 @@
         },
         "nav": {
             "searchPlaceholder": "Søk i innstillinger…"
+        },
+        "hints": {
+            "profile": {
+                "title": "Hva står her?",
+                "body": "Dine egne opplysninger og hvordan du får beskjed. Endringer her gjelder bare din bruker, ikke kollegene dine."
+            },
+            "company": {
+                "title": "Hva er bedriftsinnstillinger?",
+                "body": "Bedriftens opplysninger, sikkerhet og hvilke moduler som er slått på. Det gjelder alle i bedriften."
+            },
+            "import": {
+                "title": "Hva kan importeres?",
+                "body": "Last inn data fra et regneark eller et annet system, slik at dere slipper å taste det inn igjen. Kjør en test først."
+            },
+            "subscription": {
+                "title": "Hva er abonnement?",
+                "body": "Deres nåværende pakke og hva den koster. Her kjøper dere også flere brukere og avdelinger."
+            },
+            "invoices": {
+                "title": "Hva ligger her?",
+                "body": "Alle fakturaer fra CitizenOne. En betalt faktura er kvitteringen deres og kan sendes videre til regnskap."
+            },
+            "licenses": {
+                "title": "Hva er lisenser?",
+                "body": "Hvor mange plasser dere har kjøpt, og hvem som bruker dem. Fjern en lisens fra en ansatt for å frigjøre plassen."
+            },
+            "storage": {
+                "title": "Hva tar plass?",
+                "body": "Hvor mye plass filene deres bruker, og hva som tar mest. Kjøp mer plass, eller rydd i de største filene."
+            },
+            "portalAccess": {
+                "title": "Hva er portaltilgang?",
+                "body": "Bestemmer hva pårørende, tredjeparter og tiltak kan se i sin egen portal. Alt dere slår på, blir synlig for dem."
+            },
+            "activityLogs": {
+                "title": "Hva logges?",
+                "body": "Hvem som har vært logget inn, og hva de har gjort. Bruk det til å dokumentere tilgang til personopplysninger."
+            },
+            "timeLogs": {
+                "title": "Hva er tidslogger?",
+                "body": "Registrert arbeidstid for de ansatte. Bruk det som grunnlag for lønn og til å følge opp vakter."
+            },
+            "mileageLog": {
+                "title": "Hva er kjøregodtgjørelse?",
+                "body": "Kjøring registrert av de ansatte, klar til utbetaling eller bokføring."
+            },
+            "supportAccess": {
+                "title": "Hvorfor denne siden?",
+                "body": "Her bestemmer dere om CitizenOnes support kan se dataene deres, og dere ser når de har vært inne. Tilgangen lukkes av seg selv."
+            },
+            "gdprRetention": {
+                "title": "Hva er oppbevaring?",
+                "body": "Hvor lenge data lagres før de slettes automatisk. Sett fristene etter deres egen sletterutine."
+            },
+            "smsNotifications": {
+                "title": "Hva er SMS?",
+                "body": "Send meldinger som SMS i tillegg til e-post. Forbruket avregnes etter antall sendte meldinger."
+            },
+            "powerBi": {
+                "title": "Hva gjør Power BI?",
+                "body": "Hent dataene deres ut til rapporter i Power BI. Nøkkelen gir lesetilgang, ikke rett til å endre noe."
+            },
+            "economic": {
+                "title": "Hva gjør e-conomic?",
+                "body": "Send fakturaer og bilag videre til regnskapssystemet, slik at tallene bare tastes ett sted."
+            },
+            "fst": {
+                "title": "Hva er FindSocialeTilbud.dk?",
+                "body": "Vis tilbudene deres på FindSocialeTilbud.dk, slik at kommunene finner dere. Dere bestemmer selv hva som publiseres."
+            },
+            "customPages": {
+                "title": "Hva er ordlisten?",
+                "body": "Deres egne ord for felter og sider. Gi et felt nytt navn, så systemet kaller det det samme som dere gjør."
+            },
+            "transactions": {
+                "title": "Hva er transaksjoner?",
+                "body": "Inn- og utbetalinger på kontoene dere fører for den enkelte. Beløpene kan hentes ut til regnskap."
+            },
+            "roles": {
+                "title": "Hva er roller?",
+                "body": "En rolle bestemmer hvilke sider og handlinger en ansatt har tilgang til. Gi heller for lite enn for mye."
+            },
+            "departments": {
+                "title": "Hva er avdelinger?",
+                "body": "Avdelinger styrer hvem som ser hva, og brukes i vaktplaner, rapporter og tilganger."
+            },
+            "employeeGroups": {
+                "title": "Hva er ansattgrupper?",
+                "body": "Samle ansatte i grupper, så dere kan tildele vakter, oppgaver og tilgang til flere om gangen."
+            },
+            "archived": {
+                "title": "Hva er arkivet?",
+                "body": "Alt dere har arkivert i stedet for å slette. Det kan hentes tilbake og forstyrrer ikke den daglige oversikten."
+            },
+            "catalog": {
+                "access": {
+                    "title": "Hva brukes det til?",
+                    "body": "Listene her bestemmer hvordan dere er organisert, og hvem som kan hva. De brukes i felter over hele systemet."
+                },
+                "communication": {
+                    "title": "Hva brukes det til?",
+                    "body": "Maler og oppsett for meldingene dere sender, slik at teksten ikke skrives på nytt hver gang."
+                },
+                "journal": {
+                    "title": "Hva brukes det til?",
+                    "body": "Listene her fyller ut journalens felter: titler, innhold, merkelapper og samtykker."
+                },
+                "health": {
+                    "title": "Hva brukes det til?",
+                    "body": "Medisiner, enheter og maler som personalet velger mellom når de dokumenterer helse."
+                },
+                "schedule": {
+                    "title": "Hva brukes det til?",
+                    "body": "Vakttyper, fravær, normperioder og tillegg som vaktplanen og timeregnskapet regner etter."
+                },
+                "booking": {
+                    "title": "Hva brukes det til?",
+                    "body": "Rom og merkelapper som kalenderen og bookinger velger mellom."
+                },
+                "citizens": {
+                    "title": "Hva brukes det til?",
+                    "body": "Listene bak stamkortet: relasjoner, adresser, kategorier og henvendelser."
+                },
+                "employment": {
+                    "title": "Hva brukes det til?",
+                    "body": "Oppsett for jobbsenterområdet: avtaler, sakstyper, statuser og avregning."
+                }
+            },
+            "customLinks": {
+                "title": "Hva er egne lenker?",
+                "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet bruker. Velg om hver lenke vises for administratorer, brukere eller alle."
+            }
         }
     },
     "setupPassword": {
@@ -13948,7 +14082,7 @@
         },
         "tip": {
             "title": "Hva er egne lenker?",
-            "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet @:terms.citizen{''}. Velg om hver lenke vises for administratorer, @:terms.citizens{''} eller alle."
+            "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet bruker. Velg om hver lenke vises for administratorer, brukere eller alle."
         }
     },
     "myDay": {

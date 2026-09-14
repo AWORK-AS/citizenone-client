@@ -559,6 +559,9 @@
                                     <slot name="sub-header"></slot>
                                 </h3>
                             </div>
+                            <!-- One line on what the page is for, dismissible and per page.
+                                 It sits here rather than in seventy page templates. -->
+                            <ModulesUserSettingsHint v-if="isSettingsPage" class="mt-5 order-3" />
                             <div class="mt-4 order-4">
                                 <slot />
                             </div>
