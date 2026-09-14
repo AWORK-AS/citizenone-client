@@ -68,7 +68,7 @@
             <!-- Desktop: 7-day week grid -->
             <div class="hidden lg:block">
                 <TimeGrid :days="timeGridDays" @eventClick="editMyCalendarEvent" @dayClick="setSelectedDay"
-                    @slotDblClick="(date) => $emit('createEvent', date)" />
+                    @slotDblClick="(date) => { if (!props.readOnly) $emit('createEvent', date) }" />
             </div>
 
             <!-- Mobile: agenda list -->
@@ -164,7 +164,7 @@
                                 </div>
                             </dl>
                         </div>
-                        <Menu as="div"
+                        <Menu as="div" v-if="!props.readOnly"
                             class="absolute right-0 top-4 xl:relative xl:right-auto xl:top-auto xl:self-center">
                             <div>
                                 <MenuButton
@@ -262,8 +262,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // A patient viewing their own calendar: no edit/delete/status/journal
+    // actions and no creating events from a click - view only.
+    readOnly: {
+        type: Boolean,
+        default: false,
+    },
 })
-const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
+const emit = defineEmits(['changeDatePerWeek', 'editMyCalendarEvent', 'viewEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 const userStore = useUserStore() as any
 
 const currentDate = ref(moment())
@@ -330,9 +336,12 @@ function showAllInvitees(myCalendarEvent: any) {
 
 function editMyCalendarEvent(myCalendarEvent: any) {
     if (myCalendarEvent?.is_shift) return
-    if (!state.modal.isShowAllInviteesOpen) {
-        emit('editMyCalendarEvent', myCalendarEvent)
+    if (state.modal.isShowAllInviteesOpen) return
+    if (props.readOnly) {
+        emit('viewEvent', myCalendarEvent)
+        return
     }
+    emit('editMyCalendarEvent', myCalendarEvent)
 }
 
 const month = computed(() => currentDate.value.format('MMMM'))
@@ -384,7 +393,7 @@ function setSelectedDay(day: any) {
     const startOfWeekFormatted = startOfWeek.format('YYYY-MM-DD')
     const endOfWeekFormatted = endOfWeek.format('YYYY-MM-DD')
     emit('changeDatePerWeek', [startOfWeekFormatted, endOfWeekFormatted])
-    emit('createEvent', moment(day.fullDate).format('YYYY-MM-DD'))
+    if (!props.readOnly) emit('createEvent', moment(day.fullDate).format('YYYY-MM-DD'))
 }
 
 function isWithinRange(eventStart: moment.Moment, eventEnd: moment.Moment, dayStart: moment.Moment, dayEnd: moment.Moment) {

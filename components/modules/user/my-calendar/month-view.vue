@@ -117,7 +117,7 @@
                 <div class="flex bg-gray-100 text-xs leading-6 text-gray-700 lg:flex-auto">
                     <div class="hidden w-full lg:grid lg:grid-cols-7 lg:auto-rows-fr lg:gap-px">
                         <div v-for="(day, index) in state.days" :key="index"
-                            @dblclick="$emit('createEvent', day.date)"
+                            @dblclick="!props.readOnly && $emit('createEvent', day.date)"
                             :class="[
                                 day.isToday ? 'bg-tertiary/[0.05]' : (day.isCurrentMonth ? 'bg-white' : 'bg-gray-50/70'),
                                 day.isToday && state.flashToday && 'ring-2 ring-inset ring-tertiary motion-safe:animate-pulse',
@@ -187,7 +187,7 @@
                                             <span class="hidden flex-none text-[10px] tabular-nums text-gray-400 group-hover/event:opacity-0 xl:block">
                                                 {{ myCalendarEvent.time_start }}
                                             </span>
-                                            <Menu as="div"
+                                            <Menu as="div" v-if="!props.readOnly"
                                                 class="absolute right-1 flex-none opacity-0 group-hover/event:opacity-100"
                                                 @click.stop>
                                                 <MenuButton class="flex items-center rounded bg-white/90 p-0.5 text-gray-400 shadow-sm ring-1 ring-gray-200 hover:text-gray-700"
@@ -439,7 +439,7 @@
                                 </button>
                             </div>
                         </div>
-                        <Menu as="div"
+                        <Menu as="div" v-if="!props.readOnly"
                             class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
                             <div>
                                 <MenuButton
@@ -558,8 +558,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // A patient viewing their own calendar: no edit/delete/status/journal
+    // actions and no creating events from a click - view only.
+    readOnly: {
+        type: Boolean,
+        default: false,
+    },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'viewEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
 const today = moment()
 
 const state = reactive({
@@ -598,7 +604,7 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
 function setSelectedDay(day: any) {
     state.selectedDay = day
     state.days.forEach(d => d.isSelected = d.date === day.date)
-    emit('createEvent', day.date)
+    if (!props.readOnly) emit('createEvent', day.date)
 }
 
 function previousMonth() {
@@ -775,9 +781,12 @@ const year = computed(() => {
 
 function editMyCalendarEvent(myCalendarEvent: any) {
     if (myCalendarEvent?.is_shift) return
-    if (!state.modal.isShowAllInviteesOpen) {
-        emit('editMyCalendarEvent', myCalendarEvent)
+    if (state.modal.isShowAllInviteesOpen) return
+    if (props.readOnly) {
+        emit('viewEvent', myCalendarEvent)
+        return
     }
+    emit('editMyCalendarEvent', myCalendarEvent)
 }
 
 function confirmEventDeletion(myCalendarEvent: any) {

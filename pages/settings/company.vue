@@ -731,11 +731,13 @@ const portalAudiences = computed(() => {
             sections: [
                 { key: 'overview', label: 'settings.company.form.portalSectionOverview' },
                 { key: 'appointments', label: 'settings.company.form.portalSectionAppointments' },
+                { key: 'calendar', label: 'settings.company.form.portalSectionCalendar' },
                 { key: 'booking', label: 'settings.company.form.portalSectionBooking' },
                 { key: 'messages', label: 'settings.company.form.portalSectionMessages' },
                 { key: 'journals', label: 'settings.company.form.portalSectionJournals' },
                 { key: 'surveys', label: 'settings.company.form.portalSectionSurveys' },
                 { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
+                { key: 'support', label: 'settings.company.form.portalSectionSupport' },
             ],
         })
     }
