@@ -86,18 +86,13 @@ export function useSettingsNav() {
             .filter((section) => section.items.length > 0)
 
         return [
-            { key: 'me', labelKey: 'settings.groups.me', items: [profile] },
-            { key: 'company', labelKey: 'settings.groups.company', items: company },
             {
-                // What you have, then what it cost: the plan and the two things it is
-                // measured in come first, and the invoices for them last.
-                key: 'billing', labelKey: 'settings.groups.billing', items: [
-                    item('settings.tabs.subscription', '/settings/subscription', ['settings-subscription']),
-                    item('settings.licenseOverview.licenseOverview', '/settings/license-overview', ['settings-license-overview']),
-                    item('storage.storage', '/settings/storage', ['settings-storage']),
-                    item('invoices.invoices', '/settings/invoices', ['settings-invoices']),
+                key: 'me', labelKey: 'settings.groups.me', items: [
+                    profile,
+                    item('settings.groups.billing', '/settings/subscription', ['settings-subscription', 'settings-license-overview', 'settings-storage', 'settings-invoices']),
                 ]
             },
+            { key: 'company', labelKey: 'settings.groups.company', items: company },
             ...catalogSections,
             {
                 key: 'apps', labelKey: 'settings.groups.apps', items: [

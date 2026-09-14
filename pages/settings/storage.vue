@@ -12,6 +12,8 @@
 
             <template #header>{{ $t('storage.storage') }}</template>
 
+            <ModulesUserSettingsBillingSubTab class="mt-5" />
+
             <div class="mt-8 max-w-3xl">
                 <ModulesUserStorageIndicator />
             </div>

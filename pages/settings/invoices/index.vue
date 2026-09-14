@@ -12,6 +12,8 @@
 
             <template #header>{{ $t('invoices.invoices') }}</template>
 
+            <ModulesUserSettingsBillingSubTab class="mt-5" />
+
             <div id="invoice-checkout" v-show="state.isCheckoutVisible" class="mx-auto max-w-sm md:max-w-md mt-10"></div>
 
             <div class="mt-10" v-if="!state.isCheckoutVisible">
