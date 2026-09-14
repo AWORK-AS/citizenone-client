@@ -10288,10 +10288,14 @@
                 "termCitizensDefinite": "Brukerne (flertall, bestemt)",
                 "portalAudiencePatient": "Pasient",
                 "portalSectionAppointments": "Avtaler",
+                "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Nettbestilling",
+                "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "Pasienten ser sine kommende og tidligere avtaler hos klinikken.",
+                "portalPreviewCalendar": "Pasienten ser en kalender med sine egne avtaler og hendelser.",
                 "portalPreviewBooking": "Pasienten kan selv bestille en ledig time for behandlingene dere har åpnet for nettbestilling.",
                 "portalPreviewPatientJournals": "Pasienten ser kun journalnotatene dere har merket som delt, og bare hvis pasienten har journaltilgang.",
+                "portalPreviewSupport": "Pasienten kan åpne supportpanelet for å få hjelp.",
                 "portalNeverUnsharedJournalNotes": "Journalnotater som ikke er merket som delt"
             }
         },
@@ -14963,6 +14967,7 @@
     "patient": {
         "nav": {
             "appointments": "Avtaler",
+            "calendar": "Kalender",
             "journal": "Journal",
             "documents": "Dokumenter",
             "priceEstimates": "Prisoverslag",

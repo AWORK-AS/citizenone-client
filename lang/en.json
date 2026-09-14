@@ -10293,10 +10293,14 @@
                 "termCitizensDefinite": "The citizens (plural, definite)",
                 "portalAudiencePatient": "Patient",
                 "portalSectionAppointments": "Appointments",
+                "portalSectionCalendar": "Calendar",
                 "portalSectionBooking": "Online booking",
+                "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "The patient sees their upcoming and past appointments at the clinic.",
+                "portalPreviewCalendar": "The patient sees a calendar with their own appointments and events.",
                 "portalPreviewBooking": "The patient can book a free time for the treatments you opened for online booking.",
                 "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
+                "portalPreviewSupport": "The patient can open the support panel to get in touch with help.",
                 "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared"
             }
         },
@@ -15059,6 +15063,7 @@
     "patient": {
         "nav": {
             "appointments": "Appointments",
+            "calendar": "Calendar",
             "journal": "Journal",
             "documents": "Documents",
             "priceEstimates": "Estimates",

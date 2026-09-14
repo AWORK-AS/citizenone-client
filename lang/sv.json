@@ -10288,10 +10288,14 @@
                 "termCitizensDefinite": "Klienterna (plural, bestämd)",
                 "portalAudiencePatient": "Patient",
                 "portalSectionAppointments": "Bokningar",
+                "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Onlinebokning",
+                "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
+                "portalPreviewCalendar": "Patienten ser en kalender med sina egna bokningar och händelser.",
                 "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
                 "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
+                "portalPreviewSupport": "Patienten kan öppna supportpanelen för att få hjälp.",
                 "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade"
             }
         },
@@ -14963,6 +14967,7 @@
     "patient": {
         "nav": {
             "appointments": "Bokningar",
+            "calendar": "Kalender",
             "journal": "Journal",
             "documents": "Dokument",
             "priceEstimates": "Kostnadsförslag",
