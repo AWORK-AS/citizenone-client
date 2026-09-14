@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('subscription.subscription') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <Alert type="danger" :text="error" v-if="error && error.length > 0" />
             <div v-if="userStore.getUser?.user_subscription === null">
                 <div class="isolate mx-auto mt-8 grid max-w-lg">

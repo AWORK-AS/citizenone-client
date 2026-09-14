@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('settings.tabs.profile') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div class="mt-10 space-y-5">
                 <Disclosure as="div" v-slot="{ open }"
                     class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary" :defaultOpen="true">

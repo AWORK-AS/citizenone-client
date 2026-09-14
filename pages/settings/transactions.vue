@@ -12,9 +12,6 @@
 
             <template #header>{{ $t('settings.tabs.transactions') }}</template>
 
-            <ModulesUserSettingsTab />
-            <ModulesUserSettingsOtherSubTab id="sub-tab-other" class="mt-5" />
-
             <div class="py-10">
                 <div class="grid md-grid-cols-1 md:grid-cols-4 gap-3">
                     <button

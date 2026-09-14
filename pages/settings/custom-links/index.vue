@@ -12,10 +12,6 @@
 
             <template #header>{{ $t('customSidebarLinks.title') }}</template>
 
-            <ModulesUserSettingsTab />
-
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-8">
                 <div class="mb-5 flex items-start gap-3 rounded-xl border border-primary-100 bg-primary-25 p-4">
                     <Icon name="ph:lightbulb" class="size-5 shrink-0 text-primary mt-0.5" aria-hidden="true" />

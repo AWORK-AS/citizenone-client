@@ -11,7 +11,6 @@
             </template>
 
             <div>
-                <ModulesUserSettingsTab />
 
                 <div class="mt-6">
                     <NuxtLink to="/settings/gdpr-retention"

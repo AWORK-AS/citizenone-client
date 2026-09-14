@@ -10349,7 +10349,16 @@
             "data": "Data",
             "logs": "Logs",
             "integrations": "Integrations",
-            "apps": "Apps"
+            "apps": "Apps",
+            "me": "Me",
+            "access": "Access & organisation",
+            "communication": "Communication",
+            "journal": "Journals & consent",
+            "health": "Medicine & health",
+            "schedule": "Scheduling & time",
+            "booking": "Booking & calendar",
+            "citizens": "{citizens} & addresses",
+            "employment": "Jobcenter"
         },
         "tabs": {
             "absences": "Absences",
@@ -10552,6 +10561,9 @@
             "noAnalyticsYet": "No analytics synced yet.",
             "sharedFieldsTitle": "Shared fields (coming soon)",
             "sharedFieldsSubtitle": "Capacity, availability and certification badges will appear here once enabled for your organisation."
+        },
+        "nav": {
+            "searchPlaceholder": "Search settings…"
         }
     },
     "supportAccess": {

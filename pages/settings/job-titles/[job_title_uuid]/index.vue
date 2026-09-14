@@ -12,9 +12,6 @@
 
             <template #header>{{ $t('jobSpecialties.jobSpecialties') }}</template>
 
-            <ModulesUserSettingsTab />
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-5">
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                     to="/settings/job-titles">

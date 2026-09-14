@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('settings.tabs.import') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div class="mt-8 max-w-2xl">
                 <div class="card p-5">
                     <div class="flex items-start gap-x-4">

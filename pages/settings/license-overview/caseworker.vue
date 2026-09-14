@@ -14,8 +14,6 @@
 
             <template #header>{{ $t('settings.licenseOverview.caseworkerLicenses', { term: caseworkerTerm }) }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div v-if="userStore.getUser?.user_subscription === null">
                 <div class="isolate mx-auto mt-8 grid max-w-lg">
                     <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">

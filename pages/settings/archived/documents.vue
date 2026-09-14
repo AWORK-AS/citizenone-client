@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('archived.tabs.archivedDocuments') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <ModulesUserSettingsArchiveSubTab id="archived" class="mt-5" />
 
             <div class="mt-10">

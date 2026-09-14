@@ -10349,7 +10349,16 @@
             "data": "Data",
             "logs": "Logs",
             "integrations": "Integrationer",
-            "apps": "Apps"
+            "apps": "Apps",
+            "me": "Mig",
+            "access": "Adgang & organisation",
+            "communication": "Kommunikation",
+            "journal": "Journal & samtykke",
+            "health": "Medicin & helbred",
+            "schedule": "Vagtplan & tid",
+            "booking": "Booking & kalender",
+            "citizens": "{citizens} & adresser",
+            "employment": "Jobcenter"
         },
         "tabs": {
             "absences": "Fravær",
@@ -10552,6 +10561,9 @@
             "noAnalyticsYet": "Ingen statistik synkroniseret endnu.",
             "sharedFieldsTitle": "Delte felter (kommer snart)",
             "sharedFieldsSubtitle": "Kapacitet, ledighed og certificeringsmærker vises her, når det er aktiveret for jeres organisation."
+        },
+        "nav": {
+            "searchPlaceholder": "Søg i indstillinger…"
         }
     },
     "supportAccess": {

@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('settings.powerBi.title') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <LoadingSpinner :isActive="state.isLoading">
                 <div class="mt-8 max-w-3xl space-y-5">
                     <Alert type="danger" :text="state?.error?.message"

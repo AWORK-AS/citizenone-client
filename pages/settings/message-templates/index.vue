@@ -12,9 +12,6 @@
 
             <template #header>{{ $t('messageTemplates.messageTemplates') }}</template>
 
-            <ModulesUserSettingsTab />
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-8">
                 <p class="text-sm text-gray-500 mb-5">{{ $t('messageTemplates.description') }}</p>
 

@@ -541,8 +541,16 @@
                             <slot name="sub-header"></slot>
                         </h3>
                     </div>
-                    <div class="mt-4">
-                        <slot />
+                    <!-- Settings is some seventy pages, so they get a rail of their own
+                         rather than a menubar of dropdowns in the page body: every
+                         destination is on screen, searchable, and marked when it is the one
+                         you are on. Every other route is laid out exactly as before. -->
+                    <div class="mt-4"
+                        :class="isSettingsPage && 'lg:grid lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-8 lg:items-start'">
+                        <ModulesUserSettingsRail v-if="isSettingsPage" class="mb-4 lg:mb-0" />
+                        <div class="min-w-0">
+                            <slot />
+                        </div>
                     </div>
                 </div>
             </main>
@@ -686,6 +694,7 @@ const { industryHasFeature } = useIndustryFeatures()
 const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
+const isSettingsPage = computed(() => route.path.startsWith('/settings'))
 const routeName = router?.currentRoute?.value?.name
 
 const navigation = shallowRef<any[]>([])
