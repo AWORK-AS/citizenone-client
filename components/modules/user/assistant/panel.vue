@@ -361,8 +361,10 @@ import { useCitizenStore } from '@/store/citizen'
 import { useCompactRelativeTime } from '@/composables/compactRelativeTime'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
+const { can } = usePermissions()
 const assistantStore = useAssistantStore()
 const citizenStore = useCitizenStore() as any
 const route = useRoute()
@@ -714,8 +716,12 @@ function rateLimitError(error: any) {
             message: t('assistants.rateLimitedToday'),
             isDaily: true,
             // Only the daily ceiling is worth offering a purchase against, and only
-            // to someone allowed to make one.
-            canBuy: error?.can_manage_licenses === true,
+            // to someone allowed to make one. The permission is read from the user
+            // rather than from the error: the response says the same thing, but the
+            // streaming path does not always carry the body through, and a button
+            // that appears or not depending on which request path answered is worse
+            // than one decided by what the user is actually allowed to do.
+            canBuy: can('manage_licenses') || error?.can_manage_licenses === true,
         }
     }
 
