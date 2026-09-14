@@ -12,12 +12,12 @@
                 :class="isOpenOnMobile && 'rotate-180'" aria-hidden="true" />
         </button>
 
-        <div :class="['lg:block rounded-lg bg-white ring-1 ring-slate-200 p-3 lg:sticky lg:top-[var(--sticky-header-offset,4rem)] lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto custom-scrollbar',
-            isOpenOnMobile ? 'block mt-2' : 'hidden']">
-            <p class="hidden lg:block px-2 pb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
-                {{ $t('settings.settings') }}
-            </p>
-
+        <!-- The rail is navigation, so it sits on the page rather than in a card of
+             its own: a second white panel beside the content panel reads as a second
+             document. It scrolls with the page - a rail with its own scrollbar leaves
+             two scrollable columns and cuts itself off mid-section. -->
+        <div :class="['lg:block rounded-lg bg-white/60 p-2 lg:bg-transparent lg:p-0 lg:sticky lg:top-[var(--sticky-header-offset,4rem)]',
+            isOpenOnMobile ? 'block mt-2 ring-1 ring-slate-200' : 'hidden']">
             <div class="relative mb-3">
                 <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400"
                     aria-hidden="true" />
@@ -27,9 +27,9 @@
 
             <div class="space-y-4">
                 <div v-for="section in visibleSections" :key="section.key">
-                    <!-- One section has no heading: the non-admin rail, which is
-                         three personal pages and needs no category over them. -->
-                    <button v-if="showHeadings" type="button"
+                    <!-- A heading over one entry says nothing the entry does not, and the
+                         non-admin rail is three personal pages that need no category. -->
+                    <button v-if="sectionHasHeading(section)" type="button"
                         class="w-full flex items-center justify-between gap-2 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400 hover:text-slate-600"
                         :aria-expanded="!isCollapsed(section)" @click="toggleSection(section)">
                         <span class="truncate">{{ sectionLabel(section) }}</span>
@@ -94,7 +94,12 @@ watch(() => userStore.getUser, (user: any) => {
 const search = ref('')
 const isOpenOnMobile = ref(false)
 
-const showHeadings = computed(() => isAdmin.value)
+// Profile is the one entry that needs no category over it - every other section
+// keeps its heading even at one entry, or that entry floats between two
+// categories it does not belong to.
+function sectionHasHeading(section: SettingsNavSection): boolean {
+    return isAdmin.value && section.key !== 'me'
+}
 
 function label(item: SettingsNavItem): string {
     return item.isTranslateName ? t(item.name) : item.name
