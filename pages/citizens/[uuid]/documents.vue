@@ -448,7 +448,7 @@ function onSelectionChange(rows: any[]) {
 
 // Best-effort: browsers block more than a couple of window.open calls that
 // aren't the direct result of a click, so only the first few tabs are
-// guaranteed to open - same limitation Memox already flagged themselves.
+// guaranteed to open - same limitation the customer already flagged themselves.
 async function openSelectedDocuments() {
     // "Select all" in the table header also grabs folder rows, which have no
     // file_url and nothing to view.

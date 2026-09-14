@@ -294,7 +294,7 @@
                     <FormSelect id="section" :options="state.options.sections" v-model="state.formCitizen.section" />
                     <FormError :error="v$?.formCitizen?.section?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.section?.[0]" />
-                    <!-- Memox feedback: no field named after the intervention type
+                    <!-- Customer feedback: no field named after the intervention type
                          (indsatstype) exists separately from the paragraph - the
                          paragraph's own name IS that type, so it's surfaced under
                          both labels rather than duplicating the catalogue. -->
