@@ -84,13 +84,13 @@
                         <Icon name="ph:calendar-plus" class="h-4 w-4" aria-hidden="true" />
                         <span class="hidden xl:inline">{{ $t('events.subscribe.addToCalendar') }}</span>
                     </FormButton>
-                    <FormButton v-if="true" size="sm"
+                    <FormButton v-if="state.isZenegyPurchased" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-green-700 !border-green-700 !text-white hover:!bg-green-800"
                         @click="openZenegySyncModal">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
                         <span class="hidden sm:inline">{{ $t('dutySchedules.zenegy_sync') }}</span>
                     </FormButton>
-                    <FormButton v-if="true" size="sm"
+                    <FormButton v-if="state.isSalaryDkPurchased" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-blue-600 !border-blue-600 !text-white hover:!bg-blue-700"
                         @click="state.modal.isSalaryDkSyncOpen = true">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
@@ -690,6 +690,7 @@ import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { extraHoursService } from '@/components/api/user/ExtraHoursService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { salaryDkService } from '@/components/api/user/SalaryDkService'
+import { appService } from '@/components/api/user/AppService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -708,6 +709,8 @@ const state = reactive({
     isZenegyConnected: false,
     isSalaryDkConnected: false,
     isDanlonConnected: false,
+    isZenegyPurchased: false,
+    isSalaryDkPurchased: false,
     isLoadingModalData: false,
     filter: {
         department_uuids: [],
@@ -934,6 +937,16 @@ onMounted(async () => {
         state.isDanlonConnected = danlonStatus?.connected || false
     } catch {
         state.isDanlonConnected = false
+    }
+
+    try {
+        const apps = await appService.getApps({ per_page: 200 })
+        const appList = apps?.data ?? apps ?? []
+        state.isZenegyPurchased = appList.some((app: any) => app.generic_name === 'zenegy' && app.user_activated)
+        state.isSalaryDkPurchased = appList.some((app: any) => app.generic_name === 'salary.dk' && app.user_activated)
+    } catch {
+        state.isZenegyPurchased = false
+        state.isSalaryDkPurchased = false
     }
 })
 
