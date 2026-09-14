@@ -533,7 +533,10 @@
                              rather than as the way on to another setting. The content column
                              dissolves into the same flex box below lg so the two can interleave. -->
                         <ModulesUserSettingsRail v-if="isSettingsPage" class="mb-4 lg:mb-0 order-3 lg:order-none" />
-                        <div :class="isSettingsPage ? 'contents lg:block lg:min-w-0' : 'min-w-0'">
+                        <!-- Settings is forms and short tables. Letting them run the full
+                             width of a wide monitor is what makes a settings page look
+                             stretched, so the column stops at a readable measure. -->
+                        <div :class="isSettingsPage ? 'contents lg:block lg:min-w-0 lg:max-w-[70rem]' : 'min-w-0'">
                             <!-- On the schedules pages this toolbar carries the date navigation, so it pins
                                  beneath the navbar - otherwise you have to scroll back to the top of a long
                                  employee grid just to step one week forward. The negative margins absorb

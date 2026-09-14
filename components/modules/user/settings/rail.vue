@@ -16,32 +16,41 @@
              its own: a second white panel beside the content panel reads as a second
              document. It scrolls with the page - a rail with its own scrollbar leaves
              two scrollable columns and cuts itself off mid-section. -->
-        <div :class="['lg:block rounded-lg bg-white/60 p-2 lg:bg-transparent lg:p-0 lg:sticky lg:top-[var(--sticky-header-offset,4rem)]',
+        <div :class="['lg:block rounded-lg bg-white/60 p-2 lg:bg-transparent lg:p-0 lg:sticky lg:top-[var(--sticky-header-offset,4rem)] lg:border-r lg:border-slate-200/70 lg:pr-6',
             isOpenOnMobile ? 'block mt-2 ring-1 ring-slate-200' : 'hidden']">
-            <div class="relative mb-3">
-                <Icon name="ph:magnifying-glass" class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400"
+            <div class="relative mb-4">
+                <Icon name="ph:magnifying-glass" class="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-slate-400"
                     aria-hidden="true" />
                 <input v-model="search" type="search" :placeholder="$t('settings.nav.searchPlaceholder')"
-                    class="w-full rounded-lg border border-slate-200 pl-9 pr-3 py-2 text-sm focus:border-primary focus:outline-none" />
+                    class="w-full rounded-md bg-slate-100/70 border border-transparent pl-8 pr-2.5 py-1.5 text-[13px] text-slate-700 placeholder:text-slate-400 focus:bg-white focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/10 transition-colors" />
             </div>
 
-            <div class="space-y-4">
-                <div v-for="section in visibleSections" :key="section.key">
+            <div class="space-y-5">
+                <div v-for="section in visibleSections" :key="section.key" class="group/section">
                     <!-- A heading over one entry says nothing the entry does not, and the
-                         non-admin rail is three personal pages that need no category. -->
+                         non-admin rail is three personal pages that need no category.
+                         The chevron waits for a hover: the fold is worth offering, not
+                         worth fourteen arrows down the side of a quiet rail. -->
                     <button v-if="sectionHasHeading(section)" type="button"
-                        class="w-full flex items-center justify-between gap-2 px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400 hover:text-slate-600"
+                        class="w-full flex items-center gap-1.5 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.09em] text-slate-400 hover:text-slate-600 focus:outline-none focus-visible:text-slate-600 transition-colors"
                         :aria-expanded="!isCollapsed(section)" @click="toggleSection(section)">
                         <span class="truncate">{{ sectionLabel(section) }}</span>
-                        <Icon name="ph:caret-down" class="size-3 shrink-0 transition-transform"
-                            :class="isCollapsed(section) && '-rotate-90'" aria-hidden="true" />
+                        <Icon name="ph:caret-down"
+                            class="size-3 shrink-0 opacity-0 transition-all group-hover/section:opacity-100 group-focus-within/section:opacity-100"
+                            :class="isCollapsed(section) ? '-rotate-90 opacity-60' : ''" aria-hidden="true" />
                     </button>
-                    <ul v-show="!isCollapsed(section)" class="mt-1 space-y-0.5">
-                        <li v-for="entry in section.items" :key="entry.href">
-                            <NuxtLink :to="entry.href" class="block rounded-lg px-3 py-2 text-sm transition-colors"
+                    <ul v-show="!isCollapsed(section)" class="mt-0.5">
+                        <li v-for="entry in section.items" :key="entry.href" class="relative">
+                            <!-- The bar marks the open page down the rail's own edge, which
+                                 reads from further away than a filled pill and leaves the
+                                 list looking like a list. -->
+                            <span v-if="isActive(entry)"
+                                class="absolute left-0 top-1 bottom-1 w-0.5 rounded-full bg-primary" aria-hidden="true" />
+                            <NuxtLink :to="entry.href"
+                                class="block rounded-md px-2 py-1.5 text-[13px] leading-5 transition-colors"
                                 :class="isActive(entry)
-                                    ? 'bg-primary/10 text-primary font-medium'
-                                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'"
+                                    ? 'bg-primary/[0.07] text-primary font-medium'
+                                    : 'text-slate-600 hover:bg-slate-100/70 hover:text-slate-900'"
                                 :aria-current="isActive(entry) ? 'page' : undefined"
                                 @click="isOpenOnMobile = false">
                                 {{ label(entry) }}
@@ -51,7 +60,7 @@
                 </div>
             </div>
 
-            <p v-if="search && visibleSections.length === 0" class="mt-3 px-2 text-sm text-slate-400">
+            <p v-if="search && visibleSections.length === 0" class="mt-3 px-2 text-[13px] text-slate-400">
                 {{ $t('settings.catalog.noSettingsMatch', { search }) }}
             </p>
         </div>
