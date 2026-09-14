@@ -636,20 +636,31 @@ Add both methods after `updateCitizenCareHour()`:
 
 ### New translation key — `exception.mileage_trip_in_progress`
 
-Add one entry to `resources/lang/{en,dk,no,sv}/exception.php`, alongside the existing
-`mileage_trip_not_active` / `mileage_trip_already_active` entries and **matching whatever
-array shape those neighbours use** (nested `['message' => …]` vs. flat
-`'…​.message' => …`):
+Add one entry to `resources/lang/{en,dk,no,sv}/exception.php`, immediately **above** the
+existing `mileage_trip_not_active` entry (all four files use the same nested multi-line
+shape and keep these keys alphabetical — verified on `main`: `en:1176`, `dk:1176`,
+`no:1167`, `sv:1167`):
 
 ```php
 // en
-'mileage_trip_in_progress' => ['message' => 'This trip is still in progress - stop it before correcting the distance.'],
+    'mileage_trip_in_progress' => [
+        'message' => 'This trip is still in progress - stop it before correcting the distance.',
+    ],
+
 // dk
-'mileage_trip_in_progress' => ['message' => 'Turen er stadig i gang - stop den, før afstanden rettes.'],
+    'mileage_trip_in_progress' => [
+        'message' => 'Turen er stadig i gang - stop den, før afstanden rettes.',
+    ],
+
 // no
-'mileage_trip_in_progress' => ['message' => 'Turen pågår fortsatt - stopp den før avstanden rettes.'],
+    'mileage_trip_in_progress' => [
+        'message' => 'Turen pågår fortsatt - stopp den før avstanden rettes.',
+    ],
+
 // sv
-'mileage_trip_in_progress' => ['message' => 'Resan pågår fortfarande - stoppa den innan avståndet rättas.'],
+    'mileage_trip_in_progress' => [
+        'message' => 'Resan pågår fortfarande - stoppa den innan avståndet rättas.',
+    ],
 ```
 
 ---
