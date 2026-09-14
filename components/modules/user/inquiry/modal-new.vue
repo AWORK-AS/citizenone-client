@@ -9,6 +9,7 @@
                     <ModulesUserInquiryModalShelterForm v-if="inquiryType === 'shelter'" formType="create" :selectedInquiry="state.formInquiry"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveShelterInquiry" />
+                    <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues" class="mt-6" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -62,11 +63,13 @@ const state = reactive({
         conversation_summary: '',
         notes: ''
     },
+    fieldValues: {} as Record<string, any>,
     isPageLoading: false,
 })
 
 function closeModal() {
     state.error = {}
+    state.fieldValues = {}
     emit('close')
 }
 
@@ -98,6 +101,7 @@ async function saveCrisisCenterInquiry(inquiryDetails: any) {
             outcome: inquiryDetails.outcome,
             purpose: inquiryDetails.purpose,
             conversation_summary: inquiryDetails.conversation_summary,
+            field_values: state.fieldValues,
         }
         const response = await citizenInquiryService.saveInquiry(params)
         if (response.data) {
@@ -136,6 +140,7 @@ async function saveShelterInquiry(inquiryDetails: any) {
             outcome: inquiryDetails.outcome,
             purpose: inquiryDetails.purpose,
             conversation_summary: inquiryDetails.conversation_summary,
+            field_values: state.fieldValues,
         }
         const response = await citizenInquiryService.saveInquiry(params)
         if (response.data) {
