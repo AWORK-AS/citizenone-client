@@ -6622,7 +6622,7 @@
         "employees": "Employees",
         "employmentStatus": {
             "permanent": "Permanent",
-            "substitute": "​Substitute",
+            "substitute": "Hourly Paid",
             "temporary": "​Temporary"
         },
         "certificates": {
