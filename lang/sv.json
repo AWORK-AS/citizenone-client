@@ -8567,6 +8567,20 @@
         }
     },
     "mileageLog": {
+        "alert": {
+            "distanceCorrected": "Avståndet har rättats",
+            "distanceReverted": "Avståndet har återställts till det beräknade värdet"
+        },
+        "correction": {
+            "calculatedDistance": "Beräknat avstånd",
+            "confirmRevert": "Är du säker på att du vill återställa det beräknade avståndet för denna resa",
+            "correctDistance": "Rätta avstånd",
+            "correctedBy": "Rättad av {name} den {date}",
+            "correctedDistance": "Rättat avstånd",
+            "reason": "Orsak till rättelse",
+            "reasonRequired": "En orsak måste anges",
+            "revertToCalculated": "Återställ beräknat avstånd"
+        },
         "download": {
             "download": "Ladda ner",
             "downloadMileageLog": "Ladda ner körjournal",
@@ -8641,6 +8655,7 @@
             "confirmation": {
                 "deleteTripConfirmation": "Är du säker på att du vill radera denna resa"
             },
+            "corrected": "Rättad",
             "date": "Datum",
             "distance": "Avstånd",
             "distanceSourceUnknown": "Okänd källa",

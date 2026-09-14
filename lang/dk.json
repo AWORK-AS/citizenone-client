@@ -8567,6 +8567,20 @@
         }
     },
     "mileageLog": {
+        "alert": {
+            "distanceCorrected": "Afstanden er rettet",
+            "distanceReverted": "Afstanden er gendannet til den beregnede værdi"
+        },
+        "correction": {
+            "calculatedDistance": "Beregnet afstand",
+            "confirmRevert": "Er du sikker på, at du vil gendanne den beregnede afstand for denne tur",
+            "correctDistance": "Ret afstand",
+            "correctedBy": "Rettet af {name} den {date}",
+            "correctedDistance": "Rettet afstand",
+            "reason": "Årsag til rettelse",
+            "reasonRequired": "Der skal angives en årsag",
+            "revertToCalculated": "Gendan beregnet afstand"
+        },
         "download": {
             "download": "Download",
             "downloadMileageLog": "Download kørselsregnskab",
@@ -8641,6 +8655,7 @@
             "confirmation": {
                 "deleteTripConfirmation": "Er du sikker på, at du vil slette denne tur"
             },
+            "corrected": "Rettet",
             "date": "Dato",
             "distance": "Distance",
             "distanceSourceUnknown": "Ukendt kilde",

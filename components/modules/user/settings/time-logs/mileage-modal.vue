@@ -102,6 +102,15 @@
                                             <Icon name="ph:warning-circle" class="h-3.5 w-3.5" aria-hidden="true" />
                                             {{ $t('mileageLog.table.needsReview') }}
                                         </div>
+                                        <!-- Badge only: this is a reporting view, so it states
+                                             that a figure was corrected without offering to
+                                             correct one. -->
+                                        <div class="mt-1 inline-flex items-center gap-x-1 rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-xs font-semibold text-amber-700"
+                                            v-if="log?.is_distance_overridden"
+                                            :title="log?.kilometers_override_reason || undefined">
+                                            <Icon name="ph:pencil-simple-line" class="h-3.5 w-3.5" aria-hidden="true" />
+                                            {{ $t('mileageLog.table.corrected') }}
+                                        </div>
                                     </td>
                                     <td width="15%">
                                         <div v-if="log?.citizen"

@@ -49,6 +49,26 @@
                              never as "GPS". A flagged 0.00 km trip is a legitimate answer
                              (the only leg was impossible), not "nothing recorded". -->
                         <p class="text-xs text-gray-400">{{ distanceSourceLabel }}</p>
+
+                        <!-- Ungated: the driver whose trip was corrected has to be able to
+                             see the figure it replaced and the reason given, even though
+                             only a manager can make the correction. -->
+                        <div class="mt-2 rounded-md bg-amber-50 border border-amber-200 p-3 space-y-1"
+                            v-if="props.selectedMileageLog?.is_distance_overridden">
+                            <p class="flex items-center gap-x-1 text-sm font-semibold text-amber-700">
+                                <Icon name="ph:pencil-simple-line" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('mileageLog.table.corrected') }}
+                            </p>
+                            <p class="text-xs text-amber-800" v-if="props.selectedMileageLog?.kilometers_calculated != null">
+                                {{ $t('mileageLog.correction.calculatedDistance') }}:
+                                {{ formatNumber(locale, props.selectedMileageLog.kilometers_calculated) }} km
+                            </p>
+                            <p class="text-xs text-amber-800" v-if="props.selectedMileageLog?.kilometers_override_reason">
+                                {{ $t('mileageLog.correction.reason') }}:
+                                {{ props.selectedMileageLog.kilometers_override_reason }}
+                            </p>
+                            <p class="text-xs text-amber-700" v-if="overriddenByLabel">{{ overriddenByLabel }}</p>
+                        </div>
                     </div>
 
                     <div class="space-y-1 my-2" v-if="props.selectedMileageLog?.needs_review">
@@ -75,7 +95,12 @@
                         <p class="text-sm font-semibold text-gray-700">{{ props.selectedMileageLog?.note }}</p>
                     </div>
 
-                    <div class="mt-5 flex justify-end">
+                    <div class="mt-5 flex justify-end gap-x-3">
+                        <FormButton buttonStyle="action" @click="emit('correctDistance')"
+                            v-if="canCorrectDistance">
+                            <Icon name="ph:ruler" class="size-4" />
+                            {{ $t('mileageLog.correction.correctDistance') }}
+                        </FormButton>
                         <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
@@ -90,6 +115,7 @@
 import { useI18n } from 'vue-i18n'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { usePermissions } from '@/composables/usePermissions'
 
 const props = defineProps({
     isModalOpen: {
@@ -101,11 +127,34 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'correctDistance'])
 
 const { t, locale } = useI18n()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
+const { isAtLeast } = usePermissions()
+
+// Same gate as the list page's canCorrectDistance, and the only thing that
+// changes if drivers are later allowed to correct their own trips. The badge
+// above is deliberately NOT behind it.
+const canCorrectDistance = isAtLeast('Manager')
+
+// kilometers_overridden_by is only eager-loaded on the single-trip record, so
+// this stays empty until the detail fetch lands - fall back to the bare date
+// rather than printing "Corrected by  on ...".
+const overriddenByLabel = computed(() => {
+    const log = props.selectedMileageLog
+    if (!log?.kilometers_overridden_at) return ''
+
+    const by = log.kilometers_overridden_by
+    const name = by ? `${by.firstname ?? ''} ${by.lastname ?? ''}`.trim() : ''
+    if (!name) return formatDateTimeToReadable(log.kilometers_overridden_at)
+
+    return t('mileageLog.correction.correctedBy', {
+        name,
+        date: formatDateTimeToReadable(log.kilometers_overridden_at),
+    })
+})
 
 function closeModal() {
     emit('close')
