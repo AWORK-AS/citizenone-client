@@ -89,11 +89,13 @@ export function useSettingsNav() {
             { key: 'me', labelKey: 'settings.groups.me', items: [profile] },
             { key: 'company', labelKey: 'settings.groups.company', items: company },
             {
+                // What you have, then what it cost: the plan and the two things it is
+                // measured in come first, and the invoices for them last.
                 key: 'billing', labelKey: 'settings.groups.billing', items: [
                     item('settings.tabs.subscription', '/settings/subscription', ['settings-subscription']),
-                    item('invoices.invoices', '/settings/invoices', ['settings-invoices']),
                     item('settings.licenseOverview.licenseOverview', '/settings/license-overview', ['settings-license-overview']),
                     item('storage.storage', '/settings/storage', ['settings-storage']),
+                    item('invoices.invoices', '/settings/invoices', ['settings-invoices']),
                 ]
             },
             ...catalogSections,
