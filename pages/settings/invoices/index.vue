@@ -100,7 +100,7 @@
                                         </div>
                                     </td>
                                     <td width="15%">
-                                        <p class="capitalize">
+                                        <p class="capitalize whitespace-nowrap">
                                             {{ formatAmount(invoice?.total_amount) }}
                                         </p>
                                     </td>
