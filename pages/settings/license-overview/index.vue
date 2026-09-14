@@ -132,9 +132,8 @@
                             <Alert type="danger" :text="state?.error?.message"
                                 v-if="state.error?.message && state.error.message.length > 0" />
                             <div>
-                                <h3 class="py-3 text-sm font-semibold">
-                                    {{ licenseTypeLabel }}
-                                </h3>
+                                <!-- The tab strip below already names the licence type it is
+                                     showing; a heading above it said the same word twice. -->
                                 <ModulesUserSettingsLicenseOverviewSubTab />
                                 <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10 mt-4">
                                     <div class="flex justify-between gap-3 mb-5">
@@ -195,26 +194,14 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from "vue-i18n"
-import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { t } = useI18n()
-const { term } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 let currentTablePage = 1
-const isEmployeeServicesCompany = computed(() => {
-    return userStore.getUser?.company?.industry?.system_name === 'employee_services'
-        || userStore.getUser?.company?.industry?.en_name === 'Employee Services'
-        || userStore.getUser?.company?.industry?.name === 'Employee Services'
-})
-const licenseTypeLabel = computed(() => {
-    return isEmployeeServicesCompany.value
-    ? t('settings.licenseOverview.caseworkerLicenses', { term: term('caseworker', t('settings.company.form.termCaseworker')) })
-    : t('settings.licenseOverview.userLicenses')
-})
 const breadcrumbLinks = [
     {
         name: 'settings.licenseOverview.licenseOverview',
