@@ -1,0 +1,72 @@
+name: PR checks
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+
+# Only the newest commit on a pull request is worth building; the Nuxt build
+# below is the expensive job in this repository.
+concurrency:
+  group: pr-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  client-unit-tests:
+    name: client-unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # The suites in tests/unit import the composables under test directly as
+      # .ts and rely on Node's built-in type stripping (unflagged from Node
+      # 22.18), so they need neither an install nor a build.
+      #
+      # tests/e2e is deliberately NOT run here. Those Playwright scripts need a
+      # live backend on :8001 and a hand-minted CO_TOKEN, so they cannot run
+      # unattended as written. Making them seedable is a separate task.
+      - name: Unit tests (node --test)
+        run: node --test tests/unit/*.test.mjs
+
+  client-build:
+    name: client-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # This repository has no ESLint config and no vue-tsc/typescript
+      # dependency, so there is no lint or typecheck to run. The production
+      # build is therefore the only check that compiles every component,
+      # composable and page, and it is what catches a broken import or an
+      # unparseable SFC before it reaches dev.
+      #
+      # setup-node runs twice on purpose: `cache: pnpm` needs pnpm on PATH to
+      # locate the store, and pnpm only exists once corepack has been enabled
+      # on the Node version we actually use. This is the documented corepack
+      # order, not a copy-paste slip.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Enable corepack (activates pnpm@11.9.0 from packageManager)
+        run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # `pnpm build` already sets NODE_OPTIONS=--max-old-space-size=8192.
+      - name: Build
+        run: pnpm build
