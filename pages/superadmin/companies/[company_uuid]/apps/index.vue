@@ -81,6 +81,11 @@
                                                 ? $t('superadmin.companies.companyApps.table.actions.deactivate')
                                                 : $t('superadmin.companies.companyApps.table.actions.activate') }}
                                         </button>
+                                        <button v-if="canManageLicenses && companyApp?.type === 'custom_yearly'"
+                                            class="co-action-btn" :disabled="state.isAdjusting"
+                                            @click="openEditTermModal(companyApp)">
+                                            {{ $t('superadmin.companies.licenseOverview.editTerm.editTerm') }}
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -103,6 +108,50 @@
                     ? $t('superadmin.companies.companyApps.confirmation.deactivateAppConfirmation')
                     : $t('superadmin.companies.companyApps.confirmation.activateAppConfirmation')"
                 @close="state.toggleConfirmOpen = false" @confirm="toggleStatus" />
+
+            <Modal size="sm" :title="$t('superadmin.companies.licenseOverview.editTerm.title')"
+                :show="state.editTerm.isOpen" @close="state.editTerm.isOpen = false">
+                <template #modal-body>
+                    <div class="space-y-4">
+                        <p class="text-sm text-gray-600">
+                            {{ $t('superadmin.companies.companyApps.editTerm.appliesToAllSeats', { count: state.editTerm.target?.active_quantity ?? state.editTerm.target?.quantity ?? 0 }) }}
+                        </p>
+                        <div class="space-y-1">
+                            <FormLabel for="app_edit_term_years"
+                                :label="$t('superadmin.companies.licenseOverview.addSubscription.termYears')" />
+                            <input id="app_edit_term_years" type="number" min="1" max="10"
+                                v-model.number="state.editTerm.termYears"
+                                class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
+                            <p class="text-xs text-gray-500">
+                                {{ $t('superadmin.companies.licenseOverview.editTerm.currentTermHint', { years: state.editTerm.target?.term_years ?? 1 }) }}
+                            </p>
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="app_edit_term_created_at"
+                                :label="$t('superadmin.companies.licenseOverview.editTerm.startDate')" />
+                            <input id="app_edit_term_created_at" type="date" v-model="state.editTerm.createdAt"
+                                class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
+                        </div>
+                        <div v-if="editTermDeltaYears > 0" class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.editTerm.paysViaLeverandorservice = !state.editTerm.paysViaLeverandorservice">
+                                <FormCheckbox :value="state.editTerm.paysViaLeverandorservice" />
+                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 pt-2">
+                            <FormButton buttonStyle="secondary" @click="state.editTerm.isOpen = false">
+                                {{ $t('cancel') }}
+                            </FormButton>
+                            <FormButton buttonStyle="primary"
+                                :disabled="state.editTerm.isSaving || !state.editTerm.termYears || state.editTerm.termYears < 1 || state.editTerm.termYears > 10"
+                                @click="submitEditTerm">
+                                {{ $t('save') }}
+                            </FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
         </NuxtLayout>
     </div>
 </template>
@@ -157,7 +206,22 @@ const state = reactive({
         sortField: 'id',
         sortOrder: 'descend',
     },
+    // Bulk-edits every active seat this company has for one Application at
+    // once - see the identical action on the license table for individual
+    // AddOnDeal seats and the Deal subscription card.
+    editTerm: {
+        isOpen: false,
+        isSaving: false,
+        target: null as any,
+        termYears: 1 as number,
+        createdAt: '' as string,
+        paysViaLeverandorservice: false,
+    },
 })
+
+const editTermDeltaYears = computed(() =>
+    Number(state.editTerm.termYears || 0) - Number(state.editTerm.target?.term_years ?? 1)
+)
 
 onMounted(() => {
     fetchCompanyApps()
@@ -262,5 +326,35 @@ async function toggleStatus() {
         state.error = error
     }
     state.isAdjusting = false
+}
+
+function openEditTermModal(companyApp: any) {
+    state.editTerm.target = companyApp
+    state.editTerm.termYears = companyApp?.term_years ?? 1
+    state.editTerm.createdAt = ''
+    state.editTerm.paysViaLeverandorservice = false
+    state.editTerm.isOpen = true
+}
+
+async function submitEditTerm() {
+    const target = state.editTerm.target
+    if (!target?.application_uuid || !state.editTerm.termYears || state.editTerm.termYears < 1 || state.editTerm.termYears > 10) return
+    state.editTerm.isSaving = true
+    try {
+        const params: { term_years: number; created_at?: string; pays_via_leverandorservice?: boolean } = {
+            term_years: state.editTerm.termYears,
+            pays_via_leverandorservice: state.editTerm.paysViaLeverandorservice,
+        }
+        if (state.editTerm.createdAt) {
+            params.created_at = state.editTerm.createdAt
+        }
+        await licenseService.updateApplicationSeatsTerm(companyUuid as string, target.application_uuid, params)
+        state.editTerm.isOpen = false
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.editTerm.updated')}.`)
+        fetchCompanyApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.editTerm.isSaving = false
 }
 </script>

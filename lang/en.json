@@ -11029,6 +11029,9 @@
                     "decreaseConfirm": "Remove one {name} license? If every license is currently assigned, this will unassign one employee.",
                     "increaseSuccess": "License added",
                     "decreaseSuccess": "License removed"
+                },
+                "editTerm": {
+                    "appliesToAllSeats": "Applies to all {count} active seat(s) of this app for this company."
                 }
             },
             "editCompany": "Edit company",
@@ -11134,6 +11137,17 @@
                     "estimatedCredit": "Estimated credit for unused time",
                     "updated": "Subscription updated",
                     "failed": "Could not update subscription"
+                },
+                "editTerm": {
+                    "editTerm": "Edit term",
+                    "title": "Edit contract term",
+                    "currentTermHint": "Currently on a {years}-year term",
+                    "startDate": "Subscription start date",
+                    "additionalYears": "{years} additional year(s)",
+                    "fewerYears": "{years} fewer year(s)",
+                    "credit": "Credit",
+                    "updated": "Term updated",
+                    "failed": "Could not update term"
                 },
                 "removeLicense": {
                     "remove": "Remove",

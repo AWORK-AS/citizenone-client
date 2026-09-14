@@ -82,6 +82,30 @@ class LicenseService extends BaseAPIService {
         return await this.request(`/superadmin/companies/${companyUuid}/licenses/${licenseUuid}`, 'DELETE')
     }
 
+    // Extend or shorten the contract length of an already-granted manual
+    // yearly license seat or Deal subscription. Invoices only the additional
+    // years (or issues a paid credit note for fewer years) at today's price -
+    // never re-charges years already invoiced. created_at is optional and
+    // only sent when the start date is also being corrected.
+    async updateSubscriptionTerm(
+        companyUuid: string,
+        licenseUuid: string,
+        params: { term_years: number; created_at?: string; pays_via_leverandorservice?: boolean },
+    ): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/licenses/${licenseUuid}/term`, 'PATCH', params)
+    }
+
+    // Bulk variant of updateSubscriptionTerm() for the Apps screen, which
+    // shows one aggregated row per Application - applies the same term to
+    // every active seat this company has for that app at once.
+    async updateApplicationSeatsTerm(
+        companyUuid: string,
+        applicationUuid: string,
+        params: { term_years: number; created_at?: string; pays_via_leverandorservice?: boolean },
+    ): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/apps/${applicationUuid}/term`, 'PATCH', params)
+    }
+
     // The company's active storage tier (if any) plus current usage/quota.
     async getCompanyStorage(companyUuid: string): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/storage`, 'GET')
