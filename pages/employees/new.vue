@@ -59,6 +59,8 @@ const state = reactive({
         password: '',
         phone: '',
         birthday: '',
+        note: '',
+        union_membership: '',
         seniority_date: '',
         departments: [],
         roles: [],
@@ -73,14 +75,17 @@ const state = reactive({
         do_not_count_sick_leave: false,
         media_risks: [],
         pages: [],
+        spoken_languages: [],
+        primary_spoken_language: '',
         employment: {
             salary_id: '',
             employment_date: '',
             termination_date: '',
-            job_uuid: '',
+            job_titles_uuid: [],
             working_hours: '',
             employment_status: '',
             annual_norm_hours: '',
+            annual_norm_hours_disabled: false,
             vacation_days: '',
             hourly_rate: '',
         },
@@ -103,6 +108,8 @@ async function saveEmployee(employeeDetails: any) {
         params.append('email', employeeDetails.email)
         params.append('phone', employeeDetails.phone)
         params.append('birthday', employeeDetails.birthday)
+        params.append('note', employeeDetails.note ?? '')
+        params.append('union_membership', employeeDetails.union_membership ?? '')
         params.append('seniority_date', employeeDetails.seniority_date)
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
         employeeDetails.roles.forEach((role: string) => params.append('roles[]', role))
@@ -120,11 +127,14 @@ async function saveEmployee(employeeDetails: any) {
         params.append('salary_id', employeeDetails.employment.salary_id)
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('termination_date', employeeDetails.employment.termination_date)
-        params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
+        params.append('job_titles_uuid', JSON.stringify(employeeDetails.employment.job_titles_uuid ?? []))
+        params.append('spoken_languages_uuid', JSON.stringify(employeeDetails.spoken_languages ?? []))
+        params.append('primary_spoken_language_uuid', employeeDetails.primary_spoken_language ?? '')
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
         params.append('annual_norm_hours', String(employeeDetails.employment.annual_norm_hours ?? '').replace(',', '.'))
+        params.append('annual_norm_hours_disabled', employeeDetails.employment.annual_norm_hours_disabled ? '1' : '0')
         params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('hourly_rate', String(employeeDetails.employment.hourly_rate ?? '').replace(',', '.'))
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))

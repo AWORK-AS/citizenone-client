@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { statusService } from '@/components/api/user/StatusService'
 import { useAlert } from '@/composables/alert'
 import { useStatusPrefill } from '@/composables/statusPrefill'
@@ -41,8 +42,8 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     formStatus: {
-        date: '',
-        area_type: '',
+        date: moment().format('YYYY-MM-DD'),
+        area_type: props.selectedTreatment?.area_type ?? '',
         score: '',
         status: '',
     },
@@ -50,7 +51,7 @@ const state = reactive({
 
 async function fetchPreviousStatus() {
     state.isPageLoading = true
-    const prefill = await fetchLastStatusFields(props.selectedTreatment?.uuid, ['date', 'area_type', 'score', 'status'])
+    const prefill = await fetchLastStatusFields(props.selectedTreatment?.uuid, ['date', 'score', 'status'])
     if (prefill) {
         state.formStatus = { ...state.formStatus, ...prefill }
     } else {

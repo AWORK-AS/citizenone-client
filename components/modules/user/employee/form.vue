@@ -69,6 +69,18 @@
                             v-model="state.formEmployee.phone" />
                         <FormError :error="v$?.formEmployee?.phone?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
+                        <div class="pt-4 space-y-1">
+                            <FormLabel for="union_membership" :label="$t('employees.form.unionMembership')" />
+                            <FormTextField id="union_membership" name="union_membership"
+                                :placeholder="$t('employees.form.unionMembershipPlaceholder')"
+                                v-model="state.formEmployee.union_membership" />
+                        </div>
+                        <div class="pt-4 space-y-1">
+                            <FormLabel for="note" :label="$t('employees.form.note')" />
+                            <FormTextArea id="note" name="note" :rows="3"
+                                :placeholder="$t('employees.form.notePlaceholder')"
+                                v-model="state.formEmployee.note" />
+                        </div>
                     </div>
                     <div class="space-y-1" ref="birthdayField">
                         <FormLabel for="birthday" :label="$t('employees.form.birthday')" />
@@ -112,6 +124,23 @@
                         <FormSelectMultiple id="roles" name="roles" :options="state.options.roleOptions"
                             v-model="state.formEmployee.roles" />
                         <FormError :error="props?.error?.errors?.roles?.[0]" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <div class="space-y-1">
+                        <FormLabel for="spoken_languages" :label="$t('employees.form.spokenLanguages')" />
+                        <FormSelectMultiple id="spoken_languages" :options="state.options.spokenLanguages"
+                            v-model="state.formEmployee.spoken_languages" />
+                        <p class="text-xs text-gray-500">
+                            {{ $t('employees.form.spokenLanguagesDescription') }}
+                        </p>
+                        <FormError :error="props?.error?.errors?.spoken_languages_uuid?.[0]" />
+                    </div>
+                    <div class="space-y-1" v-if="state.formEmployee.spoken_languages?.length > 0">
+                        <FormLabel for="primary_spoken_language" :label="$t('employees.form.motherTongue')" />
+                        <FormSelect id="primary_spoken_language" :options="selectedSpokenLanguageOptions"
+                            v-model="state.formEmployee.primary_spoken_language" />
+                        <FormError :error="props?.error?.errors?.primary_spoken_language_uuid?.[0]" />
                     </div>
                 </div>
                 <div class="space-y-1" ref="streetField">
@@ -266,7 +295,17 @@
                             <Icon name="ph:question" class="size-4 cursor-pointer text-gray-700" aria-hidden="true"
                                 @click="state.modal.isAnnualNormHoursInfoOpen = true" />
                         </div>
+                        <!-- Hourly-paid staff have no annual norm to be measured against;
+                             ticking this leaves the norm figures out of their schedule
+                             entirely instead of showing them a norm of nothing. -->
+                        <div class="w-fit flex items-center cursor-pointer gap-x-1 text-sm"
+                            @click="state.formEmployee.employment.annual_norm_hours_disabled = !state.formEmployee.employment.annual_norm_hours_disabled">
+                            <FormCheckbox id="annual_norm_hours_disabled"
+                                :value="state.formEmployee.employment.annual_norm_hours_disabled" />
+                            {{ $t('employees.form.employment.annualNormHoursNotUsed') }}
+                        </div>
                         <FormTextField id="annual_norm_hours" name="annual_norm_hours" @input="onYearlyInput"
+                            v-if="!state.formEmployee.employment.annual_norm_hours_disabled"
                             v-model="state.formEmployee.employment.annual_norm_hours" />
                         <FormError
                             :error="v$?.formEmployee?.employment?.annual_norm_hours?.$errors[0]?.$message.toString()" />
@@ -323,17 +362,17 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5" ref="jobTitleField">
-                            <FormLabel for="job_title_uuid" :label="$t('employees.form.employment.jobTitle')" />
+                            <FormLabel for="job_titles_uuid" :label="$t('employees.form.employment.jobTitle')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddJobTitleOpen = true">
                                 {{ $t('jobTitles.addNewJobTitle') }}
                             </span>
                         </div>
-                        <FormSelect id="job_title_uuid" :options="state.options.jobTitles"
-                            v-model="state.formEmployee.employment.job_title_uuid" @change="changeJobTitle" />
+                        <FormSelectMultiple id="job_titles_uuid" :options="state.options.jobTitles"
+                            v-model="state.formEmployee.employment.job_titles_uuid" @update:modelValue="changeJobTitle" />
                         <FormError
-                            :error="v$?.formEmployee?.employment?.job_title_uuid?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.employment?.job_title_uuid?.[0]" />
+                            :error="v$?.formEmployee?.employment?.job_titles_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.employment?.job_titles_uuid?.[0]" />
                     </div>
                     <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
@@ -373,7 +412,7 @@
         </FormSection>
         <FormSection :title="$t('employees.form.header.emergencyInfo')" :description="$t('employees.form.header.emergencyContactDetailsInCaseOfAnUrgentSituation')" bare>
             <div class="grid grid-cols-1  gap-y-3">
-                    <div>
+                    <div ref="trusteesField">
                         <p class="text-sm text-gray-600 font-semibold leading-5">
                             {{ $t('employees.form.emergencyInfo.trustees') }}
                         </p>
@@ -396,6 +435,7 @@
                                                 :label="$t('employees.form.emergencyInfo.name')" />
                                             <FormTextField :id="`trustee_name_${index}`" name="trustee_name" :value="trustee.name"
                                                 @keyup="(event: any) => state.formEmployee.emergencyInfo.trustees[index].name = event.target.value" />
+                                            <FormError :error="trusteeError(index, 'name')" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel :for="`trustee_phone_${index}`"
@@ -403,6 +443,7 @@
                                             <FormTextField :id="`trustee_phone_${index}`" name="trustee_phone"
                                                 :value="trustee.phone"
                                                 @keyup="(event: any) => state.formEmployee.emergencyInfo.trustees[index].phone = event.target.value" />
+                                            <FormError :error="trusteeError(index, 'phone')" />
                                         </div>
                                         <div class="space-y-1">
                                             <FormLabel :for="`trustee_email_${index}`"
@@ -410,6 +451,7 @@
                                             <FormTextField :for="`trustee_email_${index}`" name="trustee_email"
                                                 :value="trustee.email"
                                                 @keyup="(event: any) => state.formEmployee.emergencyInfo.trustees[index].email = event.target.value" />
+                                            <FormError :error="trusteeError(index, 'email')" />
                                         </div>
                                     </div>
                                     <button type="button"
@@ -531,6 +573,7 @@
 </template>
 
 <script setup lang="ts">
+import { employmentOptionService } from '@/components/api/user/EmploymentOptionService'
 import { jobTitleService } from '@/components/api/user/JobTitleService'
 import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
 import { departmentService } from '@/components/api/user/DepartmentService'
@@ -548,6 +591,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import type { EmployeeForm, Error } from '@/types'
 
 const props = defineProps({
@@ -575,6 +619,7 @@ const avatarUrl = ref('/img/avatars/user.svg')
 const { errorAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
+const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
 const firstnameField = ref<HTMLElement | null>(null)
 const lastnameField = ref<HTMLElement | null>(null)
 const emailField = ref<HTMLElement | null>(null)
@@ -605,6 +650,8 @@ const state = reactive({
         email: '',
         password: '',
         phone: '',
+        note: '',
+        union_membership: '',
         birthday: '',
         seniority_date: '',
         departments: [],
@@ -617,15 +664,18 @@ const state = reactive({
         permissions: [],
         media_risks: [],
         pages: [],
+        spoken_languages: [],
+        primary_spoken_language: '',
         employment: {
             salary_id: '',
             employment_date: '',
             termination_date: '',
-            job_title_uuid: '',
+            job_titles_uuid: [],
             job_specialties: [],
             working_hours: '',
             employment_status: '',
             annual_norm_hours: '',
+            annual_norm_hours_disabled: false,
             weekly_norm_hours: '',
             vacation_days: '',
             norm_period_uuid: '',
@@ -658,6 +708,9 @@ const state = reactive({
     options: {
         cities: [],
         departments: [],
+        // Seeded with the built-in options so the form is usable before the
+        // company's own additions arrive; fetchEmploymentOptions() replaces both
+        // lists with system + company entries.
         employment_status: [
             { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
             { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
@@ -665,6 +718,7 @@ const state = reactive({
         ],
         jobSpecialties: [],
         jobTitles: [],
+        spokenLanguages: [] as any,
         media_risks: [] as any,
         municipalities: [],
         pages: [],
@@ -705,14 +759,35 @@ watch(() => language.locale.value, (newValue: any) => {
             { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
             { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
         ]
+        // Relabelling the built-in options above drops the company's own entries,
+        // and this watcher also fires on the initial locale sync - which is what
+        // wiped them straight after the first fetch. Put them back.
+        fetchEmploymentOptions()
+        // Language names are Danish or English depending on the locale, so relabel.
+        fetchSpokenLanguages()
     }
 })
+
+// The mother tongue can only be one of the languages actually selected.
+const selectedSpokenLanguageOptions = computed(() =>
+    state.options.spokenLanguages.filter((option: any) =>
+        state.formEmployee.spoken_languages?.includes(option.value)
+    )
+)
+
+// Deselecting a language that was the mother tongue would otherwise leave a
+// dangling uuid that the backend silently drops on save.
+watch(() => state.formEmployee.spoken_languages, (languages: any) => {
+    if (state.formEmployee.primary_spoken_language && !languages?.includes(state.formEmployee.primary_spoken_language)) {
+        state.formEmployee.primary_spoken_language = ''
+    }
+}, { deep: true })
 
 watch(() => props.selectedEmployee, (newValue: any) => {
     if (newValue != null) {
         isPopulatingEmployee.value = true
-        if (newValue.employment.job_title_uuid) {
-            fetchJobSpecialties(newValue.employment.job_title_uuid)
+        if (newValue.employment.job_titles_uuid?.length) {
+            fetchJobSpecialties(newValue.employment.job_titles_uuid)
         }
         if (newValue.profile_image) {
             avatarUrl.value = newValue.profile_image
@@ -724,6 +799,8 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             email: newValue.email,
             password: '',
             phone: newValue.phone,
+            note: newValue.note ?? '',
+            union_membership: newValue.union_membership ?? '',
             birthday: newValue.birthday,
             seniority_date: newValue.seniority_date,
             departments: newValue.departments,
@@ -736,6 +813,8 @@ watch(() => props.selectedEmployee, (newValue: any) => {
             permissions: [],
             media_risks: newValue.media_risks,
             pages: newValue.pages,
+            spoken_languages: newValue.spoken_languages ?? [],
+            primary_spoken_language: newValue.primary_spoken_language ?? '',
             emergencyInfo: {
                 emergency_contacts: newValue.emergencyInfo.emergency_contacts,
                 trustees: newValue.emergencyInfo.trustees,
@@ -744,11 +823,12 @@ watch(() => props.selectedEmployee, (newValue: any) => {
                 salary_id: newValue.employment.salary_id,
                 employment_date: newValue.employment.employment_date,
                 termination_date: newValue.employment.termination_date,
-                job_title_uuid: newValue.employment.job_title_uuid,
+                job_titles_uuid: newValue.employment.job_titles_uuid ?? [],
                 job_specialties: newValue.employment.job_specialties,
                 working_hours: newValue.employment.working_hours,
                 employment_status: newValue.employment.employment_status,
                 annual_norm_hours: localizeDecimalSeparator(newValue.employment.annual_norm_hours),
+                annual_norm_hours_disabled: newValue.employment.annual_norm_hours_disabled ?? false,
                 weekly_norm_hours: newValue.employment.annual_norm_hours
                     ? Math.round(Number(newValue.employment.annual_norm_hours) / 52)
                     : '',
@@ -836,29 +916,95 @@ function emergencyContactError(index: number, field: 'name' | 'phone' | 'email' 
     }
     const contact = state.formEmployee.emergencyInfo.emergency_contacts[index] as any
     const value = contact?.[field]
+    if (field === 'email') {
+        if (value && !EMAIL_REGEX.test(value)) {
+            return `${t('validation.invalidEmailAddress')}.`
+        }
+        return ''
+    }
     if (!value) {
         return `${t('validation.thisFieldIsRequired')}.`
-    }
-    if (field === 'email' && !EMAIL_REGEX.test(value)) {
-        return `${t('validation.invalidEmailAddress')}.`
     }
     return ''
 }
 
 function hasEmergencyContactErrors() {
     return state.formEmployee.emergencyInfo.emergency_contacts.some((contact: any) =>
-        !contact?.name || !contact?.phone || !contact?.email || !contact?.relation || !EMAIL_REGEX.test(contact.email)
+        !contact?.name || !contact?.phone || !contact?.relation || (contact?.email && !EMAIL_REGEX.test(contact.email))
     )
+}
+
+const hasSubmittedTrustees = ref(false)
+const trusteesField = ref<HTMLElement | null>(null)
+
+function trusteeError(index: number, field: 'name' | 'phone' | 'email') {
+    if (!hasSubmittedTrustees.value) {
+        return ''
+    }
+    const trustee = state.formEmployee.emergencyInfo.trustees[index] as any
+    const value = trustee?.[field]
+    if (field === 'email') {
+        if (value && !EMAIL_REGEX.test(value)) {
+            return `${t('validation.invalidEmailAddress')}.`
+        }
+        return ''
+    }
+    if (!value) {
+        return `${t('validation.thisFieldIsRequired')}.`
+    }
+    return ''
+}
+
+function hasTrusteeErrors() {
+    return state.formEmployee.emergencyInfo.trustees.some((trustee: any) =>
+        !trustee?.name || !trustee?.phone || (trustee?.email && !EMAIL_REGEX.test(trustee.email))
+    )
+}
+
+/**
+ * Both employment dropdowns: the built-in options (translated here, since the
+ * API deliberately does not pin them to one language) followed by whatever the
+ * company has added under Settings.
+ */
+const SYSTEM_OPTION_LABELS: Record<string, string> = {
+    full_time: 'employees.workingHours.fulltime',
+    part_time: 'employees.workingHours.parttime',
+    permanent: 'employees.employmentStatus.permanent',
+    temporary: 'employees.employmentStatus.temporary',
+    substitute: 'employees.employmentStatus.substitute',
+}
+
+async function fetchEmploymentOptions() {
+    try {
+        const response = await employmentOptionService.getOptions()
+        const data = response?.data
+
+        if (!data) return
+
+        const mapped = (entries: any[]) => (entries ?? []).map((entry: any) => ({
+            value: entry.value,
+            label: entry.is_system && SYSTEM_OPTION_LABELS[entry.value]
+                ? t(SYSTEM_OPTION_LABELS[entry.value])
+                : entry.label,
+        }))
+
+        if (data.working_hours?.length) state.options.working_hours = mapped(data.working_hours)
+        if (data.employment_status?.length) state.options.employment_status = mapped(data.employment_status)
+    } catch (_) {
+        // The built-in options are already seeded, so the form stays usable.
+    }
 }
 
 onMounted(() => {
     fetchMediaRisks()
+    fetchSpokenLanguages()
     fetchDepartments()
     fetchRoles()
     fetchJobTitles()
     fetchPages()
     fetchRegions()
     fetchNormPeriods()
+    fetchEmploymentOptions()
 })
 
 function triggerFileInput() {
@@ -968,18 +1114,16 @@ async function fetchJobTitles() {
     emit('isPageLoading', false)
 }
 
-function changeJobTitle(jobTitleUuid: any) {
-    if (jobTitleUuid) {
-        fetchJobSpecialties(jobTitleUuid)
-    }
+function changeJobTitle(jobTitleUuids: any) {
+    fetchJobSpecialties(jobTitleUuids)
 }
 
-async function fetchJobSpecialties(jobTitleUuid: any) {
+async function fetchJobSpecialties(jobTitleUuids: any) {
     state.error = {}
     emit('isPageLoading', true)
     try {
         const params = {
-            job_title_uuid: jobTitleUuid
+            job_title_uuids: JSON.stringify(jobTitleUuids ?? [])
         }
         const response = await jobSpecialtyService.getAllJobSpecialties(params)
         if (response) {
@@ -1088,6 +1232,17 @@ async function fetchCities(municipalityUuid: any) {
     emit('isPageLoading', false)
 }
 
+async function fetchSpokenLanguages() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        state.options.spokenLanguages = await fetchSpokenLanguageOptions()
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
 async function fetchMediaRisks() {
     state.error = {}
     emit('isPageLoading', true)
@@ -1124,6 +1279,11 @@ function changeSelectedMunicipality(municipalityUuid: string) {
 
 function submitForm() {
     v$.value.$validate()
+    hasSubmittedTrustees.value = true
+    if (hasTrusteeErrors() && trusteesField.value) {
+        trusteesField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        return
+    }
     hasSubmittedEmergencyContacts.value = true
     if (hasEmergencyContactErrors() && emergencyContactsField.value) {
         emergencyContactsField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -1161,7 +1321,7 @@ function submitForm() {
             employmentDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.termination_date?.$error && terminationDateField.value) {
             terminationDateField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        } else if (v$.value.formEmployee.employment.job_title_uuid?.$error && jobTitleField.value) {
+        } else if (v$.value.formEmployee.employment.job_titles_uuid?.$error && jobTitleField.value) {
             jobTitleField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else if (v$.value.formEmployee.employment.working_hours?.$error && workingHoursField.value) {
             workingHoursField.value.scrollIntoView({ behavior: 'smooth', block: 'center' })

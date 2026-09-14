@@ -118,7 +118,7 @@
                         </div>
 
                         <!-- Stats row -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                             <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
                                 <p class="text-[10px] font-semibold text-[#8891A4] uppercase tracking-wide mb-1">
                                     {{ $t('superadmin.dashboard.users') }}
@@ -167,7 +167,11 @@
                                     {{ $t('superadmin.companies.accounts.stats.activatedModules') }}
                                 </p>
                             </div>
+                            <SuperadminCompanyStorageStat :companyUuid="(companyUuid as string)" />
                         </div>
+
+                        <!-- Storage usage -->
+                        <SuperadminCompanyStorageBreakdown :companyUuid="(companyUuid as string)" />
 
                         <!-- Details + apps -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -222,13 +226,17 @@
                                         </div>
                                         <span class="text-[#5C6478]">
                                             {{ state.subscription.data.deal.name }} —
-                                            {{ state.subscription.data.type === 'monthly'
-                                                ? formatAmount(state.subscription.data.deal.monthly_price)
-                                                : formatAmount(state.subscription.data.deal.yearly_price) }}
-                                            / {{ state.subscription.data.type === 'monthly' ?
-                                                $t('superadmin.companies.accounts.monthly') :
-                                                $t('superadmin.companies.accounts.yearly')
-                                            }}
+                                            <template v-if="state.subscription.data.type === 'free'">
+                                                {{ $t('superadmin.companies.accounts.free') }}
+                                            </template>
+                                            <template v-else-if="state.subscription.data.type?.includes('monthly')">
+                                                {{ formatAmount(state.subscription.data.deal.monthly_price, 'DKK') }}
+                                                / {{ $t('superadmin.companies.accounts.monthly') }}
+                                            </template>
+                                            <template v-else>
+                                                {{ formatAmount(state.subscription.data.deal.yearly_price, 'DKK') }}
+                                                / {{ $t('superadmin.companies.accounts.yearly') }}
+                                            </template>
                                         </span>
                                     </div>
                                     <div class="flex items-center gap-3 text-[13px]">
@@ -264,13 +272,19 @@
                                                 <Icon name="ph:squares-four" class="w-4 h-4 text-[#205E77]" />
                                             </div>
                                             <span class="text-[13px] font-medium text-[#1F2533]">
-                                                {{ app?.deal?.name }}
+                                                {{ app?.name }}
                                             </span>
                                         </div>
-                                        <span class="co-badge co-badge-green text-[10px]">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
-                                            {{ $t('superadmin.companies.table.active') }}
-                                        </span>
+                                        <div class="flex items-center gap-2">
+                                            <span v-if="app?.active_quantity > 0" class="co-badge co-badge-green text-[10px]">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
+                                                {{ $t('superadmin.companies.table.active') }}
+                                            </span>
+                                            <span v-else class="co-badge co-badge-red text-[10px]">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-[#CC3B2D]"></span>
+                                                {{ $t('superadmin.companies.companyApps.table.inactive') }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -339,6 +353,10 @@
                                                         :title="$t('superadmin.accounts.table.actions.edit')">
                                                         <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
                                                     </SuperadminTableButton>
+                                                    <ModulesSuperadminCompanyMenuAssignLicense
+                                                        v-if="canManageLicenses && !account?.roles?.some((r: any) => r.name === 'Superadmin')"
+                                                        :companyUuid="companyUuid" :userUuid="account.uuid"
+                                                        @assigned="fetchApps" />
                                                     <SuperadminTableButton
                                                         @click="activateDeactivateAccount(i as number, account)"
                                                         :title="account.is_active ? $t('superadmin.accounts.table.actions.deactivate') : $t('superadmin.accounts.table.actions.activate')">
@@ -366,6 +384,12 @@
                 @close="state.modal.isDeleteAccountOpen = false" @confirm="deleteAccount" />
         </NuxtLayout>
     </div>
+
+        <!-- Bank-på-adgangen. Åbnes af den 403 der siger at kunden ikke har sagt ja
+             endnu, så formularen først kommer når den er nødvendig. -->
+        <ModulesSuperadminSupportAccessRequestDialog :isOpen="state.supportAccess.isOpen"
+            :accountUuid="state.supportAccess.accountUuid" :accountName="state.supportAccess.accountName"
+            @close="state.supportAccess.isOpen = false" @requested="state.supportAccess.isOpen = false" />
 </template>
 
 <script setup lang="ts">
@@ -374,13 +398,17 @@ import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { accountService } from '@/components/api/superadmin/AccountService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { successAlert } = useAlert()
+const { can } = usePermissions()
 const { t } = useI18n()
+
+const canManageLicenses = computed(() => can('manage_licenses'))
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid as string
 const searchQuery = ref('')
@@ -396,6 +424,14 @@ const state = reactive({
     ]),
     accounts: [] as any,
     apps: [] as any,
+
+    // Bank-på-adgangen. Kontoen huskes her, fordi dialogen åbnes fra fejlsvaret på et
+    // forsøg og ikke fra knappen - så den skal vide hvilken konto forsøget gjaldt.
+    supportAccess: {
+        isOpen: false,
+        accountUuid: null as string | null,
+        accountName: '',
+    },
     company: null as any,
     dataFilter: {
         search: '',
@@ -433,6 +469,7 @@ const initials = (name: string) => (name || '?').split(' ').map((w: string) => w
 
 let accountsPage = 1
 let accountsSearchTimeout: any = null
+let isImpersonating = false
 
 onMounted(() => {
     fetchCompany()
@@ -443,6 +480,7 @@ onMounted(() => {
 })
 
 async function fetchCompany() {
+    if (isImpersonating) return
     state.error = {}
     state.isPageLoading = true
     try {
@@ -457,6 +495,7 @@ async function fetchCompany() {
 }
 
 async function fetchSubscription() {
+    if (isImpersonating) return
     state.error = {}
     state.isPageLoading = true
     try {
@@ -471,6 +510,7 @@ async function fetchSubscription() {
 }
 
 async function fetchLicensesCount() {
+    if (isImpersonating) return
     state.error = {}
     state.isPageLoading = true
     try {
@@ -485,6 +525,7 @@ async function fetchLicensesCount() {
 }
 
 async function fetchApps() {
+    if (isImpersonating) return
     state.error = {}
     state.isAppsLoading = true
     try {
@@ -502,6 +543,7 @@ async function fetchApps() {
 }
 
 function debouncedAccountsSearch() {
+    if (isImpersonating) return
     clearTimeout(accountsSearchTimeout)
     accountsSearchTimeout = setTimeout(() => {
         accountsPage = 1
@@ -518,6 +560,7 @@ function debouncedAccountsSearch() {
 }
 
 async function fetchAccounts() {
+    if (isImpersonating) return
     state.error = {}
     state.isAccountsLoading = true
     try {
@@ -569,18 +612,54 @@ async function toggleActive() {
     state.isPageLoading = false
 }
 
+function beginImpersonation() {
+    isImpersonating = true
+    clearTimeout(accountsSearchTimeout)
+}
+
+function recoverFromFailedImpersonation() {
+    isImpersonating = false
+    const originalToken = localStorage.getItem('_original_token')
+    if (originalToken) {
+        localStorage.setItem('_token', originalToken)
+        localStorage.removeItem('_original_token')
+    }
+}
+
+/**
+ * Beder kunden om lov, hvis de ikke allerede har sagt ja.
+ *
+ * `support_access_required` er backendens svar på "du må godt spørge, men der er ikke
+ * sagt ja til netop denne konto endnu". Det er ikke en fejl at vise som en fejl: det er
+ * en anmodning der skal sendes, så dialogen åbnes med kontoen udfyldt.
+ */
+function askForAccess(account: any) {
+    state.supportAccess.accountUuid = account.uuid
+    state.supportAccess.accountName = [account.firstname, account.lastname].filter(Boolean).join(' ')
+    state.supportAccess.isOpen = true
+}
+
 async function impersonateAccount(account: any) {
     state.error = {}
     state.isPageLoading = true
+    beginImpersonation()
     try {
         const response = await accountService.impersonateAccount(account.uuid)
         if (response?.impersonation_token) {
             localStorage.setItem('_original_token', localStorage.getItem('_token') ?? '')
             localStorage.setItem('_token', response.impersonation_token)
             navigateTo('/overview')
+        } else {
+            isImpersonating = false
         }
     } catch (error: any) {
-        state.error = error
+        recoverFromFailedImpersonation()
+
+        if (error?.code === 'support_access_required') {
+            askForAccess(account)
+        } else {
+            state.error = error
+        }
     }
     state.isPageLoading = false
 }
@@ -588,14 +667,18 @@ async function impersonateAccount(account: any) {
 async function impersonateCompany() {
     state.error = {}
     state.isPageLoading = true
+    beginImpersonation()
     try {
         const response = await companyService.impersonateCompany(companyUuid)
         if (response?.impersonation_token) {
             localStorage.setItem('_original_token', localStorage.getItem('_token') ?? '')
             localStorage.setItem('_token', response.impersonation_token)
             navigateTo('/overview')
+        } else {
+            isImpersonating = false
         }
     } catch (error: any) {
+        recoverFromFailedImpersonation()
         state.error = error
     }
     state.isPageLoading = false

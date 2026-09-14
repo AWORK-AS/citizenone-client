@@ -20,10 +20,16 @@ export function useAmountFormatter() {
         return parseFloat(str.replace(/,/g, ''))
     }
 
-    function formatAmount(amount: any) {
+    /**
+     * `currency` pins the label regardless of interface language. The superadmin
+     * panel bills in DKK whoever is looking at it, so its figures pass 'DKK'
+     * rather than turning into EUR when the panel is read in English.
+     */
+    function formatAmount(amount: any, currency?: string) {
+        const code = currency ?? currencyCode()
         const value = parseAmount(amount)
         if (isNaN(value)) {
-            return currencyCode() + ' 0'
+            return code + ' 0'
         }
 
         const isEn = locale.value === 'en'
@@ -33,7 +39,7 @@ export function useAmountFormatter() {
         const parts = value.toFixed(2).split('.')
         const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSep)
 
-        return currencyCode() + ' ' + integerPart + decimalSep + parts[1]
+        return code + ' ' + integerPart + decimalSep + parts[1]
     }
 
     return { formatAmount }

@@ -84,6 +84,15 @@
                                         </p>
                                     </div>
                                 </div>
+                                <div class="space-y-1">
+                                    <Label :label="$t('employees.form.spokenLanguages')" />
+                                    <p class="font-medium" v-if="spokenLanguagesSummary">
+                                        {{ spokenLanguagesSummary }}
+                                    </p>
+                                    <p class="font-medium text-gray-400" v-else>
+                                        {{ $t('employees.form.spokenLanguagesNotRegistered') }}
+                                    </p>
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
                                         <Label
@@ -280,6 +289,20 @@
                             class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
                             <div>
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                    {{ $t('employees.employeeGroups.header') }}
+                                </h2>
+                                <p class="mt-1 text-sm leading-6 text-gray-600">
+                                    {{ $t('employees.employeeGroups.headerHint') }}.
+                                </p>
+                            </div>
+                            <div class="md:col-span-2 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:px-8 sm:py-6">
+                                <ModulesUserEmployeeGroupMembership :employeeUuid="String(employeeUuid)" />
+                            </div>
+                        </div>
+                        <div
+                            class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3 border-b border-gray-900/10">
+                            <div>
+                                <h2 class="text-base font-semibold leading-7 text-gray-900">
                                     {{ $t('employees.form.header.emergencyInfo') }}
                                 </h2>
                                 <p class="mt-1 text-sm leading-6 text-gray-600">
@@ -469,6 +492,7 @@ import { employeeService } from '@/components/api/user/EmployeeService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { usePermissions, getPermissionLabel } from '@/composables/usePermissions'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -477,8 +501,9 @@ const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast } = usePermissions()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { summarise: summariseSpokenLanguages } = useSpokenLanguages()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const breadcrumbLinks = [
     {
@@ -521,6 +546,7 @@ const state = reactive({
         show_working_hours: false,
         show_compensatory_hours: false,
         media_risks: [],
+        spoken_languages: [],
         employment: {
             salary_id: '',
             employment_date: '',
@@ -538,6 +564,11 @@ const state = reactive({
     isPageLoading: false,
 })
 
+// Which languages the employee speaks, mother tongue first.
+const spokenLanguagesSummary = computed(() =>
+    summariseSpokenLanguages(state.selectedEmployee?.spoken_languages, t('employees.form.motherTongue').toLowerCase())
+)
+
 onMounted(() => {
     fetchEmployee()
 })
@@ -550,6 +581,7 @@ async function fetchEmployee() {
         if (response) {
             let concatenatedDepartments = ''
             let concatenatedJobSpecialties = ''
+            let concatenatedJobTitles = ''
             response?.data?.departments.forEach((department: any, index: number) => {
                 concatenatedDepartments += department?.name
                 if (index < response.data.departments.length - 1) {
@@ -564,6 +596,14 @@ async function fetchEmployee() {
                     concatenatedJobSpecialties += ', '
                 } else {
                     concatenatedJobSpecialties += '.'
+                }
+            })
+            response?.data?.job_titles?.forEach((jobTitle: any, index: number) => {
+                concatenatedJobTitles += jobTitle?.title
+                if (index < response.data.job_titles.length - 1) {
+                    concatenatedJobTitles += ', '
+                } else {
+                    concatenatedJobTitles += '.'
                 }
             })
             state.selectedEmployee = {
@@ -584,11 +624,12 @@ async function fetchEmployee() {
                 show_working_hours: response?.data?.show_working_hours ?? false,
                 show_compensatory_hours: response?.data?.show_compensatory_hours ?? false,
                 media_risks: response?.data?.media_risks ?? [],
+                spoken_languages: response?.data?.spoken_languages ?? [],
                 employment: {
                     salary_id: response?.data?.employee_detail?.salary_id,
                     employment_date: response?.data?.employee_detail?.date_of_employment,
                     termination_date: response?.data?.employee_detail?.termination_date,
-                    job_title: response?.data?.employee_detail?.job?.title,
+                    job_title: concatenatedJobTitles,
                     employee_specialties: concatenatedJobSpecialties,
                     working_hours: response?.data?.employee_detail?.working_hours,
                     employment_status: response?.data?.employee_detail?.status,

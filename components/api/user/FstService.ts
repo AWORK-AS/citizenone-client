@@ -1,21 +1,25 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
-import type { FstConnectionStatusResponse, FstInquiry, FstAnalyticsSnapshot, FstSyncRun } from '@/types'
+import type { FstConnectionStatusResponse, FstInquiry, FstAnalyticsSnapshot, FstSyncRun, FstPageMeta } from '@/types'
 
 // Manage/configure-screen actions (plan §14) — distinct from AppService's
 // activateFreeApp(), which only handles marketplace installation (plan §9
 // condition 1). This service covers conditions 2-5 and the resulting data.
 class FstService extends BaseAPIService {
-    // getStatus/activate/deactivate/reactivate/disconnect all return the status
-    // resource's ->resolve()'d array directly (no `data` envelope) — only
-    // refreshRemoteStatus() below returns the Resource itself and gets Laravel's
-    // automatic `data`-wrapping. Match each shape exactly rather than "fixing"
-    // the inconsistency here, which would require a backend + test change too.
+    // activate/deactivate/reactivate/disconnect return the status resource's
+    // ->resolve()'d array directly (no `data` envelope) — but status() and
+    // refreshRemoteStatus() below both return the bare Resource from the
+    // controller, which Laravel wraps in `data` by default. Match each shape
+    // exactly rather than "fixing" the inconsistency here, which would require
+    // a backend + test change too.
     async getStatus(): Promise<FstConnectionStatusResponse> {
-        return await this.request('/user/fst/status', 'GET')
+        const res = await this.request('/user/fst/status', 'GET')
+        return res.data
     }
 
-    async activate(cvr: string): Promise<FstConnectionStatusResponse> {
-        return await this.request('/user/fst/activate', 'POST', { cvr })
+    // The CVR is never sent from the client — the backend always verifies the
+    // company's own registered CVR, so there's nothing to pass here.
+    async activate(): Promise<FstConnectionStatusResponse> {
+        return await this.request('/user/fst/activate', 'POST')
     }
 
     async deactivate(): Promise<FstConnectionStatusResponse> {
@@ -41,16 +45,16 @@ class FstService extends BaseAPIService {
         return res.data
     }
 
-    async getInquiries(): Promise<{ data: FstInquiry[]; reason?: string }> {
-        return await this.request('/user/fst/inquiries', 'GET')
+    async getInquiries(page = 1): Promise<{ data: FstInquiry[]; reason?: string; meta?: FstPageMeta | null }> {
+        return await this.request('/user/fst/inquiries', 'GET', { page })
     }
 
-    async getAnalytics(): Promise<{ data: FstAnalyticsSnapshot[]; reason?: string }> {
-        return await this.request('/user/fst/analytics', 'GET')
+    async getAnalytics(from?: string, to?: string): Promise<{ data: FstAnalyticsSnapshot[]; reason?: string }> {
+        return await this.request('/user/fst/analytics', 'GET', from && to ? { from, to } : {})
     }
 
-    async getSyncHistory(): Promise<{ data: FstSyncRun[] }> {
-        return await this.request('/user/fst/sync-history', 'GET')
+    async getSyncHistory(page = 1): Promise<{ data: FstSyncRun[]; meta?: FstPageMeta | null }> {
+        return await this.request('/user/fst/sync-history', 'GET', { page })
     }
 
     async triggerSync(): Promise<any> {
@@ -59,6 +63,12 @@ class FstService extends BaseAPIService {
 
     async updateSharedFields(fields: Array<{ field_key: string; is_enabled: boolean }>): Promise<any> {
         return await this.request('/user/fst/shared-fields', 'PUT', { fields })
+    }
+
+    // "Go to your FindSocialeTilbud.dk account" — auto-login handoff, keyed by
+    // the current user's own email (no separate FST password step).
+    async getSsoLink(): Promise<{ redirect_url: string }> {
+        return await this.request('/user/fst/sso-link', 'POST')
     }
 }
 

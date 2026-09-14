@@ -18,7 +18,10 @@
                             {{ $t('superadmin.invoices.invoices') }}
                         </h1>
                         <p class="text-sm text-[#5C6478] mt-0.5">
-                            {{ $t('superadmin.invoices.totalInvoices', { count: state.invoices?.total ?? 0 }) }}
+                            <!-- `meta.total` is where a paginated collection carries
+                                 its count; `total` was never in the response, so this
+                                 line read "0 invoices in total" above a full page. -->
+                            {{ $t('superadmin.invoices.totalInvoices', { count: state.invoices?.meta?.total ?? 0 }) }}
                         </p>
                     </div>
                     <div class="flex items-center gap-2">
@@ -122,14 +125,23 @@
                                     {{ $t('superadmin.invoices.table.new') }}
                                 </span>
                             </td>
+                            <!-- Three states, because there are three. A rejected
+                                 card payment read as "Unpaid" like an invoice
+                                 nobody had tried to charge yet, which is the
+                                 difference somebody working this list is after. -->
                             <td class="co-td">
-                                <span v-if="invoice?.is_paid" class="co-badge co-badge-green">
+                                <span v-if="invoice?.is_paid || invoice?.status === 'paid'"
+                                    class="co-badge co-badge-green">
                                     <Icon name="ph:check" class="w-3 h-3" />
                                     {{ $t('superadmin.invoices.table.paid') }}
                                 </span>
-                                <span v-else class="co-badge co-badge-red">
+                                <span v-else-if="invoice?.status === 'failed'" class="co-badge co-badge-red">
                                     <Icon name="ph:x" class="w-3 h-3" />
-                                    {{ $t('superadmin.invoices.table.unpaid') }}
+                                    {{ $t('superadmin.invoices.tabs.failed') }}
+                                </span>
+                                <span v-else class="co-badge co-badge-gray">
+                                    <Icon name="ph:clock" class="w-3 h-3" />
+                                    {{ $t('superadmin.invoices.tabs.pending') }}
                                 </span>
                             </td>
                             <td class="co-td font-mono text-[13px] text-[#1F2533] font-medium">
@@ -137,7 +149,7 @@
                             </td>
                             <td class="co-td">
                                 <span class="text-[14px] font-semibold text-[#1F2533]">
-                                    {{ formatAmount(invoice?.total_amount) }}
+                                    {{ formatAmount(invoice?.total_amount, 'DKK') }}
                                 </span>
                             </td>
                             <td class="co-td">
@@ -217,7 +229,11 @@ const state = reactive({
         search: '',
         date_from: '',
         date_to: '',
-        is_paid: ''
+        is_paid: '',
+        // The tabs. Paid, Pending and Rejected are the `status` column, not
+        // `is_paid`: a rejected card payment is a status of its own, and
+        // filtering two of the tabs on "not paid" made them the same list.
+        status: ''
     } as any,
     error: {} as Error,
     failedCount: 0,
@@ -237,7 +253,8 @@ const state = reactive({
 })
 
 const hasActiveFilters = computed(() =>
-    state.dataFilter.date_from || state.dataFilter.date_to || state.dataFilter.is_paid || state.dataFilter.search
+    state.dataFilter.date_from || state.dataFilter.date_to || state.dataFilter.is_paid
+    || state.dataFilter.search || state.dataFilter.status
 )
 
 const tabs = computed(() => [
@@ -264,6 +281,7 @@ async function fetchInvoices() {
         if (state.dataFilter.date_from) params.date_from = state.dataFilter.date_from
         if (state.dataFilter.date_to) params.date_to = state.dataFilter.date_to
         if (state.dataFilter.is_paid !== '') params.is_paid = state.dataFilter.is_paid
+        if (state.dataFilter.status) params.status = state.dataFilter.status
 
         const response = await invoiceService.getInvoices(params)
         if (response) {
@@ -310,17 +328,15 @@ function next() {
 
 function setTabFilter(tab: string) {
     state.activeTab = tab
-    if (tab === 'all') state.dataFilter.is_paid = ''
-    if (tab === 'paid') state.dataFilter.is_paid = 'true'
-    if (tab === 'pending') state.dataFilter.is_paid = 'false'
-    if (tab === 'failed') state.dataFilter.is_paid = 'false'
+    state.dataFilter.status = tab === 'all' ? '' : tab
     currentTablePage = 1
     fetchInvoices()
 }
 
 function clearFilters() {
     searchQuery.value = ''
-    state.dataFilter = { search: '', date_from: '', date_to: '', is_paid: '' }
+    state.activeTab = 'all'
+    state.dataFilter = { search: '', date_from: '', date_to: '', is_paid: '', status: '' }
     currentTablePage = 1
     fetchInvoices()
 }

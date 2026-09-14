@@ -90,6 +90,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             powerBi: { name: 'settings.tabs.powerBi', isTranslateName: true, href: '/settings/power-bi', routeNames: ['settings-power-bi'] },
             economic: { name: 'settings.tabs.economic', isTranslateName: true, href: '/settings/economic', routeNames: ['settings-economic'] },
             fst: { name: 'settings.tabs.fst', isTranslateName: true, href: '/settings/fst', routeNames: ['settings-fst'] },
+            supportAccess: { name: 'supportAccess.title', isTranslateName: true, href: '/settings/support-access', routeNames: ['settings-support-access'] },
         }
         const isEmploymentServices = newValue?.company?.industry?.system_name === 'employment_services'
         const companyItems = [T.company, T.catalog, T.import]
@@ -100,12 +101,30 @@ watch(() => userStore.getUser, (newValue: any) => {
             { labelKey: 'settings.groups.billing', items: [T.subscription, T.invoices, T.licenses, T.storage] },
             { labelKey: 'settings.groups.data', items: [T.archived, T.other] },
             { labelKey: 'settings.groups.apps', items: [T.portalAccess, T.powerBi, T.economic, T.fst] },
-            { labelKey: 'settings.groups.logs', items: [T.activityLogs, T.timeLogs, T.mileageLog] },
+            // Hos loggene, fordi det er hvad siden mest bruges til: at læse hvem der har
+            // været inde. Godkendelserne er den handling der findes der.
+            { labelKey: 'settings.groups.logs', items: [T.activityLogs, T.timeLogs, T.mileageLog, T.supportAccess] },
         ]
         state.tabs = Object.values(T)
     } else {
         const r = router?.currentRoute?.value?.name as string
-        if (!['settings-profile', 'settings-time-logs', 'settings-mileage-log'].includes(r)) {
+        // Everywhere else on /settings is either Manager-or-permission gated on
+        // its own backend endpoint, or has no role check at all there - this
+        // list is only the pages that are genuinely Admin-only server-side.
+        // Redirecting anyone else away from them is correct; redirecting
+        // anyone else away from anywhere else was the bug (AW audit, 2026-08-28).
+        const adminOnly = [
+            'settings-company',
+            'settings-import',
+            'settings-power-bi',
+            'settings-economic',
+            'settings-gdpr-retention',
+            'settings-portal-access',
+            'settings-support-access',
+            'settings-custom-links', 'settings-custom-links-new', 'settings-custom-links-uuid-edit',
+            'settings-wage-supplement-rules',
+        ]
+        if (adminOnly.includes(r)) {
             navigateTo('/settings/profile')
         }
         state.tabs = [

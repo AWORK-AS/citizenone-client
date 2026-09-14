@@ -287,15 +287,16 @@
                                         </span>
                                         <span v-else>.</span></span>
                                 </p>
-                                <p>
+                                <!-- Left out entirely for staff marked as not using an
+                                     annual norm: a norm of zero is not information. -->
+                                <p v-if="employee?.uses_annual_norm_hours !== false">
                                     {{ $t('dutySchedules.annualNormHours') }}: {{ formatNumber(language.locale.value,
                                         employee?.annual_norm_hours ?? 0) }}
                                 </p>
-                                <p>
+                                <p v-if="employee?.uses_annual_norm_hours !== false">
                                     {{
                                         $t('dutySchedules.weeklyNormHours') }}: {{
-                                        (Math.round(Number(employee?.annual_norm_hours) / 52)) ??
-                                        0
+                                        calculateWeeklyNormHours(employee, currentDate.year())
                                     }}
                                 </p>
                                 <p>
@@ -446,23 +447,14 @@
                                     <div class="col-span-3 pl-1 font-bold">
                                         {{ $t('dutySchedules.total') }}:
                                     </div>
+                                    <!-- The API sends the totals rather than the browser
+                                         re-adding the rows, so this is the period figure
+                                         itself and cannot drift from it by a rounded øre. -->
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{
-                                            formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
-                                                t?.shift?.system_name !==
-                                                'time-filter')
-                                                .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
-                                                    t?.monthly_hours || t?.weekly_hours || '0'), 0))
-                                        }}
+                                        {{ employee?.period_hours_total ?? '0,00' }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{
-                                            formatNumber(language.locale.value, employee?.hours?.filter((t: any) =>
-                                                t?.shift?.system_name !==
-                                                'time-filter')
-                                                .reduce((sum: any, t: any) => sum + parseLocaleNumber(language.locale.value,
-                                                    t?.yearly_hours ?? '0'), 0))
-                                        }}
+                                        {{ employee?.year_hours_total ?? '0,00' }}
                                     </div>
                                 </div>
                             </div>
@@ -1053,6 +1045,7 @@ import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useScheduleLock } from '@/composables/useScheduleLock'
+import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -1367,7 +1360,7 @@ const hasDeletePermission = computed(() => {
 })
 
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || hasUpdatePermission.value)
-const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || hasCreatePermission.value)
+const hasManageFavoritesAccess = computed(() => true)
 
 function isShiftLocked(date: any): boolean {
     if (!date) return false
@@ -2124,18 +2117,21 @@ function isPreviousMonthDisabled() {
     return selectedMonth.isSame(cutoffMonth, 'month')
 }
 
-async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string, shiftTypeUuid?: string) {
     try {
         const params: any = {
             date_time_start: newDateTimeStart,
             date_time_end: newDateTimeEnd,
             user_uuid: employeeUuid,
             ...(shiftSpanPosition && { shift_span_position: shiftSpanPosition }),
+            ...(shiftTypeUuid && { shift_type_uuid: shiftTypeUuid }),
         }
         const response = await dutyScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
             state.shiftWarnings = response.data.warnings
             state.showWarningDialog = true
+        } else {
+            state.shiftWarnings = []
         }
     } catch (error: any) { }
 }

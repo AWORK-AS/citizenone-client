@@ -9,6 +9,10 @@ class UserService extends BaseAPIService {
         return await this.request(`/user`, 'GET')
     }
 
+    async stopImpersonation(): Promise<any> {
+        return await this.request(`/user/impersonate/stop`, 'POST')
+    }
+
     async checkin(params: object): Promise<any> {
         return await this.request(`/user/time-logs/time/in`, 'POST', params)
     }
@@ -31,6 +35,10 @@ class UserService extends BaseAPIService {
 
     async getPublicHolidays(): Promise<any> {
         return await this.request(`/user/public-holidays`, 'GET')
+    }
+
+    async updateCitizensListColumns(columns: string[]): Promise<any> {
+        return await this.request(`/user/citizens-list-columns`, 'PUT', { citizens_list_columns: columns })
     }
 
     async getAllUsers(params: object): Promise<any> {

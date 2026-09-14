@@ -13,6 +13,13 @@ class MileageLogService extends BaseAPIService {
         return await this.request(`/user/mileage-logs/employee/${employeeUuid}`, 'GET', params)
     }
 
+    // The list endpoints above don't eager-load location_logs (GPS breadcrumbs)
+    // -- see backend/dev-mileage-log-locationlogs-whenloaded-bug.md -- so the
+    // detail modal fetches the single-trip record separately to get them.
+    async getMileageLogByUuid(mileageLogUuid: string): Promise<any> {
+        return await this.request(`/user/mileage-logs/${mileageLogUuid}`, 'GET')
+    }
+
     async getMileageSummary(params: object): Promise<any> {
         return await this.request(`/user/mileage-logs/summary`, 'GET', params)
     }
@@ -35,6 +42,23 @@ class MileageLogService extends BaseAPIService {
 
     async downloadEmployeeMileageLogReport(employeeUuid: any, params: object): Promise<any> {
         return await this.request(`/user/mileage-logs/download/employee/${employeeUuid}/reports`, 'GET', params)
+    }
+
+    // Live GPS trip tracking — see backend/dev.md for the endpoint contract.
+    async startTrip(params: object): Promise<any> {
+        return await this.request(`/user/mileage-logs/start`, 'POST', params)
+    }
+
+    async getActiveTrip(): Promise<any> {
+        return await this.request(`/user/mileage-logs/active`, 'GET')
+    }
+
+    async stopTrip(mileageLogUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/mileage-logs/${mileageLogUuid}/stop`, 'POST', params)
+    }
+
+    async cancelTrip(mileageLogUuid: string): Promise<any> {
+        return await this.request(`/user/mileage-logs/${mileageLogUuid}/cancel`, 'POST')
     }
 }
 

@@ -12,6 +12,8 @@ export interface FstConnectionStatusResponse {
     connection_status: FstConnectionStatus
     sync_eligible: boolean
     unmet_conditions: string[]
+    fst_company_id: number | null
+    last_activation_error_code: 'fst_cvr_not_found' | 'fst_cvr_no_qualified_subscription' | 'fst_cvr_already_connected' | 'fst_company_cvr_missing' | null
 }
 
 export interface FstInquiry {
@@ -33,6 +35,13 @@ export interface FstAnalyticsSnapshot {
     metric_key: string
     metric_value: number
     listing_ref: string | null
+}
+
+export interface FstPageMeta {
+    current_page: number
+    last_page: number
+    per_page: number
+    total: number
 }
 
 export interface FstSyncRun {

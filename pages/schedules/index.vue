@@ -84,10 +84,23 @@
                         <Icon name="ph:calendar-plus" class="h-4 w-4" aria-hidden="true" />
                         <span class="hidden xl:inline">{{ $t('events.subscribe.addToCalendar') }}</span>
                     </FormButton>
-                    <FormButton v-if="state.isZenegyConnected" size="sm"
+                    <FormButton v-if="state.isZenegyPurchased" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-green-700 !border-green-700 !text-white hover:!bg-green-800"
                         @click="openZenegySyncModal">
                         <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                        <span class="hidden sm:inline">{{ $t('dutySchedules.zenegy_sync') }}</span>
+                    </FormButton>
+                    <FormButton v-if="state.isSalaryDkPurchased" size="sm"
+                        class="rounded-lg !py-1 !px-3 !h-[32px] !bg-blue-600 !border-blue-600 !text-white hover:!bg-blue-700"
+                        @click="state.modal.isSalaryDkSyncOpen = true">
+                        <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                        <span class="hidden sm:inline">{{ $t('dutySchedules.salaryDk_sync') }}</span>
+                    </FormButton>
+                    <FormButton v-if="state.isDanlonConnected" size="sm"
+                        class="rounded-lg !py-1 !px-3 !h-[32px] !bg-blue-600 !border-blue-600 !text-white hover:!bg-blue-700"
+                        @click="state.modal.isDanlonSyncOpen = true">
+                        <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                        <span class="hidden sm:inline">{{ $t('dutySchedules.danlon_sync') }}</span>
                     </FormButton>
 
                     <!-- Icon-only actions -->
@@ -123,6 +136,9 @@
                         </svg>
                         {{ $t('helpGuide.title') }}
                     </button>
+                    <!-- Teleported out: the toolbar row is sticky, and a positioned sticky
+                         ancestor would trap this overlay below the navbar's stacking context. -->
+                    <Teleport to="body">
                     <div id="help-modal-udgivet"
                         style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,43,70,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;"
                         onclick="if(event.target===this)this.style.display='none'">
@@ -152,6 +168,7 @@
                                 :title="$t('helpGuide.title')"></iframe>
                         </div>
                     </div>
+                    </Teleport>
                 </div>
             </template>
 
@@ -175,9 +192,16 @@
             <ModulesUserDutyScheduleModalShiftTypes :isModalOpen="state.modal.isShowDistributionOfShiftTypes"
                 @close="state.modal.isShowDistributionOfShiftTypes = false" />
             <ModulesUserDutyScheduleModalDownload :isModalOpen="state.modal.isDownloadOpen"
-                :selectedDate="state.selectedDate" :filter="state.filter" @close="state.modal.isDownloadOpen = false" />
+                :selectedDate="state.selectedDate" :calendarView="state.calendarView" :filter="state.filter"
+                @close="state.modal.isDownloadOpen = false" />
             <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen" :dutySchedule="true"
                 @close="state.modal.isSubscribeOpen = false" />
+            <ModulesUserDutyScheduleModalSalaryDkSync
+                :isModalOpen="state.modal.isSalaryDkSyncOpen"
+                :scheduleEmployees="weekViewRef?.getScheduleEmployees() ?? []"
+                :departmentName="departmentStore.getSelectedDepartmentName"
+                @close="state.modal.isSalaryDkSyncOpen = false"
+            />
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 :date="state.activityLogDate"
                 @close="state.modal.isActivityLogsOpen = false; state.activityLogDate = null" />
@@ -186,6 +210,12 @@
             <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
                 :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
                 @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
+            <ModulesUserDutyScheduleModalDanlonSync
+                :isModalOpen="state.modal.isDanlonSyncOpen"
+                :scheduleEmployees="weekViewRef?.getScheduleEmployees() ?? []"
+                :departmentName="departmentStore.getSelectedDepartmentName"
+                @close="state.modal.isDanlonSyncOpen = false"
+            />
 
             <Teleport to="body">
                 <div v-if="state.noMatchTooltip.visible"
@@ -655,9 +685,12 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 // import { zenegyService } from '@/components/api/user/ZenegyService'
+import { danlonService } from '@/components/api/user/DanlonService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { extraHoursService } from '@/components/api/user/ExtraHoursService'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { salaryDkService } from '@/components/api/user/SalaryDkService'
+import { appService } from '@/components/api/user/AppService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -674,6 +707,10 @@ const state = reactive({
     calendarView: 'week',
     isSyncing: false,
     isZenegyConnected: false,
+    isSalaryDkConnected: false,
+    isDanlonConnected: false,
+    isZenegyPurchased: false,
+    isSalaryDkPurchased: false,
     isLoadingModalData: false,
     filter: {
         department_uuids: [],
@@ -691,6 +728,8 @@ const state = reactive({
         isViewSharedDutyScheduleOpen: false,
         isZenegySyncOpen: false,
         isSubscribeOpen: false,
+        isSalaryDkSyncOpen: false,
+        isDanlonSyncOpen: false,
     },
     selectedDate: moment().format('YYYY-MM-DD'),
     activityLogDate: null as string | null,
@@ -885,6 +924,30 @@ onMounted(async () => {
     // } catch {
     //     state.isZenegyConnected = false
     // }
+
+    try {
+        const salaryDkStatus = await salaryDkService.getSalaryDkStatus()
+        state.isSalaryDkConnected = salaryDkStatus?.connected || false
+    } catch {
+        state.isSalaryDkConnected = false
+    }
+
+    try {
+        const danlonStatus = await danlonService.getStatus()
+        state.isDanlonConnected = danlonStatus?.connected || false
+    } catch {
+        state.isDanlonConnected = false
+    }
+
+    try {
+        const apps = await appService.getApps({ per_page: 200 })
+        const appList = apps?.data ?? apps ?? []
+        state.isZenegyPurchased = appList.some((app: any) => app.generic_name === 'zenegy' && app.user_activated)
+        state.isSalaryDkPurchased = appList.some((app: any) => app.generic_name === 'salary.dk' && app.user_activated)
+    } catch {
+        state.isZenegyPurchased = false
+        state.isSalaryDkPurchased = false
+    }
 })
 
 function setCalendarView(view: any) {

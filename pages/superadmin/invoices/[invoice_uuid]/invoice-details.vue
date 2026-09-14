@@ -66,7 +66,7 @@
                                     </td>
                                     <td width="20%">
                                         <div>
-                                            {{ formatAmount(data?.price ?? 0) }}
+                                            {{ formatAmount(data?.price ?? 0, 'DKK') }}
                                         </div>
                                     </td>
                                     <td width="20%">
@@ -76,12 +76,12 @@
                                     </td>
                                     <td width="20%">
                                         <div>
-                                            {{ formatAmount(data?.tax_amount ?? 0) }}
+                                            {{ formatAmount(data?.tax_amount ?? 0, 'DKK') }}
                                         </div>
                                     </td>
                                     <td width="20%">
                                         <div>
-                                            {{ formatAmount(data?.total ?? 0) }}
+                                            {{ formatAmount(data?.total ?? 0, 'DKK') }}
                                         </div>
                                     </td>
                                 </tr>

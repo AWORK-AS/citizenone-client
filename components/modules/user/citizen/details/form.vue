@@ -46,6 +46,13 @@
                         <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
                     </div>
                     <div class="space-y-1">
+                        <FormLabel for="case_number" :label="$t('citizens.form.caseNumber')" />
+                        <FormTextField id="case_number" name="case_number"
+                            v-model="state.formCitizen.case_number" />
+                        <p class="text-xs text-gray-500">{{ $t('citizens.form.caseNumberHint') }}</p>
+                        <FormError :error="props?.error?.errors?.case_number?.[0]" />
+                    </div>
+                    <div class="space-y-1">
                         <FormLabel for="birthday" :label="$t('citizens.form.birthday')" />
                         <FormDateField id="birthday" name="birthday" v-model="state.formCitizen.birthday" />
                         <p v-if="state.autoFilledFromSsn" class="flex items-center gap-x-1 text-xs text-tertiary">
@@ -181,6 +188,31 @@
                     <FormError :error="v$?.formCitizen?.origin?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.origin_uuid?.[0]" />
                 </div>
+                <div class="space-y-1">
+                    <FormLabel for="spoken_languages" :label="$t('citizens.form.spokenLanguages')" />
+                    <FormSelectMultiple id="spoken_languages" :options="state.options.spokenLanguages"
+                        v-model="state.formCitizen.spoken_languages" />
+                    <p class="text-xs text-gray-500">
+                        {{ $t('citizens.form.spokenLanguagesDescription') }}
+                    </p>
+                    <FormError :error="props?.error?.errors?.spoken_languages_uuid?.[0]" />
+                </div>
+                <div class="space-y-1" v-if="state.formCitizen.spoken_languages?.length > 0">
+                    <FormLabel for="primary_spoken_language" :label="$t('citizens.form.motherTongue')" />
+                    <FormSelect id="primary_spoken_language" :options="selectedSpokenLanguageOptions"
+                        v-model="state.formCitizen.primary_spoken_language" />
+                    <FormError :error="props?.error?.errors?.primary_spoken_language_uuid?.[0]" />
+                </div>
+                <div class="w-fit cursor-pointer"
+                    @click="state.formCitizen.requires_interpreter = !state.formCitizen.requires_interpreter">
+                    <div class="flex items-center">
+                        <FormCheckbox id="requires_interpreter" :value="state.formCitizen.requires_interpreter" />
+                        {{ $t('citizens.form.requiresInterpreter') }}
+                    </div>
+                    <p class="ml-7 text-xs">
+                        {{ $t('citizens.form.requiresInterpreterDescription') }}
+                    </p>
+                </div>
                 <div class="space-y-1" v-if="isFieldVisible('diagnoses')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="diagnoses" :label="$t('citizens.form.diagnoses')" />
@@ -262,6 +294,13 @@
                     <FormSelect id="section" :options="state.options.sections" v-model="state.formCitizen.section" />
                     <FormError :error="v$?.formCitizen?.section?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.section?.[0]" />
+                    <!-- Customer feedback: no field named after the intervention type
+                         (indsatstype) exists separately from the paragraph - the
+                         paragraph's own name IS that type, so it's surfaced under
+                         both labels rather than duplicating the catalogue. -->
+                    <p v-if="selectedSectionLabel" class="text-xs text-gray-500">
+                        {{ $t('citizens.form.interventionType') }}: {{ selectedSectionLabel }}
+                    </p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('pricing')">
                     <div class="space-y-1">
@@ -400,21 +439,19 @@
                     <FormError :error="v$?.formCitizen?.red?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.red?.[0]" />
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                <!-- Portal access has its own section when the clinic runs the
+                     patient portal; here it stays inline for citizen access. -->
+                <div v-if="userStore.getUser?.has_citizen_app && !hasPatientPortal && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_system_access"
                         @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
-                    <p>
-                        {{ $t('citizens.form.allowSystemAccess') }}
-                    </p>
+                    <p>{{ $t('citizens.form.allowSystemAccess') }}</p>
                 </div>
-                <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
+                <div v-if="userStore.getUser?.has_citizen_app && !hasPatientPortal && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
                     <FormSwitch :value="state.formCitizen.has_chat_access"
                         @toggleSwitch="state.formCitizen.has_chat_access = !state.formCitizen.has_chat_access" />
-                    <p>
-                        {{ $t('citizens.form.allowChatAccess') }}
-                    </p>
+                    <p>{{ $t('citizens.form.allowChatAccess') }}</p>
                 </div>
                 <div v-if="userStore.getUser?.has_citizen_app && isFieldVisible('system_access')"
                     class="space-y-1 flex items-center gap-x-2">
@@ -431,6 +468,52 @@
                     <p>
                         {{ $t('citizens.form.allowBulletBoardAccess') }}
                     </p>
+                </div>
+        </FormSection>
+        <!-- Own section: a dentist looking for "how do I give this patient
+             access" should not have to find a switch halfway down the master
+             data form. -->
+        <FormSection v-if="hasPatientPortal && isFieldVisible('system_access')"
+            :title="$t('patient.staff.sectionTitle')" :description="$t('patient.staff.sectionHelp')">
+                <div class="space-y-1 flex items-center gap-x-2">
+                    <FormSwitch :value="state.formCitizen.has_system_access"
+                        @toggleSwitch="state.formCitizen.has_system_access = !state.formCitizen.has_system_access" />
+                    <div>
+                        <p>{{ $t('patient.staff.portalAccess') }}</p>
+                        <p class="text-xs text-gray-500">{{ $t('patient.staff.portalAccessHelp') }}</p>
+                    </div>
+                </div>
+                <div class="space-y-1 flex items-center gap-x-2">
+                    <FormSwitch :value="state.formCitizen.has_chat_access"
+                        @toggleSwitch="state.formCitizen.has_chat_access = !state.formCitizen.has_chat_access" />
+                    <p>{{ $t('patient.staff.messageAccess') }}</p>
+                </div>
+                <div class="space-y-1 flex items-center gap-x-2">
+                    <FormSwitch :value="state.formCitizen.has_patient_journal_access"
+                        @toggleSwitch="state.formCitizen.has_patient_journal_access = !state.formCitizen.has_patient_journal_access" />
+                    <div>
+                        <p>{{ $t('patient.staff.journalAccess') }}</p>
+                        <p class="text-xs text-gray-500">{{ $t('patient.staff.journalAccessHelp') }}</p>
+                    </div>
+                </div>
+        </FormSection>
+        <!-- The clinic cannot know the portal exists if nothing ever mentions
+             it, so a dental clinic without the app gets a quiet pointer here,
+             where they would have looked for the setting. -->
+        <FormSection v-if="isDentalClinic && !hasPatientPortal && isFieldVisible('system_access')"
+            :title="$t('patient.staff.sectionTitle')" :description="$t('patient.staff.sectionHelp')">
+                <div class="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-5 py-4 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-start gap-3">
+                        <Icon name="ph:device-mobile-speaker" class="h-6 w-6 text-primary shrink-0" aria-hidden="true" />
+                        <div>
+                            <p class="font-semibold text-gray-900">{{ $t('patient.staff.teaserTitle') }}</p>
+                            <p class="text-sm text-gray-600 max-w-xl">{{ $t('patient.staff.teaserText') }}</p>
+                        </div>
+                    </div>
+                    <FormButton type="button" buttonStyle="action"
+                        @click="navigateTo('/apps?type=other&generic_name=patient-access')">
+                        {{ $t('patient.staff.teaserAction') }}
+                    </FormButton>
                 </div>
         </FormSection>
         <FormSection v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && isFieldVisible('inquiry_data')" :title="$t('citizens.sections.inquiryData')" :description="$t('citizens.sections.inquiryDataHelp')">
@@ -498,6 +581,26 @@
                         <FormNumberField id="primary_split_percentage" name="primary_split_percentage" :min="0" :max="100"
                             placeholder="100" v-model="state.formCitizen.stayData.primary_split_percentage" />
                         <FormError :error="props?.error?.errors?.primary_split_percentage?.[0]" />
+                    </div>
+                </div>
+                <!-- The hours the placement was agreed on. The billing extraction
+                     holds delivery up against these; without them it can only
+                     compare with the citizen's own allocation. -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="contract_hours" :label="$t('citizens.form.stayData.contractHours')" />
+                        <FormNumberField id="contract_hours" name="contract_hours" :min="0"
+                            :placeholder="$t('citizens.form.stayData.contractHours')"
+                            v-model="state.formCitizen.stayData.contract_hours" />
+                        <FormError :error="props?.error?.errors?.contract_hours?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="contract_hours_interval"
+                            :label="$t('citizens.form.stayData.contractHoursInterval')" />
+                        <FormSelect id="contract_hours_interval" :options="state.options.contractHoursIntervals"
+                            :placeholder="$t('citizens.form.stayData.contractHoursInterval')"
+                            v-model="state.formCitizen.stayData.contract_hours_interval" />
+                        <FormError :error="props?.error?.errors?.contract_hours_interval?.[0]" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -902,7 +1005,7 @@
                         v-model="state.formCitizen.employmentData.internship_company" />
                 </div>
         </FormSection>
-        <FormSection v-if="userStore.getUser?.company?.industry?.en_name === 'Dentists and dental hygienists' && isFieldVisible('dental_profile')" :title="$t('citizens.sections.dentalProfile')" :description="$t('citizens.sections.dentalProfileHelp')">
+        <FormSection v-if="isDentalClinic && isFieldVisible('dental_profile')" :title="$t('citizens.sections.dentalProfile')" :description="$t('citizens.sections.dentalProfileHelp')">
                 <div class="space-y-1">
                     <div class="w-fit flex items-center cursor-pointer"
                         @click="state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark = !state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark">
@@ -911,10 +1014,24 @@
                         {{ $t('citizens.form.dental.isMemberOfSygeforsikringDanmark') }}
                     </div>
                 </div>
+                <div class="space-y-1" v-if="state.formCitizen.dentalData.is_member_of_sygeforsikring_danmark">
+                    <FormLabel for="danmark_group" :label="$t('citizens.form.dental.danmarkGroup.label')" />
+                    <FormSelect id="danmark_group" :options="state.options.danmarkGroups"
+                        v-model="state.formCitizen.dentalData.danmark_group" />
+                </div>
                 <div class="space-y-1">
                     <FormLabel for="sygesikring_group" :label="$t('citizens.form.dental.sygesikringGroup.label')" />
                     <FormSelect id="sygesikring_group" :options="state.options.sygesikringGroups"
                         v-model="state.formCitizen.dentalData.sygesikring_group" />
+                </div>
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formCitizen.dentalData.is_foreign_patient = !state.formCitizen.dentalData.is_foreign_patient">
+                        <FormCheckbox id="is_foreign_patient"
+                            :value="state.formCitizen.dentalData.is_foreign_patient" />
+                        {{ $t('citizens.form.dental.isForeignPatient') }}
+                    </div>
+                    <p class="text-xs text-gray-500">{{ $t('citizens.form.dental.isForeignPatientHelp') }}</p>
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="patient_number" :label="$t('citizens.form.dental.patientNumber')" />
@@ -941,6 +1058,42 @@
                         <FormSelect id="checkup_interval_months" :options="state.options.checkupIntervals"
                             v-model="state.formCitizen.dentalData.checkup_interval_months" />
                     </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <FormLabel for="recall_channel" :label="$t('citizens.form.dental.recallChannel.label')" />
+                        <FormSelect id="recall_channel" :options="state.options.recallChannels"
+                            v-model="state.formCitizen.dentalData.recall_channel" />
+                        <p class="text-xs text-gray-500">{{ $t('citizens.form.dental.recallChannel.help') }}</p>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="w-fit flex items-center cursor-pointer"
+                            @click="state.formCitizen.dentalData.auto_reminder = !state.formCitizen.dentalData.auto_reminder">
+                            <FormCheckbox id="auto_reminder" :value="state.formCitizen.dentalData.auto_reminder" />
+                            {{ $t('citizens.form.dental.autoReminder') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="risk_profile" :label="$t('citizens.form.dental.riskProfile.label')" />
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button type="button" v-for="option in state.options.riskProfiles" :key="option.value"
+                            @click="toggleRiskProfile(option.value)" :class="[
+                                'inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm',
+                                state.formCitizen.dentalData.risk_profile === option.value
+                                    ? 'border-primary bg-primary/10 text-primary'
+                                    : 'border-gray-300 text-gray-600 hover:border-gray-400'
+                            ]">
+                            <span class="size-3 rounded-full" :style="{ backgroundColor: option.color }" />
+                            {{ option.label }}
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-1" v-if="state.formCitizen.dentalData.risk_profile">
+                    <FormLabel for="risk_profile_note" :label="$t('citizens.form.dental.riskProfile.note')" />
+                    <FormTextArea id="risk_profile_note" name="risk_profile_note" :rows="2"
+                        :placeholder="$t('citizens.form.dental.riskProfile.notePlaceholder')"
+                        v-model="state.formCitizen.dentalData.risk_profile_note" />
                 </div>
         </FormSection>
         <!-- Follows the reader, so saving never means scrolling to the bottom. -->
@@ -1001,12 +1154,14 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
 import { foreignCityService } from '@/components/api/user/ForeignCityService'
+import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDanishCpr } from '@/composables/cpr'
 import { useTerminology } from '@/composables/useTerminology'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import type { Error } from '@/types'
 import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
@@ -1016,8 +1171,10 @@ import ClassicEditor from '@/utils/editor'
 import { journalService } from '@/components/api/user/JournalService'
 
 const userStore = useUserStore() as any
+const { industryHasFeature } = useIndustryFeatures()
 const { t } = useI18n()
 const { term } = useTerminology()
+const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
 const { formatPrice } = useNumberFormatter()
 const language = useI18n()
 const citizenImage = ref<HTMLInputElement | null>(null)
@@ -1065,6 +1222,10 @@ function isFieldVisible(fieldKey: string): boolean {
     return formConfig.value[fieldKey] !== false
 }
 
+const selectedSectionLabel = computed(() => {
+    return state.options.sections.find((option: any) => option.value === state.formCitizen.section)?.label ?? ''
+})
+
 const { parse: parseCpr } = useDanishCpr()
 
 const state = reactive({
@@ -1082,6 +1243,7 @@ const state = reactive({
         gender: '',
         email: '',
         social_security_number: '',
+        case_number: '',
         birthday: '',
         phone: '',
         departments: [],
@@ -1096,6 +1258,9 @@ const state = reactive({
         latitude: '',
         longitude: '',
         origin: '',
+        spoken_languages: [],
+        primary_spoken_language: '',
+        requires_interpreter: false,
         diagnoses: [],
         medication_allergies: [],
         addictions: [],
@@ -1122,6 +1287,7 @@ const state = reactive({
         red: '',
         has_system_access: false,
         has_chat_access: false,
+        has_patient_journal_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
@@ -1136,6 +1302,8 @@ const state = reactive({
             accommodation_start_date: '',
             journal_number: '',
             contract_price: '',
+            contract_hours: '',
+            contract_hours_interval: 'weekly',
             primary_split_percentage: '',
             accompanying_children: [{
                 name: '',
@@ -1176,7 +1344,13 @@ const state = reactive({
         } as any,
         dentalData: {
             is_member_of_sygeforsikring_danmark: false,
+            danmark_group: '',
             sygesikring_group: '',
+            is_foreign_patient: false,
+            risk_profile: '',
+            risk_profile_note: '',
+            recall_channel: '',
+            auto_reminder: true,
             patient_number: '',
             municipal_subsidy: '',
             last_checkup_date: '',
@@ -1215,12 +1389,20 @@ const state = reactive({
         regions: [] as any,
         rooms: [] as any,
         sections: [] as any,
+        spokenLanguages: [] as any,
         employmentCaseTypes: [] as any,
         employmentStatusTypes: [] as any,
         consultants: [] as any,
+        contractHoursIntervals: [
+            { value: 'weekly', label: `${t('citizens.form.stayData.contractHoursWeekly')}`, },
+            { value: 'monthly', label: `${t('citizens.form.stayData.contractHoursMonthly')}`, },
+            { value: 'total', label: `${t('citizens.form.stayData.contractHoursTotal')}`, },
+        ],
         sygesikringGroups: [
             { value: 'group_1', label: `${t('citizens.form.dental.sygesikringGroup.group1')}`, },
             { value: 'group_2', label: `${t('citizens.form.dental.sygesikringGroup.group2')}`, },
+            { value: 'group_4', label: `${t('citizens.form.dental.sygesikringGroup.group4')}`, },
+            { value: 'but', label: `${t('citizens.form.dental.sygesikringGroup.but')}`, },
             { value: 'foreign_insurance', label: `${t('citizens.form.dental.sygesikringGroup.foreignInsurance')}`, },
             { value: 'other', label: `${t('citizens.form.dental.sygesikringGroup.other')}`, },
         ],
@@ -1228,9 +1410,51 @@ const state = reactive({
             { value: 6, label: `${t('citizens.form.dental.checkupInterval.everySixMonths')}`, },
             { value: 12, label: `${t('citizens.form.dental.checkupInterval.everyTwelveMonths')}`, },
         ],
+        danmarkGroups: danmarkGroupOptions(),
+        recallChannels: recallChannelOptions(),
+        riskProfiles: riskProfileOptions(),
     },
     selectedCitizenLocation: null as { lat: number; lng: number } | null,
 })
+
+function danmarkGroupOptions() {
+    return [
+        { value: 'basis', label: `${t('citizens.form.dental.danmarkGroup.basis')}` },
+        { value: 'group_1', label: `${t('citizens.form.dental.danmarkGroup.group1')}` },
+        { value: 'group_2', label: `${t('citizens.form.dental.danmarkGroup.group2')}` },
+        { value: 'group_5', label: `${t('citizens.form.dental.danmarkGroup.group5')}` },
+    ]
+}
+
+function recallChannelOptions() {
+    return [
+        { value: 'letter', label: `${t('citizens.form.dental.recallChannel.letter')}` },
+        { value: 'sms', label: `${t('citizens.form.dental.recallChannel.sms')}` },
+        { value: 'email', label: `${t('citizens.form.dental.recallChannel.email')}` },
+        { value: 'app', label: `${t('citizens.form.dental.recallChannel.app')}` },
+        { value: 'phone', label: `${t('citizens.form.dental.recallChannel.phone')}` },
+    ]
+}
+
+// Green, yellow and red is how a clinic marks caries risk, so the colours are
+// part of the meaning rather than decoration.
+function riskProfileOptions() {
+    return [
+        { value: 'green', color: '#16a34a', label: `${t('citizens.form.dental.riskProfile.green')}` },
+        { value: 'yellow', color: '#eab308', label: `${t('citizens.form.dental.riskProfile.yellow')}` },
+        { value: 'red', color: '#dc2626', label: `${t('citizens.form.dental.riskProfile.red')}` },
+    ]
+}
+
+// Clicking the marked profile again clears it: the profile is optional.
+function toggleRiskProfile(value: string) {
+    state.formCitizen.dentalData.risk_profile =
+        state.formCitizen.dentalData.risk_profile === value ? '' : value
+
+    if (!state.formCitizen.dentalData.risk_profile) {
+        state.formCitizen.dentalData.risk_profile_note = ''
+    }
+}
 
 watch(() => language.locale.value, () => {
     state.options.genders = [
@@ -1242,6 +1466,8 @@ watch(() => language.locale.value, () => {
     state.options.sygesikringGroups = [
         { value: 'group_1', label: `${t('citizens.form.dental.sygesikringGroup.group1')}`, },
         { value: 'group_2', label: `${t('citizens.form.dental.sygesikringGroup.group2')}`, },
+        { value: 'group_4', label: `${t('citizens.form.dental.sygesikringGroup.group4')}`, },
+        { value: 'but', label: `${t('citizens.form.dental.sygesikringGroup.but')}`, },
         { value: 'foreign_insurance', label: `${t('citizens.form.dental.sygesikringGroup.foreignInsurance')}`, },
         { value: 'other', label: `${t('citizens.form.dental.sygesikringGroup.other')}`, },
     ]
@@ -1249,6 +1475,11 @@ watch(() => language.locale.value, () => {
         { value: 6, label: `${t('citizens.form.dental.checkupInterval.everySixMonths')}`, },
         { value: 12, label: `${t('citizens.form.dental.checkupInterval.everyTwelveMonths')}`, },
     ]
+    state.options.danmarkGroups = danmarkGroupOptions()
+    state.options.recallChannels = recallChannelOptions()
+    state.options.riskProfiles = riskProfileOptions()
+    // Language names are Danish or English depending on the locale, so relabel.
+    fetchSpokenLanguages()
 })
 
 watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
@@ -1291,6 +1522,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             gender: selectedCitizen.gender,
             email: selectedCitizen.email,
             social_security_number: selectedCitizen.social_security_number,
+            case_number: selectedCitizen.case_number ?? '',
             birthday: selectedCitizen.birthday,
             phone: selectedCitizen.phone,
             departments: selectedCitizen.departments,
@@ -1305,6 +1537,9 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             latitude: lat ? lat.toString() : '',
             longitude: lng ? lng.toString() : '',
             origin: selectedCitizen.origin,
+            spoken_languages: selectedCitizen.spoken_languages ?? [],
+            primary_spoken_language: selectedCitizen.primary_spoken_language ?? '',
+            requires_interpreter: selectedCitizen.requires_interpreter ?? false,
             diagnoses: selectedCitizen.diagnoses,
             medication_allergies: selectedCitizen.medication_allergies,
             addictions: selectedCitizen.addictions,
@@ -1321,7 +1556,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             responsible_municipality: selectedCitizen.responsible_municipality,
             ean_number: selectedCitizen.ean_number,
             transportation: selectedCitizen.transportation,
-            hourly_rate: selectedCitizen.hourly_rate,
+            hourly_rate: selectedCitizen.hourly_rate ? formatPrice(selectedCitizen.hourly_rate, language.locale.value) : '',
             allocated_daily_hours: selectedCitizen.allocated_daily_hours,
             allocated_weekly_hours: selectedCitizen.allocated_weekly_hours,
             allocated_monthly_hours: selectedCitizen.allocated_monthly_hours,
@@ -1331,6 +1566,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             red: selectedCitizen.red,
             has_system_access: selectedCitizen.has_system_access,
             has_chat_access: selectedCitizen.has_chat_access,
+            has_patient_journal_access: selectedCitizen.has_patient_journal_access ?? false,
             has_duty_schedule_access: selectedCitizen.has_duty_schedule_access,
             has_bullet_board_access: selectedCitizen.has_bullet_board_access,
             inquiryData: {
@@ -1347,6 +1583,8 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 contract_price: selectedCitizen.stayData?.contract_price
                     ? formatPrice(selectedCitizen.stayData.contract_price, language.locale.value)
                     : '',
+                contract_hours: selectedCitizen.stayData?.contract_hours ?? '',
+                contract_hours_interval: selectedCitizen.stayData?.contract_hours_interval || 'weekly',
                 primary_split_percentage: selectedCitizen.stayData?.primary_split_percentage || '',
                 accompanying_children: selectedCitizen.stayData?.accompanying_children ?? [],
                 residence_before_uuid: selectedCitizen.stayData?.residence_before_uuid || '',
@@ -1381,7 +1619,13 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             } as any,
             dentalData: {
                 is_member_of_sygeforsikring_danmark: selectedCitizen.dentalData?.is_member_of_sygeforsikring_danmark ?? false,
+                danmark_group: selectedCitizen.dentalData?.danmark_group || '',
                 sygesikring_group: selectedCitizen.dentalData?.sygesikring_group || '',
+                is_foreign_patient: selectedCitizen.dentalData?.is_foreign_patient ?? false,
+                risk_profile: selectedCitizen.dentalData?.risk_profile || '',
+                risk_profile_note: selectedCitizen.dentalData?.risk_profile_note || '',
+                recall_channel: selectedCitizen.dentalData?.recall_channel || '',
+                auto_reminder: selectedCitizen.dentalData?.auto_reminder ?? true,
                 patient_number: selectedCitizen.dentalData?.patient_number || '',
                 municipal_subsidy: selectedCitizen.dentalData?.municipal_subsidy || '',
                 last_checkup_date: selectedCitizen.dentalData?.last_checkup_date || '',
@@ -1396,6 +1640,9 @@ watch(() => language.locale.value, (newLocale: any) => {
         state.formCitizen.pricing = formatPrice(props.selectedCitizen.pricing, newLocale)
         if (props.selectedCitizen?.stayData?.contract_price) {
             state.formCitizen.stayData.contract_price = formatPrice(props.selectedCitizen.stayData.contract_price, newLocale)
+        }
+        if (props.selectedCitizen?.hourly_rate) {
+            state.formCitizen.hourly_rate = formatPrice(props.selectedCitizen.hourly_rate, newLocale)
         }
     }
 })
@@ -1459,6 +1706,7 @@ onMounted(async () => {
     fetchDepartments()
     fetchRooms()
     fetchDiagnoses()
+    fetchSpokenLanguages()
     fetchMedicationAllergies()
     fetchAddictions()
     fetchSections()
@@ -1597,6 +1845,17 @@ async function fetchDiagnoses() {
             )
             state.options.diagnoses = options
         }
+    } catch (error: any) {
+        state.error = error
+    }
+    emit('isPageLoading', false)
+}
+
+async function fetchSpokenLanguages() {
+    state.error = {}
+    emit('isPageLoading', true)
+    try {
+        state.options.spokenLanguages = await fetchSpokenLanguageOptions()
     } catch (error: any) {
         state.error = error
     }
@@ -1789,6 +2048,16 @@ async function changeSelectedMunicipality(municipalityUuid: string) {
     }
 }
 
+// The patient portal is its own app; a dental clinic can have it without
+// citizen access, and both open a portal login for the person.
+const hasPatientPortal = computed(() => !!userStore.getUser?.has_patient_app)
+const canGrantPortalAccess = computed(() => !!userStore.getUser?.has_citizen_app || hasPatientPortal.value)
+
+// Which industries the dental fields exist for lives in one place, so turning
+// them on for another kind of clinic is a word in that list. The API enforces
+// the same rule.
+const isDentalClinic = computed(() => industryHasFeature('toothChart'))
+
 const rules = computed(() => {
     return {
         formCitizen: {
@@ -1830,6 +2099,21 @@ function onCitizenImageChange(event: any) {
         reader.readAsDataURL(file)
     }
 }
+
+// The mother tongue can only be one of the languages actually selected.
+const selectedSpokenLanguageOptions = computed(() =>
+    state.options.spokenLanguages.filter((option: any) =>
+        state.formCitizen.spoken_languages?.includes(option.value)
+    )
+)
+
+// Deselecting a language that was the mother tongue would otherwise leave a
+// dangling uuid that the backend silently drops on save.
+watch(() => state.formCitizen.spoken_languages, (languages: any) => {
+    if (state.formCitizen.primary_spoken_language && !languages?.includes(state.formCitizen.primary_spoken_language)) {
+        state.formCitizen.primary_spoken_language = ''
+    }
+}, { deep: true })
 
 const formattedSocialSecurityNumber = computed<string>({
     get() {

@@ -204,7 +204,7 @@ async function initializePortal() {
         await loadPortalData()
         state.isAuthenticated = true
     } catch {
-        localStorage.removeItem("_token")
+        clearSessionToken()
         state.isAuthenticated = false
     }
 }
@@ -218,7 +218,7 @@ async function unlockPortal() {
         }
         const response = await caseworkerService.authenticateCaseworker(sharedCaseworkerUuid, params)
         if (response) {
-            localStorage.setItem("_token", response.token)
+            await setSessionToken(response.token)
             state.form.password = ""
             await loadPortalData()
             state.isAuthenticated = true
@@ -237,7 +237,7 @@ async function logoutPortal() {
     } catch {
         /* ignore */
     }
-    localStorage.removeItem("_token")
+    clearSessionToken()
     state.isAuthenticated = false
     state.dashboard = null
     state.folders = []

@@ -77,6 +77,7 @@ async function fetchRole() {
                 is_name_editable: response?.data?.is_name_editable ?? false,
                 permissions: [],
                 pages: response?.data?.pages ?? [],
+                employee_groups: response?.data?.employee_groups ?? [],
                 level: String(response?.data?.level ?? 20),
             }
             response?.data?.permissions.forEach((permission: any) => {
@@ -98,6 +99,7 @@ async function updateRole(roleDetails: any) {
             level: roleDetails.level,
             permission_uuid: roleDetails.permissions,
             page_uuid: roleDetails.page_uuid ?? [],
+            employee_group_uuid: roleDetails.employee_group_uuid ?? [],
         }
         const response = await roleService.updateRole(roleId, params)
         if (response.data) {

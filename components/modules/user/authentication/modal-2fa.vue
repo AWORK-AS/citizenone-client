@@ -103,18 +103,12 @@ async function verifyCode() {
         }
         const response = await authService.verify2faCode(params)
         if (response.data) {
-            localStorage.setItem("_token", response.data?.token)
+            await setSessionToken(response.data?.token)
             departmentStore.resetSelectedDepartmentName()
             userStore.setUser(response?.data?.user)
             userStore.setLanguage(response?.data?.user?.language?.code)
             language.locale.value = response?.data?.user?.language?.code
-            if (response.data.user?.role === 'Citizen') {
-                navigateTo('/citizen/overview')
-            } else if (response.data.user?.role === 'Relative') {
-                navigateTo('/relative/citizens')
-            } else {
-                navigateTo('/overview')
-            }
+            navigateTo(resolvePostLoginRedirect(response.data.user?.role))
         }
     } catch (error: any) {
         state.error = error

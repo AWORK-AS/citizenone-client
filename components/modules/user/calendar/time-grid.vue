@@ -87,15 +87,24 @@ const nowTick = ref(moment())
 let timer: any = null
 onMounted(() => {
     timer = setInterval(() => { nowTick.value = moment() }, 60000)
-    // scroll to ~1h before the earliest event, else 07:00
+    // Scroll to ~1h before the earliest event. A day with no events used to
+    // fall back to a hardcoded 07:00 regardless of the actual time - opening
+    // the calendar in the evening on a quiet day landed on an empty-looking
+    // grid with "now" scrolled 15 hours out of view. Anchor on the current
+    // time instead whenever today is visible and nothing gives a better cue.
     nextTick(() => {
         if (!scroller.value) return
-        let earliest = 7 * 60
+        let earliest: number | null = null
         for (const d of props.days as any[]) {
             for (const e of (d.events || [])) {
                 const m = moment(e.date_time_start)
-                earliest = Math.min(earliest, m.hours() * 60 + m.minutes())
+                const minutes = m.hours() * 60 + m.minutes()
+                earliest = earliest === null ? minutes : Math.min(earliest, minutes)
             }
+        }
+        if (earliest === null) {
+            const todayVisible = (props.days as any[]).some((d: any) => d.isToday)
+            earliest = todayVisible ? nowTick.value.hours() * 60 + nowTick.value.minutes() : 7 * 60
         }
         scroller.value.scrollTop = Math.max(0, (earliest / 60) * hourHeight - hourHeight)
     })

@@ -69,8 +69,7 @@
                         <span class="dot5">.</span>
                     </div>
                     <div v-else>
-                        <div class="mt-44 flex items-center justify-center"
-                            v-if="state.emailConfiguration?.data?.length === 0">
+                        <div class="mt-44 flex items-center justify-center" v-if="!hasEmailConfiguration">
                             <div class="space-y-6">
                                 <p>{{ $t('mail.connectYourMessage') }}.</p>
                                 <div class="flex justify-center">
@@ -85,10 +84,21 @@
                             <div class="flex bg-white rounded-tr-md rounded-br-md">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage" />
-                                <ModulesUserMailSmtpInbox v-if="state.emailConfiguration?.data?.type === 'smtp'"
+                                <ModulesUserMailSmtpInbox v-if="emailConfigurationType === 'smtp'"
                                     @setUnreadEmailsCount="setUnreadEmailsCount" />
-                                <ModulesUserMailEntraInbox v-if="state.emailConfiguration?.data?.type === 'entra'"
-                                    @setUnreadEmailsCount="setUnreadEmailsCount" />
+                                <ModulesUserMailEntraInbox v-else-if="emailConfigurationType === 'entra'"
+                                    @setUnreadEmailsCount="setUnreadEmailsCount"
+                                    @requestReconnect="state.modal.isChooseEmailConfiguration = true" />
+                                <!-- TODO(i18n): add mail.unsupportedConfiguration to lang/{en,dk,sv,no}.json -->
+                                <div v-else class="grow mt-44 flex items-center justify-center text-center px-8">
+                                    <p class="text-gray-500">
+                                        {{
+                                            $te('mail.unsupportedConfiguration') ?
+                                                $t('mail.unsupportedConfiguration') :
+                                                'We could not recognise your mail configuration. Please reconnect your mail.'
+                                        }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -133,6 +143,22 @@ const state = reactive({
     },
     unreadEmails: 0,
     unreadSecuredMessage: 0,
+})
+
+// GET /user/email-settings answers { data: [] } when the user has no email
+// setting row at all (Laravel's default JsonResource wraps a null resource as
+// an empty array), and { data: { id, type, ... } } - a single object, never a
+// list - once one exists. `data` therefore never has a meaningful `.length`
+// when a configuration exists, so this checks for content instead of the
+// array-shaped absence of it.
+const emailConfigurationType = computed(() => {
+    const data = state.emailConfiguration?.data
+    return Array.isArray(data) ? null : (data?.type ?? null)
+})
+
+const hasEmailConfiguration = computed(() => {
+    const data = state.emailConfiguration?.data
+    return Array.isArray(data) ? data.length > 0 : !!data
 })
 
 watch(() => userStore.getUser, (user: any) => {

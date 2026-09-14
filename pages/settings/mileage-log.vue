@@ -20,6 +20,14 @@
                         <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
                             <p class="text-xs">{{ $t('mileageLog.summary.totalKm') }}</p>
                             <p class="text-sm">{{ formatNumber(language.locale.value, state.summary?.data?.total_kilometers || 0) }} km</p>
+                            <!-- Flagged trips are still summed into total_kilometers above (not
+                                 subtracted) -- this count exists to make that visible, not to
+                                 imply the total needs correcting before it can be trusted. -->
+                            <p class="mt-1 flex items-center gap-x-1 text-xs font-medium text-red-600"
+                                v-if="flaggedTripsCount > 0">
+                                <Icon name="ph:warning-circle" class="h-3.5 w-3.5" aria-hidden="true" />
+                                {{ $t('mileageLog.summary.flaggedTrips', { count: flaggedTripsCount }) }}
+                            </p>
                         </div>
                     </LoadingSpinner>
                     <LoadingSpinner :isActive="state.isSummaryLoading">
@@ -42,6 +50,7 @@
                                         <th class="text-left px-4 py-2">{{ $t('mileageLog.table.employee') }}</th>
                                         <th class="text-right px-4 py-2">{{ $t('mileageLog.summary.totalKm') }}</th>
                                         <th class="text-right px-4 py-2">{{ $t('mileageLog.summary.totalTrips') }}</th>
+                                        <th class="text-right px-4 py-2">{{ $t('mileageLog.table.flagged') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,6 +61,10 @@
                                             {{ formatNumber(language.locale.value, employee.total_kilometers) }} km
                                         </td>
                                         <td class="px-4 py-2 text-right">{{ employee.total_trips }}</td>
+                                        <td class="px-4 py-2 text-right"
+                                            :class="(employee.flagged_trips ?? 0) > 0 ? 'text-red-600 font-semibold' : 'text-gray-400'">
+                                            {{ employee.flagged_trips ?? 0 }}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -76,6 +89,10 @@
                         <FormButton buttonStyle="action" @click="state.modal.isDownloadOpen = true">
                             <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('mileageLog.download.download') }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" @click="onStartTripClick" :disabled="!tracking.isIdle.value">
+                            <Icon name="ph:car" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('mileageLog.tracking.startTrip') }}
                         </FormButton>
                         <FormButton buttonStyle="action" @click="state.modal.isAddNewOpen = true">
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -103,7 +120,13 @@
                                     <span class="block truncate max-w-xs" :title="routeSummary(log)">{{ routeSummary(log) }}</span>
                                 </td>
                                 <td width="10%">
-                                    {{ formatNumber(language.locale.value, log?.kilometers) }} km
+                                    <p>{{ formatNumber(language.locale.value, log?.kilometers) }} km</p>
+                                    <p class="text-xs text-gray-400">{{ distanceSourceLabel(log) }}</p>
+                                    <div class="mt-1 inline-flex items-center gap-x-1 rounded-full bg-red-50 border border-red-200 px-2 py-0.5 text-xs font-semibold text-red-600"
+                                        v-if="log?.needs_review" :title="log?.review_reason_label || undefined">
+                                        <Icon name="ph:warning-circle" class="h-3.5 w-3.5" aria-hidden="true" />
+                                        {{ $t('mileageLog.table.needsReview') }}
+                                    </div>
                                 </td>
                                 <td width="15%">
                                     <div v-if="log?.citizen"
@@ -139,6 +162,8 @@
                 </div>
                 <Pagination :data="state.mileageLogs" @previous="previous" @next="next" />
 
+                <ModulesUserMileageLogModalStartTrip :show="state.modal.isStartTripOpen"
+                    @close="state.modal.isStartTripOpen = false" @started="onTripStarted" />
                 <ModulesUserMileageLogModalNew :isModalOpen="state.modal.isAddNewOpen"
                     @close="state.modal.isAddNewOpen = false" @refreshMileageLog="fetchMileageLogs" />
                 <ModulesUserMileageLogModalEdit :isModalOpen="state.modal.isEditOpen"
@@ -165,6 +190,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
+import { useMileageTracking } from '@/composables/mileageTracking'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -175,6 +201,7 @@ const language = useI18n()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const { isAtLeast } = usePermissions()
+const tracking = useMileageTracking(t)
 // Admins/Managers get company-wide data on this page already (the backend
 // scopes it), so let them filter/attribute it by department and employee
 // too, matching the all-employees report's filter fields.
@@ -220,6 +247,7 @@ const state = reactive({
         isEditOpen: false,
         isFilterOpen: false,
         isViewOpen: false,
+        isStartTripOpen: false,
     },
     selectedMileageLog: {} as any,
     sortData: {
@@ -234,10 +262,51 @@ onMounted(() => {
     fetchSummary()
 })
 
+// The tracking banner (mounted once in layouts/user.vue) is what actually
+// stops the trip, from anywhere in the app. This page just needs to notice
+// when a trip has actually finished saving, and refresh — an in-progress
+// trip is excluded from the list/summary until it's stopped (see
+// backend/dev.md, §9), so there's nothing to show until then anyway.
+//
+// Watching tripSavedTick (bumped once, inside stop(), right after the
+// backend confirms the save) rather than inferring "a trip was just saved"
+// from a status transition such as 'reviewing' -> 'idle': that transition
+// only happens once the review modal is later closed, elsewhere in the
+// component tree, which is one step removed from the save itself. Watching
+// the tick fires at the moment the data actually changed, independent of
+// whatever the review UI does afterward.
+watch(tracking.tripSavedTick, () => {
+    fetchMileageLogs()
+    fetchSummary()
+})
+
+function onStartTripClick() {
+    // Guards on isIdle, not isTracking: isTracking goes false the moment
+    // stop() begins, which left a several-second window mid-stop where a new
+    // trip could be started on top of one still being saved.
+    if (!tracking.isIdle.value) return
+    state.modal.isStartTripOpen = true
+}
+
+function onTripStarted() {
+    state.modal.isStartTripOpen = false
+}
+
 const employeeSummaries = computed(() => {
     const employees = state.summary?.data?.employees ?? []
     return [...employees].sort((a: any, b: any) => Number(b.total_kilometers) - Number(a.total_kilometers))
 })
+
+// meta.flagged_trips only arrives on the summary response while the
+// transportation filter is active (see backend/dev-mileage-distance-provenance-frontend.md),
+// so it's undefined rather than 0 outside of that -- treat both as "nothing to show".
+const flaggedTripsCount = computed(() => state.summary?.data?.flagged_trips ?? 0)
+
+// distance_source_label is null on every row created before this deploy --
+// render that as unknown provenance, never blank and never as "GPS".
+function distanceSourceLabel(log: any) {
+    return log?.distance_source_label || t('mileageLog.table.distanceSourceUnknown')
+}
 
 function routeSummary(log: any) {
     const middle = (log?.stops ?? []).slice().sort((a: any, b: any) => (a.sequence_order ?? 0) - (b.sequence_order ?? 0))
@@ -334,9 +403,24 @@ function setFilter(filter: any) {
     fetchSummary()
 }
 
-function viewMileageLog(log: any) {
+async function viewMileageLog(log: any) {
     state.selectedMileageLog = log
     state.modal.isViewOpen = true
+
+    // The list row doesn't carry location_logs (GPS breadcrumbs) -- see
+    // backend/dev-mileage-log-locationlogs-whenloaded-bug.md -- so fetch the
+    // single-trip record for the map to draw the actual path driven.
+    try {
+        const response = await mileageLogService.getMileageLogByUuid(log.uuid)
+        // Guard against a slower response landing after the user already
+        // moved on to a different row.
+        if (response?.data && state.selectedMileageLog?.uuid === log.uuid) {
+            state.selectedMileageLog = response.data
+        }
+    } catch {
+        // Keep the list row already shown -- the map still renders, just
+        // without the GPS breadcrumbs (falls back to the straight line).
+    }
 }
 
 function editMileageLog(log: any) {

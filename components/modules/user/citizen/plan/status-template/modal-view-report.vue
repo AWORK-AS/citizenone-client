@@ -60,7 +60,7 @@
                             </svg>
                         </div>
                         <p v-if="report?.model?.citizen" class="text-lg font-semibold mb-2">
-                            Borgerens navn: {{ report?.model?.citizen?.firstname }} {{ report?.model?.citizen?.lastname
+                            {{ $t('citizens.plansAndGoals.report.citizenName') }}: {{ report?.model?.citizen?.firstname }} {{ report?.model?.citizen?.lastname
                             }}
                         </p>
                         <p class="font-semibold text-lg">{{ report?.form?.title }}</p>
@@ -68,6 +68,10 @@
                         <div v-if="report?.field_response?.length > 0">
                             <div v-for="(fieldResponse, fieldIndex) in report?.field_response" :key="fieldIndex"
                                 class="bg-gray-100 rounded-md mt-4 p-4" style="border-top: 2px solid #174560;">
+
+                                <ModulesUserFormBlockStatic
+                                    v-if="['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(parseField(fieldResponse)?.type)"
+                                    :field="parseField(fieldResponse)" />
 
                                 <!-- TEXTFIELD -->
                                 <template v-if="parseField(fieldResponse)?.type === 'textfield'">

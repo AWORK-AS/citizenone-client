@@ -63,7 +63,8 @@
                                                 'w-2.5 h-2.5 rounded-full shrink-0',
                                                 entry.type === 'given' ? 'bg-green-500' :
                                                     entry.type === 'delivered' ? 'bg-primary' :
-                                                        entry.type === 'deviated' ? 'bg-red-500' : 'bg-gray-300'
+                                                        entry.type === 'deviated' ? 'bg-red-500' :
+                                                            entry.type === 'planned_delivery' ? 'bg-purple-500' : 'bg-gray-300'
                                             ]"></div>
                                             <div>
                                                 <p class="text-sm font-medium text-gray-800">
@@ -78,9 +79,10 @@
                                                 'text-xs px-2 py-0.5 rounded-full font-medium',
                                                 entry.type === 'given' ? 'bg-green-100 text-green-700' :
                                                     entry.type === 'delivered' ? 'bg-blue-100 text-blue-700' :
-                                                        entry.type === 'deviated' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'
+                                                        entry.type === 'deviated' ? 'bg-red-100 text-red-700' :
+                                                            entry.type === 'planned_delivery' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600'
                                             ]">
-                                                {{ getTypeLabel(entry.type) }}
+                                                {{ getTypeLabel(entry) }}
                                             </span>
                                             <span v-if="entry.quantity" class="text-xs text-gray-500">
                                                 {{ formatNumber(language.locale.value, entry.quantity) }}
@@ -237,14 +239,8 @@
                                                 </p>
                                             </td>
                                             <td width="10%">
-                                                <span v-if="medicineHistory?.type === 'delivered'">
-                                                    {{ $t('citizens.medicineJournals.history.table.type.delivered') }}
-                                                </span>
-                                                <span v-if="medicineHistory?.type === 'deviated'">
-                                                    {{ $t('citizens.medicineJournals.history.table.type.deviated') }}
-                                                </span>
-                                                <span v-if="medicineHistory?.type === 'given'">
-                                                    {{ customPagesStore.getCustomPagesName?.giveMedicine }}
+                                                <span>
+                                                    {{ getTypeLabel(medicineHistory) }}
                                                 </span>
                                             </td>
                                             <td width="15%">
@@ -379,11 +375,16 @@ const pendingEvaluations = computed(() => {
 
 // ─── Helpers ──────────────────────────────────────────────────
 
-function getTypeLabel(type: string): string {
+function getTypeLabel(entry: { type?: string, given_via_pouring?: boolean, planned_delivery?: { period_start: string, period_end: string } } | null): string {
+    const type = entry?.type
+    if (type === 'given' && entry?.given_via_pouring) return t('citizens.medicineJournals.givenViaPouringContainer')
     if (type === 'given') return customPagesStore.getCustomPagesName?.giveMedicine ?? t('citizens.medicineJournals.history.form.type.given')
     if (type === 'delivered') return t('citizens.medicineJournals.history.table.type.delivered')
     if (type === 'deviated') return t('citizens.medicineJournals.history.table.type.deviated')
-    return type
+    if (type === 'planned_delivery' && entry?.planned_delivery) {
+        return `${t('citizens.medicineJournals.plannedDelivery.label')}: ${formatDateToReadable(entry.planned_delivery.period_start)} – ${formatDateToReadable(entry.planned_delivery.period_end)}`
+    }
+    return type ?? ''
 }
 
 function getEntryMedicineName(): string {

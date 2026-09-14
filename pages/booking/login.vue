@@ -40,7 +40,7 @@
                         <Alert type="danger" :text="state?.error?.message"
                             v-if="state.error?.message && state.error.message.length > 0" />
                         <h3 class="font-medium">
-                            {{ $t('login.SignInToYourAccount') }}
+                            {{ $t('login.signinToYourAccount') }}
                         </h3>
                         <div class="space-y-1">
                             <FormLabel for="email" :label="$t('login.form.emailAddress')" />
@@ -83,7 +83,7 @@
                             {{ $t('login.form.dontHaveAnAccount') }}?
                             {{ ' ' }}
                             <a class="text-primary hover:text-primary-800 cursor-pointer">
-                                {{ $t('login.form.createAccountHere') }}
+                                {{ $t('login.form.createHere') }}
                             </a>
                         </p>
                         <div class="text-center text-sm leading-6">
@@ -197,7 +197,7 @@ async function login() {
                 if (response.data?.user?.is_google_2fa_enabled) {
                     state.modal.isGoogle2faVerificationOpen = true
                 } else {
-                    localStorage.setItem("_token", response.data?.token)
+                    await setSessionToken(response.data?.token)
                     departmentStore.resetSelectedDepartmentName()
                     userStore.setUser(response?.data?.user)
                     userStore.setLanguage(response?.data?.user?.language?.code || 'dk')

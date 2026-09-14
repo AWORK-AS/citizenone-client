@@ -1,4 +1,5 @@
 import APIError from '@/components/api/user/APIError'
+import { clearSessionToken } from '@/composables/useDesktopToken'
 
 class BaseAPIService {
     // Shared across every service instance, so two different services asking for
@@ -38,6 +39,38 @@ class BaseAPIService {
         } catch {
             return undefined
         }
+    }
+
+    /**
+     * The one 401 body that means "this session is over". The backend's global
+     * AuthenticationException handler (bootstrap/app.php) is the only thing that
+     * answers with exactly this literal - it is not translated, so matching it is
+     * stable across locales. Integration endpoints (Microsoft/Google token
+     * refresh, OneDrive, a customer's own OpenAI key) answer 401 with their own
+     * body, and those must not end the session: the request failed, the login
+     * did not.
+     */
+    private static readonly UNAUTHENTICATED_MESSAGE = 'Unauthenticated.'
+
+    private static isSessionExpired(data: any): boolean {
+        return data?.message === BaseAPIService.UNAUTHENTICATED_MESSAGE
+    }
+
+    /**
+     * With responseType 'blob' ofetch parses the *error* body as a Blob too, so
+     * an error body arrives as bytes rather than as an object. Read it back as
+     * JSON so a 401 there can be told apart like any other.
+     */
+    private static async errorBodyOf(data: any): Promise<any> {
+        if (typeof Blob !== 'undefined' && data instanceof Blob) {
+            try {
+                return JSON.parse(await data.text())
+            } catch {
+                return {}
+            }
+        }
+
+        return data ?? {}
     }
 
     async request(url: string, method: string, params: object = [], signal?: AbortSignal): Promise<any> {
@@ -117,6 +150,102 @@ class BaseAPIService {
         }
     }
 
+    /**
+     * Posts and reads a server-sent-event response as it arrives.
+     *
+     * $fetch buffers the whole body, which is the opposite of the point, so this
+     * one path uses fetch directly. Rejects with `{ streamUnavailable: true }`
+     * only when the endpoint or a proxy in front of it will not stream - a
+     * missing route or a server error - which is the caller's signal to fall
+     * back to the buffered endpoint. Everything else, a rate limit above all,
+     * is a real error: retrying it buffered spends a second request to be
+     * refused again, on exactly the request that was already too many.
+     */
+    async requestStream(
+        url: string,
+        body: FormData | object,
+        onEvent: (event: string, data: any) => void,
+        signal?: AbortSignal,
+    ): Promise<void> {
+        const runtimeConfig = useRuntimeConfig()
+
+        const response = await fetch(`${runtimeConfig.public.apiBaseURL}${url}`, {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                Accept: 'text/event-stream',
+            },
+            body: body instanceof FormData ? body : JSON.stringify(body),
+            signal,
+        })
+
+        if (response.status === 401) {
+            // Named apart from this method's own `body` parameter.
+            const errorBody = await response.json().catch(() => ({}))
+            if (BaseAPIService.isSessionExpired(errorBody)) {
+                this.revokeAccess()
+            }
+            throw new APIError({
+                ...errorBody,
+                status: 401,
+                message: errorBody?.message ?? 'Unauthorized',
+            })
+        }
+
+        if (!response.ok) {
+            // 404/405 mean the route is not there; 5xx that it failed on the way
+            // out. Both are worth a buffered retry. Other failures are not.
+            if ([404, 405].includes(response.status) || response.status >= 500) {
+                throw { streamUnavailable: true, status: response.status }
+            }
+
+            const body = await response.json().catch(() => ({}))
+            throw new APIError({
+                ...body,
+                status: response.status,
+                retryAfter: Number(response.headers.get('retry-after')) || 0,
+            })
+        }
+
+        if (!response.body) {
+            throw { streamUnavailable: true, status: response.status }
+        }
+
+        const reader = response.body.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ''
+
+        // Events are separated by a blank line; a chunk can end anywhere, so
+        // only whole events are handed on.
+        for (;;) {
+            const { done, value } = await reader.read()
+            if (done) break
+
+            buffer += decoder.decode(value, { stream: true })
+
+            let boundary = buffer.indexOf('\n\n')
+            while (boundary !== -1) {
+                const raw = buffer.slice(0, boundary)
+                buffer = buffer.slice(boundary + 2)
+                boundary = buffer.indexOf('\n\n')
+
+                let name = 'message'
+                let payload = ''
+                for (const line of raw.split('\n')) {
+                    if (line.startsWith('event:')) name = line.slice(6).trim()
+                    else if (line.startsWith('data:')) payload += line.slice(5).trim()
+                }
+                if (!payload) continue
+
+                try {
+                    onEvent(name, JSON.parse(payload))
+                } catch {
+                    // A half-written payload is not worth failing the answer for.
+                }
+            }
+        }
+    }
+
     private async _sendRequest(url: string, method: string, params: object, signal?: AbortSignal): Promise<any> {
         const runtimeConfig = useRuntimeConfig()
         let config: any = null
@@ -150,16 +279,47 @@ class BaseAPIService {
             if (error?.name === 'AbortError') throw error
             switch (error.response?.status) {
                 case 400:
-                    // This app answers 400 with a generic message for server-side
-                    // failures it caught itself, so the id belongs here too.
-                    throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
+                    // A 400 here is usually a rule the server is enforcing on
+                    // purpose - a required field, a delete that would orphan
+                    // something - and that message is written for the user. An
+                    // error id appended to it reads as "we crashed, quote this to
+                    // support", which is the wrong thing to tell someone who just
+                    // forgot a field. The id is kept only when the body says
+                    // nothing useful, which is the case it was added for.
+                    throw new APIError(
+                        error.response._data?.message
+                            ? error.response._data
+                            : { ...error.response._data, errorId: BaseAPIService.errorIdOf(error) }
+                    )
                 case 404:
                 case 422:
-                case 429:
                     throw new APIError(error.response._data)
+                case 429:
+                    // requestStream's 429 handling attaches these same two fields -
+                    // callers like the AI assistant panel branch on error.status to
+                    // show a friendly rate-limit message instead of the raw backend
+                    // text, and that check needs status/retryAfter present no matter
+                    // which of the two request paths produced the error.
+                    throw new APIError({
+                        ...error.response._data,
+                        status: error.response.status,
+                        retryAfter: Number(error.response?.headers?.get?.('retry-after')) || 0,
+                    })
+                case 409:
+                    // Some 409s carry a business-rule flag alongside the message (e.g.
+                    // pouring_empty) that a caller needs to branch on rather than just
+                    // showing a generic failure — the real HTTP status makes that
+                    // check unambiguous instead of relying on message text.
+                    throw new APIError({ ...error.response._data, status: error.response.status })
                 case 401:
-                    this.revokeAccess()
-                    throw new APIError(error.response._data || { message: 'Unauthorized' })
+                    if (BaseAPIService.isSessionExpired(error.response._data)) {
+                        this.revokeAccess()
+                    }
+                    throw new APIError({
+                        ...error.response._data,
+                        status: 401,
+                        message: error.response._data?.message ?? 'Unauthorized',
+                    })
                 case 403:
                     throw new APIError(error.response._data)
                 case 500:
@@ -193,16 +353,32 @@ class BaseAPIService {
         } catch (error: any) {
             switch (error.response.status) {
                 case 400:
-                    // This app answers 400 with a generic message for server-side
-                    // failures it caught itself, so the id belongs here too.
-                    throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
+                    // A 400 here is usually a rule the server is enforcing on
+                    // purpose - a required field, a delete that would orphan
+                    // something - and that message is written for the user. An
+                    // error id appended to it reads as "we crashed, quote this to
+                    // support", which is the wrong thing to tell someone who just
+                    // forgot a field. The id is kept only when the body says
+                    // nothing useful, which is the case it was added for.
+                    throw new APIError(
+                        error.response._data?.message
+                            ? error.response._data
+                            : { ...error.response._data, errorId: BaseAPIService.errorIdOf(error) }
+                    )
                 case 404:
+                case 409:
                 case 422:
                 case 429:
                     throw new APIError(error.response._data)
                 case 401:
-                    this.revokeAccess()
-                    throw new APIError(error.response._data || { message: 'Unauthorized' })
+                    if (BaseAPIService.isSessionExpired(error.response._data)) {
+                        this.revokeAccess()
+                    }
+                    throw new APIError({
+                        ...error.response._data,
+                        status: 401,
+                        message: error.response._data?.message ?? 'Unauthorized',
+                    })
                 case 403:
                     throw new APIError(error.response._data)
                 case 500:
@@ -242,16 +418,36 @@ class BaseAPIService {
         } catch (error: any) {
             switch (error.response.status) {
                 case 400:
-                    // This app answers 400 with a generic message for server-side
-                    // failures it caught itself, so the id belongs here too.
-                    throw new APIError({ ...error.response._data, errorId: BaseAPIService.errorIdOf(error) })
+                    // A 400 here is usually a rule the server is enforcing on
+                    // purpose - a required field, a delete that would orphan
+                    // something - and that message is written for the user. An
+                    // error id appended to it reads as "we crashed, quote this to
+                    // support", which is the wrong thing to tell someone who just
+                    // forgot a field. The id is kept only when the body says
+                    // nothing useful, which is the case it was added for.
+                    throw new APIError(
+                        error.response._data?.message
+                            ? error.response._data
+                            : { ...error.response._data, errorId: BaseAPIService.errorIdOf(error) }
+                    )
                 case 404:
+                case 409:
                 case 422:
                 case 429:
                     throw new APIError(error.response._data)
-                case 401:
-                    this.revokeAccess()
-                    throw new APIError(error.response._data || { message: 'Unauthorized' })
+                case 401: {
+                    // Not error.response._data directly: this call asked for a blob,
+                    // so ofetch handed the error body back as one too.
+                    const errorBody = await BaseAPIService.errorBodyOf(error.response._data)
+                    if (BaseAPIService.isSessionExpired(errorBody)) {
+                        this.revokeAccess()
+                    }
+                    throw new APIError({
+                        ...errorBody,
+                        status: 401,
+                        message: errorBody?.message ?? 'Unauthorized',
+                    })
+                }
                 case 403:
                     throw new APIError(error.response._data)
                 case 500:
@@ -269,9 +465,25 @@ class BaseAPIService {
     }
 
     revokeAccess() {
-        localStorage.removeItem("_token")
+        clearSessionToken()
         localStorage.removeItem("rememberMe")
-        navigateTo('/')
+        // If this 401 happened mid-impersonation (e.g. the backend revoked all of
+        // the impersonated user's tokens), don't leave _original_token stranded -
+        // it would make the impersonation banner show for whoever logs in next
+        // on this browser, impersonated or not.
+        localStorage.removeItem("_original_token")
+
+        // A page fires several requests in parallel (sidebar counts, lists, the
+        // page's own data), so an expired session 401s several times at once.
+        // Only the first arrival should navigate: by the time the rest run,
+        // window.location already points at "/" (with ?redirect= attached) from
+        // that first navigateTo, so once we're already there the rest must be
+        // no-ops — re-navigating to a bare "/" would wipe the redirect the
+        // first call just set.
+        if (typeof window === 'undefined') return
+        if (window.location.pathname === '/') return
+
+        navigateTo({ path: '/', query: { redirect: window.location.pathname } })
     }
 }
 

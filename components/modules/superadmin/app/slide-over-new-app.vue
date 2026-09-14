@@ -33,7 +33,7 @@
                                     <div class="flex-1 overflow-y-auto px-6 py-5">
                                         <LoadingSpinner :isActive="state.isPageLoading">
                                             <ModulesSuperadminAppSlideOverForm ref="formRef" formType="create"
-                                                :error="state.error" :showActions="false" :showCompanyAttach="false"
+                                                :error="state.error" :showActions="false"
                                                 @submitForm="saveApp" />
                                         </LoadingSpinner>
                                     </div>
@@ -112,6 +112,10 @@ async function saveApp(formData: any) {
         params.append('name', formData.name)
         params.append('price', String(formData.price ?? 0))
         params.append('setup_fee', String(formData.setup_fee ?? 0))
+        // Empty means the app carries no payments and charges nothing.
+        params.append('payment_fee_percent', formData.payment_fee_percent === '' || formData.payment_fee_percent === null
+            ? ''
+            : String(formData.payment_fee_percent))
         params.append('sort_order', String(formData.sort_order ?? 0))
         if (formData.discount_percent) params.append('discount_percent', String(formData.discount_percent))
         if (formData.discount_ends_at) params.append('discount_ends_at', String(formData.discount_ends_at))

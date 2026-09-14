@@ -296,7 +296,7 @@ onMounted(() => {
 
 	const rememberMe = localStorage.getItem("rememberMe")
 	if (rememberMe) {
-		navigateTo('/overview')
+		navigateTo(resolvePostLoginRedirect(userStore.getUser?.role, userStore.getUser))
 	}
 	let deviceUuid = localStorage.getItem("device_uuid")
 	if (!deviceUuid) {
@@ -321,6 +321,17 @@ function animateAssets() {
 	const animatedAsset02 = document.getElementById('animatedAsset02')
 	if (animatedAsset01) observer.observe(animatedAsset01)
 	if (animatedAsset02) observer.observe(animatedAsset02)
+}
+
+// Where a staff member starts after signing in. The general overview assumes the
+// company already has data in it, so the very first session goes somewhere with
+// something to do instead: Discover for an admin, who sets the company up, and
+// My day for everyone else. The is_first_login flag is left for the guided tour
+// in layouts/user.vue to clear, so the welcome tour still runs.
+function staffLandingRoute(user: any) {
+	if (!user?.is_first_login) return '/overview'
+
+	return user?.role === 'Admin' ? '/discover' : '/my-day'
 }
 
 async function login() {
@@ -349,21 +360,26 @@ async function login() {
 				if (response.data?.user?.is_google_2fa_enabled) {
 					state.modal.isGoogle2faVerificationOpen = true
 				} else {
-					localStorage.setItem("_token", response.data?.token)
+					await setSessionToken(response.data?.token)
+					// A stray _original_token from a past impersonation session that
+					// never went through "Log out as client" (plain logout, a 401,
+					// closing the tab) must not carry over into a fresh, non-impersonated
+					// login and make the impersonation banner show for the wrong session.
+					localStorage.removeItem("_original_token")
 					departmentStore.resetSelectedDepartment()
 					departmentStore.resetSelectedDepartmentColor()
 					departmentStore.resetSelectedDepartmentName()
 					userStore.setUser(response?.data?.user)
 					userStore.setLanguage(response?.data?.user?.language?.code)
 					language.locale.value = response?.data?.user?.language?.code
-					if (response.data.user?.role === 'Citizen') {
-						navigateTo('/citizen/overview')
-					} else if (response.data.user?.role === 'Relative') {
-						navigateTo('/relative/citizens')
-					} else if (response.data.user?.role === 'ThirdParty') {
-						navigateTo('/third-party/messages')
+					// A deep-link redirect (?redirect=) always wins; the first-login
+					// override only applies where resolvePostLoginRedirect() would
+					// otherwise have fallen back to the plain staff default.
+					const target = resolvePostLoginRedirect(response.data.user?.role, response.data.user)
+					if (target === '/overview' && response.data.user?.is_first_login) {
+						navigateTo(staffLandingRoute(response.data.user))
 					} else {
-						navigateTo('/overview')
+						navigateTo(target)
 					}
 				}
 			}

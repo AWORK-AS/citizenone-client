@@ -1,9 +1,11 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('dutySchedules.normHours.compensatoryHoursThisYear')" :show="props.isModalOpen"
-            @close="closeModal">
+        <Modal size="lg" :title="$t('dutySchedules.normHours.compensatoryHoursThisYear')"
+            :show="props.isModalOpen && !state.modal.isPayoutOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <Alert type="danger" :text="state?.error?.message" class="mb-3"
+                        v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="flex items-center gap-x-1">
                         <p class="text-sm">
                             {{ $t('dutySchedules.normHours.date') }}
@@ -31,17 +33,12 @@
                                 }}
                             </p>
                         </div>
-                        <div class="flex items-center gap-x-1">
+                        <div class="flex items-center gap-x-1" v-if="carryOverEnabled">
                             <p class="text-sm">
-                                {{ $t('dutySchedules.normHours.compensatoryHourFromPreviousYear') }}
-                                ({{
-                                    formatDateToReadable(moment(state.dateRange.formDateRange.start_date).subtract(1,
-                                        'year').startOf('year').format('YYYY-MM-DD'))
-                                }} -
-                                {{
-                                    formatDateToReadable(moment(state.dateRange.formDateRange.start_date).subtract(1,
-                                        'year').endOf('year').format('YYYY-MM-DD'))
-                                }}):
+                                {{ $t('dutySchedules.normHours.compensatoryHourFromPreviousYear') }}<template
+                                    v-if="previousPeriod">
+                                    ({{ formatDateToReadable(previousPeriod.start_date) }} -
+                                    {{ formatDateToReadable(previousPeriod.end_date) }})</template>:
                             </p>
                             <p :class="[
                                 state.compensatoryHours?.data?.previous_compensatory_hours > 0 ? 'text-green-700' : 'text-red-700',
@@ -53,7 +50,7 @@
                                 }}
                             </p>
                         </div>
-                        <div class="flex items-center gap-x-1">
+                        <div class="flex items-center gap-x-1" v-if="carryOverEnabled">
                             <p class="text-sm">
                                 {{ $t('dutySchedules.normHours.totalCompensatoryHours') }}:
                             </p>
@@ -68,7 +65,11 @@
                             </p>
                         </div>
                     </div>
-                    <div class="mt-5 flex justify-end">
+                    <div class="mt-5 flex justify-end gap-x-3">
+                        <FormButton v-if="canRegisterPayout" buttonStyle="action"
+                            @click="state.modal.isPayoutOpen = true">
+                            {{ $t('dutySchedules.normHours.payout.button') }}
+                        </FormButton>
                         <FormButton buttonStyle="cancel" @click="closeModal">
                             {{ $t('close') }}
                         </FormButton>
@@ -79,6 +80,9 @@
                     @filterDate="filterCompensatoryHours" />
             </template>
         </Modal>
+        <ModulesUserDutyScheduleNormHoursModalRegisterPayout :isModalOpen="state.modal.isPayoutOpen"
+            :selectedEmployee="props.selectedEmployee" @close="state.modal.isPayoutOpen = false"
+            @success="fetchCompensatoryVacationHours" />
     </div>
 </template>
 
@@ -87,6 +91,8 @@ import moment from 'moment'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { usePermissions } from '@/composables/usePermissions'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -102,8 +108,12 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const language = useI18n()
+const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
+const { isAtLeast, can } = usePermissions()
+
+const canRegisterPayout = computed(() => isAtLeast('Admin') || can('register_time_account_payout'))
 
 const state = reactive({
     error: {} as Error,
@@ -116,9 +126,25 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isDateRangeOpen: false,
+        isPayoutOpen: false,
     },
     compensatoryHours: {} as any,
 })
+
+// Carry-over is measured over the whole preceding norm period, which cannot be
+// derived here: for a custom norm period it is the employee's prior cycle (e.g.
+// 1 May 2025 – 30 Apr 2026) and the frontend has no norm-period data per employee.
+// Render only the window the backend says it used, and show no range at all rather
+// than guess if the response omits it.
+const previousPeriod = computed(() => {
+    const data = state.compensatoryHours?.data
+    if (!data?.previous_period_start || !data?.previous_period_end) return null
+    return { start_date: data.previous_period_start, end_date: data.previous_period_end }
+})
+
+// With transfer_norm_hours_enabled off the backend returns no carry-over at all, so
+// the previous and total rows would just restate the current period as "0,00".
+const carryOverEnabled = computed(() => !!userStore.getUser?.company?.transfer_norm_hours_enabled)
 
 function closeModal() {
     emit('close')
@@ -131,9 +157,14 @@ watch(() => props.isModalOpen, (isModalOpen) => {
 })
 
 watch(() => props.selectedEmployee, (selectedEmployee) => {
-    if (selectedEmployee.norm_period) {
-        state.dateRange.formDateRange.start_date = moment(selectedEmployee.norm_period.period_start).format('YYYY-MM-DD')
-        state.dateRange.formDateRange.end_date = moment(selectedEmployee.norm_period.period_end).format('YYYY-MM-DD')
+    // Guard on the two dates, not just on norm_period being present: the relation can
+    // serialize without usable accessors, and moment(undefined) silently resolves to
+    // *today* — which would query a one-day range instead of the norm period, with no
+    // error anywhere. A null accessor is just as bad: it formats to "Invalid date".
+    const normPeriod = selectedEmployee?.norm_period
+    if (normPeriod?.period_start && normPeriod?.period_end) {
+        state.dateRange.formDateRange.start_date = moment(normPeriod.period_start).format('YYYY-MM-DD')
+        state.dateRange.formDateRange.end_date = moment(normPeriod.period_end).format('YYYY-MM-DD')
         fetchCompensatoryVacationHours()
     }
 })
@@ -159,6 +190,10 @@ async function fetchCompensatoryVacationHours() {
         }
     } catch (error: any) {
         state.error = error
+        // The endpoint now 404s employee_not_found for a uuid outside the caller's
+        // company; keeping the previous payload would show one employee's figures
+        // under another's name.
+        state.compensatoryHours = {}
     }
     state.isPageLoading = false
 }

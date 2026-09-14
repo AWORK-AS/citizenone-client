@@ -10,6 +10,8 @@
         <span class="dot5">.</span>
     </div>
     <div class="grow" v-else>
+        <Alert type="danger" :text="state?.error?.message" class="m-3"
+            v-if="state.error?.message && state.error.message.length > 0" />
         <div class="relative">
             <div style="height: 80vh; overflow-y: auto;">
                 <div v-for="(email, emailIndex) in state.sentEmails" :key="emailIndex"
@@ -174,9 +176,11 @@ async function fetchSentMails(page: any) {
         state.loading.isEmailsLoadingMore = true
     }
     try {
-        const params = {
-            page: page,
-        }
+        // Graph paginates via opaque @odata.nextLink skip tokens, not page
+        // numbers - only ever forward a real continuation link the previous
+        // response gave us.
+        const params: any = {}
+        if (page) params.page = page
         const response = await mailEntraService.getSentMails(params)
         if (response) {
             state.sentEmails.push(...response?.value)

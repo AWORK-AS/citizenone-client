@@ -90,6 +90,8 @@ const state = reactive({
         password: '',
         phone: '',
         birthday: '',
+        note: '',
+        union_membership: '',
         seniority_date: '',
         departments: [],
         roles: [],
@@ -104,15 +106,18 @@ const state = reactive({
         do_not_count_sick_leave: false,
         media_risks: [],
         pages: [],
+        spoken_languages: [],
+        primary_spoken_language: '',
         employment: {
             salary_id: '',
             employment_date: '',
             termination_date: '',
-            job_title_uuid: '',
+            job_titles_uuid: [],
             job_specialties: '',
             working_hours: '',
             employment_status: '',
             annual_norm_hours: '',
+            annual_norm_hours_disabled: false,
             vacation_days: '',
             norm_period_uuid: '',
         },
@@ -146,6 +151,8 @@ async function fetchEmployee() {
                 password: '',
                 phone: response?.data?.phone ?? '',
                 birthday: response?.data?.birthday ?? '',
+                note: response?.data?.note ?? '',
+                union_membership: response?.data?.union_membership ?? '',
                 seniority_date: response?.data?.seniority_date ?? '',
                 departments: [],
                 roles: response?.data?.roles?.map((r: any) => r.name) ?? [],
@@ -160,15 +167,18 @@ async function fetchEmployee() {
                 do_not_count_sick_leave: response?.data?.do_not_count_sick_leave ?? false,
                 media_risks: [],
                 pages: [],
+                spoken_languages: [],
+                primary_spoken_language: '',
                 employment: {
                     salary_id: response?.data?.employee_detail?.salary_id ?? '',
                     employment_date: response?.data?.employee_detail?.date_of_employment ?? '',
                     termination_date: response?.data?.employee_detail?.termination_date ?? '',
-                    job_title_uuid: response?.data?.employee_detail?.job?.uuid ?? '',
+                    job_titles_uuid: response?.data?.job_titles?.map((jobTitle: any) => jobTitle.uuid) ?? [],
                     job_specialties: [],
                     working_hours: response?.data?.employee_detail?.working_hours ?? '',
                     employment_status: response?.data?.employee_detail?.status ?? '',
                     annual_norm_hours: response?.data?.employee_detail?.annual_norm_hours?.toString() ?? '',
+                    annual_norm_hours_disabled: response?.data?.employee_detail?.annual_norm_hours_disabled ?? false,
                     vacation_days: response?.data?.employee_detail?.vacation_days?.toString() ?? '',
                     norm_period_uuid: response?.data?.employee_detail?.norm_period?.uuid ?? '',
                 },
@@ -179,6 +189,12 @@ async function fetchEmployee() {
             }
             response?.data?.media_risks.forEach((media_risk: any) => {
                 state.formEmployee.media_risks.push(media_risk?.uuid)
+            })
+            response?.data?.spoken_languages?.forEach((spokenLanguage: any) => {
+                state.formEmployee.spoken_languages.push(spokenLanguage?.uuid)
+                if (spokenLanguage?.is_primary) {
+                    state.formEmployee.primary_spoken_language = spokenLanguage?.uuid
+                }
             })
             response?.data?.employee_specialties.forEach((job_specialty: any) => {
                 state.formEmployee.employment.job_specialties.push(job_specialty?.uuid)
@@ -225,6 +241,8 @@ async function updateEmployee(employeeDetails: any) {
         }
         params.append('phone', employeeDetails.phone)
         params.append('birthday', employeeDetails.birthday)
+        params.append('note', employeeDetails.note ?? '')
+        params.append('union_membership', employeeDetails.union_membership ?? '')
         params.append('seniority_date', employeeDetails.seniority_date)
         params.append('departments_uuid', JSON.stringify(employeeDetails.departments))
         params.append('roles', JSON.stringify(employeeDetails.roles))
@@ -244,11 +262,14 @@ async function updateEmployee(employeeDetails: any) {
         params.append('salary_id', employeeDetails.employment.salary_id)
         params.append('employment_date', employeeDetails.employment.employment_date)
         params.append('termination_date', employeeDetails.employment.termination_date)
-        params.append('job_title_uuid', employeeDetails.employment.job_title_uuid)
+        params.append('job_titles_uuid', JSON.stringify(employeeDetails.employment.job_titles_uuid ?? []))
+        params.append('spoken_languages_uuid', JSON.stringify(employeeDetails.spoken_languages ?? []))
+        params.append('primary_spoken_language_uuid', employeeDetails.primary_spoken_language ?? '')
         params.append('job_specialties_uuid', JSON.stringify(employeeDetails.employment.job_specialties))
         params.append('working_hours', employeeDetails.employment.working_hours)
         params.append('employment_status', employeeDetails.employment.employment_status)
         params.append('annual_norm_hours', employeeDetails.employment.annual_norm_hours)
+        params.append('annual_norm_hours_disabled', employeeDetails.employment.annual_norm_hours_disabled ? '1' : '0')
         params.append('vacation_days', employeeDetails.employment.vacation_days)
         params.append('norm_period_uuid', employeeDetails.employment.norm_period_uuid || 'default')
         params.append('emergency_contacts', JSON.stringify(employeeDetails.emergencyInfo.emergency_contacts))

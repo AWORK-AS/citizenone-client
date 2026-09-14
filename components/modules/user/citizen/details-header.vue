@@ -10,17 +10,19 @@
                 ]">
                     <div class="md:flex md:items-start md:gap-x-8">
                         <div class="flex justify-center flex-shrink-0">
-                            <div class="relative">
-                                <img :src="state.selectedCitizen?.data?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`"
-                                    :class="[
-                                        state.selectedCitizen?.data?.latest_risk_assessment === null && 'border-secondary',
-                                        state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
-                                        state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
-                                        state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
-                                        'rounded-full w-28 h-28 object-cover border-2'
-                                    ]" />
-                                <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
-                            </div>
+                            <Tooltip :text="$t('citizens.riskHistory.title')">
+                                <button type="button" class="relative" @click="state.modal.isRiskHistoryOpen = true">
+                                    <img :src="state.selectedCitizen?.data?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`"
+                                        :class="[
+                                            state.selectedCitizen?.data?.latest_risk_assessment === null && 'border-secondary',
+                                            state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
+                                            state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'increased risk' && 'border-yellow-500',
+                                            state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'acute increased risk' && 'border-red-600',
+                                            'rounded-full w-28 h-28 object-cover border-2'
+                                        ]" />
+                                    <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
+                                </button>
+                            </Tooltip>
                         </div>
                         <div class="w-full pt-1.5 space-y-3">
                             <div class="text-center md:text-left">
@@ -37,7 +39,13 @@
                                                     class="w-6 h-6 cursor-pointer text-primary"
                                                     @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)" />
                                             </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.followUps')">
+                                            <Tooltip :text="$t('citizens.openInNewWindow')" v-if="isDesktopApp">
+                                                <Icon name="ph:arrow-square-out" class="w-5 h-5 cursor-pointer text-primary"
+                                                    @click="openInNewDesktopWindow($route.fullPath)" />
+                                            </Tooltip>
+                                            <!-- Follow-ups belong to care plans. A dental clinic
+                                                 writes none, and the bell sat on every patient. -->
+                                            <Tooltip :text="$t('plansandgoals.followUps')" v-if="hasCarePlans">
                                                 <div class="relative inline-flex mx-1 cursor-pointer"
                                                     @click="state.modal.isFollowUpNotificationsOpen = true">
                                                     <Icon name="ph:bell-ringing-light" class="w-6 h-6 text-primary" />
@@ -52,6 +60,24 @@
                                                 <Icon name="ph:cake" class="h-4 w-4" aria-hidden="true" />
                                                 {{ $t('citizens.birthdayToday') }}
                                             </span>
+                                            <span v-if="state.selectedCitizen?.data?.requires_interpreter"
+                                                class="inline-flex items-center gap-x-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-800 ring-1 ring-amber-200">
+                                                <Icon name="ph:translate" class="h-4 w-4" aria-hidden="true" />
+                                                {{ $t('citizens.form.requiresInterpreter') }}
+                                            </span>
+                                            <!-- Whether this patient can reach the portal, on the
+                                                 screen the clinician actually works from. -->
+                                            <button v-if="hasPatientPortal" type="button"
+                                                class="inline-flex items-center gap-x-1 rounded-full px-2.5 py-1 text-xs font-semibold ring-1"
+                                                :class="hasPortalAccess
+                                                    ? 'bg-green-50 text-green-800 ring-green-200 hover:bg-green-100'
+                                                    : 'bg-gray-50 text-gray-600 ring-gray-200 hover:bg-gray-100'"
+                                                :title="$t('patient.staff.portalBadgeHelp')"
+                                                @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)">
+                                                <Icon :name="hasPortalAccess ? 'ph:device-mobile-speaker' : 'ph:device-mobile-slash'"
+                                                    class="h-4 w-4" aria-hidden="true" />
+                                                {{ hasPortalAccess ? $t('patient.staff.portalActive') : $t('patient.staff.portalInactive') }}
+                                            </button>
 
                                         </div>
                                         <p class="text-sm font-medium text-gray-700"
@@ -142,6 +168,14 @@
                                         </Tooltip>
                                         <p class="text-sm font-medium text-gray-700">
                                             {{ state.selectedCitizen?.data?.phone }}
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-x-1" v-if="spokenLanguagesSummary">
+                                        <Tooltip :text="$t('citizens.form.spokenLanguages')" class="flex items-center">
+                                            <Icon name="ph:translate" class="h-4 w-4" aria-hidden="true" />
+                                        </Tooltip>
+                                        <p class="text-sm font-medium text-gray-700">
+                                            {{ spokenLanguagesSummary }}
                                         </p>
                                     </div>
                                     <div class="flex items-center gap-x-1"
@@ -364,9 +398,9 @@
                     <div v-if="$route.name === 'citizens-uuid-journals'"
                         class="flex h-full flex-col gap-4 rounded-md border-l-4 border-red-300 bg-white p-5 ring-1 ring-gray-200">
                         <ModulesUserCitizenUseOfForceHeader :selectedCitizen="state.selectedCitizen"
-                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
+                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists' && userStore?.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false" />
                         <hr class="border-gray-200"
-                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists'" />
+                            v-if="userStore?.getUser?.industry !== 'Dentists and dental hygienists' && userStore?.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false" />
                         <ModulesUserCitizenIncidentsHeader />
                         <p class="w-full text-center text-xs text-primary hover:text-secondary-700 cursor-pointer mt-auto pt-2"
                             @click="state.modal.isViewRelevantHelpLinksOpen = true">
@@ -395,6 +429,8 @@
                 @close="state.modal.isViewRelevantHelpLinksOpen = false" />
             <ModulesUserCitizenDevelopmentGraphModalView :isModalOpen="state.modal.isDevelopmentGraphOpen"
                 @close="state.modal.isDevelopmentGraphOpen = false" />
+            <ModulesUserCitizenRiskHistoryModalView :isModalOpen="state.modal.isRiskHistoryOpen"
+                :citizenUuid="citizenUuid" @close="state.modal.isRiskHistoryOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
                 @open-work="workLogin" />
@@ -434,8 +470,11 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useConfetti } from '@/composables/useConfetti'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
+import { useContinuity } from '@/composables/useContinuity'
+import { useIsDesktopApp, reportRecentDesktopItem, openInNewDesktopWindow } from '@/composables/useIsDesktopApp'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useTerminology } from '@/composables/useTerminology'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -448,8 +487,13 @@ const { term } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
+
+// Care plans, their follow-ups and the score that feeds the development graph. Off for an
+// industry that writes no care plans; the company can switch it back on under "What do you use?".
+const hasCarePlans = computed(() => userStore.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
 const { isAtLeast, can } = usePermissions()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
+const isDesktopApp = useIsDesktopApp()
 
 const locationTracking = useLocationTracking()
 const workTimeTracking = useWorkTimeTracking()
@@ -473,6 +517,7 @@ const state = reactive({
         isConfirmWorkingOpen: false,
         isDevelopmentGraphOpen: false,
         isEmploymentProgramOpen: false,
+        isRiskHistoryOpen: false,
     },
     selectedCitizen: {} as any,
     showExpandedNote: false,
@@ -483,6 +528,9 @@ const state = reactive({
     arrivalDistance: 0,
     workingMinutes: 0,
 })
+// Patient portal status, shown as a chip on the header for clinics that run it.
+const hasPatientPortal = computed(() => !!userStore.getUser?.has_patient_app)
+const hasPortalAccess = computed(() => !!state.selectedCitizen?.data?.has_system_access)
 
 const arrivalCheckState = reactive({
     hasShownPrompt: false,
@@ -509,6 +557,7 @@ const primaryCaseworkerName = computed(() => {
 
 const { celebrate } = useConfetti()
 const { recordVisit } = useRecentCitizens()
+const { reportContinuity } = useContinuity()
 let birthdayCelebrated = false
 
 function isTodaysBirthday(birthday?: string | null) {
@@ -520,6 +569,13 @@ function isTodaysBirthday(birthday?: string | null) {
 
 // Tells the user why the confetti fired, right on the citizen's header.
 const isBirthdayToday = computed(() => isTodaysBirthday(state.selectedCitizen?.data?.birthday))
+
+// Which languages the citizen speaks, mother tongue first, so staff can see it
+// before starting a conversation.
+const { summarise: summariseSpokenLanguages } = useSpokenLanguages()
+const spokenLanguagesSummary = computed(() =>
+    summariseSpokenLanguages(state.selectedCitizen?.data?.spoken_languages, t('citizens.form.motherTongue').toLowerCase())
+)
 
 // A little 🎂 confetti when you open a citizen on their birthday.
 function celebrateBirthdayIfToday(birthday?: string | null) {
@@ -702,6 +758,14 @@ async function fetchCitizen() {
             state.selectedCitizen = response
             citizenStore.setSelectedCitizen(response?.data)
             recordVisit(response?.data)
+            reportContinuity('citizen', response?.data?.uuid, `${response?.data?.firstname ?? ''} ${response?.data?.lastname ?? ''}`)
+            if (useIsDesktopApp() && response?.data?.uuid) {
+                reportRecentDesktopItem({
+                    type: 'citizen',
+                    uuid: response.data.uuid,
+                    label: `${response.data.firstname ?? ''} ${response.data.lastname ?? ''}`.trim(),
+                })
+            }
             celebrateBirthdayIfToday(response?.data?.birthday)
             await nextTick()
             state.noteOverflows = noteContentRef.value
@@ -917,100 +981,101 @@ function switchToInterventionHours() {
     state.modal.isViewPatienCareHoursOpen = true
 }
 
-// ... rest of your access control functions remain the same ...
+/**
+ * Which of the citizen's fields this company shows.
+ *
+ * Every one of these used to start with `isAtLeast('Admin') ||`, which meant the
+ * setting had no effect on the person most likely to be looking at it: an admin
+ * saw every field whatever the company had chosen, so a dental clinic met
+ * Indsats timer, EAN-nummer and Visitationskommune on every patient however it
+ * configured itself. An admin now sees what the company configured, and can
+ * change it in settings.
+ *
+ * A company that has never configured the list keeps exactly what it has today -
+ * admins see everything, everyone else sees nothing - because reading the empty
+ * list as "show everything" would hand social security numbers and diagnoses to
+ * staff who cannot see them now.
+ */
+function showsCitizenField(name: string): boolean {
+    const displays = userStore.getUser?.company?.citizen_displays
+    const configured = Array.isArray(displays) && displays.length > 0
+    if (!configured) return isAtLeast('Admin')
+    return displays.some((display: any) => display.en_name === name)
+}
 
 function hasSocialSecurityNumberAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Social security number')
+    return showsCitizenField('Social security number')
 }
 
 function hasAddressAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Address')
+    return showsCitizenField('Address')
 }
 
 function hasInterventionHoursAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Intervention hours')
+    return showsCitizenField('Intervention hours')
 }
 
 function hasBirthdayAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Birthday')
+    return showsCitizenField('Birthday')
 }
 
 function hasEmailAddressAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Email address')
+    return showsCitizenField('Email address')
 }
 
 function hasDateAdmittedAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Date admitted')
+    return showsCitizenField('Date admitted')
 }
 
 function hasDateDischargedAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Date discharged')
+    return showsCitizenField('Date discharged')
 }
 
 function hasEANNumberAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'EAN number')
+    return showsCitizenField('EAN number')
 }
 
 function hasPricingAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Pricing')
+    return showsCitizenField('Pricing')
 }
 
 function hasPayingMunicipalityAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Paying municipality')
+    return showsCitizenField('Paying municipality')
 }
 
 function hasAssessmentMunicipalityAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Assessment municipality')
+    return showsCitizenField('Assessment municipality')
 }
 
 function hasResponsibleMunicipalityAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Responsible municipality')
+    return showsCitizenField('Responsible municipality')
 }
 
 function hasTransportationAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Transportation')
+    return showsCitizenField('Transportation')
 }
 
 function hasDepartmentAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Department')
+    return showsCitizenField('Department')
 }
 
 function hasAddictionsAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Addictions')
+    return showsCitizenField('Addictions')
 }
 
 function hasDiagnosesAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Diagnoses')
+    return showsCitizenField('Diagnoses')
 }
 
 function hasMedicationAllergiesAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Medication allergies')
+    return showsCitizenField('Medication allergies')
 }
 
 function hasRoomsAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Rooms')
+    return showsCitizenField('Rooms')
 }
 
 function hasNoteAccess() {
-    return isAtLeast('Admin') ||
-        userStore.getUser?.company?.citizen_displays?.some((display: any) => display.en_name === 'Note')
+    return showsCitizenField('Note')
 }
 </script>

@@ -3,151 +3,185 @@
         <form @submit.prevent="submitForm()">
             <Alert type="danger" :text="props?.error?.message"
                 v-if="props.error?.message && props.error.message.length > 0" />
-            <div class="space-y-3">
-                <div class="space-y-1">
-                    <FormLabel for="inquiry_date" :label="dateOfInquiryLabel" />
-                    <FormDateField id="inquiry_date" name="inquiry_date"
-                        :placeholder="dateOfInquiryLabel" v-model="state.formInquiry.inquiry_date" />
-                    <FormError :error="v$?.formInquiry?.inquiry_date?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.inquiry_date?.[0]" />
-                </div>
-
-                <div class="space-y-1">
-                    <FormLabel for="department_uuid" :label="departmentLabel" />
-                    <FormSelectMultiple id="department_uuid" :options="state.options.departments"
-                        v-model="state.formInquiry.department_uuid" />
-                    <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="cpr" :label="$t('inquiries.form.cpr')" />
-                    <FormTextField id="cpr" name="cpr" :placeholder="$t('inquiries.form.cpr')"
-                        v-model="state.formInquiry.cpr" />
-                    <FormError :error="v$?.formInquiry?.cpr?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.cpr?.[0]" />
-                </div>
-
-                <!-- Question 2b: CPR Missing Reason - Only show if CPR is empty -->
-                <div class="space-y-1" v-if="showCprMissingReason">
-                    <FormLabel for="cpr_missing_reason" :label="$t('inquiries.form.shelter.fields.cprMissingReason')" />
-                    <FormSelect id="cpr_missing_reason" :options="state.options.cprMissingReason"
-                        v-model="state.formInquiry.cpr_missing_reason" />
-                    <FormError :error="v$?.formInquiry?.cpr_missing_reason?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.cpr_missing_reason?.[0]" />
-                </div>
-
-
-                <div class="space-y-1">
-                    <FormLabel for="inquirer_name" :label="completedByLabel" />
-                    <FormTextField id="inquirer_name" name="inquirer_name"
-                        :placeholder="completedByLabel" v-model="state.formInquiry.inquirer_name" />
-                    <FormError :error="v$?.formInquiry?.inquirer_name?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.inquirer_name?.[0]" />
-                </div>
-
-                <div class="space-y-1">
-                    <FormLabel for="first_name" :label="$t('inquiries.form.firstname')" />
-                    <FormTextField id="first_name" name="first_name" :placeholder="$t('inquiries.form.firstname')"
-                        v-model="state.formInquiry.first_name" />
-                    <FormError :error="v$?.formInquiry?.first_name?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.first_name?.[0]" />
-                </div>
-
-                <div class="space-y-1">
-                    <FormLabel for="last_name" :label="$t('inquiries.form.lastname')" />
-                    <FormTextField id="last_name" name="last_name" :placeholder="$t('inquiries.form.lastname')"
-                        v-model="state.formInquiry.last_name" />
-                    <FormError :error="v$?.formInquiry?.last_name?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.last_name?.[0]" />
-                </div>
-
-                <div class="space-y-1">
-                    <FormLabel for="vacant_place_available"
-                        :label="$t('inquiries.form.shelter.fields.vacantPlaceAvailable')" />
-                    <FormSelect id="vacant_place_available" :options="state.options.yesNo"
-                        v-model="state.formInquiry.vacant_place_available" />
-                    <FormError :error="v$?.formInquiry?.vacant_place_available?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.vacant_place_available?.[0]" />
-                </div>
-
-                <div class="space-y-1">
-                    <FormLabel for="in_shelter_target_group"
-                        :label="$t('inquiries.form.shelter.fields.inShelterTargetGroup')" />
-                    <FormSelect id="in_shelter_target_group" :options="state.options.yesNo"
-                        v-model="state.formInquiry.in_shelter_target_group" />
-                    <FormError :error="v$?.formInquiry?.in_shelter_target_group?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.in_shelter_target_group?.[0]" />
-                </div>
-
-                <!-- Question 5: Fits in Target Group - Only show if in_shelter_target_group is "yes" -->
-                <div class="space-y-1" v-if="showFitsInTargetGroup">
-                    <FormLabel for="fits_in_target_group"
-                        :label="$t('inquiries.form.shelter.fields.fitsInTargetGroup')" />
-                    <FormSelect id="fits_in_target_group" :options="state.options.yesNo"
-                        v-model="state.formInquiry.fits_in_target_group" />
-                    <FormError :error="v$?.formInquiry?.fits_in_target_group?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.fits_in_target_group?.[0]" />
-                </div>
-
-                <!-- Question 6a: Non Admission Reason - Only if in target group + fits target group + space available -->
-                <div class="space-y-1" v-if="showNonAdmissionReason">
-                    <FormLabel for="non_admission_reason"
-                        :label="$t('inquiries.form.shelter.fields.nonAdmissionReason')" />
-                    <FormSelect id="non_admission_reason" :options="state.options.nonAdmissionReason"
-                        v-model="state.formInquiry.non_admission_reason" />
-                    <FormError :error="v$?.formInquiry?.non_admission_reason?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.non_admission_reason?.[0]" />
-                </div>
-
-                <!-- Question 6b: Not In Service Target Group Reason - Only if in target group + doesn't fit -->
-                <div class="space-y-1" v-if="showNotInServiceTargetGroupReason">
-                    <FormLabel for="not_in_service_target_group_reason"
-                        :label="$t('inquiries.form.shelter.fields.notInServiceTargetGroupReason')" />
-                    <FormSelect id="not_in_service_target_group_reason"
-                        :options="state.options.notInServiceTargetGroupReason"
-                        v-model="state.formInquiry.not_in_service_target_group_reason" />
-                    <FormError
-                        :error="v$?.formInquiry?.not_in_service_target_group_reason?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.not_in_service_target_group_reason?.[0]" />
-                </div>
-
-                <!-- Question 7: Referral Destination - Show in rejection scenarios -->
-                <div class="space-y-1" v-if="showReferralDestination">
-                    <FormLabel for="referral_destination"
-                        :label="$t('inquiries.form.shelter.fields.referralDestination')" />
-                    <FormSelect id="referral_destination" :options="state.options.referralDestination"
-                        v-model="state.formInquiry.referral_destination" />
-                    <FormError :error="v$?.formInquiry?.referral_destination?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.referral_destination?.[0]" />
-                </div>
-                <div class="space-y-1" v-if="isNotesActive">
-                    <FormLabel for="notes" :label="$t('inquiries.form.notes')" />
-                    <FormTextArea id="notes" name="notes" :placeholder="$t('inquiries.form.notes')"
-                        v-model="state.formInquiry.notes" />
-                    <FormError :error="v$?.formInquiry?.notes?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.notes?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="outcome" :label="$t('inquiries.form.outcome')" />
-                    <FormTextField id="outcome" name="outcome" :placeholder="$t('inquiries.form.outcome')"
-                        v-model="state.formInquiry.outcome" />
-                    <FormError :error="v$?.formInquiry?.outcome?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.outcome?.[0]" />
-                </div>
-                <div class="space-y-1" v-if="isPurposeActive">
-                    <FormLabel for="purpose" :label="$t('inquiries.form.purpose')" />
-                    <FormTextField id="purpose" name="purpose" :placeholder="$t('inquiries.form.purpose')"
-                        v-model="state.formInquiry.purpose" />
-                    <FormError :error="v$?.formInquiry?.purpose?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.purpose?.[0]" />
-                </div>
-                <div class="space-y-1">
-                    <FormLabel for="conversation_summary" :label="$t('inquiries.form.conversationSummary')" />
-                    <FormTextArea id="conversation_summary" name="conversation_summary"
-                        :placeholder="$t('inquiries.form.conversationSummary')"
-                        v-model="state.formInquiry.conversation_summary" />
-                    <FormError :error="v$?.formInquiry?.conversation_summary?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.conversation_summary?.[0]" />
-                </div>
+            <div class="space-y-6">
+                <section>
+                    <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        {{ $t('inquiries.form.sections.inquiry') }}
+                    </h3>
+                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+                        <div class="space-y-1">
+                            <FormLabel for="inquiry_date" :label="dateOfInquiryLabel" />
+                            <FormDateField id="inquiry_date" name="inquiry_date"
+                                :placeholder="dateOfInquiryLabel" v-model="state.formInquiry.inquiry_date" />
+                            <FormError :error="v$?.formInquiry?.inquiry_date?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.inquiry_date?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="department_uuid" :label="departmentLabel" />
+                            <FormSelectMultiple id="department_uuid" :options="state.options.departments"
+                                v-model="state.formInquiry.department_uuid" />
+                            <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="inquiry_service_type"
+                                :label="$t('inquiryServiceTypes.single')" />
+                            <FormSelect id="inquiry_service_type" :options="state.options.serviceTypes"
+                                :modelValue="state.formInquiry.inquiry_service_type_uuid"
+                                @update:modelValue="(value: any) => state.formInquiry.inquiry_service_type_uuid = value" />
+                            <p class="text-[11px] text-slate-400">
+                                {{ $t('inquiryServiceTypes.hint') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1 sm:col-span-2">
+                            <FormLabel for="company_contact" :label="$t('inquiryContact.label')" />
+                            <ModulesUserInquiryContactPicker :contact="props.selectedInquiry?.company_contact"
+                                @update:contactUuid="(uuid: any) => state.formInquiry.company_contact_uuid = uuid" />
+                            <p class="text-[11px] text-slate-400">
+                                {{ $t('inquiryContact.hint') }}
+                            </p>
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="inquirer_name" :label="completedByLabel" />
+                            <FormTextField id="inquirer_name" name="inquirer_name"
+                                :placeholder="completedByLabel" v-model="state.formInquiry.inquirer_name" />
+                            <FormError :error="v$?.formInquiry?.inquirer_name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.inquirer_name?.[0]" />
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        {{ $t('inquiries.form.sections.citizen') }}
+                    </h3>
+                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+                        <div class="space-y-1">
+                            <FormLabel for="cpr" :label="$t('inquiries.form.cpr')" />
+                            <FormTextField id="cpr" name="cpr" :placeholder="$t('inquiries.form.cpr')"
+                                v-model="state.formInquiry.cpr" />
+                            <FormError :error="v$?.formInquiry?.cpr?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.cpr?.[0]" />
+                        </div>
+                        <!-- Question 2b: CPR Missing Reason - Only show if CPR is empty -->
+                        <div class="space-y-1" v-if="showCprMissingReason">
+                            <FormLabel for="cpr_missing_reason" :label="$t('inquiries.form.shelter.fields.cprMissingReason')" />
+                            <FormSelect id="cpr_missing_reason" :options="state.options.cprMissingReason"
+                                v-model="state.formInquiry.cpr_missing_reason" />
+                            <FormError :error="v$?.formInquiry?.cpr_missing_reason?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.cpr_missing_reason?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="first_name" :label="$t('inquiries.form.firstname')" />
+                            <FormTextField id="first_name" name="first_name" :placeholder="$t('inquiries.form.firstname')"
+                                v-model="state.formInquiry.first_name" />
+                            <FormError :error="v$?.formInquiry?.first_name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.first_name?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="last_name" :label="$t('inquiries.form.lastname')" />
+                            <FormTextField id="last_name" name="last_name" :placeholder="$t('inquiries.form.lastname')"
+                                v-model="state.formInquiry.last_name" />
+                            <FormError :error="v$?.formInquiry?.last_name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.last_name?.[0]" />
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        {{ $t('inquiries.form.sections.assessment') }}
+                    </h3>
+                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+                        <div class="space-y-1">
+                            <FormLabel for="vacant_place_available"
+                                :label="$t('inquiries.form.shelter.fields.vacantPlaceAvailable')" />
+                            <FormSelect id="vacant_place_available" :options="state.options.yesNo"
+                                v-model="state.formInquiry.vacant_place_available" />
+                            <FormError :error="v$?.formInquiry?.vacant_place_available?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.vacant_place_available?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="in_shelter_target_group"
+                                :label="$t('inquiries.form.shelter.fields.inShelterTargetGroup')" />
+                            <FormSelect id="in_shelter_target_group" :options="state.options.yesNo"
+                                v-model="state.formInquiry.in_shelter_target_group" />
+                            <FormError :error="v$?.formInquiry?.in_shelter_target_group?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.in_shelter_target_group?.[0]" />
+                        </div>
+                        <!-- Question 5: Fits in Target Group - Only show if in_shelter_target_group is "yes" -->
+                        <div class="space-y-1" v-if="showFitsInTargetGroup">
+                            <FormLabel for="fits_in_target_group"
+                                :label="$t('inquiries.form.shelter.fields.fitsInTargetGroup')" />
+                            <FormSelect id="fits_in_target_group" :options="state.options.yesNo"
+                                v-model="state.formInquiry.fits_in_target_group" />
+                            <FormError :error="v$?.formInquiry?.fits_in_target_group?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.fits_in_target_group?.[0]" />
+                        </div>
+                        <!-- Question 6a: Non Admission Reason - Only if in target group + fits target group + space available -->
+                        <div class="space-y-1 sm:col-span-2" v-if="showNonAdmissionReason">
+                            <FormLabel for="non_admission_reason"
+                                :label="$t('inquiries.form.shelter.fields.nonAdmissionReason')" />
+                            <FormSelect id="non_admission_reason" :options="state.options.nonAdmissionReason"
+                                v-model="state.formInquiry.non_admission_reason" />
+                            <FormError :error="v$?.formInquiry?.non_admission_reason?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.non_admission_reason?.[0]" />
+                        </div>
+                        <!-- Question 6b: Not In Service Target Group Reason - Only if in target group + doesn't fit -->
+                        <div class="space-y-1 sm:col-span-2" v-if="showNotInServiceTargetGroupReason">
+                            <FormLabel for="not_in_service_target_group_reason"
+                                :label="$t('inquiries.form.shelter.fields.notInServiceTargetGroupReason')" />
+                            <FormSelect id="not_in_service_target_group_reason"
+                                :options="state.options.notInServiceTargetGroupReason"
+                                v-model="state.formInquiry.not_in_service_target_group_reason" />
+                            <FormError
+                                :error="v$?.formInquiry?.not_in_service_target_group_reason?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.not_in_service_target_group_reason?.[0]" />
+                        </div>
+                        <!-- Question 7: Referral Destination - Show in rejection scenarios -->
+                        <div class="space-y-1 sm:col-span-2" v-if="showReferralDestination">
+                            <FormLabel for="referral_destination"
+                                :label="$t('inquiries.form.shelter.fields.referralDestination')" />
+                            <FormSelect id="referral_destination" :options="state.options.referralDestination"
+                                v-model="state.formInquiry.referral_destination" />
+                            <FormError :error="v$?.formInquiry?.referral_destination?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.referral_destination?.[0]" />
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                        {{ $t('inquiries.form.sections.outcome') }}
+                    </h3>
+                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+                        <div class="space-y-1">
+                            <FormLabel for="outcome" :label="$t('inquiries.form.outcome')" />
+                            <FormTextField id="outcome" name="outcome" :placeholder="$t('inquiries.form.outcome')"
+                                v-model="state.formInquiry.outcome" />
+                            <FormError :error="v$?.formInquiry?.outcome?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.outcome?.[0]" />
+                        </div>
+                        <div class="space-y-1" v-if="isPurposeActive">
+                            <FormLabel for="purpose" :label="$t('inquiries.form.purpose')" />
+                            <FormTextField id="purpose" name="purpose" :placeholder="$t('inquiries.form.purpose')"
+                                v-model="state.formInquiry.purpose" />
+                            <FormError :error="v$?.formInquiry?.purpose?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.purpose?.[0]" />
+                        </div>
+                        <div class="space-y-1 sm:col-span-2" v-if="isNotesActive">
+                            <FormLabel for="notes" :label="$t('inquiries.form.notes')" />
+                            <FormTextArea id="notes" name="notes" :placeholder="$t('inquiries.form.notes')"
+                                v-model="state.formInquiry.notes" />
+                            <FormError :error="v$?.formInquiry?.notes?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.notes?.[0]" />
+                        </div>
+                        <div class="space-y-1 sm:col-span-2">
+                            <FormLabel for="conversation_summary" :label="$t('inquiries.form.conversationSummary')" />
+                            <FormTextArea id="conversation_summary" name="conversation_summary"
+                                :placeholder="$t('inquiries.form.conversationSummary')"
+                                v-model="state.formInquiry.conversation_summary" />
+                            <FormError :error="v$?.formInquiry?.conversation_summary?.$errors[0]?.$message.toString()" />
+                            <FormError :error="props?.error?.errors?.conversation_summary?.[0]" />
+                        </div>
+                    </div>
+                </section>
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -172,6 +206,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { departmentService } from '@/components/api/user/DepartmentService'
+import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
 import { customPagesService } from '@/components/api/user/CustomPagesService'
 
 const props = defineProps({
@@ -211,6 +246,8 @@ const state = reactive({
         inquiry_date: '',
         department_uuid: [] as any,
         inquirer_name: '',
+        company_contact_uuid: null as string | null,
+        inquiry_service_type_uuid: null as string | null,
         first_name: '',
         last_name: '',
         vacant_place_available: '',
@@ -227,6 +264,7 @@ const state = reactive({
     },
     options: {
         departments: [] as any,
+        serviceTypes: [] as any,
         inquiry_type: [
             { value: 'shelter', label: `${t('inquiries.form.options.inquiryType.shelter')}` },
             { value: 'crisis_center', label: `${t('inquiries.form.options.inquiryType.crisisCenter')}` }
@@ -375,6 +413,7 @@ watch([
 
 onMounted(() => {
     fetchDepartments()
+    fetchServiceTypes()
     fetchCustomPages()
     state.formInquiry = {
         inquiry_type: 'shelter',
@@ -383,6 +422,8 @@ onMounted(() => {
         inquiry_date: props.selectedInquiry?.inquiry_date,
         department_uuid: props.selectedInquiry?.departments?.map((d: any) => d.uuid) || [],
         inquirer_name: props.selectedInquiry?.inquirer_name,
+        company_contact_uuid: props.selectedInquiry?.company_contact?.uuid ?? null,
+        inquiry_service_type_uuid: props.selectedInquiry?.service_type?.uuid ?? null,
         first_name: props.selectedInquiry?.firstname,
         last_name: props.selectedInquiry?.lastname,
         vacant_place_available: props.formType === 'update' ? (props.selectedInquiry?.vacant_place_available ? 'yes' : 'no') : '',
@@ -407,6 +448,8 @@ watch(() => props.selectedInquiry, (newValue: any) => {
             inquiry_date: props.selectedInquiry?.inquiry_date,
             department_uuid: props.selectedInquiry?.departments?.map((d: any) => d.uuid) || [],
             inquirer_name: props.selectedInquiry?.inquirer_name,
+            company_contact_uuid: props.selectedInquiry?.company_contact?.uuid ?? null,
+            inquiry_service_type_uuid: props.selectedInquiry?.service_type?.uuid ?? null,
             first_name: props.selectedInquiry?.firstname,
             last_name: props.selectedInquiry?.lastname,
             vacant_place_available: props.selectedInquiry?.vacant_place_available || '',
@@ -440,6 +483,19 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+async function fetchServiceTypes() {
+    try {
+        const response = await inquiryServiceTypeService.getServiceTypes()
+        // Only what can still be chosen; a retired type stays on the inquiries
+        // that already carry it.
+        state.options.serviceTypes = (response?.data ?? [])
+            .filter((type: any) => type.is_active)
+            .map((type: any) => ({ value: type.uuid, label: type.label }))
+    } catch (_) {
+        state.options.serviceTypes = []
+    }
+}
 
 async function fetchDepartments() {
     try {

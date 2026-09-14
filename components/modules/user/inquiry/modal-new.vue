@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="md" :title="inquiryType === 'shelter' ? shelterName : crisisCenterName" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="inquiryType === 'shelter' ? shelterName : crisisCenterName" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserInquiryModalCrisisCenterForm v-if="inquiryType === 'crisis_center'" formType="create" :selectedInquiry="state.formInquiry"
@@ -9,6 +9,7 @@
                     <ModulesUserInquiryModalShelterForm v-if="inquiryType === 'shelter'" formType="create" :selectedInquiry="state.formInquiry"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveShelterInquiry" />
+                    <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues" class="mt-6" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -62,11 +63,13 @@ const state = reactive({
         conversation_summary: '',
         notes: ''
     },
+    fieldValues: {} as Record<string, any>,
     isPageLoading: false,
 })
 
 function closeModal() {
     state.error = {}
+    state.fieldValues = {}
     emit('close')
 }
 
@@ -84,6 +87,8 @@ async function saveCrisisCenterInquiry(inquiryDetails: any) {
             inquiry_date: inquiryDetails.inquiry_date,
             department_uuid: inquiryDetails.department_uuid,
             inquirer_name: inquiryDetails.inquirer_name,
+            company_contact_uuid: inquiryDetails.company_contact_uuid ?? null,
+            inquiry_service_type_uuid: inquiryDetails.inquiry_service_type_uuid ?? null,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,
             contacted_by: inquiryDetails.contacted_by,
@@ -96,6 +101,7 @@ async function saveCrisisCenterInquiry(inquiryDetails: any) {
             outcome: inquiryDetails.outcome,
             purpose: inquiryDetails.purpose,
             conversation_summary: inquiryDetails.conversation_summary,
+            field_values: state.fieldValues,
         }
         const response = await citizenInquiryService.saveInquiry(params)
         if (response.data) {
@@ -120,6 +126,8 @@ async function saveShelterInquiry(inquiryDetails: any) {
             inquiry_date: inquiryDetails.inquiry_date,
             department_uuid: inquiryDetails.department_uuid,
             inquirer_name: inquiryDetails.inquirer_name,
+            company_contact_uuid: inquiryDetails.company_contact_uuid ?? null,
+            inquiry_service_type_uuid: inquiryDetails.inquiry_service_type_uuid ?? null,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,
             vacant_place_available: inquiryDetails.vacant_place_available === 'yes',
@@ -132,6 +140,7 @@ async function saveShelterInquiry(inquiryDetails: any) {
             outcome: inquiryDetails.outcome,
             purpose: inquiryDetails.purpose,
             conversation_summary: inquiryDetails.conversation_summary,
+            field_values: state.fieldValues,
         }
         const response = await citizenInquiryService.saveInquiry(params)
         if (response.data) {

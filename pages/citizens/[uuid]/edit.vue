@@ -79,6 +79,7 @@ const state = reactive({
         gender: '',
         email: '',
         social_security_number: '',
+        case_number: '',
         birthday: '',
         phone: '',
         departments: [],
@@ -92,6 +93,9 @@ const state = reactive({
         latitude: '',
         longitude: '',
         origin: '',
+        spoken_languages: [],
+        primary_spoken_language: '',
+        requires_interpreter: false,
         diagnoses: [],
         medication_allergies: [],
         addictions: [],
@@ -118,6 +122,7 @@ const state = reactive({
         red: '',
         has_system_access: false,
         has_chat_access: false,
+        has_patient_journal_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
@@ -132,6 +137,8 @@ const state = reactive({
             accommodation_start_date: '',
             journal_number: '',
             contract_price: '',
+            contract_hours: '',
+            contract_hours_interval: 'weekly',
             primary_split_percentage: '',
             accompanying_children: [{
                 name: '',
@@ -172,7 +179,13 @@ const state = reactive({
         },
         dentalData: {
             is_member_of_sygeforsikring_danmark: false,
+            danmark_group: '',
             sygesikring_group: '',
+            is_foreign_patient: false,
+            risk_profile: '',
+            risk_profile_note: '',
+            recall_channel: '',
+            auto_reminder: true,
             patient_number: '',
             municipal_subsidy: '',
             last_checkup_date: '',
@@ -202,6 +215,7 @@ async function fetchCitizen() {
                 gender: response?.data?.gender ?? '',
                 email: response?.data?.email ?? '',
                 social_security_number: response?.data?.social_security_number ?? '',
+                case_number: response?.data?.case_number ?? '',
                 birthday: response?.data?.birthday ?? '',
                 phone: response?.data?.phone ?? '',
                 departments: [],
@@ -215,6 +229,9 @@ async function fetchCitizen() {
                 latitude: response?.data?.address?.latitude ?? '',
                 longitude: response?.data?.address?.longitude ?? '',
                 origin: response?.data?.origin?.uuid?.toString() ?? '',
+                spoken_languages: [],
+                primary_spoken_language: '',
+                requires_interpreter: response?.data?.requires_interpreter ?? false,
                 diagnoses: [],
                 medication_allergies: [],
                 addictions: [],
@@ -241,6 +258,7 @@ async function fetchCitizen() {
                 red: response?.data?.red ?? '',
                 has_system_access: response?.data?.has_system_access ?? '',
                 has_chat_access: response?.data?.has_chat_access ?? '',
+                has_patient_journal_access: response?.data?.has_patient_journal_access ?? false,
                 has_duty_schedule_access: response?.data?.has_duty_schedule_access ?? '',
                 has_bullet_board_access: response?.data?.has_bullet_board_access ?? '',
                 inquiryData: {
@@ -255,6 +273,8 @@ async function fetchCitizen() {
                     accommodation_start_date: response?.data?.stay_data?.start_date ?? '',
                     journal_number: response?.data?.stay_data?.journal_number ?? '',
                     contract_price: response?.data?.stay_data?.contract_price ?? '',
+                    contract_hours: response?.data?.stay_data?.contract_hours ?? '',
+                    contract_hours_interval: response?.data?.stay_data?.contract_hours_interval || 'weekly',
                     primary_split_percentage: response?.data?.stay_data?.primary_split_percentage ?? '',
                     accompanying_children: response?.data?.children ?? [{
                         name: '',
@@ -295,7 +315,13 @@ async function fetchCitizen() {
                 } as any,
                 dentalData: {
                     is_member_of_sygeforsikring_danmark: response?.data?.dental_profile?.is_member_of_sygeforsikring_danmark ?? false,
+                    danmark_group: response?.data?.dental_profile?.danmark_group || '',
                     sygesikring_group: response?.data?.dental_profile?.sygesikring_group || '',
+                    is_foreign_patient: response?.data?.dental_profile?.is_foreign_patient ?? false,
+                    risk_profile: response?.data?.dental_profile?.risk_profile || '',
+                    risk_profile_note: response?.data?.dental_profile?.risk_profile_note || '',
+                    recall_channel: response?.data?.dental_profile?.recall_channel || '',
+                    auto_reminder: response?.data?.dental_profile?.auto_reminder ?? true,
                     patient_number: response?.data?.dental_profile?.patient_number || '',
                     municipal_subsidy: response?.data?.dental_profile?.municipal_subsidy || '',
                     last_checkup_date: response?.data?.dental_profile?.last_checkup_date || '',
@@ -310,6 +336,12 @@ async function fetchCitizen() {
             })
             response?.data?.diagnoses?.forEach((diagnosis: any) => {
                 state.formCitizen.diagnoses.push(diagnosis?.uuid)
+            })
+            response?.data?.spoken_languages?.forEach((spokenLanguage: any) => {
+                state.formCitizen.spoken_languages.push(spokenLanguage?.uuid)
+                if (spokenLanguage?.is_primary) {
+                    state.formCitizen.primary_spoken_language = spokenLanguage?.uuid
+                }
             })
             response?.data?.allergies?.forEach((medication_allergy: any) => {
                 state.formCitizen.medication_allergies.push(medication_allergy?.uuid)
@@ -337,6 +369,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('gender', citizenDetails.gender)
         params.append('email', citizenDetails.email)
         params.append('social_security_number', citizenDetails.social_security_number)
+        params.append('case_number', citizenDetails.case_number ?? '')
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
@@ -365,6 +398,9 @@ async function updateCitizen(citizenDetails: any) {
         } else {
             params.append('origin_uuid', citizenDetails.origin)
         }
+        params.append('spoken_languages_uuid', JSON.stringify(citizenDetails.spoken_languages ?? []))
+        params.append('primary_spoken_language_uuid', citizenDetails.primary_spoken_language ?? '')
+        params.append('requires_interpreter', citizenDetails.requires_interpreter ? 'true' : 'false')
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
         params.append('medication_allergies_uuid', JSON.stringify(citizenDetails.medication_allergies))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
@@ -386,7 +422,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('responsible_municipality', citizenDetails.responsible_municipality)
         params.append('ean_number', citizenDetails.ean_number)
         params.append('transportation', citizenDetails.transportation)
-        params.append('hourly_rate', citizenDetails.hourly_rate)
+        params.append('hourly_rate', citizenDetails.hourly_rate ? parseLocaleNumber(language.locale.value, citizenDetails.hourly_rate) : citizenDetails.hourly_rate)
         params.append('allocated_daily_hours', citizenDetails.allocated_daily_hours)
         params.append('allocated_weekly_hours', citizenDetails.allocated_weekly_hours)
         params.append('allocated_monthly_hours', citizenDetails.allocated_monthly_hours)
@@ -396,6 +432,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('red', citizenDetails.red)
         params.append('has_system_access', citizenDetails.has_system_access)
         params.append('has_chat_access', citizenDetails.has_chat_access)
+        params.append('has_patient_journal_access', citizenDetails.has_patient_journal_access ?? false)
         params.append('has_duty_schedule_access', citizenDetails.has_duty_schedule_access)
         params.append('has_bullet_board_access', citizenDetails.has_bullet_board_access)
         params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)
@@ -407,6 +444,8 @@ async function updateCitizen(citizenDetails: any) {
         params.append('start_date', citizenDetails.stayData.accommodation_start_date)
         params.append('journal_number', citizenDetails.stayData.journal_number)
         params.append('contract_price', citizenDetails.stayData.contract_price ? parseLocaleNumber(language.locale.value, citizenDetails.stayData.contract_price) : citizenDetails.stayData.contract_price)
+        params.append('contract_hours', citizenDetails.stayData.contract_hours ?? '')
+        params.append('contract_hours_interval', citizenDetails.stayData.contract_hours_interval ?? '')
         params.append('primary_split_percentage', citizenDetails.stayData.primary_split_percentage)
         params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
         if (citizenDetails.stayData.residence_before_uuid) {
@@ -450,6 +489,12 @@ async function updateCitizen(citizenDetails: any) {
             params.append('municipal_subsidy', citizenDetails.dentalData.municipal_subsidy)
             params.append('last_checkup_date', citizenDetails.dentalData.last_checkup_date != 'Invalid date' ? citizenDetails.dentalData.last_checkup_date : '')
             params.append('checkup_interval_months', citizenDetails.dentalData.checkup_interval_months)
+            params.append('danmark_group', citizenDetails.dentalData.danmark_group)
+            params.append('is_foreign_patient', citizenDetails.dentalData.is_foreign_patient)
+            params.append('risk_profile', citizenDetails.dentalData.risk_profile)
+            params.append('risk_profile_note', citizenDetails.dentalData.risk_profile_note)
+            params.append('recall_channel', citizenDetails.dentalData.recall_channel)
+            params.append('auto_reminder', citizenDetails.dentalData.auto_reminder)
         }
         const response = await citizenService.updateCitizen(citizenUuid, params)
         if (response.data) {

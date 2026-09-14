@@ -44,6 +44,23 @@
                         <p class="text-sm font-semibold text-gray-700">
                             {{ formatNumber(locale, props.selectedMileageLog?.kilometers) }} km
                         </p>
+                        <!-- distance_source_label is null on every row created before this
+                             deploy -- render that as unknown provenance, never blank and
+                             never as "GPS". A flagged 0.00 km trip is a legitimate answer
+                             (the only leg was impossible), not "nothing recorded". -->
+                        <p class="text-xs text-gray-400">{{ distanceSourceLabel }}</p>
+                    </div>
+
+                    <div class="space-y-1 my-2" v-if="props.selectedMileageLog?.needs_review">
+                        <div class="flex items-start gap-x-2 p-3 bg-red-50 border border-red-200 rounded-md">
+                            <Icon name="ph:warning-circle" class="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+                            <div>
+                                <p class="text-sm font-semibold text-red-700">{{ $t('mileageLog.table.needsReview') }}</p>
+                                <p class="text-xs text-red-700 mt-0.5" v-if="props.selectedMileageLog?.review_reason_label">
+                                    {{ props.selectedMileageLog.review_reason_label }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="space-y-1 my-2">
@@ -94,6 +111,10 @@ function closeModal() {
     emit('close')
 }
 
+const distanceSourceLabel = computed(() => {
+    return props.selectedMileageLog?.distance_source_label || t('mileageLog.table.distanceSourceUnknown')
+})
+
 const mapRef = ref<any>(null)
 const mapCenter = ref<[number, number]>([55.6761, 12.5683])
 const mapInstance = ref<any>(null)
@@ -116,17 +137,22 @@ function stopLabel(index: number) {
     return `${letter} — ${t('mileageLog.view.stopAddress')}`
 }
 
+const middleStops = computed(() => {
+    const log = props.selectedMileageLog
+    if (!log) return []
+
+    return (log.stops ?? [])
+        .slice()
+        .sort((a: any, b: any) => (a.sequence_order ?? 0) - (b.sequence_order ?? 0))
+})
+
 const routeStops = computed(() => {
     const log = props.selectedMileageLog
     if (!log) return []
 
-    const middle = (log.stops ?? [])
-        .slice()
-        .sort((a: any, b: any) => (a.sequence_order ?? 0) - (b.sequence_order ?? 0))
-
     return [
         { address: log.start_address, lat: log.geo_start_lat, lng: log.geo_start_lng },
-        ...middle.map((s: any) => ({ address: s.address, lat: s.latitude, lng: s.longitude })),
+        ...middleStops.value.map((s: any) => ({ address: s.address, lat: s.latitude, lng: s.longitude })),
         { address: log.end_address, lat: log.geo_end_lat, lng: log.geo_end_lng },
     ].filter((s) => s.address || validCoord(s.lat, s.lng))
 })
@@ -134,7 +160,10 @@ const routeStops = computed(() => {
 const extraMarkers = computed(() => {
     // Keep the index tied to the position in routeStops (not to the filtered
     // list) so a stop with no coordinates can't shift the marker letters out
-    // of sync with the route list above.
+    // of sync with the route list above. This stays the address legend even
+    // for a GPS-tracked trip -- the breadcrumb trail is conveyed by the
+    // polyline alone (a marker per breadcrumb overwhelms the map on a long
+    // trip and has nothing to do with the lettered stop list above the map).
     return routeStops.value
         .map((stop, index) => ({ stop, index }))
         .filter(({ stop }) => validCoord(stop.lat, stop.lng))
@@ -145,10 +174,66 @@ const extraMarkers = computed(() => {
         }))
 })
 
+function logTime(log: any) {
+    return new Date(log.recorded_at ?? log.created_at).getTime()
+}
+
+// GPS breadcrumbs recorded during a tracked trip (only present once the modal
+// has the single-trip record -- see the detail fetch in the consuming pages).
+// Sorted by recorded_at (falling back to created_at for legacy/untimed rows),
+// matching TripDistanceCalculator::calculateForCareHour's own ordering rule --
+// the relation's default `orderBy('created_at')` alone is not reliable for a
+// batch-flushed backlog, where many rows share one created_at.
+const locationLogs = computed(() => {
+    const logs = props.selectedMileageLog?.location_logs
+    if (!logs || !Array.isArray(logs) || logs.length === 0) return []
+
+    return [...logs]
+        .filter((l: any) => validCoord(l.latitude, l.longitude))
+        .sort((a: any, b: any) => logTime(a) - logTime(b))
+        // Drop consecutive duplicate fixes (a parked/idle GPS repeats the same
+        // coordinate), same dedup TripDistanceCalculator applies before it
+        // computes distance from these points.
+        .filter((l: any, i: number, arr: any[]) => i === 0
+            || Number(l.latitude) !== Number(arr[i - 1].latitude)
+            || Number(l.longitude) !== Number(arr[i - 1].longitude))
+})
+
+// Requires >= 2 points, matching the same threshold the backend's own
+// distance calculation trusts breadcrumbs at -- a single point (most of the
+// breadcrumb-bearing trips in practice) isn't a route, and preferring it here
+// would throw away a perfectly good stops-derived line for a degenerate one.
+const hasLocationLogs = computed(() => locationLogs.value.length >= 2)
+
+const startPoint = computed<[number, number] | null>(() => {
+    const log = props.selectedMileageLog
+    return log && validCoord(log.geo_start_lat, log.geo_start_lng)
+        ? [Number(log.geo_start_lat), Number(log.geo_start_lng)]
+        : null
+})
+
+const endPoint = computed<[number, number] | null>(() => {
+    const log = props.selectedMileageLog
+    return log && validCoord(log.geo_end_lat, log.geo_end_lng)
+        ? [Number(log.geo_end_lat), Number(log.geo_end_lng)]
+        : null
+})
+
 const polylinePoints = computed(() => {
-    const points: Array<[number, number]> = routeStops.value
-        .filter((s) => validCoord(s.lat, s.lng))
-        .map((s) => [Number(s.lat), Number(s.lng)])
+    const points: Array<[number, number]> = []
+
+    if (startPoint.value) points.push(startPoint.value)
+
+    if (hasLocationLogs.value) {
+        locationLogs.value.forEach((log: any) => points.push([Number(log.latitude), Number(log.longitude)]))
+    } else {
+        middleStops.value
+            .filter((s: any) => validCoord(s.latitude, s.longitude))
+            .forEach((s: any) => points.push([Number(s.latitude), Number(s.longitude)]))
+    }
+
+    if (endPoint.value) points.push(endPoint.value)
+
     return points.length > 1 ? points : []
 })
 

@@ -4,6 +4,14 @@ export interface TripStop {
     address: string
     lat: number | null
     lng: number | null
+    /**
+     * Stable client-side identity, independent of array position. Reordering
+     * (moveStop) or deleting (removeStop) a stop reindexes the array; without
+     * a stable key, an in-flight async write (geocode/reverse-geocode) keyed
+     * by index would land on whatever stop now occupies that slot. Never sent
+     * to the backend — splitStopsForApi() below maps fields explicitly.
+     */
+    key?: string
 }
 
 export function computeTripDistanceKm(stops: TripStop[]): number {

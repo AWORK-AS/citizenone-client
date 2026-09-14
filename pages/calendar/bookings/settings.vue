@@ -117,6 +117,21 @@
                                     </p>
                                 </div>
                             </div>
+
+                            <!-- Off by default: a practice of twelve does not want
+                                 twelve notices per booking, and a practice of two
+                                 covering for each other does. -->
+                            <div class="mt-4 flex items-start gap-x-2 border-t border-gray-100 pt-4">
+                                <FormSwitch :value="state.formBookingSettings.notify_team_on_booking"
+                                    :label="$t('bookingSettings.form.notifyTeam')"
+                                    @toggleSwitch="state.formBookingSettings.notify_team_on_booking = !state.formBookingSettings.notify_team_on_booking" />
+                                <div>
+                                    <p>{{ $t('bookingSettings.form.notifyTeam') }}</p>
+                                    <p class="text-xs text-gray-500">
+                                        {{ $t('bookingSettings.form.notifyTeamHelp') }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -297,6 +312,149 @@
                         </FormButton>
                     </div>
                 </form>
+
+                <!-- Website booking: a separate config surface (own backend
+                     resource, own save action) that publishes a subset of the
+                     above as an embeddable widget / hosted link. Kept as its
+                     own form since saving it does not touch online_booking_settings
+                     at all. -->
+                <form @submit.prevent="submitWebsiteBookingForm()" class="mt-10 max-w-3xl" id="formWebsiteBooking">
+                    <Alert type="danger" :text="state?.websiteBookingError?.message"
+                        v-if="state.websiteBookingError?.message && state.websiteBookingError.message.length > 0" />
+
+                    <div class="mt-3 space-y-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8">
+                        <div class="flex items-start justify-between gap-x-4">
+                            <div>
+                                <h2 class="text-base font-semibold leading-7 text-gray-900">
+                                    {{ $t('websiteBookingSettings.websiteBooking') }}
+                                </h2>
+                                <p class="text-sm leading-6 text-gray-600">
+                                    {{ $t('websiteBookingSettings.form.enableLabel') }}
+                                </p>
+                            </div>
+                            <FormSwitch :value="state.formWebsiteBooking.is_enabled"
+                                :label="$t('websiteBookingSettings.form.enable')"
+                                @toggleSwitch="state.formWebsiteBooking.is_enabled = !state.formWebsiteBooking.is_enabled" />
+                        </div>
+
+                        <div class="space-y-1 border-t border-gray-100 pt-4">
+                            <h3 class="text-sm font-semibold text-gray-900">
+                                {{ $t('websiteBookingSettings.form.branding') }}
+                            </h3>
+                            <p class="text-sm text-gray-600">{{ $t('websiteBookingSettings.form.brandingLabel') }}</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="space-y-1">
+                                <FormLabel for="primary_color" :label="$t('websiteBookingSettings.form.primaryColor')" />
+                                <input id="primary_color" type="color" v-model="state.formWebsiteBooking.primary_color"
+                                    class="h-11 w-full rounded-md border border-gray-300 p-1" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="secondary_color"
+                                    :label="$t('websiteBookingSettings.form.secondaryColor')" />
+                                <input id="secondary_color" type="color"
+                                    v-model="state.formWebsiteBooking.secondary_color"
+                                    class="h-11 w-full rounded-md border border-gray-300 p-1" />
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="welcome_text" :label="$t('websiteBookingSettings.form.welcomeText')" />
+                            <p class="text-xs text-gray-500">{{ $t('websiteBookingSettings.form.welcomeTextLabel') }}</p>
+                            <FormTextField id="welcome_text" name="welcome_text"
+                                v-model="state.formWebsiteBooking.welcome_text" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="confirmation_text"
+                                :label="$t('websiteBookingSettings.form.confirmationText')" />
+                            <p class="text-xs text-gray-500">
+                                {{ $t('websiteBookingSettings.form.confirmationTextLabel') }}
+                            </p>
+                            <FormTextField id="confirmation_text" name="confirmation_text"
+                                v-model="state.formWebsiteBooking.confirmation_text" />
+                        </div>
+
+                        <div class="space-y-1 border-t border-gray-100 pt-4">
+                            <FormLabel for="services" :label="$t('websiteBookingSettings.form.services')" />
+                            <p class="text-xs text-gray-500">{{ $t('websiteBookingSettings.form.servicesLabel') }}</p>
+                            <FormSelectMultiple id="services" :options="state.options.bookingServices"
+                                v-model="state.formWebsiteBooking.service_uuids" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="departments" :label="$t('websiteBookingSettings.form.departments')" />
+                            <p class="text-xs text-gray-500">{{ $t('websiteBookingSettings.form.departmentsLabel') }}</p>
+                            <FormSelectMultiple id="departments" :options="state.options.departments"
+                                v-model="state.formWebsiteBooking.department_uuids" />
+                        </div>
+
+                        <div class="space-y-1 border-t border-gray-100 pt-4">
+                            <FormLabel for="allowed_domain" :label="$t('websiteBookingSettings.form.allowedDomains')" />
+                            <p class="text-xs text-gray-500">
+                                {{ $t('websiteBookingSettings.form.allowedDomainsLabel') }}
+                            </p>
+                            <div class="flex flex-wrap gap-2" v-if="state.formWebsiteBooking.allowed_domains.length">
+                                <span v-for="(domain, index) in state.formWebsiteBooking.allowed_domains" :key="domain"
+                                    class="inline-flex items-center gap-x-1 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">
+                                    {{ domain }}
+                                    <button type="button" @click="removeAllowedDomain(index)"
+                                        class="text-gray-400 hover:text-gray-600">
+                                        <Icon name="ph:x" size="14" />
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <FormTextField id="allowed_domain" name="allowed_domain"
+                                    :placeholder="$t('websiteBookingSettings.form.domainPlaceholder')"
+                                    v-model="state.newAllowedDomain" @keyup.enter.prevent="addAllowedDomain" />
+                                <button type="button" @click="addAllowedDomain"
+                                    class="shrink-0 h-11 px-4 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                    {{ $t('websiteBookingSettings.form.addDomain') }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 border-t border-gray-100 pt-4"
+                            v-if="state.formWebsiteBooking.embed_token">
+                            <div class="space-y-1">
+                                <FormLabel for="embed_code" :label="$t('websiteBookingSettings.form.embedCode')" />
+                                <p class="text-xs text-gray-500">
+                                    {{ $t('websiteBookingSettings.form.embedCodeLabel') }}
+                                </p>
+                                <div class="flex items-center gap-x-2">
+                                    <textarea id="embed_code" readonly rows="2" :value="embedSnippet"
+                                        class="flex-1 min-w-0 rounded-md border border-gray-300 p-2 text-xs font-mono text-gray-600 bg-gray-50" />
+                                    <button type="button" @click="copyEmbedSnippet"
+                                        class="shrink-0 flex items-center gap-x-1 h-11 px-3 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">
+                                        <Icon :name="state.embedCopied ? 'ph:check' : 'ph:copy'" size="16" />
+                                        {{ state.embedCopied ? $t('websiteBookingSettings.form.codeCopied') :
+                                            $t('websiteBookingSettings.form.copyCode') }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="hosted_link" :label="$t('websiteBookingSettings.form.hostedLink')" />
+                                <p class="text-xs text-gray-500">
+                                    {{ $t('websiteBookingSettings.form.hostedLinkLabel') }}
+                                </p>
+                                <div class="flex items-center gap-x-2">
+                                    <FormTextField id="hosted_link" name="hosted_link" :modelValue="hostedBookingLink"
+                                        placeholder="" readonly class="flex-1 min-w-0" />
+                                    <button type="button" @click="copyHostedLink"
+                                        class="shrink-0 flex items-center gap-x-1 h-11 px-3 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">
+                                        <Icon :name="state.hostedLinkCopied ? 'ph:check' : 'ph:copy'" size="16" />
+                                        {{ state.hostedLinkCopied ? $t('websiteBookingSettings.form.linkCopied') :
+                                            $t('websiteBookingSettings.form.copyLink') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <FormButton type="submit" buttonStyle="primary" class="w-full">
+                            {{ $t('save') }}
+                        </FormButton>
+                    </div>
+                </form>
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -306,6 +464,9 @@
 import ClassicEditor from '@/utils/editor'
 import { languageService } from '@/components/api/user/LanguageService'
 import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
+import { websiteBookingSettingsService } from '@/components/api/user/WebsiteBookingSettingsService'
+import { bookingServiceService } from '@/components/api/user/BookingServiceService'
+import { departmentService } from '@/components/api/user/DepartmentService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -353,6 +514,7 @@ const state = reactive({
         description: '',
         image: '',
         is_address_enabled: false,
+        notify_team_on_booking: false,
         is_phone_enabled: false,
         language_uuid: '',
         fields: [] as any,
@@ -366,7 +528,34 @@ const state = reactive({
     modal: {},
     options: {
         languages: [],
+        bookingServices: [] as any,
+        departments: [] as any,
     },
+    formWebsiteBooking: {
+        is_enabled: false,
+        embed_token: '',
+        primary_color: '#4f46e5',
+        secondary_color: '#111827',
+        welcome_text: '',
+        confirmation_text: '',
+        service_uuids: [] as string[],
+        department_uuids: [] as string[],
+        allowed_domains: [] as string[],
+    } as any,
+    websiteBookingError: {} as Error,
+    newAllowedDomain: '',
+    embedCopied: false,
+    hostedLinkCopied: false,
+})
+
+const embedSnippet = computed(() => {
+    if (!state.formWebsiteBooking.embed_token) return ''
+    return `<script src="${runtimeConfig.public.appBaseURL}/widget.js" data-embed-token="${state.formWebsiteBooking.embed_token}"><\/script>`
+})
+
+const hostedBookingLink = computed(() => {
+    if (!state.formWebsiteBooking.embed_token) return ''
+    return `${runtimeConfig.public.appBaseURL}/public-booking/${state.formWebsiteBooking.embed_token}`
 })
 
 const rules = computed(() => {
@@ -406,6 +595,9 @@ const v$ = useVuelidate(rules, state)
 onMounted(() => {
     fetchLanguages()
     fetchBookingSettings()
+    fetchBookingServiceOptions()
+    fetchDepartmentOptions()
+    fetchWebsiteBookingSettings()
 })
 
 async function fetchLanguages() {
@@ -441,6 +633,7 @@ async function fetchBookingSettings() {
                 description: response.data?.description,
                 image: '',
                 is_address_enabled: response.data?.is_address_enabled ?? false,
+                notify_team_on_booking: response.data?.notify_team_on_booking ?? false,
                 is_phone_enabled: response.data?.is_phone_enabled ?? false,
                 language_uuid: response.data?.language?.uuid,
                 fields: response.data?.fields ? JSON.parse(response.data?.fields) : [],
@@ -529,6 +722,7 @@ async function submitForm() {
                 params.append('image', state.formBookingSettings.image)
             }
             params.append('is_address_enabled', state.formBookingSettings.is_address_enabled)
+            params.append('notify_team_on_booking', state.formBookingSettings.notify_team_on_booking ? 1 : 0)
             params.append('is_phone_enabled', state.formBookingSettings.is_phone_enabled)
             params.append('language_uuid', state.formBookingSettings.language_uuid)
             params.append('fields', JSON.stringify(state.formBookingSettings.fields))
@@ -546,5 +740,102 @@ async function submitForm() {
         }
         state.isPageLoading = false
     }
+}
+
+async function fetchBookingServiceOptions() {
+    try {
+        const response = await bookingServiceService.getBookingServices()
+        const items = response?.data?.data ?? response?.data ?? []
+        state.options.bookingServices = items.map((item: any) => ({
+            value: item.uuid,
+            label: item.user ? `${item.name} — ${item.user.firstname} ${item.user.lastname}` : item.name,
+        }))
+    } catch {
+        // A booking-service picker with no options yet is not fatal to the
+        // rest of the page — the admin just has nothing to select until one
+        // exists.
+    }
+}
+
+async function fetchDepartmentOptions() {
+    try {
+        const response = await departmentService.getDepartments({})
+        const items = response?.data?.data ?? response?.data ?? []
+        state.options.departments = items.map((item: any) => ({
+            value: item.uuid,
+            label: item.name,
+        }))
+    } catch {
+        // Same as above — an empty department list is not fatal.
+    }
+}
+
+async function fetchWebsiteBookingSettings() {
+    try {
+        const response = await websiteBookingSettingsService.getWebsiteBookingSettings()
+        if (response?.data && response.data.uuid) {
+            state.formWebsiteBooking = {
+                is_enabled: response.data.is_enabled ?? false,
+                embed_token: response.data.embed_token ?? '',
+                primary_color: response.data.primary_color ?? '#4f46e5',
+                secondary_color: response.data.secondary_color ?? '#111827',
+                welcome_text: response.data.welcome_text ?? '',
+                confirmation_text: response.data.confirmation_text ?? '',
+                service_uuids: (response.data.services ?? []).map((service: any) => service.uuid),
+                department_uuids: (response.data.departments ?? []).map((department: any) => department.uuid),
+                allowed_domains: response.data.allowed_domains ?? [],
+            }
+        }
+    } catch (error: any) {
+        state.websiteBookingError = error
+    }
+}
+
+function addAllowedDomain() {
+    const domain = state.newAllowedDomain.trim().replace(/^https?:\/\//, '').replace(/\/$/, '')
+    if (domain && !state.formWebsiteBooking.allowed_domains.includes(domain)) {
+        state.formWebsiteBooking.allowed_domains.push(domain)
+    }
+    state.newAllowedDomain = ''
+}
+
+function removeAllowedDomain(index: number) {
+    state.formWebsiteBooking.allowed_domains.splice(index, 1)
+}
+
+function copyEmbedSnippet() {
+    navigator.clipboard.writeText(embedSnippet.value)
+    state.embedCopied = true
+    setTimeout(() => { state.embedCopied = false }, 2000)
+}
+
+function copyHostedLink() {
+    navigator.clipboard.writeText(hostedBookingLink.value)
+    state.hostedLinkCopied = true
+    setTimeout(() => { state.hostedLinkCopied = false }, 2000)
+}
+
+async function submitWebsiteBookingForm() {
+    state.websiteBookingError = {}
+    state.isPageLoading = true
+    try {
+        const response = await websiteBookingSettingsService.saveWebsiteBookingSettings({
+            is_enabled: state.formWebsiteBooking.is_enabled,
+            primary_color: state.formWebsiteBooking.primary_color,
+            secondary_color: state.formWebsiteBooking.secondary_color,
+            welcome_text: state.formWebsiteBooking.welcome_text,
+            confirmation_text: state.formWebsiteBooking.confirmation_text,
+            service_uuids: state.formWebsiteBooking.service_uuids,
+            department_uuids: state.formWebsiteBooking.department_uuids,
+            allowed_domains: state.formWebsiteBooking.allowed_domains,
+        })
+        if (response?.data) {
+            fetchWebsiteBookingSettings()
+            successAlert(`${t('alert.success')}!`, `${t('websiteBookingSettings.alert.websiteBookingSuccessfullySaved')}.`)
+        }
+    } catch (error: any) {
+        state.websiteBookingError = error
+    }
+    state.isPageLoading = false
 }
 </script>

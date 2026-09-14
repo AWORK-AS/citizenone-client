@@ -14,7 +14,9 @@ const contentSecurityPolicy = [
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
   "connect-src 'self' https:",
-  "frame-src 'self' https://www.googletagmanager.com https://login.microsoftonline.com",
+  // The last three carry release-note videos, which are linked rather than
+  // uploaded; without them the embed breaks the day this policy is enforced.
+  "frame-src 'self' https://www.googletagmanager.com https://login.microsoftonline.com https://www.youtube.com https://player.vimeo.com https://www.loom.com",
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",
@@ -41,8 +43,24 @@ export default defineNuxtConfig({
         // Crisp SVG favicon (the CitizenOne circle mark); .ico kept as fallback.
         { rel: 'icon', type: 'image/svg+xml', href: '/icon-citizenone.svg' },
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        { rel: 'apple-touch-icon', href: '/icon-citizenone.svg' },
+        // PNG og ikke SVG: iOS ignorerer et SVG som apple-touch-icon og falder tilbage til
+        // et skærmbillede af siden, hvilket er dét man ser når et hjemmeskærm-ikon er grimt.
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/icons/apple-touch-icon-180.png' },
         { rel: 'mask-icon', href: '/icon-citizenone.svg', color: '#00607a' },
+        // Manifestet er det, der gør appen installerbar. Se public/manifest.webmanifest.
+        { rel: 'manifest', href: '/manifest.webmanifest' },
+      ],
+
+      meta: [
+        // Farven på browserens og styresystemets kant, når appen kører installeret.
+        // Samme værdi som manifestets theme_color, altså tailwinds primary.DEFAULT.
+        { name: 'theme-color', content: '#0f4c75' },
+        // iOS læser ikke manifestet. De tre her er dens egen udgave af standalone,
+        // statuslinjens udseende og navnet under ikonet på hjemmeskærmen.
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
+        { name: 'apple-mobile-web-app-title', content: 'CitizenOne' },
+        { name: 'mobile-web-app-capable', content: 'yes' },
       ],
       script: [
         {
@@ -137,6 +155,16 @@ export default defineNuxtConfig({
       // OneDrive miljøvariabler
       VITE_ONEDRIVE_CLIENT_ID: process.env.VITE_ONEDRIVE_CLIENT_ID,
       VITE_ONEDRIVE_REDIRECT_URI: process.env.VITE_ONEDRIVE_REDIRECT_URI,
+      // Adressevælger (Klimadatastyrelsen) — DAWA's official autocomplete
+      // replacement (DAWA's address endpoints close 2026-08-17). The token
+      // below is the publicly-documented shared token; KDS has said per-user
+      // tokens are coming later, so this is env-overridable rather than
+      // hard-coded so it can be swapped without a code change.
+      adressevaelgerToken: process.env.ADRESSEVAELGER_TOKEN || 'adressevaelger123',
+      reverbAppKey: process.env.REVERB_APP_KEY,
+      reverbHost: process.env.REVERB_HOST,
+      reverbPort: process.env.REVERB_PORT,
+      reverbScheme: process.env.REVERB_SCHEME,
     },
   },
 
@@ -147,6 +175,12 @@ export default defineNuxtConfig({
     },
     '/fst-register': {
       redirect: { to: '/register', statusCode: 301 },
+    },
+    '/fst-login': {
+      redirect: { to: '/', statusCode: 301 },
+    },
+    '/fst-forgot-password': {
+      redirect: { to: '/forgot-password', statusCode: 301 },
     },
     '/.well-known/apple-app-site-association': {
       headers: { 'content-type': 'application/json' },

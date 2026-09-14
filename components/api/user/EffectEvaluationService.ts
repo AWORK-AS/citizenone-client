@@ -5,6 +5,10 @@ class EffectEvaluationService extends BaseAPIService {
         return await this.request(`/user/effect-evaluations`, 'GET', params)
     }
 
+    async getEffectEvaluationOverview(params: object): Promise<any> {
+        return await this.request(`/user/effect-evaluations/daily/overview`, 'GET', params)
+    }
+
     async saveEffectEvaluation(params: object): Promise<any> {
         return await this.request(`/user/effect-evaluations`, 'POST', params)
     }

@@ -28,7 +28,7 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.shifts"
+                        <Table class="table-sticky-actions" :columnHeaders="state.columnHeaders" :data="state.shifts"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.shifts?.data?.length === 0))">
                                 <tr v-for="(shift, index) in state.shifts?.data" :key="index">
@@ -65,10 +65,6 @@
                                     </td>
                                     <td width="10%">
                                         <span>{{ shift?.time_out }}</span>
-                                    </td>
-                                    <td width="10%">
-                                        <span v-if="shift?.working_hours_factor">{{ shift.working_hours_factor }}</span>
-                                        <span v-else class="text-gray-400">—</span>
                                     </td>
                                     <td width="10%">
                                         <span :style="{ backgroundColor: shift?.color }"
@@ -133,7 +129,6 @@ const state = reactive({
         { name: 'shifts.table.paycode', isTranslateName: true, sorter: true, key: 'pay_code' },
         { name: 'shifts.table.timeIn', isTranslateName: true, },
         { name: 'shifts.table.timeOut', isTranslateName: true, },
-        { name: 'shifts.table.workingHoursFactor', isTranslateName: true, },
         { name: 'shifts.table.color', isTranslateName: true, },
         { name: '' }
     ],

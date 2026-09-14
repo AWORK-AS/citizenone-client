@@ -86,6 +86,28 @@
                 </button>
             </div>
 
+            <!-- Demo data -->
+            <div v-if="isAdmin && demoCitizenCount > 0"
+                class="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 flex items-center justify-between gap-x-4">
+                <div class="flex items-center gap-x-4 min-w-0">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-600 shrink-0">
+                        <Icon name="ph:flask" class="h-6 w-6" />
+                    </div>
+                    <div class="min-w-0">
+                        <p class="font-semibold text-slate-900">
+                            {{ $t('discover.demoData.title') }}
+                        </p>
+                        <p class="text-sm text-slate-600">
+                            {{ $t('discover.demoData.desc', { count: demoCitizenCount }) }}
+                        </p>
+                    </div>
+                </div>
+                <button type="button" @click="removeDemoData" :disabled="state.isRemovingDemoData"
+                    class="shrink-0 inline-flex items-center gap-x-1.5 rounded-lg bg-white border border-amber-300 text-amber-700 px-3.5 py-2.5 text-sm font-medium hover:bg-amber-100 transition-colors disabled:opacity-60">
+                    {{ state.isRemovingDemoData ? $t('discover.demoData.removing') : $t('discover.demoData.remove') }}
+                </button>
+            </div>
+
             <!-- Step groups -->
             <div class="mt-6 space-y-4">
                 <div v-for="group in visibleGroups" :key="group.key" class="card !p-0 overflow-hidden">
@@ -156,8 +178,28 @@
                     </div>
                 </div>
 
-                <!-- Promo: mobile app -->
-                <div
+                <!-- Promo: the apps the marketing site sells, in the product -->
+                <div v-if="isAdmin"
+                    class="rounded-2xl border border-slate-200 bg-white p-6 flex items-center justify-between gap-x-4">
+                    <div class="flex items-center gap-x-4 min-w-0">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary shrink-0">
+                            <Icon name="ph:squares-four" class="h-6 w-6" />
+                        </div>
+                        <div class="min-w-0">
+                            <p class="font-semibold text-slate-900">{{ $t('discover.appsPromo.title') }}</p>
+                            <p class="text-sm text-slate-500">{{ $t('discover.appsPromo.desc') }}</p>
+                        </div>
+                    </div>
+                    <button type="button" @click="navigateTo('/apps')"
+                        class="shrink-0 inline-flex items-center gap-x-1.5 rounded-lg bg-primary text-white px-3.5 py-2.5 text-sm font-medium hover:bg-[#0d3f61] transition-colors">
+                        {{ $t('discover.appsPromo.cta') }}
+                        <Icon name="ph:arrow-right" class="h-4 w-4" />
+                    </button>
+                </div>
+
+                <!-- Promo: mobile app - doesn't make sense to someone already
+                     running the dedicated desktop app. -->
+                <div v-if="!isDesktopApp"
                     class="rounded-2xl bg-slate-800 text-white p-6 flex items-center justify-between gap-x-4 overflow-hidden relative">
                     <div class="relative z-10">
                         <h3 class="text-lg font-semibold">{{ $t('discover.promoTitle') }}</h3>
@@ -260,30 +302,64 @@ import { userService } from '@/components/api/user/UserService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { companyService } from '@/components/api/user/CompanyService'
+import { demoDataService } from '@/components/api/user/DemoDataService'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
+import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
 
 const runtimeConfig = useRuntimeConfig()
+const isDesktopApp = useIsDesktopApp()
 const userStore = useUserStore() as any
 const { isAtLeast } = usePermissions()
+const { successAlert, errorAlert } = useAlert()
+const { t } = useI18n()
 const isAdmin = computed(() => isAtLeast('Admin'))
 
 const firstName = computed(() => userStore.getUser?.firstname ?? '')
 
-// --- "What do you need" personalisation (persisted to the company) ---
-const moduleOptions = [
-    { key: 'vagtplan', icon: 'ph:calendar-dots' },
-    { key: 'medicin', icon: 'ph:pill' },
-    { key: 'dokumentation', icon: 'ph:files' },
-]
+// The industry the customer already told the marketing site about, carried
+// through `/register?industry=` and stored on the company. It decides which
+// journey this page shows and which module questions are worth asking.
+const industrySystemName = () => userStore.getUser?.company?.industry?.system_name ?? null
 
-const modules = reactive<Record<string, boolean>>({ vagtplan: true, medicin: true, dokumentation: true })
+// --- "What do you need" personalisation (persisted to the company) ---
+const { journey, moduleOptions } = useDiscoverJourney(industrySystemName)
+
+const modules = reactive<Record<string, boolean>>({
+    vagtplan: true, medicin: true, dokumentation: true,
+    useOfForce: true, carePlans: true, predefinedContent: true, priceEstimates: true,
+})
 
 const state = reactive({
     open: { migration: true, komIGang: true } as Record<string, boolean>,
     done: { departments: false, employees: false, citizens: false, shiftTags: false } as Record<string, boolean>,
     modal: { whatDoYouNeed: false, appInfo: false, importMapper: false },
+    isRemovingDemoData: false,
 })
+
+const demoCitizenCount = ref(0)
+
+async function fetchDemoDataStatus() {
+    if (!isAdmin.value) return
+    try {
+        const res: any = await demoDataService.status()
+        demoCitizenCount.value = res?.data?.citizens ?? 0
+    } catch (e) { /* not worth failing the page over */ }
+}
+
+async function removeDemoData() {
+    state.isRemovingDemoData = true
+    try {
+        await demoDataService.destroy()
+        demoCitizenCount.value = 0
+        successAlert(t('alert.success'), t('discover.demoData.removed'))
+    } catch (e: any) {
+        errorAlert(t('alert.warning'), e?.message ?? t('discover.demoData.removeFailed'))
+    }
+    state.isRemovingDemoData = false
+}
 
 function runStepAction(action: string) {
     if (action === 'import') state.modal.importMapper = true
@@ -294,53 +370,22 @@ function onImported(type: string) {
     else state.done.citizens = true
 }
 
-// --- Step definitions (copy lives in i18n: discover.groups.* / discover.steps.*) ---
-const groups = [
-    {
-        key: 'migration', icon: 'ph:download-simple', module: null, adminOnly: true,
-        steps: [
-            { key: 'import', action: 'import' },
-        ],
-    },
-    {
-        key: 'komIGang', icon: 'ph:buildings', module: null,
-        steps: [
-            { key: 'departments', tip: true, route: '/settings/departments', doneKey: 'departments' },
-            { key: 'roles', route: '/settings/roles' },
-            { key: 'employees', route: '/employees', doneKey: 'employees', lockedUntil: 'departments' },
-        ],
-    },
-    {
-        key: 'born', icon: 'ph:users-three', module: null,
-        steps: [
-            { key: 'children', route: '/citizens', doneKey: 'citizens' },
-            { key: 'childData', route: '/citizens' },
-        ],
-    },
-    {
-        key: 'vagtplan', icon: 'ph:calendar-dots', module: 'vagtplan',
-        steps: [
-            { key: 'shiftTypes', route: '/settings/duty-shift-rules' },
-            { key: 'shiftTags', route: '/settings/schedule-tags', doneKey: 'shiftTags' },
-            { key: 'schedule', route: '/schedules' },
-        ],
-    },
-    {
-        key: 'medicin', icon: 'ph:pill', module: 'medicin',
-        steps: [
-            { key: 'medicine', route: '/settings/medicines' },
-        ],
-    },
-    {
-        key: 'dokumentation', icon: 'ph:files', module: 'dokumentation',
-        steps: [
-            { key: 'templates', route: '/settings/roles' },
-        ],
-    },
-] as any[]
+// A group is shown when the company actually has the module behind it. The
+// Page list is the truth once the company has one; before that (a brand new
+// company whose rows are not written yet) the coarse toggles stand in.
+const enabledPages = computed<string[]>(() => {
+    const pages = userStore.getUser?.company?.module_pages
+    return Array.isArray(pages) ? pages : []
+})
 
-const visibleGroups = computed(() => groups.filter(g =>
-    (g.module === null || modules[g.module]) && (!g.adminOnly || isAdmin.value)
+function groupEnabled(group: any) {
+    if (!group.page) return group.module ? modules[group.module] !== false : true
+    if (enabledPages.value.length) return enabledPages.value.includes(group.page)
+    return group.module ? modules[group.module] !== false : true
+}
+
+const visibleGroups = computed(() => journey.value.filter(g =>
+    groupEnabled(g) && (!g.adminOnly || isAdmin.value)
 ))
 const totalSteps = computed(() => visibleGroups.value.reduce((n, g) => n + g.steps.length, 0))
 const totalDone = computed(() => visibleGroups.value.reduce((n, g) => n + groupDone(g), 0))
@@ -405,7 +450,12 @@ async function syncCompanyModules() {
 
 async function saveModules() {
     state.modal.whatDoYouNeed = false
-    const preferences = { modules: { ...modules }, hidden: [] as string[] }
+    // Only what this industry was actually asked about. A dentist never sees the
+    // use-of-force question, so saving a default answer to it would be us
+    // answering on their behalf.
+    const answered: Record<string, boolean> = {}
+    moduleOptions.value.forEach(option => { answered[option.key] = modules[option.key] })
+    const preferences = { modules: answered, hidden: [] as string[] }
     if (process.client) localStorage.setItem('co_discover_modules', JSON.stringify(modules))
     try {
         await companyService.updateOnboardingPreferences({ onboarding_preferences: preferences })
@@ -438,6 +488,14 @@ onMounted(async () => {
             }
         }
     }
+    // useOfForce/predefinedContent have no Page mapping, so the module_pages
+    // branch above never sets them - read them from onboarding_preferences
+    // directly, regardless of which branch ran, or a previously-saved "off"
+    // would silently show as "on" again next time this modal opens.
+    const savedModules = userStore.getUser?.company?.onboarding_preferences?.modules
+    if (typeof savedModules?.useOfForce === 'boolean') modules.useOfForce = savedModules.useOfForce
+    if (typeof savedModules?.predefinedContent === 'boolean') modules.predefinedContent = savedModules.predefinedContent
+    if (typeof savedModules?.priceEstimates === 'boolean') modules.priceEstimates = savedModules.priceEstimates
     // Data-derived completion (a few easy ones)
     try {
         const [d, u, c, tags] = await Promise.all([
@@ -448,8 +506,15 @@ onMounted(async () => {
         ])
         state.done.departments = (d?.data?.length ?? 0) > 0
         state.done.employees = (u?.data?.length ?? 0) > 1
-        state.done.citizens = (c?.data?.length ?? 0) > 0
+        // The citizen list always carries a synthetic "all citizens" entry, and a
+        // new company also starts with seeded demo records. Neither is a citizen
+        // the customer created, so neither counts as this step being done.
+        state.done.citizens = (c?.data ?? []).some((citizen: any) =>
+            citizen?.uuid !== 'all-citizens' && !citizen?.is_demo
+        )
         state.done.shiftTags = (tags?.data?.length ?? 0) > 0
     } catch (e) { }
+
+    fetchDemoDataStatus()
 })
 </script>

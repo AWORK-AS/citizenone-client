@@ -836,9 +836,8 @@ function getFieldBadge(field: string) {
 }
 
 function fieldRule(fieldName: string) {
-    // If no template is selected, all fields are required (legacy behaviour)
-    // If a template is selected, only fields configured as 'required' are required
-    const isRequired = !state.formNursingProfessionalRecord.template_uuid || activeFieldConfig.value[fieldName] === 'required'
+    // Areas are optional by default; a template can mark individual areas required.
+    const isRequired = activeFieldConfig.value[fieldName] === 'required'
     return isRequired
         ? { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) }
         : {}

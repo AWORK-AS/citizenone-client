@@ -26,7 +26,7 @@
 
                                 <nav class="flex flex-1 flex-col px-3 mt-1 overflow-y-auto">
                                     <!-- OVERSIGT -->
-                                    <div class="mb-1">
+                                    <div class="mb-1" v-if="groupedNav.oversigt.length">
                                         <p class="co-nav-group-label">
                                             {{ $t('superadmin.sidebar.groups.overview') }}
                                         </p>
@@ -41,7 +41,7 @@
                                     </div>
 
                                     <!-- ØKONOMI -->
-                                    <div class="mb-1" v-if="canViewFinancials">
+                                    <div class="mb-1" v-if="groupedNav.okonomi.length">
                                         <p class="co-nav-group-label">
                                             {{ $t('superadmin.sidebar.groups.finance') }}
                                         </p>
@@ -56,7 +56,7 @@
                                     </div>
 
                                     <!-- PLATFORM -->
-                                    <div class="mb-1">
+                                    <div class="mb-1" v-if="groupedNav.platform.length">
                                         <p class="co-nav-group-label">
                                             {{ $t('superadmin.sidebar.groups.platform') }}
                                         </p>
@@ -84,7 +84,7 @@
                                             </p>
                                             <p class="text-[11px] text-white/50 flex items-center gap-1">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>
-                                                {{ $t('superadmin.sidebar.superAdmin') }}
+                                                {{ roleLabel }}
                                             </p>
                                         </div>
                                         <Menu as="div" class="relative">
@@ -138,7 +138,7 @@
 
                 <nav class="flex flex-1 flex-col px-3 mt-1 overflow-y-auto">
                     <!-- OVERSIGT -->
-                    <div class="mb-1">
+                    <div class="mb-1" v-if="groupedNav.oversigt.length">
                         <p class="co-nav-group-label">
                             {{ $t('superadmin.sidebar.groups.overview') }}
                         </p>
@@ -152,7 +152,7 @@
                     </div>
 
                     <!-- ØKONOMI -->
-                    <div class="mb-1" v-if="canViewFinancials">
+                    <div class="mb-1" v-if="groupedNav.okonomi.length">
                         <p class="co-nav-group-label">
                             {{ $t('superadmin.sidebar.groups.finance') }}
                         </p>
@@ -166,7 +166,7 @@
                     </div>
 
                     <!-- PLATFORM -->
-                    <div class="mb-1">
+                    <div class="mb-1" v-if="groupedNav.platform.length">
                         <p class="co-nav-group-label">
                             {{ $t('superadmin.sidebar.groups.platform') }}
                         </p>
@@ -194,7 +194,7 @@
                             </p>
                             <p class="text-[11px] text-white/50 flex items-center gap-1">
                                 <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>
-                                {{ $t('superadmin.sidebar.superAdmin') }}
+                                {{ roleLabel }}
                             </p>
                         </div>
                         <Menu as="div" class="relative">
@@ -309,13 +309,10 @@ import { Dialog, DialogPanel, Menu, MenuButton, MenuItem, MenuItems, TransitionC
 import { authService } from '@/components/api/superadmin/AuthService'
 import { userService } from '@/components/api/superadmin/UserService'
 import { useUserStore } from '@/store/user'
-import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
-const { can } = usePermissions()
-const canViewFinancials = computed(() => can('view_financials'))
 const language = useI18n()
 const route = useRoute()
 
@@ -326,33 +323,43 @@ const state = reactive({
     slideOver: { isLanguageSwitcherOpen: false },
 })
 
-// ── Navigation groups matching Obiyen structure ──────────────────────────
-const groupedNav = {
-    oversigt: [
-        { name: 'Dashboard', label: 'superadmin.sidebar.dashboard', href: '/superadmin/dashboard', icon: 'material-symbols:dashboard', routes: ['superadmin-dashboard'] },
-        { name: 'Companies', label: 'superadmin.sidebar.companies', href: '/superadmin/companies', icon: 'ph:buildings', routes: ['superadmin-companies', 'superadmin-companies-new', 'superadmin-companies-company_uuid-edit', 'superadmin-companies-company_uuid-accounts', 'superadmin-companies-company_uuid-accounts-new', 'superadmin-companies-company_uuid-accounts-account_uuid-edit', 'superadmin-companies-company_uuid-invoices', 'superadmin-companies-company_uuid-license-overview', 'superadmin-companies-company_uuid-apps', 'superadmin-companies-company_uuid-overview'] },
-        { name: 'Users', label: 'superadmin.sidebar.users', href: '/superadmin/users', icon: 'ph:users-three', routes: ['superadmin-users', 'superadmin-users-new', 'superadmin-users-edit-uuid'] },
-    ],
-    okonomi: [
-        // { name: 'Finance', label: 'superadmin.sidebar.finance', href: '/superadmin/finance', icon: 'ph:chart-line-up', routes: ['superadmin-finance'] },
-        { name: 'Invoices', label: 'superadmin.sidebar.invoices', href: '/superadmin/invoices', icon: 'ph:invoice', routes: ['superadmin-invoices', 'superadmin-invoices-invoice_uuid'] },
-        { name: 'Orders', label: 'superadmin.sidebar.orders', href: '/superadmin/orders', icon: 'ph:database', routes: ['superadmin-orders'] },
-    ],
-    platform: [
-        // { name: 'Licenses', label: 'superadmin.sidebar.licenses', href: '/superadmin/licenses', icon: 'ph:key', routes: ['superadmin-licenses'] },
-        // { name: 'Products', label: 'superadmin.sidebar.products', href: '/superadmin/products', icon: 'ph:storefront', routes: ['superadmin-products'] },
-        { name: 'Apps', label: 'superadmin.sidebar.apps', href: '/superadmin/apps', icon: 'ic:baseline-apps', routes: ['superadmin-apps', 'superadmin-apps-new', 'superadmin-apps-appUuid-edit'] },
-        { name: 'App categories', label: 'superadmin.sidebar.appCategories', href: '/superadmin/app-categories', icon: 'ic:baseline-category', routes: ['superadmin-app-categories'] },
-        // { name: 'ClientRoles', label: 'superadmin.sidebar.clientRoles', href: '/superadmin/client-roles', icon: 'ph:shield-check', routes: ['superadmin-client-roles'] },
-        { name: 'Sales Campaign', label: 'superadmin.sidebar.salesCampaign', href: '/superadmin/sales-campaign', icon: 'ph:megaphone-simple', routes: ['superadmin-sales-campaign', 'superadmin-sales-campaign-new', 'superadmin-sales-campaign-edit-uuid'] },
-        // { name: 'Cancellations', label: 'superadmin.sidebar.cancellations', href: '/superadmin/compliance/cancellations', icon: 'ph:x-circle', routes: ['superadmin-compliance-cancellations'] },
-        { name: 'Polls', label: 'superadmin.sidebar.polls', href: '/superadmin/polls', icon: 'ph:chart-bar-horizontal', routes: ['superadmin-polls', 'superadmin-polls-new', 'superadmin-polls-pollUuid', 'superadmin-polls-pollUuid-edit'] },
-        { name: 'Coupons', label: 'superadmin.sidebar.coupons', href: '/superadmin/coupons', icon: 'ic:outline-discount', routes: ['superadmin-coupons', 'superadmin-coupons-new', 'superadmin-coupons-couponUuid-edit'] },
-        { name: 'StoragePackages', label: 'superadmin.sidebar.storagePackages', href: '/superadmin/storage-packages', icon: 'ph:cloud', routes: ['superadmin-storage-packages'] },
-        { name: 'EmailTemplates', label: 'superadmin.sidebar.emailTemplates', href: '/superadmin/email-templates', icon: 'ph:envelope-simple', routes: ['superadmin-email-templates'] },
-        { name: 'ReleaseNotes', label: 'releaseNotes.title', href: '/superadmin/release-notes', icon: 'ph:sparkle', routes: ['superadmin-release-notes'] },
-    ],
-}
+/*
+ * Menuen kommer fra `useSuperadminNav`, som også er det middleware'et spørger.
+ *
+ * Tabellen lå her, hvor den kun var en menu. Nu bestemmer den også hvad en rute kræver,
+ * og to lister ville drifte fra hinanden: enten et punkt der åbner en side API'et
+ * svarer 403 på, eller en side der er skjult men åben for den der kender adressen.
+ *
+ * Grupperne skjules når de er tomme. En bogholder har ét punkt under ØKONOMI og
+ * ingenting under PLATFORM, og en overskrift over ingenting er en overskrift der ser ud
+ * som om noget mangler.
+ */
+const { visible: groupedNav } = useSuperadminNav()
+
+/*
+ * Hvad der står under navnet i sidefoden.
+ *
+ * Der stod "Super Admin" for alle, og det er nu forkert for de fire ud af fem: en
+ * supporter der ser "Super Admin" under sit eget navn har ingen måde at forstå hvorfor
+ * halvdelen af menuen mangler. Rollen er svaret på det.
+ */
+const roleLabel = computed(() => {
+    const platformRole = (userStore.getUser?.roles ?? []).find((role: any) => role.is_platform_role)
+
+    if (!platformRole) {
+        return language.t('superadmin.sidebar.superAdmin')
+    }
+
+    const labels: Record<string, string> = {
+        Superadmin: language.t('superadmin.sidebar.superAdmin'),
+        Supporter: 'Supporter',
+        Sales: 'Salg',
+        Finance: 'Økonomi',
+        Bookkeeper: 'Bogholder',
+    }
+
+    return labels[platformRole.name] ?? platformRole.name
+})
 
 function isActive(item: any) {
     return item.routes?.includes(route.name as string) || route.path.startsWith(item.href + '/')
@@ -395,7 +402,7 @@ async function logout() {
     try {
         const response = await authService.logout()
         if (response) {
-            localStorage.removeItem('_token')
+            clearSessionToken()
             userStore.resetUser()
             navigateTo('/superadmin')
         }

@@ -10,6 +10,8 @@
         <span class="dot5">.</span>
     </div>
     <div class="grow" v-else>
+        <Alert type="danger" :text="state?.error?.message" class="m-3"
+            v-if="state.error?.message && state.error.message.length > 0" />
         <div class="relative">
             <div style="height: 80vh; overflow-y: auto;">
                 <div v-for="(email, emailIndex) in state.sentEmails" :key="emailIndex" :class="[

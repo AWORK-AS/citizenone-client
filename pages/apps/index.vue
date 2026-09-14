@@ -124,9 +124,16 @@
                             </h3>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <ModulesUserAppCard v-for="(app, index) in recommendedApps" :key="`rec-${index}`"
-                                :app="app" @readMore="readMore" @goToPartner="navigateToExternalLink"
-                                @activate="confirmTACAcceptance" />
+                            <div v-for="(app, index) in recommendedApps" :key="`rec-${index}`" class="relative">
+                                <ModulesUserAppSettingsMenu v-if="app.generic_name === 'salary.dk' && app.user_activated"
+                                    app-generic-name="salary.dk" disconnect-label-key="apps.salaryDk.disconnect"
+                                    @disconnect="openSalaryDkDisconnectModal(app)" />
+                                <ModulesUserAppSettingsMenu v-if="app.generic_name === 'danlon' && app.user_activated"
+                                    app-generic-name="danlon"
+                                    @disconnect="openDanlonDisconnectModal(app)" />
+                                <ModulesUserAppCard :app="app" @readMore="readMore"
+                                    @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
+                            </div>
                         </div>
                     </div>
 
@@ -144,9 +151,16 @@
                     </div>
 
                     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <ModulesUserAppCard v-for="(app, index) in visibleApps" :key="index" :app="app"
-                            @readMore="readMore" @goToPartner="navigateToExternalLink"
-                            @activate="confirmTACAcceptance" />
+                        <div v-for="(app, index) in visibleApps" :key="index" class="relative">
+                            <ModulesUserAppSettingsMenu v-if="app.generic_name === 'salary.dk' && app.user_activated"
+                                app-generic-name="salary.dk" disconnect-label-key="apps.salaryDk.disconnect"
+                                @disconnect="openSalaryDkDisconnectModal(app)" />
+                            <ModulesUserAppSettingsMenu v-if="app.generic_name === 'danlon' && app.user_activated"
+                                app-generic-name="danlon"
+                                @disconnect="openDanlonDisconnectModal(app)" />
+                            <ModulesUserAppCard :app="app" @readMore="readMore"
+                                @goToPartner="navigateToExternalLink" @activate="confirmTACAcceptance" />
+                        </div>
                     </div>
                     <div class="mt-8 rounded-xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center"
                         v-if="state.filter.onlyActivated && visibleApps.length === 0">
@@ -166,6 +180,48 @@
                 <ModulesUserAppModalTACConfirmation :isModalOpen="state.modal.isAcceptTACOpen"
                     :selectedApp="state.selectedApp" @close="state.modal.isAcceptTACOpen = false"
                     @confirmAppActivation="activateApp" />
+
+                <!-- Salary.dk Connect Modal (API key input) -->
+                <Modal size="sm" :title="$t('apps.salaryDk.connectTitle')" :show="state.modal.isSalaryDkConnectOpen"
+                    @close="state.modal.isSalaryDkConnectOpen = false">
+                    <template #modal-body>
+                        <div class="space-y-4">
+                            <p class="text-sm text-gray-500">{{ $t('apps.salaryDk.connectDescription') }}</p>
+                            <div class="space-y-1">
+                                <FormLabel :label="$t('apps.salaryDk.apiKey')" />
+                                <FormTextField name="salary_dk_api_key" :placeholder="$t('apps.salaryDk.apiKeyPlaceholder')"
+                                    v-model="state.salaryDkApiKey" />
+                            </div>
+                            <Alert type="danger" :text="state.salaryDkConnectError"
+                                v-if="state.salaryDkConnectError" />
+                            <div class="grid grid-cols-2 gap-3">
+                                <FormButton buttonStyle="cancel"
+                                    @click="state.modal.isSalaryDkConnectOpen = false">
+                                    {{ $t('cancel') }}
+                                </FormButton>
+                                <FormButton buttonStyle="primary" :disabled="!state.salaryDkApiKey.trim()"
+                                    @click="connectSalaryDk">
+                                    {{ $t('apps.salaryDk.connect') }}
+                                </FormButton>
+                            </div>
+                        </div>
+                    </template>
+                </Modal>
+
+                <!-- Salary.dk Disconnect Dialog -->
+                <DialogConfirmation :isModalOpen="state.modal.isSalaryDkDisconnectOpen"
+                    :message="$t('apps.salaryDk.disconnectConfirmation')"
+                    :title="$t('apps.salaryDk.disconnectTitle')"
+                    @close="state.modal.isSalaryDkDisconnectOpen = false" @confirm="disconnectSalaryDk" />
+
+                <!-- Danløn Disconnect Dialog -->
+                <DialogConfirmation
+                    :isModalOpen="state.modal.isDanlonDisconnectOpen"
+                    :message="$t('apps.danlon.disconnectConfirmation')"
+                    :title="$t('apps.danlon.disconnectTitle')"
+                    @close="state.modal.isDanlonDisconnectOpen = false"
+                    @confirm="disconnectDanlon"
+                />
             </LoadingSpinner>
         </NuxtLayout>
     </div>
@@ -176,6 +232,8 @@ import { appService } from '@/components/api/user/AppService'
 import { googledriveService } from '@/components/api/user/GoogleDriveService'
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 const onedriveService = new OneDriveService()
+import { salaryDkService } from '@/components/api/user/SalaryDkService'
+import { danlonService } from '@/components/api/user/DanlonService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -215,8 +273,13 @@ const state = reactive({
     modal: {
         isAcceptTACOpen: false,
         showAppDetails: false,
+        isSalaryDkConnectOpen: false,
+        isSalaryDkDisconnectOpen: false,
+        isDanlonDisconnectOpen: false,
     },
     selectedApp: [] as any,
+    salaryDkApiKey: '' as string,
+    salaryDkConnectError: '' as string,
 })
 
 const activeCategoryName = computed(() =>
@@ -228,11 +291,15 @@ const recommendedApps = computed(() =>
 )
 
 onMounted(async () => {
-    // Set up message listener for Google Drive popup callback
+    // Set up message listener for Google Drive and Danløn popup callbacks
     const handlePopupMessage = (event: MessageEvent) => {
         if (event.data?.type === 'google-drive-auth-complete') {
             fetchApps()
             successAlert(`${t('alert.success')}!`, 'Google Drive connection updated.')
+        }
+        if (event.data?.type === 'danlon-auth-complete') {
+            fetchApps()
+            successAlert(`${t('alert.success')}!`, t('apps.danlon.connected'))
         }
     }
 
@@ -253,6 +320,13 @@ onMounted(async () => {
             }
         }
         successAlert(`${t('alert.success')}!`, 'OneDrive forbindelse opdateret.')
+    }
+
+    // Lets another page link straight into a category (e.g. /apps?category=integrations)
+    // instead of landing on "All apps" and making the admin find it themselves.
+    const categoryQuery = router.currentRoute.value.query.category
+    if (typeof categoryQuery === 'string' && categoryQuery) {
+        state.filter.type = categoryQuery
     }
 
     await fetchCategories()
@@ -291,6 +365,11 @@ async function fetchApps() {
         state.error = error
     }
     state.isPageLoading = false
+
+    // Check connection statuses after loading indicator is cleared
+    updateGoogleDriveStatus()
+    updateDanlonStatus()
+    updateSalaryDkStatus()
 }
 
 function previous() {
@@ -352,7 +431,27 @@ async function activateApp(formApp: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        if (state.selectedApp?.generic_name === 'google-drive') {
+        if (state.selectedApp?.generic_name === 'salary.dk') {
+            state.modal.isAcceptTACOpen = false
+            state.salaryDkApiKey = ''
+            state.salaryDkConnectError = ''
+            state.modal.isSalaryDkConnectOpen = true
+            state.isPageLoading = false
+            return
+        } else if (state.selectedApp?.generic_name === 'danlon') {
+            state.modal.isAcceptTACOpen = false
+
+            const response = await danlonService.authorize()
+            if (response?.url) {
+                const popup = window.open(
+                    response.url,
+                    'DanlonAuth',
+                    'width=600,height=700,left=200,top=100'
+                )
+            }
+            state.isPageLoading = false
+            return
+        } else if (state.selectedApp?.generic_name === 'google-drive') {
             const response = await googledriveService.getGoogleDriveAuthUrl()
             if (response?.authUrl || response?.auth_url) {
                 const authUrl = response?.authUrl || response?.auth_url
@@ -429,6 +528,53 @@ async function activateApp(formApp: any) {
     state.isPageLoading = false
 }
 
+async function updateSalaryDkStatus() {
+    try {
+        const status = await salaryDkService.getSalaryDkStatus()
+        const isConnected = status?.connected || false
+        const app = state.apps?.data?.find(
+            (a: any) => a.generic_name === 'salary.dk'
+        )
+        if (app) app.user_activated = isConnected
+    } catch {
+        // Silently fail
+    }
+}
+
+function openSalaryDkDisconnectModal(app: any) {
+    state.selectedApp = app
+    state.modal.isSalaryDkDisconnectOpen = true
+}
+
+async function disconnectSalaryDk() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await salaryDkService.disconnectSalaryDk()
+        successAlert(`${t('alert.success')}!`, t('apps.salaryDk.disconnected'))
+        state.modal.isSalaryDkDisconnectOpen = false
+        fetchApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function connectSalaryDk() {
+    state.salaryDkConnectError = ''
+    state.isPageLoading = true
+    try {
+        await salaryDkService.connect(state.salaryDkApiKey.trim())
+        state.modal.isSalaryDkConnectOpen = false
+        state.salaryDkApiKey = ''
+        successAlert(`${t('alert.success')}!`, t('apps.salaryDk.connected'))
+        fetchApps()
+    } catch (error: any) {
+        state.salaryDkConnectError = error?.data?.message || error?.message || t('apps.salaryDk.connectError')
+    }
+    state.isPageLoading = false
+}
+
 async function navigateToExternalLink(link: any) {
     if (link) {
         await navigateTo(link, {
@@ -440,4 +586,52 @@ async function navigateToExternalLink(link: any) {
     }
 }
 
+async function updateGoogleDriveStatus() {
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        const isConnected = status?.connected || false
+
+        const googleDriveApp = state.apps?.data?.find(
+            (app: any) => app.generic_name === 'google-drive'
+        )
+        if (googleDriveApp) {
+            googleDriveApp.user_activated = isConnected
+        }
+    } catch (error) {
+        // Silently fail - if status check fails, rely on database value
+        console.error('Failed to check Google Drive status:', error)
+    }
+}
+
+async function updateDanlonStatus() {
+    try {
+        const status = await danlonService.getStatus()
+        const isConnected = status?.connected || false
+        const app = state.apps?.data?.find(
+            (a: any) => a.generic_name === 'danlon'
+        )
+        if (app) app.user_activated = isConnected
+    } catch {
+        // Silently fail
+    }
+}
+
+function openDanlonDisconnectModal(app: any) {
+    state.selectedApp = app
+    state.modal.isDanlonDisconnectOpen = true
+}
+
+async function disconnectDanlon() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await danlonService.disconnect()
+        successAlert(`${t('alert.success')}!`, t('apps.danlon.disconnected'))
+        state.modal.isDanlonDisconnectOpen = false
+        fetchApps()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
 </script>

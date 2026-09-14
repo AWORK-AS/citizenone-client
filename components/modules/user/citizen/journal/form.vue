@@ -118,7 +118,8 @@
                         :answers="state.surveyAnswers[assignment.uuid]" />
                 </div>
             </div>
-            <div class="space-y-1">
+            <!-- The level feeds the development graph, which is a care-plan measure. -->
+            <div class="space-y-1" v-if="hasCarePlans && isFieldVisible('score')">
                 <FormLabel for="score" :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
                 <FormSelect id="score" :options="state.options.scores" v-model="state.formJournal.score" />
                 <FormError :error="v$?.formJournal?.score?.$errors[0]?.$message.toString()" />
@@ -166,6 +167,7 @@
                     </p>
                     <div class="flex-1 flex flex-wrap items-center gap-2 justify-end">
                         <button type="button"
+                            v-if="userStore.getUser?.company?.onboarding_preferences?.modules?.predefinedContent !== false"
                             class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-200 transition-colors"
                             @click="state.modal.isSelectJournalContent = true">
                             <Icon name="ph:list-bullets" class="size-4" aria-hidden="true" />
@@ -194,7 +196,7 @@
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                             v-if="userStore.getUser?.has_ai_access" @click="openAiGeneratePreview('content')">
                             <div class="flex items-center">
-                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                <Icon name="ph:sparkle" class="h-4 w-4" aria-hidden="true" />
                             </div>
                             {{ $t('citizens.citizenJournals.form.prepareWithAI') }}
                         </FormButton>
@@ -202,6 +204,13 @@
                 </div>
                 <div class="co-editor">
                     <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
+                    <!-- The audit's "always review AI output" reminder belongs where the
+                    text was generated, not only in the assistant. -->
+                    <p v-if="state.formJournal.is_ai_used"
+                        class="mt-1.5 flex items-start gap-1.5 text-xs text-gray-400">
+                        <Icon name="ph:sparkle" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                        {{ $t('assistants.reviewNotice') }}
+                    </p>
                 </div>
                 <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
@@ -314,7 +323,7 @@
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                             v-if="userStore.getUser?.has_ai_access" @click="openAiGeneratePreview('note')">
                             <div class="flex items-center">
-                                <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                                <Icon name="ph:sparkle" class="h-4 w-4" aria-hidden="true" />
                             </div>
                             {{ $t('citizens.citizenJournals.form.prepareWithAI') }}
                         </FormButton>
@@ -322,6 +331,13 @@
                 </div>
                 <div class="co-editor">
                     <ckeditor :editor="editor" v-model="state.formJournal.note" :config="editorNoteConfig"></ckeditor>
+                    <!-- The audit's "always review AI output" reminder belongs where the
+                    text was generated, not only in the assistant. -->
+                    <p v-if="state.formJournal.is_ai_used"
+                        class="mt-1.5 flex items-start gap-1.5 text-xs text-gray-400">
+                        <Icon name="ph:sparkle" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                        {{ $t('assistants.reviewNotice') }}
+                    </p>
                 </div>
                 <FormError :error="v$?.formJournal?.note?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.note?.[0]" />
@@ -382,6 +398,14 @@
                     <FormCheckbox id="is_draft" :value="state.formJournal.is_draft" />
                     {{ $t('citizens.citizenJournals.form.draft') }}
                 </div>
+            </div>
+            <div class="space-y-1" v-if="isDentalClinic">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formJournal.is_visible_to_patient = !state.formJournal.is_visible_to_patient">
+                    <FormCheckbox id="is_visible_to_patient" :value="state.formJournal.is_visible_to_patient" />
+                    {{ $t('patient.staff.noteVisibleToPatient') }}
+                </div>
+                <p class="text-xs text-gray-500">{{ $t('patient.staff.noteVisibleToPatientHelp') }}</p>
             </div>
             <div class="space-y-3" v-if="userStore?.getUser?.industry === 'Dentists and dental hygienists'">
                 <div class="space-y-1">
@@ -486,6 +510,7 @@ import { Mention } from 'ckeditor5'
 import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
+import { useAssistantStore } from '@/store/assistant'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -512,6 +537,21 @@ const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const citizenStore = useCitizenStore() as any
 const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
+
+// Same rule as the follow-up bell on the citizen header.
+const hasCarePlans = computed(() => userStore?.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
+
+// The patient portal only exists for dental clinics, so the sharing switch is
+// only offered there. Same rule as the other dental features: the industry's
+// system name, with the English industry name still counting until every
+// install is migrated.
+const isDentalClinic = computed(() => {
+    const industry = userStore?.getUser?.company?.industry
+
+    return industry?.system_name === 'dental'
+        || industry?.en_name === 'Dentists and dental hygienists'
+        || userStore?.getUser?.industry === 'Dentists and dental hygienists'
+})
 const language = useI18n()
 
 const { t } = useI18n()
@@ -586,6 +626,7 @@ const state = reactive({
         risk_assessment_subgoal: '',
         title: '',
         is_draft: false,
+        is_visible_to_patient: false,
         is_ai_used: false,
         assessment: null,
         note: '',
@@ -654,8 +695,8 @@ const state = reactive({
     usePredefinedJournalTitle: false,
     userPredefinedContents: false,
     formFieldConfig: {
-        create: { risk_assessment: true } as Record<string, boolean>,
-        edit: { risk_assessment: true } as Record<string, boolean>,
+        create: { risk_assessment: true, score: true } as Record<string, boolean>,
+        edit: { risk_assessment: true, score: true } as Record<string, boolean>,
     },
 })
 
@@ -672,6 +713,7 @@ async function fetchFormFieldConfig() {
                 if (config.form_type === 'create' || config.form_type === 'edit') {
                     state.formFieldConfig[config.form_type as 'create' | 'edit'] = {
                         risk_assessment: config.form_fields?.risk_assessment !== false,
+                        score: config.form_fields?.score !== false,
                     }
                 }
             })
@@ -916,6 +958,7 @@ function setFormJournalFromSelected(journal: any) {
         risk_assessment_subgoal: '',
         title: journal.title,
         is_draft: journal.is_draft,
+        is_visible_to_patient: journal.is_visible_to_patient ?? false,
         is_ai_used: journal.is_ai_used ?? false,
         assessment: journal.assessment,
         note: journal.note === null ? '' : journal.note,
@@ -1350,6 +1393,23 @@ async function transcribeAndStructure() {
     }
     isTranscribing.value = false
 }
+
+// While this form is open the assistant may hand its answer straight into the
+// note, so the user does not copy out of one panel and paste into the other.
+// The panel never touches the editor: it only asks, and the answer lands here.
+const assistantStore = useAssistantStore()
+
+onMounted(() => assistantStore.offerInsertTarget(t('sidebar.journalNotes')))
+onBeforeUnmount(() => assistantStore.withdrawInsertTarget())
+
+watch(() => assistantStore.pendingInsert, (html: string | null) => {
+    if (!html) return
+
+    const existing = state.formJournal.content ?? ''
+    state.formJournal.content = existing ? `${existing}<p></p>${html}` : html
+    state.formJournal.is_ai_used = true
+    assistantStore.insertHandled()
+})
 
 async function generateNoteForJournalContent(excludedJournalUuids: string[] = [], excludedPlanUuids: string[] = []) {
     state.error = {}

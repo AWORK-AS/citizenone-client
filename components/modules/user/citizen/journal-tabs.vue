@@ -14,6 +14,7 @@ const userStore = useUserStore()
 const { t, locale } = useI18n()
 const { term } = useTerminology()
 const { errorAlert } = useAlert()
+const { industryHasFeature } = useIndustryFeatures()
 
 const state = reactive({
     tabs: [] as any[],
@@ -32,6 +33,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     const can = (name: string) => companyHasModule(name) && pages.some((page: any) => page.name === name)
     const systemName = newValue?.company?.industry?.system_name
     const isEmploymentServices = systemName === 'employment_services'
+    const isDental = systemName === 'dental'
 
     const tabs: any[] = []
 
@@ -43,6 +45,46 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-journals'],
         })
     }
+    if (industryHasFeature('toothChart')) {
+        tabs.push({
+            name: 'citizens.tabs.toothChart', icon: 'ph:tooth', isTranslateName: true,
+            category: 'care', primary: true,
+            href: `/citizens/${citizenUuid}/tooth-chart`,
+            routeNames: ['citizens-uuid-tooth-chart'],
+        })
+    }
+    // Forms sent to the patient to fill in themselves. Only where there is a portal to send
+    // them to; a clinic without it would get a tab that cannot do anything.
+    if (isDental && newValue?.has_patient_app) {
+        tabs.push({
+            name: 'citizens.tabs.patientForms', icon: 'ph:note-pencil', isTranslateName: true,
+            href: `/citizens/${citizenUuid}/patient-forms`,
+            routeNames: ['citizens-uuid-patient-forms'],
+            category: 'documentation', primary: false,
+        })
+    }
+
+    // Quoting before treatment is a way of working rather than something every
+    // clinic does, so it follows the company's own choice like the medicine card
+    // and the documents tab do - not the industry alone.
+    if (industryHasFeature('priceEstimates') && newValue?.company?.onboarding_preferences?.modules?.priceEstimates !== false) {
+        tabs.push({
+            name: 'citizens.tabs.priceEstimates', icon: 'ph:receipt', isTranslateName: true,
+            category: 'admin', primary: false,
+            href: `/citizens/${citizenUuid}/price-estimates`,
+            routeNames: ['citizens-uuid-price-estimates'],
+        })
+    }
+    // Invoicing is a module a company switches on, so the tab follows the app
+    // rather than the industry.
+    if (newValue?.has_invoice_app) {
+        tabs.push({
+            name: 'citizens.tabs.invoices', icon: 'ph:currency-circle-dollar', isTranslateName: true,
+            category: 'admin', primary: false,
+            href: `/citizens/${citizenUuid}/invoices`,
+            routeNames: ['citizens-uuid-invoices'],
+        })
+    }
     // Not rendered in the nav/"More" dropdown anymore (surfaced in the details card instead),
     // but kept in `tabs` so direct navigation to the full timeline page isn't treated as inaccessible.
     tabs.push({
@@ -51,7 +93,14 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
         href: `/citizens/${citizenUuid}/timeline`,
         routeNames: ['citizens-uuid-timeline'],
     })
-    if (can('Medicine card') && newValue?.company?.onboarding_preferences?.modules?.medicin !== false) {
+    // can('Medicine card') already reflects the company's real module_pages
+    // choice (what Settings -> Company actually manages). A redundant check
+    // against onboarding_preferences.modules.medicin used to also gate this -
+    // but Settings -> Company updates module_pages without ever touching
+    // onboarding_preferences, so a company that answered "no" during initial
+    // onboarding and later turned Medicine card on via Settings kept this tab
+    // permanently hidden despite the module being genuinely enabled and used.
+    if (can('Medicine card')) {
         tabs.push({
             name: 'citizens.tabs.medicineCard', icon: 'ph:pill', isTranslateName: true,
             category: 'care', primary: true,
@@ -59,16 +108,14 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-medicine-journals'],
         })
     }
-    if (can('Plans and goals') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
+    // Same stale-flag issue as Medicine card above - can('Documents') is
+    // already the authoritative, up-to-date check.
+    if (can('Documents')) {
         tabs.push({
-            name: 'citizens.tabs.plansAndGoals', icon: 'ph:target', isTranslateName: true,
-            category: 'care', primary: true,
-            href: `/citizens/${citizenUuid}/plans-and-goals/all`,
-            routeNames: [
-                'citizens-uuid-plans-and-goals-all',
-                'citizens-uuid-plans-and-goals-active',
-                'citizens-uuid-plans-and-goals-archived',
-            ],
+            name: 'citizens.tabs.documents', icon: 'ph:files', isTranslateName: true,
+            category: 'documentation', primary: true,
+            href: `/citizens/${citizenUuid}/documents`,
+            routeNames: ['citizens-uuid-documents'],
         })
     }
     if (can('Health')) {
@@ -83,12 +130,17 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             ],
         })
     }
-    if (can('Documents') && newValue?.company?.onboarding_preferences?.modules?.dokumentation !== false) {
+    // Same stale-flag issue as Medicine card/Documents above.
+    if (can('Plans and goals')) {
         tabs.push({
-            name: 'citizens.tabs.documents', icon: 'ph:files', isTranslateName: true,
-            category: 'documentation', primary: false,
-            href: `/citizens/${citizenUuid}/documents`,
-            routeNames: ['citizens-uuid-documents'],
+            name: 'citizens.tabs.plansAndGoals', icon: 'ph:target', isTranslateName: true,
+            category: 'care', primary: false,
+            href: `/citizens/${citizenUuid}/plans-and-goals/all`,
+            routeNames: [
+                'citizens-uuid-plans-and-goals-all',
+                'citizens-uuid-plans-and-goals-active',
+                'citizens-uuid-plans-and-goals-archived',
+            ],
         })
     }
     if (newValue?.is_surveys_active) {

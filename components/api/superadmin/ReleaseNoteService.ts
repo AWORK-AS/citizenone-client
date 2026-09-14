@@ -9,16 +9,28 @@ class ReleaseNoteService extends BaseAPIService {
         return await this.request(`/superadmin/release-notes/${uuid}`, 'GET')
     }
 
-    async createReleaseNote(params: object): Promise<any> {
-        return await this.request(`/superadmin/release-notes`, 'POST', params)
+    // Multipart: a note can carry a screenshot.
+    async createReleaseNote(form: FormData): Promise<any> {
+        return await this.requestFormData(`/superadmin/release-notes`, form)
     }
 
-    async updateReleaseNote(uuid: string, params: object): Promise<any> {
-        return await this.request(`/superadmin/release-notes/${uuid}`, 'PUT', params)
+    // POST with _method=PUT in the body, since a PUT with a file body is not
+    // parsed by PHP.
+    async updateReleaseNote(uuid: string, form: FormData): Promise<any> {
+        return await this.requestFormData(`/superadmin/release-notes/${uuid}`, form)
+    }
+
+    // Ask the approver again, for a note whose first request never arrived.
+    async notifyApprover(uuid: string): Promise<any> {
+        return await this.request(`/superadmin/release-notes/${uuid}/notify`, 'POST')
     }
 
     async publishReleaseNote(uuid: string): Promise<any> {
         return await this.request(`/superadmin/release-notes/${uuid}/publish`, 'PUT')
+    }
+
+    async unpublishReleaseNote(uuid: string): Promise<any> {
+        return await this.request(`/superadmin/release-notes/${uuid}/unpublish`, 'PUT')
     }
 
     async deleteReleaseNote(uuid: string): Promise<any> {

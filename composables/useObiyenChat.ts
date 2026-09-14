@@ -7,9 +7,13 @@
 // re-apply the "hidden by default" state - logout must hide it directly too.
 const REVEALED_KEY = 'obiyen_chat_revealed'
 
-function getBubble(): HTMLElement | null {
+function getHost(): HTMLElement | null {
     if (typeof document === 'undefined') return null
-    const host = document.getElementById('obiyen-chat-widget')
+    return document.getElementById('obiyen-chat-widget')
+}
+
+function getBubble(): HTMLElement | null {
+    const host = getHost()
     return (host?.shadowRoot?.querySelector('.cw-bubble') as HTMLElement) ?? null
 }
 
@@ -35,10 +39,40 @@ export function useObiyenChat() {
         }
     }
 
+    /**
+     * Slide the chat bubble (and the window it opens) sideways so it stops
+     * sitting on top of the assistant panel's input field, which is exactly
+     * where it landed while someone was typing to the AI (Birketoften 31/8).
+     *
+     * The widget lives outside the Nuxt root in its own shadow DOM and
+     * positions itself `fixed`, so the offset is applied as a transform on the
+     * host - which becomes the containing block for those fixed children. A
+     * host rendered as `display: contents` cannot carry a transform, so the
+     * bubble itself is moved instead.
+     */
+    function setSideOffset(pixels: number) {
+        const host = getHost()
+        if (!host) return
+
+        const value = pixels > 0 ? `translateX(-${pixels}px)` : ''
+        const isContents = typeof getComputedStyle === 'function'
+            && getComputedStyle(host).display === 'contents'
+
+        if (isContents) {
+            host.style.transform = ''
+            getBubble()?.style.setProperty('transform', value)
+
+            return
+        }
+
+        host.style.transform = value
+        host.style.transition = 'transform 300ms ease-in-out'
+    }
+
     function resetOnLogout() {
         try { sessionStorage.removeItem(REVEALED_KEY) } catch { /* ignore */ }
         hideBubble()
     }
 
-    return { isRevealedThisSession, hideBubble, revealAndOpenChat, resetOnLogout }
+    return { isRevealedThisSession, hideBubble, revealAndOpenChat, setSideOffset, resetOnLogout }
 }

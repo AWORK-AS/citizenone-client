@@ -492,7 +492,7 @@
                     <DialogConfirmation :isModalOpen="state.modal.isActiveGoogleDriveOpen"
                         :title="$t('drive.googleDrive')"
                         :message="$t('drive.googleDriveNotActivatedMessage') || 'Google Drive is not activated. Activate now?'"
-                        @close="state.modal.isActiveGoogleDriveOpen = false" @confirm="navigateToApps" />
+                        @close="state.modal.isActiveGoogleDriveOpen = false" @confirm="connectGoogleDrive" />
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteGoogleDriveFileOpen"
                         :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
                         @close="state.modal.isDeleteGoogleDriveFileOpen = false" @confirm="deleteGoogleDriveFile" />
@@ -518,8 +518,11 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
+import { documentBlobViewer } from '@/composables/documentBlobViewer'
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 import { useOneDriveCache } from '@/composables/useOneDriveCache'
+
+const { openBlobInNewTab } = documentBlobViewer()
 const oneDriveService = new OneDriveService()
 const runtimeConfig = useRuntimeConfig()
 
@@ -991,9 +994,23 @@ async function toggleGoogleDriveView() {
     }
 }
 
-async function navigateToApps() {
+async function connectGoogleDrive() {
     state.modal.isActiveGoogleDriveOpen = false
-    await navigateTo('/apps')
+    try {
+        const response = await googledriveService.getGoogleDriveAuthUrl()
+        const authUrl = response?.authUrl || response?.auth_url
+        if (!authUrl) return
+        window.open(authUrl, 'Google Drive Authentication', 'width=500,height=600')
+        const handleAuthComplete = (event: MessageEvent) => {
+            if (event.data?.type === 'google-drive-auth-complete') {
+                window.removeEventListener('message', handleAuthComplete)
+                toggleGoogleDriveView()
+            }
+        }
+        window.addEventListener('message', handleAuthComplete)
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function openGoogleDriveFile(file: any) {
@@ -1308,9 +1325,29 @@ function viewDownloadDocument(document: any) {
     if (['docx', 'pages'].includes(extension)) {
         state.selectedDocument = document
         state.modal.isViewDocumentOpen = true
-    } else {
+    } else if (document?.is_onedrive) {
         downloadFile(document)
+    } else {
+        viewFile(document)
     }
+}
+
+// GDPR ask from the 2026-09-03 superbrugermøde: opening a company document
+// should not force it to disk. Only for locally-hosted files - OneDrive keeps
+// its existing download flow above, which already deals with its own
+// PDF-conversion/webUrl fallbacks.
+async function viewFile(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await documentService.downloadFile(document?.uuid)
+        if (response) {
+            openBlobInNewTab(response)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function openDownloadDocumentPdfDialog(document: any) {

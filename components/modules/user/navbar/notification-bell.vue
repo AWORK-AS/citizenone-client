@@ -173,23 +173,28 @@ const PAGE_LENGTH = 10
 const categories = computed(() => [
     { key: 'all', label: t('bellNotification.categories.all'), icon: 'ph:list' },
     { key: 'duty_shift', label: t('bellNotification.categories.dutyShift'), icon: 'ph:shield-check' },
+    { key: 'schedule_updated', label: t('bellNotification.categories.schedule'), icon: 'ph:calendar' },
     { key: 'birthday', label: t('bellNotification.categories.birthday'), icon: 'ph:cake' },
 ])
 
 function getCategory(type: string): string {
     if (!type) return 'other'
     if (type.toLowerCase().includes('dutyshiftrule')) return 'duty_shift'
+    if (type.toLowerCase().includes('scheduleupdated')) return 'schedule_updated'
     if (type.toLowerCase().includes('birthday')) return 'birthday'
     if (type.toLowerCase().includes('surveyreturned')) return 'survey'
     if (type.toLowerCase().includes('journalmention')) return 'journal_mention'
+    if (type.toLowerCase().includes('shiftrequest')) return 'shift_request'
     return 'other'
 }
 
 const categoryStyles: Record<string, { bg: string; icon: string; color: string }> = {
     duty_shift: { bg: 'bg-primary/10', icon: 'ph:shield-check', color: 'text-primary' },
+    schedule_updated: { bg: 'bg-primary/10', icon: 'ph:calendar', color: 'text-primary' },
     birthday: { bg: 'bg-accent-orange/10', icon: 'ph:cake', color: 'text-accent-orange' },
     survey: { bg: 'bg-primary/10', icon: 'ph:clipboard-text', color: 'text-primary' },
     journal_mention: { bg: 'bg-secondary/10', icon: 'ph:at', color: 'text-secondary' },
+    shift_request: { bg: 'bg-primary/10', icon: 'mdi:calendar-plus', color: 'text-primary' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -330,9 +335,25 @@ async function fetchAllBirthdayNotifications() {
     state.isLoading = false
 }
 
+async function fetchAllScheduleUpdatedNotifications() {
+    state.isLoading = true
+    try {
+        const response = await notificationService.getSystemNotifications({ page_length: PAGE_LENGTH, page: 1, type: 'ScheduleUpdated' })
+        if (response) {
+            state.notifications = response?.data ?? []
+            state.hasMore = (response?.last_page ?? 1) > 1
+            state.currentPage = 1
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoading = false
+}
+
 function fetchNotificationsByCategory() {
     state.notifications = []
     if (state.activeCategory === 'duty_shift') return fetchAllDutyShiftRuleNotifications()
+    if (state.activeCategory === 'schedule_updated') return fetchAllScheduleUpdatedNotifications()
     if (state.activeCategory === 'birthday') return fetchAllBirthdayNotifications()
     return fetchAllNotifications()
 }
@@ -370,6 +391,43 @@ async function handleNotifClick(notif: any) {
     if (getCategory(notif.type) === 'duty_shift') {
         state.isOpen = false
         navigateTo('/notifications/duty-shift-rule-notifications')
+        return
+    }
+    if (getCategory(notif.type) === 'schedule_updated') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        navigateTo('/schedules')
+        return
+    }
+    if (getCategory(notif.type) === 'shift_request') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        const employeeUuid = notif.data?.content?.employee?.uuid
+        if (employeeUuid) {
+            navigateTo(`/schedules?shiftRequestEmployee=${employeeUuid}`)
+        }
         return
     }
     if (getCategory(notif.type) === 'survey') {

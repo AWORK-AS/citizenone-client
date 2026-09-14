@@ -56,21 +56,25 @@ interface Command {
     icon?: string
     hint?: string
     group?: string
+    /** Extra words the entry should be findable by, beyond its own label. */
+    keywords?: string
+    /**
+     * Kept out of the resting list and only offered once something is typed.
+     * The settings are the reason: there are some fifty of them, and an empty
+     * palette that opens on a wall of settings buries the six pages people
+     * actually navigate to.
+     */
+    onlyWhenSearching?: boolean
     run: () => void
 }
 
 const props = defineProps<{ commands: Command[] }>()
 
-const { isOpen, close, toggle } = useCommandPalette()
-
-function onKeydown(e: KeyboardEvent) {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault()
-        toggle()
-    }
-}
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onUnmounted(() => window.removeEventListener('keydown', onKeydown))
+// ⌘K/Ctrl+K now opens ModulesUserNavbarGlobalSearch instead (it merges in
+// this same pageCommands list - see its actionResults/visibleActions - and
+// additionally searches citizens/journals/medicines/etc. live). This palette
+// stays reachable via its own explicit button in the top bar.
+const { isOpen, close } = useCommandPalette()
 const query = ref('')
 const activeIndex = ref(0)
 const inputRef = ref<HTMLInputElement | null>(null)
@@ -87,10 +91,9 @@ watch(isOpen, (v) => {
 
 const filtered = computed(() => {
     const q = query.value.trim().toLowerCase()
-    const list = q
-        ? props.commands.filter((c) => c.label.toLowerCase().includes(q))
-        : props.commands
-    return list
+    if (!q) return props.commands.filter((c) => !c.onlyWhenSearching)
+    return props.commands.filter((c) =>
+        c.label.toLowerCase().includes(q) || (c.keywords || '').toLowerCase().includes(q))
 })
 
 // group, and stamp a flat index for keyboard navigation

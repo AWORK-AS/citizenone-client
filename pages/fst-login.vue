@@ -154,6 +154,8 @@
 					</label>
 					<input id="fst-email" v-model="state.formLogin.email" type="email"
 						:placeholder="$t('login.form.emailPlaceholder')" autocomplete="email" />
+					<FormError :error="v$?.formLogin?.email?.$errors[0]?.$message.toString()" />
+					<FormError :error="state?.error?.errors?.email?.[0]" />
 				</div>
 
 				<div class="fst-field">
@@ -171,6 +173,8 @@
 								<circle cx="12" cy="12" r="3" />
 							</svg>
 						</button>
+						<FormError :error="v$?.formLogin?.password?.$errors[0]?.$message.toString()" />
+						<FormError :error="state?.error?.errors?.password?.[0]" />
 					</div>
 				</div>
 
@@ -400,7 +404,7 @@ async function login() {
 				if (response.data?.user?.is_google_2fa_enabled) {
 					state.modal.isGoogle2faVerificationOpen = true
 				} else {
-					localStorage.setItem("_token", response.data?.token)
+					await setSessionToken(response.data?.token)
 					departmentStore.resetSelectedDepartment()
 					departmentStore.resetSelectedDepartmentColor()
 					departmentStore.resetSelectedDepartmentName()

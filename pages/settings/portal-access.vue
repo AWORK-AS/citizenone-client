@@ -35,21 +35,29 @@
                             <div class="flex flex-wrap items-center gap-3 px-5 py-4 border-b border-gray-100">
                                 <span
                                     class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
-                                    <Icon :name="group.audience === 'relative' ? 'ph:users-three' : 'ph:handshake'"
-                                        class="w-5 h-5" />
+                                    <Icon :name="groupIcon(group.audience)" class="w-5 h-5" />
                                 </span>
                                 <div>
                                     <p class="font-semibold text-gray-800 text-sm">
                                         {{ $t(`portalAccess.audience.${group.audience}`) }}
                                     </p>
-                                    <p class="text-xs text-gray-500">
+                                    <!-- The patient portal is sold per clinic, so it has no seat
+                                         count - the useful number is how many can get in. -->
+                                    <p class="text-xs text-gray-500" v-if="group.seats_total === null">
+                                        {{ $t('portalAccess.peopleWithAccess', { count: group.seats_used }) }}
+                                    </p>
+                                    <p class="text-xs text-gray-500" v-else>
                                         {{ $t('portalAccess.seatsInUse', {
                                             used: group.seats_used, total: group.seats_total
                                         }) }}
                                     </p>
                                 </div>
                                 <div class="ml-auto flex items-center gap-3">
-                                    <span v-if="group.seats_total === 0"
+                                    <span v-if="group.seats_total === null"
+                                        class="text-xs font-medium rounded-full bg-green-100 text-green-800 px-3 py-1">
+                                        {{ $t('portalAccess.includedForTheClinic') }}
+                                    </span>
+                                    <span v-else-if="group.seats_total === 0"
                                         class="text-xs font-medium rounded-full bg-gray-100 text-gray-600 px-3 py-1">
                                         {{ $t('portalAccess.appNotBought') }}
                                     </span>
@@ -61,7 +69,8 @@
                                         class="text-xs font-medium rounded-full bg-green-100 text-green-800 px-3 py-1">
                                         {{ $t('portalAccess.seatsAvailable', { count: group.seats_available }) }}
                                     </span>
-                                    <FormButton type="button" buttonStyle="action" @click="navigateTo('/apps')">
+                                    <FormButton v-if="group.seats_total !== null" type="button" buttonStyle="action"
+                                        @click="navigateTo('/apps')">
                                         {{ group.seats_total === 0 ? $t('portalAccess.getApp') :
                                             $t('portalAccess.buyMoreSeats') }}
                                     </FormButton>
@@ -121,6 +130,13 @@
 </template>
 
 <script setup lang="ts">
+function groupIcon(audience: string): string {
+    if (audience === 'relative') return 'ph:users-three'
+    if (audience === 'patient') return 'ph:tooth'
+
+    return 'ph:handshake'
+}
+
 import { portalAccessService } from '@/components/api/user/PortalAccessService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'

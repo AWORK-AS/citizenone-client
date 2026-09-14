@@ -80,6 +80,7 @@ const state = reactive({
         gender: '',
         email: '',
         social_security_number: '',
+        case_number: '',
         birthday: '',
         phone: '',
         departments: [],
@@ -91,6 +92,9 @@ const state = reactive({
         city: '',
         post_code: '',
         origin: '',
+        spoken_languages: [],
+        primary_spoken_language: '',
+        requires_interpreter: false,
         diagnoses: [],
         medication_allergies: [],
         addictions: [],
@@ -116,6 +120,7 @@ const state = reactive({
         red: '',
         has_system_access: false,
         has_chat_access: false,
+        has_patient_journal_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
@@ -130,6 +135,8 @@ const state = reactive({
             accommodation_start_date: '',
             journal_number: '',
             contract_price: '',
+            contract_hours: '',
+            contract_hours_interval: 'weekly',
             primary_split_percentage: '',
             accompanying_children: [{
                 name: '',
@@ -172,6 +179,7 @@ async function fetchCitizen() {
                 gender: response?.data?.gender ?? '',
                 email: response?.data?.email ?? '',
                 social_security_number: response?.data?.social_security_number ?? '',
+                case_number: response?.data?.case_number ?? '',
                 birthday: response?.data?.birthday ?? '',
                 phone: response?.data?.phone ?? '',
                 departments: [],
@@ -183,6 +191,9 @@ async function fetchCitizen() {
                 city: response?.data?.address?.city ?? '',
                 post_code: response?.data?.address?.post_code ?? '',
                 origin: response?.data?.origin?.uuid?.toString() ?? '',
+                spoken_languages: [],
+                primary_spoken_language: '',
+                requires_interpreter: response?.data?.requires_interpreter ?? false,
                 diagnoses: [],
                 medication_allergies: [],
                 addictions: [],
@@ -208,6 +219,7 @@ async function fetchCitizen() {
                 red: response?.data?.red ?? '',
                 has_system_access: response?.data?.has_system_access ?? '',
                 has_chat_access: response?.data?.has_chat_access ?? '',
+                has_patient_journal_access: response?.data?.has_patient_journal_access ?? false,
                 has_duty_schedule_access: response?.data?.has_duty_schedule_access ?? '',
                 has_bullet_board_access: response?.data?.has_bullet_board_access ?? '',
                 inquiryData: {
@@ -222,6 +234,8 @@ async function fetchCitizen() {
                     accommodation_start_date: response?.data?.stay_data?.start_date ?? '',
                     journal_number: response?.data?.stay_data?.journal_number ?? '',
                     contract_price: response?.data?.stay_data?.contract_price ?? '',
+                    contract_hours: response?.data?.stay_data?.contract_hours ?? '',
+                    contract_hours_interval: response?.data?.stay_data?.contract_hours_interval || 'weekly',
                     primary_split_percentage: response?.data?.stay_data?.primary_split_percentage ?? '',
                     accompanying_children: response?.data?.stay_data?.accompanying_children ?? [{
                         name: '',
@@ -250,6 +264,12 @@ async function fetchCitizen() {
             response?.data?.diagnoses?.forEach((diagnosis: any) => {
                 state.formCitizen.diagnoses.push(diagnosis?.uuid)
             })
+            response?.data?.spoken_languages?.forEach((spokenLanguage: any) => {
+                state.formCitizen.spoken_languages.push(spokenLanguage?.uuid)
+                if (spokenLanguage?.is_primary) {
+                    state.formCitizen.primary_spoken_language = spokenLanguage?.uuid
+                }
+            })
             response?.data?.allergies?.forEach((medication_allergy: any) => {
                 state.formCitizen.medication_allergies.push(medication_allergy?.uuid)
             })
@@ -274,6 +294,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('gender', citizenDetails.gender)
         params.append('email', citizenDetails.email)
         params.append('social_security_number', citizenDetails.social_security_number)
+        params.append('case_number', citizenDetails.case_number ?? '')
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
@@ -298,6 +319,9 @@ async function updateCitizen(citizenDetails: any) {
         } else {
             params.append('origin_uuid', citizenDetails.origin)
         }
+        params.append('spoken_languages_uuid', JSON.stringify(citizenDetails.spoken_languages ?? []))
+        params.append('primary_spoken_language_uuid', citizenDetails.primary_spoken_language ?? '')
+        params.append('requires_interpreter', citizenDetails.requires_interpreter ? 'true' : 'false')
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
         params.append('medication_allergies_uuid', JSON.stringify(citizenDetails.medication_allergies))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
@@ -313,7 +337,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('responsible_municipality', citizenDetails.responsible_municipality)
         params.append('ean_number', citizenDetails.ean_number)
         params.append('transportation', citizenDetails.transportation)
-        params.append('hourly_rate', citizenDetails.hourly_rate)
+        params.append('hourly_rate', citizenDetails.hourly_rate ? parseLocaleNumber(language.locale.value, citizenDetails.hourly_rate) : citizenDetails.hourly_rate)
         params.append('allocated_daily_hours', citizenDetails.allocated_daily_hours)
         params.append('allocated_weekly_hours', citizenDetails.allocated_weekly_hours)
         params.append('allocated_monthly_hours', citizenDetails.allocated_monthly_hours)
@@ -323,6 +347,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('red', citizenDetails.red)
         params.append('has_system_access', citizenDetails.has_system_access)
         params.append('has_chat_access', citizenDetails.has_chat_access)
+        params.append('has_patient_journal_access', citizenDetails.has_patient_journal_access ?? false)
         params.append('has_duty_schedule_access', citizenDetails.has_duty_schedule_access)
         params.append('has_bullet_board_access', citizenDetails.has_bullet_board_access)
         params.append('inquiry_date', citizenDetails.inquiryData.inquiry_date)
@@ -334,6 +359,8 @@ async function updateCitizen(citizenDetails: any) {
         params.append('start_date', citizenDetails.stayData.accommodation_start_date)
         params.append('journal_number', citizenDetails.stayData.journal_number)
         params.append('contract_price', citizenDetails.stayData.contract_price ? parseLocaleNumber(language.locale.value, citizenDetails.stayData.contract_price) : citizenDetails.stayData.contract_price)
+        params.append('contract_hours', citizenDetails.stayData.contract_hours ?? '')
+        params.append('contract_hours_interval', citizenDetails.stayData.contract_hours_interval ?? '')
         params.append('primary_split_percentage', citizenDetails.stayData.primary_split_percentage)
         params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
         if (citizenDetails.stayData.residence_before_uuid) {

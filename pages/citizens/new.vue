@@ -3,7 +3,7 @@
         <NuxtLayout name="user">
 
             <Head>
-                <Title>{{ $t('citizens.newCitizen') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ tt('citizens.newCitizen') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <template #breadcrumb>
@@ -21,7 +21,7 @@
                 </Breadcrumb>
             </template>
 
-            <template #header>{{ $t('citizens.newCitizen') }}</template>
+            <template #header>{{ tt('citizens.newCitizen') }}</template>
 
             <div>
                 <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
@@ -47,6 +47,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const { tt } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -69,6 +70,7 @@ const state = reactive({
         gender: '',
         email: '',
         social_security_number: '',
+        case_number: '',
         birthday: '',
         phone: '',
         departments: [],
@@ -82,6 +84,9 @@ const state = reactive({
         latitude: '',
         longitude: '',
         origin: '',
+        spoken_languages: [],
+        primary_spoken_language: '',
+        requires_interpreter: false,
         diagnoses: [],
         medication_allergies: [],
         addictions: [],
@@ -108,6 +113,7 @@ const state = reactive({
         red: '',
         has_system_access: false,
         has_chat_access: false,
+        has_patient_journal_access: false,
         has_duty_schedule_access: false,
         has_bullet_board_access: false,
         inquiryData: {
@@ -122,6 +128,8 @@ const state = reactive({
             accommodation_start_date: '',
             journal_number: '',
             contract_price: '',
+            contract_hours: '',
+            contract_hours_interval: 'weekly',
             primary_split_percentage: '',
             accompanying_children: [{
                 name: '',
@@ -162,7 +170,13 @@ const state = reactive({
         },
         dentalData: {
             is_member_of_sygeforsikring_danmark: false,
+            danmark_group: '',
             sygesikring_group: '',
+            is_foreign_patient: false,
+            risk_profile: '',
+            risk_profile_note: '',
+            recall_channel: '',
+            auto_reminder: true,
             patient_number: '',
             municipal_subsidy: '',
             last_checkup_date: '',
@@ -185,6 +199,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('gender', citizenDetails.gender)
         params.append('email', citizenDetails.email)
         params.append('social_security_number', citizenDetails.social_security_number)
+        params.append('case_number', citizenDetails.case_number ?? '')
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))
@@ -205,6 +220,9 @@ async function saveCitizen(citizenDetails: any) {
         } else {
             params.append('origin_uuid', citizenDetails.origin)
         }
+        params.append('spoken_languages_uuid', JSON.stringify(citizenDetails.spoken_languages ?? []))
+        params.append('primary_spoken_language_uuid', citizenDetails.primary_spoken_language ?? '')
+        params.append('requires_interpreter', citizenDetails.requires_interpreter ? 'true' : 'false')
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
         params.append('medication_allergies_uuid', JSON.stringify(citizenDetails.medication_allergies))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))
@@ -226,7 +244,7 @@ async function saveCitizen(citizenDetails: any) {
         params.append('responsible_municipality', citizenDetails.responsible_municipality)
         params.append('ean_number', citizenDetails.ean_number)
         params.append('transportation', citizenDetails.transportation)
-        params.append('hourly_rate', citizenDetails.hourly_rate)
+        params.append('hourly_rate', citizenDetails.hourly_rate ? parseLocaleNumber(language.locale.value, citizenDetails.hourly_rate) : citizenDetails.hourly_rate)
         params.append('allocated_daily_hours', citizenDetails.allocated_daily_hours)
         params.append('allocated_weekly_hours', citizenDetails.allocated_weekly_hours)
         params.append('allocated_monthly_hours', citizenDetails.allocated_monthly_hours)
@@ -243,6 +261,8 @@ async function saveCitizen(citizenDetails: any) {
         params.append('start_date', citizenDetails.stayData.accommodation_start_date)
         params.append('journal_number', citizenDetails.stayData.journal_number)
         params.append('contract_price', citizenDetails.stayData.contract_price ? parseLocaleNumber(language.locale.value, citizenDetails.stayData.contract_price) : citizenDetails.stayData.contract_price)
+        params.append('contract_hours', citizenDetails.stayData.contract_hours ?? '')
+        params.append('contract_hours_interval', citizenDetails.stayData.contract_hours_interval ?? '')
         params.append('primary_split_percentage', citizenDetails.stayData.primary_split_percentage)
         params.append('accompanying_children', JSON.stringify(citizenDetails.stayData.accompanying_children))
         if (citizenDetails.stayData.residence_before_uuid) {
@@ -286,6 +306,12 @@ async function saveCitizen(citizenDetails: any) {
             params.append('municipal_subsidy', citizenDetails.dentalData.municipal_subsidy)
             params.append('last_checkup_date', citizenDetails.dentalData.last_checkup_date != 'Invalid date' ? citizenDetails.dentalData.last_checkup_date : '')
             params.append('checkup_interval_months', citizenDetails.dentalData.checkup_interval_months)
+            params.append('danmark_group', citizenDetails.dentalData.danmark_group)
+            params.append('is_foreign_patient', citizenDetails.dentalData.is_foreign_patient)
+            params.append('risk_profile', citizenDetails.dentalData.risk_profile)
+            params.append('risk_profile_note', citizenDetails.dentalData.risk_profile_note)
+            params.append('recall_channel', citizenDetails.dentalData.recall_channel)
+            params.append('auto_reminder', citizenDetails.dentalData.auto_reminder)
         }
         const response = await citizenService.saveCitizen(params)
         if (response.data) {

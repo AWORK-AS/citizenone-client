@@ -59,6 +59,27 @@
                 </div>
             </div>
 
+            <!-- "Fortsæt hvor du slap" - last citizen/chat viewed on any device -->
+            <div v-if="state.continuity"
+                class="mb-4 flex items-center justify-between gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
+                <div class="flex items-center gap-2 text-sm text-slate-700 min-w-0">
+                    <Icon name="ph:arrow-clockwise" class="w-4 h-4 text-primary shrink-0" />
+                    <span class="truncate">
+                        {{ $t(state.continuity.type === 'chat' ? 'overview.continuity.continueOnChat' : 'overview.continuity.continueOnCitizen', { label: state.continuity.label }) }}
+                    </span>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                    <button class="text-sm font-medium text-primary hover:text-primary-600 px-2 py-1"
+                        @click="goToContinuity">
+                        {{ $t('overview.continuity.goTo') }} →
+                    </button>
+                    <button class="text-slate-400 hover:text-slate-600 p-1" :aria-label="$t('close')"
+                        @click="state.continuity = null">
+                        <Icon name="ph:x" class="w-4 h-4" />
+                    </button>
+                </div>
+            </div>
+
             <!-- Action bar -->
             <div class="flex items-center justify-between gap-3 flex-wrap">
                 <div class="flex items-center gap-x-3">
@@ -133,7 +154,7 @@
                         {{ $t('overview.stats.acrossCitizens') }}
                     </div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" v-if="hasMedicineModule">
                     <div class="stat-label">
                         <span class="w-2 h-2 rounded-full bg-accent-orange"></span>
                         {{ $t('overview.stats.medicationsDue') || 'Medications due' }}
@@ -306,7 +327,8 @@
                     </div>
 
                     <!-- Medication overview panel -->
-                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
+                    <div class="card"
+                        v-if="hasMedicineModule && overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:camera-plus" class="h-5 w-5 text-primary" />
@@ -338,6 +360,9 @@
                             </button>
                         </div>
                         <div>
+                            <ModulesUserDailyOverviewMyInquiryInvitations
+                                v-if="userStore.getUser?.company?.inquiry_pipeline_enabled" />
+                            <ModulesUserDailyOverviewMyTasks />
                             <ModulesUserDailyOverviewReminders />
                         </div>
                     </div>
@@ -452,6 +477,7 @@ import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { continuityService } from '@/components/api/user/ContinuityService'
 import { useCommandPalette } from '@/composables/useCommandPalette'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDepartmentStore } from '@/store/department'
@@ -471,15 +497,37 @@ const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const departmentStore = useDepartmentStore()
 
+/**
+ * Whether this company works with medicine at all.
+ *
+ * Same two conditions the citizen's medicine tab uses: the page has to be
+ * granted, and the company's real module_pages choice (what Settings ->
+ * Company manages) has to include it - not onboarding_preferences, which is
+ * only ever written by the one-time onboarding wizard and goes stale the
+ * moment the module is toggled from Settings instead. That staleness used
+ * to leave this doses-due card hidden (or shown reading zero) even when the
+ * company had genuinely enabled and was actively using medicine.
+ */
+const hasMedicineModule = computed(() => {
+    const pages = userStore.getUser?.pages ?? []
+    const hasPage = pages.some((page: any) => page.name === 'Medicine card')
+
+    const companyModulePages = userStore.getUser?.company?.module_pages
+    const companyHasModule = !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes('Medicine card')
+
+    return hasPage && companyHasModule
+})
+
 // True when any statistics widget is enabled — guards the collapsible Statistics
 // section so an empty header never shows.
 const showStatisticsSection = computed(() => {
     const f = overviewStore.getDailyOverviewFilter
+    const useOfForceEnabled = userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false
     return f.showCitizensAdmissionAndDischarged || f.showCitizensOrigin || f.showCitizensAddictions
         || f.showCitizensDiagnoses || f.showRiskAssessment || f.showGender
         || f.showStatusesScoreStatistics || f.showGoalsScoreStatistics || f.showIncidentStatistics
         || f.showMedicineDeviationStatistics || f.showJournalScoreStatistics || f.showSubgoalsScoreStatistics
-        || f.showUseOfForceStatistics
+        || (f.showUseOfForceStatistics && useOfForceEnabled)
 })
 const userStore = useUserStore() as any
 const handoverOpen = ref(false)
@@ -487,6 +535,7 @@ const { celebrate } = useConfetti()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const route = useRoute()
+const router = useRouter()
 const newsSection = ref<HTMLElement | null>(null)
 
 const state = reactive({
@@ -497,6 +546,7 @@ const state = reactive({
             end_date: moment().endOf('isoWeek').format('YYYY-MM-DD'),
         },
     } as any,
+    continuity: null as { type: 'citizen' | 'chat'; subject_uuid: string; label: string } | null,
     error: {} as Error,
     isPageLoading: false,
     citizenOptions: [] as any,
@@ -577,10 +627,38 @@ const todaysEventsCount = computed(() => state.stats.citizenCalendarEvents?.data
 
 const { setPageCommands, clearPageCommands } = useCommandPalette()
 
+// "Fortsæt hvor du slap" - failure is silent on purpose, this is a
+// nice-to-have prompt, never worth an error banner over.
+async function fetchContinuity() {
+    try {
+        const response = await continuityService.get()
+        if (response?.data) state.continuity = response.data
+    } catch {
+        // Silent - see comment above.
+    }
+}
+
+function goToContinuity() {
+    if (!state.continuity) return
+    const path = state.continuity.type === 'chat'
+        ? `/messages/${state.continuity.subject_uuid}`
+        : `/citizens/${state.continuity.subject_uuid}/journals`
+    navigateTo(path)
+}
+
 onMounted(() => {
+    // Desktop Dock quick action ("Ny note") arrives as
+    // citizenone://overview?action=new-note - see citizenone-desktop's Dock
+    // menu (main.ts). Cleared via replace so a later refresh/back doesn't
+    // reopen the modal.
+    if (route.query.action === 'new-note') {
+        state.modal.isCreateJournalOpen = true
+        router.replace({ query: {} })
+    }
     scrollToNewsIfNeeded()
     fetchUpcomingBirthdays()
     fetchAllCitizens()
+    fetchContinuity()
     setPageCommands([
         {
             id: 'overview-new-journal',
@@ -765,6 +843,12 @@ async function fetchCitizensLatestJournal(dateRange: any) {
 }
 
 async function fetchCitizensMedicines(dateRange: any) {
+    // Nothing on the page reads it when the module is off: both the doses-due
+    // card and the medication panel are gone.
+    if (!hasMedicineModule.value) {
+        return
+    }
+
     state.error = {}
     state.isPageLoading = true
     try {

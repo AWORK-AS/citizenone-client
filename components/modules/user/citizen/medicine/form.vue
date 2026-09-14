@@ -419,6 +419,15 @@
                         :error="v$?.formMedicine?.max_dose_per_administration?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.max_dose_per_administration?.[0]" />
                 </div>
+                <div class="space-y-1"
+                    v-if="state.formMedicine.is_pn_medicine && isFieldVisible('pn_minimum_interval_minutes')">
+                    <FormLabel for="pn_minimum_interval_minutes"
+                        :label="$t('citizens.medicineJournals.form.pnMinimumIntervalMinutes')" />
+                    <FormTextField id="pn_minimum_interval_minutes" name="pn_minimum_interval_minutes" type="number"
+                        :placeholder="$t('citizens.medicineJournals.form.pnMinimumIntervalMinutesPlaceholder')"
+                        v-model="state.formMedicine.pn_minimum_interval_minutes" />
+                    <FormError :error="props?.error?.errors?.pn_minimum_interval_minutes?.[0]" />
+                </div>
                 <div class="space-y-1">
                     <FormLabel for="max_daily_dose" :label="$t('citizens.medicineJournals.form.maxDailyDose')" />
                     <FormTextField id="max_daily_dose" name="max_daily_dose"
@@ -688,6 +697,7 @@ const state = reactive({
         strength: '',
         unit: '',
         max_dose_per_administration: '',
+        pn_minimum_interval_minutes: '',
         max_daily_dose: '',
         max_dosage_per_time: [],
         package_leaflet_link: '',
@@ -863,6 +873,7 @@ onMounted(async () => {
             })
         ),
         max_dose_per_administration: toLocaleDecimal(props.selectedMedicine.max_dose_per_administration),
+        pn_minimum_interval_minutes: props.selectedMedicine?.pn_minimum_interval_minutes ?? '',
         max_daily_dose: toLocaleDecimal(props.selectedMedicine.max_daily_dose),
         package_leaflet_link: props.selectedMedicine.package_leaflet_link,
         start_date: props.selectedMedicine.start_date,

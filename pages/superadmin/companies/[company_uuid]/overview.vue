@@ -107,8 +107,41 @@
                             </div>
                         </div>
 
+                        <!-- Industry defaults. Only changes what the company can see, and the
+                             previous state is kept so it can be undone. -->
+                        <div class="bg-white rounded-xl border border-gray-200 p-6">
+                            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                                <div>
+                                    <h3 class="text-base font-bold text-gray-900">Brancheopsætning</h3>
+                                    <p class="text-sm text-gray-500 mt-1 max-w-2xl">
+                                        Sætter firmaets sider, modulvalg, feltopsætning og ord til branchens standard.
+                                        Rører ingen borgere, journaler eller vagtplaner - kun hvad der er synligt.
+                                    </p>
+                                    <p v-if="state.industryDefaults?.applied_at" class="text-sm text-gray-600 mt-2">
+                                        Anvendt {{ formatDateToReadable(state.industryDefaults.applied_at) }}
+                                    </p>
+                                    <p v-else class="text-sm text-gray-400 mt-2">Ikke anvendt endnu</p>
+                                </div>
+                                <div class="flex items-center gap-2 flex-shrink-0">
+                                    <FormButton v-if="state.industryDefaults?.can_revert" type="button" buttonStyle="cancel"
+                                        :disabled="state.isApplyingDefaults" @click="revertIndustryDefaults">
+                                        Fortryd
+                                    </FormButton>
+                                    <FormButton type="button" buttonStyle="primary"
+                                        :disabled="state.isApplyingDefaults" @click="confirmApplyDefaults">
+                                        Anvend branchens standard
+                                    </FormButton>
+                                </div>
+                            </div>
+                        </div>
+
+                        <DialogConfirmation :isModalOpen="state.modal.isApplyDefaultsOpen"
+                            title="Anvend branchens standard"
+                            :message="`Firmaets sider, modulvalg, feltopsætning og ord sættes til standarden for branchen. Ingen data slettes, og du kan fortryde bagefter.`"
+                            @close="state.modal.isApplyDefaultsOpen = false" @confirm="applyIndustryDefaults" />
+
                         <!-- Stats row -->
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                             <div class="bg-white rounded-xl border border-gray-200 p-4">
                                 <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Slutbrugere</p>
                                 <p class="text-2xl font-bold text-gray-900">
@@ -137,7 +170,10 @@
                                 <p class="text-2xl font-bold text-gray-900">{{ state.apps.length }}</p>
                                 <p class="text-xs text-gray-400 mt-0.5">moduler aktiveret</p>
                             </div>
+                            <SuperadminCompanyStorageStat :companyUuid="(companyUuid as string)" />
                         </div>
+
+                        <SuperadminCompanyStorageBreakdown :companyUuid="(companyUuid as string)" />
 
                         <!-- Details + apps row -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -216,10 +252,10 @@
                                 <div>
                                     <p class="text-xs text-gray-500">Pris</p>
                                     <p class="font-semibold text-gray-900 mt-0.5">
-                                        {{ state.subscription?.data?.type === 'monthly'
-                                            ? formatAmount(state.subscription?.data?.deal?.monthly_price ?? 0)
-                                            : formatAmount(state.subscription?.data?.deal?.yearly_price ?? 0) }}
-                                        / {{ state.subscription?.data?.type === 'monthly' ? 'md.' : 'år' }}
+                                        {{ ['monthly', 'custom_monthly'].includes(state.subscription?.data?.type)
+                                            ? formatAmount(state.subscription?.data?.deal?.monthly_price ?? 0, 'DKK')
+                                            : formatAmount(state.subscription?.data?.deal?.yearly_price ?? 0, 'DKK') }}
+                                        / {{ ['monthly', 'custom_monthly'].includes(state.subscription?.data?.type) ? 'md.' : 'år' }}
                                     </p>
                                 </div>
                                 <div>
@@ -244,18 +280,26 @@
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { licenseService } from '@/components/api/superadmin/LicenseService'
+import { industryService } from '@/components/api/superadmin/IndustryService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useAlert } from '@/composables/alert'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { successAlert } = useAlert()
+const { formatDateToReadable } = useDatetimeFormatter()
+const { t } = useI18n()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 
 const state = reactive({
     company: null as any,
+    industryDefaults: null as any,
+    isApplyingDefaults: false,
+    modal: { isApplyDefaultsOpen: false },
     subscription: null as any,
     licensesCount: null as any,
     apps: [] as any[],
@@ -295,8 +339,53 @@ async function fetchAll() {
         fetchSubscription(),
         fetchLicensesCount(),
         fetchApps(),
+        fetchIndustryDefaults(),
     ])
     state.isPageLoading = false
+}
+
+async function fetchIndustryDefaults() {
+    try {
+        const response = await industryService.getCompanyIndustryDefaults(companyUuid)
+        state.industryDefaults = response?.data ?? null
+    } catch (error: any) {
+        // A company whose industry has no defaults is not an error worth a banner.
+        state.industryDefaults = null
+    }
+}
+
+function confirmApplyDefaults() {
+    state.modal.isApplyDefaultsOpen = true
+}
+
+async function applyIndustryDefaults() {
+    state.error = {}
+    state.isApplyingDefaults = true
+    try {
+        const response = await industryService.applyCompanyIndustryDefaults(companyUuid)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, 'Brancheopsætningen er anvendt')
+            await fetchIndustryDefaults()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isApplyingDefaults = false
+}
+
+async function revertIndustryDefaults() {
+    state.error = {}
+    state.isApplyingDefaults = true
+    try {
+        const response = await industryService.revertCompanyIndustryDefaults(companyUuid)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, 'Brancheopsætningen er fortrudt')
+            await fetchIndustryDefaults()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isApplyingDefaults = false
 }
 
 async function fetchCompany() {
@@ -332,9 +421,9 @@ async function fetchApps() {
 async function impersonateCompany() {
     try {
         const response = await companyService.impersonateCompany(companyUuid)
-        if (response?.data?.token) {
+        if (response?.impersonation_token) {
             const appUrl = runtimeConfig.public.appUserUrl || '/'
-            window.open(`${appUrl}?impersonate_token=${response.data.token}`, '_blank')
+            window.open(`${appUrl}?impersonate_token=${response.impersonation_token}`, '_blank')
         }
     } catch (_) {
         window.open(`/?company=${companyUuid}`, '_blank')

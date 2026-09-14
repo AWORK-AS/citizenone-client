@@ -11,7 +11,7 @@
                             <p class="text-sm text-gray-600">
                                 {{ $t('journalNotes.citizen') }} <span class="text-red-500">*</span>
                             </p>
-                            <FormSelectMultiple id="citizen_select" :options="props.citizenOptions"
+                            <FormSelectMultiple id="citizen_select" :options="selectableCitizenOptions"
                                 :appendToBody="true" v-model="state.selectedCitizenUuids" />
                             <p v-if="state.citizenError" class="text-xs text-red-500 mt-1">
                                 {{ $t('journalNotes.citizenRequired') }}
@@ -124,6 +124,16 @@ const props = defineProps({
 const emit = defineEmits(['close', 'refreshJournal'])
 let currentTablePage = 1
 
+// citizenOptions is shared with the journals filter, where an "all citizens"
+// entry is a meaningful "don't filter" choice. A journal note always belongs
+// to exactly one citizen, so that entry can never save here - the backend
+// rejects its uuid outright. Excluded only for this picker, not at the
+// source, so the filter keeps its "all citizens" option.
+const ALL_CITIZENS_SENTINEL = 'all-citizens'
+const selectableCitizenOptions = computed(() =>
+    (props.citizenOptions ?? []).filter((option: any) => option?.value !== ALL_CITIZENS_SENTINEL)
+)
+
 const state = reactive({
     citizenError: false,
     dataFilter: [],
@@ -145,7 +155,9 @@ const state = reactive({
         assessment: null,
         risk_assessment_tags: [],
         note: '',
-        score: 1,
+        // Empty, not 1: a pre-filled level is a score nobody chose, and it
+        // reads as an assessment the author never made.
+        score: '',
         teeth_uuid: [],
     },
     modal: {
@@ -198,7 +210,9 @@ function resetForm() {
         assessment: null,
         risk_assessment_tags: [],
         note: '',
-        score: 1,
+        // Empty, not 1: a pre-filled level is a score nobody chose, and it
+        // reads as an assessment the author never made.
+        score: '',
         teeth_uuid: [],
     }
 }

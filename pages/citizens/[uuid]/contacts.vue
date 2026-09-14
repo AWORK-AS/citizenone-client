@@ -32,6 +32,9 @@
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
 
+                <ModulesUserCitizenContactCoordinators class="mt-8" :citizenUuid="citizenUuid"
+                    @saved="fetchContacts" />
+
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
                         <FormButton buttonStyle="action" @click="state.modal.isAssignFromAddressBookOpen = true">
@@ -66,6 +69,13 @@
                                         </span>
                                         <Badge type="info" class="w-fit mt-1 ml-1" v-if="contact?.company_contact_id">
                                             <p class="text-xxs px-2">{{ $t('addressBook.addressBook') }}</p>
+                                        </Badge>
+                                        <Badge type="active" class="w-fit mt-1 ml-1" v-if="contact?.coordinator_role">
+                                            <p class="text-xxs px-2">
+                                                {{ contact.coordinator_role === 'primary'
+                                                    ? $t('citizens.coordinators.badgePrimary')
+                                                    : $t('citizens.coordinators.badgeSecondary') }}
+                                            </p>
                                         </Badge>
                                         <span v-if="contact?.contact_job_title?.system_name === 'relatives'">
                                             <Badge type="primary" class="w-fit mt-1" v-if="contact?.relationship">

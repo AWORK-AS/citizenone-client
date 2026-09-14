@@ -17,6 +17,41 @@
             <div id="invoice-checkout" v-show="state.isCheckoutVisible" class="mx-auto max-w-sm md:max-w-md mt-10"></div>
 
             <div class="mt-10" v-if="!state.isCheckoutVisible">
+                <!-- What is running and what it costs, before the list of what
+                     has already been charged. -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6" v-if="state.apps.length">
+                    <div class="rounded-xl bg-white px-4 py-4 shadow-sm ring-1 ring-gray-900/5">
+                        <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                            {{ $t('invoices.purchases.apps') }}
+                        </p>
+                        <p class="mt-1 text-2xl font-semibold text-gray-900 tabular-nums">{{ state.apps.length }}</p>
+                        <p class="mt-1 text-xs text-gray-500">
+                            {{ $t('invoices.purchases.appsHint', { amount: formatAmount(monthlyAppTotal) }) }}
+                        </p>
+                    </div>
+                    <div class="rounded-xl bg-white px-4 py-4 shadow-sm ring-1 ring-gray-900/5">
+                        <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                            {{ $t('invoices.purchases.nextCharge') }}
+                        </p>
+                        <p class="mt-1 text-2xl font-semibold text-gray-900 tabular-nums">
+                            {{ formatAmount(monthlyAppTotal + (state.fees.current?.fee_amount || 0)) }}
+                        </p>
+                        <p class="mt-1 text-xs text-gray-500">{{ $t('invoices.purchases.nextChargeHint') }}</p>
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-4 mb-6" v-if="state.apps.length">
+                    <h3 class="text-sm font-semibold text-gray-900">{{ $t('invoices.purchases.title') }}</h3>
+                    <ul class="mt-2 divide-y divide-gray-100 text-sm">
+                        <li v-for="app in state.apps" :key="app.uuid" class="flex items-center justify-between py-2">
+                            <span class="text-gray-700">{{ app.name }}</span>
+                            <span class="tabular-nums text-gray-900">
+                                {{ formatAmount(app.monthly_price) }} {{ $t('invoices.purchases.perMonth') }}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
                 <div class="space-y-5">
                     <div class="flex justify-end gap-x-3">
                         <FormButton buttonStyle="primary" @click="state.modal.isEmailReceiversOpen = true">
@@ -32,7 +67,7 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.invoices"
+                        <Table class="table-sticky-actions" :columnHeaders="state.columnHeaders" :data="state.invoices"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                             <template #body v-if="!(state.isTableLoading || (state.invoices?.data?.length === 0))">
                                 <tr v-for="(invoice, index) in state.invoices?.data" :key="index">
@@ -111,6 +146,8 @@
 </template>
 
 <script setup lang="ts">
+import { appService } from '@/components/api/user/AppService'
+import { companyFeeService } from '@/components/api/user/CompanyFeeService'
 import { invoiceService } from '@/components/api/user/InvoiceService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -160,10 +197,32 @@ const state = reactive({
         sortField: 'id',
         sortOrder: 'descend',
     },
+    apps: [] as any[],
+    fees: { current: null as any, statements: [] as any[] },
 })
+
+// What the company is paying for every month, next to what has already been
+// charged. The fee is part of the same bill, so it belongs on the same page.
+const monthlyAppTotal = computed(() => state.apps
+    .reduce((total: number, app: any) => total + (Number(app.monthly_price) || 0), 0))
+
+async function fetchPurchases() {
+    try {
+        const [apps, fees] = await Promise.all([
+            appService.getApps({ per_page: 100 }),
+            companyFeeService.getCompanyFees(),
+        ])
+
+        state.apps = (apps?.data || []).filter((app: any) => app.user_activated)
+        state.fees = fees?.data || state.fees
+    } catch (error: any) {
+        // The invoice list is the point of the page; the summary is extra.
+    }
+}
 
 onMounted(() => {
     fetchInvoices()
+    fetchPurchases()
 })
 
 watch(() => route.query.paymentId, async (paymentId) => {
@@ -249,6 +308,11 @@ async function sendAllInvoices() {
     state.isSendAllInvoicesLoading = false
 }
 
+// A custom_monthly/custom_yearly invoice (never wired to auto-recur) paid
+// here always opts into auto-renewal - see InvoiceService::payInvoice()/
+// provisionInvoicePayment() on the backend, which promotes the invoice's
+// frequency to plain monthly/yearly once Nexi actually tokenizes the card.
+// Already-recurring/one-time/free invoices are unaffected either way.
 async function payInvoice(invoice: any) {
     state.error = {}
     try {

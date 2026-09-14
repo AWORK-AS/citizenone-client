@@ -213,7 +213,7 @@
                                 <p>{{ $t('dutySchedules.annualNormHours') }}: {{ formatNumber(language.locale.value,
                                     employee?.annual_norm_hours ?? 0) }}</p>
                                 <p>{{ $t('dutySchedules.weeklyNormHours') }}: {{
-                                    (Math.round(Number(employee?.annual_norm_hours) / 52)) ?? 0 }}</p>
+                                    calculateWeeklyNormHours(employee, currentYear) }}</p>
                                 <p>{{ $t('dutySchedules.totalHours') }}: {{ employee?.total_hours ?? 0 }}</p>
                                 <p
                                     :class="[employee?.average_weekly_work_time?.severity === 'info' ? 'text-green-700' : employee?.average_weekly_work_time?.severity === 'warning' ? 'text-amber-700' : 'text-red-700']">
@@ -349,12 +349,12 @@
                                     {{ formatNumber(language.locale.value,
                                         employee?.total_norm_hours?.compensatory_hours) ?? 0 }}
                                 </div>
-                                <div :class="[employee?.total_norm_hours?.available_vacation_hours > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
+                                <div :class="[employee?.total_norm_hours?.available_vacation_days > 0 ? 'text-green-700' : 'text-red-700', 'flex items-center gap-1 cursor-pointer text-xxs']"
                                     @click="viewAvailableVacationHours(employee)">
                                     <Icon name="ph:clock" class="h-3 w-3" />
-                                    {{ $t('dutySchedules.normHours.availableVacationHours') }}:
+                                    {{ $t('dutySchedules.normHours.availableVacationDays') }}:
                                     {{ formatNumber(language.locale.value,
-                                        employee?.total_norm_hours?.available_vacation_hours || 0) }}
+                                        employee?.total_norm_hours?.available_vacation_days || 0) }}
                                 </div>
                             </div>
                         </div>
@@ -856,6 +856,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useDutyScheduleStore } from '@/store/duty-schedule'
 import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
+import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -890,7 +891,7 @@ const { formatNumber, parseLocaleNumber } = useNumberFormatter()
 const { isAtLeast, can } = usePermissions()
 const favoriteEmployees = useFavoriteEmployees()
 const hasScheduleManageAccess = computed(() => isAtLeast('Admin') || can('update_schedule'))
-const hasManageFavoritesAccess = computed(() => isAtLeast('Admin') || can('create_schedule'))
+const hasManageFavoritesAccess = computed(() => true)
 
 // Current year as a ref — navigation changes this
 const currentYear = ref(moment().year())
@@ -1677,18 +1678,21 @@ async function copyDutySchedule(params: object) {
 // ============================================================
 // Shift warnings
 // ============================================================
-async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string) {
+async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string, shiftTypeUuid?: string) {
     try {
         const params: any = {
             date_time_start: newDateTimeStart,
             date_time_end: newDateTimeEnd,
             user_uuid: employeeUuid,
             ...(shiftSpanPosition && { shift_span_position: shiftSpanPosition }),
+            ...(shiftTypeUuid && { shift_type_uuid: shiftTypeUuid }),
         }
         const response = await dutyScheduleService.scheduleValidation(params)
         if (response.data && !response.data.valid) {
             state.shiftWarnings = response.data.warnings
             state.showWarningDialog = true
+        } else {
+            state.shiftWarnings = []
         }
     } catch (error: any) { }
 }

@@ -25,6 +25,12 @@
                     </div>
                 </div>
 
+                <div class="flex justify-end mb-3" v-if="canRequestCompensatoryTime">
+                    <FormButton buttonStyle="action" @click="state.isRequestCompensatoryTimeOpen = true">
+                        {{ $t('dutySchedules.compensatoryTimeRequests.newRequest') }}
+                    </FormButton>
+                </div>
+
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="update" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
@@ -34,14 +40,19 @@
                 </LoadingSpinner>
             </template>
         </Modal>
+        <ModulesUserDutyScheduleCompensatoryTimeRequestsModalNew :isModalOpen="state.isRequestCompensatoryTimeOpen"
+            :schedule="props.selectedEmployeeSchedule" @close="state.isRequestCompensatoryTimeOpen = false"
+            @success="state.isRequestCompensatoryTimeOpen = false; closeModal()" />
     </div>
 </template>
 
 <script setup lang="ts">
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
+import { useUserStore } from '@/store/user'
 
 const { locale } = useI18n()
+const userStore = useUserStore() as any
 
 const props = defineProps({
     error: {
@@ -75,6 +86,7 @@ const emit = defineEmits(['close', 'updateShift', 'resetEditShiftError', 'resetS
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    isRequestCompensatoryTimeOpen: false,
     formShift: {
         shift_type: '',
         is_sleeping_sick_leave: false,
@@ -131,9 +143,11 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
         selectedEmployeeSchedule?.tags?.forEach((tag: any) => {
             state.formShift.schedule_tag_uuid.push(tag.uuid)
         })
-        selectedEmployeeSchedule?.departments?.forEach((department: any) => {
-            state.formShift.department_uuid.push(department.uuid)
-        })
+        // Only one department is allowed per shift. Legacy shifts synced to
+        // multiple departments before this restriction keep only the first here.
+        if (selectedEmployeeSchedule?.departments?.[0]) {
+            state.formShift.department_uuid.push(selectedEmployeeSchedule.departments[0].uuid)
+        }
         state.formShift.note = selectedEmployeeSchedule?.note
         state.formShift.do_not_count_sick_leave = selectedEmployeeSchedule?.do_not_count_sick_leave
         state.formShift.use_compensatory_time = selectedEmployeeSchedule?.use_compensatory_time
@@ -141,13 +155,24 @@ watch(() => props.selectedEmployeeSchedule, (selectedEmployeeSchedule: any) => {
     }
 })
 
+const canRequestCompensatoryTime = computed(() => {
+    if (!userStore.getUser?.company?.compensatory_time_enabled) return false
+
+    const schedule = props.selectedEmployeeSchedule
+    if (!schedule?.scheduleUuid) return false
+    if (userStore.getUser?.uuid !== schedule?.user_uuid) return false
+    if (schedule?.shift_type?.is_leave_shift_type) return false
+
+    return new Date(schedule?.date_time_start).getTime() > Date.now()
+})
+
 function closeModal() {
     if (props.isModalLoading || state.isPageLoading) return
     emit('close')
 }
 
-function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string) {
-    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd, props.selectedEmployeeSchedule?.shift_span_position)
+function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftTypeUuid?: string) {
+    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd, props.selectedEmployeeSchedule?.shift_span_position, shiftTypeUuid)
 }
 
 async function updateShift(shiftDetails: any) {

@@ -225,20 +225,43 @@
                 <TableSearch @search="handleSearch" />
 
                 <!-- Bulk give -->
-                <div v-if="citizenMedicineStore.getSelectedMedicines?.length > 0"
-                    class="flex items-center gap-3 p-3 bg-primary/5 border border-primary/20 rounded-xl">
-                    <Icon name="ph:check-square" class="size-5 text-primary" />
-                    <span class="text-sm text-primary font-medium">
+                <div v-if="visibleMedicines.length > 0 && (state.viewMode === 'day' || state.viewMode === 'list')"
+                    class="flex flex-wrap items-center gap-3 p-3 rounded-xl border"
+                    :class="citizenMedicineStore.getSelectedMedicines?.length > 0
+                        ? 'bg-primary/5 border-primary/20'
+                        : 'bg-gray-50 border-gray-200'">
+                    <button type="button" @click="toggleSelectAll"
+                        class="flex items-center gap-2 text-sm font-medium"
+                        :class="citizenMedicineStore.getSelectedMedicines?.length > 0 ? 'text-primary' : 'text-gray-600 hover:text-gray-800'">
+                        <FormCheckbox id="select_all_medicines" :value="isAllSelected" class="pointer-events-none" />
+                        {{ isAllSelected
+                            ? $t('citizens.medicineJournals.page.deselectAll')
+                            : $t('citizens.medicineJournals.page.selectAll') }}
+                    </button>
+
+                    <span v-if="citizenMedicineStore.getSelectedMedicines?.length > 0"
+                        class="text-sm text-primary font-medium">
                         {{ $t('citizens.medicineJournals.page.medicinesSelected', {
                             n: citizenMedicineStore.getSelectedMedicines.length
                         })
                         }}
                     </span>
-                    <FormButton buttonStyle="action" class="rounded-md ml-auto"
-                        @click="state.modal.isGiveMedicinesOpen = true">
-                        <Icon name="ph:plus" class="h-4 w-4" />
-                        {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
-                    </FormButton>
+
+                    <div class="flex flex-wrap items-center gap-2 ml-auto">
+                        <FormButton buttonStyle="cancel" class="rounded-md"
+                            v-if="dueNowDoses.length > 0 && citizenMedicineStore.getSelectedMedicines?.length === 0
+                                && (isAtLeast('Admin') || can('update_citizen_medicine'))"
+                            @click="state.modal.isGiveAllDueOpen = true">
+                            <Icon name="ph:lightning" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.page.giveAllDueNow', { n: dueNowDoses.length }) }}
+                        </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md"
+                            v-if="citizenMedicineStore.getSelectedMedicines?.length > 0"
+                            @click="state.modal.isGiveMedicinesOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.history.giveAllMedicines') }}
+                        </FormButton>
+                    </div>
                 </div>
 
                 <!-- DAY VIEW -->
@@ -332,6 +355,14 @@
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
                                         </p>
+                                        <p v-if="medicine?.created_at" class="text-xs text-gray-400">
+                                            {{ $t('citizens.medicineJournals.createdOn') }}:
+                                            {{ formatDateToReadable(medicine.created_at) }}
+                                        </p>
+                                        <p v-if="medicine?.next_administration_date" class="text-xs text-primary font-medium">
+                                            {{ $t('citizens.medicineJournals.nextAdministrationDate') }}:
+                                            {{ formatDateWithWeekdayToReadable(medicine.next_administration_date) }}
+                                        </p>
                                         <div class="flex gap-1 flex-wrap mt-1">
                                             <Tooltip v-if="medicine?.is_expired"
                                                 :text="$t('citizens.medicineJournals.page.expiredCheckDate')">
@@ -375,6 +406,13 @@
                                                 class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                                                 @click="viewMedicineHistory(medicine)">
                                                 <Icon name="ph:files" class="size-4" />
+                                            </button>
+                                        </Tooltip>
+                                        <Tooltip :text="$t('citizens.medicineJournals.table.actions.pouringHistory')">
+                                            <button :aria-label="$t('citizens.medicineJournals.table.actions.pouringHistory')" type="button"
+                                                class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                                @click="viewPouringHistory(medicine)">
+                                                <Icon name="ph:clock-counter-clockwise" class="size-4" />
                                             </button>
                                         </Tooltip>
                                         <Tooltip v-if="medicine?.is_editable"
@@ -475,6 +513,10 @@
                                             {{ $t('citizens.medicineJournals.form.maxDailyDose') }}:
                                             {{ medicine?.max_daily_dose }}
                                         </p>
+                                        <p v-if="medicine?.created_at" class="text-xs text-gray-400">
+                                            {{ $t('citizens.medicineJournals.createdOn') }}:
+                                            {{ formatDateToReadable(medicine.created_at) }}
+                                        </p>
                                         <!-- Dosage for PN -->
                                         <div v-if="medicine?.dosage_status_by_date?.[todayStr]?.length"
                                             class="flex gap-1 flex-wrap mt-1">
@@ -490,17 +532,14 @@
                                         <p class="text-xxs">PN</p>
                                     </Badge>
                                     <Tooltip
-                                        v-if="medicine?.last_given_minutes_ago !== null && medicine?.last_given_minutes_ago < 240"
-                                        :text="$t('citizens.medicineJournals.page.lastGivenHoursAgo', { hours: Math.round(medicine.last_given_minutes_ago / 60 * 10) / 10, remaining: Math.round((240 - medicine.last_given_minutes_ago) / 60 * 10) / 10 })">
+                                        v-if="pnMinutesRemaining(medicine) !== null"
+                                        :text="$t('citizens.medicineJournals.page.lastGivenHoursAgo', { hours: Math.round(pnMinutesSinceLastGiven(medicine) / 60 * 10) / 10, remaining: Math.round(pnMinutesRemaining(medicine) / 60 * 10) / 10 })">
                                         <span
                                             class="inline-flex items-center gap-1 text-xs bg-amber-50 text-amber-700 border border-amber-200 px-2 py-1 rounded-lg font-medium">
                                             <Icon name="ph:warning" class="size-3" />
                                             {{
                                                 $t('citizens.medicineJournals.page.hoursLeft',
-                                                    {
-                                                        hours: Math.round((240 -
-                                                            medicine.last_given_minutes_ago) / 60 * 10) / 10
-                                                    })
+                                                    { hours: Math.round(pnMinutesRemaining(medicine) / 60 * 10) / 10 })
                                             }}
                                         </span>
                                     </Tooltip>
@@ -509,11 +548,25 @@
                                         <Icon name="ph:plus" class="size-3" />
                                         {{ $t('citizens.medicineJournals.page.givePN') }}
                                     </FormButton>
+                                    <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')">
+                                        <button :aria-label="$t('citizens.medicineJournals.table.actions.view')" type="button"
+                                            class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                            @click="viewMedicine(medicine)">
+                                            <Icon name="ph:eye" class="size-4" />
+                                        </button>
+                                    </Tooltip>
                                     <button type="button"
                                         class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                                         @click="viewMedicineHistory(medicine)">
                                         <Icon name="ph:files" class="size-4" />
                                     </button>
+                                    <Tooltip :text="$t('citizens.medicineJournals.table.actions.pouringHistory')">
+                                        <button :aria-label="$t('citizens.medicineJournals.table.actions.pouringHistory')" type="button"
+                                            class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
+                                            @click="viewPouringHistory(medicine)">
+                                            <Icon name="ph:clock-counter-clockwise" class="size-4" />
+                                        </button>
+                                    </Tooltip>
                                     <button v-if="medicine?.is_editable" type="button"
                                         class="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600"
                                         @click="editMedicine(medicine)">
@@ -859,6 +912,13 @@
                                                     <Icon name="ph:files" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('citizens.medicineJournals.table.actions.pouringHistory')"
+                                                position="left">
+                                                <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.pouringHistory')" type="button" buttonStyle="action" class="rounded-md"
+                                                    @click="viewPouringHistory(medicine)">
+                                                    <Icon name="ph:clock-counter-clockwise" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip v-if="medicine?.is_editable"
                                                 :text="$t('citizens.medicineJournals.table.actions.edit')"
                                                 position="left">
@@ -919,9 +979,16 @@
                     @refreshMedicines="() => { state.historyCache = {}; fetchCitizenMedicines() }" />
                 <ModulesUserCitizenMedicineModalDownload :isModalOpen="state.modal.isDownloadMedicineOverviewOpen"
                     @close="state.modal.isDownloadMedicineOverviewOpen = false" />
+                <ModulesUserCitizenMedicinePouringModalPouringHistory
+                    :isModalOpen="state.modal.isViewPouringHistoryOpen" :selectedMedicine="state.selectedMedicine"
+                    @close="state.modal.isViewPouringHistoryOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeactivateMedicineOpen"
                     :message="$t('citizens.medicineJournals.confirmation.deactivateConfirmation') + '?'"
                     @close="state.modal.isDeactivateMedicineOpen = false" @confirm="toggleActivateDeactivateMedicine" />
+
+                <DialogConfirmation :isModalOpen="state.modal.isGiveAllDueOpen"
+                    :message="$t('citizens.medicineJournals.page.giveAllDueConfirmation', { n: dueNowDoses.length }) + '?'"
+                    @close="state.modal.isGiveAllDueOpen = false" @confirm="giveAllDue" />
 
                 <!-- Missed medicine toast -->
                 <div v-if="state.missedWarning"
@@ -965,9 +1032,12 @@ import { medicineJournalService } from '@/components/api/user/MedicineJournalSer
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { medicineDoseTiming } from '@/composables/medicineDoseTiming'
+import { medicinePnStatus } from '@/composables/medicinePnStatus'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import { usePermissions } from '@/composables/usePermissions'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -1013,6 +1083,7 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const childUuid = router?.currentRoute?.value?.params?.child_uuid
 const { isAtLeast, can } = usePermissions()
+const { formatDateToReadable, formatDateWithWeekdayToReadable } = useDatetimeFormatter()
 let currentTablePage = 1
 
 const breadcrumbLinks = [
@@ -1059,11 +1130,13 @@ const state = reactive({
         isDownloadMedicineOverviewOpen: false,
         isEditMedicineOpen: false,
         isFilterMedicineOpen: false,
+        isGiveAllDueOpen: false,
         isGiveMedicineOpen: false,
         isGiveMedicinesOpen: false,
         isGivePNMedicineOpen: false,
         isViewMedicineOpen: false,
         isViewMedicineHistoryOpen: false,
+        isViewPouringHistoryOpen: false,
     },
     selectedMedicine: {} as any,
     sortData: { sortField: '', sortOrder: '' },
@@ -1081,6 +1154,9 @@ let clockInterval: any
 
 onMounted(() => {
     citizenMedicineStore.setFilterMedicationType('all')
+    // The store is persisted, so a selection can outlive the page it was made on
+    // (another citizen, or a closed tab). Start clean.
+    citizenMedicineStore.resetSelectedMedicine()
     fetchCitizenMedicines()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
@@ -1193,53 +1269,52 @@ const stats = computed(() => {
 const alarmBanners = computed(() => {
     const banners: any[] = []
     const today = moment().format('YYYY-MM-DD')
-    regularMedicines.value.forEach((m: any) => {
-        const name = getMedicineName(m)
-        const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
-        entries.forEach((d: any) => {
-            if (d?.status) return
-            if (isMissed(d?.time)) {
-                const mins = minutesSince(d?.time)
-                banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
-            } else if (isDueSoon(d?.time)) {
-                banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
-            }
+    // Same active-on-date filter as `stats` below — without it, a medicine
+    // that isn't actually scheduled today (different recurrence day, ended
+    // treatment period) but still has a stale dosage_status_by_date[today]
+    // entry shows up as an alarm banner while being correctly excluded from
+    // the "X Overdue" count, so the two disagree.
+    regularMedicines.value
+        .filter((m: any) => isMedicineActiveOnDate(m, today))
+        .forEach((m: any) => {
+            const name = getMedicineName(m)
+            const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
+            entries.forEach((d: any) => {
+                if (d?.status) return
+                if (isMissed(d?.time)) {
+                    const mins = minutesSince(d?.time)
+                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
+                } else if (isDueSoon(d?.time)) {
+                    banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
+                }
+            })
         })
-    })
     return banners.slice(0, 4)
 })
 
 // ─── Time helpers ─────────────────────────────────────────────
+// Thin wrappers over the shared composable, closing over state.now so every
+// existing call site below keeps its original single-argument signature.
+// See composables/medicineDoseTiming.ts for the range-time fix (2026-08-24) -
+// some dosage slots carry a "HH:mm - HH:mm" window instead of a point time,
+// which the old inline version silently mishandled (isMissed always false).
+
+const doseTiming = medicineDoseTiming()
 
 function isMissed(time: string): boolean {
-    if (!time) return false
-    const [h, m] = time.split(':').map(Number)
-    const scheduled = new Date(state.now)
-    scheduled.setHours(h, m, 0, 0)
-    return state.now > scheduled
+    return doseTiming.isMissed(time, state.now)
 }
 
 function isDueSoon(time: string): boolean {
-    if (!time) return false
-    const [h, m] = time.split(':').map(Number)
-    const scheduled = new Date(state.now)
-    scheduled.setHours(h, m, 0, 0)
-    const diff = scheduled.getTime() - state.now.getTime()
-    return diff > 0 && diff <= 60 * 60 * 1000
+    return doseTiming.isDueSoon(time, state.now)
 }
 
 function minutesSince(time: string): number {
-    const [h, m] = time.split(':').map(Number)
-    const scheduled = new Date(state.now)
-    scheduled.setHours(h, m, 0, 0)
-    return Math.round((state.now.getTime() - scheduled.getTime()) / 60000)
+    return doseTiming.minutesSince(time, state.now)
 }
 
 function minutesUntil(time: string): number {
-    const [h, m] = time.split(':').map(Number)
-    const scheduled = new Date(state.now)
-    scheduled.setHours(h, m, 0, 0)
-    return Math.round((scheduled.getTime() - state.now.getTime()) / 60000)
+    return doseTiming.minutesUntil(time, state.now)
 }
 
 function formatMinutesSince(mins: number): string {
@@ -1247,6 +1322,21 @@ function formatMinutesSince(mins: number): string {
     const h = Math.floor(mins / 60)
     const m = mins % 60
     return m > 0 ? `${h}h ${m}min` : `${h} hour${h !== 1 ? 's' : ''}`
+}
+
+// AW-2026-3581 backend follow-up: the PN row's "wait N more" badge used to
+// read medicine.last_given_minutes_ago, a field that never existed anywhere
+// in the API, so it never rendered. The backend now exposes last_given_at /
+// pn_minimum_interval_minutes instead -- these derive the same numbers from
+// the real fields (see composables/medicinePnStatus.ts).
+const pnStatus = medicinePnStatus()
+
+function pnMinutesSinceLastGiven(medicine: any): number | null {
+    return pnStatus.minutesSinceLastGiven(medicine?.last_given_at, state.now)
+}
+
+function pnMinutesRemaining(medicine: any): number | null {
+    return pnStatus.minutesRemainingInInterval(medicine?.last_given_at, medicine?.pn_minimum_interval_minutes, state.now)
 }
 
 // ─── Slot helpers ─────────────────────────────────────────────
@@ -1577,6 +1667,99 @@ function givePNMedicine(medicine: any) {
     state.modal.isGivePNMedicineOpen = true
 }
 
+// ─── Bulk selection / bulk give ────────────────────────────────
+
+// Only what is actually on screen can be "all" — the list is paginated, so
+// selecting rows the user cannot see would be a lie. The two views render
+// different collections: day view shows filteredRegularMedicines + pnMedicines,
+// list view shows every loaded row.
+const visibleMedicines = computed(() =>
+    state.viewMode === 'list'
+        ? allMedicines.value
+        : [...filteredRegularMedicines.value, ...pnMedicines.value]
+)
+
+// AW-2026-3581: "select all" used to sweep PN medicines in too, unlike the
+// one-click "give all due" (dueNowDoses below), which deliberately excludes
+// them since PN needs an evaluator picked per dose. PN rows stay individually
+// selectable -- the bulk-give modal already has a dedicated, working PN
+// section -- they're just not swept in/out by the "select all" toggle.
+const selectableMedicines = computed(() =>
+    visibleMedicines.value.filter((m: any) => !m.is_pn_medicine)
+)
+
+const isAllSelected = computed(() =>
+    selectableMedicines.value.length > 0 &&
+    selectableMedicines.value.every((m: any) => citizenMedicineStore.getSelectedMedicines?.includes(m.uuid))
+)
+
+function toggleSelectAll() {
+    if (isAllSelected.value) {
+        citizenMedicineStore.removeSelectedMedicines(selectableMedicines.value)
+    } else {
+        citizenMedicineStore.addSelectedMedicines(selectableMedicines.value)
+    }
+}
+
+// Every scheduled dose that is due or overdue today and not yet registered.
+// PN needs an evaluator and self-administered medicines are the citizen's own
+// responsibility, so neither belongs in a one-click bulk registration.
+const dueNowDoses = computed(() => {
+    const doses: any[] = []
+    filteredRegularMedicines.value.forEach((medicine: any) => {
+        if (medicine.is_self_administered || medicine.is_deactivated) return
+        const entries: any[] = medicine?.dosage_status_by_date?.[todayStr.value] ?? []
+        entries.forEach((d: any) => {
+            if (d?.status || !d?.dosage) return
+            if (isMissed(d?.time) || isDueSoon(d?.time)) doses.push({ medicine, dosage: d })
+        })
+    })
+    return doses
+})
+
+async function giveAllDue() {
+    state.modal.isGiveAllDueOpen = false
+    if (!dueNowDoses.value.length) return
+
+    const byMedicine = new Map<string, any>()
+    dueNowDoses.value.forEach(({ medicine, dosage }: any) => {
+        if (!byMedicine.has(medicine.uuid)) {
+            byMedicine.set(medicine.uuid, {
+                citizen_medicine_uuid: medicine.uuid,
+                is_pn_medicine: false,
+                dosages: [],
+            })
+        }
+        byMedicine.get(medicine.uuid).dosages.push({
+            medicine_uuid: medicine.uuid,
+            time: dosage.time,
+            dosage: dosage.dosage,
+            type: 'given',
+            comment: '',
+        })
+    })
+
+    state.isTableLoading = true
+    try {
+        const response = await medicineHistoryService.saveAllMedicineHistory({
+            date: todayStr.value,
+            medicines: Array.from(byMedicine.values()),
+        })
+        if (response?.warning) {
+            state.error = { message: response.message } as Error
+            return
+        }
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.history.form.alert.successfullyAdded')}.`)
+            state.historyCache = {}
+            await fetchCitizenMedicines()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
 function openGiveMedicineOnDate(medicine: any, dosage: any, day: any) {
     if (!isMedicineActiveOnDate(medicine, day.dateStr)) return
     state.selectedMedicine = medicine
@@ -1587,11 +1770,18 @@ function openGiveMedicineOnDate(medicine: any, dosage: any, day: any) {
 
 function openGiveMedicine(medicine: any, dosage: any) {
     state.selectedMedicine = medicine
+    // Preselect the slot that was clicked, the same way the week/month views do.
+    // Without this the modal opens with nothing chosen and the user has to pick
+    // the dose again — which is what made the day view cost an extra click.
+    state.preselectedDate = todayStr.value
+    state.preselectedTime = dosage?.time ?? null
     state.modal.isGiveMedicineOpen = true
 }
 function quickGive(alarm: any) {
     if (alarm.medicine) {
         state.selectedMedicine = alarm.medicine
+        state.preselectedDate = todayStr.value
+        state.preselectedTime = alarm?.time ?? null
         state.modal.isGiveMedicineOpen = true
     }
 }
@@ -1604,6 +1794,11 @@ function giveFromWarning() {
 function viewMedicineHistory(medicine: any) {
     state.selectedMedicine = medicine
     state.modal.isViewMedicineHistoryOpen = true
+}
+
+function viewPouringHistory(medicine: any) {
+    state.selectedMedicine = medicine
+    state.modal.isViewPouringHistoryOpen = true
 }
 
 function editMedicine(medicine: any) {
