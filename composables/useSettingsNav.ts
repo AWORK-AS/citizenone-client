@@ -62,6 +62,10 @@ export function useSettingsNav() {
         const isEmploymentServices = user?.company?.industry?.system_name === 'employment_services'
         const company: SettingsNavItem[] = [
             item('settings.tabs.company', '/settings/company', ['settings-company']),
+            // The subscription, its licences, its storage and its invoices are the
+            // company's account, so they sit with the company rather than beside the
+            // reader's own profile. One entry: the four pages carry a tab row.
+            item('settings.groups.billing', '/settings/subscription', ['settings-subscription', 'settings-license-overview', 'settings-storage', 'settings-invoices']),
             item('settings.tabs.import', '/settings/import', ['settings-import']),
         ]
         if (isEmploymentServices) {
@@ -86,12 +90,7 @@ export function useSettingsNav() {
             .filter((section) => section.items.length > 0)
 
         return [
-            {
-                key: 'me', labelKey: 'settings.groups.me', items: [
-                    profile,
-                    item('settings.groups.billing', '/settings/subscription', ['settings-subscription', 'settings-license-overview', 'settings-storage', 'settings-invoices']),
-                ]
-            },
+            { key: 'me', labelKey: 'settings.groups.me', items: [profile] },
             { key: 'company', labelKey: 'settings.groups.company', items: company },
             ...catalogSections,
             {
