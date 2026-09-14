@@ -916,6 +916,7 @@
         },
         "basedOn": "Baseret på",
         "rateLimited": "Du har stillet mange spørgsmål lige nu. Prøv igen om {minutes} min.",
+        "waitingCount": "{count} ting venter",
         "rateLimitedToday": "Jeres organisation har nået dagens grænse for AI-forespørgsler. Prøv igen i morgen.",
         "companyDataMissing": "Svaret er givet uden adgang til jeres data. Søgeindekset er ikke oprettet endnu.",
         "companyDataBuilding": "Svaret er givet uden adgang til jeres data. Søgeindekset er stadig ved at blive bygget.",
