@@ -10693,6 +10693,16 @@
                 "title": "Vad är egna länkar?",
                 "body": "Lägg till genvägar i vänstermenyn - t.ex. ert intranät, en delad enhet, ett bokningssystem eller ett annat externt verktyg teamet använder. Välj om varje länk visas för administratörer, användare eller alla."
             }
+        },
+        "movedNotice": {
+            "title": "Vi har städat här",
+            "body": "Ursäkta röran. Inställningarna har fått en ny meny, så säg till om något är svårt att hitta.",
+            "button": "Uppfattat",
+            "points": {
+                "rail": "Alla inställningar finns nu i listan till vänster, i stället för bakom rullgardinsmenyer.",
+                "search": "Sökfältet högst upp i listan hittar varje inställning på namn.",
+                "billing": "Abonnemang, licenser, lagringsutrymme och fakturor delar nu en sida med flikar."
+            }
         }
     },
     "setupPassword": {

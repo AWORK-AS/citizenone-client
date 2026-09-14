@@ -533,6 +533,7 @@
                              rather than as the way on to another setting. The content column
                              dissolves into the same flex box below lg so the two can interleave. -->
                         <ModulesUserSettingsRail v-if="isSettingsPage" class="mb-4 lg:mb-0 order-3 lg:order-none" />
+                        <ModulesUserSettingsMovedNotice v-if="isSettingsPage" />
                         <!-- Settings is forms and short tables. Letting them run the full
                              width of a wide monitor is what makes a settings page look
                              stretched, so the column stops at a readable measure. -->

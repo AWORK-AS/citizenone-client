@@ -10693,6 +10693,16 @@
                 "title": "Hva er egne lenker?",
                 "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet bruker. Velg om hver lenke vises for administratorer, brukere eller alle."
             }
+        },
+        "movedNotice": {
+            "title": "Vi har ryddet opp her",
+            "body": "Beklager rotet. Innstillingene har fått en ny meny, så si fra hvis noe er vanskelig å finne.",
+            "button": "Forstått",
+            "points": {
+                "rail": "Alle innstillinger står nå i listen til venstre, i stedet for bak nedtrekksmenyer.",
+                "search": "Søkefeltet øverst i listen finner enhver innstilling på navn.",
+                "billing": "Abonnement, lisenser, lagringsplass og fakturaer deler nå én side med faner."
+            }
         }
     },
     "setupPassword": {

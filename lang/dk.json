@@ -10698,6 +10698,16 @@
                 "title": "Hvad er egne links?",
                 "body": "Tilføj genveje til venstre sidebar - fx jeres intranet, et fælles drev, et bookingsystem eller et andet eksternt værktøj teamet bruger. Vælg om hvert link vises for administratorer, brugere eller alle."
             }
+        },
+        "movedNotice": {
+            "title": "Vi har ryddet op her",
+            "body": "Undskyld rodet. Indstillingerne har fået en ny menu, så sig til, hvis noget er svært at finde.",
+            "button": "Forstået",
+            "points": {
+                "rail": "Alle indstillinger står nu i listen til venstre, i stedet for bag rullemenuer.",
+                "search": "Søgefeltet øverst i listen finder enhver indstilling på navn.",
+                "billing": "Abonnement, licenser, lagerplads og fakturaer deler nu én side med faner."
+            }
         }
     },
     "supportAccess": {

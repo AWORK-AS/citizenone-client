@@ -10698,6 +10698,16 @@
                 "title": "What are custom links?",
                 "body": "Add shortcuts to the left sidebar - like your intranet, a shared drive, a booking system or any external tool your team uses. Choose whether each link is shown to admins, users or everyone."
             }
+        },
+        "movedNotice": {
+            "title": "We have tidied up in here",
+            "body": "Sorry for the mess. Settings have a new menu, so tell us if anything is hard to find.",
+            "button": "Got it",
+            "points": {
+                "rail": "Every setting is now in the list on the left, instead of behind dropdowns.",
+                "search": "The search box at the top of the list finds any setting by name.",
+                "billing": "Subscription, licences, storage and invoices now share one page with tabs."
+            }
         }
     },
     "supportAccess": {
