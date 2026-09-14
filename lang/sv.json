@@ -1303,6 +1303,7 @@
         "featured": "Framhävd"
     },
     "calendar": {
+        "participants": "Deltagare",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Fredag",
@@ -1495,6 +1496,7 @@
             "thisMonth": "Denna månad",
             "thisYear": "Detta år"
         },
+        "openInNewWindow": "Öppna i nytt fönster",
         "riskHistory": {
             "title": "Riskbedömning över tid",
             "period1": "Senaste månaden",
@@ -4706,6 +4708,7 @@
             "doNotCountWeekends": "Täl inte weekender med",
             "estimatedPayrollCost": "Uppskattad lönekostnad",
             "forSleepingNightShift": "För sovende nattpass",
+            "hours": "Timmar",
             "inMeeting": "I möte",
             "note": "Anmärkning",
             "overrideVacationHours": "Overskriv standard ferietimer",
@@ -5251,6 +5254,7 @@
             "dateTimeEnd": "Datum och tid slut",
             "datetimeStart": "Datum och tid start",
             "departments": "Avdelningar",
+            "hours": "Timmar",
             "note": "Anmärkning",
             "typeOfShift": "Typ av pass",
             "viewSchedule": "Se schema"
@@ -8490,6 +8494,7 @@
         "deleteChat": "Radera chatt",
         "directMessage": "Direkte meddelande",
         "editMessage": "Redigera meddelande",
+        "openInNewWindow": "Öppna i nytt fönster",
         "groupChat": {
             "add": "Lägg till",
             "addUser": "Lägg till användare",
@@ -10990,6 +10995,9 @@
                     "decreaseConfirm": "Ta bort en {name}-licens? Om alla licenser för närvarande används kommer detta att ta bort åtkomsten för en anställd.",
                     "increaseSuccess": "Licens tillagd",
                     "decreaseSuccess": "Licens borttagen"
+                },
+                "editTerm": {
+                    "appliesToAllSeats": "Gäller alla {count} aktiva licens(er) av denna app för detta företag."
                 }
             },
             "editCompany": "Redigera företag",
@@ -11083,6 +11091,8 @@
                     "tax": "Moms (25%)",
                     "serviceFee": "Serviceavgift",
                     "paysViaLeverandorservice": "Betalas via leverantörsservice",
+                    "termYears": "Avtalslängd (år)",
+                    "termYearsHint": "För ett flerårigt avtal multipliceras priset ovan med detta antal år.",
                     "total": "Totalt",
                     "added": "Prenumeration tillagd",
                     "failed": "Kunde inte lägga till prenumeration"
@@ -11093,6 +11103,17 @@
                     "estimatedCredit": "Uppskattad kredit för outnyttjad tid",
                     "updated": "Prenumeration uppdaterad",
                     "failed": "Kunde inte uppdatera prenumeration"
+                },
+                "editTerm": {
+                    "editTerm": "Redigera bindningstid",
+                    "title": "Redigera bindningstid",
+                    "currentTermHint": "Är för närvarande på {years} års bindningstid",
+                    "startDate": "Prenumerationens startdatum",
+                    "additionalYears": "{years} extra år",
+                    "fewerYears": "{years} färre år",
+                    "credit": "Kredit",
+                    "updated": "Bindningstid uppdaterad",
+                    "failed": "Det gick inte att uppdatera bindningstiden"
                 },
                 "removeLicense": {
                     "remove": "Ta bort",
@@ -15117,12 +15138,73 @@
         "passwordLabel": "Lösenord",
         "unlock": "Lås upp",
         "verifying": "Verifierar…",
-        "wrongPassword": "Fel lösenord"
+        "wrongPassword": "Fel lösenord",
+        "unlockWithTouchId": "Lås upp med Touch ID",
+        "touchIdPrompting": "Väntar på Touch ID…",
+        "touchIdReason": "låsa upp CitizenOne",
+        "or": "Eller"
     },
     "desktopNotifications": {
         "newMessage": "Nytt meddelande",
         "newMessageBody": "Du har fått ett nytt meddelande i CitizenOne.",
         "newNotification": "Ny avisering",
         "newNotificationBody": "Det finns en ny avisering i CitizenOne."
+    },
+    "desktopTrayPopover": {
+        "loading": "Laddar…",
+        "appointmentsToday": "{count} bokningar idag",
+        "birthdaysToday": "{count} fyller år idag",
+        "openMessages": "Öppna meddelanden",
+        "allCalm": "Allt ser lugnt ut just nu",
+        "openApp": "Öppna CitizenOne"
+    },
+    "desktopQuickCapture": {
+        "note": "Anteckning",
+        "message": "Meddelande",
+        "citizen": "Klient",
+        "selectCitizen": "Välj en klient",
+        "title": "Titel",
+        "content": "Innehåll",
+        "to": "Till",
+        "selectColleague": "Välj en kollega",
+        "subject": "Ämne",
+        "saved": "Sparat",
+        "missingNoteFields": "Välj en klient och skriv en titel",
+        "missingMessageFields": "Välj en kollega och skriv ett meddelande"
+    },
+    "websiteBookingSettings": {
+        "websiteBooking": "Webbplatsbokning",
+        "alert": {
+            "websiteBookingSuccessfullySaved": "Inställningar för webbplatsbokning sparades"
+        },
+        "form": {
+            "enable": "Aktivera onlinebokning på din webbplats",
+            "enableLabel": "Låt besökare på din egen webbplats boka direkt i den här kalendern",
+            "branding": "Varumärke",
+            "brandingLabel": "Anpassa hur bokningswidgeten ser ut",
+            "primaryColor": "Primärfärg",
+            "secondaryColor": "Sekundärfärg",
+            "welcomeText": "Välkomsttext",
+            "welcomeTextLabel": "Visas högst upp i bokningswidgeten",
+            "confirmationText": "Bekräftelsetext",
+            "confirmationTextLabel": "Visas när en besökare har slutfört en bokning",
+            "services": "Tjänster",
+            "servicesLabel": "Välj vilka tjänster som kan bokas från din webbplats",
+            "departments": "Avdelningar",
+            "departmentsLabel": "Välj vilka avdelningar som visas för besökare",
+            "allowedDomains": "Tillåtna webbplatser",
+            "allowedDomainsLabel": "Endast dessa webbplatser får bädda in din bokningswidget",
+            "addDomain": "Lägg till",
+            "domainPlaceholder": "www.dinwebbplats.se",
+            "embedCode": "Inbäddningskod",
+            "embedCodeLabel": "Klistra in den här koden på din webbplats för att visa bokningswidgeten",
+            "hostedLink": "Länk till bokningssida",
+            "hostedLinkLabel": "Dela den här länken direkt, t.ex. i e-post eller på sociala medier",
+            "copyCode": "Kopiera kod",
+            "codeCopied": "Kopierat!",
+            "copyLink": "Kopiera länk",
+            "linkCopied": "Kopierat!",
+            "preview": "Förhandsgranskning"
+        }
     }
 }

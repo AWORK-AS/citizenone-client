@@ -39,6 +39,10 @@
                                                     class="w-6 h-6 cursor-pointer text-primary"
                                                     @click="navigateTo(`/citizens/${state.selectedCitizen?.data?.uuid}/view-edit`)" />
                                             </Tooltip>
+                                            <Tooltip :text="$t('citizens.openInNewWindow')" v-if="isDesktopApp">
+                                                <Icon name="ph:arrow-square-out" class="w-5 h-5 cursor-pointer text-primary"
+                                                    @click="openInNewDesktopWindow($route.fullPath)" />
+                                            </Tooltip>
                                             <!-- Follow-ups belong to care plans. A dental clinic
                                                  writes none, and the bell sat on every patient. -->
                                             <Tooltip :text="$t('plansandgoals.followUps')" v-if="hasCarePlans">
@@ -466,6 +470,8 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useConfetti } from '@/composables/useConfetti'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
+import { useContinuity } from '@/composables/useContinuity'
+import { useIsDesktopApp, reportRecentDesktopItem, openInNewDesktopWindow } from '@/composables/useIsDesktopApp'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useTerminology } from '@/composables/useTerminology'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
@@ -487,6 +493,7 @@ const userStore = useUserStore() as any
 const hasCarePlans = computed(() => userStore.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
 const { isAtLeast, can } = usePermissions()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
+const isDesktopApp = useIsDesktopApp()
 
 const locationTracking = useLocationTracking()
 const workTimeTracking = useWorkTimeTracking()
@@ -550,6 +557,7 @@ const primaryCaseworkerName = computed(() => {
 
 const { celebrate } = useConfetti()
 const { recordVisit } = useRecentCitizens()
+const { reportContinuity } = useContinuity()
 let birthdayCelebrated = false
 
 function isTodaysBirthday(birthday?: string | null) {
@@ -750,6 +758,14 @@ async function fetchCitizen() {
             state.selectedCitizen = response
             citizenStore.setSelectedCitizen(response?.data)
             recordVisit(response?.data)
+            reportContinuity('citizen', response?.data?.uuid, `${response?.data?.firstname ?? ''} ${response?.data?.lastname ?? ''}`)
+            if (useIsDesktopApp() && response?.data?.uuid) {
+                reportRecentDesktopItem({
+                    type: 'citizen',
+                    uuid: response.data.uuid,
+                    label: `${response.data.firstname ?? ''} ${response.data.lastname ?? ''}`.trim(),
+                })
+            }
             celebrateBirthdayIfToday(response?.data?.birthday)
             await nextTick()
             state.noteOverflows = noteContentRef.value

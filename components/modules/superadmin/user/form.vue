@@ -140,6 +140,12 @@
             </button>
         </div>
 
+        <!-- Rollen og undtagelserne for netop denne kollega. Kun i den udvidede formular:
+             det er superadmin-brugere den redigerer, ikke en kundes ansatte. -->
+        <ModulesSuperadminUserAccess v-if="showExtendedFields" v-model:teamRole="state.formUser.team_role"
+            v-model:extraPermissions="state.formUser.extra_permissions"
+            v-model:revokedPermissions="state.formUser.revoked_permissions" />
+
         <!-- Action buttons (page context) -->
         <div v-if="showActions" class="flex items-center justify-end gap-3 pt-2">
             <button type="button" @click="navigateTo('/superadmin/users')"
@@ -205,6 +211,9 @@ const state = reactive({
         phone: '',
         role: 'superadmin',
         can_view_financials: false,
+        team_role: 'Superadmin',
+        extra_permissions: [] as string[],
+        revoked_permissions: [] as string[],
     },
     selectedCompany: null as any,
 })
@@ -221,6 +230,12 @@ watch(() => props.selectedUser, (newValue: any) => {
             password: '',
             phone: newValue.phone ?? '',
             can_view_financials: (newValue.permissions ?? []).some((p: any) => p.name === 'view_financials'),
+
+            // Holdrollen er den ene af brugerens roller der er vores. En kollega har
+            // præcis én, og de øvrige roller er ikke denne formulars sag.
+            team_role: (newValue.roles ?? []).find((role: any) => role.is_platform_role)?.name ?? null,
+            extra_permissions: [...(newValue.extra_permissions ?? [])],
+            revoked_permissions: [...(newValue.revoked_permissions ?? [])],
         }
     }
 })
@@ -277,6 +292,10 @@ async function submit() {
             payload.is_active = state.formUser.is_active
             payload.role = state.formUser.role
             payload.can_view_financials = state.formUser.can_view_financials
+
+            if (state.formUser.team_role) payload.team_role = state.formUser.team_role
+            payload.extra_permissions = state.formUser.extra_permissions
+            payload.revoked_permissions = state.formUser.revoked_permissions
             if (state.formUser.password) payload.password = state.formUser.password
             if (state.selectedCompany) payload.company_uuid = state.selectedCompany.uuid
         }

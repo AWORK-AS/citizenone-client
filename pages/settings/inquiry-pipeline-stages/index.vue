@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
+definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', requiredCompanyFlag: 'inquiry_pipeline_enabled' })
 
 import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
 import { useAlert } from '@/composables/alert'

@@ -1303,6 +1303,7 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "participants": "Deltagere",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Fredag",
@@ -1495,6 +1496,7 @@
             "thisMonth": "Denne måned",
             "thisYear": "Dette år"
         },
+        "openInNewWindow": "Åbn i nyt vindue",
         "riskHistory": {
             "title": "Risikovurdering over tid",
             "period1": "Sidste måned",
@@ -4761,6 +4763,7 @@
             "doNotCountWeekends": "Tæl ikke weekender med",
             "estimatedPayrollCost": "Estimeret lønomkostning",
             "forSleepingNightShift": "For sovende nattevagt",
+            "hours": "Timer",
             "inMeeting": "I møde",
             "note": "Bemærkning",
             "overrideVacationHours": "Overskriv standard ferietimer",
@@ -5306,6 +5309,7 @@
             "dateTimeEnd": "Dato og tid slut",
             "datetimeStart": "Dato og tid start",
             "departments": "Afdelinger",
+            "hours": "Timer",
             "note": "Bemærkning",
             "typeOfShift": "Type af vagt",
             "viewSchedule": "Se tidsplan"
@@ -8128,7 +8132,7 @@
     },
     "login": {
         "activeUsers": "Aktive brugere",
-        "description": "Alt fra journalnotater og handleplaner til vagtplanlægning og rapportering - samlet i én platform, bygget til dem der arbejder med mennesker.",
+        "description": "Journalisering, planer og mål, medicin, dokumentation og vagtplan i ét system til sociale tilbud, bosteder, behandlingssteder og kommuner - uanset om I er terapeuter, psykologer, læger eller tandlæger. Det, der blev skrevet i går, er det, din kollega møder i dag.",
         "doYouNeedHelp": "Har du brug for hjælp",
         "form": {
             "createHere": "Opret her",
@@ -8144,8 +8148,8 @@
             "rememberMeFor14Days": "Husk mig i 14 dage"
         },
         "gdprNote": "GDPR-compliant · Hosting i EU · Udviklet af AWORK Group A/S",
-        "headlineLine1": "Fremtidens",
-        "headlineLine2": "journalsystem.",
+        "headlineLine1": "Alt samlet i",
+        "headlineLine2": "ét journalsystem",
         "isoNote": "ISO-certificeret serverlagring beliggende i EU",
         "journalNotesToday": "Journalnotater i dag",
         "liveActivity": "Live aktivitet",
@@ -8154,7 +8158,7 @@
         "seeWhatsNew": "Se hvad der er nyt",
         "shiftsPlannedToday": "Vagter planlagt i dag",
         "signinToYourAccount": "Log ind på din konto",
-        "tagline": "Socialområdet · Plejesektoren · Sundhed",
+        "tagline": "Journalsystem til social- og sundhedssektoren",
         "welcomeBack": "Velkommen tilbage"
     },
     "logs": {
@@ -8490,6 +8494,7 @@
         "deleteChat": "Slet chat",
         "directMessage": "Direkte besked",
         "editMessage": "Rediger besked",
+        "openInNewWindow": "Åbn i nyt vindue",
         "groupChat": {
             "add": "Tilføj",
             "addUser": "Tilføj bruger",
@@ -8869,6 +8874,11 @@
             "medicine": "{count} kræver medicin-handling",
             "appointments": "{count} aftaler",
             "allCalm": "Alt ser roligt ud lige nu"
+        },
+        "continuity": {
+            "continueOnCitizen": "Fortsæt hvor du slap: {label}",
+            "continueOnChat": "Fortsæt samtalen med {label}",
+            "goTo": "Gå til"
         },
         "birthdays": {
             "title": "Fødselsdage denne uge",
@@ -10547,6 +10557,38 @@
             "sharedFieldsSubtitle": "Kapacitet, ledighed og certificeringsmærker vises her, når det er aktiveret for jeres organisation."
         }
     },
+    "supportAccess": {
+        "title": "CitizenOne's adgang",
+        "intro": "Her godkender I, når CitizenOne beder om at gå ind på en af jeres brugeres konti. Ingen kommer ind uden et ja fra jer. Et ja gælder i fire timer og lukker derefter af sig selv, I kan trække det tilbage undervejs, og nederst står hver gang nogen har været inde.",
+        "pending": {
+            "heading": "Venter på jeres svar",
+            "empty": "Der er ingen anmodninger lige nu.",
+            "wantsAccessTo": "Beder om adgang til {name}s konto",
+            "answerBefore": "Svar inden",
+            "approve": "Godkend",
+            "deny": "Afvis"
+        },
+        "active": {
+            "heading": "Adgang lige nu",
+            "until": "Er inde på {name}s konto til {time}",
+            "revoke": "Træk adgangen tilbage"
+        },
+        "history": {
+            "heading": "Hvem har været inde",
+            "when": "Tidspunkt",
+            "who": "Fra CitizenOne",
+            "account": "Konto",
+            "basis": "Grundlag",
+            "reason": "Begrundelse",
+            "approved": "Godkendt af jer",
+            "breakGlass": "Uden godkendelse"
+        },
+        "alert": {
+            "approved": "Adgangen er godkendt",
+            "denied": "Anmodningen er afvist",
+            "revoked": "Adgangen er trukket tilbage"
+        }
+    },
     "setupPassword": {
         "form": {
             "confirmPassword": "Bekræft adgangskode",
@@ -10990,6 +11032,9 @@
                     "decreaseConfirm": "Fjern en {name}-licens? Hvis alle licenser i øjeblikket er i brug, vil dette fjerne en medarbejders adgang.",
                     "increaseSuccess": "Licens tilføjet",
                     "decreaseSuccess": "Licens fjernet"
+                },
+                "editTerm": {
+                    "appliesToAllSeats": "Gælder for alle {count} aktive licens(er) af denne app for denne virksomhed."
                 }
             },
             "editCompany": "Rediger virksomhed",
@@ -11083,6 +11128,8 @@
                     "tax": "Moms (25%)",
                     "serviceFee": "Servicegebyr",
                     "paysViaLeverandorservice": "Betales via Leverandørservice",
+                    "termYears": "Kontraktlængde (år)",
+                    "termYearsHint": "Ved en flerårig aftale ganges prisen ovenfor med dette antal år.",
                     "total": "Total",
                     "added": "Abonnement tilføjet",
                     "failed": "Kunne ikke tilføje abonnement"
@@ -11093,6 +11140,17 @@
                     "estimatedCredit": "Anslået kredit for ubrugt tid",
                     "updated": "Abonnement opdateret",
                     "failed": "Kunne ikke opdatere abonnement"
+                },
+                "editTerm": {
+                    "editTerm": "Rediger binding",
+                    "title": "Rediger bindingsperiode",
+                    "currentTermHint": "Er i øjeblikket på {years} års binding",
+                    "startDate": "Abonnementets startdato",
+                    "additionalYears": "{years} ekstra år",
+                    "fewerYears": "{years} færre år",
+                    "credit": "Kredit",
+                    "updated": "Bindingsperiode opdateret",
+                    "failed": "Kunne ikke opdatere bindingsperiode"
                 },
                 "removeLicense": {
                     "remove": "Fjern",
@@ -11828,7 +11886,66 @@
             "paymentFees": "Betalingsgebyrer",
             "storageUsage": "Lagerforbrug",
             "industries": "Brancher",
-            "salesInquiries": "Henvendelser"
+            "salesInquiries": "Henvendelser",
+            "teamRoles": "Roller",
+            "supportAccess": "Adgang hos kunder"
+        },
+        "teamRoles": {
+            "pageTitle": "Roller",
+            "header": "Roller",
+            "subtitle": "Hvad hver rolle må se i superadminen. Rollen er levende: udvider du den her, får alle i den området med. Undtagelser for den enkelte kollega sættes under Brugere.",
+            "newRole": "Ny rolle",
+            "namePlaceholder": "Navn på rollen",
+            "locked": "Kan ikke ændres",
+            "lockedHint": "Superadmin har al adgang. Den kan ikke redigeres, fordi det er den rolle der kan rette de andre.",
+            "members": "{count} kollegaer",
+            "loading": "Henter roller",
+            "saved": "Adgangen er gemt",
+            "person": {
+                "role": "Rolle",
+                "roleHint": "Pakken af områder denne kollega får. Vælg tilvalg og fravalg nedenfor, hvis de er en undtagelse.",
+                "extra": "Ekstra adgang ud over rollen",
+                "revoked": "Fjernet, selv om rollen giver den",
+                "fromRole": "fra rollen",
+                "none": "Ingen rolle"
+            }
+        },
+        "supportAccess": {
+            "pageTitle": "Adgang hos kunder",
+            "header": "Adgang hos kunder",
+            "subtitle": "Anmodninger om at gå ind på en kundes konto. Kunden svarer, og et ja gælder i fire timer. Svarer de ikke inden for tolv timer, bortfalder anmodningen.",
+            "loading": "Henter anmodninger",
+            "empty": "Du har ikke bedt om adgang til nogen konti.",
+            "status": {
+                "pending": "Afventer svar",
+                "approved": "Godkendt",
+                "denied": "Afvist",
+                "revoked": "Trukket tilbage",
+                "expired": "Udløbet"
+            },
+            "table": {
+                "status": "Status",
+                "account": "Konto",
+                "company": "Virksomhed",
+                "reason": "Begrundelse",
+                "deadline": "Frist",
+                "accessUntil": "Adgang til",
+                "answerBefore": "Svar inden"
+            },
+            "dialog": {
+                "heading": "Bed kunden om adgang",
+                "intro": "Kunden har ikke godkendt adgang til {name}. De får en mail og kan svare med det samme.",
+                "reason": "Begrundelse",
+                "reasonPlaceholder": "Hvad skal du undersøge, og hvorfor kræver det adgang til denne konto?",
+                "reasonHint": "Kunden læser den ordret. Mindst 10 tegn.",
+                "caseReference": "Sagsnummer",
+                "caseReferencePlaceholder": "Valgfrit",
+                "send": "Send anmodning",
+                "terms": "Siger kunden ja, gælder adgangen i fire timer og lukker derefter af sig selv. De kan trække den tilbage undervejs, og alt hvad der sker imens, står i deres log."
+            },
+            "alert": {
+                "requested": "Anmodningen er sendt til kunden"
+            }
         },
         "emailTemplates": {
             "title": "E-mailskabeloner",
@@ -15117,12 +15234,73 @@
         "passwordLabel": "Adgangskode",
         "unlock": "Lås op",
         "verifying": "Bekræfter…",
-        "wrongPassword": "Forkert adgangskode"
+        "wrongPassword": "Forkert adgangskode",
+        "unlockWithTouchId": "Lås op med Touch ID",
+        "touchIdPrompting": "Venter på Touch ID…",
+        "touchIdReason": "låse CitizenOne op",
+        "or": "Eller"
     },
     "desktopNotifications": {
         "newMessage": "Ny besked",
         "newMessageBody": "Du har modtaget en ny besked i CitizenOne.",
         "newNotification": "Ny notifikation",
         "newNotificationBody": "Der er en ny notifikation i CitizenOne."
+    },
+    "desktopTrayPopover": {
+        "loading": "Indlæser…",
+        "appointmentsToday": "{count} aftaler i dag",
+        "birthdaysToday": "{count} har fødselsdag i dag",
+        "openMessages": "Åbn beskeder",
+        "allCalm": "Alt ser roligt ud lige nu",
+        "openApp": "Åbn CitizenOne"
+    },
+    "desktopQuickCapture": {
+        "note": "Note",
+        "message": "Besked",
+        "citizen": "Borger",
+        "selectCitizen": "Vælg en borger",
+        "title": "Titel",
+        "content": "Indhold",
+        "to": "Til",
+        "selectColleague": "Vælg en kollega",
+        "subject": "Emne",
+        "saved": "Gemt",
+        "missingNoteFields": "Vælg en borger og skriv en titel",
+        "missingMessageFields": "Vælg en kollega og skriv en besked"
+    },
+    "websiteBookingSettings": {
+        "websiteBooking": "Website booking",
+        "alert": {
+            "websiteBookingSuccessfullySaved": "Indstillinger for website booking gemt"
+        },
+        "form": {
+            "enable": "Aktiver online booking på din hjemmeside",
+            "enableLabel": "Lad besøgende på din egen hjemmeside booke direkte i denne kalender",
+            "branding": "Branding",
+            "brandingLabel": "Tilpas hvordan booking-widgetten ser ud",
+            "primaryColor": "Primær farve",
+            "secondaryColor": "Sekundær farve",
+            "welcomeText": "Velkomsttekst",
+            "welcomeTextLabel": "Vises øverst i booking-widgetten",
+            "confirmationText": "Bekræftelsestekst",
+            "confirmationTextLabel": "Vises når en besøgende har gennemført en booking",
+            "services": "Ydelser",
+            "servicesLabel": "Vælg hvilke ydelser der kan bookes fra din hjemmeside",
+            "departments": "Afdelinger",
+            "departmentsLabel": "Vælg hvilke afdelinger der vises for besøgende",
+            "allowedDomains": "Tilladte hjemmesider",
+            "allowedDomainsLabel": "Kun disse hjemmesider må indlejre din booking-widget",
+            "addDomain": "Tilføj",
+            "domainPlaceholder": "www.dinhjemmeside.dk",
+            "embedCode": "Indlejringskode",
+            "embedCodeLabel": "Indsæt denne kode på din hjemmeside for at vise booking-widgetten",
+            "hostedLink": "Link til bookingside",
+            "hostedLinkLabel": "Del dette link direkte, fx i emails eller på sociale medier",
+            "copyCode": "Kopiér kode",
+            "codeCopied": "Kopieret!",
+            "copyLink": "Kopiér link",
+            "linkCopied": "Kopieret!",
+            "preview": "Forhåndsvisning"
+        }
     }
 }

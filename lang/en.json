@@ -1303,6 +1303,7 @@
         "featured": "Featured"
     },
     "calendar": {
+        "participants": "Participants",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Friday",
@@ -1495,6 +1496,7 @@
             "thisMonth": "This month",
             "thisYear": "This year"
         },
+        "openInNewWindow": "Open in new window",
         "riskHistory": {
             "title": "Risk assessment over time",
             "period1": "Last month",
@@ -4761,6 +4763,7 @@
             "doNotCountWeekends": "Do not count weekends",
             "estimatedPayrollCost": "Estimated payroll cost",
             "forSleepingNightShift": "For sleeping night shift",
+            "hours": "Hours",
             "inMeeting": "In Meeting",
             "note": "Note",
             "overrideVacationHours": "Override default vacation hours",
@@ -5306,6 +5309,7 @@
             "dateTimeEnd": "Date time end",
             "datetimeStart": "Date time start",
             "departments": "Departments",
+            "hours": "Hours",
             "note": "Note",
             "typeOfShift": "Type of shift",
             "viewSchedule": "View schedule"
@@ -8490,6 +8494,7 @@
         "deleteChat": "Delete chat",
         "directMessage": "Direct Message",
         "editMessage": "Edit message",
+        "openInNewWindow": "Open in new window",
         "groupChat": {
             "add": "Add",
             "addUser": "Add user",
@@ -8869,6 +8874,11 @@
             "medicine": "{count} need medicine action",
             "appointments": "{count} appointments",
             "allCalm": "Looks calm right now"
+        },
+        "continuity": {
+            "continueOnCitizen": "Continue where you left off: {label}",
+            "continueOnChat": "Continue the conversation with {label}",
+            "goTo": "Go to"
         },
         "birthdays": {
             "title": "Birthdays this week",
@@ -10547,6 +10557,38 @@
             "sharedFieldsSubtitle": "Capacity, availability and certification badges will appear here once enabled for your organisation."
         }
     },
+    "supportAccess": {
+        "title": "CitizenOne's access",
+        "intro": "This is where you approve it when CitizenOne asks to enter one of your users' accounts. Nobody gets in without a yes from you. A yes lasts four hours and then closes by itself, you can pull it back in the meantime, and every time somebody has been inside is listed below.",
+        "pending": {
+            "heading": "Waiting for your answer",
+            "empty": "There are no requests right now.",
+            "wantsAccessTo": "Asks for access to {name}'s account",
+            "answerBefore": "Answer before",
+            "approve": "Approve",
+            "deny": "Deny"
+        },
+        "active": {
+            "heading": "Access right now",
+            "until": "Is inside {name}'s account until {time}",
+            "revoke": "Pull the access back"
+        },
+        "history": {
+            "heading": "Who has been inside",
+            "when": "When",
+            "who": "From CitizenOne",
+            "account": "Account",
+            "basis": "Basis",
+            "reason": "Reason",
+            "approved": "Approved by you",
+            "breakGlass": "Without approval"
+        },
+        "alert": {
+            "approved": "The access is approved",
+            "denied": "The request was denied",
+            "revoked": "The access was pulled back"
+        }
+    },
     "setupPassword": {
         "form": {
             "confirmPassword": "Confirm password",
@@ -10990,6 +11032,9 @@
                     "decreaseConfirm": "Remove one {name} license? If every license is currently assigned, this will unassign one employee.",
                     "increaseSuccess": "License added",
                     "decreaseSuccess": "License removed"
+                },
+                "editTerm": {
+                    "appliesToAllSeats": "Applies to all {count} active seat(s) of this app for this company."
                 }
             },
             "editCompany": "Edit company",
@@ -11083,6 +11128,8 @@
                     "tax": "VAT (25%)",
                     "serviceFee": "Service fee",
                     "paysViaLeverandorservice": "Paid via Supplier Service",
+                    "termYears": "Contract length (years)",
+                    "termYearsHint": "For a multi-year deal, the price above is multiplied by this many years.",
                     "total": "Total",
                     "added": "Subscription added",
                     "failed": "Could not add subscription"
@@ -11093,6 +11140,17 @@
                     "estimatedCredit": "Estimated credit for unused time",
                     "updated": "Subscription updated",
                     "failed": "Could not update subscription"
+                },
+                "editTerm": {
+                    "editTerm": "Edit term",
+                    "title": "Edit contract term",
+                    "currentTermHint": "Currently on a {years}-year term",
+                    "startDate": "Subscription start date",
+                    "additionalYears": "{years} additional year(s)",
+                    "fewerYears": "{years} fewer year(s)",
+                    "credit": "Credit",
+                    "updated": "Term updated",
+                    "failed": "Could not update term"
                 },
                 "removeLicense": {
                     "remove": "Remove",
@@ -11828,7 +11886,66 @@
             "paymentFees": "Payment fees",
             "storageUsage": "Storage usage",
             "industries": "Industries",
-            "salesInquiries": "Inquiries"
+            "salesInquiries": "Inquiries",
+            "teamRoles": "Roles",
+            "supportAccess": "Customer access"
+        },
+        "teamRoles": {
+            "pageTitle": "Roles",
+            "header": "Roles",
+            "subtitle": "What each role may see in the superadmin panel. A role is live: widen it here and everybody in it gets the area. Exceptions for one colleague are set under Users.",
+            "newRole": "New role",
+            "namePlaceholder": "Name of the role",
+            "locked": "Cannot be changed",
+            "lockedHint": "Superadmin has every permission. It cannot be edited, because it is the role that can change the others.",
+            "members": "{count} colleagues",
+            "loading": "Loading roles",
+            "saved": "Access saved",
+            "person": {
+                "role": "Role",
+                "roleHint": "The package of areas this colleague gets. Use the additions and removals below if they are an exception.",
+                "extra": "Extra access beyond the role",
+                "revoked": "Removed, even though the role grants it",
+                "fromRole": "from the role",
+                "none": "No role"
+            }
+        },
+        "supportAccess": {
+            "pageTitle": "Customer access",
+            "header": "Customer access",
+            "subtitle": "Requests to enter a customer's account. The customer answers, and a yes lasts four hours. If they do not answer within twelve hours, the request lapses.",
+            "loading": "Loading requests",
+            "empty": "You have not asked for access to any account.",
+            "status": {
+                "pending": "Awaiting answer",
+                "approved": "Approved",
+                "denied": "Denied",
+                "revoked": "Revoked",
+                "expired": "Lapsed"
+            },
+            "table": {
+                "status": "Status",
+                "account": "Account",
+                "company": "Company",
+                "reason": "Reason",
+                "deadline": "Deadline",
+                "accessUntil": "Access until",
+                "answerBefore": "Answer before"
+            },
+            "dialog": {
+                "heading": "Ask the customer for access",
+                "intro": "The customer has not approved access to {name}. They get an email and can answer straight away.",
+                "reason": "Reason",
+                "reasonPlaceholder": "What are you investigating, and why does it need this account?",
+                "reasonHint": "The customer reads it verbatim. At least 10 characters.",
+                "caseReference": "Case reference",
+                "caseReferencePlaceholder": "Optional",
+                "send": "Send request",
+                "terms": "If the customer says yes, the access lasts four hours and then closes by itself. They can pull it back in the meantime, and everything that happens is in their log."
+            },
+            "alert": {
+                "requested": "The request was sent to the customer"
+            }
         },
         "emailTemplates": {
             "title": "Email templates",
@@ -15117,12 +15234,73 @@
         "passwordLabel": "Password",
         "unlock": "Unlock",
         "verifying": "Verifying…",
-        "wrongPassword": "Incorrect password"
+        "wrongPassword": "Incorrect password",
+        "unlockWithTouchId": "Unlock with Touch ID",
+        "touchIdPrompting": "Waiting for Touch ID…",
+        "touchIdReason": "unlock CitizenOne",
+        "or": "Or"
     },
     "desktopNotifications": {
         "newMessage": "New message",
         "newMessageBody": "You have a new message in CitizenOne.",
         "newNotification": "New notification",
         "newNotificationBody": "There is a new notification in CitizenOne."
+    },
+    "desktopTrayPopover": {
+        "loading": "Loading…",
+        "appointmentsToday": "{count} appointments today",
+        "birthdaysToday": "{count} birthdays today",
+        "openMessages": "Open messages",
+        "allCalm": "Looks calm right now",
+        "openApp": "Open CitizenOne"
+    },
+    "desktopQuickCapture": {
+        "note": "Note",
+        "message": "Message",
+        "citizen": "Citizen",
+        "selectCitizen": "Select a citizen",
+        "title": "Title",
+        "content": "Content",
+        "to": "To",
+        "selectColleague": "Select a colleague",
+        "subject": "Subject",
+        "saved": "Saved",
+        "missingNoteFields": "Select a citizen and write a title",
+        "missingMessageFields": "Select a colleague and write a message"
+    },
+    "websiteBookingSettings": {
+        "websiteBooking": "Website booking",
+        "alert": {
+            "websiteBookingSuccessfullySaved": "Website booking settings successfully saved"
+        },
+        "form": {
+            "enable": "Enable online booking on your website",
+            "enableLabel": "Let visitors on your own website book directly into this calendar",
+            "branding": "Branding",
+            "brandingLabel": "Customize how the booking widget looks",
+            "primaryColor": "Primary color",
+            "secondaryColor": "Secondary color",
+            "welcomeText": "Welcome text",
+            "welcomeTextLabel": "Shown at the top of the booking widget",
+            "confirmationText": "Confirmation text",
+            "confirmationTextLabel": "Shown after a visitor completes a booking",
+            "services": "Services",
+            "servicesLabel": "Choose which services can be booked from your website",
+            "departments": "Departments",
+            "departmentsLabel": "Choose which departments are shown to visitors",
+            "allowedDomains": "Allowed websites",
+            "allowedDomainsLabel": "Only these websites are allowed to embed your booking widget",
+            "addDomain": "Add",
+            "domainPlaceholder": "www.yourwebsite.com",
+            "embedCode": "Embed code",
+            "embedCodeLabel": "Paste this code into your website to show the booking widget",
+            "hostedLink": "Booking page link",
+            "hostedLinkLabel": "Share this link directly, e.g. in emails or on social media",
+            "copyCode": "Copy code",
+            "codeCopied": "Copied!",
+            "copyLink": "Copy link",
+            "linkCopied": "Copied!",
+            "preview": "Preview"
+        }
     }
 }

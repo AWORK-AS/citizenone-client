@@ -1303,6 +1303,7 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "participants": "Deltakere",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
             "Friday": "Fredag",
@@ -1495,6 +1496,7 @@
             "thisMonth": "Denne måneden",
             "thisYear": "Dette året"
         },
+        "openInNewWindow": "Åpne i nytt vindu",
         "riskHistory": {
             "title": "Risikovurdering over tid",
             "period1": "Siste måned",
@@ -4706,6 +4708,7 @@
             "doNotCountWeekends": "Tæl ikke weekender med",
             "estimatedPayrollCost": "Estimert lønnskostnad",
             "forSleepingNightShift": "For sovende nattevagt",
+            "hours": "Timer",
             "inMeeting": "I møde",
             "note": "Bemærkning",
             "overrideVacationHours": "Overskriv standard ferietimer",
@@ -5251,6 +5254,7 @@
             "dateTimeEnd": "Dato og tid slutt",
             "datetimeStart": "Dato og tid start",
             "departments": "Avdelinger",
+            "hours": "Timer",
             "note": "Bemærkning",
             "typeOfShift": "Type av vakt",
             "viewSchedule": "Se tidsplan"
@@ -8490,6 +8494,7 @@
         "deleteChat": "Slett chat",
         "directMessage": "Direkte melding",
         "editMessage": "Rediger melding",
+        "openInNewWindow": "Åpne i nytt vindu",
         "groupChat": {
             "add": "Legg til",
             "addUser": "Legg til @:terms.citizen{''}",
@@ -10990,6 +10995,9 @@
                     "decreaseConfirm": "Fjern en {name}-lisens? Hvis alle lisenser for øyeblikket er i bruk, vil dette fjerne tilgangen for en ansatt.",
                     "increaseSuccess": "Lisens lagt til",
                     "decreaseSuccess": "Lisens fjernet"
+                },
+                "editTerm": {
+                    "appliesToAllSeats": "Gjelder for alle {count} aktive lisens(er) av denne appen for denne bedriften."
                 }
             },
             "editCompany": "Rediger virksomhet",
@@ -11083,6 +11091,8 @@
                     "tax": "MVA (25%)",
                     "serviceFee": "Servicegebyr",
                     "paysViaLeverandorservice": "Betales via leverandørservice",
+                    "termYears": "Kontraktlengde (år)",
+                    "termYearsHint": "For en flerårig avtale blir prisen ovenfor multiplisert med dette antall år.",
                     "total": "Totalt",
                     "added": "Abonnement lagt til",
                     "failed": "Kunne ikke legge til abonnement"
@@ -11093,6 +11103,17 @@
                     "estimatedCredit": "Anslått kreditt for ubrukt tid",
                     "updated": "Abonnement oppdatert",
                     "failed": "Kunne ikke oppdatere abonnement"
+                },
+                "editTerm": {
+                    "editTerm": "Rediger bindingstid",
+                    "title": "Rediger bindingstid",
+                    "currentTermHint": "Er for tiden på {years} års bindingstid",
+                    "startDate": "Abonnementets startdato",
+                    "additionalYears": "{years} ekstra år",
+                    "fewerYears": "{years} færre år",
+                    "credit": "Kreditt",
+                    "updated": "Bindingstid oppdatert",
+                    "failed": "Kunne ikke oppdatere bindingstid"
                 },
                 "removeLicense": {
                     "remove": "Fjern",
@@ -15117,12 +15138,73 @@
         "passwordLabel": "Passord",
         "unlock": "Lås opp",
         "verifying": "Bekrefter…",
-        "wrongPassword": "Feil passord"
+        "wrongPassword": "Feil passord",
+        "unlockWithTouchId": "Lås opp med Touch ID",
+        "touchIdPrompting": "Venter på Touch ID…",
+        "touchIdReason": "låse opp CitizenOne",
+        "or": "Eller"
     },
     "desktopNotifications": {
         "newMessage": "Ny melding",
         "newMessageBody": "Du har mottatt en ny melding i CitizenOne.",
         "newNotification": "Ny varsel",
         "newNotificationBody": "Det er et nytt varsel i CitizenOne."
+    },
+    "desktopTrayPopover": {
+        "loading": "Laster…",
+        "appointmentsToday": "{count} avtaler i dag",
+        "birthdaysToday": "{count} har bursdag i dag",
+        "openMessages": "Åpne meldinger",
+        "allCalm": "Alt ser rolig ut akkurat nå",
+        "openApp": "Åpne CitizenOne"
+    },
+    "desktopQuickCapture": {
+        "note": "Notat",
+        "message": "Melding",
+        "citizen": "Bruker",
+        "selectCitizen": "Velg en bruker",
+        "title": "Tittel",
+        "content": "Innhold",
+        "to": "Til",
+        "selectColleague": "Velg en kollega",
+        "subject": "Emne",
+        "saved": "Lagret",
+        "missingNoteFields": "Velg en bruker og skriv en tittel",
+        "missingMessageFields": "Velg en kollega og skriv en melding"
+    },
+    "websiteBookingSettings": {
+        "websiteBooking": "Nettstedbooking",
+        "alert": {
+            "websiteBookingSuccessfullySaved": "Innstillinger for nettstedbooking lagret"
+        },
+        "form": {
+            "enable": "Aktiver nettbasert booking på nettstedet ditt",
+            "enableLabel": "La besøkende på ditt eget nettsted bestille direkte i denne kalenderen",
+            "branding": "Merkevare",
+            "brandingLabel": "Tilpass hvordan booking-widgeten ser ut",
+            "primaryColor": "Primærfarge",
+            "secondaryColor": "Sekundærfarge",
+            "welcomeText": "Velkomsttekst",
+            "welcomeTextLabel": "Vises øverst i booking-widgeten",
+            "confirmationText": "Bekreftelsestekst",
+            "confirmationTextLabel": "Vises når en besøkende har fullført en booking",
+            "services": "Tjenester",
+            "servicesLabel": "Velg hvilke tjenester som kan bestilles fra nettstedet ditt",
+            "departments": "Avdelinger",
+            "departmentsLabel": "Velg hvilke avdelinger som vises for besøkende",
+            "allowedDomains": "Tillatte nettsteder",
+            "allowedDomainsLabel": "Kun disse nettstedene får lov til å bygge inn booking-widgeten din",
+            "addDomain": "Legg til",
+            "domainPlaceholder": "www.dittnettsted.no",
+            "embedCode": "Innbyggingskode",
+            "embedCodeLabel": "Lim inn denne koden på nettstedet ditt for å vise booking-widgeten",
+            "hostedLink": "Lenke til bookingside",
+            "hostedLinkLabel": "Del denne lenken direkte, f.eks. i e-poster eller på sosiale medier",
+            "copyCode": "Kopier kode",
+            "codeCopied": "Kopiert!",
+            "copyLink": "Kopier lenke",
+            "linkCopied": "Kopiert!",
+            "preview": "Forhåndsvisning"
+        }
     }
 }

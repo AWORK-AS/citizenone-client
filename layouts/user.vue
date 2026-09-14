@@ -173,7 +173,8 @@
              group's items - so the primary nav stops eating the width a
              real app window can give to the workspace instead. -->
         <div v-else class="hidden lg:fixed lg:inset-y-0 lg:z-[55] lg:flex">
-            <div class="flex flex-col items-center w-[4.5rem] bg-white border-r border-[#e8eaef] py-3">
+            <div :class="['flex flex-col items-center w-[4.5rem] border-r border-[#e8eaef] py-3',
+                isMacDesktopApp ? 'bg-white/70 backdrop-blur-xl' : 'bg-white']">
                 <!-- macOS hiddenInset title bar (see citizenone-desktop's main.ts):
                      the traffic lights float at the window's true top-left corner,
                      which is exactly this rail's top strip (the rail is the same
@@ -204,7 +205,8 @@
                     <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
                 </div>
             </div>
-            <div class="flex flex-col w-[14rem] bg-white border-r border-[#e8eaef] overflow-y-auto custom-scrollbar"
+            <div :class="['flex flex-col w-[14rem] border-r border-[#e8eaef] overflow-y-auto custom-scrollbar',
+                    isMacDesktopApp ? 'bg-white/70 backdrop-blur-xl' : 'bg-white']"
                 role="tabpanel" :id="`nav-panel-${activeContextGroup?.key}`" :aria-labelledby="`nav-tab-${activeContextGroup?.key}`">
                 <div class="h-16 flex items-center px-4 shrink-0">
                     <span class="text-primary font-semibold text-lg truncate">
@@ -457,7 +459,7 @@
                                         </div>
                                     </MenuItem>
                                     <MenuItem v-if="userStore.getUser?.has_invoice_app">
-                                        <div @click="navigateTo('/invoices')"
+                                        <div @click="navigateTo('/invoicing')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:receipt" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.invoices') }}
@@ -996,10 +998,16 @@ const state = reactive({
     slideOver: { isLanguageSwitcherOpen: false, isSupportOpen: false },
 })
 
+// immediate: true because userStore.getUser is routinely already populated
+// by the time this watcher registers - the login page sets it before
+// navigating here, and a page reload restores it from persisted storage
+// before this layout mounts. Without immediate, the watcher only fires on a
+// transition it observes itself, which never happens in either case, and
+// generateSidebarLinks() never runs - leaving the sidebar permanently empty.
 watch(() => userStore.getUser, (user: any) => {
     if (user) { setCustomPageNames(); state.showSubscribeButton = true; generateSidebarLinks(user) }
     if (user?.company?.is_2fa_enabled && !user?.is_google_2fa_enabled) { state.modal.is2faRequiredOpen = true }
-})
+}, { immediate: true })
 
 watch(() => userStore.getUser?.company?.onboarding_preferences?.modules?.vagtplan, () => {
     const user = userStore.getUser
@@ -1132,6 +1140,7 @@ function openNavItem(item: any) {
 
 function generateSidebarLinks(user: any) {
     const nav: any[] = []
+    try {
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
     // Company-level module enablement: no list (empty) = every module on (default).
@@ -1350,10 +1359,8 @@ function generateSidebarLinks(user: any) {
 
     // One economy area rather than three addresses nobody could tell apart:
     // how it is going, what was earned, and what has to be invoiced.
-    const hasEconomyOverview = user?.company?.industry?.system_name === 'social_welfare'
-        && user?.pages?.some((page: any) => page.name === 'Management & Economy')
-    const hasEmploymentEconomy = user?.company?.industry?.system_name === 'employment_services'
-        && (companyHasModule('Billing') || companyHasModule('Revenue report'))
+    const hasEconomyOverview = user?.pages?.some((page: any) => page.name === 'Management & Economy')
+    const hasEmploymentEconomy = companyHasModule('Billing') || companyHasModule('Revenue report')
 
     if (hasEconomyOverview || hasEmploymentEconomy) {
         nav.push({
@@ -1406,6 +1413,14 @@ function generateSidebarLinks(user: any) {
             rawLabel: true,
         })
     })
+    } catch (error) {
+        // Whatever throws here used to silently zero the whole sidebar, since
+        // navigation.value was only ever assigned once, at the very end, from
+        // a local array built by a ~250-line function with no error handling.
+        // Logging (and keeping whatever was pushed before the throw) turns a
+        // silent, hard-to-diagnose "empty sidebar" into a visible, debuggable one.
+        console.error('generateSidebarLinks failed partway through', error)
+    }
 
     navigation.value = nav
     state.isSidebarLoading = false

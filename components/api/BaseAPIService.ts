@@ -293,8 +293,18 @@ class BaseAPIService {
                     )
                 case 404:
                 case 422:
-                case 429:
                     throw new APIError(error.response._data)
+                case 429:
+                    // requestStream's 429 handling attaches these same two fields -
+                    // callers like the AI assistant panel branch on error.status to
+                    // show a friendly rate-limit message instead of the raw backend
+                    // text, and that check needs status/retryAfter present no matter
+                    // which of the two request paths produced the error.
+                    throw new APIError({
+                        ...error.response._data,
+                        status: error.response.status,
+                        retryAfter: Number(error.response?.headers?.get?.('retry-after')) || 0,
+                    })
                 case 409:
                     // Some 409s carry a business-rule flag alongside the message (e.g.
                     // pouring_empty) that a caller needs to branch on rather than just
