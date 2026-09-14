@@ -917,6 +917,8 @@
         "basedOn": "Baserat på",
         "rateLimited": "Du har ställt många frågor just nu. Försök igen om {minutes} min.",
         "rateLimitedToday": "Er organisation har nått dagens gräns för AI-förfrågningar. Försök igen i morgon.",
+        "limitBuyMore": "Köp mer kapacitet",
+        "limitAskAdmin": "Be din administratör om mer kapacitet.",
         "companyDataMissing": "Svaret gavs utan åtkomst till er data. Sökindexet har inte skapats ännu.",
         "companyDataBuilding": "Svaret gavs utan åtkomst till er data. Sökindexet byggs fortfarande.",
         "askAnything": "Fråga om vad som helst, eller skriv {'@'} för att nämna någon",

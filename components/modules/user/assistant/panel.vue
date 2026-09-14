@@ -36,6 +36,20 @@
                 <Alert type="danger" :text="state?.error?.message" class="mx-4 mt-3"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
+                <!-- The daily ceiling is the one limit a person can act on: capacity
+                     follows seats, so more seats mean more of it. Someone without the
+                     licence permission is told who to ask rather than shown a button
+                     that would refuse them on arrival. -->
+                <div v-if="state.error?.isDaily" class="mx-4 -mt-1 mb-1 flex items-center">
+                    <button v-if="state.error?.canBuy" type="button" @click="goToApps"
+                        class="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90">
+                        {{ $t('assistants.limitBuyMore') }}
+                    </button>
+                    <span v-else class="text-sm text-gray-600">
+                        {{ $t('assistants.limitAskAdmin') }}
+                    </span>
+                </div>
+
                 <!-- History list -->
                 <div v-if="state.view === 'history'" class="flex-1 min-h-0 overflow-y-auto px-4 py-3">
                     <div class="relative mb-2">
@@ -688,9 +702,32 @@ function rateLimitError(error: any) {
     if (error?.status !== 429) return null
 
     const seconds = Number(error.retryAfter) || 0
-    if (seconds > 600) return { message: t('assistants.rateLimitedToday') }
+
+    // The backend now names the ceiling that fired instead of leaving us to infer
+    // it. The retryAfter reading stays as the fallback so a client deployed ahead
+    // of the backend still behaves: a daily ceiling resets hours out, a burst one
+    // within the minute.
+    const isDaily = error?.limit ? error.limit === 'daily' : seconds > 600
+
+    if (isDaily) {
+        return {
+            message: t('assistants.rateLimitedToday'),
+            isDaily: true,
+            // Only the daily ceiling is worth offering a purchase against, and only
+            // to someone allowed to make one.
+            canBuy: error?.can_manage_licenses === true,
+        }
+    }
 
     return { message: t('assistants.rateLimited', { minutes: Math.max(1, Math.ceil(seconds / 60)) }) }
+}
+
+// Capacity follows the seats a company holds, so the App Store is where more of
+// it is bought. Closing the panel first means the user lands on the page rather
+// than behind the overlay.
+function goToApps() {
+    closePanel()
+    navigateTo('/apps')
 }
 
 // The model answers in markdown. This used to return the raw string, so
