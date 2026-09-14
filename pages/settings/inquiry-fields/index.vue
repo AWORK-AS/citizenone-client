@@ -155,6 +155,11 @@
                             <p class="mt-1 text-[11px] text-gray-400">
                                 {{ $t('inquiryFieldSettings.form.sourceHint') }}
                             </p>
+                            <div class="mt-2 flex w-fit cursor-pointer items-center gap-2"
+                                @click="state.form.multiple = !state.form.multiple">
+                                <FormCheckbox :value="state.form.multiple" />
+                                <span class="text-sm">{{ $t('inquiryFieldSettings.allowMultiple') }}</span>
+                            </div>
                         </div>
 
                         <div>
@@ -176,16 +181,23 @@
                             </p>
                         </div>
 
-                        <div v-if="state.form.type === 'scale'" class="grid grid-cols-2 gap-4">
-                            <div>
-                                <FormLabel for="field-min" :label="$t('inquiryFieldSettings.form.min')" />
-                                <FormTextField id="field-min" name="field-min" v-model="state.form.min"
-                                    placeholder="1" />
+                        <div v-if="state.form.type === 'scale'">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <FormLabel for="field-min" :label="$t('inquiryFieldSettings.form.min')" />
+                                    <FormTextField id="field-min" name="field-min" v-model="state.form.min"
+                                        placeholder="1" />
+                                </div>
+                                <div>
+                                    <FormLabel for="field-max" :label="$t('inquiryFieldSettings.form.max')" />
+                                    <FormTextField id="field-max" name="field-max" v-model="state.form.max"
+                                        placeholder="5" />
+                                </div>
                             </div>
-                            <div>
-                                <FormLabel for="field-max" :label="$t('inquiryFieldSettings.form.max')" />
-                                <FormTextField id="field-max" name="field-max" v-model="state.form.max"
-                                    placeholder="5" />
+                            <div class="mt-2 flex w-fit cursor-pointer items-center gap-2"
+                                @click="state.form.allow_half = !state.form.allow_half">
+                                <FormCheckbox :value="state.form.allow_half" />
+                                <span class="text-sm">{{ $t('inquiryFieldSettings.allowHalfSteps') }}</span>
                             </div>
                         </div>
 
@@ -253,10 +265,11 @@ const breadcrumbLinks = [
     },
 ]
 
-const TYPES = ['text', 'textarea', 'number', 'amount', 'date', 'select', 'multiselect', 'scale', 'boolean', 'lookup']
+const TYPES = ['text', 'textarea', 'number', 'amount', 'date', 'select', 'multiselect', 'scale', 'boolean', 'lookup', 'risk']
 const LOOKUP_SOURCES = [
     'municipalities', 'regions', 'departments', 'company_contacts',
     'spoken_languages', 'consultant_skills', 'inquiry_service_types', 'employees',
+    'jobcenters', 'focus_areas',
 ]
 const CHOICE_TYPES = ['select', 'multiselect']
 
@@ -270,7 +283,9 @@ function emptyForm() {
         choicesText: '',
         min: '1',
         max: '5',
+        allow_half: false,
         source: 'municipalities',
+        multiple: false,
         service_type_uuid: null as string | null,
         is_required: false,
         is_active: true,
@@ -399,7 +414,9 @@ function openEdit(field: any) {
         choicesText: (field.options?.choices ?? []).join('\n'),
         min: String(field.options?.min ?? 1),
         max: String(field.options?.max ?? 5),
+        allow_half: !!field.options?.allow_half,
         source: field.options?.source ?? 'municipalities',
+        multiple: !!field.options?.multiple,
         service_type_uuid: field.service_type?.uuid ?? null,
         is_required: !!field.is_required,
         is_active: !!field.is_active,
@@ -432,9 +449,13 @@ function payload() {
     if (isChoiceType.value) {
         body.options = { choices: parsedChoices() }
     } else if (state.form.type === 'lookup') {
-        body.options = { source: state.form.source }
+        body.options = { source: state.form.source, multiple: state.form.multiple }
     } else if (state.form.type === 'scale') {
-        body.options = { min: Number(state.form.min) || 1, max: Number(state.form.max) || 5 }
+        body.options = {
+            min: Number(state.form.min) || 1,
+            max: Number(state.form.max) || 5,
+            allow_half: state.form.allow_half,
+        }
     }
 
     return body

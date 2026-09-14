@@ -81,7 +81,7 @@
                         <div>
                             <FormLabel for="step" :label="$t('consultantProfile.form.stepAssessment')" />
                             <div class="flex flex-wrap gap-1.5">
-                                <button v-for="step in 5" :key="step" type="button"
+                                <button v-for="step in stepAssessmentMax" :key="step" type="button"
                                     class="size-9 rounded-lg border text-[13px] font-bold transition-colors"
                                     :class="Number(state.form.step_assessment) === step
                                         ? 'border-secondary bg-secondary text-white'
@@ -194,10 +194,20 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
+const userStore = useUserStore() as any
+
+// A company can run a shorter or longer step scale than the default 5 -
+// e.g. a customer using only 3 steps still saw 5 buttons, two of which
+// could never mean anything for them.
+const stepAssessmentMax = computed(() => {
+    const max = Number(userStore.getUser?.company?.onboarding_preferences?.consultant_step_count)
+    return Number.isInteger(max) && max >= 1 && max <= 10 ? max : 5
+})
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()

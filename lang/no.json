@@ -14476,6 +14476,10 @@
         "required": "Påkrevd",
         "appliesThroughout": "Gjelder hele forløpet",
         "saving": "Lagrer...",
+        "additionalDetails": "Ytterligere opplysninger",
+        "createNew": "Opprett ny",
+        "jobcenterName": "Jobbsenterets navn",
+        "add": "Legg til",
         "alert": {
             "saved": "Feltene er lagret",
             "saveFailed": "Feltene kunne ikke lagres"
@@ -14532,7 +14536,8 @@
             "multiselect": "Flere valg",
             "scale": "Skala",
             "boolean": "Ja/nei",
-            "lookup": "Oppslag"
+            "lookup": "Oppslag",
+            "risk": "Risikovurdering"
         },
         "sources": {
             "municipalities": "Kommuner",
@@ -14542,9 +14547,13 @@
             "spoken_languages": "Talte språk",
             "consultant_skills": "Konsulentkompetanser",
             "inquiry_service_types": "Innsatstyper",
-            "employees": "Ansatte"
+            "employees": "Ansatte",
+            "jobcenters": "Jobbsentre",
+            "focus_areas": "Fokusområder"
         },
-        "allServiceTypes": "Alle innsatstyper"
+        "allServiceTypes": "Alle innsatstyper",
+        "allowMultiple": "Tillat mer enn ett svar",
+        "allowHalfSteps": "Tillat halve trinn (f.eks. 4,5)"
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",

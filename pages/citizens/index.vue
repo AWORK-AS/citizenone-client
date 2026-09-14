@@ -572,7 +572,7 @@ const workTimeTracking = useWorkTimeTracking()
 
 const state = reactive({
     columnHeaders: [] as any[],
-    // Memox feedback: which optional columns are shown; Name and Actions are
+    // Customer feedback: which optional columns are shown; Name and Actions are
     // always there. Persisted via users.citizens_list_columns.
     visibleColumns: ['email', 'ssn', 'phone'] as string[],
     dataFilter: {

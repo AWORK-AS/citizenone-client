@@ -14476,6 +14476,10 @@
         "required": "Obligatoriskt",
         "appliesThroughout": "Gäller hela förloppet",
         "saving": "Sparar...",
+        "additionalDetails": "Ytterligare uppgifter",
+        "createNew": "Skapa ny",
+        "jobcenterName": "Arbetsförmedlingens namn",
+        "add": "Lägg till",
         "alert": {
             "saved": "Fälten har sparats",
             "saveFailed": "Fälten kunde inte sparas"
@@ -14532,7 +14536,8 @@
             "multiselect": "Flera val",
             "scale": "Skala",
             "boolean": "Ja/nej",
-            "lookup": "Uppslag"
+            "lookup": "Uppslag",
+            "risk": "Riskbedömning"
         },
         "sources": {
             "municipalities": "Kommuner",
@@ -14542,9 +14547,13 @@
             "spoken_languages": "Talade språk",
             "consultant_skills": "Konsultkompetenser",
             "inquiry_service_types": "Insatstyper",
-            "employees": "Medarbetare"
+            "employees": "Medarbetare",
+            "jobcenters": "Arbetsförmedlingar",
+            "focus_areas": "Fokusområden"
         },
-        "allServiceTypes": "Alla insatstyper"
+        "allServiceTypes": "Alla insatstyper",
+        "allowMultiple": "Tillåt mer än ett svar",
+        "allowHalfSteps": "Tillåt halva steg (t.ex. 4,5)"
     },
     "inquiryOrigin": {
         "label": "Förfrågan kommer från",
