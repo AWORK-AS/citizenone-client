@@ -6622,7 +6622,7 @@
         "employees": "Anställda",
         "employmentStatus": {
             "permanent": "Fastansat​",
-            "substitute": "Vikar​",
+            "substitute": "Timavlönad",
             "temporary": "Tidsbestemt​"
         },
         "certificates": {
