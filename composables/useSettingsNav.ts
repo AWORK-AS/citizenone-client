@@ -46,9 +46,12 @@ export function useSettingsNav() {
         const item = (name: string, href: string, routeNames: string[]): SettingsNavItem =>
             ({ name, isTranslateName: true, href, routeNames })
 
+        // Each entry is named with the page's own title key: the word you click is then
+        // the word at the top of the page you land on, in every language, and stays so
+        // when either side is retranslated.
         const profile = item('settings.tabs.profile', '/settings/profile', ['settings-profile'])
-        const timeLogs = item('settings.tabs.timeLogs', '/settings/time-logs', ['settings-time-logs'])
-        const mileageLog = item('settings.tabs.mileageLog', '/settings/mileage-log', ['settings-mileage-log'])
+        const timeLogs = item('timeLogs.timeLogs', '/settings/time-logs', ['settings-time-logs'])
+        const mileageLog = item('mileageLog.mileageLog', '/settings/mileage-log', ['settings-mileage-log'])
 
         // Everyone who is not an admin has these three pages and nothing else,
         // so they get one unlabelled section rather than a rail of headings.
@@ -88,9 +91,9 @@ export function useSettingsNav() {
             {
                 key: 'billing', labelKey: 'settings.groups.billing', items: [
                     item('settings.tabs.subscription', '/settings/subscription', ['settings-subscription']),
-                    item('settings.tabs.invoices', '/settings/invoices', ['settings-invoices']),
-                    item('settings.tabs.licenses', '/settings/license-overview', ['settings-license-overview']),
-                    item('settings.tabs.storage', '/settings/storage', ['settings-storage']),
+                    item('invoices.invoices', '/settings/invoices', ['settings-invoices']),
+                    item('settings.licenseOverview.licenseOverview', '/settings/license-overview', ['settings-license-overview']),
+                    item('storage.storage', '/settings/storage', ['settings-storage']),
                 ]
             },
             ...catalogSections,
@@ -111,7 +114,7 @@ export function useSettingsNav() {
             },
             {
                 key: 'logs', labelKey: 'settings.groups.logs', items: [
-                    item('settings.tabs.activityLogs', '/settings/activity-logs', ['settings-activity-logs']),
+                    item('activityLogs.activityLogs', '/settings/activity-logs', ['settings-activity-logs']),
                     timeLogs,
                     mileageLog,
                     item('supportAccess.title', '/settings/support-access', ['settings-support-access']),

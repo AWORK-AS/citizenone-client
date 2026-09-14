@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div v-else>
-                <div class="lg:flex gap-8">
+                <div class="2xl:flex gap-8">
                     <div class="isolate mt-8 w-full max-w-md">
                         <h3 class="py-3 text-sm font-semibold">
                             {{ $t('subscription.currentSubscription') }}
