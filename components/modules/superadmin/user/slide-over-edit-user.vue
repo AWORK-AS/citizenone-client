@@ -127,8 +127,10 @@ async function updateUser(formData: any) {
             is_active: formData.is_active,
             lastname: formData.lastname,
             phone: formData.phone || null,
-            role: formData.role,
+            extra_permissions: formData.extra_permissions,
+            revoked_permissions: formData.revoked_permissions,
         }
+        if (formData.team_role) params.team_role = formData.team_role
         if (formData.password) params.password = formData.password
 
         const response = await userService.updateUser(props.userUuid, params)
