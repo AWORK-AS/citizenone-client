@@ -11287,7 +11287,8 @@
                     "procedures": "Rutiner",
                     "tasks": "Uppgifter",
                     "company_files": "Företagsfiler",
-                    "nursing_areas": "Vårdområden"
+                    "nursing_areas": "Vårdområden",
+                    "ai_conversations": "AI-samtal"
                 }
             }
         },
