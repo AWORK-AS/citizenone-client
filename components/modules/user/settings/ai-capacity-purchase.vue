@@ -54,11 +54,20 @@
                         <dd class="tabular-nums text-primary">+{{ kr(capacity - amount) }}</dd>
                     </div>
                     <div class="flex justify-between gap-x-4 border-t border-gray-200 pt-2">
+                        <dt class="text-gray-600">{{ $t('aiUsage.buy.price') }}</dt>
+                        <dd class="tabular-nums text-gray-900">{{ kr(amount) }}</dd>
+                    </div>
+                    <div class="flex justify-between gap-x-4">
+                        <dt class="text-gray-600">{{ $t('aiUsage.buy.vat', { percent: taxRate }) }}</dt>
+                        <dd class="tabular-nums text-gray-900">{{ kr(vat) }}</dd>
+                    </div>
+                    <div v-if="serviceFee > 0" class="flex justify-between gap-x-4">
+                        <dt class="text-gray-600">{{ $t('aiUsage.buy.serviceFee') }}</dt>
+                        <dd class="tabular-nums text-gray-900">{{ kr(serviceFee) }}</dd>
+                    </div>
+                    <div class="flex justify-between gap-x-4 border-t border-gray-200 pt-2">
                         <dt class="font-semibold text-gray-900">{{ $t('aiUsage.buy.toPay') }}</dt>
-                        <dd class="font-semibold tabular-nums text-gray-900">
-                            {{ kr(amount) }}
-                            <span class="font-normal text-gray-500">{{ $t('excludeVat') }}</span>
-                        </dd>
+                        <dd class="font-semibold tabular-nums text-gray-900">{{ kr(total) }}</dd>
                     </div>
                 </dl>
 
@@ -72,7 +81,7 @@
                     </FormButton>
                     <FormButton buttonStyle="primary" buttonSize="xs" class="px-4"
                         :disabled="state.isLoading || amount < unit" @click="pay">
-                        {{ $t('aiUsage.buy.pay', { amount: krShort(amount) }) }}
+                        {{ $t('aiUsage.buy.pay', { amount: kr(total) }) }}
                     </FormButton>
                 </div>
             </div>
@@ -135,6 +144,15 @@ const bonusPercent = computed(() => {
 })
 
 const capacity = computed(() => Math.round(amount.value * (1 + bonusPercent.value / 100) * 100) / 100)
+
+// Checkout adds VAT and a service fee, and the card is charged the sum. The
+// rest of the product quotes ex-VAT prices, which is fine on a catalogue tile -
+// it is not fine on the dialog where the payment is authorised. Both figures
+// come from the server, read from the same config the payment request reads.
+const taxRate = computed(() => Number(props.topupApp?.tax_rate_percent) || 0)
+const serviceFee = computed(() => Number(props.topupApp?.service_fee_kroner) || 0)
+const vat = computed(() => Math.round(amount.value * taxRate.value) / 100)
+const total = computed(() => Math.round((amount.value + vat.value + serviceFee.value) * 100) / 100)
 
 function isSelected(kroner: number) {
     return !state.custom && amount.value === Number(kroner)
