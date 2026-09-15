@@ -51,5 +51,13 @@ class AuthService extends BaseAPIService {
     async ssoRedirect(email: string): Promise<any> {
         return await this.request(`/auth/sso/redirect`, 'POST', { email })
     }
+
+    async verifyIpOtp(params: object): Promise<any> {
+        return await this.request(`/auth/verify-ip-otp`, 'POST', params)
+    }
+
+    async verifyDeviceOtp(params: object): Promise<any> {
+        return await this.request(`/auth/verify-device-otp`, 'POST', params)
+    }
 }
 export const authService = new AuthService()
