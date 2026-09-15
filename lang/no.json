@@ -15247,14 +15247,17 @@
             "other": "Annet",
             "bonus": "+{percent}% ekstra",
             "capacity": "AI-kapasitet",
-            "price": "Pris",
-            "vat": "Moms ({percent}%)",
-            "serviceFee": "Servicegebyr",
             "toPay": "Å betale",
             "pay": "Betal {amount}",
-            "step": "Selges i trinn på {unit}",
             "terms": "Ved å betale aksepterer dere CitizenOnes vilkår og betingelser. Kapasiteten utløper ikke, og trekkes kun ned når et svar leveres.",
-            "failed": "Kjøpet kunne ikke startes. Prøv igjen om litt."
+            "failed": "Kjøpet kunne ikke startes. Prøv igjen om litt.",
+            "ofWhichVat": "Herav moms ({percent}%)",
+            "ofWhichServiceFee": "Herav servicegebyr",
+            "minimum": "Minst {amount}",
+            "received": "Betaling mottatt",
+            "receivedAmount": "{amount} er lagt til saldoen deres.",
+            "saved": "Dere sparte {percent}% - {amount} ekstra",
+            "done": "Ferdig"
         }
     }
 }

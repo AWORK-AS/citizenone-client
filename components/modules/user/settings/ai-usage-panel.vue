@@ -95,7 +95,7 @@
             <!-- The other half of the ledger. A balance nobody can trace back to
                  a purchase is a number to be taken on trust. -->
             <ModulesUserSettingsAiCapacityPurchase :isModalOpen="state.buying" :topupApp="state.data.topup_app"
-                @close="state.buying = false" />
+                @close="state.buying = false" @purchased="load" />
 
             <section v-if="state.data.topups.length" class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
                 <h3 class="text-sm font-semibold text-gray-900">{{ $t('aiUsage.purchases') }}</h3>

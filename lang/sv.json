@@ -15247,14 +15247,17 @@
             "other": "Annat",
             "bonus": "+{percent}% extra",
             "capacity": "AI-kapacitet",
-            "price": "Pris",
-            "vat": "Moms ({percent}%)",
-            "serviceFee": "Serviceavgift",
             "toPay": "Att betala",
             "pay": "Betala {amount}",
-            "step": "Säljs i steg om {unit}",
             "terms": "Genom att betala accepterar ni CitizenOnes villkor. Kapaciteten upphör inte att gälla och dras bara ned när ett svar levereras.",
-            "failed": "Köpet kunde inte startas. Försök igen om en stund."
+            "failed": "Köpet kunde inte startas. Försök igen om en stund.",
+            "ofWhichVat": "Varav moms ({percent}%)",
+            "ofWhichServiceFee": "Varav serviceavgift",
+            "minimum": "Minst {amount}",
+            "received": "Betalning mottagen",
+            "receivedAmount": "{amount} har lagts till ert saldo.",
+            "saved": "Ni sparade {percent}% - {amount} extra",
+            "done": "Klar"
         }
     }
 }

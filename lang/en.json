@@ -15343,14 +15343,17 @@
             "other": "Other",
             "bonus": "+{percent}% extra",
             "capacity": "AI capacity",
-            "price": "Price",
-            "vat": "VAT ({percent}%)",
-            "serviceFee": "Service fee",
             "toPay": "To pay",
             "pay": "Pay {amount}",
-            "step": "Sold in steps of {unit}",
             "terms": "By paying you accept CitizenOne's terms and conditions. Capacity does not expire, and is only drawn down when an answer is delivered.",
-            "failed": "The purchase could not be started. Try again shortly."
+            "failed": "The purchase could not be started. Try again shortly.",
+            "ofWhichVat": "Of which VAT ({percent}%)",
+            "ofWhichServiceFee": "Of which service fee",
+            "minimum": "At least {amount}",
+            "received": "Payment received",
+            "receivedAmount": "{amount} has been added to your balance.",
+            "saved": "You saved {percent}% - {amount} extra",
+            "done": "Done"
         }
     }
 }
