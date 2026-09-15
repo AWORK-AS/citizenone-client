@@ -15257,7 +15257,23 @@
             "received": "Betalning mottagen",
             "receivedAmount": "{amount} har lagts till ert saldo.",
             "saved": "Ni sparade {percent}% - {amount} extra",
-            "done": "Klar"
+            "done": "Klar",
+            "rememberCard": "Spara kortet så vi kan fylla på automatiskt senare"
+        },
+        "autoReload": {
+            "title": "Automatisk påfyllning",
+            "off": "Avstängd. Ni får besked när saldot håller på att ta slut.",
+            "on": "När saldot går under {threshold} köps det automatiskt för {amount}",
+            "turnOn": "Slå på",
+            "turnOff": "Stäng av",
+            "later": "Inte nu",
+            "modalTitle": "Slå på automatisk påfyllning?",
+            "modalSubtitle": "Köp automatiskt mer kapacitet när ni håller på att ta slut.",
+            "whenBelow": "När saldot går under",
+            "topUpWith": "Fyll på med",
+            "needsCard": "Kräver ett sparat betalkort. Kryssa i rutan vid nästa köp, så kan kortet användas framöver.",
+            "consent": "Ni godkänner att kortet på filen debiteras beloppet ovan varje gång saldot når gränsen. Stäng av när som helst.",
+            "failed": "Inställningen kunde inte sparas. Försök igen om en stund."
         }
     }
 }

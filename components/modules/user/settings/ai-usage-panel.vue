@@ -94,7 +94,10 @@
 
             <!-- The other half of the ledger. A balance nobody can trace back to
                  a purchase is a number to be taken on trust. -->
-            <ModulesUserSettingsAiCapacityPurchase :isModalOpen="state.buying" :topupApp="state.data.topup_app"
+            <ModulesUserSettingsAiAutoReload v-if="state.data.budget_enabled" :autoReload="state.data.auto_reload"
+                :minimumKroner="state.data.topup_app?.minimum_kroner" @updated="load" />
+
+            <ModulesUserSettingsAiCapacityPurchase :isModalOpen="state.buying" :topupApp="state.data.topup_app" :hasCard="!!state.data.auto_reload?.has_card"
                 @close="state.buying = false" @purchased="load" />
 
             <section v-if="state.data.topups.length" class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
@@ -132,6 +135,7 @@ const state = reactive({
         daily: [] as any[],
         topups: [] as any[],
         topup_app: null as any,
+        auto_reload: null as any,
     },
 })
 

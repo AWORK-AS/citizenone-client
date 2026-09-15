@@ -15257,7 +15257,23 @@
             "received": "Betaling mottatt",
             "receivedAmount": "{amount} er lagt til saldoen deres.",
             "saved": "Dere sparte {percent}% - {amount} ekstra",
-            "done": "Ferdig"
+            "done": "Ferdig",
+            "rememberCard": "Lagre kortet, så vi kan fylle på automatisk senere"
+        },
+        "autoReload": {
+            "title": "Automatisk påfyll",
+            "off": "Slått av. Dere får beskjed når saldoen er i ferd med å bli brukt opp.",
+            "on": "Når saldoen kommer under {threshold}, kjøpes det automatisk for {amount}",
+            "turnOn": "Slå på",
+            "turnOff": "Slå av",
+            "later": "Ikke nå",
+            "modalTitle": "Slå på automatisk påfyll?",
+            "modalSubtitle": "Kjøp automatisk mer kapasitet når dere er i ferd med å gå tom.",
+            "whenBelow": "Når saldoen kommer under",
+            "topUpWith": "Fyll på med",
+            "needsCard": "Krever et lagret betalingskort. Sett hake ved neste kjøp, så kan kortet brukes videre.",
+            "consent": "Dere godtar at kortet på filen belastes med beløpet over hver gang saldoen når grensen. Slå av når som helst.",
+            "failed": "Innstillingen kunne ikke lagres. Prøv igjen om litt."
         }
     }
 }

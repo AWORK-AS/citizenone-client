@@ -15353,7 +15353,23 @@
             "received": "Payment received",
             "receivedAmount": "{amount} has been added to your balance.",
             "saved": "You saved {percent}% - {amount} extra",
-            "done": "Done"
+            "done": "Done",
+            "rememberCard": "Remember the card so we can top up automatically later"
+        },
+        "autoReload": {
+            "title": "Automatic top-up",
+            "off": "Off. You are told when the balance is running low.",
+            "on": "When the balance drops below {threshold}, {amount} is bought automatically",
+            "turnOn": "Turn on",
+            "turnOff": "Turn off",
+            "later": "Not now",
+            "modalTitle": "Turn on automatic top-up?",
+            "modalSubtitle": "Automatically buy more capacity when you are running low.",
+            "whenBelow": "When the balance drops below",
+            "topUpWith": "Top up with",
+            "needsCard": "Needs a stored payment card. Tick the box on your next purchase so the card can be used from then on.",
+            "consent": "You agree that the card on file is charged the amount above whenever the balance reaches the limit. Turn off at any time.",
+            "failed": "The setting could not be saved. Try again shortly."
         }
     }
 }

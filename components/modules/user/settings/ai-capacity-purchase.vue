@@ -96,6 +96,16 @@
                     </div>
                 </dl>
 
+                <!-- Offered here because this is the only moment a card can be
+                     kept: the purchase is where one is entered. Unticked by
+                     default - storing a card for a charge nobody asked for would
+                     be taking something that was not offered. -->
+                <label v-if="!props.hasCard" class="flex cursor-pointer items-start gap-x-2.5 text-sm text-gray-700">
+                    <input type="checkbox" v-model="state.autoReload"
+                        class="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
+                    <span>{{ $t('aiUsage.buy.rememberCard') }}</span>
+                </label>
+
                 <p class="text-xs text-gray-500">{{ $t('aiUsage.buy.terms') }}</p>
 
                 <p v-if="state.error" class="text-sm text-red-600">{{ state.error }}</p>
@@ -136,6 +146,7 @@ import { appService } from '@/components/api/user/AppService'
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
     topupApp: { type: Object as any, required: false, default: null },
+    hasCard: { type: Boolean, required: false, default: false },
 })
 
 const emit = defineEmits(['close', 'purchased'])
@@ -148,6 +159,7 @@ let checkout = null as any
 const state = reactive({
     amountInput: '',
     custom: false,
+    autoReload: false,
     isLoading: false,
     checkoutStarted: false,
     done: false,
@@ -235,7 +247,10 @@ async function pay() {
         // The amount, not a quantity. The server charges exactly this and carves
         // the VAT and the fee out of it, so what the button said is what the
         // statement will say.
-        const response = await appService.activateApp(props.topupApp.uuid, { amount: amount.value })
+        const response = await appService.activateApp(props.topupApp.uuid, {
+            amount: amount.value,
+            auto_reload: state.autoReload,
+        })
 
         if (response?.paymentId) {
             state.checkoutStarted = true
@@ -288,6 +303,7 @@ function close() {
 watch(() => props.isModalOpen, (open: boolean) => {
     if (!open) return
     state.custom = false
+    state.autoReload = false
     state.checkoutStarted = false
     state.done = false
     state.error = ''
