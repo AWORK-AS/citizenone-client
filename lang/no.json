@@ -779,6 +779,8 @@
         "form": {
             "annually": "Årligt",
             "howManyLicensesDoYouWant": "Hvor mange lisenser ønsker du",
+            "howManyDoYouWant": "Hvor mange ønsker du",
+            "inTotal": "i alt",
             "monthly": "Månedligt",
             "pleaseWriteHere": "Vennligst skriv her",
             "quantity": "Mengde",
@@ -15372,6 +15374,65 @@
             "copyLink": "Kopier lenke",
             "linkCopied": "Kopiert!",
             "preview": "Forhåndsvisning"
+        }
+    },
+    "aiUsage": {
+        "title": "AI-bruk",
+        "loading": "Henter bruk ...",
+        "failed": "Bruken kunne ikke hentes akkurat nå. Prøv igjen om litt.",
+        "today": "I dag",
+        "ofAllowance": "{used} av {allowance} svar",
+        "allowanceExplainer": "Den daglige rammen følger antallet AI-lisenser dere har. Den nullstilles ved midnatt.",
+        "balance": "Saldo",
+        "balanceExplainer": "Forhåndsbetalt kapasitet. Den utløper ikke, og det trekkes kun fra den når et svar faktisk blir levert.",
+        "buyMore": "Kjøp mer",
+        "thisMonth": "Denne måneden",
+        "feature": "Funksjon",
+        "uses": "Bruk",
+        "amount": "Beløp",
+        "minutes": "{count} min",
+        "noneThisMonth": "Ingen bruk av AI denne måneden ennå.",
+        "purchases": "Kjøp",
+        "features": {
+            "assistant": "Spør AI",
+            "transcribe": "Diktering",
+            "journal": "Journalforslag",
+            "handover": "Vaktoverlevering",
+            "classifier": "Sortering"
+        },
+        "buy": {
+            "title": "Trenger dere mer kapasitet?",
+            "subtitle": "Velg et beløp å starte med. Dere kan alltid kjøpe mer senere.",
+            "other": "Annet",
+            "bonus": "+{percent}% ekstra",
+            "capacity": "AI-kapasitet",
+            "toPay": "Å betale",
+            "pay": "Betal {amount}",
+            "terms": "Ved å betale aksepterer dere CitizenOnes vilkår og betingelser. Kapasiteten utløper ikke, og trekkes kun ned når et svar leveres.",
+            "failed": "Kjøpet kunne ikke startes. Prøv igjen om litt.",
+            "ofWhichVat": "Herav moms ({percent}%)",
+            "ofWhichServiceFee": "Herav servicegebyr",
+            "minimum": "Minst {amount}",
+            "received": "Betaling mottatt",
+            "receivedAmount": "{amount} er lagt til saldoen deres.",
+            "saved": "Dere sparte {percent}% - {amount} ekstra",
+            "done": "Ferdig",
+            "rememberCard": "Lagre kortet, så vi kan fylle på automatisk senere"
+        },
+        "autoReload": {
+            "title": "Automatisk påfyll",
+            "off": "Slått av. Dere får beskjed når saldoen er i ferd med å bli brukt opp.",
+            "on": "Når saldoen kommer under {threshold}, kjøpes det automatisk for {amount}",
+            "turnOn": "Slå på",
+            "turnOff": "Slå av",
+            "later": "Ikke nå",
+            "modalTitle": "Slå på automatisk påfyll?",
+            "modalSubtitle": "Kjøp automatisk mer kapasitet når dere er i ferd med å gå tom.",
+            "whenBelow": "Når saldoen kommer under",
+            "topUpWith": "Fyll på med",
+            "needsCard": "Krever et lagret betalingskort. Sett hake ved neste kjøp, så kan kortet brukes videre.",
+            "consent": "Dere godtar at kortet på filen belastes med beløpet over hver gang saldoen når grensen. Slå av når som helst.",
+            "failed": "Innstillingen kunne ikke lagres. Prøv igjen om litt."
         }
     }
 }

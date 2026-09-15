@@ -779,6 +779,8 @@
         "form": {
             "annually": "Årligen",
             "howManyLicensesDoYouWant": "Var många licenser vill du",
+            "howManyDoYouWant": "Hur många vill du ha",
+            "inTotal": "totalt",
             "monthly": "Månadsvis",
             "pleaseWriteHere": "Vänligen skriv här",
             "quantity": "Mängd",
@@ -15372,6 +15374,65 @@
             "copyLink": "Kopiera länk",
             "linkCopied": "Kopierat!",
             "preview": "Förhandsgranskning"
+        }
+    },
+    "aiUsage": {
+        "title": "AI-användning",
+        "loading": "Hämtar användning ...",
+        "failed": "Användningen kunde inte hämtas just nu. Försök igen om en stund.",
+        "today": "I dag",
+        "ofAllowance": "{used} av {allowance} svar",
+        "allowanceExplainer": "Den dagliga ramen följer antalet AI-licenser ni har. Den nollställs vid midnatt.",
+        "balance": "Saldo",
+        "balanceExplainer": "Förbetald kapacitet. Den upphör inte att gälla, och den dras bara ned när ett svar faktiskt levereras.",
+        "buyMore": "Köp mer",
+        "thisMonth": "Denna månad",
+        "feature": "Funktion",
+        "uses": "Användning",
+        "amount": "Belopp",
+        "minutes": "{count} min",
+        "noneThisMonth": "Ingen AI-användning den här månaden ännu.",
+        "purchases": "Köp",
+        "features": {
+            "assistant": "Fråga AI",
+            "transcribe": "Diktering",
+            "journal": "Journalförslag",
+            "handover": "Skiftöverlämning",
+            "classifier": "Sortering"
+        },
+        "buy": {
+            "title": "Behöver ni mer kapacitet?",
+            "subtitle": "Välj ett belopp att börja med. Ni kan alltid köpa mer senare.",
+            "other": "Annat",
+            "bonus": "+{percent}% extra",
+            "capacity": "AI-kapacitet",
+            "toPay": "Att betala",
+            "pay": "Betala {amount}",
+            "terms": "Genom att betala accepterar ni CitizenOnes villkor. Kapaciteten upphör inte att gälla och dras bara ned när ett svar levereras.",
+            "failed": "Köpet kunde inte startas. Försök igen om en stund.",
+            "ofWhichVat": "Varav moms ({percent}%)",
+            "ofWhichServiceFee": "Varav serviceavgift",
+            "minimum": "Minst {amount}",
+            "received": "Betalning mottagen",
+            "receivedAmount": "{amount} har lagts till ert saldo.",
+            "saved": "Ni sparade {percent}% - {amount} extra",
+            "done": "Klar",
+            "rememberCard": "Spara kortet så vi kan fylla på automatiskt senare"
+        },
+        "autoReload": {
+            "title": "Automatisk påfyllning",
+            "off": "Avstängd. Ni får besked när saldot håller på att ta slut.",
+            "on": "När saldot går under {threshold} köps det automatiskt för {amount}",
+            "turnOn": "Slå på",
+            "turnOff": "Stäng av",
+            "later": "Inte nu",
+            "modalTitle": "Slå på automatisk påfyllning?",
+            "modalSubtitle": "Köp automatiskt mer kapacitet när ni håller på att ta slut.",
+            "whenBelow": "När saldot går under",
+            "topUpWith": "Fyll på med",
+            "needsCard": "Kräver ett sparat betalkort. Kryssa i rutan vid nästa köp, så kan kortet användas framöver.",
+            "consent": "Ni godkänner att kortet på filen debiteras beloppet ovan varje gång saldot når gränsen. Stäng av när som helst.",
+            "failed": "Inställningen kunde inte sparas. Försök igen om en stund."
         }
     }
 }

@@ -779,6 +779,8 @@
         "form": {
             "annually": "Annually",
             "howManyLicensesDoYouWant": "How many licenses do you want",
+            "howManyDoYouWant": "How many do you want",
+            "inTotal": "in total",
             "monthly": "Monthly",
             "pleaseWriteHere": "Please write here",
             "quantity": "Quantity",
@@ -15468,6 +15470,65 @@
             "copyLink": "Copy link",
             "linkCopied": "Copied!",
             "preview": "Preview"
+        }
+    },
+    "aiUsage": {
+        "title": "AI usage",
+        "loading": "Loading usage ...",
+        "failed": "Usage could not be loaded right now. Try again shortly.",
+        "today": "Today",
+        "ofAllowance": "{used} of {allowance} answers",
+        "allowanceExplainer": "Your daily room follows the number of AI licences you hold. It resets at midnight.",
+        "balance": "Balance",
+        "balanceExplainer": "Prepaid capacity. It does not expire, and it is only drawn down when an answer is actually delivered.",
+        "buyMore": "Buy more",
+        "thisMonth": "This month",
+        "feature": "Feature",
+        "uses": "Used",
+        "amount": "Amount",
+        "minutes": "{count} min",
+        "noneThisMonth": "No AI use this month yet.",
+        "purchases": "Purchases",
+        "features": {
+            "assistant": "Ask AI",
+            "transcribe": "Dictation",
+            "journal": "Journal suggestions",
+            "handover": "Shift handover",
+            "classifier": "Sorting"
+        },
+        "buy": {
+            "title": "Need more capacity?",
+            "subtitle": "Choose an amount to start with. You can always buy more later.",
+            "other": "Other",
+            "bonus": "+{percent}% extra",
+            "capacity": "AI capacity",
+            "toPay": "To pay",
+            "pay": "Pay {amount}",
+            "terms": "By paying you accept CitizenOne's terms and conditions. Capacity does not expire, and is only drawn down when an answer is delivered.",
+            "failed": "The purchase could not be started. Try again shortly.",
+            "ofWhichVat": "Of which VAT ({percent}%)",
+            "ofWhichServiceFee": "Of which service fee",
+            "minimum": "At least {amount}",
+            "received": "Payment received",
+            "receivedAmount": "{amount} has been added to your balance.",
+            "saved": "You saved {percent}% - {amount} extra",
+            "done": "Done",
+            "rememberCard": "Remember the card so we can top up automatically later"
+        },
+        "autoReload": {
+            "title": "Automatic top-up",
+            "off": "Off. You are told when the balance is running low.",
+            "on": "When the balance drops below {threshold}, {amount} is bought automatically",
+            "turnOn": "Turn on",
+            "turnOff": "Turn off",
+            "later": "Not now",
+            "modalTitle": "Turn on automatic top-up?",
+            "modalSubtitle": "Automatically buy more capacity when you are running low.",
+            "whenBelow": "When the balance drops below",
+            "topUpWith": "Top up with",
+            "needsCard": "Needs a stored payment card. Tick the box on your next purchase so the card can be used from then on.",
+            "consent": "You agree that the card on file is charged the amount above whenever the balance reaches the limit. Turn off at any time.",
+            "failed": "The setting could not be saved. Try again shortly."
         }
     }
 }

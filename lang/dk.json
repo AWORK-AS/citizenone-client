@@ -779,6 +779,8 @@
         "form": {
             "annually": "Årligt",
             "howManyLicensesDoYouWant": "Hvor mange licenser ønsker du",
+            "howManyDoYouWant": "Hvor mange ønsker du",
+            "inTotal": "i alt",
             "monthly": "Månedligt",
             "pleaseWriteHere": "Venligst skriv her",
             "quantity": "Mængde",
@@ -15468,6 +15470,65 @@
             "copyLink": "Kopiér link",
             "linkCopied": "Kopieret!",
             "preview": "Forhåndsvisning"
+        }
+    },
+    "aiUsage": {
+        "title": "AI-forbrug",
+        "loading": "Henter forbrug ...",
+        "failed": "Forbruget kunne ikke hentes lige nu. Prøv igen om lidt.",
+        "today": "I dag",
+        "ofAllowance": "{used} af {allowance} svar",
+        "allowanceExplainer": "Jeres daglige ramme følger antallet af AI-licenser, I har. Den nulstilles ved midnat.",
+        "balance": "Saldo",
+        "balanceExplainer": "Forudbetalt kapacitet. Den udløber ikke, og der trækkes kun fra den når et svar rent faktisk bliver leveret.",
+        "buyMore": "Køb mere",
+        "thisMonth": "Denne måned",
+        "feature": "Funktion",
+        "uses": "Forbrug",
+        "amount": "Beløb",
+        "minutes": "{count} min.",
+        "noneThisMonth": "Ingen brug af AI denne måned endnu.",
+        "purchases": "Køb",
+        "features": {
+            "assistant": "Spørg AI",
+            "transcribe": "Diktering",
+            "journal": "Journalforslag",
+            "handover": "Vagtoverlevering",
+            "classifier": "Sortering"
+        },
+        "buy": {
+            "title": "Brug for mere kapacitet?",
+            "subtitle": "Vælg et beløb at starte med. I kan altid købe mere senere.",
+            "other": "Andet",
+            "bonus": "+{percent}% ekstra",
+            "capacity": "AI-kapacitet",
+            "toPay": "At betale",
+            "pay": "Betal {amount}",
+            "terms": "Ved at betale accepterer I CitizenOnes vilkår og betingelser. Kapaciteten udløber ikke, og der trækkes kun fra den når et svar bliver leveret.",
+            "failed": "Købet kunne ikke startes. Prøv igen om lidt.",
+            "ofWhichVat": "Heraf moms ({percent}%)",
+            "ofWhichServiceFee": "Heraf servicegebyr",
+            "minimum": "Mindst {amount}",
+            "received": "Betaling modtaget",
+            "receivedAmount": "{amount} er lagt til jeres saldo.",
+            "saved": "I sparede {percent}% - {amount} ekstra",
+            "done": "Færdig",
+            "rememberCard": "Gem kortet, så vi kan tanke op automatisk senere"
+        },
+        "autoReload": {
+            "title": "Automatisk optankning",
+            "off": "Slået fra. I får besked når saldoen er ved at være brugt op.",
+            "on": "Når saldoen kommer under {threshold}, købes der automatisk for {amount}",
+            "turnOn": "Slå til",
+            "turnOff": "Slå fra",
+            "later": "Ikke nu",
+            "modalTitle": "Slå automatisk optankning til?",
+            "modalSubtitle": "Køb automatisk mere kapacitet når I er ved at løbe tør.",
+            "whenBelow": "Når saldoen kommer under",
+            "topUpWith": "Tank op med",
+            "needsCard": "Kræver et gemt betalingskort. Sæt flueben ved næste køb, så kan kortet bruges fremover.",
+            "consent": "I accepterer at kortet på filen hæves med det valgte beløb, hver gang saldoen når grænsen. Slå fra når som helst.",
+            "failed": "Indstillingen kunne ikke gemmes. Prøv igen om lidt."
         }
     }
 }

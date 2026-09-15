@@ -330,7 +330,30 @@ onMounted(async () => {
     }
 
     await fetchCategories()
-    fetchApps()
+    await fetchApps()
+
+    // Lets another page link straight into one app's purchase (e.g. the AI usage
+    // screen's "Buy more"), instead of landing on the catalogue and making the
+    // admin find the tile. Fetched by uuid rather than looked up in the loaded
+    // page, because the catalogue is paginated and the app linked to may not be
+    // on the page that happens to be showing.
+    const appQuery = router.currentRoute.value.query.app
+    if (typeof appQuery === 'string' && appQuery) {
+        router.replace({ query: { ...router.currentRoute.value.query, app: undefined } })
+        try {
+            const response = await appService.getApp(appQuery)
+            const app = response?.data ?? response
+            // A one-time fee is bought again and again - prepaid capacity is the
+            // whole point - so owning it already is not a reason to refuse. Only
+            // a subscription the company is already on gets skipped.
+            if (app?.uuid && (app?.is_one_time_fee || !app?.user_activated)) {
+                confirmTACAcceptance(app)
+            }
+        } catch (error) {
+            // A stale or wrong uuid leaves the admin on the catalogue, which is
+            // where they were going anyway.
+        }
+    }
 })
 
 async function fetchCategories() {

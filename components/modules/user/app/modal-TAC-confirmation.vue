@@ -59,13 +59,38 @@
                             {{ $t('excludeVat') }}
                         </div>
                     </div>
+                    <!-- Catalogue apps showed neither name nor price here, which
+                         was tolerable while the only way in was tapping the tile
+                         you had just read. A deep link (the AI usage screen's
+                         "Buy more") lands straight on this dialog, so what is
+                         being bought and what it costs has to be on it. -->
+                    <div v-if="props.selectedApp?.generic_name && props.selectedApp?.is_one_time_fee"
+                        class="rounded-lg bg-gray-50 px-4 py-3">
+                        <p class="text-sm font-semibold text-gray-900">{{ props.selectedApp?.name }}</p>
+                        <p class="mt-0.5 text-sm tabular-nums text-gray-600">
+                            {{ formatAmount(props.selectedApp?.price) }} {{ $t('excludeVat') }}
+                            <span v-if="Number(state.formApp.quantity) > 1">
+                                &middot; {{ formatAmount(Number(props.selectedApp?.price) * Number(state.formApp.quantity)) }}
+                                {{ $t('apps.form.inTotal') }}
+                            </span>
+                        </p>
+                    </div>
+
                     <div class="space-y-3" :class="!props.selectedApp?.is_one_time_fee ? 'mt-5' : 'mt-5'">
                         <div v-if="props.selectedApp?.is_quantifiable" class="flex items-center gap-x-3">
                             <div class="w-28">
                                 <FormNumberField name="quantity" placeholder="0" v-model="state.formApp.quantity"
                                     @input="validateAppQuantity" />
                             </div>
-                            <p class="text-sm">{{ $t('apps.form.howManyLicensesDoYouWant') }}?</p>
+                            <!-- A one-time fee is not a seat. Asking "how many
+                                 licences" when someone is buying prepaid AI
+                                 capacity names the wrong thing and makes a
+                                 straightforward purchase read as confusing. -->
+                            <p class="text-sm">
+                                {{ props.selectedApp?.is_one_time_fee
+                                    ? $t('apps.form.howManyDoYouWant')
+                                    : $t('apps.form.howManyLicensesDoYouWant') }}?
+                            </p>
                         </div>
                         <div class="w-fit flex items-center cursor-pointer"
                             @click="state.formTAC.agreeToTerms = !state.formTAC.agreeToTerms">

@@ -21,5 +21,6 @@ const tabs = [
     { name: 'settings.licenseOverview.licenseOverview', isTranslateName: true, href: '/settings/license-overview', routeNames: ['settings-license-overview', 'settings-license-overview-caseworker', 'settings-license-overview-departments'] },
     { name: 'storage.storage', isTranslateName: true, href: '/settings/storage', routeNames: ['settings-storage'] },
     { name: 'invoices.invoices', isTranslateName: true, href: '/settings/invoices', routeNames: ['settings-invoices', 'settings-invoices-invoice_uuid-invoice-details'] },
+    { name: 'aiUsage.title', isTranslateName: true, href: '/settings/ai-usage', routeNames: ['settings-ai-usage'] },
 ]
 </script>
