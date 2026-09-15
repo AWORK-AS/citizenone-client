@@ -13589,7 +13589,8 @@
                 "newDepartments": "Nye avdelinger ({count}):",
                 "newSections": "Nye paragrafer ({count}):",
                 "rowsToLookAt": "Rader du bør se på",
-                "line": "Linje {line}"
+                "line": "Linje {line}",
+                "newSections": "Nye paragrafer ({count}):"
             },
             "importing": {
                 "label": "Importerer…"

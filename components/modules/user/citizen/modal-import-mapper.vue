@@ -456,6 +456,8 @@ const entityTypes = computed(() => [
             ? companyImportService.importCitizens(props.companyUuid, payload)
             : citizenService.importMappedCitizens(payload),
         fields: [
+            // Not required: systems being migrated from do not always record a
+            // surname, and the citizen is still a real person.
             { key: 'firstname', label: t('import.fields.firstname'), required: false },
             { key: 'lastname', label: t('import.fields.lastname'), required: false },
             { key: 'cpr_number', label: t('import.fields.cpr_number'), required: false },
@@ -522,7 +524,7 @@ const synonyms: Record<string, string[]> = {
     departments: ['afdeling', 'afdelinger', 'department', 'departments', 'team', 'enhed', 'gruppe'],
     spoken_languages: ['sprog', 'talt sprog', 'sprogkundskaber', 'modersmål', 'modersmal', 'language', 'languages', 'spoken language', 'spoken languages', 'native language'],
     requires_interpreter: ['tolk', 'tolkebehov', 'tolk påkrævet', 'tolk pakraevet', 'interpreter', 'needs interpreter', 'requires interpreter'],
-    section: ['paragraf', 'paragraph', 'section', 'lovparagraf', 'indsatsparagraf'],
+    section: ['paragraf', 'paragraph', 'section', 'sektion', 'indtyp', 'indsatstype', 'type', 'ydelse', 'lovgrundlag', 'lovparagraf', 'indsatsparagraf'],
     seniority_date: ['anciennitet', 'ancien', 'seniority', 'ansættelsesdato', 'ansaettelsesdato', 'ansat', 'startdato'],
     cpr: ['cpr', 'cprnr', 'cpr-nr', 'cprnummer', 'personnummer', 'ssn', 'borger'],
     case_number: ['indsatsnummer', 'indsatsnr', 'sagsnummer', 'sagsnr', 'sag', 'case number', 'case no', 'casenumber', 'journalnummer', 'journalnr'],

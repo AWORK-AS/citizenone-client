@@ -13589,7 +13589,8 @@
                 "newDepartments": "Nya avdelningar ({count}):",
                 "newSections": "Nya paragrafer ({count}):",
                 "rowsToLookAt": "Rader att titta på",
-                "line": "Rad {line}"
+                "line": "Rad {line}",
+                "newSections": "Nya paragrafer ({count}):"
             },
             "importing": {
                 "label": "Importerar…"
