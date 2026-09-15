@@ -2,6 +2,12 @@ import BaseAPIService from '@/components/api/BaseAPIService'
 
 export default class OneDriveService extends BaseAPIService {
 
+  async getFiles(folderId?: string): Promise<any> {
+    return folderId
+      ? await this.request(`/user/onedrive/folder/${folderId}`, 'GET')
+      : await this.request('/user/onedrive/files', 'GET')
+  }
+
   async downloadOriginalFile(fileId: string): Promise<Blob> {
     const userId = localStorage.getItem('user_id');
     const token = localStorage.getItem('_token');
