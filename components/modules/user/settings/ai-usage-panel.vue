@@ -94,6 +94,9 @@
 
             <!-- The other half of the ledger. A balance nobody can trace back to
                  a purchase is a number to be taken on trust. -->
+            <ModulesUserSettingsAiCapacityPurchase :isModalOpen="state.buying" :topupApp="state.data.topup_app"
+                @close="state.buying = false" />
+
             <section v-if="state.data.topups.length" class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
                 <h3 class="text-sm font-semibold text-gray-900">{{ $t('aiUsage.purchases') }}</h3>
 
@@ -118,6 +121,7 @@ const { t, locale } = useI18n()
 const state = reactive({
     loading: true,
     failed: false,
+    buying: false,
     data: {
         budget_enabled: false,
         balance_kroner: 0,
@@ -132,20 +136,22 @@ const state = reactive({
 })
 
 /**
- * Straight into the purchase the App Store already runs, rather than dropping
- * the admin on the catalogue to find "AI-kapacitet" among thirty tiles.
+ * Buying happens here rather than on the catalogue. An admin who has just read
+ * "you have 380 kroner left" is answering a question about an amount, and
+ * sending them off to find a tile and pick a quantity answers a different one.
  *
- * Nothing about the payment is reimplemented here: the deep link opens the same
- * terms-and-checkout path every other app uses, so Nexi, the receipt and the
- * provisioning that credits the balance all stay in one place.
+ * The payment is not reimplemented: the dialog calls the same endpoint every app
+ * purchase uses and renders the same Nexi checkout. Only the chooser is new.
  *
- * The catalogue is the fallback when the product is not seeded in this
- * environment, which is wrong but harmless - better than a link to a product
- * that is not there.
+ * The catalogue stays as the fallback when the product is not seeded in this
+ * environment - wrong but harmless, better than a dialog with nothing to sell.
  */
 function buyMore() {
-    const uuid = state.data.topup_app?.uuid
-    navigateTo(uuid ? `/apps?app=${uuid}` : '/apps')
+    if (state.data.topup_app?.uuid) {
+        state.buying = true
+        return
+    }
+    navigateTo('/apps')
 }
 
 const todayShare = computed(() => {

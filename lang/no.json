@@ -15240,6 +15240,18 @@
             "journal": "Journalforslag",
             "handover": "Vaktoverlevering",
             "classifier": "Sortering"
+        },
+        "buy": {
+            "title": "Trenger dere mer kapasitet?",
+            "subtitle": "Velg et beløp å starte med. Dere kan alltid kjøpe mer senere.",
+            "other": "Annet",
+            "bonus": "+{percent}% ekstra",
+            "capacity": "AI-kapasitet",
+            "toPay": "Å betale",
+            "pay": "Betal {amount}",
+            "step": "Selges i trinn på {unit}",
+            "terms": "Ved å betale aksepterer dere CitizenOnes vilkår og betingelser. Kapasiteten utløper ikke, og trekkes kun ned når et svar leveres.",
+            "failed": "Kjøpet kunne ikke startes. Prøv igjen om litt."
         }
     }
 }

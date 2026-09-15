@@ -15336,6 +15336,18 @@
             "journal": "Journal suggestions",
             "handover": "Shift handover",
             "classifier": "Sorting"
+        },
+        "buy": {
+            "title": "Need more capacity?",
+            "subtitle": "Choose an amount to start with. You can always buy more later.",
+            "other": "Other",
+            "bonus": "+{percent}% extra",
+            "capacity": "AI capacity",
+            "toPay": "To pay",
+            "pay": "Pay {amount}",
+            "step": "Sold in steps of {unit}",
+            "terms": "By paying you accept CitizenOne's terms and conditions. Capacity does not expire, and is only drawn down when an answer is delivered.",
+            "failed": "The purchase could not be started. Try again shortly."
         }
     }
 }

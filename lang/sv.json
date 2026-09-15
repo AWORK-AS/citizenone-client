@@ -15240,6 +15240,18 @@
             "journal": "Journalförslag",
             "handover": "Skiftöverlämning",
             "classifier": "Sortering"
+        },
+        "buy": {
+            "title": "Behöver ni mer kapacitet?",
+            "subtitle": "Välj ett belopp att börja med. Ni kan alltid köpa mer senare.",
+            "other": "Annat",
+            "bonus": "+{percent}% extra",
+            "capacity": "AI-kapacitet",
+            "toPay": "Att betala",
+            "pay": "Betala {amount}",
+            "step": "Säljs i steg om {unit}",
+            "terms": "Genom att betala accepterar ni CitizenOnes villkor. Kapaciteten upphör inte att gälla och dras bara ned när ett svar levereras.",
+            "failed": "Köpet kunde inte startas. Försök igen om en stund."
         }
     }
 }
