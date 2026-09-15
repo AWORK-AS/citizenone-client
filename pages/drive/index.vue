@@ -579,28 +579,26 @@ const oneDriveButtonText = computed(() => {
 
 
 async function handleOneDriveButtonClick() {
-    // if (state.isInsideOneDrive) {
-
-    //     const newQuery = { ...router.currentRoute.value.query };
-    //     delete newQuery.onedrive;
-    //     delete newQuery.onedrive_folder_id;
-    //     router.push({ query: newQuery });
-    //     state.isInsideOneDrive = false;
-    //     fetchDocuments();
-    // } else {
-
-    //     router.push({
-    //         query: {
-    //             ...router.currentRoute.value.query,
-    //             onedrive: '1',
-    //         }
-    //     });
-    //     state.isInsideOneDrive = true;
-    //     prefetchOneDriveCache();
-    //     fetchOneDriveFiles().then(() => { prefetchOneDriveCache(); });
-    //     // Start folder fetch in background after a short delay to avoid PHP session lock contention
-    //     setTimeout(() => fetchOneDriveFolders(), 200);
-    // }
+    if (state.isInsideOneDrive) {
+        const newQuery = { ...router.currentRoute.value.query };
+        delete newQuery.onedrive;
+        delete newQuery.onedrive_folder_id;
+        router.push({ query: newQuery });
+        state.isInsideOneDrive = false;
+        fetchDocuments();
+    } else {
+        router.push({
+            query: {
+                ...router.currentRoute.value.query,
+                onedrive: '1',
+            }
+        });
+        state.isInsideOneDrive = true;
+        prefetchOneDriveCache();
+        fetchOneDriveFiles().then(() => { prefetchOneDriveCache(); });
+        // Start folder fetch in background after a short delay to avoid PHP session lock contention
+        setTimeout(() => fetchOneDriveFolders(), 200);
+    }
 }
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
@@ -836,11 +834,6 @@ function oneDriveLogin() {
     router.push('/apps')
 }
 
-
-async function handleOneDriveClick() {
-    fetchOneDriveFiles();
-}
-
 function handleRefreshDocuments() {
     if (state.isInsideOneDrive) {
         fetchOneDriveFiles();
@@ -870,31 +863,8 @@ async function fetchOneDriveFiles(): Promise<void> {
     state.error = {};
     state.isTableLoading = true;
     try {
-        const folderId = router?.currentRoute?.value?.query?.onedrive_folder_id;
-        const userId = userStore.getUser?.id || localStorage.getItem('user_id');
-        const token = localStorage.getItem('_token');
-        let response;
-        if (folderId) {
-            response = await $fetch(`/api/user/onedrive/folder/${folderId}`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'X-User-Id': String(userId),
-                    'Authorization': 'Bearer ' + token
-                },
-                credentials: 'include',
-            });
-        } else {
-            response = await $fetch('/api/user/onedrive/files', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'X-User-Id': String(userId),
-                    'Authorization': 'Bearer ' + token
-                },
-                credentials: 'include',
-            });
-        }
+        const folderId = router?.currentRoute?.value?.query?.onedrive_folder_id as string | undefined;
+        const response = await oneDriveService.getFiles(folderId);
         let resp = response;
         if (typeof resp === 'string') {
             try {
