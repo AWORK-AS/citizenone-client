@@ -8572,6 +8572,28 @@
         }
     },
     "mileageLog": {
+        "alert": {
+            "distanceCorrected": "Avståndet har rättats",
+            "distanceReverted": "Avståndet har återställts till det beräknade värdet"
+        },
+        "correction": {
+            "calculatedDistance": "Beräknat avstånd",
+            "confirmRevert": "Är du säker på att du vill återställa det beräknade avståndet för denna resa",
+            "correctDistance": "Rätta avstånd",
+            "correctedBy": "Rättad av {name} den {date}",
+            "correctedDistance": "Rättat avstånd",
+            "reason": "Orsak till rättelse",
+            "reasonRequired": "En orsak måste anges",
+            "revertToCalculated": "Återställ beräknat avstånd"
+        },
+        "distanceSource": {
+            "anchored_breadcrumbs": "GPS-spår (inkl. start/stopp)",
+            "breadcrumbs": "GPS-spår",
+            "manual": "Manuellt rättad",
+            "none": "Inga positionsdata",
+            "stops": "Angiven rutt",
+            "straight_line": "Fågelvägen"
+        },
         "download": {
             "download": "Ladda ner",
             "downloadMileageLog": "Ladda ner körjournal",
@@ -8624,6 +8646,11 @@
         "mileageLog": "Körjournal",
         "mileageReport": "Körrapport",
         "newTrip": "Ny resa",
+        "reviewReason": {
+            "implausible_end_coordinate": "Orimlig slutposition - sträckan räknas inte med.",
+            "implausible_start_coordinate": "Orimlig startposition - sträckan räknas inte med.",
+            "implausible_stop_coordinate": "Orimlig stoppposition - sträckan räknas inte med."
+        },
         "summary": {
             "allTime": "All tid",
             "byEmployee": "Per medarbetare",
@@ -8646,6 +8673,7 @@
             "confirmation": {
                 "deleteTripConfirmation": "Är du säker på att du vill radera denna resa"
             },
+            "corrected": "Rättad",
             "date": "Datum",
             "distance": "Avstånd",
             "distanceSourceUnknown": "Okänd källa",

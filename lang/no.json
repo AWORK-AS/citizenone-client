@@ -8572,6 +8572,28 @@
         }
     },
     "mileageLog": {
+        "alert": {
+            "distanceCorrected": "Avstanden er rettet",
+            "distanceReverted": "Avstanden er gjenopprettet til den beregnede verdien"
+        },
+        "correction": {
+            "calculatedDistance": "Beregnet avstand",
+            "confirmRevert": "Er du sikker på at du vil gjenopprette den beregnede avstanden for denne turen",
+            "correctDistance": "Rett avstand",
+            "correctedBy": "Rettet av {name} den {date}",
+            "correctedDistance": "Rettet avstand",
+            "reason": "Årsak til retting",
+            "reasonRequired": "Det må angis en årsak",
+            "revertToCalculated": "Gjenopprett beregnet avstand"
+        },
+        "distanceSource": {
+            "anchored_breadcrumbs": "GPS-spor (inkl. start/stopp)",
+            "breadcrumbs": "GPS-spor",
+            "manual": "Manuelt rettet",
+            "none": "Ingen posisjonsdata",
+            "stops": "Innlagt rute",
+            "straight_line": "Luftlinje"
+        },
         "download": {
             "download": "Last ned",
             "downloadMileageLog": "Last ned kjørebok",
@@ -8624,6 +8646,11 @@
         "mileageLog": "Kjørebok",
         "mileageReport": "Kjørerapport",
         "newTrip": "Ny tur",
+        "reviewReason": {
+            "implausible_end_coordinate": "Usannsynlig sluttposisjon - strekningen er ikke medregnet.",
+            "implausible_start_coordinate": "Usannsynlig startposisjon - strekningen er ikke medregnet.",
+            "implausible_stop_coordinate": "Usannsynlig stoppposisjon - strekningen er ikke medregnet."
+        },
         "summary": {
             "allTime": "All tid",
             "byEmployee": "Per medarbeider",
@@ -8646,6 +8673,7 @@
             "confirmation": {
                 "deleteTripConfirmation": "Er du sikker på at du vil slette denne turen"
             },
+            "corrected": "Rettet",
             "date": "Dato",
             "distance": "Distanse",
             "distanceSourceUnknown": "Ukjent kilde",
