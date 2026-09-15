@@ -779,6 +779,8 @@
         "form": {
             "annually": "Annually",
             "howManyLicensesDoYouWant": "How many licenses do you want",
+            "howManyDoYouWant": "How many do you want",
+            "inTotal": "in total",
             "monthly": "Monthly",
             "pleaseWriteHere": "Please write here",
             "quantity": "Quantity",

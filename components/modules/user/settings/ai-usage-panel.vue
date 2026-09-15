@@ -38,7 +38,7 @@
                             {{ kr(state.data.balance_kroner) }}
                         </p>
                     </div>
-                    <FormButton buttonStyle="AI" buttonSize="xs" class="px-4" @click="navigateTo('/apps')">
+                    <FormButton buttonStyle="AI" buttonSize="xs" class="px-4" @click="buyMore">
                         {{ $t('aiUsage.buyMore') }}
                     </FormButton>
                 </div>
@@ -127,8 +127,26 @@ const state = reactive({
         by_feature: [] as any[],
         daily: [] as any[],
         topups: [] as any[],
+        topup_app: null as any,
     },
 })
+
+/**
+ * Straight into the purchase the App Store already runs, rather than dropping
+ * the admin on the catalogue to find "AI-kapacitet" among thirty tiles.
+ *
+ * Nothing about the payment is reimplemented here: the deep link opens the same
+ * terms-and-checkout path every other app uses, so Nexi, the receipt and the
+ * provisioning that credits the balance all stay in one place.
+ *
+ * The catalogue is the fallback when the product is not seeded in this
+ * environment, which is wrong but harmless - better than a link to a product
+ * that is not there.
+ */
+function buyMore() {
+    const uuid = state.data.topup_app?.uuid
+    navigateTo(uuid ? `/apps?app=${uuid}` : '/apps')
+}
 
 const todayShare = computed(() => {
     const allowance = Number(state.data.daily_allowance) || 0

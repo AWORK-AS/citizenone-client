@@ -779,6 +779,8 @@
         "form": {
             "annually": "Årligen",
             "howManyLicensesDoYouWant": "Var många licenser vill du",
+            "howManyDoYouWant": "Hur många vill du ha",
+            "inTotal": "totalt",
             "monthly": "Månadsvis",
             "pleaseWriteHere": "Vänligen skriv här",
             "quantity": "Mängd",
