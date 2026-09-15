@@ -451,6 +451,13 @@
                                                 $t('navbar.colleagues') }}
                                         </div>
                                     </MenuItem>
+                                    <MenuItem v-if="isAtLeast('Admin') && !discoverCompleted">
+                                        <div @click="navigateTo('/discover')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:compass" class="h-4 w-4 text-slate-400" />{{
+                                                $t('sidebar.discover') }}
+                                        </div>
+                                    </MenuItem>
                                     <MenuItem>
                                         <div @click="navigateTo('/apps')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
@@ -770,16 +777,7 @@ function groupIsOpen(group: any): boolean {
 }
 
 
-// "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
-// per Allan's feedback, once onboarding is fully done it should disappear from
-// the sidebar too, not just the tab, so it doesn't look like something's still
-// outstanding. Re-generate the sidebar the moment this flips so it can vanish
-// immediately if the user finishes the last step while still on /discover,
-// without needing a full navigation/reload first.
 const { completed: discoverCompleted } = useDiscoverDone()
-watch(discoverCompleted, () => {
-    if (userStore.getUser) generateSidebarLinks(userStore.getUser)
-})
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
@@ -1024,7 +1022,6 @@ function getNavItemLabel(item: any) {
     const t = language.t
     if (item.rawLabel) return item.name
     if (item.name === 'Overview') return t('sidebar.overview')
-    if (item.name === 'Discover') return t('sidebar.discover')
     // The store already holds the resolved word - see setCustomPageNames.
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Invoicing') return t('sidebar.invoicing')
@@ -1162,18 +1159,6 @@ function generateSidebarLinks(user: any) {
             'overview-google-drive',
         ]
     })
-    if (isAtLeast('Admin') && !discoverCompleted.value) {
-        // Onboarding, not daily work: rendered in the sidebar footer.
-        nav.push({
-            name: 'Discover',
-            href: '/discover',
-            icon: 'ph:compass',
-            group: 'footer',
-            activeRouteNames: [
-                'discover',
-            ]
-        })
-    }
     // The recall list only exists for dental clinics, the same rule the tabs
     // and the API use.
     if (industryHasFeature('clinicOverview')) {
