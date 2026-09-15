@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('subscription.subscription') }}</template>
 
-            <ModulesUserSettingsTab />
+            <ModulesUserSettingsBillingSubTab class="mt-5" />
 
             <Alert type="danger" :text="error" v-if="error && error.length > 0" />
             <div v-if="userStore.getUser?.user_subscription === null">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div v-else>
-                <div class="lg:flex gap-8">
+                <div class="2xl:flex gap-8">
                     <div class="isolate mt-10 w-full max-w-md">
                         <h3 class="py-3 text-sm font-semibold">
                             {{ $t('subscription.currentSubscription') }}

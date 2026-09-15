@@ -12,10 +12,6 @@
 
             <template #header>{{ $t('settings.tabs.wageSupplementRules') }}</template>
 
-            <ModulesUserSettingsTab />
-
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-8 max-w-3xl">
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />

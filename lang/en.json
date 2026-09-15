@@ -7897,7 +7897,9 @@
             "actions": {
                 "pay": "Pay",
                 "sendInvoice": "Send invoice",
-                "view": "View"
+                "view": "View",
+                "viewReceipt": "View receipt",
+                "viewInvoice": "View invoice"
             },
             "alert": {
                 "invoicePaidSuccessfully": "Invoice paid successfully",
@@ -10349,7 +10351,16 @@
             "data": "Data",
             "logs": "Logs",
             "integrations": "Integrations",
-            "apps": "Apps"
+            "apps": "Apps",
+            "me": "Me",
+            "access": "Access & organisation",
+            "communication": "Communication",
+            "journal": "Journals & consent",
+            "health": "Medicine & health",
+            "schedule": "Scheduling & time",
+            "booking": "Booking & calendar",
+            "citizens": "{citizens} & addresses",
+            "employment": "Jobcenter"
         },
         "tabs": {
             "absences": "Absences",
@@ -10417,7 +10428,7 @@
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
-            "fst": "FST",
+            "fst": "FindSocialeTilbud.dk",
             "wageSupplementRules": "Wage supplement rules",
             "inquiryPipelineStages": "Inquiry stages",
             "inquiryFields": "Inquiry fields",
@@ -10552,6 +10563,151 @@
             "noAnalyticsYet": "No analytics synced yet.",
             "sharedFieldsTitle": "Shared fields (coming soon)",
             "sharedFieldsSubtitle": "Capacity, availability and certification badges will appear here once enabled for your organisation."
+        },
+        "nav": {
+            "searchPlaceholder": "Search settings…"
+        },
+        "hints": {
+            "profile": {
+                "title": "What is this?",
+                "body": "Your own details and how you are notified. Changes here apply to your user only, not to your colleagues."
+            },
+            "company": {
+                "title": "What are company settings?",
+                "body": "Your company details, security and which modules are switched on. It applies to everyone in the company."
+            },
+            "import": {
+                "title": "What can be imported?",
+                "body": "Load data from a spreadsheet or another system instead of typing it in again. Run a test import first."
+            },
+            "subscription": {
+                "title": "What is the subscription?",
+                "body": "Your current plan and what it costs. This is also where you buy extra users and departments."
+            },
+            "invoices": {
+                "title": "What is listed here?",
+                "body": "Every invoice from CitizenOne. A paid invoice is your receipt and can be forwarded to your bookkeeper."
+            },
+            "licenses": {
+                "title": "What are licences?",
+                "body": "How many seats you have bought and who uses them. Remove a licence from an employee to free the seat."
+            },
+            "storage": {
+                "title": "What is taking up space?",
+                "body": "How much room your files use and what takes the most. Buy more space, or clear out the largest files."
+            },
+            "portalAccess": {
+                "title": "What is portal access?",
+                "body": "Decides what relatives, third parties and services can see in their own portal. Anything you switch on becomes visible to them."
+            },
+            "activityLogs": {
+                "title": "What is logged?",
+                "body": "Who signed in and what they did. Use it to document access to personal data."
+            },
+            "timeLogs": {
+                "title": "What are time logs?",
+                "body": "Working time recorded by your staff. Use it as the basis for payroll and to follow up on shifts."
+            },
+            "mileageLog": {
+                "title": "What is the mileage log?",
+                "body": "Journeys recorded by your staff, ready for reimbursement or bookkeeping."
+            },
+            "supportAccess": {
+                "title": "Why this page?",
+                "body": "Here you decide whether CitizenOne support may see your data, and you can see when they have. Access closes itself."
+            },
+            "gdprRetention": {
+                "title": "What is retention?",
+                "body": "How long data is kept before it is deleted automatically. Set the limits to match your own deletion policy."
+            },
+            "smsNotifications": {
+                "title": "What is SMS?",
+                "body": "Send messages by text as well as by email. Usage is billed by the number of messages sent."
+            },
+            "powerBi": {
+                "title": "What does Power BI do?",
+                "body": "Pull your data into reports in Power BI. The key grants read access, not the right to change anything."
+            },
+            "economic": {
+                "title": "What does e-conomic do?",
+                "body": "Send invoices and vouchers on to your accounting system, so the figures are only typed once."
+            },
+            "fst": {
+                "title": "What is FindSocialeTilbud.dk?",
+                "body": "Show your services on FindSocialeTilbud.dk so municipalities can find you. You decide what is published."
+            },
+            "customPages": {
+                "title": "What is the glossary?",
+                "body": "Your own words for fields and pages. Rename a field so the system calls it what you call it."
+            },
+            "transactions": {
+                "title": "What are transactions?",
+                "body": "Money in and out of the accounts you keep for each person. The amounts can be exported to your bookkeeper."
+            },
+            "roles": {
+                "title": "What are roles?",
+                "body": "A role decides which pages and actions an employee can reach. Grant too little rather than too much."
+            },
+            "departments": {
+                "title": "What are departments?",
+                "body": "Departments decide who sees what, and are used in schedules, reports and access."
+            },
+            "employeeGroups": {
+                "title": "What are employee groups?",
+                "body": "Put staff into groups so you can assign shifts, tasks and access to several at once."
+            },
+            "archived": {
+                "title": "What is the archive?",
+                "body": "Everything you archived instead of deleting. It can be brought back and stays out of your daily view."
+            },
+            "catalog": {
+                "access": {
+                    "title": "What is this for?",
+                    "body": "These lists decide how you are organised and who may do what. They fill fields all over the system."
+                },
+                "communication": {
+                    "title": "What is this for?",
+                    "body": "Templates and setup for the messages you send, so the text is not written from scratch every time."
+                },
+                "journal": {
+                    "title": "What is this for?",
+                    "body": "These lists fill in the journal's own fields: titles, content, tags and consents."
+                },
+                "health": {
+                    "title": "What is this for?",
+                    "body": "Medicines, units and templates that staff choose from when they document health."
+                },
+                "schedule": {
+                    "title": "What is this for?",
+                    "body": "Shift types, absence, norm periods and supplements that the schedule and time accounts calculate from."
+                },
+                "booking": {
+                    "title": "What is this for?",
+                    "body": "Rooms and labels that the calendar and bookings choose from."
+                },
+                "citizens": {
+                    "title": "What is this for?",
+                    "body": "The lists behind the record: relationships, addresses, categories and inquiries."
+                },
+                "employment": {
+                    "title": "What is this for?",
+                    "body": "Setup for jobcentre work: agreements, case types, statuses and billing."
+                }
+            },
+            "customLinks": {
+                "title": "What are custom links?",
+                "body": "Add shortcuts to the left sidebar - like your intranet, a shared drive, a booking system or any external tool your team uses. Choose whether each link is shown to admins, users or everyone."
+            }
+        },
+        "movedNotice": {
+            "title": "We have tidied up in here",
+            "body": "Sorry for the mess. Settings have a new menu, so tell us if anything is hard to find.",
+            "button": "Got it",
+            "points": {
+                "rail": "Every setting is now in the list on the left, instead of behind dropdowns.",
+                "search": "The search box at the top of the list finds any setting by name.",
+                "billing": "Subscription, licences, storage and invoices now share one page with tabs."
+            }
         }
     },
     "supportAccess": {
