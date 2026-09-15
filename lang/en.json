@@ -11483,7 +11483,8 @@
                     "procedures": "Procedures",
                     "tasks": "Tasks",
                     "company_files": "Company files",
-                    "nursing_areas": "Nursing areas"
+                    "nursing_areas": "Nursing areas",
+                    "ai_conversations": "AI conversations"
                 }
             }
         },

@@ -11446,7 +11446,8 @@
                     "procedures": "Prosedyrer",
                     "tasks": "Oppgaver",
                     "company_files": "Virksomhetsfiler",
-                    "nursing_areas": "Pleieområder"
+                    "nursing_areas": "Pleieområder",
+                    "ai_conversations": "AI-samtaler"
                 }
             }
         },
