@@ -916,6 +916,7 @@
         },
         "basedOn": "Baserat på",
         "rateLimited": "Du har ställt många frågor just nu. Försök igen om {minutes} min.",
+        "waitingCount": "{count} väntar",
         "rateLimitedToday": "Er organisation har nått dagens gräns för AI-förfrågningar. Försök igen i morgon.",
         "companyDataMissing": "Svaret gavs utan åtkomst till er data. Sökindexet har inte skapats ännu.",
         "companyDataBuilding": "Svaret gavs utan åtkomst till er data. Sökindexet byggs fortfarande.",
