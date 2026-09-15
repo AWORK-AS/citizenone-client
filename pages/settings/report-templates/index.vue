@@ -12,10 +12,6 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <ModulesUserSettingsTab />
-
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-8">
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"

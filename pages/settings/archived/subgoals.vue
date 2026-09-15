@@ -10,9 +10,7 @@
                 <Breadcrumb :links="breadcrumbLinks" />
             </template>
 
-            <template #header>{{ $t('archived.tabs.archivedSubgoals') }}</template>
-
-            <ModulesUserSettingsTab />
+            <template #header>{{ $t('settings.tabs.archived') }}</template>
 
             <ModulesUserSettingsArchiveSubTab id="archived" class="mt-5" />
 
@@ -77,7 +75,7 @@ const { t } = useI18n()
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
-        name: 'archived.tabs.archivedSubgoals',
+        name: 'settings.tabs.archived',
         translate: true,
         href: '/settings/archived/subgoals',
     },

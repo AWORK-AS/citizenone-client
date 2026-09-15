@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('timeLogs.timeLogs') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div class="mt-10 space-y-5">
                 <div class="flex flex-wrap items-center justify-end gap-3">
                     <FormButton buttonStyle="action" @click="state.modal.isAddNewTimeLogOpen = true">
@@ -255,7 +253,6 @@ function sort(sortingData: any) {
     }
     fetchTimeLogs()
 }
-
 
 function viewInterventionHours() {
     state.modal.isInterventionHoursOpen = true

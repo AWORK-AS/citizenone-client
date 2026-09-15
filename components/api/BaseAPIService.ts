@@ -199,11 +199,31 @@ class BaseAPIService {
                 throw { streamUnavailable: true, status: response.status }
             }
 
-            const body = await response.json().catch(() => ({}))
+            // Read as text and parse, rather than response.json(). A failed json()
+            // was being swallowed into an empty object, which silently dropped every
+            // field the error body carried: a 429 arrived with its limit named and
+            // reached the panel as a bare status, so a company blocked until
+            // tomorrow was told to try again in a minute.
+            const raw = await response.text().catch(() => '')
+            let body: any = {}
+            try {
+                body = raw ? JSON.parse(raw) : {}
+            } catch {
+                body = raw ? { message: raw } : {}
+            }
+
+            // Retry-After is only readable when the API exposes it through CORS.
+            // The 429 body repeats it as retry_after, which no CORS rule can hide,
+            // so that is the reliable source with the header as the fallback.
+            const retryAfter =
+                Number(body?.retry_after) ||
+                Number(response.headers.get('retry-after')) ||
+                0
+
             throw new APIError({
                 ...body,
                 status: response.status,
-                retryAfter: Number(response.headers.get('retry-after')) || 0,
+                retryAfter,
             })
         }
 
@@ -303,7 +323,13 @@ class BaseAPIService {
                     throw new APIError({
                         ...error.response._data,
                         status: error.response.status,
-                        retryAfter: Number(error.response?.headers?.get?.('retry-after')) || 0,
+                        // Body first: Retry-After is only readable when the API
+                        // exposes it through CORS, while retry_after in the body
+                        // always is.
+                        retryAfter:
+                            Number(error.response._data?.retry_after) ||
+                            Number(error.response?.headers?.get?.('retry-after')) ||
+                            0,
                     })
                 case 409:
                     // Some 409s carry a business-rule flag alongside the message (e.g.

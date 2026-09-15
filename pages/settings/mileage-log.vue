@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('mileageLog.mileageLog') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div class="mt-10 space-y-5">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <LoadingSpinner :isActive="state.isSummaryLoading">

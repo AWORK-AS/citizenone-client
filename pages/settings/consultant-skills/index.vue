@@ -12,9 +12,6 @@
 
             <template #header>{{ $t('consultantSkills.title') }}</template>
 
-            <ModulesUserSettingsTab />
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-8 space-y-5">
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
