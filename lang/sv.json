@@ -918,6 +918,7 @@
         },
         "basedOn": "Baserat på",
         "rateLimited": "Du har ställt många frågor just nu. Försök igen om {minutes} min.",
+        "waitingCount": "{count} väntar",
         "rateLimitedToday": "Er organisation har nått dagens gräns för AI-förfrågningar. Försök igen i morgon.",
         "limitBuyMore": "Köp mer kapacitet",
         "limitAskAdmin": "Be din administratör om mer kapacitet.",
@@ -7901,7 +7902,9 @@
             "actions": {
                 "pay": "Betala",
                 "sendInvoice": "Skicka faktura",
-                "view": "Se"
+                "view": "Se",
+                "viewReceipt": "Visa kvitto",
+                "viewInvoice": "Visa faktura"
             },
             "alert": {
                 "invoicePaidSuccessfully": "Faktura betald",
@@ -10348,7 +10351,16 @@
             "data": "Data",
             "logs": "Loggar",
             "integrations": "Integrationer",
-            "apps": "Appar"
+            "apps": "Appar",
+            "me": "Jag",
+            "access": "Åtkomst & organisation",
+            "communication": "Kommunikation",
+            "journal": "Journal & samtycke",
+            "health": "Medicin & hälsa",
+            "schedule": "Schema & tid",
+            "booking": "Bokning & kalender",
+            "citizens": "{citizens} & adresser",
+            "employment": "Jobbcenter"
         },
         "tabs": {
             "absences": "Frånvaro",
@@ -10416,7 +10428,7 @@
             "customLinks": "Egna länkar",
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
-            "fst": "FST",
+            "fst": "FindSocialeTilbud.dk",
             "wageSupplementRules": "Tilläggsregler för lön",
             "inquiryPipelineStages": "Faser för förfrågningar",
             "inquiryFields": "Fält för förfrågningar",
@@ -10551,6 +10563,151 @@
             "noAnalyticsYet": "Ingen statistik synkroniseret endnu.",
             "sharedFieldsTitle": "Delte felter (kommer snart)",
             "sharedFieldsSubtitle": "Kapacitet, ledighed og certificeringsmærker vises her, når det er aktiveret for jeres organisation."
+        },
+        "nav": {
+            "searchPlaceholder": "Sök i inställningar…"
+        },
+        "hints": {
+            "profile": {
+                "title": "Vad står här?",
+                "body": "Dina egna uppgifter och hur du får aviseringar. Ändringar här gäller bara ditt konto, inte dina kollegors."
+            },
+            "company": {
+                "title": "Vad är företagsinställningar?",
+                "body": "Företagets uppgifter, säkerhet och vilka moduler som är påslagna. Det gäller alla i företaget."
+            },
+            "import": {
+                "title": "Vad kan importeras?",
+                "body": "Läs in data från ett kalkylark eller ett annat system i stället för att skriva in det igen. Gör en testimport först."
+            },
+            "subscription": {
+                "title": "Vad är abonnemanget?",
+                "body": "Ert nuvarande paket och vad det kostar. Här köper ni också fler användare och avdelningar."
+            },
+            "invoices": {
+                "title": "Vad finns här?",
+                "body": "Alla fakturor från CitizenOne. En betald faktura är ert kvitto och kan skickas vidare till bokföringen."
+            },
+            "licenses": {
+                "title": "Vad är licenser?",
+                "body": "Hur många platser ni har köpt och vem som använder dem. Ta bort en licens från en medarbetare för att frigöra platsen."
+            },
+            "storage": {
+                "title": "Vad tar plats?",
+                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna."
+            },
+            "portalAccess": {
+                "title": "Vad är portalåtkomst?",
+                "body": "Avgör vad anhöriga, tredje parter och insatser kan se i sin egen portal. Allt ni slår på blir synligt för dem."
+            },
+            "activityLogs": {
+                "title": "Vad loggas?",
+                "body": "Vem som har varit inloggad och vad de har gjort. Använd det för att dokumentera åtkomst till personuppgifter."
+            },
+            "timeLogs": {
+                "title": "Vad är tidsloggar?",
+                "body": "Registrerad arbetstid för personalen. Använd det som underlag för lön och för att följa upp pass."
+            },
+            "mileageLog": {
+                "title": "Vad är körjournalen?",
+                "body": "Resor registrerade av personalen, redo för utbetalning eller bokföring."
+            },
+            "supportAccess": {
+                "title": "Varför den här sidan?",
+                "body": "Här bestämmer ni om CitizenOnes support får se era data, och ni ser när de har varit inne. Åtkomsten stängs av sig själv."
+            },
+            "gdprRetention": {
+                "title": "Vad är lagring?",
+                "body": "Hur länge data sparas innan de raderas automatiskt. Sätt gränserna efter er egen gallringspolicy."
+            },
+            "smsNotifications": {
+                "title": "Vad är SMS?",
+                "body": "Skicka meddelanden som SMS utöver e-post. Förbrukningen faktureras efter antal skickade meddelanden."
+            },
+            "powerBi": {
+                "title": "Vad gör Power BI?",
+                "body": "Hämta ut era data till rapporter i Power BI. Nyckeln ger läsbehörighet, inte rätt att ändra något."
+            },
+            "economic": {
+                "title": "Vad gör e-conomic?",
+                "body": "Skicka fakturor och underlag vidare till ert bokföringssystem, så att siffrorna bara skrivs in en gång."
+            },
+            "fst": {
+                "title": "Vad är FindSocialeTilbud.dk?",
+                "body": "Visa era insatser på FindSocialeTilbud.dk så att kommunerna hittar er. Ni bestämmer själva vad som publiceras."
+            },
+            "customPages": {
+                "title": "Vad är ordlistan?",
+                "body": "Era egna ord för fält och sidor. Byt namn på ett fält så att systemet kallar det samma sak som ni gör."
+            },
+            "transactions": {
+                "title": "Vad är transaktioner?",
+                "body": "In- och utbetalningar på de konton ni för åt varje person. Beloppen kan exporteras till bokföringen."
+            },
+            "roles": {
+                "title": "Vad är roller?",
+                "body": "En roll avgör vilka sidor och åtgärder en medarbetare når. Ge hellre för lite än för mycket."
+            },
+            "departments": {
+                "title": "Vad är avdelningar?",
+                "body": "Avdelningar styr vem som ser vad och används i scheman, rapporter och behörigheter."
+            },
+            "employeeGroups": {
+                "title": "Vad är personalgrupper?",
+                "body": "Samla medarbetare i grupper så att ni kan tilldela pass, uppgifter och behörighet till flera samtidigt."
+            },
+            "archived": {
+                "title": "Vad är arkivet?",
+                "body": "Allt ni har arkiverat i stället för att radera. Det kan hämtas tillbaka och stör inte den dagliga överblicken."
+            },
+            "catalog": {
+                "access": {
+                    "title": "Vad används det till?",
+                    "body": "Listorna här avgör hur ni är organiserade och vem som får göra vad. De används i fält i hela systemet."
+                },
+                "communication": {
+                    "title": "Vad används det till?",
+                    "body": "Mallar och inställningar för de meddelanden ni skickar, så att texten inte skrivs om varje gång."
+                },
+                "journal": {
+                    "title": "Vad används det till?",
+                    "body": "Listorna här fyller journalens fält: titlar, innehåll, taggar och samtycken."
+                },
+                "health": {
+                    "title": "Vad används det till?",
+                    "body": "Läkemedel, enheter och mallar som personalen väljer bland när de dokumenterar hälsa."
+                },
+                "schedule": {
+                    "title": "Vad används det till?",
+                    "body": "Passtyper, frånvaro, normperioder och tillägg som schemat och tidsredovisningen räknar efter."
+                },
+                "booking": {
+                    "title": "Vad används det till?",
+                    "body": "Rum och etiketter som kalendern och bokningar väljer bland."
+                },
+                "citizens": {
+                    "title": "Vad används det till?",
+                    "body": "Listorna bakom stamkortet: relationer, adresser, kategorier och ärenden."
+                },
+                "employment": {
+                    "title": "Vad används det till?",
+                    "body": "Inställningar för jobbcenterområdet: avtal, ärendetyper, statusar och avräkning."
+                }
+            },
+            "customLinks": {
+                "title": "Vad är egna länkar?",
+                "body": "Lägg till genvägar i vänstermenyn - t.ex. ert intranät, en delad enhet, ett bokningssystem eller ett annat externt verktyg teamet använder. Välj om varje länk visas för administratörer, användare eller alla."
+            }
+        },
+        "movedNotice": {
+            "title": "Vi har städat här",
+            "body": "Ursäkta röran. Inställningarna har fått en ny meny, så säg till om något är svårt att hitta.",
+            "button": "Uppfattat",
+            "points": {
+                "rail": "Alla inställningar finns nu i listan till vänster, i stället för bakom rullgardinsmenyer.",
+                "search": "Sökfältet högst upp i listan hittar varje inställning på namn.",
+                "billing": "Abonnemang, licenser, lagringsutrymme och fakturor delar nu en sida med flikar."
+            }
         }
     },
     "setupPassword": {
@@ -11291,7 +11448,8 @@
                     "procedures": "Rutiner",
                     "tasks": "Uppgifter",
                     "company_files": "Företagsfiler",
-                    "nursing_areas": "Vårdområden"
+                    "nursing_areas": "Vårdområden",
+                    "ai_conversations": "AI-samtal"
                 }
             }
         },
@@ -13593,7 +13751,8 @@
                 "newDepartments": "Nya avdelningar ({count}):",
                 "newSections": "Nya paragrafer ({count}):",
                 "rowsToLookAt": "Rader att titta på",
-                "line": "Rad {line}"
+                "line": "Rad {line}",
+                "newSections": "Nya paragrafer ({count}):"
             },
             "importing": {
                 "label": "Importerar…"

@@ -8,8 +8,6 @@
 
             <template #header>{{ $t('supportAccess.title') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div class="mt-8 space-y-6">
                 <p class="text-sm text-gray-600 max-w-3xl">
                     {{ $t('supportAccess.intro') }}

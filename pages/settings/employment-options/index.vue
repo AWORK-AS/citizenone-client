@@ -15,9 +15,6 @@
                 <p class="text-sm font-normal text-gray-900">{{ $t('employmentOptions.subtitle') }}</p>
             </template>
 
-            <ModulesUserSettingsTab />
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <!-- The catalog rail floats left and positions the page beside it with
                  `.catalog-shell + .mt-8`, so this wrapper has to be its immediate
                  sibling or the content lands on top of the rail. -->

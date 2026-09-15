@@ -12,9 +12,6 @@
 
             <template #header>{{ $t('timeAccounts.timeAccounts') }}</template>
 
-            <ModulesUserSettingsTab />
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-8">
                 <div class="flex justify-between items-center mb-5 gap-2">
                     <template v-if="state.activeView === 'timeAccounts'">

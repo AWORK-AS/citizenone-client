@@ -11,7 +11,6 @@
             </template>
 
             <div>
-                <ModulesUserSettingsTab />
 
                 <div id="sms-checkout" v-show="state.isCheckoutVisible" class="mx-auto max-w-sm md:max-w-md"></div>
 

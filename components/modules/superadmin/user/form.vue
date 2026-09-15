@@ -209,7 +209,6 @@ const state = reactive({
         lastname: '',
         password: '',
         phone: '',
-        role: 'superadmin',
         can_view_financials: false,
         team_role: 'Superadmin',
         extra_permissions: [] as string[],
@@ -290,7 +289,6 @@ async function submit() {
         }
         if (props.showExtendedFields) {
             payload.is_active = state.formUser.is_active
-            payload.role = state.formUser.role
             payload.can_view_financials = state.formUser.can_view_financials
 
             if (state.formUser.team_role) payload.team_role = state.formUser.team_role

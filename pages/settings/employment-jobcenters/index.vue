@@ -9,9 +9,6 @@
             </template>
             <template #header>{{ $t('employment.jobcenters.jobcenters') }}</template>
 
-            <ModulesUserSettingsTab />
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" @click="navigateTo('/settings/employment-jobcenters/new')">

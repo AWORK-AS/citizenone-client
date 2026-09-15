@@ -12,10 +12,6 @@
 
             <template #header>{{ $t('roles.roles') }}</template>
 
-            <ModulesUserSettingsTab />
-
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" @click="navigateTo('/settings/roles/new')">
@@ -123,7 +119,6 @@
         </NuxtLayout>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import { roleService } from '@/components/api/user/RoleService'

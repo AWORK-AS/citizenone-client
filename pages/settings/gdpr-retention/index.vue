@@ -11,7 +11,6 @@
             </template>
 
             <div>
-                <ModulesUserSettingsTab />
 
                 <div class="mt-6 space-y-6">
                     <Alert type="danger" :text="state.error?.message"
