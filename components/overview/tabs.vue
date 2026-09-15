@@ -20,7 +20,7 @@
             @click="active !== 'discover' && navigateTo('/discover')">
             {{ $t('discover.title') }}
         </span>
-        <span class="transition-colors"
+        <span v-if="isGoogleDriveConnected" class="transition-colors"
             :class="active === 'google-drive' ? 'text-primary border-b-2 border-primary pb-1 font-semibold cursor-default' : 'text-slate-400 hover:text-slate-600 cursor-pointer mb-1.5'"
             @click="active !== 'google-drive' && navigateTo('/overview/google-drive')">
             {{ $t('overview.googleDriveTab') }}
@@ -29,6 +29,19 @@
 </template>
 
 <script setup lang="ts">
+import { googledriveService } from '@/components/api/user/GoogleDriveService'
+
 defineProps<{ active: 'overview' | 'my-day' | 'statistics' | 'discover' | 'google-drive' }>()
 const { completed: discoverCompleted } = useDiscoverDone()
+
+const isGoogleDriveConnected = ref(false)
+
+onMounted(async () => {
+    try {
+        const status = await googledriveService.getGoogleDriveStatus()
+        isGoogleDriveConnected.value = status?.connected || false
+    } catch {
+        isGoogleDriveConnected.value = false
+    }
+})
 </script>
