@@ -13847,8 +13847,7 @@
                 "newDepartments": "New departments ({count}):",
                 "newSections": "New paragraphs ({count}):",
                 "rowsToLookAt": "Rows to look at",
-                "line": "Line {line}",
-                "newSections": "New paragraphs ({count}):"
+                "line": "Line {line}"
             },
             "importing": {
                 "label": "Importing…"
@@ -14204,7 +14203,10 @@
             "heading": "Needs your attention",
             "journal_mentions": "You were tagged in a @:terms.journalNote{''} | You were tagged in {n} @:terms.journalNotes{''}",
             "missed_doses": "One dose is not registered as given | {n} doses are not registered as given",
-            "reminders_due": "One reminder is due today | {n} reminders are due today"
+            "reminders_due": "One reminder is due today | {n} reminders are due today",
+            "askCody": "Ask Cody about {subject}",
+            "askCodyShort": "Ask Cody",
+            "askCodyPrompt": "Tell me more about: {subject}.{detail} What should I do about it now?"
         },
         "title": "My day",
         "greeting": {
@@ -14224,7 +14226,13 @@
         "untitledNote": "Untitled note",
         "reminders": "My reminders",
         "noReminders": "No reminders today",
-        "newTask": "New task"
+        "newTask": "New task",
+        "cody": {
+            "reading": "Cody is reading your day ...",
+            "askMore": "Ask Cody about your day",
+            "askMorePrompt": "Give me an overview of my day. What is most important to start with?",
+            "prompt": "Here is what needs my attention today:\n{lines}\n\nWrite two short sentences about how my day looks and what I should take first. No headings, no bullet points, no names."
+        }
     },
     "handover": {
         "button": "Shift overview",

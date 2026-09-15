@@ -13751,8 +13751,7 @@
                 "newDepartments": "Nye avdelinger ({count}):",
                 "newSections": "Nye paragrafer ({count}):",
                 "rowsToLookAt": "Rader du bør se på",
-                "line": "Linje {line}",
-                "newSections": "Nye paragrafer ({count}):"
+                "line": "Linje {line}"
             },
             "importing": {
                 "label": "Importerer…"
@@ -14108,7 +14107,10 @@
             "heading": "Krever din oppmerksomhet",
             "journal_mentions": "Du er tagget i et @:terms.journalNote{''} | Du er tagget i {n} @:terms.journalNotes{''}",
             "missed_doses": "En dose er ikke registrert som gitt | {n} doser er ikke registrert som gitt",
-            "reminders_due": "En påminnelse forfaller i dag | {n} påminnelser forfaller i dag"
+            "reminders_due": "En påminnelse forfaller i dag | {n} påminnelser forfaller i dag",
+            "askCody": "Spør Cody om {subject}",
+            "askCodyShort": "Spør Cody",
+            "askCodyPrompt": "Fortell meg mer om: {subject}.{detail} Hva bør jeg gjøre med det nå?"
         },
         "title": "Min dag",
         "greeting": {
@@ -14128,7 +14130,13 @@
         "untitledNote": "Notat uten tittel",
         "reminders": "Mine påminnelser",
         "noReminders": "Ingen påminnelser i dag",
-        "newTask": "Ny oppgave"
+        "newTask": "Ny oppgave",
+        "cody": {
+            "reading": "Cody leser dagen din ...",
+            "askMore": "Spør Cody om dagen din",
+            "askMorePrompt": "Gi meg en oversikt over dagen min. Hva er viktigst å ta først?",
+            "prompt": "Her er hva som krever min oppmerksomhet i dag:\n{lines}\n\nSkriv to korte setninger om hvordan dagen min ser ut, og hva jeg bør ta først. Ingen overskrifter, ingen punktliste, ingen navn."
+        }
     },
     "handover": {
         "button": "Vaktoversikt",
