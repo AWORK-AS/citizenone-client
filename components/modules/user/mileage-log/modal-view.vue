@@ -44,10 +44,12 @@
                         <p class="text-sm font-semibold text-gray-700">
                             {{ formatNumber(locale, props.selectedMileageLog?.kilometers) }} km
                         </p>
-                        <!-- distance_source_label is null on every row created before this
-                             deploy -- render that as unknown provenance, never blank and
-                             never as "GPS". A flagged 0.00 km trip is a legitimate answer
-                             (the only leg was impossible), not "nothing recorded". -->
+                        <!-- Translated client-side from the raw distance_source key, not
+                             from the server's pre-rendered label -- see useMileageLabels().
+                             A row created before the provenance deploy has no key at all and
+                             reads as unknown provenance, never blank and never as "GPS". A
+                             flagged 0.00 km trip is a legitimate answer (the only leg was
+                             impossible), not "nothing recorded". -->
                         <p class="text-xs text-gray-400">{{ distanceSourceLabel }}</p>
 
                         <!-- Ungated: the driver whose trip was corrected has to be able to
@@ -76,8 +78,8 @@
                             <Icon name="ph:warning-circle" class="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
                             <div>
                                 <p class="text-sm font-semibold text-red-700">{{ $t('mileageLog.table.needsReview') }}</p>
-                                <p class="text-xs text-red-700 mt-0.5" v-if="props.selectedMileageLog?.review_reason_label">
-                                    {{ props.selectedMileageLog.review_reason_label }}
+                                <p class="text-xs text-red-700 mt-0.5" v-if="reviewReasonLabel">
+                                    {{ reviewReasonLabel }}
                                 </p>
                             </div>
                         </div>
@@ -116,6 +118,7 @@ import { useI18n } from 'vue-i18n'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { usePermissions } from '@/composables/usePermissions'
+import { useMileageLabels } from '@/composables/mileageLabels'
 
 const props = defineProps({
     isModalOpen: {
@@ -133,6 +136,7 @@ const { t, locale } = useI18n()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const { isAtLeast } = usePermissions()
+const labels = useMileageLabels()
 
 // Same gate as the list page's canCorrectDistance, and the only thing that
 // changes if drivers are later allowed to correct their own trips. The badge
@@ -160,9 +164,8 @@ function closeModal() {
     emit('close')
 }
 
-const distanceSourceLabel = computed(() => {
-    return props.selectedMileageLog?.distance_source_label || t('mileageLog.table.distanceSourceUnknown')
-})
+const distanceSourceLabel = computed(() => labels.distanceSourceLabel(props.selectedMileageLog))
+const reviewReasonLabel = computed(() => labels.reviewReasonLabel(props.selectedMileageLog))
 
 const mapRef = ref<any>(null)
 const mapCenter = ref<[number, number]>([55.6761, 12.5683])

@@ -8581,6 +8581,14 @@
             "reasonRequired": "Det må angis en årsak",
             "revertToCalculated": "Gjenopprett beregnet avstand"
         },
+        "distanceSource": {
+            "anchored_breadcrumbs": "GPS-spor (inkl. start/stopp)",
+            "breadcrumbs": "GPS-spor",
+            "manual": "Manuelt rettet",
+            "none": "Ingen posisjonsdata",
+            "stops": "Innlagt rute",
+            "straight_line": "Luftlinje"
+        },
         "download": {
             "download": "Last ned",
             "downloadMileageLog": "Last ned kjørebok",
@@ -8633,6 +8641,11 @@
         "mileageLog": "Kjørebok",
         "mileageReport": "Kjørerapport",
         "newTrip": "Ny tur",
+        "reviewReason": {
+            "implausible_end_coordinate": "Usannsynlig sluttposisjon - strekningen er ikke medregnet.",
+            "implausible_start_coordinate": "Usannsynlig startposisjon - strekningen er ikke medregnet.",
+            "implausible_stop_coordinate": "Usannsynlig stoppposisjon - strekningen er ikke medregnet."
+        },
         "summary": {
             "allTime": "All tid",
             "byEmployee": "Per medarbeider",

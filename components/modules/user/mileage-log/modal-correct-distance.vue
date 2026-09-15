@@ -26,9 +26,8 @@
                                     <p class="text-sm font-semibold text-red-700">
                                         {{ $t('mileageLog.table.needsReview') }}
                                     </p>
-                                    <p class="text-xs text-red-700 mt-0.5"
-                                        v-if="props.selectedMileageLog?.review_reason_label">
-                                        {{ props.selectedMileageLog.review_reason_label }}
+                                    <p class="text-xs text-red-700 mt-0.5" v-if="reviewReasonLabel">
+                                        {{ reviewReasonLabel }}
                                     </p>
                                 </div>
                             </div>
@@ -92,6 +91,7 @@ import { useI18n } from 'vue-i18n'
 import { mileageLogService } from '@/components/api/user/MileageLogService'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useAlert } from '@/composables/alert'
+import { useMileageLabels } from '@/composables/mileageLabels'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -109,6 +109,7 @@ const emit = defineEmits(['close', 'refreshMileageLog'])
 const { t, locale } = useI18n()
 const { formatNumber } = useNumberFormatter()
 const { successAlert } = useAlert()
+const labels = useMileageLabels()
 
 const state = reactive({
     error: {} as Error,
@@ -132,11 +133,8 @@ const calculatedKilometers = computed(() => {
     return log.kilometers_calculated ?? log.kilometers ?? 0
 })
 
-// distance_source_label is null on every row created before the provenance
-// deploy -- render that as unknown provenance, never blank and never as "GPS".
-const distanceSourceLabel = computed(() => {
-    return props.selectedMileageLog?.distance_source_label || t('mileageLog.table.distanceSourceUnknown')
-})
+const distanceSourceLabel = computed(() => labels.distanceSourceLabel(props.selectedMileageLog))
+const reviewReasonLabel = computed(() => labels.reviewReasonLabel(props.selectedMileageLog))
 
 const rules = computed(() => {
     return {

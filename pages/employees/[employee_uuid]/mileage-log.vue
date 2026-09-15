@@ -82,7 +82,7 @@
                                         <p>{{ formatNumber(language.locale.value, log?.kilometers) }} km</p>
                                         <p class="text-xs text-gray-400">{{ distanceSourceLabel(log) }}</p>
                                         <div class="mt-1 inline-flex items-center gap-x-1 rounded-full bg-red-50 border border-red-200 px-2 py-0.5 text-xs font-semibold text-red-600"
-                                            v-if="log?.needs_review" :title="log?.review_reason_label || undefined">
+                                            v-if="log?.needs_review" :title="reviewReasonLabel(log) || undefined">
                                             <Icon name="ph:warning-circle" class="h-3.5 w-3.5" aria-hidden="true" />
                                             {{ $t('mileageLog.table.needsReview') }}
                                         </div>
@@ -146,6 +146,7 @@ import { mileageLogService } from '@/components/api/user/MileageLogService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { usePermissions } from '@/composables/usePermissions'
+import { useMileageLabels } from '@/composables/mileageLabels'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -154,6 +155,7 @@ const { formatDateTimeToReadable, formatDateToReadable } = useDatetimeFormatter(
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const { isAtLeast } = usePermissions()
+const { distanceSourceLabel, reviewReasonLabel } = useMileageLabels()
 // This page is already Manager-facing, but the gate is stated explicitly rather
 // than assumed from the route, and it is a sibling of the settings page's own
 // constant so the two can diverge when the rule is loosened.
@@ -219,11 +221,6 @@ onMounted(() => {
 // so it's undefined rather than 0 outside of that -- treat both as "nothing to show".
 const flaggedTripsCount = computed(() => state.summary?.data?.flagged_trips ?? 0)
 
-// distance_source_label is null on every row created before this deploy --
-// render that as unknown provenance, never blank and never as "GPS".
-function distanceSourceLabel(log: any) {
-    return log?.distance_source_label || language.t('mileageLog.table.distanceSourceUnknown')
-}
 
 function routeSummary(log: any) {
     const middle = (log?.stops ?? []).slice().sort((a: any, b: any) => (a.sequence_order ?? 0) - (b.sequence_order ?? 0))

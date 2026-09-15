@@ -8581,6 +8581,14 @@
             "reasonRequired": "A reason is required",
             "revertToCalculated": "Revert to calculated"
         },
+        "distanceSource": {
+            "anchored_breadcrumbs": "GPS track (incl. start/stop)",
+            "breadcrumbs": "GPS track",
+            "manual": "Manually corrected",
+            "none": "No position data",
+            "stops": "Entered route",
+            "straight_line": "Straight line"
+        },
         "download": {
             "download": "Download",
             "downloadMileageLog": "Download mileage log",
@@ -8633,6 +8641,11 @@
         "mileageLog": "Mileage Log",
         "mileageReport": "Mileage Report",
         "newTrip": "New trip",
+        "reviewReason": {
+            "implausible_end_coordinate": "Implausible end position - that leg is not counted.",
+            "implausible_start_coordinate": "Implausible start position - that leg is not counted.",
+            "implausible_stop_coordinate": "Implausible stop position - that leg is not counted."
+        },
         "summary": {
             "allTime": "All time",
             "byEmployee": "By employee",
