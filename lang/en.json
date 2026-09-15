@@ -15310,5 +15310,30 @@
             "linkCopied": "Copied!",
             "preview": "Preview"
         }
+    },
+    "aiUsage": {
+        "title": "AI usage",
+        "loading": "Loading usage ...",
+        "failed": "Usage could not be loaded right now. Try again shortly.",
+        "today": "Today",
+        "ofAllowance": "{used} of {allowance} answers",
+        "allowanceExplainer": "Your daily room follows the number of AI licences you hold. It resets at midnight.",
+        "balance": "Balance",
+        "balanceExplainer": "Prepaid capacity. It does not expire, and it is only drawn down when an answer is actually delivered.",
+        "buyMore": "Buy more",
+        "thisMonth": "This month",
+        "feature": "Feature",
+        "uses": "Used",
+        "amount": "Amount",
+        "minutes": "{count} min",
+        "noneThisMonth": "No AI use this month yet.",
+        "purchases": "Purchases",
+        "features": {
+            "assistant": "Ask AI",
+            "transcribe": "Dictation",
+            "journal": "Journal suggestions",
+            "handover": "Shift handover",
+            "classifier": "Sorting"
+        }
     }
 }

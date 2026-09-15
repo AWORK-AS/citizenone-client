@@ -15214,5 +15214,30 @@
             "linkCopied": "Kopierat!",
             "preview": "Förhandsgranskning"
         }
+    },
+    "aiUsage": {
+        "title": "AI-användning",
+        "loading": "Hämtar användning ...",
+        "failed": "Användningen kunde inte hämtas just nu. Försök igen om en stund.",
+        "today": "I dag",
+        "ofAllowance": "{used} av {allowance} svar",
+        "allowanceExplainer": "Den dagliga ramen följer antalet AI-licenser ni har. Den nollställs vid midnatt.",
+        "balance": "Saldo",
+        "balanceExplainer": "Förbetald kapacitet. Den upphör inte att gälla, och den dras bara ned när ett svar faktiskt levereras.",
+        "buyMore": "Köp mer",
+        "thisMonth": "Denna månad",
+        "feature": "Funktion",
+        "uses": "Användning",
+        "amount": "Belopp",
+        "minutes": "{count} min",
+        "noneThisMonth": "Ingen AI-användning den här månaden ännu.",
+        "purchases": "Köp",
+        "features": {
+            "assistant": "Fråga AI",
+            "transcribe": "Diktering",
+            "journal": "Journalförslag",
+            "handover": "Skiftöverlämning",
+            "classifier": "Sortering"
+        }
     }
 }

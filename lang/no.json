@@ -15214,5 +15214,30 @@
             "linkCopied": "Kopiert!",
             "preview": "Forhåndsvisning"
         }
+    },
+    "aiUsage": {
+        "title": "AI-bruk",
+        "loading": "Henter bruk ...",
+        "failed": "Bruken kunne ikke hentes akkurat nå. Prøv igjen om litt.",
+        "today": "I dag",
+        "ofAllowance": "{used} av {allowance} svar",
+        "allowanceExplainer": "Den daglige rammen følger antallet AI-lisenser dere har. Den nullstilles ved midnatt.",
+        "balance": "Saldo",
+        "balanceExplainer": "Forhåndsbetalt kapasitet. Den utløper ikke, og det trekkes kun fra den når et svar faktisk blir levert.",
+        "buyMore": "Kjøp mer",
+        "thisMonth": "Denne måneden",
+        "feature": "Funksjon",
+        "uses": "Bruk",
+        "amount": "Beløp",
+        "minutes": "{count} min",
+        "noneThisMonth": "Ingen bruk av AI denne måneden ennå.",
+        "purchases": "Kjøp",
+        "features": {
+            "assistant": "Spør AI",
+            "transcribe": "Diktering",
+            "journal": "Journalforslag",
+            "handover": "Vaktoverlevering",
+            "classifier": "Sortering"
+        }
     }
 }

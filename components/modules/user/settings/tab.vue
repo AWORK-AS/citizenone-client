@@ -77,6 +77,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             invoices: { name: 'settings.tabs.invoices', isTranslateName: true, href: '/settings/invoices', routeNames: ['settings-invoices', 'settings-invoices-invoice_uuid-invoice-details'] },
             storage: { name: 'settings.tabs.storage', isTranslateName: true, href: '/settings/storage', routeNames: ['settings-storage'] },
             licenses: { name: 'settings.tabs.licenses', isTranslateName: true, href: '/settings/license-overview', routeNames: ['settings-license-overview'] },
+            aiUsage: { name: 'aiUsage.title', isTranslateName: true, href: '/settings/ai-usage', routeNames: ['settings-ai-usage'] },
             portalAccess: { name: 'portalAccess.title', isTranslateName: true, href: '/settings/portal-access', routeNames: ['settings-portal-access'] },
             subscription: { name: 'settings.tabs.subscription', isTranslateName: true, href: '/settings/subscription', routeNames: ['settings-subscription'] },
             archived: { name: 'settings.tabs.archived', isTranslateName: true, href: '/settings/archived/citizens', routeNames: ['settings-archived-citizens', 'settings-archived-employees', 'settings-archived-documents'] },
@@ -98,7 +99,7 @@ watch(() => userStore.getUser, (newValue: any) => {
         state.groups = [
             { labelKey: 'settings.tabs.profile', items: [T.profile] },
             { labelKey: 'settings.groups.company', items: companyItems },
-            { labelKey: 'settings.groups.billing', items: [T.subscription, T.invoices, T.licenses, T.storage] },
+            { labelKey: 'settings.groups.billing', items: [T.subscription, T.invoices, T.licenses, T.storage, T.aiUsage] },
             { labelKey: 'settings.groups.data', items: [T.archived, T.other] },
             { labelKey: 'settings.groups.apps', items: [T.portalAccess, T.powerBi, T.economic, T.fst] },
             // Hos loggene, fordi det er hvad siden mest bruges til: at læse hvem der har

@@ -15310,5 +15310,30 @@
             "linkCopied": "Kopieret!",
             "preview": "Forhåndsvisning"
         }
+    },
+    "aiUsage": {
+        "title": "AI-forbrug",
+        "loading": "Henter forbrug ...",
+        "failed": "Forbruget kunne ikke hentes lige nu. Prøv igen om lidt.",
+        "today": "I dag",
+        "ofAllowance": "{used} af {allowance} svar",
+        "allowanceExplainer": "Jeres daglige ramme følger antallet af AI-licenser, I har. Den nulstilles ved midnat.",
+        "balance": "Saldo",
+        "balanceExplainer": "Forudbetalt kapacitet. Den udløber ikke, og der trækkes kun fra den når et svar rent faktisk bliver leveret.",
+        "buyMore": "Køb mere",
+        "thisMonth": "Denne måned",
+        "feature": "Funktion",
+        "uses": "Forbrug",
+        "amount": "Beløb",
+        "minutes": "{count} min.",
+        "noneThisMonth": "Ingen brug af AI denne måned endnu.",
+        "purchases": "Køb",
+        "features": {
+            "assistant": "Spørg AI",
+            "transcribe": "Diktering",
+            "journal": "Journalforslag",
+            "handover": "Vagtoverlevering",
+            "classifier": "Sortering"
+        }
     }
 }
