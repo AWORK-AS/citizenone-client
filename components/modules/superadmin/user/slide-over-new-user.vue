@@ -106,7 +106,7 @@ async function saveUser(formData: any) {
             is_active: formData.is_active,
             lastname: formData.lastname,
             phone: formData.phone || null,
-            role: formData.role,
+            team_role: formData.team_role,
         }
         if (formData.password) params.password = formData.password
         if (formData.company_uuid) params.company_uuid = formData.company_uuid
