@@ -779,6 +779,8 @@
         "form": {
             "annually": "Årligen",
             "howManyLicensesDoYouWant": "Var många licenser vill du",
+            "howManyDoYouWant": "Hur många vill du ha",
+            "inTotal": "totalt",
             "monthly": "Månadsvis",
             "pleaseWriteHere": "Vänligen skriv här",
             "quantity": "Mängd",
@@ -916,7 +918,10 @@
         },
         "basedOn": "Baserat på",
         "rateLimited": "Du har ställt många frågor just nu. Försök igen om {minutes} min.",
+        "waitingCount": "{count} väntar",
         "rateLimitedToday": "Er organisation har nått dagens gräns för AI-förfrågningar. Försök igen i morgon.",
+        "limitBuyMore": "Köp mer kapacitet",
+        "limitAskAdmin": "Be din administratör om mer kapacitet.",
         "companyDataMissing": "Svaret gavs utan åtkomst till er data. Sökindexet har inte skapats ännu.",
         "companyDataBuilding": "Svaret gavs utan åtkomst till er data. Sökindexet byggs fortfarande.",
         "askAnything": "Fråga om vad som helst, eller skriv {'@'} för att nämna någon",
@@ -7897,7 +7902,9 @@
             "actions": {
                 "pay": "Betala",
                 "sendInvoice": "Skicka faktura",
-                "view": "Se"
+                "view": "Se",
+                "viewReceipt": "Visa kvitto",
+                "viewInvoice": "Visa faktura"
             },
             "alert": {
                 "invoicePaidSuccessfully": "Faktura betald",
@@ -10376,7 +10383,16 @@
             "data": "Data",
             "logs": "Loggar",
             "integrations": "Integrationer",
-            "apps": "Appar"
+            "apps": "Appar",
+            "me": "Jag",
+            "access": "Åtkomst & organisation",
+            "communication": "Kommunikation",
+            "journal": "Journal & samtycke",
+            "health": "Medicin & hälsa",
+            "schedule": "Schema & tid",
+            "booking": "Bokning & kalender",
+            "citizens": "{citizens} & adresser",
+            "employment": "Jobbcenter"
         },
         "tabs": {
             "absences": "Frånvaro",
@@ -10444,7 +10460,7 @@
             "customLinks": "Egna länkar",
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
-            "fst": "FST",
+            "fst": "FindSocialeTilbud.dk",
             "wageSupplementRules": "Tilläggsregler för lön",
             "inquiryPipelineStages": "Faser för förfrågningar",
             "inquiryFields": "Fält för förfrågningar",
@@ -10579,6 +10595,151 @@
             "noAnalyticsYet": "Ingen statistik synkroniseret endnu.",
             "sharedFieldsTitle": "Delte felter (kommer snart)",
             "sharedFieldsSubtitle": "Kapacitet, ledighed og certificeringsmærker vises her, når det er aktiveret for jeres organisation."
+        },
+        "nav": {
+            "searchPlaceholder": "Sök i inställningar…"
+        },
+        "hints": {
+            "profile": {
+                "title": "Vad står här?",
+                "body": "Dina egna uppgifter och hur du får aviseringar. Ändringar här gäller bara ditt konto, inte dina kollegors."
+            },
+            "company": {
+                "title": "Vad är företagsinställningar?",
+                "body": "Företagets uppgifter, säkerhet och vilka moduler som är påslagna. Det gäller alla i företaget."
+            },
+            "import": {
+                "title": "Vad kan importeras?",
+                "body": "Läs in data från ett kalkylark eller ett annat system i stället för att skriva in det igen. Gör en testimport först."
+            },
+            "subscription": {
+                "title": "Vad är abonnemanget?",
+                "body": "Ert nuvarande paket och vad det kostar. Här köper ni också fler användare och avdelningar."
+            },
+            "invoices": {
+                "title": "Vad finns här?",
+                "body": "Alla fakturor från CitizenOne. En betald faktura är ert kvitto och kan skickas vidare till bokföringen."
+            },
+            "licenses": {
+                "title": "Vad är licenser?",
+                "body": "Hur många platser ni har köpt och vem som använder dem. Ta bort en licens från en medarbetare för att frigöra platsen."
+            },
+            "storage": {
+                "title": "Vad tar plats?",
+                "body": "Hur mycket utrymme era filer använder och vad som tar mest. Köp mer utrymme eller rensa de största filerna."
+            },
+            "portalAccess": {
+                "title": "Vad är portalåtkomst?",
+                "body": "Avgör vad anhöriga, tredje parter och insatser kan se i sin egen portal. Allt ni slår på blir synligt för dem."
+            },
+            "activityLogs": {
+                "title": "Vad loggas?",
+                "body": "Vem som har varit inloggad och vad de har gjort. Använd det för att dokumentera åtkomst till personuppgifter."
+            },
+            "timeLogs": {
+                "title": "Vad är tidsloggar?",
+                "body": "Registrerad arbetstid för personalen. Använd det som underlag för lön och för att följa upp pass."
+            },
+            "mileageLog": {
+                "title": "Vad är körjournalen?",
+                "body": "Resor registrerade av personalen, redo för utbetalning eller bokföring."
+            },
+            "supportAccess": {
+                "title": "Varför den här sidan?",
+                "body": "Här bestämmer ni om CitizenOnes support får se era data, och ni ser när de har varit inne. Åtkomsten stängs av sig själv."
+            },
+            "gdprRetention": {
+                "title": "Vad är lagring?",
+                "body": "Hur länge data sparas innan de raderas automatiskt. Sätt gränserna efter er egen gallringspolicy."
+            },
+            "smsNotifications": {
+                "title": "Vad är SMS?",
+                "body": "Skicka meddelanden som SMS utöver e-post. Förbrukningen faktureras efter antal skickade meddelanden."
+            },
+            "powerBi": {
+                "title": "Vad gör Power BI?",
+                "body": "Hämta ut era data till rapporter i Power BI. Nyckeln ger läsbehörighet, inte rätt att ändra något."
+            },
+            "economic": {
+                "title": "Vad gör e-conomic?",
+                "body": "Skicka fakturor och underlag vidare till ert bokföringssystem, så att siffrorna bara skrivs in en gång."
+            },
+            "fst": {
+                "title": "Vad är FindSocialeTilbud.dk?",
+                "body": "Visa era insatser på FindSocialeTilbud.dk så att kommunerna hittar er. Ni bestämmer själva vad som publiceras."
+            },
+            "customPages": {
+                "title": "Vad är ordlistan?",
+                "body": "Era egna ord för fält och sidor. Byt namn på ett fält så att systemet kallar det samma sak som ni gör."
+            },
+            "transactions": {
+                "title": "Vad är transaktioner?",
+                "body": "In- och utbetalningar på de konton ni för åt varje person. Beloppen kan exporteras till bokföringen."
+            },
+            "roles": {
+                "title": "Vad är roller?",
+                "body": "En roll avgör vilka sidor och åtgärder en medarbetare når. Ge hellre för lite än för mycket."
+            },
+            "departments": {
+                "title": "Vad är avdelningar?",
+                "body": "Avdelningar styr vem som ser vad och används i scheman, rapporter och behörigheter."
+            },
+            "employeeGroups": {
+                "title": "Vad är personalgrupper?",
+                "body": "Samla medarbetare i grupper så att ni kan tilldela pass, uppgifter och behörighet till flera samtidigt."
+            },
+            "archived": {
+                "title": "Vad är arkivet?",
+                "body": "Allt ni har arkiverat i stället för att radera. Det kan hämtas tillbaka och stör inte den dagliga överblicken."
+            },
+            "catalog": {
+                "access": {
+                    "title": "Vad används det till?",
+                    "body": "Listorna här avgör hur ni är organiserade och vem som får göra vad. De används i fält i hela systemet."
+                },
+                "communication": {
+                    "title": "Vad används det till?",
+                    "body": "Mallar och inställningar för de meddelanden ni skickar, så att texten inte skrivs om varje gång."
+                },
+                "journal": {
+                    "title": "Vad används det till?",
+                    "body": "Listorna här fyller journalens fält: titlar, innehåll, taggar och samtycken."
+                },
+                "health": {
+                    "title": "Vad används det till?",
+                    "body": "Läkemedel, enheter och mallar som personalen väljer bland när de dokumenterar hälsa."
+                },
+                "schedule": {
+                    "title": "Vad används det till?",
+                    "body": "Passtyper, frånvaro, normperioder och tillägg som schemat och tidsredovisningen räknar efter."
+                },
+                "booking": {
+                    "title": "Vad används det till?",
+                    "body": "Rum och etiketter som kalendern och bokningar väljer bland."
+                },
+                "citizens": {
+                    "title": "Vad används det till?",
+                    "body": "Listorna bakom stamkortet: relationer, adresser, kategorier och ärenden."
+                },
+                "employment": {
+                    "title": "Vad används det till?",
+                    "body": "Inställningar för jobbcenterområdet: avtal, ärendetyper, statusar och avräkning."
+                }
+            },
+            "customLinks": {
+                "title": "Vad är egna länkar?",
+                "body": "Lägg till genvägar i vänstermenyn - t.ex. ert intranät, en delad enhet, ett bokningssystem eller ett annat externt verktyg teamet använder. Välj om varje länk visas för administratörer, användare eller alla."
+            }
+        },
+        "movedNotice": {
+            "title": "Vi har städat här",
+            "body": "Ursäkta röran. Inställningarna har fått en ny meny, så säg till om något är svårt att hitta.",
+            "button": "Uppfattat",
+            "points": {
+                "rail": "Alla inställningar finns nu i listan till vänster, i stället för bakom rullgardinsmenyer.",
+                "search": "Sökfältet högst upp i listan hittar varje inställning på namn.",
+                "billing": "Abonnemang, licenser, lagringsutrymme och fakturor delar nu en sida med flikar."
+            }
         }
     },
     "setupPassword": {
@@ -11319,7 +11480,8 @@
                     "procedures": "Rutiner",
                     "tasks": "Uppgifter",
                     "company_files": "Företagsfiler",
-                    "nursing_areas": "Vårdområden"
+                    "nursing_areas": "Vårdområden",
+                    "ai_conversations": "AI-samtal"
                 }
             }
         },
@@ -13621,7 +13783,8 @@
                 "newDepartments": "Nya avdelningar ({count}):",
                 "newSections": "Nya paragrafer ({count}):",
                 "rowsToLookAt": "Rader att titta på",
-                "line": "Rad {line}"
+                "line": "Rad {line}",
+                "newSections": "Nya paragrafer ({count}):"
             },
             "importing": {
                 "label": "Importerar…"
@@ -15244,6 +15407,65 @@
             "copyLink": "Kopiera länk",
             "linkCopied": "Kopierat!",
             "preview": "Förhandsgranskning"
+        }
+    },
+    "aiUsage": {
+        "title": "AI-användning",
+        "loading": "Hämtar användning ...",
+        "failed": "Användningen kunde inte hämtas just nu. Försök igen om en stund.",
+        "today": "I dag",
+        "ofAllowance": "{used} av {allowance} svar",
+        "allowanceExplainer": "Den dagliga ramen följer antalet AI-licenser ni har. Den nollställs vid midnatt.",
+        "balance": "Saldo",
+        "balanceExplainer": "Förbetald kapacitet. Den upphör inte att gälla, och den dras bara ned när ett svar faktiskt levereras.",
+        "buyMore": "Köp mer",
+        "thisMonth": "Denna månad",
+        "feature": "Funktion",
+        "uses": "Användning",
+        "amount": "Belopp",
+        "minutes": "{count} min",
+        "noneThisMonth": "Ingen AI-användning den här månaden ännu.",
+        "purchases": "Köp",
+        "features": {
+            "assistant": "Fråga AI",
+            "transcribe": "Diktering",
+            "journal": "Journalförslag",
+            "handover": "Skiftöverlämning",
+            "classifier": "Sortering"
+        },
+        "buy": {
+            "title": "Behöver ni mer kapacitet?",
+            "subtitle": "Välj ett belopp att börja med. Ni kan alltid köpa mer senare.",
+            "other": "Annat",
+            "bonus": "+{percent}% extra",
+            "capacity": "AI-kapacitet",
+            "toPay": "Att betala",
+            "pay": "Betala {amount}",
+            "terms": "Genom att betala accepterar ni CitizenOnes villkor. Kapaciteten upphör inte att gälla och dras bara ned när ett svar levereras.",
+            "failed": "Köpet kunde inte startas. Försök igen om en stund.",
+            "ofWhichVat": "Varav moms ({percent}%)",
+            "ofWhichServiceFee": "Varav serviceavgift",
+            "minimum": "Minst {amount}",
+            "received": "Betalning mottagen",
+            "receivedAmount": "{amount} har lagts till ert saldo.",
+            "saved": "Ni sparade {percent}% - {amount} extra",
+            "done": "Klar",
+            "rememberCard": "Spara kortet så vi kan fylla på automatiskt senare"
+        },
+        "autoReload": {
+            "title": "Automatisk påfyllning",
+            "off": "Avstängd. Ni får besked när saldot håller på att ta slut.",
+            "on": "När saldot går under {threshold} köps det automatiskt för {amount}",
+            "turnOn": "Slå på",
+            "turnOff": "Stäng av",
+            "later": "Inte nu",
+            "modalTitle": "Slå på automatisk påfyllning?",
+            "modalSubtitle": "Köp automatiskt mer kapacitet när ni håller på att ta slut.",
+            "whenBelow": "När saldot går under",
+            "topUpWith": "Fyll på med",
+            "needsCard": "Kräver ett sparat betalkort. Kryssa i rutan vid nästa köp, så kan kortet användas framöver.",
+            "consent": "Ni godkänner att kortet på filen debiteras beloppet ovan varje gång saldot når gränsen. Stäng av när som helst.",
+            "failed": "Inställningen kunde inte sparas. Försök igen om en stund."
         }
     }
 }

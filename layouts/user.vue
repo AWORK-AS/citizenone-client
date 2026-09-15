@@ -526,30 +526,54 @@
                          admin (who can fix it) and a plain notice for everyone else. -->
                     <ModulesUserBillingPaymentWall />
 
-                    <!-- On the schedules pages this toolbar carries the date navigation, so it pins
-                         beneath the navbar - otherwise you have to scroll back to the top of a long
-                         employee grid just to step one week forward. The negative margins absorb
-                         <main>'s own padding so the resting layout is unchanged, while the pinned
-                         bar still covers the full strip below the navbar with no seam. -->
-                    <div ref="toolbarRef" class="flex items-center justify-between flex-wrap gap-3"
-                        :class="isSchedulesPage && 'sticky top-[var(--sticky-header-offset,4rem)] z-40 -mx-4 sm:-mx-6 lg:-mx-6 px-4 sm:px-6 lg:px-6 -mt-6 lg:-mt-8 pt-6 lg:pt-8 pb-3 bg-surface-50 border-b border-surface-200'">
-                        <slot name="breadcrumb"></slot>
-                        <slot name="guided-tour"></slot>
-                    </div>
-                    <div class="mt-3 flex justify-between items-center">
-                        <h1 class="text-xl lg:text-2xl text-slate-900 font-semibold tracking-tight">
-                            <slot name="header"></slot>
-                        </h1>
-                        <slot name="new-feature"></slot>
-                        <slot name="settings"></slot>
-                    </div>
-                    <div class="mt-2" v-if="$slots['sub-header']">
-                        <h3 class="text-base text-slate-500">
-                            <slot name="sub-header"></slot>
-                        </h3>
-                    </div>
-                    <div class="mt-4">
-                        <slot />
+                    <!-- Settings is some seventy pages, so they get a rail of their own
+                         rather than a menubar of dropdowns in the page body: every
+                         destination is on screen, searchable, and marked when it is the one
+                         you are on. The rail is the page's left column, so the page's own
+                         title sits over the page rather than over the rail. Every other
+                         route renders exactly as before: without the settings flag the
+                         wrapper carries no classes at all. -->
+                    <div
+                        :class="isSettingsPage && 'flex flex-col lg:grid lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-8 lg:items-start'">
+                        <!-- Beside the page on a desktop, but under its title on a phone, where
+                             a navigation chip above the breadcrumb reads as part of the chrome
+                             rather than as the way on to another setting. The content column
+                             dissolves into the same flex box below lg so the two can interleave. -->
+                        <ModulesUserSettingsRail v-if="isSettingsPage" class="mb-4 lg:mb-0 order-3 lg:order-none" />
+                        <ModulesUserSettingsMovedNotice v-if="isSettingsPage" />
+                        <!-- Settings is forms and short tables. Letting them run the full
+                             width of a wide monitor is what makes a settings page look
+                             stretched, so the column stops at a readable measure. -->
+                        <div :class="isSettingsPage ? 'contents lg:block lg:min-w-0 lg:max-w-[80rem]' : 'min-w-0'">
+                            <!-- On the schedules pages this toolbar carries the date navigation, so it pins
+                                 beneath the navbar - otherwise you have to scroll back to the top of a long
+                                 employee grid just to step one week forward. The negative margins absorb
+                                 <main>'s own padding so the resting layout is unchanged, while the pinned
+                                 bar still covers the full strip below the navbar with no seam. -->
+                            <div ref="toolbarRef" class="flex items-center justify-between flex-wrap gap-3 order-1"
+                                :class="isSchedulesPage && 'sticky top-[var(--sticky-header-offset,4rem)] z-40 -mx-4 sm:-mx-6 lg:-mx-6 px-4 sm:px-6 lg:px-6 -mt-6 lg:-mt-8 pt-6 lg:pt-8 pb-3 bg-surface-50 border-b border-surface-200'">
+                                <slot name="breadcrumb"></slot>
+                                <slot name="guided-tour"></slot>
+                            </div>
+                            <div class="mt-3 flex justify-between items-center order-2">
+                                <h1 class="text-xl lg:text-2xl text-slate-900 font-semibold tracking-tight">
+                                    <slot name="header"></slot>
+                                </h1>
+                                <slot name="new-feature"></slot>
+                                <slot name="settings"></slot>
+                            </div>
+                            <div class="mt-2 order-2" v-if="$slots['sub-header']">
+                                <h3 class="text-base text-slate-500">
+                                    <slot name="sub-header"></slot>
+                                </h3>
+                            </div>
+                            <!-- One line on what the page is for, dismissible and per page.
+                                 It sits here rather than in seventy page templates. -->
+                            <ModulesUserSettingsHint v-if="isSettingsPage" class="mt-5 order-3" />
+                            <div class="mt-4 order-4">
+                                <slot />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -693,6 +717,7 @@ const { industryHasFeature } = useIndustryFeatures()
 const router = useRouter()
 const route = useRoute()
 const isSchedulesPage = computed(() => route.path.startsWith('/schedules'))
+const isSettingsPage = computed(() => route.path.startsWith('/settings'))
 const routeName = router?.currentRoute?.value?.name
 
 const navigation = shallowRef<any[]>([])

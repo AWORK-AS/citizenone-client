@@ -14,8 +14,6 @@
 
             <template #header>{{ $t('invoiceDetails.invoiceDetails') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div class="mt-10">
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"

@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('settings.tabs.company') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <LoadingSpinner :isActive="state.isPageLoading">
                 <form @submit.prevent="submitForm()" class="mt-8 max-w-4xl">
                     <Alert type="danger" :text="state?.error?.message"

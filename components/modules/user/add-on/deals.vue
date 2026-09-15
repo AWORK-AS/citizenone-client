@@ -8,12 +8,12 @@
                 {{ $t('subscription.addOnDeals.addOnDeals') }}
             </h3>
             <div class="bg-white divide-y divide-gray-100 ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
-                <div class="grid grid-cols-1 lg:grid-cols-3 items-center gap-x-6 gap-y-4 py-5">
+                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_5rem_auto] items-center gap-x-3 gap-y-4 py-5">
                     <div>
                         <p class="font-semibold leading-6 text-tertiary">
                             {{ $t('subscription.addOnDeals.extraDepartment') }}
                         </p>
-                        <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                        <div class="mt-1 flex flex-wrap items-center gap-x-1 text-xs leading-5 text-gray-500">
                             <p>
                                 {{ formatAmount(isMonthly
                                     ? state.addOnDeals.department?.data?.monthly_price
@@ -38,12 +38,12 @@
                         </p>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 lg:grid-cols-3 items-center gap-x-6 gap-y-4 py-5">
+                <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_5rem_auto] items-center gap-x-3 gap-y-4 py-5">
                     <div>
                         <p class="font-semibold leading-6 text-tertiary">
                             {{ $t('subscription.addOnDeals.extraUser') }}
                         </p>
-                        <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                        <div class="mt-1 flex flex-wrap items-center gap-x-1 text-xs leading-5 text-gray-500">
                             <p>
                                 {{ formatAmount(isMonthly
                                     ? state.addOnDeals.user?.data?.monthly_price

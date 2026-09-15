@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('invoices.invoices') }}</template>
 
-            <ModulesUserSettingsTab />
+            <ModulesUserSettingsBillingSubTab class="mt-5" />
 
             <div id="invoice-checkout" v-show="state.isCheckoutVisible" class="mx-auto max-w-sm md:max-w-md mt-10"></div>
 
@@ -72,7 +72,7 @@
                             <template #body v-if="!(state.isTableLoading || (state.invoices?.data?.length === 0))">
                                 <tr v-for="(invoice, index) in state.invoices?.data" :key="index">
                                     <td width="25%">
-                                        <div>
+                                        <div class="whitespace-nowrap">
                                             {{ formatDateTimeToReadable(invoice?.created_at) }}
                                         </div>
                                     </td>
@@ -102,23 +102,18 @@
                                         </div>
                                     </td>
                                     <td width="15%">
-                                        <p class="capitalize">
+                                        <p class="capitalize whitespace-nowrap">
                                             {{ formatAmount(invoice?.total_amount) }}
                                         </p>
-                                    </td>
-                                    <td width="20%">
-                                        <div>
-                                            <p>
-                                                {{ invoice?.user?.company?.name }}
-                                            </p>
-                                        </div>
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/invoices/${invoice.uuid}/invoice-details`)">
                                                 <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('invoices.table.actions.view') }}
+                                                {{ invoice?.is_paid
+                                                    ? $t('invoices.table.actions.viewReceipt')
+                                                    : $t('invoices.table.actions.viewInvoice') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="sendInvoice(invoice)">
@@ -179,7 +174,6 @@ const state = reactive({
         { name: 'invoices.table.paid', isTranslateName: true, },
         { name: 'invoices.table.invoiceNumber', isTranslateName: true, sorter: true, key: 'invoice_number' },
         { name: 'invoices.table.amount', isTranslateName: true, sorter: true, key: 'total_amount' },
-        { name: 'invoices.table.company', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {
