@@ -918,6 +918,8 @@
         "rateLimited": "You have asked a lot of questions just now. Try again in {minutes} min.",
         "waitingCount": "{count} waiting",
         "rateLimitedToday": "Your organisation has reached its daily limit for AI requests. Try again tomorrow.",
+        "limitBuyMore": "Buy more capacity",
+        "limitAskAdmin": "Ask your administrator for more capacity.",
         "companyDataMissing": "Answered without access to your data. The search index has not been created yet.",
         "companyDataBuilding": "Answered without access to your data. The search index is still being built.",
         "askAnything": "Ask anything, or type {'@'} to mention someone",

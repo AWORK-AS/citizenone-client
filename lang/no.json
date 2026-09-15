@@ -918,6 +918,8 @@
         "rateLimited": "Du har stilt mange spørsmål akkurat nå. Prøv igjen om {minutes} min.",
         "waitingCount": "{count} venter",
         "rateLimitedToday": "Organisasjonen deres har nådd dagens grense for AI-forespørsler. Prøv igjen i morgen.",
+        "limitBuyMore": "Kjøp mer kapasitet",
+        "limitAskAdmin": "Be administratoren din om mer kapasitet.",
         "companyDataMissing": "Svaret er gitt uten tilgang til deres data. Søkeindeksen er ikke opprettet ennå.",
         "companyDataBuilding": "Svaret er gitt uten tilgang til deres data. Søkeindeksen bygges fortsatt.",
         "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
