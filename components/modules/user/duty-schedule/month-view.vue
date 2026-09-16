@@ -813,6 +813,18 @@
                                                         {{ moment(shift?.date_time_end).format('HH:mm') }}
                                                     </span>
                                                 </div>
+                                                <Tooltip v-if="shift?.hours !== null && shift?.hours !== undefined"
+                                                    :text="`${$t('dutySchedules.viewSchedule.hours')}: ${shift.hours}`"
+                                                    position="left" :wrap="true">
+                                                    <div class="flex items-center gap-1 px-2 pb-1 cursor-help">
+                                                        <Icon name="ph:clock" class="w-3 h-3 flex-shrink-0"
+                                                            style="color:rgba(255,255,255,0.7)" />
+                                                        <span class="text-[10px] font-medium"
+                                                            style="color:rgba(255,255,255,0.8)">
+                                                            {{ shift.hours }}
+                                                        </span>
+                                                    </div>
+                                                </Tooltip>
                                                 <div class="mx-2 border-t mb-1"
                                                     style="border-color:rgba(255,255,255,0.25)"></div>
 

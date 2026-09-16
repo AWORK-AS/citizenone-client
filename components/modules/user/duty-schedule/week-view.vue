@@ -1155,6 +1155,19 @@
                                                         </div>
                                                         <div class="mx-1.5 sm:mx-2.5 border-t border-white/20 mb-1">
                                                         </div>
+                                                        <Tooltip v-if="shift?.hours !== null && shift?.hours !== undefined"
+                                                            :text="`${$t('dutySchedules.viewSchedule.hours')}: ${shift.hours}`"
+                                                            position="left" :wrap="true">
+                                                            <div
+                                                                class="flex items-center gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5 cursor-help">
+                                                                <Icon name="ph:clock" class="w-3 h-3 flex-shrink-0"
+                                                                    style="color:rgba(255,255,255,0.7)" />
+                                                                <span
+                                                                    class="text-white/80 text-[10px] font-medium">
+                                                                    {{ shift.hours }}
+                                                                </span>
+                                                            </div>
+                                                        </Tooltip>
                                                         <div v-if="shift?.shift_span_position && shift?.shift_span_position !== 'single'"
                                                             class="flex items-center gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5">
                                                             <div v-if="shift.shift_span_position === 'start'"
