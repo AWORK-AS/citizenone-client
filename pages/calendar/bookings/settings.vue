@@ -343,6 +343,34 @@
                             </h3>
                             <p class="text-sm text-gray-600">{{ $t('websiteBookingSettings.form.brandingLabel') }}</p>
                         </div>
+                        <div class="space-y-1">
+                            <div class="flex gap-x-4 items-center">
+                                <FormLabel :label="$t('websiteBookingSettings.form.logo')" />
+                                <Tooltip v-if="websiteBookingLogoPreviewUrl" :text="$t('settings.company.form.remove')">
+                                    <Icon name="ph:trash"
+                                        class="p-2 size-4 cursor-pointer text-red-500 text-sm hover:text-red-700"
+                                        @click="removeWebsiteBookingLogo" />
+                                </Tooltip>
+                            </div>
+                            <input type="file" ref="websiteBookingLogoInput" @change="onWebsiteBookingLogoChange"
+                                accept="image/png,image/jpeg,image/svg+xml" class="hidden" />
+                            <div class="flex items-center gap-4">
+                                <div class="relative cursor-pointer" @click="triggerWebsiteBookingLogoInput">
+                                    <div v-if="!websiteBookingLogoPreviewUrl"
+                                        class="w-32 h-32 rounded-md border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center hover:border-primary hover:bg-gray-100 transition-colors">
+                                        <Icon name="ph:upload-simple" class="w-8 h-8 text-gray-400" />
+                                    </div>
+                                    <template v-else>
+                                        <img :src="websiteBookingLogoPreviewUrl" alt="Website booking logo"
+                                            class="w-32 h-32 rounded-md object-contain border-2 border-gray-200 bg-white" />
+                                        <div
+                                            class="rounded-md absolute inset-0 bg-black bg-opacity-50 text-white opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <span class="text-xs">{{ $t('changeImage') }}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
                         <div class="grid grid-cols-2 gap-3">
                             <div class="space-y-1">
                                 <FormLabel for="primary_color" :label="$t('websiteBookingSettings.form.primaryColor')" />
@@ -547,6 +575,11 @@ const state = reactive({
     embedCopied: false,
     hostedLinkCopied: false,
 })
+
+const websiteBookingLogoInput = ref<HTMLInputElement | null>(null)
+const websiteBookingLogoPreviewUrl = ref('')
+const websiteBookingLogoFile = ref<File | null>(null)
+const shouldDeleteWebsiteBookingLogo = ref(false)
 
 const embedSnippet = computed(() => {
     if (!state.formWebsiteBooking.embed_token) return ''
@@ -785,10 +818,35 @@ async function fetchWebsiteBookingSettings() {
                 department_uuids: (response.data.departments ?? []).map((department: any) => department.uuid),
                 allowed_domains: response.data.allowed_domains ?? [],
             }
+            websiteBookingLogoPreviewUrl.value = response.data.logo_url ?? ''
         }
     } catch (error: any) {
         state.websiteBookingError = error
     }
+}
+
+function triggerWebsiteBookingLogoInput() {
+    websiteBookingLogoInput.value?.click()
+}
+
+function onWebsiteBookingLogoChange(event: Event) {
+    const target = event.target as HTMLInputElement
+    const file = target.files?.[0]
+    if (file) {
+        websiteBookingLogoFile.value = file
+        shouldDeleteWebsiteBookingLogo.value = false
+        const reader = new FileReader()
+        reader.onload = (e) => {
+            websiteBookingLogoPreviewUrl.value = e.target?.result as string
+        }
+        reader.readAsDataURL(file)
+    }
+}
+
+function removeWebsiteBookingLogo() {
+    websiteBookingLogoFile.value = null
+    websiteBookingLogoPreviewUrl.value = ''
+    shouldDeleteWebsiteBookingLogo.value = true
 }
 
 function addAllowedDomain() {
@@ -819,6 +877,18 @@ async function submitWebsiteBookingForm() {
     state.websiteBookingError = {}
     state.isPageLoading = true
     try {
+        if (shouldDeleteWebsiteBookingLogo.value) {
+            await websiteBookingSettingsService.deleteLogo()
+            shouldDeleteWebsiteBookingLogo.value = false
+        } else if (websiteBookingLogoFile.value) {
+            const formData = new FormData()
+            formData.append('logo', websiteBookingLogoFile.value)
+            const logoResponse = await websiteBookingSettingsService.uploadLogo(formData)
+            if (logoResponse?.data?.logo_url) {
+                websiteBookingLogoPreviewUrl.value = logoResponse.data.logo_url
+            }
+            websiteBookingLogoFile.value = null
+        }
         const response = await websiteBookingSettingsService.saveWebsiteBookingSettings({
             is_enabled: state.formWebsiteBooking.is_enabled,
             primary_color: state.formWebsiteBooking.primary_color,

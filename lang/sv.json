@@ -15382,6 +15382,7 @@
         "form": {
             "enable": "Aktivera onlinebokning på din webbplats",
             "enableLabel": "Låt besökare på din egen webbplats boka direkt i den här kalendern",
+            "logo": "Logotyp",
             "branding": "Varumärke",
             "brandingLabel": "Anpassa hur bokningswidgeten ser ut",
             "primaryColor": "Primärfärg",

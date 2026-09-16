@@ -15478,6 +15478,7 @@
         "form": {
             "enable": "Aktiver online booking på din hjemmeside",
             "enableLabel": "Lad besøgende på din egen hjemmeside booke direkte i denne kalender",
+            "logo": "Logo",
             "branding": "Branding",
             "brandingLabel": "Tilpas hvordan booking-widgetten ser ud",
             "primaryColor": "Primær farve",
