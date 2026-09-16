@@ -1234,6 +1234,50 @@ input.appearance-none.border-primary {
     background: linear-gradient(135deg, #3BA4BE 0%, #29829B 50%, #1A637A 100%);
 }
 
+/* App store: one badge per app, and the tone says which one it is. A card used
+   to carry up to five at once, which made all five invisible. */
+.app-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 9999px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    white-space: nowrap;
+    flex: none;
+}
+
+.app-badge-owned {
+    background: #02c18e;
+    color: #fff;
+}
+
+.app-badge-offer {
+    background: #dc2626;
+    color: #fff;
+}
+
+.app-badge-new {
+    background: rgba(45, 186, 178, 0.16);
+    color: #12706b;
+}
+
+.app-badge-popular {
+    background: #205E77;
+    color: #fff;
+}
+
+.app-badge-recommended {
+    background: rgba(32, 94, 119, 0.1);
+    color: #205E77;
+}
+
+.app-badge-partner {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
 /* Journal @-mentions: a colleague tag reads as "@Name", a citizen tag shows
    only initials so a downloaded note never exposes a second citizen's name. */
 .co-mention {

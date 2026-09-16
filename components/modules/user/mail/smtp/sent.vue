@@ -171,7 +171,8 @@ async function fetchSentMails(pageNumber: number) {
         }
         const response = await mailSMTPService.getSentMails(params)
         if (response?.data) {
-            state.sentEmails.push(...response?.data?.data?.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
+            const sentMails = Array.isArray(response?.data?.data) ? response.data.data : []
+            state.sentEmails.push(...sentMails.sort((a: any, b: any) => new Date(b.header.date).getTime() - new Date(a.header.date).getTime()))
             state.unreadEmails = response?.unread_emails ?? 0
             state.unreadSecuredMessage = response?.unread_secured_emails ?? 0
             state.pagination = response?.data
