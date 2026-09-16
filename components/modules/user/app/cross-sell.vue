@@ -5,7 +5,9 @@
             {{ categoryName ? $t('apps.otherIn', { category: categoryName }) : $t('apps.recommendedForYou') }}
         </h3>
         <div class="space-y-2">
-            <NuxtLink v-for="app in apps" :key="app.uuid" to="/apps"
+            <!-- Each app has its own page now, so a suggestion lands on the app
+                 rather than back on the store the reader just came from. -->
+            <NuxtLink v-for="app in apps" :key="app.uuid" :to="`/apps/${app.slug || app.uuid}`"
                 class="w-full flex items-center gap-3 px-3 py-2 rounded-lg border border-gray-200 hover:border-primary hover:bg-gray-50 transition-colors">
                 <div v-if="appIconFor(app).useTile"
                     class="brand-tile w-9 h-9 rounded-lg flex items-center justify-center text-white flex-shrink-0">
@@ -19,7 +21,7 @@
                 </div>
                 <div class="min-w-0">
                     <p class="text-sm font-medium text-muted-800 truncate">{{ app.name }}</p>
-                    <p class="text-xs text-gray-500 truncate">{{ app.description }}</p>
+                    <p class="text-xs text-gray-500 truncate">{{ app.tagline || app.description }}</p>
                 </div>
                 <Icon name="ph:arrow-right" class="w-4 h-4 text-gray-400 ml-auto flex-shrink-0" />
             </NuxtLink>

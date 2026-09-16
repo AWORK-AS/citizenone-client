@@ -21,6 +21,15 @@ export interface AppForm {
     is_quantifiable?: boolean,
     is_active?: boolean,
     background_image?: string,
+    slug?: string,
+    tagline?: string,
+    long_description?: string,
+    whats_new?: string,
+    publisher?: string,
+    version?: string,
+    released_at?: string,
+    data_location?: string,
+    is_public?: boolean,
 }
 
 export interface AppCategory {

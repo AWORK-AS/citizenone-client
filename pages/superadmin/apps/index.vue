@@ -20,6 +20,18 @@
                     </button>
                 </div>
 
+                <!-- Catalogue is what the store shows; sales is what it earns. -->
+                <div class="mb-4 flex gap-1 rounded-lg border border-[#EAECF0] bg-white p-1 w-fit">
+                    <button type="button" v-for="tab in tabs" :key="tab.value" @click="view = tab.value"
+                        class="rounded-md px-4 py-1.5 text-[13px] font-medium transition-colors"
+                        :class="view === tab.value ? 'bg-[#205E77] text-white' : 'text-[#8891A4] hover:text-[#1F2533]'">
+                        {{ tab.label }}
+                    </button>
+                </div>
+
+                <ModulesSuperadminAppSalesOverview v-if="view === 'sales'" />
+
+                <template v-else>
                 <!-- Search + view toggle -->
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                     <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('superadmin.apps.searchPlaceholder')"
@@ -75,6 +87,14 @@
                         </div>
 
                         <h3 class="text-[14px] font-semibold text-[#1F2533] pr-16">{{ app.name }}</h3>
+                        <p v-if="app.missing_for_store?.length"
+                            class="mt-1 flex items-center gap-1 text-[11px] font-medium text-[#B45309]">
+                            <Icon name="ph:warning-circle" class="w-3.5 h-3.5" />
+                            {{ $t('superadmin.apps.missingForStore', { fields: missingLabels(app) }) }}
+                        </p>
+                        <p v-else-if="app.version" class="mt-1 text-[11px] text-[#8891A4]">
+                            {{ $t('apps.version') }} {{ app.version }}
+                        </p>
                         <p v-if="app.description" class="text-[12px] text-[#8891A4] mt-1 line-clamp-2">{{
                             app.description }}</p>
 
@@ -223,6 +243,7 @@
                 </div>
 
                 <Pagination :data="state.apps" @previous="previous" @next="next" />
+                </template>
             </div>
 
             <ModulesSuperadminAppSlideOverNewApp :isOpen="showNewAppSlider" @close="showNewAppSlider = false"
@@ -247,6 +268,25 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+
+const view = ref('catalogue')
+
+const tabs = computed(() => [
+    { value: 'catalogue', label: t('superadmin.apps.tabCatalogue') },
+    { value: 'sales', label: t('superadmin.apps.tabSales') },
+])
+
+/** Names the parts an app still needs before the store can show it. */
+function missingLabels(app: any) {
+    const labels: Record<string, string> = {
+        description: t('superadmin.apps.form.description'),
+        category: t('apps.category'),
+        tagline: t('superadmin.apps.form.tagline'),
+        logo: t('superadmin.apps.form.logo'),
+    }
+
+    return (app?.missing_for_store ?? []).map((field: string) => labels[field] ?? field).join(', ')
+}
 
 let currentTablePage = 1
 let searchTimeout: any = null
