@@ -17,14 +17,25 @@
                         {{ $t('patient.documents.upload') }}
                     </p>
                     <p class="text-sm text-gray-500">{{ $t('patient.documents.uploadHelp') }}</p>
-                    <div class="flex flex-wrap items-center gap-3">
-                        <input type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="text-sm"
-                            @change="onFileSelected" />
-                        <FormButton type="button" buttonStyle="action" :disabled="!state.file || state.isUploading"
-                            @click="upload">
-                            {{ $t('patient.documents.saveFile') }}
-                        </FormButton>
+                    <input type="file" ref="fileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="hidden"
+                        @change="onFileSelected" />
+                    <div class="max-w-xs p-4 border border-dashed border-gray-400 cursor-pointer hover:border-2"
+                        @click="triggerFileInput">
+                        <div class="flex items-center justify-between text-xs">
+                            <p>{{ $t('chooseFile') }}</p>
+                            <Icon name="ph:upload-simple" class="h-6 w-6 text-gray-600" aria-hidden="true" />
+                        </div>
                     </div>
+                    <div v-if="state.file" class="space-y-1">
+                        <p class="text-sm text-gray-700">{{ $t('selectedFile') }}:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-600">
+                            <li>{{ state.file.name }}</li>
+                        </ul>
+                    </div>
+                    <FormButton type="button" buttonStyle="action" :disabled="!state.file || state.isUploading"
+                        @click="upload">
+                        {{ $t('patient.documents.saveFile') }}
+                    </FormButton>
                 </div>
 
                 <LoadingSpinner :isActive="state.isLoading">
@@ -73,6 +84,12 @@ const state = reactive({
     file: null as File | null,
 })
 
+const fileInput = ref<HTMLInputElement | null>(null)
+
+function triggerFileInput() {
+    fileInput.value?.click()
+}
+
 function formatDate(date: any) {
     return date ? moment(date).format('DD-MM-YYYY') : '-'
 }
@@ -91,8 +108,9 @@ async function fetchDocuments() {
     state.isLoading = false
 }
 
-function onFileSelected(event: any) {
-    state.file = event?.target?.files?.[0] ?? null
+function onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement
+    state.file = target.files?.[0] ?? null
 }
 
 async function upload() {
@@ -108,6 +126,7 @@ async function upload() {
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, t('patient.documents.uploaded'))
             state.file = null
+            if (fileInput.value) fileInput.value.value = ''
             await fetchDocuments()
         }
     } catch (error: any) {

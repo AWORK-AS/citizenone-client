@@ -59,33 +59,6 @@
                 <Icon name="ph:compass" class="absolute -right-6 -bottom-8 h-48 w-48 text-white/10" />
             </div>
 
-            <!-- Next step -->
-            <div v-if="!allDone && nextStep"
-                class="mt-6 rounded-2xl border-2 border-primary/30 bg-primary/5 p-5 flex items-center justify-between gap-x-4">
-                <div class="flex items-center gap-x-4 min-w-0">
-                    <div
-                        class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary shrink-0">
-                        <Icon :name="nextStep.group.icon" class="h-6 w-6" />
-                    </div>
-                    <div class="min-w-0">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-primary">
-                            {{ $t('discover.nextStep') }}
-                        </p>
-                        <p class="font-semibold text-slate-900 truncate">
-                            {{ $t(`discover.steps.${nextStep.step.key}.title`) }}
-                        </p>
-                        <p class="text-sm text-slate-500 truncate">
-                            {{ $t(`discover.steps.${nextStep.step.key}.desc`) }}
-                        </p>
-                    </div>
-                </div>
-                <button type="button" @click="runStep(nextStep.step)"
-                    class="shrink-0 inline-flex items-center gap-x-1.5 rounded-lg bg-primary text-white px-4 py-2.5 text-sm font-medium hover:bg-[#0d3f61] transition-colors">
-                    {{ $t(`discover.steps.${nextStep.step.key}.cta`) }}
-                    <Icon name="ph:arrow-right" class="h-4 w-4" />
-                </button>
-            </div>
-
             <!-- Demo data -->
             <div v-if="isAdmin && demoCitizenCount > 0"
                 class="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 flex items-center justify-between gap-x-4">
@@ -395,21 +368,6 @@ const allDone = computed(() => totalSteps.value > 0 && totalDone.value === total
 // Once the whole journey is done, graduate the Discover tab away.
 const { markCompleted } = useDiscoverDone()
 watch(allDone, (done) => { if (done) markCompleted() }, { immediate: true })
-
-// First actionable (not done, not locked) step across the visible groups.
-const nextStep = computed(() => {
-    for (const g of visibleGroups.value) {
-        for (let i = 0; i < g.steps.length; i++) {
-            if (!stepDone(g.steps[i]) && !stepLocked(g, i)) return { group: g, step: g.steps[i], index: i }
-        }
-    }
-    return null
-})
-
-function runStep(step: any) {
-    if (step.action) runStepAction(step.action)
-    else navigateTo(step.route)
-}
 
 function stepDone(step: any) {
     return !!(step.doneKey && state.done[step.doneKey])

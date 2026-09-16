@@ -45,7 +45,7 @@
                     </div>
                     <div class="mt-1 grid grid-cols-7 text-sm">
                         <div v-for="(day, dayIdx) in days" :key="day.date" class="py-0.5" @click="selectDay(day)"
-                            @dblclick="$emit('createEventForDate', day.date)">
+                            @dblclick="!props.readOnly && $emit('createEventForDate', day.date)">
                             <button type="button" :class="[
                                 day.isSelected && day.isToday && 'bg-tertiary text-white',
                                 day.isSelected && !day.isToday && 'bg-primary text-white',
@@ -130,8 +130,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // A patient viewing their own calendar: no edit/delete/status/journal
+    // actions and no creating events from a click - view only.
+    readOnly: {
+        type: Boolean,
+        default: false,
+    },
 })
-const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEventForDate'])
+const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'viewEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEventForDate'])
 const userStore = useUserStore() as any
 
 const currentMonth = ref(moment().startOf('month'))
@@ -277,6 +283,10 @@ function showAllInvitees(myCalendarEven: any) {
 
 function editMyCalendarEvent(myCalendarEvent: any) {
     if (myCalendarEvent?.is_shift) return
+    if (props.readOnly) {
+        emit('viewEvent', myCalendarEvent)
+        return
+    }
     emit('editMyCalendarEvent', myCalendarEvent)
 }
 

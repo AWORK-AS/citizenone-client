@@ -121,9 +121,18 @@
                                     <p>{{ formatNumber(language.locale.value, log?.kilometers) }} km</p>
                                     <p class="text-xs text-gray-400">{{ distanceSourceLabel(log) }}</p>
                                     <div class="mt-1 inline-flex items-center gap-x-1 rounded-full bg-red-50 border border-red-200 px-2 py-0.5 text-xs font-semibold text-red-600"
-                                        v-if="log?.needs_review" :title="log?.review_reason_label || undefined">
+                                        v-if="log?.needs_review" :title="reviewReasonLabel(log) || undefined">
                                         <Icon name="ph:warning-circle" class="h-3.5 w-3.5" aria-hidden="true" />
                                         {{ $t('mileageLog.table.needsReview') }}
+                                    </div>
+                                    <!-- Ungated on purpose: a driver must still see that their
+                                         trip was corrected, and why, even though only a manager
+                                         can do the correcting. -->
+                                    <div class="mt-1 inline-flex items-center gap-x-1 rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-xs font-semibold text-amber-700"
+                                        v-if="log?.is_distance_overridden"
+                                        :title="log?.kilometers_override_reason || undefined">
+                                        <Icon name="ph:pencil-simple-line" class="h-3.5 w-3.5" aria-hidden="true" />
+                                        {{ $t('mileageLog.table.corrected') }}
                                     </div>
                                 </td>
                                 <td width="15%">
@@ -147,6 +156,11 @@
                                             <Icon name="ph:pencil-simple" class="size-4" />
                                             {{ $t('mileageLog.table.actions.edit') }}
                                         </FormButton>
+                                        <FormButton type="button" buttonStyle="action"
+                                            @click="correctMileageLogDistance(log)" v-if="canCorrectDistance">
+                                            <Icon name="ph:ruler" class="size-4" />
+                                            {{ $t('mileageLog.correction.correctDistance') }}
+                                        </FormButton>
                                         <FormButton type="button" buttonStyle="danger"
                                             @click="confirmMileageLogDeletion(log)" v-if="log?.is_deletable">
                                             <Icon name="heroicons:trash" class="size-4" />
@@ -168,7 +182,11 @@
                     :selectedMileageLog="state.selectedMileageLog" @close="state.modal.isEditOpen = false"
                     @refreshMileageLog="fetchMileageLogs" />
                 <ModulesUserMileageLogModalView :isModalOpen="state.modal.isViewOpen"
-                    :selectedMileageLog="state.selectedMileageLog" @close="state.modal.isViewOpen = false" />
+                    :selectedMileageLog="state.selectedMileageLog" @close="state.modal.isViewOpen = false"
+                    @correctDistance="correctDistanceFromView" />
+                <ModulesUserMileageLogModalCorrectDistance :isModalOpen="state.modal.isCorrectDistanceOpen"
+                    :selectedMileageLog="state.selectedMileageLog"
+                    @close="state.modal.isCorrectDistanceOpen = false" @refreshMileageLog="onDistanceCorrected" />
                 <ModulesUserMileageLogModalFilter :type="canFilterByEmployee ? 'all' : 'self'"
                     :isModalOpen="state.modal.isFilterOpen" @close="state.modal.isFilterOpen = false"
                     @setFilter="setFilter" />
@@ -188,6 +206,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
+import { useMileageLabels } from '@/composables/mileageLabels'
 import { useMileageTracking } from '@/composables/mileageTracking'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -199,11 +218,17 @@ const language = useI18n()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const { isAtLeast } = usePermissions()
+const { distanceSourceLabel, reviewReasonLabel } = useMileageLabels()
 const tracking = useMileageTracking(t)
 // Admins/Managers get company-wide data on this page already (the backend
 // scopes it), so let them filter/attribute it by department and employee
 // too, matching the all-employees report's filter fields.
 const canFilterByEmployee = isAtLeast('Manager')
+// A deliberate sibling of canFilterByEmployee rather than a reuse of it: the two
+// answer different questions, and this gate is the single thing that changes if
+// drivers are later allowed to correct their own trips (see
+// backend/dev-mileage-manual-distance-correction.md).
+const canCorrectDistance = isAtLeast('Manager')
 let currentTablePage = 1
 
 const breadcrumbLinks = [
@@ -246,6 +271,7 @@ const state = reactive({
         isFilterOpen: false,
         isViewOpen: false,
         isStartTripOpen: false,
+        isCorrectDistanceOpen: false,
     },
     selectedMileageLog: {} as any,
     sortData: {
@@ -300,11 +326,6 @@ const employeeSummaries = computed(() => {
 // so it's undefined rather than 0 outside of that -- treat both as "nothing to show".
 const flaggedTripsCount = computed(() => state.summary?.data?.flagged_trips ?? 0)
 
-// distance_source_label is null on every row created before this deploy --
-// render that as unknown provenance, never blank and never as "GPS".
-function distanceSourceLabel(log: any) {
-    return log?.distance_source_label || t('mileageLog.table.distanceSourceUnknown')
-}
 
 function routeSummary(log: any) {
     const middle = (log?.stops ?? []).slice().sort((a: any, b: any) => (a.sequence_order ?? 0) - (b.sequence_order ?? 0))
@@ -424,6 +445,26 @@ async function viewMileageLog(log: any) {
 function editMileageLog(log: any) {
     state.selectedMileageLog = log
     state.modal.isEditOpen = true
+}
+
+// From the view modal, selectedMileageLog is already the detail record (fetched
+// by viewMileageLog) -- keep it and just swap which modal is open, rather than
+// re-selecting the thinner list row.
+function correctDistanceFromView() {
+    state.modal.isViewOpen = false
+    state.modal.isCorrectDistanceOpen = true
+}
+
+function correctMileageLogDistance(log: any) {
+    state.selectedMileageLog = log
+    state.modal.isCorrectDistanceOpen = true
+}
+
+// A correction moves both the row and the totals (kilometers is the effective
+// value the summary sums), and it clears the flagged count -- so refresh both.
+function onDistanceCorrected() {
+    fetchMileageLogs()
+    fetchSummary()
 }
 
 function confirmMileageLogDeletion(log: any) {
