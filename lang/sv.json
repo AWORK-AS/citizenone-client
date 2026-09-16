@@ -8579,6 +8579,28 @@
         }
     },
     "mileageLog": {
+        "alert": {
+            "distanceCorrected": "Avståndet har rättats",
+            "distanceReverted": "Avståndet har återställts till det beräknade värdet"
+        },
+        "correction": {
+            "calculatedDistance": "Beräknat avstånd",
+            "confirmRevert": "Är du säker på att du vill återställa det beräknade avståndet för denna resa",
+            "correctDistance": "Rätta avstånd",
+            "correctedBy": "Rättad av {name} den {date}",
+            "correctedDistance": "Rättat avstånd",
+            "reason": "Orsak till rättelse",
+            "reasonRequired": "En orsak måste anges",
+            "revertToCalculated": "Återställ beräknat avstånd"
+        },
+        "distanceSource": {
+            "anchored_breadcrumbs": "GPS-spår (inkl. start/stopp)",
+            "breadcrumbs": "GPS-spår",
+            "manual": "Manuellt rättad",
+            "none": "Inga positionsdata",
+            "stops": "Angiven rutt",
+            "straight_line": "Fågelvägen"
+        },
         "download": {
             "download": "Ladda ner",
             "downloadMileageLog": "Ladda ner körjournal",
@@ -8631,6 +8653,11 @@
         "mileageLog": "Körjournal",
         "mileageReport": "Körrapport",
         "newTrip": "Ny resa",
+        "reviewReason": {
+            "implausible_end_coordinate": "Orimlig slutposition - sträckan räknas inte med.",
+            "implausible_start_coordinate": "Orimlig startposition - sträckan räknas inte med.",
+            "implausible_stop_coordinate": "Orimlig stoppposition - sträckan räknas inte med."
+        },
         "summary": {
             "allTime": "All tid",
             "byEmployee": "Per medarbetare",
@@ -8653,6 +8680,7 @@
             "confirmation": {
                 "deleteTripConfirmation": "Är du säker på att du vill radera denna resa"
             },
+            "corrected": "Rättad",
             "date": "Datum",
             "distance": "Avstånd",
             "distanceSourceUnknown": "Okänd källa",
@@ -10295,10 +10323,14 @@
                 "termCitizensDefinite": "Klienterna (plural, bestämd)",
                 "portalAudiencePatient": "Patient",
                 "portalSectionAppointments": "Bokningar",
+                "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Onlinebokning",
+                "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
+                "portalPreviewCalendar": "Patienten ser en kalender med sina egna bokningar och händelser.",
                 "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
                 "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
+                "portalPreviewSupport": "Patienten kan öppna supportpanelen för att få hjälp.",
                 "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade"
             }
         },
@@ -13751,8 +13783,7 @@
                 "newDepartments": "Nya avdelningar ({count}):",
                 "newSections": "Nya paragrafer ({count}):",
                 "rowsToLookAt": "Rader att titta på",
-                "line": "Rad {line}",
-                "newSections": "Nya paragrafer ({count}):"
+                "line": "Rad {line}"
             },
             "importing": {
                 "label": "Importerar…"
@@ -14108,7 +14139,10 @@
             "heading": "Kräver din uppmärksamhet",
             "journal_mentions": "Du har taggats i en @:terms.journalNote{''} | Du har taggats i {n} @:terms.journalNotes{''}",
             "missed_doses": "En dos är inte registrerad som given | {n} doser är inte registrerade som givna",
-            "reminders_due": "En påminnelse förfaller idag | {n} påminnelser förfaller idag"
+            "reminders_due": "En påminnelse förfaller idag | {n} påminnelser förfaller idag",
+            "askCody": "Fråga Cody om {subject}",
+            "askCodyShort": "Fråga Cody",
+            "askCodyPrompt": "Berätta mer om: {subject}.{detail} Vad bör jag göra åt det nu?"
         },
         "title": "Min dag",
         "greeting": {
@@ -14128,7 +14162,13 @@
         "untitledNote": "Anteckning utan titel",
         "reminders": "Mina påminnelser",
         "noReminders": "Inga påminnelser idag",
-        "newTask": "Ny uppgift"
+        "newTask": "Ny uppgift",
+        "cody": {
+            "reading": "Cody läser din dag ...",
+            "askMore": "Fråga Cody om din dag",
+            "askMorePrompt": "Ge mig en överblick över min dag. Vad är viktigast att börja med?",
+            "prompt": "Det här kräver min uppmärksamhet i dag:\n{lines}\n\nSkriv två korta meningar om hur min dag ser ut och vad jag bör ta först. Inga rubriker, inga punktlistor, inga namn."
+        }
     },
     "handover": {
         "button": "Skiftöversikt",
@@ -15126,6 +15166,7 @@
     "patient": {
         "nav": {
             "appointments": "Bokningar",
+            "calendar": "Kalender",
             "journal": "Journal",
             "documents": "Dokument",
             "priceEstimates": "Kostnadsförslag",
@@ -15349,6 +15390,7 @@
         "form": {
             "enable": "Aktivera onlinebokning på din webbplats",
             "enableLabel": "Låt besökare på din egen webbplats boka direkt i den här kalendern",
+            "logo": "Logotyp",
             "branding": "Varumärke",
             "brandingLabel": "Anpassa hur bokningswidgeten ser ut",
             "primaryColor": "Primärfärg",

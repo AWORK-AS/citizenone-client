@@ -8579,6 +8579,28 @@
         }
     },
     "mileageLog": {
+        "alert": {
+            "distanceCorrected": "Distance corrected",
+            "distanceReverted": "Distance reverted to the calculated value"
+        },
+        "correction": {
+            "calculatedDistance": "Calculated distance",
+            "confirmRevert": "Are you sure you want to revert this trip to the calculated distance",
+            "correctDistance": "Correct distance",
+            "correctedBy": "Corrected by {name} on {date}",
+            "correctedDistance": "Corrected distance",
+            "reason": "Reason for correction",
+            "reasonRequired": "A reason is required",
+            "revertToCalculated": "Revert to calculated"
+        },
+        "distanceSource": {
+            "anchored_breadcrumbs": "GPS track (incl. start/stop)",
+            "breadcrumbs": "GPS track",
+            "manual": "Manually corrected",
+            "none": "No position data",
+            "stops": "Entered route",
+            "straight_line": "Straight line"
+        },
         "download": {
             "download": "Download",
             "downloadMileageLog": "Download mileage log",
@@ -8631,6 +8653,11 @@
         "mileageLog": "Mileage Log",
         "mileageReport": "Mileage Report",
         "newTrip": "New trip",
+        "reviewReason": {
+            "implausible_end_coordinate": "Implausible end position - that leg is not counted.",
+            "implausible_start_coordinate": "Implausible start position - that leg is not counted.",
+            "implausible_stop_coordinate": "Implausible stop position - that leg is not counted."
+        },
         "summary": {
             "allTime": "All time",
             "byEmployee": "By employee",
@@ -8653,6 +8680,7 @@
             "confirmation": {
                 "deleteTripConfirmation": "Are you sure you want to delete this trip"
             },
+            "corrected": "Corrected",
             "date": "Date",
             "distance": "Distance",
             "distanceSourceUnknown": "Unknown source",
@@ -10300,10 +10328,14 @@
                 "termCitizensDefinite": "The citizens (plural, definite)",
                 "portalAudiencePatient": "Patient",
                 "portalSectionAppointments": "Appointments",
+                "portalSectionCalendar": "Calendar",
                 "portalSectionBooking": "Online booking",
+                "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "The patient sees their upcoming and past appointments at the clinic.",
+                "portalPreviewCalendar": "The patient sees a calendar with their own appointments and events.",
                 "portalPreviewBooking": "The patient can book a free time for the treatments you opened for online booking.",
                 "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
+                "portalPreviewSupport": "The patient can open the support panel to get in touch with help.",
                 "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared"
             }
         },
@@ -13847,8 +13879,7 @@
                 "newDepartments": "New departments ({count}):",
                 "newSections": "New paragraphs ({count}):",
                 "rowsToLookAt": "Rows to look at",
-                "line": "Line {line}",
-                "newSections": "New paragraphs ({count}):"
+                "line": "Line {line}"
             },
             "importing": {
                 "label": "Importing…"
@@ -14204,7 +14235,10 @@
             "heading": "Needs your attention",
             "journal_mentions": "You were tagged in a @:terms.journalNote{''} | You were tagged in {n} @:terms.journalNotes{''}",
             "missed_doses": "One dose is not registered as given | {n} doses are not registered as given",
-            "reminders_due": "One reminder is due today | {n} reminders are due today"
+            "reminders_due": "One reminder is due today | {n} reminders are due today",
+            "askCody": "Ask Cody about {subject}",
+            "askCodyShort": "Ask Cody",
+            "askCodyPrompt": "Tell me more about: {subject}.{detail} What should I do about it now?"
         },
         "title": "My day",
         "greeting": {
@@ -14224,7 +14258,13 @@
         "untitledNote": "Untitled note",
         "reminders": "My reminders",
         "noReminders": "No reminders today",
-        "newTask": "New task"
+        "newTask": "New task",
+        "cody": {
+            "reading": "Cody is reading your day ...",
+            "askMore": "Ask Cody about your day",
+            "askMorePrompt": "Give me an overview of my day. What is most important to start with?",
+            "prompt": "Here is what needs my attention today:\n{lines}\n\nWrite two short sentences about how my day looks and what I should take first. No headings, no bullet points, no names."
+        }
     },
     "handover": {
         "button": "Shift overview",
@@ -15222,6 +15262,7 @@
     "patient": {
         "nav": {
             "appointments": "Appointments",
+            "calendar": "Calendar",
             "journal": "Journal",
             "documents": "Documents",
             "priceEstimates": "Estimates",
@@ -15445,6 +15486,7 @@
         "form": {
             "enable": "Enable online booking on your website",
             "enableLabel": "Let visitors on your own website book directly into this calendar",
+            "logo": "Logo",
             "branding": "Branding",
             "brandingLabel": "Customize how the booking widget looks",
             "primaryColor": "Primary color",

@@ -61,6 +61,18 @@
                         <FormLabel :label="$t('citizens.interventionHours.view.kilometers')" />
                         <p class="text-sm font-semibold text-gray-700">{{ formatNumber(locale,
                             props.selectedCareHour?.kilometers) }}</p>
+                        <!-- Display only, and deliberately: a citizen-linked mileage trip is the
+                             same database row as the one shown in the mileage log, so a manager's
+                             correction reaches this figure too. Nothing on the intervention-hours
+                             side changes - this just stops the corrected number from appearing
+                             here without its provenance. There is no correct action on this
+                             modal; corrections are made from the mileage log. -->
+                        <div class="mt-1 inline-flex items-center gap-x-1 rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-xs font-semibold text-amber-700"
+                            v-if="props.selectedCareHour?.is_distance_overridden"
+                            :title="props.selectedCareHour?.kilometers_override_reason || undefined">
+                            <Icon name="ph:pencil-simple-line" class="h-3.5 w-3.5" aria-hidden="true" />
+                            {{ $t('mileageLog.table.corrected') }}
+                        </div>
                     </div>
 
                     <div class="space-y-1 my-2" v-if="props.selectedCareHour?.is_transportation">
