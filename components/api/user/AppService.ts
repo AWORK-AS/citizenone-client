@@ -9,6 +9,11 @@ class AppService extends BaseAPIService {
         return await this.request(`/user/apps/${appUuid}`, 'GET')
     }
 
+    // The app page. Addressed by slug so the same link works on the website.
+    async getAppBySlug(slug: string): Promise<any> {
+        return await this.request(`/user/app-store/${slug}`, 'GET')
+    }
+
     async activateApp(appUuid: object, params: object): Promise<any> {
         return await this.request(`/user/apps/${appUuid}/purchase`, 'POST', params)
     }
