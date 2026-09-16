@@ -20,6 +20,7 @@
 import { useUserStore } from '@/store/user'
 import { useAssistantStore } from '@/store/assistant'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { useI18n } from 'vue-i18n'
 
 // The panel itself is rendered once by the user layout, not here - it has to
 // outlive this button and the layout needs the open state to make room for it.
