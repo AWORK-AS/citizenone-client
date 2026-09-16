@@ -898,6 +898,9 @@ const rules = computed(() => {
                 firstname: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
+                departments: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
             },
         }
     }
