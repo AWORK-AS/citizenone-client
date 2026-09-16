@@ -148,6 +148,11 @@ const SECTIONS: Record<string, any[]> = {
             preview: 'settings.company.form.portalPreviewAppointments',
         },
         {
+            key: 'calendar', icon: 'ph:calendar-blank',
+            label: 'settings.company.form.portalSectionCalendar',
+            preview: 'settings.company.form.portalPreviewCalendar',
+        },
+        {
             key: 'booking', icon: 'ph:calendar-plus',
             label: 'settings.company.form.portalSectionBooking',
             preview: 'settings.company.form.portalPreviewBooking',
@@ -171,6 +176,11 @@ const SECTIONS: Record<string, any[]> = {
             key: 'documents', icon: 'ph:files',
             label: 'settings.company.form.portalSectionDocuments',
             preview: 'settings.company.form.portalPreviewDocuments',
+        },
+        {
+            key: 'support', icon: 'material-symbols:support',
+            label: 'settings.company.form.portalSectionSupport',
+            preview: 'settings.company.form.portalPreviewSupport',
         },
     ],
 }

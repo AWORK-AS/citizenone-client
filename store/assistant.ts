@@ -21,6 +21,10 @@ export const useAssistantStore = defineStore('assistantStore', {
         // panel has no reference to the editor and does not need one.
         insertTargetLabel: null as string | null,
         pendingInsert: null as string | null,
+        // A question handed to the panel from somewhere else on the page. The
+        // panel picks it up, asks it and clears it. Not persisted: a question
+        // that survives a reload would fire without anyone asking for it.
+        pendingQuestion: null as string | null,
     }),
     actions: {
         open() {
@@ -31,6 +35,21 @@ export const useAssistantStore = defineStore('assistantStore', {
         },
         toggle() {
             this.isOpen = !this.isOpen
+        },
+        /**
+         * Open the panel with a question already asked.
+         *
+         * The point is that the rest of the product can hand Cody something it
+         * is already showing. A page that lists "two doses are unregistered"
+         * should be able to ask about them without the reader typing the
+         * sentence out again.
+         */
+        askAbout(question: string) {
+            this.pendingQuestion = question
+            this.isOpen = true
+        },
+        questionHandled() {
+            this.pendingQuestion = null
         },
         offerInsertTarget(label: string) {
             this.insertTargetLabel = label

@@ -82,9 +82,17 @@
                                         <p>{{ formatNumber(language.locale.value, log?.kilometers) }} km</p>
                                         <p class="text-xs text-gray-400">{{ distanceSourceLabel(log) }}</p>
                                         <div class="mt-1 inline-flex items-center gap-x-1 rounded-full bg-red-50 border border-red-200 px-2 py-0.5 text-xs font-semibold text-red-600"
-                                            v-if="log?.needs_review" :title="log?.review_reason_label || undefined">
+                                            v-if="log?.needs_review" :title="reviewReasonLabel(log) || undefined">
                                             <Icon name="ph:warning-circle" class="h-3.5 w-3.5" aria-hidden="true" />
                                             {{ $t('mileageLog.table.needsReview') }}
+                                        </div>
+                                        <!-- Ungated on purpose, same as the settings list: a driver
+                                             must still see that their trip was corrected, and why. -->
+                                        <div class="mt-1 inline-flex items-center gap-x-1 rounded-full bg-amber-50 border border-amber-200 px-2 py-0.5 text-xs font-semibold text-amber-700"
+                                            v-if="log?.is_distance_overridden"
+                                            :title="log?.kilometers_override_reason || undefined">
+                                            <Icon name="ph:pencil-simple-line" class="h-3.5 w-3.5" aria-hidden="true" />
+                                            {{ $t('mileageLog.table.corrected') }}
                                         </div>
                                     </td>
                                     <td width="20%">
@@ -98,10 +106,17 @@
                                         </div>
                                     </td>
                                     <td width="15%">
-                                        <FormButton type="button" buttonStyle="action" @click="viewMileageLog(log)">
-                                            <Icon name="ph:eye" class="size-4" />
-                                            {{ $t('mileageLog.table.actions.view') }}
-                                        </FormButton>
+                                        <div class="flex items-end gap-2">
+                                            <FormButton type="button" buttonStyle="action" @click="viewMileageLog(log)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('mileageLog.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="action"
+                                                @click="correctMileageLogDistance(log)" v-if="canCorrectDistance">
+                                                <Icon name="ph:ruler" class="size-4" />
+                                                {{ $t('mileageLog.correction.correctDistance') }}
+                                            </FormButton>
+                                        </div>
                                     </td>
                                 </tr>
                             </template>
@@ -112,7 +127,11 @@
             </div>
 
             <ModulesUserMileageLogModalView :isModalOpen="state.modal.isViewOpen"
-                :selectedMileageLog="state.selectedMileageLog" @close="state.modal.isViewOpen = false" />
+                :selectedMileageLog="state.selectedMileageLog" @close="state.modal.isViewOpen = false"
+                @correctDistance="correctDistanceFromView" />
+            <ModulesUserMileageLogModalCorrectDistance :isModalOpen="state.modal.isCorrectDistanceOpen"
+                :selectedMileageLog="state.selectedMileageLog"
+                @close="state.modal.isCorrectDistanceOpen = false" @refreshMileageLog="onDistanceCorrected" />
             <ModulesUserMileageLogModalFilter type="employee" :isModalOpen="state.modal.isFilterOpen"
                 @close="state.modal.isFilterOpen = false" @setFilter="setFilter" />
             <ModulesUserMileageLogDownloadModal :isModalOpen="state.modal.isDownloadOpen"
@@ -126,6 +145,8 @@
 import { mileageLogService } from '@/components/api/user/MileageLogService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { usePermissions } from '@/composables/usePermissions'
+import { useMileageLabels } from '@/composables/mileageLabels'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -133,6 +154,12 @@ const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable, formatDateToReadable } = useDatetimeFormatter()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
+const { isAtLeast } = usePermissions()
+const { distanceSourceLabel, reviewReasonLabel } = useMileageLabels()
+// This page is already Manager-facing, but the gate is stated explicitly rather
+// than assumed from the route, and it is a sibling of the settings page's own
+// constant so the two can diverge when the rule is loosened.
+const canCorrectDistance = isAtLeast('Manager')
 const router = useRouter()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 let currentTablePage = 1
@@ -174,6 +201,7 @@ const state = reactive({
         isDownloadOpen: false,
         isFilterOpen: false,
         isViewOpen: false,
+        isCorrectDistanceOpen: false,
     },
     selectedMileageLog: {} as any,
     sortData: {
@@ -193,11 +221,6 @@ onMounted(() => {
 // so it's undefined rather than 0 outside of that -- treat both as "nothing to show".
 const flaggedTripsCount = computed(() => state.summary?.data?.flagged_trips ?? 0)
 
-// distance_source_label is null on every row created before this deploy --
-// render that as unknown provenance, never blank and never as "GPS".
-function distanceSourceLabel(log: any) {
-    return log?.distance_source_label || language.t('mileageLog.table.distanceSourceUnknown')
-}
 
 function routeSummary(log: any) {
     const middle = (log?.stops ?? []).slice().sort((a: any, b: any) => (a.sequence_order ?? 0) - (b.sequence_order ?? 0))
@@ -276,6 +299,25 @@ function setFilter(filter: any) {
     state.filter.citizen_link = filter.citizen_link
     state.filter.start_date = filter.date_range?.length === 2 ? filter.date_range[0] : ''
     state.filter.end_date = filter.date_range?.length === 2 ? filter.date_range[1] : ''
+    fetchMileageLogs()
+    fetchSummary()
+}
+
+function correctMileageLogDistance(log: any) {
+    state.selectedMileageLog = log
+    state.modal.isCorrectDistanceOpen = true
+}
+
+// From the view modal, selectedMileageLog is already the detail record -- keep
+// it and just swap which modal is open.
+function correctDistanceFromView() {
+    state.modal.isViewOpen = false
+    state.modal.isCorrectDistanceOpen = true
+}
+
+// A correction moves both the row and the totals (kilometers is the effective
+// value the summary sums), and it clears the flagged count -- so refresh both.
+function onDistanceCorrected() {
     fetchMileageLogs()
     fetchSummary()
 }

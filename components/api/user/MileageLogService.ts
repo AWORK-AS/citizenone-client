@@ -32,6 +32,18 @@ class MileageLogService extends BaseAPIService {
         return await this.request(`/user/mileage-logs/${mileageLogUuid}`, 'PUT', params)
     }
 
+    // Deliberately separate from updateMileageLog: the ordinary save path
+    // ignores any kilometers the client sends (the backend never reads it), so
+    // a correction is its own audited endpoint with its own permission gate and
+    // its own required reason. See backend/dev-mileage-manual-distance-correction.md.
+    async setMileageLogDistance(mileageLogUuid: string, params: { kilometers: number; reason: string }): Promise<any> {
+        return await this.request(`/user/mileage-logs/${mileageLogUuid}/distance`, 'PUT', params)
+    }
+
+    async clearMileageLogDistance(mileageLogUuid: string): Promise<any> {
+        return await this.request(`/user/mileage-logs/${mileageLogUuid}/distance`, 'DELETE')
+    }
+
     async deleteMileageLog(mileageLogUuid: any): Promise<any> {
         return await this.request(`/user/mileage-logs/${mileageLogUuid}`, 'DELETE')
     }

@@ -8579,6 +8579,28 @@
         }
     },
     "mileageLog": {
+        "alert": {
+            "distanceCorrected": "Avstanden er rettet",
+            "distanceReverted": "Avstanden er gjenopprettet til den beregnede verdien"
+        },
+        "correction": {
+            "calculatedDistance": "Beregnet avstand",
+            "confirmRevert": "Er du sikker på at du vil gjenopprette den beregnede avstanden for denne turen",
+            "correctDistance": "Rett avstand",
+            "correctedBy": "Rettet av {name} den {date}",
+            "correctedDistance": "Rettet avstand",
+            "reason": "Årsak til retting",
+            "reasonRequired": "Det må angis en årsak",
+            "revertToCalculated": "Gjenopprett beregnet avstand"
+        },
+        "distanceSource": {
+            "anchored_breadcrumbs": "GPS-spor (inkl. start/stopp)",
+            "breadcrumbs": "GPS-spor",
+            "manual": "Manuelt rettet",
+            "none": "Ingen posisjonsdata",
+            "stops": "Innlagt rute",
+            "straight_line": "Luftlinje"
+        },
         "download": {
             "download": "Last ned",
             "downloadMileageLog": "Last ned kjørebok",
@@ -8631,6 +8653,11 @@
         "mileageLog": "Kjørebok",
         "mileageReport": "Kjørerapport",
         "newTrip": "Ny tur",
+        "reviewReason": {
+            "implausible_end_coordinate": "Usannsynlig sluttposisjon - strekningen er ikke medregnet.",
+            "implausible_start_coordinate": "Usannsynlig startposisjon - strekningen er ikke medregnet.",
+            "implausible_stop_coordinate": "Usannsynlig stoppposisjon - strekningen er ikke medregnet."
+        },
         "summary": {
             "allTime": "All tid",
             "byEmployee": "Per medarbeider",
@@ -8653,6 +8680,7 @@
             "confirmation": {
                 "deleteTripConfirmation": "Er du sikker på at du vil slette denne turen"
             },
+            "corrected": "Rettet",
             "date": "Dato",
             "distance": "Distanse",
             "distanceSourceUnknown": "Ukjent kilde",
@@ -10295,10 +10323,14 @@
                 "termCitizensDefinite": "Brukerne (flertall, bestemt)",
                 "portalAudiencePatient": "Pasient",
                 "portalSectionAppointments": "Avtaler",
+                "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Nettbestilling",
+                "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "Pasienten ser sine kommende og tidligere avtaler hos klinikken.",
+                "portalPreviewCalendar": "Pasienten ser en kalender med sine egne avtaler og hendelser.",
                 "portalPreviewBooking": "Pasienten kan selv bestille en ledig time for behandlingene dere har åpnet for nettbestilling.",
                 "portalPreviewPatientJournals": "Pasienten ser kun journalnotatene dere har merket som delt, og bare hvis pasienten har journaltilgang.",
+                "portalPreviewSupport": "Pasienten kan åpne supportpanelet for å få hjelp.",
                 "portalNeverUnsharedJournalNotes": "Journalnotater som ikke er merket som delt"
             }
         },
@@ -13751,8 +13783,7 @@
                 "newDepartments": "Nye avdelinger ({count}):",
                 "newSections": "Nye paragrafer ({count}):",
                 "rowsToLookAt": "Rader du bør se på",
-                "line": "Linje {line}",
-                "newSections": "Nye paragrafer ({count}):"
+                "line": "Linje {line}"
             },
             "importing": {
                 "label": "Importerer…"
@@ -14108,7 +14139,10 @@
             "heading": "Krever din oppmerksomhet",
             "journal_mentions": "Du er tagget i et @:terms.journalNote{''} | Du er tagget i {n} @:terms.journalNotes{''}",
             "missed_doses": "En dose er ikke registrert som gitt | {n} doser er ikke registrert som gitt",
-            "reminders_due": "En påminnelse forfaller i dag | {n} påminnelser forfaller i dag"
+            "reminders_due": "En påminnelse forfaller i dag | {n} påminnelser forfaller i dag",
+            "askCody": "Spør Cody om {subject}",
+            "askCodyShort": "Spør Cody",
+            "askCodyPrompt": "Fortell meg mer om: {subject}.{detail} Hva bør jeg gjøre med det nå?"
         },
         "title": "Min dag",
         "greeting": {
@@ -14128,7 +14162,13 @@
         "untitledNote": "Notat uten tittel",
         "reminders": "Mine påminnelser",
         "noReminders": "Ingen påminnelser i dag",
-        "newTask": "Ny oppgave"
+        "newTask": "Ny oppgave",
+        "cody": {
+            "reading": "Cody leser dagen din ...",
+            "askMore": "Spør Cody om dagen din",
+            "askMorePrompt": "Gi meg en oversikt over dagen min. Hva er viktigst å ta først?",
+            "prompt": "Her er hva som krever min oppmerksomhet i dag:\n{lines}\n\nSkriv to korte setninger om hvordan dagen min ser ut, og hva jeg bør ta først. Ingen overskrifter, ingen punktliste, ingen navn."
+        }
     },
     "handover": {
         "button": "Vaktoversikt",
@@ -15126,6 +15166,7 @@
     "patient": {
         "nav": {
             "appointments": "Avtaler",
+            "calendar": "Kalender",
             "journal": "Journal",
             "documents": "Dokumenter",
             "priceEstimates": "Prisoverslag",
@@ -15349,6 +15390,7 @@
         "form": {
             "enable": "Aktiver nettbasert booking på nettstedet ditt",
             "enableLabel": "La besøkende på ditt eget nettsted bestille direkte i denne kalenderen",
+            "logo": "Logo",
             "branding": "Merkevare",
             "brandingLabel": "Tilpass hvordan booking-widgeten ser ut",
             "primaryColor": "Primærfarge",

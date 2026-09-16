@@ -491,6 +491,29 @@ watch(() => assistantStore.isOpen, (isOpen: boolean) => {
     nextTick(() => promptTextarea.value?.focus())
 })
 
+/**
+ * A question handed over from elsewhere on the page.
+ *
+ * Asked rather than typed into the box: the caller already knows what it wants
+ * to know, and leaving it sitting in the textarea for the user to press send on
+ * would just be a slower way of typing it.
+ *
+ * Cleared before the request rather than after, so a failure does not leave the
+ * question queued to fire again the next time the panel opens.
+ */
+watch(() => assistantStore.pendingQuestion, async (question: string | null) => {
+    if (!question || state.isGeneratingResponse) return
+
+    assistantStore.questionHandled()
+
+    // The panel may not have loaded yet when the question arrives with the open.
+    await nextTick()
+
+    state.newMessage = question
+    await applyRouteContext()
+    await sendMessage()
+}, { immediate: true })
+
 function initialisePanel() {
 
     // The greeting is seeded once. Re-opening keeps the conversation, otherwise
