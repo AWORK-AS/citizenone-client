@@ -15445,6 +15445,7 @@
         "form": {
             "enable": "Enable online booking on your website",
             "enableLabel": "Let visitors on your own website book directly into this calendar",
+            "logo": "Logo",
             "branding": "Branding",
             "brandingLabel": "Customize how the booking widget looks",
             "primaryColor": "Primary color",

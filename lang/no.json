@@ -15349,6 +15349,7 @@
         "form": {
             "enable": "Aktiver nettbasert booking på nettstedet ditt",
             "enableLabel": "La besøkende på ditt eget nettsted bestille direkte i denne kalenderen",
+            "logo": "Logo",
             "branding": "Merkevare",
             "brandingLabel": "Tilpass hvordan booking-widgeten ser ut",
             "primaryColor": "Primærfarge",
