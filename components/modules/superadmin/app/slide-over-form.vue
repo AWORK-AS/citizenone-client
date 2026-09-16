@@ -60,6 +60,89 @@
             <SuperadminFormError :error="props.error?.errors?.description?.[0]" />
         </div>
 
+        <!-- Subtitle: the one line a card and a shelf can show. -->
+        <div>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.tagline')" />
+            <SuperadminFormTextField v-model="state.form.tagline"
+                :placeholder="$t('superadmin.apps.form.tagline')" />
+            <SuperadminFormError :error="props.error?.errors?.tagline?.[0]" />
+        </div>
+
+        <!-- Long description: the app page -->
+        <div>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.longDescription')" />
+            <textarea v-model="state.form.long_description" rows="5"
+                :placeholder="$t('superadmin.apps.form.longDescription')" class="co-input resize-none"></textarea>
+            <SuperadminFormError :error="props.error?.errors?.long_description?.[0]" />
+        </div>
+
+        <!-- Release: what the customer sees under "Version" -->
+        <div class="grid grid-cols-2 gap-3">
+            <div>
+                <SuperadminFormLabel :label="$t('superadmin.apps.form.version')" />
+                <SuperadminFormTextField v-model="state.form.version" placeholder="1.0.0" />
+            </div>
+            <div>
+                <SuperadminFormLabel :label="$t('superadmin.apps.form.releasedAt')" />
+                <SuperadminFormTextField v-model="state.form.released_at" type="date" />
+            </div>
+        </div>
+
+        <div>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.whatsNew')" />
+            <textarea v-model="state.form.whats_new" rows="3" :placeholder="$t('superadmin.apps.form.whatsNew')"
+                class="co-input resize-none"></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div>
+                <SuperadminFormLabel :label="$t('superadmin.apps.form.publisher')" />
+                <SuperadminFormTextField v-model="state.form.publisher" placeholder="CitizenONE" />
+            </div>
+            <div>
+                <SuperadminFormLabel :label="$t('superadmin.apps.form.dataLocation')" />
+                <SuperadminFormTextField v-model="state.form.data_location" placeholder="EU/DK" />
+            </div>
+        </div>
+
+        <!-- Publishing to the marketing site is a deliberate act, not a default. -->
+        <div>
+            <div class="flex items-center gap-2 cursor-pointer select-none"
+                @click="state.form.is_public = !state.form.is_public">
+                <div class="w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors"
+                    :style="state.form.is_public ? 'border-color:#42AED9;background:#42AED9' : 'border-color:#D5D9E2;background:white'">
+                    <Icon v-if="state.form.is_public" name="ph:check" class="w-2.5 h-2.5 text-white" />
+                </div>
+                <span class="text-[13px] font-medium text-[#1F2533]">{{ $t('superadmin.apps.form.isPublic') }}</span>
+            </div>
+            <p class="mt-1 text-[11px] text-[#8891A4]">{{ $t('superadmin.apps.form.isPublicHint') }}</p>
+        </div>
+
+        <!-- Screenshots: only once the app exists, since they hang off its uuid. -->
+        <div v-if="props.selectedApp?.uuid">
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.screenshots')" />
+            <div class="space-y-2">
+                <div v-for="shot in state.screenshots" :key="shot.uuid"
+                    class="flex items-center gap-3 rounded-lg border border-[#EAECF0] p-2">
+                    <img :src="shot.url" alt="" class="h-10 w-16 flex-none rounded object-cover" />
+                    <span class="flex-1 truncate text-[12px] text-[#5C6478]">{{ shot.caption || shot.url }}</span>
+                    <button type="button" class="text-[#CC3B2D]" @click="removeScreenshot(shot)"
+                        :aria-label="$t('delete')">
+                        <Icon name="ph:trash" class="h-4 w-4" />
+                    </button>
+                </div>
+                <div class="grid grid-cols-[1fr_1fr_auto] gap-2">
+                    <SuperadminFormTextField v-model="state.newScreenshot.url" type="url" placeholder="https://..." />
+                    <SuperadminFormTextField v-model="state.newScreenshot.caption"
+                        :placeholder="$t('superadmin.apps.form.screenshotCaption')" />
+                    <button type="button" class="rounded-lg border border-[#D5D9E2] px-3 text-[12px] font-medium text-[#205E77]"
+                        @click="addScreenshot">
+                        {{ $t('superadmin.apps.form.addScreenshot') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Is one time fee -->
         <div class="flex items-center gap-2 cursor-pointer select-none"
             @click="state.form.is_one_time_fee = !state.form.is_one_time_fee">
@@ -212,6 +295,7 @@
 </template>
 
 <script setup lang="ts">
+import { appService } from '@/components/api/superadmin/AppService'
 import { appCategoryService } from '@/components/api/superadmin/AppCategoryService'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -258,6 +342,7 @@ const state = reactive({
     errors: { name: '' },
     form: {
         category_id: '' as any,
+        data_location: '',
         description: '',
         discount_ends_at: '' as any,
         discount_percent: 0,
@@ -265,19 +350,28 @@ const state = reactive({
         is_news: false,
         is_one_time_fee: false,
         is_popular: false,
+        is_public: false,
         is_quantifiable: false,
         is_recommended: false,
         is_thirdparty: false,
+        long_description: '',
         monthly_price: 0,
         name: '',
         payment_fee_percent: '' as string | number,
         price: 0,
+        publisher: '',
+        released_at: '' as any,
         setup_fee: 0,
         sort_order: 0,
+        tagline: '',
         type: '',
         url_field: '',
+        version: '',
+        whats_new: '',
         yearly_price: 0,
     },
+    newScreenshot: { url: '', caption: '' },
+    screenshots: [] as any[],
     imageFile: null as File | null,
     imagePreview: '' as string,
     logoFile: null as File | null,
@@ -286,8 +380,10 @@ const state = reactive({
 
 watch(() => props.selectedApp, (app: any) => {
     if (app) {
+        state.screenshots = app.screenshots ?? []
         state.form = {
             category_id: app.category_id ?? '',
+            data_location: app.data_location ?? '',
             description: app.description ?? '',
             discount_ends_at: app.discount_ends_at ? String(app.discount_ends_at).slice(0, 10) : '',
             discount_percent: app.discount_percent ?? 0,
@@ -295,8 +391,15 @@ watch(() => props.selectedApp, (app: any) => {
             is_news: app.is_news ?? false,
             is_one_time_fee: app.is_one_time_fee ?? false,
             is_popular: app.is_popular ?? false,
+            is_public: app.is_public ?? false,
             is_quantifiable: app.is_quantifiable ?? false,
             is_recommended: app.is_recommended ?? false,
+            long_description: app.long_description ?? '',
+            publisher: app.publisher ?? '',
+            released_at: app.released_at ? String(app.released_at).slice(0, 10) : '',
+            tagline: app.tagline ?? '',
+            version: app.version ?? '',
+            whats_new: app.whats_new ?? '',
             is_thirdparty: app.is_thirdparty ?? false,
             monthly_price: app.monthly_price ?? 0,
             name: app.name ?? '',
@@ -360,6 +463,7 @@ function onBgChange(event: any) {
 function reset() {
     state.form = {
         category_id: '',
+        data_location: '',
         description: '',
         discount_ends_at: '',
         discount_percent: 0,
@@ -367,26 +471,62 @@ function reset() {
         is_news: false,
         is_one_time_fee: false,
         is_popular: false,
+        is_public: false,
         is_quantifiable: false,
         is_recommended: false,
         is_thirdparty: false,
+        long_description: '',
         monthly_price: 0,
         name: '',
         payment_fee_percent: '',
         price: 0,
+        publisher: '',
+        released_at: '',
         setup_fee: 0,
         sort_order: 0,
+        tagline: '',
         type: '',
         url_field: '',
+        version: '',
+        whats_new: '',
         yearly_price: 0,
     }
     state.errors = { name: '' }
+    state.screenshots = []
+    state.newScreenshot = { url: '', caption: '' }
     state.logoFile = null
     state.logoPreview = ''
     state.imageFile = null
     state.imagePreview = ''
     state.bgFile = null
     state.bgPreview = ''
+}
+
+/**
+ * Screenshots belong to a saved app, so they are added straight away rather than
+ * being held until the form is submitted. That also means the list on screen is
+ * what the store will show.
+ */
+async function addScreenshot() {
+    if (!state.newScreenshot.url || !props.selectedApp?.uuid) {
+        return
+    }
+
+    const response = await appService.addScreenshot(props.selectedApp.uuid, {
+        url: state.newScreenshot.url,
+        caption: state.newScreenshot.caption,
+        sort_order: state.screenshots.length + 1,
+    })
+
+    if (response?.data) {
+        state.screenshots = [...state.screenshots, response.data]
+        state.newScreenshot = { url: '', caption: '' }
+    }
+}
+
+async function removeScreenshot(shot: any) {
+    await appService.deleteScreenshot(shot.uuid)
+    state.screenshots = state.screenshots.filter((item: any) => item.uuid !== shot.uuid)
 }
 
 async function submit() {
