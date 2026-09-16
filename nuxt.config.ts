@@ -179,6 +179,11 @@ export default defineNuxtConfig({
     '/fst-login': {
       redirect: { to: '/', statusCode: 301 },
     },
+    // The company-activated welcome email linked here before the backend fix;
+    // redirecting keeps already-sent emails working instead of 404ing.
+    '/login': {
+      redirect: { to: '/', statusCode: 301 },
+    },
     '/fst-forgot-password': {
       redirect: { to: '/forgot-password', statusCode: 301 },
     },
