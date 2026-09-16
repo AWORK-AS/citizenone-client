@@ -12,26 +12,14 @@
 
             <template #header>{{ $t('settings.tabs.profile') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div class="mt-10 space-y-5">
-                <Disclosure as="div" v-slot="{ open }"
-                    class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary" :defaultOpen="true">
-                    <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6"
-                        @click="handleProfileToggle(open)">
-                        <div class="flex items-center gap-x-2">
-                            <h3 class="font-semibold text-sm">
-                                {{ $t('settings.profile.profile') }}
-                            </h3>
-                        </div>
-                        <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"
-                            class="w-5 h-5" />
-                    </DisclosureButton>
-
-                    <DisclosurePanel as="dd" class="px-5 pb-5">
-                        <ModulesUserSettingsProfile :isFirstLoad="state.isProfileFirstLoad" />
-                    </DisclosurePanel>
-                </Disclosure>
+                <!-- The profile itself is what the page is, so it is open and carries no
+                     heading of its own: the page title already says Profile, and a card
+                     that repeats it only pushed the first field further down. The
+                     sections below it are extras, and stay foldable. -->
+                <div class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary px-5 py-6">
+                    <ModulesUserSettingsProfile :isFirstLoad="true" />
+                </div>
 
                 <Disclosure as="div" v-slot="{ open }"
                     class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary">
@@ -94,11 +82,6 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
-    isProfileFirstLoad: true,
     isSubscribeOpen: false
 })
-
-function handleProfileToggle(open: boolean) {
-    if (!open) state.isProfileFirstLoad = false
-}
 </script>

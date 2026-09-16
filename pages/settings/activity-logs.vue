@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('activityLogs.activityLogs') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div class="mt-10 space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />

@@ -12,10 +12,6 @@
 
             <template #header>{{ $t('relationships.relationships') }}</template>
 
-            <ModulesUserSettingsTab />
-
-            <ModulesUserSettingsCatalogSubTab id="sub-tab-catalog" class="mt-5" />
-
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" @click="navigateTo('/settings/relationships/new')">
@@ -62,7 +58,6 @@
         </NuxtLayout>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import { relationshipService } from '@/components/api/user/RelationshipService'

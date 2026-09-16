@@ -779,6 +779,8 @@
         "form": {
             "annually": "Årligt",
             "howManyLicensesDoYouWant": "Hvor mange lisenser ønsker du",
+            "howManyDoYouWant": "Hvor mange ønsker du",
+            "inTotal": "i alt",
             "monthly": "Månedligt",
             "pleaseWriteHere": "Vennligst skriv her",
             "quantity": "Mengde",
@@ -916,7 +918,10 @@
         },
         "basedOn": "Basert på",
         "rateLimited": "Du har stilt mange spørsmål akkurat nå. Prøv igjen om {minutes} min.",
+        "waitingCount": "{count} venter",
         "rateLimitedToday": "Organisasjonen deres har nådd dagens grense for AI-forespørsler. Prøv igjen i morgen.",
+        "limitBuyMore": "Kjøp mer kapasitet",
+        "limitAskAdmin": "Be administratoren din om mer kapasitet.",
         "companyDataMissing": "Svaret er gitt uten tilgang til deres data. Søkeindeksen er ikke opprettet ennå.",
         "companyDataBuilding": "Svaret er gitt uten tilgang til deres data. Søkeindeksen bygges fortsatt.",
         "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
@@ -6622,7 +6627,7 @@
         "employees": "Medarbeidere",
         "employmentStatus": {
             "permanent": "Fastansat​",
-            "substitute": "Vikar​",
+            "substitute": "Timelønnet",
             "temporary": "Tidsbestemt​"
         },
         "certificates": {
@@ -7897,7 +7902,9 @@
             "actions": {
                 "pay": "Betal",
                 "sendInvoice": "Send faktura",
-                "view": "Se"
+                "view": "Se",
+                "viewReceipt": "Se kvittering",
+                "viewInvoice": "Se faktura"
             },
             "alert": {
                 "invoicePaidSuccessfully": "Faktura betalt vellykket",
@@ -10347,7 +10354,16 @@
             "data": "Data",
             "logs": "Logger",
             "integrations": "Integrasjoner",
-            "apps": "Apper"
+            "apps": "Apper",
+            "me": "Meg",
+            "access": "Tilgang & organisasjon",
+            "communication": "Kommunikasjon",
+            "journal": "Journal & samtykke",
+            "health": "Medisin & helse",
+            "schedule": "Vaktplan & tid",
+            "booking": "Booking & kalender",
+            "citizens": "{citizens} & adresser",
+            "employment": "Jobbsenter"
         },
         "tabs": {
             "absences": "Fravær",
@@ -10415,7 +10431,7 @@
             "customLinks": "Egne lenker",
             "messageTemplates": "Meldingsmaler",
             "timelineEventTypes": "Tidslinjetyper",
-            "fst": "FST",
+            "fst": "FindSocialeTilbud.dk",
             "wageSupplementRules": "Tilleggsregler for lønn",
             "inquiryPipelineStages": "Faser i henvendelser",
             "inquiryFields": "Felter i henvendelser",
@@ -10550,6 +10566,151 @@
             "noAnalyticsYet": "Ingen statistik synkroniseret endnu.",
             "sharedFieldsTitle": "Delte felter (kommer snart)",
             "sharedFieldsSubtitle": "Kapacitet, ledighed og certificeringsmærker vises her, når det er aktiveret for jeres organisation."
+        },
+        "nav": {
+            "searchPlaceholder": "Søk i innstillinger…"
+        },
+        "hints": {
+            "profile": {
+                "title": "Hva står her?",
+                "body": "Dine egne opplysninger og hvordan du får beskjed. Endringer her gjelder bare din bruker, ikke kollegene dine."
+            },
+            "company": {
+                "title": "Hva er bedriftsinnstillinger?",
+                "body": "Bedriftens opplysninger, sikkerhet og hvilke moduler som er slått på. Det gjelder alle i bedriften."
+            },
+            "import": {
+                "title": "Hva kan importeres?",
+                "body": "Last inn data fra et regneark eller et annet system, slik at dere slipper å taste det inn igjen. Kjør en test først."
+            },
+            "subscription": {
+                "title": "Hva er abonnement?",
+                "body": "Deres nåværende pakke og hva den koster. Her kjøper dere også flere brukere og avdelinger."
+            },
+            "invoices": {
+                "title": "Hva ligger her?",
+                "body": "Alle fakturaer fra CitizenOne. En betalt faktura er kvitteringen deres og kan sendes videre til regnskap."
+            },
+            "licenses": {
+                "title": "Hva er lisenser?",
+                "body": "Hvor mange plasser dere har kjøpt, og hvem som bruker dem. Fjern en lisens fra en ansatt for å frigjøre plassen."
+            },
+            "storage": {
+                "title": "Hva tar plass?",
+                "body": "Hvor mye plass filene deres bruker, og hva som tar mest. Kjøp mer plass, eller rydd i de største filene."
+            },
+            "portalAccess": {
+                "title": "Hva er portaltilgang?",
+                "body": "Bestemmer hva pårørende, tredjeparter og tiltak kan se i sin egen portal. Alt dere slår på, blir synlig for dem."
+            },
+            "activityLogs": {
+                "title": "Hva logges?",
+                "body": "Hvem som har vært logget inn, og hva de har gjort. Bruk det til å dokumentere tilgang til personopplysninger."
+            },
+            "timeLogs": {
+                "title": "Hva er tidslogger?",
+                "body": "Registrert arbeidstid for de ansatte. Bruk det som grunnlag for lønn og til å følge opp vakter."
+            },
+            "mileageLog": {
+                "title": "Hva er kjøregodtgjørelse?",
+                "body": "Kjøring registrert av de ansatte, klar til utbetaling eller bokføring."
+            },
+            "supportAccess": {
+                "title": "Hvorfor denne siden?",
+                "body": "Her bestemmer dere om CitizenOnes support kan se dataene deres, og dere ser når de har vært inne. Tilgangen lukkes av seg selv."
+            },
+            "gdprRetention": {
+                "title": "Hva er oppbevaring?",
+                "body": "Hvor lenge data lagres før de slettes automatisk. Sett fristene etter deres egen sletterutine."
+            },
+            "smsNotifications": {
+                "title": "Hva er SMS?",
+                "body": "Send meldinger som SMS i tillegg til e-post. Forbruket avregnes etter antall sendte meldinger."
+            },
+            "powerBi": {
+                "title": "Hva gjør Power BI?",
+                "body": "Hent dataene deres ut til rapporter i Power BI. Nøkkelen gir lesetilgang, ikke rett til å endre noe."
+            },
+            "economic": {
+                "title": "Hva gjør e-conomic?",
+                "body": "Send fakturaer og bilag videre til regnskapssystemet, slik at tallene bare tastes ett sted."
+            },
+            "fst": {
+                "title": "Hva er FindSocialeTilbud.dk?",
+                "body": "Vis tilbudene deres på FindSocialeTilbud.dk, slik at kommunene finner dere. Dere bestemmer selv hva som publiseres."
+            },
+            "customPages": {
+                "title": "Hva er ordlisten?",
+                "body": "Deres egne ord for felter og sider. Gi et felt nytt navn, så systemet kaller det det samme som dere gjør."
+            },
+            "transactions": {
+                "title": "Hva er transaksjoner?",
+                "body": "Inn- og utbetalinger på kontoene dere fører for den enkelte. Beløpene kan hentes ut til regnskap."
+            },
+            "roles": {
+                "title": "Hva er roller?",
+                "body": "En rolle bestemmer hvilke sider og handlinger en ansatt har tilgang til. Gi heller for lite enn for mye."
+            },
+            "departments": {
+                "title": "Hva er avdelinger?",
+                "body": "Avdelinger styrer hvem som ser hva, og brukes i vaktplaner, rapporter og tilganger."
+            },
+            "employeeGroups": {
+                "title": "Hva er ansattgrupper?",
+                "body": "Samle ansatte i grupper, så dere kan tildele vakter, oppgaver og tilgang til flere om gangen."
+            },
+            "archived": {
+                "title": "Hva er arkivet?",
+                "body": "Alt dere har arkivert i stedet for å slette. Det kan hentes tilbake og forstyrrer ikke den daglige oversikten."
+            },
+            "catalog": {
+                "access": {
+                    "title": "Hva brukes det til?",
+                    "body": "Listene her bestemmer hvordan dere er organisert, og hvem som kan hva. De brukes i felter over hele systemet."
+                },
+                "communication": {
+                    "title": "Hva brukes det til?",
+                    "body": "Maler og oppsett for meldingene dere sender, slik at teksten ikke skrives på nytt hver gang."
+                },
+                "journal": {
+                    "title": "Hva brukes det til?",
+                    "body": "Listene her fyller ut journalens felter: titler, innhold, merkelapper og samtykker."
+                },
+                "health": {
+                    "title": "Hva brukes det til?",
+                    "body": "Medisiner, enheter og maler som personalet velger mellom når de dokumenterer helse."
+                },
+                "schedule": {
+                    "title": "Hva brukes det til?",
+                    "body": "Vakttyper, fravær, normperioder og tillegg som vaktplanen og timeregnskapet regner etter."
+                },
+                "booking": {
+                    "title": "Hva brukes det til?",
+                    "body": "Rom og merkelapper som kalenderen og bookinger velger mellom."
+                },
+                "citizens": {
+                    "title": "Hva brukes det til?",
+                    "body": "Listene bak stamkortet: relasjoner, adresser, kategorier og henvendelser."
+                },
+                "employment": {
+                    "title": "Hva brukes det til?",
+                    "body": "Oppsett for jobbsenterområdet: avtaler, sakstyper, statuser og avregning."
+                }
+            },
+            "customLinks": {
+                "title": "Hva er egne lenker?",
+                "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet bruker. Velg om hver lenke vises for administratorer, brukere eller alle."
+            }
+        },
+        "movedNotice": {
+            "title": "Vi har ryddet opp her",
+            "body": "Beklager rotet. Innstillingene har fått en ny meny, så si fra hvis noe er vanskelig å finne.",
+            "button": "Forstått",
+            "points": {
+                "rail": "Alle innstillinger står nå i listen til venstre, i stedet for bak nedtrekksmenyer.",
+                "search": "Søkefeltet øverst i listen finner enhver innstilling på navn.",
+                "billing": "Abonnement, lisenser, lagringsplass og fakturaer deler nå én side med faner."
+            }
         }
     },
     "setupPassword": {
@@ -11290,7 +11451,8 @@
                     "procedures": "Prosedyrer",
                     "tasks": "Oppgaver",
                     "company_files": "Virksomhetsfiler",
-                    "nursing_areas": "Pleieområder"
+                    "nursing_areas": "Pleieområder",
+                    "ai_conversations": "AI-samtaler"
                 }
             }
         },
@@ -13592,7 +13754,8 @@
                 "newDepartments": "Nye avdelinger ({count}):",
                 "newSections": "Nye paragrafer ({count}):",
                 "rowsToLookAt": "Rader du bør se på",
-                "line": "Linje {line}"
+                "line": "Linje {line}",
+                "newSections": "Nye paragrafer ({count}):"
             },
             "importing": {
                 "label": "Importerer…"
@@ -13939,7 +14102,7 @@
         },
         "tip": {
             "title": "Hva er egne lenker?",
-            "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet @:terms.citizen{''}. Velg om hver lenke vises for administratorer, @:terms.citizens{''} eller alle."
+            "body": "Legg til snarveier i venstre sidefelt - f.eks. intranettet deres, en delt disk, et bookingsystem eller et annet eksternt verktøy teamet bruker. Velg om hver lenke vises for administratorer, brukere eller alle."
         }
     },
     "myDay": {
@@ -14479,6 +14642,10 @@
         "required": "Påkrevd",
         "appliesThroughout": "Gjelder hele forløpet",
         "saving": "Lagrer...",
+        "additionalDetails": "Ytterligere opplysninger",
+        "createNew": "Opprett ny",
+        "jobcenterName": "Jobbsenterets navn",
+        "add": "Legg til",
         "alert": {
             "saved": "Feltene er lagret",
             "saveFailed": "Feltene kunne ikke lagres"
@@ -14535,7 +14702,8 @@
             "multiselect": "Flere valg",
             "scale": "Skala",
             "boolean": "Ja/nei",
-            "lookup": "Oppslag"
+            "lookup": "Oppslag",
+            "risk": "Risikovurdering"
         },
         "sources": {
             "municipalities": "Kommuner",
@@ -14545,9 +14713,13 @@
             "spoken_languages": "Talte språk",
             "consultant_skills": "Konsulentkompetanser",
             "inquiry_service_types": "Innsatstyper",
-            "employees": "Ansatte"
+            "employees": "Ansatte",
+            "jobcenters": "Jobbsentre",
+            "focus_areas": "Fokusområder"
         },
-        "allServiceTypes": "Alle innsatstyper"
+        "allServiceTypes": "Alle innsatstyper",
+        "allowMultiple": "Tillat mer enn ett svar",
+        "allowHalfSteps": "Tillat halve trinn (f.eks. 4,5)"
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",
@@ -15205,6 +15377,65 @@
             "copyLink": "Kopier lenke",
             "linkCopied": "Kopiert!",
             "preview": "Forhåndsvisning"
+        }
+    },
+    "aiUsage": {
+        "title": "AI-bruk",
+        "loading": "Henter bruk ...",
+        "failed": "Bruken kunne ikke hentes akkurat nå. Prøv igjen om litt.",
+        "today": "I dag",
+        "ofAllowance": "{used} av {allowance} svar",
+        "allowanceExplainer": "Den daglige rammen følger antallet AI-lisenser dere har. Den nullstilles ved midnatt.",
+        "balance": "Saldo",
+        "balanceExplainer": "Forhåndsbetalt kapasitet. Den utløper ikke, og det trekkes kun fra den når et svar faktisk blir levert.",
+        "buyMore": "Kjøp mer",
+        "thisMonth": "Denne måneden",
+        "feature": "Funksjon",
+        "uses": "Bruk",
+        "amount": "Beløp",
+        "minutes": "{count} min",
+        "noneThisMonth": "Ingen bruk av AI denne måneden ennå.",
+        "purchases": "Kjøp",
+        "features": {
+            "assistant": "Spør AI",
+            "transcribe": "Diktering",
+            "journal": "Journalforslag",
+            "handover": "Vaktoverlevering",
+            "classifier": "Sortering"
+        },
+        "buy": {
+            "title": "Trenger dere mer kapasitet?",
+            "subtitle": "Velg et beløp å starte med. Dere kan alltid kjøpe mer senere.",
+            "other": "Annet",
+            "bonus": "+{percent}% ekstra",
+            "capacity": "AI-kapasitet",
+            "toPay": "Å betale",
+            "pay": "Betal {amount}",
+            "terms": "Ved å betale aksepterer dere CitizenOnes vilkår og betingelser. Kapasiteten utløper ikke, og trekkes kun ned når et svar leveres.",
+            "failed": "Kjøpet kunne ikke startes. Prøv igjen om litt.",
+            "ofWhichVat": "Herav moms ({percent}%)",
+            "ofWhichServiceFee": "Herav servicegebyr",
+            "minimum": "Minst {amount}",
+            "received": "Betaling mottatt",
+            "receivedAmount": "{amount} er lagt til saldoen deres.",
+            "saved": "Dere sparte {percent}% - {amount} ekstra",
+            "done": "Ferdig",
+            "rememberCard": "Lagre kortet, så vi kan fylle på automatisk senere"
+        },
+        "autoReload": {
+            "title": "Automatisk påfyll",
+            "off": "Slått av. Dere får beskjed når saldoen er i ferd med å bli brukt opp.",
+            "on": "Når saldoen kommer under {threshold}, kjøpes det automatisk for {amount}",
+            "turnOn": "Slå på",
+            "turnOff": "Slå av",
+            "later": "Ikke nå",
+            "modalTitle": "Slå på automatisk påfyll?",
+            "modalSubtitle": "Kjøp automatisk mer kapasitet når dere er i ferd med å gå tom.",
+            "whenBelow": "Når saldoen kommer under",
+            "topUpWith": "Fyll på med",
+            "needsCard": "Krever et lagret betalingskort. Sett hake ved neste kjøp, så kan kortet brukes videre.",
+            "consent": "Dere godtar at kortet på filen belastes med beløpet over hver gang saldoen når grensen. Slå av når som helst.",
+            "failed": "Innstillingen kunne ikke lagres. Prøv igjen om litt."
         }
     }
 }

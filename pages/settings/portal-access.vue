@@ -12,8 +12,6 @@
 
             <template #header>{{ $t('portalAccess.title') }}</template>
 
-            <ModulesUserSettingsTab />
-
             <div class="space-y-5 mt-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />

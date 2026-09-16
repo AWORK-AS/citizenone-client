@@ -12,9 +12,6 @@
 
             <template #header>{{ $t('customPages.customPages') }}</template>
 
-            <ModulesUserSettingsTab />
-            <ModulesUserSettingsOtherSubTab id="sub-tab-other" class="mt-5" />
-
             <div class="mt-8 bg-white border border-gray-200 rounded-lg p-5 space-y-4">
                 <div>
                     <h3 class="text-sm font-semibold text-gray-700">{{ $t('settings.company.form.terminology') }}</h3>
@@ -128,7 +125,6 @@
         </NuxtLayout>
     </div>
 </template>
-
 
 <script setup lang="ts">
 import { customPagesService } from '@/components/api/user/CustomPagesService'
