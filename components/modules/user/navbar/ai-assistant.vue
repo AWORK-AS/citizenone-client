@@ -17,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { useAssistantStore } from '@/store/assistant'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
