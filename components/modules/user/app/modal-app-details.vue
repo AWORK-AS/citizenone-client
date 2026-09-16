@@ -208,11 +208,7 @@ async function navigateToExternalLink(link: any) {
 }
 
 function confirmTACAcceptance() {
-    if (!userStore.getUser?.user_subscription) {
-        navigateTo(`/subscription/subscribe?error=${t('apps.subscriptionRequired')}.`)
-    } else {
-        state.modal.isAcceptTACOpen = true
-    }
+    state.modal.isAcceptTACOpen = true
 }
 
 async function confirmAppActivation(formApp: any) {

@@ -439,15 +439,8 @@ function readMore(app: any) {
 }
 
 function confirmTACAcceptance(app: any) {
-    if (
-        app?.generic_name !== 'onedrive' &&
-        !userStore.getUser?.user_subscription
-    ) {
-        navigateTo(`/subscription/subscribe?error=${t('apps.subscriptionRequired')}.`)
-    } else {
-        state.selectedApp = app
-        state.modal.isAcceptTACOpen = true
-    }
+    state.selectedApp = app
+    state.modal.isAcceptTACOpen = true
 }
 
 async function activateApp(formApp: any) {
