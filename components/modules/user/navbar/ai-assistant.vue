@@ -6,10 +6,12 @@
             @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
             <!-- The mark carries the state, so the count is not the only thing
             saying there is something waiting. -->
-            <ModulesUserNavbarCodyMark :size="20" :stroke-width="2.6"
-                :state="state.waiting > 0 ? 'attention' : 'idle'" class="md:!w-5 md:!h-5" />
+            <ModulesUserNavbarCodyMark :size="20" :state="state.waiting > 0 ? 'attention' : 'idle'"
+                class="md:!w-5 md:!h-5" />
+            <!-- The name, not the action. "Spørg AI" told you what to do with it
+            and nothing about what it is; the app is called Cody. -->
             <p class="text-sm font-semibold hidden lg:block">
-                {{ $t('assistants.askAI') }}
+                {{ $t('assistants.identity.name') }}
             </p>
             <span v-if="state.waiting > 0"
                 class="ml-0.5 inline-flex h-[19px] min-w-[19px] items-center justify-center rounded-full bg-primary px-1.5 text-[11.5px] font-bold tabular-nums text-white">

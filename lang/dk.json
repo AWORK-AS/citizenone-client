@@ -925,7 +925,7 @@
         }
     },
     "assistants": {
-        "askAI": "Spørg AI",
+        "askAI": "Spørg Cody",
         "actions": {
             "copy": "Kopiér",
             "copied": "Kopieret",
@@ -933,22 +933,6 @@
             "insert": "Indsæt",
             "stop": "Stop",
             "regenerate": "Prøv igen"
-        },
-        "starters": {
-            "title": "Prøv for eksempel",
-            "needsName": "Tilføj hvem det handler om",
-            "labels": {
-                "overview": "Overblik over et forløb",
-                "summary": "Opsummer seneste @:terms.journalNotes{''}",
-                "report": "Udkast til rapport til sagsbehandleren",
-                "organisation": "Hvad står der i vores retningslinjer?"
-            },
-            "prompts": {
-                "overview": "Giv mig et overblik over forløbet for ",
-                "summary": "Opsummer de seneste @:terms.journalNotes{''} for ",
-                "report": "Skriv et udkast til en rapport til sagsbehandleren om ",
-                "organisation": "Hvad står der i vores retningslinjer om "
-            }
         },
         "basedOn": "Baseret på",
         "rateLimited": "Du har stillet mange spørgsmål lige nu. Prøv igen om {minutes} min.",
@@ -995,6 +979,46 @@
             "unknown": "Bruger et værktøj",
             "failed": "Kunne ikke læses",
             "duration": "{ms} ms"
+        },
+        "identity": {
+            "name": "Cody",
+            "tagline": "Din assistent i hverdagen",
+            "scope": "Ser kun det du har adgang til"
+        },
+        "greeting": {
+            "morning": "God morgen, {name}",
+            "forenoon": "God formiddag, {name}",
+            "afternoon": "God eftermiddag, {name}",
+            "evening": "God aften, {name}",
+            "help": "Hvordan kan jeg hjælpe dig i dag?"
+        },
+        "quick": {
+            "title": "Kom i gang",
+            "overview": "Giv mig et overblik",
+            "journal": "Skriv journalnotat",
+            "files": "Find vedhæftede filer",
+            "shifts": "Hvad har jeg af vagter?"
+        },
+        "quickPrompts": {
+            "overview": "Giv mig et overblik over min dag",
+            "journal": "Skriv et journalnotat for ",
+            "files": "Find de vedhæftede filer om ",
+            "shifts": "Hvilke vagter har jeg de næste syv dage?"
+        },
+        "dataAndAccess": "Om data og adgang",
+        "reviewShort": "Cody kan tage fejl - læs svaret igennem.",
+        "cards": {
+            "badges": {
+                "draft": "Udkast",
+                "ai": "AI"
+            },
+            "facts": {
+                "due_date": "Frist",
+                "column": "Kolonne",
+                "date": "Dato",
+                "shift": "Vagttype",
+                "department": "Afdeling"
+            }
         }
     },
     "back": "Tilbage",
