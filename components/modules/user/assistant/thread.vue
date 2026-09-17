@@ -27,7 +27,7 @@
                 without them the text gets the full width and Cody sounds like a
                 colleague rather than a system returning a record. -->
                 <div v-else class="flex items-start gap-2.5">
-                    <ModulesUserNavbarCodyMark :size="20" class="mt-0.5 shrink-0 text-cody-deep"
+                    <ModulesUserNavbarCodyMark :size="20" class="mt-0.5 shrink-0"
                         :state="message.companyDataStatus && message.companyDataStatus !== 'ready' ? 'blocked' : 'idle'" />
                     <div class="flex-1 min-w-0">
                         <div class="ai-answer text-sm text-gray-800 leading-relaxed"
@@ -102,7 +102,7 @@
             somewhere with time to notice it. -->
             <div v-if="showStarters" class="pt-1">
                 <div class="flex items-start gap-3 rounded-xl bg-cody-pale px-4 py-3.5 ring-1 ring-cody/15">
-                    <ModulesUserAssistantCodyFigure :size="38" waving class="shrink-0 text-cody-deep" />
+                    <ModulesUserAssistantCodyFigure :size="40" waving class="shrink-0" />
                     <div class="min-w-0">
                         <p class="text-sm font-semibold text-gray-900">{{ greeting }}</p>
                         <p class="text-sm text-gray-600">{{ $t('assistants.greeting.help') }}</p>
@@ -135,7 +135,7 @@
             </div>
 
             <div v-if="state.isGeneratingResponse" class="flex items-start gap-2.5">
-                <ModulesUserNavbarCodyMark :size="20" state="working" class="mt-0.5 shrink-0 text-cody-deep" />
+                <ModulesUserNavbarCodyMark :size="20" state="working" class="mt-0.5 shrink-0" />
                 <!-- The dots are what waiting looks like when there is nothing to
                 say. As soon as a tool is running, the tool says it instead. -->
                 <div v-if="state.activeTools.length || state.receipts.length" class="min-w-0 flex-1 pt-0.5">

@@ -12,7 +12,7 @@
                     <!-- The header carries the identity and the state: who this is,
                     what it can see, and whether it is working. "Spørg AI" was an
                     action, not a name, and it answered neither question. -->
-                    <ModulesUserNavbarCodyMark :size="26" :state="markState" class="shrink-0 text-cody-deep" />
+                    <ModulesUserNavbarCodyMark :size="28" :state="markState" class="shrink-0" />
                     <p class="min-w-0 flex-1 text-sm font-semibold leading-tight text-gray-900">
                         {{ $t('assistants.identity.name') }}
                         <span class="block truncate text-[11.5px] font-normal text-gray-400">
