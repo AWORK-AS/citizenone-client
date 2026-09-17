@@ -1028,8 +1028,12 @@
             "stop": "Stopp opptak",
             "listening": "Lytter…",
             "transcribing": "Skriver det ned…",
-            "noMicrophone": "Ingen tilgang til mikrofonen.",
-            "failed": "Kunne ikke skrive ned opptaket. Prøv igjen."
+            "errors": {
+                "denied": "Nettleseren har ikke lov til å bruke mikrofonen. Klikk på låsen i adressefeltet og tillat den.",
+                "missing": "Ingen mikrofon funnet på denne maskinen.",
+                "insecure": "Diktering krever en sikker tilkobling (https).",
+                "failed": "Kunne ikke skrive ned opptaket. Prøv igjen."
+            }
         },
         "attachFile": "Legg ved fil",
         "collapse": "Rull ned",

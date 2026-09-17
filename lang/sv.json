@@ -1028,8 +1028,12 @@
             "stop": "Stoppa inspelning",
             "listening": "Lyssnar…",
             "transcribing": "Skriver ner det…",
-            "noMicrophone": "Ingen åtkomst till mikrofonen.",
-            "failed": "Kunde inte skriva ner inspelningen. Försök igen."
+            "errors": {
+                "denied": "Webbläsaren får inte använda mikrofonen. Klicka på låset i adressfältet och tillåt den.",
+                "missing": "Ingen mikrofon hittades på den här maskinen.",
+                "insecure": "Diktering kräver en säker anslutning (https).",
+                "failed": "Kunde inte skriva ner inspelningen. Försök igen."
+            }
         },
         "attachFile": "Bifoga fil",
         "collapse": "Rulla ner",

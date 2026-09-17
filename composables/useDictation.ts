@@ -21,7 +21,9 @@ import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 export function useDictation(onTranscript: (text: string) => void) {
     const isRecording = ref(false)
     const isTranscribing = ref(false)
-    const error = ref<string | null>(null)
+    // Named rather than boolean: "no microphone" and "you said no" are fixed
+    // in different places, and a single message for both is a dead end.
+    const error = ref<'insecure' | 'denied' | 'missing' | 'failed' | null>(null)
 
     let recorder: MediaRecorder | null = null
     let chunks: Blob[] = []
@@ -40,12 +42,26 @@ export function useDictation(onTranscript: (text: string) => void) {
     async function start() {
         error.value = null
 
+        // Browsers refuse the microphone outside a secure context, and the
+        // refusal looks exactly like the user saying no - which sends people
+        // hunting through their own settings for something they cannot fix.
+        if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
+            error.value = window?.isSecureContext === false ? 'insecure' : 'missing'
+
+            return
+        }
+
         try {
             activeStream = await navigator.mediaDevices.getUserMedia({ audio: true })
-        } catch {
-            // Refused, or no microphone. Either way the caller shows one line;
-            // there is nothing to retry automatically.
-            error.value = 'permission'
+        } catch (problem: any) {
+            // The three that mean different things to whoever is standing
+            // there: they said no, there is no microphone, or the page was
+            // never allowed to ask.
+            error.value = problem?.name === 'NotAllowedError' || problem?.name === 'SecurityError'
+                ? 'denied'
+                : (problem?.name === 'NotFoundError' || problem?.name === 'OverconstrainedError'
+                    ? 'missing'
+                    : 'failed')
 
             return
         }
@@ -100,5 +116,12 @@ export function useDictation(onTranscript: (text: string) => void) {
         releaseMicrophone()
     })
 
-    return { isRecording, isTranscribing, error, toggle, stop }
+    /**
+     * Whether the browser can record at all, so a button that cannot work is
+     * not offered. Undefined on the server, where there is no navigator.
+     */
+    const isSupported = computed(() => typeof navigator !== 'undefined'
+        && Boolean(navigator.mediaDevices?.getUserMedia))
+
+    return { isRecording, isTranscribing, error, isSupported, toggle, stop }
 }

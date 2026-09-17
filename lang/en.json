@@ -1028,8 +1028,12 @@
             "stop": "Stop recording",
             "listening": "Listening…",
             "transcribing": "Writing it down…",
-            "noMicrophone": "No access to the microphone.",
-            "failed": "Could not transcribe the recording. Try again."
+            "errors": {
+                "denied": "The browser is not allowed to use the microphone. Click the lock in the address bar and allow it.",
+                "missing": "No microphone found on this machine.",
+                "insecure": "Dictation needs a secure connection (https).",
+                "failed": "Could not transcribe the recording. Try again."
+            }
         },
         "attachFile": "Attach file",
         "collapse": "Roll down",

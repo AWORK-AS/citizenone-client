@@ -113,7 +113,7 @@
                     <span v-if="dictation.isRecording.value"
                         class="size-1.5 animate-pulse rounded-full bg-red-500" aria-hidden="true"></span>
                     {{ dictationError
-                        ? $t(`assistants.dictate.${dictationError === 'permission' ? 'noMicrophone' : 'failed'}`)
+                        ? $t(`assistants.dictate.errors.${dictationError}`)
                         : (dictation.isRecording.value ? $t('assistants.dictate.listening')
                             : $t('assistants.dictate.transcribing')) }}
                 </p>
@@ -132,7 +132,8 @@
                     </button>
                     <!-- Hands are the scarce thing in a care setting: staff are
                     standing, gloved, or holding something. -->
-                    <button type="button" @click="dictation.toggle" :disabled="dictation.isTranscribing.value"
+                    <button v-if="dictation.isSupported.value" type="button" @click="dictation.toggle"
+                        :disabled="dictation.isTranscribing.value"
                         :title="$t(dictation.isRecording.value ? 'assistants.dictate.stop' : 'assistants.dictate.start')"
                         :aria-pressed="dictation.isRecording.value"
                         class="flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors disabled:opacity-40"

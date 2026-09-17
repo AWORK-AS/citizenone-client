@@ -1,8 +1,8 @@
 <template>
     <div class="py-1">
+        <Tooltip :text="shortcutHint" position="bottom">
         <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
             :aria-expanded="assistantStore.isOpen"
-            :title="shortcutHint"
             :aria-label="ariaLabel"
             @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
             <!-- The mark carries the state, so the count is not the only thing
@@ -19,6 +19,7 @@
                 {{ state.waiting > 9 ? '9+' : state.waiting }}
             </span>
         </FormButton>
+        </Tooltip>
     </div>
 </template>
 

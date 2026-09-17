@@ -1028,8 +1028,12 @@
             "stop": "Stop optagelse",
             "listening": "Lytter…",
             "transcribing": "Skriver det ned…",
-            "noMicrophone": "Ingen adgang til mikrofonen.",
-            "failed": "Kunne ikke skrive optagelsen ned. Prøv igen."
+            "errors": {
+                "denied": "Browseren må ikke bruge mikrofonen. Klik på låsen i adressefeltet og tillad mikrofon.",
+                "missing": "Ingen mikrofon fundet på denne maskine.",
+                "insecure": "Diktering kræver en sikker forbindelse (https).",
+                "failed": "Kunne ikke skrive optagelsen ned. Prøv igen."
+            }
         },
         "attachFile": "Vedhæft fil",
         "collapse": "Rul ned",
