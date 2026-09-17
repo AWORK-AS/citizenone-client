@@ -46,7 +46,7 @@ class CaseworkerService extends BaseAPIService {
   	}
 
     // Guest portal manages its own auth state — never redirect or touch the main app token
-    revokeAccess() { /* intentionally empty */ }
+    async revokeAccess() { /* intentionally empty */ }
 }
 
 export const caseworkerService = new CaseworkerService();
