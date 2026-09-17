@@ -1019,7 +1019,8 @@
                 "shift": "Vagttype",
                 "department": "Afdeling"
             }
-        }
+        },
+        "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igen - og bliver det ved, så sig det til en administrator."
     },
     "back": "Tilbage",
     "bellNotification": {

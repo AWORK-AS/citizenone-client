@@ -1019,7 +1019,8 @@
                 "shift": "Skifttyp",
                 "department": "Avdelning"
             }
-        }
+        },
+        "couldNotAnswer": "Jag kunde inte svara på det. Försök igen - och om det fortsätter, säg till en administratör."
     },
     "back": "Tillbaka",
     "bellNotification": {

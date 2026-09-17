@@ -1019,7 +1019,8 @@
                 "shift": "Vakttype",
                 "department": "Avdeling"
             }
-        }
+        },
+        "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igjen - og fortsetter det, si det til en administrator."
     },
     "back": "Tilbake",
     "bellNotification": {

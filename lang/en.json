@@ -1019,7 +1019,8 @@
                 "shift": "Shift",
                 "department": "Department"
             }
-        }
+        },
+        "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator."
     },
     "back": "Back",
     "bellNotification": {
