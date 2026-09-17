@@ -1022,7 +1022,16 @@
         },
         "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igen - og bliver det ved, så sig det til en administrator.",
         "budgetSpent": "Jeres AI-kapacitet er brugt op. Tank op for at fortsætte.",
-        "ownDailyLimit": "Du har brugt din egen dagsgrænse for AI. Din administrator kan hæve den."
+        "ownDailyLimit": "Du har brugt din egen dagsgrænse for AI. Din administrator kan hæve den.",
+        "dictate": {
+            "start": "Diktér",
+            "stop": "Stop optagelse",
+            "listening": "Lytter…",
+            "transcribing": "Skriver det ned…",
+            "noMicrophone": "Ingen adgang til mikrofonen.",
+            "failed": "Kunne ikke skrive optagelsen ned. Prøv igen."
+        },
+        "attachFile": "Vedhæft fil"
     },
     "back": "Tilbage",
     "bellNotification": {

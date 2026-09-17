@@ -1022,7 +1022,16 @@
         },
         "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
         "budgetSpent": "Your AI capacity is spent. Top up to continue.",
-        "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it."
+        "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it.",
+        "dictate": {
+            "start": "Dictate",
+            "stop": "Stop recording",
+            "listening": "Listening…",
+            "transcribing": "Writing it down…",
+            "noMicrophone": "No access to the microphone.",
+            "failed": "Could not transcribe the recording. Try again."
+        },
+        "attachFile": "Attach file"
     },
     "back": "Back",
     "bellNotification": {
