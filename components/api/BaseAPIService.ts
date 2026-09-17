@@ -257,11 +257,19 @@ class BaseAPIService {
                 }
                 if (!payload) continue
 
+                // Only the parse is tolerated. This used to wrap the handler
+                // call too, which swallowed everything the handler threw - so a
+                // server-sent `error` event, whose whole job is to carry the
+                // reason, reached the user as a generic "something went wrong".
+                // A half-written payload is still not worth failing for.
+                let parsed: any
                 try {
-                    onEvent(name, JSON.parse(payload))
+                    parsed = JSON.parse(payload)
                 } catch {
-                    // A half-written payload is not worth failing the answer for.
+                    continue
                 }
+
+                onEvent(name, parsed)
             }
         }
     }
