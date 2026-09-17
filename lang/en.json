@@ -15559,6 +15559,7 @@
     },
     "desktopLock": {
         "title": "CitizenOne is locked",
+        "reason": "Locked after a while without activity. You are still signed in - everything is as you left it.",
         "passwordLabel": "Password",
         "unlock": "Unlock",
         "verifying": "Verifying…",
