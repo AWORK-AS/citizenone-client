@@ -1020,7 +1020,9 @@
                 "department": "Afdeling"
             }
         },
-        "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igen - og bliver det ved, så sig det til en administrator."
+        "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igen - og bliver det ved, så sig det til en administrator.",
+        "budgetSpent": "Jeres AI-kapacitet er brugt op. Tank op for at fortsætte.",
+        "ownDailyLimit": "Du har brugt din egen dagsgrænse for AI. Din administrator kan hæve den."
     },
     "back": "Tilbage",
     "bellNotification": {
@@ -15690,6 +15692,20 @@
             "needsCard": "Kræver et gemt betalingskort. Sæt flueben ved næste køb, så kan kortet bruges fremover.",
             "consent": "I accepterer at kortet på filen hæves med det valgte beløb, hver gang saldoen når grænsen. Slå fra når som helst.",
             "failed": "Indstillingen kunne ikke gemmes. Prøv igen om lidt."
+        },
+        "requests": "{count} kald",
+        "byUser": {
+            "title": "Hvem bruger det",
+            "subtitle": "Denne måned, mest aktive først"
+        },
+        "userLimit": {
+            "title": "Grænse pr. medarbejder",
+            "help": "Hvor mange kald én medarbejder må lave om dagen. Firmaets samlede dagsgrænse er {company}. Lad feltet stå tomt for at bruge vores beregnede grænse.",
+            "perDay": "kald om dagen",
+            "clear": "Brug beregnet grænse",
+            "saved": "Grænsen er gemt",
+            "set": "I sat den til {limit} kald om dagen.",
+            "derived": "Beregnet grænse: {limit} kald om dagen pr. medarbejder."
         }
     }
 }

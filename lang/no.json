@@ -1020,7 +1020,9 @@
                 "department": "Avdeling"
             }
         },
-        "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igjen - og fortsetter det, si det til en administrator."
+        "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igjen - og fortsetter det, si det til en administrator.",
+        "budgetSpent": "AI-kapasiteten deres er brukt opp. Fyll på for å fortsette.",
+        "ownDailyLimit": "Du har brukt din egen dagsgrense for AI. Administratoren din kan heve den."
     },
     "back": "Tilbake",
     "bellNotification": {
@@ -15594,6 +15596,20 @@
             "needsCard": "Krever et lagret betalingskort. Sett hake ved neste kjøp, så kan kortet brukes videre.",
             "consent": "Dere godtar at kortet på filen belastes med beløpet over hver gang saldoen når grensen. Slå av når som helst.",
             "failed": "Innstillingen kunne ikke lagres. Prøv igjen om litt."
+        },
+        "requests": "{count} kall",
+        "byUser": {
+            "title": "Hvem bruker det",
+            "subtitle": "Denne måneden, mest aktive først"
+        },
+        "userLimit": {
+            "title": "Grense per ansatt",
+            "help": "Hvor mange kall én ansatt kan gjøre per dag. Firmaets samlede dagsgrense er {company}. La feltet stå tomt for å bruke grensen vi regner ut.",
+            "perDay": "kall per dag",
+            "clear": "Bruk utregnet grense",
+            "saved": "Grensen er lagret",
+            "set": "Dere satte den til {limit} kall per dag.",
+            "derived": "Utregnet grense: {limit} kall per dag per ansatt."
         }
     }
 }

@@ -1020,7 +1020,9 @@
                 "department": "Department"
             }
         },
-        "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator."
+        "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
+        "budgetSpent": "Your AI capacity is spent. Top up to continue.",
+        "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it."
     },
     "back": "Back",
     "bellNotification": {
@@ -15690,6 +15692,20 @@
             "needsCard": "Needs a stored payment card. Tick the box on your next purchase so the card can be used from then on.",
             "consent": "You agree that the card on file is charged the amount above whenever the balance reaches the limit. Turn off at any time.",
             "failed": "The setting could not be saved. Try again shortly."
+        },
+        "requests": "{count} requests",
+        "byUser": {
+            "title": "Who is using it",
+            "subtitle": "This month, busiest first"
+        },
+        "userLimit": {
+            "title": "Limit per employee",
+            "help": "How many requests one employee may make per day. The company's whole daily allowance is {company}. Leave the field empty to use the limit we work out.",
+            "perDay": "requests per day",
+            "clear": "Use calculated limit",
+            "saved": "Limit saved",
+            "set": "You set it to {limit} requests per day.",
+            "derived": "Calculated limit: {limit} requests per day per employee."
         }
     }
 }
