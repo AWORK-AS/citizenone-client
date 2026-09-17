@@ -1022,7 +1022,23 @@
         },
         "couldNotAnswer": "Jag kunde inte svara på det. Försök igen - och om det fortsätter, säg till en administratör.",
         "budgetSpent": "Er AI-kapacitet är förbrukad. Fyll på för att fortsätta.",
-        "ownDailyLimit": "Du har använt din egen dagsgräns för AI. Din administratör kan höja den."
+        "ownDailyLimit": "Du har använt din egen dagsgräns för AI. Din administratör kan höja den.",
+        "dictate": {
+            "start": "Diktera",
+            "stop": "Stoppa inspelning",
+            "listening": "Lyssnar…",
+            "transcribing": "Skriver ner det…",
+            "errors": {
+                "denied": "Webbläsaren får inte använda mikrofonen. Klicka på låset i adressfältet och tillåt den.",
+                "missing": "Ingen mikrofon hittades på den här maskinen.",
+                "insecure": "Diktering kräver en säker anslutning (https).",
+                "failed": "Kunde inte skriva ner inspelningen. Försök igen."
+            }
+        },
+        "attachFile": "Bifoga fil",
+        "collapse": "Rulla ner",
+        "expand": "Rulla upp",
+        "shortcutHint": "Öppna och stäng med {shortcut}"
     },
     "back": "Tillbaka",
     "bellNotification": {

@@ -1,13 +1,18 @@
 <template>
     <div>
-        <!-- A panel rather than a dialog: the page behind stays live, so the
-        journal you are asking about is still readable while you ask. -->
-        <transition enter-active-class="transform transition ease-in-out duration-300"
-            enter-from-class="translate-x-full" enter-to-class="translate-x-0"
-            leave-active-class="transform transition ease-in-out duration-200" leave-from-class="translate-x-0"
-            leave-to-class="translate-x-full">
-            <aside v-if="assistantStore.isOpen" :aria-label="$t('assistants.askAI')"
-                class="fixed inset-y-0 right-0 z-[56] flex w-full max-w-[26rem] flex-col border-l border-surface-200 bg-white shadow-2xl">
+        <!-- Rises from the bottom corner rather than covering the right edge.
+        A full-height drawer took the whole side of the screen for a
+        conversation that is usually three lines long, and it cut the page it
+        was asked about in half. This sits where a person expects something they
+        summoned to sit, and the page behind stays both live and visible. -->
+        <transition enter-active-class="transform transition ease-out duration-300"
+            enter-from-class="translate-y-full sm:translate-y-8 sm:opacity-0" enter-to-class="translate-y-0 sm:opacity-100"
+            leave-active-class="transform transition ease-in duration-200"
+            leave-from-class="translate-y-0 sm:opacity-100" leave-to-class="translate-y-full sm:translate-y-8 sm:opacity-0">
+            <aside v-if="assistantStore.isOpen" :aria-label="$t('assistants.identity.name')"
+                :class="['fixed bottom-0 right-0 z-[56] flex w-full flex-col overflow-hidden bg-white shadow-2xl',
+                    'rounded-t-2xl border border-surface-200 sm:bottom-4 sm:right-4 sm:w-[26rem] sm:rounded-2xl',
+                    assistantStore.isCollapsed ? 'h-auto' : 'h-[85vh] sm:h-[min(40rem,calc(100vh-7rem))]']">
                 <header class="flex h-16 shrink-0 items-center gap-1 border-b border-surface-200 px-4">
                     <!-- The header carries the identity and the state: who this is,
                     what it can see, and whether it is working. "Spørg AI" was an
@@ -35,12 +40,22 @@
                                 class="h-4 w-4 text-gray-500" aria-hidden="true" />
                         </button>
                     </Tooltip>
+                    <Tooltip :text="$t(assistantStore.isCollapsed ? 'assistants.expand' : 'assistants.collapse')">
+                        <button type="button" @click="assistantStore.toggleCollapsed()"
+                            :aria-label="$t(assistantStore.isCollapsed ? 'assistants.expand' : 'assistants.collapse')"
+                            :aria-expanded="!assistantStore.isCollapsed"
+                            class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+                            <Icon :name="assistantStore.isCollapsed ? 'ph:caret-up' : 'ph:caret-down'"
+                                class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                        </button>
+                    </Tooltip>
                     <button :aria-label="$t('close')" type="button" @click="closePanel"
                         class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
                         <Icon name="ph:x" class="h-4 w-4 text-gray-500" aria-hidden="true" />
                     </button>
                 </header>
 
+                <template v-if="!assistantStore.isCollapsed">
                 <Alert type="danger" :text="state?.error?.message" class="mx-4 mt-3"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
@@ -64,6 +79,7 @@
                     <ModulesUserAssistantThread />
                     <ModulesUserAssistantComposer />
                 </div>
+                </template>
             </aside>
         </transition>
 
@@ -122,6 +138,16 @@ const markState = computed(() => {
 // Esc closes the panel. It is deliberately not a dialog - the page behind stays
 // live - so headlessui's keyboard handling does not come with it.
 function onKeydown(event: KeyboardEvent) {
+    // Cmd/Ctrl+J opens and closes it from anywhere. ⌘K is the global search,
+    // and an assistant you have to reach for with the mouse is one you stop
+    // reaching for. J for the panel that lives in the corner.
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'j') {
+        event.preventDefault()
+        assistantStore.toggle()
+
+        return
+    }
+
     if (event.key !== 'Escape' || !assistantStore.isOpen) return
     // Let the mention picker and the redaction preview take Escape first.
     if (state.mention.isOpen || state.preview.isOpen) return

@@ -1,5 +1,6 @@
 <template>
     <div class="py-1">
+        <Tooltip :text="shortcutHint" position="bottom">
         <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
             :aria-expanded="assistantStore.isOpen"
             :aria-label="ariaLabel"
@@ -18,6 +19,7 @@
                 {{ state.waiting > 9 ? '9+' : state.waiting }}
             </span>
         </FormButton>
+        </Tooltip>
     </div>
 </template>
 
@@ -35,6 +37,14 @@ const { t } = useI18n()
 
 const state = reactive({
     waiting: 0,
+})
+
+// A shortcut nobody is told about is a shortcut nobody uses, and the button is
+// the only place people look. Mac gets the symbol it expects.
+const shortcutHint = computed(() => {
+    const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform ?? '')
+
+    return t('assistants.shortcutHint', { shortcut: isMac ? '⌘J' : 'Ctrl+J' })
 })
 
 const ariaLabel = computed(() => state.waiting > 0

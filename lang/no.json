@@ -1022,7 +1022,23 @@
         },
         "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igjen - og fortsetter det, si det til en administrator.",
         "budgetSpent": "AI-kapasiteten deres er brukt opp. Fyll på for å fortsette.",
-        "ownDailyLimit": "Du har brukt din egen dagsgrense for AI. Administratoren din kan heve den."
+        "ownDailyLimit": "Du har brukt din egen dagsgrense for AI. Administratoren din kan heve den.",
+        "dictate": {
+            "start": "Diktér",
+            "stop": "Stopp opptak",
+            "listening": "Lytter…",
+            "transcribing": "Skriver det ned…",
+            "errors": {
+                "denied": "Nettleseren har ikke lov til å bruke mikrofonen. Klikk på låsen i adressefeltet og tillat den.",
+                "missing": "Ingen mikrofon funnet på denne maskinen.",
+                "insecure": "Diktering krever en sikker tilkobling (https).",
+                "failed": "Kunne ikke skrive ned opptaket. Prøv igjen."
+            }
+        },
+        "attachFile": "Legg ved fil",
+        "collapse": "Rull ned",
+        "expand": "Rull opp",
+        "shortcutHint": "Åpne og lukk med {shortcut}"
     },
     "back": "Tilbake",
     "bellNotification": {

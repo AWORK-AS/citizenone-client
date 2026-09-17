@@ -1022,7 +1022,23 @@
         },
         "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
         "budgetSpent": "Your AI capacity is spent. Top up to continue.",
-        "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it."
+        "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it.",
+        "dictate": {
+            "start": "Dictate",
+            "stop": "Stop recording",
+            "listening": "Listening…",
+            "transcribing": "Writing it down…",
+            "errors": {
+                "denied": "The browser is not allowed to use the microphone. Click the lock in the address bar and allow it.",
+                "missing": "No microphone found on this machine.",
+                "insecure": "Dictation needs a secure connection (https).",
+                "failed": "Could not transcribe the recording. Try again."
+            }
+        },
+        "attachFile": "Attach file",
+        "collapse": "Roll down",
+        "expand": "Roll up",
+        "shortcutHint": "Open and close with {shortcut}"
     },
     "back": "Back",
     "bellNotification": {

@@ -56,31 +56,19 @@
                 </div>
             </div>
 
+            <!-- The field first, the tools under it. They used to share one row,
+            so a question of any length wrapped into a box that could not grow and
+            the first line was clipped out of sight. -->
             <div
-                class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-md
-                focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/10 transition-all px-3 py-1.5">
-                <input ref="fileInput" type="file" multiple
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
-                    @change="onFilesSelected" />
-                <button type="button" @click="fileInput?.click()"
-                    class="shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
-                    <Icon name="ph:paperclip" class="h-5 w-5" />
-                </button>
-                <button type="button" @click="insertMentionTrigger" :title="$t('assistants.mentionSomeone')"
-                    class="shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
-                    <Icon name="ph:at" class="h-5 w-5" />
-                </button>
-                <button type="button" @click="togglePreview" :title="$t('assistants.previewBeforeSending')"
-                    :disabled="!state.newMessage.trim()"
-                    class="shrink-0 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors disabled:opacity-30 disabled:hover:bg-transparent">
-                    <Icon name="ph:eye" class="h-5 w-5" />
-                </button>
-                <div class="relative flex-1">
+                class="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 transition-all
+                focus-within:border-cody/50 focus-within:ring-2 focus-within:ring-cody/10">
+                <div class="relative">
                     <textarea ref="promptTextarea" v-model="state.newMessage"
                         :placeholder="$t('assistants.askAnything')" rows="1"
-                        class="block w-full bg-transparent border-none shadow-none ring-0 focus:ring-0 focus:outline-none resize-none py-1.5 px-0 text-sm text-gray-900 placeholder-gray-400"
-                        @keydown.enter.exact.prevent="handleEnterKey"
+                        class="block max-h-40 w-full resize-none border-none bg-transparent px-0 py-1 text-sm text-gray-900 placeholder-gray-400 shadow-none ring-0 focus:outline-none focus:ring-0"
+                        @input="resize" @keydown.enter.exact.prevent="handleEnterKey"
                         @keydown.esc="state.mention.isOpen = false" />
+
                     <div v-if="state.mention.isOpen && state.mention.results.length > 0" @mousedown.prevent
                         class="absolute bottom-full left-0 mb-1 w-64 max-h-48 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                         <button v-for="entity in state.mention.results" :key="entity.uuid" type="button"
@@ -118,14 +106,58 @@
                         </template>
                     </div>
                 </div>
-                <button type="button" @click="sendMessage"
-                    :disabled="!state.newMessage.trim() && state.files.length === 0"
-                    class="shrink-0 w-8 h-8 flex items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed"
-                    :class="state.newMessage.trim() || state.files.length > 0
-                        ? 'bg-primary text-white hover:bg-primary/90 shadow-sm'
-                        : 'bg-gray-200 text-gray-400'">
-                    <Icon name="ph:paper-plane-tilt" class="h-5 w-5" />
-                </button>
+
+                <p v-if="dictation.isRecording.value || dictation.isTranscribing.value || dictationError"
+                    class="mt-1 flex items-center gap-1.5 text-xs"
+                    :class="dictationError ? 'text-amber-700' : 'text-cody-deep'">
+                    <span v-if="dictation.isRecording.value"
+                        class="size-1.5 animate-pulse rounded-full bg-red-500" aria-hidden="true"></span>
+                    {{ dictationError
+                        ? $t(`assistants.dictate.errors.${dictationError}`)
+                        : (dictation.isRecording.value ? $t('assistants.dictate.listening')
+                            : $t('assistants.dictate.transcribing')) }}
+                </p>
+
+                <div class="mt-1 flex items-center gap-1">
+                    <input ref="fileInput" type="file" multiple
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
+                        @change="onFilesSelected" />
+                    <button type="button" @click="fileInput?.click()" :title="$t('assistants.attachFile')"
+                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-cody/5 hover:text-cody-deep">
+                        <Icon name="ph:paperclip" class="h-5 w-5" />
+                    </button>
+                    <button type="button" @click="insertMentionTrigger" :title="$t('assistants.mentionSomeone')"
+                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-cody/5 hover:text-cody-deep">
+                        <Icon name="ph:at" class="h-5 w-5" />
+                    </button>
+                    <!-- Hands are the scarce thing in a care setting: staff are
+                    standing, gloved, or holding something. -->
+                    <button v-if="dictation.isSupported.value" type="button" @click="dictation.toggle"
+                        :disabled="dictation.isTranscribing.value"
+                        :title="$t(dictation.isRecording.value ? 'assistants.dictate.stop' : 'assistants.dictate.start')"
+                        :aria-pressed="dictation.isRecording.value"
+                        class="flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors disabled:opacity-40"
+                        :class="dictation.isRecording.value
+                            ? 'bg-red-50 text-red-600'
+                            : 'text-gray-400 hover:bg-cody/5 hover:text-cody-deep'">
+                        <Icon :name="dictation.isRecording.value ? 'ph:stop-circle-fill'
+                            : (dictation.isTranscribing.value ? 'ph:circle-notch' : 'ph:microphone')"
+                            :class="['h-5 w-5', dictation.isTranscribing.value && 'animate-spin']" />
+                    </button>
+                    <button type="button" @click="togglePreview" :title="$t('assistants.previewBeforeSending')"
+                        :disabled="!state.newMessage.trim()"
+                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-cody/5 hover:text-cody-deep disabled:opacity-30 disabled:hover:bg-transparent">
+                        <Icon name="ph:eye" class="h-5 w-5" />
+                    </button>
+                    <button type="button" @click="sendMessage"
+                        :disabled="!state.newMessage.trim() && state.files.length === 0"
+                        class="ml-auto flex size-8 shrink-0 items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed"
+                        :class="state.newMessage.trim() || state.files.length > 0
+                            ? 'bg-primary text-white shadow-sm hover:bg-primary/90'
+                            : 'bg-gray-200 text-gray-400'">
+                        <Icon name="ph:paper-plane-tilt" class="h-5 w-5" />
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -134,6 +166,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useCodyChat } from '@/composables/useCodyChat'
+import { useDictation } from '@/composables/useDictation'
 
 /**
  * Where the question gets written: the prompt field and everything attached to
@@ -162,7 +195,41 @@ const {
 const fileInput = ref<HTMLInputElement | null>(null)
 const promptTextarea = ref<HTMLTextAreaElement | null>(null)
 
-onComposerFocusRequest(() => promptTextarea.value?.focus())
+onComposerFocusRequest(() => {
+    promptTextarea.value?.focus()
+    resize()
+})
+
+/**
+ * The field grows with the question, up to the cap in `max-h-40`.
+ *
+ * It was `rows="1"` in a fixed-height row, so anything longer than one line
+ * wrapped into a box that could not grow and the first line was clipped out of
+ * sight - you could not read back what you had written.
+ */
+function resize() {
+    const field = promptTextarea.value
+    if (!field) return
+
+    field.style.height = 'auto'
+    field.style.height = `${field.scrollHeight}px`
+}
+
+// Dictated words land in the field rather than being sent: staff are talking
+// while doing something else, and the last thing a half-heard sentence should
+// do is ask the assistant a question nobody checked.
+const dictation = useDictation((text) => {
+    state.newMessage = state.newMessage ? `${state.newMessage} ${text}` : text
+    nextTick(() => {
+        resize()
+        promptTextarea.value?.focus()
+    })
+})
+
+const dictationError = computed(() => dictation.error.value)
+
+// The field shrinks back after a send, which clears it.
+watch(() => state.newMessage, () => nextTick(resize))
 
 const AI_GOVERNANCE_URLS: Record<string, string> = {
     dk: 'https://citizenone.dk/ai-governance',
