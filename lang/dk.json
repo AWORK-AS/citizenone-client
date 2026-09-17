@@ -936,10 +936,19 @@
         },
         "starters": {
             "title": "Prøv for eksempel",
-            "overview": "Giv mig et overblik over forløbet for ",
-            "summary": "Opsummer de seneste @:terms.journalNotes{''} for ",
-            "report": "Skriv et udkast til en rapport til sagsbehandleren om ",
-            "organisation": "Hvad står der i vores retningslinjer om "
+            "needsName": "Tilføj hvem det handler om",
+            "labels": {
+                "overview": "Overblik over et forløb",
+                "summary": "Opsummer seneste @:terms.journalNotes{''}",
+                "report": "Udkast til rapport til sagsbehandleren",
+                "organisation": "Hvad står der i vores retningslinjer?"
+            },
+            "prompts": {
+                "overview": "Giv mig et overblik over forløbet for ",
+                "summary": "Opsummer de seneste @:terms.journalNotes{''} for ",
+                "report": "Skriv et udkast til en rapport til sagsbehandleren om ",
+                "organisation": "Hvad står der i vores retningslinjer om "
+            }
         },
         "basedOn": "Baseret på",
         "rateLimited": "Du har stillet mange spørgsmål lige nu. Prøv igen om {minutes} min.",
@@ -972,6 +981,20 @@
             "untitled": "Unavngiven samtale",
             "deleteConfirmation": "Er du sikker på, at du vil slette denne samtale? Dette kan ikke fortrydes.",
             "searchPlaceholder": "Søg i samtaler..."
+        },
+        "tools": {
+            "daily_brief": "Læser dagens overblik",
+            "my_shifts": "Læser dine vagter",
+            "my_tasks": "Læser dine opgaver",
+            "my_messages": "Tæller ulæste beskeder",
+            "create_task": "Opretter en opgave",
+            "draft_journal_note": "Skriver et journaludkast"
+        },
+        "toolTrace": {
+            "title": "Hvad Cody læste",
+            "unknown": "Bruger et værktøj",
+            "failed": "Kunne ikke læses",
+            "duration": "{ms} ms"
         }
     },
     "back": "Tilbage",

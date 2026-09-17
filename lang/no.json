@@ -936,10 +936,19 @@
         },
         "starters": {
             "title": "Prøv for eksempel",
-            "overview": "Gi meg en oversikt over forløpet for ",
-            "summary": "Oppsummer de siste journalnotatene for ",
-            "report": "Skriv et utkast til en rapport til saksbehandleren om ",
-            "organisation": "Hva står det i retningslinjene våre om "
+            "needsName": "Legg til hvem det gjelder",
+            "labels": {
+                "overview": "Oversikt over et forløp",
+                "summary": "Oppsummer de siste journalnotatene",
+                "report": "Utkast til rapport til saksbehandleren",
+                "organisation": "Hva står det i retningslinjene våre?"
+            },
+            "prompts": {
+                "overview": "Gi meg en oversikt over forløpet for ",
+                "summary": "Oppsummer de siste journalnotatene for ",
+                "report": "Skriv et utkast til en rapport til saksbehandleren om ",
+                "organisation": "Hva står det i retningslinjene våre om "
+            }
         },
         "basedOn": "Basert på",
         "rateLimited": "Du har stilt mange spørsmål akkurat nå. Prøv igjen om {minutes} min.",
@@ -972,6 +981,20 @@
             "untitled": "Navnløs samtale",
             "deleteConfirmation": "Er du sikker på at du vil slette denne samtalen? Dette kan ikke angres.",
             "searchPlaceholder": "Søk i samtaler..."
+        },
+        "tools": {
+            "daily_brief": "Leser dagens oversikt",
+            "my_shifts": "Leser vaktene dine",
+            "my_tasks": "Leser oppgavene dine",
+            "my_messages": "Teller uleste meldinger",
+            "create_task": "Oppretter en oppgave",
+            "draft_journal_note": "Skriver et journalutkast"
+        },
+        "toolTrace": {
+            "title": "Hva Cody leste",
+            "unknown": "Bruker et verktøy",
+            "failed": "Kunne ikke leses",
+            "duration": "{ms} ms"
         }
     },
     "back": "Tilbake",
