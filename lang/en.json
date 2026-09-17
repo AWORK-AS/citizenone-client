@@ -1031,7 +1031,10 @@
             "noMicrophone": "No access to the microphone.",
             "failed": "Could not transcribe the recording. Try again."
         },
-        "attachFile": "Attach file"
+        "attachFile": "Attach file",
+        "collapse": "Roll down",
+        "expand": "Roll up",
+        "shortcutHint": "Open and close with {shortcut}"
     },
     "back": "Back",
     "bellNotification": {

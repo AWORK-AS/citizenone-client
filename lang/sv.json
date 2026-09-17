@@ -1031,7 +1031,10 @@
             "noMicrophone": "Ingen åtkomst till mikrofonen.",
             "failed": "Kunde inte skriva ner inspelningen. Försök igen."
         },
-        "attachFile": "Bifoga fil"
+        "attachFile": "Bifoga fil",
+        "collapse": "Rulla ner",
+        "expand": "Rulla upp",
+        "shortcutHint": "Öppna och stäng med {shortcut}"
     },
     "back": "Tillbaka",
     "bellNotification": {

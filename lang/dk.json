@@ -1031,7 +1031,10 @@
             "noMicrophone": "Ingen adgang til mikrofonen.",
             "failed": "Kunne ikke skrive optagelsen ned. Prøv igen."
         },
-        "attachFile": "Vedhæft fil"
+        "attachFile": "Vedhæft fil",
+        "collapse": "Rul ned",
+        "expand": "Rul op",
+        "shortcutHint": "Åbn og luk med {shortcut}"
     },
     "back": "Tilbage",
     "bellNotification": {

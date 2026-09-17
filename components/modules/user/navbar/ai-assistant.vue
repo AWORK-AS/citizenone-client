@@ -2,6 +2,7 @@
     <div class="py-1">
         <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
             :aria-expanded="assistantStore.isOpen"
+            :title="shortcutHint"
             :aria-label="ariaLabel"
             @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
             <!-- The mark carries the state, so the count is not the only thing
@@ -35,6 +36,14 @@ const { t } = useI18n()
 
 const state = reactive({
     waiting: 0,
+})
+
+// A shortcut nobody is told about is a shortcut nobody uses, and the button is
+// the only place people look. Mac gets the symbol it expects.
+const shortcutHint = computed(() => {
+    const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform ?? '')
+
+    return t('assistants.shortcutHint', { shortcut: isMac ? '⌘J' : 'Ctrl+J' })
 })
 
 const ariaLabel = computed(() => state.waiting > 0
