@@ -272,8 +272,15 @@
                 </button>
             </div>
             <!-- Navbar -->
-            <div ref="navbarRef"
-                class="sticky top-[var(--sticky-banner-height,0px)] z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6">
+            <!-- macOS hiddenInset: there is no system title bar, so the window
+                 can only be moved by what the page marks as draggable. Until
+                 now that was a 72px strip in the icon rail and nothing else,
+                 which left most of the window's top edge dead - you could not
+                 move the window, and double-clicking to zoom did nothing.
+                 The top bar is the natural grab handle; its own controls opt
+                 back out through the rule in main.css. -->
+            <div ref="navbarRef" :class="['sticky top-[var(--sticky-banner-height,0px)] z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6',
+                isMacDesktopApp ? 'app-drag-region' : '']">
                 <button type="button" class="-m-2.5 p-2.5 text-slate-500 lg:hidden" :aria-label="$t('menu')" @click="sidebarOpen = true">
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
                 </button>
