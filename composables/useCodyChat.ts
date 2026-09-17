@@ -530,7 +530,27 @@ export function createCodyChat() {
     // The assistant has its own request ceiling. Telling the user "something went
     // wrong" for a limit they will be under again shortly is the wrong story.
     function rateLimitError(error: any) {
+        // 402 is a spent prepaid budget, not a rate limit: waiting does not fix
+        // it. It used to fall through this function and reach the user as a
+        // plain failure with no way to act on it - including for the one person
+        // allowed to top up.
+        if (error?.status === 402) {
+            return {
+                message: error?.message ?? t('assistants.budgetSpent'),
+                isDaily: true,
+                canBuy: can('manage_licenses') || error?.can_manage_licenses === true,
+            }
+        }
+
         if (error?.status !== 429) return null
+
+        // A user's own day is not the company's. "You have used your own
+        // allowance, your administrator can raise it" says what happened and
+        // who to ask; the company message says only that somebody else spent it
+        // - and offers a purchase that would not help.
+        if (error?.limit === 'user_daily') {
+            return { message: error?.message ?? t('assistants.ownDailyLimit') }
+        }
 
         const seconds = Number(error.retryAfter) || 0
 
