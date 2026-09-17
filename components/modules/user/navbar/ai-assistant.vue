@@ -4,7 +4,10 @@
             :aria-expanded="assistantStore.isOpen"
             :aria-label="ariaLabel"
             @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
-            <ModulesUserNavbarCodyMark :size="20" :stroke-width="2.6" class="md:!w-5 md:!h-5" />
+            <!-- The mark carries the state, so the count is not the only thing
+            saying there is something waiting. -->
+            <ModulesUserNavbarCodyMark :size="20" :stroke-width="2.6"
+                :state="state.waiting > 0 ? 'attention' : 'idle'" class="md:!w-5 md:!h-5" />
             <p class="text-sm font-semibold hidden lg:block">
                 {{ $t('assistants.askAI') }}
             </p>

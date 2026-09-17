@@ -936,10 +936,19 @@
         },
         "starters": {
             "title": "For example",
-            "overview": "Give me an overview of the case for ",
-            "summary": "Summarise the latest @:terms.journalNotes{''} for ",
-            "report": "Draft a report for the caseworker about ",
-            "organisation": "What do our guidelines say about "
+            "needsName": "Add who it is about",
+            "labels": {
+                "overview": "Overview of a case",
+                "summary": "Summarise the latest @:terms.journalNotes{''}",
+                "report": "Draft a report for the caseworker",
+                "organisation": "What do our guidelines say?"
+            },
+            "prompts": {
+                "overview": "Give me an overview of the case for ",
+                "summary": "Summarise the latest @:terms.journalNotes{''} for ",
+                "report": "Draft a report for the caseworker about ",
+                "organisation": "What do our guidelines say about "
+            }
         },
         "basedOn": "Based on",
         "rateLimited": "You have asked a lot of questions just now. Try again in {minutes} min.",
@@ -972,6 +981,20 @@
             "untitled": "Untitled conversation",
             "deleteConfirmation": "Are you sure you want to delete this conversation? This cannot be undone.",
             "searchPlaceholder": "Search conversations..."
+        },
+        "tools": {
+            "daily_brief": "Reading today's overview",
+            "my_shifts": "Reading your shifts",
+            "my_tasks": "Reading your tasks",
+            "my_messages": "Counting unread messages",
+            "create_task": "Creating a task",
+            "draft_journal_note": "Writing a journal draft"
+        },
+        "toolTrace": {
+            "title": "What Cody read",
+            "unknown": "Using a tool",
+            "failed": "Could not be read",
+            "duration": "{ms} ms"
         }
     },
     "back": "Back",
