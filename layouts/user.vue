@@ -202,12 +202,17 @@
                     </button>
                 </nav>
                 <div class="mt-auto flex flex-col items-center gap-2 pt-2 shrink-0">
-                    <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
+                    <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" compact />
                 </div>
             </div>
             <div :class="['flex flex-col w-[14rem] border-r border-[#e8eaef] overflow-y-auto custom-scrollbar',
                     isMacDesktopApp ? 'bg-white/70 backdrop-blur-xl' : 'bg-white']"
                 role="tabpanel" :id="`nav-panel-${activeContextGroup?.key}`" :aria-labelledby="`nav-tab-${activeContextGroup?.key}`">
+                <!-- Same reserved strip as the rail: without it this column
+                     starts at the window's true top edge, so its title sits
+                     level with the traffic lights while the rail's logo sits
+                     below them - the two columns visibly out of step. -->
+                <div v-if="isMacDesktopApp" class="app-drag-region w-full h-9 shrink-0" aria-hidden="true" />
                 <div class="h-16 flex items-center px-4 shrink-0">
                     <span class="text-primary font-semibold text-lg truncate">
                         {{ activeContextGroup ? $t(activeContextGroup.label) : 'CitizenOne™' }}

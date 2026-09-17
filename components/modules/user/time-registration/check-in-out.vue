@@ -1,6 +1,22 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <div class="bg-white rounded-md flex items-center justify-between gap-x-2 p-4">
+        <!-- The desktop shell's icon rail is 72px wide; the wide card below
+             overflows it and the clock ends up half outside the window. Same
+             control, stacked and centred, sized like the rail's nav buttons. -->
+        <button v-if="compact" type="button" @click="toggleLogin"
+            :title="$t(userStore.getIsLoggedIn ? 'timeRegistration.checkOut' : 'timeRegistration.checkIn')"
+            :aria-label="$t(userStore.getIsLoggedIn ? 'timeRegistration.checkOut' : 'timeRegistration.checkIn')"
+            :aria-pressed="userStore.getIsLoggedIn"
+            :class="['flex flex-col items-center justify-center w-11 h-11 rounded-xl transition-colors',
+                'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                userStore.getIsLoggedIn
+                    ? 'bg-[#eff6ff] text-primary'
+                    : 'text-[#6b7280] hover:bg-[#f3f4f6] hover:text-[#0f1a2e]']">
+            <Icon :name="userStore.getIsLoggedIn ? 'ph:pause-circle' : 'ph:play-circle'" class="h-5 w-5"
+                aria-hidden="true" />
+            <span class="text-[9px] leading-none mt-0.5 tabular-nums">{{ shortTime }}</span>
+        </button>
+        <div v-else class="bg-white rounded-md flex items-center justify-between gap-x-2 p-4">
             <p class="text-sm text-primary font-bold">
                 {{ userStore.getIsLoggedIn ? $t('timeRegistration.checkOut') : $t('timeRegistration.checkIn') }}
             </p>
@@ -16,6 +32,8 @@
 import { userService } from '@/components/api/user/UserService'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
+
+withDefaults(defineProps<{ compact?: boolean }>(), { compact: false })
 
 const userStore = useUserStore() as any
 
@@ -33,6 +51,10 @@ const formattedTime = computed<string>(() => {
     const formatTime = (num: number): string => String(num).padStart(2, '0')
     return `${formatTime(hours.value)}:${formatTime(minutes.value)}:${formatTime(seconds.value)}`
 })
+
+// Hours and minutes only: seconds tick past unreadably at this size, and
+// there is no room for them in a 44px button.
+const shortTime = computed<string>(() => formattedTime.value.slice(0, 5))
 
 onMounted(() => {
     if (userStore.getUser != null) {
